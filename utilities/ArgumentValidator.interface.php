@@ -5,7 +5,7 @@
  * makes use of a specified ValidatorRule object. In addition, if validation
  * fails, a new fatal error is added to the default ErrorHandler.
  *
- * @version $Id: ArgumentValidator.interface.php,v 1.3 2003/06/27 15:42:45 movsjani Exp $
+ * @version $Id: ArgumentValidator.interface.php,v 1.4 2003/06/30 22:03:37 dobomode Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.utilities
@@ -26,7 +26,7 @@ class ArgumentValidatorInterface {
 	 * returned.
 	 * @static
 	 **/
-	function validate($argument, $rule, $isFatal) {
+	function validate($argument, $rule, $isFatal = true) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
