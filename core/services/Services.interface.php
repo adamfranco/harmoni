@@ -3,7 +3,7 @@
 /**
  * The ServicesInterface defines the functionality required by any Services class or derivative.
  * The ServicesInterface defines the functionality required by any Services class or derivative.
- * @version $Id: Services.interface.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: Services.interface.php,v 1.2 2003/11/07 05:57:46 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.interfaces.services
@@ -56,11 +56,12 @@ class ServicesInterface {
 	/**
 	 * Attempts to start the service referenced by $name.
 	 * @param string $name The service name.
+	 * @param optional mixed $args,... Optional arguments to pass to the constructor of the service class.
 	 * @access public
 	 * @static
 	 * @return boolean True on success.
 	 **/
-	function startService( $name ) {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
+	function startService( $name, $args=null ) {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
 	
 	/**
 	 * Cycles through all registered services and attempts to start them.
@@ -184,9 +185,10 @@ class ServicesInterface {
 	 * Attempts to start the service referenced by $name.
 	 * @access public
 	 * @param string $name The service name.
+	 * @param optional mixed $args,... Optional args to pass to the constructor of the service class.
 	 * @return boolean True on success.
 	 **/
-	function start( $name ) {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
+	function start( $name, $args=null ) {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
 	
 	/**
 	 * Cycles through all registered services and attempts to start them.

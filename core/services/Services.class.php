@@ -5,7 +5,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.5 2003/08/26 17:33:48 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.6 2003/11/07 05:57:46 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -140,17 +140,30 @@ class Services extends ServicesAbstract {
 	/**
 	 * Attempts to start the service referenced by $name.
 	 * @param string $name The service name.
+	 * @param optional mixed $args,... Optional arguments to pass to the constructor of the service class.
 	 * @access public
+	 * @static
 	 * @return boolean True on success.
 	 **/
-	function start( $name ) {
+	function start( $name, $args=null ) {
 		// make sure that the service is not currently running.
 		if ($this->running($name))
 			return true;
 		
 		$classname = $this->_registeredServices[$name];
 		
-		$this->_services[$name] =& new $classname;
+		$argList='';
+		if (func_num_args() > 1) {
+			for ($i=1; $i<func_num_args(); $i++) {
+				$var = "arg$i";
+				$$var = func_get_arg($i);
+				$argList .= ', $arg'.$i;
+			}
+		}
+		$str = '$this->_services[$name] =& new '.$classname.'('.$argList.')';
+		eval($str);
+		
+//		$this->_services[$name] =& new $classname;
 		
 		// make sure the service was instantiated properly
 		if (!is_object($this->_services[$name]) || get_class($this->_services[$name]) != strtolower($classname)) {

@@ -3,6 +3,7 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.3" date="Not Released">
+		<change author='gabe'>Services class method startService($name) now takes optional additional arguments which are passed to the service class constructor.</change>
 		<new author='gabe'>FormFieldSet class under 'utilities' combines FieldSet functionality with keeping track of changed values and easy validation. Intended for HTML Form use.</new>
 		<change author='adam'> 
 			Various fixes to the OSIDs. Added 'requires' for classes being extended. Fixed

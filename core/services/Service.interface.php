@@ -8,7 +8,7 @@
  * Services should extend this class somewhere in their inheritance tree. (probably the top)
  * 
  * @see {@link ServicesInterface}
- * @version $Id: Service.interface.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: Service.interface.php,v 1.2 2003/11/07 05:57:46 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.interfaces.services
  **/
@@ -34,7 +34,6 @@ class ServiceInterface {
 	function stop() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
-	
 }
 
 ?>
