@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.23 2004/05/04 21:50:44 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.24 2004/05/11 14:33:14 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -51,6 +51,9 @@ if (!defined("LOAD_AUTHN")) 				define("LOAD_AUTHN", true);
 
 // functionality affected: Digital Repository.
 if (!defined("LOAD_DR")) 			define("LOAD_DR", true);
+
+// functionality affected: Language Localization
+if (!defined("LOAD_LANG")) 			define("LOAD_LANG", true);
 
 /**
 * USER DEFINED SERVICES
@@ -169,6 +172,12 @@ if (LOAD_DR) {
 // include MetaDataManager files
 if (LOAD_DATAMANAGER) {
 	require_once(HARMONI."metaData/manager/HarmoniDataManager.abstract.php");
+}
+
+// load the LanguageLocalization service
+if (LOAD_LANG) {
+	require_once(HARMONI."languageLocalizer/LanguageLocalizer.class.php");
+	Services::registerService("Lang","LanguageLocalizer");
 }
 
 /**

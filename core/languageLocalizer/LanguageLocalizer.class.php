@@ -7,7 +7,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * and other data for multiple languages.
  *
  * @package harmoni.languages
- * @version $Id: LanguageLocalizer.class.php,v 1.2 2003/08/23 23:56:20 gabeschine Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.3 2004/05/11 14:33:30 adamfranco Exp $
  * @copyright 2003 
  **/
 class LanguageLocalizer extends LanguageLocalizerInterface {
@@ -48,15 +48,31 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 			throwError(new Error("LanguageLocalizer - could not find language folder '$langDir!","LanguageLocalizer",true));
 			return false;
 		}
-		
+				
 		$this->_langDir = $langDir;
 		$this->_application = $application;
 		bindtextdomain($application, $langDir);
+		
+		// Get the current Language settings from the session if they exist.
+		if (isset($_SESSION['__CurrentLanguage'])) {
+			$this->setLanguage( $_SESSION['__CurrentLanguage'] );
+			debug::output( "Setting Lang to ".$_SESSION['__CurrentLanguage']);
+		}
+		
+		// Get the current Language encoding from the session if it exists.
+		if (isset($_SESSION['__CurrentLanguageCodeset'])) {
+			$this->_codeset = $_SESSION['__CurrentLanguageCodeset'];
+		} else {
+			// Use UTF-8 by default.
+			$this->_codeset = "UTF-8";
+		}
+		
+		bind_textdomain_codeset ($application, $this->_codeset);
 	}
 	
 	/**
 	 * Sets the language to use for getting data to $language.
-	 * @param string $language The language code (eg, "en") to use.
+	 * @param string $language The language code (eg, "en_US") to use.
 	 * @access public
 	 * @return void
 	 * @todo -cLanguageLocalizer Implement LanguageLocalizer.setLanguage - use gettext functionality.
@@ -78,7 +94,79 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 		}
 		
 		$this->_lang = $language;
+		$_SESSION['__CurrentLanguage'] = $this->_lang;
 		setlocale(LC_MESSAGES, $language);
+	}
+	
+	/**
+	 * Return the code of the current language.
+	 * @return string
+	 */
+	function getLanguage() {
+		return $this->_lang;
+	}
+	
+	/**
+	 * Sets the codeset to use for charactor encoding. UTF-8 is used by default.
+	 * @param string $codeset The codeset to use (eg, "UTF-8", "ISO-8859-8",
+	 *		"SHIFT_JIS", etc).
+	 * @return void
+	 */
+	function setCodeset($codeset) {
+		$this->_codeset = $codeset;
+		$_SESSION['__CurrentLanguageCodeset'] = $this->_codeset;
+		bind_textdomain_codeset ($application, $codeset);
+	}
+	
+	/**
+	 * Return an array of availible languages. The keys are the language codes
+	 * and the values are a UTF-8 encoded string representation of the language
+	 * name (eg. "en_US" => "English - US", "es_ES" => "Espa–ol - Espa–a",
+	 * "es_MX" => "Espa–ol - MŽxico")
+	 * @param boolean $includeCountries Include the countries of the language
+	 *		codes. Default is TRUE.
+	 * @return array
+	 */
+	function getLanguages($includeCountries = TRUE) {
+		if (!$_SESSION['__AvailibleLanguages']) {
+			$langfile = HARMONI.'languageLocalizer/iso639-utf8.txt';
+			$countryfile = HARMONI.'languageLocalizer/countries.txt';
+			
+			// Compile an array of all languages
+			$languages = array();
+			$inputArray = file($langfile);
+			foreach ($inputArray as $line) {
+				$line = rtrim($line);
+				$parts = explode(';',$line);
+				if ($parts[2])
+					$languages[$parts[2]] = $parts[3];
+			}
+			
+			// Compile an array of all countries
+			if ($includeCountries) {
+				$countries = array();
+				$inputArray = file($countryfile);
+				foreach ($inputArray as $line) {
+					$line = rtrim($line);
+					$parts = explode(';',$line);
+					$countries[$parts[1]] = $parts[0];
+				}
+			}
+			
+			$_SESSION['__AvailibleLanguages'] = array();
+			$handle = opendir($this->_langDir);
+			while (($file = readdir($handle)) !== FALSE) {
+				if (ereg("([a-z]{2})_([A-Z]{2})", $file, $parts)) {
+					if ($includeCountries)
+						$_SESSION['__AvailibleLanguages'][$file] = $languages[$parts[1]].
+															" - ".$countries[$parts[2]];
+					else
+						$_SESSION['__AvailibleLanguages'][$file] = $languages[$parts[1]];
+				}
+			}
+		}
+		
+		return $_SESSION['__AvailibleLanguages'];
 	}
 	
 	/**
