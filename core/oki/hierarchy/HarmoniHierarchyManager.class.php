@@ -32,7 +32,7 @@ define("MEMORY_ONLY", 1001);
  * 
  * <p></p>
  *
- * @version $Revision: 1.17 $ / $Date: 2004/01/16 23:15:04 $
+ * @version $Revision: 1.18 $ / $Date: 2004/03/03 19:56:17 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -65,10 +65,13 @@ class HarmoniHierarchyManager
 	 * @access public
 	 */
 	function HarmoniHierarchyManager ($configuration = NULL) {
-		if ($configuration == NULL) {
+		if ($configuration === NULL) {
 			// create a store that isn't saved
 			$this->_managerStore =& new MemoryOnlyHierarchyManagerStore(); 
 		} else {
+			if (!is_array($configuration))
+				throwError(new Error("Invalid configuration option", "HierarchyManager", 1));
+				
 			if ($configuration[type] == SQL_DATABASE) {
 				$dbIndex = $configuration[database_index];
 				$hierarchyTableName = $configuration[hierarchy_table_name];

@@ -35,7 +35,7 @@ require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.12 $ / $Date: 2004/02/02 20:44:10 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.13 $ / $Date: 2004/03/03 19:56:37 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -54,9 +54,14 @@ class HarmoniSharedManager
 	 * Constructor. Set up any database connections needed.
 	 *
 	 */
-	function HarmoniSharedManager( $dbID ) {
-		$this->_idDBIndex = $dbID;
-		IDManager::setup($dbID);
+	function HarmoniSharedManager( $dbID = FALSE ) {
+		// We may want to use some SharedManager services that don't require
+		// a database. If no database is specified here, calls to any
+		// database dependent functions should throw errors.
+		if ($dbID !== FALSE) {
+			$this->_idDBIndex = $dbID;
+			IDManager::setup($dbID);
+		}
 	}
 
     /**
@@ -254,12 +259,11 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & createId() {
-//		$id =& new HarmoniDatabaseId($this->_idDBIndex);
-//		return $id;
-		
-		if (!Services::serviceAvailable("IDManager")) {
+		if ($this->_idDBIndex === FALSE)
+			throwError(new Error("Could not create new ID because the Shared Manager was started without database support.","HarmoniSharedManager",true));
+			
+		if (!Services::serviceAvailable("IDManager")) 
 			throwError(new Error("Could not create new ID because the HarmoniDataManager doesn't seem to be available!","HarmoniSharedManager",true));
-		}
 		
 		$mgr =& Services::getService("IDManager");
 		
@@ -297,22 +301,6 @@ class HarmoniSharedManager
 		
 		return $id;
 	}
-
-	/**
-	 * Saves this object to persistable storage.
-	 * @access protected
-	 */
-	function save () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-	 
-	/**
-	 * Loads this object from persistable storage.
-	 * @access protected
-	 */
-	function load () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}	
 
 	/**
 	 * The start function is called when a service is created. Services may
