@@ -4,7 +4,7 @@
  * The DataTypeInterface defines the required functions for any DataType for use within the
  * {@link HarmoniDataManager}.
  * @package harmoni.datamanager.interfaces
- * @version $Id: DataType.interface.php,v 1.7 2004/01/07 21:20:19 gabeschine Exp $
+ * @version $Id: DataType.interface.php,v 1.8 2004/01/14 03:21:25 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -64,6 +64,15 @@ class DataTypeInterface {
 	 * @return void
 	 */
 	function alterQuery( &$query ) { }
+	
+	/**
+	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
+	 * value that is passed. It is used when searching for datasets that contain a certain
+	 * field=value pair.
+	 * @param ref object $value The {@link DataType} object to search for.
+	 * @return string or NULL if no searching is allowed.
+	 */
+	function makeSearchString(&$value) { }
 	
 	/**
 	 * Takes a single database row, which would contain the columns added by alterQuery()

@@ -1,5 +1,7 @@
 <?
 
+require_once HARMONI."metaData/manager/search/SearchCriteria.interface.php";
+
 class MultipleCriteriaSearch extends SearchCriteria {
 	
 	var $_criteria;

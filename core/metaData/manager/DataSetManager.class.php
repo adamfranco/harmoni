@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.17 2004/01/11 04:15:47 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.18 2004/01/14 03:21:25 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -27,9 +27,10 @@ class DataSetManager extends ServiceInterface {
 	* @return ref array Indexed by DataSet ID, values are either {@link CompactDataSet}s or {@link FullDataSet}s.
 	* @param array $dataSetIDs
 	* @param optional bool $editable If TRUE will fetch the DataSets as Editable and with ALL versions. Default: FALSE (will only fetch ACTIVE values).
-	* @param optional array $limitTypes An array of {@link HarmoniType}s specifying to ignore any datasets who's type doesn't match one in the array.
+	* @param optional object $searchCriteria An optional {@link SearchCriteria} object to search among the IDs given for certain
+	* criteria. If not specified, will fetch all IDs.
 	*/
-	function &fetchArrayOfIDs( $dataSetIDs, $editable=false, $limitTypes = null ) {
+	function &fetchArrayOfIDs( $dataSetIDs, $editable=false, $searchCriteria = null ) {
 		ArgumentValidator::validate($dataSetIDs, new ArrayValidatorRuleWithRule(new NumericValidatorRule()));
 		$dataSetIDs = array_unique($dataSetIDs);
 		// first, make the new query
@@ -43,19 +44,6 @@ class DataSetManager extends ServiceInterface {
 		}
 		$query->addWhere("(".implode(" OR ", $t).")");
 		if (!$editable) $query->addWhere("datasetfield_active=1");
-		
-		// ok, if we have any limit types, add them to the query
-		if (is_array($limitTypes)) {
-			$wheres = array();
-			foreach ($limitTypes as $type) {
-				$id = $this->_typeManager->getIDForType($type);
-				if ($id) {
-					$wheres[] = "fk_datasettype=$id";
-				}
-			}
-			
-			$query->addWhere("(".implode(" OR ", $wheres).")");
-		}
 		
 		$dbHandler =& Services::getService("DBHandler");
 		
@@ -117,7 +105,45 @@ class DataSetManager extends ServiceInterface {
 	}
 	
 	/**
-	*  Fetches a single DataSet from the database, editable if $editable=true.
+	 * Takes an array of IDs and some search criteria, and weeds out the IDs that don't
+	 * match that criteria.
+	 * @param array $ids
+	 * @param ref object $criteria The {@link SearchCriteria}.
+	 * @access private
+	 */
+	function _selectIDsBySearch($ids, &$criteria) {
+		// this should happen in one query.
+		// the WHERE clause of the SQL query will be relatively complicated.
+		$query =& new SelectQuery();
+		$this->_setupSelectQuery($query, TRUE);
+		
+		$typeIDs = $criteria->getTypeList();
+		
+		$searchString = $criteria->returnSearchString();
+		
+		$parts1 = array();
+		foreach ($ids as $id) {
+			$parts1[] = "dataset.dataset_id=$id";
+		}
+		$part1 = implode(" OR ", $parts1);
+		
+		$parts2 = array();
+		foreach ($typeIDs as $typeID) {
+			$parts2[] = "dataset.fk_datasettype!=$typeID";
+		}
+		$part2 = implode(" AND ",$parts2);
+		
+		$part3 = $searchString;
+		
+		$fullWhere = "($part1) AND (($part2) OR $part3)";
+		
+		$query->setWhere($fullWhere);
+		
+		print "<PRE>". MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
+	}
+	
+	/**
+	* Fetches a single DataSet from the database, editable if $editable=true.
 	* @return ref object
 	* @param int $dataSetID
 	* @param optional bool $editable
@@ -128,12 +154,13 @@ class DataSetManager extends ServiceInterface {
 	}
 	
 	/**
-	*  Initializes a SelectQuery with the complex JOIN structures of the HarmoniDataManager.
+	* Initializes a SelectQuery with the complex JOIN structures of the HarmoniDataManager.
 	* @return void
 	* @param ref object $query
+	* @param optional boolean $idsOnly If TRUE will only ask for the dataset.dataset_id column from the Database. Default = FALSE;
 	* @access private
 	*/
-	function _setupSelectQuery(&$query) {
+	function _setupSelectQuery(&$query, $idsOnly=false) {
 		// this function sets up the selectquery to include all the necessary tables
 		
 		$query->addTable("datasetfield");
@@ -150,22 +177,23 @@ class DataSetManager extends ServiceInterface {
 		
 		/* dataset table */
 		$query->addColumn("dataset_id");
-		$query->addColumn("dataset_created");
-		$query->addColumn("dataset_active");
-		$query->addColumn("dataset_ver_control");
-		$query->addColumn("fk_datasettype","","dataset"); //specify table to avoid ambiguity
-		
-		/* datasetfield table */
-		$query->addColumn("datasetfield_id");
-		$query->addColumn("datasetfield_index");
-		$query->addColumn("datasetfield_active");
-		$query->addColumn("datasetfield_modified");
-		$query->addColumn("fk_data");
-		
-		/* datasettypedef table */
-		$query->addColumn("datasettypedef_id");
-		$query->addColumn("datasettypedef_label");
-		
+		if (!$idsOnly) {
+			$query->addColumn("dataset_created");
+			$query->addColumn("dataset_active");
+			$query->addColumn("dataset_ver_control");
+			$query->addColumn("fk_datasettype","","dataset"); //specify table to avoid ambiguity
+			
+			/* datasetfield table */
+			$query->addColumn("datasetfield_id");
+			$query->addColumn("datasetfield_index");
+			$query->addColumn("datasetfield_active");
+			$query->addColumn("datasetfield_modified");
+			$query->addColumn("fk_data");
+			
+			/* datasettypedef table */
+			$query->addColumn("datasettypedef_id");
+			$query->addColumn("datasettypedef_label");
+		}
 	}
 	
 	/**

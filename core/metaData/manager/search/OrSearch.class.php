@@ -1,6 +1,6 @@
 <?
 
-require_once HARMONI."core/metaData/manager/search/MultipleCriteriaSearch.abstract.php";
+require_once HARMONI."metaData/manager/search/MultipleCriteriaSearch.abstract.php";
 
 class OrSearch extends MultipleCriteriaSearch {
 	
@@ -8,7 +8,7 @@ class OrSearch extends MultipleCriteriaSearch {
 		$parts = array();
 		
 		foreach (array_keys($this->_criteria) as $key) {
-			$parts[] = $this->_criteria[$key]->returnSearchString();
+			if ($string = $this->_criteria[$key]->returnSearchString()) $parts[] = $string;
 		}
 		
 		if (!count($parts)) return "";

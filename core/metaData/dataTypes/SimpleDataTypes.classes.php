@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataType.abstract.php";
 /**
  * A simple integer data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.14 2004/01/14 03:21:21 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -17,6 +17,10 @@ class IntegerDataType
 	
 	function IntegerDataType($value=0) {
 		$this->_value = $value;
+	}
+	
+	function makeSearchString(& $val ) {
+		return "data_integer.data_integer_data=".$val->toString();
 	}
 	
 	function toString() {
@@ -113,7 +117,7 @@ class IntegerDataType
 /**
  * A simple float data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.14 2004/01/14 03:21:21 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -125,6 +129,10 @@ class FloatDataType
 	
 	function FloatDataType($value=0) {
 		$this->_value = floatval($value);
+	}
+	
+	function makeSearchString(& $val ) {
+		return "data_float.data_float_data=".$val->toString();
 	}
 	
 	function toString() {
@@ -220,7 +228,7 @@ class FloatDataType
 /**
  * A simple (large) string data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.14 2004/01/14 03:21:21 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -232,6 +240,10 @@ class StringDataType
 	
 	function StringDataType($value='') {
 		$this->_value = $value;
+	}
+	
+	function makeSearchString(& $val ) {
+		return "data_string.data_string_data='".addslashes($val->toString())."'";
 	}
 	
 	function toString() {
@@ -327,7 +339,7 @@ class StringDataType
 /**
  * A simple short string (up to 255 chars) data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.14 2004/01/14 03:21:21 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -340,7 +352,11 @@ class ShortStringDataType
 	function ShortStringDataType($value='') {
 		$this->_value = $value;
 	}
-	
+		
+	function makeSearchString(& $val ) {
+		return "data_shortstring.data_shortstring_data='".addslashes($val->toString())."'";
+	}
+
 	function toString() {
 		return $this->_value;
 	}
@@ -433,7 +449,7 @@ class ShortStringDataType
 /**
  * A simple boolean data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.14 2004/01/14 03:21:21 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -446,7 +462,11 @@ class BooleanDataType
 	function BooleanDataType($value=false) {
 		$this->_value = $value;
 	}
-	
+		
+	function makeSearchString(& $val ) {
+		return "data_boolean.data_boolean_data=".(($val->getBooleanValue())?"1":"0");
+	}
+
 	function toString() {
 		return $this->_value?"true":"false";
 	}
