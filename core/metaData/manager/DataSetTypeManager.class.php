@@ -1,14 +1,14 @@
 <?php
 
-include HARMONI."oki/shared/HarmoniType.class.php";
-include HARMONI."oki/shared/HarmoniTypeIterator.class.php";
-include HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
+require_once HARMONI."oki/shared/HarmoniType.class.php";
+require_once HARMONI."oki/shared/HarmoniTypeIterator.class.php";
+require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
 
 /**
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.10 2004/01/06 19:38:37 gabeschine Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.11 2004/01/06 20:55:32 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
