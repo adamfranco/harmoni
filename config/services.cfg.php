@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.19 2004/01/16 23:14:54 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.20 2004/02/28 00:00:52 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -25,6 +25,9 @@ if (!defined("LOAD_AGENTINFORMATION")) 		define("LOAD_AGENTINFORMATION", true);
 
 // functionality affected: Debug output
 if (!defined("LOAD_DEBUG")) 				define("LOAD_DEBUG", true);
+
+// functionality affected: Layout/Themes
+if (!defined("LOAD_THEMES")) 				define("LOAD_THEMES", true);
 
 // functionality affected: HarmoniDataManager, sub-services: DataSetTypeManager, DataTypeManager,
 // 		DataSetManager
@@ -114,6 +117,14 @@ if (LOAD_AUTHENTICATION) {
 if (LOAD_DEBUG) {
 	require_once(HARMONI."debugHandler/DebugHandler.class.php");
 	Services::registerService("Debug","DebugHandler");
+}
+
+// load layout and theme handlers
+if (LOAD_THEMES) {
+	require_once(HARMONI."layoutHandler/LayoutHandler.class.php");
+//	Services::registerService("Layout","LayoutHandler");
+//	require_once(HARMONI."themeHandler/ThemeHandler.class.php");
+//	Services::registerService("Theme","ThemeHandler");
 }
 
 // load the agent information handler

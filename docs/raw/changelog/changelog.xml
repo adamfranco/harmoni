@@ -3,6 +3,11 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.1.0" date="Not Released">
+		<new author='adam'>
+			Implimented the Digital Repository OSID in Harmoni. The DR uses the Hierarchy OSID,
+			the DataManager, and the Shared OSID to provide for high-level access and browsing
+			of Assets and their associated data/metadata.
+		</new>
 		<change author='adam'>
 			Services: The Harmoni Services now check for the Error Handler and use that
 			to print out errors if it is availible. This makes for easier to read backtraces.
@@ -13,7 +18,10 @@
 		</change>
 		<new author='adam'>
 			Hierarchy: Implimented the Hierarchy OSID. The Hiearchy supports the storing
-			of multiple hierarchies and their nodes in one database.
+			of multiple hierarchies and their nodes in one database. In the current 
+			implimentation, the entire hierarchy is pulled from the database each load. This
+			needs to be re-written to optimize it for fast reads from 100,000+ node
+			hierarchy (current Segue at Middlebury has ~50,000 nodes).
 		</new>
 		<new author='gabe'>
 			DataManager: added DataSet caching to the DataSetManager. Added support for required fields

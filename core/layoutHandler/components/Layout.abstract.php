@@ -7,7 +7,7 @@ require_once(HARMONI."layoutHandler/Layout.interface.php");
  * holds any number of components of different types.
  *
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: Layout.abstract.php,v 1.2 2004/02/28 00:00:57 adamfranco Exp $
  * @copyright 2003 
  * @abstract
  **/
@@ -102,6 +102,15 @@ class Layout extends LayoutInterface {
 	 **/
 	function &getComponent($index) {
 		return $this->_setComponents[$index];
+	}
+	
+	/**
+	 * Gets all the component objects.
+	 * @access protected
+	 * @return array The component objects.
+	 **/
+	function &getAllComponents() {
+		return $this->_setComponents;
 	}
 	
 	/**
