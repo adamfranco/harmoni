@@ -31,7 +31,7 @@ define("MEMORY_ONLY", 1001);
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.21 2004/04/22 14:53:18 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.22 2004/05/13 18:31:01 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -109,6 +109,7 @@ class HarmoniHierarchyManager
 	 *
 	 * @param String name
 	 * @param String description
+	 * @param array nodeTypes An array of nodeTypes to add to the Hierarchy.
 	 * @param boolean allowsMultipleParents
 	 * @param boolean allowsRecursion
 	 *
@@ -152,7 +153,7 @@ class HarmoniHierarchyManager
 		$this->_managerStore->addHierarchy($hierarchy);
 		
 		// Save this Manager to persistable storage
-//		$this->save(); // on second thought, lets let the application decide when to save it.
+		$this->_managerStore->save();
 		
 		return $hierarchy;
 	}
