@@ -12,7 +12,7 @@ require_once(HARMONI."authenticationHandler/methods/DBMethodOptions.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBAuthenticationMethod.class.php,v 1.8 2005/02/16 15:23:44 thebravecowboy Exp $
+ * @version $Id: DBAuthenticationMethod.class.php,v 1.9 2005/02/28 22:07:16 thebravecowboy Exp $
  **/
  
 class DBAuthenticationMethod
@@ -108,7 +108,7 @@ class DBAuthenticationMethod
 	 * @access public
 	 * @return boolean true if authentication succeeded with the method, false if not 
 	 **/
-	function &addAgent( $systemName, $password, $receivedProperties, $displayName = null) {
+	function &addAgent( $systemName, $password, $receivedProperties, $doNotEncrypt = null) {
 		
 		ArgumentValidator::validate($systemName, new StringValidatorRule(), true);
 		ArgumentValidator::validate($password, new StringValidatorRule(), true);
@@ -117,6 +117,12 @@ class DBAuthenticationMethod
 			print "<span style='color: red;'>Could not create user $systemName because username already exists in the system.</span><br />"; 
 			return false;
 			//throwError( new Error("DBAuthenticationMethod - Username already exists in system!","System",true));
+		}
+		
+		if(!$receivedProperties["displayName"]){
+			$displayName = $systemName;	
+		}else{
+			$displayName = $receivedProperties["displayName"];
 		}
 		
 		$DBHandler  =& $this->_DBHandler;
@@ -136,20 +142,14 @@ class DBAuthenticationMethod
 		}
 		
 		$agentManager =& Services::getService("Agent");
-		
-		if(!$displayName){
-			$displayName = $systemName;
-		}
-		
+						
 		$type =& new HarmoniAuthenticationType();
 		$properties =& new HarmoniProperties($type);
 		
-		$key[]="systemName";
-		$key[]="displayName";
-		
-		$properties->addProperty($key[0], $systemName);
-		$properties->addProperty($key[1], $displayName);
-		
+		//$key[]="systemName";
+				
+		//$properties->addProperty($key[0], $systemName);
+				
 		foreach($receivedProperties as $key => $property){
 			$properties->addProperty($key, $property);
 		}
