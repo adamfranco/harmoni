@@ -14,7 +14,7 @@ require_once(HARMONI."dataManager/record/RecordSet.class.php");
  * The HarmoniDataManager class is used purely to setup the services required to use the
  * other DataManager classes such as the {@link DataSetTypeManager} or the {@link DataSetManager}.
  * @package harmoni.datamanager
- * @version $Id: DataManager.abstract.php,v 1.3 2004/07/27 20:44:22 gabeschine Exp $
+ * @version $Id: DataManager.abstract.php,v 1.4 2004/07/28 17:46:47 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -29,10 +29,10 @@ class DataManager {
 	 * @return void
 	 * @access public
 	 * @param int $dbID The DB index from the {@link DBHandler} that we should use to look for our data.
-	 * corresponding to DataSetTypes that should be pre-loaded in one DB query.
+	 * @param optional array An array of {@link HarmoniType} objects corresponding to Schemas that should be pre-loaded in one DB query.
 	 * @abstract
 	 */
-	function setup( $dbID ) {
+	function setup( $dbID, $preloadTypes ) {
 		
 		// check config options
 		if (ini_get("magic_quotes_gpc")) {

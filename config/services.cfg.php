@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.29 2004/07/14 20:56:37 dobomode Exp $
+* @version $Id: services.cfg.php,v 1.30 2004/07/28 17:46:46 gabeschine Exp $
 * @copyright 2003
 **/
 
@@ -175,7 +175,7 @@ if (LOAD_DR) {
 
 // include MetaDataManager files
 if (LOAD_DATAMANAGER) {
-	require_once(HARMONI."metaData/manager/HarmoniDataManager.abstract.php");
+	require_once(HARMONI."dataManager/DataManager.abstract.php");
 }
 
 // load the LanguageLocalization service

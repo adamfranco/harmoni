@@ -151,10 +151,10 @@ CREATE TABLE `dm_tag` (
 # ------------------------------------------------------------
 
 CREATE TABLE `dm_tag_map` (
-  `fk_dm_tag` bigint(20) unsigned NOT NULL default '0',
-  `fk_datasetfield` bigint(20) unsigned NOT NULL default '0',
-  KEY `fk_dm_tag` (`fk_dm_tag`),
-  KEY `fk_datasetfield` (`fk_datasetfield`)
+  `fk_tag` bigint(20) unsigned NOT NULL default '0',
+  `fk_record_field` bigint(20) unsigned NOT NULL default '0',
+  KEY `fk_tag` (`fk_tag`),
+  KEY `fk_record_field` (`fk_record_field`)
 ) TYPE=MyISAM;
 
 
@@ -166,7 +166,7 @@ CREATE TABLE `dm_record_field` (
   `id` bigint(20) unsigned NOT NULL default '0',
   `fk_record` bigint(20) unsigned NOT NULL default '0',
   `fk_schema_field` bigint(20) unsigned NOT NULL default '0',
-  `index` bigint(20) unsigned NOT NULL default '0',
+  `value_index` bigint(20) unsigned NOT NULL default '0',
   `fk_data` bigint(20) unsigned NOT NULL default '0',
   `active` tinyint(1) unsigned NOT NULL default '0',
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
