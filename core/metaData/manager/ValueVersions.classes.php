@@ -1,12 +1,16 @@
 <?
 
+/**
+ * @constant string NEW_VERSION Used when created a new version to be attached to a value.
+ * @package harmoni.datamanager
+ */
 define("NEW_VERSION","new");
 
 /**
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.14 2004/01/07 21:20:19 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.15 2004/01/07 21:21:10 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -314,7 +318,7 @@ class ValueVersions {
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.14 2004/01/07 21:20:19 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.15 2004/01/07 21:21:10 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public

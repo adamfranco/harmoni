@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.13 2004/01/07 20:19:03 gabeschine Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.14 2004/01/07 21:20:19 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -463,6 +463,9 @@ class DataSetTypeManager
 	function stop() {}
 }
 
+/**
+ * @package harmoni.datamanager
+ */
 class HarmoniDataSetType extends HarmoniType {
 	function HarmoniDataSetType() {
 		parent::HarmoniType("Harmoni","HarmoniDataManager","DataSetType",

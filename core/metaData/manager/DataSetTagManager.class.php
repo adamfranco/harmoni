@@ -2,6 +2,14 @@
 
 require_once HARMONI."metaData/manager/DataSetTag.class.php";
 
+/**
+* Handles the creation and retrieval of {@link DataSetTag}s to/from the database. See {@link DataSetTag} for a 
+* more detailed explanation of the role of tags.
+* @access public
+* @package harmoni.datamanager
+* @version $Id: DataSetTagManager.class.php,v 1.6 2004/01/07 21:20:19 gabeschine Exp $
+* @copyright 2004, Middlebury College
+*/
 class DataSetTagManager extends ServiceInterface {
 	
 	var $_idManager;
@@ -12,6 +20,14 @@ class DataSetTagManager extends ServiceInterface {
 		$this->_dbID = $dbID;
 	}
 	
+	/**
+	 * Takes a DataSet and an optional date and creates a DataSetTag in the database based
+	 * on the current active versions of values within the DataSet.
+	 * @param ref object $dataSet Either a {@link CompactDataSet} or a {@link FullDataSet} to be tagged.
+	 * @param opt object $date An optional {@link DateTime} object to attach to the tag instead of the current date/time.
+	 * @return int The new tag's ID in the database.
+	 * @access public
+	 */
 	function tagToDB( &$dataSet, $date=null ) {
 //		if (!$dataSetID) return null;
 		// if the dataset is not versionControlled, there's no point in tagging
@@ -78,6 +94,13 @@ class DataSetTagManager extends ServiceInterface {
 //		$query->addTable
 //	}
 	
+	/**
+	 * Returns an array of {@link DataSetTag}s without having loaded all of the mapping data. Useful for
+	 * just checking what tags are available and what dates they were created on.
+	 * @param int $id The ID of the DataSet to look for.
+	 * @return ref array
+	 * @access public
+	 */
 	function &fetchTagDescriptors( $id) {
 		$query =& new SelectQuery;
 		
@@ -108,6 +131,12 @@ class DataSetTagManager extends ServiceInterface {
 		return $tags;
 	}
 	
+	/**
+	 * Fetches all of the {@link DataSetTag}s available for DataSet ID $id with all mapping data loaded.
+	 * @param int $id The DataSet ID.
+	 * @return ref array
+	 * @access public
+	 */
 	function &fetchTags($id) {
 		$query =& new SelectQuery;
 		

@@ -5,7 +5,7 @@
  * Each ID is associated with an OKI-style Type. Across an entire DB scheme no two IDs
  * will be the same.
  * @package harmoni.datamanager
- * @version $Id: IDManager.class.php,v 1.6 2004/01/01 19:03:42 gabeschine Exp $
+ * @version $Id: IDManager.class.php,v 1.7 2004/01/07 21:20:19 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -20,6 +20,12 @@ class IDManager
 		$this->_dbID = $dbID;
 	}
 
+	/**
+	 * Creates a new unique ID of {@link HarmoniType} $type.
+	 * @param ref object The {@link HarmoniType} of the new ID.
+	 * @return int The new ID.
+	 * @access public
+	 */
 	function newID(&$type) {
 		ArgumentValidator::validate($type,new ExtendsValidatorRule("Type"));
 		debug::output("trying to generate new id for type \"".
@@ -32,20 +38,6 @@ class IDManager
 		
 		$dbHandler =& Services::requireService("DBHandler");
 		
-/*		$query =& new SelectQuery();
-		$query->addTable("harmoni_id");
-		$query->addColumn("MAX(harmoni_id_number)");
-		
-		
-		$result =& $dbHandler->query($query,$this->_dbID);
-		if (!$result) throwError( new Error("Could not fetch largest ID from the database.","IDManager",true));
-		$max = $result->field(0);
-		
-		debug::output("got current max of '$max' from the database",20,"IDManager");
-		
-		unset($query,$result);*/
-		
-//		$max++;
 		$query =& new InsertQuery;
 		$query->setAutoIncrementColumn("harmoni_id_number","harmoni_id_number_seq");
 		$query->setTable("harmoni_id");
@@ -67,6 +59,12 @@ class IDManager
 		return $newID;
 	}
 	
+	/**
+	 * Returns a {@link HarmoniType} object that is associated with ID $id.
+	 * @param int $id
+	 * @return ref object
+	 * @access public
+	 */
 	function & getIDType($id) {
 		ArgumentValidator::validate($id, new IntegerValidatorRule());
 		$query =& new SelectQuery();
@@ -86,6 +84,12 @@ class IDManager
 		return $type;
 	}
 	
+	/**
+	 * Returns an array of IDs that have been created of type $type.
+	 * @param ref object $type The {@link HarmoniType} to look for.
+	 * @return array
+	 * @access public
+	 */
 	function getAllIDsofType(&$type) {
 		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
 	}

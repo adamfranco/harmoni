@@ -2,8 +2,21 @@
 
 require_once HARMONI."metaData/manager/FieldValues.class.php";
 
+/**
+ * @package harmoni.datamanager
+ * @constant int NEW_VALUE Used when setting the value of a new index within a field.
+ */
 define("NEW_VALUE",-1);
 
+/**
+* Stores a compact version of a dataset. The compact version does not include any inactive versions of values
+* or deleted values in order to save on database query time. However, this also makes it read-only. Any
+* changes to a DataSet must be done using a {@link FullDataSet}.
+* @access public
+* @package harmoni.datamanager
+* @version $Id: DataSet.class.php,v 1.18 2004/01/07 21:20:19 gabeschine Exp $
+* @copyright 2004, Middlebury College
+*/
 class CompactDataSet {
 	
 	var $_idManager;
@@ -178,6 +191,14 @@ class CompactDataSet {
 	}
 }
 
+
+/**
+* Stores a full representation of the data for a dataset, including all inactive and deleted versions
+* of values. Can be edited, etc.
+* @package harmoni.datamanager
+* @version $Id: DataSet.class.php,v 1.18 2004/01/07 21:20:19 gabeschine Exp $
+* @copyright 2004, Middlebury College
+*/
 class FullDataSet extends CompactDataSet {
 	
 	function FullDataSet(&$idManager, $dbID, &$dataSetTypeDef, $verControl=false ) {
@@ -439,18 +460,29 @@ class FullDataSet extends CompactDataSet {
 	}
 }
 
+/**
+ *@package harmoni.datamanager
+ */
 class FieldNotFoundError extends Error {
 	function FieldNotFoundError($label,$type) {
 		parent::Error("The field labeled '$label' was not found in DataSetType '$type'.","DataSet",true);
 	}
 }
 
+/**
+ * @package harmoni.datamanager
+ */
 class ValueIndexNotFoundError extends Error {
 	function ValueIndexNotFoundError($label,$id,$index) {
 		parent::Error("The value index $index was not found for field '$label' in DataSet ID $id.","DataSet",true);
 	}
 }
 
+/**
+ * @package harmoni.datamanager
+ * @param ref object A {@link FullDataSet} or {@link CompactDataSet} to render.
+ * @desc Renders within PRE tags a full representation of a DataSet and all of its data.
+ */
 function renderDataSet(&$dataSet) {
 	$fields = $dataSet->_dataSetTypeDef->getAllLabels(true);
 	
@@ -484,6 +516,11 @@ function renderDataSet(&$dataSet) {
 	print "</PRE>";
 }
 
+/**
+ * @package harmoni.datamanager
+ * @param ref array An array of DataSets to render.
+ * @desc Renders an array of DataSets using {@link renderDataSet()}.
+ */
 function renderDataSetArray(&$sets) {
 	foreach (array_keys($sets) as $id) {
 		print "<P>DataSet ID <b>$id</b><br>";
