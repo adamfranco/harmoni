@@ -4,7 +4,7 @@
  * VisualComponent defines the interface for any component within a {@link Layout}.
  *
  * @package harmoni.interfaces.layout
- * @version $Id: VisualComponent.interface.php,v 1.3 2004/03/10 00:10:24 adamfranco Exp $
+ * @version $Id: VisualComponent.interface.php,v 1.4 2004/04/01 19:22:21 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -12,9 +12,6 @@ class VisualComponent {
 	/**
 	 * Prints the component out using the given theme.
 	 * @param ref object $theme The theme object to use.
-	 * @param optional integer $orientation The orientation in which we should print. Should be one of either HORIZONTAL or VERTICAL.
-	 * @use HORIZONTAL
-	 * @use VERTICAL
 	 * @access public
 	 * @return void
 	 **/
@@ -80,7 +77,7 @@ class VisualComponent {
 	
 		/**
 	 * gets the Vertical Alignment for this element in its parent.
-	 * @return string The alignment of the element; TOP, CENTER, BOTTOM.
+	 * @return string The alignment of the element; TOP, MIDDLE, BOTTOM.
 	 */
 	function getVerticalAlignment () {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
@@ -88,7 +85,7 @@ class VisualComponent {
 	
 	/**
 	 * Sets the Vertical Alignment for this element in its parent.
-	 * @param string $valign The alignment of the element; TOP, CENTER, BOTTOM.
+	 * @param string $valign The alignment of the element; TOP, MIDDLE, BOTTOM.
 	 * @return void
 	 */
 	function setVerticalAlignment ( $valign ) {
@@ -109,6 +106,48 @@ class VisualComponent {
 	 * @return void
 	 */
 	function setHorizontalAlignment ( $halign ) {
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
+	}
+	
+	/**
+	 * Gets the "PreSurroundingText" for this element.
+	 * The "SurroundingText" is placed outside of the layout tags to allow for valid
+	 * nesting of XHTML elements.
+	 * return string The text.
+	 */
+	function getPreSurroundingText() {
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
+	}
+	
+	/**
+	 * Sets the "PreSurroundingText" for this element.
+	 * The "SurroundingText" is placed outside of the layout tags to allow for valid
+	 * nesting of XHTML elements.
+	 * @param string $text The text.
+	 * @return void
+	 */
+	function setPreSurroundingText( $text ) {
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
+	}
+
+	/**
+	 * Gets the "PostSurroundingText" for this element.
+	 * The "SurroundingText" is placed outside of the layout tags to allow for valid
+	 * nesting of XHTML elements.
+	 * return string The text.
+	 */
+	function getPostSurroundingText() {
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
+	}
+	
+	/**
+	 * Sets the "PostSurroundingText" for this element.
+	 * The "SurroundingText" is placed outside of the layout tags to allow for valid
+	 * nesting of XHTML elements.
+	 * @param string $text The text.
+	 * @return void
+	 */
+	function setPostSurroundingText( $text ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 }

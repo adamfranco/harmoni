@@ -14,7 +14,7 @@ define ("RIGHT", "right");
  * holds any number of components of different types.
  *
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.8 2004/03/11 16:57:26 adamfranco Exp $
+ * @version $Id: Layout.abstract.php,v 1.9 2004/04/01 19:22:21 adamfranco Exp $
  * @copyright 2003 
  * @abstract
  **/
@@ -25,6 +25,22 @@ class Layout extends LayoutInterface {
 	 * @var integer $_level This component's level in the visual hierarchy.
 	 */ 
 	var $_level=0;
+	
+	/**
+	 * The "SurroundingText" is placed outside of the layout tags to allow for valid
+	 * nesting of XHTML elements.
+	 * @access private
+	 * @var string $_preSurroundingText Text that goes before layout tags.
+	 */
+	var $_preSurroundingText;
+	
+	/**
+	 * The "SurroundingText" is placed outside of the layout tags to allow for valid
+	 * nesting of XHTML elements.
+	 * @access private
+	 * @var string $_postSurroundingText Text that goes after layout tags.
+	 */
+	var $_postSurroundingText;
 
 	/**
 	 * @access private
@@ -313,6 +329,50 @@ class Layout extends LayoutInterface {
 				$this->_setComponents[$key]->setLevel($this->_level+$increment,$spiderDown,$increment);
 			}
 		}
+	}
+	
+	/**
+	 * Gets the "PreSurroundingText" for this element.
+	 * The "SurroundingText" is placed outside of the layout tags to allow for valid
+	 * nesting of XHTML elements.
+	 * return string The text.
+	 */
+	function getPreSurroundingText() {
+		return $this->_preSurroundingText;
+	}
+	
+	/**
+	 * Sets the "PreSurroundingText" for this element.
+	 * The "SurroundingText" is placed outside of the layout tags to allow for valid
+	 * nesting of XHTML elements.
+	 * @param string $text The text.
+	 * @return void
+	 */
+	function setPreSurroundingText( $text ) {
+		ArgumentValidator::validate($text, new StringValidatorRule);
+		$this->_preSurroundingText = $text;
+	}
+
+	/**
+	 * Gets the "PostSurroundingText" for this element.
+	 * The "SurroundingText" is placed outside of the layout tags to allow for valid
+	 * nesting of XHTML elements.
+	 * return string The text.
+	 */
+	function getPostSurroundingText() {
+		return $this->_postSurroundingText;
+	}
+	
+	/**
+	 * Sets the "PostSurroundingText" for this element.
+	 * The "SurroundingText" is placed outside of the layout tags to allow for valid
+	 * nesting of XHTML elements.
+	 * @param string $text The text.
+	 * @return void
+	 */
+	function setPostSurroundingText( $text ) {
+		ArgumentValidator::validate($text, new StringValidatorRule);
+		$this->_postSurroundingText = $text;
 	}
 	
 	function _getTabs() {

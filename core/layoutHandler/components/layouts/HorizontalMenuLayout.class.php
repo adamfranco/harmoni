@@ -12,7 +12,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * </ul>
  *
  * @package harmoni.layout.components
- * @version $Id: HorizontalMenuLayout.class.php,v 1.3 2004/03/11 16:02:47 adamfranco Exp $
+ * @version $Id: HorizontalMenuLayout.class.php,v 1.4 2004/04/01 19:22:21 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -80,6 +80,8 @@ class HorizontalMenuLayout extends Layout {
 		
 		$childLayouts =& $this->getAllComponents();
 		
+		print "\n".$this->getPreSurroundingText();
+		
 		// output the table;
 		print "\n".$this->_getTabs()."<table border='0' cellpadding='0' cellspacing='0' width='100%'><tr>";
 		foreach (array_keys($childLayouts) as $i => $key) {
@@ -90,6 +92,8 @@ class HorizontalMenuLayout extends Layout {
 			print "\n".$this->_getTabs()."\t</td>";
 		}
 		print "\n".$this->_getTabs()."</tr></table>\n";
+		
+		print "\n".$this->getPostSurroundingText();
 	}
 }
 
