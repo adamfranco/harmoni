@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.15 2005/03/29 19:44:28 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.16 2005/03/30 17:42:32 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -309,15 +309,15 @@ class HarmoniRepositoryManager
 		// If so, delete them.
 		while ($assets->hasNext()) {
 			$asset =& $assets->next();
-			$dr->deleteAsset($asset->getId());
+			$repository->deleteAsset($asset->getId());
 		}
 		
 		// Delete the node for the DR
-		$this->_hierarchy->deleteNode($digitalRepositoryId);
+		$this->_hierarchy->deleteNode($repositoryId);
 		
 		// Delete type type for the Repository
 		$query =& new DeleteQuery;
-		$query->setTable("repository_type");
+		$query->setTable("dr_repository_type");
 		$query->addWhere("repository_id = '"
 						.addslashes($repositoryId->getIdString())
 						."' LIMIT 1");
@@ -619,7 +619,7 @@ class HarmoniRepositoryManager
 	 * time.  The Iterator's hasNext method returns <code>true</code> if there 
 	 * are additional objects available; <code>false</code> otherwise.  The 
 	 * Iterator's next method returns the next object.
-	 * @param object digitalRepositories
+	 * @param object repositories
 	 * @param mixed searchCriteria
 	 * @param object searchType
 	 * @return object AssetIterator  The order of the objects returned by the 
@@ -635,12 +635,12 @@ class HarmoniRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_DR UNKNOWN_DR}
 	 */
-	function &getAssets(& $digitalRepositories, & $searchCriteria, & $searchType) {
+	function &getAssets(& $repositories, & $searchCriteria, & $searchType) {
 		$combinedAssets = array();
 		
 		foreach ($digitalRepositories as $key => $val) {
 			// Get the assets that match from this DR.
-			$assets =& $digitalRepositories[$key]->getAssetsBySearch($searchCriteria, $searchType);
+			$assets =& $repositories[$key]->getAssetsBySearch($searchCriteria, $searchType);
 			
 			// Add the assets from this dr into our combined array.
 			while ($assets->hasNext()) {
