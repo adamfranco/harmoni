@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DBHandlerTestCase.class.php,v 1.2 2003/06/20 19:00:56 adamfranco Exp $
+ * @version $Id: DBHandlerTestCase.class.php,v 1.3 2003/06/20 19:32:49 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -109,14 +109,14 @@
 			$query->setWhere("test1.id = 20");
 			$queryQueue->add($query);
 			
-			$query->setWhere("test1.id = 21");
-			$queryQueue->add($query);
+			$query2 = $query;
+			$query2->setWhere("test1.id = 21");
+			$queryQueue->add($query2);
 			
 			$resultQueue =& $this->dbhandler->queryQueue($queryQueue);
 
 			// test the first result
 			$result =& $resultQueue->next();
-			$this->assertTrue($result->isSuccessful());
 			$this->assertEqual($result->getNumberOfRows(),20);
 			$this->assertEqual($result->getNumberOfFields(),3);
 			$names = $result->getFieldNames();
@@ -126,12 +126,11 @@
 
 			// test the second result
 			$result =& $resultQueue->next();
-			$this->assertTrue($result->isSuccessful());
 			$this->assertEqual($result->getNumberOfRows(),20);
 			$this->assertEqual($result->getNumberOfFields(),3);
 			$names = $result->getFieldNames();
 			$this->assertTrue(in_array("test1_value",$names));
-			$this->assertEqual("20",$result->field("test1_id"));
+			$this->assertEqual("21",$result->field("test1_id"));
 			$this->assertEqual("This is the value",$result->field("test1_value"));
 		}
 		
@@ -171,11 +170,13 @@
 			$query->setWhere("test1.id = 20");
 			$queryQueue->add($query);
 			
-			$query->setWhere("test1.id = 21");
-			$queryQueue->add($query);
+			$query2 = $query;
+			$query2->setWhere("test1.id = 21");
+			$queryQueue->add($query2);
 			
-			$query->addTable("NonexistantTable", NO_JOIN);
-			$queryQueue->add($query);
+			$query3 = $query;
+			$query3->addTable("NonexistantTable", NO_JOIN);
+			$queryQueue->add($query3);
 			
 			$resultQueue =& $this->dbhandler->queryQueue($queryQueue);
 			
