@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI."architecture/harmoni/login/LoginState.interface.php");
+//require_once(HARMONI."architecture/harmoni/login/LoginState.interface.php");
 require_once(HARMONI."authenticationHandler/AuthenticationResult.class.php");
 
 /**
@@ -14,10 +14,10 @@ require_once(HARMONI."authenticationHandler/AuthenticationResult.class.php");
  * be changed, allowing administrators or similar users to switch between Active users.
  * 
  * @package harmoni.architecture.login
- * @version $Id: LoginState.class.php,v 1.3 2003/11/27 04:55:41 gabeschine Exp $
+ * @version $Id: LoginState.class.php,v 1.4 2003/11/30 01:30:57 gabeschine Exp $
  * @copyright 2003 
  **/
-class LoginState extends LoginStateInterface {
+class LoginState {
 	/**
 	 * @access private
 	 * @var object $_result An {@link AuthenticationResult} object.
@@ -94,6 +94,15 @@ class LoginState extends LoginStateInterface {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Nullifies this LoginState, used for logging out.
+	 * @return null
+	 */
+	function nullify() {
+		$this->_result =& new AuthenticationResult("",array());
+		$this->_activeAgent = "";
 	}
 }
 

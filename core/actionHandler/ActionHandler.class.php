@@ -48,17 +48,14 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * 
  * An action can be a: flat PHP file, an entire PHP class, or a specific method
  * within a class. Actions are organized into modules, which can be: a folder or a class.
- * A specific actions is referenced by "module->action" certain module/action options
+ * A specific action is referenced by "module.action" certain module/action options
  * are not compatible (such as modules=folders and actions=method-within-class).
  * 
  * An action is passed the following items:<br/>
- * <li>A {@link FieldSet} object of post/get variables from the web browser.
- * <li>A {@link Context} object.
- * <li>A {@link LoginState} object.
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.6 2003/11/27 04:55:41 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.7 2003/11/30 01:30:51 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandler {
@@ -115,24 +112,6 @@ class ActionHandler {
 	
 	/**
 	 * @access private
-	 * @var object $_httpVars A {@link FieldSet} object containing HTTP variables from GET and POST.
-	 **/
-	var $_httpVars;
-	
-	/**
-	 * @access private
-	 * @var object $_context
-	 **/
-	var $_context;
-	
-	/**
-	 * @access private
-	 * @var object $_loginState
-	 **/
-	var $_loginState;
-	
-	/**
-	 * @access private
 	 * @var string $_forwardToAction
 	 */
 	var $_forwardToAction = false;
@@ -151,8 +130,7 @@ class ActionHandler {
 	 * @access public
 	 * @return void
 	 **/
-	function ActionHandler(&$httpVars, &$harmoni) {
-		$this->_httpVars =& $httpVars;
+	function ActionHandler(&$harmoni) {
 		$this->_harmoni =& $harmoni;
 		$this->_actionsExecuted = array();
 		$this->_threads = array();
@@ -249,9 +227,6 @@ class ActionHandler {
 				
 		// if we are using flatfiles for actions, we have to set some global variables for it to use
 		if ($this->_actionsType == ACTIONS_FLATFILES) {
-			$httpVars =& $this->_httpVars;
-			$context =& $this->_context;
-			$loginState =& $this->_loginState;
 			$harmoni =& $this->_harmoni;
 		}
 		
@@ -297,8 +272,7 @@ class ActionHandler {
 							$php_errormsg","ActionHandler",true));
 			
 			// execute the $method and get the result.
-			$result =& $object->$method($this->_httpVars, $this->_context,
-									$this->_loginState,$this->_harmoni);
+			$result =& $object->$method($this->_harmoni);
 		}
 		
 		// we've now executed this action -- add it to the array
@@ -447,31 +421,11 @@ class ActionHandler {
 	}
 	
 	/**
-	 * Tells the ActionHandler to use the specified {@link LoginState} object.
-	 * @param ref object $loginState the {@link LoginState} object.
-	 * @access public
-	 * @return void
-	 **/
-	function useLoginState(&$loginState) {
-		$this->_loginState =& $loginState;
-	}
-	
-	/**
-	 * Tells the ActionHandler to use the specified {@link Context} object.
-	 * @param ref object $context The {@link Context} object.
-	 * @access public
-	 * @return void
-	 **/
-	function useContext(&$context) {
-		$this->_context =& $context;
-	}
-	
-	/**
 	 * Returns an array of actions that have been executed this session.
 	 * @access public
 	 * @return array
 	 **/
-	function getExecutedActions() {
+	function &getExecutedActions() {
 		return $this->_actionsExecuted;
 	}
 }

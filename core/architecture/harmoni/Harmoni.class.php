@@ -15,7 +15,7 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.6 2003/11/27 04:55:41 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.7 2003/11/30 01:30:57 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -39,10 +39,10 @@ class Harmoni {
 	var $_actionCallbackFunction;
 
 	/**
-	 * @access private
+	 * @access public
 	 * @var array $_httpVars
 	 **/
-	var $_httpVars;
+	var $HTTPVars;
 
 	/**
 	 * @access private
@@ -61,12 +61,24 @@ class Harmoni {
 	 * @var object $LoginHandler The {@link LoginHandler} object.
 	 **/
 	var $LoginHandler;
+
+	/**
+	 * @access public
+	 * @var object $LoginState A {@link LoginState} object, representing current login state.
+	 **/
+	var $LoginState;
 	
 	/**
 	 * @access public
 	 * @var object $ActionHandler The {@link ActionHandler} object.
 	 **/
 	var $ActionHandler;
+	
+	/**
+	 * @access public
+	 * @var object $Context The {@link Context} object.
+	 */
+	var $Context;
 	
 	/**
 	 * @access public
@@ -90,12 +102,12 @@ class Harmoni {
 	 **/
 	function Harmoni($httpVars = null) {
 		// set up the variables we are going to pass to actions
-		if ($httpVars) $this->_httpVars =& new FieldSet($httpVars);
-		else $this->_httpVars =& new FieldSet($_REQUEST);
+		if ($httpVars) $this->HTTPVars =& new FieldSet($httpVars);
+		else $this->HTTPVars =& new FieldSet($_REQUEST);
 		
 		// set up the LoginHandler and the ActionHandler
 		$this->LoginHandler =& new LoginHandler($this);
-		$this->ActionHandler =& new ActionHandler($this->_httpVars,$this);
+		$this->ActionHandler =& new ActionHandler($this);
 		
 		// set up config options
 		$this->config =& new HarmoniConfig;
@@ -120,11 +132,20 @@ class Harmoni {
 	* @return void
 	* @param string $key
 	* @param mixed $value
-	* @desc Attaches some arbitrary data to the LoginState so that actions or later
+	* @desc Attaches some arbitrary data to the Harmoni object so that actions or later
 	* functions can make use of it.
 	*/
-	function attachContextData($key, &$value) {
+	function attachData($key, &$value) {
 		$this->_attachedData->set($key,$value);
+	}
+	
+	/**
+	* @return mixed
+	* @param string $key
+	* @desc Returns the data attached by {@link Harmoni::attachData} referenced by $key.
+	*/
+	function &getData($key) {
+		return $this->_attachedData->get($key);
 	}
 	
 	/**
@@ -198,6 +219,8 @@ class Harmoni {
 			$loginState =& $this->LoginHandler->execute();
 		} else $loginState =& new LoginState; // "blank" loginState
 		
+		$this->LoginState =& $loginState;
+		
 		// detect the current action
 		$this->_detectCurrentAction();
 		
@@ -216,12 +239,8 @@ class Harmoni {
 		header("Content-type: text/html; charset=".$this->config->get("charset"));
 		
 		// set up a context object.
-		$context =& new Context($module, $action, $this->_attachedData);
+		$this->Context =& new Context($module, $action, $this->ActionHandler->getExecutedActions());
 		
-		// ok, call the action handler
-		$this->ActionHandler->useLoginState($loginState);
-		$this->ActionHandler->useContext($context);
-
 		// we want to catch all the output in case we need to go to the failedLoginAction
 		ob_start();
 		$result =& $this->ActionHandler->execute($module, $action);

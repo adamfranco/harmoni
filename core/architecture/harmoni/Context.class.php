@@ -4,7 +4,7 @@
  * The Context class provides easy access to variables for action scripts and classes. 
  *
  * @package harmoni.architecture
- * @version $Id: Context.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
+ * @version $Id: Context.class.php,v 1.3 2003/11/30 01:30:57 gabeschine Exp $
  * @copyright 2003 
  **/
 class Context {
@@ -45,10 +45,16 @@ class Context {
 	var $requestModuleDotAction;
 	
 	/**
+	 * @access public
+	 * @var array $actionPath An array containing all actions executed so far.
+	 */
+	var $actionPath;
+	
+	/**
 	 * @access private
 	 * @var object $_contextData Holds data stored for use by actions by {@link Harmoni::attachContextData()}.
 	 */
-	var $_contextData;
+//	var $_contextData;
 	
 	/**
 	 * The constructor
@@ -57,7 +63,7 @@ class Context {
 	 * @access public
 	 * @return void
 	 **/
-	function Context($module, $action, &$contextData) {
+	function Context($module, $action, &$execPath) {
 		$this->sid = session_name() . "=" . session_id();
 		$this->hiddenFieldSID = "<input type='hidden' name='".session_name()."' value='".session_id()."' />";
 		$this->myURL = $_SERVER['PHP_SELF'];
@@ -66,17 +72,10 @@ class Context {
 		$this->requestModule = $module;
 		$this->requestModuleDotAction = "$module.$action";
 		
-		if (!$contextData) $contextData =& new FieldSet();
-		$this->_contextData =& $contextData;
-	}
-	
-	/**
-	* @return mixed
-	* @param string $key
-	* @desc Returns the data attached by {@link Harmoni::attachContextData} referenced by $key.
-	*/
-	function &getData($key) {
-		return $this->_contextData->get($key);
+		$this->actionPath =& $execPath;
+		
+//		if (!$contextData) $contextData =& new FieldSet();
+//		$this->_contextData =& $contextData;
 	}
 }
 

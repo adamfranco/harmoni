@@ -4,6 +4,19 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.4" date="Not Yet Release">
 		<change author='gabe'>
+			Harmoni::attachContextData() has been renamed (again) to Harmoni::attachData().
+			Context::getData() has been moved to Harmoni::getData().
+		</change>
+		<change author='gabe'>
+			Context object now carries an array holding the executed actions path, available
+			by referencing Context::actionPath.
+		</change>
+		<change author='gabe'>
+			ActionHander and Harmoni: ActionHandler now only passes a reference to the Harmoni
+			object to action functions and scripts. Other variables are available here:
+			Harmoni::HTTPVars, Harmoni::Context, Harmoni::LoginState.
+		</change>
+		<change author='gabe'>
 			Removed many .interface.php files to save on load times and unnecessary flexibility.
 		</change>
 		<change author='gabe'>
