@@ -6,7 +6,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * the IntegerRangeValidatorRule checks a given value to make sure it's integer that
  * falls within a certain range.
  *
- * @version $Id: IntegerRangeValidatorRule.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: IntegerRangeValidatorRule.class.php,v 1.2 2003/12/05 00:43:34 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.fieldsetvalidator.rules
  **/
@@ -45,8 +45,8 @@ class IntegerRangeValidatorRule
 	 * @return boolean TRUE, if the value is an integer; FALSE if it is not.
 	 **/
 	function check( & $val ) {
-		if (!(is_integer($val) || $val === 0))
-			return false;
+//		if (!(is_integer($val) || $val === 0))
+//			return false;
 		return ($val >= $this->_min && $val <= $this->_max);
 	}
 }

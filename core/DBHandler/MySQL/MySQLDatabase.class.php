@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.2 2003/12/03 02:38:40 gabeschine Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.3 2003/12/05 00:43:27 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -398,15 +398,15 @@ class MySQLDatabase extends DatabaseInterface {
 		 * DateTime object.
 		 */
 		if (ereg("([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3],$r[4]-1,$r[5]-1,$r[6]-1);
+		 	return new DateTime($r[1],$r[2],$r[3],$r[4]-1,$r[5],$r[6]);
 		if (ereg("([0-9]{4})-([0-9]{2})-([0-9]{2})",$value,$r))
 		 	return new DateTime($r[1],$r[2],$r[3]);
 		if (ereg("([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3],$r[4]-1,$r[5]-1,$r[6]-1);
+		 	return new DateTime($r[1],$r[2],$r[3],$r[4]-1,$r[5],$r[6]);
 		if (ereg("([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3],$r[4]-1,$r[5]-1,$r[6]-1);
+		 	return new DateTime($r[1],$r[2],$r[3],$r[4]-1,$r[5],$r[6]);
 		if (ereg("([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3],$r[4]-1,$r[5]-1);
+		 	return new DateTime($r[1],$r[2],$r[3],$r[4]-1,$r[5]);
 		if (ereg("([0-9]{4})([0-9]{2})([0-9]{2})",$value,$r))
 		 	return new DateTime($r[1],$r[2],$r[3]);
 		if (ereg("([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
