@@ -7,7 +7,7 @@ require_once(HARMONI."authenticationHandler/methods/DBMethodOptions.class.php");
  * the DB Authentication Method will contact an SQL database and check a username/password pair
  * against fields in a specified table.
  *
- * @version $Id: DBAuthenticationMethod.class.php,v 1.15 2003/07/12 15:52:54 gabeschine Exp $
+ * @version $Id: DBAuthenticationMethod.class.php,v 1.16 2003/07/18 03:23:14 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication.database
@@ -242,6 +242,7 @@ class DBAuthenticationMethod
 		foreach ($fields as $key=>$field) {
 			$query->addColumn($field);
 		}
+		$query->addColumn($o->get("usernameField"));
 		
 		// build the appropriate where clause for this query, depending
 		// on if we're in searchMode or not.
@@ -261,8 +262,8 @@ class DBAuthenticationMethod
     		$row = $result->getCurrentRow();
 			$result->advanceRow();
 			
-			$userName = $result[$o->get("usernameField")];
-			
+			$userName = $row[$o->get("usernameField")];
+
 			// make a [key]=>value array for the results
     		$info = array();
     		foreach ($fields as $key=>$val) {

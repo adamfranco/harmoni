@@ -7,7 +7,7 @@ require_once(HARMONI.'authenticationHandler/methods/DBAuthenticationMethod.class
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DBAuthenticationMethodTestCase.class.php,v 1.2 2003/06/28 01:01:51 gabeschine Exp $
+ * @version $Id: DBAuthenticationMethodTestCase.class.php,v 1.3 2003/07/18 03:23:14 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -81,10 +81,11 @@ require_once(HARMONI.'authenticationHandler/methods/DBAuthenticationMethod.class
 													,"firstname"=>"user_fname",
 													"lastname"=>"user_lname"));
 			$a = $this->m->getAgentInformation("gschine");
-			$this->assertEqual(count($a),3);
-			$this->assertEqual($a['email'],"gschine@email.net");
-			$this->assertEqual($a['firstname'],"Gabriel");
-			$this->assertEqual($a['lastname'],'Schine');
+			$this->assertEqual(count($a),1);
+
+			$this->assertEqual($a['gschine']['email'],"gschine@email.net");
+			$this->assertEqual($a['gschine']['firstname'],"Gabriel");
+			$this->assertEqual($a['gschine']['lastname'],'Schine');
 		}
 		function test_encrypted_passwd() {
 			// we are only testing Database-driven MD5 encryption here.

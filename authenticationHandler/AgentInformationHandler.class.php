@@ -9,7 +9,7 @@ require_once(HARMONI."authenticationHandler/AgentInformationHandler.interface.ph
  * as email addresses, full names, etc.
  *
  * @package harmoni.authentication.agentinformation
- * @version $Id: AgentInformationHandler.class.php,v 1.6 2003/07/12 15:52:54 gabeschine Exp $
+ * @version $Id: AgentInformationHandler.class.php,v 1.7 2003/07/18 03:23:14 gabeschine Exp $
  * @copyright 2003 
  **/
 class AgentInformationHandler extends AgentInformationHandlerInterface {
@@ -55,7 +55,8 @@ class AgentInformationHandler extends AgentInformationHandlerInterface {
 	function getAgentInformation( $systemName, $searchMode=false, $method = "") {
 		if ($method != "") {
 			// we only need to fetch the info from one method -- easy enough
-			return $this->_getInformation($systemName,$method);
+			$unames = $this->_getInformation($systemName, $searchMode, $method);
+			return $unames[$systemName];
 		}
 		// otherwise, we're gonna have to go through ALL the methods in
 		// priority order
@@ -73,7 +74,7 @@ class AgentInformationHandler extends AgentInformationHandlerInterface {
 		// sort them lower priority (highest priority value) to highest to over-write
 		// any lower priority values with the higher ones
 		arsort($priorities,SORT_NUMERIC);
-
+		print_r($priorities);
 		// go through them and populate the $info hashtable
 		$info = array();
 
@@ -86,7 +87,7 @@ class AgentInformationHandler extends AgentInformationHandlerInterface {
     			}
 			}
 		}
-		
+		print_r($info);
 		// all done
 		if ($searchMode)
 			return $info;

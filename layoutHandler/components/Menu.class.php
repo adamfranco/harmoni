@@ -6,7 +6,7 @@ require_once(HARMONI."layoutHandler/components/Menu.interface.php");
  * are useful in page layouts for navigation. 
  *
  * @package harmoni.layout.components
- * @version $Id: Menu.class.php,v 1.2 2003/07/16 23:32:39 gabeschine Exp $
+ * @version $Id: Menu.class.php,v 1.3 2003/07/18 03:23:14 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -72,16 +72,7 @@ class Menu extends MenuInterface {
 	 * @return void
 	 **/
 	function output($theme, $level=0, $orientation=HORIZONTAL) {
-		// @todo -cMenu Implement Menu.print
-		print "<br/>Printing Menu with level=$level and orientation=";
-		print ($orientation==HORIZONTAL)?"HORIZONTAL":"VERTICAL";
-		print "<br/><br/>";
-		
-		for($i = 0; $i < $this->getCount(); $i++) {
-			$item =& $this->getItem($i);
-			print $item->getFormattedText();
-			print ($orientation == VERTICAL)?"<br />":" ";
-		} // for
+		$theme->printMenu($this,$level,$orientation);
 	}
 }
 

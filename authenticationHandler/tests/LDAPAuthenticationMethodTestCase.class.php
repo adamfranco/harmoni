@@ -7,7 +7,7 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: LDAPAuthenticationMethodTestCase.class.php,v 1.5 2003/07/04 14:04:34 gabeschine Exp $
+ * @version $Id: LDAPAuthenticationMethodTestCase.class.php,v 1.6 2003/07/18 03:23:14 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -86,8 +86,8 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
 		function test_getagentinfo() {
 			$a = $this->m->getAgentInformation("afranco");
 //			print_r($a);
-			$this->assertEqual($a['email'],"afranco@middlebury.edu");
-			$this->assertEqual($a['fullname'],"Franco, Adam");
+			$this->assertEqual($a['afranco']['email'],"afranco@middlebury.edu");
+			$this->assertEqual($a['afranco']['fullname'],"Franco, Adam");
 		}
 		
     }
