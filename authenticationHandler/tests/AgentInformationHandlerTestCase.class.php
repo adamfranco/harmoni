@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AgentInformationHandlerTestCase.class.php,v 1.6 2003/07/03 18:52:03 adamfranco Exp $
+ * @version $Id: AgentInformationHandlerTestCase.class.php,v 1.7 2003/07/04 14:04:34 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -191,7 +191,26 @@
 		}
 		
 		function test_member_of() {
-			$this->assertFalse(true);
+			$o = & new LDAPMethodOptions;
+			$o->set("LDAPHost","jaguar.middlebury.edu");
+			$o->set("baseDN","ou=Midd,o=MC");
+			$o->set("userDNSuffix","cn=midd");
+			
+			// bindDN can be blank or a username
+			// if it is a username, then searches can be done where that user has priveleges.
+			// an example of bindDB is "cn=afranco,cn=midd"
+			//$o->set("bindDN","cn=fjones,cn=midd");
+			$o->set("bindDNPassword","");			
+			$o->set("usernameField","uid");
+			$o->set("agentInformationFields",array("fullname"=>"cn"
+													,"email"=>"mail",
+													"idnumber"=>"extension-attribute-1",
+													"memberof"=>"memberof"));
+			$o->set("agentInformationFieldsFetchMultiple",array("memberof"=>true));
+			$m = &new LDAPAuthenticationMethod($o);
+			$this->auth->addMethod("ldap",0,$m);
+			$info = $m->getAgentInformation("schine");
+			//$this->assertTrue($info['memberof']['count'] > 0);
 		}
     }
 

@@ -6,7 +6,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * The LDAPMethodOptions is a {@link DataContainer} for the {@link LDAPAuthenticationMethod}.
  * 
  * @package harmoni.authenticationHandler
- * @version $Id: LDAPMethodOptions.class.php,v 1.3 2003/06/30 21:42:53 adamfranco Exp $
+ * @version $Id: LDAPMethodOptions.class.php,v 1.4 2003/07/04 14:04:34 gabeschine Exp $
  * @copyright 2003
  */
 
@@ -24,24 +24,23 @@ class LDAPMethodOptions extends DataContainer {
         // initialize the data container
         $this -> init(); 
         // add the fields we want to allow
-        //  @todo implement all the errors!!
-        $this -> add("LDAPPort", new NumericValidatorRule);
+        $this -> add("LDAPPort", new NumericValidatorRule, new Error("The LDAPPort must be a valid number!", "LDAPMethodOptions",true));
         $this -> set("LDAPPort", 389);
-        $this -> add("LDAPHost", new FieldRequiredValidatorRule);
-		$this -> add("baseDN", new FieldRequiredValidatorRule);
-        $this -> add("bindDN", new AlwaysTrueValidatorRule); // optional
-        $this -> add("bindDNPassword", new AlwaysTrueValidatorRule); // optional
+        $this -> add("LDAPHost", new FieldRequiredValidatorRule, new Error("You must set the LDAPHost!", "LDAPMethodOptions",true));
+		$this -> add("baseDN", new FieldRequiredValidatorRule, new Error("You must set the baseDN!", "LDAPMethodOptions",true));
+        $this -> add("bindDN", new OptionalRule(new StringValidatorRule), new Error("The bindDN must be a valid string!", "LDAPMethodOptions",true)); // optional
+        $this -> add("bindDNPassword", new OptionalRule(new StringValidatorRule), new Error("the bindDNPassword must be a valid string!", "LDAPMethodOptions",true)); // optional
         // on some, systems (which suck -- like ours), the DN used for authentication
         // is DIFFERENT than the DN stored in the DB. Why one would do this, fails me.
         // However, if this is the case, specify what should be appended onto "cn=<username>,"
         // (like, for us, "cn=midd") and the bind process will go just fine.
-        $this -> add("userDNSuffix", new AlwaysTrueValidatorRule); // optional
-        $this -> add("usernameField", new FieldRequiredValidatorRule);
+        $this -> add("userDNSuffix", new OptionalRule(new StringValidatorRule), new Error("The userDNSuffix must be a valid string!", "LDAPMethodOptions",true)); // optional
+        $this -> add("usernameField", new FieldRequiredValidatorRule, new Error("You must provide the username field for LDAP (such as 'uid').", "LDAPMethodOptions",true));
 		$this -> set("usernameField","uid");
 
-        $this -> add("agentInformationFields", new ArrayValidatorRule);
+        $this -> add("agentInformationFields", new ArrayValidatorRule, new Error("The agent information fields must be an array of the format: [key1]=>[LDAP_attr1], [key2]=>[LDAP_attr2], ...", "LDAPMethodOptions",true));
         $this -> set("agentInformationFields", array());
-		$this -> add("agentInformationFieldsFetchMultiple", new ArrayValidatorRule);
+		$this -> add("agentInformationFieldsFetchMultiple", new ArrayValidatorRule, new Error("The agent information fields fetch multiple array must be of the format: [key1]=>[true/false], [key2]=>...", "LDAPMethodOptions",true));
 		$this -> set("agentInformationFieldsFetchMultiple", array());
     } 
 } 

@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Does authentication procedures with an LDAP server.
  *
- * @version $Id: LDAPAuthenticationMethod.class.php,v 1.9 2003/07/03 03:09:08 gabeschine Exp $
+ * @version $Id: LDAPAuthenticationMethod.class.php,v 1.10 2003/07/04 14:04:34 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -199,7 +199,7 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 		
 		$uidField = $this->_opt->get("usernameField");
 		$values = $this->_search("$uidField=$systemName",$return);
-		
+
 		// no go through and populate the $info array
 		$info = array();
 		

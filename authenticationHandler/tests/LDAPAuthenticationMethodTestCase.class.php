@@ -7,7 +7,7 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: LDAPAuthenticationMethodTestCase.class.php,v 1.4 2003/06/30 21:42:53 adamfranco Exp $
+ * @version $Id: LDAPAuthenticationMethodTestCase.class.php,v 1.5 2003/07/04 14:04:34 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -39,7 +39,7 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
 			$o->set("agentInformationFields",array("fullname"=>"cn"
 													,"email"=>"mail",
 													"idnumber"=>"extension-attribute-1",
-													"memberof"=>"memberOf"));
+													"memberof"=>"memberof"));
 			$this->m = &new LDAPAuthenticationMethod($o);
 			$this->o = &$o;
 		}

@@ -8,7 +8,7 @@ require_once(HARMONI."authenticationHandler/methods/inc.php");
  * The AuthenticationHandler keeps track of multiple AuthenticationMethods for 
  * authenticating agents.
  * 
- * @version $Id: AuthenticationHandler.class.php,v 1.8 2003/06/28 01:01:51 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.9 2003/07/04 14:04:32 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -144,8 +144,7 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 		
 		// if we already have a method by this name, throw an error & return
 		if ($this->_methodExists($name)) {
-			//@todo -cAuthenticationHandler throw an error! -- fatal
-			
+			throw( new Error("AuthenticationHandler::addMethod() - can not add a method named '$name' because it already exists!", "AuthenticationHandler", true));			
 			return;
 		}
 		
