@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.8 2005/01/27 15:45:39 adamfranco Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.9 2005/01/27 17:11:50 adamfranco Exp $ 
  */
 
 class HarmoniRecord extends Record
@@ -187,17 +187,17 @@ class HarmoniRecord extends Record
 	 */
 	function &getParts () { 
 		// Get all of the PartStructures in this structure
-		$parts =& $this->_recordStructure->getParts();
-		while ($parts->hasNext()) {
-			$part =& $parts->next();
-			$allRecordFieldValues =& $this->_record->getAllRecordFieldValues($part->getDisplayName());
+		$partStructures =& $this->_recordStructure->getPartStructures();
+		while ($partStructures->hasNext()) {
+			$partStructure =& $partStructures->next();
+			$allRecordFieldValues =& $this->_record->getAllRecordFieldValues($partStructure->getDisplayName());
 			// Create an Part for each valueVersionObj
 			if (count($allRecordFieldValues)) {
 				foreach (array_keys($allRecordFieldValues) as $key) {
 					if ($activeValue =& $allRecordFieldValues[$key]->getActiveVersion()
 						&& !$this->_createdParts[$activeValue->getId()])
 						$this->_createdParts[$activeValue->getId()] =& new HarmoniPart(
-													$part, $allRecordFieldValues[$key]);
+													$partStructure, $allRecordFieldValues[$key]);
 				}
 			}
 		}
