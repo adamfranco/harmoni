@@ -38,7 +38,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.48 2004/11/22 19:13:01 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.49 2004/11/22 22:02:17 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -770,6 +770,22 @@ class HarmoniSharedManager
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
+		// 3. Store the properties of the group.
+		$propertiesId = $this->_storeProperties($properties);
+		
+		// 4. Store the Mapping of the Properties to the Agent
+		$query =& new InsertQuery;
+		$query->setTable("group_properties");
+		$query->setColumns(array(
+			"fk_group",
+			"fk_properties"
+		));
+		$query->setValues(array(
+			"'".addslashes($groupIdValue)."'",
+			"'".addslashes($propertiesId)."'"
+		));
+		$result =& $dbHandler->query($query, $this->_dbIndex);
+		
 		// create the group object to return
 		$group =& new HarmoniGroup($displayName, $groupId, $groupType, $propertiesArray, $description, $this->_dbIndex, $this->_sharedDB);
 		// then cache it
@@ -816,14 +832,57 @@ class HarmoniSharedManager
 			throwError(new Error("Multiple groups with Id: ".$idValue." exist in the database." ,"SharedManager",true));
 		$typeIdValue = $queryResult->field("type_id");
 		
-		// 2. Now delete the group
+		// 2. Delete the Properties mapping of the agent
+		// get the properties ids first
+		$query =& new SelectQuery();
+		$query->addTable($db."agent_properties");
+		$query->addColumn("fk_properties");
+		$query->addWhere($db."agent_properties.fk_agent = '".addslashes($idValue)."'");
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		$propertiesIdValues = array();
+		while ($row =& $queryResult->getCurrentRow()) {
+			$propertiesIdValues[] = $row['fk_properties'];
+			$queryResult->advanceRow();
+		}
+		
+		// Delete the mapping
+		$query =& new DeleteQuery();
+		$query->setTable($db."group_properties");
+		$query->addWhere($db."group_properties.fk_group = '".addslashes($idValue)."'");
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// 3. Delete the properties of the group
+		// Delete each Property entry.
+		if (count($propertiesIdValues)) {
+			$query =& new DeleteQuery();
+			$query->setTable($db."shared_property");
+			$where = array();
+			foreach ($propertiesIdValues as $propertiesIdValue) {
+				$where[] = "fk_properties = '".addslashes($propertiesIdValue)."'";
+			}
+			$query->addWhere(implode(" OR ", $where));
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			
+			// Delete each Properties entry
+			$query =& new DeleteQuery();
+			$query->setTable($db."shared_properties");
+			$where = array();
+			foreach ($propertiesIdValues as $propertiesIdValue) {
+				$where[] = "id = '".addslashes($propertiesIdValue)."'";
+			}
+			$query->addWhere(implode(" OR ", $where));
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		}
+		
+		// 4. Now delete the group
 		$query =& new DeleteQuery();
 		$query->setTable($db."groups");
 		$query->addWhere($db."groups.groups_id = '".addslashes($idValue)."'");
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		
-		// 3. Now see if any other groups have the same type
+		// 5. Now see if any other groups have the same type
 		$query =& new SelectQuery();
 		
 		$db = $this->_sharedDB.".";
@@ -841,7 +900,7 @@ class HarmoniSharedManager
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		}
 
-		// 4. Now, we must remove any entry in the join table that reference
+		// 6. Now, we must remove any entry in the join table that reference
 		// this group
 		// first select all groups that are parents of this group
 		$query =& new SelectQuery();
@@ -862,7 +921,12 @@ class HarmoniSharedManager
 //		echo "</pre>\n";
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
-		// 5. Update the cache
+		// 7. Make sure that the AuthN system still isn't maintaining a
+		// Mapping to this agent
+		$authN =& Services::getService("AuthN");
+		$authN->deleteMapping($id);
+		
+		// 8. Update the cache
 		if (isset($this->_groupsCache[$idValue])) {
 			while ($groupsResult->hasMoreRows()) {
 				// fetch current row
