@@ -1,17 +1,26 @@
 <?
 
-//require_once(HARMONI."utilities/DateTime.interface.php");
+require_once(HARMONI."dataManager/Primitive.interface.php");
 
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.17 2004/08/26 15:10:37 adamfranco Exp $
+ * @version $Id: DateTime.class.php,v 1.18 2004/09/28 15:41:27 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
  * @package harmoni.utilities
  */
-class DateTime {
+class DateTime 
+	extends Primitive // This extention is put here because lots of this require 
+					  // the Time primitive, which gets its functionality from 
+					  // DateTime. Because PHP doesn't allow implementation of
+					  // multiple interfaces, and many packages validate for 
+					  // primitives, the "Time" class needed to extend primitive,
+					  // but couldn't its self.
+					  // This extension is improper and should be move to the Time
+					  // class in PHP5.
+{
 
 	/**
 	 * Year. 4-digit.
