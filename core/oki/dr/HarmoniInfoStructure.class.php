@@ -108,5 +108,54 @@ class HarmoniInfoStructure extends InfoStructure
 		
 		return true; // for now
 	}
-	// :: full java declaration :: public boolean validateInfoRecord(InfoRecord infoRecord)
+
+	/**
+	 * Create an InfoPart in this InfoStructure. This is not part of the DR OSID at 
+	 * the time of this writing, but is needed for dynamically created 
+	 * InfoStructures/InfoParts.
+	 *
+	 * @param string $displayName 	The DisplayName of the new InfoStructure.
+	 * @param string $description 	The Description of the new InfoStructure.
+	 * @param object Type $type	 	One of the InfoTypes supported by this implementation.
+	 *								E.g. string, shortstring, blob, datetime, integer, float,
+	 *								
+	 * @param boolean $isMandatory 	True if the InfoPart is Mandatory.
+	 * @param boolean $isRepeatable True if the InfoPart is Repeatable.
+	 * @param boolean $isPopulatedByDR 	True if the InfoPart is PopulatedBy the DR.
+	 *
+	 * @return object InfoPart The newly created InfoPart.
+	 */
+	function createInfoPart($displayName, $description, & $infoPartType, $isMandatory, $isRepeatable, $isPopulatedByDR) {
+		ArgumentValidator::validate($infoPartType, new ExtendsValidatorRule("Type"));
+				
+		$fieldDef =& new FieldDefinition($displayName, $infoPartType->getKeyword(), $isRepeatable);
+		$this->_typeDef->addNewField($fieldDef);
+		$fieldDef->addToDB();
+		$fieldDef->setMultFlag($isRepeatable);
+		$fieldDef->update();
+		$this->_typeDef->commitAllFields();
+		$fieldDef =& $this->_typeDef->getFieldDefinition($displayName);
+		
+		$this->_createdInfoParts[$fieldDef->getID()] =& new HarmoniInfoPart($this,
+																$fieldDef);
+		return $this->_createdInfoParts[$fieldDef->getID()];
+	}
+
+	/**
+	 * Get the possible types for InfoParts.
+	 *
+	 * @return object TypeIterator The Types supported in this implementation.
+	 */
+	function getInfoPartTypes() {
+		$types = array();
+		
+		$typeMgr =& Services::getService("DataTypeManager");
+		foreach ($typeMgr->getRegisteredTypes() as $dataType) {
+			$types[] =& new HarmoniType ("Harmoni","DR",$dataType);
+		}
+		
+		$typeIterator =& new HarmoniTypeIterator($types);
+		return $typeIterator;
+	}
+	
 }

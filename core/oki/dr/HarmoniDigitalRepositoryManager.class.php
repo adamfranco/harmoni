@@ -72,6 +72,7 @@ class HarmoniDigitalRepositoryManager // :: API interface
 		$node =& $this->_hierarchy->createRootNode($newId, $digitalRepositoryType, $displayName, $description);
 		
 		$this->_createdDRs[$newId->getIdString()] =& new HarmoniDigitalRepository ($this->_hierarchy, $newId, $this->_configuration);
+		$this->_createdDRs[$newId->getIdString()]->save();
 		return  $this->_createdDRs[$newId->getIdString()];
 	}
 
@@ -116,7 +117,6 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 */
 	function & getDigitalRepositories() {
 		$rootNodes =& $this->_hierarchy->getRootNodes();
-		$drs = array();
 		while ($rootNodes->hasNext()) {
 			$rootNode =& $rootNodes->next();
 			
@@ -138,9 +138,23 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @package osid.dr
 	 */
 	function & getDigitalRepositoriesByType(& $digitalRepositoryType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+		$rootNodes =& $this->_hierarchy->getRootNodes();
+		$drs = array();
+		while ($rootNodes->hasNext()) {
+			$rootNode =& $rootNodes->next();
+			
+			// If the type is right, get the dr
+			if ($digitalRepositoryType->isEqual($rootNode->getType())) {
+				// make sure that the dr is loaded into the createdDRs array
+				$drs[] =& $this->getDigitalRepository($rootNode->getId());
+			}
+		}
+		
+		// create a DigitalRepositoryIterator with all fo the DRs in the createdDRs array
+		$drIterator =& new HarmoniDigitalRepositoryIterator($drs);
+		
+		return $drIterator;
 	}
-	// :: full java declaration :: DigitalRepositoryIterator getDigitalRepositoriesByType(osid.shared.Type digitalRepositoryType)
 
 	/**
 	 * Get a specific DigitalRepository by Unique Id.
@@ -197,9 +211,14 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @package osid.dr
 	 */
 	function & getAssetByDate(& $assetId, & $date) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+		// figure out which DR it is in.
+		$drId =& $this->_getAssetDR($assetId);
+		$dr =& $this->getDigitalRepository($drId);
+		
+		//return the assetByDate
+		return $dr->getAssetByDate($assetId, $date);
+		
 	}
-	// :: full java declaration :: public Asset getAssetByDate(osid.shared.Id assetId, java.util.Calendar date)
 
 	/**
 	 * Get all the dates for the Asset with the specified Unique Id.  These dates could be for a form of versioning.
@@ -208,9 +227,13 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @package osid.dr
 	 */
 	function & getAssetDates(& $assetId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+		// figure out which DR it is in.
+		$drId =& $this->_getAssetDR($assetId);
+		$dr =& $this->getDigitalRepository($drId);
+		
+		//return the assetByDate
+		return $dr->getAssetDates($assetId, $date);
 	}
-	// :: full java declaration :: public osid.shared.CalendarIterator getAssetDates(osid.shared.Id assetId)
 
 	/**
 	 * Perform a search of the specified Type and get all the Assets that satisfy the SearchCriteria.  The search is performed for all specified DigitalRepositories.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
@@ -222,9 +245,23 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @package osid.dr
 	 */
 	function & getAssets(& $digitalRepositories, & $searchCriteria, & $searchType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+		$combinedAssets = array();
+		
+		foreach ($digitalRepositories as $key => $val) {
+			// Get the assets that match from this DR.
+			$assets =& $digitalRepositories[$key]->getAssetsBySearch($searchCriteria, $searchType);
+			
+			// Add the assets from this dr into our combined array.
+			while ($assets->hasNext()) {
+				$combinedAssets[] =& $assets->next();
+			}
+		}
+		
+		// create an AssetIterator with all fo the Assets in the createdAssets array
+		$assetIterator =& new HarmoniAssetIterator($combinedAssets);
+		
+		return $assetIterator;
 	}
-	// :: full java declaration :: public AssetIterator getAssets
 	
 	/**
 	 * Create in a DigitalRepository a copy of an Asset.  The Id, AssetType, and DigitalRepository for the new Asset is set by the implementation.  All InfoRecords are similarly copied.
@@ -235,7 +272,8 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @package osid.dr
 	 */
 	function & copyAsset(& $digitalRepository, & $assetId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+		$asset =& $digitalRepository->getAsset($assetId);
+		return $digitalRepository->copyAsset( $asset );
 	}
 	// :: full java declaration :: osid.shared.Id copyAsset(DigitalRepository digitalRepository, osid.shared.Id assetId)
 
@@ -248,14 +286,18 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	function & getDigitalRepositoryTypes() {
 		$drs =& $this->getDigitalRepositories();
 		$types = array();
+		$typeStrings = array();
 		while ($drs->hasNext()) {
 			$dr =& $drs->next();
-			$types[] =& $dr->getType();
+			$type =& $dr->getType();
+			$typeString = $type->getAuthority()."::".$type->getDomain()."::".$type->getKeyword();
+			if (!in_array($typeString, $typeStrings)) {
+				$typeStrings[] = $typeString;
+				$types[] =& $type;
+			}
 		}
 		return new HarmoniTypeIterator($types);
 	}
-	// :: full java declaration :: osid.shared.TypeIterator getDigitalRepositoryTypes()
-	
 
 	/**
 	 * Saves this object to persistable storage.

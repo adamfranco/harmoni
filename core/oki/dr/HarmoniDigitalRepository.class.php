@@ -24,7 +24,7 @@ class HarmoniDigitalRepository
 	var $_hierarchy;
 	var $_createdAssets;
 	
-	var $_infoStructures;
+	var $_createdInfoStructures;
 	var $_assetValidFlags;
 	
 	/**
@@ -479,6 +479,31 @@ class HarmoniDigitalRepository
 		$id =& $this->_copyAsset($asset, $this->getId());
 	}
 	
+	/**
+	 * Create an InfoStructure in this DR. This is not part of the DR OSID at 
+	 * the time of this writing, but is needed for dynamically created 
+	 * InfoStructures.
+	 *
+	 * @param string $displayName 	The DisplayName of the new InfoStructure.
+	 * @param string $description 	The Description of the new InfoStructure.
+	 * @param string $format 		The Format of the new InfoStructure.
+	 * @param string $schema 		The schema of the new InfoStructure.
+	 *
+	 * @return object InfoStructure The newly created InfoStructure.
+	 */
+	function createInfoStructure($displayName, $description, $format, $schema) {
+		$dataSetType = new HarmoniType($schema, $format, $displayName, $description);
+		$dataSetTypeManager =& Services::getService("DataSetTypeManager");
+		
+		// Create the TypeDefinition
+		$dataSetTypeDef =& $dataSetTypeManager->newDataSetType($dataSetType);
+		
+		$dataSetTypeManager->synchronize($dataSetTypeDef);
+		
+		$this->_createdInfoStructures[$dataSetTypeDef->getID()] =& new HarmoniInfoStructure(
+																$dataSetTypeDef);
+		return $this->_createdInfoStructures[$dataSetTypeDef->getID()];
+	}
 
 	/**
 	 * Saves this object to persistable storage.
