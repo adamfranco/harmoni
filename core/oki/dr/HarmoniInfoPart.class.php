@@ -66,7 +66,11 @@ class HarmoniInfoPart extends InfoPart
 	 */
 	function & getId() {
 		$sharedManager =& Services::getService("Shared");
-		return $sharedManager->getId($this->_schemaField->getID());
+		return $sharedManager->getId(
+			$this->_infoStructure->_schema->getFieldID(
+				$this->_schemaField->getLabel()
+			)
+		);
 	}
 
 	/**

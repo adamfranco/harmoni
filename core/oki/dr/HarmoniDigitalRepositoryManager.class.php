@@ -60,7 +60,7 @@ class HarmoniDigitalRepositoryManager
 		$schemaMgr =& Services::getService("SchemaManager");
 		$recordType = new HarmoniType("DR", "Harmoni", "AssetContent", "An InfoStructure for the generic content of an asset.");
 		
-		if (!$schemaMgr->schemaExists($type)) {
+		if (!$schemaMgr->schemaExists($recordType)) {
 			// Create the Schema
 			$schema =& new Schema($recordType);
 			$schemaMgr->synchronize($schema);

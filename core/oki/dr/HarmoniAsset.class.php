@@ -162,29 +162,29 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getContent() {
-		$sharedManager =& Services::getService("Shared");
-		$recordMgr =& Services::getService("RecordManager");
-		
-		// Ready our type for comparisson
-		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
-		
-		// Get the content DataSet.
-		$id =& $this->_node->getId();
-		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
-		// fetching as editable since we don't know if it will be edited.
-		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
-		foreach ($dataSets as $key => $dataSet) {
-			if($contentType->isEqual($dataSets[$key]->getType())) {
-				$contentDataSet =& $dataSets[$key];
-				break;
-			}
-		}
-		
-		if ($contentDataSet && $contentDataSet->hasActiveValue("Content")) {
-			$valueVersion =& $contentDataSet->getActiveValue("Content");
-			return $valueVersion->getValue();
-		} else
-			return new BlobDataType;
+// 		$sharedManager =& Services::getService("Shared");
+// 		$recordMgr =& Services::getService("RecordManager");
+// 		
+// 		// Ready our type for comparisson
+// 		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
+// 		
+// 		// Get the content DataSet.
+// 		$id =& $this->_node->getId();
+// 		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
+// 		// fetching as editable since we don't know if it will be edited.
+// 		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
+// 		foreach ($dataSets as $key => $dataSet) {
+// 			if($contentType->isEqual($dataSets[$key]->getType())) {
+// 				$contentDataSet =& $dataSets[$key];
+// 				break;
+// 			}
+// 		}
+// 		
+// 		if ($contentDataSet && $contentDataSet->hasActiveValue("Content")) {
+// 			$valueVersion =& $contentDataSet->getActiveValue("Content");
+// 			return $valueVersion->getValue();
+// 		} else
+			return new Blob;
 	}
 
 	/**
@@ -255,29 +255,11 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getEffectiveDate() {
-		$sharedManager =& Services::getService("Shared");
-		$recordMgr =& Services::getService("RecordManager");
-		
-		// Ready our type for comparisson
-		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
-		
-		// Get the content DataSet.
-		$id =& $this->_node->getId();
-		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
-		// fetching as editable since we don't know if it will be edited.
-		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
-		foreach ($dataSets as $key => $dataSet) {
-			if($contentType->isEqual($dataSets[$key]->getType())) {
-				$contentDataSet =& $dataSets[$key];
-				break;
-			}
+		if (!$this->_effectiveDate) {
+			$this->_loadDates();
 		}
 		
-		if ($contentDataSet && $contentDataSet->hasActiveValue("EffectiveDate")) {
-			$valueVersion =& $contentDataSet->getActiveValue("EffectiveDate");
-			return $valueVersion->getValue();
-		} else
-			return new DateTimeDataType;
+		return $this->_effectiveDate;
 	}
 
 	/**
@@ -292,48 +274,14 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function updateEffectiveDate(& $effectiveDate) {
-		ArgumentValidator::validate($effectiveDate, new ExtendsValidatorRule("DateTimeDataType"));
-		$sharedManager =& Services::getService("Shared");
-		$recordMgr =& Services::getService("RecordManager");
+		ArgumentValidator::validate($effectiveDate, new ExtendsValidatorRule("Time"));
 		
-		// Ready our type for comparisson
-		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
-		$id =& $this->_node->getId();
-		
-		// Get the content DataSet.
-		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
-		// fetching as editable since we don't know if it will be edited.
-		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
-		foreach ($dataSets as $key => $dataSet) {
-			if($contentType->isEqual($dataSets[$key]->getType())) {
-				$contentDataSet =& $dataSets[$key];
-				break;
-			}
-		}
-		
-		if (!$contentDataSet) {		
-			// Set up and create our new dataset
-			
-			// Decide if we want to version-control this field.
-			$versionControl = $this->_versionControlAll;
-			if (!$versionControl) {
-				foreach ($this->_versionControlTypes as $key => $val) {
-					if ($contentType->isEqual($this->_versionControlTypes[$key])) {
-						$versionControl = TRUE;
-						break;
-					}
-				}
-			}
-			
-			$contentDataSet =& $recordMgr->newDataSet($contentType, $versionControl);
-			
-			// Add the DataSet to our group
-			$dataSetGroup->addDataSet($contentDataSet);
-		}
-		
-		$contentDataSet->setValue("EffectiveDate", $effectiveDate);
-		
-		$contentDataSet->commit();
+		// Make sure that we have dates from the DB if they exist.
+		$this->getEffectiveDate();
+		// Update our date in preparation for DB updating
+		$this->_effectiveDate->adoptValue($effectiveDate);
+		// Store the dates
+		$this->_storeDates();
 	}
 
 	/**
@@ -348,29 +296,11 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getExpirationDate() {
-		$sharedManager =& Services::getService("Shared");
-		$recordMgr =& Services::getService("RecordManager");
-		
-		// Ready our type for comparisson
-		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
-		
-		// Get the content DataSet.
-		$id =& $this->_node->getId();
-		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
-		// fetching as editable since we don't know if it will be edited.
-		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
-		foreach ($dataSets as $key => $dataSet) {
-			if($contentType->isEqual($dataSets[$key]->getType())) {
-				$contentDataSet =& $dataSets[$key];
-				break;
-			}
+		if (!$this->_expirationDate) {
+			$this->_loadDates();
 		}
 		
-		if ($contentDataSet && $contentDataSet->hasActiveValue("ExpirationDate")) {
-			$valueVersion =& $contentDataSet->getActiveValue("ExpirationDate");
-			return $valueVersion->getValue();
-		} else
-			return new DateTimeDataType;
+		return $this->_expirationDate;
 	}
 
 	/**
@@ -386,43 +316,13 @@ class HarmoniAsset
 	 */
 	function updateExpirationDate(& $expirationDate) {
 		ArgumentValidator::validate($expirationDate, new ExtendsValidatorRule("Time"));
-		$sharedManager =& Services::getService("Shared");
-		$recordMgr =& Services::getService("RecordManager");
 		
-		// Ready our type for comparisson
-		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
-		$id =& $this->_node->getId();
-		
-		// Get the content DataSet.
-		$recordSet =& $recordMgr->fetchRecordSet($id->getIdString());
-		// fetching as editable since we don't know if it will be edited.
-		$recordSet->loadRecords(RECORD_FULL);
-		$tempArray =& $recordSet->getRecordsByType( $contentType );
-		if (count($tempArray)) $contentRecord =& $tempArray[0];
-		
-		if (!$contentRecord) {		
-			// Set up and create our new dataset
-			
-			// Decide if we want to version-control this field.
-			$versionControl = $this->_versionControlAll;
-			if (!$versionControl) {
-				foreach ($this->_versionControlTypes as $key => $val) {
-					if ($contentType->isEqual($this->_versionControlTypes[$key])) {
-						$versionControl = TRUE;
-						break;
-					}
-				}
-			}
-			
-			$contentRecord =& $recordMgr->createRecord($contentType, $versionControl);
-			
-			// Add the DataSet to our group
-			$recordSet->add($contentRecord);
-		}
-		
-		$contentRecord->setValue("ExpirationDate", $expirationDate);
-		
-		$contentRecord->commit();
+		// Make sure that we have dates from the DB if they exist.
+		$this->getExpirationDate();
+		// Update our date in preparation for DB updating
+		$this->_expirationDate->adoptValue($expirationDate);
+		// Store the dates
+		$this->_storeDates();
 	}
 
 	/**
@@ -812,23 +712,24 @@ class HarmoniAsset
 		$id =& $this->getId();
 		$recordMgr =& Services::getService("RecordManager");
 		$sharedManager =& Services::getService("Shared");		
-		
-		$recordSet =& $recordMgr->fetchRecordSet($id->getIdString());
-		// fetching as editable since we don't know if it will be edited.
-		$recordSet->loadRecords();
-		$records =& $recordSet->getRecords();
-
-		// create info records for each dataSet as needed.
 		$infoRecords = array();
-		foreach (array_keys($records) as $key) {
-			$recordIdString = $records[$key]->getID();
-			$recordId =& $sharedManager->getId($recordIdString);
-			$infoRecord =& $this->getInfoRecord($recordId);
-			$structure =& $infoRecord->getInfoStructure();
-			
-			// Add the record to our array
-			if (!$infoStructureId || $infoStructureId->isEqual($structure->getId()))
-				$infoRecords[] =& $infoRecord;
+		
+		if ($recordSet =& $recordMgr->fetchRecordSet($id->getIdString())) {
+			// fetching as editable since we don't know if it will be edited.
+			$recordSet->loadRecords();
+			$records =& $recordSet->getRecords();
+	
+			// create info records for each dataSet as needed.
+			foreach (array_keys($records) as $key) {
+				$recordIdString = $records[$key]->getID();
+				$recordId =& $sharedManager->getId($recordIdString);
+				$infoRecord =& $this->getInfoRecord($recordId);
+				$structure =& $infoRecord->getInfoStructure();
+				
+				// Add the record to our array
+				if (!$infoStructureId || $infoStructureId->isEqual($structure->getId()))
+					$infoRecords[] =& $infoRecord;
+			}
 		}
 		
 		// Create an iterator and return it.
@@ -991,6 +892,74 @@ class HarmoniAsset
 		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
 	}
 
+	/**
+	 * Store the effective and expiration Dates. getEffectiveDate or getExpirationDate
+	 * should be called first to set the datesInDB flag.
+	 * 
+	 * @return void
+	 * @access public
+	 * @date 8/10/04
+	 */
+	function _storeDates () {
+		$dbHandler =& Services::getService("DBHandler");
+		$id =& $this->_node->getId();
+		
+		// If we have stored dates for this asset set them
+		if ($this->_datesInDB) {
+			$query =& new UpdateQuery;
+			$query->setWhere("asset_id='".$id->getIdString()."'");
+		} 
+		
+		// Otherwise, insert Them
+		else {
+			$query =& new InsertQuery;
+		}
+		
+		$columns = array("asset_id", "effective_date", "expiration_date");
+		$values = array($id->getIdString(), $this->_effectiveDate, $this->_expirationDate);
+		$query->setColumns($columns);
+		$query->setValues($values);
+		
+		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+	}
+	
+	/**
+	 * Loads dates from the database and sets the _datesInDB flag
+	 * 
+	 * @return void
+	 * @access public
+	 * @date 8/10/04
+	 */
+	function _loadDates () {
+		$dbHandler =& Services::getService("DBHandler");
+		// Get the content DataSet.
+		$id =& $this->_node->getId();
+		
+		$query =& new SelectQuery;
+		$query->addTable("dr_asset_info");
+		$query->addColumn("effective_date");
+		$query->addColumn("expiration_date");
+		$query->addWhere("asset_id='".$id->getIdString()."'");
+		
+		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		
+		// If we have stored dates for this asset set them
+		if ($result->getNumberOfRows()) {
+			$this->_effectiveDate =& new Time ($result->field("effective_date"));
+			$this->_expirationDate =& new Time ($result->field("expiration_date"));
+			$this->_datesInDB = TRUE;
+		} 
+		
+		// Otherwise, just create some zeroed objects to return
+		else {
+			$this->_effectiveDate =& new Time;
+			$this->_expirationDate =& new Time;
+			$this->_datesInDB = FALSE;
+		}
+	}
+	
+	
+	
 	/**
 	 * Saves this object to persistable storage.
 	 * @access protected

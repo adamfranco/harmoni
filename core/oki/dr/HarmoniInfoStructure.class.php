@@ -85,8 +85,8 @@ class HarmoniInfoStructure extends InfoStructure
 		$array = array();
 		foreach ($this->_schema->getAllLabels() as $label) {
 			$fieldDef =& $this->_schema->getField($label);
-			if (!$this->_createdInfoParts[$fieldDef->getID()])
-				 $this->_createdInfoParts[$fieldDef->getID()] =& new HarmoniInfoPart($this, $fieldDef);
+			if (!$this->_createdInfoParts[$this->_schema->getFieldID($label)])
+				 $this->_createdInfoParts[$this->_schema->getFieldID($label)] =& new HarmoniInfoPart($this, $fieldDef);
 		}
 		
 		return new HarmoniInfoPartIterator($this->_createdInfoParts);
