@@ -1,6 +1,6 @@
 <?
 
-require_once(OKI2."/osid/hierarchy/HierachyManager.php");
+require_once(OKI2."/osid/hierarchy/HierarchyManager.php");
 
 require_once(HARMONI."oki2/hierarchy/HarmoniHierarchy.class.php");
 require_once(HARMONI."oki2/hierarchy/HarmoniHierarchyIterator.class.php");
@@ -41,7 +41,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.3 2005/01/17 21:07:06 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.4 2005/01/17 21:34:48 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
