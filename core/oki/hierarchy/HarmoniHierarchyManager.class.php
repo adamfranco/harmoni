@@ -9,6 +9,9 @@ require_once(HARMONI."oki/hierarchy/HarmoniTraversalInfoIterator.class.php");
 
 require_once(HARMONI."oki/hierarchy/MemoryOnlyHierarchyStore.class.php");
 
+define("SQL_DATABASE", 1000);
+define("MEMORY_ONLY", 1001);
+
 /**
  * All implementors of OsidManager provide create, delete, and get methods for
  * the various objects defined in the package.  Most managers also include
@@ -26,7 +29,7 @@ require_once(HARMONI."oki/hierarchy/MemoryOnlyHierarchyStore.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.8 $ / $Date: 2003/10/14 14:23:06 $
+ * @version $Revision: 1.9 $ / $Date: 2003/10/15 15:18:58 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -37,37 +40,48 @@ class HarmoniHierarchyManager
 
 
 	/**
-	 * @var array $_hierarchies An array of Hierarchies.
+	 * @var object HierarchyManagerStore $_managerStore A save/load handler for the hierarchies
+	 *			Hierarchies in this manager.
 	 */
-	var $_hierachies = array ();
+	var $_managerStore = NULL;
+	
+	/**
+	 * @var array $_configuration An array of configurations for this manager. Holds where to
+	 * 			locate hierarchies referenced by the manager.
+	 */
+	var $_configuration = NULL;
 	
 	/**
 	 * Constructor
-	 * @param array $hierarchies An array of the hierarchies to add to the
+	 * @param array $configuration	An array of the configuration options nessisary to load
+	 * 								this manager. To use the a specific manager store, a
+	 *								store data source must be configured as noted in the class
+	 * 								of said manager store.
 	 * manager.
 	 * @access public
 	 */
-	function HarmoniHierarchyManager () {
-		
-	 }
-
-	/**
-	 * Add a hierarchy by id
-	 * @param object Id $id The id of this dr.
-	 * @access private
-	 */
-	function & _addHierarchy(& $hierarchy) {
-		// Check the arguments
-		ArgumentValidator::validate($hierarchy, new ExtendsValidatorRule("Hierarchy"));
-		
-		// Make sure the hierarchy is loaded
-		$hierarchy->load();
+	function HarmoniHierarchyManager ($configuration = NULL) {
+		if ($configuration == NULL) {
+			// create a store that isn't saved
+			$this->_managerStore =& new MemoryOnlyHierarchyManagerStore(); 
+		} else {
+			if ($configuration[type] == SQL_DATABASE) {
+				$database = $configuration[database_index];
 				
-		// Add it to our array
-		$this->hierarchies[$hierarchy->getId()] =& $hierarchy;
+				// create the store
+				$this->_managerStore =& new SQLDatabaseHierarchyManagerStore($database); 
+				
+			} else if ($configuration[type] == MEMORY_ONLY) {
+				$this->_managerStore =& new MemoryOnlyHierarchyManagerStore();
+				
+			} else {
+				throwError(new Error("Unknown Manager Store Type: ".$configuration[type], "Hierarchy", 1));
+			}
+		}
 		
-		// Save this Manager to persistable storage
-		$this->save();
+		$this->_configuration = $configuration;
+		
+		$this->load();
 	}
 
 	/**
@@ -106,12 +120,11 @@ class HarmoniHierarchyManager
 		$this->load();
 		
 		// Create a HierarchyStore based on the given configuration.
-		// @todo fill this bit in.
+		$hierarchyStore =& $this->_managerStore->createHierarchyStore();
 
-		// Create a new hierarchy and add it to the manager array;
+		// Create a new hierarchy and add it to the managerStore;
 		$hierarchy =& new HarmoniHierarchy($description, $name, $nodeTypes, $hierarchyStore);
-		$hierarchy->save();
-		$this->_hierarchies[] =& $hierarchy;
+		$this->_managerStore->addHierarchy($hierarchy);
 		
 		// Save this Manager to persistable storage
 		$this->save();
@@ -164,10 +177,11 @@ class HarmoniHierarchyManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getHierarchies() {
-		foreach ($this->_hierarchies as $key => $val) {
-			$this->_hierarchies[$key]->load();
+		$hierarchies =& $this->_managerStore->getHierarchyArray();
+		foreach ($hierarchies as $key => $val) {
+			$hierarchies[$key]->load();
 		}
-		$hierarchyIterator =& new HarmoniHierarchyIterator($this->_hierarchies);
+		$hierarchyIterator =& new HarmoniHierarchyIterator($hierarchies);
 		return $hierarchyIterator;
 	}
 
@@ -189,5 +203,21 @@ class HarmoniHierarchyManager
 	function deleteHierarchy(& $hierarchyId) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
+
+	/**
+	 * Saves this object to persistable storage.
+	 * @access protected
+	 */
+	function save () {
+		$this->_managerStore->save();
+	}
+	 
+	/**
+	 * Loads this object from persistable storage.
+	 * @access protected
+	 */
+	function load () {
+		$this->_managerStore->load();
+	}	
 
 } // end HierarchyManager

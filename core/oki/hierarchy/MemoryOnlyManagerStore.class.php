@@ -1,5 +1,7 @@
 <?php
 
+require_once(HARMONI.'/oki/hierarchy/HierarchyManagerStore.interface.php');
+
 /******************************************************************************
  * A storage class for HierarchyManager[s]. This class provides saving and loading
  * of the HierarchyManager from persistable storage.
@@ -8,15 +10,21 @@
  ******************************************************************************/
 
 
-class HierarchyManagerStore
+class MemoryOnlyManagerStore
+	extends HierarchyManagerStore
 {
+	
+	/**
+	 * @var array $_hierarchies The hierarchies known to this manager.
+	 */
+	var $_hierarchies = array();
 
 	/**
 	 * Adds a hierachy to this managerStore.
 	 * @param object HarmoniHierarchy $hierarchy The Hierarchy to add.
 	 */
 	function addHierarchy (& $hierarchy) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		$this->hierarchies[] =& $hierarchy;
 	}
 	
 	/**
@@ -24,7 +32,17 @@ class HierarchyManagerStore
 	 * @return array The array of hierarchies.
 	 */
 	function getHierarchyArray () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		return $this->_hierarchies;
+	}
+
+	/**
+	 * Creates a new hierarchy store that will work in this manager's location.
+	 * @return object HierarchyStore A HierarchyStore that will work in this manager's 
+	 *				location.
+	 */
+	function createHierarchyStore () {
+		$hierarchyStore =& new MemoryOnlyHierarchyStore;
+		return $hierarchyStore;
 	}
 
 	/**
@@ -32,7 +50,7 @@ class HierarchyManagerStore
 	 * @access protected
 	 */
 	function load () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		// Do nothing as this store isn't saved
 	}
 	
 	/**
@@ -40,7 +58,7 @@ class HierarchyManagerStore
 	 * @access protected
 	 */
 	function save () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		// Do nothing as this store isn't saved
 	}
 
 }
