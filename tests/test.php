@@ -4,7 +4,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.5 2003/06/26 02:27:19 dobomode Exp $
+ * @version $Id: test.php,v 1.6 2003/06/26 19:19:48 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -19,6 +19,7 @@ require_once(HARMONI."errorHandler/ErrorHandler.class.php");
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
     $test =& new GroupTest('Global Test: All Tests');
+    $test->addTestFile(HARMONI.'authenticationHandler/tests/test.php');
     $test->addTestFile(HARMONI.'services/tests/test.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/test.php');
 //    $test->addTestFile(HARMONI.'errorHandler/tests/test.php');

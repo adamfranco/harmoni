@@ -1,18 +1,20 @@
 <?php
 
+require_once(HARMONI."services/Service.interface.php");
+
 /**
  * The AuthenticationHandlerInterface defines the functionallity that all extending classes should have.
  * The AuthenticationHandlerInterface defines the functionallity that all extending classes should have.
  * An implementing class should reference one or several AuthenticationMethod objects and use them
  * to authenticate an agent.
- * @version $Id: AuthenticationHandler.interface.php,v 1.6 2003/06/26 17:29:47 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.interface.php,v 1.7 2003/06/26 19:19:47 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @see AuthenticationMethod
  * @package harmoni.authenticationHandler
  **/
 
-class AuthenticationHandlerInterface {
+class AuthenticationHandlerInterface extends ServiceInterface {
 	/**
 	 * Attempts to validate the given credentials.
 	 * Attempts to validate the given credentials using the method specified
