@@ -45,7 +45,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.12 2005/02/15 20:26:55 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.13 2005/02/16 15:16:56 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -1406,7 +1406,7 @@ class HarmoniAgentManager
 		
 		// Only specify that we are fully cached if we didn't limit the
 		// results
-		if ($where === NULL)
+		if ($where === NULL && $fromGroup === NULL)
 			$this->_allAgentsCached = true;
 		
 		return $foundIds;
