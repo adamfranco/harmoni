@@ -1,6 +1,6 @@
 <?
 
-require_once(OKI."/hierarchy/hierarchyApi.interface.php");
+require_once(OKI."/hierarchy.interface.php");
 
 /**
  * TraversalInfoIterator returns a set, one at a time.  The purpose of all
@@ -18,7 +18,7 @@ require_once(OKI."/hierarchy/hierarchyApi.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.3 $ / $Date: 2003/10/10 13:56:26 $
+ * @version $Revision: 1.4 $ / $Date: 2003/10/23 20:29:28 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

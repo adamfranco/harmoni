@@ -1,6 +1,6 @@
 <?
 
-require_once(OKI."/hierarchy/hierarchyApi.interface.php");
+require_once(OKI."/hierarchy.interface.php");
 
 /**
  * A TraversalInfo contains a Node unique Id, a Node displayName, and a Node
@@ -18,7 +18,7 @@ require_once(OKI."/hierarchy/hierarchyApi.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.1 $ / $Date: 2003/10/10 13:56:26 $
+ * @version $Revision: 1.2 $ / $Date: 2003/10/23 20:29:28 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

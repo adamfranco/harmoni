@@ -1,6 +1,6 @@
 <?
 
-require_once(OKI."/hierarchy/hierarchyApi.interface.php");
+require_once(OKI."/hierarchy.interface.php");
 
 /**
  * A Node is a Hierarchy's representation of an external object that is one of
@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy/hierarchyApi.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.6 $ / $Date: 2003/10/13 14:53:16 $
+ * @version $Revision: 1.7 $ / $Date: 2003/10/23 20:29:28 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

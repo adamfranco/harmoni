@@ -9,7 +9,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.9 2003/10/17 15:51:19 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.10 2003/10/23 20:29:34 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -287,7 +287,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 			$hierarchy =& $this->hierarchy;
 //			print_r($hierarchy);
 			
-			$travInfoIterator =& $hierarchy->traverse($this->branchNodeLevel0Id, TRAVERSE_MODE_DEPTH_FIRST, TRAVERSE_DIRECTION_DOWN, TRAVERSE_LEVELS_INFINITE);
+			$travInfoIterator =& $hierarchy->traverse($this->branchNodeLevel0Id, TRAVERSE_MODE_DEPTH_FIRST, TRAVERSE_DIRECTION_DOWN, TRAVERSE_LEVELS_ALL);
 //			print_r($travInfoIterator);
 			
 			$count = 0;
@@ -323,7 +323,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 			$this->assertEqual(1, $resultInfo->getLevel());
 			
 			// try from a branch
-			$travInfoIterator =& $hierarchy->traverse($this->branchNodeLevel1Id, TRAVERSE_MODE_DEPTH_FIRST, TRAVERSE_DIRECTION_DOWN, TRAVERSE_LEVELS_INFINITE);
+			$travInfoIterator =& $hierarchy->traverse($this->branchNodeLevel1Id, TRAVERSE_MODE_DEPTH_FIRST, TRAVERSE_DIRECTION_DOWN, TRAVERSE_LEVELS_ALL);
 //			print_r($travInfoIterator);
 			
 			$count = 0;
@@ -385,7 +385,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 		}
 		
 		function test_get_node_types () {
-			print_r($this->hierarchy);
+//			print_r($this->hierarchy);
 			$hierarchy =& $this->hierarchy;
 			
 			$nodeTypeIterator =& $hierarchy->getNodeTypes();

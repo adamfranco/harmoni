@@ -1,5 +1,6 @@
 <?php
 
+require_once(OKI."/osid.interface.php");
 
 	/**
 	 * All implementors of OsidManager provide create, delete, and get methods for the various objects defined in the package.  Most managers also include methods for returning Types.  We use create methods in place of the new operator.  Create method implementations should both instantiate and persist objects.  The reason we avoid the new operator is that it makes the name of the implementing package explicit and requires a source code change in order to use a different package name. In combination with OsidLoader, applications developed using managers permit implementation substitution without source code changes.
@@ -111,6 +112,8 @@ class Hierarchy // :: API interface
 	 */
 	function & createRootNode(& $nodeId, & $nodeType, $displayName, $description) { /* :: interface :: */ }
 	// :: full java declaration :: Node createRootNode
+	
+	/**
 	 * Create a Node. The Node is created with the specified Unique Id and initially has only the one specified parent.
 	 * @param nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
 	 * @param parentId The Unique Id to be associated with the parent of this new Node; Unique Id cannot be null.
@@ -123,6 +126,8 @@ class Hierarchy // :: API interface
 	 */
 	function & createNode(& $nodeId, & $parentId, & $type, $displayName, $description) { /* :: interface :: */ }
 	// :: full java declaration :: Node createNode
+	
+	/**
 	 * Delete a Node by Id.  Only leaf Nodes can be deleted.
 	 * @param nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#INCONSISTENT_STATE INCONSISTENT_STATE}
@@ -239,13 +244,16 @@ class Hierarchy // :: API interface
 	 * @param startId the Unique Id of the node from which traversal should start.
 	 * @param mode Mode must be either TRAVERSE_MODE_DEPTH_FIRST or TRAVERSE_MODE_BREADTH_FIRST, indicating either depth-first or breadth-first traversal, respectively
 	 * @param direction Direction must be either TRAVERSE_DIRECTION_UP or TRAVERSE_DIRECTION_DOWN, indicating the whether the traversal should proceed up the parents or down the children.
-	 * @param levels The number of levels to traverse.  If this value is $lt; 0 (or TRAVERSE_LEVELS_INFINITE, which equals -1), the traversal will proceed to the end of the Hierarchy or until a circular reference returns to a Node already traversed.
+	 * @param levels The number of levels to traverse.  If this value is $lt; 0 (or TRAVERSE_LEVELS_ALL, which equals -1), the traversal will proceed to the end of the Hierarchy or until a circular reference returns to a Node already traversed.
 	 * @return TraversalInfoIterator where each TraversalInfo object contains information about the Node traversed in the order they were encountered.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#UNKNOWN_TRAVERSAL_MODE UNKNOWN_TRAVERSAL_MODE}, {@link HierarchyException#UNKNOWN_TRAVERSAL_DIRECTION UNKNOWN_TRAVERSAL_DIRECTION}
 	 * @package osid.hierarchy
 	 */
 	function & traverse(& $startId, $mode, $direction, $levels) { /* :: interface :: */ }
 	// :: full java declaration :: TraversalInfoIterator traverse
+
+}
+
 
 	/**
 	 * A TraversalInfo contains a Node Unique Id, a Node displayName, and a Node Level.  The level of the Node represented by the node Unique Id is in relation to the startId of the Hierarchy traverse method call. Children Nodes are represented by positive levels, parent Nodes by negative levels.  For example, a traverse of a Hierarchy has level -1 for parents of the Node represented by startId, and a level -2 for grandparents.  Similarly, the children of the Node would have level 1, and grandchildren would have level 2.
@@ -286,31 +294,31 @@ class TraversalInfo // :: API interface
  * @const int TRAVERSE_MODE_DEPTH_FIRST public static final int TRAVERSE_MODE_DEPTH_FIRST = 0xdf;
  * @package osid.hierarchy
  */
-define("TRAVERSE_MODE_DEPTH_FIRST", 0xdf;);
+define("TRAVERSE_MODE_DEPTH_FIRST", 0xdf);
 
 /**
  * @const int TRAVERSE_MODE_BREADTH_FIRST public static final int TRAVERSE_MODE_BREADTH_FIRST = 0xbf;
  * @package osid.hierarchy
  */
-define("TRAVERSE_MODE_BREADTH_FIRST", 0xbf;);
+define("TRAVERSE_MODE_BREADTH_FIRST", 0xbf);
 
 /**
  * @const int TRAVERSE_DIRECTION_UP public static final int TRAVERSE_DIRECTION_UP = 0x01;
  * @package osid.hierarchy
  */
-define("TRAVERSE_DIRECTION_UP", 0x01;);
+define("TRAVERSE_DIRECTION_UP", 0x01);
 
 /**
  * @const int TRAVERSE_DIRECTION_DOWN public static final int TRAVERSE_DIRECTION_DOWN = 0x02;
  * @package osid.hierarchy
  */
-define("TRAVERSE_DIRECTION_DOWN", 0x02;);
+define("TRAVERSE_DIRECTION_DOWN", 0x02);
 
 /**
  * @const int TRAVERSE_LEVELS_ALL public static final int TRAVERSE_LEVELS_ALL = -1;
  * @package osid.hierarchy
  */
-define("TRAVERSE_LEVELS_ALL", -1;);
+define("TRAVERSE_LEVELS_ALL", -1);
 
 
 	/**

@@ -61,6 +61,8 @@ class OsidManager // :: API interface
 	 */
 	function osidVersion_1_0() { /* :: interface :: */ }
 	// :: full java declaration :: void osidVersion_1_0
+}
+
 
 	/**
 	 * Operations involved with these methods have the following characteristics:<p> either the entire set of actions occurs or nothing happens;<p>actions occurring within a transaction are hidden from other concurrent transactions; and<p>successfully committed transactions result in a consistent persisted data store.<p>mark() identifies a point in processing.  After mark(), at any point up until commit() is called, a call to rollback() causes all processing after mark() to be ignored.  The system is the same state it was at the time mark() was called.  If instead commit() is called after mark(), all processing since mark() was called is made permanent.  Once committed, these actions cannot be rolled back.
@@ -112,6 +114,8 @@ class OsidRomiManager // :: API interface
 	 */
 	function & invoke(& $object, $methodname, & $argTypes, & $args) { /* :: interface :: */ }
 	// :: full java declaration :: public java.io.Serializable invoke
+}
+
 
 	/**
 	<p>OsidOwner is the holder of contextual information for the application and the OSID implementations. The OSIDs are designed to work and not interfere with frameworks. That is why OSIDs, with a few exceptions, are interfaces and not classes. If OSIDs were Java(TM) classes, it would be very difficult for them to work with frameworks because of Java(TM)'s inability to define classes that extend more than one class. Since there is no framework for the OSIDs, it is necessary to create a mechanism to pass around contextual information. <p> The OsidOwner class has the ability to hold and retrieve context. The only requirement for the context is that it is serializable. There are OsidOwner methods to add and remove context. OsidOwner uses an unambiguous String as a key to store the serializable context information. To retrieve the contextual information from the OsidOwner the getContext method is called with the key. This approach ignores the details of particular context instances, but does not substitute for encrypting data or other security measures. <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
@@ -158,7 +162,7 @@ class OsidOwner // :: normal class
  * @const object contextInfo private final java.util.Hashtable contextInfo = new java.util.Hashtable()
  * @package osid
  */
-define("contextInfo", new java.util.Hashtable());
+//define("contextInfo", new java.util.Hashtable());
 
 
 	/**

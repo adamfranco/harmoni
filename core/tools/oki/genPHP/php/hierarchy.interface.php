@@ -239,7 +239,7 @@ class Hierarchy // :: API interface
 	 * @param startId the Unique Id of the node from which traversal should start.
 	 * @param mode Mode must be either TRAVERSE_MODE_DEPTH_FIRST or TRAVERSE_MODE_BREADTH_FIRST, indicating either depth-first or breadth-first traversal, respectively
 	 * @param direction Direction must be either TRAVERSE_DIRECTION_UP or TRAVERSE_DIRECTION_DOWN, indicating the whether the traversal should proceed up the parents or down the children.
-	 * @param levels The number of levels to traverse.  If this value is $lt; 0 (or TRAVERSE_LEVELS_INFINITE, which equals -1), the traversal will proceed to the end of the Hierarchy or until a circular reference returns to a Node already traversed.
+	 * @param levels The number of levels to traverse.  If this value is $lt; 0 (or TRAVERSE_LEVELS_ALL, which equals -1), the traversal will proceed to the end of the Hierarchy or until a circular reference returns to a Node already traversed.
 	 * @return TraversalInfoIterator where each TraversalInfo object contains information about the Node traversed in the order they were encountered.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#UNKNOWN_TRAVERSAL_MODE UNKNOWN_TRAVERSAL_MODE}, {@link HierarchyException#UNKNOWN_TRAVERSAL_DIRECTION UNKNOWN_TRAVERSAL_DIRECTION}
 	 * @package osid.hierarchy

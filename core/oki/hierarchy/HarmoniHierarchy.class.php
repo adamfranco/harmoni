@@ -1,6 +1,6 @@
 <?
 
-require_once(OKI."/hierarchy/hierarchyApi.interface.php");
+require_once(OKI."/hierarchy.interface.php");
 require_once(HARMONI.'/oki/hierarchy/Tree.php');
 require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchyStore.class.php');
 require_once(HARMONI.'/oki/hierarchy/HarmoniNode.class.php');
@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.17 $ / $Date: 2003/10/15 19:20:17 $
+ * @version $Revision: 1.18 $ / $Date: 2003/10/23 20:29:28 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -485,7 +485,7 @@ class HarmoniHierarchy
 	 *		  TRAVERSE_DIRECTION_DOWN, indicating the whether the traversal
 	 *		  should proceed up the parents or down the children.
 	 * @param int levels the number of levels to traverse.  If this value is
-	 *		  &lt; 0 (or TRAVERSE_LEVELS_INFINITE, which equals -1), the
+	 *		  &lt; 0 (or TRAVERSE_LEVELS_ALL, which equals -1), the
 	 *		  traversal will proceed to the end of the Hierarchy or until a
 	 *		  circular reference returns to a Node already traversed.
 	 *
@@ -535,7 +535,7 @@ class HarmoniHierarchy
 
 		if ($direction == TRAVERSE_DIRECTION_DOWN) {	// Direction: down
 			if ($mode == TRAVERSE_MODE_DEPTH_FIRST) {	// Mode: depth first
-				if ($levels < 0 || $levels == TRAVERSE_LEVELS_INFINITE)
+				if ($levels < 0 || $levels == TRAVERSE_LEVELS_ALL)
 					$treeLevels = NULL;
 				else
 					$treeLevels = $levels + 1;

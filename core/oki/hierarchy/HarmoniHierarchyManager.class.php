@@ -1,6 +1,6 @@
 <?
 
-require_once(OKI."/hierarchy/hierarchyApi.interface.php");
+require_once(OKI."/hierarchy.interface.php");
 
 require_once(HARMONI."oki/hierarchy/HarmoniHierarchy.class.php");
 require_once(HARMONI."oki/hierarchy/HarmoniHierarchyIterator.class.php");
@@ -29,7 +29,7 @@ define("MEMORY_ONLY", 1001);
  * 
  * <p></p>
  *
- * @version $Revision: 1.11 $ / $Date: 2003/10/15 21:07:52 $
+ * @version $Revision: 1.12 $ / $Date: 2003/10/23 20:29:28 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
