@@ -1,4 +1,3 @@
-
 <?php
 
 require_once(HARMONI . 'DBHandler/PostGre/PostGreDatabase.class.php');
@@ -8,7 +7,7 @@ require_once(HARMONI . 'DBHandler/PostGre/PostGreDatabase.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  * 
- * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.2 2005/01/19 16:31:31 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.3 2005/01/27 19:26:29 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003
  */

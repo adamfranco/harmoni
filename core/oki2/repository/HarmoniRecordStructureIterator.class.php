@@ -1,7 +1,8 @@
-
 <?
+
 require_once(OKI2."/osid/repository/RecordStructureIterator.php");
 require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
+
 /**
  * RecordStructureIterator provides access to these objects sequentially, one
  * at a time.  The purpose of all Iterators is to to offer a way for OSID
@@ -21,7 +22,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructureIterator.class.php,v 1.6 2005/01/27 15:45:39 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructureIterator.class.php,v 1.7 2005/01/27 19:27:28 adamfranco Exp $ 
  */
 
 
