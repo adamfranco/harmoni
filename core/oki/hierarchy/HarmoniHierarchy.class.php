@@ -23,7 +23,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.1 $ / $Date: 2003/10/10 17:32:22 $
+ * @version $Revision: 1.14 $ / $Date: 2003/10/10 17:57:16 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

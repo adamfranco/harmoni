@@ -2,6 +2,7 @@
 
 require_once(HARMONI.'/oki/hierarchy/HarmoniHierarchy.abstract.php');
 
+$dbc =& Services::requireService("DBHandler","DBHandler");
 
 /**
  * A Hierarchy is a structure comprised of nodes arranged in root, parent, and
@@ -16,7 +17,7 @@ require_once(HARMONI.'/oki/hierarchy/HarmoniHierarchy.abstract.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.1 $ / $Date: 2003/10/10 17:31:24 $
+ * @version $Revision: 1.2 $ / $Date: 2003/10/10 17:57:16 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
