@@ -5,7 +5,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.10 2004/01/09 22:40:59 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.11 2004/01/14 20:09:42 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -221,10 +221,18 @@ class DateTime {
 		$this->_seconds = $seconds;
 	}
 	
+	/**
+	 * Returns a string in the form of MM/DD/YY
+	 * @return string
+	 */
 	function toMDY() {
 		return $this->getMonth()."/".$this->getDay()."/".substr($this->getYear(),2,2);
-	}	
+	}
 	
+	/**
+	 * Returns a string in the form of April 20, 2002 10:14 AM
+	 * @return string
+	 */
 	function toString() {
 		$months = array("January","February","March","April","May","June","July","August","September","October","November","December");
 		$hours = $this->getHours();
@@ -236,10 +244,23 @@ class DateTime {
 			$hours . ":" . sprintf("%02d",($this->getMinutes())) . " " . $this->getHoursAMPM();
 	}
 	
+	/** 
+	 * Returns either "AM" or "PM" based on the hours value.
+	 * @return string
+	 */
 	function getHoursAMPM() {
 		$hour = $this->getHours();
 		if (($hour >= 0 && $hour < 12)) return "AM";
 		return "PM";
+	}
+	
+	/**
+	 * Returns a unix timestamp from this date/time
+	 * @return int
+	 */
+	function toTimestamp() {
+		return mktime($this->_hours, $this->_minutes, $this->_seconds,
+				$this->_month, $this->_day, $this->_year);
 	}
 	
 	/**
@@ -267,10 +288,8 @@ class DateTime {
 	 * @return int
 	 */
 	function compare(&$date1, &$date2) {
-		$time1 = mktime($date1->_hours, $date1->_minutes, $date1->_seconds, $date1->_month,
-					$date1->_day, $date1->_year);
-		$time2 = mktime($date2->_hours, $date2->_minutes, $date2->_seconds, $date2->_month,
-					$date2->_day, $date2->_year);
+		$time1 = $date1->toTimestamp();
+		$time2 = $date2->toTimestamp();
 		
 		return $time2 - $time1;
 	}

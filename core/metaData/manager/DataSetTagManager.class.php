@@ -7,7 +7,7 @@ require_once HARMONI."metaData/manager/DataSetTag.class.php";
 * more detailed explanation of the role of tags.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSetTagManager.class.php,v 1.11 2004/01/11 04:15:47 gabeschine Exp $
+* @version $Id: DataSetTagManager.class.php,v 1.12 2004/01/14 20:09:42 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class DataSetTagManager extends ServiceInterface {
@@ -121,6 +121,32 @@ class DataSetTagManager extends ServiceInterface {
 		$query =& new DeleteQuery;
 		$query->setTable("dataset_tag_map");
 		$query->setWhere(implode(" OR ",$ids));
+		
+		$dbHandler->query($query, $this->_dbID);
+	}
+	
+	/**
+	 * Removes specific tag from the database.
+	 * @param ref object $tag A {@link DataSetTag} object.
+	 * @return void
+	 */
+	function pruneTag(&$tag) {
+		$id = $tag->getID();
+		
+		$dbHandler=& Services::getService("DBHandler");
+		
+		// first get rid of all our mappings
+		$query =& new DeleteQuery;
+		$query->setTable("dataset_tag_map");
+		$query->setWhere("fk_dataset=$id");
+		
+		$dbHandler->query($query, $this->_dbID);
+		
+		// now get rid of the tag
+		unset($query);
+		$query =& new DeleteQuery;
+		$query->setTable("dataset_tag");
+		$query->setWhere("dataset_tag_id=$id");
 		
 		$dbHandler->query($query, $this->_dbID);
 	}

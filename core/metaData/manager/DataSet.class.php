@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.22 2004/01/11 04:15:47 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.23 2004/01/14 20:09:42 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -204,12 +204,13 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.22 2004/01/11 04:15:47 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.23 2004/01/14 20:09:42 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {
 	
 	var $_prune;
+	var $_versionConstraint;
 	
 	function FullDataSet(&$idManager, $dbID, &$dataSetTypeDef, $verControl=false ) {
 		parent::CompactDataSet($idManager, $dbID, $dataSetTypeDef, $verControl);
@@ -306,19 +307,31 @@ class FullDataSet extends CompactDataSet {
 			return false;
 		}
 		
+		// if the DataSetManager has a version constraint set, we should have it prune all our Tags
+		// real quick
+		$dataSetMgr =& Services::getService("DataSetManager");
+		if ($constraint =& $dataSetMgr->getGlobalVersionConstraint()) {
+			$constraint->checkDataSetTags($this);
+		}
+		
 		// now let's cycle through our FieldValues and commit them
 		foreach ($this->_dataSetTypeDef->getAllLabels() as $label) {
 			$this->_fields[$label]->commit();
 		}
 
 		if ($this->_prune) {
-			// now, remove any tags from the DB that have to do with us, since they will no longer
-			// be valid.
-			$tagMgr =& Services::getService("DataSetTagManager");
-			$tagMgr->pruneTags($this);
+			$constraint =& $this->_prune;
 			
-			// if we are inActive, delete ourselves
-			if (!$this->isActive) {
+			// check if we have to delete any dataset tags based on our constraints
+			$constraint->checkDataSetTags($this);
+			
+			// if we are no good any more, delete ourselves completely
+			if (!$constraint->checkDataSet($this)) {
+				// now, remove any tags from the DB that have to do with us, since they will no longer
+				// be valid.
+				$tagMgr =& Services::getService("DataSetTagManager");
+				$tagMgr->pruneTags($this);
+				
 				$query =& new DeleteQuery();
 				$query->setTable("dataset");
 				$query->setWhere("dataset_id=".$this->getID());
@@ -370,15 +383,16 @@ class FullDataSet extends CompactDataSet {
 	
 	/**
 	* Goes through all the old versions of values and actually DELETES them from the database.
+	* @param ref object $versionConstraint A {@link VersionConstraint) on which to base our pruning.
 	* @return void
 	*/
-	function prune() {
+	function prune(&$versionConstraint) {
+		$this->_prune =& $versionConstraint;
+		
 		// just step through each FieldValues object and call prune()
 		foreach ($this->_dataSetTypeDef->getAllLabels(true) as $label) {
-			$this->_fields[$label]->prune();
+			$this->_fields[$label]->prune($versionConstraint);
 		}
-		
-		$this->_prune = true;
 	}
 	
 	/**

@@ -6,7 +6,7 @@ require_once HARMONI."metaData/manager/ValueVersions.classes.php";
  * Holds a number of indexes for values within a specific field within a DataSet. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: FieldValues.class.php,v 1.13 2004/01/09 04:21:21 gabeschine Exp $
+ * @version $Id: FieldValues.class.php,v 1.14 2004/01/14 20:09:42 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -21,7 +21,6 @@ class FieldValues {
 	var $_myLabel;
 	
 	function FieldValues( &$fieldDefinition, &$parent, $label ) {
-//		ArgumentValidator::validate($values, new ArrayValidatorRule());
 		$this->_numValues = 0;
 		
 		$this->_myLabel = $label;
@@ -83,13 +82,14 @@ class FieldValues {
 	
 	/**
 	* Goes through all the old versions of values and actually DELETES them from the database.
+	* @param ref object $versionConstraint A {@link VersionConstraint) on which to base our pruning.
 	* @return void
 	*/
-	function prune() {
+	function prune($versionConstraint) {
 		if ($this->_parent->readOnly()) return;
 		// just step through each ValueVersions object and call prune()
 		for ($i=0, $j=0; $i<$this->numValues(); $i++) {
-			$this->_values[$i]->prune();
+			$this->_values[$i]->prune($versionConstraint);
 			
 			// now, if we are pruning and we will completely remove an index within this field,
 			// we need to re-index the fields and make sure they update.

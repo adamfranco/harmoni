@@ -3,6 +3,11 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.1.0" date="Not Released">
+		<new author='gabe'>
+			DataManager: can now fetch from a list of DataSet IDs only those that match certain search
+			criteria, or can use DataSetManager::selectIDsBySearch() to search all/some DataSets and return
+			a list of DataSets that match the criteria (same as former, just doesn't fetch the data).
+		</new>
 		<change author='gabe'>
 			DataManager: ValueVersion::prune() now deletes itself if the DataSet it is part of is inactive.
 		</change>

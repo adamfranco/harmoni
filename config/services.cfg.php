@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.16 2004/01/07 22:49:05 gabeschine Exp $
+* @version $Id: services.cfg.php,v 1.17 2004/01/14 20:09:42 gabeschine Exp $
 * @copyright 2003
 **/
 
@@ -28,6 +28,7 @@ if (!defined("LOAD_DEBUG")) 				define("LOAD_DEBUG", true);
 
 // functionality affected: HarmoniDataManager, sub-services: DataSetTypeManager, DataTypeManager,
 // 		DataSetManager
+// requires: IDManager
 if (!defined("LOAD_DATAMANAGER")) 			define("LOAD_DATAMANAGER", true);
 
 // functionality affected: almost everything but basic services: Harmoni architecture, LoginHandler,
@@ -38,7 +39,7 @@ if (!defined("LOAD_ARCHITECTURE")) 			define("LOAD_ARCHITECTURE", true);
 if (!defined("LOAD_DBC")) 					define("LOAD_DBC", true);
 
 // functionality affected: Hiearchy, Digital Repository.
-if (!defined("LOAD_HIERARCHY")) 				define("LOAD_HIERARCHY", true);
+if (!defined("LOAD_HIERARCHY")) 			define("LOAD_HIERARCHY", true);
 
 /**
 * USER DEFINED SERVICES

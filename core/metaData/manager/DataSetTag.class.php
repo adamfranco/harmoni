@@ -7,7 +7,7 @@
 * all the versions that were active at any given time.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSetTag.class.php,v 1.5 2004/01/07 21:20:19 gabeschine Exp $
+* @version $Id: DataSetTag.class.php,v 1.6 2004/01/14 20:09:42 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class DataSetTag {
@@ -85,6 +85,12 @@ class DataSetTag {
 	 * @access public
 	 */
 	function getDataSetID() { return $this->_myDataSet; }
+	
+	/**
+	 * Returns our ID.
+	 * @return int
+	 */
+	function getID() { return $this->_myID; }
 	
 	/**
 	 * Loads the tag mapping data from the database, if it hasn't done so already.

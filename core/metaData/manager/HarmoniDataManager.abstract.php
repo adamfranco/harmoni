@@ -13,7 +13,7 @@ require_once(HARMONI."metaData/manager/search/include.php");
  * The HarmoniDataManager class is used purely to setup the services required to use the
  * other DataManager classes such as the {@link DataSetTypeManager} or the {@link DataSetManager}.
  * @package harmoni.datamanager
- * @version $Id: HarmoniDataManager.abstract.php,v 1.10 2004/01/14 03:21:25 gabeschine Exp $
+ * @version $Id: HarmoniDataManager.abstract.php,v 1.11 2004/01/14 20:09:42 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -28,16 +28,15 @@ class HarmoniDataManager {
 	 * @return void
 	 * @access public
 	 * @param int $dbID The DB index from the {@link DBHandler} that we should use to look for our data.
-	 * @param optional object $preloadTypes A {@link HarmoniTypeIterator} containing a number of {@link HarmoniType}s
 	 * corresponding to DataSetTypes that should be pre-loaded in one DB query.
 	 * @abstract
 	 */
-	function setup( $dbID, $preloadTypes = null ) {
+	function setup( $dbID ) {
 		
 		// let's setup all our services
 		
 		// first, make sure they're all stopped and unregistered.
-		$services = array("DataTypeManager","DataSetTypeManager","DataSetManager","IDManager");
+		$services = array("DataTypeManager","DataSetTypeManager","DataSetManager","IDManager","DataSetTagManager");
 		foreach ($services as $service) {
 			if (Services::serviceAvailable($service)) {
 				if (Services::serviceRunning($service))
@@ -46,13 +45,13 @@ class HarmoniDataManager {
 		}
 		
 		// ok, now on to registering everything
-		$idManager =& new IDManager( $dbID );
+		IDManager::setup($dbID);
+		$idManager =& Services::getService("IDManager");
 		$dataSetTypeManager =& new DataSetTypeManager($idManager, $dbID, $preloadTypes);
 		$dataTypeManager =& new DataTypeManager();
 		$dataSetManager =& new DataSetManager( $idManager, $dbID, $dataSetTypeManager );
 		$dataSetTagManager =& new DataSetTagManager($idManager, $dbID);
 
-		Services::registerObjectAsService("IDManager",$idManager);
 		Services::registerObjectAsService("DataSetTypeManager",$dataSetTypeManager);
 		Services::registerObjectAsService("DataTypeManager",$dataTypeManager);
 		Services::registerObjectAsService("DataSetManager",$dataSetManager);

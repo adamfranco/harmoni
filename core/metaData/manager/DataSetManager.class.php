@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.18 2004/01/14 03:21:25 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.19 2004/01/14 20:09:42 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -16,6 +16,8 @@ class DataSetManager extends ServiceInterface {
 	var $_dbID;
 	var $_typeManager;
 	
+	var $_versionConstraint = null;
+	
 	function DataSetManager( &$idManager, $dbID, &$dataSetTypeManager) {
 		$this->_idManager =& $idManager;
 		$this->_dbID = $dbID;
@@ -23,14 +25,31 @@ class DataSetManager extends ServiceInterface {
 	}
 	
 	/**
+	 * Sets up a global version constraint for all DataSets that pass through or have operations done on them.
+	 * @param ref object $versionConstraint A {@link VersionConstraint} object to use for checking if values are too old, etc.
+	 * @return void
+	 */
+	function setGlobalVersionConstraint(&$versionConstraint) {
+		$this->_versionConstraint =& $versionConstraint;
+	}
+	
+	/**
+	 * Returns the global {@link VersionConstraint} if one is set.
+	 * @return ref object
+	 */
+	function &getGlobalVersionConstraint() {
+		return $this->_versionConstraint;
+	}
+	
+	/**
 	*  Fetches and returns an array of DataSet IDs from the database in one Query.
 	* @return ref array Indexed by DataSet ID, values are either {@link CompactDataSet}s or {@link FullDataSet}s.
 	* @param array $dataSetIDs
 	* @param optional bool $editable If TRUE will fetch the DataSets as Editable and with ALL versions. Default: FALSE (will only fetch ACTIVE values).
-	* @param optional object $searchCriteria An optional {@link SearchCriteria} object to search among the IDs given for certain
+	* @param optional object $limitResults NOT YET IMPLEMENTED
 	* criteria. If not specified, will fetch all IDs.
 	*/
-	function &fetchArrayOfIDs( $dataSetIDs, $editable=false, $searchCriteria = null ) {
+	function &fetchArrayOfIDs( $dataSetIDs, $editable=false, $limitResults = null ) {
 		ArgumentValidator::validate($dataSetIDs, new ArrayValidatorRuleWithRule(new NumericValidatorRule()));
 		$dataSetIDs = array_unique($dataSetIDs);
 		// first, make the new query
@@ -48,8 +67,6 @@ class DataSetManager extends ServiceInterface {
 		$dbHandler =& Services::getService("DBHandler");
 		
 		$result =& $dbHandler->query($query,$this->_dbID);
-		
-//		print "<pre>".MySQL_SQLGenerator::generateSQLQuery($query)."</pre>";
 		
 		if (!$result) {
 			throwError(new UnknownDBError("DataSetManager"));
@@ -107,11 +124,11 @@ class DataSetManager extends ServiceInterface {
 	/**
 	 * Takes an array of IDs and some search criteria, and weeds out the IDs that don't
 	 * match that criteria.
-	 * @param array $ids
 	 * @param ref object $criteria The {@link SearchCriteria}.
-	 * @access private
+	 * @param optional array $ids An array of DataSet IDs to search among. If not specified, all datasets will be searched.
+	 * @access public
 	 */
-	function _selectIDsBySearch($ids, &$criteria) {
+	function selectIDsBySearch(&$criteria, $ids=null) {
 		// this should happen in one query.
 		// the WHERE clause of the SQL query will be relatively complicated.
 		$query =& new SelectQuery();
@@ -121,11 +138,13 @@ class DataSetManager extends ServiceInterface {
 		
 		$searchString = $criteria->returnSearchString();
 		
-		$parts1 = array();
-		foreach ($ids as $id) {
-			$parts1[] = "dataset.dataset_id=$id";
+		if ($ids) {
+			$parts1 = array();
+			foreach ($ids as $id) {
+				$parts1[] = "dataset.dataset_id=$id";
+			}
+			$part1 = implode(" OR ", $parts1);
 		}
-		$part1 = implode(" OR ", $parts1);
 		
 		$parts2 = array();
 		foreach ($typeIDs as $typeID) {
@@ -135,11 +154,17 @@ class DataSetManager extends ServiceInterface {
 		
 		$part3 = $searchString;
 		
-		$fullWhere = "($part1) AND (($part2) OR $part3)";
+		$fullWhere = (isset($part1)?"($part1) AND ":"")."(($part2) OR $part3)";
 		
 		$query->setWhere($fullWhere);
 		
-		print "<PRE>". MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
+//		print "<PRE>". MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
+		
+		$dbHandler =& Services::getService("DBHandler");
+		
+		$result =& $dbHandler->query($query, $this->_dbID);
+		
+		$resultIds = array();
 	}
 	
 	/**

@@ -10,7 +10,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.19 2004/01/11 04:15:47 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.20 2004/01/14 20:09:42 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -318,7 +318,7 @@ class ValueVersions {
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.19 2004/01/11 04:15:47 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.20 2004/01/14 20:09:42 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -515,12 +515,13 @@ class ValueVersion {
 				
 				// and we have to get rid of any tag mappings where we are included.
 				// DEPRECATED:: this has been moved to FullDataSet::prune()
-//				$query =& new DeleteQuery;
-//				$query->setTable("dataset_tag_map");
-//				$query->setWhere("fk_datasetfield=$id");
-//				
-//				$res =& $dbHandler->query($query, $dbID);
-//				if (!$res) throwError( new UnknownDBError("ValueVersion"));
+				// cancel that... we need this now for VersionConstraints
+				$query =& new DeleteQuery;
+				$query->setTable("dataset_tag_map");
+				$query->setWhere("fk_datasetfield=$id");
+				
+				$res =& $dbHandler->query($query, $dbID);
+				if (!$res) throwError( new UnknownDBError("ValueVersion"));
 			}
 		}
 		
