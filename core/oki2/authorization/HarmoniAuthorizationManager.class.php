@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.8 2005/02/14 19:19:42 thebravecowboy Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.9 2005/03/23 21:28:13 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -831,15 +831,18 @@ class HarmoniAuthorizationManager
 		ArgumentValidator::validate($isActiveNowOnly, new BooleanValidatorRule(), true);
 		// ** end of parameter validation
 		
-		$authentication =& Services::requireService("AuthN", true);
-		$userId =& $authentication->getUserId(new HarmoniAuthenticationType());
-		
-		$authorizations =& $this->_cache->getAZs($userId->getIdString(),
+		$userIds =& $this->_getUserIds();
+		$authorizations = array();
+		foreach (array_keys($userIds) as $key) {
+			$userId =& $userIds[$key];
+			$userAZs =& $this->_cache->getAZs($userId->getIdString(),
 												 $functionId->getIdString(),
 												 $qualifierId->getIdString(),
 												 null, 
 												 true, 
 												 $isActiveNowOnly);
+			$authorizations =& array_merge($authorizations, $userAZs);
+		}
 		
 		return new HarmoniAuthorizationIterator($authorizations);
 	}
@@ -884,15 +887,18 @@ class HarmoniAuthorizationManager
 		ArgumentValidator::validate($isActiveNowOnly, new BooleanValidatorRule(), true);
 		// ** end of parameter validation
 		
-		$authentication =& Services::requireService("AuthN", true);
-		$userId =& $authentication->getUserId(new HarmoniAuthenticationType());
-		
-		$authorizations =& $this->_cache->getAZs($userId->getIdString(),
+		$userIds =& $this->_getUserIds();
+		$authorizations = array();
+		foreach (array_keys($userIds) as $key) {
+			$userId =& $userIds[$key];
+			$userAZs =& $this->_cache->getAZs($userId->getIdString(),
 												 null,
 												 $qualifierId->getIdString(),
 												 $functionType, 
 												 true, 
 												 $isActiveNowOnly);
+			$authorizations =& array_merge($authorizations, $userAZs);
+		}
 		
 		return new HarmoniAuthorizationIterator($authorizations);
 	}
@@ -937,16 +943,19 @@ class HarmoniAuthorizationManager
 		ArgumentValidator::validate($isActiveNowOnly, new BooleanValidatorRule(), true);
 		// ** end of parameter validation
 		
-		$authentication =& Services::requireService("AuthN", true);
-		$userId =& $authentication->getUserId(new HarmoniAuthenticationType());
-		
-		$authorizations =& $this->_cache->getAZs($userId->getIdString(),
+		$userIds =& $this->_getUserIds();
+		$authorizations = array();
+		foreach (array_keys($userIds) as $key) {
+			$userId =& $userIds[$key];
+			$userAZs =& $this->_cache->getAZs($userId->getIdString(),
 									 $functionId->getIdString(),
 									 $qualifierId->getIdString(),
 									 null, 
 									 false, 
 									 $isActiveNowOnly,
-								 $this->_getContainingGroupIdStrings($userId));
+									 $this->_getContainingGroupIdStrings($userId));
+			$authorizations =& array_merge($authorizations, $userAZs);
+		}
 		
 		return new HarmoniAuthorizationIterator($authorizations);
 	}
@@ -993,16 +1002,19 @@ class HarmoniAuthorizationManager
 		ArgumentValidator::validate($isActiveNowOnly, new BooleanValidatorRule(), true);
 		// ** end of parameter validation
 		
-		$authentication =& Services::requireService("AuthN", true);
-		$userId =& $authentication->getUserId(new HarmoniAuthenticationType());
-		
-		$authorizations =& $this->_cache->getAZs($userId->getIdString(),
+		$userIds =& $this->_getUserIds();
+		$authorizations = array();
+		foreach (array_keys($userIds) as $key) {
+			$userId =& $userIds[$key];
+			$userAZs =& $this->_cache->getAZs($userId->getIdString(),
 									 null,
 									 $qualifierId->getIdString(),
 									 $functionType, 
 									 false, 
 									 $isActiveNowOnly,
 									 $this->_getContainingGroupIdStrings($userId));
+			$authorizations =& array_merge($authorizations, $userAZs);
+		}
 		
 		return new HarmoniAuthorizationIterator($authorizations);
 	}
@@ -1405,32 +1417,34 @@ class HarmoniAuthorizationManager
 	}
 
 	/**
-	 * The start function is called when a service is created. Services may
-	 * want to do pre-processing setup before any users are allowed access to
-	 * them.
-	 *
-	 * WARNING: NOT IN OSID
-	 *
-	 * @access public
-	 * @return void
-	 **/
-	function start() {
+	 * Get the Ids of the current user. The user may be authenticated in multiple
+	 * ways which each have a different Id.
+	 * 
+	 * @return array
+	 * @access private
+	 * @since 3/16/05
+	 */
+	function _getUserIds () {
+		$authentication =& Services::getService("AuthN");
+		$authNTypes =& $authentication->getAuthenticationTypes();
+		$ids = array();
+		$isAuthenticated = FALSE;
+		while ($authNTypes->hasNextType()) {
+			$authNType =& $authNTypes->nextType();
+			if ($authentication->isUserAuthenticated($authNType)) {
+				$ids[] =& $authentication->getUserId($authNType);
+				$isAuthenticated = TRUE;
+			}
+		}
+		
+		// Otherwise return Id == 0 for the "anonymous user"
+		if (!$isAuthenticated) {
+			$idManager =& Services::getService("Id");
+			$ids[] =& $idManager->getId("0");
+		}
+		
+		return $ids;
 	}
-	
-	/**
-	 * The stop function is called when a Harmoni service object is being 
-	 * destroyed.
-	 * Services may want to do post-processing such as content output or 
-	 * committing changes to a database, etc.
-	 *
-	 * WARNING: NOT IN OSID
-	 *
-	 * @access public
-	 * @return void
-	 **/
-	function stop() {
-	}
-
 }
 
 

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TokenCollector.abstract.php,v 1.1 2005/03/16 22:48:41 adamfranco Exp $
+ * @version $Id: TokenCollector.abstract.php,v 1.2 2005/03/23 21:26:40 adamfranco Exp $
  */ 
 
 /**
@@ -17,9 +17,26 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TokenCollector.abstract.php,v 1.1 2005/03/16 22:48:41 adamfranco Exp $
+ * @version $Id: TokenCollector.abstract.php,v 1.2 2005/03/23 21:26:40 adamfranco Exp $
  */
 class TokenCollector {
+	
+	/**
+	 * Run the token collection sequence involving prompting for and collecting
+	 * tokens.
+	 * 
+	 * @return mixed
+	 * @access public
+	 * @since 3/18/05
+	 */
+	function collectTokens () {
+		if (!$tokens = $this->collect()) {
+			$this->prompt();
+			$tokens = $this->collect();
+		}
+		
+		return $tokens;
+	}
 		
 	/**
 	 * Prompt the user to supply their tokens

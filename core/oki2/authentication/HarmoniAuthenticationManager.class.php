@@ -8,6 +8,10 @@ require_once(HARMONI.'/oki2/shared/HarmoniType.class.php');
 require_once(HARMONI.'/oki2/shared/HarmoniTypeIterator.class.php');
 require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
 
+require_once(dirname(__FILE__)."/HTTPAuthNamePassTokenCollector.class.php");
+require_once(dirname(__FILE__)."/BasicFormNamePassTokenCollector.class.php");
+require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
+
 /**
  * <p>
  * AuthenticationManager:
@@ -60,67 +64,96 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.11 2005/02/16 15:23:49 thebravecowboy Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.12 2005/03/23 21:26:39 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
 {
 	
 	/**
-	 * The database connection as returned by the DBHandler.
-	 * @var integer _dbIndex 
-	 * @access private
-	 */
-	var $_dbIndex;
-
-	/**
-	 * The name of the Authentication database.
-	 * @var string _authNDB 
-	 * @access private
-	 */
-	var $_authNDB;
-	
-	/**
-	 * The Authentication Types availible.
-	 * @var array _authTypes 
-	 * @access private
-	 */
-	var $_authTypes;
-	
-	/**
-	 * The Agent Ids already looked up.
-	 * @var array _agentIds 
-	 * @access private
-	 */
-	var $_agentIds;
-	
-	/**
-	 * The Harmoni object that will handle Authentication.
-	 * @var object _harmoni 
-	 * @access private
-	 */
-	var $_harmoni;
-	
-	/**
 	 * Constructor. Ititializes the availible AuthenticationTypes and results.
 	 * @return void
 	 */
-	function HarmoniAuthenticationManager ($dbIndex, $databaseName) {
-		// ** parameter validation
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($databaseName, new StringValidatorRule(), true);
-		// ** end of parameter validation
+	function HarmoniAuthenticationManager () {
+		if (!is_array($_SESSION['__AuthenticatedAgents'])) {
+			$_SESSION['__AuthenticatedAgents'] = array();
+		}
 		
-		$this->_harmoni =& $GLOBALS['harmoni'];
-		$this->_dbIndex = $dbIndex;
-		$this->_authNDB = $databaseName;
+		$this->_tokenCollectors = array();
+		$this->_defaultTokenCollector =& new HTTPAuthNamePassTokenCollector;
+	}
+	
+	/**
+	 * Return context of this OsidManager.
+	 *	
+	 * @return object OsidContext
+	 * 
+	 * @throws object OsidException 
+	 * 
+	 * @access public
+	 */
+	function &getOsidContext () { 
+		return $this->_osidContext;
+	} 
+
+	/**
+	 * Assign the context of this OsidManager.
+	 * 
+	 * @param object OsidContext $context
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignOsidContext ( &$context ) { 
+		$this->_osidContext =& $context;
+	} 
+
+	/**
+	 * Assign the configuration of this Manager. Valid configuration options are as
+	 * follows:
+	 *	token_collectors (array) 	An array in which the keys are the serialized
+	 *								Type objects that correspond to 
+	 *								AuthenticationTypes and the values are the
+	 *								TokenCollector objects to be used fot that
+	 *								AuthenticationType.
+	 * 
+	 * @param object Properties $configuration (original type: java.util.Properties)
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#OPERATION_FAILED OPERATION_FAILED},
+	 *		   {@link org.osid.OsidException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.OsidException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignConfiguration ( &$configuration ) { 
+		$this->_configuration =& $configuration;
 		
-		$this->_agentIds = array();
+		$configKeys =& $this->_configuration->getKeys();
+		while ($configKeys->hasNextObject()) {
+			$key = $configKeys->nextObject();
+			if ($key == 'token_collectors') {
 		
-		// Go through the Harmoni Authentication Methods and create types
-		// for them.
-		$this->_authTypes = array();		
-		$this->_authTypes[] =& new HarmoniAuthenticationType();
+				$tokenCollectors =& $this->_configuration->getProperty('token_collectors');
+				ArgumentValidator::validate($tokenCollectors,
+					new ArrayValidatorRuleWithRule(
+						new ExtendsValidatorRule("TokenCollector")));
+					
+				foreach (array_keys($tokenCollectors) as $key) {
+					$authType = unserialize($key);
+					$authTypeString = $this->_getTypeString($authType);
+					$this->_tokenCollectors[$authTypeString] =& $tokenCollectors[$key];
+				}
+			}
+		}
 	}
 
 	/**
@@ -144,8 +177,8 @@ class HarmoniAuthenticationManager
 	 * @access public
 	 */
 	function &getAuthenticationTypes () {
-		$iterator =& new HarmoniIterator($this->_authTypes);
-		return $iterator;
+		$authNMethodManager =& Services::getService("AuthNMethods");
+		return $authNMethodManager->getAuthNTypes();
 	}
 
 	/**
@@ -182,28 +215,25 @@ class HarmoniAuthenticationManager
 	 * @access public
 	 */
 	function authenticateUser ( &$authenticationType ) {
-		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
-
-		$typeValid = FALSE;
-		foreach (array_keys($this->_authTypes) as $key) {
-			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
-				$typeValid = TRUE;
-				break;
+		$this->_checkType($authenticationType);
+		$this->destroyAuthenticationForType($authenticationType);
+		
+		$authNTokens =& $this->_getAuthNTokensFromUser($authenticationType);
+		
+		if ($authNTokens) {
+			$authNMethodManager =& Services::getService("AuthNMethods");
+			$authNMethod =& $authNMethodManager->getAuthNMethodForType($authenticationType);
+			$isValid = $authNMethod->authenticateTokens($authNTokens);
+			
+			// If the authentication was successful, get the AgentId from the mapping
+			// system and record the result.
+			if ($isValid) {
+				$agentId =& $this->_getAgentIdForAuthNTokens($authNTokens, $authenticationType);
+				$authenticationTypeString = $this->_getTypeString($authenticationType);
+				$_SESSION['__AuthenticatedAgents'][$authenticationTypeString]
+					=& $agentId;
 			}
 		}
-		if (!$typeValid)
-			throwError(new Error(AuthenticationException::UNKNOWN_TYPE(), "AuthenticationManager", 1));
-		
-		// Assuming that we only have the LoginHandler as our authentication type,
-		// just use that to authenticate.
-		debug::output("AuthN->authenticateUser(LoginHandler)", 8, "AuthN");
-		$loginState =& $this->_harmoni->LoginHandler->execute(TRUE);
-		
-		// Run our _getAgentId function to store a mapping of this user
-		// to an Agent if it doesn't exist.
-		if ($this->isUserAuthenticated($authenticationType))
-			$this->getUserId($authenticationType);
 	}
 
 	/**
@@ -245,20 +275,11 @@ class HarmoniAuthenticationManager
 	 * @access public
 	 */
 	function isUserAuthenticated ( &$authenticationType ) { 
-		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
-		$typeValid = FALSE;
-		foreach (array_keys($this->_authTypes) as $key) {
-			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
-				$typeValid = TRUE;
-				break;
-			}
-		}
-		if (!$typeValid)
-			throwError(new Error(AuthenticationException::UNKNOWN_TYPE(), "AuthenticationManager", 1));
+		$this->_checkType($authenticationType);
 			
-		if($this->_harmoni->LoginState 
-			&& $this->_harmoni->LoginState->isValid()) {
+		if(isset($_SESSION['__AuthenticatedAgents']
+			[$this->_getTypeString($authenticationType)]))
+		{
 			return TRUE;
 		} else {
 			return FALSE;
@@ -293,29 +314,17 @@ class HarmoniAuthenticationManager
 	 * @access public
 	 */
 	function &getUserId ( &$authenticationType ) { 
-		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
-		$typeValid = FALSE;
-		foreach (array_keys($this->_authTypes) as $key) {
-			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
-				$typeValid = TRUE;
-				break;
-			}
-		}
-		if (!$typeValid)
-			throwError(new Error(AuthenticationException::UNKNOWN_TYPE(), "AuthenticationManager", 1));
+		$this->_checkType($authenticationType);
 		
-		
-		// If the user is authenticated, look up their Agent Id or create a
-		// new Agent if they don't have one.
+		$idManager =& Services::getService("Id");
+		// If the user is authenticated, look up their Agent Id
 		if ($this->isUserAuthenticated($authenticationType)) {
-			$name = $this->_harmoni->LoginState->getAgentName();
-			
-			return $this->_getAgentId($name, $authenticationType);
+		
+			return $_SESSION['__AuthenticatedAgents']
+					[$this->_getTypeString($authenticationType)];
 		
 		// Otherwise return Id == 0 for the "anonymous user"
 		} else {
-			$idManager =& Services::getService("Id");
 			return $idManager->getId("0");
 		}
 	}
@@ -339,7 +348,7 @@ class HarmoniAuthenticationManager
 	 * @access public
 	 */
 	function destroyAuthentication () { 
-		$this->_harmoni->LoginHandler->logout();
+		$_SESSION['__AuthenticatedAgents'] = array();
 	}
 
 	/**
@@ -367,238 +376,125 @@ class HarmoniAuthenticationManager
 	 * @access public
 	 */
 	function destroyAuthenticationForType ( &$authenticationType ) { 
-		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
-		$typeValid = FALSE;
-		foreach (array_keys($this->_authTypes) as $key) {
-			if ($this->authTypes[$key]->isEqual($authenticationType)) {
-				$typeValid = TRUE;
-				break;
-			}
-		}
-		if (!$typeValid)
-			throwError(new Error(AuthenticationException::UNKNOWN_TYPE(), "AuthenticationManager", 1));
+		$this->_checkType($authenticationType);
 		
-		// Assuming that we only have the LoginHandler as our authentication type,
-		// just destroy that Authentication.
-		$this->_harmoni->LoginHandler->logout();
+		unset($_SESSION['__AuthenticatedAgents']
+			[$this->_getTypeString($authenticationType)]);
 	}
 	
 	/**
-	 * Get the unique Id of the Agent that represents the agent with the
-	 * specified authentication tokens for the specified AuthenticationType.  
-	 * Agents are managed using the Agent OSID.
-	 *
-	 * WARNING: NOT IN OSID - This method is not in the OSID.
+	 * Validate the type passed to ensure that it is one of our supported ones.
+	 * An error will be thrown if the type is invalid.
 	 * 
-	 * @param mixed $tokens The authentication tokens used to represent the agent
-	 *		in the specified authentication Type.
-	 * @param object Type $authenticationType
-	 *	
-	 * @return object Id
-	 * 
-	 * @throws object AuthenticationException An exception
-	 *		   with one of the following messages defined in
-	 *		   org.osid.authentication.AuthenticationException may be thrown:
-	 *		   {@link
-	 *		   org.osid.authentication.AuthenticationException#OPERATION_FAILED
-	 *		   OPERATION_FAILED}, {@link
-	 *		   org.osid.authentication.AuthenticationException#PERMISSION_DENIED
-	 *		   PERMISSION_DENIED}, {@link
-	 *		   org.osid.authentication.AuthenticationException#CONFIGURATION_ERROR
-	 *		   CONFIGURATION_ERROR}, {@link
-	 *		   org.osid.authentication.AuthenticationException#UNIMPLEMENTED
-	 *		   UNIMPLEMENTED}, {@link
-	 *		   org.osid.authentication.AuthenticationException#NULL_ARGUMENT
-	 *		   NULL_ARGUMENT}, {@link
-	 *		   org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
-	 *		   UNKNOWN_TYPE}
-	 * 
-	 * @access public
-	 */
-	function &getAgentId ( &$tokens, &$authenticationType ) {
-		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
-		
-		$typeValid = FALSE;
-		foreach (array_keys($this->_authTypes) as $key) {
-			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
-				$typeValid = TRUE;
-				break;
-			}
-		}
-		if (!$typeValid)
-			throwError(new Error(AuthenticationException::UNKNOWN_TYPE(), "AuthenticationManager", 1));
-		
-		
-		// Look up their Agent Id or create a
-		// new Agent if they don't have one.
-		return $this->_getAgentId($tokens, $authenticationType);
-	}
-	
-	function &createMapping(&$tokens, &$authenticationType, &$id){
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
-		ArgumentValidator::validate($id, new ExtendsvalidatorRule("Id"));
-		
-		$dbHandler =& Services::getService("DBHandler");
-
-		if ($this->_agentIds[$tokens]) {
-			throwError(new Error("Agent Id already exists","AuthenticationManager", 1));
-		}
-				
-		// Store a mapping in our table.
-						
-		$query =& new InsertQuery;
-		$columns = array($this->_authNDB.".authn_mapping.agent_id", 
-						$this->_authNDB.".authn_mapping.system_name",
-						$this->_authNDB.".authn_mapping.type_domain",
-						$this->_authNDB.".authn_mapping.type_authority",
-						$this->_authNDB.".authn_mapping.type_keyword");
-		$query->setColumns($columns);
-		$values = array("'".addslashes($id->getIdString())."'", "'".addslashes($tokens)."'",
-						"'".addslashes($authenticationType->getDomain())."'", 
-						"'".addslashes($authenticationType->getAuthority())."'", 
-						"'".addslashes($authenticationType->getKeyword())."'");
-		$query->setValues($values);
-		$query->setTable($this->_authNDB.".authn_mapping");
-		$result =& $dbHandler->query($query, $this->_dbIndex);
-		
-		//$id =& $this->getAgentId($tokens, $authenticationType);
-		
-		return;
-	
-	}
-	
-	/**
-	 * Delete the mapping between an Agent and their Authentication tokens.
-	 *
-	 * WARNING: NOT IN OSID - This method is not in the OSID.
-	 * 
-	 * @param object Id $agentId
+	 * @param object Type $type
 	 * @return void
-	 * @access public
-	 * @since 11/22/04
+	 * @access private
+	 * @since 3/15/05
 	 */
-	function deleteMapping ( &$id ) {
-		$dbHandler =& Services::getService("DBHandler");
-		$query =& new DeleteQuery;
-		$query->setTable($this->_authNDB.".authn_mapping");
-		$query->addWhere($this->_authNDB.".authn_mapping.agent_id='".addslashes($id->getIdString())."'");
-//		$query->addWhere($this->_authNDB.".authn_mapping.type_domain='".addslashes($authenticationType->getDomain())."'");
-//		$query->addWhere($this->_authNDB.".authn_mapping.type_authority='".addslashes($authenticationType->getAuthority())."'");
-//		$query->addWhere($this->_authNDB.".authn_mapping.type_keyword='".addslashes($authenticationType->getKeyword())."'");
-		$result =& $dbHandler->query($query, $this->_dbIndex);
+	function _checkType ( &$type ) {
+		// Check that we have a valid AuthenticationType.
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
+
+		$typeValid = FALSE;
+		$authNTypes =& $this->getAuthenticationTypes();
+		while ($authNTypes->hasNextType()) {
+			if ($type->isEqual($authNTypes->nextType())) {
+				$typeValid = TRUE;
+				break;
+			}
+		}
+		if (!$typeValid)
+			throwError(new Error(AuthenticationException::UNKNOWN_TYPE()
+				.": ".$this->_getTypeString($type), "AuthenticationManager", 1));
 	}
 	
 	/**
-	 * Get the agent Id for the given tokens from our mapping or store a new
-	 * one if it doesn't exist.
+	 * Return a string version of a type.
 	 * 
-	 * @param mixed $tokens
-	 * @param object $authori
+	 * @param object Type $type
+	 * @return string
+	 * @access private
+	 * @since 3/15/05
+	 */
+	function _getTypeString (&$type) {
+		return $type->getDomain()
+			."::".$type->getAuthority()
+			."::".$type->getKeyword();
+			
+	}
+	
+	/**
+	 * Get the AgentId that corresponds to the AuthNTokens passed and AuthNType.
+	 * If no Agent is currently mapped to the AuthNTokens, create a new Agent
+	 * and map it to the tokens.
+	 * 
+	 * @param object AuthNTokens $authNTokens
+	 * @param object Type $authenticationType
 	 * @return object Id
 	 * @access private
-	 * @since 11/18/04
+	 * @since 3/15/05
 	 */
-	function _getAgentId ($tokens, & $authenticationType) {
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+	function &_getAgentIdForAuthNTokens ( &$authNTokens, &$authenticationType ) {
+		$mappingManager =& Services::getService("AgentTokenMapping");
+		$mapping =& $mappingManager->getMappingForTokens($authNTokens, $authenticationType);
 		
-		// If we have cached this mapping, use that
-		if ($this->_agentIds[$tokens]) {
-			return $this->_agentIds[$tokens];
+		// Create a new agent if we don't have one mapped.
+		if (!$mapping) {
 		
-		// otherwise, look up the id in the database.
-		} else {
-			$dbHandler =& Services::getService("DBHandler");
-			$query =& new SelectQuery;
-			$query->addColumn($this->_authNDB.".authn_mapping.agent_id", "agent_id");
-			$query->addTable($this->_authNDB.".authn_mapping");
-			$query->addWhere($this->_authNDB.".authn_mapping.system_name='".addslashes($tokens)."'");
-			$query->addWhere($this->_authNDB.".authn_mapping.type_domain='".addslashes($authenticationType->getDomain())."'");
-			$query->addWhere($this->_authNDB.".authn_mapping.type_authority='".addslashes($authenticationType->getAuthority())."'");
-			$query->addWhere($this->_authNDB.".authn_mapping.type_keyword='".addslashes($authenticationType->getKeyword())."'");
-			$result =& $dbHandler->query($query, $this->_dbIndex);
+			// Get some properties to populate the Agent with:
+			$authNMethodManager =& Services::getService("AuthNMethods");
+			$authNMethod =& $authNMethodManager->getAuthNMethodForType($authenticationType);
+			$properties =& $authNMethod->getPropertiesForTokens($authNTokens);
 			
-			$idManager =& Services::getService('Id');
-			$agentManager =& Services::getService('Agent');
-			
-			// If an agent Id can be mapped to the name, return the id.
-			if ($result->getNumberOfRows() == 1) {
-				$id =& $idManager->getId($result->field('agent_id'));
-			
-			// If no AgentId can be mapped to the Id, create a new Agent
-			// then populate its properties.
-			} else if ($result->getNumberOfRows() == 0) {
-				$type =& new HarmoniType ('Authentication', 'Harmoni', 'User',
-											'A generic user agent created during login.');
-								
+			// Create the agent.
+			$agentManager =& Services::getService("Agent");
+			$agent =& $agentManager->createAgent(
+				$authNTokens->getIdentifier(),
+				new Type ("Authentication", "Harmoni", "User"),
+				$properties);
 				
-				$propertiesType = new HarmoniType('Agents', 'Harmoni', 'Auth Properties',
-						'Properties known to the Harmoni Authentication System.');
-				$properties =& new HarmoniProperties($propertiesType);
-				
-				// Populate its properties if we can find any.
-				$agentInfoHandler =& Services::getService("AgentInformation");
-				$info =& $agentInfoHandler->getAgentInformation($tokens, FALSE);
-				
-				foreach (array_keys($info) as $key) {
-					$properties->addProperty($key, $info[$key]);
-				}
-				
-				
-				// Create the Agent
-				$agent =& $agentManager->createAgent($tokens, $type, $properties);
-				
-				// Store a mapping in our table.
-				$id =& $agent->getId();
-				
-				$query =& new InsertQuery;
-				$columns = array($this->_authNDB.".authn_mapping.agent_id", 
-								$this->_authNDB.".authn_mapping.system_name",
-								$this->_authNDB.".authn_mapping.type_domain",
-								$this->_authNDB.".authn_mapping.type_authority",
-								$this->_authNDB.".authn_mapping.type_keyword");
-				$query->setColumns($columns);
-				$values = array("'".addslashes($id->getIdString())."'", "'".addslashes($tokens)."'",
-								"'".addslashes($authenticationType->getDomain())."'", 
-								"'".addslashes($authenticationType->getAuthority())."'", 
-								"'".addslashes($authenticationType->getKeyword())."'");
-				$query->setValues($values);
-				$query->setTable($this->_authNDB.".authn_mapping");
-				$result =& $dbHandler->query($query, $this->_dbIndex);
-				
-			
-			// If we have more than one row, we have problems.
-			} else {
-				throwError(new Error(AuthenticationException::OPERATION_FAILED(), "AuthenticationManager", 1));
-			}
-			
-			// Cache the id, then return it.
-			$this->_agentIds[$tokens] =& $id;
-			return $id;
+			// Create the mapping
+			$mapping =& $mappingManager->createMapping(
+				$agent->getId(), $authNTokens, $authenticationType);
 		}
+		
+		return $mapping->getAgentId();
 	}
 	
-	
 	/**
-	 * Functions required for the services interface.
-	 *
-	 * WARNING: NOT IN OSID - This method is not in the OSID.
+	 * Prompt the user for their authentication tokens and recieve the responce.
 	 * 
-	 * @return void
-	 * @access public
+	 * @param object Type $authenticationType
+	 * @return object AuthNTokens
+	 * @access private
+	 * @since 3/15/05
 	 */
-	function start() {}
-	
-	/**
-	 * Functions required for the services interface.
-	 *
-	 * WARNING: NOT IN OSID - This method is not in the OSID.
-	 * 
-	 * @return void
-	 * @access public
-	 */
-	function stop() {}
+	function &_getAuthNTokensFromUser( &$authenticationType ) {
+		if (isset($this->_tokenCollectors[
+			$this->_getTypeString($authenticationType)]))
+		{
+			$tokenCollector =& $this->_tokenCollectors[
+				$this->_getTypeString($authenticationType)];
+		} else {
+			$tokenCollector =& $this->_defaultTokenCollector;
+		}
+		
+		$tokens = $tokenCollector->collectTokens();
+		
+		// if we have tokens, create an AuthNTokens object for them.
+		if ($tokens) {
+			$authNMethodManager =& Services::getService("AuthNMethods");
+			$authNMethod =& $authNMethodManager->getAuthNMethodForType($authenticationType);
+			$authNTokens =& $authNMethod->createTokens($tokens);		
+		}	
+		// Otherwise return FALSE. Maybe they will come in during the next
+		// execution cycle
+		else {
+			$authNTokens = FALSE;
+		}
+			
+		return $authNTokens;
+	}
 }
 
 ?>
