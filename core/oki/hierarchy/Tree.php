@@ -101,6 +101,13 @@
 *   search(mixed searchData [, bool strict])                 Basic search function for searching the nodes' data
 */
 
+/******************************************************************************
+ * Changes by Adam Franco:
+ * - Added nodeExists function
+ * - '=' changed to '=&' $data containing objects
+ ******************************************************************************/
+
+
 class Tree
 {
 	/**
@@ -167,7 +174,7 @@ class Tree
     function &createFromList($data, $separator = '/')
     {
 		$nodeList = array();
-        $tree     = new Tree();
+        $tree     =& new Tree();
 
         for ($i=0; $i<count($data); $i++) {
             $pathParts = explode($separator, $data[$i]);
@@ -377,7 +384,7 @@ class Tree
 	* @param mixed   $data     The data that pertains to this node
 	* @param integer $parentID Optional parent node ID
     */
-	function addNode($data = null, $parentID = 0)
+	function addNode(& $data = null, $parentID = 0)
 	{
 		$newID = $this->uid++;
 
@@ -388,7 +395,7 @@ class Tree
 		$this->structure[$newID] = $parentID;
 		
 		// Add data
-		$this->data[$newID] = $data;
+		$this->data[$newID] =& $data;
 		
 		// Return new id
 		return $newID;
@@ -459,7 +466,7 @@ class Tree
 	* @param  integer $id Node ID
 	* @return mixed       The data
     */
-	function getData($id)
+	function & getData($id)
 	{
 		return isset($this->data[$id]) ? $this->data[$id] : null;
 	}
@@ -470,9 +477,9 @@ class Tree
 	* 
 	* @param integer $id Node ID
     */
-	function setData($id, $data)
+	function setData($id, & $data)
 	{
-		$this->data[$id] = $data;
+		$this->data[$id] =& $data;
 	}
 	
 	/**
@@ -793,7 +800,7 @@ class Tree
 	* @param  mixed $strict Whether to use === or simply == to compare
 	* @return mixed         Null if no match or the first node ID if a match is made
     */
-	function &search($data, $strict = false)
+	function &search(& $data, $strict = false)
 	{
 		$nodeIDs = $this->getFlatList();
 		
@@ -804,6 +811,22 @@ class Tree
 		}
 	
 		return null;
+	}
+
+	/**
+    * Returns whether or not a node of the supplied id exists in the tree.
+	*
+	* @author Adam Franco <adam@adamfranco.com>
+	* @since 2003-10-01
+	*
+	* @param  integer $id The node ID to look for
+	* @return boolean     True if the node exists in the tree.
+    */	
+	function nodeExists($id) {
+		if (in_array($this->structure))
+			return true;
+		else
+			return false;
 	}
 }
 ?>
