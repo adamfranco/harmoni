@@ -11,10 +11,10 @@ require_once(OKI."/shared.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniType.class.php,v 1.21 2005/01/19 22:28:11 adamfranco Exp $
+ * @version $Id: HarmoniType.class.php,v 1.22 2005/01/26 17:37:54 adamfranco Exp $
  */
 class HarmoniType
-	extends TypeInterface
+	extends Type
 { // begin Type
 
 
@@ -35,7 +35,7 @@ class HarmoniType
 
 	// public boolean isEqual(Type & $type2);
 	function isEqual(& $type2) {
-		ArgumentValidator::validate($type2, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($type2, new ExtendsValidatorRule("Type"));
 		
 		// the domain, authority, and keyword need to be alike for the types to be equivallent
 		if (strtolower($this->getDomain()) == strtolower($type2->getDomain()) && 
@@ -70,7 +70,7 @@ class HarmoniType
 } // end Type
 
 function OKITypeToString(&$type, $glue=", ") {
-	ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"));
+	ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
 	return $type->getDomain() . $glue . $type->getAuthority() . $glue . $type->getKeyword();
 }
 

@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.11 2005/01/19 21:09:42 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.12 2005/01/26 17:37:52 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaManager
@@ -173,7 +173,7 @@ class SchemaManager
 		$parts = array();
 		
 		if (is_object($type)) {
-			ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"));
+			ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
 			$parts[] = $type->getDomain();
 			$parts[] = $type->getAuthority();
 			$parts[] = $type->getKeyword();

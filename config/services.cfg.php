@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.35 2005/01/26 15:20:47 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.36 2005/01/26 17:37:50 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -55,10 +55,10 @@ if (!defined("LOAD_LANG")) 			define("LOAD_LANG", true);
 
 
 // OKI OSID implementations:
-if (!defined("OKI_VERSION")) 			define("OKI_VERSION", 1);
+if (!defined("OKI_VERSION")) 			define("OKI_VERSION", NULL);
 
 // Version 1 implementations
-if (OKI_VERSION === 1) {
+if (OKI_VERSION === 1 || OKI_VERSION === NULL) {
 	// functionality affected: Hiearchy, Digital Repository.
 	if (!defined("LOAD_HIERARCHY")) 			define("LOAD_HIERARCHY", true);
 	

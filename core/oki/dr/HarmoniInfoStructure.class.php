@@ -12,7 +12,7 @@ require_once(HARMONI."/oki/dr/HarmoniInfoPartIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniInfoStructure.class.php,v 1.21 2005/01/19 23:23:05 adamfranco Exp $ */
+ * @version $Id: HarmoniInfoStructure.class.php,v 1.22 2005/01/26 17:37:53 adamfranco Exp $ */
 class HarmoniInfoStructure extends InfoStructure
 //	extends java.io.Serializable
 {
@@ -143,7 +143,7 @@ class HarmoniInfoStructure extends InfoStructure
 	function createInfoPart($displayName, $description, & $infoPartType, $isMandatory, $isRepeatable, $isPopulatedByDR) {
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate($infoPartType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($infoPartType, new ExtendsValidatorRule("Type"));
 		ArgumentValidator::validate($isMandatory, new BooleanValidatorRule);
 		ArgumentValidator::validate($isRepeatable, new BooleanValidatorRule);
 		ArgumentValidator::validate($isPopulatedByDR, new BooleanValidatorRule);

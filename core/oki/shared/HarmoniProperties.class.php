@@ -13,7 +13,7 @@ require_once(OKI."/shared.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniProperties.class.php,v 1.4 2005/01/19 23:23:07 adamfranco Exp $
+ * @version $Id: HarmoniProperties.class.php,v 1.5 2005/01/26 17:37:54 adamfranco Exp $
  */
 class HarmoniProperties
 	extends Properties
@@ -28,7 +28,7 @@ class HarmoniProperties
 	 * @since 11/18/04
 	 */
 	function HarmoniProperties (& $type) {
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
 		$this->_type = $type;
 		$this->_properties = array();
 	}

@@ -13,7 +13,7 @@ require_once(HARMONI."/oki/dr/HarmoniDigitalRepository.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniDigitalRepositoryManager.class.php,v 1.24 2005/01/19 23:23:05 adamfranco Exp $ */
+ * @version $Id: HarmoniDigitalRepositoryManager.class.php,v 1.25 2005/01/26 17:37:53 adamfranco Exp $ */
 
 class HarmoniDigitalRepositoryManager
 	extends DigitalRepositoryManager
@@ -118,7 +118,7 @@ class HarmoniDigitalRepositoryManager
 		// Argument Validation
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate($digitalRepositoryType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($digitalRepositoryType, new ExtendsValidatorRule("Type"));
 		
 		// Create an Id for the digital Repository Node
 		$sharedManager =& Services::getService("Shared");
@@ -285,7 +285,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 */
 	function &getDigitalRepositoriesByType(& $digitalRepositoryType) {
-		ArgumentValidator::validate($digitalRepositoryType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($digitalRepositoryType, new ExtendsValidatorRule("Type"));
 		
 		// Select the Ids of corresponding DRs
 		$query =& new SelectQuery;

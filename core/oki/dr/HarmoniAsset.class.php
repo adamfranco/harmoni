@@ -15,7 +15,7 @@ require_once(HARMONI."/oki/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.50 2005/01/19 23:23:03 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.51 2005/01/26 17:37:52 adamfranco Exp $
  */
 
 class HarmoniAsset
@@ -50,7 +50,7 @@ class HarmoniAsset
 		$this->_configuration =& $configuration;
 		$this->_versionControlAll = ($configuration['versionControlAll'])?TRUE:FALSE;
 		if (is_array($configuration['versionControlTypes'])) {
-			ArgumentValidator::validate($configuration['versionControlTypes'], new ArrayValidatorRuleWithRule( new ExtendsValidatorRule("TypeInterface")));
+			ArgumentValidator::validate($configuration['versionControlTypes'], new ArrayValidatorRuleWithRule( new ExtendsValidatorRule("Type")));
 			$this->_versionControlTypes =& $configuration['versionControlTypes'];
 		} else {
 			$this->_versionControlTypes = array();

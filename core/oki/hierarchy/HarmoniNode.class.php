@@ -12,7 +12,7 @@ require_once(OKI."/hierarchy.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.24 2005/01/19 23:23:06 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.25 2005/01/26 17:37:54 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -61,7 +61,7 @@ class HarmoniNode
 /* 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id")); */
 /* 		ArgumentValidator::validate($hierarchyStore, new ExtendsValidatorRule("HierarchyStore")); */
 /* 		if ($type !== NULL) */
-/* 			ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface")); */
+/* 			ArgumentValidator::validate($type, new ExtendsValidatorRule("Type")); */
 /* 		ArgumentValidator::validate($displayName, new StringValidatorRule); */
 /* 		ArgumentValidator::validate($description, new StringValidatorRule); */
 		

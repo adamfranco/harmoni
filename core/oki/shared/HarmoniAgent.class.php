@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.14 2005/01/19 23:23:07 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.15 2005/01/26 17:37:54 adamfranco Exp $
  */
 class HarmoniAgent extends Agent // :: API interface
 //	extends java.io.Serializable
@@ -69,7 +69,7 @@ class HarmoniAgent extends Agent // :: API interface
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($propertiesArray, new ArrayValidatorRuleWithRule(
 					new OptionalRule(
 						new ExtendsValidatorRule("Properties")

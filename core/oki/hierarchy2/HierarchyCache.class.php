@@ -33,7 +33,7 @@ require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.19 2005/01/19 23:23:06 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.20 2005/01/26 17:37:54 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -1179,7 +1179,7 @@ class HierarchyCache {
 	function &createRootNode(& $nodeId, & $type, $displayName, $description) {
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);

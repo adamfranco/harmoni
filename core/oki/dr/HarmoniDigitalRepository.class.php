@@ -28,7 +28,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniDigitalRepository.class.php,v 1.47 2005/01/19 23:23:04 adamfranco Exp $ */
+ * @version $Id: HarmoniDigitalRepository.class.php,v 1.48 2005/01/26 17:37:53 adamfranco Exp $ */
 class HarmoniDigitalRepository
 	extends HarmoniDigitalRepositoryInterface
 {
@@ -284,7 +284,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 */
 	function &getAssetsByType(& $assetType) {
-		ArgumentValidator::validate($assetType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($assetType, new ExtendsValidatorRule("Type"));
 		$assets = array();
 		$allAssets =& $this->getAssets();
 		while ($allAssets->hasNext()) {
