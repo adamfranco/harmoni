@@ -33,7 +33,7 @@ class HarmoniTypeIterator
 	extends HarmoniIterator
 //	implements TypeIterator
 {
-    /**
+	/**
      * Return true if there is an additional  Type ; false otherwise.
      *  
      * @return boolean

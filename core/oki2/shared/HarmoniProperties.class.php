@@ -33,7 +33,7 @@ class HarmoniProperties
 	}
 
 	/**
-     * Get the Type for this Properties instance.
+	 * Get the Type for this Properties instance.
      *  
      * @return object Type
      * 

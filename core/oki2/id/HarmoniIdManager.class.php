@@ -40,7 +40,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniIdManager.class.php,v 1.4 2005/01/17 17:02:02 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.5 2005/01/17 21:31:52 adamfranco Exp $
  */
 
 class HarmoniIdManager
@@ -141,7 +141,7 @@ class HarmoniIdManager
 		
 		$result =& $dbHandler->query($query,$this->_dbIndex);
 		if ($result->getNumberOfRows() != 1) {
-			throwError( new Error(AgentException::CONFIGURATION_ERROR(), "IdManager", true));
+			throwError( new Error(IdException::CONFIGURATION_ERROR(), "IdManager", true));
 		}
 		
 		$newID = $result->getLastAutoIncrementValue();

@@ -33,7 +33,7 @@ class HarmoniIntValueIterator
 	extends HarmoniIterator
 //	implements IntValueIterator
 {
-    /**
+	/**
      * Return true if there is an additional  IntValue ; false otherwise.
      *  
      * @return boolean
