@@ -6,7 +6,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.14 2004/01/07 21:20:19 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -314,7 +314,7 @@ class ValueVersions {
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.14 2004/01/07 21:20:19 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -344,6 +344,12 @@ class ValueVersion {
 		$this->_prune = false;
 	}
 	
+	/**
+	 * Returns an exact data-specific replica of the current object.
+	 * @param ref object $parent The new parent object to use instead of our parent.
+	 * @return ref object
+	 * @access public
+	 */
 	function &clone(&$parent) {
 		$newObj =& new ValueVersion($parent, $this->_active);
 		
@@ -356,16 +362,39 @@ class ValueVersion {
 		return $newObj;
 	}
 	
+	/**
+	 * Flags this ValueVersion to be updated to the database upon commit().
+	 * @return void
+	 * @access public
+	 */
 	function update() { $this->_update=true; }
 	
+	/**
+	 * Changes the active flag of this ValueVersion to $active.
+	 * @param bool $active
+	 * @return void
+	 * @access public
+	 */
 	function setActiveFlag($active) {
 		ArgumentValidator::validate($active, new BooleanValidatorRule());
 		
 		$this->_active = $active;
 	}
 	
+	/**
+	 * Returns the current active flag.
+	 * @return bool
+	 * @access public
+	 */
 	function isActive() { return $this->_active; }
 	
+	/**
+	 * Takes a single database row and sets local data (like the modified timestamp, etc) variables
+	 * based on that row.
+	 * @param array $row The associative database row.
+	 * @return void
+	 * @access public
+	 */
 	function populate( $row ) {
 		$dbHandler =& Services::getService("DBHandler");
 		$dbID = $this->_parent->_parent->_parent->_dbID;
@@ -386,6 +415,12 @@ class ValueVersion {
 		$this->_valueObj =& $valueObj;
 	}
 	
+	/**
+	 * Checks if we are inactive or contained within a field that has been deleted, and if so, flags
+	 * the "prune" flag so that we are deleted (permanently) from the database upon commit().
+	 * @return void
+	 * @access public
+	 */
 	function prune() {
 		// there are two conditions under which we will prune ourselves:
 		// 1) we are inactive
@@ -394,6 +429,12 @@ class ValueVersion {
 			$this->_prune = true;
 	}
 	
+	/**
+	 * Commits any changes that have been made to the database. If neither udpate() nor prune() have been
+	 * called, even if changes have been made, they will not be reflected in the database.
+	 * @return bool
+	 * @access public
+	 */
 	function commit() {
 		
 		$dbHandler =& Services::getService("DBHandler");
@@ -486,32 +527,71 @@ class ValueVersion {
 		
 	}
 	
+	/**
+	 * Returns if this ValueVersion object is flagged to delete itself from the DB upon commit().
+	 * @return bool
+	 * @access public
+	 */
 	function willPrune() {
 		return $this->_prune;
 	}
 	
+	/**
+	 * Takes a {@link DataType} object and hands it to our local DataType object so that it can 
+	 * set its own value based on $object.
+	 * @param ref object
+	 * @return void
+	 * @access public
+	 */
 	function takeValue(&$object) {
 		if (!$this->_valueObj) $this->setValue($object);
 		else $this->_valueObj->takeValue($object);
 	}
 	
+	/**
+	 * Sets the local valueObject to be a reference to $object.
+	 * @param ref object $object A new {@link DataType} object.
+	 * @return void
+	 * @access public
+	 */
 	function setValue(&$object) {
 		$this->_valueObj =& $object;
 	}
 	
+	/**
+	 * Returns the current value object contained locally.
+	 * @return ref object
+	 * @access public
+	 */
 	function &getValue() {
 		return $this->_valueObj;
 	}
 	
+	/**
+	 * Returns the created/modified timestamp of this specific version.
+	 * @return ref object A {@link DataTime} object.
+	 * @access public
+	 */
 	function &getDate() {
 		return $this->_date;
 	}
 	
+	/**
+	 * Sets the date reflected within our local variables to $date.
+	 * @param ref object A {@link DateTime} object.
+	 * @return void
+	 * @access public
+	 */
 	function setDate(&$date) {
 		ArgumentValidator::validate($date, new ExtendsValidatorRule("DateTime"));
 		$this->_date =& $date;
 	}
 	
+	/**
+	 * Returns our ID in the database.
+	 * @return int
+	 * @access public
+	 */
 	function getID() {
 		return $this->_myID;
 	}
