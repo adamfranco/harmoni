@@ -63,17 +63,12 @@
 	 */
 	define("_OR", 8);
 	
-	/**
-	 * Defines a constant for 'XOR' operations (used in WHERE and JOIN clauses)
-	 * @const integer _XOR
-	 * @package harmoni.dbc
-	 */
-	 define("_XOR",9);
+	
 
 /**
  * A generic Query interface to be implemented by all Query objects.
  *
- * @version $Id: Query.interface.php,v 1.3 2004/05/20 20:45:45 nstamato Exp $
+ * @version $Id: Query.interface.php,v 1.4 2004/05/21 20:02:48 nstamato Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 

@@ -6,7 +6,7 @@ require_once("Query.abstract.php");
 /**
  * A DeleteQuery interface provides the tools to build an SQL DELETE query.
  *
- * @version $Id: DeleteQuery.interface.php,v 1.3 2004/05/20 17:24:12 adamfranco Exp $
+ * @version $Id: DeleteQuery.interface.php,v 1.4 2004/05/21 20:02:48 nstamato Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -40,7 +40,7 @@ class DeleteQueryInterface extends Query {
 	 * @param string condition The WHERE clause condition to add.
 	 * @param integer logicalOperation The logical operation to use to connect
 	 * this WHERE condition with the previous WHERE conditions. Allowed values:
-	 * <code>_AND</code> , <code>_OR</code> , and <code>_XOR</code>. 
+	 * <code>_AND</code> and <code>_OR</code>. 
 	 * @method public addWhere
 	 * @return void 
 	 */

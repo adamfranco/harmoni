@@ -5,7 +5,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
 /**
  * A PostGreQueryGenerator class provides the tools to build a PostGre query from a Query object.
  *
- * @version $Id: PostGre_SQLGenerator.class.php,v 1.3 2004/05/20 20:45:58 nstamato Exp $
+ * @version $Id: PostGre_SQLGenerator.class.php,v 1.4 2004/05/21 20:02:59 nstamato Exp $
  * @package harmoni.dbc.postgre
  * @copyright 2003 
  */
@@ -203,9 +203,6 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 						case _OR :
 							$sql .= "\n\t\tOR";
 							break;
-						case _XOR :
-							$sql .= "\n\t\tXOR";
-							break;
 						default:
 							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
 					} // switch
@@ -260,9 +257,6 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 						case _OR :
 							$sql .= "\n\t\tOR";
 							break;
-						case _XOR :
-							$sql .= "\n\t\tXOR";
-							break;	
 						default:
 							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
 					} // switch
@@ -388,9 +382,6 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 						case _OR :
 							$sql .= "\n\t\tOR";
 							break;
-						case _XOR :
-							$sql .= "\n\t\tXOR";
-							break;	
 						default:
 							throwError(new Error("Unsupported logical operator!", "DBHandler", true));				;
 					} // switch
