@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI.'/oki/hierarchy/HarmoniHierarchy.class.php');
+require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchy.class.php');
 require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
 require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 
@@ -9,7 +9,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.6 2003/10/10 15:09:20 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.7 2003/10/10 17:31:32 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -46,7 +46,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 			$nodeTypes[] =& new GenericNodeType;
 			
 			// The id for each of these will be the initial number of the last part.
-			$this->hierarchy =& new HarmoniHierarchy(new HarmoniTestId, "Test Case Hierarchy",
+			$this->hierarchy =& new MemoryOnlyHierarchy(new HarmoniTestId, "Test Case Hierarchy",
 												"A Hierarchy for the HierarchyTestCase",
 												$nodeTypes);
 			
@@ -129,7 +129,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 			$nodeTypes[] =& new GenericNodeType;
 			
 			// The id for each of these will be the initial number of the last part.
-			$hierarchy =& new HarmoniHierarchy($id, "Test Case Hierarchy",
+			$hierarchy =& new MemoryOnlyHierarchy($id, "Test Case Hierarchy",
 												"A Hierarchy for the HierarchyTestCase",
 												$nodeTypes);
 //			print_r($hierarchy);
@@ -155,7 +155,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 			$nodeTypes[] =& new GenericNodeType;
 			
 			// The id for each of these will be the initial number of the last part.
-			$hierarchy =& new HarmoniHierarchy($id, "Test Case Hierarchy",
+			$hierarchy =& new MemoryOnlyHierarchy($id, "Test Case Hierarchy",
 												"A Hierarchy for the HierarchyTestCase",
 												$nodeTypes);
 												

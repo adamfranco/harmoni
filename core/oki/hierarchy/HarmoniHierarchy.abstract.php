@@ -23,7 +23,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.12 $ / $Date: 2003/10/10 14:31:47 $
+ * @version $Revision: 1.1 $ / $Date: 2003/10/10 17:32:22 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -578,7 +578,7 @@ class HarmoniHierarchy
 	 * @access protected
 	 */
 	function save () {
-		
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	 
 	/**
@@ -586,7 +586,7 @@ class HarmoniHierarchy
 	 * @access protected
 	 */
 	function load () {
-	
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}	
 
 } // end Hierarchy

@@ -1,21 +1,22 @@
 <?php
 
-require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchy.class.php');
+require_once(HARMONI.'/oki/hierarchy/HarmoniHierarchyManager.class.php');
+require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
+require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: NodeTestCase.class.php,v 1.4 2003/10/10 17:31:32 adamfranco Exp $
+ * @version $Id: HierarchyManagerTestCase.class.php,v 1.1 2003/10/10 17:32:54 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
 
-    class HarmoniNodeTestCase extends UnitTestCase {
+    class HarmoniHierarcyManagerTestCase extends UnitTestCase {
 	
 		var $hierarchy;
-		var $node;
 		
 		var $branchNodeLevel0Id;
 		var $leafNodeLevel0Id;
@@ -30,9 +31,7 @@ require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchy.class.php');
          *    @public
          */
         function setUp() {
-			// perhaps, initialize $obj here
-//			print "<pre>";
-			
+        
         	$this->branchNodeLevel0Id = 0;
         	$this->leafNodeLevel0Id = 0;
         	$this->branchNodeLevel1Id = 0;
@@ -40,11 +39,14 @@ require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchy.class.php');
 //        	$this->branchNodeLevel2Id = 0;
         	$this->leafNodeLevel2Id = 0;
         	
+			// perhaps, initialize $obj here
+//			print "<pre>";
+			
 			$nodeTypes = array();
 			$nodeTypes[] =& new GenericNodeType;
 			
 			// The id for each of these will be the initial number of the last part.
-			$this->hierarchy =& new MemoryOnlyHierarchy(new HarmoniTestId, "Test Case Hierarchy",
+			$this->hierarchy =& new HarmoniHierarchy(new HarmoniTestId, "Test Case Hierarchy",
 												"A Hierarchy for the HierarchyTestCase",
 												$nodeTypes);
 			
@@ -72,7 +74,7 @@ require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchy.class.php');
 			
 			// Add another root node
 			$this->branchNodeLevel0Id = $nodeId =& new HarmoniTestId;
-			$this->branchNodeLevel0 =& $this->hierarchy->createRootNode($nodeId, $nodeType, "Collection Two", "A Collection, the second root node created");
+			$node =& $this->hierarchy->createRootNode($nodeId, $nodeType, "Collection Two", "A Collection, the second root node created");
 			
 			// Add a children nodes
 			$parentId =& $nodeId;
@@ -92,7 +94,7 @@ require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchy.class.php');
 			
 			// Add a child node to the second child
 			$nodeId =& new HarmoniTestId;
-			$this->leafNodeLevel2 =& $this->hierarchy->createNode($nodeId, $parentId, $nodeType, "Sub-Asset Five", "The second sub-asset added to Asset Four");
+			$node =& $this->hierarchy->createNode($nodeId, $parentId, $nodeType, "Sub-Asset Five", "The second sub-asset added to Asset Four");
 			
 			// Add a child node to the first child
 			$nodeId =& new HarmoniTestId;
@@ -107,8 +109,6 @@ require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchy.class.php');
 			// Add another root node
 			$this->leafNodeLevel0Id = $nodeId =& new HarmoniTestId;
 			$this->leafNodeLevel0 =& $this->hierarchy->createRootNode($nodeId, $nodeType, "Collection Two", "A Collection, the second root node created");
-			
-			$this->node =& $this->hierarchy->getNode($this->branchNodeLevel1Id);
         }
 		
         /**
@@ -117,74 +117,13 @@ require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchy.class.php');
          */
         function tearDown() {
 			// perhaps, unset $obj here
-			unset($this->node);
 			unset($this->hierarchy);
 //			print "</pre>";
         }
 
 		//--------------the tests ----------------------
 
-		function test_get_id_and_strings() {
-			$node =& $this->node;
-			
-//			print_r($node);
-			$this->assertTrue($this->branchNodeLevel1Id->isEqual($node->getId()));
-			$this->assertEqual("Asset Four",$node->getDisplayName());
-			$this->assertEqual("The second asset added to Collection Two",$node->getDescription());
+		function test_constructor() {
+			$this->assertTrue(FALSE);
 		}
-		
-		function test_get_parents () {
-			$node =& $this->node;
-			
-			$nodeIterator =& $node->getParents();
-			
-			$count = 0;
-			while ($nodeIterator->hasNext()) {
-				$count++;
-				$parentNode =& $nodeIterator->next();
-			}
-			
-			$this->assertEqual(1, $count);
-			$this->assertReference($parentNode, $this->branchNodeLevel0);
-		}
-		
-		function test_get_children () {
-			$node =& $this->node;
-			
-			$nodeIterator =& $node->getChildren();
-			
-			$count = 0;
-			while ($nodeIterator->hasNext()) {
-				$count++;
-				if ($count == 2)
-					$childNode =& $nodeIterator->next();
-				else
-					$nodeIterator->next();
-			}
-			
-			$this->assertEqual(2, $count);
-			$this->assertReference($childNode, $this->leafNodeLevel2);
-		}
-		
-		function test_update_description_displayname () {
-			$node =& $this->node;
-			
-			$node->updateDisplayName("This is my new Display Name");
-			$node->updateDescription("This is my new Description");
-			$this->assertEqual("This is my new Display Name",$node->getDisplayName());
-			$this->assertEqual("This is my new Description",$node->getDescription());
-		}
-		
-		function test_is_leaf () {			
-			$this->assertFalse($this->node->isLeaf());
-			$this->assertFalse($this->branchNodeLevel0->isLeaf());
-			$this->assertTrue($this->leafNodeLevel2->isLeaf());
-		}
-		
-		function test_is_root () {
-			$this->assertFalse($this->node->isRoot());
-			$this->assertTrue($this->branchNodeLevel0->isRoot());
-			$this->assertFalse($this->leafNodeLevel2->isRoot());
-		}
-
 	}

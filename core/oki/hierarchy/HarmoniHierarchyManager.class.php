@@ -24,7 +24,7 @@ require_once(HARMONI."oki/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.6 $ / $Date: 2003/10/10 13:56:26 $
+ * @version $Revision: 1.7 $ / $Date: 2003/10/10 17:31:24 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -40,20 +40,12 @@ class HarmoniHierarchyManager
 	var $_hierachies = array ();
 	
 	/**
-	 * @var array $_hierarchyTypes An array of the supported Types
-	 */
-	var $_hierarchyTypes = array();
-	
-	
-	/**
 	 * Constructor
 	 * @param array $hierarchies An array of the hierarchies to add to the
 	 * manager.
 	 * @access public
 	 */
 	function HarmoniHierarchyManager ($hierarchies = NULL) {
-	 	$this->_hierarchyTypes[] =& new HarmoniHierarchyType();
-	 
 	 	if ($hierarchies != NULL) {
 		 	if (count($hierarchies)) {
 				ArgumentValidator::validate($hierarchies, ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Hierarchy")));
