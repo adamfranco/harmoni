@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.38 2005/02/04 23:08:06 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.39 2005/03/23 20:57:23 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -125,6 +125,11 @@ else if (OKI_VERSION === 2) {
 	 * functionality affected: OKI AuthN calls.
 	 */
 	if (!defined("LOAD_AUTHN")) 				define("LOAD_AUTHN", true);
+	
+	/**
+	 * functionality affected: OKI AuthN calls.
+	 */
+	if (!defined("LOAD_AGENT_MANAGEMENT")) 				define("LOAD_AGENT_MANAGEMENT", true);
 	
 	/**
 	 * functionality affected: OKI AuthZ calls.
@@ -365,6 +370,16 @@ else if (OKI_VERSION === 2) {
 	if (LOAD_AUTHN) {
 		require_once(HARMONI."oki2/authentication/HarmoniAuthenticationManager.class.php");
 		Services::registerService("AuthN","HarmoniAuthenticationManager");
+	}
+	
+	/**
+	 * load the AuthNManager
+	 */
+	if (LOAD_AGENT_MANAGEMENT) {
+		require_once(HARMONI."oki2/agentmanagement/AuthNMethods/AuthNMethodManager.class.php");
+		Services::registerService("AuthNMethods","AuthNMethodManager");
+		require_once(HARMONI."oki2/agentmanagement/AgentTokenMapping/AgentTokenMappingManager.class.php");
+		Services::registerService("AgentTokenMapping","AgentTokenMappingManager");
 	}
 	
 	/**
