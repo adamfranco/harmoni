@@ -44,7 +44,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.15 2005/01/27 15:58:55 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.16 2005/01/27 21:47:41 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -1185,7 +1185,7 @@ class HarmoniRepository
 		$this->_searchTypes["ContentSearch"] =& new HarmoniType("Repository","Harmoni","Content", "Search with a regular expression
 												string in the Asset Content.");
 
-		$this->_searchTypes["AllCustomFieldsSearch"] =& new HarmoniType("Repositoryƒß","Harmoni","AllCustomStructures", "Search with a regular expression
+		$this->_searchTypes["AllCustomFieldsSearch"] =& new HarmoniType("Repository","Harmoni","AllCustomStructures", "Search with a regular expression
 								string in the custom RecordStructures for each Asset.");
 	}
 
