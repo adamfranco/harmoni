@@ -1,18 +1,38 @@
 <?
 
-require_once(dirname(__FILE__)."/Fields/FileDataInfoField.class.php");
-require_once(dirname(__FILE__)."/Fields/FileNameInfoField.class.php");
-require_once(dirname(__FILE__)."/Fields/FileSizeInfoField.class.php");
-require_once(dirname(__FILE__)."/Fields/MimeTypeInfoField.class.php");
-require_once(dirname(__FILE__)."/Fields/ThumbnailDataInfoField.class.php");
-require_once(dirname(__FILE__)."/Fields/ThumbnailMimeTypeInfoField.class.php");
-require_once(HARMONI."/oki2/repository/HarmoniInfoFieldIterator.class.php");
+require_once(dirname(__FILE__)."/Fields/FileDataRecord.class.php");
+require_once(dirname(__FILE__)."/Fields/FileNamePart.class.php");
+require_once(dirname(__FILE__)."/Fields/FileSizePart.class.php");
+require_once(dirname(__FILE__)."/Fields/MimeTypePart.class.php");
+require_once(dirname(__FILE__)."/Fields/ThumbnailDataPart.class.php");
+require_once(dirname(__FILE__)."/Fields/ThumbnailMimeTypePart.class.php");
+require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
 
-	/**
-	 * Each Asset has one of the AssetType supported by the DigitalRepository.  There are also zero or more InfoStructures required by the DigitalRepository for each AssetType. InfoStructures provide structural information.  The values for a given Asset's InfoStructure are stored in an InfoRecord.  InfoStructures can contain sub-elements which are referred to as InfoParts.  The structure defined in the InfoStructure and its InfoParts is used in for any InfoRecords for the Asset.  InfoRecords have InfoFields which parallel InfoParts.  <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package harmoni.osid_v2.dr
-	 */
+/**
+ * Each Asset has one of the AssetType supported by the Repository.	 There are
+ * also zero or more RecordStructures required by the Repository for each
+ * AssetType. RecordStructures provide structural information.	The values for
+ * a given Asset's RecordStructure are stored in a Record.	RecordStructures
+ * can contain sub-elements which are referred to as PartStructures.  The
+ * structure defined in the RecordStructure and its PartStructures is used in
+ * for any Records for the Asset.  Records have Parts which parallel
+ * PartStructures.
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
+ * <p>
+ * Licensed under the {@link org.osid.SidImplementationLicenseMIT MIT
+ * O.K.I&#46; OSID Definition License}.
+ * </p>
+ * 
+ * @package org.osid.repository
+ *
+ * WARNING: The real class-name should be Record, not RecordInterface. The re-naming
+ * of this class is a temporary fix due to another class named Record already existing
+ * in Harmoni.
+ */
 class FileRecord extends Record
 //	extends java.io.Serializable
 {
@@ -29,53 +49,87 @@ class FileRecord extends Record
 		
 		$idManager =& Services::getService("Id");	
 		$this->_parts = array();
-		$this->_parts['FILE_DATA'] =& new FileDataInfoField(
+		$this->_parts['FILE_DATA'] =& new FileDataRecord(
 									$recordStructure->getPartStructure($idManager->getId('FILE_DATA')),
 									$this->_id,
 									$this->_configuration);
-		$this->_parts['FILE_NAME'] =& new FileNameInfoField(
+		$this->_parts['FILE_NAME'] =& new FileNamePart(
 									$recordStructure->getPartStructure($idManager->getId('FILE_NAME')),
 									$this->_id,
 									$this->_configuration);
-		$this->_parts['FILE_SIZE'] =& new FileSizeInfoField(
+		$this->_parts['FILE_SIZE'] =& new FileSizePart(
 									$recordStructure->getParts($idManager->getId('FILE_SIZE')),
 									$this->_id,
 									$this->_configuration);
-		$this->_parts['MIME_TYPE'] =& new MimeTypeInfoField(
+		$this->_parts['MIME_TYPE'] =& new MimeTypePart(
 									$infoStructure->getPartStructure($idManager->getId('MIME_TYPE')),
 									$this->_id,
 									$this->_configuration);
-		$this->_parts['THUMBNAIL_DATA'] =& new ThumbnailDataInfoField(
-									$infoStructure->getInfoPart($idManager->getId('THUMBNAIL_DATA')),
+		$this->_parts['THUMBNAIL_DATA'] =& new ThumbnailDataPart(
+									$infoStructure->getPartStructure($idManager->getId('THUMBNAIL_DATA')),
 									$this->_id,
 									$this->_configuration);
-		$this->_parts['THUMBNAIL_MIME_TYPE'] =& new ThumbnailMimeTypeInfoField(
+		$this->_parts['THUMBNAIL_MIME_TYPE'] =& new ThumbnailMimeTypePart(
 									$recordStructure->getPartStructure($idManager->getId('THUMBNAIL_MIME_TYPE')),
 									$this->_id,
 									$this->_configuration);
 	}
 
 	/**
-	 * Get the Unique Id for this InfoRecord.
-	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * Get the unique Id for this Record.
+	 *	
+	 * @return object Id
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @access public
 	 */
 	function &getId() {
 		return $this->_id;
 	}
 
 	/**
-	 * Create an InfoField.  InfoRecords are composed of InfoFields. InfoFields can also contain other InfoFields.  Each InfoRecord is associated with a specific InfoStructure and each InfoField is associated with a specific InfoPart.
-	 * @param object infoPartId
-	 * @param mixed value
-	 * @return object InfoField
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
+	 * Create a Part.  Records are composed of Parts. Parts can also contain
+	 * other Parts.	 Each Record is associated with a specific RecordStructure
+	 * and each Part is associated with a specific PartStructure.
+	 * 
+	 * @param object Id $partStructureId
+	 * @param object mixed $value (original type: java.io.Serializable)
+	 *	
+	 * @return object Part
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+	 * 
+	 * @access public
 	 */
-	function &createPart(& $PartStructureId, & $value) {
+	function &createPart(& $partStructureId, & $value) {
 		$found = FALSE;
 		while ($parts->hasNext()) {
 			$part =& $parts->next();
-			if ($PartStructureId->isEqual($part->getId())) {
+			if ($partStructureId->isEqual($part->getId())) {
 				break;
 				$found = TRUE;
 			}
@@ -86,33 +140,33 @@ class FileRecord extends Record
 		
 		$partIdString = $partId->getIdString();
 		
-// 		if (is_object($this->_infoFields[$partIdString]))
-// 			throwError(new Error(PERMISSION_DENIED.": Can't add another field to a
-// 			non-multi-valued part.", "FileInfoRecord", true));
-// 		} else {
-// 			
-// 			switch ($partIdString) {
-// 				case "FILE_DATA":
-// 					$className = "FileDataInfoField";
-// 					break;
-// 				case "FILE_NAME":
-// 					$className = "FileNameInfoField";
-// 					break;
-// 				case "FILE_SIZE":
-// 					$className = "FileSizeInfoField";
-// 					break;
-// 				case "MIME_TYPE":
-// 					$className = "MimeTypeInfoField";
-// 					break;
-// 				default:
-// 					throwError(new Error(OPERATION_FAILED, "FileInfoRecord", true));
-// 			}
-// 			
-// 			$this->_infoFields[$partIdString] =& new $className(
-// 									$part,
-// 									$this->_id,
-// 									$this->configuration);
-// 		}
+//		if (is_object($this->_infoFields[$partIdString]))
+//			throwError(new Error(PERMISSION_DENIED.": Can't add another field to a
+//			non-multi-valued part.", "FileInfoRecord", true));
+//		} else {
+//			
+//			switch ($partIdString) {
+//				case "FILE_DATA":
+//					$className = "FileDataInfoField";
+//					break;
+//				case "FILE_NAME":
+//					$className = "FileNameInfoField";
+//					break;
+//				case "FILE_SIZE":
+//					$className = "FileSizeInfoField";
+//					break;
+//				case "MIME_TYPE":
+//					$className = "MimeTypeInfoField";
+//					break;
+//				default:
+//					throwError(new Error(OPERATION_FAILED, "FileInfoRecord", true));
+//			}
+//			
+//			$this->_infoFields[$partIdString] =& new $className(
+//									$part,
+//									$this->_id,
+//									$this->configuration);
+//		}
 		
 		$this->_parts[$partIdString]->updateValue($value);
 		
@@ -120,16 +174,26 @@ class FileRecord extends Record
 	}
 
 	/**
-	 * Delete an InfoField and all its InfoFields.
-	 * @param object infoFieldId
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following 
-	 * messages defined in osid.dr.DigitalRepositoryException may be thrown: 
-	 * {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, 
-	 * {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
-	 * {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
-	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
-	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
-	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
+	 * Delete a Part and all its Parts.
+	 * 
+	 * @param object Id $partId
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+	 * 
+	 * @access public
 	 */
 	function deletePart(& $partId) {
 		$string = $partId->getIdString();
@@ -166,33 +230,64 @@ class FileRecord extends Record
 	}
 
 	/**
-	 * Get all the InfoFields in the InfoRecord.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return object InfoFieldIterator  The order of the objects returned by the Iterator is not guaranteed.
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * Get all the Parts in the Record.	 Iterators return a set, one at a time.
+	 *	
+	 * @return object PartIterator
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @access public
 	 */
-	function &getInfoFields() {
+	function &getParts() {
 		// Create an iterator and return it.
-		$fieldIterator =& new HarmoniInfoFieldIterator($this->_infoFields);
+		$partIterator =& new HarmoniPartIterator($this->_parts);
 		
-		return $fieldIterator;
+		return $partIterator;
 	}
 
 	/**
-	 * Return true if this InfoRecord is multi-valued; false otherwise.  This is determined by the implementation.
+	 * Return true if this InfoRecord is multi-valued; false otherwise.	 This is determined by the implementation.
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
+	 *
+	 * WARNING: Not in the OSIDs. Use at your own risk
 	 */
 	function isMultivalued() {
 		return true; // we allow as many InfoRecords of any InfoStructure as people want.
 	}
 
+	
 	/**
-	 * Get the InfoStructure associated with this InfoRecord.
-	 * @return object InfoStructure
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * Get the RecordStructure associated with this Record.
+	 *	
+	 * @return object RecordStructure
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @access public
 	 */
-	function &getInfoStructure() {
-		return $this->_infoStructure;
+	function &getRecordStructure() {
+		return $this->_recordStructure;
 	}
 	
 	/**
@@ -202,6 +297,8 @@ class FileRecord extends Record
 	 * @return boolean
 	 * @access public
 	 * @since 10/25/04
+	 *
+	 * WARNING: Not in the OSID
 	 */
 	function _isLastField ($idString) {
 		$dbHandler =& Services::getService("DBHandler");
