@@ -51,8 +51,8 @@ class HarmoniInfoRecord extends InfoRecord
 		// we need to find the label associated with this ID
 		$schema =& $this->_record->getSchema();
 		foreach ($schema->getAllLabels() as $label) {
-			$field =& $schema->getSchemaField($label);
-			if ($fieldID == $field->getID()) break;
+			$field =& $schema->getField($label);
+			if ($fieldID == $schema->getFieldID($label)) break;
 		}
 		$this->_record->makeFull(); // make sure we have a full data representation.
 		// If the value is deleted, add a new version to it.
@@ -71,7 +71,7 @@ class HarmoniInfoRecord extends InfoRecord
 			$this->_record->setValue($label, $value, NEW_VALUE);
 		}
 			
-		$this->_record->commit();
+		$this->_record->commit(TRUE);
 		
 		return new HarmoniInfoField(new HarmoniInfoPart($this->_infoStructure, $field),
 			$this->_record->getRecordFieldValue($label, $this->_record->numValues($label)-1));
