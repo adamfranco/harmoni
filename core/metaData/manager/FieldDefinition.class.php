@@ -12,7 +12,6 @@ class FieldDefinition {
 	var $_idManager;
 	var $_dbID;
 	var $_associated;
-	var $_db;
 	
 	var $_addToDB;
 	var $_delete;
@@ -23,7 +22,6 @@ class FieldDefinition {
 		ArgumentValidator::validate($type, new StringValidatorRule());
 		ArgumentValidator::validate($label, new StringValidatorRule());
 		ArgumentValidator::validate($verControl, new BooleanValidatorRule());
-		$this->_db =& Services::requireService("DBHandler");
 		$this->_dbID = null;
 		$this->_myID = null;
 		$this->_associated = false;
@@ -50,9 +48,9 @@ class FieldDefinition {
 	}
 	
 	function associate( &$dataSetTypeDefinition,
-	&$idManager,
-	$dbID,
-	$myID=null ) {
+			&$idManager,
+			$dbID,
+			$myID=null ) {
 		// first check if we're already attached to a DataSetTypeDefinition.
 		// if so, we're gonna dump
 		if ($this->_associated) {
@@ -92,9 +90,14 @@ class FieldDefinition {
 			// we have no ID, we probably can't commit...unless we're going to be added to the DB.
 			// we'll also fail if our dataSetTypeDef doesn't have an ID. that meaning it wasn't meant to be
 			// synchronized into the database.
-			// @todo throw an error
+			throwError( new Error("Could not commit() to database because either: 1) we don't have a local ID, 
+			meaning we were not meant to be synchronized with the database, or 2) the DataSetTypeDefinition to which we 
+			belong is not linked with the database. (label: ".$this->_label.", dataset type: ".OKITypeToString($this->_dataSetTypeDefinition->getType()).")",
+			"FieldDefinition",true));
 			return false;
 		}
+		
+		$dbHandler =& Services::requireService("DBHandler");
 		
 		if ($this->_addToDB) {
 			if ($this->getID()) {
@@ -115,34 +118,17 @@ class FieldDefinition {
 					$dataSetTypeID,
 					"'".addslashes($this->_label)."'",
 					(($this->_mult)?1:0),
-					"'".addslahes($this->_type)."'",
+					"'".addslashes($this->_type)."'",
 					(($this->_versionControlled)?1:0)
 			));
 			
-			$result =& $this->_db->query($query,$this->_dbID);
+			$result =& $dbHandler->query($query,$this->_dbID);
 			if (!$result || $result->getNumberOfRows() != 1) {
 				throwError( new UnknownDBError("FieldDefinition") );
 				return false;
 			}
 			
 			$this->_myID = $newID;
-			return true;
-		}
-		
-		if ($this->_delete) {
-			// let's get rid of this bad-boy
-			$query =& new DeleteQuery();
-			$query->setTable("datasettypedef");
-			$query->setWhere("datasettypedef_id=".$this->getID());
-			
-			$result =& $this->_db->query($query,$this->_dbID);
-			if (!$result || $result->getNumberOfRows() != 1) {
-				throwError( new UnknownDBError("FieldDefinition") );
-				return false;
-			}
-			
-			$this->_myID=null;
-			
 			return true;
 		}
 		
@@ -158,12 +144,29 @@ class FieldDefinition {
 					(($this->_versionControlled)?1:0)
 			));
 			
-			$result =& $this->_db->query($query,$this->_dbID);
+			$result =& $dbHandler->query($query,$this->_dbID);
 			if (!$result || $result->getNumberOfRows() != 1) {
 				throwError( new UnknownDBError("FieldDefinition") );
 				return false;
 			}
 			return true;			
+		}
+		
+		if ($this->_delete) {
+			// let's get rid of this bad-boy
+			$query =& new DeleteQuery();
+			$query->setTable("datasettypedef");
+			$query->setWhere("datasettypedef_id=".$this->getID());
+			
+			$result =& $dbHandler->query($query,$this->_dbID);
+			if (!$result || $result->getNumberOfRows() != 1) {
+				throwError( new UnknownDBError("FieldDefinition") );
+				return false;
+			}
+			
+			$this->_myID=null;
+			
+			return true;
 		}
 		
 		// if we're here... nothing happened... no problems

@@ -6,7 +6,6 @@ class DataSetTypeDefinition {
 	
 	var $_manager;
 	var $_idmanager;
-	var $_db;
 	var $_dbID;
 	var $_type;
 	var $_id;
@@ -20,7 +19,6 @@ class DataSetTypeDefinition {
 		$this->_idmanager =& $idmanager;
 		$this->_dbID = $dbID;
 		$this->_type =& $type;
-		$this->_db =& Services::requireService("DBHandler");
 		
 		$this->_loaded = false;
 		$this->_fields = array();
@@ -78,10 +76,12 @@ class DataSetTypeDefinition {
 		$query->addColumn("datasettypedef_id");
 		$query->addColumn("datasettypedef_label");
 		$query->addColumn("datasettypedef_mult");
+		$query->addColumn("datasettypedef_vercontrol");
 		$query->addColumn("datasettypedef_fieldtype");
 		$query->setWhere("fk_datasettype=".$this->_id);
 		
-		$result =& $this->_db->query($query,$this->_dbID);
+		$dbHandler =& Services::requireService("DBHandler");
+		$result =& $dbHandler->query($query,$this->_dbID);
 		if (!$result) {
 			throwError( new UnknownDBError("DataSetTypeDefinition") );
 		}
@@ -90,7 +90,10 @@ class DataSetTypeDefinition {
 			$a = $result->getCurrentRow();
 			$result->advanceRow();
 			
-			$newField =& new FieldDefinition($a['datasettypedef_label'],$a['datasettypedef_type'],$a['datasettype_mult']);
+			$newField =& new FieldDefinition($a['datasettypedef_label'],$a['datasettypedef_fieldtype'],
+					(($a['datasettypedef_mult'])?true:false),
+					(($a['datasettypedef_vercontrol'])?true:false)
+					);
 			$this->_addField($newField, $a['datasettypedef_id']);
 			unset($newField);
 		}
@@ -103,7 +106,7 @@ class DataSetTypeDefinition {
 	}
 	
 	function getAllLabels() {
-		return array_keys($this->_field);
+		return array_keys($this->_fields);
 	}
 	
 	function &getFieldDefinition($label) {

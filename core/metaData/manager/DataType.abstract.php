@@ -1,5 +1,7 @@
 <?php
 
+require_once HARMONI."metaData/manager/DataType.interface.php";
+
 class DataType extends DataTypeInterface {
 	
 	var $_myID;

@@ -6,7 +6,7 @@ require_once(HARMONI."errorHandler/Error.interface.php");
  * An error class interface provides functionality to create Error objects 
  * to be used by the ErrorHandler
  *
- * @version $Id: Error.class.php,v 1.2 2003/11/13 01:08:44 gabeschine Exp $
+ * @version $Id: Error.class.php,v 1.3 2003/11/16 00:18:07 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  **/
@@ -32,7 +32,7 @@ class Error extends ErrorInterface {
 		$this->_description = $description;
 		$this->_type = $type;
 		$this->_isFatal = $isFatal;
-		$this->_debugBacktrace = getDebugBacktrace;
+		$this->_debugBacktrace = debug_backtrace();
 //		array_shift($this->_debugBacktrace);
     }
     
@@ -75,7 +75,7 @@ class Error extends ErrorInterface {
 
 }
 
-class UnkownDBError extends Error {
+class UnknownDBError extends Error {
 	function UnkownDBError($type) {
 		parent::Error("An unkonwn Database error occured.",$type,true);
 	}

@@ -1,5 +1,7 @@
 <?php
 
+require_once HARMONI."metaData/manager/DataType.abstract.php";
+
 class IntegerDataType
 	extends DataType {
 	

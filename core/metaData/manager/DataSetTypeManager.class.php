@@ -9,7 +9,6 @@ class DataSetTypeManager
 	
 	var $_idmanager;
 	var $_dbID;
-	var $_db;
 	
 	var $_types;
 	var $_typeDefinitions;
@@ -26,7 +25,6 @@ class DataSetTypeManager
 	function DataSetTypeManager( &$idmanager, $dbID ) {
 		$this->_idmanager =& $idmanager;
 		$this->_dbID = $dbID;
-		$this->_db =& Services::requireService("DBHandler");
 		
 		// talk to the DB
 		$this->populate();
@@ -39,6 +37,8 @@ class DataSetTypeManager
 	* @desc Fetches from the DB a list of registered DataSetTypes.
 	*/
 	function populate() {
+		debug::output("Fetching all our known DataSetTypes from the database.",DEBUG_SYS1, "DataSetTypeManager");
+		
 		// let's get all our known types
 		$query =& new SelectQuery;
 		
@@ -49,7 +49,8 @@ class DataSetTypeManager
 		$query->addColumn("datasettype_keyword");
 		$query->addColumn("datasettype_description");
 		
-		$result =& $this->_db->query($query,$this->_dbID);
+		$dbHandler =& Services::requireService("DBHandler");
+		$result =& $dbHandler->query($query,$this->_dbID);
 		if (!$result) throwError(new UnknownDBError("DataSetTypeManager"));
 		
 		while ($result->hasMoreRows()) {
@@ -65,6 +66,8 @@ class DataSetTypeManager
 			$this->_types[$a['datasettype_id']] =& $type;
 			
 			$this->_typeIDs[$this->_mkHash($type)] = $a['datasettype_id'];
+			
+			debug::output("Found type ID ".$a['datasettype_id']." of type '".OKITypeToString($type)."'",DEBUG_SYS2,"DataSetTypeManager");
 			unset($type);
 		}
 	}
@@ -101,7 +104,7 @@ class DataSetTypeManager
 	
 	function getIDForType(&$type) {
 		$hash = $this->_mkHash($type);
-		return ($this->_typeIDs[$hash])?$this->_typeIDs[$hash]:null;
+		return (isset($this->_typeIDs[$hash]))?$this->_typeIDs[$hash]:null;
 	}
 	
 	function & newDataSetType(&$type) {
@@ -111,6 +114,7 @@ class DataSetTypeManager
 	}
 	
 	function & _addDataSetType(&$type) {
+		debug::output("Adding DataSetType '".OKITypeToString($type)."' to database.",DEBUG_SYS1,"DataSetTypeManager");
 		if ($id = $this->getIDForType($type)) {
 			throwError( new Error(
 				"DataSetTypeManager::newDataSetType(".OKITypeToString($type).") - a DataSetType for this Type already exists, so the existing one has been returned.",
@@ -132,7 +136,9 @@ class DataSetTypeManager
 			"'".addslashes($type->getKeyword())."'",
 			"'".addslashes($type->getDescription())."'"
 		));
-		$result =& $this->_db->query($query,$this->_dbID);
+		
+		$dbHandler =& Services::requireService("DBHandler");
+		$result =& $dbHandler->query($query,$this->_dbID);
 		if (!$result || $result->getNumberOfRows() != 1) {
 			throwError( new UnknownDBError("DataSetTypeManager") );
 		}
@@ -159,7 +165,7 @@ class DataSetTypeManager
 				"DataSetTypeManager",true));
 			return false;
 		}
-		return $this->_types[$id];
+		return $this->_typeDefinitions[$id];
 	}
 	
 	function & getAllDataSetTypes() {
@@ -169,15 +175,19 @@ class DataSetTypeManager
 	function synchronize(&$newDef) {
 		$type =& $newDef->getType();
 		
+		debug::output("Attempting to synchronize DataSetTypeDefinition type '".OKITypeToString($type)."' with
+		the database.",DEBUG_SYS1,"DataSetTypeManager");
+		
 		// check if we already have a definition for this type. if we don't, add a new one.
 		if (!$this->dataSetTypeExists($type)) {
 			$oldDef =& $this->_addDataSetType($type);
+			debug::output("Creating new DataSetType in the database.",DEBUG_SYS3,"DataSetTypeManager");
 		} else {
 			$oldDef =& $this->getDataSetTypeDefinition($type);
+			// make sure $oldDef has all its data loaded
+			$oldDef->load();
+			debug::output("Using database version for synchronization.",DEBUG_SYS3,"DataSetTypeManger");
 		}
-		
-		// make sure $oldDef has all its data loaded
-		$oldDef->load();
 		
 		/*
 		The synchronization process is not simple. 
@@ -205,7 +215,9 @@ class DataSetTypeManager
 		}
 		*/
 		
-		$allLabels = array_merge( $newDef->getAllLabels(), $oldDef->getAllLabels() );
+		$allLabels = array_unique(array_merge( $newDef->getAllLabels(), $oldDef->getAllLabels() ));
+		
+		debug::output("Merged labels: ".implode(", ",$allLabels),DEBUG_SYS5,"DataSetTypeManager");
 		
 		foreach ($allLabels as $label) {
 			// now we're going to go through the logic above in the comment
@@ -216,6 +228,8 @@ class DataSetTypeManager
 				$newField =& $field->clone();
 				$newField->addToDB();
 				$oldDef->addNewField($newField);
+				
+				debug::output("Label '$label' flagged for addition to database.",DEBUG_SYS5,"DataSetTypeManager");
 				unset($newField, $field);
 				continue;
 			}
@@ -224,6 +238,8 @@ class DataSetTypeManager
 			if ($oldDef->fieldExists($label) && !$newDef->fieldExists($label)) {
 				$field =& $oldDef->getFieldDefinition($label);
 				$field->delete();
+				
+				debug::output("Label '$label' flagged for deletion from database.",DEBUG_SYS5,"DataSetTypeManager");
 				unset($field);
 				continue;
 			}
@@ -248,9 +264,12 @@ class DataSetTypeManager
 			// now, check if the versionControl has changed.
 			$oldVctl = $oldField->getVersionControlFlag();
 			$newVctl = $newField->getVersionControlFlag();
-			if ($oldVctl !== $newVctl) { // boolean-safe compare
+
+			if ($oldVctl !== $newVctl) { 
 				$oldField->setVersionControlFlag($newVctl);
 				$oldField->update();
+				
+				debug::output("Label '$label': setting version control flag to: ".(($newVctl)?"true":"false"),DEBUG_SYS5,"DataSetTypeManager");
 			}
 			unset($oldVctl, $newVctl);
 			
@@ -262,6 +281,8 @@ class DataSetTypeManager
 				if (!$oldMult && $newMult) {
 					$oldField->setMultFlat(true);
 					$oldField->update();
+					
+					debug::output("Label '$label': activating multiple-values.",DEBUG_SYS5,"DataSetTypeManager");
 				}
 				// otherwise, we'll have to do some smart updating
 				if ($oldMult && !$newMult) {
@@ -277,12 +298,16 @@ class DataSetTypeManager
 					// now, make the change
 					$oldField->setMultFlag(false);
 					$oldField->update();
+					
+					debug::output("Label '$label': deactivating multiple values, deleted any additional data entries that would conflict with this setting.",DEBUG_SYS5,"DataSetTypeManager");
 				}
 			}
 		}
 		
 		// now that we're done syncrhonizing $newDef with $oldDef, let's commit everything to the DB
 		$oldDef->commitAllFields();
+		
+		debug::output("... synchronization finished.",DEBUG_SYS2,"DataSetTypeManager");
 	}
 	
 	function start() {}

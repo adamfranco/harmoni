@@ -31,6 +31,8 @@ class HarmoniDataManager {
 		Services::registerObjectAsService("DataSetTypeManager",$dataSetTypeManager);
 		Services::registerObjectAsService("DataTypeManager",$dataTypeManager);
 //		Services::registerObjectAsService("DataSetManager",$dataSetManager);
+
+		debug::output("Activated Harmoni Data Manager.",DEBUG_SYS1,"HarmoniDataManager");
 	}
 	
 }

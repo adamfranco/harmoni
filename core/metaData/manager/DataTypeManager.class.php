@@ -25,7 +25,7 @@ class DataTypeManager
 		// now check if it extends the DataTypeInterface
 		$rule =& new ExtendsValidatorRule("DataTypeInterface");
 		$obj =& new $class;
-		if (!$rule->check($class)) {
+		if (!$rule->check($obj)) {
 			throwError ( new Error("Could not register new DataType '$name' to class '$class' because the class does
 			not extends the DataTypeInterface.","DataTypeManager",true));
 		}

@@ -5,19 +5,17 @@
 class IDManager
 	extends ServiceInterface {
 	
-	var $_db;
 	var $_dbID;
 	
 	function IDManager($dbID) {
 		$this->_dbID = $dbID;
-		$this->_db =& Services::requireService("DBHandler");
 	}
 
 	function newID(&$type) {
 		ArgumentValidator::validate($type,new ExtendsValidatorRule("Type"));
 		debug::output("trying to generate new id for type \"".
 			$type->getDomain().", ".$type->getAuthority().", ".$type->getKeyword()."\"",
-			DEBUG_SYS4,"IDManager");
+			20,"IDManager");
 		
 		$domain = $type->getDomain();
 		$authority = $type->getAuthority();
@@ -27,11 +25,12 @@ class IDManager
 		$query->addTable("harmoni_id");
 		$query->addColumn("MAX(harmoni_id_number)");
 		
-		$result =& $this->_db->query($query,$this->_dbID);
+		$dbHandler =& Services::requireService("DBHandler");
+		$result =& $dbHandler->query($query,$this->_dbID);
 		if (!$result) throwError( new Error("Could not fetch largest ID from the database.","IDManager",true));
 		$max = $result->field(0);
 		
-		debug::output("got current max of '$max' from the database",DEBUG_SYS2,"IDManager");
+		debug::output("got current max of '$max' from the database",20,"IDManager");
 		
 		unset($query,$result);
 		
@@ -44,12 +43,12 @@ class IDManager
 								"'".addslashes($authority)."'",
 								"'".addslashes($keyword)."'"));
 		
-		$result =& $this->_db->query($query,$this->_dbID);
+		$result =& $dbHandler->query($query,$this->_dbID);
 		if ($result->getNumberOfRows() != 1) {
 			throwError( new UnknownDBError("IDManager"));
 		}
 		
-		debug::output("successfully created new id '$max'",DEBUG_SYS1,"IDManager");
+		debug::output("successfully created new id '$max'",DEBUG_SYS5,"IDManager");
 		
 		return $max;
 	}
@@ -63,7 +62,8 @@ class IDManager
 		$query->addColumn("harmoni_id_keyword");
 		$query->addWhere("harmoni_id_number=$id");
 		
-		$result =& $this->_db->query($query,$this->_dbID);
+		$dbHandler =& Services::requireService("DBHandler");
+		$result =& $dbHandler->query($query,$this->_dbID);
 		if (!$result || $result->getNumberOfRows() != 1)
 			$type = null;
 		else
