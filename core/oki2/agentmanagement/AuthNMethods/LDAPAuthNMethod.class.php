@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.1 2005/03/03 01:03:51 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.2 2005/03/03 22:15:27 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.1 2005/03/03 01:03:51 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.2 2005/03/03 22:15:27 adamfranco Exp $
  */
 class LDAPAuthNMethod
 	extends AuthNMethod
@@ -43,7 +43,7 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function authenticate ( &$authNTokens ) {
+	function authenticateForTokens ( &$authNTokens ) {
 		throwError( new Error("AuthNMethod::authenticate() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}

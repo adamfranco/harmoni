@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.1 2005/03/03 01:03:51 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.2 2005/03/03 22:15:27 adamfranco Exp $
  */ 
 
 /**
@@ -32,7 +32,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.1 2005/03/03 01:03:51 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.2 2005/03/03 22:15:27 adamfranco Exp $
  */
 class AuthNMethod {
 	
@@ -205,6 +205,27 @@ class AuthNMethod {
 	 */
 	function _populateProperties ( &$authNTokens, &$properties ) {
 		throwError( new Error("AuthNMethod::_populateProperties() should have been overridden in a child class.",
+									 "AuthNMethod", true));
+	}
+	
+	/**
+	 * Get an iterator of the AuthNTokens that match the search string passed.
+	 * The '*' wildcard character can be present in the string and will be
+	 * converted to the system wildcard for the AuthNMethod if wildcards are
+	 * supported or removed (and the exact string searched for) if they are not
+	 * supported.
+	 *
+	 * When multiple fields are searched on an OR search is performed, i.e.
+	 * '*ach*' would match username/fullname 'achapin'/'Chapin, Alex' as well as
+	 *  'zsmith'/'Smith, Zach'.
+	 * 
+	 * @param string $searchString
+	 * @return object ObjectIterator
+	 * @access public
+	 * @since 3/3/05
+	 */
+	function &getTokensBySearch ( $searchString ) {
+		throwError( new Error("AuthNMethod::getTokensBySearch() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
 	

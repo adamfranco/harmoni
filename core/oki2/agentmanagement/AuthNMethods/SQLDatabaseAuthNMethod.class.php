@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.1 2005/03/03 01:03:51 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.2 2005/03/03 22:15:27 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.1 2005/03/03 01:03:51 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.2 2005/03/03 22:15:27 adamfranco Exp $
  */
 class SQLDatabaseAuthNMethod
 	extends AuthNMethod
@@ -173,6 +173,60 @@ class SQLDatabaseAuthNMethod
 							." results were returned when trying to populate the properties for '"
 							.$authNTokens->getUsername()."'; should be 0 or 1.",
 									 "SQLDatabaseAuthNMethod", true));
+	}
+	
+	/**
+	 * Get an iterator of the AuthNTokens that match the search string passed.
+	 * The '*' wildcard character can be present in the string and will be
+	 * converted to the system wildcard for the AuthNMethod if wildcards are
+	 * supported or removed (and the exact string searched for) if they are not
+	 * supported.
+	 *
+	 * When multiple fields are searched on an OR search is performed, i.e.
+	 * '*ach*' would match username/fullname 'achapin'/'Chapin, Alex' as well as
+	 *  'zsmith'/'Smith, Zach'.
+	 * 
+	 * @param string $searchString
+	 * @return object ObjectIterator
+	 * @access public
+	 * @since 3/3/05
+	 */
+	function &getTokensBySearch ( $searchString ) {
+		$dbc =& Services::getService("DBHandler");
+		$dbId = $this->_configuration->getProperty('database_id');
+		$authenticationTable = $this->_configuration->getProperty('authentication_table');
+		$usernameField = $this->_configuration->getProperty('username_field');
+		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
+		
+		$searchString = str_replace('*', '%', $searchString);
+		
+		$query = & new SelectQuery;
+		$query->addTable($authenticationTable);
+		$query->addColumn($usernameField);
+		$query->addWhere(
+			$usernameField." LIKE ('".addslashes($searchString)."')", _OR);
+		
+		if ($propertiesFields !== NULL) {
+			$propertiesFieldsKeys =& $propertiesFields->getKeys();
+		
+			while ($propertiesFieldsKeys->hasNextObject()) {
+				$propertyKey = $propertiesFieldsKeys->nextObject();
+				$propertyFieldName = $propertiesFields->getProperty($propertyKey);
+				
+				$query->addWhere(
+					$propertyFieldName." LIKE ('".addslashes($searchString)."')", _OR);
+			}
+		}
+		
+		$result =& $dbc->query($query, $dbId);
+		
+		$tokens = array();
+		while ($result->hasMoreRows()) {
+			$tokens[] =& $this->createTokensForIdentifier($result->field($usernameField));
+			$result->advanceRow();
+		}
+		
+		return new HarmoniObjectIterator($tokens);
 	}
 	
 	/**
