@@ -12,7 +12,7 @@ require_once(dirname(__FILE__)."/OrderedSet.interface.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: OrderedSet.class.php,v 1.4 2004/08/26 15:10:35 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.5 2004/09/21 17:40:47 adamfranco Exp $
  */
  
 class OrderedSet 
@@ -61,11 +61,11 @@ class OrderedSet
 		
 		// populate our array with any previously stored items.
 		$query =& new SelectQuery;
-		$query->addColumn("sets.order", "item_order");
+		$query->addColumn("sets.item_order", "item_order");
 		$query->addColumn("sets.item_id", "item_id");
 		$query->addTable("sets");
 		$query->addWhere("sets.id = '".addslashes($this->_setId->getIdString())."'");
-		$query->addOrderBy("sets.order");
+		$query->addOrderBy("sets.item_order");
 		
 		$dbHandler =& Services::getService("DBHandler");
 		$result =& $dbHandler->query($query, $this->_dbIndex);
@@ -152,7 +152,7 @@ class OrderedSet
 		// Add the item to the database
 		$query =& new InsertQuery;
 		$query->setTable("sets");
-		$columns = array("sets.id", "sets.item_id", "sets.order");
+		$columns = array("sets.id", "sets.item_id", "sets.item_order");
 		$values = array($this->_setId->getIdString(), $id->getIdString(), $position);
 		$query->setColumns($columns);
 		$query->setValues($values);
@@ -323,7 +323,7 @@ class OrderedSet
 			if ($oldOrders[$key] != $val) {
 				$query =& new UpdateQuery;
 				$query->setTable("sets");
-				$columns = array("sets.order");
+				$columns = array("sets.item_order");
 				$query->setColumns($columns);
 				$values = array($key);
 				$query->setValues($values);
