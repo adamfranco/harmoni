@@ -12,7 +12,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ThemesTestCase.class.php,v 1.5 2005/01/19 16:32:55 adamfranco Exp $
+ * @version $Id: ThemesTestCase.class.php,v 1.6 2005/01/20 06:38:04 nstamato Exp $
  * @copyright 2003 
  */
 
@@ -25,7 +25,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 		/**
 		*  Sets up unit test wide variables at the start
 		*    of each test method.
-		*    @access public
+		*    @public
 		*/
 		function setUp() {
 			// perhaps, initialize $obj here
@@ -33,7 +33,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 		
 		/**
 		 *    Clears the data set in the setUp() method call.
-		 *    @access public
+		 *    @public
 		 */
 		function tearDown() {
 			// perhaps, unset $obj here

@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.7 2005/01/19 23:23:00 adamfranco Exp $
+ * @version $Id: GUIManager.class.php,v 1.8 2005/01/20 06:37:15 nstamato Exp $
  */
 class GUIManager extends GUIManagerInterface {
 
@@ -210,7 +210,43 @@ class GUIManager extends GUIManagerInterface {
 	 * @param ref object theme The theme whose state needs to be saved.
 	 **/
 	function replaceThemeState(& $stateId, & $theme) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		// ** parameter validation
+		ArgumentValidator::validate($stateId, new ExtendsValidatorRule("HarmoniId"), true);
+		ArgumentValidator::validate($theme, new ExtendsValidatorRule("ThemeInterface"), true);
+		// ** end of parameter validation
+		
+		$exportData = $theme->exportAllRegisteredSPs();
+		
+		//add verification that the themestate with 
+		//$stateId really exists
+		
+		
+		if (count($exportData) == 0) {
+		    // no date to update the theme state
+			$err = "There are no registered Style Properties in your theme";
+			throwError(new Error($err, "GUIManager", false));
+			return;
+		}
+		
+		
+		
+		// create the theme state to go into the database.
+		$themeState = serialize($exportData);
+		
+		//set up the query
+		$db = $this->_guiDB.".";
+		$dbHandler =& Services::requireService("DBHandler");
+		$idValue = $stateId->getIdString();
+		$query =& new UpdateQuery;
+		$query->setTable($db."gui");
+		$query->setColumns(array($db."gui.gui_state"));
+		$values = array();
+		$values[] = "'".addslashes($themeState)."'";
+		$query->setValues($values);
+		$query->addWhere($db."gui.gui_state=$idValue");
+	
+		//run the query
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 	}
 	
 	/**
@@ -272,7 +308,24 @@ class GUIManager extends GUIManagerInterface {
 	 * be deleted.
 	 **/
 	function deleteThemeState(& $id) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		// ** parameter validation
+		ArgumentValidator::validate($id, new ExtendsValidatorRule("HarmoniId"), true);
+		// ** end of parameter validation
+		
+		$db = $this->_guiDB.".";
+		$dbHandler =& Services::requireService("DBHandler");
+		$idValue = $id->getIdString();
+		$query =& new DeleteQuery;
+		$query->setTable($db."gui");
+		$query->addWhere($db."gui.gui_id = ".$idValue);
+		
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		if ($queryResult->getNumberOfRows() > 1) {
+			$err = "More than one entry was affected by the Query. Maybe something nasty has happened!";
+			throwError(new Error($err, "GUIManager", false));
+		}
+		
 	}
 
 }
