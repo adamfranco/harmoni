@@ -8,7 +8,7 @@ require_once(HARMONI.'errorHandler/ErrorHandler.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ErrorHandlerTestCase.class.php,v 1.5 2003/06/24 21:14:42 adamfranco Exp $
+ * @version $Id: ErrorHandlerTestCase.class.php,v 1.6 2003/06/25 15:11:29 movsjani Exp $
  * @package harmoni.errorhandler.tests
  * @copyright 2003 
  **/
@@ -43,7 +43,7 @@ require_once(HARMONI.'errorHandler/ErrorHandler.class.php');
 	    $this->_testHandler = new ErrorHandler();
 		$this->_testHandler->addNewError("first Error","user");
 		$this->_testHandler->addNewError("second Error","prof");
-		$testError = new Error("third error","system");
+		$testError = new Error("third error","system",true);
 		$this->_testHandler->addError(& $testError);
 		$this->assertEqual(3,$this->_testHandler->getNumberOfErrors());
 		$this->assertReference($testError,$this->_testHandler->_errorQueue->_queue[2]);

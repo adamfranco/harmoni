@@ -1,6 +1,5 @@
 <?php
 
-
 require_once(HARMONI.'errorHandler/Error.class.php');
 
 /**
@@ -8,7 +7,7 @@ require_once(HARMONI.'errorHandler/Error.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ErrorTestCase.class.php,v 1.8 2003/06/24 21:14:42 adamfranco Exp $
+ * @version $Id: ErrorTestCase.class.php,v 1.9 2003/06/25 15:11:29 movsjani Exp $
  * @package harmoni.errorhandler.tests
  * @copyright 2003 
  **/
@@ -54,5 +53,4 @@ class ErrorTestCase extends UnitTestCase {
 	    $this->assertTrue($this->_testError->isFatal());
 	}
 }
-
 ?>
