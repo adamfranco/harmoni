@@ -32,7 +32,7 @@ define("MEMORY_ONLY", 1001);
  * 
  * <p></p>
  *
- * @version $Revision: 1.16 $ / $Date: 2004/01/14 20:30:37 $
+ * @version $Revision: 1.17 $ / $Date: 2004/01/16 23:15:04 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -118,7 +118,7 @@ class HarmoniHierarchyManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & createHierarchy($allowsMultipleParents, $description, $name, $nodeTypes, $allowsRecursion) {
+	function & createHierarchy($name, $description, $nodeTypes, $allowsMultipleParents, $allowsRecursion) {
 		// Check the arguments
 		ArgumentValidator::validate($allowsMultipleParents, new BooleanValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
@@ -146,7 +146,7 @@ class HarmoniHierarchyManager
 		$hierarchyStore =& $this->_managerStore->createHierarchyStore($hierarchyId);
 
 		// Create a new hierarchy and add it to the managerStore;
-		$hierarchy =& new HarmoniHierarchy($hierarchyId, $description, $name, $nodeTypes, $hierarchyStore);
+		$hierarchy =& new HarmoniHierarchy($hierarchyId, $name, $description, $nodeTypes, $hierarchyStore);
 		$this->_managerStore->addHierarchy($hierarchy);
 		
 		// Save this Manager to persistable storage

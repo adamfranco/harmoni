@@ -1,5 +1,5 @@
 <?
-require_once(OKI."/dr/drAPI.interface.php");
+require_once(OKI."dr.interface.php");
 require_once(HARMONI."/oki/dr/HarmoniDigitalRepository.class.php");
 
 /**
@@ -27,6 +27,10 @@ class HarmoniDigitalRepositoryManager // :: API interface
 		$sharedManager =& Services::getService("Shared");
 		$hierarchyId =& $sharedManager->getId($configuration['hierarchyId']);
 		$this->_hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
+		$this->_hierarchy->load();
+		
+		// Cache any created DRs so that we can pass out references to them.
+		$this->_createdDRs = array();
 	}
 
 	/**
@@ -46,8 +50,8 @@ class HarmoniDigitalRepositoryManager // :: API interface
 		// Add this DR's root node to the hierarchy.
 		$node =& $this->_hierarchy->createRootNode($newId, $digitalRepositoryType, $displayName, $description);
 		
-		$dr =& new HarmoniDigitalRepository ($this->_hierarchy, $node->getId());
-		return $dr;
+		 $this->_createdDRs[$newId->getIdString()] =& new HarmoniDigitalRepository ($this->_hierarchy, $newId);
+		return  $this->_createdDRs[$newId->getIdString()];
 	}
 
 	/**
@@ -65,8 +69,21 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getDigitalRepositories() { /* :: interface :: */ }
-	// :: full java declaration :: DigitalRepositoryIterator getDigitalRepositories()
+	function & getDigitalRepositories() {
+		$rootNodes =& $this->_hierarchy->getRootNodes();
+		$drs = array();
+		while ($rootNodes->hasNext()) {
+			$rootNode =& $rootNodes->next();
+			
+			// make sure that the dr is loaded into the createdDRs array
+			$this->getDigitalRepository($rootNode->getId());
+		}
+		
+		// create a DigitalRepositoryIterator with all fo the DRs in the createdDRs array
+		$drIterator =& new HarmoniDigitalRepositoryIterator($this->_createdDRs);
+		
+		return $drIterator;
+	}
 
 	/**
 	 * Get all the DigitalRepositories of the specified Type.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
@@ -85,8 +102,20 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & getDigitalRepository(& $digitalRepositoryId) { /* :: interface :: */ }
-	// :: full java declaration :: DigitalRepository getDigitalRepository(osid.shared.Id digitalRepositoryId)
+	function & getDigitalRepository(& $digitalRepositoryId) {
+		if (!$this->_createdDRs[$digitalRepositoryId->getIdString()]) {
+			// Get the node for this dr to make sure its availible
+			if (!$this->_hierarchy->getNode($digitalRepositoryId))
+				throwError(new Error(UNKNOWN_ID, "Digital Repository", 1));
+			
+			// create the dr and add it to the cache
+			$this->_createdDRs[$digitalRepositoryId->getIdString()] =& new HarmoniDigitalRepository($this->_hierarchy, $digitalRepositoryId);
+			$this->_drValidFlags[$digitalRepositoryId->getIdString()] = true;
+		}
+		
+		// Dish out the dr.
+		return $this->_createdDRs[$digitalRepositoryId->getIdString()];
+	}
 
 	/**
 	 * Get the Asset with the specified Unique Id.
@@ -149,6 +178,49 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 */
 	function & getDigitalRepositoryTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getDigitalRepositoryTypes()
+	
+
+	/**
+	 * Saves this object to persistable storage.
+	 * @access protected
+	 */
+	function save () {
+		// Save the Hierarchy
+		$this->_hierarchy->save();
+		
+		// Save the Data
+		foreach ($this->_createdDRs as $key => $dr) {
+			$this->_createdDRs[$key]->save();
+		}
+	}
+	 
+	/**
+	 * Loads this object from persistable storage.
+	 * @access protected
+	 */
+	function load () {
+		
+	}	
+
+	/**
+	 * The start function is called when a service is created. Services may
+	 * want to do pre-processing setup before any users are allowed access to
+	 * them.
+	 * @access public
+	 * @return void
+	 **/
+	function start() {
+	}
+	
+	/**
+	 * The stop function is called when a Harmoni service object is being destroyed.
+	 * Services may want to do post-processing such as content output or committing
+	 * changes to a database, etc.
+	 * @access public
+	 * @return void
+	 **/
+	function stop() {
+	}
 }
 
 ?>
