@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Does authentication procedures with an LDAP server.
  *
- * @version $Id: LDAPAuthenticationMethod.class.php,v 1.6 2003/06/30 20:54:22 adamfranco Exp $
+ * @version $Id: LDAPAuthenticationMethod.class.php,v 1.7 2003/06/30 20:56:30 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -196,9 +196,16 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 		else
 			return array();
 		
+		// get array settings that specify if we should fetch ALL the values
+		// from a certain attribute or just the first one
+		$fetchMultiple = $this->_opt->get("agentInformationFieldsFetchMultiple");
+		
 		foreach ($fields as $key=>$field) {
 			if ($row[$field]['count']) {
-				$info[$key] = $row[$field][0];
+				if ($fetchMultiple[$key])
+					$info[$key] = $row[$field];
+				else
+					$info[$key] = $row[$field][0];
 			}
 		}
 		return $info;

@@ -6,7 +6,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * The LDAPMethodOptions is a {@link DataContainer} for the {@link LDAPAuthenticationMethod}.
  * 
  * @package harmoni.authenticationHandler
- * @version $Id: LDAPMethodOptions.class.php,v 1.1 2003/06/30 14:48:07 gabeschine Exp $
+ * @version $Id: LDAPMethodOptions.class.php,v 1.2 2003/06/30 20:56:30 gabeschine Exp $
  * @copyright 2003
  */
 
@@ -36,6 +36,8 @@ class LDAPMethodOptions extends DataContainer {
 
         $this -> add("agentInformationFields", new ArrayValidatorRule);
         $this -> set("agentInformationFields", array());
+		$this -> add("agentInformationFieldsFetchMultiple", new ArrayValidatorRule);
+		$this -> set("agentInformationFieldsFetchMultiple", array());
     } 
 } 
 
