@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * <code>ThemeInterface</code> defines the interface for all <code>Theme</code> classes.
+ * <br><br>
+ * A <code>Theme</code> is the object that will specify the 'look-and-feel' of the application.
+ * In addition to some others, a <code>Theme</code> has the following important functionalities:
+ * <ul type = "I">
+ * 		<li> It acts as a manager of <code>StyleCollections</code> via the
+ *           <code>addStyleCollection</code>, <code>getStyleCollection</code>, 
+ *           and <code>removeStyleCollection</code> methods. Each <code>StyleCollection</code>
+ *           is assigned an OKI Id. There are a few required <code>StyleCollections</code> that
+ *           always need to be added.</li>
+ *      <li> It acts as a  manager of <code>JavaScript</code> scripts via the 
+ *           <code>addJavaScript</code>, <code>getJavaScript</code>, 
+ *           and <code>removeJavaScript</code> methods. Each <code>JavaScript</code>
+ *           is assigned an OKI Id.</li>
+ *      <li> It acts as an HTML page printer via the <code>printHTML</code> method.</li>
+ * 
+
+ * </ul>
+ * 
+ *  It stores a number of StyleCollections
+ * @version $Id: Theme.interface.php~,v 1.1 2004/07/22 16:31:39 dobomode Exp $
+ * @package 
+ * @author Middlebury College, ETS
+ * @copyright 2004 Middlebury College, ETS
+ * @access public
+ **/
+
+class ThemeInterface {
+
+}
+
+?>
