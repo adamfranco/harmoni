@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: TreeTestCase.class.php,v 1.2 2003/10/08 15:16:35 adamfranco Exp $
+ * @version $Id: TreeTestCase.class.php,v 1.3 2003/10/08 21:14:48 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -23,7 +23,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			print "<pre>";
+//			print "<pre>";
 			
 			// The id for each of these will be the initial number of the last part.
 			$list = array(
@@ -49,16 +49,16 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
         function tearDown() {
 			// perhaps, unset $obj here
 			unset($this->tree);
-			print "</pre>";
+//			print "</pre>";
         }
 
+		//--------------the tests ----------------------
+		
 		function test_nodeExists() {
 			$tree =& $this->tree;
 //			print_r($tree);
 			$this->assertTrue($tree->nodeExists("7"));
 		}
-		
-		//--------------the tests ----------------------
 		
 		function test_depth_first_traversal() {
 			$tree =& $this->tree;
@@ -93,15 +93,65 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
 //			print_r($traversalArray);
 		}
 
-		function test_data_object_consistancy() {
+		function test_setdata_object_consistancy() {
 			$tree =& $this->tree;
 			$tree2 =& new Tree;
 			$tree->setData(2, $tree2);
-			print_r($tree->data);
+//			print_r($tree->data);
+			
+			// make sure the object in the tree's data store is the actual one.
 			$this->assertReference($tree2, $tree->data[2]);
 			
+			// get the object back and check that it is referencing the origional.
 			$result =& $tree->getData(2);
-			$this->assertReference($tree2, $tree->data[2]);
+			$this->assertReference($tree2, $result);
+		}
+		
+		function test_addNode_object_consistancy() {
+			$tree =& $this->tree;
+			$tree2 =& new Tree;
+			$tree->addNode($tree2, 10);
+//			print_r($tree->data);
+			
+			// make sure the object in the tree's data store is the actual one.
+			$this->assertReference($tree2, $tree->data[12]);
+			
+			// get the object back and check that it is referencing the origional.
+			$result =& $tree->getData(12);
+			$this->assertReference($tree2, $result);
+		}
+		
+		function test_move_to_with_objects() {
+			$tree =& $this->tree;
+			$tree2 =& new Tree;
+			$tree->addNode($tree2, 10);
+			
+			// get the object back and check that it is referencing the origional.
+			$result =& $tree->getData(12);
+			$this->assertReference($tree2, $result);
+			
+			$tree->moveTo(12,2);
+//			print_r($tree);
+			
+			// get the object back and check that it is referencing the origional.
+			$result =& $tree->getData(12);
+			$this->assertReference($tree2, $result);
+		}
+
+		function test_copy_to_with_objects() {
+			$tree =& $this->tree;
+			$tree2 =& new Tree;
+			$tree->addNode($tree2, 10);
+			
+			// get the object back and check that it is referencing the origional.
+			$result =& $tree->getData(12);
+			$this->assertReference($tree2, $result);
+			
+			$tree->copyTo(12,2);
+//			print_r($tree);
+			
+			// get the object back and check that it is referencing the origional.
+			$result =& $tree->getData(13);
 			$this->assertReference($tree2, $result);
 		}
 	}

@@ -1,6 +1,10 @@
 <?
 
-require_once(OKI."/hierarchy/hierarchyAPI.interface.php");
+require_once(OKI."/hierarchy/hierarchyApi.interface.php");
+require_once(HARMONI.'/oki/hierarchy/HarmoniNode.class.php');
+require_once(HARMONI.'/oki/hierarchy/GenericNodeType.class.php');
+require_once(HARMONI.'/oki/hierarchy/Tree.php');
+
 
 /**
  * A Hierarchy is a structure comprised of nodes arranged in root, parent, and
@@ -15,7 +19,7 @@ require_once(OKI."/hierarchy/hierarchyAPI.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.8 $ / $Date: 2003/10/07 20:14:28 $
+ * @version $Revision: 1.9 $ / $Date: 2003/10/08 21:14:40 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

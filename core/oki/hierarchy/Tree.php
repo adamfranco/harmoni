@@ -172,7 +172,7 @@ class Tree
     * @param  string $separator The separator to use
     * @return object            A tree structure (Tree object)
     */
-    function &createFromList($data, $separator = '/')
+    function & createFromList($data, $separator = '/')
     {
 		$nodeList = array();
         $tree     =& new Tree();
@@ -186,7 +186,8 @@ class Tree
                 if (!empty($nodeList[$pathParts[0]])) {
                     continue;
                 } else {
-					$nodeList[$pathParts[0]] = $tree->addNode(array($pathParts[0], $data[$i]));
+                	$tmp = array($pathParts[0], $data[$i]);
+					$nodeList[$pathParts[0]] = $tree->addNode($tmp);
                 }
 
             // Multiple parts means each part/parent combination
@@ -201,7 +202,8 @@ class Tree
                         $parentID = $nodeList[$currentPath];
                         continue;
                     } else {
-						$parentID = $nodeList[$currentPath] = $tree->addNode(array($pathParts[$j], $currentPath), $parentID);
+   	                	$tmp = array($pathParts[$j], $currentPath);
+						$parentID = $nodeList[$currentPath] = $tree->addNode($tmp, $parentID);
                     }
                 }
             }
@@ -234,7 +236,7 @@ class Tree
     *                                 SELECT id, parent_id FROM structure ORDER BY parent_id, id
     *                                 The query MUST be ordered by parent_id, then id.
     */
-    function &createFromMySQL($params)
+    function & createFromMySQL($params)
     {
         $tree     = &new Tree();
         $nodeList = array();
@@ -286,7 +288,7 @@ class Tree
 	* @param  boolean $ignoreRoot Whether to ignore the root XML element
 	* @return object              The Tree object
     */
-	function &createFromXMLTree($xmlTree, $ignoreRoot = false)
+	function & createFromXMLTree($xmlTree, $ignoreRoot = false)
 	{
 		$tree     = &new Tree();
 		$parentID = 0;
@@ -342,7 +344,8 @@ class Tree
 		if (file_exists($path) AND is_readable($path)) {
 			$parentID = 0;
 			if (is_dir($path) AND $includeStartPoint) {
-				$parentID = $tree->addNode(array(basename($path), $path));
+				$tmp = array(basename($path), $path);
+				$parentID = $tree->addNode($tmp);
 			}
 			Tree::_addFiles($tree, $parentID, $path);
 		}
@@ -368,12 +371,14 @@ class Tree
 
 				// Directory
 				if (is_dir($fullFilename) AND is_readable($fullFilename)) {
-					$newNodeID = $tree->addNode(array($filename, $fullFilename), $parentID);
+					$tmp = array($filename, $fullFilename);
+					$newNodeID = $tree->addNode($tmp, $parentID);
 					Tree::_addFiles($tree, $newNodeID, $fullFilename);
 
 				// Regular file
 				} elseif (is_readable($fullFilename)) {
-					$newNodeID = $tree->addNode(array($filename, $fullFilename), $parentID);
+					$tmp = array($filename, $fullFilename);
+					$newNodeID = $tree->addNode($tmp, $parentID);
 				}
 			}
 		}
@@ -386,7 +391,7 @@ class Tree
 	*						objects. Use setData for objects.
 	* @param integer $parentID Optional parent node ID
     */
-	function addNode($data = NULL, $parentID = 0)
+	function addNode(&$data, $parentID=0)
 	{
 		$newID = $this->uid++;
 
@@ -693,7 +698,8 @@ class Tree
     */
 	function copyTo($id, $parentID)
 	{
-		$newID = $this->addNode($this->getData($id), $parentID);
+		$tmp =& $this->getData($id);
+		$newID = $this->addNode($tmp, $parentID);
 		
 		foreach ($this->getChildren($id) as $childID) {
 			$this->copyTo($childID, $newID);

@@ -1,5 +1,7 @@
 <?php
 
+require_once (OKI."/root/rootAPI.interface.php");
+
 class SharedManager
 	extends OsidManager
 { // begin SharedManager
