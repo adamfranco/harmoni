@@ -5,8 +5,8 @@
  * SQL strings and files.
  * 
  * @package harmoni.dbc
- * @version $Id: SQLUtils.static.php,v 1.1 2004/07/02 21:35:43 adamfranco Exp $
- * @date $Date: 2004/07/02 21:35:43 $
+ * @version $Id: SQLUtils.static.php,v 1.2 2004/07/06 18:03:07 adamfranco Exp $
+ * @date $Date: 2004/07/06 18:03:07 $
  * @copyright 2004 Middlebury College
  * @static
  */
@@ -24,7 +24,10 @@ class SQLUtils {
 	 */
 	function parseSQLFile ( $file ) {
 		$queryString = file_get_contents($file);
-		return SQLUtils::parseSQLString($queryString);
+		if ($queryString)
+			return SQLUtils::parseSQLString($queryString);
+		else
+			throwError(new Error("The file, '".$file."' was empty or doesn't exist.","DBHandler::SQLUtils",true));
 	}
 	
 	/**
