@@ -7,7 +7,7 @@ require_once HARMONI."metaData/manager/DataSetTag.class.php";
 * more detailed explanation of the role of tags.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSetTagManager.class.php,v 1.7 2004/01/07 22:19:39 gabeschine Exp $
+* @version $Id: DataSetTagManager.class.php,v 1.8 2004/01/07 22:49:17 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class DataSetTagManager extends ServiceInterface {
@@ -29,7 +29,6 @@ class DataSetTagManager extends ServiceInterface {
 	 * @access public
 	 */
 	function tagToDB( &$dataSet, $date=null ) {
-//		if (!$dataSetID) return null;
 		// if the dataset is not versionControlled, there's no point in tagging
 		if (!$dataSet->isVersionControlled()) return null;
 		
