@@ -1,50 +1,51 @@
 <?php
 
 require_once("Queue.interface.php");
-
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.class.php,v 1.4 2003/06/18 21:31:47 adamfranco Exp $
- * @package harmoni.utilities
+ * @version $Id: Queue.class.php,v 1.5 2003/06/19 15:28:00 dobomode Exp $
  * @copyright 2003 
  */
 
 class Queue extends QueueInterface {
 
-	/**
-	 * @var array $_queue The queue of objects.
-	 * @access private
-	 */
 	var $_queue;
-	
-	/**
-	 * @var integer $_position The current position in the queue.
-	 * @access private
-	 */
 	var $_position;
+
+	/**
+	 * The order of extraction from the queue.
+	 * Indicates whether the order in which objects are extracted from the queue is FIFO ($_reversed = false) or FILO ($_reversed = true).
+	 * 
+	 * @var boolean    
+	 */
+
+	var $_reversed;
 	
 	/**
-	 * The constructor for a Queue.
+     * Create a new Queue
+	 * 
+	 * @param boolean $reversed The order of extraction from the queue.
 	 * @access public
 	 */
-	function Queue(){
+	function Queue($reversed = false){
 		$this->_queue = array();
-		$this->_position = 0;
+		$this->_reversed = $reversed;
+		($this->_reversed) ? $this->_position = -1 : $this->_position = 0;
 	}
 
 	/**
-	 * Adds an object to the queue.
-	 *
+	 * Add an object to the queue.
 	 * @param object $object The object to add to the queue.
 	 * @access public
 	 */
 	function add(& $object) {
 		$this->_queue[] =& $object;
+		if ($this->_reversed) $this->_position++;
 	}
 
 	/**
-	 * Clears the queue.
+	 * Clear the queue
 	 *
 	 * @access public
 	 */
@@ -53,21 +54,17 @@ class Queue extends QueueInterface {
 	}
 
 	/**
-	 * Returns the object at the current position in the queue and increase the position by one.
-	 *
-	 * @return object [unknown] Object at the current position in the queue.
+	 * @return object Object at the current position in the queue and increase the position by one.
 	 * @access public
 	 */
 	function & next() {
 		$object =& $this->_queue[$this->_position];
-		$this->_position++;
+		($this->_reversed) ? $this->_position-- : $this->_position++;
 		return $object;
 	}
 
 	/**
-	 * Whether there exists an object in the queue at the current position.
-	 *
-	 * @return boolean True if there exists an object in the queue at the current position.
+	 * @return boolean Whether there exists an object in the queue at the current position.
 	 * @access public
 	 */
 	function hasNext() {
@@ -75,9 +72,7 @@ class Queue extends QueueInterface {
 	}
 	
 	/**
-	 * Gets the number of objects in the queue.
-	 *
-	 * @return integer The size of the queue.
+	 * @return integer The size of the queue
 	 * @access public
 	 */
 	function getSize() {

@@ -8,8 +8,7 @@
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: QueueTestCase.class.php,v 1.4 2003/06/18 21:31:47 adamfranco Exp $
- * @package harmoni.utilities.tests
+ * @version $Id: QueueTestCase.class.php,v 1.5 2003/06/19 15:28:00 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -85,6 +84,17 @@
 			
 			$this->assertFalse($this->testQueue->hasNext());
 		}
+		
+		function testReverse(){
+			$testReversedQueue =& new Queue(true);
+			$test1 = & new Queue();
+			$test2 = & new Queue();
+			
+			$testReversedQueue->add(& $test1);
+			$testReversedQueue->add(& $test2);
+			
+			$this->assertReference($test2,$testReversedQueue->next());			
+		} 
 		
     }
 
