@@ -72,7 +72,7 @@ if($#inputFiles > 0) {
 		
 		my $linenum = 1;
 		while ($line = <FH>) {
-			if ($line =~ m/(?<!this)->_/) {
+			if ($line =~ m/(?<!\$this)->_/) {
 				print $filePath . ": " . $linenum .": " . $line;
 				
 				$totalCount++;
@@ -108,7 +108,7 @@ if($#inputFiles > 0) {
 		# $ARGV is the filename
 		# $_ is the line
 		# $. is the line number
-		if ($_ =~ m/(?<!this)->_/) {
+		if ($_ =~ m/(?<!\$this)->_/) {
 			print $ARGV . ": " . $. .": " . $_;
 			
 			$totalCount++;
