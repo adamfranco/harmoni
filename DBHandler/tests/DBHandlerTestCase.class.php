@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DBHandlerTestCase.class.php,v 1.4 2003/06/21 00:30:25 dobomode Exp $
+ * @version $Id: DBHandlerTestCase.class.php,v 1.5 2003/06/23 17:12:28 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -45,7 +45,7 @@
 		 **/
 		function test_constructor() {
 			$database =& $this->dbhandler->_databases[0];
-			$this->assertEqual("mysqldatabase", get_class($database));
+			$this->assertIsA($database, "mysqldatabase");
 			$this->assertEqual("devo.middlebury.edu", $database->_dbHost);
 			$this->assertEqual("test", $database->_dbName);
 			$this->assertEqual("test", $database->_dbUser);
@@ -182,5 +182,70 @@
 			$this->assertEqual($this->dbhandler->getTotalNumberOfQueries(), 3);
 			$this->assertEqual($this->dbhandler->getTotalNumberOfSuccessfulQueries(), 2);
 			$this->assertEqual($this->dbhandler->getTotalNumberOfFailedQueries(), 1);
+		}
+		
+		// test SELECT, INSERT, DELETE, and UPDATE queries.
+		function test_All_Queries() {
+			$value = "'Depeche Mode rocks!'";
+			$this->dbhandler->connect();
+
+			// create a new queue of queries to execuete
+			$queryQueue =& new Queue();
+		
+			$query =& new InsertQuery();
+			$query->setTable("test1");
+			$query->setColumns(array("value"));
+			$query->addRowOfValues(array($value));
+			$queryQueue->add($query);
+//			echo "<pre>".MySQL_SQLGenerator::generateSQLQuery($query);
+			
+			$query =& new InsertQuery();
+			$query->setTable("test1");
+			$query->setColumns(array(id, value));
+			$query->addRowOfValues(array("3000000", $value));
+			$queryQueue->add($query);
+
+			$query =& new DeleteQuery();
+			$query->setTable("test1");
+			$query->setWhere("id = 3000000");
+			$queryQueue->add($query);
+			
+			$query =& new UpdateQuery();
+			$query->setTable("test1");
+			$query->setColumns(array("value"));
+			$query->setValues(array($value));
+			$query->setWhere("id > 1000 AND id < 1006");
+			$queryQueue->add($query);
+			
+			$resultQueue =& $this->dbhandler->queryQueue($queryQueue);
+			
+			$this->assertEqual($this->dbhandler->getTotalNumberOfQueries(), 4);
+			$this->assertEqual($this->dbhandler->getTotalNumberOfSuccessfulQueries(), 4);
+			$this->assertEqual($this->dbhandler->getTotalNumberOfFailedQueries(), 0);
+			
+			$result =& $resultQueue->next();
+			$this->assertEqual($result->getNumberOfRows(), 1);
+			$this->assertNotNull($result->getLastAutoIncrementValue());
+			$id = $result->getLastAutoIncrementValue();
+			
+			$result =& $resultQueue->next();
+			$this->assertEqual($result->getNumberOfRows(), 1);
+			$this->assertNotNull($result->getLastAutoIncrementValue());
+
+			$result =& $resultQueue->next();
+			$this->assertEqual($result->getNumberOfRows(), 1);
+
+			$result =& $resultQueue->next();
+
+			$query =& new SelectQuery();
+			$query->setColumns(array("value"));
+			$query->addTable("test1");
+			$query->setWhere("id = $id");
+			$result =& $this->dbhandler->query($query);
+			
+			$this->assertEqual($this->dbhandler->getTotalNumberOfQueries(), 5);
+			$this->assertEqual($this->dbhandler->getTotalNumberOfSuccessfulQueries(), 5);
+			$this->assertEqual($this->dbhandler->getTotalNumberOfFailedQueries(), 0);
+			$this->assertEqual("'".$result->field("value")."'", $value);
 		}
 	}
