@@ -5,9 +5,9 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
 /**
  * the ResourceValidatorRule checks a given value to make sure it's resource
  *
- * @version $Id: ResourceValidatorRule.class.php,v 1.1 2003/06/26 15:38:48 dobomode Exp $
+ * @version $Id: ResourceValidatorRule.class.php,v 1.2 2003/07/06 22:07:40 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.utilities.FieldSetValidator
+ * @package harmoni.utilities.FieldSetValidator.rules
  **/
  
 class ResourceValidatorRule

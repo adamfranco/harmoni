@@ -3,9 +3,9 @@
 /**
  * the ValidatorRuleInterface defines the methods required by any ValidatorRule
  *
- * @version $Id: ValidatorRule.interface.php,v 1.2 2003/06/23 20:42:35 adamfranco Exp $
+ * @version $Id: ValidatorRule.interface.php,v 1.3 2003/07/06 22:07:40 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.utilities.FieldSetValidator
+ * @package harmoni.utilities.FieldSetValidator.rules
  **/
  
 class ValidatorRuleInterface{

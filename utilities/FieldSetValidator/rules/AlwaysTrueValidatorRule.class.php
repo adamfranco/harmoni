@@ -5,9 +5,9 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
 /**
  * an AlwaysTrueValidatorRule will always return valid for a given value
  *
- * @version $Id: AlwaysTrueValidatorRule.class.php,v 1.2 2003/06/23 20:59:14 gabeschine Exp $
+ * @version $Id: AlwaysTrueValidatorRule.class.php,v 1.3 2003/07/06 22:07:40 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.utilities.FieldSetValidator
+ * @package harmoni.utilities.FieldSetValidator.rules
  **/
 
 class AlwaysTrueValidatorRule

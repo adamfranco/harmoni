@@ -5,9 +5,9 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
 /**
  * a ChoiceValidatorRule checks a value against a certain given number of choices
  *
- * @version $Id: ChoiceValidatorRule.class.php,v 1.2 2003/06/23 20:59:14 gabeschine Exp $
+ * @version $Id: ChoiceValidatorRule.class.php,v 1.3 2003/07/06 22:07:40 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.utilities.FieldSetValidator
+ * @package harmoni.utilities.FieldSetValidator.rules
  **/
  
 class ChoiceValidatorRule 
