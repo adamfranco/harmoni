@@ -50,6 +50,16 @@ class DataTypeManager
 		return $object;
 	}
 	
+	function isObjectOfDataType(&$object, $type) {
+		if (!$this->typeRegistered($type)) {
+			throwError ( new Error("AAAH! Trying to check the data type of an object... but '$type' isn't defined!","DataTypeManager",true));
+			return false;
+		}
+		
+		$rule =& new ExtendsValidatorRule($this->_registeredTypes[$type]);
+		return $rule->check($object);
+	}
+	
 	function start() { }
 	
 	function stop() { }
