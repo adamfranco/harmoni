@@ -25,7 +25,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.22 $ / $Date: 2004/01/13 23:03:46 $
+ * @version $Revision: 1.23 $ / $Date: 2004/01/23 16:40:09 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -380,17 +380,20 @@ class HarmoniHierarchy
 	function & getRootNodes() {
 		
 		// Throw an error if we have no nodes
-		if ($this->_hierarchyStore->totalNodes() < 1)
-			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
+		if ($this->_hierarchyStore->totalNodes() < 1) {
+			$nodeArray = array();
 		
-		$treeNodes =& $this->_hierarchyStore->getChildren(0);
+		} else {
 		
-		// Object array of HarmoniNode objects to pass to the iterator
-		$nodeArray = array();
-
-		// put the HarmoniNode objects into the nodeArray
-		foreach ($treeNodes as $treeNodeId) {
-			$nodeArray[] =& $this->_hierarchyStore->getData($treeNodeId);
+			$treeNodes =& $this->_hierarchyStore->getChildren(0);
+			
+			// Object array of HarmoniNode objects to pass to the iterator
+			$nodeArray = array();
+	
+			// put the HarmoniNode objects into the nodeArray
+			foreach ($treeNodes as $treeNodeId) {
+				$nodeArray[] =& $this->_hierarchyStore->getData($treeNodeId);
+			}
 		}
 		
 		// pass off the array to the iterator and return it.
