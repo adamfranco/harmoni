@@ -556,19 +556,20 @@ class HarmoniAsset
 		
 		// Get the DataSetGroup for the source Asset
 		$theirGroup =& $dataSetMgr->fetchDataSetGroup($assetId->getIdString());
+		$dataSets =& $theirGroup->fetchDataSets(TRUE);
 		
 		// Add all of DataSets (InfoRecords) of the specified InfoStructure and Asset
 		// to our DataSetGroup.
-		foreach ($theirGroup as $key => $dataSet) {
+		foreach ($dataSets as $key => $dataSet) {
 			// Get the ID of the current DataSet's TypeDefinition
-			$typeDef =& $theirGroup[$key]->getDataSetTypeDefinition();
+			$typeDef =& $dataSets[$key]->getDataSetTypeDefinition();
 			$typeId =& $sharedMgr->getId($typeDef->getID());
 			
 			// If the current DataSet's DataSetTypeDefinition's ID is the same as
 			// the InfoStructure ID that we are looking for, add that dataSet to our
 			// DataSetGroup.
 			if ($infoStructureId->isEqual($typeId)) {
-				$myGroup->addDataSet($theirGroup[$key]);
+				$myGroup->addDataSet($dataSets[$key]);
 			}
 		}
 		
@@ -605,19 +606,20 @@ class HarmoniAsset
 		
 		// Get the DataSetGroup for the source Asset
 		$theirGroup =& $dataSetMgr->fetchDataSetGroup($assetId->getIdString());
+		$dataSets =& $theirGroup->fetchDataSets(TRUE);
 		
 		// Add all of DataSets (InfoRecords) of the specified InfoStructure and Asset
 		// to our DataSetGroup.
-		foreach ($theirGroup as $key => $dataSet) {
+		foreach ($dataSets as $key => $dataSet) {
 			// Get the ID of the current DataSet's TypeDefinition
-			$typeDef =& $theirGroup[$key]->getDataSetTypeDefinition();
+			$typeDef =& $dataSets[$key]->getDataSetTypeDefinition();
 			$typeId =& $sharedMgr->getId($typeDef->getID());
 			
 			// If the current DataSet's DataSetTypeDefinition's ID is the same as
 			// the InfoStructure ID that we are looking for, add clones of that dataSet
 			// to our DataSetGroup.
 			if ($infoStructureId->isEqual($typeId)) {
-				$newDataSet =& $theirGroup[$key]->clone();
+				$newDataSet =& $dataSets[$key]->clone();
 				$myGroup->addDataSet($newDataSet);
 			}
 		}
