@@ -24,6 +24,7 @@ class CourseManagementManager // :: API interface
 	 */
 	function & createCanonicalCourse($title, $number, $description, & $courseType, & $courseStatusType, $credits) { /* :: interface :: */ }
 	// :: full java declaration :: CanonicalCourse createCanonicalCourse
+	/**
 	 * Delete a CanonicalCourse.
 	 * @param object canonicalCourseId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
@@ -451,6 +452,7 @@ class CanonicalCourse // :: API interface
 	 */
 	function & createCanonicalCourse($title, $number, $description, & $courseType, & $courseStatusType, $credits) { /* :: interface :: */ }
 	// :: full java declaration :: CanonicalCourse createCanonicalCourse
+	/**
 	 * Delete a CanonicalCourse.
 	 * @param object canonicalCourseId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
@@ -493,6 +495,7 @@ class CanonicalCourse // :: API interface
 	 */
 	function & createCourseOffering($title, $number, $description, & $termId, & $offeringType, & $offeringStatusType, & $gradeType) { /* :: interface :: */ }
 	// :: full java declaration :: CourseOffering createCourseOffering
+	/**
 	 * Delete a CourseOffering.
 	 * @param object courseOfferingId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
@@ -704,6 +707,7 @@ class CourseOffering // :: API interface
 	 */
 	function & createCourseSection($title, $number, $description, & $sectionType, & $sectionStatusType, & $location) { /* :: interface :: */ }
 	// :: full java declaration :: CourseSection createCourseSection
+	/**
 	 * Delete a CourseSection.
 	 * @param object courseSectionId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
@@ -972,7 +976,7 @@ class CourseSection // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
-	function updateSchedule(& $scheduleItems[]) { /* :: interface :: */ }
+	function updateSchedule(& $scheduleItems) { /* :: interface :: */ }
 	// :: full java declaration :: void updateSchedule(osid.scheduling.ScheduleItem scheduleItems[])
 
 	/**

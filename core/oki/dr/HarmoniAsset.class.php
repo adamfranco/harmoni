@@ -708,7 +708,11 @@ class HarmoniAsset
 		ArgumentValidator::validate($infoRecordId, new ExtendsValidatorRule("Id"));
 		
 		$dataSetMgr =& Services::getService("DataSetManager");
-		$dataSetMgr->deleteDataSet( $infoRecordId->getIdString() );
+		$dataSet =& $dataSetMgr->fetchDataSet($infoRecordId->getIdString(),true);
+		$dataSet->delete();
+		$dataSet->prune(new PruneAllVersionConstraint());
+		$dataSet->commit();
+//		$dataSetMgr->deleteDataSet( $infoRecordId->getIdString() );
 	}
 
 	/**

@@ -17,7 +17,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.17 2004/05/20 17:24:35 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.18 2004/06/03 21:27:14 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -380,6 +380,7 @@ class Harmoni {
 	 **/
 	function startSession() {
 		// let's start the session
+		if (session_id()) return;
 		session_name($this->config->get("sessionName"));
 		if (!$_COOKIE[$this->config->get("sessionName")] && !$_REQUEST[$this->config->get("sessionName")])
 			session_id(uniqid(str_replace(".","",$_SERVER['REMOTE_ADDR']))); // make new session id.

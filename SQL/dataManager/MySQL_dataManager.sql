@@ -80,11 +80,20 @@ CREATE TABLE `data_integer` (
 
 CREATE TABLE `data_shortstring` (
   `data_shortstring_id` bigint(20) unsigned NOT NULL default '0',
-  `data_shortstring_data` text NOT NULL,
+  `data_shortstring_data` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`data_shortstring_id`)
 ) TYPE=MyISAM;
 
+# Dump of table data_okitype
+# ------------------------------------------------------------
 
+CREATE TABLE `data_okitype` (
+  `data_okitype_id` bigint(20) unsigned NOT NULL default '0',
+  `data_okitype_domain` varchar(255) NOT NULL default '',
+  `data_okitype_authority` varchar(255) NOT NULL default '',
+  `data_okitype_keyword` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`data_okitype_id`)
+) TYPE=MyISAM;
 
 # Dump of table data_string
 # ------------------------------------------------------------
