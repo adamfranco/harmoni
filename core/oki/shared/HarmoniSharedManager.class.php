@@ -31,16 +31,13 @@ require_once(HARMONI."oki/shared/HarmoniStringId.class.php");
  * implementation substitution without source code changes.
  * </p>
  * 
- * <p>
- * Licensed under the {@link osid.SidLicense MIT O.K.I SID Definition License}.
- * </p>
  * 
  * <p></p>
  * @package harmoni.osid.shared
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.25 2004/04/21 17:55:34 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.26 2004/04/22 14:53:46 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */

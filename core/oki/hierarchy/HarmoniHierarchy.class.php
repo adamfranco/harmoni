@@ -19,15 +19,12 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * Hierarchy can allow recursion.  The implementation is responsible for
  * ensuring that the integrity of the Hierarchy is always maintained.
  * 
- * <p>
- * Licensed under the {@link osid.SidLicense MIT O.K.I SID Definition License}.
- * </p>
  * 
  * @package harmoni.osid.hierarchy
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchy.class.php,v 1.26 2004/04/21 17:55:33 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.27 2004/04/22 14:53:17 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

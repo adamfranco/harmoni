@@ -12,9 +12,6 @@ require_once(OKI."/hierarchy.interface.php");
  * through the sequence unless you place the values in a data structure, such
  * as an array, that allows for access by index.
  * 
- * <p>
- * Licensed under the {@link osid.SidLicense MIT O.K.I SID Definition License}.
- * </p>
  * 
  * <p></p>
  *
@@ -22,7 +19,7 @@ require_once(OKI."/hierarchy.interface.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.5 2004/04/21 17:55:33 adamfranco Exp $
+ * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.6 2004/04/22 14:53:19 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
