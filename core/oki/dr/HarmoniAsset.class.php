@@ -670,8 +670,8 @@ class HarmoniAsset
 		// create info records for each dataSet as needed.
 		$infoRecords = array();
 		foreach ($dataSets as $key => $dataSet) {
-			$id =& $dataSets[$key]->getID();
-			$dataSetId =& $sharedManager->getId($id);
+			$dataSetIdString = $dataSets[$key]->getID();
+			$dataSetId =& $sharedManager->getId($dataSetIdString);
 			$infoRecord =& $this->getInfoRecord($dataSetId);
 			$structure =& $infoRecord->getInfoStructure();
 			
@@ -682,9 +682,6 @@ class HarmoniAsset
 		
 		// Create an iterator and return it.
 		$recordIterator =& new HarmoniInfoRecordIterator($infoRecords);
-		
-		print "<br>DataSetID inside getInfoRecords()";
-		printpre ($recordIterator->_infoRecords[0]->_dataSet->_myID);
 		
 		return $recordIterator;
 	}
