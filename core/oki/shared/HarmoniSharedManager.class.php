@@ -4,6 +4,7 @@ require_once(OKI."/shared.interface.php");
 
 require_once(HARMONI."oki/shared/HarmoniType.class.php");
 require_once(HARMONI."oki/shared/HarmoniTypeIterator.class.php");
+require_once(HARMONI."oki/shared/HarmoniIdIterator.class.php");
 require_once(HARMONI."oki/shared/HarmoniAgent.class.php");
 require_once(HARMONI."oki/shared/HarmoniAgentIterator.class.php");
 require_once(HARMONI."oki/shared/HarmoniGroup.class.php");
@@ -36,7 +37,7 @@ require_once(HARMONI."oki/shared/HarmoniId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.31 2004/06/21 19:02:39 dobomode Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.32 2004/07/01 20:41:37 dobomode Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */

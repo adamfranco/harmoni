@@ -4,12 +4,13 @@ require_once(OKI."/authorization.interface.php");
 require_once(HARMONI.'oki/authorization/AuthorizationCache.class.php');
 require_once(HARMONI.'oki/authorization/HarmoniFunction.class.php');
 require_once(HARMONI.'oki/authorization/HarmoniAuthorization.class.php');
+require_once(HARMONI.'oki/authorization/HarmoniAuthorizationIterator.class.php');
 require_once(HARMONI.'oki/authorization/HarmoniQualifier.class.php');
 
 /**
  * AuthorizationManager allows an application to create Authorizations, get Authorizations given selection criterias, ask questions of Authorization such as what Agent can do a Function in a Qualifier context, etc.<p><p>The primary objects in Authorization are Authorization, Function, Agent, and Qualifier. There are also Function and Qualifier types that are understood by the implementation.<p><p>Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p><p>There are two methods to create Authorizations. One uses method uses Agent, Function, and Qualifier.  The other adds effective date and expiration date.  For the method without the dates, the effective date is today and there is no expiration date.  <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * @access public
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.6 2004/06/22 15:23:07 dobomode Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.7 2004/07/01 20:41:37 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @package harmoni.osid.authorization
@@ -175,7 +176,11 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function isAuthorized(& $agentId, & $functionId, & $qualifierId) { /* :: interface :: */ }
+	function isAuthorized(& $agentId, & $functionId, & $qualifierId) {
+		$authorizations =& $this->getAllAZs($agentId, $functionId, $qualifierId, true);
+		
+		return ($authorizations->hasNext());
+	}
 
 
 
@@ -187,7 +192,11 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function isUserAuthorized(& $functionId, & $qualifierId) { /* :: interface :: */ }
+	function isUserAuthorized(& $functionId, & $qualifierId) {
+		$authorizations =& $this->getAllUserAZs($functionId, $qualifierId, true);
+		
+		return ($authorizations->hasNext());
+	}
 
 
 
@@ -209,7 +218,9 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getFunctions(& $functionType) { /* :: interface :: */ }
+	function & getFunctions(& $functionType) {
+		return $this->_cache->getFunctions($functionType);
+	}
 
 
 
@@ -277,7 +288,11 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	  */
-	function & getQualifierChildren(& $qualifierId) { /* :: interface :: */ }
+	function & getQualifierChildren(& $qualifierId) {
+		// get the qualifier
+		$qualifier =& $this->getQualifier($qualifierId);
+		return $qualifier->getChildren();
+	}
 
 
 
@@ -289,7 +304,15 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	  */
-	function & getQualifierDescendants(& $qualifierId) { /* :: interface :: */ }
+	function & getQualifierDescendants(& $qualifierId) {
+		// ** parameter validation
+		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		// ** end of parameter validation
+	
+		$result =& $this->_cache->getQualifierDescendants($qualifierId);
+		
+		return $result;
+	}
 
 
 
@@ -323,7 +346,30 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	  */
-	function & getWhoCanDo(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function & getWhoCanDo(& $functionId, & $qualifierId, $isActiveNow) {
+		// ** parameter validation
+		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, new OptionalRule(new ExtendsValidatorRule("Id")), true);
+		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		// ** end of parameter validation
+		
+		$authorizations =& $this->_cache->getAZs(null,
+												 $functionId->getIdString(),
+												 (isset($qualifierId)) ? $qualifierId->getIdString() : null,
+												 null, 
+												 false, 
+												 $isActiveNow);
+											
+		$agentIds = array();
+		foreach (array_keys($authorizations) as $i => $key) {
+			$authorization =& $authorizations[$key];
+			$agentId =& $authorization->getAgentId();
+			if (!isset($agentIds[$agentId->getIdString()]))
+				$agentIds[$agentId->getIdString()] =& $agentId;
+		}
+		
+		return new HarmoniIdIterator($agentIds);
+	}
 
 
 
@@ -336,7 +382,25 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getExplicitUserAZs(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function & getExplicitUserAZs(& $functionId, & $qualifierId, $isActiveNow) {
+		// ** parameter validation
+		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		// ** end of parameter validation
+		
+		$authentication =& Services::requireService("AuthN", true);
+		$userId =& $authentication->getUserId(new HarmoniAuthenticationType());
+		
+		$authorizations =& $this->_cache->getAZs($userId,
+												 $functionId->getIdString(),
+												 $qualifierId->getIdString(),
+												 null, 
+												 true, 
+												 $isActiveNow);
+		
+		return new HarmoniAuthorizationIterator($authorizations);
+	}
 
 
 
@@ -349,7 +413,25 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getExplicitUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function & getExplicitUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) {
+		// ** parameter validation
+		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		// ** end of parameter validation
+		
+		$authentication =& Services::requireService("AuthN", true);
+		$userId =& $authentication->getUserId(new HarmoniAuthenticationType());
+		
+		$authorizations =& $this->_cache->getAZs($userId,
+												 null,
+												 $qualifierId->getIdString(),
+												 $functionType, 
+												 true, 
+												 $isActiveNow);
+		
+		return new HarmoniAuthorizationIterator($authorizations);
+	}
 
 
 
@@ -362,7 +444,25 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getAllUserAZs(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function & getAllUserAZs(& $functionId, & $qualifierId, $isActiveNow) {
+		// ** parameter validation
+		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		// ** end of parameter validation
+		
+		$authentication =& Services::requireService("AuthN", true);
+		$userId =& $authentication->getUserId(new HarmoniAuthenticationType());
+		
+		$authorizations =& $this->_cache->getAZs($userId,
+												 $functionId->getIdString(),
+												 $qualifierId->getIdString(),
+												 null, 
+												 false, 
+												 $isActiveNow);
+		
+		return new HarmoniAuthorizationIterator($authorizations);
+	}
 
 
 
@@ -375,21 +475,55 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getAllUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function & getAllUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) {
+		// ** parameter validation
+		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		// ** end of parameter validation
+		
+		$authentication =& Services::requireService("AuthN", true);
+		$userId =& $authentication->getUserId(new HarmoniAuthenticationType());
+		
+		$authorizations =& $this->_cache->getAZs($userId,
+												 null,
+												 $qualifierId->getIdString(),
+												 $functionType, 
+												 false, 
+												 $isActiveNow);
+		
+		return new HarmoniAuthorizationIterator($authorizations);
+	}
 
 
 
 	/* :: full java declaration :: AuthorizationIterator getAllUserAZsByFuncType
 	 * Given a Agent, a Function, and a Qualifier (at least one of these must be non-null) returns an enumeration of matching Authorizations.  Explicit Authorizations can be modified.  Any null argument will be treated as a wildcard.
 	 * @param object agentId
-	 * @param object functionType
+	 * @param object functionId
 	 * @param object qualifierId
 	 * @param boolean isActiveNow
 	 * @return object AuthorizationIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getExplicitAZs(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function & getExplicitAZs(& $agentId, & $functionId, & $qualifierId, $isActiveNow) {
+		// ** parameter validation
+		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		// ** end of parameter validation
+		
+		$authorizations =& $this->_cache->getAZs($agentId->getIdString(),
+												 $functionId->getIdString(),
+												 $qualifierId->getIdString(),
+												 null, 
+												 true, 
+												 $isActiveNow);
+		
+		return new HarmoniAuthorizationIterator($authorizations);	
+	}
 
 
 
@@ -403,21 +537,53 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getExplicitAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function & getExplicitAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) {
+		// ** parameter validation
+		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		// ** end of parameter validation
+		
+		$authorizations =& $this->_cache->getAZs($agentId->getIdString(),
+												 null,
+												 $qualifierId->getIdString(),
+												 $functionType, 
+												 true, 
+												 $isActiveNow);
+		
+		return new HarmoniAuthorizationIterator($authorizations);
+	}
 
 
 
 	/* :: full java declaration :: AuthorizationIterator getExplicitAZsByFuncType
 	 * Given a Function and a Qualifier returns an enumeration of all Authorizations that would allow agents to do the Function with the Qualifier. This method differs from the simple form of getAuthorizations in that this method looks for any Authorization that permits doing the Function with the Qualifier even if the Authorization's Qualifier happens to be a parent of this Qualifier argument.
 	 * @param object agentId
-	 * @param object functionType
+	 * @param object functionId
 	 * @param object qualifierId
 	 * @param boolean isActiveNow
 	 * @return object AuthorizationIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getAllAZs(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function & getAllAZs(& $agentId, & $functionId, & $qualifierId, $isActiveNow) {
+		// ** parameter validation
+		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		// ** end of parameter validation
+		
+		$authorizations =& $this->_cache->getAZs($agentId->getIdString(),
+												 $functionId->getIdString(),
+												 $qualifierId->getIdString(),
+												 null, 
+												 false, 
+												 $isActiveNow);
+		
+		return new HarmoniAuthorizationIterator($authorizations);
+	}
 
 
 
@@ -431,7 +597,56 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getAllAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function & getAllAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) {
+		// ** parameter validation
+		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		// ** end of parameter validation
+		
+		$authorizations =& $this->_cache->getAZs($agentId->getIdString(),
+												 null,
+												 $qualifierId->getIdString(),
+												 $functionType, 
+												 false, 
+												 $isActiveNow);
+		
+		return new HarmoniAuthorizationIterator($authorizations);
+	}
+	
+	
+	/**
+	 * Given an implicit returns an enumeration of matching explicit user Authorizations. 
+	 * Explicit Authorizations can be modified. A null argument will be treated as a wildcard. 
+	 * @access public
+	 * @param ref object implicitAuthorization -
+	 * @return ref object AuthorizationIterator
+	 **/
+	function & getExplicitUserAZsForImplicitAZ(& $implicitAuthorization) {
+		// ** parameter validation
+		ArgumentValidator::validate($implicitAuthorization, new ExtendsValidatorRule("Authorization"), true);
+		// ** end of parameter validation
+		
+		$agentId =& $implicitAuthorization->getAgentId();
+		$function =& $implicitAuthorization->getFunction();
+		$functionId =& $function->getId();
+		$qualifier =& $implicitAuthorization->getQualifier();
+		$qualifierId =& $qualifier->getId();
+				
+		$authorizations =& $this->_cache->getAZs($agentId->getIdString(),
+												 $functionId->getIdString(),
+												 $qualifierId->getIdString(),
+												 null, 
+												 true, 
+												 $implicitAuthorization->isActiveNow());
+												 
+		// now go through 
+		
+		return new HarmoniAuthorizationIterator($authorizations);
+	}
+	
+	
 
 
 

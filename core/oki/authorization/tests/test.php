@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.6 2004/06/24 17:51:38 dobomode Exp $
+ * @version $Id: test.php,v 1.7 2004/07/01 20:41:37 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003 
  **/
@@ -27,10 +27,6 @@ $harmonyLoadupTimer->end();
     require_once(SIMPLE_TEST . 'simple_unit.php');
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
-/* 	if (!defined('CONCERTODBID')) { */
-/* 		require_once(CONCERTO.'/tests/dbconnect.inc.php'); */
-/* 	} */
-
 	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
 	$errorHandler =& Services::requireService("ErrorHandler",true);
 	$dbHandler =& Services::requireService("DBHandler",true);
@@ -38,12 +34,13 @@ $harmonyLoadupTimer->end();
 	$dbHandler->pConnect($dbIndex);
 	Services::startService("Shared", $dbIndex, "doboHarmoniTest");
 	Services::startService("Hierarchy", $dbIndex, "doboHarmoniTest");
+	Services::startService("AuthN", $dbIndex, "doboHarmoniTest");
 	$errorHandler->setDebugMode(TRUE);
 	
 	
     $test =& new GroupTest('Authorization Tests');
-//	$test->addTestFile(HARMONI.'/oki/authorization/tests/FunctionTestCase.class.php');
-//    $test->addTestFile(HARMONI.'/oki/authorization/tests/QualifierTestCase.class.php');
+	$test->addTestFile(HARMONI.'/oki/authorization/tests/FunctionTestCase.class.php');
+    $test->addTestFile(HARMONI.'/oki/authorization/tests/QualifierTestCase.class.php');
     $test->addTestFile(HARMONI.'/oki/authorization/tests/AuthorizationTestCase.class.php');
     $test->addTestFile(HARMONI.'/oki/authorization/tests/AuthorizationManagerTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());

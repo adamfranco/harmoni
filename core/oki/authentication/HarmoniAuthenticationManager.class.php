@@ -2,6 +2,7 @@
 
 require_once(OKI."/authentication.interface.php");
 require_once(HARMONI.'/oki/shared/HarmoniType.class.php');
+require_once(HARMONI.'/oki/authentication/HarmoniAuthenticationType.class.php');
 require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
 
 /**
@@ -66,10 +67,7 @@ class HarmoniAuthenticationManager
 		// Go through the Harmoni Authentication Methods and create types
 		// for them.
 		$this->_authTypes = array();		
-		$this->_authTypes[] =& new HarmoniType("Authentication", 
-										"Harmoni", "Login", 
-										"Authenticate using the Harmoni 
-										LoginHandler.");
+		$this->_authTypes[] =& new HarmoniAuthenticationType();
 	}
 
 	/**

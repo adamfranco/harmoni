@@ -1,10 +1,12 @@
 <?php
 
+require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
+
 /**
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.3 2004/06/24 17:51:37 dobomode Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.4 2004/07/01 20:41:37 dobomode Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -92,19 +94,19 @@ class AuthorizationCache {
 		// create the authorization object
 		$sharedManager =& Services::requireService("Shared");
 		$id =& $sharedManager->createId();
+		$idValue = $id->getIdString();
 		// figure out whether it's dated or not
 		$dated = isset($effectiveDate) && isset($expirationDate);
 		if ($dated)
-			$authorization =& new HarmoniAuthorization($id, $agentId, $functionId, $qualifierId,
+			$authorization =& new HarmoniAuthorization($idValue, $agentId, $functionId, $qualifierId,
 													   true, $this, $effectiveDate, $expirationDate);
 		else													 
-			$authorization =& new HarmoniAuthorization($id, $agentId, $functionId, $qualifierId,
+			$authorization =& new HarmoniAuthorization($idValue, $agentId, $functionId, $qualifierId,
 													   true, $this);
 		
 		// now insert into database
 		$dbHandler =& Services::requireService("DBHandler");
 		$dbt = $this->_authzDB.".az_authorization";
-		$idValue = $id->getIdString();
 
 		$query =& new InsertQuery();
 		$query->setTable($dbt);
@@ -318,12 +320,80 @@ class AuthorizationCache {
 	
 
 	/**
+	 * Get all the Function of the specified Type.
+	 * @param ref object functionType the Type of the Functions to return
+	 * @return ref object FunctionIterator
+	 */
+	function & getFunctions(& $functionType) {
+		// ** parameter validation
+		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("TypeInterface"), true);
+		// ** end of parameter validation
+		
+		$dbHandler =& Services::requireService("DBHandler");
+		
+		$db = $this->_authzDB;
+		$dbt = $db.".az_function";
+		$query =& new SelectQuery();
+		$query->addColumn("function_id", "id", $dbt);
+		$query->addColumn("function_reference_name", "reference_name", $dbt);
+		$query->addColumn("function_description", "description", $dbt);
+		$query->addColumn("fk_qualifier_hierarchy", "hierarchy_id", $dbt);
+		$query->addColumn("type_domain", "domain", $db.".type");
+		$query->addColumn("type_authority", "authority", $db.".type");
+		$query->addColumn("type_keyword", "keyword", $db.".type");
+		$query->addColumn("type_description", "type_description", $db.".type");
+		$query->addTable($dbt);
+		$joinc = $dbt.".fk_type = ".$db.".type.type_id";
+		$query->addTable($db.".type", INNER_JOIN, $joinc);
+		$where = $db.".type.type_domain = '".$functionType->getDomain()."'";
+		$query->addWhere($where);
+		$where = $db.".type.type_authority = '".$functionType->getAuthority()."'";
+		$query->addWhere($where);
+		$where = $db.".type.type_keyword = '".$functionType->getKeyword()."'";
+		$query->addWhere($where);
+		
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		$functions = array();
+		
+		while ($queryResult->hasMoreRows()) {
+			$row = $queryResult->getCurrentRow();
+			echo "<pre>";
+			print_r($row);
+			echo "</pre>";
+			
+			$idValue = $row['id'];
+			if (isset($this->_functions[$idValue])) {
+				$function =& $this->_functions[$idValue];
+			}
+			else {
+				$type =& new HarmoniType($row['domain'], $row['authority'], 
+									     $row['keyword'], $row['type_description']);
+				$shared_manager =& Services::requireService("Shared");
+				$functionId =& $shared_manager->getId($row['id']);
+				$hierarchyId =& $shared_manager->getId($row['hierarchy_id']);
+				$function =& new HarmoniFunction($functionId, $row['reference_name'],
+												 $row['description'], $type, $hierarchyId ,
+												 $this->_dbIndex, $this->_authzDB);
+
+				$this->_functions[$idValue] =& $function;
+			}
+
+			$functions[] =& $function;
+			$queryResult->advanceRow();
+		}
+		
+		return new HarmoniFunctionIterator($functions);
+	}
+
+
+	/**
 	 * Returns the Function with the specified id.
 	 * @access public
 	 * @param string id The id of the function.
 	 * @return ref object The Function with the specified id.
 	 **/
-	function & getFunction(& $idValue) {
+	function & getFunction($idValue) {
 		// ** parameter validation
 		ArgumentValidator::validate($idValue, new StringValidatorRule(), true);
 		// ** end of parameter validation
@@ -381,7 +451,7 @@ class AuthorizationCache {
 	 * @param string id The id of the Qualifier .
 	 * @return ref object The Qualifier with the specified id.
 	 **/
-	function & getQualifier($qualifierId) {
+	function & getQualifier(& $qualifierId) {
 		// ** parameter validation
 		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
@@ -404,6 +474,52 @@ class AuthorizationCache {
 	}
 	
 
+	
+	/**
+	 * Returns the Qualifier with the specified id.
+	 * @access public
+	 * @param string id The id of the Qualifier .
+	 * @return ref object The Qualifier with the specified id.
+	 **/
+	function & getQualifierDescendants(& $qualifierId) {
+		// ** parameter validation
+		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		// ** end of parameter validation
+		
+		$idValue = $qualifierId->getIdString();
+
+		// get the descendant nodes
+		$hierarchyManager =& Services::requireService("Hierarchy");
+		$node =& $hierarchyManager->getNode($qualifierId);
+		$hierarchyId =& $node->getHierarchyId();
+		$hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
+		$nodes =& $hierarchy->traverse($qualifierId, TRAVERSE_MODE_DEPTH_FIRST, 
+										TRAVERSE_DIRECTION_DOWN, TRAVERSE_LEVELS_INFINITE);
+
+		// create the qualifiers
+		$qualifiers = array();
+		// get rid of the root node (it is not a descendant)
+		$nodes->next();
+		while ($nodes->hasNext()) {
+			$node =& $nodes->next();
+			$nodeId =& $node->getNodeId();
+			$idValue = $nodeId->getIdString();
+			
+			if (isset($this->_qualifiers[$idValue]))
+			    $qualifier =& $this->_qualifiers[$idValue];
+			else {
+				$qualifier =& new HarmoniQualifier($hierarchy->getNode($nodeId), $this);
+				$this->_qualifiers[$idValue] =& $qualifier;
+			}
+			
+			$qualifiers[] =& $qualifier;
+		}
+
+		return new HarmoniQualifierIterator($qualifiers);
+	}
+
+
+
 	/**
 	 * Deletes the given Authorization.
 	 * @access public
@@ -419,7 +535,7 @@ class AuthorizationCache {
 //		echo "</pre>\n";
 
 		// get the id
-		$idValue = $authorization->_id->getIdString();
+		$idValue = $authorization->_id;
 		
 		// now remove from database
 		$dbHandler =& Services::requireService("DBHandler");
@@ -511,18 +627,19 @@ class AuthorizationCache {
 	 * @access public
 	 * @param string aId The string id of an agent.
 	 * @param string fId The string id of a function.
-	 * @param string qId The string id of a qualifier.
+	 * @param string qId The string id of a qualifier. This parameter can not be null
+	 * and used as a wildmark.
 	 * @param object fType The type of a function.
 	 * @param boolean isExplicit If True, only explicit Authorizations will be returned.
 	 * @param boolean isActiveNow If True, only active Authorizations will be returned.
 	 * @return ref object An AuthorizationIterator.
 	 **/
-	function getAZs($aId, $fId, $qId, $fType, $isExplicit, $isActiveNow) {
+	function & getAZs($aId, $fId, $qId, $fType, $isExplicit, $isActiveNow) {
 		// ** parameter validation
 		$rule =& new StringValidatorRule();
 		ArgumentValidator::validate($aId, new OptionalRule($rule), true);
 		ArgumentValidator::validate($fId, new OptionalRule($rule), true);
-		ArgumentValidator::validate($qId, new OptionalRule($rule), true);
+		ArgumentValidator::validate($qId, $rule, true);
 		ArgumentValidator::validate($fType, new OptionalRule(new ExtendsValidatorRule("TypeInterface")), true);
 		ArgumentValidator::validate($isExplicit, new BooleanValidatorRule(), true);
 		ArgumentValidator::validate($isActiveNow,new BooleanValidatorRule(), true);
@@ -530,28 +647,43 @@ class AuthorizationCache {
 		
 		$sharedManager =& Services::requireService("Shared");
 		
+		// the parameter that influences the result most is $isExplicit
+		// 1) If $isExplicit is TRUE, then we only need to check for Authorizations
+		// that have been explicitly created, i.e. no need to look for inherited 
+		// authorizations
+		// 2) If $isExplicit is FALSE, then we need to include inherited Authorizations
+		// as well.
+		
+		// this array will store the ids of all qualifiers to be checked for authorizations
 		$qualifiers = array();
-		// if a Qualifier criteria was passed, then
-		// the following array will store the ids of all qualifiers that need
-		// to be checked for authorizations, i.e. all ancestors of the given qualifier.
-		if (isset($qId)) {
-			$qualifiers = array();
-			$hierarchyManager =& Services::requireService("Hierarchy");
+		// check all ancestors of given qualifier
+		$hierarchyManager =& Services::requireService("Hierarchy");
 
-			$node =& $hierarchyManager->getNode($sharedManager->getId($qId));
-			$hierarchyId =& $node->getHierarchyId();
-			$hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
-			
-			// these are the ancestor nodes
-			$nodes =& $hierarchy->traverse($sharedManager->getId($qId), TRAVERSE_MODE_DEPTH_FIRST,
-					TRAVERSE_DIRECTION_UP, TRAVERSE_LEVELS_INFINITE);
-					
-			// now get the id of each node and store in array
-			while($nodes->hasNext()){
-				$info =& $nodes->next();
-				$id =& $info->getNodeId();
-				$qualifiers[] = $id->getIdString();
-			} // while
+		$qualifierId =& $sharedManager->getId($qId);
+		$node =& $hierarchyManager->getNode($qualifierId);
+		$hierarchyId =& $node->getHierarchyId();
+		$hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
+		
+		// these are the ancestor nodes
+		$nodes =& $hierarchy->traverse($qualifierId, TRAVERSE_MODE_DEPTH_FIRST,
+				TRAVERSE_DIRECTION_UP, TRAVERSE_LEVELS_INFINITE);
+				
+		// now get the id of each node and store in array
+		while($nodes->hasNext()){
+			$info =& $nodes->next();
+			$id =& $info->getNodeId();
+			$qualifiers[] = $id->getIdString();
+		}
+		
+		// we will need the parent nodes later
+		if (!$isExplicit) {
+			$parentsIterator = $node->getParents();
+			$parents = array();
+			while($parentsIterator->hasNext()) {
+				$parent =& $parentsIterator->next();
+				$id =& $parent->getId();
+				$parents[$id->getIdString()] = $id->getIdString();
+			}
 		}
 		
 		print_r($qualifiers);
@@ -570,24 +702,49 @@ class AuthorizationCache {
 		$query->addTable($db."az_authorization");
 
 		// now include criteria
+		
+		// the qualifiers criteria
+		$list = implode("','", $qualifiers);
+		$list = "'".$list."'";
+		$where = $db."az_authorization.fk_qualifier IN ($list)";
+		$query->addWhere($where);
+		// the agent criteria
 		if (isset($aId)) {
 			$joinc = $db."az_authorization.fk_agent = ".$db."agent.agent_id";
 			$query->addTable($db."agent", INNER_JOIN, $joinc);
 			$where = $db."az_authorization.fk_agent = '$aId'";
 			$query->addWhere($where);
 		}
+		// the function criteria
 		if (isset($fId)) {
 			$joinc = $db."az_authorization.fk_function = ".$db."az_function.function_id";
 			$query->addTable($db."az_function", INNER_JOIN, $joinc);
 			$where = $db."az_authorization.fk_function = '$fId'";
 			$query->addWhere($where);
 		}
-		if (isset($qualifiers)) {
-			$list = implode("','", $qualifiers);
-			$list = "'".$list."'";
-			$where = $db."az_authorization.fk_qualifier IN ($list)";
+		// the function type criteria
+		if (isset($fType)) {
+			// do not join with az_function if we did already
+			if (!isset($fId)) {
+				$joinc = $db."az_authorization.fk_function = ".$db."az_function.function_id";
+				$query->addTable($db."az_function", INNER_JOIN, $joinc);
+			}
+			// now join with type
+			$joinc = $db."az_function.fk_type = ".$db."type.type_id";
+			$query->addTable($db."type", INNER_JOIN, $joinc);
+			
+			$domain = $fType->getDomain();
+			$authority = $fType->getAuthority();
+			$keyword = $fType->getKeyword();
+			
+			$where = $db."type.type_domain = '$domain'";
+			$query->addWhere($where);
+			$where = $db."type.type_authority = '$authority'";
+			$query->addWhere($where);
+			$where = $db."type.type_keyword = '$keyword'";
 			$query->addWhere($where);
 		}
+		// the isActiveNow criteria
 		if ($isActiveNow) {
 			$where = "(ISNULL(authorization_effective_date) OR (NOW() >= authorization_effective_date))";
 			$query->addWhere($where);
@@ -595,25 +752,78 @@ class AuthorizationCache {
 			$query->addWhere($where);
 		}
 		
+		$query->addOrderBy("authorization_id");
+		
+//		echo "<pre>\n";
+//		echo MySQL_SQLGenerator::generateSQLQuery($query);
+//		echo "</pre>\n";
+		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-
+		
+		// this array will store the authorizations that will be returned
+		$authorizations = array();
+		// process all rows and create the explicit authorizations
 		while ($queryResult->hasMoreRows()) {
 			$row =& $queryResult->getCurrentRow();
 			
 			echo "<pre>";
 			print_r($row);
 			echo "</pre>";
+
+			$idValue = $row['id'];
+			$id =& $sharedManager->getId($idValue);
+			if (isset($this->_authorizations[$idValue])) {
+				$authorization =& $this->_authorizations[$idValue];
+			}
+			else {
+				$agentId =& $sharedManager->getId($row['aId']);
+				$functionId =& $sharedManager->getId($row['fId']);
+				$explicitQualifierId =& $sharedManager->getId($row['qId']);
+				$effectiveDate =& $dbHandler->fromDBDate($row['eff_date'], $this->_dbIndex);
+				$expirationDate =& $dbHandler->fromDBDate($row['exp_date'], $this->_dbIndex);
+				
+				// create the explicit authorization (each explicit authorization
+				// has a corresponding row in the authorization db table)
+				$authorization =& new HarmoniAuthorization($idValue, $agentId, $functionId, $explicitQualifierId,
+														   true, $this, $effectiveDate, $expirationDate);
+				$this->_authorizations[$idValue] =& $authorization;
+			}
+
+			$authorizations[] =& $authorization;
 			
 			$queryResult->advanceRow();
+
+			// now create the implicit authorizations
+			// the implicit authorizations will be created for all nodes
+			// on the hierarchy path between the node with the explicit authorization
+			// and the node on which getAZs() was called.
+			if (!$isExplicit) {
+				$explicitQualifier =& $authorization->getQualifier();
+				$explicitQualifierId =& $explicitQualifier->getId();
+				if ($qualifierId->isEqual($explicitQualifierId))
+					continue; // do not create a duplicate implicit for the explicit
+				
+				$agentId =& $sharedManager->getId($aId);
+				$functionId =& $sharedManager->getId($fId);
+				$effectiveDate =& $authorization->getEffectiveDate();
+				$expirationDate =& $authorization->getExpirationDate();
+				
+				// create the base implicit (the one for the node with id $qId)
+				$implicit =& new HarmoniAuthorization(null, $agentId, $functionId, $qualifierId,
+													  false, $this, $effectiveDate, $expirationDate);
+													  
+				$authorizations[] =& $implicit;
+				
+				// now trace all nodes on the path between the explicit and the base
+				// implicit and create more implicits for each one
+				$implicitQualifierIdValue = $explicitQualifierId->getIdString();
+
+				
+			}
 		}
 		
 		
-		echo "<pre>\n";
-		echo MySQL_SQLGenerator::generateSQLQuery($query);
-		echo "</pre>\n";
-		
-		
-
+		return $authorizations;
 	}
 		
 	

@@ -9,7 +9,7 @@ require_once(HARMONI.'oki/authorization/DefaultFunctionType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AuthorizationTestCase.class.php,v 1.3 2004/06/24 17:51:38 dobomode Exp $
+ * @version $Id: AuthorizationTestCase.class.php,v 1.4 2004/07/01 20:41:37 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -38,7 +38,7 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 		$this->functionId =& new HarmoniId("501");
 		$this->qualifierId =& new HarmoniId("6796");
 		$this->date1 =& new DateTime(1981, 10, 24);
-		$this->date2 =& new DateTime(2004, 6, 25);
+		$this->date2 =& new DateTime(2015, 6, 25);
 		
 		$this->authorization =& $this->manager->createDatedAuthorization($this->agentId, 
 													$this->functionId, $this->qualifierId,

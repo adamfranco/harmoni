@@ -8,7 +8,7 @@ require_once(HARMONI.'oki/authorization/DefaultFunctionType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AuthorizationManagerTestCase.class.php,v 1.3 2004/06/24 17:51:38 dobomode Exp $
+ * @version $Id: AuthorizationManagerTestCase.class.php,v 1.4 2004/07/01 20:41:37 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -166,21 +166,184 @@ class HarmoniAuthorizationManagerTestCase extends UnitTestCase {
 	
 	// test the getAZs() method in AuthorizationCache
 	function test_cache_getAZs() {
-		// first, create a bunch of authorizations	
-//		$az1 =& $this->manager->createAuthorization($agentId, $functionId, $qualifierId);
-//		$az2 =& $this->manager->createAuthorization($agentId, $functionId, $qualifierId);
-//		$az3 =& $this->manager->createAuthorization($agentId, $functionId, $qualifierId);
+		$azs =& $this->manager->_cache->getAZs("3826", "501", "6800", new DefaultFunctionType(), false, false);
+		$this->assertIdentical(count($azs), 1);
+		$az =& $azs[0];
+		$this->assertIdentical($az->_id, "1");
+		$this->assertIdentical($az->_agentId->getIdString(), "3826");
+		$this->assertIdentical($az->_functionId->getIdString(), "501");
+		$this->assertIdentical($az->_qualifierId->getIdString(), "6800");
+		$this->assertTrue($az->isExplicit());
 
-		$this->manager->_cache->getAZs("3826", "501", "6800", null, true, true);
+		$azs =& $this->manager->_cache->getAZs(null, null, "6800", null, false, true);
+		$this->assertIdentical(count($azs), 3);
+		$az =& $azs[0];
+		$this->assertIdentical($az->_id, "1");
+		$this->assertIdentical($az->_agentId->getIdString(), "3826");
+		$this->assertIdentical($az->_functionId->getIdString(), "501");
+		$this->assertIdentical($az->_qualifierId->getIdString(), "6800");
+		$this->assertTrue($az->isExplicit());
+		$az =& $azs[1];
+		$this->assertIdentical($az->_id, "2");
+		$this->assertIdentical($az->_agentId->getIdString(), "3825");
+		$this->assertIdentical($az->_functionId->getIdString(), "501");
+		$this->assertIdentical($az->_qualifierId->getIdString(), "6795");
+		$this->assertFalse($az->isExplicit());
+		$az =& $azs[2];
+		$this->assertIdentical($az->_id, "3");
+		$this->assertIdentical($az->_agentId->getIdString(), "3826");
+		$this->assertIdentical($az->_functionId->getIdString(), "502");
+		$this->assertIdentical($az->_qualifierId->getIdString(), "6796");
+		$this->assertFalse($az->isExplicit());
 	}
+	
+	function test_get_all_AZs() {
+		$azs =& $this->manager->getAllAZs(new HarmoniId("3825"), new HarmoniId("501"), 
+										  new HarmoniId("6800"), true);
+
+		$this->assertTrue($azs->hasNext());
+		$az =& $azs->next();
+		$this->assertIdentical($az->_id, "2");
+		$this->assertIdentical($az->_agentId->getIdString(), "3825");
+		$this->assertIdentical($az->_functionId->getIdString(), "501");
+		$this->assertIdentical($az->_qualifierId->getIdString(), "6795");
+		$this->assertFalse($az->isExplicit());
+		$this->assertFalse($azs->hasNext());
+	}
+
+	
+	function test_get_all_AZs_by_func_type() {
+		$azs =& $this->manager->getAllAZsByFuncType(new HarmoniId("3825"), new DefaultFunctionType(), 
+											  new HarmoniId("6800"), true);
+
+		$this->assertTrue($azs->hasNext());
+		$az =& $azs->next();
+		$this->assertIdentical($az->_id, "2");
+		$this->assertIdentical($az->_agentId->getIdString(), "3825");
+		$this->assertIdentical($az->_functionId->getIdString(), "501");
+		$this->assertIdentical($az->_qualifierId->getIdString(), "6795");
+		$this->assertFalse($az->isExplicit());
+		$this->assertFalse($azs->hasNext());
+	}
+
+	
+	function test_get_explicit_AZs() {
+		$azs =& $this->manager->getExplicitAZs(new HarmoniId("3825"), new HarmoniId("501"), 
+											  new HarmoniId("6800"), true);
+
+		$this->assertFalse($azs->hasNext());
+
+		$azs =& $this->manager->getExplicitAZs(new HarmoniId("3825"), new HarmoniId("501"), 
+											  new HarmoniId("6795"), true);
+		$this->assertTrue($azs->hasNext());
+		$az =& $azs->next();
+		$this->assertIdentical($az->_id, "2");
+		$this->assertIdentical($az->_agentId->getIdString(), "3825");
+		$this->assertIdentical($az->_functionId->getIdString(), "501");
+		$this->assertIdentical($az->_qualifierId->getIdString(), "6795");
+		$this->assertTrue($az->isExplicit());
+		$this->assertFalse($azs->hasNext());
+	}
+
+
+	
+	function test_get_explicit_AZs_by_func_type() {
+		$azs =& $this->manager->getExplicitAZsByFuncType(new HarmoniId("3825"), new DefaultFunctionType(), 
+											  new HarmoniId("6795"), true);
+
+		$this->assertTrue($azs->hasNext());
+		$az =& $azs->next();
+		$this->assertIdentical($az->_id, "2");
+		$this->assertIdentical($az->_agentId->getIdString(), "3825");
+		$this->assertIdentical($az->_functionId->getIdString(), "501");
+		$this->assertIdentical($az->_qualifierId->getIdString(), "6795");
+		$this->assertTrue($az->isExplicit());
+		$this->assertFalse($azs->hasNext());
+	}
+	
+	
+	function test_is_authorized() {
+		$this->assertTrue($this->manager->isAuthorized(new HarmoniId("3825"), 
+													   new HarmoniId("501"),
+													   new HarmoniId("6800")));
+		$this->assertTrue($this->manager->isAuthorized(new HarmoniId("3825"), 
+													   new HarmoniId("501"),
+													   new HarmoniId("6801")));
+		$this->assertFalse($this->manager->isAuthorized(new HarmoniId("3825"), 
+													   new HarmoniId("502"),
+													   new HarmoniId("6799")));
+	}
+	
+	
+	function test_get_functions() {
+		$functions =& $this->manager->getFunctions(new DefaultFunctionType());
+		
+		while ($functions->hasNext())
+			$this->assertIsA($functions->next(), "FunctionInterface");
+	}
+	
+	
+	function test_get_qualifier_children() {
+		$qualifiers =& $this->manager->getQualifierChildren(new HarmoniId("6800"));
+
+		while ($qualifiers->hasNext())
+			$this->assertIsA($qualifiers->next(), "Qualifier");
+	}
+	
+	function test_get_qualifier_descendants() {
+		$qualifiers =& $this->manager->getQualifierDescendants(new HarmoniId("6800"));
+
+		while ($qualifiers->hasNext()) {
+			$qualifier =& $qualifiers->next();
+			$this->assertIsA($qualifier, "Qualifier");
+		}
+	}
+	
+	
+	function test_get_who_can_do() {
+		$agentIds =& $this->manager->getWhoCanDo(new HarmoniId("501"),
+												 new HarmoniId("6800"),
+												 true);
+
+		while ($agentIds->hasNext()) {
+			$agentId =& $agentIds->next();
+			$this->assertIsA($agentId, "Id");
+		}
+	}
+
+	
+	function test_get_all_user_AZs() {
+		$azs =& $this->manager->getAllUserAZs(new HarmoniId("501"), 
+											  new HarmoniId("6800"), true);
+
+	}
+	
+	
+	function test_explicit_for_implicit() {
+		$azs =& $this->manager->getAllAZs(new HarmoniId("3825"), new HarmoniId("501"), 
+										  new HarmoniId("6800"), true);
+
+		$this->assertTrue($azs->hasNext());
+		$az =& $azs->next();
+
+		$azs =& $this->manager->getExplicitUserAZsForImplicitAZ($az);
+		$az =& $azs->next();
+		$this->assertIdentical($az->_id, "2");
+		$this->assertIdentical($az->_agentId->getIdString(), "3825");
+		$this->assertIdentical($az->_functionId->getIdString(), "501");
+		$this->assertIdentical($az->_qualifierId->getIdString(), "6795");
+		$this->assertTrue($az->isExplicit());
+		$this->assertFalse($azs->hasNext());
+	}
+	
 	
     /**
      *    Clears the data set in the setUp() method call.
      *    @public
      */
     function tearDown() {
-		unset($this->manager);
     }
+	
 }
 
 ?>

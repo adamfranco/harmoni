@@ -17,8 +17,8 @@ class HarmoniAuthorization extends Authorization {
 	
 	
 	/**
-	 * The Id of this Authorization.
-	 * @attribute protected object _id
+	 * The Id of this Authorization (string).
+	 * @attribute protected string _id
 	 */
 	var $_id;
 	
@@ -74,7 +74,7 @@ class HarmoniAuthorization extends Authorization {
 	
 	/**
 	 * The constructor.
-	 * @param ref object id The id of this Authorization
+	 * @param object id The id of this Authorization
 	 * @param ref object agentId The Id of the agent.
 	 * @param ref object functionId The Id of the function.
 	 * @param ref object qualifierId The Id of the qualifier.
@@ -83,12 +83,12 @@ class HarmoniAuthorization extends Authorization {
 	 * @param boolean explicit Specifies whether this Authorization is explicit or not.
 	 * @access public
 	 */
-	function HarmoniAuthorization(& $id, & $agentId, & $functionId, & $qualifierId, 
+	function HarmoniAuthorization($id, & $agentId, & $functionId, & $qualifierId, 
 							      $explicit, & $cache, & $effectiveDate, & $expirationDate) {
 
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("Id");
-		ArgumentValidator::validate($id, $extendsRule, true);
+		ArgumentValidator::validate($id, new OptionalRule(new StringValidatorRule()), true);
 		ArgumentValidator::validate($agentId, $extendsRule, true);
 		ArgumentValidator::validate($functionId, $extendsRule, true);
 		ArgumentValidator::validate($qualifierId, $extendsRule, true);
@@ -106,7 +106,7 @@ class HarmoniAuthorization extends Authorization {
 				throwError(new Error($str, "Authorization", true));
 			}
 
-		$this->_id =& $id;
+		$this->_id = $id;
 		$this->_agentId =& $agentId;
 		$this->_functionId =& $functionId;
 		$this->_qualifierId =& $qualifierId;
@@ -281,7 +281,7 @@ class HarmoniAuthorization extends Authorization {
 		
 		$query =& new UpdateQuery();
 		$query->setTable($dbPrefix);
-		$idValue = $this->_id->getIdString();
+		$idValue = $this->_id;
 		$where = "{$dbPrefix}.authorization_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$dbPrefix}.authorization_expiration_date"));
@@ -327,7 +327,7 @@ class HarmoniAuthorization extends Authorization {
 		
 		$query =& new UpdateQuery();
 		$query->setTable($dbPrefix);
-		$idValue = $this->_id->getIdString();
+		$idValue = $this->_id;
 		$where = "{$dbPrefix}.authorization_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$dbPrefix}.authorization_effective_date"));
