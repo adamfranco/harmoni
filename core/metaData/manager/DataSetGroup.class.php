@@ -58,8 +58,13 @@ class DataSetGroup {
 		// 	Our counts don't match
 		// 		OR
 		// 	We're not fetched full and we are supposed to be editable.
-		if (!count($this->_dataSets) || (count($this->_dataSets) != count($this->_dataSetIDs)) || (!$this->_fetchedFull && $editable)) {
-			$this->_dataSets =& $this->_mgr->fetchArrayOfIDs($this->_dataSetIDs, $editable, $limitResults);
+		if (!count($this->_dataSets) || (count($this->_dataSets) != count($this->_dataSetIDs)) || (!$this->_fetchedFull && $editable) || (!$this->_fetchedFull && $editable)) {
+			$sets =& $this->_mgr->fetchArrayOfIDs($this->_dataSetIDs, $editable, $limitResults);
+			// Cycle through the resulting sets to put them in an indexed array
+			$this->_dataSets = array();
+			foreach ($sets as $key => $set) {
+				$this->_dataSets[] =& $sets[$key];
+			}
 			
 			$this->_fetchedFull = $editable;
 		}
@@ -96,7 +101,8 @@ class DataSetGroup {
 		if (count($this->_dataSets)) {
 			for($i=0; $i<count($this->_dataSets); $i++) {
 				// only save if they were fetched not read only.
-				if (!$this->_dataSets[$i]->readOnly()) $this->_dataSets[$i]->commit();
+				if (!$this->_dataSets[$i]->readOnly()) 
+					$this->_dataSets[$i]->commit();
 				$ids[] = $this->_dataSets[$i]->getID();
 			}
 			$this->_dataSets = array();

@@ -182,11 +182,13 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function updateContent(& $content) {
+		ArgumentValidator::validate($content, new ExtendsValidatorRule("BlobDataType"));
 		$sharedManager =& Services::getService("Shared");
 		$dataSetMgr =& Services::getService("DataSetManager");
 		
 		// Ready our type for comparisson
 		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		$id =& $this->_node->getId();
 		
 		// Get the content DataSet.
 		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
@@ -198,15 +200,10 @@ class HarmoniAsset
 				break;
 			}
 		}
-		
-		$valueVersions =& $contentDataSet->getValueVersionsObject("Content");
-		
-		// Create a blob valueObj for the content
-		$valueObj =& new BlobDataType($content);
 	
-		$valueVersions->setValue($valueObj);
+		$contentDataSet->setValue("Content", $content);
 		
-		$valueVersions->commit();
+		$contentDataSet->commit();
 	}
 
 	/**
@@ -258,11 +255,13 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function updateEffectiveDate(& $effectiveDate) {
+		ArgumentValidator::validate($effectiveDate, new ExtendsValidatorRule("DateTimeDataType"));
 		$sharedManager =& Services::getService("Shared");
 		$dataSetMgr =& Services::getService("DataSetManager");
 		
 		// Ready our type for comparisson
 		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		$id =& $this->_node->getId();
 		
 		// Get the content DataSet.
 		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
@@ -274,15 +273,10 @@ class HarmoniAsset
 				break;
 			}
 		}
-		
-		$valueVersions =& $contentDataSet->getValueVersionsObject("EffectiveDate");
-		
-		// Create a blob valueObj for the content
-		$valueObj =& new DateDataType($effectiveDate);
 	
-		$valueVersions->setValue($valueObj);
+		$contentDataSet->setValue("EffectiveDate", $effectiveDate);
 		
-		$valueVersions->commit();
+		$contentDataSet->commit();
 	}
 
 	/**
@@ -334,11 +328,13 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function updateExpirationDate(& $expirationDate) {
+		ArgumentValidator::validate($expirationDate, new ExtendsValidatorRule("DateTimeDataType"));
 		$sharedManager =& Services::getService("Shared");
 		$dataSetMgr =& Services::getService("DataSetManager");
 		
 		// Ready our type for comparisson
 		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		$id =& $this->_node->getId();
 		
 		// Get the content DataSet.
 		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
@@ -350,15 +346,10 @@ class HarmoniAsset
 				break;
 			}
 		}
-		
-		$valueVersions =& $contentDataSet->getValueVersionsObject("ExpirationDate");
-		
-		// Create a blob valueObj for the content
-		$valueObj =& new DateDataType($expirationDate);
 	
-		$valueVersions->setValue($valueObj);
+		$contentDataSet->setValue("ExpirationDate", $expirationDate);
 		
-		$valueVersions->commit();
+		$contentDataSet->commit();
 	}
 
 	/**
@@ -648,7 +639,8 @@ class HarmoniAsset
 		// create info records for each dataSet as needed.
 		$infoRecords = array();
 		foreach ($dataSets as $key => $dataSet) {
-			$dataSetId =& $sharedManager->getId($key);
+			$id =& $dataSets[$key]->getID();
+			$dataSetId =& $sharedManager->getId($id);
 			$infoRecord =& $this->getInfoRecord($dataSetId);
 			$structure =& $infoRecord->getInfoStructure();
 			
