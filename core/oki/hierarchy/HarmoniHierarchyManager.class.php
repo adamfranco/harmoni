@@ -29,13 +29,14 @@ define("MEMORY_ONLY", 1001);
  * 
  * <p></p>
  *
- * @version $Revision: 1.10 $ / $Date: 2003/10/15 19:20:18 $
+ * @version $Revision: 1.11 $ / $Date: 2003/10/15 21:07:52 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
 
 class HarmoniHierarchyManager
 	extends HierarchyManager
+//	impliments ServicesInterface	// start() and stop() methods are provided
 { // begin HierarchyManager
 
 
@@ -239,5 +240,25 @@ class HarmoniHierarchyManager
 	function load () {
 		$this->_managerStore->load();
 	}	
+
+	/**
+	 * The start function is called when a service is created. Services may
+	 * want to do pre-processing setup before any users are allowed access to
+	 * them.
+	 * @access public
+	 * @return void
+	 **/
+	function start() {
+	}
+	
+	/**
+	 * The stop function is called when a Harmoni service object is being destroyed.
+	 * Services may want to do post-processing such as content output or committing
+	 * changes to a database, etc.
+	 * @access public
+	 * @return void
+	 **/
+	function stop() {
+	}
 
 } // end HierarchyManager
