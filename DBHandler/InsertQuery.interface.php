@@ -5,7 +5,7 @@ require_once("Query.abstract.php");
 /**
  * An InsertQuery interface provides the tools to build an SQL INSERT query.
  *
- * @version $Id: InsertQuery.interface.php,v 1.4 2003/08/06 22:32:39 gabeschine Exp $
+ * @version $Id: InsertQuery.interface.php,v 1.5 2003/08/07 18:17:37 adamfranco Exp $
  * @package harmoni.interfaces.dbc
  * @copyright 2003 
  */
@@ -43,7 +43,19 @@ class InsertQueryInterface extends Query {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
-
+	/**
+	 * This is an alias for addRowOfValues for compatability with the UpdateQuery class.
+	 * Adds one row of values to insert into the table. 
+	 * By calling this method multiple times, you can insert many rows of
+	 * information using just one query.
+	 * @see {@link InsertQueryInterface::addRowOfValues }
+	 * @param array $values One row of values to insert into the table. Must
+	 * match the order of columns specified with the setColumns() method.
+	 * @access public
+	 */
+	function setValues($values) { 
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
 
 	/**
 	 * Sets the autoincrement column.
