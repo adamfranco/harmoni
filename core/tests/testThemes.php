@@ -13,7 +13,6 @@ require_once(HARMONI."layoutHandler/components/HeaderMenuItem.class.php");
 
 // create new TestTheme object
 $theme =& new TestTheme;
-$theme->setPageTitle("Page Title!");
 $theme->addHeadContent("<style type=text/css>body {font-size:18px}</style>");
 
 // create the two layouts for navigation

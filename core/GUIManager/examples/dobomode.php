@@ -52,7 +52,6 @@
 
 	// initialize layouts and theme
 	$theme =& new DobomodeTheme();
-	$theme->setPageTitle("Dobomode Theme Example");
 	
 	// create and add menus
 	

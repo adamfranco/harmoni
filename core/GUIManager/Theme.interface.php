@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.interface.php,v 1.11 2005/03/29 19:44:09 adamfranco Exp $
+ * @version $Id: Theme.interface.php,v 1.12 2005/04/06 14:15:40 adamfranco Exp $
  **/
 class ThemeInterface {
 
@@ -202,18 +202,6 @@ class ThemeInterface {
 	 **/
 	function setComponent(& $component) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-	
-	/**
-	 * Sets the page title of this <code>Theme</code>.
-	 * @param string title The page title.
-	 * @access public
-	 * @return void
-	 **/
-	function setPageTitle($title) {
-		ArgumentValidator::validate($title, StringValidatorRule::getRule());
-		
-		$this->_pageTitle = $title;
 	}
 
 	/**

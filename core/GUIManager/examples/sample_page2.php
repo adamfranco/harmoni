@@ -50,7 +50,6 @@
 
 	// initialize layouts and theme
 	$theme =& new SimpleTheme1();
-	$theme->setPageTitle("Harmoni GUI Example");
 	$xLayout =& new XLayout();
 	$yLayout =& new YLayout();
 	$flowLayout =& new FlowLayout();

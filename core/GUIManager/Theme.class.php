@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.16 2005/04/05 20:45:55 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.17 2005/04/06 14:15:40 adamfranco Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -473,32 +473,6 @@ class Theme extends ThemeInterface {
 		// ** end of parameter validation
 
 		$this->_component =& $component;
-	}
-	
-	/**
-	 * Sets the page title of this <code>Theme</code>.
-	 * @param string title The page title.
-	 * @access public
-	 * @return void
-	 **/
-	function setPageTitle($title) {
-		// ** parameter validation
-		ArgumentValidator::validate($title, StringValidatorRule::getRule(), true);
-		// ** end of parameter validation
-		
-		$this->_pageTitle = $title;
-	}
-	
-	/**
-	 * Adds $javascriptString to the &lt;pre&gt;&lt;script ...&gt;....&lt;/script&gt;&lt;/pre&gt; (script) section of the head section of the page.
-	 * @param string $javascriptString The javascript to add to the script section.
-	 * @access public
-	 * @return void
-	 **/
-	function addHeadJavascript ( $javascriptString ) {
-		ArgumentValidator::validate($javascriptString, StringValidatorRule::getRule());
-		
-		$this->_headJavascript .= "\n".$javascriptString;
 	}
 
 	/**
