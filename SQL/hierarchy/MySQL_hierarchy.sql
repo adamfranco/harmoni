@@ -35,7 +35,7 @@ CREATE TABLE hierarchy_node (
   PRIMARY KEY  (id),
   KEY id (id),
   KEY fk_hierarchy (fk_hierarchy),
-  KEY lk_parent (fk_parent)
+  KEY fk_parent (fk_parent)
 ) TYPE=MyISAM COMMENT='Used by the OKI Hierarchy service.';
 # --------------------------------------------------------
 
