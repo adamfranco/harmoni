@@ -6,9 +6,9 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * The AgentSearch interface defines methods for searching for agents. This is 
  * used by the AgentManager for searching for agents.
  * 
- * @package harmoni.osid.shared
- * @version $Id: AncestorGroupSearch.class.php,v 1.1 2005/01/11 17:40:06 adamfranco Exp $
- * @date $Date: 2005/01/11 17:40:06 $
+ * @package harmoni.osid.agent
+ * @version $Id: AncestorGroupSearch.class.php,v 1.2 2005/01/12 16:51:45 adamfranco Exp $
+ * @date $Date: 2005/01/12 16:51:45 $
  * @copyright 2004 Middlebury College
  */
 
@@ -138,11 +138,12 @@ class AncestorGroupSearch
 		$groupIds = array_diff($groupIds, array($groupOrAgentId));
 		
 		// now create an array of the group objects to add to the iterator.
-		$shared =& Services::getService("Shared");
+		$agentManager =& Services::getService("Agent");
+		$idManager =& Services::getService("Id");
 		$groups = array();
 		foreach ($groupIds as $id) {
-			$groupId =& $shared->getId($id);
-			$groups[] =& $shared->getGroup($groupId);
+			$groupId =& $idManager->getId($id);
+			$groups[] =& $agentManager->getGroup($groupId);
 		}
 				
 		return new HarmoniIterator($groups);

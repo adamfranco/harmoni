@@ -40,7 +40,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniIdManager.class.php,v 1.2 2005/01/11 23:36:45 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.3 2005/01/12 16:51:46 adamfranco Exp $
  */
 
 class HarmoniIdManager
@@ -131,7 +131,7 @@ class HarmoniIdManager
 	 * @public
 	 */
 	function &createId () { 
-		debug::output("Attempting to generate new id.", 20, "SharedManager");
+		debug::output("Attempting to generate new id.", 20, "IdManager");
 		$dbHandler =& Services::requireService("DBHandler");
 		
 		$query =& new InsertQuery();
@@ -141,13 +141,13 @@ class HarmoniIdManager
 		
 		$result =& $dbHandler->query($query,$this->_dbIndex);
 		if ($result->getNumberOfRows() != 1) {
-			throwError( new UnknownDBError("SharedManager"));
+			throwError( new UnknownDBError("IdManager"));
 		}
 		
 		$newID = $result->getLastAutoIncrementValue();
 		$newID = strval($newID);
 		
-		debug::output("Successfully created new id '$newID'.",DEBUG_SYS5,"IDManager");
+		debug::output("Successfully created new id '$newID'.",DEBUG_SYS5,"IdManager");
 		
 		$id =& new HarmoniId($newID);
 		

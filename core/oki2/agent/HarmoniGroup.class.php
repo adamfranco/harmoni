@@ -142,9 +142,9 @@ class HarmoniGroup // :: API interface
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error("The group with Id: ".$idValue." does not exist in the database.","SharedManager",true));
+			throwError(new Error("The group with Id: ".$idValue." does not exist in the database.","HarmoniGroup",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error("Multiple groups with Id: ".$idValue." exist in the database. Note: their descriptions have been updated." ,"SharedManager",true));
+			throwError(new Error("Multiple groups with Id: ".$idValue." exist in the database. Note: their descriptions have been updated." ,"HarmoniGroup",true));
 	}		
 
 	/**
@@ -210,7 +210,7 @@ class HarmoniGroup // :: API interface
 	
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() != 1)
-				throwError(new Error("Insert failed.","SharedManager",true));
+				throwError(new Error("Insert failed.","HarmoniGroup",true));
 
 			// add in the object
 			$this->_groups[$id->getIdString()] =& $memberOrGroup;
@@ -241,7 +241,7 @@ class HarmoniGroup // :: API interface
 	
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() != 1)
-				throwError(new Error("Insert failed.","SharedManager",true));
+				throwError(new Error("Insert failed.","HarmoniGroup",true));
 
 			// add in the object
 			$this->_agents[$id->getIdString()] =& $memberOrGroup;
@@ -335,7 +335,7 @@ class HarmoniGroup // :: API interface
 				$query->addWhere($db."j_groups_groups.fk_child = '".addslashes($childId->getIdString())."'");
 				$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 				if ($queryResult->getNumberOfRows() != 1)
-					throwError(new Error("Delete failed.","SharedManager",true));
+					throwError(new Error("Delete failed.","HarmoniGroup",true));
 				
 				// remove from object
 				// DO NOT SET TO NULL
@@ -353,7 +353,7 @@ class HarmoniGroup // :: API interface
 				$query->addWhere($db."j_groups_agent.fk_agent = '".addslashes($childId->getIdString())."'");
 				$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 				if ($queryResult->getNumberOfRows() != 1)
-					throwError(new Error("Delete failed.","SharedManager",true));
+					throwError(new Error("Delete failed.","HarmoniGroup",true));
 				
 				// remove from object
 				unset($this->_agents[$id->getIdString()]);
@@ -471,8 +471,6 @@ class HarmoniGroup // :: API interface
 	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * 
-	 * @package harmoni.osid.shared
 	 */
 	function &getGroupsContainingMember(& $member) { /* :: interface :: */ }
 	// :: full java declaration :: AgentIterator getGroupsContainingMember(Agent member)

@@ -4,9 +4,9 @@
  * The AgentSearch interface defines methods for searching for agents. This is 
  * used by the AgentManager for searching for agents.
  * 
- * @package harmoni.osid.shared
- * @version $Id: AgentSearch.interface.php,v 1.1 2005/01/11 17:40:06 adamfranco Exp $
- * @date $Date: 2005/01/11 17:40:06 $
+ * @package harmoni.osid.agent
+ * @version $Id: AgentSearch.interface.php,v 1.2 2005/01/12 16:51:45 adamfranco Exp $
+ * @date $Date: 2005/01/12 16:51:45 $
  * @copyright 2004 Middlebury College
  */
 

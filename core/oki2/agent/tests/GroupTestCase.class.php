@@ -1,13 +1,13 @@
 <?php
 
-require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
+require_once(HARMONI.'/oki2/agent/HarmoniGroup.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: GroupTestCase.class.php,v 1.1 2005/01/11 17:40:06 adamfranco Exp $
+ * @version $Id: GroupTestCase.class.php,v 1.2 2005/01/12 16:51:46 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -29,7 +29,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 			$dbHandler->pConnect($dbIndex);
 			unset($dbHandler); // done with that for now
 			
-	       	$this->manager =& new HarmoniSharedManager($dbIndex, "doboHarmoniTest");
+	       	$this->manager =& new HarmoniAgentManager($dbIndex, "doboHarmoniTest");
 	
 			$this->type =& new HarmoniType("Look at me!", "I rock...", "I rule!", "And rise!");
 			$this->group =& $this->manager->createGroup("dobomode", $this->type, "Muhaha!");

@@ -45,7 +45,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniAgentManager.class.php,v 1.2 2005/01/11 23:36:45 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.3 2005/01/12 16:51:08 adamfranco Exp $
  * 
  */
 class HarmoniAgentManager
@@ -265,9 +265,9 @@ class HarmoniAgentManager
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error("The agent with Id: ".$idValue." does not exist in the database.","SharedManager",true));
+			throwError(new Error("The agent with Id: ".$idValue." does not exist in the database.","AgentManager",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error("Multiple agents with Id: ".$idValue." exist in the database." ,"SharedManager",true));
+			throwError(new Error("Multiple agents with Id: ".$idValue." exist in the database." ,"AgentManager",true));
 		$typeIdValue = $queryResult->field("type_id");
 		
 		// 2. Delete the Properties mapping of the agent
@@ -429,7 +429,7 @@ class HarmoniAgentManager
 		$this->_loadAgents($where);
 		
 		if (!isset($this->_agentsCache[$idValue]))
-			throwError(new Error("The agent with Id: ".$idValue." does not exist in the database.","SharedManager",true));
+			throwError(new Error("The agent with Id: ".$idValue." does not exist in the database.","AgentManager",true));
 		
 		return $this->_agentsCache[$idValue];
 	}
@@ -790,9 +790,9 @@ class HarmoniAgentManager
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error("The group with Id: ".$idValue." does not exist in the database.","SharedManager",true));
+			throwError(new Error("The group with Id: ".$idValue." does not exist in the database.","AgentManager",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error("Multiple groups with Id: ".$idValue." exist in the database." ,"SharedManager",true));
+			throwError(new Error("Multiple groups with Id: ".$idValue." exist in the database." ,"AgentManager",true));
 		$typeIdValue = $queryResult->field("type_id");
 		
 		// 2. Delete the Properties mapping of the agent
@@ -952,7 +952,7 @@ class HarmoniAgentManager
 		$this->_loadGroups($where);
 		
 		if (!isset($this->_groupsCache[$idValue]))
-			throwError(new Error("The group with Id: ".$idValue." does not exist in the database.","SharedManager",true));
+			throwError(new Error("The group with Id: ".$idValue." does not exist in the database.","AgentManager",true));
 		
 		return $this->_groupsCache[$idValue];
 	}
@@ -1176,7 +1176,7 @@ class HarmoniAgentManager
 	 * Return TRUE if the Id specified corresponds to an agent.
 	 * WARNING: This method is not part of the OSIDs as of Version 2.0
 	 *
-	 * @param object osid.shared.Id agentId
+	 * @param object Id agentId
 	 *
 	 * @return boolean
 	 */
@@ -1208,7 +1208,7 @@ class HarmoniAgentManager
 	 * Return TRUE if the Id specified corresponds to an group.
 	 * WARNING: This method is not part of the OSIDs as of Version 2.0
 	 *
-	 * @param object osid.shared.Id agentId
+	 * @param object Id agentId
 	 *
 	 * @return boolean
 	 */
@@ -1556,7 +1556,7 @@ class HarmoniAgentManager
 
 					$subqueryResult =& $dbHandler->query($subquery1, $this->_dbIndex);
 					if ($subqueryResult->getNumberOfRows() == 0)
-						throwError(new Error("No rows returned.","SharedManager",true));
+						throwError(new Error("No rows returned.","AgentManager",true));
 					
 					// Store our parameters for the constructor of the Group
 					$type =& new HarmoniType($subqueryResult->field('gt_domain'),
@@ -1785,4 +1785,6 @@ class HarmoniAgentManager
 		return $propertiesId;
 	}
 
-} // end SharedManager
+}
+
+?>

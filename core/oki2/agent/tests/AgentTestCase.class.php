@@ -1,13 +1,13 @@
 <?php
 
-require_once(HARMONI.'/oki/shared/HarmoniAgent.class.php');
+require_once(HARMONI.'/oki2/agent/HarmoniAgent.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AgentTestCase.class.php,v 1.1 2005/01/11 17:40:06 adamfranco Exp $
+ * @version $Id: AgentTestCase.class.php,v 1.2 2005/01/12 16:51:45 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
