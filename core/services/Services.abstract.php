@@ -4,7 +4,7 @@ require_once(HARMONI."services/Services.interface.php");
 
 /**
  * The ServicesAbstract class defines the public static methods used by users.
- * @version $Id: Services.abstract.php,v 1.5 2004/01/06 22:10:00 adamfranco Exp $
+ * @version $Id: Services.abstract.php,v 1.6 2004/01/22 20:47:43 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @static
@@ -169,16 +169,22 @@ class ServicesAbstract
 			$error = true;
 		}
 		if ($error) {
-			$debug = debug_backtrace();
-			$str = "<B>FATAL ERROR</b><BR><BR>";
-			$str .= "A required Service <b>\"$service\"</b> ";
-			$str .= ($start)? "could not be started":"is not available";
-			$str .= ".<br><br>\n";
-			$str .= "<b>Debug backtrace:</b>\n";
-			$str .= "<pre>\n";
-			$str .= print_r($debug, true);
-			$str .= "\n</pre>\n";
-			die($str);
+			// if we have the error Handler, throw a pretty error with that,
+			// otherwise, use the die() function.
+			if ($GLOBALS[SERVICES_OBJECT]->available( 'ErrorHandler' )) {
+				throwError(new Error("A required Service <b>\"$service\"</b> ".(($start)? "could not be started":"is not available"), "Services", 1));
+			} else {
+				$debug = debug_backtrace();
+				$str = "<B>FATAL ERROR</b><BR><BR>";
+				$str .= "A required Service <b>\"$service\"</b> ";
+				$str .= ($start)? "could not be started":"is not available";
+				$str .= ".<br><br>\n";
+				$str .= "<b>Debug backtrace:</b>\n";
+				$str .= "<pre>\n";
+				$str .= print_r($debug, true);
+				$str .= "\n</pre>\n";
+				die($str);
+			}
 		}
 		if ($start) return Services::getService($service);
 	}

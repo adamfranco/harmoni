@@ -57,7 +57,6 @@ class HarmoniInfoPart extends InfoPart
 		$array = array();
 		return new HarmoniNodeIterator($array); // @todo replace with HarmoniInfoPartIterator
 	}
-	// :: full java declaration :: public InfoPartIterator getInfoParts()
 
 	/**
 	 * Return true if this InfoPart is automatically populated by the DigitalRepository; false otherwise.  Examples of the kind of InfoParts that might be populated are a time-stamp or the Agent setting the data.
@@ -65,7 +64,7 @@ class HarmoniInfoPart extends InfoPart
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function getPopulatedByDR() {
+	function isPopulatedByDR() {
 		return false;
 	}
 
@@ -75,7 +74,7 @@ class HarmoniInfoPart extends InfoPart
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function getMandatory() {
+	function isManditory() {
 		return $this->_fieldDef->isRequired();
 	}
 
@@ -85,7 +84,7 @@ class HarmoniInfoPart extends InfoPart
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function getRepeatable() {
+	function isRepeatable() {
 		return $this->_fieldDef->getMultFlag();
 	}
 

@@ -4,6 +4,10 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.1.0" date="Not Released">
 		<change author='adam'>
+			Services: The Harmoni Services now check for the Error Handler and use that
+			to print out errors if it is availible. This makes for easier to read backtraces.
+		</change>
+		<change author='adam'>
 			DBHandler: DBHandler now throws fatal errors with an explanation when a query
 			fails.
 		</change>

@@ -60,7 +60,9 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function deleteDigitalRepository(& $digitalRepositoryId) { /* :: interface :: */ }
+	function deleteDigitalRepository(& $digitalRepositoryId) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+	}
 	// :: full java declaration :: void deleteDigitalRepository(osid.shared.Id digitalRepositoryId)
 
 	/**
@@ -92,7 +94,9 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.dr
 	 */
-	function & getDigitalRepositoriesByType(& $digitalRepositoryType) { /* :: interface :: */ }
+	function & getDigitalRepositoriesByType(& $digitalRepositoryType) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+	}
 	// :: full java declaration :: DigitalRepositoryIterator getDigitalRepositoriesByType(osid.shared.Type digitalRepositoryType)
 
 	/**
@@ -103,6 +107,8 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @package osid.dr
 	 */
 	function & getDigitalRepository(& $digitalRepositoryId) {
+		ArgumentValidator::validate($digitalRepositoryId, new ExtendsValidatorRule("Id"));
+		
 		if (!$this->_createdDRs[$digitalRepositoryId->getIdString()]) {
 			// Get the node for this dr to make sure its availible
 			if (!$this->_hierarchy->getNode($digitalRepositoryId))
@@ -124,8 +130,20 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & getAsset(& $assetId) { /* :: interface :: */ }
-	// :: full java declaration :: public Asset getAsset(osid.shared.Id assetId)
+	function & getAsset(& $assetId) {
+		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		
+		// Get the node for this asset to make sure its availible
+		if (!$this->_hierarchy->getNode($assetId))
+			throwError(new Error(UNKNOWN_ID, "Digital Repository", 1));
+		
+		// figure out which DR it is in.
+		$drId =& $this->_getAssetDR($assetId);
+		$dr =& $this->getDigitalRepository($drId);
+		
+		// have the dr create it.
+		return $dr->getAsset($assetId);
+	}
 
 	/**
 	 * Get the Asset with the specified Unique Id and appropriate for the date specified.  The date permits
@@ -135,7 +153,9 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#NO_OBJECT_WITH_THIS_DATE NO_OBJECT_WITH_THIS_DATE}
 	 * @package osid.dr
 	 */
-	function & getAssetByDate(& $assetId, & $date) { /* :: interface :: */ }
+	function & getAssetByDate(& $assetId, & $date) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+	}
 	// :: full java declaration :: public Asset getAssetByDate(osid.shared.Id assetId, java.util.Calendar date)
 
 	/**
@@ -144,7 +164,9 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.dr
 	 */
-	function & getAssetDates(& $assetId) { /* :: interface :: */ }
+	function & getAssetDates(& $assetId) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+	}
 	// :: full java declaration :: public osid.shared.CalendarIterator getAssetDates(osid.shared.Id assetId)
 
 	/**
@@ -156,7 +178,9 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link DigitalRepositoryException#UNKNOWN_DR UNKNOWN_DR}
 	 * @package osid.dr
 	 */
-	function & getAssets(& $digitalRepositories, & $searchCriteria, & $searchType) { /* :: interface :: */ }
+	function & getAssets(& $digitalRepositories, & $searchCriteria, & $searchType) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+	}
 	// :: full java declaration :: public AssetIterator getAssets
 	
 	/**
@@ -167,7 +191,9 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & copyAsset(& $digitalRepository, & $assetId) { /* :: interface :: */ }
+	function & copyAsset(& $digitalRepository, & $assetId) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+	}
 	// :: full java declaration :: osid.shared.Id copyAsset(DigitalRepository digitalRepository, osid.shared.Id assetId)
 
 	/**
@@ -176,7 +202,15 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getDigitalRepositoryTypes() { /* :: interface :: */ }
+	function & getDigitalRepositoryTypes() {
+		$drs =& $this->getDigitalRepositories();
+		$types = array();
+		while ($drs->hasNext()) {
+			$dr =& $drs->next();
+			$types[] =& $dr->getType();
+		}
+		return new HarmoniTypeIterator($types);
+	}
 	// :: full java declaration :: osid.shared.TypeIterator getDigitalRepositoryTypes()
 	
 
@@ -221,6 +255,25 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	 **/
 	function stop() {
 	}
+	
+/******************************************************************************
+ * Private Functions:	
+ ******************************************************************************/
+ 
+ function _getAssetDR (& $assetId) {
+ 	$node =& $this->_hierarchy->getNode($assetId);
+ 	
+ 	// Get the parent and return its ID if it is a root node (drs are root nodes).
+ 	$parents =& $node->getParents();
+ 	// assume a single-parent hierarchy
+ 	$parent =& $parents->next();
+ 	
+ 	if ($parent->isRoot())
+ 		return $parent->getId();
+ 	else
+ 		return $this->_getAssetDR( $parent->getId() );
+ }
+
 }
 
 ?>
