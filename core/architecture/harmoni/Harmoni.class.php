@@ -2,6 +2,7 @@
 //require_once(HARMONI."architecture/harmoni/Harmoni.interface.php");
 if (LOAD_AUTHENTICATION) require_once(HARMONI."architecture/harmoni/login/LoginHandler.class.php");
 require_once(HARMONI."actionHandler/ActionHandler.class.php");
+require_once(HARMONI."utilities/FieldSetValidator/ReferencedFieldSet.class.php");
 require_once(HARMONI."utilities/FieldSetValidator/FieldSet.class.php");
 if (LOAD_AUTHENTICATION) require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
 require_once(HARMONI."languageLocalizer/LanguageLocalizer.class.php");
@@ -17,7 +18,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.18 2004/06/03 21:27:14 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.19 2004/06/24 21:40:31 adamfranco Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -111,7 +112,7 @@ class Harmoni {
 	function Harmoni($httpVars = null) {
 		// set up the variables we are going to pass to actions
 		if ($httpVars) $this->HTTPVars =& new FieldSet($httpVars);
-		else $this->HTTPVars =& new FieldSet($_REQUEST);
+		else $this->HTTPVars =& new ReferencedFieldSet($_REQUEST);
 		
 		// set up the LoginHandler and the ActionHandler
 		if (LOAD_AUTHENTICATION) $this->LoginHandler =& new LoginHandler($this);
@@ -125,7 +126,7 @@ class Harmoni {
 		// set up the default action callback function
 		$this->setActionCallbackFunction("httpTwoVarsActionCallback");
 		
-		$this->_attachedData =& new FieldSet;
+		$this->_attachedData =& new ReferencedFieldSet;
 			
 		// set up pathInfoParts
 		$pathInfo = $_SERVER['PATH_INFO'];
