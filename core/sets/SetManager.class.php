@@ -7,8 +7,8 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
  * configuration.
  * 
  * @package harmoni.sets
- * @version $Id: SetManager.class.php,v 1.2 2004/06/28 21:18:36 adamfranco Exp $
- * @date $Date: 2004/06/28 21:18:36 $
+ * @version $Id: SetManager.class.php,v 1.3 2004/07/12 18:56:46 adamfranco Exp $
+ * @date $Date: 2004/07/12 18:56:46 $
  * @copyright 2004 Middlebury College
  */
 
@@ -57,7 +57,7 @@ class SetManager {
 			$this->_sets[$id->getIdString()] =& new OrderedSet($id, $this->_dbIndex);
 		}
 		
-		return $this->_sets[$id->getIdString];
+		return $this->_sets[$id->getIdString()];
 	}
 	
 	/**
