@@ -7,7 +7,7 @@ require_once(HARMONI."authenticationHandler/methods/DBMethodOptions.class.php");
  * the DB Authentication Method will contact an SQL database and check a username/password pair
  * against fields in a specified table.
  *
- * @version $Id: DBAuthenticationMethod.class.php,v 1.3 2004/04/21 17:55:27 adamfranco Exp $
+ * @version $Id: DBAuthenticationMethod.class.php,v 1.4 2004/07/30 14:14:12 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication.methods
@@ -111,13 +111,13 @@ class DBAuthenticationMethod
 			switch($o->get("passwordFieldEncryptionType")){
 				case "databaseSHA1":
 					$passwordQuery = & new SelectQuery;
-					$passwordQuery->addColumn("SHA1('".$password."')","encryptedPassword");
+					$passwordQuery->addColumn("SHA1('".addslashes($password)."')","encryptedPassword");
 					$passwordResult = & $this->_DBHandler->query($passwordQuery,$this->_id);
 					return $passwordResult->field("encryptedPassword");
 					break;
 				case "databaseMD5":
 					$passwordQuery = & new SelectQuery;
-					$passwordQuery->addColumn("MD5('".$password."')","encryptedPassword");
+					$passwordQuery->addColumn("MD5('".addslashes($password)."')","encryptedPassword");
 					$passwordResult = & $this->_DBHandler->query($passwordQuery,$this->_id);
 					return $passwordResult->field("encryptedPassword");
 					break;
