@@ -3,8 +3,26 @@
 Name: Harmoni ChangeLog
 
 
-v. 0.0.3 (Not Released)
+v. 0.0.3 (2003-11-26)
 ----------------------------------------------------
+		
+	* Change: Made ActionHandler check for class and method definitions before trying to execute them. (Gabe Schine)
+		
+	* New feature: Added defines in config/services.cfg.php to allow a choice of which major &quot;modules&quot; of Harmoni to load, in order to save on startup time. (Gabe Schine)
+		
+	* Bug Fix: Numerous bug fixes in Harmoni, ActionHandler, LoginHandler (Gabe Schine)
+		
+	* New feature: Added a file under core/version.inc.php which holds the current harmoni versions. (Gabe Schine)
+		
+	* New feature: Implemented IDManager class under metaData/ to handle ID generation for the MetaData handler classes. (Gabe Schine)
+		
+	* Change: Updated HarmoniType OSID implementation to have a constructor that follows OKI's specifications. (Gabe Schine)
+		
+	* New feature: Services class now outputs a debug backtrace upon error.
+		
+	* Bug Fix: Fixed bug in optional arg-list for Services::startService that caused a syntax error in eval(). (Gabe Schine)
+		
+	* Change: Services class method startService($name) now takes optional additional arguments which are passed to the service class constructor. (Gabe Schine)
 		
 	* New feature: FormFieldSet class under 'utilities' combines FieldSet functionality with keeping track of changed values and easy validation. Intended for HTML Form use. (Gabe Schine)
 		

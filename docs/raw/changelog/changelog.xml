@@ -2,7 +2,10 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.0.3" date="Not Released">
+	<version number="0.0.3" date="2003-11-26">
+		<change author='gabe'>Made ActionHandler check for class and method definitions before trying to execute them.</change>
+		<new author='gabe'>Added defines in config/services.cfg.php to allow a choice of which major "modules" of Harmoni to load, in order to save on startup time.</new>
+		<fix author='gabe'>Numerous bug fixes in Harmoni, ActionHandler, LoginHandler</fix>
 		<new author='gabe'>Added a file under core/version.inc.php which holds the current harmoni versions.</new>
 		<new author='gabe'>Implemented IDManager class under metaData/ to handle ID generation for the MetaData handler classes.</new>
 		<change author='gabe'>Updated HarmoniType OSID implementation to have a constructor that follows OKI's specifications.</change>
