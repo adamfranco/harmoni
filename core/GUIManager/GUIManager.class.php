@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.8 2005/01/20 06:37:15 nstamato Exp $
+ * @version $Id: GUIManager.class.php,v 1.9 2005/01/20 19:14:30 nstamato Exp $
  */
 class GUIManager extends GUIManagerInterface {
 
@@ -61,8 +61,29 @@ class GUIManager extends GUIManagerInterface {
 	 * @return array An array of strings; each element is the class name of a theme.
 	 **/
 	function getSupportedThemes() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	$themesDir = dirname(__FILE__).$this->getThemePath();
+	
+	//the array of supported themes
+	$themes = array();
+	
+	//make sure the specified name is indeed a directory
+	if(is_dir($themesDir)){
+		
+	$dh = opendir($themesDir);
+		while (($file = readdir($dh)) !== false) {
+			//ignore other files or directories
+			if (ereg(".class.php", $file)){ 
+				
+				//strip the ".class.php" from the end of the file
+				$file = rtrim($file,".class.php");
+				$themes[] = $file;
+			}
+		}
+	unset($file,$dh);
 	}
+	//print_r ($themes);
+	return $themes;
+}
 	
 	/**
 	 * Returns the path that contains all the supported themes.
@@ -70,7 +91,7 @@ class GUIManager extends GUIManagerInterface {
 	 * @return string The relative path to the Theme directory.
 	 **/
 	function getThemePath() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		return "/Themes/";
 	}
 	
 	/**
@@ -79,7 +100,28 @@ class GUIManager extends GUIManagerInterface {
 	 * @return array An array of strings; each element is the class name of a style property.
 	 **/
 	function getSPs() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	$SPDir = dirname(__FILE__).$this->getSPPath();
+	
+	//the array of supported SPs
+	$SPs = array();
+	
+	//make sure the specified name is indeed a directory
+	if(is_dir($SPDir)){
+		
+	$dh = opendir($SPDir);
+		while (($file = readdir($dh)) !== false) {
+			//ignore other files or directories
+			if (ereg(".class.php", $file)){ 
+				
+				//strip the ".class.php" from the end of the file
+				$file = rtrim($file,".class.php");
+				$SPs[] = $file;
+			}
+		}
+	unset($file,$dh);
+	}
+	return $SPs;
+		
 	}
 	
 	/**
@@ -88,7 +130,7 @@ class GUIManager extends GUIManagerInterface {
 	 * @return string The relative path to the style property directory.
 	 **/
 	function getSPPath() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		return "/StyleProperties/";
 	}	
 	
 	/**
@@ -97,7 +139,28 @@ class GUIManager extends GUIManagerInterface {
 	 * @return array An array of strings; each element is the class name of a style components.
 	 **/
 	function getSCs() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	$SCDir = dirname(__FILE__).$this->getSCPath();
+	
+	//the array of supported SCs
+	$SCs = array();
+	
+	//make sure the specified name is indeed a directory
+	if(is_dir($SCDir)){
+		
+	$dh = opendir($SCDir);
+		while (($file = readdir($dh)) !== false) {
+			//ignore other files or directories
+			if (ereg(".class.php", $file)){ 
+				
+				//strip the ".class.php" from the end of the file
+				$file = rtrim($file,".class.php");
+				$SCs[] = $file;
+			}
+		}
+	unset($file,$dh);
+	}
+	return $SCs;
+		
 	}
 	
 	/**
@@ -106,7 +169,7 @@ class GUIManager extends GUIManagerInterface {
 	 * @return string The relative path to the style component directory.
 	 **/
 	function getSCPath() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		return "/StyleComponents/";
 	}
 	
 	/**
@@ -115,7 +178,28 @@ class GUIManager extends GUIManagerInterface {
 	 * @return array An array of strings; each element is the class name of a component.
 	 **/
 	function getSupportedComponents() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	$ComponentDir = dirname(__FILE__).$this->getComponentPath();
+	
+	//the array of supported Components
+	$Components = array();
+	
+	//make sure the specified name is indeed a directory
+	if(is_dir($ComponentDir)){
+		
+	$dh = opendir($ComponentDir);
+		while (($file = readdir($dh)) !== false) {
+			//ignore other files or directories
+			if (ereg(".class.php", $file)){ 
+				
+				//strip the ".class.php" from the end of the file
+				$file = rtrim($file,".class.php");
+				$Components[] = $file;
+			}
+		}
+	unset($file,$dh);
+	}
+	return $Components;
+		
 	}
 	
 	/**
@@ -124,16 +208,38 @@ class GUIManager extends GUIManagerInterface {
 	 * @return string The relative path to the Component directory.
 	 **/
 	function getComponentPath() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		return "/Components/";
 	}	
 		
+	
 	/**
 	 * Returns a list of layouts supported by the GUIManager.
 	 * @access public
 	 * @return array An array of strings; each element is the class name of a layout.
 	 **/
 	function getSupportedLayouts() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	$LayoutDir = dirname(__FILE__).$this->getLayoutPath();
+	
+	//the array of supported Layouts
+	$Layouts = array();
+	
+	//make sure the specified name is indeed a directory
+	if(is_dir($LayoutDir)){
+		
+	$dh = opendir($LayoutDir);
+		while (($file = readdir($dh)) !== false) {
+			//ignore other files or directories
+			if (ereg(".class.php", $file)){ 
+				
+				//strip the ".class.php" from the end of the file
+				$file = rtrim($file,".class.php");
+				$Layouts[] = $file;
+			}
+		}
+	unset($file,$dh);
+	}
+	return $Layouts;
+		
 	}
 	
 	/**
@@ -142,7 +248,7 @@ class GUIManager extends GUIManagerInterface {
 	 * @return string The relative path to the Layout directory.
 	 **/
 	function getLayoutPath() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		return "/Layouts/";
 	}
 	
 	// *************************************************************************
@@ -224,7 +330,7 @@ class GUIManager extends GUIManagerInterface {
 		if (count($exportData) == 0) {
 		    // no date to update the theme state
 			$err = "There are no registered Style Properties in your theme";
-			throwError(new Error($err, "GUIManager", false));
+			throwError(new Error($err, "GUIManager", true));
 			return;
 		}
 		
@@ -247,6 +353,11 @@ class GUIManager extends GUIManagerInterface {
 	
 		//run the query
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		if ($queryResult->getNumberOfRows() != 1) {
+			$err = "None or more than one theme states were updated.";
+			throwError(new Error($err, "GUIManager", true));
+		}
 	}
 	
 	/**
@@ -321,7 +432,13 @@ class GUIManager extends GUIManagerInterface {
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
-		if ($queryResult->getNumberOfRows() > 1) {
+		$affectedStates = $queryResult->getNumberOfRows();
+		if ($affectedStates == 0) {
+			$err = "The requested theme state was not found";
+			throwError(new Error($err, "GUIManager", false));
+		}
+		
+		if ($affectedStates > 1) {
 			$err = "More than one entry was affected by the Query. Maybe something nasty has happened!";
 			throwError(new Error($err, "GUIManager", false));
 		}
