@@ -973,7 +973,10 @@ class HarmoniAsset
 		$nodeId =& $this->_node->getId();
 		$group =& $recordMgr->fetchRecordSet($nodeId->getIdString(), true);
 		
-		if ($group) $group->commit();
+		// The ignoreMandatory Allows this record to be created without checking for
+		// values on mandatory fields. These constraints should be checked when
+		// validateAsset() is called.
+		if ($group) $group->commit(TRUE);
 	}
 
 } // end Asset

@@ -5,7 +5,7 @@ require_once(HARMONI."dataManager/record/RecordSet.class.php");
 /**
  * The StorableRecordSet allows you to store a {@link RecordSet} in the database.
  * @package harmoni.datamanager
- * @version $Id: StorableRecordSet.class.php,v 1.1 2004/08/04 02:18:56 gabeschine Exp $
+ * @version $Id: StorableRecordSet.class.php,v 1.2 2004/08/11 14:57:48 adamfranco Exp $
  * @copyright 2004, Middlebury College
  */
 class StorableRecordSet extends RecordSet {
@@ -110,13 +110,15 @@ class StorableRecordSet extends RecordSet {
 	
 	/**
 	 * Attempts to commit our {@link Record}s to the database and update our mapping.
+	 * @param boolean optional $ignoreMandatory If true, doesn't fail if mandatory
+	 *		fields don't have values.
 	 * @return void
 	 */
-	function commit() {
+	function commit($ignoreMandatory=false) {
 		$ids =	array();
 		if (count($this->_records)) {
 			for($i=0; $i<count($this->_records); $i++) {
-				$this->_records[$i]->commit();
+				$this->_records[$i]->commit($ignoreMandatory);
 				$ids[] = $this->_records[$i]->getID();
 			}
 			$this->_records = array();

@@ -29,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.8 2004/08/11 14:23:05 gabeschine Exp $
+* @version $Id: Record.class.php,v 1.9 2004/08/11 14:57:48 adamfranco Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -343,7 +343,8 @@ class Record {
 	
 	/**
 	* Commits (either inserts or updates) the data for this Record into the database.
-	* @param optional bool $ignoreMandatory USED INTERNALLY
+	* @param boolean optional $ignoreMandatory If true, doesn't fail if mandatory
+	*		fields don't have values.
 	* @return bool
 	*/
 	function commit($ignoreMandatory=false) {
