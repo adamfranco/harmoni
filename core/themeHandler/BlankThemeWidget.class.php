@@ -6,7 +6,7 @@ require_once(HARMONI."/themeHandler/ThemeWidget.abstract.php");
  * The Blank Widget. Just passes through layouts without any styling.
  *
  * @package harmoni.themes
- * @version $Id: BlankThemeWidget.class.php,v 1.1 2004/03/05 21:40:05 adamfranco Exp $
+ * @version $Id: BlankThemeWidget.class.php,v 1.2 2004/03/11 16:57:32 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -42,6 +42,9 @@ class Blank
 	 * @return void
 	 **/
 	function output (& $layoutOrContent, & $currentTheme) {
+		ArgumentValidator::validate($layoutOrContent, new ExtendsValidatorRule("VisualComponent"));
+		ArgumentValidator::validate($currentTheme, new ExtendsValidatorRule("ThemeInterface"));
+		
 		$layoutOrContent->output($currentTheme);
 	}
 }

@@ -14,7 +14,7 @@ define ("RIGHT", "right");
  * holds any number of components of different types.
  *
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.7 2004/03/11 16:02:46 adamfranco Exp $
+ * @version $Id: Layout.abstract.php,v 1.8 2004/03/11 16:57:26 adamfranco Exp $
  * @copyright 2003 
  * @abstract
  **/
@@ -164,11 +164,13 @@ class Layout extends LayoutInterface {
 	 * @return boolean TRUE if everything verified OK, FALSE otherwise.
 	 **/
 	function verifyComponents() {
-		foreach (array_keys($this->_registeredComponents) as $index) {
-			if (!is_object($this->_setComponents[$index])) {
-				// throw an error and return false;
-				throwError(new Error(get_class($this)."::verifyComponents() - required component index $index was not set!","Layout",true));
-				return false;
+		if (is_array($this->_registeredComponents)) {
+			foreach (array_keys($this->_registeredComponents) as $index) {
+				if (!is_object($this->_setComponents[$index])) {
+					// throw an error and return false;
+					throwError(new Error(get_class($this)."::verifyComponents() - required component index $index was not set!","Layout",true));
+					return false;
+				}
 			}
 		}
 		return true;
@@ -306,7 +308,7 @@ class Layout extends LayoutInterface {
 	 **/
 	function setLevel($level, $spiderDown=true, $increment=1) {
 		$this->_level = $level;
-		if ($spiderDown) {
+		if ($spiderDown && is_array($this->_setComponents)) {
 			foreach (array_keys($this->_setComponents) as $key) {
 				$this->_setComponents[$key]->setLevel($this->_level+$increment,$spiderDown,$increment);
 			}
