@@ -2,6 +2,9 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.2">
+		<new author='gabe'>Added RGBcolor and HTMLcolor classes.</new>
+		<change author='gabe'>Finished Layout, Theme and Template.</change>
+		<change>AuthenticationMethod includes changed to avoid random unprintable character output.</change>
 		<change author='gabe'>FieldSetValidator and RuleSet now take optional argument on validate()/validateAll() functions specifying if errors should be thrown upon failure or not.</change>
 		<change author='gabe'>RuleSet can now accept an ErrorHandler to use via setErrorHandler().</change>
 		<new author='dobo'>DBHandler can now use a PostgreSQL server and fetching last insert ID works on all integrated DBs.</new>

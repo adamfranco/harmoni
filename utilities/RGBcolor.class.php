@@ -1,15 +1,16 @@
 <?php
 
+require_once(HARMONI."utilities/RGBColor.interface.php");
+
 /**
  * A class designed to manipulate colors using the RGB color scheme.
  *
- * @version $Id: RBGcolor.class.php,v 1.1 2003/07/18 02:28:22 movsjani Exp $
+ * @version $Id: RGBcolor.class.php,v 1.1 2003/07/20 14:17:17 gabeschine Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
 
 class RGBColor extends RGBColorInterface {
-
 	var $_red,$_green,$_blue;
 
  	/**
@@ -26,7 +27,31 @@ class RGBColor extends RGBColorInterface {
 		$this->_checkColors();
 	}
 
-
+	/**
+	 * Makes sure all the colors are within the range 0 - 255
+	 * @access public
+	 * @return void 
+	 **/
+	function _checkColors() {
+		$this->_red = $this->_withinRange($this->_red);
+		$this->_green = $this->_withinRange($this->_green);
+		$this->_blue = $this->_withinRange($this->_blue);
+	}
+	
+	/**
+	 * Makes sure $val is within the range $min -> $max
+	 * @param integer $val
+	 * @param integer $min
+	 * @param integer $max
+	 * @access private
+	 * @return void 
+	 **/
+	function _withinRange($val, $min=0, $max=255) {
+		if ($val < $min) return $min;
+		if ($val > $max) return $max;
+		return $val;
+	}	
+	
  	/**
 	 * Get the red component of the color.
 	 * @return integer The value of the red component of the color
@@ -106,44 +131,75 @@ class RGBColor extends RGBColorInterface {
 	}
 
  	/**
-	 * Darken the color by a certain ammount (0-100)
-	 * @param float $percent The ammount to darken the color by (0 keeps the color unchanged, 
+	 * Darken the color by a certain amount (0-100)
+	 * @param float $percent The amount to darken the color by (0 keeps the color unchanged, 
 	 * 50 divides all color components by 2, 100 makes the color black.
 	 * @access public
 	 */	
 	function darken($percent) { 
-		
-
+		$percent = $this->_withinRange($percent, 0, 100);
+		$factor = $percent / 100.0 + 1.0;
+		$this->_green = 256 - (256 - $this->_green)*$factor;
+		$this->_blue = 256 - (256 - $this->_blue)*$factor;
+		$this->_red = 256 - (256 - $this->_red)*$factor;
+		$this->_checkColors();
 	}
 
  	/**
-	 * Lighten the color by a certain ammount (0-100)
-	 * @param float $percent The ammount to lighten the color by (0 keeps the color unchanged, 
+	 * Lighten the color by a certain amount (0-100)
+	 * @param float $percent The amount to lighten the color by (0 keeps the color unchanged, 
 	 * 50 multiplies all color components by 2, 100 makes the color white.
 	 * @access public
 	 */	
-	function lighten($percent) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function lighten($percent) {
+		$percent = $this->_withinRange($percent, 0, 100);
+		$factor = (100 - $percent) / 100.0;
+		$this->_green = 255 - (255 - $this->_green)*$factor;
+		$this->_blue = 255 - (255 - $this->_blue)*$factor;
+		$this->_red = 255 - (255 - $this->_red)*$factor;
+		$this->_checkColors();
+	}
 
+	/**
+	 * Invert the color.
+	 * @access public
+	 * @return void 
+	 **/
+	function invert() {
+		$this->_green = (255 - $this->_green);
+		$this->_blue = (255 - $this->_blue);
+		$this->_red = (255 - $this->_red);
+	}
+	
  	/**
-	 * Shift the red component by a certain ammount.
-	 * @param integer $ammount The ammount to shift (add to or substract from) the red component by. 
+	 * Shift the red component by a certain amount.
+	 * @param integer $amount The amount to shift (add to or substract from) the red component by. 
 	 * @access public
 	 */	
-	function shiftRed($ammount) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function shiftRed($amount) {
+		$this->_red += $amount;
+		$this->_checkColors();
+	}
 
  	/**
-	 * Shift the green component by a certain ammount.
-	 * @param integer $ammount The ammount to shift (add to or substract from) the green component by. 
+	 * Shift the green component by a certain amount.
+	 * @param integer $amount The amount to shift (add to or substract from) the green component by. 
 	 * @access public
 	 */	
-	function shiftGreen($ammount) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function shiftGreen($amount) {
+		$this->_green += $amount;
+		$this->_checkColors();		
+	}
 
  	/**
-	 * Shift the red component by a certain ammount.
-	 * @param integer $ammount The ammount to shift (add to or substract from) the red component by. 
+	 * Shift the red component by a certain amount.
+	 * @param integer $amount The amount to shift (add to or substract from) the red component by. 
 	 * @access public
 	 */	
-	function shiftBlue($ammount) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function shiftBlue($amount) {
+		$this->_blue += $amount;
+		$this->_checkColors();
+	}
 }
 
 

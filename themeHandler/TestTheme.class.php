@@ -9,7 +9,7 @@ require_once(HARMONI."utilities/FieldSetValidator/FieldSet.class.php");
  * This is a test theme object.
  *
  * @package harmoni.themes
- * @version $Id: TestTheme.class.php,v 1.3 2003/07/18 23:32:26 gabeschine Exp $
+ * @version $Id: TestTheme.class.php,v 1.4 2003/07/20 14:17:18 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -25,7 +25,7 @@ class TestTheme extends NamedTheme {
 		$this->_description	=		"This theme tests Harmoni's Theme functionality.";
 		
 		// this theme's base color (should be an HTMLColor object)
-		$this->_baseColor	=		""; // @todo -cTestTheme Implement TestTheme.TestTheme
+		$this->_baseColor	=&		new HTMLcolor("369"); // a nice blue
 		
 		// does this theme have theme settings (controlled by handleThemeSettings())?
 		$this->_hasSettings	=		false;
@@ -56,6 +56,11 @@ class TestTheme extends NamedTheme {
 		
 		$flds->set("content",$content);
 		
+		// make a copy
+		$color = $this->_baseColor;
+		$color->lighten(70);
+		$flds->set("floatcolor",$color->getHTMLcolor());
+		
 		// output the template
 		$tpl->output(&$flds);
 	}
@@ -70,11 +75,22 @@ class TestTheme extends NamedTheme {
 	 **/
 	function printMenu($menuObj, $level, $orientation) {
 //		print "<div style='border: 1px solid gray; padding: 2px; margin: 2px;'>";
+		$h = ($orientation == VERTICAL)?false:true;
+		// make a copy
+		$color = $this->_baseColor;
+		print "<table cellpadding=0 cellspacing=1 width=100%>";
+		print "<tr>";
+		$color->lighten($level*10 + 50);
+		$bgcolor = $color->getHTMLcolor();
 		for($i = 0; $i < $menuObj->getCount(); $i++) {
 			$item =& $menuObj->getItem($i);
+			if ($item->getType() == LINK)$item->addExtraAttributes("class='menu'");
+			print "<td style='background-color: $bgcolor'".($h?" align=center":"").">";
 			print $item->getFormattedText();
-			print ($orientation == VERTICAL)?"<br />":" ";
+			print "</td>";
+			print (!$h)?"</tr><tr>":"";
 		} // for
+		print "</tr></table>";
 //		print "</div>";
 	}
 	

@@ -25,7 +25,7 @@ $topMenu =& new Menu;
 $leftMenu =& new Menu;
 
 // add links to the top menu
-$topMenu->addItem(new HeaderMenuItem("Top Menu"));
+$topMenu->addItem(new HeaderMenuItem("Top Menu:"));
 $topMenu->addItem(new LinkMenuItem("Link1","http://www.middlebury.edu"));
 $topMenu->addItem(new LinkMenuItem("New window","http://google.com",false,"_blank"));
 $topMenu->addItem(new LinkMenuItem("JavaScript Alert","#",false,null,"onClick='alert(\"testing\")'","style='text-decoration:none' "));

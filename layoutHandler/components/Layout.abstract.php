@@ -8,7 +8,7 @@ require_once(HARMONI."layoutHandler/Layout.interface.php");
  *
  * @abstract
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.3 2003/07/18 20:26:23 gabeschine Exp $
+ * @version $Id: Layout.abstract.php,v 1.4 2003/07/20 14:17:18 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -101,6 +101,7 @@ class Layout extends LayoutInterface {
 	 * @use HORIZONTAL
 	 * @use VERTICAL
 	 * @access public
+	 * @final
 	 * @return void
 	 **/
 	function output($theme, $level=0, $orientation=HORIZONTAL) {

@@ -3,7 +3,7 @@
 /**
  * A class designed to manipulate colors using the RGB color scheme.
  *
- * @version $Id: RBGcolor.interface.php,v 1.1 2003/07/18 02:28:22 movsjani Exp $
+ * @version $Id: RGBcolor.interface.php,v 1.1 2003/07/20 14:17:17 gabeschine Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -69,41 +69,50 @@ class RGBColorInterface {
 	function setRGB($red,$green,$blue) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
  	/**
-	 * Darken the color by a certain ammount (0-100)
-	 * @param float $percent The ammount to darken the color by (0 keeps the color unchanged, 
+	 * Darken the color by a certain amount (0-100)
+	 * @param float $percent The amount to darken the color by (0 keeps the color unchanged, 
 	 * 50 divides all color components by 2, 100 makes the color black.
 	 * @access public
 	 */	
 	function darken($percent) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
  	/**
-	 * Lighten the color by a certain ammount (0-100)
-	 * @param float $percent The ammount to lighten the color by (0 keeps the color unchanged, 
+	 * Lighten the color by a certain amount (0-100)
+	 * @param float $percent The amount to lighten the color by (0 keeps the color unchanged, 
 	 * 50 multiplies all color components by 2, 100 makes the color white.
 	 * @access public
 	 */	
 	function lighten($percent) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
+	/**
+	 * Inverts the color.
+	 * @access public
+	 * @return void 
+	 **/
+	function invert() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
  	/**
-	 * Shift the red component by a certain ammount.
-	 * @param integer $ammount The ammount to shift (add to or substract from) the red component by. 
+	 * Shift the red component by a certain amount.
+	 * @param integer $amount The amount to shift (add to or substract from) the red component by. 
 	 * @access public
 	 */	
-	function shiftRed($ammount) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function shiftRed($amount) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
  	/**
-	 * Shift the green component by a certain ammount.
-	 * @param integer $ammount The ammount to shift (add to or substract from) the green component by. 
+	 * Shift the green component by a certain amount.
+	 * @param integer $amount The amount to shift (add to or substract from) the green component by. 
 	 * @access public
 	 */	
-	function shiftGreen($ammount) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function shiftGreen($amount) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
  	/**
-	 * Shift the red component by a certain ammount.
-	 * @param integer $ammount The ammount to shift (add to or substract from) the red component by. 
+	 * Shift the red component by a certain amount.
+	 * @param integer $amount The amount to shift (add to or substract from) the red component by. 
 	 * @access public
 	 */	
-	function shiftBlue($ammount) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function shiftBlue($amount) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 }
 
 

@@ -1,5 +1,6 @@
 <?php
 require_once(HARMONI."themeHandler/NamedTheme.interface.php");
+require_once(HARMONI."utilities/HTMLcolor.class.php");
 
 /**
  * The NamedTheme is an abstract class that assigns default functionality
@@ -7,7 +8,7 @@ require_once(HARMONI."themeHandler/NamedTheme.interface.php");
  * {@link NamedThemeInterface}.
  *
  * @package harmoni.themes
- * @version $Id: NamedTheme.abstract.php,v 1.3 2003/07/18 23:32:26 gabeschine Exp $
+ * @version $Id: NamedTheme.abstract.php,v 1.4 2003/07/20 14:17:18 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -142,41 +143,8 @@ class NamedTheme extends NamedThemeInterface {
 	 * @access public
 	 * @return object An {@link HTMLColor} object.
 	 **/
-	function getBaseColor() {
+	function &getBaseColor() {
 		return $this->_baseColor;
-	}
-	
-	/**
-	 * Prints a {@link Menu}, with specified orientation.
-	 * @param object $menuObj The {@link Menu} object to print.
-	 * @param integer $level The current level within a {@link Layout} we are.
-	 * @param integer $otientation The orientation. Either HORIZONTAL or VERTICAL.
-	 * @access public
-	 * @return void
-	 **/
-	function printMenu($menuObj, $level, $orientation) {
-		print "<br/>Printing Menu with level=$level and orientation=";
-		print ($orientation==HORIZONTAL)?"HORIZONTAL":"VERTICAL";
-		print "<br/><br/>";
-		
-		for($i = 0; $i < $menuObj->getCount(); $i++) {
-			$item =& $menuObj->getItem($i);
-			print $item->getFormattedText();
-			print ($orientation == VERTICAL)?"<br />":" ";
-		} // for
-	}
-	
-	/**
-	 * Prints a {@link Content} object out using the theme. $level can be used to specify
-	 * changing look the deeper into a layout you go.
-	 * @param object $contentObj The {@link Content} object to use.
-	 * @param integer $level The current level within a {@link Layout} we are.
-	 * @access public
-	 * @return void
-	 **/
-	function printContent($contentObj, $level) {
-		print "<br/>Printing Content with level=$level.<br/><br/>";
-		print $contentObj->getContent();
 	}
 	
 	/**
