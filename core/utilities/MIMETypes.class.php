@@ -2,13 +2,14 @@
 
 /**
  * Functions for figuring out MIME types.
- * 
+ *
  * @package harmoni.utilities
- * @version $Id: MIMETypes.class.php,v 1.2 2004/10/22 21:58:46 adamfranco Exp $
- * @date $Date: 2004/10/22 21:58:46 $
- * @copyright 2004 Middlebury College
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: MIMETypes.class.php,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
  */
-
 class MIMETypes {
 
 	/**

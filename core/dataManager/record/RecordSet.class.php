@@ -2,9 +2,13 @@
 
 /**
  * The RecordSet class holds a list of IDs and their Records in a specific record set.
+ *
  * @package harmoni.datamanager
- * @version $Id: RecordSet.class.php,v 1.4 2004/08/04 02:18:56 gabeschine Exp $
- * @copyright 2004, Middlebury College
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: RecordSet.class.php,v 1.5 2005/01/19 21:09:42 adamfranco Exp $
  */
 class RecordSet {
 	

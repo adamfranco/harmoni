@@ -2,9 +2,13 @@
 
 /**
  * This is the {@link StorablePrimitive} abstract for classes with string-type data values.
+ *
  * @package harmoni.datamanager.storableprimitives
- * @copyright 2004
- * @version $Id: StorableString.abstract.php,v 1.1 2004/07/27 18:15:26 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StorableString.abstract.php,v 1.2 2005/01/19 21:09:43 adamfranco Exp $
  */
 class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 	

@@ -5,12 +5,15 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
 /**
  * Responsible for the synchronization of {@link Schema} classes with the database, and the
  * creation of new Types.
+ *
  * @package harmoni.datamanager
- * @version $Id: SchemaManager.class.php,v 1.10 2005/01/08 01:17:10 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SchemaManager.class.php,v 1.11 2005/01/19 21:09:42 adamfranco Exp $
  * @author Gabe Schine
- * @copyright 2004
- * @access public
- **/
+ */
 class SchemaManager
 	extends ServiceInterface {
 	

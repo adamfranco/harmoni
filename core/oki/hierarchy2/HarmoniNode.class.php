@@ -10,15 +10,13 @@ require_once(HARMONI."oki/hierarchy2/DefaultNodeType.class.php");
  * A Node is a Hierarchy's representation of an external object that is one of
  * a number of similar objects to be organized. Nodes must be connected to a
  * Hierarchy.
- * 
- * 
- * <p></p>
  *
  * @package harmoni.osid.hierarchy2
- * @author Middlebury College
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: HarmoniNode.class.php,v 1.13 2004/08/26 15:10:34 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniNode.class.php,v 1.14 2005/01/19 21:10:09 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

@@ -4,9 +4,13 @@ require_once(HARMONI."dataManager/record/RecordSet.class.php");
 
 /**
  * The StorableRecordSet allows you to store a {@link RecordSet} in the database.
+ *
  * @package harmoni.datamanager
- * @version $Id: StorableRecordSet.class.php,v 1.4 2004/12/18 05:17:19 gabeschine Exp $
- * @copyright 2004, Middlebury College
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StorableRecordSet.class.php,v 1.5 2005/01/19 21:09:42 adamfranco Exp $
  */
 class StorableRecordSet extends RecordSet {
 	

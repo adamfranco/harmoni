@@ -13,13 +13,14 @@ require_once(HARMONI."GUIManager/StyleComponents/WhiteSpaceSC.class.php");
  * The other two CSS styles building pieces are <code>StyleComponents</code> and
  * <code>StyleCollections</code>. 
  
- * @version $Id: WhiteSpaceSP.class.php,v 1.1 2004/07/21 17:09:51 tjigmes Exp $
- * @package harmoni.gui.sps
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ *
+ * @package  harmoni.gui.sps
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: WhiteSpaceSP.class.php,v 1.2 2005/01/19 21:09:36 adamfranco Exp $
+ */
 class WhiteSpaceSP extends StyleProperty {
 
 	/**

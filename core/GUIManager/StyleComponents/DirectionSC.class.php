@@ -12,13 +12,14 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * The <code>StyleComponent</code> (SC) is the most basic of the three building pieces
  * of CSS styles. It combines a CSS property value with a ValidatorRule to ensure that
  * the value follows a certain format.<br /><br />
- * @version $Id: DirectionSC.class.php,v 1.4 2005/01/03 20:50:31 adamfranco Exp $ 
- * @package harmoni.gui.scs
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ *
+ * @package  harmoni.gui.scs
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DirectionSC.class.php,v 1.5 2005/01/19 21:09:32 adamfranco Exp $
+ */
 class DirectionSC extends StyleComponent {
 
 	/**

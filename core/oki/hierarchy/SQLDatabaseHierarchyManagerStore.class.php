@@ -6,11 +6,13 @@ require_once(HARMONI."oki/hierarchy/SQLDatabaseHierarchyStore.class.php");
 /**
  * A storage class for HierarchyManager[s]. This class provides saving and loading
  * of the HierarchyManager from persistable storage.
+ *
  * @package harmoni.osid.hierarchy
- * @author Adam Franco
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: SQLDatabaseHierarchyManagerStore.class.php,v 1.4 2004/04/21 17:55:33 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SQLDatabaseHierarchyManagerStore.class.php,v 1.5 2005/01/19 21:10:08 adamfranco Exp $
  */
 
 

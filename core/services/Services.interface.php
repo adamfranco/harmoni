@@ -3,12 +3,14 @@
 /**
  * The ServicesInterface defines the functionality required by any Services class or derivative.
  * The ServicesInterface defines the functionality required by any Services class or derivative.
- * @version $Id: Services.interface.php,v 1.5 2004/08/26 15:10:35 adamfranco Exp $
- * @copyright 2003 
- * @access public
+ *
  * @package harmoni.services
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Services.interface.php,v 1.6 2005/01/19 21:10:13 adamfranco Exp $
+ */
 class ServicesInterface {
 	/*     STATIC METHODS     */
 	

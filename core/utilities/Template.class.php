@@ -8,11 +8,13 @@
  * <br/>
  * some html ... &lt?=$value1=&gt; ... more html ...
  *
- * @package harmoni.utilities.template
- * @version $Id: Template.class.php,v 1.3 2004/01/08 21:10:01 gabeschine Exp $
- * @copyright 2003 
- **/
-
+ * @package harmoni.utilities
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Template.class.php,v 1.4 2005/01/19 21:10:15 adamfranco Exp $
+ */
 class Template {
 	/**
 	 * @access private

@@ -5,10 +5,13 @@ require_once HARMONI."dataManager/record/Tag.class.php";
 /**
 * Handles the creation and retrieval of {@link Tag}s to/from the database. See {@link Tag} for a 
 * more detailed explanation of the role of tags.
-* @access public
-* @package harmoni.datamanager
-* @version $Id: TagManager.class.php,v 1.4 2005/01/05 18:18:21 gabeschine Exp $
-* @copyright 2004, Middlebury College
+ *
+ * @package harmoni.datamanager
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: TagManager.class.php,v 1.5 2005/01/19 21:09:42 adamfranco Exp $
 */
 class TagManager extends ServiceInterface {
 	

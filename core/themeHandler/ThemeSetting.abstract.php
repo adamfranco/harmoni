@@ -10,10 +10,12 @@ require_once(HARMONI."/themeHandler/ThemeSetting.interface.php");
  * abstract class. As well, the setValue() method should check for valid inputs.
  *
  * @package harmoni.themes
- * @version $Id: ThemeSetting.abstract.php,v 1.5 2004/08/26 15:10:36 adamfranco Exp $
- * @copyright 2004 
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ThemeSetting.abstract.php,v 1.6 2005/01/19 21:10:13 adamfranco Exp $
+ */
 class ThemeSetting
 	extends ThemeSettingInterface {
 	

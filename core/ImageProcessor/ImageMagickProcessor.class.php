@@ -2,11 +2,13 @@
 
 /**
  * Class for Processing images using ImageMagick
- * 
+ *
  * @package harmoni.image_processor
- * @version $Id: ImageMagickProcessor.class.php,v 1.3 2004/11/06 02:18:27 adamfranco Exp $
- * @date $Date: 2004/11/06 02:18:27 $
- * @copyright 2004 Middlebury College
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ImageMagickProcessor.class.php,v 1.4 2005/01/19 21:09:38 adamfranco Exp $
  */
 
 class ImageMagickProcessor {

@@ -6,12 +6,16 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
 
 /**
  * The RecordManager handles the creation, tagging and fetching of {@link Record}s from the database.
+ *
  * @package harmoni.datamanager
- * @version $Id: RecordManager.class.php,v 1.14 2005/01/08 22:17:04 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: RecordManager.class.php,v 1.15 2005/01/19 21:09:42 adamfranco Exp $
+ *
  * @author Gabe Schine
- * @copyright 2004
- * @access public
- **/
+ */
 class RecordManager extends ServiceInterface {
 	
 	var $_versionConstraint = null;

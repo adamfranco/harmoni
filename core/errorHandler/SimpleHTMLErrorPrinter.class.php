@@ -6,10 +6,12 @@ require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
  * An ErrorPrinter provides functionality to output Error objects in any way one's soul may desire.
  * to be used by the ErrorHandler
  *
- * @version $Id: SimpleHTMLErrorPrinter.class.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
  * @package harmoni.errorhandler
- * @copyright 2003
- * @access public
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SimpleHTMLErrorPrinter.class.php,v 1.2 2005/01/19 21:10:00 adamfranco Exp $
  */
 
 class SimpleHTMLErrorPrinter extends ErrorPrinterInterface {

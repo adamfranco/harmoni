@@ -1,6 +1,13 @@
 #! /usr/bin/perl -s
 # finds instances of invalid private variable referencing
 # in PHP scripts located in the file provided.
+#
+# @package harmoni.tools
+# 
+# @copyright Copyright &copy; 2005, Middlebury College
+# @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+#
+# @version $Id: showPrivateReferences.pl,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
 
 # print  out help if requested.
 if ( $h || $help ) {

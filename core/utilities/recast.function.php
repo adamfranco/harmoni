@@ -5,7 +5,13 @@
  * @param ref object $old_object Any object.
  * @param string $new_classname
  * @return ref object Returns the object re-cast as $new_classname.
+ *
  * @package harmoni.utilities
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: recast.function.php,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
  */
 function &recast(&$old_object, $new_classname) {
 	if(class_exists($new_classname)) {

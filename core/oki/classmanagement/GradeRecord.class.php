@@ -2,7 +2,13 @@
 
 	/**
 	 * GradeRecord manages the Grade of a specific GradeType for an Agent and a CourseOffering.   <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+ *
+ * @package harmoni.osid.coursemanagement
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: GradeRecord.class.php,v 1.3 2005/01/19 21:10:04 adamfranco Exp $
 	 */
 class HarmoniGradeRecord // :: API interface
 //	extends java.io.Serializable

@@ -58,10 +58,13 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * An action is passed the following items:<br/>
  * <li>The {@link Harmoni} object.
  *
- * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.12 2004/08/26 15:10:30 adamfranco Exp $
- * @copyright 2003 
- **/
+ * @package harmoni.actionHandler
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ActionHandler.class.php,v 1.13 2005/01/19 21:09:39 adamfranco Exp $
+ */
 class ActionHandler {
 	/**
 	 * @access private

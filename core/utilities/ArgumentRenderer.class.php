@@ -5,12 +5,14 @@
 /**
  * An ArgumentRenderer provides functionallity to print/render/format a list of arguments.
  * An ArgumentRenderer provides functionallity to print/render/format a list of arguments.
- * @version $Id: ArgumentRenderer.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
- * @copyright 2003 
- * @access public
+ *
  * @package harmoni.utilities
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ArgumentRenderer.class.php,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
+ */
 class ArgumentRenderer {
 
 	/**

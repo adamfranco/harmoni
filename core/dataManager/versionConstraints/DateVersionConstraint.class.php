@@ -6,9 +6,13 @@ require_once HARMONI."dataManager/versionConstraints/VersionConstraint.interface
  * Limits pruning based on a cutoff date, specified in the past. The date is passed to the constructor,
  * and can be a specific date or a relative date, like "-2 weeks" or "-12 hours". Dates in the future
  * will throw an error.
+ *
  * @package harmoni.datamanager.versionconstraint
- * @copyright 2004, Middlebury College
- * @version $Id: DateVersionConstraint.class.php,v 1.2 2004/08/04 02:18:57 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DateVersionConstraint.class.php,v 1.3 2005/01/19 21:09:59 adamfranco Exp $
  */
 class DateVersionConstraint extends VersionConstraint {
 	

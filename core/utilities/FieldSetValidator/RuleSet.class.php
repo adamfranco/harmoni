@@ -5,11 +5,14 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * a RuleSet allows a user to define a number of keys each with associated rules and errors
- * @version $Id: RuleSet.class.php,v 1.2 2003/11/27 04:55:42 gabeschine Exp $
- * @copyright 2003 
+ *
  * @package harmoni.utilities.fieldsetvalidator
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: RuleSet.class.php,v 1.3 2005/01/19 21:10:16 adamfranco Exp $
+ */
 class RuleSet {
 	/**
 	 * The error handler we should use for throwing errors.

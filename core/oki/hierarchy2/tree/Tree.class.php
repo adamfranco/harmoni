@@ -5,12 +5,13 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
 
 /** 
  * The Tree data structure used by the Hierarchy.
- * @access public
- * @version $Id: Tree.class.php,v 1.6 2004/08/26 15:10:34 adamfranco Exp $
- * @author Middlebury College, ETS
- * @copyright 2003 Middlebury College, ETS
- * @date Created: 8/30/2003
+ *
  * @package harmoni.osid.hierarchy2.tree
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Tree.class.php,v 1.7 2005/01/19 21:10:10 adamfranco Exp $
  */
 class Tree extends TreeInterface {
 

@@ -5,7 +5,13 @@ require_once(HARMONI."utilities/DateTime.class.php");
 
 /**
  * Authorization indicates what an Agent can do a Function in a Qualifier context. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
+ *
  * @package harmoni.osid.authorization
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniAuthorization.class.php,v 1.12 2005/01/19 21:10:03 adamfranco Exp $
  */
 class HarmoniAuthorization extends Authorization {
 

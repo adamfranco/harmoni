@@ -14,12 +14,14 @@ require_once(HARMONI."authenticationHandler/methods/DummyAuthenticationMethod.cl
 /**
  * The AuthenticationHandler keeps track of multiple AuthenticationMethods for 
  * authenticating agents.
- * 
- * @version $Id: AuthenticationHandler.class.php,v 1.3 2004/08/26 15:10:31 adamfranco Exp $
- * @copyright 2003 
- * @access public
+ *
  * @package harmoni.authentication
- **/
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: AuthenticationHandler.class.php,v 1.4 2005/01/19 21:09:41 adamfranco Exp $
+ */
 
 class AuthenticationHandler extends ServiceInterface {
 	/**

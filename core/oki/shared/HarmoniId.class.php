@@ -3,7 +3,13 @@
 /**
  * A class for passing an integer or a string representation of an integer as an
  * id.
+ *
  * @package harmoni.osid.shared
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniId.class.php,v 1.14 2005/01/19 21:10:12 adamfranco Exp $
  */
 
 class HarmoniId extends Id {

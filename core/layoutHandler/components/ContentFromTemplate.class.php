@@ -5,9 +5,12 @@ require_once(HARMONI."layoutHandler/components/Content.interface.php");
  * Creates a {@link Content} object from a template which is called when text is requested.
  *
  * @package harmoni.layout.components
- * @version $Id: ContentFromTemplate.class.php,v 1.1 2004/08/06 14:23:57 gabeschine Exp $
- * @copyright 2003 
- **/
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ContentFromTemplate.class.php,v 1.2 2005/01/19 21:10:01 adamfranco Exp $
+ */
 class ContentFromTemplate extends Content {
 	var $_template;
 	var $_vars;

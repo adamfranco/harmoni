@@ -2,9 +2,13 @@
 
 /**
  * A simple Boolean data type.
+ *
  * @package harmoni.datamanager.primitives
- * @copyright 2004
- * @version $Id: Boolean.class.php,v 1.2 2004/07/27 18:15:25 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Boolean.class.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
  */
 class Boolean extends Primitive /* = implements Primitive */ {
 	

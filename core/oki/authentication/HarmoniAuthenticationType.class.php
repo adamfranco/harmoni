@@ -4,12 +4,13 @@ require_once(HARMONI."oki/shared/HarmoniType.class.php");
 
 /**
  * This class represents the default Type for Node objects.
+ *
+ * @package harmoni.osid.authentication
  * 
- * @version $Id: HarmoniAuthenticationType.class.php,v 1.1 2004/07/02 19:28:59 adamfranco Exp $
- * @package harmoni.osid.hierarchy2
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniAuthenticationType.class.php,v 1.2 2005/01/19 21:10:02 adamfranco Exp $
  **/
 
 class HarmoniAuthenticationType extends HarmoniType {

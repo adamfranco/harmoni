@@ -4,9 +4,13 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
 
 /**
  * This is the {@link StorablePrimitive} equivalent of {@link String} for the dm_shortstring table.
+ *
  * @package harmoni.datamanager.storableprimitives
- * @copyright 2004
- * @version $Id: StorableShortString.class.php,v 1.2 2004/08/05 15:56:09 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StorableShortString.class.php,v 1.3 2005/01/19 21:09:43 adamfranco Exp $
  */
 class StorableShortString extends StorableStringAbstract /* implements StorablePrimitive */ {
 

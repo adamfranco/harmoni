@@ -16,13 +16,14 @@
  * }
  * </pre>
  * The string '<code>div.col1 > *#temp + td.hi#bye</code>' is the CSS selector.
- * @version $Id: StyleSelector.interface.php,v 1.1 2005/01/10 06:17:01 dobomode Exp $
- * @package harmoni.gui
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ *
+ * @package harmoni.gui.extensions
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StyleSelector.interface.php,v 1.2 2005/01/19 21:09:38 adamfranco Exp $
+ */
 class StyleSelectorInterface {
 
 	/**

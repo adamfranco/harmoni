@@ -6,10 +6,12 @@ require_once(HARMONI."/themeHandler/ThemeWidget.abstract.php");
  * The Blank Widget. Just passes through layouts without any styling.
  *
  * @package harmoni.themes
- * @version $Id: BlankThemeWidget.class.php,v 1.3 2004/04/21 17:55:34 adamfranco Exp $
- * @copyright 2004 
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: BlankThemeWidget.class.php,v 1.4 2005/01/19 21:10:13 adamfranco Exp $
+ */
 class Blank
 	extends ThemeWidget {
 	

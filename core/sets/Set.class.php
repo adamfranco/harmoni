@@ -7,14 +7,15 @@ require_once(dirname(__FILE__)."/Set.interface.php");
  * sets of ids in a database. Note: Nothing should be implied in the order that
  * the ids are returned.
  * Sets provide for the easy storage of groups of ids.
+ *
+ * @package  harmoni.sets
  * 
- * @package harmoni.sets
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Set.class.php,v 1.5 2005/01/19 21:10:13 adamfranco Exp $
  * @author Adam Franco
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: Set.class.php,v 1.4 2004/08/26 15:10:35 adamfranco Exp $
  */
- 
 class Set 
 	extends SetInterface {
 	

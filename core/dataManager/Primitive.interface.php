@@ -3,9 +3,13 @@
 /**
  * A primitive data type is nothing more than an object-representation of data types such as "string" or
  * "integer", etc. 
+ *
  * @package harmoni.datamanager
- * @copyright 2004
- * @version $Id: Primitive.interface.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Primitive.interface.php,v 1.2 2005/01/19 21:09:41 adamfranco Exp $
  */
 class Primitive {
 

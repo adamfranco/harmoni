@@ -5,11 +5,13 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
 /**
  * the IntegerValidatorRule checks a given value to make sure it's integer
  *
- * @version $Id: IntegerValidatorRule.class.php,v 1.2 2004/03/05 21:40:06 adamfranco Exp $
- * @copyright 2003 
  * @package harmoni.utilities.fieldsetvalidator.rules
- **/
- 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: IntegerValidatorRule.class.php,v 1.3 2005/01/19 21:10:16 adamfranco Exp $
+ */ 
 class IntegerValidatorRule
 	extends ValidatorRuleInterface 
 {

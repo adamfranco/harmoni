@@ -9,9 +9,11 @@ require_once(OKI."/dr.interface.php");
  * the hierarchical nature of DRs used in Harmoni
  *
  * @package harmoni.osid.dr
- * @author Adam Franco
- * @copyright 2004 Middlebury College
- * @access public
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniDigitalRepository.interface.php,v 1.3 2005/01/19 21:10:07 adamfranco Exp $
  */
 
 class HarmoniDigitalRepositoryInterface

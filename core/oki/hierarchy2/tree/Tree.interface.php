@@ -2,12 +2,14 @@
 
 /** 
  * The interface for the Tree data structure used by the Hierarchy.
- * @access public
- * @version $Id: Tree.interface.php,v 1.4 2004/08/26 15:10:34 adamfranco Exp $
- * @author Middlebury College, ETS
- * @copyright 2003 Middlebury College, ETS
+ *
+ * @package harmoni.osid.hierarchy2.tree
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Tree.interface.php,v 1.5 2005/01/19 21:10:10 adamfranco Exp $
  * @date Created: 8/30/2003
- * @package harmoni.authorization.generator
  */
 class TreeInterface {
 

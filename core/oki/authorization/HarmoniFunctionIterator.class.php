@@ -8,8 +8,13 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
 
 /**
  *
+ *
  * @package harmoni.osid.authorization
- */
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniFunctionIterator.class.php,v 1.4 2005/01/19 21:10:03 adamfranco Exp $ */
 
 class HarmoniFunctionIterator
 	extends FunctionIterator

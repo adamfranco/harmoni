@@ -10,10 +10,12 @@ require_once(HARMONI."/themeHandler/ThemeWidget.interface.php");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: ThemeWidget.abstract.php,v 1.8 2004/08/26 15:10:36 adamfranco Exp $
- * @copyright 2004 
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ThemeWidget.abstract.php,v 1.9 2005/01/19 21:10:13 adamfranco Exp $
+ */
 class ThemeWidget
 	extends ThemeWidgetInterface {
 	

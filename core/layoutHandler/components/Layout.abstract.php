@@ -14,11 +14,13 @@ define ("RIGHT", "right");
  * holds any number of components of different types.
  *
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.12 2004/07/14 20:56:51 dobomode Exp $
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Layout.abstract.php,v 1.13 2005/01/19 21:10:01 adamfranco Exp $
  * @abstract
- **/
-
+ */
 class Layout extends LayoutInterface {
 	/**
 	 * @access private

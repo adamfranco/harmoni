@@ -1,15 +1,18 @@
 <?
 
 /**
-* Stores the mapping between a Tag and the specific versions of values within a Record that were
-* created when the Record was tagged. A tag can be thought of like a CVS tag, where each file in CVS is like
-* a specific value in a record. Each value has its own number of versions, and a Tag can remember
-* all the versions that were active at any given time.
-* @access public
-* @package harmoni.datamanager
-* @version $Id: Tag.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
-* @copyright 2004, Middlebury College
-*/
+ * Stores the mapping between a Tag and the specific versions of values within a Record that were
+ * created when the Record was tagged. A tag can be thought of like a CVS tag, where each file in CVS is like
+ * a specific value in a record. Each value has its own number of versions, and a Tag can remember
+ * all the versions that were active at any given time.
+ *
+ * @package harmoni.datamanager
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Tag.class.php,v 1.3 2005/01/19 21:09:42 adamfranco Exp $
+ */
 class Tag {
 	
 	var $_myID;

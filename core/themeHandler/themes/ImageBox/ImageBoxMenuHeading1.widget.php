@@ -9,10 +9,12 @@ require_once(HARMONI."/themeHandler/common_settings/BorderSetting.class.php");
  * A MenuHeading Widget for the ImageBox theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: ImageBoxMenuHeading1.widget.php,v 1.2 2004/04/21 17:55:44 adamfranco Exp $
- * @copyright 2004 
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ImageBoxMenuHeading1.widget.php,v 1.3 2005/01/19 21:10:14 adamfranco Exp $
+ */
 class ImageBoxMenuHeading1
 	extends ThemeWidget {
 	

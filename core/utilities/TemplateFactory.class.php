@@ -2,6 +2,15 @@
 
 require_once(HARMONI."utilities/Template.class.php");
 
+/**
+ *
+ * @package harmoni.utilities
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: TemplateFactory.class.php,v 1.5 2005/01/19 21:10:15 adamfranco Exp $
+ */
 class TemplateFactory {
 	var $_paths;
 	var $_ext="";

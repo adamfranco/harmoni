@@ -12,14 +12,14 @@ require_once(HARMONI."GUIManager/StyleComponents/AutoLengthSC.class.php");
  * 
  * The other two CSS styles building pieces are <code>StyleComponents</code> and
  * <code>StyleCollections</code>. 
- 
- * @version $Id: BottomSP.class.php,v 1.2 2004/07/22 16:31:55 dobomode Exp $
+ *
  * @package harmoni.gui.sps
- * @author Middlebury College, ETS
- * @copybottom 2004 Middlebury College, ETS
- * @access public
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: BottomSP.class.php,v 1.3 2005/01/19 21:09:34 adamfranco Exp $
+ */
 class BottomSP extends StyleProperty {
 
 	/**

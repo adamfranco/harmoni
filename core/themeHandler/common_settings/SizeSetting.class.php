@@ -6,10 +6,12 @@ require_once(HARMONI."/themeHandler/ThemeSetting.abstract.php");
  * A simple size setting that takes a positive integer size.
  *
  * @package harmoni.themes.included_settings
- * @version $Id: SizeSetting.class.php,v 1.3 2004/08/26 15:10:36 adamfranco Exp $
- * @copyright 2004 
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SizeSetting.class.php,v 1.4 2005/01/19 21:10:14 adamfranco Exp $
+ */
 class SizeSetting
 	extends ThemeSetting {
 	

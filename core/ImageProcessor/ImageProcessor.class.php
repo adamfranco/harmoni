@@ -5,11 +5,13 @@ require_once(dirname(__FILE__)."/ImageMagickProcessor.class.php");
 
 /**
  * Class for resizing of images
- * 
+ *
  * @package harmoni.image_processor
- * @version $Id: ImageProcessor.class.php,v 1.2 2004/11/06 02:18:13 adamfranco Exp $
- * @date $Date: 2004/11/06 02:18:13 $
- * @copyright 2004 Middlebury College
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ImageProcessor.class.php,v 1.3 2005/01/19 21:09:39 adamfranco Exp $
  */
 
 class ImageProcessor {

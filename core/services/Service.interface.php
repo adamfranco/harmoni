@@ -8,9 +8,13 @@
  * Services should extend this class somewhere in their inheritance tree. (probably the top)
  * 
  * @see {@link ServicesInterface}
- * @version $Id: Service.interface.php,v 1.3 2004/04/20 19:50:00 adamfranco Exp $
- * @copyright 2003 
+ *
  * @package harmoni.services
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Service.interface.php,v 1.4 2005/01/19 21:10:13 adamfranco Exp $
  **/
 class ServiceInterface {
 	/**

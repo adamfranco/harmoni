@@ -7,12 +7,13 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
  * File Storage Method interface provides functionality to store and handle
  * Storables on a file system. To be used by StorageHandler
  *
- * @version $Id: FileStorageMethod.class.php,v 1.4 2004/05/27 20:38:55 nstamato Exp $
  * @package harmoni.storage.methods
- * @copyright 2003
- * @access public
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: FileStorageMethod.class.php,v 1.5 2005/01/19 21:10:13 adamfranco Exp $
  */
-
 class FileStorageMethod extends StorageMethodInterface {
 
 	/**

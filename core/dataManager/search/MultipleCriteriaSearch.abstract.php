@@ -3,9 +3,13 @@
 require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
 /**
  * An abstract class on which to build Criteria that are made up of multiple other search criteria objects.
+ *
  * @package harmoni.datamanager.search
- * @version $Id: MultipleCriteriaSearch.abstract.php,v 1.2 2004/11/02 21:41:59 adamfranco Exp $
- * @copyright 2004, Middlebury College
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: MultipleCriteriaSearch.abstract.php,v 1.3 2005/01/19 21:09:43 adamfranco Exp $
  * @abstract
  */
 class MultipleCriteriaSearch extends SearchCriteria {

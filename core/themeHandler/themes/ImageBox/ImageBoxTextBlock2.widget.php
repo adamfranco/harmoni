@@ -10,10 +10,12 @@ require_once(HARMONI."/themeHandler/common_settings/BorderSetting.class.php");
  * A TextBlock Widget for the ImageBox theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: ImageBoxTextBlock2.widget.php,v 1.2 2004/04/21 17:55:44 adamfranco Exp $
- * @copyright 2004 
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ImageBoxTextBlock2.widget.php,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
+ */
 class ImageBoxTextBlock2
 	extends ThemeWidget {
 	

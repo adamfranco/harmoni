@@ -10,12 +10,13 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * makes use of a specified ValidatorRule object. In addition, if validation
  * fails, a new fatal error is added to the default ErrorHandler.
  *
- * @version $Id: ArgumentValidator.class.php,v 1.3 2004/07/14 20:56:52 dobomode Exp $
- * @copyright 2003 
- * @access public
  * @package harmoni.utilities
- **/
- 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ArgumentValidator.class.php,v 1.4 2005/01/19 21:10:15 adamfranco Exp $
+ */
 class ArgumentValidator {
 
 	/**

@@ -5,9 +5,12 @@ require_once(HARMONI."debugHandler/DebugHandlerPrinter.interface.php");
 /**
  * the PlainTextDebugHandlerPrinter prints debug items right to stdout
  *
- * @version $Id: PlainTextDebugHandlerPrinter.class.php,v 1.2 2003/11/12 02:50:36 gabeschine Exp $
- * @copyright 2003 
  * @package harmoni.utilities.debugging
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: PlainTextDebugHandlerPrinter.class.php,v 1.3 2005/01/19 21:09:59 adamfranco Exp $
  **/
 
 class PlainTextDebugHandlerPrinter extends DebugHandlerPrinterInterface {

@@ -11,15 +11,13 @@ require_once(OKI."/hierarchy.interface.php");
  * must access values in sequence. Similarly, there is no way to go backwards
  * through the sequence unless you place the values in a data structure, such
  * as an array, that allows for access by index.
- * 
- * 
- * <p></p>
  *
  * @package harmoni.osid.hierarchy
- * @author Adam Franco
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.8 2004/08/26 15:10:34 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.9 2005/01/19 21:10:08 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

@@ -8,10 +8,12 @@ require_once(HARMONI."/oki/dr/HarmoniDigitalRepository.class.php");
  * <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition 
  * License}.
  *
- * <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; 
- * SID Definition License}.
  * @package harmoni.osid.dr
- */
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniDigitalRepositoryManager.class.php,v 1.22 2005/01/19 21:10:07 adamfranco Exp $ */
 
 class HarmoniDigitalRepositoryManager
 	extends DigitalRepositoryManager

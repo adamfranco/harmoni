@@ -98,9 +98,12 @@ define("DEBUG_SYS5",15);
 /**
  * The DebugHandler keeps track of multiple DebugItems.
  *
- * @version $Id: DebugHandler.class.php,v 1.5 2004/08/26 15:10:32 adamfranco Exp $
- * @copyright 2003 
  * @package harmoni.utilities.debugging
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DebugHandler.class.php,v 1.6 2005/01/19 21:09:59 adamfranco Exp $
  **/
 
 class DebugHandler extends ServiceInterface {

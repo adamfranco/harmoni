@@ -4,10 +4,13 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
 
 /**
  * The LDAPMethodOptions is a {@link DataContainer} for the {@link LDAPAuthenticationMethod}.
- * 
+ *
  * @package harmoni.authentication.methods
- * @version $Id: LDAPMethodOptions.class.php,v 1.2 2004/04/21 17:55:27 adamfranco Exp $
- * @copyright 2003
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: LDAPMethodOptions.class.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
  */
 
 class LDAPMethodOptions extends DataContainer {

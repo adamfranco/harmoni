@@ -4,14 +4,17 @@ require_once(HARMONI."services/Services.interface.php");
 
 /**
  * The ServicesAbstract class defines the public static methods used by users.
- * @version $Id: Services.abstract.php,v 1.9 2004/08/26 15:10:35 adamfranco Exp $
- * @copyright 2003 
- * @access public
+ *
  * @static
  * @abstract
+ *
  * @package harmoni.services
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Services.abstract.php,v 1.10 2005/01/19 21:10:13 adamfranco Exp $
+ */
 class ServicesAbstract
 	extends ServicesInterface {
 	

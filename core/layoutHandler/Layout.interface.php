@@ -12,10 +12,12 @@ define("LAYOUT","LayoutInterface");
  * LayoutInterface defines the methods required of any {@link Layout}.
  *
  * @package harmoni.layout
- * @version $Id: Layout.interface.php,v 1.5 2004/08/26 15:10:32 adamfranco Exp $
- * @copyright 2003 
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Layout.interface.php,v 1.6 2005/01/19 21:10:01 adamfranco Exp $
+ */
 class LayoutInterface extends VisualComponent {
 	/**
 	 * Adds a component required by this layout with index $index and type $type. The class

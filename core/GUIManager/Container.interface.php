@@ -41,13 +41,14 @@ define("CENTER", 9);
  * The <code>Container</code> interface is an extension of the <code>Component</code>
  * interface; <code>Containers</code> are capable of storing multiple sub-<code>Components</code>
  * and when rendering Containers, all sub-<code>Components</code> will be rendered as well.
- * @version $Id: Container.interface.php,v 1.4 2004/08/26 15:10:30 adamfranco Exp $
+ *
  * @package harmoni.gui
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Container.interface.php,v 1.5 2005/01/19 21:07:52 adamfranco Exp $
+ */
 class ContainerInterface extends ComponentInterface {
 
 	/**

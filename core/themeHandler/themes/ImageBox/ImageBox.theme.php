@@ -21,10 +21,12 @@ require_once(dirname(__FILE__)."/ImageBoxTextBlock3.widget.php");
  * A simple line and color-block based theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: ImageBox.theme.php,v 1.3 2004/12/22 19:40:32 adamfranco Exp $
- * @copyright 2004 
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ImageBox.theme.php,v 1.4 2005/01/19 21:10:14 adamfranco Exp $
+ */
 class ImageBoxTheme
 	extends Theme {
 	

@@ -10,12 +10,16 @@ require_once(HARMONI."dataManager/storablePrimitives/inc.php");
  * Responsible for keeping track of the available data type primitives (such as string, integer, etc) and 
  * creation of the appropriate classes when those data types are required. Is also responsible for mapping {@link Primitive}s with
  * their respective {@link StorablePrimitive}s so that we can store them in the database.
+ *
  * @package harmoni.datamanager
- * @version $Id: DataTypeManager.class.php,v 1.6 2004/08/26 20:39:52 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DataTypeManager.class.php,v 1.7 2005/01/19 21:09:41 adamfranco Exp $
+ *
  * @author Gabe Schine
- * @copyright 2004
- * @access public
- **/
+ */
 class DataTypeManager 
 	extends ServiceInterface {
 	

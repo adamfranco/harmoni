@@ -9,13 +9,14 @@ require_once(HARMONI."GUIManager/Components/MenuItem.interface.php");
  * <br /><br />
  * <code>MenuItem</code> is an extension of <code>Component</code>; <code>MenuItems</code>
  * have display names and the ability to be added to <code>Menu</code> objects.
- * @version $Id: MenuItemLink.class.php,v 1.3 2005/01/03 20:50:07 adamfranco Exp $
+ *
  * @package harmoni.gui.components
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: MenuItemLink.class.php,v 1.4 2005/01/19 21:09:29 adamfranco Exp $
+ */
 class MenuItemLink extends Component /* implements MenuItemInterface */ {
 
 	/**

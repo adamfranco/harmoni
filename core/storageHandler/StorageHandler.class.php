@@ -40,11 +40,13 @@ define("STORAGE_PRIMARY", 3);
 * different methods to be used depending on where a file should be stored in
 * your virtual filesystem. This allows primitive load balancing and mirror backups,
 * along with basic organization of data.
-* 
-* @package harmoni.storage
-* @author Middlebury College, ETS 
-* @version $Id: StorageHandler.class.php,v 1.3 2004/08/26 15:10:35 adamfranco Exp $
-* @copyright 2003
+ *
+ * @package harmoni.storage
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StorageHandler.class.php,v 1.4 2005/01/19 21:10:13 adamfranco Exp $
 */
 class StorageHandler {
 	/**

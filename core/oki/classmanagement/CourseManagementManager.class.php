@@ -2,9 +2,13 @@
 
 /**
  * A {@link HarmoniType} for DR Assets that will define CanonicalCourses.
- * @package harmoni.osid.classmanagement
- * @copyright 2004
- * @version $Id: CourseManagementManager.class.php,v 1.4 2004/08/26 15:10:33 adamfranco Exp $
+ *
+ * @package harmoni.osid.coursemanagement
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: CourseManagementManager.class.php,v 1.5 2005/01/19 21:10:03 adamfranco Exp $
  */
 class CanonicalCourseAssetType extends HarmoniType {
 

@@ -11,13 +11,14 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * <br /><br />
  * Layouts are assigned to Containers and they specify how (in terms of location, 
  * not appearance) the sub-<code>Components</code> are going to be rendered on the screen.
- * @version $Id: XLayout.class.php,v 1.4 2005/01/03 20:50:08 adamfranco Exp $
+ *
  * @package harmoni.gui.layouts
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: XLayout.class.php,v 1.5 2005/01/19 21:09:31 adamfranco Exp $
+ */
 class XLayout extends LayoutInterface {
 
 	/**

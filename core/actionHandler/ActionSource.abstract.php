@@ -3,10 +3,15 @@
 /**
  * An abstract class for all ActionSource classes. ActionSource classes give the {@link ActionHandler} places to look for
  * modules and actions for execution.
+ *
  * @abstract
+ *
  * @package harmoni.actionHandler
- * @copyright 2004
- * @version $Id: ActionSource.abstract.php,v 1.1 2004/05/28 19:06:10 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ActionSource.abstract.php,v 1.2 2005/01/19 21:09:39 adamfranco Exp $
  */
 class ActionSource {
 	

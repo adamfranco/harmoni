@@ -6,9 +6,12 @@ require_once(HARMONI."utilities/HTMLcolor.class.php");
 /**
  * the NewWindowDebugHandlerPrinter prints debug items to a new HTML window.
  *
- * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.5 2004/12/22 19:40:06 adamfranco Exp $
- * @copyright 2003 
  * @package harmoni.utilities.debugging
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.6 2005/01/19 21:09:59 adamfranco Exp $
  **/
 
 class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {

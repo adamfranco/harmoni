@@ -12,10 +12,13 @@ require_once(HARMONI."authenticationHandler/AuthenticationResult.class.php");
  * and a Logged-in user. The Active user is given to the program as the user for
  * whom actions are performed. This feature is useful because the Active user can
  * be changed, allowing administrators or similar users to switch between Active users.
- * 
+ *
  * @package harmoni.architecture.login
- * @version $Id: LoginState.class.php,v 1.6 2004/08/04 02:18:55 gabeschine Exp $
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: LoginState.class.php,v 1.7 2005/01/19 21:09:40 adamfranco Exp $
  **/
 class LoginState {
 	/**

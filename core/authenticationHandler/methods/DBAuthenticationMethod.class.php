@@ -7,10 +7,12 @@ require_once(HARMONI."authenticationHandler/methods/DBMethodOptions.class.php");
  * the DB Authentication Method will contact an SQL database and check a username/password pair
  * against fields in a specified table.
  *
- * @version $Id: DBAuthenticationMethod.class.php,v 1.5 2004/11/17 19:11:17 adamfranco Exp $
- * @copyright 2003 
- * @access public
  * @package harmoni.authentication.methods
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DBAuthenticationMethod.class.php,v 1.6 2005/01/19 21:09:41 adamfranco Exp $
  **/
  
 class DBAuthenticationMethod

@@ -7,10 +7,12 @@ require_once(HARMONI.'storageHandler/Storable.abstract.php');
  * not from files but from data that the user somehow has. To be used 
  * by the StorageMethod and StorageHandler.
  *
- * @version $Id: DummyStorable.class.php,v 1.2 2004/05/27 20:38:54 nstamato Exp $
  * @package harmoni.storage.storables
- * @copyright 2003
- * @access public
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DummyStorable.class.php,v 1.3 2005/01/19 21:10:13 adamfranco Exp $
  */
 
 class DummyStorable extends AbstractStorable {

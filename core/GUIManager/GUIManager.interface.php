@@ -10,12 +10,14 @@ require_once(HARMONI."GUIManager/Layout.interface.php");
 /**
  * This interface provides methods for theme management: saving/loading of theme state,
  * obtaining information about supported GUI components, etc.
- * @version $Id: GUIManager.interface.php,v 1.1 2005/01/19 04:54:02 dobomode Exp $
+ *
  * @package harmoni.gui
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: GUIManager.interface.php,v 1.2 2005/01/19 21:07:52 adamfranco Exp $
+ */
 class GUIManagerInterface {
 
 	/**

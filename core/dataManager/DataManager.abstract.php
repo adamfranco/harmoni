@@ -13,14 +13,17 @@ require_once(HARMONI."dataManager/versionConstraints/include.php");
 /**
  * The HarmoniDataManager class is used purely to setup the services required to use the
  * other DataManager classes such as the {@link DataSetTypeManager} or the {@link DataSetManager}.
+ *
  * @package harmoni.datamanager
- * @version $Id: DataManager.abstract.php,v 1.8 2004/10/29 20:50:51 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DataManager.abstract.php,v 1.9 2005/01/19 21:09:41 adamfranco Exp $
+ *
  * @author Gabe Schine
- * @copyright 2004
- * @access public
  * @abstract
- **/
-
+ */
 class DataManager {
 	
 	/**

@@ -19,13 +19,13 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * change in order to use a different package name. In combination with
  * OsidLoader, applications developed using managers permit implementation
  * substitution without source code changes.
- * 
- * 
+ *
  * @package harmoni.osid.hierarchy2
- * @author Middlebury College
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.9 2004/08/26 15:10:34 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.10 2005/01/19 21:10:09 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

@@ -4,10 +4,12 @@
  * VisualComponent defines the interface for any component within a {@link Layout}.
  *
  * @package harmoni.layout
- * @version $Id: VisualComponent.interface.php,v 1.6 2004/04/21 17:55:27 adamfranco Exp $
- * @copyright 2003 
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: VisualComponent.interface.php,v 1.7 2005/01/19 21:10:01 adamfranco Exp $
+ */
 class VisualComponent {
 	/**
 	 * Prints the component out using the given theme.

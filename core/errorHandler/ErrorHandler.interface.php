@@ -5,11 +5,13 @@ require_once(HARMONI.'services/Service.interface.php');
 /**
  * 
  *
- * @version $Id: ErrorHandler.interface.php,v 1.3 2004/04/20 19:49:47 adamfranco Exp $
  * @package harmoni.errorhandler
- * @copyright 2003 
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ErrorHandler.interface.php,v 1.4 2005/01/19 21:10:00 adamfranco Exp $
+ */
 class ErrorHandlerInterface extends ServiceInterface {
     
 

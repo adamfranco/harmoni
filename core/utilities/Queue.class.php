@@ -4,11 +4,13 @@
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.class.php,v 1.3 2004/08/26 15:10:37 adamfranco Exp $
  * @package harmoni.utilities
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Queue.class.php,v 1.4 2005/01/19 21:10:15 adamfranco Exp $
  */
-
 class Queue {
 
 	/**

@@ -11,10 +11,12 @@ require_once(dirname(__FILE__)."/ImageBoxImageSetting.class.php");
  * The main TextBlock Widget for the ImageBox theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: ImageBoxTextBlock1.widget.php,v 1.3 2004/04/21 17:55:44 adamfranco Exp $
- * @copyright 2004 
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ImageBoxTextBlock1.widget.php,v 1.4 2005/01/19 21:10:15 adamfranco Exp $
+ */
 class ImageBoxTextBlock1
 	extends ThemeWidget {
 	

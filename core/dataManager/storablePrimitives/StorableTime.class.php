@@ -2,9 +2,13 @@
 
 /**
  * This is the {@link StorablePrimitive} equivalent of {@link Time}.
+ *
  * @package harmoni.datamanager.storableprimitives
- * @copyright 2004
- * @version $Id: StorableTime.class.php,v 1.4 2004/08/07 03:31:57 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StorableTime.class.php,v 1.5 2005/01/19 21:09:43 adamfranco Exp $
  */
 class StorableTime extends Time /* implements StorablePrimitive */ {
 	

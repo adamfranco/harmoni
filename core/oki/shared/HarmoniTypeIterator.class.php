@@ -5,6 +5,15 @@ require_once(OKI."/shared.interface.php");
 // public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
 define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
 
+/**
+  *
+  * @package harmoni.osid.shared
+  * 
+  * @copyright Copyright &copy; 2005, Middlebury College
+  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+  *
+  * @version $Id: HarmoniTypeIterator.class.php,v 1.8 2005/01/19 21:10:12 adamfranco Exp $
+  */
 class HarmoniTypeIterator
 	extends TypeIterator
 { // begin TypeIterator

@@ -74,15 +74,13 @@ function globalFunc() {
  * </pre>
  * End of detailed description.
  *
- * @version $Id: SamplePHPDoc.class.php,v 1.3 2004/05/20 17:24:35 adamfranco Exp $
- * @author Middlebury College, ETS Department
- * @copyright 2003 Middlebury College, ETS Department
  * @package harmoni.help
- * @bug The bug, the bug,..., must fix that nasty bug!
- * @bug Bug ABC was fixed on July 4, 1999
- * @date Created: June 27, 2003
- * @todo Finalize stuff.
- * @todo Eat lunch.
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SamplePHPDoc.class.php,v 1.4 2005/01/19 21:10:00 adamfranco Exp $
+ * @since Created: June 27, 2003
  */
 class SamplePHPDoc {
 

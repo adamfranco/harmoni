@@ -11,10 +11,12 @@ require_once(HARMONI.'storageHandler/Storable.abstract.php');
  * Note: All methods assume the path parameter has a trailing slash ('/'). Otherwise
  * all recursive functions may get hold of paths that are unrelated.
  *
- * @version $Id: DatabaseStorageMethod.class.php,v 1.2 2004/05/27 20:38:55 nstamato Exp $
  * @package harmoni.storage.methods
- * @copyright 2003
- * @access public
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DatabaseStorageMethod.class.php,v 1.3 2005/01/19 21:10:13 adamfranco Exp $
  */
 
 class DatabaseStorageMethod extends StorageMethodInterface {

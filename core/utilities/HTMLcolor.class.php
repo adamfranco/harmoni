@@ -6,9 +6,12 @@ require_once(HARMONI."utilities/RGBcolor.class.php");
  * The HTMLcolor class is used to manipulate 6 or 3-digix hexadecimal HTML colors.
  *
  * @package harmoni.utilities
- * @version $Id: HTMLcolor.class.php,v 1.2 2004/08/10 16:29:27 gabeschine Exp $
- * @copyright 2003 
- **/
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HTMLcolor.class.php,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
+ */
 class HTMLcolor extends RGBcolor {
 	/**
 	 * The constructor.

@@ -32,14 +32,13 @@ require_once(HARMONI."oki/shared/AgentSearches/AncestorGroupSearch.class.php");
  * combination with OsidLoader, applications developed using managers permit
  * implementation substitution without source code changes.
  * </p>
- * 
- * 
- * <p></p>
+ *
  * @package harmoni.osid.shared
- * @author Adam Franco, Dobromir Radichkov
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.57 2005/01/04 22:21:05 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniSharedManager.class.php,v 1.58 2005/01/19 21:10:12 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */

@@ -15,8 +15,11 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.21 2004/08/26 15:10:31 adamfranco Exp $
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: LoginHandler.class.php,v 1.22 2005/01/19 21:09:40 adamfranco Exp $
  **/
 class LoginHandler {
 	/**

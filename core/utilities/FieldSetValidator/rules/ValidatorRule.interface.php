@@ -3,11 +3,13 @@
 /**
  * the ValidatorRuleInterface defines the methods required by any ValidatorRule
  *
- * @version $Id: ValidatorRule.interface.php,v 1.2 2004/04/20 19:50:01 adamfranco Exp $
- * @copyright 2003 
  * @package harmoni.utilities.fieldsetvalidator.rules
- **/
- 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ValidatorRule.interface.php,v 1.3 2005/01/19 21:10:16 adamfranco Exp $
+ */ 
 class ValidatorRuleInterface{
 	/**
 	 * checks a given value against the rule contained within the class

@@ -7,12 +7,15 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * define the fields available in a {@link Record}, the number of values allowed in that field.
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link SchemaManager}.
+ *
  * @package harmoni.datamanager
- * @version $Id: Schema.class.php,v 1.6 2004/09/09 16:53:41 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Schema.class.php,v 1.7 2005/01/19 21:09:42 adamfranco Exp $
  * @author Gabe Schine
- * @copyright 2004
- * @access public
- **/
+ */
 class Schema {
 	
 	var $_type;

@@ -7,10 +7,14 @@
  * 
  * The AuthenticationResult is passed a list of valid AuthenticationMethod names
  * and stores it for user retreival.
+ *
  * @package harmoni.authentication
- * @version $Id: AuthenticationResult.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
- * @copyright 2003 
- **/
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: AuthenticationResult.class.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
+ */
 class AuthenticationResult {
 	/**
 	 * @access private

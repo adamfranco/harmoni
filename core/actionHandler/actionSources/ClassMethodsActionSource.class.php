@@ -5,9 +5,13 @@ require_once HARMONI."actionHandler/ActionSource.abstract.php";
 /**
  * The ClassMethodsActionSource looks for actions as methods located within a class. The action names correspond to a method
  * of the same name within a class. The class name is the same as module name.
- * @package harmoni.actionhandler.sources
- * @copyright 2004
- * @version $Id: ClassMethodsActionSource.class.php,v 1.2 2004/06/02 20:32:22 nstamato Exp $
+ *
+ * @package harmoni.actionHandler.sources
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ClassMethodsActionSource.class.php,v 1.3 2005/01/19 21:09:39 adamfranco Exp $
  */
 class ClassMethodsActionSource extends ActionSource{
 

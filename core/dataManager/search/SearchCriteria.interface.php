@@ -36,9 +36,13 @@ define("SEARCH_TYPE_CONTAINS", 5);
  * Search criteria are used when fetching a large number of {@link Record}s but you want to limit those
  * down to ones that only match certain criteria. Criteria could hypothetically be anything imaginable,
  * as long as they can be represented within an SQL query.
+ *
  * @package harmoni.datamanager.search
- * @version $Id: SearchCriteria.interface.php,v 1.2 2005/01/08 22:17:05 gabeschine Exp $
- * @copyright 2004, Middlebury College
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SearchCriteria.interface.php,v 1.3 2005/01/19 21:09:43 adamfranco Exp $
  */
 class SearchCriteria {
 	

@@ -13,13 +13,14 @@ require_once(HARMONI."GUIManager/StyleComponents/AutoLengthSC.class.php");
  * The other two CSS styles building pieces are <code>StyleComponents</code> and
  * <code>StyleCollections</code>. 
  
- * @version $Id: WidthSP.class.php,v 1.2 2004/07/21 17:09:51 tjigmes Exp $
- * @package harmoni.gui.sps
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ *
+ * @package  harmoni.gui.sps
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: WidthSP.class.php,v 1.3 2005/01/19 21:09:37 adamfranco Exp $
+ */
 class WidthSP extends StyleProperty {
 
 	/**

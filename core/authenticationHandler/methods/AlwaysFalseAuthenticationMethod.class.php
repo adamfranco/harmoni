@@ -9,10 +9,12 @@ require_once(HARMONI."authenticationHandler/AuthenticationMethod.abstract.php");
  * authenticate() will always return false. This is useful if you want to use
  * a method for only fetching agent information and not authentication.
  *
- * @version $Id: AlwaysFalseAuthenticationMethod.class.php,v 1.2 2004/04/21 17:55:27 adamfranco Exp $
- * @copyright 2003 
- * @access public
  * @package harmoni.authentication.methods
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: AlwaysFalseAuthenticationMethod.class.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
  **/
  
 class AlwaysFalseAuthenticationMethod extends AuthenticationMethod {

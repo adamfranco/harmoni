@@ -6,11 +6,13 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Performs authentication for two users: demo1 and demo2, with passwords same as usernames.
  *
- * @version $Id: DummyAuthenticationMethod.class.php,v 1.2 2004/04/21 17:55:27 adamfranco Exp $
- * @copyright 2003 
- * @access public
  * @package harmoni.authentication.methods
- **/
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DummyAuthenticationMethod.class.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
+ */
  
 class DummyAuthenticationMethod extends AuthenticationMethod {
 	

@@ -22,8 +22,13 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
 /**
  * DigitialRepository manages Assets of various Types and information about the Assets.  Assets are created, persisted, and validated by the Digital Repository.  When initially created, an Asset has an immutable Type and Unique Id and its validation status is false.  In this state, all methods can be called, but integrity checks are not enforced.  When the Asset and its InfoRecords are ready to be validated, the validateAsset method checks the Asset and sets the validation status.  When working with a valid Asset, all methods include integrity checks and an exception is thrown if the activity would result in an inappropriate state.  Optionally, the invalidateAsset method can be called to release the requirement for integrity checks, but the Asset will not become valid again, until validateAsset is called and the entire Asset is checked.    <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
+ *
  * @package harmoni.osid.dr
- */
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniDigitalRepository.class.php,v 1.45 2005/01/19 21:10:05 adamfranco Exp $ */
 class HarmoniDigitalRepository
 	extends HarmoniDigitalRepositoryInterface
 {

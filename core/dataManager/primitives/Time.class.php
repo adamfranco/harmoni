@@ -4,9 +4,13 @@ require_once(HARMONI."utilities/DateTime.class.php");
 
 /**
  * A simple Time (and date) data type, which takes advantage of the {@link DateTime} utility class.
+ *
  * @package harmoni.datamanager.primitives
- * @copyright 2004
- * @version $Id: Time.class.php,v 1.3 2004/08/26 20:40:00 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Time.class.php,v 1.4 2005/01/19 21:09:41 adamfranco Exp $
  */
 class Time extends DateTime /* implements Primitive */ {
 	

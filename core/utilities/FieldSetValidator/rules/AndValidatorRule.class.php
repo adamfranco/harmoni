@@ -5,11 +5,13 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
 /**
  * the AndValidatorRule takes 2 other rules and validates if both validate.
  *
- * @version $Id: AndValidatorRule.class.php,v 1.1 2004/07/14 20:56:52 dobomode Exp $
- * @copyright 2003 
  * @package harmoni.utilities.fieldsetvalidator.rules
- **/
- 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: AndValidatorRule.class.php,v 1.2 2005/01/19 21:10:16 adamfranco Exp $
+ */ 
 class AndValidatorRule extends ValidatorRuleInterface {
 
 

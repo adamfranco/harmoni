@@ -5,14 +5,15 @@ require_once(HARMONI."oki/shared/HarmoniIterator.class.php");
 /**
  * The Set interface defines methods that are needed for sets of ids. 
  * Sets provide for the easy storage of groups of ids.
+ *
+ * @package  harmoni.sets
  * 
- * @package harmoni.sets
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Set.interface.php,v 1.4 2005/01/19 21:10:13 adamfranco Exp $
  * @author Adam Franco
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: Set.interface.php,v 1.3 2004/08/26 15:10:35 adamfranco Exp $
  */
- 
 class SetInterface 
 	extends HarmoniIterator {
 

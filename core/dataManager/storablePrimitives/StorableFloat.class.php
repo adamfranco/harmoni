@@ -2,9 +2,13 @@
 
 /**
  * This is the {@link StorablePrimitive} equivalent of {@link Float}.
+ *
  * @package harmoni.datamanager.storableprimitives
- * @copyright 2004
- * @version $Id: StorableFloat.class.php,v 1.2 2004/08/17 02:23:03 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StorableFloat.class.php,v 1.3 2005/01/19 21:09:43 adamfranco Exp $
  */
 class StorableFloat extends Double /* implements StorablePrimitive */ {
 	

@@ -20,12 +20,13 @@
  * with the value <code>20px</code>, and <code>border</code> has three 
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
- * 
- * @version $Id: StyleCollection.interface.php,v 1.5 2004/08/26 15:10:30 adamfranco Exp $
+ *
  * @package harmoni.gui
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StyleCollection.interface.php,v 1.6 2005/01/19 21:07:52 adamfranco Exp $
  **/
 
 class StyleCollectionInterface {

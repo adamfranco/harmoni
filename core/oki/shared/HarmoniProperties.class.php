@@ -7,10 +7,13 @@ require_once(OKI."/shared.interface.php");
  * Each Agent can have data associated with a PropertiesType.  For each 
  * PropertiesType, there are Properties which are Serializable values identified 
  * by a key.  
+ *
+ * @package harmoni.osid.shared
  * 
- * <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}. 
- * <p>SID Version: 1.0 rc6
- * @package osid.shared
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniProperties.class.php,v 1.2 2005/01/19 21:10:12 adamfranco Exp $
  */
 class HarmoniProperties
 	extends Properties

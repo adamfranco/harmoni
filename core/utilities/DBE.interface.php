@@ -9,13 +9,14 @@ require_once(HARMONI.'DBHandler/DBHandler.class.php');
  * defined with its first name, last name, email, phone, etc. attributes. An
  * EmployeeDBE class would include the necessary methods to read/write those
  * attributes from/to a database.
- * @version $Id: DBE.interface.php,v 1.2 2004/04/01 22:44:14 dobomode Exp $
+ *
  * @package harmoni.utilities
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DBE.interface.php,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
+ */
 class DBE {
 
 // there is not really any common funcionallity to DBE classes, and for this

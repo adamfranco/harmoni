@@ -7,9 +7,13 @@ require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
  *
  * @see {@link DebugHandlerInterface}
  * @static
- * @version $Id: debug.class.php,v 1.6 2004/11/09 19:32:21 adamfranco Exp $
- * @package harmoni.debug
- * @copyright 2003 
+ *
+ * @package harmoni.utilities.debugging
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: debug.class.php,v 1.7 2005/01/19 21:09:59 adamfranco Exp $
  **/
 class debug {
 	/**

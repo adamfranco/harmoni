@@ -19,10 +19,12 @@ define ("BLANK_WIDGET", "blank");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: Theme.abstract.php,v 1.14 2004/12/22 19:40:31 adamfranco Exp $
- * @copyright 2004 
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Theme.abstract.php,v 1.15 2005/01/19 21:10:13 adamfranco Exp $
+ */
 class Theme
 	extends ThemeInterface {
 	

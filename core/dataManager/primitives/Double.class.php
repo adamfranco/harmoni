@@ -4,9 +4,13 @@ require_once(HARMONI."dataManager/primitives/Float.class.php");
 
 /**
  * A simple Double data type.
+ *
  * @package harmoni.datamanager.primitives
- * @copyright 2004
- * @version $Id: Double.class.php,v 1.2 2004/07/27 18:15:25 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Double.class.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
  */
 class Double extends Float {
 

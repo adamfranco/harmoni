@@ -4,12 +4,14 @@ require_once(HARMONI."dataManager/Primitive.interface.php");
 
 /** 
  * Declares the functionallity for all Date classes.
- * @access public
- * @version $Id: DateTime.class.php,v 1.20 2005/01/08 01:12:52 gabeschine Exp $
- * @author Middlebury College, ETS
- * @copyright 2003 Middlebury College, ETS
- * @date Created: 7/20/2003
+ *
  * @package harmoni.utilities
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DateTime.class.php,v 1.21 2005/01/19 21:10:15 adamfranco Exp $
+ * @since Created: 7/20/2003
  */
 class DateTime 
 	extends Primitive // This extention is put here because lots of this require 

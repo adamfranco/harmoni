@@ -16,10 +16,13 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * The Harmoni class combines the functionality of login, authentication, 
  * action-handling and theme-output. It makes use of the {@link LoginHandler}, {@link AuthenticationHandler} and
  * the {@link ActionHandler} classes.
- * 
+ *
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.29 2004/11/04 16:43:06 adamfranco Exp $
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Harmoni.class.php,v 1.30 2005/01/19 21:09:39 adamfranco Exp $
  **/
 class Harmoni {
 	

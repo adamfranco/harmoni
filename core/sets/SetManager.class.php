@@ -5,13 +5,14 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
 /**
  * The SetManager maintains a configuration and retreives Sets with that 
  * configuration.
+ *
+ * @package  harmoni.sets
  * 
- * @package harmoni.sets
- * @version $Id: SetManager.class.php,v 1.5 2004/08/26 15:10:35 adamfranco Exp $
- * @date $Date: 2004/08/26 15:10:35 $
- * @copyright 2004 Middlebury College
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SetManager.class.php,v 1.6 2005/01/19 21:10:13 adamfranco Exp $
  */
-
 class SetManager {
 	
 	/**

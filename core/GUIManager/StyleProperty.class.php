@@ -26,14 +26,14 @@ require_once(HARMONI."GUIManager/StyleProperty.interface.php");
  * with the value <code>20px</code>, and <code>border</code> has three 
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
- * 
- * @version $Id: StyleProperty.class.php,v 1.2 2004/07/16 04:17:14 dobomode Exp $
+ *
  * @package harmoni.gui
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StyleProperty.class.php,v 1.3 2005/01/19 21:07:52 adamfranco Exp $
+ */
 class StyleProperty extends StylePropertyInterface {
 
 	/**

@@ -5,11 +5,13 @@ require_once (dirname(__FILE__)."/FieldSetValidator.class.php");
 /**
  * the ReferencedFieldSet holds a set of key=value pairs of data, where the value is passed by reference
  *
- * @version $Id: ReferencedFieldSet.class.php,v 1.2 2004/06/25 21:32:45 adamfranco Exp $
- * @copyright 2003 
  * @package harmoni.utilities.fieldsetvalidator
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ReferencedFieldSet.class.php,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
+ */
 class ReferencedFieldSet extends FieldSet {
 	/**
 	 * @param optional array $fields an associative array of key/value pairs to initialize with

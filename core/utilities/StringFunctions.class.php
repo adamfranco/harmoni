@@ -2,13 +2,14 @@
 
 /**
  * String Functions for common manipulations
- * 
+ *
  * @package harmoni.utilities
- * @version $Id: StringFunctions.class.php,v 1.1 2004/10/20 22:37:30 adamfranco Exp $
- * @date $Date: 2004/10/20 22:37:30 $
- * @copyright 2004 Middlebury College
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StringFunctions.class.php,v 1.2 2005/01/19 21:10:15 adamfranco Exp $
  */
-
 class StringFunctions {
 		
 	/**

@@ -4,8 +4,13 @@ require_once(OKI."/authorization.interface.php");
 
 /**
  * Function is composed of Id, a referenceName, a description, a category, and a QualifierType.  Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
- * 
+ *
  * @package harmoni.osid.authorization
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniFunction.class.php,v 1.11 2005/01/19 21:10:03 adamfranco Exp $
  */
 class HarmoniFunction extends FunctionInterface {
 

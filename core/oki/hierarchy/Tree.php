@@ -106,13 +106,14 @@
 * Changes by Adam Franco:
 * - Added nodeExists function
 * - '=' changed to '=&' $data containing objects
-*
-* @package harmoni.osid.hierarchy
-* @access public
-* @version $Id: Tree.php,v 1.10 2004/08/26 15:10:34 adamfranco Exp $
-*/
-
-
+ *
+ * @package harmoni.osid.hierarchy
+ *
+ * @version $Id: Tree.php,v 1.11 2005/01/19 21:10:08 adamfranco Exp $
+ *
+ * @author Richard Heyes <richard@phpguru.org>
+ * @copyright Copyright &copy; 2002-2003, Richard Heyes
+ */
 class Tree
 {
 	/**

@@ -9,8 +9,11 @@
  * as email addresses, full names, etc.
  *
  * @package harmoni.authentication
- * @version $Id: AgentInformationHandler.class.php,v 1.8 2004/11/17 19:10:00 adamfranco Exp $
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: AgentInformationHandler.class.php,v 1.9 2005/01/19 21:09:40 adamfranco Exp $
  **/
 class AgentInformationHandler extends ServiceInterface {
 	/**

@@ -11,9 +11,11 @@ require_once(HARMONI."/oki/shared/HarmoniIterator.class.php");
  * also contain other Assets.
  *
  * @package harmoni.osid.dr
- * @author Adam Franco
- * @copyright 2004 Middlebury College
- * @access public
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniAsset.class.php,v 1.48 2005/01/19 21:10:05 adamfranco Exp $
  */
 
 class HarmoniAsset

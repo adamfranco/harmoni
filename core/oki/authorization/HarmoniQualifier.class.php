@@ -8,7 +8,13 @@ require_once(HARMONI.'oki/authorization/HarmoniQualifierIterator.class.php');
 
 /**
  * Qualifier is the context in which an Authorization is valid and consists of an Id, a description and a QualifierType.  Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
+ *
  * @package harmoni.osid.authorization
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniQualifier.class.php,v 1.8 2005/01/19 21:10:03 adamfranco Exp $
  */
 class HarmoniQualifier extends Qualifier {
 

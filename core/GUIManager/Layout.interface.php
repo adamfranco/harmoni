@@ -3,13 +3,14 @@
 /**
  * Layouts are assigned to Containers and they specify how (in terms of location, 
  * not appearance) the sub-<code>Components</code> are going to be rendered on the screen.
- * @version $Id: Layout.interface.php,v 1.2 2004/07/22 16:31:39 dobomode Exp $
+ *
  * @package harmoni.gui
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Layout.interface.php,v 1.3 2005/01/19 21:07:52 adamfranco Exp $
+ */
 class LayoutInterface {
 
 	/**

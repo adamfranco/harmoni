@@ -4,10 +4,11 @@
  * A storage wrapper for the Tree class
  *
  * @package harmoni.osid.hierarchy
- * @author Adam Franco
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: HierarchyStore.interface.php,v 1.9 2004/08/26 15:10:34 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HierarchyStore.interface.php,v 1.10 2005/01/19 21:10:08 adamfranco Exp $
  */
 
 class HierarchyStore

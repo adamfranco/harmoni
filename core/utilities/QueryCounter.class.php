@@ -3,11 +3,13 @@
 /**
  * Allows you count the number of DB queries from start() to end().
  *
- * @version $Id: QueryCounter.class.php,v 1.1 2003/12/28 01:48:06 gabeschine Exp $
  * @package harmoni.utilities
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: QueryCounter.class.php,v 1.2 2005/01/19 21:10:15 adamfranco Exp $
  */
- 
 class QueryCounter {
 	var $_start;
 	var $_end;

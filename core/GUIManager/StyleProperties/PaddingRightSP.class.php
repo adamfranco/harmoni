@@ -13,13 +13,14 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * The other two CSS styles building pieces are <code>StyleComponents</code> and
  * <code>StyleCollections</code>. 
  
- * @version $Id: PaddingRightSP.class.php,v 1.2 2004/07/19 23:59:51 dobomode Exp $
- * @package harmoni.gui.sps
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ *
+ * @package  harmoni.gui.sps
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: PaddingRightSP.class.php,v 1.3 2005/01/19 21:09:35 adamfranco Exp $
+ */
 class PaddingRightSP extends StyleProperty {
 
 	/**

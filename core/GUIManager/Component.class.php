@@ -10,13 +10,14 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * <code>Components</code> are the basic units that can be displayed on
  * the screen. The main method <code>render()</code> which renders the component 
  * on the screen.
- * @version $Id: Component.class.php,v 1.9 2005/01/03 20:50:07 adamfranco Exp $
+ *
  * @package harmoni.gui
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Component.class.php,v 1.10 2005/01/19 21:07:51 adamfranco Exp $
+ */
 class Component extends ComponentInterface {
 
 	/**

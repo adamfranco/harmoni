@@ -11,15 +11,13 @@ require_once(OKI."/hierarchy.interface.php");
  * represented by startId, and a level -2 for grandparents.  Similarly, the
  * children of the Node would have level 1, and grandchildren would have level
  * 2.
- * 
- * 
- * <p></p>
  *
  * @package harmoni.osid.hierarchy2
- * @author Middlebury College
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: HarmoniTraversalInfo.class.php,v 1.4 2004/08/26 15:10:34 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniTraversalInfo.class.php,v 1.5 2005/01/19 21:10:09 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

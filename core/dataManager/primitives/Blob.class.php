@@ -2,9 +2,13 @@
 
 /**
  * A simple Blob data type.
+ *
  * @package harmoni.datamanager.primitives
- * @copyright 2004
- * @version $Id: Blob.class.php,v 1.2 2004/08/12 20:21:15 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Blob.class.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
  */
 class Blob extends String {
 

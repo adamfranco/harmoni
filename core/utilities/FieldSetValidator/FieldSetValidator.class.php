@@ -8,10 +8,12 @@ require_once(HARMONI."utilities/FieldSetValidator/RuleSet.class.php");
  * the FieldSetValidator takes a FieldSet and a RuleSet and validates values between the two
  *
  * @package harmoni.utilities.fieldsetvalidator
- * @version $Id: FieldSetValidator.class.php,v 1.3 2003/12/05 15:29:40 gabeschine Exp $
- * @copyright 2003 
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: FieldSetValidator.class.php,v 1.4 2005/01/19 21:10:15 adamfranco Exp $
+ */
 class FieldSetValidator {
 	/**
 	 * the FieldSet object

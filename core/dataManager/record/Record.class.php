@@ -27,10 +27,13 @@ define("RECORD_FULL",4);
 /**
 * A Record is a set of data matching a certain {@link Schema}. The Record can be fetched from the database in a number of
 * ways, which can be changed at runtime. See the RECORD_* constants.
-* @access public
-* @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.17 2005/01/08 01:20:33 gabeschine Exp $
-* @copyright 2004, Middlebury College
+ *
+ * @package harmoni.datamanager
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Record.class.php,v 1.18 2005/01/19 21:09:41 adamfranco Exp $
 */
 class Record {
 	

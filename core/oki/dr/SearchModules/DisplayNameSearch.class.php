@@ -4,11 +4,13 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
 
 /**
  * Return assets of the specified type
- * 
+ *
  * @package harmoni.osid.dr.search
- * @version $Id: DisplayNameSearch.class.php,v 1.1 2004/11/02 20:12:02 adamfranco Exp $
- * @date $Date: 2004/11/02 20:12:02 $
- * @copyright 2004 Middlebury College
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DisplayNameSearch.class.php,v 1.2 2005/01/19 21:10:07 adamfranco Exp $
  */
 
 class DisplayNameSearch

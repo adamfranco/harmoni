@@ -13,7 +13,13 @@ require_once(HARMONI."oki/shared/HarmoniProperties.class.php");
  * Type, destroys the user's authentication, and returns the id of the Agent 
  * that represents the user. <p>SID Version: 1.0 rc6 <p>Licensed under the 
  * {@link SidLicense MIT O.K.I&#46; SID Definition License}.
+ *
  * @package harmoni.osid.authentication
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.23 2005/01/19 21:10:01 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager // :: API interface

@@ -3,12 +3,15 @@
 /**
  * Holds information about a specific field within a {@link Schema}. Defines
  * what type of data the field holds (string, integer, etc) and if it can have multiple values.
+ *
  * @package harmoni.datamanager
- * @version $Id: SchemaField.class.php,v 1.5 2005/01/05 18:19:35 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SchemaField.class.php,v 1.6 2005/01/19 21:09:42 adamfranco Exp $
  * @author Gabe Schine
- * @copyright 2004
- * @access public
- **/
+ */
 class SchemaField {
 	
 	var $_schema;

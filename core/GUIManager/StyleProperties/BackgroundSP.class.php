@@ -16,13 +16,14 @@ require_once(HARMONI."GUIManager/StyleComponents/BackgroundAttachmentSC.class.ph
  * The other two CSS styles building pieces are <code>StyleComponents</code> and
  * <code>StyleCollections</code>. 
  
- * @version $Id: BackgroundSP.class.php,v 1.1 2004/08/09 02:59:13 dobomode Exp $
- * @package harmoni.gui.sps
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ *
+ * @package  harmoni.gui.sps
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: BackgroundSP.class.php,v 1.2 2005/01/19 21:09:34 adamfranco Exp $
+ */
 class BackgroundSP extends StyleProperty {
 
 	/**

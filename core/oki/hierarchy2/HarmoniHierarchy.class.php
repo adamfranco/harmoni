@@ -14,13 +14,13 @@ require_once(HARMONI.'/oki/hierarchy2/DefaultNodeType.class.php');
  * the arrangement of nodes. A Hierarchy can allow multiple parents.  A
  * Hierarchy can allow recursion.  The implementation is responsible for
  * ensuring that the integrity of the Hierarchy is always maintained.
- * 
- * 
+ *
  * @package harmoni.osid.hierarchy2
- * @author Middlebury College
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: HarmoniHierarchy.class.php,v 1.9 2004/12/16 22:37:40 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniHierarchy.class.php,v 1.10 2005/01/19 21:10:09 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

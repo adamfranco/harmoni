@@ -7,10 +7,13 @@ require_once(HARMONI."errorHandler/ErrorPrinterBasic.class.php");
 require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
 
 /**
- *  
- * @version $Id: ErrorHandler.class.php,v 1.4 2004/08/26 15:10:32 adamfranco Exp $
+ *
  * @package harmoni.errorhandler
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ErrorHandler.class.php,v 1.5 2005/01/19 21:10:00 adamfranco Exp $
  */
 
 class ErrorHandler extends ErrorHandlerInterface{

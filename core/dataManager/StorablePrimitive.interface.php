@@ -2,9 +2,13 @@
 
 /**
  * This interface allows for the storage into a database (or other medium) the data contained in a {@link Primitive} data type.
+ *
  * @package harmoni.datamanager
- * @copyright 2004
- * @version $Id: StorablePrimitive.interface.php,v 1.2 2004/07/27 18:14:58 gabeschine Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StorablePrimitive.interface.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
  */
 class StorablePrimitive {
 

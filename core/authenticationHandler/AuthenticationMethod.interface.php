@@ -3,11 +3,13 @@
 /**
  * defines the methods that are required for any authenticationMethod
  *
- * @version $Id: AuthenticationMethod.interface.php,v 1.2 2004/04/20 19:49:39 adamfranco Exp $
- * @copyright 2003 
- * @access public
  * @package harmoni.authentication
- **/
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: AuthenticationMethod.interface.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
+ */
  
 class AuthenticationMethodInterface {
 	/**
@@ -17,7 +19,7 @@ class AuthenticationMethodInterface {
 	 * @param string $password the password associated with $systemName
 	 * @access public
 	 * @return boolean true if authentication succeeded with the method, false if not 
-	 **/
+	 */
 	function authenticate( $systemName, $password ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**

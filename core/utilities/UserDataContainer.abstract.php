@@ -3,11 +3,14 @@
 /**
  * A UserDataContainer is like a DataContainer, but is targeted towards data
  * used from http forms instead of configuration options in a script.
- * 
+ *
  * @package harmoni.utilities
- * @version $Id: UserDataContainer.abstract.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
- * @copyright 2003 
- **/
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: UserDataContainer.abstract.php,v 1.2 2005/01/19 21:10:15 adamfranco Exp $
+ */
 class UserDataContainer extends DataContainer {
 	/**
 	 * @access private

@@ -7,12 +7,14 @@ require_once(dirname(__FILE__)."/OrderedSet.interface.php");
  * sets of ids in a database. Note: Nothing should be implied in the order that
  * the ids are returned.
  * Sets provide for the easy storage of groups of ids.
+ *
+ * @package  harmoni.sets
  * 
- * @package harmoni.sets
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: OrderedSet.class.php,v 1.7 2005/01/19 21:10:13 adamfranco Exp $
  * @author Adam Franco
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: OrderedSet.class.php,v 1.6 2004/10/18 15:18:48 adamfranco Exp $
  */
  
 class OrderedSet 

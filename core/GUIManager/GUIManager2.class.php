@@ -27,13 +27,14 @@ require_once(HARMONI."GUIManager/StyleProperties/FontFamilySP.class.php");
 /**
  * The GuiManager takes care of the storing and retreiving  
  * of themes from a database supported by the Harmoni DBHandler.
- * 
  *
- * @copyright 2004 
- * @access public
+ * @package harmoni.gui
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: GUIManager2.class.php,v 1.2 2005/01/19 21:07:52 adamfranco Exp $
  */
-
-
 class GUIManager {
 	
 	

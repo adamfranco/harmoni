@@ -2,9 +2,13 @@
 
 /**
  * This class is used to setup the Harmoni implementation of the ClassManagement package from OKI.
- * @package harmoni.osid.classmanagement
- * @copyright 2004
- * @version $Id: ClassManagementSetup.class.php,v 1.2 2004/06/11 13:23:31 gabeschine Exp $
+ *
+ * @package harmoni.osid.coursemanagement
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ClassManagementSetup.class.php,v 1.3 2005/01/19 21:10:03 adamfranco Exp $
  */
 class ClassManagementSetup {
 	
@@ -68,7 +72,7 @@ class ClassManagementSetup {
  * This defines the {@link DataSetType} for our {@link CanonicalCourse}s.
  * @package harmoni.osid.classmanagement
  * @copyright 2004
- * @version $Id: ClassManagementSetup.class.php,v 1.2 2004/06/11 13:23:31 gabeschine Exp $
+ * @version $Id: ClassManagementSetup.class.php,v 1.3 2005/01/19 21:10:03 adamfranco Exp $
  */
 class CanonicalCourseDataSetType extends HarmoniType {
 

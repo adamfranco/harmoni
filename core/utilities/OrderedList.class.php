@@ -4,11 +4,13 @@
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: OrderedList.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
  * @package harmoni.utilities
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: OrderedList.class.php,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
  */
-
 class OrderedList {
 
 	/* @var the array, that represents the ordered list itself. */

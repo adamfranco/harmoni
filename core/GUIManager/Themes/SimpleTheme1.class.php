@@ -36,13 +36,14 @@ require_once(HARMONI."GUIManager/StyleProperties/FloatSP.class.php");
  * <br><br>
  * Each <code>Theme</code> has a single component (could be container) that will
  * be printed when <code>printPage()</code> is called.
- * @version $Id: SimpleTheme1.class.php,v 1.2 2005/01/10 06:49:04 dobomode Exp $
- * @package 
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ *
+ * @package harmoni.gui.themes
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SimpleTheme1.class.php,v 1.3 2005/01/19 21:09:37 adamfranco Exp $
+ */
 class SimpleTheme1 extends Theme {
 
 	/**

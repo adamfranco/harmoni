@@ -4,8 +4,11 @@
  * The Context class provides easy access to variables for action scripts and classes. 
  *
  * @package harmoni.architecture
- * @version $Id: Context.class.php,v 1.3 2003/11/30 01:30:57 gabeschine Exp $
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Context.class.php,v 1.4 2005/01/19 21:09:39 adamfranco Exp $
  **/
 class Context {
 	/**

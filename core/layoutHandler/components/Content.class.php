@@ -5,8 +5,11 @@ require_once(HARMONI."layoutHandler/components/Content.interface.php");
  * The Content interface defines what methods are required by any Content {@link VisualComponent}.
  *
  * @package harmoni.layout.components
- * @version $Id: Content.class.php,v 1.4 2004/03/11 16:02:46 adamfranco Exp $
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Content.class.php,v 1.5 2005/01/19 21:10:01 adamfranco Exp $
  **/
 class Content extends ContentInterface {
 	/**
