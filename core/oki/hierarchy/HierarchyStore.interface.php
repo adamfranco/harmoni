@@ -25,17 +25,22 @@ class HierarchyStore
 	
 	/**
 	 * Loads this object from persistable storage.
+	 * @param string $nodeId	The id of the node that needs to be updated. If 0 or NULL,
+	 * 							then load() will load the entire hierarchy as needed.
 	 * @access protected
 	 */
-	function load () {
+	function load ($nodeId=NULL) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
 	/**
 	 * Saves this object to persistable storage.
+	 * @param string $nodeId	The id of the node that has been modified and needs to 
+	 * 							be updated. If 0 or NULL, the save will save the entire 
+	 *							hierarchy as needed.
 	 * @access protected
 	 */
-	function save () {
+	function save ($nodeId=NULL) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -44,7 +49,7 @@ class HierarchyStore
 	* 
 	* @param mixed   $data	The data that pertains to this node. This cannot contain
 	*						objects. Use setData for objects.
-	* @param integer $parentID Optional parent node ID
+	* @param string $parentID Optional parent node ID
     */
 	function addNode(&$data, $parentID=0, $id=0) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");

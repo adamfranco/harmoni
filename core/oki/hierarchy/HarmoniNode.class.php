@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy/hierarchyApi.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.5 $ / $Date: 2003/10/10 15:09:10 $
+ * @version $Revision: 1.6 $ / $Date: 2003/10/13 14:53:16 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -38,34 +38,36 @@ class HarmoniNode
 	var $_displayName;
 	
 	/**
-	 * @var object Tree $_tree A tree object.
+	 * @var object HarmoniHierarchyStore $_hierarchyStore A hierarchy storage/loader object.
 	 */
-	var $_tree;
+	var $_hierarchyStore = NULL;
 	
 	/**
 	 * Constructor.
 	 *
 	 * @param object ID   $id   The Id of this Node.
-	 * @param object Tree $tree Tree object for the Hierarchy which this node is a part of.
+	 * @param object HierarchyStore	The storage/loader for the hierarchy that this node is a
+	 * 								part of.
 	 * @param object Type $type The Type of the new Node; type may
 	 * 							be null if the node has no type.
 	 * @param string $displayName The displayName of the Node.
 	 * @param string $description The description of the Node.
 	 */
-	function HarmoniNode(& $id, & $tree, & $type, $displayName, $description) {
+	function HarmoniNode(& $id, & $hierarchyStore, & $type, $displayName, $description) {
 		// Check the arguments
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($tree, new ExtendsValidatorRule("Tree"));
+		ArgumentValidator::validate($hierarchyStore, new ExtendsValidatorRule("HierarchyStore"));
 		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
 		
 		// set the private variables
 		$this->_id =& $id;
-		$this->_tree =& $tree;
+		$this->_hierarchyStore =& $hierarchyStore;
 		$this->_type =& $type;
 		$this->_displayName = $displayName;
 		$this->_description = $description;
+		$this->save();
 	}
 
 	/**
@@ -123,9 +125,9 @@ class HarmoniNode
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getParents() {
-		$parentId = $this->_tree->getParentID($this->_id->getIdString());
+		$parentId = $this->_hierarchyStore->getParentID($this->_id->getIdString());
 		$parentArray = array();
-		$parentArray[] =& $this->_tree->getData($parentId);
+		$parentArray[] =& $this->_hierarchyStore->getData($parentId);
 		$parentIterator =& new HarmoniNodeIterator($parentArray);
 		return $parentIterator;
 	}
@@ -145,10 +147,10 @@ class HarmoniNode
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getChildren() {
-		$childIds = $this->_tree->getChildren($this->_id->getIdString());
+		$childIds = $this->_hierarchyStore->getChildren($this->_id->getIdString());
 		$childArray = array();
 		foreach ($childIds as $id) {
-			$childArray[] =& $this->_tree->getData($id);
+			$childArray[] =& $this->_hierarchyStore->getData($id);
 		}
 		$childIterator =& new HarmoniNodeIterator($childArray);
 		return $childIterator;
@@ -217,7 +219,7 @@ class HarmoniNode
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function isLeaf() {
-		return !$this->_tree->hasChildren($this->_id->getIdString());
+		return !$this->_hierarchyStore->hasChildren($this->_id->getIdString());
 	}
 
 	/**
@@ -231,7 +233,7 @@ class HarmoniNode
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function isRoot() {
-		return ($this->_tree->depth($this->_id->getIdString()) == 0)?TRUE:FALSE;
+		return ($this->_hierarchyStore->depth($this->_id->getIdString()) == 0)?TRUE:FALSE;
 	}
 
 	/**
@@ -252,8 +254,7 @@ class HarmoniNode
 	 */
 	function addParent(& $nodeId) {
 		// This implimentation only allows single-parent hierarchies.
-		if (!$this->_tree->nodeExists($nodeIdString))
-			throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", 1));
+		throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", 1));
 	}
 
 	/**
@@ -274,8 +275,7 @@ class HarmoniNode
 	 */
 	function removeParent(& $parentId) {
 		// This implimentation only allows single-parent hierarchies.
-		if (!$this->_tree->nodeExists($nodeIdString))
-			throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", 1));	
+		throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", 1));	
 	}
 	
 	/**
@@ -283,7 +283,8 @@ class HarmoniNode
 	 * @access protected
 	 */
 	function save () {
-		
+		$idString = $this->_id->getIdString();
+		$this->_hierarchyStore->save($idString);
 	}
 	 
 	/**
@@ -291,7 +292,8 @@ class HarmoniNode
 	 * @access protected
 	 */
 	function load () {
-	
+		$idString = $this->_id->getIdString();
+		$this->_hierarchyStore->load($idString);
 	}	
 
 } // end Node

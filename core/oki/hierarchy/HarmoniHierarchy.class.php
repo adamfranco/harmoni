@@ -1,13 +1,14 @@
 <?
 
 require_once(OKI."/hierarchy/hierarchyApi.interface.php");
+require_once(HARMONI.'/oki/hierarchy/Tree.php');
+require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchyStore.class.php');
 require_once(HARMONI.'/oki/hierarchy/HarmoniNode.class.php');
 require_once(HARMONI.'/oki/hierarchy/HarmoniNodeIterator.class.php');
 require_once(HARMONI.'/oki/hierarchy/HarmoniTraversalInfo.class.php');
 require_once(HARMONI.'/oki/hierarchy/HarmoniTraversalInfoIterator.class.php');
 require_once(HARMONI.'/oki/hierarchy/GenericNodeType.class.php');
 require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
-require_once(HARMONI.'/oki/hierarchy/Tree.php');
 
 
 /**
@@ -23,7 +24,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.15 $ / $Date: 2003/10/10 21:01:40 $
+ * @version $Revision: 1.16 $ / $Date: 2003/10/13 14:53:15 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -59,6 +60,7 @@ class HarmoniHierarchy
 	 * @param string $displayName The displayName of the Node.
 	 * @param string $description The description of the Node.
 	 * @param array	 $nodeType  An array of Types of the supported nodes.
+	 * @param object HierarchyStore	The storage/loader for this hierarchy.
 	 * @access public
 	 */
 	function HarmoniHierarchy(& $id, $displayName, $description, & $nodeTypes, & $hierarchyStore) {
@@ -67,7 +69,7 @@ class HarmoniHierarchy
 		ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate($hierarchyStore, new ExtendsValidatorRule("HarmoniHierarchyStore"));
+		ArgumentValidator::validate($hierarchyStore, new ExtendsValidatorRule("HierarchyStore"));
 		
 		// set the private variables
 		$this->_id =& $id;
@@ -209,7 +211,7 @@ class HarmoniHierarchy
 		} else {	// if this is not a root node
 			$parentIdString = $parentId->getIdString();
 			// Check that the parent exists
-			if (!$this->_tree->nodeExists($parentIdString))
+			if (!$this->_hierarchyStore->nodeExists($parentIdString))
 				throwError(new Error(UNKNOWN_PARENT_NODE, "Hierarchy", 1));
 		}
 
@@ -419,7 +421,7 @@ class HarmoniHierarchy
 		$nodeIdString = $nodeId->getIdString();
 		
 		// Make sure the node exists
-		if (!$this->_tree->nodeExists($nodeIdString))
+		if (!$this->_hierarchyStore->nodeExists($nodeIdString))
 			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
 		
 		$node =& $this->_hierarchyStore->getData($nodeIdString);
@@ -537,7 +539,7 @@ class HarmoniHierarchy
 					$treeLevels = NULL;
 				else
 					$treeLevels = $levels + 1;
-				$traversalIdArray = $this->_tree->depthFirstEnumeration($startIdString, $treeLevels);
+				$traversalIdArray = $this->_hierarchyStore->depthFirstEnumeration($startIdString, $treeLevels);
 			} else {	// Mode: breadth first
 				// @todo if needed
 				throwError(new Error(UNKNOWN_TRAVERSAL_MODE, "Hierarchy", 1));
