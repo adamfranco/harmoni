@@ -1,6 +1,7 @@
 <?php
 
-    require_once('Queue.class.php');
+
+require_once('Error.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -8,14 +9,15 @@
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: ErrorTestCase.class.php,v 1.1 2003/06/16 22:09:13 adamfranco Exp $
+ * @version $Id: ErrorTestCase.class.php,v 1.2 2003/06/17 20:21:31 movsjani Exp $
  * @copyright 2003 
  **/
 
-    class GroupTestCase extends UnitTestCase {
+    class ErrorTestCase extends UnitTestCase {
 	
+	$_testError;
 
-	function TypedUserTestCase() {
+	function ErrorTestCase() {
 	    $this->UnitTestCase();
 	}
 
@@ -26,23 +28,33 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-        }
+	}
 		
         /**
          *    Clears the data set in the setUp() method call.
          *    @public
          */
         function tearDown() {
+	    unset($this->_testError);
 			// perhaps, unset $obj here
         }
 
-		/**
-		 *    Tests getNumberOfUsers() function.
-		 */ 
-        function testNumberOfUsers() {
-			$this->assertEqual($this->group->getNumberOfUsers(), 4);
+	function testTwoParameters(){
+	    echo "asdfasdf";
+	    $this->_testError = new Error("Error1","user");
+	    $this->assertEqual("Error1",$this->_testError->getDescrption());
+	    $this->assertEqual("user",$this->_testError->getType());
+	    $this->assertFalse($this->_testError->isFatal());
 	}
-		
+
+
+	function testThreeParameters(){
+	    $this->_testError = new Error("Error1","user",true);
+	    $this->assertEqual("Error1",$this->_testError->getDescrption());
+	    $this->assertEqual("user",$this->_testError->getType());
+	    $this->assertTrue($this->_testError->isFatal());
+	}
+
     }
 
 ?>
