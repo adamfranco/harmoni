@@ -57,13 +57,35 @@ class HarmoniDigitalRepositoryManager // :: API interface
 	/**
 	 * Delete a DigitalRepository.
 	 * null
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
+	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following 
+	 * messages defined in osid.dr.DigitalRepositoryException may be thrown: 
+	 * {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, 
+	 * {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
+	 * {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
+	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
+	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
+	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
 	function deleteDigitalRepository(& $digitalRepositoryId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+		$dr =& $this->getDigitalRepository($digitalRepositoryId);
+		
+		// Check to see if this DR has any assets.
+		$assets =& $dr->getAssets();
+		// If so, delete them.
+		while ($assets->hasNext()) {
+			$asset =& $assets->next();
+			$dr->deleteAsset($asset->getId());
+		}
+		
+		// Delete the node for the DR
+		$this->_hierarchy->deleteNode($digitalRepositoryId);
+		
+		// Save
+		$this->save();
+		
+		unset($this->_createdDRs[$digitalRepositoryId->getIdString()]);
 	}
-	// :: full java declaration :: void deleteDigitalRepository(osid.shared.Id digitalRepositoryId)
 
 	/**
 	 * Get all the DigitalRepositories.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
