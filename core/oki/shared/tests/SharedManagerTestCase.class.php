@@ -9,12 +9,12 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.1 2003/10/17 15:52:56 adamfranco Exp $
+ * @version $Id: SharedManagerTestCase.class.php,v 1.2 2004/03/30 23:38:43 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
 
-    class HarmoniHierarcyManagerTestCase extends UnitTestCase {
+    class SharedManagerTestCase extends UnitTestCase {
 	
 		var $manager;
 
@@ -24,13 +24,26 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
          *    @public
          */
         function setUp() {
-        	print "<pre>";
-        	
-        	$this->manager =& new HarmoniHierarchyManager;
-        	$nodeType =& new TestNodeType;
-			$nodeTypes = array ($nodeType);
-			$this->manager->createHierarchy(FALSE, "A test Hierarchy", "Hierarchy1", $nodeTypes, FALSE);
-			$this->manager->createHierarchy(FALSE, "Another test Hierarchy", "Hierarchy2", $nodeTypes, FALSE);
+			// Set up the database connection
+			$dbHandler=&Services::requireService("DBHandler");
+			$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
+			$dbHandler->pConnect($dbIndex);
+			unset($dbHandler); // done with that for now
+			
+			// set up data  container
+			$dataContainer =& new HarmoniSharedManagerDataContainer();
+			$dataContainer->set("dbIndex", $dbIndex);
+			$dataContainer->set("sharedDB", "doboHarmoniTest");
+			
+			$dataContainer->set("idTable", "id");
+			$dataContainer->set("idTable_valueColumn", "id_value");
+			$dataContainer->set("idTable_sequenceName", "irrelevant in mysql");
+			
+			$dataContainer->set("agentTable", "agent");
+			$dataContainer->set("groupTable", "group");
+			$dataContainer->set("agentGroupJoinTable", "j_agent_group");
+
+        	$this->manager =& new HarmoniSharedManager($dataContainer);
         }
 		
         /**
@@ -40,87 +53,15 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
         function tearDown() {
 			// perhaps, unset $obj here
 			unset($this->manager);
-			print "</pre>";
         }
 
 		//--------------the tests ----------------------
 
-		function test_constructor() {
-			$manager =& new HarmoniHierarchyManager;
-			$this->assertTrue(is_object($manager));
+		function test_createId() {
+			$id = $this->manager->createId();
+			$this->assertIsA($id, "Id");
+			$this->assertNotNull($id);
 		}
 		
-		function test_hierarchy_creation() {
-			$manager =& new HarmoniHierarchyManager;
-			$nodeType =& new TestNodeType;
-			$nodeTypes = array ($nodeType);
-			$manager->createHierarchy(FALSE, "A test Hierarchy", "Hierarchy1", $nodeTypes, FALSE);
-			$hierarchies =& $manager->getHierarchies();
-			$hierarchy =& $hierarchies->next();
-			
-			$this->assertIsA($hierarchy, "HarmoniHierarchy");
-			
-			$manager->createHierarchy(FALSE, "Another test Hierarchy", "Hierarchy2", $nodeTypes, FALSE);
-			$hierarchies =& $manager->getHierarchies();
-			$hierarchies->next();
-			$hierarchy =& $hierarchies->next();
-			
-//			print_r ($manager);
-			$this->assertIsA($hierarchy, "HarmoniHierarchy");
-		}
 		
-		function test_get_hierarchies() {
-			$manager =& $this->manager;
-			
-			$nodeType =& new TestNodeType;
-			$nodeTypes = array ($nodeType);
-			$thirdHierarchy =& $manager->createHierarchy(FALSE, "Yet another test Hierarchy", "Hierarchy3", $nodeTypes, FALSE);
-			
-			$hierarchies =& $manager->getHierarchies();
-			$count = 0;
-			while ($hierarchies->hasNext()) {
-				$count++;
-				$hierarchy =& $hierarchies->next();
-			}
-			$this->assertEqual($count, 3);
-			$this->assertReference($hierarchy, $thirdHierarchy);
-		}
-		
-		function test_get_hierarchy() {
-			$manager =& $this->manager;
-			
-			$nodeType =& new TestNodeType;
-			$nodeTypes = array ($nodeType);
-			$thirdHierarchy =& $manager->createHierarchy(FALSE, "Yet another test Hierarchy", "Hierarchy3", $nodeTypes, FALSE);
-			$thirdHierarchyId = $thirdHierarchy->getId();
-			$hierarchy =& $manager->getHierarchy($thirdHierarchyId);
-			$this->assertReference($hierarchy, $thirdHierarchy);
-		}
-		
-		function test_delete_hierarchy() {
-			$manager =& $this->manager;
-			
-						$nodeType =& new TestNodeType;
-			$nodeTypes = array ($nodeType);
-			$thirdHierarchy =& $manager->createHierarchy(FALSE, "Yet another test Hierarchy", "Hierarchy3", $nodeTypes, FALSE);
-			$thirdHierarchyId = $thirdHierarchy->getId();
-			
-			$hierarchies =& $manager->getHierarchies();
-			$count = 0;
-			while ($hierarchies->hasNext()) {
-				$count++;
-				$hierarchies->next();
-			}
-			$this->assertEqual($count, 3);
-			
-			$manager->deleteHierarchy($thirdHierarchyId);
-			
-			$hierarchies =& $manager->getHierarchies();
-			$count = 0;
-			while ($hierarchies->hasNext()) {
-				$count++;
-				$hierarchies->next();
-			}
-			$this->assertEqual($count, 2);
-		}
 	}

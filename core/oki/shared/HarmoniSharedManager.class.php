@@ -8,6 +8,7 @@ require_once(HARMONI."oki/shared/HarmoniTestId.class.php");
 require_once(HARMONI."oki/shared/HarmoniId.class.php");
 require_once(HARMONI."oki/shared/HarmoniStringId.class.php");
 require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
+require_once(HARMONI."oki/shared/HarmoniSharedManagerDataContainer.class.php");
 
 /**
  * Properties is a mechanism for returning read-only data about an Agent.  Each
@@ -35,7 +36,7 @@ require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.16 $ / $Date: 2004/03/11 16:02:47 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.17 $ / $Date: 2004/03/30 23:38:43 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -54,14 +55,25 @@ class HarmoniSharedManager
 	 * Constructor. Set up any database connections needed.
 	 *
 	 */
-	function HarmoniSharedManager( $dbID = FALSE ) {
-		// We may want to use some SharedManager services that don't require
-		// a database. If no database is specified here, calls to any
-		// database dependent functions should throw errors.
-		if ($dbID !== FALSE) {
-			$this->_idDBIndex = $dbID;
-			IDManager::setup($dbID);
-		}
+	function HarmoniSharedManager( $dataContainer ) {
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("HarmoniSharedManagerDataContainer");
+		ArgumentValidator::validate($dataContainer, $extendsRule, true);
+		// ** end of parameter validation
+		
+		// now, validate the data container
+		$dataContainer->checkAll();
+		
+		$this->_dbIndex = $dataContainer->get("dbIndex");
+		$this->_sharedDB = $dataContainer->get("sharedDB");
+		
+		$this->_idTable = $dataContainer->get("idTable");
+		$this->_idTable_valueColumn = $dataContainer->get("idTable_valueColumn");
+		$this->_idTable_sequenceName = $dataContainer->get("idTable_sequenceName");
+		
+		$this->_agentTable = $dataContainer->get("agentTable");
+		$this->_groupTable = $dataContainer->get("groupTable");
+		$this->_agentGroupJoinTable = $dataContainer->get("agentGroupJoinTable");
 	}
 
     /**
@@ -259,15 +271,22 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & createId() {
-		if ($this->_idDBIndex === FALSE)
-			throwError(new Error("Could not create new ID because the Shared Manager was started without database support.","HarmoniSharedManager",true));
-			
-		if (!Services::serviceAvailable("IDManager")) 
-			throwError(new Error("Could not create new ID because the HarmoniDataManager doesn't seem to be available!","HarmoniSharedManager",true));
+		debug::output("Attempting to generate new id.",20,"SharedManager");
+		$dbHandler =& Services::requireService("DBHandler");
 		
-		$mgr =& Services::getService("IDManager");
+		$query =& new InsertQuery();
+		$query->setAutoIncrementColumn($this->_idTable_valueColumn, $this->_idTable_sequenceName);
+		$query->setTable($this->_sharedDB.".".$this->_idTable);
+		$query->addRowOfValues(array());
 		
-		$newID = $mgr->newID( new HarmoniType("Harmoni","HarmoniSharedManager","ID"));
+		$result =& $dbHandler->query($query,$this->_dbIndex);
+		if ($result->getNumberOfRows() != 1) {
+			throwError( new UnknownDBError("SharedManager"));
+		}
+		
+		$newID = $result->getLastAutoIncrementValue();
+		
+		debug::output("Successfully created new id '$newID'",DEBUG_SYS5,"IDManager");
 		
 		return new HarmoniId($newID);
 	}
