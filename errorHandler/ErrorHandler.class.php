@@ -6,7 +6,7 @@ require_once(HARMONI."errorHandler/ErrorHandler.interface.php");
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.7 2003/06/26 18:38:55 dobomode Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.8 2003/06/26 19:26:04 adamfranco Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */
@@ -66,7 +66,6 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 * @return object Error Reference to the error object that was created.
 	 * @access public
 	 */
-
 	function & addNewError($description,$type,$isFatal = false){
 		$newError =& new Error($description,$type,$isFatal);
 		$this->addError($newError);
@@ -80,7 +79,6 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 * @return array An array of strings that describe all the errors in the queue.
 	 * @access public
 	 */
-
 	function generateErrorStringArray(){
 		$errorArray = array();
 
@@ -104,17 +102,16 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 * @return integer The number of errors that are currently in the queue.
 	 * @access public
 	 */
-
 	function getNumberOfErrors(){
 		return $this->_errorQueue->getSize();
 	}
 
 
     /**
-     * Erase all error history.
+     * Erase the error history.
+     * Erase the error history.
 	 * @access public
      */
-
     function clearErrors(){
 		$this->_errorQueue->clear();
 	}
