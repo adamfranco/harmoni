@@ -14,7 +14,7 @@ require_once(HARMONI."authenticationHandler/AuthenticationResult.class.php");
  * be changed, allowing administrators or similar users to switch between Active users.
  * 
  * @package harmoni.architecture.login
- * @version $Id: LoginState.class.php,v 1.4 2003/11/30 01:30:57 gabeschine Exp $
+ * @version $Id: LoginState.class.php,v 1.5 2003/12/16 15:23:37 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginState {
@@ -29,6 +29,12 @@ class LoginState {
 	 * @var string $_activeAgent The Active agent's system name.
 	 **/
 	var $_activeAgent;
+
+	/**
+	 * @access private
+	 * @var string $_authenticatedAgent The agent's system name that was successfully authenticated.
+	 **/
+	var $_authenticatedAgent;
 	
 	/**
 	 * The constructor.
@@ -45,16 +51,25 @@ class LoginState {
 			$this->_result =& $result;
 		}
 		$this->_activeAgent = $systemName;
-		
+		$this->_authenticatedAgent = $systemName;
 	}
 
 	/**
-	 * Returns the authenticated agent's name. (Probably a username/systemname).
+	 * Returns the active agent's name. (Probably a username/systemname).
 	 * @access public
 	 * @return string The Agent's name.
 	 **/
 	function getAgentName() {
 		return $this->_activeAgent;
+	}
+	
+	/**
+	 * Returns the authenticated agent's name. For most purposes, this is the same as the active agent.
+	 * @access public
+	 * @return string The Agent's name.
+	 */
+	function getAuthenticatedAgentName() {
+		return $this->_authenticatedAgent;
 	}
 	
 	/**
@@ -86,8 +101,7 @@ class LoginState {
 		// we need to interface with the AuthenticationHandler for this step.
 		// if $systemname exists in any of the authentication methods, then
 		// we're going to go ahead.
-		Services::requireService("Authentication");
-		$auth =& Services::getService("Authentication");
+		$auth =& Services::requireService("AgentInformation");
 		
 		if ($auth->agentExists($systemname)) {
 			$this->_activeAgent = $systemname;
@@ -103,6 +117,7 @@ class LoginState {
 	function nullify() {
 		$this->_result =& new AuthenticationResult("",array());
 		$this->_activeAgent = "";
+		$this->_authenticatedAgent = "";
 	}
 }
 

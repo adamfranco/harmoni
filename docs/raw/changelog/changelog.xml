@@ -2,6 +2,16 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.0.5" date="Not Released">
+		<new author='gabe'>
+			Added AgentInformationHandler::agentExists($name, [$method]) which steps through each AuthenticationMethod
+			and checks for an existing agent.
+		</new>
+		<change author='gabe'>
+			LoginState now has better support for Active/Authenticated agents. It should allow one to change
+			the active agent without disturbing the actual authentication process.
+		</change>
+	</version>
 	<version number="0.0.4" date="2003-12-06">
 		<new author='gabe'>
 			DateTime class has two new functions: toString() and toMDY() which display

@@ -9,7 +9,7 @@
  * as email addresses, full names, etc.
  *
  * @package harmoni.authentication.agentinformation
- * @version $Id: AgentInformationHandler.class.php,v 1.4 2003/12/09 05:39:03 gabeschine Exp $
+ * @version $Id: AgentInformationHandler.class.php,v 1.5 2003/12/16 15:23:43 gabeschine Exp $
  * @copyright 2003 
  **/
 class AgentInformationHandler extends ServiceInterface {
@@ -106,6 +106,36 @@ class AgentInformationHandler extends ServiceInterface {
 		$methodObj =& $this->_authHandler->getMethod($method);
 		$array = $methodObj->getAgentInformation($systemName,$searchMode);
 		return $array;
+	}
+	
+	/**
+	 * Checks to see if an agent system name is present in any of the authentication methods.
+	 * @param string $agentName The agent's name to be checked.
+	 * @param opt string $method A single method to check.
+	 * @access public
+	 * @return void
+	 */
+	function agentExists($agentName, $method = null) {
+		// get an array of available methods
+		$methods = $this->_authHandler->getMethodNames();
+		
+		if ($method) {
+			if (!in_array($method, $methods)) {
+				throwError( new Error("Could not execute AgentInformationHandler::agentExists($agentName, $method) because the method does not seem to be available in the AuthenticationHandler.","AgentInformationHandler",true));
+				return false;
+			}
+			
+			$methodObj =& $this->_authHandler->getMethod($method);
+			return $methodObj->agentExists($agentName);
+		}
+		
+		// otherwise, step through them each... until we find a positive
+		foreach ($methods as $method) {
+			$methodObj =& $this->_authHandler->getMethod($method);
+			if ($methodObj->agentExists($agentName)) return true;
+		}
+		
+		return false;
 	}
 	
 	/**
