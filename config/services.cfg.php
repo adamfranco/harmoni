@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.25 2004/06/08 15:29:58 dobomode Exp $
+* @version $Id: services.cfg.php,v 1.26 2004/06/28 21:16:42 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -57,6 +57,9 @@ if (!defined("LOAD_DR")) 			define("LOAD_DR", true);
 
 // functionality affected: Language Localization
 if (!defined("LOAD_LANG")) 			define("LOAD_LANG", true);
+
+// functionality affected: Sets
+if (!defined("LOAD_SETS")) 			define("LOAD_SETS", true);
 
 /**
 * USER DEFINED SERVICES
@@ -188,6 +191,12 @@ if (LOAD_DATAMANAGER) {
 if (LOAD_LANG) {
 	require_once(HARMONI."languageLocalizer/LanguageLocalizer.class.php");
 	Services::registerService("Lang","LanguageLocalizer");
+}
+
+// load the Sets service
+if (LOAD_SETS) {
+	require_once(HARMONI."sets/SetManager.class.php");
+	Services::registerService("Sets","SetManager");
 }
 
 /**
