@@ -12,7 +12,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * </ul>
  *
  * @package harmoni.layout.components
- * @version $Id: VerticalMenuLayout.class.php,v 1.4 2004/04/01 19:22:21 adamfranco Exp $
+ * @version $Id: VerticalMenuLayout.class.php,v 1.5 2004/07/14 20:56:52 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -75,7 +75,7 @@ class VerticalMenuLayout extends Layout {
 	 * @access public
 	 * @return void
 	 **/
-	function output($theme) {
+	function output(& $theme) {
 		$this->verifyComponents();
 		
 		$childLayouts =& $this->getAllComponents();

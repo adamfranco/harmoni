@@ -2,7 +2,7 @@
 
 /**
  * Defines the throw functions.
- * @version $Id: throw.inc.php,v 1.3 2004/05/31 20:32:24 gabeschine Exp $
+ * @version $Id: throw.inc.php,v 1.4 2004/07/14 20:56:51 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.errorhandler
  **/
@@ -50,14 +50,8 @@ function printErrors(&$printer)
 {
 	$handler =& Services::requireService("ErrorHandler");
 	
-	if (haveErrors()) {
-		ob_start();
-		$handler->printErrorsWithErrorPrinter($printer);
-		$contents = ob_get_contents();
-		ob_end_clean();
-		return $content;
-	}
-	return "";
+	if (haveErrors())
+		return $handler->printErrorsWithErrorPrinter($printer);
 }
 
 /**
@@ -90,17 +84,10 @@ function printUserErrors() {
 	
 	// check if we have any
 	if ($errorHandler->getNumberOfErrors()) {
-		// yup
-		// capture the output and return it
-		ob_start();
 		$printer =& new SimpleHTMLErrorPrinter;
-		$errorHandler->printErrorsWithErrorPrinter($printer);
-		$content = ob_get_contents();
-		ob_end_clean();
-		$errorHandler->clearErrors();
-		return $content;
+		return $errorHandler->printErrorsWithErrorPrinter($printer);
 	}
-	return "";
+		
 }
 
 

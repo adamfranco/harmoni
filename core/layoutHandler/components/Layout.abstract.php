@@ -14,7 +14,7 @@ define ("RIGHT", "right");
  * holds any number of components of different types.
  *
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.11 2004/07/09 20:56:24 gabeschine Exp $
+ * @version $Id: Layout.abstract.php,v 1.12 2004/07/14 20:56:51 dobomode Exp $
  * @copyright 2003 
  * @abstract
  **/
@@ -90,7 +90,6 @@ class Layout extends LayoutInterface {
 
 	/**
 	 * Adds the "content" for the component in the next open index to $object.
-	 * @param integer $index The index number for the component to be set.
 	 * @param ref object $object The object that complies to the expected type for $index.
 	 * @param optional boolean $valign Constants TOP = 0, CENTER = 1, BOTTOM = 2 define where
 	 *			the child object will be aligned.

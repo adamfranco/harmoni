@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * makes use of a specified ValidatorRule object. In addition, if validation
  * fails, a new fatal error is added to the default ErrorHandler.
  *
- * @version $Id: ArgumentValidator.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
+ * @version $Id: ArgumentValidator.class.php,v 1.3 2004/07/14 20:56:52 dobomode Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.utilities
@@ -34,8 +34,7 @@ class ArgumentValidator {
 	 **/
 	function validate($argument, $rule, $isFatal = true) {
 		// now make sure that $rule extends ValidatorRuleInterface object
-		$extendsRule =& new ExtendsValidatorRule("ValidatorRuleInterface");
-		if (!$extendsRule->check($rule)) {
+		if (!is_a($rule, "ValidatorRuleInterface")) {
 			$str = "Unable to recognize the ValidatorRule object. Possibly, an invalid argument was passed.";
 			throwError(new Error($str, "System", true));
 		}

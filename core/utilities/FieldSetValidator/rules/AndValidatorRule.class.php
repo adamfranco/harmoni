@@ -3,14 +3,14 @@
 require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.php");
 
 /**
- * the OrValidatorRule takes 2 other rules and validates if at least one of the 2 validates.
+ * the AndValidatorRule takes 2 other rules and validates if both validate.
  *
- * @version $Id: OrValidatorRule.class.php,v 1.2 2004/07/14 20:56:52 dobomode Exp $
+ * @version $Id: AndValidatorRule.class.php,v 1.1 2004/07/14 20:56:52 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.utilities.fieldsetvalidator.rules
  **/
  
-class OrValidatorRule extends ValidatorRuleInterface {
+class AndValidatorRule extends ValidatorRuleInterface {
 
 
 	/**
@@ -21,7 +21,7 @@ class OrValidatorRule extends ValidatorRuleInterface {
 	 * @access public
 	 * @return void 
 	 **/
-	function OrValidatorRule( & $rule1, & $rule2 ) {
+	function AndValidatorRule( & $rule1, & $rule2 ) {
 		$this->_rule1 =& $rule1;
 		$this->_rule2 =& $rule2;
 	}
@@ -29,13 +29,13 @@ class OrValidatorRule extends ValidatorRuleInterface {
 
 
 	/**
-	 * the OrValidatorRule takes 2 other rules and validates if at least one of the 2 validates.
+	 * the AndValidatorRule takes 2 other rules and validates if at least one of the 2 validates.
 	 * @param mixed $rule1 The first rule.
 	 * @access public
-	 * @return boolean TRUE, if the value is an integer; FALSE if it is not.
+	 * @return boolean TRUE, if validated; FALSE if not.
 	 **/
 	function check( & $val ) {
-		return ($this->_rule1->check($val) || $this->_rule2->check($val));
+		return ($this->_rule1->check($val) && $this->_rule2->check($val));
 	}
 }
 

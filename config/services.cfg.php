@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.28 2004/07/08 21:33:02 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.29 2004/07/14 20:56:37 dobomode Exp $
 * @copyright 2003
 **/
 
@@ -106,6 +106,7 @@ require_once(HARMONI."utilities/ArgumentValidator.class.php");
 // load error handler
 require_once(HARMONI."errorHandler/ErrorHandler.class.php");
 Services::registerService("ErrorHandler","ErrorHandler");
+require_once(HARMONI."errorHandler/throw.inc.php");
 
 // load user error handler
 Services::registerService("UserError","ErrorHandler");
@@ -125,14 +126,14 @@ if (LOAD_AUTHENTICATION) {
 if (LOAD_DEBUG) {
 	require_once(HARMONI."debugHandler/DebugHandler.class.php");
 	Services::registerService("Debug","DebugHandler");
+	require_once(HARMONI."debugHandler/debug.class.php");
 }
 
 // load layout and theme handlers
 if (LOAD_THEMES) {
 	require_once(HARMONI."layoutHandler/LayoutHandler.class.php");
-//	Services::registerService("Layout","LayoutHandler");
 	require_once(HARMONI."themeHandler/ThemeHandler.class.php");
-	Services::registerService("Themes","ThemeHandler");
+	Services::registerService("Themes", "ThemeHandler");
 }
 
 // load the agent information handler
@@ -188,15 +189,5 @@ if (LOAD_SETS) {
 	require_once(HARMONI."sets/SetManager.class.php");
 	Services::registerService("Sets","SetManager");
 }
-
-/**
-* Load wrapper classes and functions for some of the above services.
-**/
-
-// Debug
-require_once(HARMONI."debugHandler/debug.class.php");
-
-// ErrorHandler
-require_once(HARMONI."errorHandler/throw.inc.php");
 
 ?>
