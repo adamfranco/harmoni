@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQuery.interface.php");
  * 
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * @version $Id: SelectQuery.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: SelectQuery.class.php,v 1.2 2004/04/22 20:45:08 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -273,6 +273,18 @@ class SelectQuery extends SelectQueryInterface {
 	}
 	
 
+	
+	/**
+	 * Resets the WHERE clause.
+	 * @access public
+	 **/
+	function resetWhere() {
+		unset($this->_condition);
+		$this->_condition = array();
+	}
+	
+	
+	
 	/**
 	 * Sets the GROUP BY and HAVING clause.
 	 * 

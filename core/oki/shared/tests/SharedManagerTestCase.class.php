@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.7 2004/04/20 21:29:37 dobomode Exp $
+ * @version $Id: SharedManagerTestCase.class.php,v 1.8 2004/04/22 20:45:29 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -126,7 +126,7 @@ class SharedManagerTestCase extends UnitTestCase {
 		$this->assertIsA($agents, "HarmoniAgentIterator");
 		while ($agents->hasNext()) {
 			$agent =& $agents->next();
-			$this->assertIsA($agent, "Agent");
+			$this->assertIsA($agent, "HarmoniAgent");
 		}
 	}
 
@@ -174,15 +174,47 @@ class SharedManagerTestCase extends UnitTestCase {
 	 * Testing getGroup
 	 **/
 	function test_get_group() {
-		// create a type
-		$type =& new HarmoniType("Get", "Group", "Test", "A test for getting a group");
-		// create one agent
-//		$group1 =& $this->manager->createGroup("test_group", $type, "nothing really");
-//		$id_g1 =& $group1->getId();
-
-		$this->manager->getGroup(new  HarmoniId(1));
-
+		$group =& $this->manager->getGroup(new HarmoniId(-9));
+		$group =& $this->manager->getGroup(new HarmoniId(-1));
+		
+		$this->assertIsA($group, "HarmoniGroup");
 	}
-	
 
-}
+	/**
+	 * Testing getGroups
+	 **/
+	function test_get_groups() {
+		$groups =& $this->manager->getGroups();
+		$this->assertIsA($groups, "HarmoniAgentIterator");
+		while ($groups->hasNext()) {
+			$group =& $groups->next();
+			$this->assertIsA($group, "HarmoniGroup");
+			
+			echo "<pre>\n";
+			$id =& $group->getId();
+			echo $id->getIdString();
+			echo " : ".$group->getDisplayName();
+			echo "\n";
+			echo "subgroups:";
+			print_r(array_keys($group->_groups));
+			echo "members:";
+			print_r(array_keys($group->_agents));
+
+			echo "</pre>\n";
+			
+		}
+	}
+
+
+	
+	/**
+	 * Testing createAgent
+	 **/
+	function test_delete_group() {
+		// create a group and then delete it
+		$type =& new HarmoniType("Delete", "Group", "Test", "A test for deleting a group");
+		$group1 =& $this->manager->createGroup("kokomode", $type, "blah");
+		$this->assertIsA($group1, "HarmoniGroup");
+
+		$this->manager->deleteGroup($group1->getId());
+	}}

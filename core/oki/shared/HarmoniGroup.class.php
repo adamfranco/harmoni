@@ -254,7 +254,7 @@ class HarmoniGroup // :: API interface
 					throwError(new Error("Delete failed.","SharedManager",true));
 				
 				// remove from object
-				// DO NOT SET TO NU
+				// DO NOT SET TO NULL
 		    	unset($this->_groups[$id->getIdString()]);
 			}
 		}

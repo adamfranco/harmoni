@@ -48,7 +48,7 @@ require_once("Query.abstract.php");
 /**
  * A SelectQuery interface provides the tools to build an SQL SELECT query.
  *
- * @version $Id: SelectQuery.interface.php,v 1.2 2004/04/20 19:48:58 adamfranco Exp $
+ * @version $Id: SelectQuery.interface.php,v 1.3 2004/04/22 20:45:08 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -143,7 +143,14 @@ class SelectQueryInterface extends Query {
 	}
 	
 	
-
+	/**
+	 * Resets the WHERE clause.
+	 * @access public
+	 **/
+	function resetWhere() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
 
 	/**
 	 * Sets the GROUP BY and HAVING clause.

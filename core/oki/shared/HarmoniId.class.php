@@ -32,7 +32,7 @@ class HarmoniId
 			if (ereg("^[1-9][0-9]*$",$idString))
 				throwError(new Error(OPERATION_FAILED.": Non-integer Id String: '".(($idString == NULL)?"NULL":$idString)."'.","HarmoniId",true));
 			
-			$this->_id = $id;
+			$this->_id = strval($id);
 		} else {
 			// get a new unique id
 		}
