@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.9 2005/01/20 19:14:30 nstamato Exp $
+ * @version $Id: GUIManager.class.php,v 1.10 2005/01/21 04:58:29 nstamato Exp $
  */
 class GUIManager extends GUIManagerInterface {
 
@@ -32,7 +32,7 @@ class GUIManager extends GUIManagerInterface {
 
 	
 	/**
-	 * The name of the GUIMAnager database.
+	 * The name of the GUIManager database.
 	 * @var string _guiDB 
 	 * @access protected
 	 */
@@ -283,6 +283,7 @@ class GUIManager extends GUIManagerInterface {
 		$sharedManager =& Services::requireService("Shared");
 		$id =& $sharedManager->createId();
 		$idValue = $id->getIdString();
+		
 		// 2. now simply insert the theme state
 		$db = $this->_guiDB.".";
 		$dbHandler =& Services::requireService("DBHandler");
@@ -349,10 +350,12 @@ class GUIManager extends GUIManagerInterface {
 		$values = array();
 		$values[] = "'".addslashes($themeState)."'";
 		$query->setValues($values);
-		$query->addWhere($db."gui.gui_state=$idValue");
+		$query->addWhere($db."gui.gui_id=$idValue");
 	
+		
 		//run the query
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
 		
 		if ($queryResult->getNumberOfRows() != 1) {
 			$err = "None or more than one theme states were updated.";

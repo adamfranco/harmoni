@@ -8,7 +8,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: GUIManagerTestCase.class.php,v 1.3 2005/01/20 06:38:01 nstamato Exp $
+ * @version $Id: GUIManagerTestCase.class.php,v 1.4 2005/01/21 04:59:22 nstamato Exp $
  * @copyright 2003 
  */
 
@@ -72,6 +72,42 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 			$this->manager->loadThemeState($id, $theme1);
 			
 			$this->assertIdentical($theme, $theme1);
+			
+			/*** testing method replaceThemeState ***/
+			$theme2 =& new Theme("Master", "And Servant");
+
+			$sp1 =& new BackgroundColorSP("#241");
+			$id1 = $theme2->registerSP($sp1);
+			$sp2 =& new ColorSP("#325");
+			$id2 = $theme2->registerSP($sp2);
+			$sp3 =& new FontSP("Arial", "9pt");
+			$id3 = $theme2->registerSP($sp3);
+			
+			$this->manager->replaceThemeState($id, $theme2);
+			$this->manager->loadThemeState($id, $theme1);
+			$this->assertIdentical($theme2,$theme1);
+			
+			/*** testing method deleteThemeState ***/
+			
+			$dbHandler=&Services::requireService("DBHandler");
+			$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
+			$dbHandler->connect($dbIndex);
+			
+			
+			$this->manager->deleteThemeState($id);
+			$idValue = $id->getIdString();
+			$query =& new SelectQuery;
+			$query->addColumn("gui_theme");
+			$query->addColumn("gui_state");
+			$query->addTable("gui");
+			$query->addWhere("gui_id = ".$idValue);
+			
+			$queryResult =& $dbHandler->query($query, $dbIndex);
+			
+			$affectedRows = $queryResult->getNumberOfRows();
+			$this->assertIdentical($affectedRows,0);
+			
+			
 			
 		}
 		
