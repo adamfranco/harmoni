@@ -107,10 +107,10 @@ class FileDataInfoField extends InfoField
 	 * @package harmoni.osid.dr
 	 */
 	function updateValue($value) {
-		ArgumentValidator::validate($value, new StringValidatorRule);
+//		ArgumentValidator::validate($value, new StringValidatorRule);
 		
 		// Store the data in the object in case its asked for again.
-		$this->_data = $value;
+//		$this->_data = $value;
 		
 	// Base64 encode the data to preserve it,
 	// then write it to the database.
@@ -128,7 +128,7 @@ class FileDataInfoField extends InfoField
 			$query =& new UpdateQuery;
 			$query->setTable("dr_file_data");
 			$query->setColumns(array("data"));
-			$query->setValues(array("'".base64_encode($this->_data)."'"));
+			$query->setValues(array("'".base64_encode($value)."'"));
 			$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
 		}
 		// If it doesn't exist, use an insert query.
@@ -137,10 +137,11 @@ class FileDataInfoField extends InfoField
 			$query->setTable("dr_file_data");
 			$query->setColumns(array("FK_file","data"));
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
-									"'".base64_encode($this->_data)."'"));
+									"'".base64_encode($value)."'"));
 		}
 		
-		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+// 		printpre($query);
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		
 		// run the query
 		$dbHandler->query($query, $this->_configuration["dbId"]);
@@ -149,7 +150,7 @@ class FileDataInfoField extends InfoField
 		$query =& new UpdateQuery;
 		$query->setTable("dr_file");
 		$query->setColumns(array("size"));
-		$query->setValues(array("'".strlen($this->_data)."'"));
+		$query->setValues(array("'".strlen($value)."'"));
 		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
 		
 		$dbHandler->query($query, $this->_configuration["dbId"]);
