@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Does authentication procedures with an LDAP server.
  *
- * @version $Id: LDAPAuthenticationMethod.class.php,v 1.13 2003/07/11 00:20:24 gabeschine Exp $
+ * @version $Id: LDAPAuthenticationMethod.class.php,v 1.14 2003/07/12 15:19:38 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication.ldap
@@ -180,13 +180,17 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	}
 	
 	/**
-	 * Get's information for $systemName (could be, for example, full name, email, etc).
+	 * Get's information for $systemName (could be, for example, full name, email, etc)
 	 * 
 	 * @param string $systemName The system name to get info for.
+	 * @param boolean $searchMode Specifies if we are searching for users
+	 * or just trying to get info for one user.
 	 * @access public
-	 * @return array An associative array of [key]=>value pairs.  
+	 * @return array An associative array of [key]=>value pairs. If in search mode,
+	 * an array of said associative arrays corresponding to all the users found
+	 * that match systemName. The format is [systemName]=>array([key1]=>value1,...),...
 	 **/
-	function getAgentInformation( $systemName ) {
+	function getAgentInformation( $systemName, $searchMode=false ) {
 		
 		// get the array of fields to fetch
 		$fields = $this->_opt->get("agentInformationFields");
@@ -198,14 +202,27 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 		$this->_connect();
 		
 		$uidField = $this->_opt->get("usernameField");
-		$values = $this->_search("$uidField=$systemName",$return);
+		$return[] = $uidField;
+		
+		if ($searchMode) {
+			$filter = "(|";
+			foreach ($fields as $key=>$field)
+				$filter .= "($field=*$systemName*)";
+			$filter .= "($uidField=*$systemName*)";
+			$filter .= ")";
+		} else
+			$filter .= "($uidField=$systemName)";
+		$values = $this->_search($filter,$return);
 
 		// no go through and populate the $info array
 		$info = array();
 		
 		// first off, do we have any results
 		if ($values['count'])
-			$row = $values[0];
+			if ($searchMode)
+				$rows = $values;
+			else
+				$rows[0] = $values[0];
 		else {
 			$this->_disconnect();
 			return array();
@@ -215,16 +232,20 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 		// from a certain attribute or just the first one
 		$fetchMultiple = $this->_opt->get("agentInformationFieldsFetchMultiple");
 		
-		foreach ($fields as $key=>$field) {
-			if ($row[$field]['count']) {
-				if ($fetchMultiple[$key])
-					$info[$key] = $row[$field];
-				else
-					$info[$key] = $row[$field][0];
-			}
+		foreach ($rows as $row) {
+			$userName = $row[$uidField][0];
+    		foreach ($fields as $key=>$field) {
+    			if ($row[$field]['count']) {
+    				if ($fetchMultiple[$key])
+    					$info[$userName][$key] = $row[$field];
+    				else
+    					$info[$userName][$key] = $row[$field][0];
+    			}
+    		}
 		}
 		$this->_disconnect();
-		return $info;
+		if ($searchMode) return $info;
+		return $info[$systemName];
 	}
 	
 	/**

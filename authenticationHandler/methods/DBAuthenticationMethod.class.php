@@ -7,7 +7,7 @@ require_once(HARMONI."authenticationHandler/methods/DBMethodOptions.class.php");
  * the DB Authentication Method will contact an SQL database and check a username/password pair
  * against fields in a specified table.
  *
- * @version $Id: DBAuthenticationMethod.class.php,v 1.13 2003/07/11 00:20:24 gabeschine Exp $
+ * @version $Id: DBAuthenticationMethod.class.php,v 1.14 2003/07/12 15:19:38 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication.database
@@ -218,10 +218,14 @@ class DBAuthenticationMethod
 	 * Get's information for $systemName (could be, for example, full name, email, etc)
 	 * 
 	 * @param string $systemName The system name to get info for.
+	 * @param boolean $searchMode Specifies if we are searching for users
+	 * or just trying to get info for one user.
 	 * @access public
-	 * @return array An associative array of [key]=>value pairs. 
+	 * @return array An associative array of [key]=>value pairs. If in search mode,
+	 * an array of said associative arrays corresponding to all the users found
+	 * that match systemName. The format is [systemName]=>array([key1]=>value1,...),...
 	 **/
-	function getAgentInformation( $systemName ) {
+	function getAgentInformation( $systemName, $searchMode=false ) {
 		$id = $this->_connect();
 		if (!isset($id)) return false;
 		
@@ -230,16 +234,47 @@ class DBAuthenticationMethod
 		$fields = $o->get("agentInformationFields");
 		if (!is_array($fields) || !count($fields)) return array();
 		
-		$results = $this->_getFieldsFromDB($systemName,$fields);
+		// get the DBHandler
+		$DBHandler = & $this->_DBHandler;
 		
-		// make a [key]=>value array for the results
-		$info = array();
-		foreach ($fields as $key=>$val) {
-			$info[$key] = $results[$val];
+		$query = & new SelectQuery;
+		$query->addTable($o->get("tableName"));
+		
+		foreach ($fields as $key=>$field) {
+			$query->addColumn($field);
+		}
+		
+		// build the appropriate where clause for this query, depending
+		// on if we're in searchMode or not.
+		if ($searchMode) {
+			$whereArray = array();
+			foreach ($fields as $key=>$field)
+				$whereArray[] = "$field LIKE '%$systemName%'";
+			$whereArray[] = $o->get("usernameField")." LIKE '%$systemName%'";
+			$where = implode(" OR ",$whereArray);
+		} else
+			$where = $o->get("usernameField")."='" . $systemName ."'";
+		$query->setWhere($where);
+		
+		$result = & $DBHandler->query($query,$this->_id);
+		
+		for ($i=0; $i<$result->getNumberOfRows(); $i++) {
+    		$row = $result->getCurrentRow();
+			$result->advanceRow();
+			
+			$userName = $result[$o->get("usernameField")];
+			
+			// make a [key]=>value array for the results
+    		$info = array();
+    		foreach ($fields as $key=>$val) {
+    			$info[$userName][$key] = $row[$val];
+    		}
 		}
 		
 		$this->_disconnect();
-		return $info;
+		if ($searchMode)
+			return $info;
+		return $info[$systemName];
 	}
 	
 	/**

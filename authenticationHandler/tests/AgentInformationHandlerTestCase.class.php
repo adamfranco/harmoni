@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AgentInformationHandlerTestCase.class.php,v 1.7 2003/07/04 14:04:34 gabeschine Exp $
+ * @version $Id: AgentInformationHandlerTestCase.class.php,v 1.8 2003/07/12 15:19:39 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -126,26 +126,26 @@
 		function test_various_methods() {
 			// testing... testing... bjones... do you copy
 			// bjones' info is the same accross all dbs except the last one
-			$a = $this->info->getAgentInformation("bjones","user");
+			$a = $this->info->getAgentInformation("bjones",false,"user");
 			$this->assertEqual($a[username],"bjones");
 			$this->assertEqual($a[email],"bjones@email.net");
 			$this->assertEqual($a[firstname],"Bob");
 			$this->assertEqual($a[lastname],"Jones");
 			
-			$a = $this->info->getAgentInformation("bjones","user2");
+			$a = $this->info->getAgentInformation("bjones",false,"user2");
 			$this->assertEqual($a[username],"bjones");
 			$this->assertEqual($a[email],"bjones@email.net");
 			$this->assertEqual($a[firstname],"Bob");
 			$this->assertEqual($a[lastname],"Jones");
 			
-			$a = $this->info->getAgentInformation("bjones","usermd5");
+			$a = $this->info->getAgentInformation("bjones",false,"usermd5");
 			$this->assertEqual($a[username],"bjones");
 			$this->assertEqual($a[email],"bjones@email.net");
 			$this->assertEqual($a[firstname],"Bob");
 			$this->assertEqual($a[lastname],"Jones");
 
 			// bjones isn't in this database
-			$a = $this->info->getAgentInformation("bjones","user3");
+			$a = $this->info->getAgentInformation("bjones",false,"user3");
 			$this->assertEqual($a[username],"");
 			$this->assertEqual($a[email],"");
 			$this->assertEqual($a[firstname],"");
@@ -162,7 +162,7 @@
 		
 		function test_priorities() {
 			// Linda Smith in db record, before marrage
-			$a = $this->info->getAgentInformation("lsmith","user");
+			$a = $this->info->getAgentInformation("lsmith",false,"user");
 			$this->assertEqual($a[username],"lsmith");
 			$this->assertEqual($a[email],"lsmith@email.net");
 			$this->assertEqual($a[firstname],"Linda");
@@ -176,7 +176,7 @@
 			$this->assertEqual($a[lastname],"Jones");
 			
 			// Adam Franco has a bad db record in user3
-			$a = $this->info->getAgentInformation("afranco","user3");
+			$a = $this->info->getAgentInformation("afranco",false,"user3");
 			$this->assertEqual($a[username],"afranco");
 			$this->assertEqual($a[email],"afranco@is.fluffy.com");
 			$this->assertEqual($a[firstname],"Adam");

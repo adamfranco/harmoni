@@ -6,11 +6,11 @@ require_once(HARMONI."authenticationHandler/AuthenticationMethod.interface.php")
  * the DB Authentication Method will contact an SQL database and check a username/password pair
  * against fields in a specified table.
  *
- * @version $Id: AuthenticationMethod.abstract.php,v 1.9 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: AuthenticationMethod.abstract.php,v 1.10 2003/07/12 15:19:38 gabeschine Exp $
  * @copyright 2003 
+ * @package harmoni.authentication
  * @access public
  * @abstract
- * @package harmoni.authentication
  **/
  
 class AuthenticationMethod
@@ -85,10 +85,14 @@ class AuthenticationMethod
 	 * Get's information for $systemName (could be, for example, full name, email, etc)
 	 * 
 	 * @param string $systemName The system name to get info for.
+	 * @param boolean $searchMode Specifies if we are searching for users
+	 * or just trying to get info for one user.
 	 * @access public
-	 * @return array An associative array of [key]=>value pairs. 
+	 * @return array An associative array of [key]=>value pairs. If in search mode,
+	 * an array of said associative arrays corresponding to all the users found
+	 * that match systemName. The format is [systemName]=>array([key1]=>value1,...),...
 	 **/
-	function getAgentInformation( $systemName ) {
+	function getAgentInformation( $systemName, $searchMode=false ) {
 		return array();
 	}
 	

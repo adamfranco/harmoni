@@ -9,7 +9,7 @@ require_once(HARMONI."authenticationHandler/AgentInformationHandler.interface.ph
  * as email addresses, full names, etc.
  *
  * @package harmoni.authentication.agentinformation
- * @version $Id: AgentInformationHandler.class.php,v 1.4 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: AgentInformationHandler.class.php,v 1.5 2003/07/12 15:19:38 gabeschine Exp $
  * @copyright 2003 
  **/
 class AgentInformationHandler extends AgentInformationHandlerInterface {
@@ -39,6 +39,8 @@ class AgentInformationHandler extends AgentInformationHandlerInterface {
 	 * multiple methods by looking at the method's priority setting, making
 	 * lower number (higher priority) take precedence.
 	 * @param string $systemName The system name to fetch information for.
+	 * @param boolean $searchMode Specifies if we should do a wildcard search
+	 * for the supplied $systemName.
 	 * @param optional string $method The method name to fetch information from.
 	 * If not specified, will use all methods and combine the information.
 	 * @see {@link AuthenticationMethodInterface::setPriority()}
@@ -47,9 +49,10 @@ class AgentInformationHandler extends AgentInformationHandlerInterface {
 	 * @access public
 	 * @return array An associative array of agent information. If $method is
 	 * omitted, a join based on priority of all {@link AuthenticationMethod}s is
-	 * returned. 
+	 * returned. If $searchMode=true, an associative array of said arrays is returned,
+	 * following the format: [username1]=>array([key1]=>value1,...),...
 	 **/
-	function getAgentInformation( $systemName, $method = "") {
+	function getAgentInformation( $systemName, $searchMode=false, $method = "") {
 		if ($method != "") {
 			// we only need to fetch the info from one method -- easy enough
 			return $this->_getInformation($systemName,$method);
