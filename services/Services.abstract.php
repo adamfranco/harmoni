@@ -13,7 +13,7 @@ $__services__ = NULL;				// above defined variable must be set to NULL
 /**
  * The ServicesAbstract class defines the public static methods used by users.
  * The ServicesAbstract class defines the public static methods used by users.
- * @version $Id: Services.abstract.php,v 1.2 2003/06/24 21:14:42 adamfranco Exp $
+ * @version $Id: Services.abstract.php,v 1.3 2003/06/25 20:42:02 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -59,6 +59,7 @@ class ServicesAbstract
 	/**
 	 * Attempts to start the service referenced by $name.
 	 * Attempts to start the service referenced by $name.
+	 * @param string $name The service name.
 	 * @access public
 	 * @return boolean True on success.
 	 **/
@@ -69,6 +70,7 @@ class ServicesAbstract
 	/**
 	 * Attempts to stop the service reference by $name.
 	 * Attempts to stop the service reference by $name.
+	 * @param string $name The service name.
 	 * @access public
 	 * @return boolean True on success.
 	 **/
@@ -79,6 +81,7 @@ class ServicesAbstract
 	/**
 	 * Attempts to restart the service reference by $name.
 	 * Attempts to restart the service reference by $name.
+	 * @param string $name The service name.
 	 * @access public
 	 * @return boolean True on success.
 	 **/
@@ -90,6 +93,7 @@ class ServicesAbstract
 	 * Checks if the service referenced by $name is available for use.
 	 * Checks if the service referenced by $name is available for use.
 	 * @access public
+	 * @param string $name The service name.
 	 * @return boolean True if the service is available, false otherwise.
 	 **/
 	function serviceAvailable( $name ) {
@@ -100,6 +104,7 @@ class ServicesAbstract
 	 * Checks if the service referenced by $name has been started.
 	 * Checks if the service referenced by $name has been started.
 	 * @access public
+	 * @param string $name The service name.
 	 * @return boolean True if the service is running, false otherwise.
 	 **/
 	function serviceRunning( $name ) {
