@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Does authentication procedures with an LDAP server.
  *
- * @version $Id: LDAPAuthenticationMethod.class.php,v 1.7 2003/06/30 20:56:30 gabeschine Exp $
+ * @version $Id: LDAPAuthenticationMethod.class.php,v 1.8 2003/06/30 21:42:53 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -62,10 +62,13 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 		$this->_connect();
 		
 		// get the user's DN.
-		$dn = $this->_getDN($systemName);
+		$suffix = $this->_opt->get("userDNSuffix");
+		if ($suffix && $suffix != '') {
+			$dn = "cn=$systemName,".$suffix;
+		} else
+			$dn = $this->_getDN($systemName);
 		
 		if ($dn) {
-			// the user exists
 			if ($this->_bind($dn,$password)) {// they're good!
 				$this->_disconnect();
 				return true;
@@ -109,11 +112,20 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	function _getDN( $systemName ) {
 		$uidField = $this->_opt->get("usernameField");
 		
-		$info = $this->_search("$uidField=$systemName");
-		if ($info['count']) {
-			$dn = $info[0]['dn'][0];
-			return $dn;
+		$this->_bindForSearch();
+		$sr = ldap_search($this->_conn,
+						$this->_opt->get("baseDN"),
+						"$uidField=$systemName",
+						array($uidField));
+		if (ldap_count_entries($this->_conn,$sr)) {
+			$row = ldap_first_entry($this->_conn, $sr);
+			$dn = ldap_get_dn($this->_conn, $row);
+			ldap_free_result($this->_conn, $sr);
+			if ($dn)
+				return $dn;
 		}
+		ldap_free_result($this->_conn,$sr);
+		
 		return null;
 	}
 	
@@ -131,6 +143,7 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 						$filter,
 						$return);
 		$info = ldap_get_entries($this->_conn,$sr);
+		ldap_free_result($this->_conn,$sr);
 		return $info;
 	}
 	
@@ -177,12 +190,15 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	 * @return array An associative array of [key]=>value pairs.  
 	 **/
 	function getAgentInformation( $systemName ) {
+		
 		// get the array of fields to fetch
 		$fields = $this->_opt->get("agentInformationFields");
 		if (!is_array($fields)) return array();
 		
 		// we need all the values from $fields from the LDAP server.
 		$return = array_values($fields);
+		
+		$this->_connect();
 		
 		$uidField = $this->_opt->get("usernameField");
 		$values = $this->_search("$uidField=$systemName",$return);
@@ -193,8 +209,10 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 		// first off, do we have any results
 		if ($values['count'])
 			$row = $values[0];
-		else
+		else {
+			$this->_disconnect();
 			return array();
+		}
 		
 		// get array settings that specify if we should fetch ALL the values
 		// from a certain attribute or just the first one
@@ -208,6 +226,7 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 					$info[$key] = $row[$field][0];
 			}
 		}
+		$this->_disconnect();
 		return $info;
 	}
 	

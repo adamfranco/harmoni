@@ -7,7 +7,7 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: LDAPAuthenticationMethodTestCase.class.php,v 1.3 2003/06/30 20:54:23 adamfranco Exp $
+ * @version $Id: LDAPAuthenticationMethodTestCase.class.php,v 1.4 2003/06/30 21:42:53 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -28,12 +28,13 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
 			$o = & new LDAPMethodOptions;
 			$o->set("LDAPHost","jaguar.middlebury.edu");
 			$o->set("baseDN","ou=Midd,o=MC");
+			$o->set("userDNSuffix","cn=midd");
 			
 			// bindDN can be blank or a username
 			// if it is a username, then searches can be done where that user has priveleges.
 			// an example of bindDB is "cn=afranco,cn=midd"
-			$o->set("bindDN","cn=fjones,cn=midd");
-			$o->set("bindDNPassword","lk87df");			
+			$o->set("bindDN","");
+			$o->set("bindDNPassword","");			
 			$o->set("usernameField","uid");
 			$o->set("agentInformationFields",array("fullname"=>"cn"
 													,"email"=>"mail",
@@ -63,6 +64,13 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
 			$this->assertFalse($this->m->_conn);
 		}
 		
+		function aaa_getDN() {
+			$this->m->_connect();
+	//		print "DN: ".$this->m->_getDN("afranco");
+			$this->assertTrue(true);
+			$this->m->_disconnect();
+		}
+		
 		function test_agent_exists() {
 			$this->assertFalse($this->m->agentExists("blablastupid"));
 			$this->assertTrue($this->m->agentExists("afranco"));
@@ -70,14 +78,14 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
 		
 		function test_authenticate() {
 			$this->assertFalse($this->m->_conn);
-			$this->assertTrue($this->m->authenticate("afranco",""));
+			// works, but needs a valid password.
+//			$this->assertTrue($this->m->authenticate("gschine",""));
 			$this->assertFalse($this->m->_conn);
 		}
 		
 		function test_getagentinfo() {
 			$a = $this->m->getAgentInformation("afranco");
-			print_r($a);
-			$this->assertEqual(count($a),3);
+//			print_r($a);
 			$this->assertEqual($a['email'],"afranco@middlebury.edu");
 			$this->assertEqual($a['fullname'],"Franco, Adam");
 		}
