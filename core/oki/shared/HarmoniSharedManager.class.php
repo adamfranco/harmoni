@@ -38,7 +38,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.45 2004/11/20 01:03:36 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.46 2004/11/22 15:42:49 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -336,7 +336,12 @@ class HarmoniSharedManager
 //		echo "</pre>\n";
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
-		// 7. Update the cache
+		// 7. Make sure that the AuthN system still isn't maintaining a
+		// Mapping to this agent
+		$authN =& Services::getService("AuthN");
+		$authN->deleteMapping($id);
+		
+		// 8. Update the cache
 		if (isset($this->_agentsCache[$idValue])) {
 			while ($groupsResult->hasMoreRows()) {
 				// fetch current row
@@ -518,53 +523,55 @@ class HarmoniSharedManager
 			} else {
 				$instantiateAgent = FALSE;
 			}
+				
+			// If we don't have a Agent in our cache, go through the steps to
+			// create and cache it.
+			if (!isset($this->_agentsCache[$arr['id']])) {
 			
-			// Create an array for this agent's properties if it doesn't exist
-			// I was having reference problems when attempting to use one array
-			// that got passed off and reset.
-			$propertiesArrayName = "propertiesArray".$arr['id'];
-			if (!is_array($$propertiesArrayName))
-				$$propertiesArrayName = array();
-			
-			// Build our properties objects to add to the Agent.
-			if ($arr['properties_id'] && $arr['properties_id'] != "NULL") {
-			
-				// Create a name for the Current Properties variable. I was 
-				// having reference problems when attempting to use one variable name
+				// Create an array for this agent's properties if it doesn't exist
+				// I was having reference problems when attempting to use one array
 				// that got passed off and reset.
-				$currentPropertiesName = "currentProperties".$arr['properties_id'];
+				$propertiesArrayName = "propertiesArray".$arr['id'];
+				if (!is_array($$propertiesArrayName))
+					$$propertiesArrayName = array();
+				
+				// Build our properties objects to add to the Agent.
+				if ($arr['properties_id'] && $arr['properties_id'] != "NULL") {
+				
+					// Create a name for the Current Properties variable. I was 
+					// having reference problems when attempting to use one variable name
+					// that got passed off and reset.
+					$currentPropertiesName = "currentProperties".$arr['properties_id'];
+						
+						
+					// If we are starting on a new properties object, create a new object and add it to our array.
+					if (!is_object($$currentPropertiesName) || $arr['properties_id'] != $currentPropertiesId) 
+					{
+						$propertiesType =& new HarmoniType(
+											$arr['properties_domain'],
+											$arr['properties_authority'],
+											$arr['properties_keyword'],
+											$arr['properties_description']);
+						
+						// Create the new Properties object
+						$$currentPropertiesName =& new HarmoniProperties($propertiesType);
+						$currentPropertiesId = $arr['properties_id'];
+						
+						// add the new Properties object to the Properties array for the
+						// current Asset.
+						$myArray =& $$propertiesArrayName;
+						$myArray[] =& $$currentPropertiesName;
+					}
 					
-					
-				// If we are starting on a new properties object, create a new object and add it to our array.
-				if (!is_object($$currentPropertiesName) || $arr['properties_id'] != $currentPropertiesId) 
-				{
-					$propertiesType =& new HarmoniType(
-										$arr['properties_domain'],
-										$arr['properties_authority'],
-										$arr['properties_keyword'],
-										$arr['properties_description']);
-					
-					// Create the new Properties object
-					$$currentPropertiesName =& new HarmoniProperties($propertiesType);
-					$currentPropertiesId = $arr['properties_id'];
-					
-					// add the new Properties object to the Properties array for the
-					// current Asset.
-					$myArray =& $$propertiesArrayName;
-					$myArray[] =& $$currentPropertiesName;
+					// Add the current Property row to the current Properties
+					if ($arr['property_key']) {
+						$$currentPropertiesName->addProperty(
+									unserialize(base64_decode($arr['property_key'])), 
+									unserialize(base64_decode($arr['property_value'])));
+					}
 				}
 				
-				// Add the current Property row to the current Properties
-				if ($arr['property_key']) {
-					$$currentPropertiesName->addProperty(
-								unserialize(base64_decode($arr['property_key'])), 
-								unserialize(base64_decode($arr['property_value'])));
-				}
-			}
-			
-			if ($instantiateAgent) {
-				// cache it, if not cached
-				if (!isset($this->_agentsCache[$arr[id]])) {
+				if ($instantiateAgent) {
 					// create agent object
 					$type =& new HarmoniType($arr['domain'],
 											$arr['authority'],
@@ -650,6 +657,8 @@ class HarmoniSharedManager
 	 * @param String displayName
 	 * @param object osid.shared.Type groupType
 	 * @param String description
+	 * @param object Properties $properties As of version 2 of the OSIDs, this
+	 *		parameter exists.
 	 *
 	 * @return object osid.shared.Group with its unique Id set
 	 *
@@ -660,12 +669,13 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function &createGroup($displayName, & $groupType, $description) {
+	function &createGroup($displayName, & $groupType, $description, & $properties) {
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("HarmoniType");
 		ArgumentValidator::validate($groupType, $extendsRule, true);
 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
+		ArgumentValidator::validate($properties, new ExtendsValidatorRule("Properties"), true);
 		// ** end of parameter validation
 		
 		// create a new unique id for the group
@@ -737,7 +747,7 @@ class HarmoniSharedManager
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		// create the group object to return
-		$group =& new HarmoniGroup($displayName, $groupId, $groupType, $description, $this->_dbIndex, $this->_sharedDB);
+		$group =& new HarmoniGroup($displayName, $groupId, $groupType, $propertiesArray, $description, $this->_dbIndex, $this->_sharedDB);
 		// then cache it
 		$this->_groupsCache[$groupIdValue] =& $group;
 		
@@ -932,19 +942,38 @@ class HarmoniSharedManager
 		$query->addColumn("type_authority", "authority", $db."type");
 		$query->addColumn("type_keyword", "keyword", $db."type");
 		$query->addColumn("type_description", "type_description", $db."type");
+		// Properties for the main group
+		$query->addColumn("id", "properties_id", $db."shared_properties");
+		$query->addColumn("type_domain", "properties_domain", $db."properties_type");
+		$query->addColumn("type_authority", "properties_authority", $db."properties_type");
+		$query->addColumn("type_keyword", "properties_keyword", $db."properties_type");
+		$query->addColumn("type_description", "properties_description", $db."properties_type");
+		$query->addColumn("key", "property_key", $db."shared_property");
+		$query->addColumn("value", "property_value", $db."shared_property");
 
 		// set the tables
 		$query->addTable($db."groups", NO_JOIN, "", "subgroup0");
 		$joinc = $db."subgroup0.fk_type = ".$db."type.type_id";
 		$query->addTable($db."type", INNER_JOIN, $joinc);
+		// Join to the properties mapping table
+		$joinc = $db."subgroup0.groups_id = ".$db."group_properties.fk_group";
+		$query->addTable($db."group_properties", LEFT_JOIN, $joinc);
+		// Join to the properties and each Property
+		$joinc = $db."group_properties.fk_properties = ".$db."shared_properties.id";
+		$query->addTable($db."shared_properties", LEFT_JOIN, $joinc);
+		$joinc = $db."shared_properties.fk_type = ".$db."properties_type.type_id";
+		$query->addTable($db."type", LEFT_JOIN, $joinc, "properties_type");
+		$joinc = $db."shared_properties.id = ".$db."shared_property.fk_properties";
+		$query->addTable($db."shared_property", LEFT_JOIN, $joinc);
+		// The first part of the left join
 		$joinc = $db."subgroup0.groups_id = ".$db."subgroup1.fk_parent";
 		$query->addTable($db."j_groups_groups", LEFT_JOIN, $joinc, "subgroup1");
 		$query->addColumn("fk_child", "subgroup".($level+1)."_id", "subgroup1");
 		
 		// now left join with itself.
-		// maximum number of joins is 31, we've used 3 already, so there are 28 left
-		// bottom line: a maximum group hierarchy of 29 levels
-		for ($level = 1; $level <= 28; $level++) {
+		// maximum number of joins is 31, we've used 7 already, so there are 24 left
+		// bottom line: a maximum group hierarchy of 25 levels
+		for ($level = 1; $level <= 24; $level++) {
 			$joinc = "subgroup".($level).".fk_child = subgroup".($level+1).".fk_parent";
 			$query->addTable($db."j_groups_groups", LEFT_JOIN, $joinc, "subgroup".($level+1));
 			$query->addColumn("fk_child", "subgroup".($level+1)."_id", "subgroup".($level+1));
@@ -954,9 +983,9 @@ class HarmoniSharedManager
 		if ($where)
 			$query->addWhere($where);
 		
-//		echo "<pre>\n";
-//		echo MySQL_SQLGenerator::generateSQLQuery($query);
-//		echo "</pre>\n";
+// 		echo "<pre>\n";
+// 		echo MySQL_SQLGenerator::generateSQLQuery($query);
+// 		echo "</pre>\n";
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
@@ -995,11 +1024,29 @@ class HarmoniSharedManager
 		$subquery1->addColumn("type_authority", "gt_authority", $db."type");
 		$subquery1->addColumn("type_keyword", "gt_keyword", $db."type");
 		$subquery1->addColumn("type_description", "gt_description", $db."type");
+		// Properties for the group
+		$query->addColumn("id", "properties_id", $db."shared_properties");
+		$query->addColumn("type_domain", "properties_domain", $db."properties_type");
+		$query->addColumn("type_authority", "properties_authority", $db."properties_type");
+		$query->addColumn("type_keyword", "properties_keyword", $db."properties_type");
+		$query->addColumn("type_description", "properties_description", $db."properties_type");
+		$query->addColumn("key", "property_key", $db."shared_property");
+		$query->addColumn("value", "property_value", $db."shared_property");
 
 		// set the tables
 		$subquery1->addTable($db."groups");
 		$joinc = $db."groups.fk_type = ".$db."type.type_id";
 		$subquery1->addTable($db."type", INNER_JOIN, $joinc);
+		// Join to the properties mapping table
+		$joinc = $db."groups.groups_id = ".$db."group_properties.fk_group";
+		$query->addTable($db."group_properties", LEFT_JOIN, $joinc);
+		// Join to the properties and each Property
+		$joinc = $db."group_properties.fk_properties = ".$db."shared_properties.id";
+		$query->addTable($db."shared_properties", LEFT_JOIN, $joinc);
+		$joinc = $db."shared_properties.fk_type = ".$db."properties_type.type_id";
+		$query->addTable($db."type", LEFT_JOIN, $joinc, "properties_type");
+		$joinc = $db."shared_properties.id = ".$db."shared_property.fk_properties";
+		$query->addTable($db."shared_property", LEFT_JOIN, $joinc);
 
 		// --- 2nd QUERY
 		$subquery2 =& new SelectQuery();
@@ -1009,6 +1056,15 @@ class HarmoniSharedManager
 		$subquery2->addColumn("type_authority", "at_authority", $db."type");
 		$subquery2->addColumn("type_keyword", "at_keyword", $db."type");
 		$subquery2->addColumn("type_description", "at_description", $db."type");
+		// Properties for the Agent
+		$query->addColumn("id", "properties_id", $db."shared_properties");
+		$query->addColumn("type_domain", "properties_domain", $db."properties_type");
+		$query->addColumn("type_authority", "properties_authority", $db."properties_type");
+		$query->addColumn("type_keyword", "properties_keyword", $db."properties_type");
+		$query->addColumn("type_description", "properties_description", $db."properties_type");
+		$query->addColumn("key", "property_key", $db."shared_property");
+		$query->addColumn("value", "property_value", $db."shared_property");
+		
 		// set the tables
 		$subquery2->addTable($db."groups");
 		$joinc = $db."groups.groups_id = ".$db."j_groups_agent.fk_groups";
@@ -1017,6 +1073,16 @@ class HarmoniSharedManager
 		$subquery2->addTable($db."agent", LEFT_JOIN, $joinc);
 		$joinc = $db."agent.fk_type = ".$db."type.type_id";
 		$subquery2->addTable($db."type", INNER_JOIN, $joinc);
+		// Join to the properties mapping table
+		$joinc = $db."agent.agent_id = ".$db."agent_properties.fk_agent";
+		$query->addTable($db."agent_properties", LEFT_JOIN, $joinc);
+		// Join to the properties and each Property
+		$joinc = $db."agent_properties.fk_properties = ".$db."shared_properties.id";
+		$query->addTable($db."shared_properties", LEFT_JOIN, $joinc);
+		$joinc = $db."shared_properties.fk_type = ".$db."properties_type.type_id";
+		$query->addTable($db."type", LEFT_JOIN, $joinc, "properties_type");
+		$joinc = $db."shared_properties.id = ".$db."shared_property.fk_properties";
+		$query->addTable($db."shared_property", LEFT_JOIN, $joinc);
 		
 		$groups = array();
 
@@ -1029,7 +1095,7 @@ class HarmoniSharedManager
 			// this will store the previously fetched group id from the current row
 			$prev = null;
 			
-			for ($level = 29; $level >= 0; $level--) {
+			for ($level = 25; $level >= 0; $level--) {
 				$value = $row["subgroup{$level}_id"];
 
 				// ignore null values
@@ -1060,9 +1126,14 @@ class HarmoniSharedManager
 											$subrow['gt_authority'],
 											$subrow['gt_keyword'],
 											$subrow['gt_description']);
+											
+					// Replace this when we implement group properties.
+					$propertiesArray = array();
+					
 					$group =& new HarmoniGroup($subrow['g_display_name'], 
 													$this->getId($value), 
 													$type, 
+													$propertiesArray,
 													$subrow['g_description'], 
 													$this->_dbIndex, 
 													$this->_sharedDB);

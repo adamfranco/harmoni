@@ -40,13 +40,17 @@ class HarmoniGroup // :: API interface
 	 * @param string sharedDB The name of the shared database.
 	 * @access public
 	 */
-	function HarmoniGroup($displayName, & $id, & $type, $description, $dbIndex, $sharedDB) {
+	function HarmoniGroup($displayName, & $id, & $type, & $propertiesArray, $description, $dbIndex, $sharedDB) {
 		// ** parameter validation
 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
+		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($propertiesArray, new ArrayValidatorRuleWithRule(
+					new OptionalRule(
+						new ExtendsValidatorRule("Properties")
+					)
+				), true);
 		// ** end of parameter validation
-		
-		// Replace this when we implement properties on groups
-		$propertiesArray = array();
 		
 		$this->HarmoniAgent($displayName, $id, $type, $propertiesArray, $dbIndex, $sharedDB);
 		

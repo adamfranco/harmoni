@@ -270,6 +270,9 @@ class HarmoniAuthenticationManager
 	/**
 	 * Get the Unique Id of the Agent that represents the specified tokens for the 
 	 * specified AuthenticationType.  Agents are managed in the Shared OSID.
+	 *
+	 * WARNING: This method is not part of the OSID.
+	 *
 	 * @param mixed $tokens The authentication tokens used to represent the agent
 	 *		in the specified authentication Type.
 	 * @param object Type $authenticationType
@@ -301,6 +304,27 @@ class HarmoniAuthenticationManager
 		// Look up their Agent Id or create a
 		// new Agent if they don't have one.
 		return $this->_getAgentId($tokens, $authenticationType);
+	}
+	
+	/**
+	 * Delete the mapping between an Agent and their Authentication tokens.
+	 *
+	 * WARNING: This method is not part of the OSID.
+	 * 
+	 * @param object Id $agentId
+	 * @return void
+	 * @access public
+	 * @date 11/22/04
+	 */
+	function deleteMapping (& $id) {
+		$dbHandler =& Services::getService("DBHandler");
+		$query =& new DeleteQuery;
+		$query->addTable($this->_authNDB.".authn_mapping");
+		$query->addWhere($this->_authNDB.".authn_mapping.agent_id='".addslashes($id->getIdString())."'");
+// 		$query->addWhere($this->_authNDB.".authn_mapping.type_domain='".addslashes($authenticationType->getDomain())."'");
+// 		$query->addWhere($this->_authNDB.".authn_mapping.type_authority='".addslashes($authenticationType->getAuthority())."'");
+// 		$query->addWhere($this->_authNDB.".authn_mapping.type_keyword='".addslashes($authenticationType->getKeyword())."'");
+		$result =& $dbHandler->query($query, $this->_dbIndex);
 	}
 	
 	/**
