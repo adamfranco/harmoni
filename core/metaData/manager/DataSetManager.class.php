@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.27 2004/01/22 21:06:45 adamfranco Exp $
+ * @version $Id: DataSetManager.class.php,v 1.28 2004/01/23 16:35:01 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -137,11 +137,11 @@ class DataSetManager extends ServiceInterface {
 				$t[] = "dataset_id=".$dataSetID;
 			}
 			$query->addWhere("(".implode(" OR ", $t).")");
-			if (!$editable) $query->addWhere("datasetfield_active=1");
+			if (!$editable) $query->addWhere("(datasetfield_id IS NULL OR datasetfield_active=1)");
 			
 			$dbHandler =& Services::getService("DBHandler");
 			
-	//		print "<PRE>" . MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
+//			print "<PRE>" . MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
 			
 			$result =& $dbHandler->query($query,$this->_dbID);
 			
@@ -272,10 +272,11 @@ class DataSetManager extends ServiceInterface {
 	function _setupSelectQuery(&$query, $idsOnly=false) {
 		// this function sets up the selectquery to include all the necessary tables
 		
-		$query->addTable("datasetfield");
-		$query->addTable("dataset",INNER_JOIN,"fk_dataset=dataset_id");
-		$query->addTable("datasettypedef",INNER_JOIN,"fk_datasettypedef=datasettypedef_id");
-//		$query->addTable("datasettype",INNER_JOIN,"dataset.fk_datasettype=datasettype_id");
+		$query->addTable("dataset");
+		$query->addTable("datasettype",INNER_JOIN,"dataset.fk_datasettype=datasettype_id");
+		$query->addTable("datasettypedef",INNER_JOIN,"datasettypedef.fk_datasettype=datasettype_id");
+		$query->addTable("datasetfield",LEFT_JOIN,"fk_dataset=dataset_id");
+		
 		
 		$dataTypeManager =& Services::getService("DataTypeManager");
 		$list = $dataTypeManager->getRegisteredTypeClasses();
