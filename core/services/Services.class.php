@@ -5,7 +5,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.6 2003/11/07 05:57:46 gabeschine Exp $
+ * @version $Id: Services.class.php,v 1.7 2003/11/10 21:13:39 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -36,6 +36,17 @@ class Services extends ServicesAbstract {
 	}
 	
 	/**
+	* @return array
+	* @desc Returns a backtrace string to prepend onto error messages.	
+ 	*/
+	function _getBacktrace() {
+		$bt = debug_backtrace();
+		$str = "<pre>".print_r($bt,true) . "</pre><BR><BR>";
+//		$str = $bt[2]['file'].":".$bt[2]['line']."<BR><BR>";
+		return $str;
+	}
+	
+	/**
 	 * Registers a new service named $name. Upon starting, a new class of type $class will be instantiated.
 	 * @param string $name The reference name of the service.
 	 * @param string $class The class name to be instantiated.
@@ -45,11 +56,11 @@ class Services extends ServicesAbstract {
 	function register( $name, $class ) {
 		// if its registered and started, throw fatal error return false.
 		if ($this->running($name)) {
-			die("Services::registerService('$name') - can not register service '$name' because it is already registered AND running.");
+			die($this->_getBacktrace()."Services::registerService('$name') - can not register service '$name' because it is already registered AND running.");
 			return false;
 		}
 		if (!class_exists($class)) {
-			die("Services::registerService('$name') - can not register service '$name' because the class '$class' does not exist!");
+			die($this->_getBacktrace()."Services::registerService('$name') - can not register service '$name' because the class '$class' does not exist!");
 			return false;
 		}
 
@@ -69,7 +80,7 @@ class Services extends ServicesAbstract {
 		$canStop = method_exists($tryObj, "stop");
 		if (!$canStart || !$canStop) {
 // -----------End Hack ---------------
-			die("Services::registerService('$name') - can not register service '$name' because the class '$class' does not implement the Service Interface. Please change your PHP class definitions to include the Service Interface.");
+			die($this->_getBacktrace()."Services::registerService('$name') - can not register service '$name' because the class '$class' does not implement the Service Interface. Please change your PHP class definitions to include the Service Interface.");
 			return false;
 		}
 		unset($rule,$tryObj);
@@ -103,7 +114,7 @@ class Services extends ServicesAbstract {
 		$canStop = method_exists($object, "stop");
 		if (!$canStart || !$canStop) {
 // -----------End Hack ---------------		
-			die("Services::registerService('$name') - can not register service '$name' because the class '$class' does not implement the Service Interface. Please change your PHP class definitions to include the Service Interface.");
+			die($this->_getBacktrace()."Services::registerService('$name') - can not register service '$name' because the class '$class' does not implement the Service Interface. Please change your PHP class definitions to include the Service Interface.");
 			return false;
 		}
 		
@@ -131,7 +142,7 @@ class Services extends ServicesAbstract {
 	 **/
 	function & get( $name ) {
 		if (!$this->running($name)) {
-			die("Services::getService('$name') - can not get service '$name' because it is not yet started.");
+			die($this->_getBacktrace()."Services::getService('$name') - can not get service '$name' because it is not yet started.");
 			return false;
 		}
 		return $this->_services[$name];
@@ -160,14 +171,14 @@ class Services extends ServicesAbstract {
 				$argList .= ', $arg'.$i;
 			}
 		}
-		$str = '$this->_services[$name] =& new '.$classname.'('.$argList.')';
+		$str = '$this->_services[$name] =& new '.$classname.'('.$argList.');';
 		eval($str);
 		
 //		$this->_services[$name] =& new $classname;
 		
 		// make sure the service was instantiated properly
 		if (!is_object($this->_services[$name]) || get_class($this->_services[$name]) != strtolower($classname)) {
-			die("Services::startService('$name') - could not start service - the object of class $classname was not instantiated correctly");
+			die($this->_getBacktrace()."Services::startService('$name') - could not start service - the object of class $classname was not instantiated correctly");
 			return false;
 		}
 		

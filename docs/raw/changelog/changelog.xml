@@ -3,6 +3,11 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.3" date="Not Released">
+		<new>Services class now outputs a debug backtrace upon error.</new>
+		<fix author='gabe'>
+			Fixed bug in optional arg-list for Services::startService that caused a syntax error
+			in eval().
+		</fix>
 		<change author='gabe'>
 			Services class method startService($name) now takes optional
 			additional arguments which are passed to the service class
