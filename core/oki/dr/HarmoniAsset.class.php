@@ -524,6 +524,24 @@ class HarmoniAsset
 		
 		return $assetIterator;
 	}
+	
+	/**
+	 * Get all the Assets of the specified AssetType in this Asset.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object AssetIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
+	 * @package osid.dr
+	 */
+	function & getAssetsByType(& $assetType) {
+		$assets = array();
+		$children =& $this->_node->getChildren();
+		while ($children->hasNext()) {
+			$child =& $children->next();
+			if ($assetType->isEqual($child->getType()))
+				$assets[] =& $this->_dr->getAsset($child->getId());
+		}
+		
+		return new HarmoniAssetIterator($assets);
+	}
 
 	/**
 	 * Create a new Asset InfoRecord of the specified InfoStructure.   The

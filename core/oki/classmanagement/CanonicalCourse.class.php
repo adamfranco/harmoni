@@ -7,6 +7,22 @@
 class HarmoniCanonicalCourse // :: API interface
 //	extends java.io.Serializable
 {
+	
+	var $_asset;
+	var $_dataSet;
+	var $_mgr;
+	
+	/**
+	 * The constructor.
+	 * @access public
+	 * @return void
+	 */
+	function HarmoniCanonicalCourse(&$classMgr, &$asset, &$dataSet)
+	{
+		$this->_asset =& $asset;
+		$this->_dataSet =& $dataSet;
+		$this->_mgr =& $classMgr;
+	}
 
 	/**
 	 * Get the title for this CanonicalCourse.
@@ -14,7 +30,9 @@ class HarmoniCanonicalCourse // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function getTitle() { /* :: interface :: */ }
+	function getTitle() {
+		return $this->_dataSet->getStringValue("title");
+	}
 
 	/**
 	 * Update the title for this CanonicalCourse.
@@ -22,7 +40,10 @@ class HarmoniCanonicalCourse // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
-	function updateTitle($Title) { /* :: interface :: */ }
+	function updateTitle($title) {
+		$this->_asset->updateDisplayName($title . " " . $this->_dataSet->getStringValue("number"));
+		$this->_dataSet->setValue("title", new ShortStringDataType($title));
+	}
 
 	/**
 	 * Get the number for this CanonicalCourse.
@@ -30,7 +51,9 @@ class HarmoniCanonicalCourse // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function getNumber() { /* :: interface :: */ }
+	function getNumber() {
+		return $this->_dataSet->getStringValue("number");
+	}
 
 	/**
 	 * Update the number for this CanonicalCourse.
@@ -38,7 +61,10 @@ class HarmoniCanonicalCourse // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
-	function updateNumber($Number) { /* :: interface :: */ }
+	function updateNumber($number) {
+		$this->_asset->updateDisplayName($this->_dataSet->getStringValue("title") . " " . $number);
+		$this->_dataSet->setValue("number", new ShortStringDataType($number));
+	}
 
 	/**
 	 * Get the description for this CanonicalCourse.
@@ -46,7 +72,9 @@ class HarmoniCanonicalCourse // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function getDescription() { /* :: interface :: */ }
+	function getDescription() {
+		return $this->_asset->getDescription();
+	}
 
 	/**
 	 * Update the description for this CanonicalCourse.
@@ -54,7 +82,9 @@ class HarmoniCanonicalCourse // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
-	function updateDescription($description) { /* :: interface :: */ }
+	function updateDescription($description) {
+		$this->_asset->updateDescription($description);
+	}
 
 	/**
 	 * Get the Unique Id for this CanonicalCourse.
@@ -62,7 +92,9 @@ class HarmoniCanonicalCourse // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function & getId() { /* :: interface :: */ }
+	function & getId() {
+		return $this->_asset->getId();
+	}
 
 	/**
 	 * Get the Course Type for this CanonicalCourse.  This Type is meaningful to the implementation and applications and is not specified by the OSID.
@@ -70,7 +102,10 @@ class HarmoniCanonicalCourse // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function & getCourseType() { /* :: interface :: */ }
+	function & getCourseType() {
+		$valObj =& $this->_dataSet->getValue("type");
+		return $valObj->getTypeObject();
+	}
 
 	/**
 	 * Create a new CanonicalCourse.
@@ -84,7 +119,10 @@ class HarmoniCanonicalCourse // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
-	function & createCanonicalCourse($title, $number, $description, & $courseType, & $courseStatusType, $credits) { /* :: interface :: */ }
+	function & createCanonicalCourse($title, $number, $description, & $courseType, & $courseStatusType, $credits) {
+		$newCourse =& $this->_mgr->createCanonicalCourse($title, $number, $description, $courseType, $courseStatusType, $credits);
+		$this->_asset->addAsset($newCourse->_asset);
+	}
 	// :: full java declaration :: CanonicalCourse createCanonicalCourse
 	/**
 	 * Delete a CanonicalCourse.
@@ -92,7 +130,10 @@ class HarmoniCanonicalCourse // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
-	function deleteCanonicalCourse(& $canonicalCourseId) { /* :: interface :: */ }
+	function deleteCanonicalCourse(& $canonicalCourseId) {
+		$DR =& Services::getService("DR");
+		$DR->deleteAsset($canonicalCourseId);
+	}
 	// :: full java declaration :: void deleteCanonicalCourse(osid.shared.Id canonicalCourseId)
 
 	/**
@@ -101,7 +142,10 @@ class HarmoniCanonicalCourse // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function & getCanonicalCourses() { /* :: interface :: */ }
+	function & getCanonicalCourses() {
+		// wait for Asset::getAssetsByType() function
+		// @todo
+	}
 	// :: full java declaration :: CanonicalCourseIterator getCanonicalCourses()
 
 	/**
@@ -111,7 +155,9 @@ class HarmoniCanonicalCourse // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
-	function & getCanonicalCoursesByType(& $courseType) { /* :: interface :: */ }
+	function & getCanonicalCoursesByType(& $courseType) {
+		
+	}
 	// :: full java declaration :: CanonicalCourseIterator getCanonicalCoursesByType(osid.shared.Type courseType)
 
 	/**

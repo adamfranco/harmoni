@@ -207,18 +207,15 @@ class HarmoniDigitalRepository
 	 */
 	function & getAssetsByType(& $assetType) {
 		ArgumentValidator::validate($assetType, new ExtendsValidatorRule("Type"));
-		$allAssets =& $this->getAssets();
-		$assetsOfType = array();
-		while ($allAssets->hasNext()) {
-			$asset =& $allAssets->next();
-			if ($assetType->isEqual($asset->getAssetType()))
-				$assetsOfType[] =& $asset;
+		$assets = array();
+		$children =& $this->_node->getChildren();
+		while ($children->hasNext()) {
+			$child =& $children->next();
+			if ($assetType->isEqual($child->getType()))
+				$assets[] =& $this->_dr->getAsset($child->getId());
 		}
 		
-		// create an AssetIterator and return it
-		$assetIterator =& new HarmoniAssetIterator($assetsOfType);
-		
-		return $assetIterator;
+		return new HarmoniAssetIterator($assets);
 	}
 
 	/**

@@ -4,7 +4,7 @@
  * A {@link HarmoniType} for DR Assets that will define CanonicalCourses.
  * @package harmoni.osid.classmanagement
  * @copyright 2004
- * @version $Id: CourseManagementManager.class.php,v 1.1 2004/06/03 21:27:14 gabeschine Exp $
+ * @version $Id: CourseManagementManager.class.php,v 1.2 2004/06/08 14:03:20 gabeschine Exp $
  */
 class CanonicalCourseAssetType extends HarmoniType {
 
@@ -66,7 +66,7 @@ class HarmoniCourseManagementManager
 		
 		$dataSet->setValue("title", new ShortStringDataType($title));
 		$dataSet->setValue("number", new ShortStringDataType($number));
-		$dataSet->setValue("description", new StringDataType($description));
+//		$dataSet->setValue("description", new StringDataType($description)); // this is stored in the asset.
 		$dataSet->setValue("type", new OKITypeDataType($courseType));
 		$dataSet->setValue("statusType", new OKITypeDataType($courseStatusType));
 		$dataSet->setValue("credits", new FloatDataType($credits));
@@ -74,6 +74,7 @@ class HarmoniCourseManagementManager
 		$dataSetGroup->addDataSet($dataSet);
 		$dataSetGroup->commit();
 		
+		return new HarmoniCanonicalCourse($this, $asset, $dataSet);
 	}
 	
 	// :: full java declaration :: CanonicalCourse createCanonicalCourse
@@ -95,8 +96,24 @@ class HarmoniCourseManagementManager
 	 * @package osid.classmanagement
 	 */
 	function & getCanonicalCourses() {
-		// @todo
-		// DR::getAssetsByType has not been implemented yet!!
+		$assets =& $this->_dr->getAssetsByType( new CanonicalCourseAssetType() );
+		$courses = array();
+		
+		$mgr =& Services::getService("DataManager");
+		// in order to save time on fetching datasets, we're going to pre-load all of the datasets.
+		$ids = array();
+		foreach (array_keys($assets) as $key) {
+			$id =& $assets[$key]->getId();
+			$ids[] = $id->getIdString();
+		}
+		$dataSets =& $mgr->fetchArrayOfIDs($ids,true);
+		
+		foreach (array_keys($assets) as $key) {
+			$id =& $assets[$key]->getId();
+			$courses[] =& new HarmoniCanonicalCourse($this, $assets[$key], $dataSets[$id->getIdString()]);
+		}
+		
+		return new HarmoniIterator($courses);
 	}
 	// :: full java declaration :: CanonicalCourseIterator getCanonicalCourses()
 
@@ -109,7 +126,14 @@ class HarmoniCourseManagementManager
 	 */
 	function & getCanonicalCourse(& $canonicalCourseId) {
 		$asset =& $this->_dr->getAsset($canonicalCourseId);
-		// @todo
+		
+		$id =& $asset->getId();
+		
+		$mgr =& Services::getService("DataManager");
+		
+		$dataSet =& $mgr->fetchDataSet($id->getIdString(), true);
+		
+		return new HarmoniCanonicalCourse($this,$asset,$dataSet);
 	}
 	// :: full java declaration :: CanonicalCourse getCanonicalCourse(osid.shared.Id canonicalCourseId)
 
@@ -120,7 +144,11 @@ class HarmoniCourseManagementManager
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
-	function & getCanonicalCoursesByType(& $courseType) { /* :: interface :: */ }
+	function & getCanonicalCoursesByType(& $courseType) {
+		// we'll have to search the dataManager and get all the datasets for which the type field = $courseType
+		// then, find all the datasetgroups to which those datasets belong, and fetch those assets and create
+		// canonical course objects for them.
+	}
 	// :: full java declaration :: CanonicalCourseIterator getCanonicalCoursesByType(osid.shared.Type courseType)
 
 	/**
@@ -371,57 +399,4 @@ class HarmoniCourseManagementManager
 	 */
 	function & getCourseGroupTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getCourseGroupTypes()
-}
-
-
-	/**
-	 * CourseGroup manages a set of CanonicalCourses.  CourseGroups have a CourseGroupType which characterizes the group.  CourseGroups can be used to model prerequisites, corequisites, majors, minors, sequences, etc.   <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
-	 */
-class CourseGroup // :: API interface
-//	extends java.io.Serializable
-{
-
-	/**
-	 * Get the Unique Id for this CourseGroup.
-	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
-	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
-	 */
-	function & getId() { /* :: interface :: */ }
-
-	/**
-	 * Get the Type for this CourseGroup.
-	 * @return object osid.shared.Type
-	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
-	 */
-	function & getType() { /* :: interface :: */ }
-
-	/**
-	 * Add a CanonicalCourse to this CourseGroup.  Order may be preserved, depending on CourseGroupType.
-	 * canonicalCourseId
-	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}, {@link CourseManagementException#ALREADY_ADDED ALREADY_ADDED}
-	 * @package osid.classmanagement
-	 */
-	function addCourse(& $canonicalCourseId) { /* :: interface :: */ }
-	// :: full java declaration :: void addCourse(osid.shared.Id canonicalCourseId)
-
-	/**
-	 * Remove a CanonicalCourse from the CourseGroup.
-	 * @param object canonicalCourseId
-	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.classmanagement
-	 */
-	function removeCourse(& $canonicalCourseId) { /* :: interface :: */ }
-	// :: full java declaration :: void removeCourse(osid.shared.Id canonicalCourseId)
-
-	/**
-	 * Get all the CanonicalCourses in this CourseGroup.  Note that different CourseGroupType imply different ordering.  For example, if the CourseGroupType indicates prerequisites order would need be guaranteed; if corequisites order might not need to be guaranteed.
-	 * @return object CanonicalCourseIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
-	 */
-	function & getCourses() { /* :: interface :: */ }
-	// :: full java declaration :: CanonicalCourseIterator getCourses()
 }

@@ -1,6 +1,10 @@
 <?
 
-class HarmoniCourseGroup // :: API interface
+	/**
+	 * CourseGroup manages a set of CanonicalCourses.  CourseGroups have a CourseGroupType which characterizes the group.  CourseGroups can be used to model prerequisites, corequisites, majors, minors, sequences, etc.   <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
+	 * @package osid.classmanagement
+	 */
+class CourseGroup // :: API interface
 //	extends java.io.Serializable
 {
 
