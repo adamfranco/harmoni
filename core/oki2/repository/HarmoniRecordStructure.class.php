@@ -1,61 +1,142 @@
 <?
 
-require_once(HARMONI."/oki/dr/HarmoniInfoPart.class.php");
-require_once(HARMONI."/oki/dr/HarmoniInfoPartIterator.class.php");
+require_once(HARMONI."/oki2/repository/HarmoniPart.class.php");
+require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
 
-	/**
-	 * Each Asset has one of the AssetType supported by the DigitalRepository.  There are also zero or more InfoStructures required by the DigitalRepository for each AssetType. InfoStructures provide structural information.  The values for a given Asset's InfoStructure are stored in an InfoRecord.  InfoStructures can contain sub-elements which are referred to as InfoParts.  The structure defined in the InfoStructure and its InfoParts is used in for any InfoRecords for the Asset.  InfoRecords have InfoFields which parallel InfoParts.  <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package harmoni.osid.dr
-	 */
-class HarmoniInfoStructure extends InfoStructure
+
+/**
+ * Each Asset has one of the AssetType supported by the Repository.	 There are
+ * also zero or more RecordStructures required by the Repository for each
+ * AssetType. RecordStructures provide structural information.	The values for
+ * a given Asset's RecordStructure are stored in a Record.	RecordStructures
+ * can contain sub-elements which are referred to as PartStructures.  The
+ * structure defined in the RecordStructure and its PartStructures is used in
+ * for any Records for the Asset.  Records have Parts which parallel
+ * PartStructures.
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
+ * @package harmoni.XXXX.YYYYYY
+ * 
+ * @copyright Copyright &copy;2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ *
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.2 2005/01/19 21:39:18 thebravecowboy Exp $ 
+ */
+
+
+class HarmoniRecordStructure extends RecordStructure
 //	extends java.io.Serializable
 {
 	
 	var $_schema;
-	var $_createdInfoParts;
+	var $_createdParts;
 	
-	function HarmoniInfoStructure( &$schema ) {
+	function HarmoniRecordStructure( &$schema ) {
 		$this->_schema =& $schema;
 		
 		// create an array of created InfoParts so we can return references to
 		// them instead of always making new ones.
-		$this->_createdInfoParts = array();
+		$this->_createdParts = array();
 	}
 	
 	/**
-	 * Get the name for this InfoStructure.
-	 * @return String the name
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * Get the display name for this RecordStructure.
+	 *	
+	 * @return string
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function getDisplayName() {
+	function getDisplayName () { 
 		$type =& $this->_schema->getType();
 		
 		return $type->getKeyword();
 	}
 
 	/**
-	 * Get the description for this InfoStructure.
-	 * @return String the name
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * Update the display name for this RecordStructure.
+	 * 
+	 * @param string $displayName
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function getDescription() {
+	function updateDisplayName ( $displayName ) { 
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	} 
+
+	 /**
+	 * Get the description for this RecordStructure.
+	 *	
+	 * @return string
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
+	 */
+	function getDescription () { 
 		$type =& $this->_schema->getType();
 		
 		return $type->getDescription();
 	}
 
 	/**
-	 * Get the Unique Id for this InfoStructure.
-	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * Get the unique Id for this RecordStructure.
+	 *	
+	 * @return object Id
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getId() {
-		$sharedManager =& Services::getService("Shared");
-		return $sharedManager->getId($this->_schema->getID());
+	function &getId () { 
+		$idManager =& Services::getService("Id");
+		return $idManager->getId($this->_schema->getID());
 	}
 
 	/**
@@ -65,62 +146,172 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function &getInfoPart(& $infoPartId) {
-		if (!$this->_createdInfoParts[$infoPartId->getIdString()]) {
+	function &getInfoPart(& $partId) {
+		if (!$this->_createdParts[$partId->getIdString()]) {
 			$this->_schema->load();
-			$this->_createdInfoParts[$infoPartId->getIdString()] =& new HarmoniInfoPart($this, $this->_schema->getFieldById($infoPartId->getIdString()));
+			$this->_createdParts[$partId->getIdString()] =& new HarmoniPart($this, $this->_schema->getFieldById($partId->getIdString()));
 		}
 		
-		return $this->_createdInfoParts[$infoPartId->getIdString()];
+		return $this->_createdParts[$partId->getIdString()];
 	}
 
 	/**
-	 * Get all the InfoParts in the InfoStructure.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return object InfoPartIterator  The order of the objects returned by the Iterator is not guaranteed.
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * Get all the PartStructures in the RecordStructure.  Iterators return a
+	 * set, one at a time.
+	 *	
+	 * @return object PartStructureIterator
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getInfoParts() {
+	function &getPartStructures () { 
 		$this->_schema->load();
 		$array = array();
 		foreach ($this->_schema->getAllLabels() as $label) {
 			$fieldDef =& $this->_schema->getField($label);
-			if (!$this->_createdInfoParts[$this->_schema->getFieldID($label)])
-				 $this->_createdInfoParts[$this->_schema->getFieldID($label)] =& new HarmoniInfoPart($this, $fieldDef);
+			if (!$this->_createdParts[$this->_schema->getFieldID($label)])
+				 $this->_createdParts[$this->_schema->getFieldID($label)] =& new HarmoniPart($this, $fieldDef);
 		}
 		
-		return new HarmoniInfoPartIterator($this->_createdInfoParts);
+		return new HarmoniRecordStructureIterator($this->_createdParts);
 	}
 	// :: full java declaration :: public InfoPartIterator getInfoParts()
 
 	/**
-	 * Get the schema for this InfoStructure.  The schema is defined by the implementation, e.g. Dublin Core.
-	 * @return String
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * Get the schema for this RecordStructure.	 The schema is defined by the
+	 * implementation, e.g. Dublin Core.
+	 *	
+	 * @return string
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function getSchema() {
+	function getSchema () { 
 		return "Harmoni DataManager User-defined Schema";
 	}
 
 	/**
-	 * Get the format for this InfoStructure.  The format is defined by the implementation, e.g. XML.
-	 * @return String
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * Return true if this RecordStructure is repeatable; false otherwise.
+	 * This is determined by the implementation.
+	 *	
+	 * @return boolean
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function getFormat() {
-		return "DataManagerPrimatives";
-	}
+	function isRepeatable () { 
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	} 
 
 	/**
-	 * Validate an InfoRecord against its InfoStructure.  Return true if valid; false otherwise.  The status of the Asset holding this InfoRecord is not changed through this method.  The implementation may throw an Exception for any validation failures and use the Exception's message to identify specific causes.
-	 * @param object infoRecord
-	 * @return boolean
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid.dr
+	 * Get the format for this RecordStructure.	 The format is defined by the
+	 * implementation, e.g. XML.
+	 *	
+	 * @return string
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function validateInfoRecord(& $infoRecord) {
+	function getFormat () { 
+		return "DataManagerPrimatives";
+	}
+	
+	/**
+	 * Get the Type for this RecordStructure.
+	 *	
+	 * @return object Type
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
+	 */
+	function &getType () { 
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	} 
+
+
+	/**
+	 * Validate a Record against its RecordStructure.  Return true if valid;
+	 * false otherwise.	 The status of the Asset holding this Record is not
+	 * changed through this method.	 The implementation may throw an Exception
+	 * for any validation failures and use the Exception's message to identify
+	 * specific causes.
+	 * 
+	 * @param object Record $record
+	 *	
+	 * @return boolean
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @public
+	 */
+	function validateRecord ( &$record ) { 
 		// all we can really do is make sure the DataSet behind the infoRecord is of the correct
 		// type to match this InfoStructure (DataSetTypeDefinition).
 		
@@ -128,52 +319,53 @@ class HarmoniInfoStructure extends InfoStructure
 	}
 
 	/**
-	 * Create an InfoPart in this InfoStructure. This is not part of the DR OSID at 
+	 * Create an InfoPart in this InfoStructure. This is not part of the Repository OSID at 
 	 * the time of this writing, but is needed for dynamically created 
 	 * InfoStructures/InfoParts.
 	 *
-	 * @param string $displayName 	The DisplayName of the new InfoStructure.
-	 * @param string $description 	The Description of the new InfoStructure.
-	 * @param object Type $type	 	One of the InfoTypes supported by this implementation.
+	 * @param string $displayName	The DisplayName of the new InfoStructure.
+	 * @param string $description	The Description of the new InfoStructure.
+	 * @param object Type $type		One of the InfoTypes supported by this implementation.
 	 *								E.g. string, shortstring, blob, datetime, integer, float,
 	 *								
-	 * @param boolean $isMandatory 	True if the InfoPart is Mandatory.
+	 * @param boolean $isMandatory	True if the InfoPart is Mandatory.
 	 * @param boolean $isRepeatable True if the InfoPart is Repeatable.
-	 * @param boolean $isPopulatedByDR 	True if the InfoPart is PopulatedBy the DR.
+	 * @param boolean $isPopulatedByDR	True if the InfoPart is PopulatedBy the DR.
 	 *
 	 * @return object InfoPart The newly created InfoPart.
 	 */
-	function createInfoPart($displayName, $description, & $infoPartType, $isMandatory, $isRepeatable, $isPopulatedByDR) {
+	function createPart($displayName, $description, & $partType, $isMandatory, $isRepeatable, $isPopulatedByRepository) {
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate($infoPartType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($partType, new ExtendsValidatorRule("TypeInterface"));
 		ArgumentValidator::validate($isMandatory, new BooleanValidatorRule);
 		ArgumentValidator::validate($isRepeatable, new BooleanValidatorRule);
-		ArgumentValidator::validate($isPopulatedByDR, new BooleanValidatorRule);
+		ArgumentValidator::validate($isPopulatedByRepository, new BooleanValidatorRule);
 				
-		$fieldDef =& new SchemaField($displayName, $infoPartType->getKeyword(), $description, $isRepeatable, $isMandatory);
+		$fieldDef =& new SchemaField($displayName, $partType->getKeyword(), $description, $isRepeatable, $isMandatory);
 		$this->_schema->addField($fieldDef);
 		$fieldDef->addToDB();
- 		$this->_schema->commitAllFields();
+		$this->_schema->commitAllFields();
 
 		$idString =& $this->_schema->getFieldId($displayName);
 		
-		$this->_createdInfoParts[$idString] =& new HarmoniInfoPart($this,
+		$this->_createdParts[$idString] =& new HarmoniPart($this,
 																$fieldDef);
-		return $this->_createdInfoParts[$idString];
+		return $this->_createdParts[$idString];
 	}
 
 	/**
-	 * Get the possible types for InfoParts.
+	 *WARNING! Not in the OSID, use at your own risk
+	 *Get the possible types for InfoParts.
 	 *
 	 * @return object TypeIterator The Types supported in this implementation.
 	 */
-	function getInfoPartTypes() {
+	function getPartTypes() {
 		$types = array();
 		
 		$typeMgr =& Services::getService("DataTypeManager");
 		foreach ($typeMgr->getRegisteredTypes() as $dataType) {
-			$types[] =& new HarmoniType ("DR","Harmoni",$dataType);
+			$types[] =& new HarmoniType ("Repository","Harmoni",$dataType);
 		}
 		
 		$typeIterator =& new HarmoniTypeIterator($types);

@@ -1,6 +1,6 @@
 <?
 
-require_once(OKI."dr.interface.php");
+require_once(OKI2."osid/repository/Asset.php");
 
 /**
  * The HarmoniAssetInterface provides all of the methods of

@@ -37,12 +37,12 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * OSID Version: 2.0
  * </p>
  * 
- * @package harmoni.XXXX.YYYYYY
+ * @package harmoni.osid.repository
  * 
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.5 2005/01/19 21:39:18 thebravecowboy Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.6 2005/01/19 21:40:28 thebravecowboy Exp $ 
  */
 
 class HarmoniRepository

@@ -31,12 +31,12 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * OSID Version: 2.0
  * </p>
  * 
- * <p>
- * Licensed under the {@link org.osid.SidImplementationLicenseMIT MIT
- * O.K.I&#46; OSID Definition License}.
- * </p>
+ * @package harmoni.XXXX.YYYYYY
  * 
- * @package org.osid.repository
+ * @copyright Copyright &copy;2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ *
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.4 2005/01/19 21:39:18 thebravecowboy Exp $ 
  */
 
 class HarmoniRepositoryManager

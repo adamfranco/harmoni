@@ -1,19 +1,22 @@
 <?
 
-require_once(HARMONI."/oki/dr/HarmoniAsset.interface.php");
-require_once(HARMONI."/oki/dr/HarmoniInfoRecord.class.php");
-require_once(HARMONI."/oki/dr/HarmoniInfoRecordIterator.class.php");
-require_once(HARMONI."/oki/shared/HarmoniIterator.class.php");
+require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
+require_once(HARMONI."oki2/repository/HarmoniRecord.class.php");
+require_once(HARMONI."oki2/repository/HarmoniRecordIterator.class.php");
+require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
 
 /**
- * Asset manages the Asset itself.  Assets have content as well as InfoRecords
- * appropriate to the AssetType and InfoStructures for the Asset.  Assets may
- * also contain other Assets.
+ * Asset manages the Asset itself.  Assets have content as well as Records
+ * appropriate to the AssetType and RecordStructures for the Asset.  Assets
+ * may also contain other Assets.
+ * 
+ * 
+ * @package harmoni.XXXX.YYYYYY
+ * 
+ * @copyright Copyright &copy;2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @package harmoni.osid.dr
- * @author Adam Franco
- * @copyright 2004 Middlebury College
- * @access public
+ * @version $Id: HarmoniAsset.class.php,v 1.2 2005/01/19 21:39:18 thebravecowboy Exp $ 
  */
 
 class HarmoniAsset
@@ -25,24 +28,24 @@ class HarmoniAsset
 	var $_versionControlTypes;
 	var $_hierarchy;
 	var $_node;
-	var $_dr;
+	var $_repository;
 	
 	var $_recordIDs;
-	var $_createdInfoRecords;
-	var $_createdInfoStructures;
+	var $_createdRecords;
+	var $_createdRecordStructures;
 	
 	/**
 	 * Constructor
 	 */
-	function HarmoniAsset (& $hierarchy, & $dr, & $id, & $configuration) {
+	function HarmoniAsset (& $hierarchy, & $repository, & $id, & $configuration) {
 	 	// Get the node coresponding to our id
 		$this->_hierarchy =& $hierarchy;
 		$this->_node =& $this->_hierarchy->getNode($id);
-		$this->_dr =& $dr;
+		$this->_repository =& $dr;
 		
 		$this->_recordIDs = array();
-		$this->_createdInfoRecords = array();
-		$this->_createdInfoStructures = array();
+		$this->_createdRecords = array();
+		$this->_createdRecordStructures = array();
 		
 		// Store our configuration
 		$this->_configuration =& $configuration;
@@ -57,116 +60,176 @@ class HarmoniAsset
 	 }
 
 	/**
-	 * Get the display name for this Asset.
-	 *
-	 * @return String the display name
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function getDisplayName() {
+     * Get the display name for this Asset.
+     *  
+     * @return string
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function getDisplayName () { 
 		return $this->_node->getDisplayName();
 	}
 
-	/**
-	 * Update the display name for this Asset.
-	 *
-	 * @param String displayName
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED, NULL_ARGUMENT
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function updateDisplayName($displayName) {
+	 /**
+     * Update the display name for this Asset.
+     * 
+     * @param string $displayName
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}
+     * 
+     * @public
+     */
+    function updateDisplayName ( $displayName ) { 
 		$this->_node->updateDisplayName($displayName);
 	}
 
-	/**
-	 * Get the description for this Asset.
-	 *
-	 * @return String the description
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function getDescription() {
+	 /**
+     * Get the description for this Asset.
+     *  
+     * @return string
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function getDescription () { 
 		return $this->_node->getDescription();
 	}
 
 	/**
-	 * Update the description for this Asset.
-	 *
-	 * @param String description
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED, NULL_ARGUMENT
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function updateDescription($description) {
+     * Update the description for this Asset.
+     * 
+     * @param string $description
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}
+     * 
+     * @public
+     */
+    function updateDescription ( $description ) { 
 		$this->_node->updateDescription($description);
 	}
 
-	/**
-	 * Get the unique Id for this Asset.
-	 *
-	 * @return object osid.shared.Id A unique Id that is usually set by a create
-	 *		 method's implementation
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getId() {
+	 /**
+     * Get the unique Id for this Asset.
+     *  
+     * @return object Id
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function &getId () { 
 		return $this->_node->getId();
 	}
-
+	
 	/**
-	 * Get the DigitalRepository in which this Asset resides.  This is set by
-	 * the DigitalRepository's createAsset method.
-	 *
-	 * @return object osid.shared.Id A unique Id that is usually set by a create
-	 *		 method's implementation digitalRepositoryId
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getDigitalRepository() {
-		return $this->_dr;
+     * Get the Id of the Repository in which this Asset resides.  This is set
+     * by the Repository's createAsset method.
+     *  
+     * @return object Id
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function &getRepository () { 
+
+		return $this->_repository;
 	}
 
 	/**
-	 * Get an Asset's content.  This method can be a convenience if one is not
-	 * interested in all the structure of the InfoRecords.
-	 *
-	 * @return java.io.Serializable
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getContent() {
- 		$sharedManager =& Services::getService("Shared");
+     * Get an Asset's content.  This method can be a convenience if one is not
+     * interested in all the structure of the Records.
+     *  
+     * @return object mixed (original type: java.io.Serializable)
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function &getContent () { 
+	
+ 		$idManager =& Services::getService("Id");
  		$recordMgr =& Services::getService("RecordManager");
  		
  		// Ready our type for comparisson
- 		$contentType =& new HarmoniType("DR", "Harmoni",  "AssetContent");
+ 		$contentType =& new HarmoniType("Repository", "Harmoni",  "AssetContent");
  		$myId =& $this->_node->getId();
  		
  		// Get the content DataSet.
@@ -185,23 +248,33 @@ class HarmoniAsset
 	}
 
 	/**
-	 * Update an Asset's content.
-	 *
-	 * @param mixed java.io.Serializable
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED, NULL_ARGUMENT
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function updateContent(& $content) {
+     * Update an Asset's content.
+     * 
+     * @param object mixed $content (original type: java.io.Serializable)
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}
+     * 
+     * @public
+     */
+    function updateContent ( &$content ) { 
  		ArgumentValidator::validate($content, new ExtendsValidatorRule("Blob"));
- 		$sharedManager =& Services::getService("Shared");
+ 		$idManager =& Services::getService("Id");
  		$recordMgr =& Services::getService("RecordManager");
  		
  		// Ready our type for comparisson
- 		$contentType =& new HarmoniType("DR", "Harmoni",  "AssetContent");
+ 		$contentType =& new HarmoniType("Repository", "Harmoni",  "AssetContent");
  		$myId =& $this->_node->getId();
  		
  		// Get the content DataSet.
@@ -245,17 +318,26 @@ class HarmoniAsset
 	}
 
 	/**
-	 * Get an Asset's EffectiveDate
-	 *
-	 * @return java.util.Calendar
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getEffectiveDate() {
+     * Get the date at which this Asset is effective.
+     *  
+     * @return int
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function getEffectiveDate () { 
+	
 		if (!$this->_effectiveDate) {
 			$this->_loadDates();
 		}
@@ -264,17 +346,28 @@ class HarmoniAsset
 	}
 
 	/**
-	 * Update an Asset's EffectiveDate.
-	 *
-	 * @param object java.util.Calendar
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED, NULL_ARGUMENT
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function updateEffectiveDate(& $effectiveDate) {
+     * Update the date at which this Asset is effective.
+     * 
+     * @param int $effectiveDate
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#EFFECTIVE_PRECEDE_EXPIRATION}
+     * 
+     * @public
+     */
+    function updateEffectiveDate ( $effectiveDate ) { 
 		ArgumentValidator::validate($effectiveDate, new ExtendsValidatorRule("Time"));
 		
 		// Make sure that we have dates from the DB if they exist.
@@ -285,18 +378,26 @@ class HarmoniAsset
 		$this->_storeDates();
 	}
 
-	/**
-	 * Get an Asset's EffectiveDate
-	 *
-	 * @return java.util.Calendar
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getExpirationDate() {
+	 /**
+     * Get the date at which this Asset expires.
+     *  
+     * @return int
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function getExpirationDate () { 
 		if (!$this->_expirationDate) {
 			$this->_loadDates();
 		}
@@ -304,18 +405,30 @@ class HarmoniAsset
 		return $this->_expirationDate;
 	}
 
-	/**
-	 * Update an Asset's ExpirationDate.
-	 *
-	 * @param object java.util.Calendar
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED, NULL_ARGUMENT
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function updateExpirationDate(& $expirationDate) {
+	
+    /**
+     * Update the date at which this Asset expires.
+     * 
+     * @param int $expirationDate
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#EFFECTIVE_PRECEDE_EXPIRATION}
+     * 
+     * @public
+     */
+    function updateExpirationDate ( $expirationDate ) { 
 		ArgumentValidator::validate($expirationDate, new ExtendsValidatorRule("Time"));
 		
 		// Make sure that we have dates from the DB if they exist.
@@ -327,17 +440,30 @@ class HarmoniAsset
 	}
 
 	/**
-	 * Add an Asset to this Asset.
-	 *
-	 * @param object osid.shared.Id assetId
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED, NULL_ARGUMENT, UNKNOWN_ID, ALREADY_ADDED
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function addAsset(& $assetId) {
+     * Add an Asset to this Asset.
+     * 
+     * @param object Id $assetId
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID},
+     *         {@link org.osid.repository.RepositoryException#ALREADY_ADDED
+     *         ALREADY_ADDED}
+     * 
+     * @public
+     */
+    function addAsset ( &$assetId ) { 
 		$node =& $this->_hierarchy->getNode($assetId);
 		$oldParents =& $node->getParents();
 		// We are assuming a single-parent hierarchy
@@ -348,18 +474,30 @@ class HarmoniAsset
 	}
 
 	/**
-	 * Remove an Asset to this Asset.  This method does not delete the Asset
-	 * from the DigitalRepository.
-	 *
-	 * @param object osid.shared.Id assetId
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED, NULL_ARGUMENT, UNKNOWN_ID
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function removeAsset(& $assetId, $includeChildren) {
+     * Remove an Asset from this Asset.  This method does not delete the Asset
+     * from the Repository.
+     * 
+     * @param object Id $assetId
+     * @param boolean $includeChildren
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+     * 
+     * @public
+     */
+    function removeAsset ( &$assetId, $includeChildren ) { 
 		$node =& $this->_hierarchy->getNode($assetId);
 	
 		if (!$includeChildren) {
@@ -372,103 +510,126 @@ class HarmoniAsset
 			}
 		}
 		
-		// Move the asset to the dr root.
-		$node->changeParent($this->_node->getId(), $this->_dr->getId());
+		// Move the asset to the repository root.
+		$node->changeParent($this->_node->getId(), $this->_repository->getId());
 		
 		$this->save();
 	}
 
-	/**
-	 * Get all the Assets in this Asset.  Iterators return a set, one at a
-	 * time.  The Iterator's hasNext method returns true if there are
-	 * additional objects available; false otherwise.  The Iterator's next
-	 * method returns the next object.
-	 *
-	 * @return object osid.dr.AssetIterator  The order of the objects returned by the
-	 *		 Iterator is not guaranteed.
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	/**
-	 * Get all the Assets of the specified AssetType in this DigitalRepository.
-	 * Iterators return a set, one at a time.  The Iterator's hasNext method
-	 * returns true if there are additional objects available; false
-	 * otherwise.  The Iterator's next method returns the next object.
-	 *
-	 * @return object osid.dr.AssetIterator  The order of the objects returned by the
-	 *		 Iterator is not guaranteed.
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED, NULL_ARGUMENT, UNKNOWN_TYPE
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getAssets() {
-		$assets = array();
+	 /**
+     * Get all the Assets in this Asset.  Iterators return a set, one at a
+     * time.
+     *  
+     * @return object AssetIterator
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function &getAssets () { 
+    	$assets = array();
 		$children =& $this->_node->getChildren();
 		while ($children->hasNext()) {
 			$child =& $children->next();
-			$assets[] =& $this->_dr->getAsset($child->getId());
+			$assets[] =& $this->_repository->getAsset($child->getId());
 		}
 		
 		// create an AssetIterator and return it
 		$assetIterator =& new HarmoniAssetIterator($assets);
 		
 		return $assetIterator;
-	}
+    
+    }
 	
-	/**
-	 * Get all the Assets of the specified AssetType in this Asset.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return object AssetIterator  The order of the objects returned by the Iterator is not guaranteed.
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.dr
-	 */
-	function &getAssetsByType(& $assetType) {
-		$assets = array();
+	 /**
+     * Get all the Assets of the specified AssetType in this Repository.
+     * Iterators return a set, one at a time.
+     * 
+     * @param object Type $assetType
+     *  
+     * @return object AssetIterator
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_TYPE
+     *         UNKNOWN_TYPE}
+     * 
+     * @public
+     */
+	
+    function &getAssetsByType ( &$assetType ) { 
+    	$assets = array();
 		$children =& $this->_node->getChildren();
 		while ($children->hasNext()) {
 			$child =& $children->next();
 			if ($assetType->isEqual($child->getType()))
-				$assets[] =& $this->_dr->getAsset($child->getId());
+				$assets[] =& $this->_repository->getAsset($child->getId());
 		}
 		
 		return new HarmoniAssetIterator($assets);
 	}
 
-	/**
-	 * Create a new Asset InfoRecord of the specified InfoStructure.   The
-	 * implementation of this method sets the Id for the new object.
-	 *
-	 * @param object osid.shared.Id infoStructureId
-	 *
-	 * @return object osid.dr.InfoRecord
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED, NULL_ARGUMENT, UNKNOWN_ID
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &createInfoRecord(& $infoStructureId) {
-		ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
+	 /**
+     * Create a new Asset Record of the specified RecordStructure.   The
+     * implementation of this method sets the Id for the new object.
+     * 
+     * @param object Id $recordStructureId
+     *  
+     * @return object Record
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+     * 
+     * @public
+     */
+    function &createRecord ( &$recordStructureId ) { 
+		ArgumentValidator::validate($recordStructureId, new ExtendsValidatorRule("Id"));
 		
 		// If this is a schema that is hard coded into our implementation, create
 		// a record for that schema.
-		if (in_array($infoStructureId->getIdString(), array_keys($this->_dr->_builtInTypes))) 
+		if (in_array($recordStructureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
 		{
 			// Create an Id for the record;
-			$sharedManager =& Services::getService("Shared");
-			$newId =& $sharedManager->createId();
+			$idManager =& Services::getService("Id");
+			$newId =& $idManager->createId();
 	
 			// instantiate the new record.
-			$recordClass = $this->_dr->_builtInTypes[$infoStructureId->getIdString()];
-			$infoStructure =& $this->_dr->getInfoStructure($infoStructureId);
-			$record =& new $recordClass($infoStructure, $newId, $this->_configuration);
+			$recordClass = $this->_repository->_builtInTypes[$recordStructureId->getIdString()];
+			$recordStructure =& $this->_repository->getInfoStructure($recordStructureId);
+			$record =& new $recordClass($recordStructure, $newId, $this->_configuration);
 			
 			// store a relation to the record
 			$dbHandler =& Services::getService("DBHandler");
@@ -491,16 +652,16 @@ class HarmoniAsset
 			$myGroup =& $recordMgr->fetchRecordSet($myId->getIdString());
 			
 			// Get the info Structure needed.
-			$infoStructures =& $this->_dr->getInfoStructures();
-			while ($infoStructures->hasNext()) {
-				$structure =& $infoStructures->next();
-				if ($infoStructureId->isEqual($structure->getId()))
+			$recordStructures =& $this->_repository->getRecordStructures();
+			while ($recordStructures->hasNext()) {
+				$structure =& $recordStructures->next();
+				if ($recordStructureId->isEqual($structure->getId()))
 					break;
 			}
 			
 			// 	get the type for the new data set.
 			$schemaMgr =& Services::getService("SchemaManager");
-			$type =& $schemaMgr->getSchemaTypeByID($infoStructureId->getIdString());
+			$type =& $schemaMgr->getSchemaTypeByID($recordStructureId->getIdString());
 			
 			// Set up and create our new dataset
 			// Decide if we want to version-control this field.
@@ -525,44 +686,58 @@ class HarmoniAsset
 			$myGroup->add($newRecord);
 			
 			// us the InfoStructure and the dataSet to create a new InfoRecord
-			$record =& new HarmoniInfoRecord($structure, $newRecord);
+			$record =& new HarmoniRecord($structure, $newRecord);
 		}
 		
 		// Add the record to our createdRecords array, so we can pass out references to it.
 		$recordId =& $record->getId();
-		$this->_createdInfoRecords[$recordId->getIdString()] =& $record;
+		$this->_createdRecords[$recordId->getIdString()] =& $record;
 		
 		$this->save();
 		
 		return $record;
 	}
 
-	/**
-	 * Add the specified InfoStructure and all the related InfoRecords from the
-	 * specified asset.  The current and future content of the specified
-	 * InfoRecord is synchronized automatically.
-	 *
-	 * @param object osid.shared.Id assetId
-	 * @param object osid.shared.Id infoStructureId
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED, NULL_ARGUMENT, ALREADY_INHERITING_STRUCTURE
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function inheritInfoStructure(& $infoStructureId, & $assetId) {	
+	 /**
+     * Add the specified RecordStructure and all the related Records from the
+     * specified asset.  The current and future content of the specified
+     * Record is synchronized automatically.
+     * 
+     * @param object Id $assetId
+     * @param object Id $recordStructureId
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID},
+     *         {@link
+     *         org.osid.repository.RepositoryException#ALREADY_INHERITING_STRUCTURE
+     *         ALREADY_INHERITING_STRUCTURE}
+     * 
+     * @public
+     */
+    function inheritRecordStructure ( &$assetId, &$recordStructureId ) { 
 	
 		// Check the arguments
-		ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($recordStructureId, new ExtendsValidatorRule("Id"));
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
 		
 		// If this is a schema that is hard coded into our implementation, create
 		// a record for that schema.
-		if (in_array($infoStructureId->getIdString(), array_keys($this->_dr->_builtInTypes))) 
+		if (in_array($recordStructureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
 		{
 			// Create an Id for the record;
-			$sharedManager =& Services::getService("Shared");
+			$idManager =& Services::getService("Id");
 			$dbHandler =& Services::getService("DBHandler");
 	
 			// get the record ids that we want to inherit
@@ -570,7 +745,7 @@ class HarmoniAsset
 			$query->addTable("dr_asset_record");
 			$query->addColumn("FK_record");
 			$query->addWhere("FK_asset = '".$assetId->getIdString()."'");
-			$query->addWhere("structure_id = '".$infoStructureId->getIdString()."'", _AND);
+			$query->addWhere("structure_id = '".$recordStructureId->getIdString()."'", _AND);
 			
 			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 			
@@ -586,7 +761,7 @@ class HarmoniAsset
 				$query->addRowOfValues(array(
 									"'".$myId->getIdString()."'",
 									"'".$result->field("FK_record")."'",
-									"'".$infoStructureId->getIdString()."'"));
+									"'".$recordStructureId->getIdString()."'"));
 				$dbHandler->query($query, $this->_configuration["dbId"]);
 				$result->advanceRow();
 			}
@@ -596,7 +771,7 @@ class HarmoniAsset
 		else {
 			// Get our managers:
 			$recordMgr =& Services::getService("RecordManager");
-			$sharedMgr =& Services::getService("Shared");
+			$idMgr =& Services::getService("Id");
 		
 			// Get the DataSetGroup for this Asset
 			$myId = $this->_node->getId();
@@ -607,17 +782,17 @@ class HarmoniAsset
 			$otherSet->loadRecords(RECORD_FULL);
 			$records =& $otherSet->getRecords();
 			
-			// Add all of DataSets (InfoRecords) of the specified InfoStructure and Asset
+			// Add all of DataSets (Records) of the specified InfoStructure and Asset
 			// to our DataSetGroup.
 			foreach (array_keys($records) as $key) {
 				// Get the ID of the current DataSet's TypeDefinition
 				$schema =& $records[$key]->getSchema();
-				$schemaId =& $sharedMgr->getId($schema->getID());
+				$schemaId =& $idMgr->getId($schema->getID());
 				
 				// If the current DataSet's DataSetTypeDefinition's ID is the same as
 				// the InfoStructure ID that we are looking for, add that dataSet to our
 				// DataSetGroup.
-				if ($infoStructureId->isEqual($schemaId)) {
+				if ($receordStructureId->isEqual($schemaId)) {
 					$mySet->add($records[$key]);
 				}
 			}
@@ -628,27 +803,41 @@ class HarmoniAsset
 	}
 
 	/**
-	 * Add the specified InfoStructure and all the related InfoRecords from the
-	 * specified asset.
-	 *
-	 * @param object osid.shared.Id assetId
-	 * @param object osid.shared.Id infoStructureId
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function copyInfoStructure(& $infoStructureId, & $assetId) {
+     * Add the specified RecordStructure and all the related Records from the
+     * specified asset.
+     * 
+     * @param object Id $assetId
+     * @param object Id $recordStructureId
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID},
+     *         {@link
+     *         org.osid.repository.RepositoryException#CANNOT_COPY_OR_INHERIT_SELF
+     *         CANNOT_COPY_OR_INHERIT_SELF}
+     * 
+     * @public
+     */
+    function copyRecordStructure ( &$assetId, &$recordStructureId ) { 
 	
 		// Check the arguments	
-		ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($recordStructureId, new ExtendsValidatorRule("Id"));
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
 		
 		// Get our managers:
 		$recordMgr =& Services::getService("RecordManager");
-		$sharedMgr =& Services::getService("Shared");
+		$idMgr =& Services::getService("Id");
 		
 		// Get the RecordSet for this Asset
 		$myId = $this->_node->getId();
@@ -664,12 +853,12 @@ class HarmoniAsset
 		foreach (array_keys($records) as $key) {
 			// Get the ID of the current DataSet's TypeDefinition
 			$schema =& $records[$key]->getSchema();
-			$schemaId =& $sharedMgr->getId($schema->getID());
+			$schemaId =& $idMgr->getId($schema->getID());
 			
 			// If the current Record's Schema ID is the same as
 			// the InfoStructure ID that we are looking for, add clones of that Record
 			// to our RecordSet.
-			if ($infoStructureId->isEqual($schemaId)) {
+			if ($recordStructureId->isEqual($schemaId)) {
 				$newRecord =& $records[$key]->clone();
 				$set->add($newRecord);
 			}
@@ -680,33 +869,45 @@ class HarmoniAsset
 	}
 
 	/**
-	 * Delete an InfoRecord.  If the specified InfoRecord has content that is
-	 * inherited by other InfoRecords, those
-	 *
-	 * @param object osid.shared.Id infoRecordId
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED, NULL_ARGUMENT, UNKNOWN_ID
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function deleteInfoRecord(& $infoRecordId) {
-		ArgumentValidator::validate($infoRecordId, new ExtendsValidatorRule("Id"));
+     * Delete a Record.  If the specified Record has content that is inherited
+     * by other Records, those other Records will not be deleted, but they
+     * will no longer have a source from which to inherit value changes.
+     * 
+     * @param object Id $recordId
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+     * 
+     * @public
+     */
+    function deleteRecord ( &$recordId ) { 
+		ArgumentValidator::validate($recordId, new ExtendsValidatorRule("Id"));
 		
-		$record =& $this->getInfoRecord($infoRecordId);
-		$structure =& $record->getInfoStructure();
+		$record =& $this->getRecord($recordId);
+		$structure =& $record->getRecordStructure();
 		$structureId =& $structure->getId();
 		
 		// If this is a schema that is hard coded into our implementation, create
 		// a record for that schema.
-		if (in_array($structureId->getIdString(), array_keys($this->_dr->_builtInTypes))) 
+		if (in_array($structureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
 		{
 			// Delete all of the InfoFields for the record
-			$fields =& $record->getInfoFields();
-			while ($fields->hasNext()) {
-				$field =& $fields->next();
-				$record->deleteInfoField($field->getId());
+			$parts =& $record->getParts();
+			while ($parts->hasNext()) {
+				$part =& $parts->next();
+				$record->deletePart($part->getId());
 			}
 			
 			// Delete the relation for the record.
@@ -715,14 +916,14 @@ class HarmoniAsset
 			$query->setTable("dr_asset_record");
 			$myId =& $this->getId();
 			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
-			$query->addWhere("FK_record = '".$infoRecordId->getIdString()."'");
+			$query->addWhere("FK_record = '".$recordId->getIdString()."'");
 			
 			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 		}
 		// Otherwise use the data manager
 		else {
 			$recordMgr =& Services::getService("RecordManager");
-			$record =& $recordMgr->fetchRecord($infoRecordId->getIdString(),RECORD_FULL);
+			$record =& $recordMgr->fetchRecord($recordId->getIdString(),RECORD_FULL);
 			
 			// Check if the record is part of other record sets (assets via inheretance)
 			$myId =& $this->getId();
@@ -746,26 +947,40 @@ class HarmoniAsset
 		}
 	}
 
-	/**
-	 * Get the InfoRecord of the specified ID for this Asset.
-	 *
-	 * @param object osid.shared.Id infoRecordId
-	 *
-	 * @return object osid.dr.InfoRecord 
-	 *
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getInfoRecord(& $infoRecordId ) {
-		ArgumentValidator::validate($infoRecordId, new ExtendsValidatorRule("Id"));
+	 /**
+     * Get the Record for this Asset that matches this Record's unique Id.
+     * 
+     * @param object Id $recordId
+     *  
+     * @return object Record
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+     * 
+     * @public
+     */
+    function &getRecord ( &$recordId ) { 
+		ArgumentValidator::validate($recordId, new ExtendsValidatorRule("Id"));
 		
 		// Check to see if the info record is in our cache.
 		// If so, return it. If not, create it, then return it.
-		if (!$this->_createdInfoRecords[$infoRecordId->getIdString()]) {
+		if (!$this->_createdRecords[$recordId->getIdString()]) {
 			
 			// Check for the record in our non-datamanager records;
 		
-			$sharedManager =& Services::getService("Shared");
+			$idManager =& Services::getService("Id");
 			$dbHandler =& Services::getService("DBHandler");
 			$myId =& $this->getId();
 			
@@ -774,20 +989,20 @@ class HarmoniAsset
 			$query->addTable("dr_asset_record");
 			$query->addColumn("structure_id");
 			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
-			$query->addWhere("FK_record = '".$infoRecordId->getIdString()."'", _AND);
+			$query->addWhere("FK_record = '".$recordId->getIdString()."'", _AND);
 			
 			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 			
 			if ($result->getNumberOfRows()) {
 				$structureIdString =& $result->field("structure_id");
 				
-				$recordClass = $this->_dr->_builtInTypes[$structureIdString];
-				$infoStructureId =& $sharedManager->getId($structureIdString);
-				$infoStructure =& $this->_dr->getInfoStructure($infoStructureId);
+				$recordClass = $this->_repository->_builtInTypes[$structureIdString];
+				$recordStructureId =& $idManager->getId($structureIdString);
+				$recordStructure =& $this->_repository->getRecordStructure($recordStructureId);
 				
-				$this->_createdInfoRecords[$infoRecordId->getIdString()] =& new $recordClass(
-												$infoStructure,
-												$infoRecordId,
+				$this->_createdRecords[$recordId->getIdString()] =& new $recordClass(
+												$recordStructure,
+												$recordId,
 												$this->_configuration
 											);
 			} 
@@ -800,68 +1015,57 @@ class HarmoniAsset
 				// Specifying TRUE for editable because it is unknown whether or not editing will
 				// be needed. @todo Change this if we wish to re-fetch the $dataSet when doing 
 				// editing functions.
-				$record =& $recordMgr->fetchRecord($infoRecordId->getIdString());
+				$record =& $recordMgr->fetchRecord($recordId->getIdString());
 	
 				// Make sure that we have a valid dataSet
 				$rule =& new ExtendsValidatorRule("Record");
 				if (!$rule->check($record))
-					throwError(new Error(UNKNOWN_ID, "Digital Repository :: Asset", TRUE));
+					throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository :: Asset", TRUE));
 				
 				// Get the info structure.
 				$schema =& $record->getSchema();
-				if (!$this->_createdInfoStructures[$schema->getID()]) {
-					$this->_createdInfoStructures[$schema->getID()] =& new HarmoniInfoStructure($schema);
+				if (!$this->_createdRecordStructures[$schema->getID()]) {
+					$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure($schema);
 				}
 				
 				// Create the InfoRecord in our cache.
-				$this->_createdInfoRecords[$infoRecordId->getIdString()] =& new HarmoniInfoRecord (
-								$this->_createdInfoStructures[$schema->getID()], $record);
+				$this->_createdRecords[$recordId->getIdString()] =& new HarmoniRecord (
+								$this->_createdRecordStructures[$schema->getID()], $record);
 			}
 		}
 		
-		return $this->_createdInfoRecords[$infoRecordId->getIdString()];
+		return $this->_createdRecords[$recordId->getIdString()];
 	}
 
-	/**
-	 * Get all the InfoRecords for this Asset.  Iterators return a set, one at
-	 * a time.  The Iterator's hasNext method returns true if there are
-	 * additional objects available; false otherwise.  The Iterator's next
-	 * method returns the next object.
-	 *
-	 * @return object osid.dr.InfoRecordIterator  The order of the objects returned by
-	 *		 the Iterator is not guaranteed.
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */	 
-	/**
-	 * Get all the InfoRecords of the specified InfoStructure for this Asset.
-	 * Iterators return a set, one at a time.  The Iterator's hasNext method
-	 * returns true if there are additional objects available; false
-	 * otherwise.  The Iterator's next method returns the next object.
-	 *
-	 * @param object osid.shared.Id infoStructureId
-	 *
-	 * @return object osid.dr.InfoRecordIterator  The order of the objects returned by
-	 *		 the Iterator is not guaranteed.
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED, NULL_ARGUMENT, CANNOT_COPY_OR_INHERIT_SELF
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getInfoRecords( $infoStructureId = null ) {
-		if ($infoStructureId)
-			ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
+	
+    /**
+     * Get all the Records for this Asset.  Iterators return a set, one at a
+     * time.
+     *  
+     * @return object RecordIterator
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function &getRecords () { 
+		if ($recordStructureId)
+			ArgumentValidator::validate($recordStructureId, new ExtendsValidatorRule("Id"));
 		
 		$id =& $this->getId();
 		$recordMgr =& Services::getService("RecordManager");
-		$sharedManager =& Services::getService("Shared");		
-		$infoRecords = array();
+		$idManager =& Services::getService("Id");		
+		$records = array();
 		
 		// Get the records from the data manager.
 		if ($recordSet =& $recordMgr->fetchRecordSet($id->getIdString())) {
@@ -872,18 +1076,18 @@ class HarmoniAsset
 			// create info records for each dataSet as needed.
 			foreach (array_keys($records) as $key) {
 				$recordIdString = $records[$key]->getID();
-				$recordId =& $sharedManager->getId($recordIdString);
-				$infoRecord =& $this->getInfoRecord($recordId);
-				$structure =& $infoRecord->getInfoStructure();
+				$recordId =& $idManager->getId($recordIdString);
+				$record =& $this->getRecord($recordId);
+				$structure =& $record->getRecordStructure();
 				
 				// Add the record to our array
-				if (!$infoStructureId || $infoStructureId->isEqual($structure->getId()))
-					$infoRecords[] =& $infoRecord;
+				if (!$recordStructureId || $recordStructureId->isEqual($structure->getId()))
+					$records[] =& $record;
 			}
 		}
 		
 		// Get our non-datamanager records
-		if (!$infoStructureId || in_array($infoStructureId->getIdString(), array_keys($this->_dr->_builtInTypes))) 
+		if (!$recordStructureId || in_array($recordStructureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
 		{
 			// get the record ids that we want to inherit
 			$dbHandler =& Services::getService("DBHandler");
@@ -901,145 +1105,246 @@ class HarmoniAsset
 			while ($result->hasMoreRows()) {
 				$recordId =& $sharedManager->getId($result->field("FK_record"));
 				
-				$infoRecords[] =& $this->getInfoRecord($recordId);
+				$records[] =& $this->getRecord($recordId);
 				
 				$result->advanceRow();
 			}
 		}
 		
 		// Create an iterator and return it.
-		$recordIterator =& new HarmoniInfoRecordIterator($infoRecords);
+		$recordIterator =& new HarmoniRecordIterator($records);
 		
 		return $recordIterator;
 	}
-
-	/**
-	 * Description_getAssetTypes=Get the AssetType of this Asset.  AssetTypes
-	 * are used to categorize Assets.
-	 *
-	 * @return object osid.shared.Type
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getAssetType() {
+ 	
+ 	/**
+     * Get the AssetType of this Asset.  AssetTypes are used to categorize
+     * Assets.
+     *  
+     * @return object Type
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function &getAssetType () { 
 		return $this->_node->getType();
 	}
 
 	/**
-	 * Get all the InfoStructures for this Asset.  InfoStructures are used to
-	 * categorize information about Assets.  Iterators return a set, one at a
-	 * time.  The Iterator's hasNext method returns true if there are
-	 * additional objects available; false otherwise.  The Iterator's next
-	 * method returns the next object.
-	 *
-	 * @return object osid.shared.TypeIterator The order of the objects returned by
-	 *		 the Iterator is not guaranteed.
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getInfoStructures() {
+     * Get all the RecordStructures for this Asset.  RecordStructures are used
+     * to categorize information about Assets.  Iterators return a set, one at
+     * a time.
+     *  
+     * @return object RecordStructureIterator
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function &getRecordStructures () { 
 		// cycle through all our DataSets, get their type and make an InfoStructure for each. 
-		$infoStructures = array();
+		$recordStructures = array();
 		
-		$infoRecords =& $this->getInfoRecords();
+		$records =& $this->getRecords();
 		
-		while ($infoRecords->hasNext()) {
-			$record =& $infoRecords->next();
-			$structure =& $record->getInfoStructure();
+		while ($records->hasNext()) {
+			$record =& $records->next();
+			$structure =& $record->getRecordStructure();
 			$structureId =& $structure->getId();
-			if (!$infoStructures[$structureId->getIdString()])
-				$infoStructures[$structureId->getIdString()] =& $structure;
+			if (!$recordStructures[$structureId->getIdString()])
+				$recordStructures[$structureId->getIdString()] =& $structure;
 		}
 		
-		return new HarmoniIterator($infoStructures);
+		return new HarmoniIterator($recordStructures);
 	}
 
 	/**
-	 * Get the InfoStructure associated with this Asset's content.
-	 *
-	 * @return object osid.dr.InfoStructure
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.dr.DigitalRepositoryException may be thrown:
-	 *		 OPERATION_FAILED
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getContentInfoStructure() {
-		$sharedManager =& Services::getService("Shared");
+     * Get the RecordStructure associated with this Asset's content.
+     *  
+     * @return object RecordStructure
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function &getContentRecordStructure () { 
+		$idManager =& Services::getService("Id");
 		$schemaMgr =& Services::getService("SchemaManager");
 		
-		$infoStructures =& $this->_dr->getInfoStructures();
+		$recordStructures =& $this->_repository->getRecordStructures();
 
 		// Get the id of the Content DataSetTypeDef
-		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
-		$contentTypeId =& $sharedManager->getId($schemaMgr->getIDByType($contentType));
+		$contentType =& new HarmoniType("Repository", "Harmoni", "AssetContent");
+		$contentTypeId =& $idManager->getId($schemaMgr->getIDByType($contentType));
 		
-		while ($infoStructures->hasNext()) {
-			$structure =& $infoStructures->next();
+		while ($recordStructures->hasNext()) {
+			$structure =& $recordStructures->next();
 			if ($contentTypeId->isEqual($structure->getId()))
 				return $structure;
 		}
-		throwError(new Error(OPERATION_FAILED, "Digital Repository :: Asset", TRUE));
+		throwError(new Error(RepositoryException::OPERATION_FAILED(), "Repository :: Asset", TRUE));
 	}
 	
-	/**
-	 * Get the InfoField for an InfoRecord for this Asset that matches this 
-	 * InfoField Unique Id.
-	 *
-	 * @param object osid.shared.Id infoFieldId
-	 *
-	 * @return object osid.dr.InfoField
-	 *
-	 * @throws An exception with one of the following messages defined in 
-	 * 		osid.dr.DigitalRepositoryException may be thrown: 
-	 * 		OPERATION_FAILED, PERMISSION_DENIED, CONFIGURATION_ERROR, 
-	 *		UNIMPLEMENTED, NULL_ARGUMENT, UNKNOWN_ID
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getInfoField(& $infoFieldId) {
 	
-		$infoRecords =& $this->getInfoRecords();
-		while ($infoRecords->hasNext()) {
-			$record =& $infoRecords->next();
-			$fields =& $record->getInfoFields();
+    /**
+     * Get the Part for a Record for this Asset that matches this Part's unique
+     * Id.
+     * 
+     * @param object Id $partId
+     *  
+     * @return object Part
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+     * 
+     * @public
+     */
+    function &getPart ( &$partId ) { 
+	
+		$records =& $this->getRecords();
+		while ($records->hasNext()) {
+			$record =& $records->next();
+			$fields =& $record->getParts();
 			while ($fields->hasNext()) {
 				$field =& $fields->next();
-				if ($infoFieldId->isEqual($field->getId()))
+				if ($partId->isEqual($field->getId()))
 					return $field;
 			}
 		}
 		// Throw an error if we didn't find the field.
-		throwError(new Error(UNKNOWN_ID, "Digital Repository :: Asset", TRUE));
+		throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository :: Asset", TRUE));
 	}
 	
 	/**
-	 * Get the Value of the InfoField of the InfoRecord for this Asset that 
-	 * matches this InfoField Unique Id.
-	 *
-	 * @param object osid.shared.Id infoFieldId
-	 *
-	 * @return java.io.Serializable
-	 *
-	 * @throws An exception with one of the following messages defined in 
-	 * 		osid.dr.DigitalRepositoryException may be thrown: 
-	 * 		OPERATION_FAILED, PERMISSION_DENIED, CONFIGURATION_ERROR, 
-	 *		UNIMPLEMENTED, NULL_ARGUMENT, UNKNOWN_ID
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getInfoFieldValue(& $infoFieldId) {
-		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
+     * Get the Value of the Part of the Record for this Asset that matches this
+     * Part's unique Id.
+     * 
+     * @param object Id $partId
+     *  
+     * @return object mixed (original type: java.io.Serializable)
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+     * 
+     * @public
+     */
+    function &getPartValue ( &$partId ) { 
+
+		throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Repository :: Asset", TRUE));
 	}
+	
+	/**
+     * Get the Parts of the Records for this Asset that are based on this
+     * RecordStructure PartStructure's unique Id.
+     * 
+     * @param object Id $partStructureId
+     *  
+     * @return object PartIterator
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+     * 
+     * @public
+     */
+    function &getPartsByPartStructure ( &$partStructureId ) { 
+        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+    } 
+	
+	/**
+     * Get the Values of the Parts of the Records for this Asset that are based
+     * on this RecordStructure PartStructure's unique Id.
+     * 
+     * @param object Id $partStructureId
+     *  
+     * @return object ObjectIterator
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+     * 
+     * @public
+     */
+    function &getPartValuesByPartStructure ( &$partStructureId ) { 
+        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+    } 
 	
 	/**
 	 * Get the InfoFields of the InfoRecords for this Asset that are based 

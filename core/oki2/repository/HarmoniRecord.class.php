@@ -1,58 +1,107 @@
 <?
 
-require_once(HARMONI."/oki/dr/HarmoniInfoField.class.php");
-require_once(HARMONI."/oki/dr/HarmoniInfoFieldIterator.class.php");
+require_once(HARMONI."/oki2/repository/HarmoniPart.class.php");
+require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
 
-	/**
-	 * Each Asset has one of the AssetType supported by the DigitalRepository.  There are also zero or more InfoStructures required by the DigitalRepository for each AssetType. InfoStructures provide structural information.  The values for a given Asset's InfoStructure are stored in an InfoRecord.  InfoStructures can contain sub-elements which are referred to as InfoParts.  The structure defined in the InfoStructure and its InfoParts is used in for any InfoRecords for the Asset.  InfoRecords have InfoFields which parallel InfoParts.  <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package harmoni.osid.dr
-	 */
-class HarmoniInfoRecord extends InfoRecord
+
+/**
+ * Each Asset has one of the AssetType supported by the Repository.	 There are
+ * also zero or more RecordStructures required by the Repository for each
+ * AssetType. RecordStructures provide structural information.	The values for
+ * a given Asset's RecordStructure are stored in a Record.	RecordStructures
+ * can contain sub-elements which are referred to as PartStructures.  The
+ * structure defined in the RecordStructure and its PartStructures is used in
+ * for any Records for the Asset.  Records have Parts which parallel
+ * PartStructures.
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
+ * @package harmoni.XXXX.YYYYYY
+ * 
+ * @copyright Copyright &copy;2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ *
+ * @version $Id: HarmoniRecord.class.php,v 1.2 2005/01/19 21:39:18 thebravecowboy Exp $ 
+ */
+
+class HarmoniRecord extends Record
 //	extends java.io.Serializable
 {
 	
 	var $_record;
-	var $_infoStructure;
+	var $_recordStructure;
 	
-	var $_createdInfoFields;
+	var $_createdParts;
 	
-	function HarmoniInfoRecord( &$infoStructure, & $record ) {
+	function HarmoniRecord( &$recordStructure, & $record ) {
 		$this->_record=& $record;
-		$this->_infoStructure =& $infoStructure;
+		$this->_recordStructure =& $recordStructure;
 		
-		$this->_createdInfoFields = array();
+		$this->_createdParts = array();
 	}
-
-	/**
-	 * Get the Unique Id for this InfoRecord.
-	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+ /**
+	 * Get the unique Id for this Record.
+	 *	
+	 * @return object Id
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getId() {
-		$sharedManager =& Services::getService("Shared");
+	function &getId () { 
+		$idManager =& Services::getService("Id");
 		$id = $this->_record->getID();
-		return $sharedManager->getId($id);
+		return $idManager->getId($id);
 	}
 
 	/**
-	 * Create an InfoField.  InfoRecords are composed of InfoFields. InfoFields can also contain other InfoFields.  Each InfoRecord is associated with a specific InfoStructure and each InfoField is associated with a specific InfoPart.
-	 * @param object infoPartId
-	 * @param mixed value
-	 * @return object InfoField
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid.dr
+	 * Create a Part.  Records are composed of Parts. Parts can also contain
+	 * other Parts.	 Each Record is associated with a specific RecordStructure
+	 * and each Part is associated with a specific PartStructure.
+	 * 
+	 * @param object Id $partStructureId
+	 * @param object mixed $value (original type: java.io.Serializable)
+	 *	
+	 * @return object Part
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+	 * 
+	 * @public
 	 */
-	function &createInfoField(& $infoPartId, & $value) {
+	function &createPart ( &$partStructureId, &$value ) { 
 		ArgumentValidator::validate($value, new ExtendsValidatorRule("Primitive"));
-		$fieldID = $infoPartId->getIdString();
+		$partID = $partStructureId->getIdString();
 		
 		// we need to find the label associated with this ID
 		$schema =& $this->_record->getSchema();
 		foreach ($schema->getAllLabels() as $label) {
-			$field =& $schema->getField($label);
-			if ($fieldID == $schema->getFieldID($label)) break;
+			$part =& $schema->getField($label);
+			if ($partID == $schema->getFieldID($label)) break;
 		}
 		$this->_record->makeFull(); // make sure we have a full data representation.
 		// If the value is deleted, add a new version to it.
@@ -62,12 +111,12 @@ class HarmoniInfoRecord extends InfoRecord
 		
 		// If the field is not multi-valued AND has a value AND that value is not deleted, 
 		// throw an error.
-		} else if (!$field->getMultFlag() 
+		} else if (!$part->getMultFlag() 
 			&& $this->_record->numValues($label) 
 			&& $this->_record->getCurrentValue($label)) {
 			
-			throwError(new Error(PERMISSION_DENIED.": Can't add another field to a
-			non-multi-valued part.", "HarmoniInfoRecord", true));
+			throwError(new Error(RepositoryException::PERMISSION_DENIED().": Can't add another field to a
+			non-multi-valued part.", "HarmoniRecord", true));
 		
 		// If we dont' have an existing, deleted field to add to, create a new index.
 		} else {
@@ -76,25 +125,34 @@ class HarmoniInfoRecord extends InfoRecord
 			
 		$this->_record->commit(TRUE);
 		
-		return new HarmoniInfoField(new HarmoniInfoPart($this->_infoStructure, $field),
+		return new HarmoniPart(new HarmoniPart($this->_recordStructure, $field),
 			$this->_record->getRecordFieldValue($label, $this->_record->numValues($label)-1));
 	}
 
 	/**
-	 * Delete an InfoField and all its InfoFields.
-	 * @param object infoFieldId
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following 
-	 * messages defined in osid.dr.DigitalRepositoryException may be thrown: 
-	 * {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, 
-	 * {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
-	 * {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
-	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
-	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
-	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid.dr
+	 * Delete a Part and all its Parts.
+	 * 
+	 * @param object Id $partId
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+	 * 
+	 * @public
 	 */
-	function deleteInfoField(& $infoFieldId) {
-		$string = $infoFieldId->getIdString();
+	function deletePart ( &$partId ) { 
+		$string = $partId->getIdString();
 		if (ereg("([0-9]+)::(.+)::([0-9]+)",$string,$r)) {
 			$recordId = $r[1];
 			$label = $r[2];
@@ -103,41 +161,55 @@ class HarmoniInfoRecord extends InfoRecord
 			$this->_record->deleteValue($label, $index);
 			$this->_record->commit(TRUE);
 		} else {
-			throwError(new Error(UNKNOWN_ID.": $string", "HarmoniInfoField", true));
+			throwError(new Error(RepositoryException::UNKNOWN_ID().": $string", "HarmoniPart", true));
 		}
 	}
 
 	/**
-	 * Get all the InfoFields in the InfoRecord.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return object InfoFieldIterator  The order of the objects returned by the Iterator is not guaranteed.
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * Get all the Parts in the Record.	 Iterators return a set, one at a time.
+	 *	
+	 * @return object PartIterator
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getInfoFields() {
+	function &getParts () { 
 		// Get all of the InfoParts in this structure
-		$infoParts =& $this->_infoStructure->getInfoParts();
-		while ($infoParts->hasNext()) {
-			$infoPart =& $infoParts->next();
-			$allRecordFieldValues =& $this->_record->getAllRecordFieldValues($infoPart->getDisplayName());
+		$parts =& $this->_recordStructure->getParts();
+		while ($parts->hasNext()) {
+			$part =& $parts->next();
+			$allRecordFieldValues =& $this->_record->getAllRecordFieldValues($part->getDisplayName());
 			// Create an InfoField for each valueVersionObj
 			if (count($allRecordFieldValues)) {
 				foreach (array_keys($allRecordFieldValues) as $key) {
 					if ($activeValue =& $allRecordFieldValues[$key]->getActiveVersion()
-						&& !$this->_createdInfoFields[$activeValue->getId()])
-						$this->_createdInfoFields[$activeValue->getId()] =& new HarmoniInfoField(
-													$infoPart, $allRecordFieldValues[$key]);
+						&& !$this->_createdParts[$activeValue->getId()])
+						$this->_createdParts[$activeValue->getId()] =& new HarmoniPart(
+													$part, $allRecordFieldValues[$key]);
 				}
 			}
 		}
 		
 		// Create an iterator and return it.
-		$fieldIterator =& new HarmoniInfoFieldIterator($this->_createdInfoFields);
+		$partIterator =& new HarmoniPartIterator($this->_createdParts);
 		
-		return $fieldIterator;
+		return $partIterator;
 	}
 
 	/**
-	 * Return true if this InfoRecord is multi-valued; false otherwise.  This is determined by the implementation.
+	 *WARNING!! Not in the OSID, use at your own risk
+	 * Return true if this InfoRecord is multi-valued; false otherwise.	 This is determined by the implementation.
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
@@ -147,12 +219,25 @@ class HarmoniInfoRecord extends InfoRecord
 	}
 
 	/**
-	 * Get the InfoStructure associated with this InfoRecord.
-	 * @return object InfoStructure
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * Get the RecordStructure associated with this Record.
+	 *	
+	 * @return object RecordStructure
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getInfoStructure() {
-		return $this->_infoStructure;
+	function &getRecordStructure () { 
+		return $this->_recordStructure;
 	}
 }

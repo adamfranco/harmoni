@@ -1,76 +1,242 @@
 <?
-
-	/**
-	 * Each Asset has one of the AssetType supported by the DigitalRepository.  There are also zero or more InfoStructures required by the DigitalRepository for each AssetType. InfoStructures provide structural information.  The values for a given Asset's InfoStructure are stored in an InfoRecord.  InfoStructures can contain sub-elements which are referred to as InfoParts.  The structure defined in the InfoStructure and its InfoParts is used in for any InfoRecords for the Asset.  InfoRecords have InfoFields which parallel InfoParts.  <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package harmoni.osid.dr
-	 */
-class HarmoniInfoField extends InfoField
+/**
+ * Each Asset has one of the AssetType supported by the Repository.	 There are
+ * also zero or more RecordStructures required by the Repository for each
+ * AssetType. RecordStructures provide structural information.	The values for
+ * a given Asset's RecordStructure are stored in a Record.	RecordStructures
+ * can contain sub-elements which are referred to as PartStructures.  The
+ * structure defined in the RecordStructure and its PartStructures is used in
+ * for any Records for the Asset.  Records have Parts which parallel
+ * PartStructures.
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
+ * @package harmoni.XXXX.YYYYYY
+ * 
+ * @copyright Copyright &copy;2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ *
+ * @version $Id: HarmoniPart.class.php,v 1.2 2005/01/19 21:39:18 thebravecowboy Exp $ 
+ */
+class HarmoniPart 
+	extends Part
 //	extends java.io.Serializable
 {
 
 	var $_recordFieldValue;
-	var $_infoPart;
+	var $_part;
 	
-	function HarmoniInfoField( &$infoPart, &$recordFieldValue ) {
+	function HarmoniPart( &$part, &$recordFieldValue ) {
 		$this->_recordFieldValue =& $recordFieldValue;
-		$this->_infoPart =& $infoPart;
+		$this->_infoPart =& $part;
 	}
 	
 	/**
-	 * Get the Unique Id for this InfoStructure.
-	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * Update the display name for this Part.
+	 * 
+	 * @param string $displayName
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @public
 	 */
-	function &getId() {
+	
+	function updateDisplayName ( $displayName ) { 
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	} 
+	
+	/**
+	 * Get the display name for this Part.
+	 *	
+	 * @return string
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
+	 */
+	function getDisplayName () { 
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	} 
+	
+	
+	 /**
+	 * Get the PartStructure associated with this Part.
+	 *	
+	 * @return object PartStructure
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
+	 */
+	
+	function &getPartStructure () { 
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	} 
+	
+	/**
+	 * Get the unique Id for this Part.
+	 *	
+	 * @return object Id
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
+	 */
+	function &getId () { 
 		// The unique ID for the info field should be the 
 		// RecordID::RecordFieldLabel::RecordFieldIndex
 		return $this->_recordFieldValue->getId();
 	}
 
 	/**
-	 * Create an InfoField.  InfoRecords are composed of InfoFields. InfoFields can also contain other InfoFields.  Each InfoRecord is associated with a specific InfoStructure and each InfoField is associated with a specific InfoPart.
-	 *  infoPartId
-	 *  value
-	 * @return object InfoField
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid.dr
+	 * Create a Part.  Records are composed of Parts. Parts can also contain
+	 * other Parts.	 Each Record is associated with a specific RecordStructure
+	 * and each Part is associated with a specific PartStructure.
+	 * 
+	 * @param object Id $partStructureId
+	 * @param object mixed $value (original type: java.io.Serializable)
+	 *	
+	 * @return object Part
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+	 * 
+	 * @public
 	 */
-	function &createInfoField(& $infoPartId, & $value) {
+	function &createPart ( &$partStructureId, &$value ) { 
 		throwError(
-			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
+			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+	}
+
+	
+	
+	/**
+	 * Delete a Part and all its Parts.
+	 * 
+	 * @param object Id $partId
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+	 * 
+	 * @public
+	 */
+	function deletePart ( &$partId ) { 
+		throwError(
+			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
-	 * Delete an InfoField and all its InfoFields.
-	 *  infoFieldId
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid.dr
+	 * Get all the Parts in this Part.	Iterators return a set, one at a time.
+	 *	
+	 * @return object PartIterator
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function deleteInfoField(& $infoFieldId) {
+	function &getParts () { 
 		throwError(
-			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
+			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
-	 * Get all the InfoFields in the InfoField.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return object InfoFieldIterator  The order of the objects returned by the Iterator is not guaranteed.
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * Get the value for this Part.
+	 *	
+	 * @return object mixed (original type: java.io.Serializable)
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getInfoFields() {
-		throwError(
-			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
-	}
-
-	/**
-	 * Get the for this InfoField.
-	 * @return java.io.Serializable
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
-	 */
-	function &getValue() {
+	function &getValue () { 
 		// NOTE: if no active versions exist, false will be returned here.
 		$actValue =& $this->_recordFieldValue->getActiveVersion();
 		
@@ -79,13 +245,30 @@ class HarmoniInfoField extends InfoField
 		return null;
 	}
 
+	
 	/**
-	 * Update the for this InfoField.
-	 * null
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid.dr
+	 * Update the value for this Part.
+	 * 
+	 * @param object mixed $value (original type: java.io.Serializable)
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @public
 	 */
-	function updateValue(& $value) {
+	function updateValue ( &$value ) { 
+	
 		ArgumentValidator::validate($value, new ExtendsValidatorRule("Primitive"));
 		// Get the type for the field.
 		$this->_recordFieldValue->setValueFromPrimitive($value);
