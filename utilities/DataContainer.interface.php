@@ -3,7 +3,7 @@
 /**
  * The DataContainer Interface defines the required methods for any DataContainer class or child.
  *
- * @version $Id: DataContainer.interface.php,v 1.2 2003/06/28 01:01:51 gabeschine Exp $
+ * @version $Id: DataContainer.interface.php,v 1.3 2003/06/30 19:05:32 gabeschine Exp $
  * @copyright 2003
  * @package harmoni.utilities 
  **/
@@ -51,6 +51,16 @@ class DataContainerInterface {
 	function set( $field, $val ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
+	
+	/**
+	 * Goes through all the keys and makes sure they comply to the rules specified for them.
+	 * @access public
+	 * @return boolean TRUE if all are OK, FALSE otherwise.
+	 **/
+	function checkAll() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
 }
 
 ?>

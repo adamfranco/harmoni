@@ -5,7 +5,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * a RuleSet allows a user to define a number of keys each with associated rules and errors
- * @version $Id: RuleSet.class.php,v 1.7 2003/06/28 01:01:51 gabeschine Exp $
+ * @version $Id: RuleSet.class.php,v 1.8 2003/06/30 19:05:32 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/
@@ -45,6 +45,11 @@ class RuleSet
 	 * @return void 
 	 **/
 	function addRule( $key, & $rule, $error=null ) {
+		ArgumentValidator::validate($rule, new ExtendsValidatorRule("ValidatorRule"));
+		ArgumentValidator::validate($key, new StringValidatorRule);
+		if ($error != null) {
+			ArgumentValidator::validate($error,new ExtendsValidatorRule("ErrorInterface")),true);
+		}
 		if (!isset($this->_rules[$key])) $this->_rules[$key] = array();
 		$this->_rules[$key][] = array( &$rule, &$error );
 	}
@@ -69,8 +74,7 @@ class RuleSet
 			if (!$rule[0]->check( & $val )) {
 				// throw an error
 				if ($rule[1]) {
-    				// @todo -cRuleSet Implement RuleSet.validate (throw error $rule[1])
-    				print "error thrown on $key for $val! <BR>"; // debug
+    				throw($rule[1]);
 				}
 				
 				// set $error to true;

@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/RuleSet.class.php");
  * The class is abstract and allows children to set up a list of fields (keys) that can be set/accessed, and rules to be associated with them.
  *
  * @abstract
- * @version $Id: DataContainer.abstract.php,v 1.4 2003/06/28 01:01:51 gabeschine Exp $
+ * @version $Id: DataContainer.abstract.php,v 1.5 2003/06/30 19:05:32 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities
  **/
@@ -84,6 +84,20 @@ class DataContainer extends DataContainerInterface {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Goes through all the keys and makes sure they comply to the rules specified for them.
+	 * @access public
+	 * @return boolean TRUE if all are OK, FALSE otherwise.
+	 **/
+	function checkAll() {
+		$toCheck = $this->_ruleSet->getKeys();
+		foreach ($toCheck as $key) {
+			if (!$this->_ruleSet->validate($key,$this->_fieldSet->get($key)))
+				return false;
+		}
+		return true;
 	}
 }
 

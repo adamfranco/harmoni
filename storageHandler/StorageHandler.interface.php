@@ -7,7 +7,7 @@
  * @package harmoni.StorageHandler
  * @const integer MIRROR_REGULAR
  */
-define("MIRROR_REGULAR", 1);
+define("MIRROR_SHALLOW", 1);
 
 /**
  * A deep mirror is like a regular mirror, but it will save ALL files stored
@@ -17,7 +17,7 @@ define("MIRROR_REGULAR", 1);
  * @package harmoni.StorageHandler
  * @const integer MIRROR_DEEP
  */
-define("MIRROR_DEEP", 1);
+define("MIRROR_DEEP", 2);
 
 /**
  * A primary storage method defines the primary method to be used under any given
@@ -27,7 +27,7 @@ define("MIRROR_DEEP", 1);
  * @package harmoni.StorageHandler
  * @const integer STORAGE_PRIMARY
  */
-define("STORAGE_PRIMARY", 2);
+define("STORAGE_PRIMARY", 3);
 
 /**
  * The StorageHandler interface defines the methods required for any StorageHandler class or child.
@@ -43,7 +43,7 @@ define("STORAGE_PRIMARY", 2);
  * 
  * @package harmoni.StorageHandler
  * @author Middlebury College, ETS 
- * @version $Id: StorageHandler.interface.php,v 1.1 2003/06/30 18:04:19 gabeschine Exp $
+ * @version $Id: StorageHandler.interface.php,v 1.2 2003/06/30 19:05:32 gabeschine Exp $
  * @copyright 2003
  */
 class StorageHandlerInterface extends ServiceInterface {
@@ -66,20 +66,20 @@ class StorageHandlerInterface extends ServiceInterface {
 
     /**
      * Any path can have as many backup methods defined for it as desirable. 
-	 * A backup method can be defined as either <b>regular</b> or <b>deep</b>.
-	 * See {@link MIRROR_REGULAR} and {@link MIRROR_DEEP} for more information.
+	 * A backup method can be defined as either <b>shallow</b> or <b>deep</b>.
+	 * See {@link MIRROR_SHALLOW} and {@link MIRROR_DEEP} for more information.
 	 * Before a backup can be added, at ONE pimary method must be defined for
 	 * the path to be backed up.
 	 * @use MIRROR_DEEP
-	 * @use MIRROR_REGULAR
+	 * @use MIRROR_SHALLOW
      * @param ref $object $method The instantiated {@link StorageMethodInterface StorageMethod}
      * object to add.
      * @param optional $string $path The base path for the method. Default = '/'.
-	 * @param optional $bakcupType The type of mirrored backup to use. Options: MIRROR_REGULAR, MIRROR_DEEP.
+	 * @param optional $bakcupType The type of mirrored backup to use. Options: MIRROR_SHALLOW, MIRROR_DEEP.
      * @access public 
      * @return void 
      */
-    function addBackupMethod(&$method, $path = '/', $backupType = MIRROR_REGULAR)
+    function addBackupMethod(&$method, $path = '/', $backupType = MIRROR_SHALLOW)
     {
         die ("Method <b>" . __FUNCTION__ . "()</b> declared in interface<b> " . __CLASS__ . "</b> has not been overloaded in a child class.");
     } 
@@ -203,7 +203,6 @@ class StorageHandlerInterface extends ServiceInterface {
 	function getCount( $path ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
-	
 } 
 
 ?>
