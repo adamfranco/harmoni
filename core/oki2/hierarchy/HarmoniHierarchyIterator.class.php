@@ -1,59 +1,76 @@
 <?
 
-require_once(OKI."/hierarchy.interface.php");
-
-// public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
-define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
+require_once(OKI2."/osid/hierarchy/HierarchyIterator.php");
+require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
 
 /**
- * An iterator of node objects
- * @package harmoni.osid.hierarchy2
+ * HierarchyIterator provides access to these objects sequentially, one at a
+ * time.  The purpose of all Iterators is to to offer a way for OSID methods
+ * to return multiple values of a common type and not use an array.  Returning
+ * an array may not be appropriate if the number of values returned is large
+ * or is fetched remotely.  Iterators do not allow access to values by index,
+ * rather you must access values in sequence. Similarly, there is no way to go
+ * backwards through the sequence unless you place the values in a data
+ * structure, such as an array, that allows for access by index.
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
+ * @package harmoni.osid.hierarchy
  */
- 
 class HarmoniHierarchyIterator
-	extends HierarchyIterator
-{ // begin HierarchyIterator
+	extends HarmoniIterator
+//	implements HierarchyIterator
+{
 
-	/**
-	 * @var array $_hierarchies The stored hierarchies.
-	 * @access private
-	 */
-	var $_hierarchies = array();
-	 
-	/**
-	 * @var int $_i The current posititon.
-	 * @access private
-	 */
-	var $_i = -1;
-	
-	/**
-	 * Constructor
-	 */
-	function HarmoniHierarchyIterator (& $hierarchyArray) {
-		// make sure that we get an array of Hierarchy objects
-		ArgumentValidator::validate($hierarchyArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Hierarchy")));
-		
-		// load the types into our private array
-		foreach (array_keys($hierarchyArray) as $i => $key) {
-			$this->_hierarchies[] =& $hierarchyArray[$key];
-		}
-	}
+    /**
+     * Return true if there is an additional  Hierarchy ; false otherwise.
+     *  
+     * @return boolean
+     * 
+     * @throws object HierarchyException An exception with one of
+     *         the following messages defined in
+     *         org.osid.hierarchy.HierarchyException may be thrown:  {@link
+     *         org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function hasNextHierarchy () { 
+        return $this->hasNext();
+    } 
 
-	// public boolean hasNext();
-	function hasNext() {
-		return ($this->_i < count($this->_hierarchies)-1);
-	}
-
-	// public Type & next();
-	function &next() {
-		if ($this->hasNext()) {
-			$this->_i++;
-			return $this->_hierarchies[$this->_i];
-		} else {
-			throwError(new Error(NO_MORE_ITERATOR_ELEMENTS, "AssetIterator", 1));
-		}
-	}
-
-} // end HierarchyIterator
+    /**
+     * Return the next Hierarchy.
+     *  
+     * @return object Hierarchy
+     * 
+     * @throws object HierarchyException An exception with one of
+     *         the following messages defined in
+     *         org.osid.hierarchy.HierarchyException may be thrown:  {@link
+     *         org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.hierarchy.HierarchyException#NO_MORE_ITERATOR_ELEMENTS
+     *         NO_MORE_ITERATOR_ELEMENTS}
+     * 
+     * @public
+     */
+    function &nextHierarchy () { 
+        return $this->next();
+    } 
+}
 
 ?>

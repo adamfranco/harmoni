@@ -1,29 +1,30 @@
 <?
 
-require_once(OKI."/hierarchy.interface.php");
-require_once(HARMONI."oki/hierarchy2/HierarchyCache.class.php");
-require_once(HARMONI."oki/hierarchy2/HarmoniNodeIterator.class.php");
-require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
-require_once(HARMONI."oki/hierarchy2/DefaultNodeType.class.php");
+require_once(OKI2."/osid/hierarchy/Node.php");
+require_once(HARMONI."oki2/hierarchy/HierarchyCache.class.php");
+require_once(HARMONI."oki2/hierarchy/HarmoniNodeIterator.class.php");
+require_once(HARMONI."oki2/hierarchy/tree/Tree.class.php");
+require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
 
 /**
- * A Node is a Hierarchy's representation of an external object that is one of
- * a number of similar objects to be organized. Nodes must be connected to a
+ * Node is a Hierarchy's representation of an external object that is one of a
+ * number of similar objects to be organized. Nodes must be connected to a
  * Hierarchy.
  * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
  * 
- * <p></p>
- *
- * @package harmoni.osid.hierarchy2
+ * @package harmoni.osid.hierarchy
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.1 2005/01/11 17:40:20 adamfranco Exp $
- *
- * @todo Replace JavaDoc with PHPDoc
+ * @version $Id: HarmoniNode.class.php,v 1.2 2005/01/17 19:10:17 adamfranco Exp $
  */
 
-class HarmoniNode extends Node {
+class HarmoniNode 
+	extends Node 
+{
 
 	/**
 	 * The Id of this node.
@@ -73,10 +74,10 @@ class HarmoniNode extends Node {
 	 */
 	function HarmoniNode(& $id, & $type, $displayName, $description, & $cache) {
 		// ** parameter validation
- 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
- 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
- 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
+		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
+		ArgumentValidator::validate($description, new StringValidatorRule(), true);
 		ArgumentValidator::validate($cache, new ExtendsValidatorRule("HierarchyCache"), true);
 		// ** end of parameter validation
 		
@@ -90,72 +91,117 @@ class HarmoniNode extends Node {
 
 	/**
 	 * Get the unique Id for this Node.
-	 *
-	 * @return object osid.shared.Id A unique Id that is usually set by a create
-	 *		   method's implementation
-	 *
-	 * @throws HierarchyException if there is a general failure.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 *	
+	 * @return object Id
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getId() {
+	function &getId () {
 		return $this->_id;
 	}
 
 	/**
 	 * Get the display name for this Node.
-	 *
-	 * @return String the display name
-	 *
-	 * @throws HierarchyException if there is a general failure.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 *	
+	 * @return string
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function getDisplayName() {
+	function getDisplayName () { 
 		return $this->_displayName;
 	}
 
 	/**
-	 * Get the description for this
-	 *
-	 * @return String the description
-	 *
-	 * @throws HierarchyException if there is a general failure.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * Get the description for this Node.
+	 *	
+	 * @return string
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function getDescription() {
+	function getDescription () { 
 		return $this->_description;
 	}
 
 	/**
 	 * Get the Type for this Node.
-	 *
-	 * @return object osid.shared.Type
-	 *
-	 * @throws HierarchyException if there is a general failure.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 *	
+	 * @return object Type
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getType() {
+	function &getType () { 
 		return $this->_type;
 	}
 
 	/**
 	 * Get the parents of this Node.  To get other ancestors use the Hierarchy
 	 * traverse method.
-	 *
-	 * @return NodeIterator  Iterators return a set, one at a time.  The
-	 *		   Iterator's hasNext method returns true if there are additional
-	 *		   objects available; false otherwise.  The Iterator's next method
-	 *		   returns the next object.  The order of the objects returned by
-	 *		   the Iterator is not guaranteed.
-	 *
-	 * @throws HierarchyException if there is a general failure.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 *	
+	 * @return object NodeIterator
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getParents() {
+	function &getParents () { 
 		$idValue = $this->_id->getIdString();
 	
 		// get the children (cache them if necessary)
@@ -168,18 +214,24 @@ class HarmoniNode extends Node {
 	/**
 	 * Get the children of this Node.  To get other descendants use the
 	 * Hierarchy traverse method.
-	 *
-	 * @return NodeIterator  Iterators return a set, one at a time.  The
-	 *		   Iterator's hasNext method returns true if there are additional
-	 *		   objects available; false otherwise.  The Iterator's next method
-	 *		   returns the next object.  The order of the objects returned by
-	 *		   the Iterator is not guaranteed.
-	 *
-	 * @throws HierarchyException if there is a general failure.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 *	
+	 * @return object NodeIterator
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getChildren() {
+	function &getChildren () { 
 		$idValue = $this->_id->getIdString();
 	
 		// get the children (cache them if necessary)
@@ -190,23 +242,34 @@ class HarmoniNode extends Node {
 	}
 
 	/**
-	 * Update the description of this Node. The description of the new Node;
-	 * description cannot be null, but may be empty.
-	 *
-	 * @throws HierarchyException if there is a general failure.	 Throws an
-	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
-	 *		   displayName is null.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * Update the description of this Node.
+	 * 
+	 * @param string $description
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @public
 	 */
-	function updateDescription($description) {
+	function updateDescription ( $description ) { 
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
 		
 		if ($this->_description == $description)
-		    return; // nothing to update
+			return; // nothing to update
 
 		// update the object
 		$this->_description = $description;
@@ -233,24 +296,34 @@ class HarmoniNode extends Node {
 
 	/**
 	 * Update the name of this Node. Node name changes are permitted since the
-	 * Hierarchy's integrity is based on the Node's unique Id. name The
-	 * displayName of the new Node; displayName cannot be null, but may be
-	 * empty.
-	 *
-	 * @throws HierarchyException if there is a general failure.	 Throws an
-	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
-	 *		   displayName is null.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * Hierarchy's integrity is based on the Node's unique Id.
+	 * 
+	 * @param string $displayName
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @public
 	 */
-	function updateDisplayName($displayName) {
+	function updateDisplayName ( $displayName ) { 
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		// ** end of parameter validation
 		
 		if ($this->_displayName == $displayName)
-		    return; // nothing to update
+			return; // nothing to update
 		
 		// update the object
 		$this->_displayName = $displayName;
@@ -276,16 +349,26 @@ class HarmoniNode extends Node {
 	}
 
 	/**
-	 * Return true if this Node is a leaf; false otherwise.  A Node is a leaf
+	 * Return true if this Node is a leaf; false otherwise.	 A Node is a leaf
 	 * if it has no children.
-	 *
+	 *	
 	 * @return boolean
-	 *
-	 * @throws HierarchyException if there is a general failure.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function isLeaf() {
+	function isLeaf () { 
 		// leaf-check is done through getChildren(). A leaf would not have any children.
 		
 		$children =& $this->getChildren();
@@ -293,16 +376,25 @@ class HarmoniNode extends Node {
 	}
 
 	/**
-	 * Return true if this Node is a root; false otherwise.  A Node is a root
-	 * if it has no parents.
-	 *
+	 * Return true if this Node is a root; false otherwise.
+	 *	
 	 * @return boolean
-	 *
-	 * @throws HierarchyException if there is a general failure.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function isRoot() {
+	function isRoot () { 
 		// leaf-check is done through getChildren(). A leaf would not have any children.
 		
 		$parents =& $this->getParents();
@@ -311,21 +403,34 @@ class HarmoniNode extends Node {
 
 	/**
 	 * Link a parent to this Node.
-	 *
-	 * @param object osid.shared.Id parentId
-	 *
-	 * @throws HierarchyException if there is a general failure.	 Throws an
-	 *		   exception with the message HierarchyException.UNKNOWN_NODE if
-	 *		   there is no Node mathching parentId.  Throws an exception with
-	 *		   the message HierarchyException.SINGLE_PARENT_HIERARCHY if the
-	 *		   Hierarchy was created with allowsMultipleParents false and an
-	 *		   attempt is made to add a Parent.  Throws and exception with the
-	 *		   message HierarchyException.ALREADY_ADDED if the parent was
-	 *		   already added.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * 
+	 * @param object Id $nodeId
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND
+	 *		   NODE_TYPE_NOT_FOUND}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#SINGLE_PARENT_HIERARCHY
+	 *		   SINGLE_PARENT_HIERARCHY}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#ALREADY_ADDED
+	 *		   ALREADY_ADDED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#ATTEMPTED_RECURSION
+	 *		   ATTEMPTED_RECURSION}
+	 * 
+	 * @public
 	 */
-	function addParent(& $nodeId) {
+	function addParent ( &$nodeId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
@@ -335,21 +440,32 @@ class HarmoniNode extends Node {
 
 	/**
 	 * Unlink a parent from this Node.
-	 *
-	 * @param object osid.shared.Id parentId
-	 *
-	 * @throws HierarchyException if there is a general failure.	 Throws an
-	 *		   exception with the message HierarchyException.UNKNOWN_NODE if
-	 *		   there is no Node mathching parentId.  Throws an exception with
-	 *		   the message HierarchyException.SINGLE_PARENT_HIERARCHY if the
-	 *		   Hierarchy was created with allowsMultipleParents false.  Throws
-	 *		   an exception with the message
-	 *		   HierarchyException.INCONSISTENT_STATE if the disconnection
-	 *		   causes a state inconsistency.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * 
+	 * @param object Id $parentId
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND
+	 *		   NODE_TYPE_NOT_FOUND}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#SINGLE_PARENT_HIERARCHY
+	 *		   SINGLE_PARENT_HIERARCHY}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#INCONSISTENT_STATE
+	 *		   INCONSISTENT_STATE}
+	 * 
+	 * @public
 	 */
-	function removeParent(& $parentId) {
+	function removeParent ( &$parentId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($parentId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
@@ -358,13 +474,33 @@ class HarmoniNode extends Node {
 	}
 
 	/**
-	 * Changes the parent of this Node by adding a new parent and removing the old parent.
-	 * @param object oldParentId
-	 * @param object newParentId
-	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#ATTEMPTED_RECURSION ATTEMPTED_RECURSION}
-	 * @package harmoni.osid.hierarchy
+	 * Changes the parent of this Node by adding a new parent and removing the
+	 * old parent.
+	 * 
+	 * @param object Id $oldParentId
+	 * @param object Id $newParentId
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND
+	 *		   NODE_TYPE_NOT_FOUND}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#ATTEMPTED_RECURSION
+	 *		   ATTEMPTED_RECURSION}
+	 * 
+	 * @public
 	 */
-	function changeParent(& $oldParentId, & $newParentId) { 
+	function changeParent ( &$oldParentId, &$newParentId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($oldParentId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($newParentId, new ExtendsValidatorRule("Id"), true);

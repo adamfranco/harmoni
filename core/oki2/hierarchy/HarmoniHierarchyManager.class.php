@@ -1,36 +1,50 @@
 <?
 
-require_once(OKI."/hierarchy.interface.php");
+require_once(OKI2."/osid/hierarchy/HierachyManager.php");
 
-require_once(HARMONI."oki/hierarchy2/HarmoniHierarchy.class.php");
-require_once(HARMONI."oki/hierarchy2/HarmoniHierarchyIterator.class.php");
-require_once(HARMONI."oki/hierarchy2/HarmoniNodeIterator.class.php");
-require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
+require_once(HARMONI."oki2/hierarchy/HarmoniHierarchy.class.php");
+require_once(HARMONI."oki2/hierarchy/HarmoniHierarchyIterator.class.php");
+require_once(HARMONI."oki2/hierarchy/HarmoniNodeIterator.class.php");
+require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
 
-require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
+require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
 
 /**
- * All implementors of OsidManager provide create, delete, and get methods for
- * the various objects defined in the package.  Most managers also include
- * methods for returning Types.  We use create methods in place of the new
- * operator.  Create method implementations should both instantiate and
- * persist objects.  The reason we avoid the new operator is that it makes the
- * name of the implementating package explicit and requires a source code
- * change in order to use a different package name. In combination with
- * OsidLoader, applications developed using managers permit implementation
- * substitution without source code changes.
+ * <p>
+ * HierarchyManager handles creating, deleting, and getting Hierarchies.
+ * </p>
  * 
+ * <p>
+ * All implementations of OsidManager (manager) provide methods for accessing
+ * and manipulating the various objects defined in the OSID package. A manager
+ * defines an implementation of an OSID. All other OSID objects come either
+ * directly or indirectly from the manager. New instances of the OSID objects
+ * are created either directly or indirectly by the manager.  Because the OSID
+ * objects are defined using interfaces, create methods must be used instead
+ * of the new operator to create instances of the OSID objects. Create methods
+ * are used both to instantiate and persist OSID objects.  Using the
+ * OsidManager class to define an OSID's implementation allows the application
+ * to change OSID implementations by changing the OsidManager package name
+ * used to load an implementation. Applications developed using managers
+ * permit OSID implementation substitution without changing the application
+ * source code. As with all managers, use the OsidLoader to load an
+ * implementation of this interface.
+ * </p>
  * 
- * @package harmoni.osid.hierarchy2
+ * <p></p>
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
+ * @package harmoni.osid.hierarchy
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.1 2005/01/11 17:40:20 adamfranco Exp $
- *
- * @todo Replace JavaDoc with PHPDoc
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.2 2005/01/17 19:10:17 adamfranco Exp $
  */
-
-class HarmoniHierarchyManager extends HierarchyManager {
+class HarmoniHierarchyManager 
+	extends HierarchyManager {
 
 
 	/**
@@ -75,24 +89,34 @@ class HarmoniHierarchyManager extends HierarchyManager {
 
 	/**
 	 * Create a Hierarchy.
-	 *
-	 * @param String displayName
-	 * @param array nodeTypes An array of nodeTypes to add to the Hierarchy. NOTE:
-	 * this value is irrelevant since the current implementation does not include
-	 * a pre-defined set of allowed node types.
-	 * @param String description
-	 * @param boolean allowsMultipleParents
-	 * @param boolean allowsRecursion
-	 *
-	 * @return Hierarchy
-	 *
-	 * @throws HierarchyException if there is a general failure.     Throws an
-	 *		   exception with the message HierarchyException.ILLEGAL_HIERARCHY
-	 *		   if allowsMultipleParents is false and allowsResursion is true.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * 
+	 * @param string $displayName
+	 * @param object Type[] $nodeTypes
+	 * @param string $description
+	 * @param boolean $allowsMultipleParents
+	 * @param boolean $allowsRecursion
+	 *	
+	 * @return object Hierarchy
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNSUPPORTED_CREATION
+	 *		   UNSUPPORTED_CREATION}
+	 * 
+	 * @public
 	 */
-	function &createHierarchy($displayName, $nodeTypes, $description, $allowsMultipleParents, $allowsRecursion) {
+	function &createHierarchy ( $displayName, &$nodeTypes, $description, $allowsMultipleParents, $allowsRecursion ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
@@ -114,8 +138,8 @@ class HarmoniHierarchyManager extends HierarchyManager {
 		
 		// Create a new hierarchy and insert it into the database
 		$hierarchy =& new HarmoniHierarchy($id, $displayName, $description,
-									       new HierarchyCache($idValue, $allowsMultipleParents,
-										                      $this->_dbIndex, $this->_hyDB));
+										   new HierarchyCache($idValue, $allowsMultipleParents,
+															  $this->_dbIndex, $this->_hyDB));
 
 		$query =& new InsertQuery();
 		$query->setTable($db."hierarchy");
@@ -144,18 +168,30 @@ class HarmoniHierarchyManager extends HierarchyManager {
 	
 	/**
 	 * Get a Hierarchy by unique Id.
-	 *
-	 * @param object osid.shared.Id hierarchyId
-	 *
-	 * @return Hierarchy
-	 *
-	 * @throws HierarchyException if there is a general failure.     Throws an
-	 *		   exception with the message HierarchyException.HIERARCHY_UNKNOWN
-	 *		   if there is no Hierarchy matching hierarchyId.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * 
+	 * @param object Id $hierarchyId
+	 *	
+	 * @return object Hierarchy
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND
+	 *		   NODE_TYPE_NOT_FOUND}
+	 * 
+	 * @public
 	 */
-	function &getHierarchy(& $hierarchyId) {
+	function &getHierarchy ( &$hierarchyId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
@@ -191,7 +227,7 @@ class HarmoniHierarchyManager extends HierarchyManager {
 		
 		$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
 		
-	    $hierarchy =& new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
+		$hierarchy =& new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
 
 		// cache it
 		$this->_hierarchies[$idValue] =& $hierarchy;
@@ -202,18 +238,25 @@ class HarmoniHierarchyManager extends HierarchyManager {
 
 	/**
 	 * Get all Hierarchies.
-	 *
-	 * @return HierarchyIterator  Iterators return a set, one at a time.  The
-	 *		   Iterator's hasNext method returns true if there are additional
-	 *		   objects available; false otherwise.  The Iterator's next method
-	 *		   returns the next object.  The order of the objects returned by
-	 *		   the Iterator is not guaranteed.
-	 *
-	 * @throws HierarchyException if there is a general failure.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 *	
+	 * @return object HierarchyIterator
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getHierarchies() {
+	function &getHierarchies () { 
+
 		$dbHandler =& Services::requireService("DBHandler");
 		$db = $this->_hyDB.".";
 		
@@ -244,7 +287,7 @@ class HarmoniHierarchyManager extends HierarchyManager {
 		
 				$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
 						
-			    $hierarchy =& new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
+				$hierarchy =& new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
 				$this->_hierarchies[$idValue] =& $hierarchy;
 			}
 	
@@ -259,19 +302,30 @@ class HarmoniHierarchyManager extends HierarchyManager {
 	/**
 	 * Delete a Hierarchy by unique Id. All Nodes must be removed from the
 	 * Hierarchy before this method is called.
-	 *
-	 * @param object osid.shared.Id hierarchyId
-	 *
-	 * @throws HierarchyException if there is a general failure.     Throws an
-	 *		   exception with the message HierarchyException.HIERARCHY_UNKNOWN
-	 *		   if there is no Hierarchy matching hierarchyId and throws an
-	 *		   exception with the message
-	 *		   HierarchyException.HIERARCHY_NOT_EMPTY if the Hierarchy
-	 *		   contains nodes.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * 
+	 * @param object Id $hierarchyId
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND
+	 *		   NODE_TYPE_NOT_FOUND}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#HIERARCHY_NOT_EMPTY
+	 *		   HIERARCHY_NOT_EMPTY}
+	 * 
+	 * @public
 	 */
-	function deleteHierarchy(& $hierarchyId) {
+	function deleteHierarchy ( &$hierarchyId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
@@ -310,9 +364,40 @@ class HarmoniHierarchyManager extends HierarchyManager {
 		unset($this->_hierarchies[$idValue]);
 	}
 	
+	/**
+	 * This method indicates whether this implementation supports
+	 * HierarchyManager methods: createHierarchy, deleteHierarchy, updateName,
+	 * updateDescription, createRootNode, createNode, deleteNode, addNodeType,
+	 * removeNodeType. Note methods: nodeUpdateDescription,
+	 * noteUpdateDisplayName, addParent, removeParent, changeParent.
+	 *	
+	 * @return boolean
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown: {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
+	 */
+	function supportsMaintenance () { 
+		return TRUE;
+	} 
+	
 	
 	/**
 	 * Returns the hierarchy Node with the specified Id.
+	 *
+	 * WARNING: NOT IN OSID - As of Version 2.0, this method has been removed
+	 * from the OSID.
+	 *
 	 * @access public
 	 * @param ref object id The Id object.
 	 * @return ref object The Node with the given Id.
@@ -352,17 +437,20 @@ class HarmoniHierarchyManager extends HierarchyManager {
 		// get the hierarchy
 		$hierarchy =& $this->getHierarchy($shared_manager->getId($hierarchyId));
 		
-	    $node =& $hierarchy->getNode($id);
+		$node =& $hierarchy->getNode($id);
 
 		return $node;
 	}
 	
-
-	
 	/**
-	 * Returns the hierarchy to which the given Node belongs. Note: this method
-	 * is not part of the OKI interface as of 07/06/04 but has been scheduled for
-	 * addition.
+	 * Returns the hierarchy to which the given Node belongs. 
+	 * 
+	 * WARNING: NOT IN OSID - This method is not part of the OKI interface as 
+	 * of 07/06/04 but has been scheduled for addition.
+	 *
+	 * Note: As of version 2.0, the getNode() method has been removed from the
+	 * OSID, removing the need for this method.
+	 *
 	 * @access public
 	 * @return ref object The Hierarchy to which the Node belongs.
 	 **/
@@ -379,6 +467,9 @@ class HarmoniHierarchyManager extends HierarchyManager {
 	 * The start function is called when a service is created. Services may
 	 * want to do pre-processing setup before any users are allowed access to
 	 * them.
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
 	 * @access public
 	 * @return void
 	 **/
@@ -389,6 +480,9 @@ class HarmoniHierarchyManager extends HierarchyManager {
 	 * The stop function is called when a Harmoni service object is being destroyed.
 	 * Services may want to do post-processing such as content output or committing
 	 * changes to a database, etc.
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
 	 * @access public
 	 * @return void
 	 **/
