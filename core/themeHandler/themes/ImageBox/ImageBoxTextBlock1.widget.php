@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/ImageBoxImageSetting.class.php");
  * The main TextBlock Widget for the ImageBox theme.
  *
  * @package harmoni.themes
- * @version $Id: ImageBoxTextBlock1.widget.php,v 1.1 2004/04/06 20:16:47 adamfranco Exp $
+ * @version $Id: ImageBoxTextBlock1.widget.php,v 1.2 2004/04/06 21:34:43 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -168,7 +168,9 @@ class ImageBoxTextBlock1
 	function _getImageDir() {
 		$borderImage =& $this->getSetting($this->_borderImageId);
 		
-		$imageDir = "/afranco/harmoni/core/themeHandler/themes/ImageBox/images/".$borderImage->getValue()."/";
+		$themedir = str_replace($_SERVER['DOCUMENT_ROOT'], "", dirname(__FILE__));
+		
+		$imageDir = $themedir."/images/".$borderImage->getValue()."/";
 		
 		return $imageDir;
 	}
