@@ -4,7 +4,7 @@
  * A Database interface provides generic database functionality: connect(), executeQuery(), etc.
  * A Database interface provides generic database functionality: connect(), executeQuery(), etc.
  * The interface can be implemented for different types of databases: MySQL, Oracle, SQLServer, etc.
- * @version $Id: Database.interface.php,v 1.1 2003/06/24 20:56:25 gabeschine Exp $
+ * @version $Id: Database.interface.php,v 1.2 2003/06/27 17:20:48 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbhandler
  * @access public
@@ -50,7 +50,8 @@ class DatabaseInterface {
 	 * @param string The SQL query string.
 	 * @return mixed For a SELECT statement, a resource identifier, if
 	 * successful; For INSERT, DELETE, UPDATE statements, TRUE if successful;
-	 * for all: FALSE, if not successful.
+	 * for all: FALSE, if not successful. FALSE will be returned if not
+	 * connected to the database.
 	 */
 	function _query($query) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
