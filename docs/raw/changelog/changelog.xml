@@ -3,6 +3,9 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.3" date="Not Released">
+		<new author='gabe'>Added a file under core/version.inc.php which holds the current harmoni versions.</new>
+		<new author='gabe'>Implemented IDManager class under metaData/ to handle ID generation for the MetaData handler classes.</new>
+		<change author='gabe'>Updated HarmoniType OSID implementation to have a constructor that follows OKI's specifications.</change>
 		<new>Services class now outputs a debug backtrace upon error.</new>
 		<fix author='gabe'>
 			Fixed bug in optional arg-list for Services::startService that caused a syntax error

@@ -4,7 +4,7 @@ require_once(HARMONI."services/Services.interface.php");
 
 /**
  * The ServicesAbstract class defines the public static methods used by users.
- * @version $Id: Services.abstract.php,v 1.3 2003/11/10 21:13:39 gabeschine Exp $
+ * @version $Id: Services.abstract.php,v 1.4 2003/11/12 02:50:36 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @static
@@ -76,8 +76,12 @@ class ServicesAbstract
 				$argList .= ', $arg'.$i;
 			}
 		}
-		$str = 'return $GLOBALS[SERVICES_OBJECT]->start( $name'.$argList.' );';
+		$str = '$result = $GLOBALS[SERVICES_OBJECT]->start( $name'.$argList.' );';
+//		print $str;
+//		$str = 'return $GLOBALS[SERVICES_OBJECT]->start( $name'.$argList.' );';
 		eval($str);
+//		var_dump($result);
+		return $result;
 	}
 	
 	/**
@@ -164,7 +168,6 @@ class ServicesAbstract
 		} else if ($start && !Services::serviceRunning($service) && !Services::startService($service)) {
 			$error = true;
 		}
-		
 		if ($error) {
 			$debug = debug_backtrace();
 			$str = "<B>FATAL ERROR</b><BR><BR>";

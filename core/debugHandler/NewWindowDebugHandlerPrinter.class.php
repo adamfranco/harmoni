@@ -6,7 +6,7 @@ require_once(HARMONI."utilities/HTMLcolor.class.php");
 /**
  * the NewWindowDebugHandlerPrinter prints debug items to a new HTML window.
  *
- * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.2 2003/11/12 02:50:36 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugging
  **/
@@ -25,17 +25,17 @@ class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {
 		if ($level == null) $level = $debugHandler->getOutputLevel();
 		
 		$items = & $debugHandler->getDebugItems($category);
+		
 		if ($level == 0) return true;
 		if (!count($items)) return true;
-		
 		print "<script lang='JavaScript'>\n";
 		print "<!--\n";
 		print "debugWindow = window.open('','debug','scrollbars=yes,menubar=no,location=no,status=no,resizeable=yes,width=600,height=600');\n";
 		print "debugWindow.document.write('<div style=\"padding-left:25px; padding-top: 10px; border-bottom: solid 1px gray\">Starting debug output :: ".date("H").":".date("i").".".date("s")."</div>');\n";
-		
+
 		// some colors
 		$base =& new HTMLcolor("#522");
-		
+
 		foreach (array_keys($items) as $key) {
 			if (($l = $items[$key]->getLevel()) <= $level) {
 				$btext = '';
