@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.3 2005/03/05 00:25:59 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.4 2005/03/16 22:49:35 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.3 2005/03/05 00:25:59 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.4 2005/03/16 22:49:35 adamfranco Exp $
  */
 class SQLDatabaseAuthNMethod
 	extends AuthNMethod
@@ -105,6 +105,8 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function authenticateTokens ( &$authNTokens ) {
+		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		
 		$dbc =& Services::getService("DBHandler");
 		$dbId = $this->_configuration->getProperty('database_id');
 		$authenticationTable = $this->_configuration->getProperty('authentication_table');
@@ -141,6 +143,8 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function tokensExist ( &$authNTokens ) {
+		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		
 		$dbc =& Services::getService("DBHandler");
 		$dbId = $this->_configuration->getProperty('database_id');
 		$authenticationTable = $this->_configuration->getProperty('authentication_table');
@@ -176,6 +180,9 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function _populateProperties ( &$authNTokens, &$properties ) {
+		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		ArgumentValidator::validate($properties, new ExtendsValidatorRule("Properties"));
+		
 		$dbc =& Services::getService("DBHandler");
 		$dbId = $this->_configuration->getProperty('database_id');
 		$authenticationTable = $this->_configuration->getProperty('authentication_table');
@@ -289,6 +296,8 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function addTokens ( &$authNTokens ) {
+		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		
 		if ($this->tokensExist($authNTokens)) {
 			throwError( new Error("Token Addition Error: ".
 							"'".$authNTokens->getUsername()."' already exists.",
@@ -337,6 +346,8 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function deleteTokens ( &$authNTokens ) {
+		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		
 		if (!$this->tokensExist($authNTokens)) {
 			throwError( new Error("Token Deletion Error: "
 							."'".$authNTokens->getUsername()."' does not exist.",
@@ -380,6 +391,9 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function updateTokens ( &$oldAuthNTokens, &$newAuthNTokens ) {
+		ArgumentValidator::validate($oldAuthNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		ArgumentValidator::validate($newAuthNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		
 		if (!$this->tokensExist($oldAuthNTokens)) {
 			throwError( new Error("Token Update Error: "
 							."'".$oldAuthNTokens->getUsername()."' does not exist.",
@@ -431,6 +445,9 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function updatePropertiesForTokens ( &$authNTokens, &$newProperties ) {
+		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		ArgumentValidator::validate($newProperties, new ExtendsValidatorRule("Properties"));
+		
 		if (!$this->tokensExist($authNTokens)) {
 			throwError( new Error("Properties Update Error: "
 							."'".$authNTokens->getUsername()."' does not exist.",

@@ -5,8 +5,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.2 2005/03/14 22:20:39 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.3 2005/03/16 22:49:34 adamfranco Exp $
  */ 
+ 
+ require_once(dirname(__FILE__)."/AgentTokenMapping.class.php");
 
 /**
  * The AgentTokenMappingManager manages the mappings between AgentIds and
@@ -34,7 +36,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.2 2005/03/14 22:20:39 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.3 2005/03/16 22:49:34 adamfranco Exp $
  */
 class AgentTokenMappingManager
 	extends OsidManager
@@ -232,7 +234,7 @@ class AgentTokenMappingManager
 	 * 
 	 * @param object AuthNTokens $authNTokens
 	 * @param object Type $authenticationType
-	 * @return object AgentTokenMapping
+	 * @return mixed AgentTokenMapping OR FALSE if not found.
 	 * @access public
 	 * @since 3/9/05
 	 */
@@ -262,10 +264,10 @@ class AgentTokenMappingManager
 		
 		$mappings =& $this->_createMappingsFromResult($result);
 		
-		if (count($mappings) == 0)
-			throwError( new Error("Mapping not found.",
-									 "AgentTokenMappingManager", true));
-		else if (count($mappings) != 1)
+		if (count($mappings) == 0) {
+			$mapping = FALSE;	// Returning by reference, so must create a var.
+			return $mapping;
+		} else if (count($mappings) != 1)
 			throwError( new Error("Invalid number of results: ".count($mappings),
 									 "AgentTokenMappingManager", true));
 		else
@@ -517,7 +519,7 @@ class AgentTokenMappingManager
 		$mappings = array();
 		$types = array();
 		$idManager =& Services::getService('Id');
-		$authNMethodManager =& Services::getService('AuthNMethodManager');
+		$authNMethodManager =& Services::getService('AuthNMethods');
 		
 		while ($row = $result->getCurrentRow()) {
 			$typeString = $row['domain']."::".
