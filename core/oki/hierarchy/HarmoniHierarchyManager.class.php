@@ -84,11 +84,11 @@ class HarmoniHierarchyManager
 		
 		// if allowsMultipleParents is false and allowsRecursion is true
 		if ($allowsMultipleParents && !$allowsRecursion)
-			throwError(new Error(ILLEGAL_HIERARCHY, "Hierarchy", 1));
+			throwError(new Error(ILLEGAL_HIERARCHY, "HierarchyManager", 1));
 		
 		// if allowsMultipleParents is false and allowsRecursion is true
 		if ($allowsMultipleParents || $allowsRecursion)
-			throwError(new Error(UNSUPPORTED_HIERARCHY, "Hierarchy", 1));
+			throwError(new Error(UNSUPPORTED_HIERARCHY, "HierarchyManager", 1));
 
 		// Create a new hierarchy and add it to the manager array;
 		$hierarchy =& new HarmoniHierarchy($description, $name, $nodeTypes);
@@ -103,12 +103,30 @@ class HarmoniHierarchyManager
 
 	// public Hierarchy & getHierarchy(osid.shared.Id & $hierarchyId);
 	function & getHierarchy(& $hierarchyId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		ArgumentValidator::validate($hierarchyId, new ExtendsValidatorRule("Id"));
+		
+		// if the Id is valid
+		$hierarchies =& $this->getHierarchies();
+		while ($hierarchies->hasNext()) {
+			$hierarchy =& $hierarchies->next();
+			if ($hierarchyId->isEqual($hierarchy->getId())) {
+				// if the hierarchy has the requested Id.
+				$hierarchy->load();
+				return $hierarchy;	
+			}
+		}
+		
+		// if we don't find a matching Id, throw an error
+		throwError(new Error(UNKNOWN_ID, "HierarchyManager", 1));
 	}
 
 	// public HierarchyIterator & getHierarchies();
 	function & getHierarchies() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		foreach ($this->_hierarchies as $key => $val) {
+			$this->_hierarchies[$key]->load();
+		}
+		$hierarchyIterator =& new HarmoniHierarchyIterator($this->_hierarchies);
+		return $hierarchyIterator;
 	}
 
 	// public void deleteHierarchy(osid.shared.Id & $hierarchyId);
