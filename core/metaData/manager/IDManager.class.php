@@ -21,24 +21,27 @@ class IDManager
 		$authority = $type->getAuthority();
 		$keyword = $type->getKeyword();
 		
-		$query =& new SelectQuery();
+		$dbHandler =& Services::requireService("DBHandler");
+		
+/*		$query =& new SelectQuery();
 		$query->addTable("harmoni_id");
 		$query->addColumn("MAX(harmoni_id_number)");
 		
-		$dbHandler =& Services::requireService("DBHandler");
+		
 		$result =& $dbHandler->query($query,$this->_dbID);
 		if (!$result) throwError( new Error("Could not fetch largest ID from the database.","IDManager",true));
 		$max = $result->field(0);
 		
 		debug::output("got current max of '$max' from the database",20,"IDManager");
 		
-		unset($query,$result);
+		unset($query,$result);*/
 		
-		$max++;
+//		$max++;
 		$query =& new InsertQuery;
+		$query->setAutoIncrementColumn("harmoni_id_number","harmoni_id_number_seq");
 		$query->setTable("harmoni_id");
-		$query->setColumns(array("harmoni_id_number","harmoni_id_domain","harmoni_id_authority","harmoni_id_keyword"));
-		$query->addRowOfValues(array($max,
+		$query->setColumns(array("harmoni_id_domain","harmoni_id_authority","harmoni_id_keyword"));
+		$query->addRowOfValues(array(
 								"'".addslashes($domain)."'",
 								"'".addslashes($authority)."'",
 								"'".addslashes($keyword)."'"));
@@ -48,9 +51,11 @@ class IDManager
 			throwError( new UnknownDBError("IDManager"));
 		}
 		
-		debug::output("successfully created new id '$max'",DEBUG_SYS5,"IDManager");
+		$newID = $result->getLastAutoIncrementValue();
 		
-		return $max;
+		debug::output("successfully created new id '$newID'",DEBUG_SYS5,"IDManager");
+		
+		return $newID;
 	}
 	
 	function & getIDType($id) {

@@ -15,7 +15,7 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.8 2003/12/03 02:38:44 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.9 2003/12/27 19:55:46 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -88,7 +88,7 @@ class Harmoni {
 	
 	/**
 	 * @access public
-	 * @var object $language A {@link LanguageLocalizer} object. (NO LONGER USED -– BROKEN)
+	 * @var object $language A {@link LanguageLocalizer} object. (NO LONGER USED -ï¿½ BROKEN)
 	 **/
 	var $language;
 	
@@ -153,16 +153,37 @@ class Harmoni {
 	* @return mixed
 	* @param string $key
 	* @desc Returns the data attached by {@link Harmoni::attachData} referenced by $key.
+	* @deprecated 12/27/03 See getAttachedData()
 	*/
 	function &getData($key) {
 		return $this->_attachedData->get($key);
 	}
 	
 	/**
+	* @return mixed
+	* @param string $key
+	* @desc Returns the data attached by {@link Harmoni::attachData} referenced by $key.
+	*/
+	function &getAttachedData($key) {
+		return $this->_attachedData->get($key);
+	}	
+	
+	/**
+	* @return void
+	* @param string $module
+	* @param string $action
+	* @desc An alias for {@link ActionHandler::forward()}. Purely for convenience.
+	*/
+	function &forward($module, $action) {
+		$this->ActionHandler->forward($module, $action);
+	}
+	
+	/**
 	 * Sets the callback function to find out what module and action the end-user
 	 * would like to view. The function needs to return a dotted pair ("module.action") string
 	 * specifying which module and action to use. The default is to look for an HTTP
-	 * variable called "module" and one called "action".
+	 * variable called "module" and one called "action". The function is passed a reference to the
+	 * Harmoni object.
 	 * @param string $functionName The name of the function to call to get
 	 * the module.action string.
 	 * @access public
@@ -184,7 +205,7 @@ class Harmoni {
 		
 		// find what action we are trying to execute
 		$callback = $this->_actionCallbackFunction;
-		$pair = $callback();
+		$pair = $callback($this);
 		
 		// now, let's find out what we got handed. could be any of:
 		// 1) module.action <-- great
@@ -373,12 +394,13 @@ class Harmoni {
  * This function is an actionCallback function for the {@link Harmoni} class. It returns
  * a "module.action" pair from HTTP GET variables "module" and "action".
  * @access public
+ * @param ref object $harmoni The Harmoni object.
  * @package harmoni.architecture
  * @return void
  **/
-function httpTwoVarsActionCallback() {
-	$module = $_REQUEST['module'];
-	$action = $_REQUEST['action'];
+function httpTwoVarsActionCallback(&$harmoni) {
+	$module = $harmoni->HTTPVars->get('module');
+	$action = $harmoni->HTTPVars->get('action');
 	return "$module.$action";
 }
 

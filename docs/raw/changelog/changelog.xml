@@ -3,6 +3,13 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.5" date="Not Released">
+		<change author='gabe'>
+			Harmoni::getData has been deprecated and replaced by Harmoni::getAttachedData to avoid ambiguity.
+		</change>
+		<change author='gabe'>
+			IDManager::newID() now uses auto_increment DB functionality to reduce query count on compatible
+			servers.
+		</change>
 		<fix author='gabe'>
 			DataSet::populate() now sets its own ID to avoid super re-duplication of DataSets in database.
 		</fix>

@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.13 2003/11/27 04:55:35 gabeschine Exp $
+* @version $Id: services.cfg.php,v 1.14 2003/12/27 19:55:38 gabeschine Exp $
 * @copyright 2003
 **/
 
@@ -121,7 +121,7 @@ if (LOAD_STORAGE) {
 
 // include MetaDataManager files
 if (LOAD_DATAMANAGER) {
-//	require_once(HARMONI."metaData/manager/HarmoniDataManager.abstract.php");
+	require_once(HARMONI."metaData/manager/HarmoniDataManager.abstract.php");
 }
 
 /**
