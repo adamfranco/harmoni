@@ -33,6 +33,9 @@ class HarmoniId extends Id {
 
 	// public boolean isEqual(osid.shared.Id & $id);
 	function isEqual(& $id) {
+		// Validate the arguments
+		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
+		
 		return ($id->getIdString() == $this->_id) ? true : false;
 	}
 

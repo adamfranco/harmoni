@@ -4,7 +4,7 @@
  * Holds information about a specific label within a {@link DataSetTypeDefinition}. Defines
  * what type of data the field holds (string, integer, etc) and if it can have multiple values.
  * @package harmoni.datamanager
- * @version $Id: FieldDefinition.class.php,v 1.12 2004/03/31 19:13:26 adamfranco Exp $
+ * @version $Id: FieldDefinition.class.php,v 1.13 2004/06/22 14:34:52 nstamato Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -68,6 +68,10 @@ class FieldDefinition {
 	function associate( &$dataSetTypeDefinition,
 			$dbID,
 			$myID=null ) {
+			
+		// Validate the arguments
+		ArgumentValidator::validate($dbID, new IntegerValidatorRule);
+		
 		// first check if we're already attached to a DataSetTypeDefinition.
 		// if so, we're gonna dump
 		if ($this->_associated) {
