@@ -4,7 +4,6 @@ require_once(HARMONI.'/oki/hierarchy/HierarchyStore.interface.php');
 require_once(HARMONI.'/oki/hierarchy/Tree.php');
 require_once(HARMONI.'/oki/hierarchy/HarmoniHierarchy.class.php');
 require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
-Services::registerService("Shared","HarmoniSharedManager");
 
 /******************************************************************************
  * A storage wrapper for the Tree class
@@ -755,14 +754,10 @@ class SQLDatabaseHierarchyStore
 		$found = FALSE;
 		foreach ($this->_nodeTypes as $key => $val) {
 			// if it is the type we are removing, add it to the _deletedNodeTypes array,
-			// otherwise add it to the new array.
-			
-			printpre($nodeType); print "<br>Is Equal to?:<br>"; printpre($this->_nodeTypes[$key]);
-			
+			// otherwise add it to the new array.			
 			if ($nodeType->isEqual($this->_nodeTypes[$key])) {
 				$this->_deletedNodeTypes[$key] =& $this->_nodeTypes[$key];
 				$found = TRUE;
-				print "FOUND!";
 			} else
 				$newNodeTypes[$key] =& $this->_nodeTypes[$key];
 		}

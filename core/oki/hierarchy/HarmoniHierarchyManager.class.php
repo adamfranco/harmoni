@@ -11,7 +11,6 @@ require_once(HARMONI."oki/hierarchy/MemoryOnlyHierarchyManagerStore.class.php");
 require_once(HARMONI."oki/hierarchy/SQLDatabaseHierarchyManagerStore.class.php");
 
 require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
-Services::registerService("Shared","HarmoniSharedManager");
 
 define("SQL_DATABASE", 1000);
 define("MEMORY_ONLY", 1001);
@@ -33,7 +32,7 @@ define("MEMORY_ONLY", 1001);
  * 
  * <p></p>
  *
- * @version $Revision: 1.15 $ / $Date: 2003/11/06 22:52:48 $
+ * @version $Revision: 1.16 $ / $Date: 2004/01/14 20:30:37 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
