@@ -4,7 +4,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.7 2003/07/15 18:45:02 movsjani Exp $
+ * @version $Id: test.php,v 1.8 2003/07/16 16:51:37 movsjani Exp $
  * @copyright 2003 
  **/
 
@@ -18,12 +18,13 @@
 
     require_once(SIMPLE_TEST . 'simple_unit.php');
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
-	
-$test =& new GroupTest('StorageHandler tests');
-    $test->addTestFile(HARMONI.'storageHandler/tests/FileStorableTestCase.class.php');
-$test->addTestFile(HARMONI.'storageHandler/tests/DatabaseStorableTestCase.class.php');
-   $test->addTestFile(HARMONI.'storageHandler/tests/FileStorageMethodTestCase.class.php');
-    $test->addTestFile(HARMONI.'storageHandler/tests/StorageHandlerTestCase.class.php');
+
+    $test =& new GroupTest('StorageHandler tests');
+//    $test->addTestFile(HARMONI.'storageHandler/tests/FileStorableTestCase.class.php');
+    $test->addTestFile(HARMONI.'storageHandler/tests/DatabaseStorableTestCase.class.php');
+//    $test->addTestFile(HARMONI.'storageHandler/tests/FileStorageMethodTestCase.class.php');
+    $test->addTestFile(HARMONI.'storageHandler/tests/DatabaseStorageMethodTestCase.class.php');
+//    $test->addTestFile(HARMONI.'storageHandler/tests/StorageHandlerTestCase.class.php');
 	$test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 

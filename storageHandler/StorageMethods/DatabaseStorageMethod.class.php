@@ -5,9 +5,12 @@ require_once(HARMONI.'storageHandler/Storables/DatabaseStorable.class.php');
 
 /**
  * Database Storage Method interface provides functionality to store and handle
- * Storables on a file system. To be used by StorageHandler
+ * Storables on a file system. To be used by StorageHandler.
  *
- * @version $Id: DatabaseStorageMethod.class.php,v 1.1 2003/07/15 21:12:36 movsjani Exp $
+ * Note: All methods assume the path parameter has a trailing slash ('/'). Otherwise
+ * all recursive functions may get hold of paths that are unrelated.
+ *
+ * @version $Id: DatabaseStorageMethod.class.php,v 1.2 2003/07/16 16:51:35 movsjani Exp $
  * @package harmoni.storage.methods
  * @copyright 2003
  * @access public
@@ -59,7 +62,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
      */
 
     function store($storable,$path,$name) { 
-        $extendsRule =& new ExtendsValidatorRule("Storable");
+        $extendsRule =& new ExtendsValidatorRule("FileStorable");
 		ArgumentValidator::validate($storable, $extendsRule, true);
 
 		Services::requireService("DBHandler");
@@ -70,13 +73,14 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 
 		// if the row does not exist in the database - create it first.
 		if(!$this->exists($path,$name)){
+
 			$query =& new InsertQuery();
 			
 			$query->setTable($this->_parameters->get("dbTable"));
 
 			$query->setColumns(array($this->_parameters->get("nameColumn"),$this->_parameters->get("pathColumn")));
 
-			$query->addRowOfValues(array($name,$path));
+			$query->addRowOfValues(array("'$name'","'$path'"));
 			$queryQueue->add($query);
 		}
 
@@ -87,19 +91,23 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 
 		$sizeColumn = $this->_parameters->get("sizeColumn");
 		$size = $storable->getSize();
+		$data = $storable->getData();
 
-		if(isset($sizeColumn) && $sizeColumn!=""){
+		if(!empty($sizeColumn)){
 			$query->setColumns(array($this->_parameters->get("dataColumn"),$sizeColumn));
-			$query->addRowOfValues(array($storable->getData(),$size));
+			$query->setValues(array("'$data'",$size));
 	
 		}
 		else{
 			$query->setColumns(array($this->_parameters->get("dataColumn")));
-			$query->addRowOfValues(array($storable->getData()));
+			$query->setValues(array("'$data'"));
 		}
 
+		$query->setWhere($this->_parameters->get("nameColumn")." = '$name' AND ".
+						 $this->_parameters->get("pathColumn")." = '$path'");
+
 		$queryQueue->add($query);
-		$this->_dbHandler->queryQueue($queryQueue,$this->_parameters->get("dbIndex"));
+		$result =& $this->_dbHandler->queryQueue($queryQueue,$this->_parameters->get("dbIndex"));
 	}
 
     /**
@@ -127,8 +135,8 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 		if($this->exists($path,$name)){
 			$query =& new DeleteQuery();
 			$query->setTable($this->_parameters->get("dbTable"));
-			$query->setWhere($this->_parameters->get("nameColumn")."=".$name." AND ".
-							 $this->_parameters->get("pathColumn")."=".$path);
+			$query->setWhere($this->_parameters->get("nameColumn")."= '$name' AND ".
+							 $this->_parameters->get("pathColumn")."= '$path'");
 
 			$this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
 		}
@@ -142,13 +150,14 @@ class DatabaseStorageMethod extends StorageMethodInterface {
      * @access public
      */
     function exists($path,$name=null) { 
+
 		$query =& new SelectQuery();
 		$query->addTable($this->_parameters->get("dbTable"));
 		$query->addColumn($this->_parameters->get("pathColumn"));
-		
-		$query->addWhere($this->_parameters->get("pathColumn")." = ".$path);
+
+		$query->addWhere($this->_parameters->get("pathColumn")." = '$path.'");
 		if($name!=null)
-			$query->addWhere($this->_parameters->get("nameColumn")." = ".$name,_AND);
+			$query->addWhere($this->_parameters->get("nameColumn")." = '$name'",_AND);
 
 		$result =& $this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
 
@@ -174,9 +183,9 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 		$query->addColumn($this->_parameters->get("nameColumn"));
 		
 		if($name!=null)
-			$query->addWhere($this->_parameters->get("pathColumn")." = ".$path." AND ".$this->_parameters->get("nameColumn")." = ".$name);
+			$query->addWhere($this->_parameters->get("pathColumn")." = '$path' AND ".$this->_parameters->get("nameColumn")." = '$name'");
 		else
-			$query->addWhere($this->_parameters->get("pathColumn")." LIKE ".$path."%");
+			$query->addWhere($this->_parameters->get("pathColumn")." LIKE '$path%'");
 
 		$result =& $this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
 
@@ -186,6 +195,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 			$name_value = $result->field($this->_parameters->get("nameColumn"));
 			$storable =& $this->retrieve($path_value,$name_value);
 			$totalsize += $storable->getSize();
+			$result->advanceRow();
 		}
 
 		return $totalsize;
@@ -199,7 +209,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
     function deleteRecursive($path) {
 		$query =& new DeleteQuery();
 		$query->setTable($this->_parameters->get("dbTable"));
-		$query->setWhere($this->_parameters->get("pathColumn")." LIKE ".$path."%");
+		$query->setWhere($this->_parameters->get("pathColumn")." LIKE '$path%'");
 
 		$this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
 	}
@@ -218,9 +228,9 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 		$query->addColumn($this->_parameters->get("nameColumn"));
 		
 		if($recursive)
-			$query->addWhere($this->_parameters->get("pathColumn")." LIKE ".$path."%");
+			$query->addWhere($this->_parameters->get("pathColumn")." LIKE '$path%'");
 		else
-			$query->addWhere($this->_parameters->get("pathColumn")." = ".$path);
+			$query->addWhere($this->_parameters->get("pathColumn")." = '$path'");
 
 		$result =& $this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
 
@@ -229,6 +239,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 			$path_value = $result->field($this->_parameters->get("pathColumn"));
 			$name_value = $result->field($this->_parameters->get("nameColumn"));
 			$storables[] =& $this->retrieve($path_value,$name_value);
+			$result->advanceRow();
 		}
 
 		return $storables;
@@ -247,9 +258,9 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 		$query->addColumn($this->_parameters->get("pathColumn"));
 		
 		if($recursive)
-			$query->addWhere($this->_parameters->get("pathColumn")." LIKE ".$path."%");
+			$query->addWhere($this->_parameters->get("pathColumn")." LIKE '$path%'");
 		else
-			$query->addWhere($this->_parameters->get("pathColumn")." = ".$path);
+			$query->addWhere($this->_parameters->get("pathColumn")." = '$path'");
 
 		$result =& $this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
 
