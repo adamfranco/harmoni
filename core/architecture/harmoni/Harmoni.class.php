@@ -18,7 +18,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.28 2004/08/10 16:29:26 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.29 2004/11/04 16:43:06 adamfranco Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -119,7 +119,7 @@ class Harmoni {
 			
 		// set up pathInfoParts
 		$pathInfo = $_SERVER['PATH_INFO'];
-		$this->pathInfoParts = explode("/",ereg_replace("^/","",$pathInfo));
+		$this->pathInfoParts = explode("/",ereg_replace("^/|/$","",$pathInfo));
 		
 		// set up the language localizer :: BROKEN?
 //		$this->language =& new LanguageLocalizer(HARMONI."languages");
