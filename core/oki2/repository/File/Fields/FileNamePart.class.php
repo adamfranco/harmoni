@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileNamePart.class.php,v 1.2 2005/01/26 16:10:56 thebravecowboy Exp $
+ * @version $Id: FileNamePart.class.php,v 1.3 2005/01/26 22:44:11 adamfranco Exp $
  */
 class FileNamePart extends Part
 //	extends java.io.Serializable
@@ -29,7 +29,7 @@ class FileNamePart extends Part
 	var $_partStructure;
 	var $_name;
 	
-	function FileNameInfoField( &$partStructure, &$recordId, $configuration ) {
+	function FileNamePart( &$partStructure, &$recordId, $configuration ) {
 		$this->_recordId =& $recordId;
 		$this->_partStructure =& $partStructure;
 		$this->_configuration = $configuration;
@@ -144,7 +144,7 @@ class FileNamePart extends Part
 	 */
 	function &getParts() {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniField", true));
+			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**

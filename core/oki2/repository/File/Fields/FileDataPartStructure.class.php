@@ -21,7 +21,7 @@ require_once(OKI2."/osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPartStructure.class.php,v 1.2 2005/01/26 16:58:19 adamfranco Exp $ 
+ * @version $Id: FileDataPartStructure.class.php,v 1.3 2005/01/26 22:44:10 adamfranco Exp $ 
  */
 class FileDataPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -152,7 +152,7 @@ class FileDataPartStructure extends PartStructure
 	 */
 	function &getPartStructures() {
 		$array = array();
-		return new HarmoniNodeIterator($array); // @todo replace with HarmoniInfoPartIterator
+		return new HarmoniNodeIterator($array); // @todo replace with HarmoniPartStructureIterator
 	}
 
 	/**
@@ -278,10 +278,9 @@ class FileDataPartStructure extends PartStructure
 	 * @access public
 	 */
 	function validatePart(& $part) {
-		// we can check if the infoField (ie, ValueVersions) has values of the right type.
+		// we can check if the Part (ie, ValueVersions) has values of the right type.
 		// @todo
 		
 		return true;
 	}
-	// :: full java declaration :: public boolean validateInfoField(InfoField infoField)
 }

@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.6 2005/01/26 21:52:26 thebravecowboy Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.7 2005/01/26 22:43:41 adamfranco Exp $ 
  */
 
 class HarmoniRecord extends Record
@@ -186,12 +186,12 @@ class HarmoniRecord extends Record
 	 * @public
 	 */
 	function &getParts () { 
-		// Get all of the InfoParts in this structure
+		// Get all of the PartStructures in this structure
 		$parts =& $this->_recordStructure->getParts();
 		while ($parts->hasNext()) {
 			$part =& $parts->next();
 			$allRecordFieldValues =& $this->_record->getAllRecordFieldValues($part->getDisplayName());
-			// Create an InfoField for each valueVersionObj
+			// Create an Part for each valueVersionObj
 			if (count($allRecordFieldValues)) {
 				foreach (array_keys($allRecordFieldValues) as $key) {
 					if ($activeValue =& $allRecordFieldValues[$key]->getActiveVersion()
@@ -210,12 +210,12 @@ class HarmoniRecord extends Record
 
 	/**
 	 *WARNING!! Not in the OSID, use at your own risk
-	 * Return true if this InfoRecord is multi-valued; false otherwise.	 This is determined by the implementation.
+	 * Return true if this Record is multi-valued; false otherwise.	 This is determined by the implementation.
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
 	function isMultivalued() {
-		return true; // we allow as many InfoRecords of any InfoStructure as people want.
+		return true; // we allow as many Records of any RecordStructure as people want.
 	}
 
 	/**

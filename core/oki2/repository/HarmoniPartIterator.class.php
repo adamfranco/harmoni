@@ -20,20 +20,13 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartIterator.class.php,v 1.4 2005/01/26 21:52:26 thebravecowboy Exp $ 
+ * @version $Id: HarmoniPartIterator.class.php,v 1.5 2005/01/26 22:43:41 adamfranco Exp $ 
  */
-
-
-
-// public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
-define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
 
 class HarmoniPartIterator
 	extends HarmoniIterator
 	//implements PartIterator
-{ // begin PartIterator
-
-	
+{	
 
 	/**
 	 * Return true if there is an additional  Part ; false otherwise.
@@ -83,6 +76,6 @@ class HarmoniPartIterator
 		return $this->next();
 	}
 
-} // end InfoFieldIterator
+}
 
 ?>

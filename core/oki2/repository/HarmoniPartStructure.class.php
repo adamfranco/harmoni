@@ -19,18 +19,18 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.3 2005/01/26 21:52:26 thebravecowboy Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.4 2005/01/26 22:43:41 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
 {
 
 	var $_schemaField;
-	var $_partStructure;
+	var $_recordStructure;
 	
-	function HarmoniPartStructure(&$partStructure, &$schemaField) {
+	function HarmoniPartStructure(&$recordStructure, &$schemaField) {
 		$this->_schemaField =& $schemaField;
-		$this->_partStructure =& $partStructure;
+		$this->_recordStructure =& $recordStructure;
 	}
 	
 	/**
@@ -184,7 +184,7 @@ class HarmoniPartStructure extends PartStructure
 	 */
 	function &getPartStructures () { 
 		$array = array();
-		return new HarmoniNodeIterator($array); // @todo replace with HarmoniInfoPartIterator
+		return new HarmoniNodeIterator($array); // @todo replace with HarmoniPartStructureIterator
 	}
 
 	 /**
@@ -280,7 +280,7 @@ class HarmoniPartStructure extends PartStructure
 	 * @public
 	 */
 	function &getRecordStructure () { 
-		return $this->_infoStructure;
+		return $this->_recordStructure;
 	}
 
 	/**
@@ -316,5 +316,4 @@ class HarmoniPartStructure extends PartStructure
 		
 		return true;
 	}
-	// :: full java declaration :: public boolean validateInfoField(InfoField infoField)
 }

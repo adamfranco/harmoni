@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPart.class.php,v 1.2 2005/01/26 16:10:56 thebravecowboy Exp $
+ * @version $Id: FileDataPart.class.php,v 1.3 2005/01/26 22:44:10 adamfranco Exp $
  */
  
 class FileDataPart extends Part 
@@ -30,9 +30,9 @@ class FileDataPart extends Part
 	var $_partStructure;
 	var $_data;
 	
-	function FileDataPart( &$PartStructure, &$recordId, $configuration ) {
+	function FileDataPart( &$partStructure, &$recordId, $configuration ) {
 		$this->_recordId =& $recordId;
-		$this->_partStructure =& $infoPart;
+		$this->_partStructure =& $partStructure;
 		$this->_configuration = $configuration;
 		
 		// Set our data to NULL, so that we can know if it has not been checked

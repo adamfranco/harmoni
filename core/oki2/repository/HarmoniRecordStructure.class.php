@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.7 2005/01/26 21:52:26 thebravecowboy Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.8 2005/01/26 22:43:41 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure extends RecordStructure
@@ -36,7 +36,7 @@ class HarmoniRecordStructure extends RecordStructure
 	function HarmoniRecordStructure( &$schema ) {
 		$this->_schema =& $schema;
 		
-		// create an array of created InfoParts so we can return references to
+		// create an array of created PartStructures so we can return references to
 		// them instead of always making new ones.
 		$this->_createdParts = array();
 	}
@@ -139,12 +139,12 @@ class HarmoniRecordStructure extends RecordStructure
 	}
 
 	/**
-	 * Get the InfoPart in the InfoStructure with the specified Id.
+	 * Get the PartStructure in the RecordStructure with the specified Id.
 	 * @param object $infoPartId
-	 * @return object InfoPart
+	 * @return object PartStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function &getInfoPart(& $partId) {
+	function &getPartStructure(& $partId) {
 		if (!$this->_createdParts[$partId->getIdString()]) {
 			$this->_schema->load();
 			$this->_createdParts[$partId->getIdString()] =& new HarmoniPart($this, $this->_schema->getFieldById($partId->getIdString()));
@@ -184,7 +184,6 @@ class HarmoniRecordStructure extends RecordStructure
 		
 		return new HarmoniRecordStructureIterator($this->_createdParts);
 	}
-	// :: full java declaration :: public InfoPartIterator getInfoParts()
 
 	/**
 	 * Get the schema for this RecordStructure.	 The schema is defined by the
@@ -310,27 +309,27 @@ class HarmoniRecordStructure extends RecordStructure
 	 * @public
 	 */
 	function validateRecord ( &$record ) { 
-		// all we can really do is make sure the DataSet behind the infoRecord is of the correct
-		// type to match this InfoStructure (DataSetTypeDefinition).
+		// all we can really do is make sure the DataSet behind the Record is of the correct
+		// type to match this RecordStructure (DataSetTypeDefinition).
 		
 		return true; // for now
 	}
 
 	/**
-	 * Create an InfoPart in this InfoStructure. This is not part of the Repository OSID at 
+	 * Create an PartStructure in this RecordStructure. This is not part of the Repository OSID at 
 	 * the time of this writing, but is needed for dynamically created 
-	 * InfoStructures/InfoParts.
+	 * RecordStructures/PartStructures.
 	 *
-	 * @param string $displayName	The DisplayName of the new InfoStructure.
-	 * @param string $description	The Description of the new InfoStructure.
+	 * @param string $displayName	The DisplayName of the new RecordStructure.
+	 * @param string $description	The Description of the new RecordStructure.
 	 * @param object Type $type		One of the InfoTypes supported by this implementation.
 	 *								E.g. string, shortstring, blob, datetime, integer, float,
 	 *								
-	 * @param boolean $isMandatory	True if the InfoPart is Mandatory.
-	 * @param boolean $isRepeatable True if the InfoPart is Repeatable.
-	 * @param boolean $isPopulatedByDR	True if the InfoPart is PopulatedBy the DR.
+	 * @param boolean $isMandatory	True if the PartStructure is Mandatory.
+	 * @param boolean $isRepeatable True if the PartStructure is Repeatable.
+	 * @param boolean $isPopulatedByDR	True if the PartStructure is PopulatedBy the DR.
 	 *
-	 * @return object InfoPart The newly created InfoPart.
+	 * @return object PartStructure The newly created PartStructure.
 	 */
 	function createPart($displayName, $description, & $partType, $isMandatory, $isRepeatable, $isPopulatedByRepository) {
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
@@ -354,7 +353,7 @@ class HarmoniRecordStructure extends RecordStructure
 
 	/**
 	 *WARNING! Not in the OSID, use at your own risk
-	 *Get the possible types for InfoParts.
+	 *Get the possible types for PartStructures.
 	 *
 	 * @return object TypeIterator The Types supported in this implementation.
 	 */

@@ -16,7 +16,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.5 2005/01/26 21:52:26 thebravecowboy Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.6 2005/01/26 22:43:41 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -628,7 +628,7 @@ class HarmoniAsset
 	
 			// instantiate the new record.
 			$recordClass = $this->_repository->_builtInTypes[$recordStructureId->getIdString()];
-			$recordStructure =& $this->_repository->getInfoStructure($recordStructureId);
+			$recordStructure =& $this->_repository->getRecordStructure($recordStructureId);
 			$record =& new $recordClass($recordStructure, $newId, $this->_configuration);
 			
 			// store a relation to the record
@@ -640,7 +640,7 @@ class HarmoniAsset
 			$query->addRowOfValues(array(
 								"'".$myId->getIdString()."'",
 								"'".$newId->getIdString()."'",
-								"'".$infoStructureId->getIdString()."'"));
+								"'".$recordStructureId->getIdString()."'"));
 			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 		} 
 		
@@ -651,7 +651,7 @@ class HarmoniAsset
 			$myId = $this->_node->getId();
 			$myGroup =& $recordMgr->fetchRecordSet($myId->getIdString());
 			
-			// Get the info Structure needed.
+			// Get the recordStructure needed.
 			$recordStructures =& $this->_repository->getRecordStructures();
 			while ($recordStructures->hasNext()) {
 				$structure =& $recordStructures->next();
@@ -685,7 +685,7 @@ class HarmoniAsset
 			// Add the DataSet to our group
 			$myGroup->add($newRecord);
 			
-			// us the InfoStructure and the dataSet to create a new InfoRecord
+			// us the RecordStructure and the dataSet to create a new Record
 			$record =& new HarmoniRecord($structure, $newRecord);
 		}
 		
@@ -782,7 +782,7 @@ class HarmoniAsset
 			$otherSet->loadRecords(RECORD_FULL);
 			$records =& $otherSet->getRecords();
 			
-			// Add all of DataSets (Records) of the specified InfoStructure and Asset
+			// Add all of DataSets (Records) of the specified RecordStructure and Asset
 			// to our DataSetGroup.
 			foreach (array_keys($records) as $key) {
 				// Get the ID of the current DataSet's TypeDefinition
@@ -790,7 +790,7 @@ class HarmoniAsset
 				$schemaId =& $idMgr->getId($schema->getID());
 				
 				// If the current DataSet's DataSetTypeDefinition's ID is the same as
-				// the InfoStructure ID that we are looking for, add that dataSet to our
+				// the RecordStructure ID that we are looking for, add that dataSet to our
 				// DataSetGroup.
 				if ($receordStructureId->isEqual($schemaId)) {
 					$mySet->add($records[$key]);
@@ -848,7 +848,7 @@ class HarmoniAsset
 		$otherSet->loadRecords(RECORD_FULL);
 		$records =& $otherSet->getRecords();
 		
-		// Add all of Records (InfoRecords) of the specified InfoStructure and Asset
+		// Add all of Records (Records) of the specified RecordStructure and Asset
 		// to our RecordSet.
 		foreach (array_keys($records) as $key) {
 			// Get the ID of the current DataSet's TypeDefinition
@@ -856,7 +856,7 @@ class HarmoniAsset
 			$schemaId =& $idMgr->getId($schema->getID());
 			
 			// If the current Record's Schema ID is the same as
-			// the InfoStructure ID that we are looking for, add clones of that Record
+			// the RecordStructure ID that we are looking for, add clones of that Record
 			// to our RecordSet.
 			if ($recordStructureId->isEqual($schemaId)) {
 				$newRecord =& $records[$key]->clone();
@@ -903,7 +903,7 @@ class HarmoniAsset
 		// a record for that schema.
 		if (in_array($structureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
 		{
-			// Delete all of the InfoFields for the record
+			// Delete all of the Parts for the record
 			$parts =& $record->getParts();
 			while ($parts->hasNext()) {
 				$part =& $parts->next();
@@ -974,7 +974,7 @@ class HarmoniAsset
     function &getRecord ( &$recordId ) { 
 		ArgumentValidator::validate($recordId, new ExtendsValidatorRule("Id"));
 		
-		// Check to see if the info record is in our cache.
+		// Check to see if the record is in our cache.
 		// If so, return it. If not, create it, then return it.
 		if (!$this->_createdRecords[$recordId->getIdString()]) {
 			
@@ -1022,13 +1022,13 @@ class HarmoniAsset
 				if (!$rule->check($record))
 					throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository :: Asset", TRUE));
 				
-				// Get the info structure.
+				// Get the record structure.
 				$schema =& $record->getSchema();
 				if (!$this->_createdRecordStructures[$schema->getID()]) {
 					$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure($schema);
 				}
 				
-				// Create the InfoRecord in our cache.
+				// Create the Record in our cache.
 				$this->_createdRecords[$recordId->getIdString()] =& new HarmoniRecord (
 								$this->_createdRecordStructures[$schema->getID()], $record);
 			}
@@ -1073,7 +1073,7 @@ class HarmoniAsset
 			$recordSet->loadRecords();
 			$records =& $recordSet->getRecords();
 	
-			// create info records for each dataSet as needed.
+			// create  records for each dataSet as needed.
 			foreach (array_keys($records) as $key) {
 				$recordIdString = $records[$key]->getID();
 				$recordId =& $idManager->getId($recordIdString);
@@ -1097,8 +1097,8 @@ class HarmoniAsset
 			$query->addTable("dr_asset_record");
 			$query->addColumn("FK_record");
 			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
-			if ($infoStructureId)
-				$query->addWhere("structure_id = '".$infoStructureId->getIdString()."'", _AND);
+			if ($recordStructureId)
+				$query->addWhere("structure_id = '".$recordStructureId->getIdString()."'", _AND);
 			
 			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 			
@@ -1163,7 +1163,7 @@ class HarmoniAsset
      * @public
      */
     function &getRecordStructures () { 
-		// cycle through all our DataSets, get their type and make an InfoStructure for each. 
+		// cycle through all our DataSets, get their type and make an RecordStructure for each. 
 		$recordStructures = array();
 		
 		$records =& $this->getRecords();
@@ -1247,14 +1247,14 @@ class HarmoniAsset
 		$records =& $this->getRecords();
 		while ($records->hasNext()) {
 			$record =& $records->next();
-			$fields =& $record->getParts();
-			while ($fields->hasNext()) {
-				$field =& $fields->next();
-				if ($partId->isEqual($field->getId()))
-					return $field;
+			$parts =& $record->getParts();
+			while ($parts->hasNext()) {
+				$part =& $parts->next();
+				if ($partId->isEqual($part->getId()))
+					return $part;
 			}
 		}
-		// Throw an error if we didn't find the field.
+		// Throw an error if we didn't find the part.
 		throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository :: Asset", TRUE));
 	}
 	
@@ -1314,7 +1314,7 @@ class HarmoniAsset
      * @public
      */
     function &getPartsByPartStructure ( &$partStructureId ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+        throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Digital Repository :: Asset", TRUE));
     } 
 	
 	/**
@@ -1343,46 +1343,8 @@ class HarmoniAsset
      * @public
      */
     function &getPartValuesByPartStructure ( &$partStructureId ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+        throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Digital Repository :: Asset", TRUE));
     } 
-	
-	/**
-	 * Get the InfoFields of the InfoRecords for this Asset that are based 
-	 * on this InfoStructure InfoPart Unique Id.
-	 *
-	 * @param object osid.shared.Id infoPartId
-	 *
-	 * @return object osid.dr.InfoFieldIterator
-	 *
-	 * @throws An exception with one of the following messages defined in 
-	 * 		osid.dr.DigitalRepositoryException may be thrown: 
-	 * 		OPERATION_FAILED, PERMISSION_DENIED, CONFIGURATION_ERROR, 
-	 *		UNIMPLEMENTED, NULL_ARGUMENT, UNKNOWN_ID
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getInfoFieldsByPart(& $infoPartId) {
-		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
-	}
-	
-	/**
-	 * Get the Values of the InfoFields of the InfoRecords for this Asset
-	 * that are based on this InfoStructure InfoPart Unique Id.
-	 *
-	 * @param object osid.shared.Id infoPartId
-	 *
-	 * @return object osid.shared.SerializableObjectIterator
-	 *
-	 * @throws An exception with one of the following messages defined in 
-	 * 		osid.dr.DigitalRepositoryException may be thrown: 
-	 * 		OPERATION_FAILED, PERMISSION_DENIED, CONFIGURATION_ERROR, 
-	 *		UNIMPLEMENTED, NULL_ARGUMENT, UNKNOWN_ID
- 	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getInfoFieldValueByPart(& $infoPartId) {
-		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
-	}
 
 	/**
 	 * Store the effective and expiration Dates. getEffectiveDate or getExpirationDate

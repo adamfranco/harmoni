@@ -19,7 +19,7 @@ require(OKI2."osid/repository/Part.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.6 2005/01/26 21:52:26 thebravecowboy Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.7 2005/01/26 22:43:41 adamfranco Exp $ 
  */
 class HarmoniPart 
 	extends Part
@@ -27,11 +27,11 @@ class HarmoniPart
 {
 
 	var $_recordFieldValue;
-	var $_part;
+	var $_partStructure;
 	
-	function HarmoniPart( &$part, &$recordFieldValue ) {
+	function HarmoniPart( &$partStructure, &$recordFieldValue ) {
 		$this->_recordFieldValue =& $recordFieldValue;
-		$this->_infoPart =& $part;
+		$this->_partStructure =& $partStructure;
 	}
 	
 	/**
@@ -105,7 +105,7 @@ class HarmoniPart
 	 */
 	
 	function &getPartStructure () { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		return $this->_partStructure;
 	} 
 	
 	/**
@@ -128,7 +128,7 @@ class HarmoniPart
 	 * @public
 	 */
 	function &getId () { 
-		// The unique ID for the info field should be the 
+		// The unique ID for the part should be the 
 		// RecordID::RecordFieldLabel::RecordFieldIndex
 		return $this->_recordFieldValue->getId();
 	}
@@ -274,14 +274,5 @@ class HarmoniPart
 		// Get the type for the field.
 		$this->_recordFieldValue->setValueFromPrimitive($value);
 		$this->_recordFieldValue->commit();
-	}
-
-	/**
-	 * Get the InfoPart associated with this InfoField.
-	 * @return object InfoPart
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 */
-	function &getInfoPart() {
-		return $this->_infoPart;
 	}
 }

@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.8 2005/01/26 18:44:22 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.9 2005/01/26 22:43:41 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -82,9 +82,9 @@ class HarmoniRepositoryManager
 		$this->_configuration =& $configuration;
 		
 		
-		// Make sure that we have a 'harmoni.dr.assetcontent' type InfoStructure for
+		// Make sure that we have a 'harmoni.dr.assetcontent' type RecordStructure for
 		// assets to put their generic content into.
-//		$type = new HarmoniType("DR", "Harmoni", "AssetContent", "An InfoStructure for the generic content of an asset.");
+//		$type = new HarmoniType("DR", "Harmoni", "AssetContent", "An RecordStructure for the generic content of an asset.");
 //		$dataSetTypeManager =& Services::getService("DataSetTypeManager");
 //		if (!$dataSetTypeManager->dataSetTypeExists($type)) {
 //			$definition =& $dataSetTypeManager->newDataSetType($type);
@@ -95,7 +95,7 @@ class HarmoniRepositoryManager
 //		}
 
 		$schemaMgr =& Services::getService("SchemaManager");
-		$recordType = new HarmoniType("Repository", "Harmoni", "AssetContent", "An InfoStructure for the generic content of an asset.");
+		$recordType = new HarmoniType("Repository", "Harmoni", "AssetContent", "A RecordStructure for the generic content of an asset.");
 		
 		if (!$schemaMgr->schemaExists($recordType)) {
 			// Create the Schema
@@ -104,13 +104,13 @@ class HarmoniRepositoryManager
 			
 			// The SchemaManager only allows you to use Schemas created by it for use with Records.
 			$schema =& $schemaMgr->getSchemaByType($recordType);
-			debug::output("InfoStructure is being created from Schema with Id: '".$schema->getID()."'");
+			debug::output("RecordStructure is being created from Schema with Id: '".$schema->getID()."'");
 			
 			$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure(
 																	$schema);
 			// Add the parts to the schema
 			$partType = new HarmoniType("Repository", "Harmoni", "Blob", "");
-			$this->_createdRecordStructures[$schema->getID()]->createInfoPart(
+			$this->_createdRecordStructures[$schema->getID()]->createPartStructure(
 																"Content",
 																"The binary content of the Asset",
 																$partType,
@@ -635,7 +635,6 @@ class HarmoniRepositoryManager
 		$asset =& $repository->getAsset($assetId);
 		return $repository->copyAsset( $asset );
 	}
-	// :: full java declaration :: osid.id.Id copyAsset(DigitalRepository digitalRepository, osid.id.Id assetId)
 
 	/**
    * Get all the RepositoryTypes in this RepositoryManager. RepositoryTypes

@@ -62,11 +62,11 @@ class FileRecord
 									$this->_id,
 									$this->_configuration);
 		$this->_parts['MIME_TYPE'] =& new MimeTypePart(
-									$infoStructure->getPartStructure($idManager->getId('MIME_TYPE')),
+									$recordStructure->getPartStructure($idManager->getId('MIME_TYPE')),
 									$this->_id,
 									$this->_configuration);
 		$this->_parts['THUMBNAIL_DATA'] =& new ThumbnailDataPart(
-									$infoStructure->getPartStructure($idManager->getId('THUMBNAIL_DATA')),
+									$recordStructure->getPartStructure($idManager->getId('THUMBNAIL_DATA')),
 									$this->_id,
 									$this->_configuration);
 		$this->_parts['THUMBNAIL_MIME_TYPE'] =& new ThumbnailMimeTypePart(
@@ -140,29 +140,29 @@ class FileRecord
 		
 		$partIdString = $partId->getIdString();
 		
-//		if (is_object($this->_infoFields[$partIdString]))
+//		if (is_object($this->_parts[$partIdString]))
 //			throwError(new Error(PERMISSION_DENIED.": Can't add another field to a
-//			non-multi-valued part.", "FileInfoRecord", true));
+//			non-multi-valued part.", "FileRecord", true));
 //		} else {
 //			
 //			switch ($partIdString) {
 //				case "FILE_DATA":
-//					$className = "FileDataInfoField";
+//					$className = "FileDataPart";
 //					break;
 //				case "FILE_NAME":
-//					$className = "FileNameInfoField";
+//					$className = "FileNamePart";
 //					break;
 //				case "FILE_SIZE":
-//					$className = "FileSizeInfoField";
+//					$className = "FileSizePart";
 //					break;
 //				case "MIME_TYPE":
-//					$className = "MimeTypeInfoField";
+//					$className = "MimeTypePart";
 //					break;
 //				default:
-//					throwError(new Error(OPERATION_FAILED, "FileInfoRecord", true));
+//					throwError(new Error(OPERATION_FAILED, "FileRecord", true));
 //			}
 //			
-//			$this->_infoFields[$partIdString] =& new $className(
+//			$this->_parts[$partIdString] =& new $className(
 //									$part,
 //									$this->_id,
 //									$this->configuration);
@@ -201,7 +201,7 @@ class FileRecord
 			$recordId = $r[1];
 			$field = $r[2];
 			
-			if ($this->_isLastField($field)) {
+			if ($this->_isLastPart($field)) {
 				$dbHandler =& Services::getService("DBHandler");
 				
 				// Delete the data
@@ -256,14 +256,14 @@ class FileRecord
 	}
 
 	/**
-	 * Return true if this InfoRecord is multi-valued; false otherwise.	 This is determined by the implementation.
+	 * Return true if this Record is multi-valued; false otherwise.	 This is determined by the implementation.
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 *
 	 * WARNING: Not in the OSIDs. Use at your own risk
 	 */
 	function isMultivalued() {
-		return true; // we allow as many InfoRecords of any InfoStructure as people want.
+		return true; // we allow as many Records of any RecordStructure as people want.
 	}
 
 	
@@ -291,7 +291,7 @@ class FileRecord
 	}
 	
 	/**
-	 * Return TRUE if the infoField of the passed Id is the last one, and the whole schebang should be deleted.
+	 * Return TRUE if the Part of the passed Id is the last one, and the whole schebang should be deleted.
 	 * 
 	 * @param string $idString
 	 * @return boolean
@@ -300,7 +300,7 @@ class FileRecord
 	 *
 	 * WARNING: Not in the OSID
 	 */
-	function _isLastField ($idString) {
+	function _isLastPart ($idString) {
 		$dbHandler =& Services::getService("DBHandler");
 	
 		// Check to see if the data is in the database

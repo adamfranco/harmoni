@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: MimeTypePartStructure.class.php,v 1.1 2005/01/24 16:23:29 thebravecowboy Exp $ 
+ * @version $Id: MimeTypePartStructure.class.php,v 1.2 2005/01/26 22:44:11 adamfranco Exp $ 
  */
 class MimeTypePartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -150,7 +150,7 @@ class MimeTypePartStructure extends PartStructure
 	 */
 	function &getPartStructure() {
 		$array = array();
-		return new HarmoniNodeIterator($array); // @todo replace with HarmoniInfoPartIterator
+		return new HarmoniNodeIterator($array); // @todo replace with HarmoniPartStructureIterator
 	}
 
 	/**
@@ -282,5 +282,4 @@ class MimeTypePartStructure extends PartStructure
 		
 		return true;
 	}
-	// :: full java declaration :: public boolean validateInfoField(InfoField infoField)
 }

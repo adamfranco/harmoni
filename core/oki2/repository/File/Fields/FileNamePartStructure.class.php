@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileNamePartStructure.class.php,v 1.1 2005/01/24 16:23:29 thebravecowboy Exp $ 
+ * @version $Id: FileNamePartStructure.class.php,v 1.2 2005/01/26 22:44:11 adamfranco Exp $ 
  */
 class FileNamePartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -150,7 +150,7 @@ class FileNamePartStructure extends PartStructure
 	 */
 	function &getPartStructures() {
 		$array = array();
-		return new HarmoniNodeIterator($array); // @todo replace with HarmoniInfoPartIterator
+		return new HarmoniNodeIterator($array); // @todo replace with HarmoniPartStructureIterator
 	}
 
 	/**
@@ -275,11 +275,10 @@ class FileNamePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function validateInfoField(& $infoField) {
-		// we can check if the infoField (ie, ValueVersions) has values of the right type.
+	function validatePart(& $part) {
+		// we can check if the Part (ie, ValueVersions) has values of the right type.
 		// @todo
 		
 		return true;
 	}
-	// :: full java declaration :: public boolean validateInfoField(InfoField infoField)
 }

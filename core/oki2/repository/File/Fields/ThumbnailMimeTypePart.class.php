@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailMimeTypePart.class.php,v 1.2 2005/01/26 16:10:56 thebravecowboy Exp $
+ * @version $Id: ThumbnailMimeTypePart.class.php,v 1.3 2005/01/26 22:44:11 adamfranco Exp $
  */
 class ThumbnailMimeTypePart extends Part
 //	extends java.io.Serializable
@@ -29,7 +29,7 @@ class ThumbnailMimeTypePart extends Part
 	var $_partStructure;
 	var $_type;
 	
-	function ThumbnailMimeTypeInfoField( &$partStructure, &$recordId, $configuration ) {
+	function ThumbnailMimeTypePart( &$partStructure, &$recordId, $configuration ) {
 		$this->_recordId =& $recordId;
 		$this->_partStructure =& $partStructure;
 		$this->_configuration = $configuration;

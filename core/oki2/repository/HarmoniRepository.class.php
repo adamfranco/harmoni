@@ -44,7 +44,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.11 2005/01/26 17:29:47 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.12 2005/01/26 22:43:41 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -57,7 +57,7 @@ class HarmoniRepository
 	var $_hierarchy;
 	var $_createdAssets;
 	
-	var $_createdInfoStructures;
+	var $_createdRecordStructures;
 	var $_assetValidFlags;
 	
 	/**
@@ -80,17 +80,17 @@ class HarmoniRepository
 		$this->_repositoryKeyType =& new HarmoniType("Repository", "Harmoni", 
 							"Repository", "Nodes with this type are by definition Repositories.");
 		
-		// Set up an array of created Info structures so we can pass out references to them.
-		$this->_createdInfoStructures = array();
+		// Set up an array of created RecordStructures so we can pass out references to them.
+		$this->_createdRecordStructures = array();
 		
-		// Add the file InfoStructure to the DR
-		$this->_createdInfoStructures['FILE'] =& new HarmoniFileInfoStructure;
+		// Add the file RecordStructure to the DR
+		$this->_createdRecordStructures['FILE'] =& new HarmoniFileRecordStructure;
 		
 		// Built-in Types
-		// Keys of the array are the infoStructure Ids,
+		// Keys of the array are the RecordStructure Ids,
 		// Vals of the array are the record class-names to instantiate.
 		$this->_builtInTypes = array();
-		$this->_builtInTypes['FILE'] = 'FileInfoRecord';
+		$this->_builtInTypes['FILE'] = 'FileRecord';
 		
 		// Store our configuration
 		$this->_configuration =& $configuration;
@@ -337,12 +337,12 @@ class HarmoniRepository
 		// Get the asset
 		$asset =& $this->getAsset($assetId);
 		
-		// Delete the InfoRecords for the Asset
-		$infoRecords =& $asset->getInfoRecords();
-		while ($infoRecords->hasNext()) {
-			$record =& $infoRecords->next();
+		// Delete the Records for the Asset
+		$records =& $asset->getRecords();
+		while ($records->hasNext()) {
+			$record =& $records->next();
 			$recordId =& $record->getId();
-			$asset->deleteInfoRecord($recordId);
+			$asset->deleteRecord($recordId);
 		}
 		
 		// Delete the Record Set
@@ -663,24 +663,24 @@ class HarmoniRepository
 	}
 	
 	/**
-	 * Get the InfoStructure in this DigitalRepository with the specified Id.  InfoStructures are used to categorize information about Assets.
+	 * Get the RecordStructure in this DigitalRepository with the specified Id.  RecordStructures are used to categorize information about Assets.
 	 * Note: This method is a Harmoni addition to the OSID and at the time of this writing,
 	 * was not a part of the DR OSID.
 	 * @param object $infoStructureId
-	 * @return object InfoStructure	 The InfoStructure of the requested Id.
+	 * @return object RecordStructure	 The RecordStructure of the requested Id.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function &getInfoStructure( & $infoStructureId ) {
+	function &getRecordStructure( & $infoStructureId ) {
 		// Check that we have created an infoStructure with the ID
-		if (!$this->_createdInfoStructures[$infoStructureId->getIdString()]) {
+		if (!$this->_createdRecordStructures[$infoStructureId->getIdString()]) {
 			// If not, create the infoStructure
 			$schemaMgr =& Services::getService("SchemaManager");
 			$schema =& $schemaMgr->getSchemaByID($infoStructureId->getIdString());
-			$this->_createdInfoStructures[$infoStructureId->getIdString()] =& new HarmoniInfoStructure(
+			$this->_createdRecordStructures[$infoStructureId->getIdString()] =& new HarmoniRecordStructure(
 															$schema);
 		}
 		
-		return $this->_createdInfoStructures[$infoStructureId->getIdString()];
+		return $this->_createdRecordStructures[$infoStructureId->getIdString()];
 		
 	}
 	
@@ -709,17 +709,17 @@ class HarmoniRepository
 		$schemaMgr =& Services::getService("SchemaManager");
 		$schemaIDs =& $schemaMgr->getAllSchemaIDs();
 		foreach ($schemaIDs as $id) {
-			// Check that we have created an infoStructure with the ID
-			if (!$this->_createdInfoStructures[$id]) {
-				// If not, create the infoStructure
+			// Check that we have created an RecordStructure with the ID
+			if (!$this->_createdRecordStructures[$id]) {
+				// If not, create the RecordStructure
 				$schema =& $schemaMgr->getSchemaByID($id);
-				$this->_createdInfoStructures[$id] =& new HarmoniInfoStructure(
+				$this->_createdRecordStructures[$id] =& new HarmoniRecordStructure(
 																$schema);
 			}
 		}
 		
 		// create an Iterator and return it
-		$iterator =& new HarmoniInfoStructureIterator($this->_createdInfoStructures);
+		$iterator =& new HarmoniRecordStructureIterator($this->_createdRecordStructures);
 		
 		return $iterator;
 		
@@ -896,7 +896,7 @@ class HarmoniRepository
 		
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
 		
-		// Return an Asset where all InfoRecords have the values that they
+		// Return an Asset where all Records have the values that they
 		// would have on the specified date.
 	}
 	
@@ -1034,16 +1034,16 @@ class HarmoniRepository
 	}
 	
 	/**
-	 * Create an InfoStructure in this DR. This is not part of the DR OSID at 
+	 * Create an RecordStructure in this DR. This is not part of the DR OSID at 
 	 * the time of this writing, but is needed for dynamically created 
-	 * InfoStructures.
+	 * RecordStructures.
 	 *
-	 * @param string $displayName	The DisplayName of the new InfoStructure.
-	 * @param string $description	The Description of the new InfoStructure.
-	 * @param string $format		The Format of the new InfoStructure.
-	 * @param string $schema		The schema of the new InfoStructure.
+	 * @param string $displayName	The DisplayName of the new RecordStructure.
+	 * @param string $description	The Description of the new RecordStructure.
+	 * @param string $format		The Format of the new RecordStructure.
+	 * @param string $schema		The schema of the new RecordStructure.
 	 *
-	 * @return object InfoStructure The newly created InfoStructure.
+	 * @return object RecordStructure The newly created RecordStructure.
 	 */
 	 
 	/**
@@ -1102,7 +1102,7 @@ class HarmoniRepository
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	 
-	function createInfoStructure($displayName, $description, $format, $schema) {
+	function createRecordStructure($displayName, $description, $format, $schema) {
 		$recordType = new HarmoniType($format, $schema, $displayName, $description);
 		$schemaMgr =& Services::getService("SchemaManager");
 		
@@ -1112,11 +1112,11 @@ class HarmoniRepository
 		
 		// The SchemaManager only allows you to use Schemas created by it for use with Records.
 		$schema =& $schemaMgr->getSchemaByType($recordType);
-		//debug::output("InfoStructure is being created from Schema with Id: '".$schema->getID()."'");
+		//debug::output("RecordStructure is being created from Schema with Id: '".$schema->getID()."'");
 		
-		$this->_createdInfoStructures[$schema->getID()] =& new HarmoniInfoStructure(
+		$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure(
 																$schema);
-		return $this->_createdInfoStructures[$schema->getID()];
+		return $this->_createdRecordStructures[$schema->getID()];
 	}
 
 	/**
@@ -1184,7 +1184,7 @@ class HarmoniRepository
 												string in the Asset Content.");
 
 		$this->_searchTypes["AllCustomFieldsSearch"] =& new HarmoniType("Repositoryƒß","Harmoni","AllCustomStructures", "Search with a regular expression
-								string in the custom InfoStructures for each Asset.");
+								string in the custom RecordStructures for each Asset.");
 	}
 
 }

@@ -35,10 +35,10 @@ class HarmoniFileRecordStructure extends RecordStructure
 	
 	var $_partStructures;
 	
-	function HarmoniFileInfoStructure() {
+	function HarmoniFileRecordStructure() {
 		$this->_schema =& $schema;
 		
-		// create an array of created InfoParts so we can return references to
+		// create an array of created PartStructures so we can return references to
 		// them instead of always making new ones.
 		$this->_partStructures = array();
 		$this->_partStructures['FILE_DATA'] =& new FileDataPartStructure($this);
@@ -143,7 +143,7 @@ class HarmoniFileRecordStructure extends RecordStructure
 		if ($this->_partStructures[$partStructureId->getIdString()]) {		
 			return $this->_partStructures[$partStructureId->getIdString()];
 		} else {
-			throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository :: FileInfoStructure", TRUE));
+			throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository :: FileRecordStructure", TRUE));
 		}
 	}
 
@@ -247,34 +247,34 @@ class HarmoniFileRecordStructure extends RecordStructure
 	 * @access public
 	 */
 	function validateRecord(& $record) {
-		// all we can really do is make sure the DataSet behind the infoRecord is of the correct
-		// type to match this InfoStructure (DataSetTypeDefinition).
+		// all we can really do is make sure the DataSet behind the Record is of the correct
+		// type to match this RecordStructure (DataSetTypeDefinition).
 		
 		return true; // for now
 	}
 
 	/**
-	 * Create an InfoPart in this InfoStructure. This is not part of the DR OSID at 
+	 * Create an PartStructure in this RecordStructure. This is not part of the DR OSID at 
 	 * the time of this writing, but is needed for dynamically created 
-	 * InfoStructures/InfoParts.
+	 * RecordStructures/PartStructures.
 	 *
-	 * @param string $displayName	The DisplayName of the new InfoStructure.
-	 * @param string $description	The Description of the new InfoStructure.
+	 * @param string $displayName	The DisplayName of the new RecordStructure.
+	 * @param string $description	The Description of the new RecordStructure.
 	 * @param object Type $type		One of the InfoTypes supported by this implementation.
 	 *								E.g. string, shortstring, blob, datetime, integer, float,
 	 *								
-	 * @param boolean $isMandatory	True if the InfoPart is Mandatory.
-	 * @param boolean $isRepeatable True if the InfoPart is Repeatable.
-	 * @param boolean $isPopulatedByDR	True if the InfoPart is PopulatedBy the DR.
+	 * @param boolean $isMandatory	True if the PartStructure is Mandatory.
+	 * @param boolean $isRepeatable True if the PartStructure is Repeatable.
+	 * @param boolean $isPopulatedByDR	True if the PartStructure is PopulatedBy the DR.
 	 *
-	 * @return object InfoPart The newly created InfoPart.
+	 * @return object PartStructure The newly created PartStructure.
 	 */
 	function createPartStructure($displayName, $description, & $partStructureType, $isMandatory, $isRepeatable, $isPopulatedByRepository) {
-		throwError(new Error(RespositoryException::UNIMPLEMENTED(), "Repository :: FileInfoStructure", TRUE));
+		throwError(new Error(RespositoryException::UNIMPLEMENTED(), "Repository :: FileRecordStructure", TRUE));
 	}
 
 	/**
-	 * Get the possible types for InfoParts.
+	 * Get the possible types for PartStructures.
 	 *
 	 * @return object TypeIterator The Types supported in this implementation.
 	 */
