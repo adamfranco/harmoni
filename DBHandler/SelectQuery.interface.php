@@ -4,10 +4,9 @@ require_once("Query.abstract.php");
 
 	/**
 	 * Used with the setTable() method to indicate that no join will be performed. 
-	 * 
-	 * Used with the setTable() method to indicate that no join will be performed. 
 	 * @const NO_JOIN No join will be performed.
 	 * @access public
+	 * @package harmoni.dbhandler
 	 */
 	define("NO_JOIN", 1);
 
@@ -15,6 +14,7 @@ require_once("Query.abstract.php");
 	 * Used with the setTable() method to indicate that a left join will be performed. 
 	 * @const LEFT_JOIN A left join will be performed.
 	 * @access public
+	 * @package harmoni.dbhandler
 	 */
 	define("LEFT_JOIN", 2);
 
@@ -22,6 +22,7 @@ require_once("Query.abstract.php");
 	 * Used with the setTable() method to indicate that an inner join will be performed. 
 	 * @const INNER_JOIN An inner join will be performed.
 	 * @access public
+	 * @package harmoni.dbhandler
 	 */
 	define("INNER_JOIN", 3);
 
@@ -29,6 +30,7 @@ require_once("Query.abstract.php");
 	 * Used with the setTable() method to indicate that a right join will be performed. 
 	 * @const RIGHT_JOIN A right join will be performed.
 	 * @access public
+	 * @package harmoni.dbhandler
 	 */
 	define("RIGHT_JOIN", 4);
 
@@ -37,6 +39,7 @@ require_once("Query.abstract.php");
 	 * @const ASCENDING The order will be ascending.
 	 * @see setOrderBy()
 	 * @access public
+	 * @package harmoni.dbhandler
 	 */
 	define("ASCENDING", 5);
 
@@ -45,6 +48,7 @@ require_once("Query.abstract.php");
 	 * @const DESCENDING The order will be descending.
 	 * @see setOrderBy()
 	 * @access public
+	 * @package harmoni.dbhandler
 	 */
 	define("DESCENDING", 6);
 
@@ -52,7 +56,7 @@ require_once("Query.abstract.php");
 /**
  * A SelectQuery interface provides the tools to build an SQL SELECT query.
  *
- * @version $Id: SelectQuery.interface.php,v 1.2 2003/06/25 14:34:23 dobomode Exp $
+ * @version $Id: SelectQuery.interface.php,v 1.3 2003/06/27 13:20:39 gabeschine Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
