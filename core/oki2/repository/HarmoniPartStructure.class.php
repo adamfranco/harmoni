@@ -1,5 +1,7 @@
 <?
 
+require(OKI2."osid/repository/PartStructure.php");
+
 /**
  * Each Asset has one of the AssetType supported by the Repository.	 There are
  * also zero or more RecordStructures required by the Repository for each
@@ -19,7 +21,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.5 2005/01/27 15:45:39 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.6 2005/01/27 17:00:37 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -156,7 +158,7 @@ class HarmoniPartStructure extends PartStructure
 	function &getId () { 
 		$idManager =& Services::getService("Id");
 		return $idManager->getId(
-			$this->_partStructure->_schema->getFieldID(
+			$this->_recordStructure->_schema->getFieldID(
 				$this->_schemaField->getLabel()
 			)
 		);

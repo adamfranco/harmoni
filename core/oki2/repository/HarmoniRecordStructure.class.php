@@ -1,6 +1,6 @@
 <?
 require_once(OKI2."osid/repository/RecordStructure.php");
-require_once(HARMONI."/oki2/repository/HarmoniPart.class.php");
+require_once(HARMONI."/oki2/repository/HarmoniPartStructure.class.php");
 require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
 
 
@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.9 2005/01/27 15:45:39 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.10 2005/01/27 17:00:37 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure extends RecordStructure
@@ -147,7 +147,7 @@ class HarmoniRecordStructure extends RecordStructure
 	function &getPartStructure(& $partId) {
 		if (!$this->_createdParts[$partId->getIdString()]) {
 			$this->_schema->load();
-			$this->_createdParts[$partId->getIdString()] =& new HarmoniPart($this, $this->_schema->getFieldById($partId->getIdString()));
+			$this->_createdParts[$partId->getIdString()] =& new HarmoniPartStructure($this, $this->_schema->getFieldById($partId->getIdString()));
 		}
 		
 		return $this->_createdParts[$partId->getIdString()];
@@ -179,7 +179,7 @@ class HarmoniRecordStructure extends RecordStructure
 		foreach ($this->_schema->getAllLabels() as $label) {
 			$fieldDef =& $this->_schema->getField($label);
 			if (!$this->_createdParts[$this->_schema->getFieldID($label)])
-				 $this->_createdParts[$this->_schema->getFieldID($label)] =& new HarmoniPart($this, $fieldDef);
+				 $this->_createdParts[$this->_schema->getFieldID($label)] =& new HarmoniPartStructure($this, $fieldDef);
 		}
 		
 		return new HarmoniRecordStructureIterator($this->_createdParts);
@@ -346,7 +346,7 @@ class HarmoniRecordStructure extends RecordStructure
 
 		$idString =& $this->_schema->getFieldId($displayName);
 		
-		$this->_createdParts[$idString] =& new HarmoniPart($this,
+		$this->_createdParts[$idString] =& new HarmoniPartStructure($this,
 																$fieldDef);
 		return $this->_createdParts[$idString];
 	}
