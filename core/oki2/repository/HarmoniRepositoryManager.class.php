@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.17 2005/03/31 20:28:30 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.18 2005/03/31 20:37:30 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -203,7 +203,7 @@ class HarmoniRepositoryManager
 		// Argument Validation
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
-		ArgumentValidator::validate(repositoryType, ExtendsValidatorRule::getRule("Type"));
+		ArgumentValidator::validate($repositoryType, ExtendsValidatorRule::getRule("Type"));
 		
 		// Create an Id for the digital Repository Node
 		$idManager =& Services::getService("Id");
@@ -216,7 +216,7 @@ class HarmoniRepositoryManager
 		
 		$query =& new SelectQuery;
 		$query->addColumn("type_id");
-		$query->addTable("repository_type");
+		$query->addTable("dr_type");
 		$query->addWhere("type_domain = '".addslashes($repositoryType->getDomain())."'");
 		$query->addWhere("type_authority = '".addslashes($repositoryType->getAuthority())."'", _AND);
 		$query->addWhere("type_keyword = '".addslashes($repositoryType->getKeyword())."'", _AND);
@@ -227,7 +227,7 @@ class HarmoniRepositoryManager
 			$typeId = $result->field("type_id");
 		} else {
 			$query =& new InsertQuery;
-			$query->setTable("repository_type");
+			$query->setTable("dr_type");
 			$query->setColumns(array(
 								"type_domain",
 								"type_authority",
@@ -246,7 +246,7 @@ class HarmoniRepositoryManager
 		}
 		
 		$query =& new InsertQuery;
-		$query->setTable("repository_type");
+		$query->setTable("dr_repository_type");
 		$query->setColumns(array(
 							"repository_id",
 							"fk_dr_type",
