@@ -21,6 +21,12 @@ class TemplateFactory {
 	function &newTemplate($name) {
 		return new Template($name.$this->_ext, $this->_paths);
 	}
+	
+	function catchTemplateOutput($name, $vars) {
+		$template =& $this->newTemplate($name);
+		
+		return $template->catchOutput($vars);
+	}
 }
 
 ?>

@@ -14,7 +14,7 @@ define ("RIGHT", "right");
  * holds any number of components of different types.
  *
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.10 2004/05/10 18:12:24 adamfranco Exp $
+ * @version $Id: Layout.abstract.php,v 1.11 2004/07/09 20:56:24 gabeschine Exp $
  * @copyright 2003 
  * @abstract
  **/
@@ -205,6 +205,7 @@ class Layout extends LayoutInterface {
 	 * @return array The component objects.
 	 **/
 	function &getAllComponents() {
+		if (!is_array($this->_setComponents)) return array();
 		return $this->_setComponents;
 	}
 	
