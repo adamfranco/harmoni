@@ -6,6 +6,7 @@ require_once(HARMONI."oki/shared/HarmoniType.class.php");
 require_once(HARMONI."oki/shared/HarmoniTypeIterator.class.php");
 require_once(HARMONI."oki/shared/HarmoniTestId.class.php");
 require_once(HARMONI."oki/shared/HarmoniId.class.php");
+require_once(HARMONI."oki/shared/HarmoniStringId.class.php");
 require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
 
 /**
@@ -34,7 +35,7 @@ require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.10 $ / $Date: 2004/01/29 19:35:06 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.11 $ / $Date: 2004/01/29 20:51:15 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */

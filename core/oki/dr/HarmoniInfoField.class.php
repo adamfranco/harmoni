@@ -24,8 +24,9 @@ class HarmoniInfoField extends InfoField
 	 * @package osid.dr
 	 */
 	function & getId() {
-		$activeVersion =& $this->_valueVersions->getActiveVersion();
-		return new HarmoniId($activeVersion->getID());
+		// The unique ID for the info field should be the 
+		// DataSetID::FieldValuesLabel::ValueVersionsIndex
+		return $this->_valueVersions->getId();
 	}
 
 	/**

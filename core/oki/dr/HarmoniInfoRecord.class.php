@@ -56,7 +56,20 @@ class HarmoniInfoRecord extends InfoRecord
 		$class = $fieldType."DataType";
 		$valueObj =& new $class($value);
 		
-		$this->_dataSet->setValue($label, $valueObj, NEW_VALUE);
+		// If we dont' have an existing, deleted field to add to, create a new index.
+		if ($this->_dataSet->deleted($label)) {
+			$this->_dataSet->setValue($label, $valueObj, 0);
+		
+		// If the field is not multi-valued and not deleted, throw an error.
+		} else if ($this->_dataSet->deleted($label)) {
+			throwError(new Error(PERMISSION_DENIED.": Can't add another field to a
+			non-multi-valued part.", "HarmoniInfoRecord", true));
+		
+		// If the value is deleted, add a new version to it.
+		} else {
+			$this->_dataSet->setValue($label, $valueObj, NEW_VALUE);
+		}
+			
 		$this->_dataSet->commit();
 		
 		return new HarmoniInfoField(new HarmoniInfoPart($this->_infoStructure, $fieldDef),
@@ -66,16 +79,27 @@ class HarmoniInfoRecord extends InfoRecord
 	/**
 	 * Delete an InfoField and all its InfoFields.
 	 * @param infoFieldId
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
+	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following 
+	 * messages defined in osid.dr.DigitalRepositoryException may be thrown: 
+	 * {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, 
+	 * {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
+	 * {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
+	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
+	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
+	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
 	function deleteInfoField(& $infoFieldId) {
 		$string = $infoFieldId->getIdString();
-		if (ereg("(.+)::([:digit:]+)",$string,$r)) {
-			$label = $r[1];
-			$index = $r[2];
+		if (ereg("([0-9]+)::(.+)::([0-9]+)",$string,$r)) {
+			$dataSetId = $r[1];
+			$label = $r[2];
+			$index = $r[3];
 			
 			$this->_dataSet->deleteValue($label, $index);
+			$this->_dataSet->commit();
+		} else {
+			throwError(new Error(UNKNOWN_ID.": $string", "HarmoniInfoField", true));
 		}
 	}
 
