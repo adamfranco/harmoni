@@ -2,7 +2,7 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.1.0" date="Not Released">
+	<version number="0.1.0" date="2004-06-11">
 		<new author='dobo'>
 			Added a new OKI-Hiearchy implementation (hierarchy2).
 		</new>
@@ -12,9 +12,6 @@
 		<fix author='gabe'>
 			Bugs in LoginHandler.
 		</fix>
-		<fix author='nstamato' ref='958187' reftype='bug'>
-			Added the XOR functionality described in the manual
-		</fix>	
 		<change author='adam'>
 			The DataManager/metaData now uses the OKI Shared Ids instead of its own internal
 			id system. This keeps all access to unique ids safely behind the Shared interface.
