@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.11 2004/06/13 04:47:55 nstamato Exp $
+ * @version $Id: LoginHandler.class.php,v 1.12 2004/06/16 18:23:46 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -168,8 +168,7 @@ class LoginHandler {
 			// save the new LoginState in the session
 			$state =& new LoginState($username,$authResult);
 			$_SESSION['__LoginState'] =& $state;
-			
-<<<<<<< LoginHandler.class.php
+
 			// now, if they were valid, everything is honky-dory
 			// -- send them to the saved url if its defined
 			if ($authResult->isValid()) {
@@ -178,43 +177,6 @@ class LoginHandler {
 					unset($_SESSION['__afterLoginURL']);
 					if (!$this->_harmoni->config->get("sessionUseCookies")) $url .= (ereg("\?",$url)?"&":"?").SID;
 					header("Location: $url");
-=======
-		// Continue with authenticating
-		} else {
-			// first try getting the username/pass from a callback function first.
-			if ($function = $this->_usernamePasswordCallbackFunction) {
-				$result = $function($this->_harmoni);
-				if (!$result) {
-					// the user didn't enter any info yet -- execute the failed login action
-					// first save the current URL in the session
-					// @todo -cLoginHandler Implement LoginHandler.execute replace old ID with a new one.
-					$_SESSION['__afterLoginURL'] = $_SERVER['REQUEST_URI'];
-					$this->_failedLogin = true;
-					debug::output("LoginHandler failed!",DEBUG_SYS5,"LoginHandler");
-					return $state;
-				}
-				$username = $result[0];
-				$password = $result[1];
-	
-				// pass these values to the AuthenticationHandler
-				$authHandler =& Services::requireService("Authentication");
-				$authResult =& $authHandler->authenticateAllMethods($username,$password);
-	
-				// save the new LoginState in the session
-				$state =& new LoginState($username,$authResult);
-				$_SESSION['__LoginState'] =& $state;
-				
-				// now, if they were valid, everything is honky-dory
-				// -- send them to the saved url if its defined
-				if ($authResult->isValid()) {
-					if ($url = $_SESSION['__afterLoginURL']) {
-						unset($_SESSION['__afterLoginURL']);
-						$url .= (ereg("\?",$url)?"":"?").SID;
-						header("Location: $url");
-					}
-					debug::output("LoginHandler succeeded!",DEBUG_SYS5,"LoginHandler");
-					return $state;
->>>>>>> 1.10
 				}
 				debug::output("LoginHandler succeeded!",DEBUG_SYS5,"LoginHandler");
 				return $state;
