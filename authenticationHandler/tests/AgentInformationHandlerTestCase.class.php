@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AgentInformationHandlerTestCase.class.php,v 1.3 2003/06/28 01:01:51 gabeschine Exp $
+ * @version $Id: AgentInformationHandlerTestCase.class.php,v 1.4 2003/06/30 15:30:51 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -24,8 +24,11 @@
 		*/
 		var $info,$auth;
 		function setUp() {
-			Services::requireService("AgentInformation");
+//			print "<pre>";
+//			print_r($GLOBALS[SERVICES_OBJECT]);
+		
 			Services::requireService("Authentication");
+			Services::requireService("AgentInformation");
 			$this->info = & Services::getService("AgentInformation");
 			$this->auth = & Services::getService("Authentication");
 			$this->add1();
