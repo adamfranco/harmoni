@@ -2,7 +2,7 @@
 
 /**
  * Defines the throw functions.
- * @version $Id: throw.inc.php,v 1.2 2003/10/23 14:28:56 gabeschine Exp $
+ * @version $Id: throw.inc.php,v 1.3 2004/05/31 20:32:24 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.errorhandler
  **/
@@ -38,6 +38,41 @@ function userError(& $error) {
 
 	// throw the error
 	$errorHandler->addError($error);
+}
+
+/**
+ * Prints out all of the errors from the ErrorHandler using the specified printer and returns the output in a string.
+ * @package harmoni.errorhandler
+ * @param ref object $printer The {@link ErrorPrinter} to use.
+ * @return void
+ */
+function printErrors(&$printer)
+{
+	$handler =& Services::requireService("ErrorHandler");
+	
+	if (haveErrors()) {
+		ob_start();
+		$handler->printErrorsWithErrorPrinter($printer);
+		$contents = ob_get_contents();
+		ob_end_clean();
+		return $content;
+	}
+	return "";
+}
+
+/**
+ * Returns if we have errors in the ErrorHandler service.
+ * @package harmoni.errorhandler
+ * @return boolean
+ */
+function haveErrors()
+{
+	$handler =& Services::requireService("ErrorHandler");
+	
+	if ($handler->getNumberOfErrors()) {
+		return true;
+	}
+	return false;
 }
 
 /**
