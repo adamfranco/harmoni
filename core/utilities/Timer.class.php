@@ -3,7 +3,7 @@
 /**
  * Allows you to time with microtime() from start() to end().
  *
- * @version $Id: Timer.class.php,v 1.2 2003/12/28 01:48:06 gabeschine Exp $
+ * @version $Id: Timer.class.php,v 1.3 2004/07/07 15:09:26 dobomode Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -21,6 +21,11 @@ class Timer {
 	}
 	
 	function printTime() {
+		if (!isset($this->_start) || !isset($this->_end)) {
+			$err = "Must call start() and end() first.";
+			throwError(new Error($err, "Timer", true));
+		}
+	
 		list($sm, $ss) = explode(" ", $this->_start);
 		list($em, $es) = explode(" ", $this->_end);
 		

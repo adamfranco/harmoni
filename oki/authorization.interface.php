@@ -61,7 +61,7 @@ define("CANNOT_DELETE_LAST_ROOT_QUALIFIER", "Cannot delete last root Qualifier "
 /**
  * AuthorizationManager allows an application to create Authorizations, get Authorizations given selection criterias, ask questions of Authorization such as what Agent can do a Function in a Qualifier context, etc.<p><p>The primary objects in Authorization are Authorization, Function, Agent, and Qualifier. There are also Function and Qualifier types that are understood by the implementation.<p><p>Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p><p>There are two methods to create Authorizations. One uses method uses Agent, Function, and Qualifier.  The other adds effective date and expiration date.  For the method without the dates, the effective date is today and there is no expiration date.  <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * @access public
- * @version $Id: authorization.interface.php,v 1.6 2004/06/22 15:13:09 dobomode Exp $
+ * @version $Id: authorization.interface.php,v 1.7 2004/07/07 15:09:27 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @package harmoni.authorization
@@ -374,14 +374,14 @@ class AuthorizationManager extends OsidManager
 	/* :: full java declaration :: AuthorizationIterator getAllUserAZsByFuncType
 	 * Given a Agent, a Function, and a Qualifier (at least one of these must be non-null) returns an enumeration of matching Authorizations.  Explicit Authorizations can be modified.  Any null argument will be treated as a wildcard.
 	 * @param object agentId
-	 * @param object functionType
+	 * @param object functionId
 	 * @param object qualifierId
 	 * @param object isActiveNow
 	 * @return object AuthorizationIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getExplicitAZs(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function & getExplicitAZs(& $agentId, & $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
 
 
@@ -402,14 +402,14 @@ class AuthorizationManager extends OsidManager
 	/* :: full java declaration :: AuthorizationIterator getExplicitAZsByFuncType
 	 * Given a Function and a Qualifier returns an enumeration of all Authorizations that would allow agents to do the Function with the Qualifier. This method differs from the simple form of getAuthorizations in that this method looks for any Authorization that permits doing the Function with the Qualifier even if the Authorization's Qualifier happens to be a parent of this Qualifier argument.
 	 * @param object agentId
-	 * @param object functionType
+	 * @param object functionId
 	 * @param object qualifierId
 	 * @param object isActiveNow
 	 * @return object AuthorizationIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getAllAZs(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function & getAllAZs(& $agentId, & $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
 
 

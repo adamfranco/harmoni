@@ -25,7 +25,7 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.5 2004/06/22 15:23:09 dobomode Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.6 2004/07/07 15:09:12 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -358,7 +358,23 @@ class HarmoniHierarchyManager extends HierarchyManager {
 	}
 	
 
-
+	
+	/**
+	 * Returns the hierarchy to which the given Node belongs. Note: this method
+	 * is not part of the OKI interface as of 07/06/04 but has been scheduled for
+	 * addition.
+	 * @access public
+	 * @return ref object The Hierarchy to which the Node belongs.
+	 **/
+	function & getHierarchyForNode(& $node) {
+		$sharedManager =& Services::requireService("Shared");
+		$hierarchyId =& $sharedManager->getId($node->_cache->_hierarchyId);
+		$hierarchy =& $this->getHierarchy($hierarchyId);
+		
+		return $hierarchy;
+	}
+	
+	
 	/**
 	 * The start function is called when a service is created. Services may
 	 * want to do pre-processing setup before any users are allowed access to

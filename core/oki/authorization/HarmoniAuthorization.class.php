@@ -258,6 +258,11 @@ class HarmoniAuthorization extends Authorization {
 	 * @package harmoni.osid.authorization
 	 */
 	function updateExpirationDate(& $expirationDate) {
+		if (!$this->isExplicit()) {
+			$str = "Cannot modify an implicit Authorization.";
+			throwError(new Error($str, "Authorization", true));
+		}
+		
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("DateTime");
 		ArgumentValidator::validate($expirationDate, $extendsRule, true);
@@ -304,6 +309,11 @@ class HarmoniAuthorization extends Authorization {
 	 * @package harmoni.osid.authorization
 	 */
 	function updateEffectiveDate(& $effectiveDate) {
+		if (!$this->isExplicit()) {
+			$str = "Cannot modify an implicit Authorization.";
+			throwError(new Error($str, "Authorization", true));
+		}
+		
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("DateTime");
 		ArgumentValidator::validate($effectiveDate, $extendsRule, true);

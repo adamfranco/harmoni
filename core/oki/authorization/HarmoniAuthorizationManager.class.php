@@ -6,11 +6,12 @@ require_once(HARMONI.'oki/authorization/HarmoniFunction.class.php');
 require_once(HARMONI.'oki/authorization/HarmoniAuthorization.class.php');
 require_once(HARMONI.'oki/authorization/HarmoniAuthorizationIterator.class.php');
 require_once(HARMONI.'oki/authorization/HarmoniQualifier.class.php');
+require_once(HARMONI.'oki/shared/HarmoniIdIterator.class.php');
 
 /**
  * AuthorizationManager allows an application to create Authorizations, get Authorizations given selection criterias, ask questions of Authorization such as what Agent can do a Function in a Qualifier context, etc.<p><p>The primary objects in Authorization are Authorization, Function, Agent, and Qualifier. There are also Function and Qualifier types that are understood by the implementation.<p><p>Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p><p>There are two methods to create Authorizations. One uses method uses Agent, Function, and Qualifier.  The other adds effective date and expiration date.  For the method without the dates, the effective date is today and there is no expiration date.  <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * @access public
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.7 2004/07/01 20:41:37 dobomode Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.8 2004/07/07 15:09:11 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @package harmoni.osid.authorization
@@ -177,7 +178,7 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @package harmoni.osid.authorization
 	 */
 	function isAuthorized(& $agentId, & $functionId, & $qualifierId) {
-		$authorizations =& $this->getAllAZs($agentId, $functionId, $qualifierId, true);
+		$authorizations =& $this->getExplicitAZs($agentId, $functionId, $qualifierId, true);
 		
 		return ($authorizations->hasNext());
 	}
@@ -193,7 +194,7 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @package harmoni.osid.authorization
 	 */
 	function isUserAuthorized(& $functionId, & $qualifierId) {
-		$authorizations =& $this->getAllUserAZs($functionId, $qualifierId, true);
+		$authorizations =& $this->getExplicitUserAZs($functionId, $qualifierId, true);
 		
 		return ($authorizations->hasNext());
 	}
@@ -276,7 +277,12 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getRootQualifiers(& $qualifierHierarchyId) { /* :: interface :: */ }
+	function & getRootQualifiers(& $qualifierHierarchyId) {
+		$hierarchyManager =& Services::requireService("Hierarchy", true);
+		$hierarchy =& $hierarchyManager->getHierarchy($qualifierHierarchyId);
+		
+		return $hierarchy->getRootNodes();
+	}
 
 
 
@@ -357,7 +363,7 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 												 $functionId->getIdString(),
 												 (isset($qualifierId)) ? $qualifierId->getIdString() : null,
 												 null, 
-												 false, 
+												 true, 
 												 $isActiveNow);
 											
 		$agentIds = array();
@@ -628,6 +634,11 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 		ArgumentValidator::validate($implicitAuthorization, new ExtendsValidatorRule("Authorization"), true);
 		// ** end of parameter validation
 		
+		if ($implicitAuthorization->isExplicit()) {
+			$str = "The Authorization must be implicit.";
+			throwError(new Error($str, "Authorization", true));
+		}
+		
 		$agentId =& $implicitAuthorization->getAgentId();
 		$function =& $implicitAuthorization->getFunction();
 		$functionId =& $function->getId();
@@ -641,8 +652,6 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 												 true, 
 												 $implicitAuthorization->isActiveNow());
 												 
-		// now go through 
-		
 		return new HarmoniAuthorizationIterator($authorizations);
 	}
 	
@@ -656,7 +665,10 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getQualifierHierarchies() { /* :: interface :: */ }
+	function & getQualifierHierarchies() {
+		$hierarchyManager =& Services::requireService("Hierarchy", true);
+		return $hierarchyManager->getHierarchies();
+	}
 
 }
 

@@ -18,7 +18,7 @@ require_once(HARMONI."oki/hierarchy2/DefaultNodeType.class.php");
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.10 2004/06/22 15:23:09 dobomode Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.11 2004/07/07 15:09:12 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -375,22 +375,6 @@ class HarmoniNode extends Node {
 		
 		$this->_cache->removeParent($oldParentId->getIdString(), $this->_id->getIdString());
 		$this->_cache->addParent($newParentId->getIdString(), $this->_id->getIdString());
-	}
-	
-	
-	/**
-	 * Returns the Id of the hierarchy to which this Node belongs. Note: this method
-	 * is not part of the OKI interface as of 06/21/04.
-	 * @access public
-	 * @return ref object The Id of the hierarchy to which this Node belongs.
-	 **/
-	function & getHierarchyId() {
-		echo "<br><br><b>NOTICE: A call to HarmoniNode::getHierarchyId() has been detected. This method is not part of the OKI interface. (dobomode, 06/21/04)</b><br><br>";
-
-		$sharedManager =& Services::requireService("Shared");
-		$id =& $sharedManager->getId($this->_cache->_hierarchyId);
-
-		return $id;
 	}
 	
 

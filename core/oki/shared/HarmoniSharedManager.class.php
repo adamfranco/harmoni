@@ -36,7 +36,7 @@ require_once(HARMONI."oki/shared/HarmoniId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.33 2004/07/02 19:29:12 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.34 2004/07/07 15:09:12 dobomode Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -384,7 +384,7 @@ class HarmoniSharedManager
 	 * @access public
 	 * @param string where An optional where clause.
 	 **/
-	function & _loadAgents($where = null) {
+	function _loadAgents($where = null) {
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new SelectQuery();
 		
@@ -753,7 +753,7 @@ class HarmoniSharedManager
 	 * @access public
 	 * @param string where An optional where clause.
 	 **/
-	function & _loadGroups($where = null) {
+	function _loadGroups($where = null) {
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new SelectQuery();
 		
@@ -797,7 +797,7 @@ class HarmoniSharedManager
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() == 0)
-			return array();
+			return;
 
 		// Now, here is what we need to do.
 		// First of all, in the end, we want to have a Group object, with all 
