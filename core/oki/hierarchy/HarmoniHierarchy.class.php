@@ -23,7 +23,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.14 $ / $Date: 2003/10/10 17:57:16 $
+ * @version $Revision: 1.15 $ / $Date: 2003/10/10 21:01:40 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -48,14 +48,9 @@ class HarmoniHierarchy
 	var $_displayName;
 	
 	/**
-	 * @var object Tree $_tree A tree object.
+	 * @var object HarmoniHierarchyStore $_hierarchyStore A hierarchy storage/loader object.
 	 */
-	var $_tree = NULL;
-
-	/**
-	 * @var array $_nodeTypes Node types in this hierarchy.
-	 */
-	var $_nodeTypes = array();
+	var $_hierarchyStore = NULL;
 
 	/**
 	 * Constructor.
@@ -66,18 +61,20 @@ class HarmoniHierarchy
 	 * @param array	 $nodeType  An array of Types of the supported nodes.
 	 * @access public
 	 */
-	function HarmoniHierarchy(& $id, $displayName, $description, & $nodeTypes) {
+	function HarmoniHierarchy(& $id, $displayName, $description, & $nodeTypes, & $hierarchyStore) {
 		// Check the arguments
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
 		ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
+		ArgumentValidator::validate($hierarchyStore, new ExtendsValidatorRule("HarmoniHierarchyStore"));
 		
 		// set the private variables
 		$this->_id =& $id;
 		$this->_displayName = $displayName;
 		$this->_description = $description;
-		$this->_tree =& new Tree();
+		$this->_hierarchyStore =& $hierarchyStore;
+		$this->_hierarchyStore->initialize($this->_id, $this->_displayName, $this->_description);
 		
 		foreach ($nodeTypes as $key => $val) {
 			$this->addNodeType($nodeTypes[$key]);
@@ -98,7 +95,7 @@ class HarmoniHierarchy
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getId() {
-		return $this->_id;
+		return $this->_hierarchyStore->getId();
 	}
 
     /**
@@ -111,19 +108,8 @@ class HarmoniHierarchy
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function getDisplayName() {
-		return $this->_displayName;
+		return $this->_hierarchyStore->getDisplayName();
 	}
-
-// no updateDisplayName in the Hierarchy OSID
-/* 	// public void updateDisplayName(String $displayName); */
-/* 	function updateDisplayName($displayName) { */
-/* 		// Check the arguments */
-/* 		ArgumentValidator::validate($displayName, new StringValidatorRule); */
-/* 		 */
-/* 		// update and save */
-/* 		$this->_displayName = $displayName; */
-/* 		$this->save(); */
-/* 	} */
 
     /**
      * Get the description for this Hierarchy.
@@ -135,7 +121,7 @@ class HarmoniHierarchy
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function getDescription() {
-		return $this->_description;
+		return $this->_hierarchyStore->getDescription();
 	}
 
     /**
@@ -155,6 +141,7 @@ class HarmoniHierarchy
 				
 		// update and save
 		$this->_description = $description;
+		$this->_hierarchyStore->updateDescription($description);
 		$this->save();
 	}
 
@@ -226,8 +213,8 @@ class HarmoniHierarchy
 				throwError(new Error(UNKNOWN_PARENT_NODE, "Hierarchy", 1));
 		}
 
-		$node =& new HarmoniNode($nodeId, $this->_tree, $type, $displayName, $description);
-		$treeNodeId = $this->_tree->addNode($node, $parentIdString, $nodeIdString);
+		$node =& new HarmoniNode($nodeId, $this->_hierarchyStore, $type, $displayName, $description);
+		$treeNodeId = $this->_hierarchyStore->addNode($node, $parentIdString, $nodeIdString);
 		
 		// Store the updated tree
 		$this->save();
@@ -255,15 +242,15 @@ class HarmoniHierarchy
 		$nodeIdString = $nodeId->getIdString();
 		
 		// Throw an error if the node doesn't exist
-		if (!$this->_tree->nodeExists($nodeIdString))
+		if (!$this->_hierarchyStore->nodeExists($nodeIdString))
 			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
 		
 		// If the node is not a leaf, trow a HIERARCHY_NOT_EMPTY error
-		if ($this->_tree->hasChildren($nodeIdString))
+		if ($this->_hierarchyStore->hasChildren($nodeIdString))
 			throwError(new Error(HIERARCHY_NOT_EMPTY, "Hierarchy", 1));
 		
 		// Remove the node
-		$this->_tree->removeNode($nodeIdString);
+		$this->_hierarchyStore->removeNode($nodeIdString);
 		
 		// Store the updated tree
 		$this->save();
@@ -287,6 +274,8 @@ class HarmoniHierarchy
 		ArgumentValidator::validate($nodeType, new ExtendsValidatorRule("Type"));
 		
 		// Throw an error if the nodeType has already been added.
+		
+		// @todo fix this to use the store
 		foreach ($this->_nodeTypes as $key => $val) {
 			if ($nodeType->isEqual($this->_nodeTypes[$key]))
 				throwError(new Error(ALREADY_ADDED, "Hierarchy", 1));
@@ -327,6 +316,8 @@ class HarmoniHierarchy
 				throwError(new Error(NODE_TYPE_IN_USE, "Hierarchy", 1));
 		}
 		
+		// @todo Fix this to use the store
+		
 		// remove the node type
 		$newNodeTypes = array();
 		foreach ($this->_nodeTypes as $key => $val) {
@@ -356,18 +347,18 @@ class HarmoniHierarchy
 	function & getAllNodes() {
 		
 		// Throw an error if we have no nodes
-		if ($this->_tree->totalNodes() < 1)
+		if ($this->_hierarchyStore->totalNodes() < 1)
 			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
 	
 		// array of the node IDs from top to bottom, left to right.
-		$treeNodes =& $this->_tree->getFlatList();
+		$treeNodes =& $this->_hierarchyStore->getFlatList();
 		
 		// Object array of HarmoniNode objects to pass to the iterator
 		$nodeArray = array();
 		
 		// put the HarmoniNode objects into the nodeArray
 		foreach ($treeNodes as $treeNodeId) {
-			$nodeArray[] =& $this->_tree->getData($treeNodeId);
+			$nodeArray[] =& $this->_hierarchyStore->getData($treeNodeId);
 		}
 		
 		// pass off the array to the iterator and return it.
@@ -392,17 +383,17 @@ class HarmoniHierarchy
 	function & getRootNodes() {
 		
 		// Throw an error if we have no nodes
-		if ($this->_tree->totalNodes() < 1)
+		if ($this->_hierarchyStore->totalNodes() < 1)
 			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
 		
-		$treeNodes =& $this->_tree->getChildren(0);
+		$treeNodes =& $this->_hierarchyStore->getChildren(0);
 		
 		// Object array of HarmoniNode objects to pass to the iterator
 		$nodeArray = array();
 
 		// put the HarmoniNode objects into the nodeArray
 		foreach ($treeNodes as $treeNodeId) {
-			$nodeArray[] =& $this->_tree->getData($treeNodeId);
+			$nodeArray[] =& $this->_hierarchyStore->getData($treeNodeId);
 		}
 		
 		// pass off the array to the iterator and return it.
@@ -431,7 +422,7 @@ class HarmoniHierarchy
 		if (!$this->_tree->nodeExists($nodeIdString))
 			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
 		
-		$node =& $this->_tree->getData($nodeIdString);
+		$node =& $this->_hierarchyStore->getData($nodeIdString);
 		
 		return $node;
 	}
@@ -528,12 +519,12 @@ class HarmoniHierarchy
 		}
 
 		// Throw an error if we have no nodes
-		if ($this->_tree->totalNodes() < 1)
+		if ($this->_hierarchyStore->totalNodes() < 1)
 			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
 		
 		// A string of our ID and the starting depth
 		$startIdString = $startId->getIdString();
-		$startLevel = $this->_tree->depth($startIdString);
+		$startLevel = $this->_hierarchyStore->depth($startIdString);
 
 		// Object array of TraversalInfo objects to pass to the iterator
 		$traversalInfoArray = array();
@@ -561,10 +552,10 @@ class HarmoniHierarchy
 		}
 		
 		foreach ($traversalIdArray as $id) {
-			$node =& $this->_tree->getData($id);
+			$node =& $this->_hierarchyStore->getData($id);
 			$nodeId =& $node->getId();
 			$displayName = $node->getDisplayName();
-			$depth = $this->_tree->depth($id);
+			$depth = $this->_hierarchyStore->depth($id);
 			$traversalInfoArray[] =& new HarmoniTraversalInfo($nodeId, $displayName, $depth);
 		}
 		
@@ -578,7 +569,7 @@ class HarmoniHierarchy
 	 * @access protected
 	 */
 	function save () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		$this->_hierarchyStore->save();
 	}
 	 
 	/**
@@ -586,7 +577,7 @@ class HarmoniHierarchy
 	 * @access protected
 	 */
 	function load () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		$this->_hierarchyStore->load();
 	}	
 
 } // end Hierarchy
