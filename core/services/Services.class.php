@@ -5,14 +5,14 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.19 2005/04/04 18:02:02 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.20 2005/04/04 19:57:45 adamfranco Exp $
  *
  * @package harmoni.services
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.class.php,v 1.19 2005/04/04 18:02:02 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.20 2005/04/04 19:57:45 adamfranco Exp $
  */
 class Services extends ServicesAbstract {
 	/**
@@ -144,6 +144,7 @@ class Services extends ServicesAbstract {
 	 * Attempts to stop all running services.
 	 * @access public
 	 * @return void
+	 * @deprecated 2005/04/04 Use {@link startManagerAsService()} and {@link getService()} instead.
 	 **/
 	function stopAll() {
 		foreach (array_keys($this->_registeredServices) as $name)
@@ -181,6 +182,7 @@ class Services extends ServicesAbstract {
 	 * @access public
 	 * @static
 	 * @return boolean True on success.
+	 * @deprecated 2005/04/04 Use {@link startManagerAsService()} and {@link getService()} instead.
 	 **/
 	function start( $name, $args=null ) {
 		$name = $this->_getServiceName($name);
@@ -283,6 +285,7 @@ class Services extends ServicesAbstract {
 	 * Cycles through all registered services and attempts to start them.
 	 * @access public
 	 * @return void
+	 * @deprecated 2005/04/04 Use {@link startManagerAsService()} and {@link getService()} instead.
 	 **/
 	function startAll() {
 		foreach (array_keys($this->_registeredServices) as $service) {
@@ -295,6 +298,7 @@ class Services extends ServicesAbstract {
 	 * @param string $name The service name.
 	 * @access public
 	 * @return boolean True on success.
+	 * @deprecated 2005/04/04 Use {@link startManagerAsService()} and {@link getService()} instead.
 	 **/
 	function stop( $name ) {
 		$name = $this->_getServiceName($name);
@@ -307,6 +311,7 @@ class Services extends ServicesAbstract {
 	 * @param string $name The service name.
 	 * @access public
 	 * @return boolean True on success.
+	 * @deprecated 2005/04/04 Use {@link startManagerAsService()} and {@link getService()} instead.
 	 **/
 	function restart( $name ) {
 		if (!$this->stop($name))

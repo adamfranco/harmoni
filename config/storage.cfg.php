@@ -9,7 +9,7 @@
  * Please read the documentation specific to the StorageHandler if you
  * need more information as to how it works and how to set it up.
  *
- * @version $Id: storage.cfg.php,v 1.2 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: storage.cfg.php,v 1.3 2005/04/04 19:57:39 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.storage
  **/
@@ -20,7 +20,13 @@
  **/
 
 // start the service
-Services::startService("Storage");
+require_once(OKI2."osid/OsidContext.php");
+$context =& new OsidContext;
+$context->assignContext('harmoni', $harmoni);
+
+require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
+$configuration =& new ConfigurationProperties;
+Services::startManagerAsService("Storage", $context, $configuration);
 
 // get the Storage service and store in $storage
 $storage =& Services::getService("Storage");

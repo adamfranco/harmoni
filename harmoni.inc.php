@@ -4,7 +4,7 @@
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.31 2005/01/20 14:44:31 adamfranco Exp $
+ * @version $Id: harmoni.inc.php,v 1.32 2005/04/04 19:55:38 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
@@ -38,6 +38,18 @@ define("OKI",dirname(__FILE__).DIRECTORY_SEPARATOR."oki".DIRECTORY_SEPARATOR);
 define("OKI2",dirname(__FILE__).DIRECTORY_SEPARATOR."oki2".DIRECTORY_SEPARATOR);
 //require_once(OKI."inc.php");
 
+
+/*********************************************************
+ *  Create the Harmoni object - required
+ *********************************************************/
+/* :: load the Framework config file :: */
+require_once(HARMONIBASE."config/framework.cfg.php");
+$harmoni =& new Harmoni();
+
+
+/*********************************************************
+ * Services
+ *********************************************************/
 /**
  * The name of the services variable.
  * @const SERVICES_OBJECT The name of the services variable.
@@ -56,19 +68,13 @@ $__services__ =& new Services();
 /* :: load the Services registration config file :: */
 require_once(HARMONIBASE."config/services.cfg.php");
 
-/* :: load the harmoni class :: */
-if (LOAD_ARCHITECTURE) require_once(HARMONI."architecture/harmoni/Harmoni.class.php");
 
-/* :: include other useful things :: */
+/*********************************************************
+ * include other useful things
+ *********************************************************/
 require_once(HARMONI."utilities/TemplateFactory.class.php");
 require_once(HARMONI."utilities/StringFunctions.class.php");
 require_once(HARMONI."utilities/MIMETypes.class.php");
 
-
-
-/******************************************************************************
- * Create the Harmoni object - required
- ******************************************************************************/
-$harmoni =& new Harmoni();
 
 ?>

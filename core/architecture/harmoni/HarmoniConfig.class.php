@@ -1,6 +1,8 @@
 <?php
 
 require_once(HARMONI . "utilities/DataContainer.abstract.php");
+require_once(HARMONI . "errorHandler/Error.class.php");
+
 
 /**
  * The HamoniConfig is a {@link DataContainer} for the {@link Harmoni} object.
@@ -10,7 +12,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniConfig.class.php,v 1.7 2005/04/01 19:59:37 adamfranco Exp $
+ * @version $Id: HarmoniConfig.class.php,v 1.8 2005/04/04 19:57:41 adamfranco Exp $
  */
 
 class HarmoniConfig extends DataContainer {

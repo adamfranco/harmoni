@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.3 2005/04/04 17:39:10 adamfranco Exp $
+ * @version $Id: test.php,v 1.4 2005/04/04 19:57:40 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -23,7 +23,12 @@
 
 	if (!Services::serviceAvailable("ErrorHandler")) {
 	   	Services::registerService("ErrorHandler","ErrorHandler");
-		Services::startService("ErrorHandler");
+		require_once(OKI2."osid/OsidContext.php");
+		$context =& new OsidContext;
+		$context->assignContext('harmoni', $harmoni);
+		require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
+		$configuration =& new ConfigurationProperties;
+		Services::startManagerAsService("ErrorHandler", $context, $configuration);
 	}
 	
 	$errorHandler =& Services::getService("ErrorHandler");

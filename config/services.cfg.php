@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.49 2005/04/04 18:36:57 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.50 2005/04/04 19:57:39 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -32,11 +32,6 @@ if(!defined("LOAD_GUI"))			define("LOAD_GUI",false);
  * functionality affected: HarmoniDataManager, sub-services: DataSetTypeManager, DataTypeManager, DataSetManager
  */
 if (!defined("LOAD_DATAMANAGER")) 			define("LOAD_DATAMANAGER", true);
-
-/**
- * functionality affected: almost everything but basic services: Harmoni architecture, LoginHandler, ActionHandler
- */
-if (!defined("LOAD_ARCHITECTURE")) 			define("LOAD_ARCHITECTURE", true);
 
 /**
  * functionality affected: Database connectivity, and anything that depends on it.
@@ -128,13 +123,25 @@ if (OKI_VERSION === 2) {
  *
  * where <class name> stands for the class that will be instantiated when the
  * service starts -- service classes can not have any parameters required by
- * the constructor.
+ * the constructor. Implement the methods in OsidManager, assignConfiguration()
+ * and assignOsidContext() for assigning configuration.
+ *
+ * You can also create aliases by which to access services:
+ *
+ *	Services::createServiceAlias(<user-defined name>, <first alias name>);
+ *  Services::createServiceAlias(<user-defined name>, <second alias name>);
+ *	...
+ *  Services::createServiceAlias(<user-defined name>, <N'th alias name>);
+ * 
+ * All services methods can be used with the aliases instead of the original name.
  *
  * Using this feature, your scripts can use the service like this:
  *
- *   Services::startService(<user-defined name>);
+ *   Services::startManagerAsService(<user-defined name>, <OsidContext>, <configuration>);
  *   $var =& Service::getService(<user-defined name>);
+ *	 ...
  *   $var->someMethod($someParameter,...);
+ *   ...
  *
  * Please look at the PHPDoc included with Harmoni for more details on Services.
  */
@@ -152,26 +159,29 @@ if (OKI_VERSION === 2) {
  * If you choose to replace them, make SURE your classes implement the proper
  * interface so that compatibility can be assured.
  */
-
-/**
- * load ArgumentValidator
- */
-require_once(HARMONI."utilities/ArgumentValidator.class.php");
+require_once(OKI2."osid/OsidContext.php");
+$context =& new OsidContext;
+$context->assignContext('harmoni', $harmoni);
 
 /**
  * load error handler
  */
 require_once(HARMONI."errorHandler/ErrorHandler.class.php");
-Services::registerService("ErrorHandler","ErrorHandler");
-Services::startService("ErrorHandler");
 require_once(HARMONI."errorHandler/throw.inc.php");
+Services::registerService("ErrorHandler","ErrorHandler");
+
+require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
+$configuration =& new ConfigurationProperties;
+Services::startManagerAsService("ErrorHandler", $context, $configuration);
+
 
 /**
  * load user error handler
  */
 Services::registerService("UserError","ErrorHandler");
-Services::startService("UserError");
-
+require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
+$configuration =& new ConfigurationProperties;
+Services::startManagerAsService("UserError", $context, $configuration);
 /**
  * load DBHandler
  */
@@ -186,8 +196,11 @@ if (LOAD_DEBUG) {
 	require_once(HARMONI."debugHandler/DebugHandler.class.php");
 	Services::registerService("DebugManager","DebugHandler");
 	Services::createServiceAlias("DebugManager", "Debug");
-	Services::startService("DebugManager");
 	require_once(HARMONI."debugHandler/debug.class.php");
+	
+	require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
+	$configuration =& new ConfigurationProperties;
+	Services::startManagerAsService("DebugManager", $context, $configuration);
 }
 
 /**

@@ -4,14 +4,16 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.3.0" date="The nebulous future">
 		<change author='adam'>
+			Services::startService(), Services::stopService(), Services::restartService(), 
+			and Services::startAll() are now deprecated and print warnings if used.
+			Please use Services::startManagerAsService() and/or Services::getService() 
+			instead.
+		</change>
+		<change author='adam'>
 			'Service' classes no longer extend the services interface or use
 			start()/stop() methods. These had been designed into Harmoni, but were
 			never used and are now removed. start()/stop() methods will NOT be
 			called during service starting/stopping.
-		</change>
-		<change author='adam'>
-			Services::requireService() is now deprecated. Please use 
-			Services::startService() and/or Services::getService() instead.
 		</change>
 		<change author='adam'>
 			OKI version 1 interfaces and implementations have been removed, saving

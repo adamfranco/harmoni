@@ -4,7 +4,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: testStats.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: testStats.php,v 1.2 2005/04/04 19:57:45 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -19,7 +19,13 @@
 
 	if (!Services::serviceAvailable("ErrorHandler")) {
 	   	Services::registerService("ErrorHandler","ErrorHandler");
-		Services::startService("ErrorHandler");
+	   	
+		require_once(OKI2."osid/OsidContext.php");
+		$context =& new OsidContext;
+		$context->assignContext('harmoni', $harmoni);
+		require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
+		$configuration =& new ConfigurationProperties;
+		Services::startManagerAsService("ErrorHandler", $context, $configuration);
 	}
 
 error_reporting(15);
