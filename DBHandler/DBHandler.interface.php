@@ -5,7 +5,7 @@
 	 * A constant for the MySQL database type.
 	 * @const MYSQL A constant for the MySQL database type.
 	 * @access public
-	 * @package harmoni.dbhandler
+	 * @package harmoni.dbc
 	 */
 	define("MYSQL", 1);
 	
@@ -15,7 +15,7 @@
 	 * A constant for the POSTGRE_SQL database type.
 	 * @const POSTGRE_SQL A constant for the POSTGRE_SQL database type.
 	 * @access public
-	 * @package harmoni.dbhandler
+	 * @package harmoni.dbc
 	 */
 	define("POSTGRE_SQL", 2);
 	
@@ -25,7 +25,7 @@
 	 * A constant for the ORACLE database type.
 	 * @const ORACLE A constant for the ORACLE database type.
 	 * @access public
-	 * @package harmoni.dbhandler
+	 * @package harmoni.dbc
 	 */
 	define("ORACLE", 3);
 	
@@ -35,7 +35,7 @@
 	 * A constant for the SQLSERVER database type.
 	 * @const SQLSERVER A constant for the SQLSERVER database type.
 	 * @access public
-	 * @package harmoni.dbhandler
+	 * @package harmoni.dbc
 	 */
 	define("SQLSERVER", 4);
 	
@@ -45,7 +45,7 @@
 	 * A constant for the OKI database type.
 	 * @const OKI A constant for the OKI database type.
 	 * @access public
-	 * @package harmoni.dbhandler
+	 * @package harmoni.dbc
 	 */
 	define("OKI", 5);
 	
@@ -56,8 +56,8 @@ require_once(HARMONI.'services/Service.interface.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password.
  *
- * @version $Id: DBHandler.interface.php,v 1.3 2003/06/27 13:20:39 gabeschine Exp $
- * @package harmoni.dbhandler
+ * @version $Id: DBHandler.interface.php,v 1.4 2003/07/10 02:34:19 gabeschine Exp $
+ * @package harmoni.dbc
  * @copyright 2003 
  * @access public
  */

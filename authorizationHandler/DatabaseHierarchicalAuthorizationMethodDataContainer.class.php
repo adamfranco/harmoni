@@ -6,8 +6,8 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * The DatabaseStorableDataContainer stores several arguments that will be passed
  * to the constructor of a DatabaseHierarchicalAuthorizationMethod object.
  * 
- * @package harmoni.authorizationHandler
- * @version $Id: DatabaseHierarchicalAuthorizationMethodDataContainer.class.php,v 1.2 2003/07/09 01:28:27 dobomode Exp $
+ * @package harmoni.authorization
+ * @version $Id: DatabaseHierarchicalAuthorizationMethodDataContainer.class.php,v 1.3 2003/07/10 02:34:20 gabeschine Exp $
  * @copyright 2003
  */
 

@@ -5,9 +5,9 @@ require_once(HARMONI.'services/Service.interface.php');
 /**
  * the DebugHandler interface defines the required methods for a DebugHandler class
  *
- * @version $Id: DebugHandler.interface.php,v 1.4 2003/06/28 01:01:51 gabeschine Exp $
+ * @version $Id: DebugHandler.interface.php,v 1.5 2003/07/10 02:34:20 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.utilities.debugHandler
+ * @package harmoni.utilities.debugging
  **/
 
 class DebugHandlerInterface extends ServiceInterface {

@@ -6,9 +6,9 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * The OptionalRule allows you to have a field where a rule is applied *only* when
  * the value actually exists.
  *
- * @version $Id: OptionalRule.class.php,v 1.3 2003/07/06 22:07:39 gabeschine Exp $
+ * @version $Id: OptionalRule.class.php,v 1.4 2003/07/10 02:34:21 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.utilities.FieldSetValidator.rules
+ * @package harmoni.utilities.fieldsetvalidator.rules
  **/
  
 class OptionalRule

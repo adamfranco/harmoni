@@ -5,8 +5,8 @@ require_once(HARMONI."DBHandler/Query.interface.php");
 /**
  * A generic Query interface to be implemented by all Query objects.
  *
- * @version $Id: Query.abstract.php,v 1.2 2003/06/24 21:08:45 adamfranco Exp $
- * @package harmoni.dbhandler
+ * @version $Id: Query.abstract.php,v 1.3 2003/07/10 02:34:19 gabeschine Exp $
+ * @package harmoni.dbc
  * @access public
  * @copyright 2003 
  */

@@ -5,9 +5,9 @@ require_once(HARMONI."debugHandler/DebugItem.interface.php");
 /**
  * the DebugItem class holds debug text, a detail level and a category.
  *
- * @version $Id: DebugItem.class.php,v 1.1 2003/06/23 23:59:40 gabeschine Exp $
+ * @version $Id: DebugItem.class.php,v 1.2 2003/07/10 02:34:21 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.utilities.debugHandler
+ * @package harmoni.utilities.debugging
  **/
 
 class DebugItem extends DebugItemInterface {

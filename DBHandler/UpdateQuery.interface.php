@@ -5,8 +5,8 @@ require_once("Query.abstract.php");
 /**
  * An UpdateQuery interface provides the tools to build an SQL UPDATE query.
  *
- * @version $Id: UpdateQuery.interface.php,v 1.1 2003/06/24 20:56:26 gabeschine Exp $
- * @package harmoni.dbhandler
+ * @version $Id: UpdateQuery.interface.php,v 1.2 2003/07/10 02:34:19 gabeschine Exp $
+ * @package harmoni.dbc
  * @copyright 2003 
  */
 

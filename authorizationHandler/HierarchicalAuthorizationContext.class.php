@@ -39,11 +39,11 @@ require_once(HARMONI."authorizationHandler/HierarchicalAuthorizationContext.inte
  * <b>system -> subsystem -> hierarchy depth -> context system id</b>
  * 
  * @access public
- * @version $Id: HierarchicalAuthorizationContext.class.php,v 1.3 2003/07/09 01:28:27 dobomode Exp $
+ * @version $Id: HierarchicalAuthorizationContext.class.php,v 1.4 2003/07/10 02:34:20 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
- * @package harmoni.authorizationHandler
+ * @package harmoni.authorization
  */
 class HierarchicalAuthorizationContext extends HierarchicalAuthorizationContextInterface {
 

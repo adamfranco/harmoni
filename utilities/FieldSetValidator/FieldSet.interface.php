@@ -3,9 +3,9 @@
 /**
  * the FieldSetInterface defines the methods required by any FieldSet class or derivatives
  *
- * @version $Id: FieldSet.interface.php,v 1.6 2003/07/01 17:14:13 dobomode Exp $
+ * @version $Id: FieldSet.interface.php,v 1.7 2003/07/10 02:34:21 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.utilities.FieldSetValidator
+ * @package harmoni.utilities.fieldsetvalidator
  **/
 
 class FieldSetInterface {

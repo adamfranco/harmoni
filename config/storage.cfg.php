@@ -9,9 +9,9 @@
  * Please read the documentation specific to the StorageHandler if you
  * need more information as to how it works and how to set it up.
  *
- * @version $Id: storage.cfg.php,v 1.1 2003/07/06 21:31:28 gabeschine Exp $
+ * @version $Id: storage.cfg.php,v 1.2 2003/07/10 02:34:20 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.storageHandler
+ * @package harmoni.storage
  **/
 
 /**

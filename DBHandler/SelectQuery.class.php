@@ -7,8 +7,8 @@ require_once(HARMONI."DBHandler/SelectQuery.interface.php");
  * 
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * @version $Id: SelectQuery.class.php,v 1.12 2003/07/09 01:28:25 dobomode Exp $
- * @package harmoni.dbhandler
+ * @version $Id: SelectQuery.class.php,v 1.13 2003/07/10 02:34:19 gabeschine Exp $
+ * @package harmoni.dbc
  * @copyright 2003 
  */
 

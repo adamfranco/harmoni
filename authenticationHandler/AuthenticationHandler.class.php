@@ -8,10 +8,10 @@ require_once(HARMONI."authenticationHandler/methods/inc.php");
  * The AuthenticationHandler keeps track of multiple AuthenticationMethods for 
  * authenticating agents.
  * 
- * @version $Id: AuthenticationHandler.class.php,v 1.10 2003/07/04 21:49:15 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.11 2003/07/10 02:34:20 gabeschine Exp $
  * @copyright 2003 
  * @access public
- * @package harmoni.authenticationHandler
+ * @package harmoni.authentication
  **/
 
 class AuthenticationHandler extends AuthenticationHandlerInterface {

@@ -9,8 +9,8 @@ require_once(HARMONI."DBHandler/InsertQuery.interface.php");
  * initialization steps, etc. What is left to be implemented is the
  * generateSQLQuery() method.
  * 
- * @version $Id: InsertQuery.class.php,v 1.3 2003/06/26 16:18:06 dobomode Exp $
- * @package harmoni.dbhandler
+ * @version $Id: InsertQuery.class.php,v 1.4 2003/07/10 02:34:19 gabeschine Exp $
+ * @package harmoni.dbc
  * @copyright 2003 
  */
 

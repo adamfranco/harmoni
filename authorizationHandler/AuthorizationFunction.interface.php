@@ -9,11 +9,11 @@
  * <br><br>
  * The <b>system name</b> is a system-specific unique name of the function.
  * @access public
- * @version $Id: AuthorizationFunction.interface.php,v 1.2 2003/06/30 20:41:44 dobomode Exp $
+ * @version $Id: AuthorizationFunction.interface.php,v 1.3 2003/07/10 02:34:20 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
- * @package harmoni.authorizationHandler
+ * @package harmoni.authorization
  */
 class AuthorizationFunctionInterface {
 

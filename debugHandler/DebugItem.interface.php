@@ -3,9 +3,9 @@
 /**
  * the DebugItem interface defines the required methods for a DebugItem class
  *
- * @version $Id: DebugItem.interface.php,v 1.1 2003/06/23 23:59:40 gabeschine Exp $
+ * @version $Id: DebugItem.interface.php,v 1.2 2003/07/10 02:34:21 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.utilities.debugHandler
+ * @package harmoni.utilities.debugging
  **/
 
 class DebugItemInterface {

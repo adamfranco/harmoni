@@ -15,11 +15,11 @@ require_once(HARMONI.'authorizationHandler/AuthorizationAgent.interface.php');
  * types of agents.
  * 
  * @access public
- * @version $Id: AuthorizationAgent.class.php,v 1.2 2003/07/01 17:13:59 dobomode Exp $
+ * @version $Id: AuthorizationAgent.class.php,v 1.3 2003/07/10 02:34:20 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
- * @package harmoni.authorizationHandler
+ * @package harmoni.authorization
  */
 class AuthorizationAgent extends AuthorizationAgentInterface {
 

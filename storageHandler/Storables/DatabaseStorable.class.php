@@ -7,8 +7,8 @@ require_once(HARMONI.'storageHandler/Storables/DatabaseStorableDataContainer.cla
  * A DatabaseStorable is like a FileStorable, with the exception that all data
  * is stored in a database, and not on a file system.
  *
- * @version $Id: DatabaseStorable.class.php,v 1.1 2003/07/03 01:34:14 dobomode Exp $
- * @package harmoni.Storagehandler
+ * @version $Id: DatabaseStorable.class.php,v 1.2 2003/07/10 02:34:21 gabeschine Exp $
+ * @package harmoni.storage.storables
  * @copyright 2003
  * @access public
  */

@@ -3,9 +3,9 @@
 /**
  * the DebugHandlerPrinter interface defines the required methods for a DebugHandlerPrinter class
  *
- * @version $Id: DebugHandlerPrinter.interface.php,v 1.2 2003/06/28 01:01:51 gabeschine Exp $
+ * @version $Id: DebugHandlerPrinter.interface.php,v 1.3 2003/07/10 02:34:20 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.utilities.debugHandler
+ * @package harmoni.utilities.debugging
  **/
 
 class DebugHandlerPrinterInterface {

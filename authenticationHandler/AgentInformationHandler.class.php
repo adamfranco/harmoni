@@ -8,8 +8,8 @@ require_once(HARMONI."authenticationHandler/AgentInformationHandler.interface.ph
  * from it are used, based on priority settings, in order to fetch information such
  * as email addresses, full names, etc.
  *
- * @package harmoni.authenticationHandler.agentInformationHandler
- * @version $Id: AgentInformationHandler.class.php,v 1.3 2003/06/30 18:43:13 adamfranco Exp $
+ * @package harmoni.authentication.agentinformation
+ * @version $Id: AgentInformationHandler.class.php,v 1.4 2003/07/10 02:34:20 gabeschine Exp $
  * @copyright 2003 
  **/
 class AgentInformationHandler extends AgentInformationHandlerInterface {

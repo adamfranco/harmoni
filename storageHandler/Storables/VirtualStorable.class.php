@@ -9,8 +9,8 @@ require_once(HARMONI.'storageHandler/Storable.abstract.php');
  * allowing the end user any direct access to it. This class also handles translation
  * of virtual paths relative to the StorageHandler to take place transparently.
  *
- * @version $Id: VirtualStorable.class.php,v 1.3 2003/07/04 01:38:12 gabeschine Exp $
- * @package harmoni.Storagehandler
+ * @version $Id: VirtualStorable.class.php,v 1.4 2003/07/10 02:34:21 gabeschine Exp $
+ * @package harmoni.storage.storables
  * @copyright 2003
  * @access public
  */

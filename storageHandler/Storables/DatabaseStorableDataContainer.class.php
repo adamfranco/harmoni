@@ -6,8 +6,8 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * The DatabaseStorableDataContainer stores several arguments that will be passed
  * to the constructor of a DatabaseStorable object.
  * 
- * @package harmoni.storageHandler.storables
- * @version $Id: DatabaseStorableDataContainer.class.php,v 1.2 2003/07/04 03:32:35 dobomode Exp $
+ * @package harmoni.storage.storables
+ * @version $Id: DatabaseStorableDataContainer.class.php,v 1.3 2003/07/10 02:34:21 gabeschine Exp $
  * @copyright 2003
  */
 

@@ -5,8 +5,8 @@
  *
  * The QueryResult interface provides the functionality common to all query results.
  * For example, you can determine if the query ran successfully and how many table rows were affected.
- * @version $Id: QueryResult.interface.php,v 1.1 2003/06/24 20:56:26 gabeschine Exp $
- * @package harmoni.dbhandler
+ * @version $Id: QueryResult.interface.php,v 1.2 2003/07/10 02:34:19 gabeschine Exp $
+ * @package harmoni.dbc
  * @access public
  * @copyright 2003 
  */

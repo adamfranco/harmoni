@@ -14,8 +14,8 @@ require_once(HARMONI.'utilities/Queue.class.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.8 2003/07/09 01:28:25 dobomode Exp $
- * @package harmoni.dbhandler
+ * @version $Id: DBHandler.class.php,v 1.9 2003/07/10 02:34:19 gabeschine Exp $
+ * @package harmoni.dbc
  * @copyright 2003 
  * @access public
  */

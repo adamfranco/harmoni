@@ -7,8 +7,8 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLDatabaseTestCase.class.php,v 1.5 2003/06/24 21:14:41 adamfranco Exp $
- * @package harmoni.dbhandler.tests
+ * @version $Id: MySQLDatabaseTestCase.class.php,v 1.6 2003/07/10 02:34:20 gabeschine Exp $
+ * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
 

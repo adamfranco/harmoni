@@ -5,9 +5,9 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
 /**
  * The ExtendsValidatorRule checks if a given object is extends a given class.
  *
- * @version $Id: ExtendsValidatorRule.class.php,v 1.2 2003/07/06 22:07:39 gabeschine Exp $
+ * @version $Id: ExtendsValidatorRule.class.php,v 1.3 2003/07/10 02:34:21 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.utilities.FieldSetValidator.rules
+ * @package harmoni.utilities.fieldsetvalidator.rules
  **/
  
 class ExtendsValidatorRule

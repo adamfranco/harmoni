@@ -5,8 +5,8 @@
  * 
  * The AuthenticationResult is passed a list of valid AuthenticationMethod names
  * and stores it for user retreival.
- * @package harmoni.authenticationHandler
- * @version $Id: AuthenticationResult.interface.php,v 1.3 2003/06/27 13:51:38 gabeschine Exp $
+ * @package harmoni.authentication
+ * @version $Id: AuthenticationResult.interface.php,v 1.4 2003/07/10 02:34:20 gabeschine Exp $
  * @copyright 2003 
  **/
 class AuthenticationResultInterface {

@@ -5,9 +5,9 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
 /**
  * the BooleanValidatorRule checks a given value to make sure it's a boolean value
  *
- * @version $Id: BooleanValidatorRule.class.php,v 1.5 2003/07/06 22:07:40 gabeschine Exp $
+ * @version $Id: BooleanValidatorRule.class.php,v 1.6 2003/07/10 02:34:21 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.utilities.FieldSetValidator.rules
+ * @package harmoni.utilities.fieldsetvalidator.rules
  **/
  
 class BooleanValidatorRule

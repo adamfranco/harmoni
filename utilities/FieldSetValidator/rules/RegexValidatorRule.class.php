@@ -5,9 +5,9 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
 /**
  * a RegexValidatorRule checks a given value against a regular expression
  *
- * @version $Id: RegexValidatorRule.class.php,v 1.3 2003/07/06 22:07:39 gabeschine Exp $
+ * @version $Id: RegexValidatorRule.class.php,v 1.4 2003/07/10 02:34:21 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.utilities.FieldSetValidator.rules
+ * @package harmoni.utilities.fieldsetvalidator.rules
  **/
 
 class RegexValidatorRule

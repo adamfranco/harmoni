@@ -7,8 +7,8 @@ require_once(HARMONI.'storageHandler/Storable.abstract.php');
  * that are files (file uploads), images and such. To be used 
  * by the StorageMethod and StorageHandler.
  *
- * @version $Id: FileStorable.class.php,v 1.3 2003/06/30 19:10:29 movsjani Exp $
- * @package harmoni.Storagehandler
+ * @version $Id: FileStorable.class.php,v 1.4 2003/07/10 02:34:21 gabeschine Exp $
+ * @package harmoni.storage.storables
  * @copyright 2003
  * @access public
  */

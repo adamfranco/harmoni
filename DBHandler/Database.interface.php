@@ -4,9 +4,9 @@
  * A Database interface provides generic database functionality: connect(), executeQuery(), etc.
  * A Database interface provides generic database functionality: connect(), executeQuery(), etc.
  * The interface can be implemented for different types of databases: MySQL, Oracle, SQLServer, etc.
- * @version $Id: Database.interface.php,v 1.3 2003/07/04 03:32:34 dobomode Exp $
+ * @version $Id: Database.interface.php,v 1.4 2003/07/10 02:34:19 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.dbhandler
+ * @package harmoni.dbc
  * @access public
  **/
  

@@ -10,9 +10,9 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.6 2003/07/04 03:32:34 dobomode Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.7 2003/07/10 02:34:20 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.dbhandler
+ * @package harmoni.dbc
  * @access public
  **/
  

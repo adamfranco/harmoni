@@ -6,7 +6,7 @@ require_once("QueryResult.interface.php");
 /**
  * A constant indicating an associative array.
  * @const integer ASSOC
- * @package harmoni.DBHandler
+ * @package harmoni.dbc
  */
 define("ASSOC", 1);
 
@@ -14,7 +14,7 @@ define("ASSOC", 1);
 /**
  * A constant indicating a numeric array.
  * @const integer NUMERIC
- * @package harmoni.DBHandler
+ * @package harmoni.dbc
  */
 define("NUMERIC", 2);
 
@@ -23,7 +23,7 @@ define("NUMERIC", 2);
  * A constant indicating an array that has both numeric and associative (string)
  * indices.
  * @const integer BOTH
- * @package harmoni.DBHandler
+ * @package harmoni.dbc
  */
 define("BOTH", 3);
 
@@ -35,8 +35,8 @@ define("BOTH", 3);
  *
  * The SelectQueryResult interface provides the functionality common to a SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: SelectQueryResult.interface.php,v 1.3 2003/07/04 01:56:31 dobomode Exp $
- * @package harmoni.dbhandler
+ * @version $Id: SelectQueryResult.interface.php,v 1.4 2003/07/10 02:34:19 gabeschine Exp $
+ * @package harmoni.dbc
  * @access public
  * @copyright 2003 
  */

@@ -7,8 +7,8 @@ require_once(HARMONI."DBHandler/UpdateQuery.interface.php");
  *
  * An UpdateQuery class provides the tools to build an UPDATE query.
  * 
- * @version $Id: UpdateQuery.class.php,v 1.3 2003/06/26 16:18:06 dobomode Exp $
- * @package harmoni.dbhandler
+ * @version $Id: UpdateQuery.class.php,v 1.4 2003/07/10 02:34:19 gabeschine Exp $
+ * @package harmoni.dbc
  * @copyright 2003 
  */
 

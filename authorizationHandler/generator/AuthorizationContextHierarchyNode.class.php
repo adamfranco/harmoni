@@ -6,11 +6,11 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * This is the building piece of the tree-like AuthorizationContextHierarchy
  * data structure used in AuthorizationContextHierarchyGenerator obejcts.
  * @access public
- * @version $Id: AuthorizationContextHierarchyNode.class.php,v 1.6 2003/07/07 04:39:14 dobomode Exp $
+ * @version $Id: AuthorizationContextHierarchyNode.class.php,v 1.7 2003/07/10 02:34:20 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
- * @package harmoni.authorizationHandler.generator
+ * @package harmoni.authorization.generator
  */
 class AuthorizationContextHierarchyNode
 							extends AuthorizationContextHierarchyNodeInterface {

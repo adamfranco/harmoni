@@ -12,9 +12,9 @@ require_once(HARMONI . "storageHandler/Storables/VirtualStorable.class.php");
 * your virtual filesystem. This allows primitive load balancing and mirror backups,
 * along with basic organization of data.
 * 
-* @package harmoni.StorageHandler
+* @package harmoni.storage
 * @author Middlebury College, ETS 
-* @version $Id: StorageHandler.class.php,v 1.8 2003/07/07 04:39:15 dobomode Exp $
+* @version $Id: StorageHandler.class.php,v 1.9 2003/07/10 02:34:21 gabeschine Exp $
 * @copyright 2003
 */
 class StorageHandler extends StorageHandlerInterface {
