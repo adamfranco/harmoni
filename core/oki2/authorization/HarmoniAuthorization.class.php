@@ -16,7 +16,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.8 2005/02/14 19:19:41 thebravecowboy Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.9 2005/02/15 23:29:45 adamfranco Exp $
  */
 class HarmoniAuthorization 
 	extends Authorization 
@@ -105,7 +105,7 @@ class HarmoniAuthorization
 	 * @param boolean explicit Specifies whether this Authorization is explicit or not.
 	 * @access public
 	 */
-	function HarmoniAuthorization($id, & $agentId, & $functionId, & $qualifierId, $explicit, & $cache, & $effectiveDate, & $expirationDate) {
+	function HarmoniAuthorization($id, & $agentId, & $functionId, & $qualifierId, $explicit, & $cache, $effectiveDate, $expirationDate) {
 
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("Id");
@@ -113,16 +113,16 @@ class HarmoniAuthorization
 		ArgumentValidator::validate($agentId, $extendsRule, true);
 		ArgumentValidator::validate($functionId, $extendsRule, true);
 		ArgumentValidator::validate($qualifierId, $extendsRule, true);
-		$extendsRule =& new ExtendsValidatorRule("DateTime");
-		ArgumentValidator::validate($effectiveDate, new OptionalRule($extendsRule), true);
-		ArgumentValidator::validate($expirationDate, new OptionalRule($extendsRule), true);
+		$intRule =& new IntegerValidatorRule;
+		ArgumentValidator::validate($effectiveDate, new OptionalRule($intRule), true);
+		ArgumentValidator::validate($expirationDate, new OptionalRule($intRule), true);
 		ArgumentValidator::validate($explicit, new BooleanValidatorRule(), true);
 		ArgumentValidator::validate($cache, new ExtendsValidatorRule("AuthorizationCache"), true);
 		// ** end of parameter validation
 		
 		// make sure effective date is before expiration date
 		if (isset($effectiveDate) && isset($expirationDate))
-			if (DateTime::compare($effectiveDate, $expirationDate) < 0) {
+			if ($effectiveDate > $expirationDate) {
 				$str = "The effective date must be before the expiration date.";
 				throwError(new Error($str, "Authorization", true));
 			}
@@ -132,9 +132,9 @@ class HarmoniAuthorization
 		$this->_functionId =& $functionId;
 		$this->_qualifierId =& $qualifierId;
 		if (isset($effectiveDate))
-			$this->_effectiveDate =& $effectiveDate;
+			$this->_effectiveDate = $effectiveDate;
 		if (isset($expirationDate))
-			$this->_expirationDate =& $expirationDate;
+			$this->_expirationDate = $expirationDate;
 		$this->_explicit = $explicit;
 		$this->_cache =& $cache;
 	}
@@ -336,15 +336,10 @@ class HarmoniAuthorization
 		if (!isset($this->_effectiveDate) || !isset($this->_expirationDate))
 			// a non-dated Authorization is always active
 			return true;
-	
-		// create a DateTime with the current time
-		$now =& DateTime::now();
-		$afterEffectiveDate = DateTime::compare($this->_effectiveDate, $now);
-		$beforeExpirationDate = DateTime::compare($this->_expirationDate, $now);
 		
 		// if current time is after the effective date and before the expiration
 		// date, then the Authorization is active.
-		if ($afterEffectiveDate >= 0 && $beforeExpirationDate < 0)
+		if ($this->_effectiveDate >= time() && time() < $this->_expirationDate)
 			return true;
 		else
 			return false;
@@ -406,20 +401,21 @@ class HarmoniAuthorization
 		}
 		
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("DateTime");
-		ArgumentValidator::validate($expirationDate, $extendsRule, true);
+		ArgumentValidator::validate($expirationDate, new IntegerValidatorRule, true);
 		// ** end of parameter validation
 
 		// make sure effective date is before expiration date
-		if (DateTime::compare($this->_effectiveDate, $expirationDate) < 0) {
+		if ($this->_effectiveDate > $expirationDate) {
 			throwError(new Error(AuthorizationException::EFFECTIVE_PRECEDE_EXPIRATION(), "Authorization", true));
 		}
 
-		if (DateTime::compare($this->_expirationDate, $expirationDate) == 0)
+		if ($this->_expirationDate == $expirationDate)
 			return; // nothing to update
 
 		// update the object
-		$this->_expirationDate =& $expirationDate;
+		$this->_expirationDate = $expirationDate;
+		$expirationDateTime =& new DateTime;
+		$expirationDateTime->setDate($this->_expirationDate);
 
 		// update the database
 		$dbHandler =& Services::requireService("DBHandler");
@@ -431,7 +427,7 @@ class HarmoniAuthorization
 		$where = "{$dbPrefix}.authorization_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$dbPrefix}.authorization_expiration_date"));
-		$timestamp = $dbHandler->toDBDate($expirationDate, $this->_cache->_dbIndex);
+		$timestamp = $dbHandler->toDBDate($expirationDateTime, $this->_cache->_dbIndex);
 		$query->setValues(array("'$timestamp'"));
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
@@ -471,20 +467,21 @@ class HarmoniAuthorization
 		}
 		
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("DateTime");
-		ArgumentValidator::validate($effectiveDate, $extendsRule, true);
+		ArgumentValidator::validate($effectiveDate, new IntegerValidatorRule, true);
 		// ** end of parameter validation
 
 		// make sure effective date is before expiration date
-		if (DateTime::compare($effectiveDate, $this->_expirationDate) < 0) {
+		if ($effectiveDate > $this->_expirationDate) {
 			throwError(new Error(AuthorizationException::EFFECTIVE_PRECEDE_EXPIRATION(), "Authorization", true));
 		}
 
-		if (DateTime::compare($this->_effectiveDate, $effectiveDate) == 0)
+		if ($this->_effectiveDate == $effectiveDate)
 			return; // nothing to update
 
 		// update the object
-		$this->_effectiveDate =& $effectiveDate;
+		$this->_effectiveDate = $effectiveDate;
+		$effectiveDateTime =& new DateTime;
+		$effectiveDateTime->setDate($this->_effectiveDate);
 
 		// update the database
 		$dbHandler =& Services::requireService("DBHandler");
@@ -496,7 +493,7 @@ class HarmoniAuthorization
 		$where = "{$dbPrefix}.authorization_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$dbPrefix}.authorization_effective_date"));
-		$timestamp = $dbHandler->toDBDate($effectiveDate, $this->_cache->_dbIndex);
+		$timestamp = $dbHandler->toDBDate($effectiveDateTime, $this->_cache->_dbIndex);
 		$query->setValues(array("'$timestamp'"));
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);

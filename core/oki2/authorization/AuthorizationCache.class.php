@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.11 2005/02/14 19:19:41 thebravecowboy Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.12 2005/02/15 23:29:43 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -87,13 +87,13 @@ class AuthorizationCache {
 	 * @param ref object expirationDate when the Authorization stops being effective
 	 * @return ref object Authorization
 	 **/
-	function &createAuthorization(& $agentId, & $functionId, & $qualifierId, & $effectiveDate, & $expirationDate) {
+	function &createAuthorization(& $agentId, & $functionId, & $qualifierId, $effectiveDate, $expirationDate) {
 		// ** parameter validation
 		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($effectiveDate, new OptionalRule(new ExtendsValidatorRule("DateTime")), true);
-		ArgumentValidator::validate($expirationDate, new OptionalRule(new ExtendsValidatorRule("DateTime")), true);
+		ArgumentValidator::validate($effectiveDate, new OptionalRule(new IntegerValidatorRule), true);
+		ArgumentValidator::validate($expirationDate, new OptionalRule(new IntegerValidatorRule), true);
 		// ** end of parameter validation
 		
 		// create the authorization object
@@ -129,9 +129,13 @@ class AuthorizationCache {
 		$values[] = "'".addslashes($functionId->getIdString())."'";
 		$values[] = "'".addslashes($qualifierId->getIdString())."'";
 		if ($dated) {
-			$timestamp = $dbHandler->toDBDate($effectiveDate, $this->_dbIndex);
+			$effectiveDateTime = new DateTime;
+			$effectiveDateTime->setDate($effectiveDate);
+			$timestamp = $dbHandler->toDBDate($effectiveDateTime, $this->_dbIndex);
 			$values[] = "'".addslashes($timestamp)."'";
-			$timestamp = $dbHandler->toDBDate($expirationDate, $this->_dbIndex);
+			$expirationDateTime = new DateTime;
+			$expirationDateTime->setDate($expirationDate);
+			$timestamp = $dbHandler->toDBDate($expirationDateTime, $this->_dbIndex);
 			$values[] = "'".addslashes($timestamp)."'";
 		}
 		$query->setValues($values);
@@ -859,13 +863,24 @@ class AuthorizationCache {
 				$agentId =& $idManager->getId($row['aId']);
 				$functionId =& $idManager->getId($row['fId']);
 				$explicitQualifierId =& $idManager->getId($row['qId']);
-				$effectiveDate =& $dbHandler->fromDBDate($row['eff_date'], $this->_dbIndex);
-				$expirationDate =& $dbHandler->fromDBDate($row['exp_date'], $this->_dbIndex);
+				$effectiveDateTime =& $dbHandler->fromDBDate($row['eff_date'], $this->_dbIndex);
+				if ($effectiveDateTime != NULL)
+					$effectiveDate = $effectiveDateTime->toTimestamp();
+				else
+					$effectiveDate = NULL;
+				$expirationDateTime =& $dbHandler->fromDBDate($row['exp_date'], $this->_dbIndex);
+				if ($expirationDateTime != NULL)
+					$expirationDate = $expirationDateTime->toTimestamp();
+				else
+					$expirationDate = NULL;
 				
 				// create the explicit authorization (each explicit authorization
 				// has a corresponding row in the authorization db table)
-				$authorization =& new HarmoniAuthorization($idValue, $agentId, $functionId, $explicitQualifierId,
-														   true, $this, $effectiveDate, $expirationDate);
+				$authorization =& new HarmoniAuthorization($idValue, $agentId, 
+											$functionId, $explicitQualifierId,
+											true, $this, 
+											$effectiveDate, 
+											$expirationDate);
 				$this->_authorizations[$idValue] =& $authorization;
 			}
 			
@@ -890,8 +905,8 @@ class AuthorizationCache {
 					$agentId =& $authorization->getAgentId();
 					$function =& $authorization->getFunction();
 					$functionId =& $function->getId();
-					$effectiveDate =& $authorization->getEffectiveDate();
-					$expirationDate =& $authorization->getExpirationDate();
+					$effectiveDate = $authorization->getEffectiveDate();
+					$expirationDate = $authorization->getExpirationDate();
 					$implicit =& new HarmoniAuthorization(null, 
 														$agentId, 
 														$functionId, 
