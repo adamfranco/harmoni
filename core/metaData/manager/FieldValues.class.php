@@ -6,7 +6,7 @@ require_once HARMONI."metaData/manager/ValueVersions.classes.php";
  * Holds a number of indexes for values within a specific field within a DataSet. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: FieldValues.class.php,v 1.15 2004/01/15 19:37:11 gabeschine Exp $
+ * @version $Id: FieldValues.class.php,v 1.16 2004/01/16 04:43:26 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -263,6 +263,18 @@ class FieldValues {
 	* @return int
 	*/
 	function numValues() { return $this->_numValues; }
+	
+	/**
+	 * Returns the number of ACTIVE values for this label.
+	 * @return int
+	 */
+	function numActiveValues() {
+		$count = 0;
+		for($i=0; $i<$this->numValues(); $i++) {
+			if ($this->_values[$i]->hasActiveValue()) $count++;
+		}
+		return $count;
+	}
 	
 	/**
 	* Returns the number of versions we have set for specific $index.

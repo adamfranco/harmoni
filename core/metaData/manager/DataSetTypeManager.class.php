@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.20 2004/01/15 20:55:17 gabeschine Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.21 2004/01/16 04:43:26 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -371,6 +371,9 @@ class DataSetTypeManager
 					if active flag has changed ...
 						... from yes to no, delete the old
 						... from no to yes, re-activate the old
+					if required flag has changed ...
+						... from yes to no, ok, update it
+						... from no to yes, throw an error. we can't validate all datasets
 				}
 			}
 		}
@@ -462,6 +465,22 @@ class DataSetTypeManager
 					$oldField->update();
 					
 					debug::output("Label '$label': deactivating multiple values, deleted any additional data entries that would conflict with this setting.",DEBUG_SYS5,"DataSetTypeManager");
+				}
+			}
+
+			// now let's check the req
+			$oldReq = $oldField->isRequired();
+			$newReq = $newField->isRequired();
+			if ($oldReq !== $newReq) { // boolean-safe compare
+				// ok, now, if we're changing from true to false, just go ahead, make the change
+				if (!$oldReq && $newReq) {
+					$oldField->setRequired(true);
+					$oldField->update();
+				}
+				// otherwise, throw an error!
+				if ($oldReq && !$newReq) {
+					throwError( new Error("synchronize() can not change a field's required flag from NO to YES!","DataSetTypeManager",true));
+					return false;
 				}
 			}
 		}

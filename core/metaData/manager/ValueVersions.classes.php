@@ -10,7 +10,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.22 2004/01/15 19:37:11 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.23 2004/01/16 04:43:27 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -222,7 +222,6 @@ class ValueVersions {
 			return $this->newVerObject();
 		}
 		
-		
 		foreach (array_keys($this->_versions) as $id) {
 			if ($this->_versions[$id]->isActive()) return $this->_versions[$id];
 		}
@@ -308,6 +307,17 @@ class ValueVersions {
 	}
 	
 	/**
+	 * Returns TRUE if we have an active version.
+	 * @return bool
+	 */
+	function haveActiveValue() {
+		foreach ($this->getVersionList() as $verID) {
+			if ($this->_versions[$id]->isActive()) return true;
+		}
+		return false;
+	}
+	
+	/**
 	* Returns a new ValueVersions object that is an exact data-specific clone of the current object.
 	* @param ref object A reference to a {@link FieldValues} object that will act as the parent.
 	* @return ref object
@@ -329,7 +339,7 @@ class ValueVersions {
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.22 2004/01/15 19:37:11 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.23 2004/01/16 04:43:27 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public

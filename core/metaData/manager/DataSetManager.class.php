@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.22 2004/01/15 20:55:17 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.23 2004/01/16 04:43:26 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -18,10 +18,14 @@ class DataSetManager extends ServiceInterface {
 	
 	var $_versionConstraint = null;
 	
+	var $_dataSetCache;
+	
 	function DataSetManager( &$idManager, $dbID, &$dataSetTypeManager) {
 		$this->_idManager =& $idManager;
 		$this->_dbID = $dbID;
 		$this->_typeManager = $dataSetTypeManager;
+		
+		$this->_dataSetCache = array();
 	}
 	
 	/**
@@ -52,50 +56,80 @@ class DataSetManager extends ServiceInterface {
 	function &fetchArrayOfIDs( $dataSetIDs, $editable=false, $limitResults = null ) {
 		ArgumentValidator::validate($dataSetIDs, new ArrayValidatorRuleWithRule(new NumericValidatorRule()));
 		$dataSetIDs = array_unique($dataSetIDs);
-		// first, make the new query
-		$query =& new SelectQuery();
-
-		$this->_setupSelectQuery($query);
-
-		$t = array();
-		foreach ($dataSetIDs as $dataSetID) {
-			$t[] = "dataset_id=".$dataSetID;
-		}
-		$query->addWhere("(".implode(" OR ", $t).")");
-		if (!$editable) $query->addWhere("datasetfield_active=1");
 		
-		$dbHandler =& Services::getService("DBHandler");
-		
-//		print "<PRE>" . MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
-		
-		$result =& $dbHandler->query($query,$this->_dbID);
-		
-		if (!$result) {
-			throwError(new UnknownDBError("DataSetManager"));
+		// let's weed out those IDs that we can take from cache
+		$fromCacheIDs = array();
+		$fromDBIDs = array();
+		if (count($this->_dataSetCache)) {
+			foreach ($dataSetIDs as $dataSetID) {
+				// only take from the cache if we have it cached, AND
+				// either we are not fetching editable sets OR (if we are) the cached one is also editable.
+				if (isset($this->_dataSetCache[$dataSetID]) && 
+							(!$editable || !$this->_dataSetCache[$dataSetID]->readOnly())) {
+					$fromCacheIDs[] = $dataSetID;
+				} else {
+					$fromDBIDs[] = $dataSetID;
+				}
+			}
 		}
 		
-		// now, we need to parse things out and distribute the lines accordingly
 		$sets = array();
-		$classToMake = $editable?"FullDataSet":"CompactDataSet";
 		
-		while ($result->hasMoreRows()) {
-			$a = $result->getCurrentRow();
-			$result->advanceRow();
+		if (count($fromDBIDs)) {
+			// first, make the new query
+			$query =& new SelectQuery();
+	
+			$this->_setupSelectQuery($query);
+	
+			$t = array();
+			foreach ($fromDBIDs as $dataSetID) {
+				$t[] = "dataset_id=".$dataSetID;
+			}
+			$query->addWhere("(".implode(" OR ", $t).")");
+			if (!$editable) $query->addWhere("datasetfield_active=1");
 			
-			$id = $a['dataset_id'];
-			$type = $a['fk_datasettype'];
-			$vcontrol =$a['dataset_ver_control'];
-			if (!$sets[$id]) {
-				$dataSetTypeDef =& $this->_typeManager->getDataSetTypeDefinitionByID($type);
-				$dataSetTypeDef->load();
-				$sets[$id] =& new $classToMake($this->_idManager,
-							$this->_dbID,
-							$dataSetTypeDef,
-							$vcontrol?true:false);
+			$dbHandler =& Services::getService("DBHandler");
+			
+	//		print "<PRE>" . MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
+			
+			$result =& $dbHandler->query($query,$this->_dbID);
+			
+			if (!$result) {
+				throwError(new UnknownDBError("DataSetManager"));
 			}
 			
-			$sets[$id]->takeRow($a);
-			unset($a);
+			// now, we need to parse things out and distribute the lines accordingly
+			$classToMake = $editable?"FullDataSet":"CompactDataSet";
+			
+			while ($result->hasMoreRows()) {
+				$a = $result->getCurrentRow();
+				$result->advanceRow();
+				
+				$id = $a['dataset_id'];
+				$type = $a['fk_datasettype'];
+				$vcontrol =$a['dataset_ver_control'];
+				if (!$sets[$id]) {
+					$dataSetTypeDef =& $this->_typeManager->getDataSetTypeDefinitionByID($type);
+					$dataSetTypeDef->load();
+					$sets[$id] =& new $classToMake($this->_idManager,
+								$this->_dbID,
+								$dataSetTypeDef,
+								$vcontrol?true:false);
+				}
+				
+				$sets[$id]->takeRow($a);
+				unset($a);
+			}
+			
+			// now, lets update the cache to hold the sets we just fetched
+			foreach (array_keys($sets) as $id) {
+				$this->_dataSetCache[$id] =& $sets[$id];
+			}
+		}
+				
+		// and add the IDs we're gonna take from cache to the array to return
+		foreach ($fromCacheIDs as $id) {
+			if (!isset($sets[$id])) $sets[$id] =& $this->_dataSetCache[$id];
 		}
 		
 		return $sets;

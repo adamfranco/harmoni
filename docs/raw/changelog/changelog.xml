@@ -3,6 +3,9 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.1.0" date="Not Released">
+		<new author='gabe'>
+			DataManager: added DataSet caching to the DataSetManager.
+		</new>
 		<change author='gabe'>
 			Removed argument validation from DateTime constructor to speed up code by 33%.
 		</change>

@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.26 2004/01/15 20:55:16 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.27 2004/01/16 04:43:26 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -191,7 +191,7 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.26 2004/01/15 20:55:16 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.27 2004/01/16 04:43:26 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {
@@ -255,6 +255,18 @@ class FullDataSet extends CompactDataSet {
 	* @return bool
 	*/
 	function commit() {
+		// the first thing we're gonna do is check to make sure that all our required fields
+		// have at least one value.
+		foreach ($this->_dataSetTypeDef->getAllLabels() as $label) {
+			$fieldDef =& $this->_dataSetTypeDef->getFieldDefinition($label);
+			if ($fieldDef->isRequired() && ($this->_fields[$label]->numValues() == 0 ||
+					$this->_fields[$label]->numActiveValues() == 0)) {
+				throwError(new Error("Could not commit DataSet to database because the required field '$label' does
+				not have any values!","FullDataSet",true));
+				return false;
+			}
+		}
+		
 		if ($this->_myID) {
 			// we're already in the database
 			$query =& new UpdateQuery();
