@@ -295,7 +295,7 @@ class HarmoniDigitalRepository
 	 * @package osid.dr
 	 */
 	function & getSearchTypes() {
-		return new HarmoniIterator($this->_searchTypes);
+		return new HarmoniTypeIterator($this->_searchTypes);
 	}
 
 	/**

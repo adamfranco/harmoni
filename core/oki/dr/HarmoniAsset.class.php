@@ -3,6 +3,7 @@
 require_once(HARMONI."/oki/dr/HarmoniAsset.interface.php");
 require_once(HARMONI."/oki/dr/HarmoniInfoRecord.class.php");
 require_once(HARMONI."/oki/dr/HarmoniInfoRecordIterator.class.php");
+require_once(HARMONI."/oki/shared/HarmoniIterator.class.php");
 
 /**
  * Asset manages the Asset itself.  Assets have content as well as InfoRecords
