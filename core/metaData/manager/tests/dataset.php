@@ -19,15 +19,19 @@ $manager =& Services::requireService("DataSetManager");
 
 //$dataSet =& $manager->fetchDataSet(9,false);
 
-$dataSet =& $manager->newDataSet(new HarmoniType("middlebury.edu","harmoni","testtype"), false);
+$sets =& $manager->fetchArrayOfIDs(array(138, 147, 188, 207), true);
+
+//$dataSet =& $manager->newDataSet(new HarmoniType("middlebury.edu","harmoni","testtype"), false);
 
 //print "<pre>"; print_r($dataSet); print "</pre>";
 
-$dataSet->setValue("name", new StringDataType("Gabe Schine"), NEW_VALUE);
+//$dataSet->setValue("name", new StringDataType("Gabe Schine"), NEW_VALUE);
 
 //print_r($val);
 //$dataSet->commit();
-renderDataSet($dataSet);
+//renderDataSet($dataSet);
+
+renderDataSetArray($sets);
 
 /*$dataSet->setValue("number2", new IntegerDataType(60034), 2);
 renderDataSet($dataSet);

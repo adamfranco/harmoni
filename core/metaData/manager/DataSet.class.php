@@ -16,7 +16,7 @@ class CompactDataSet {
 	var $_myID;
 	var $_active;
 	
-	function CompactDataSet(&$idManager, $dbID, &$dataSetTypeDef, $verControl=false ) {
+	function CompactDataSet(&$idManager, $dbID, &$dataSetTypeDef, $verControl=false) {
 		ArgumentValidator::validate($verControl, new BooleanValidatorRule());
 		$this->_idManager = $idManager;
 		$this->_dbID = $dbID;
@@ -28,7 +28,7 @@ class CompactDataSet {
 		$this->_myID = null;
 		
 		// set up the individual fields
-		foreach ($dataSetTypeDef->getAllLabels() as $label) {
+		foreach ($dataSetTypeDef->getAllLabels(true) as $label) {
 			$def =& $dataSetTypeDef->getFieldDefinition($label);
 			$this->_fields[$label] =& new FieldValues($def, $this, $label );
 			unset($def);
@@ -115,6 +115,10 @@ class CompactDataSet {
 			$newFV->populate($package[$label]);*/
 			// above = dumb. _fields array should have been setup by the constructor.
 			
+			if (!isset($this->_fields[$label])) {
+				throwError( new Error("Could not populate DataSet with label '$label' because it doesn't
+				seem to be defined in the DatSetTypeDefinition.","DataSet",true));
+			}
 			$this->_fields[$label]->populate($packages[$label]);
 		}
 		
@@ -268,15 +272,16 @@ class ValueIndexNotFoundError extends Error {
 }
 
 function renderDataSet(&$dataSet) {
-	$fields = $dataSet->_dataSetTypeDef->getAllLabels();
+	$fields = $dataSet->_dataSetTypeDef->getAllLabels(true);
 	
 	print "<PRE>";
 	print "dataSet of type '".OKITypeToString($dataSet->_dataSetTypeDef->getType())."', ";
 	print "version controlled = ".($dataSet->isVersionControlled()?"yes":"no")."\n\n";
 	foreach ($fields as $label) {
+		$fieldDef =& $dataSet->_dataSetTypeDef->getFieldDefinition($label);
 		$numValues = $dataSet->numValues($label);
 		
-		print "$label: $numValues values\n";
+		print "$label".(($fieldDef->isActive())?"":" (inactive)").": $numValues values\n";
 		
 		for ($i=0; $i<$numValues; $i++) {
 			$vers =& $dataSet->getValueVersionsObject($label,$i);
@@ -296,6 +301,13 @@ function renderDataSet(&$dataSet) {
 		
 	}
 	print "</PRE>";
+}
+
+function renderDataSetArray(&$sets) {
+	foreach (array_keys($sets) as $id) {
+		print "<P>DataSet ID <b>$id</b><br>";
+		renderDataSet($sets[$id]);
+	}
 }
 
 ?>

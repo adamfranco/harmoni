@@ -2,6 +2,15 @@
 
 require_once HARMONI."metaData/manager/ValueVersions.classes.php";
 
+/**
+ * Holds a number of indexes for values within a specific field within a DataSet. For those fields with
+ * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
+ * @package harmoni.datamanager
+ * @version $Id: FieldValues.class.php,v 1.7 2004/01/01 19:03:42 gabeschine Exp $
+ * @author Gabe Schine
+ * @copyright 2004
+ * @access public
+ **/
 class FieldValues {
 	
 	var $_numValues;

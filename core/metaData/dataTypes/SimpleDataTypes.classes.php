@@ -2,6 +2,14 @@
 
 require_once HARMONI."metaData/manager/DataType.abstract.php";
 
+/**
+ * A simple integer data type.
+ * @package harmoni.datamanager.datatypes
+ * @version $Id: SimpleDataTypes.classes.php,v 1.10 2004/01/01 19:03:42 gabeschine Exp $
+ * @author Gabe Schine
+ * @copyright 2004
+ * @access public
+ **/
 class IntegerDataType
 	extends DataType {
 	
@@ -87,6 +95,14 @@ class IntegerDataType
 	}
 }
 
+/**
+ * A simple string data type.
+ * @package harmoni.datamanager.datatypes
+ * @version $Id: SimpleDataTypes.classes.php,v 1.10 2004/01/01 19:03:42 gabeschine Exp $
+ * @author Gabe Schine
+ * @copyright 2004
+ * @access public
+ **/
 class StringDataType
 	extends DataType {
 	

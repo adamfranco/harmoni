@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Responsible for keeping track of the available data types (such as string, integer, etc) and 
+ * creation of the appropriate classes when those data types are required.
+ * @package harmoni.datamanager
+ * @version $Id: DataTypeManager.class.php,v 1.5 2004/01/01 19:03:42 gabeschine Exp $
+ * @author Gabe Schine
+ * @copyright 2004
+ * @access public
+ **/
 class DataTypeManager 
 	extends ServiceInterface {
 	

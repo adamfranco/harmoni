@@ -1,6 +1,14 @@
 <?php
 
-
+/**
+ * Holds information about a specific label within a {@link DataSetTypeDefinition}. Defines
+ * what type of data the field holds (string, integer, etc) and if it can have multiple values.
+ * @package harmoni.datamanager
+ * @version $Id: FieldDefinition.class.php,v 1.7 2004/01/01 19:03:42 gabeschine Exp $
+ * @author Gabe Schine
+ * @copyright 2004
+ * @access public
+ **/
 class FieldDefinition {
 	
 	var $_dataSetTypeDefinition;

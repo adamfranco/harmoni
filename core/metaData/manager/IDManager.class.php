@@ -1,6 +1,15 @@
 <?php
 
-
+/**
+ * The IDManager is responsible for creating new numeric ID numbers for database objects.
+ * Each ID is associated with an OKI-style Type. Across an entire DB scheme no two IDs
+ * will be the same.
+ * @package harmoni.datamanager
+ * @version $Id: IDManager.class.php,v 1.6 2004/01/01 19:03:42 gabeschine Exp $
+ * @author Gabe Schine
+ * @copyright 2004
+ * @access public
+ **/
 
 class IDManager
 	extends ServiceInterface {

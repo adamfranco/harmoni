@@ -6,6 +6,17 @@ require_once(HARMONI."metaData/manager/IDManager.class.php");
 require_once(HARMONI."metaData/manager/DataType.interface.php");
 require_once(HARMONI."metaData/manager/DataSetManager.class.php");
 
+/**
+ * The HarmoniDataManager class is used purely to setup the services required to use the
+ * other DataManager classes such as the {@link DataSetTypeManager} or the {@link DataSetManager}.
+ * @package harmoni.datamanager
+ * @version $Id: HarmoniDataManager.abstract.php,v 1.5 2004/01/01 19:03:42 gabeschine Exp $
+ * @author Gabe Schine
+ * @copyright 2004
+ * @access public
+ * @abstract
+ **/
+
 class HarmoniDataManager {
 	
 	function setup( $dbID ) {

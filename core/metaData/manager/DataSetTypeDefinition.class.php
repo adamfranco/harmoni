@@ -2,6 +2,17 @@
 
 require_once(HARMONI."metaData/manager/FieldDefinition.class.php");
 
+/**
+ * Holds the descriptive information about a specific OKI-style DataSetType. DataSetTypes
+ * define the fields available in a DataSet, the number of values allowed in that field.
+ * Using the class the actual data structure can be set up in the PHP code and then
+ * synchronized to the database using the {@link DataSetTypeManager}.
+ * @package harmoni.datamanager
+ * @version $Id: DataSetTypeDefinition.class.php,v 1.9 2004/01/01 19:03:42 gabeschine Exp $
+ * @author Gabe Schine
+ * @copyright 2004
+ * @access public
+ **/
 class DataSetTypeDefinition {
 	
 	var $_manager;
@@ -63,6 +74,8 @@ class DataSetTypeDefinition {
 //			throwError( new Error("Already loaded from the database for type ".OKITypeToString($this->_type).".","DataSetTypeDefinition",true));
 			return true;
 		}
+		
+		$this->_loaded = true;
 		
 		// if we were not initialized with an ID, that means that we're not meant to interface with the DB
 		if (!$this->_id) {

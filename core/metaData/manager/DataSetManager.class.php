@@ -2,6 +2,14 @@
 
 require_once HARMONI."metaData/manager/DataSet.class.php";
 
+/**
+ * The DataSetManager handles the creation, taggingß and fetching of DataSets from the database.
+ * @package harmoni.datamanager
+ * @version $Id: DataSetManager.class.php,v 1.8 2004/01/01 19:03:42 gabeschine Exp $
+ * @author Gabe Schine
+ * @copyright 2004
+ * @access public
+ **/
 class DataSetManager extends ServiceInterface {
 	
 	var $_idManager;
@@ -57,14 +65,7 @@ class DataSetManager extends ServiceInterface {
 			$sets[$id]["count"]++;
 			$sets[$id][] = $a;
 		}
-		
-/*		if ($dataSetTypeID == null) {
-			throwError( new Error(
-				"Serious error: could not find a datasettype to associate with DataSet ID '$dataSetID'!",
-				"DataSetManager",true));
-			return false;
-		} */		
-		
+				
 		$objs = array();
 		foreach (array_keys($sets) as $id) {
 			$dataSetTypeDef =& $this->_typeManager->getDataSetTypeDefinitionByID($sets[$id]["type"]);
@@ -81,7 +82,9 @@ class DataSetManager extends ServiceInterface {
 			$sets[$id]["vcontrol"]
 			);
 			
-			$newDataSet->populate(array_slice($sets[$id],0,$sets[$id]["count"]));
+			// get rid of these array elements so as not to confuse the dataset.
+			unset($sets[$id]["count"], $sets[$id]["vcontrol"], $sets[$id]["type"]);
+			$newDataSet->populate($sets[$id]);
 			
 			$objs[$id] =& $newDataSet;
 		}
@@ -90,66 +93,8 @@ class DataSetManager extends ServiceInterface {
 	}
 	
 	function &fetchDataSet( $dataSetID, $editable=false ) {
-		// this is gonna be *huge*
-		
-		// first, make the new query
-		$query =& new SelectQuery();
-
-		$this->_setupSelectQuery($query);
-		
-		$query->addWhere("dataset_id=".$dataSetID);
-		if (!$editable) $query->addWhere("datasetfield_active=1");
-		
-		$dbHandler =& Services::getService("DBHandler");
-		
-		$result =& $dbHandler->query($query,$this->_dbID);
-		
-		if (!$result) {
-			throwError(new UnknownDBError("DataSetManager"));
-		}
-		
-		// now, we need to parse things out and distribute the lines accordingly
-		$dataSetTypeID = null;
-		$verControl = false;
-		
-		$lines = array();
-		
-		while ($result->hasMoreRows()) {
-			$lines[] = $a = $result->getCurrentRow();
-			$result->advanceRow();
-			
-			// let's get some basic info from the row
-			if (!$dataSetTypeID && $a['fk_datasettype'])
-				$dataSetTypeID = $a['fk_datasettype'];
-			
-			if (!$verControl && $a['dataset_ver_control'])
-				$verControl = ($a['dataset_ver_control'])?true:false;
-		}
-		
-		if ($dataSetTypeID == null) {
-			throwError( new Error(
-				"Serious error: could not find a datasettype to associate with DataSet ID '$dataSetID'!",
-				"DataSetManager",true));
-			return false;
-		}
-		
-		$dataSetTypeDef =& $this->_typeManager->getDataSetTypeDefinitionByID($dataSetTypeID);
-		$dataSetTypeDef->load(); // get Definition from DB
-		
-		if ($editable) $newDataSet =& new FullDataSet($this->_idManager,
-					$this->_dbID,
-					$dataSetTypeDef,
-					$verControl
-					);
-		else $newDataSet =& new CompactDataSet($this->_idManager,
-					$this->_dbID,
-					$dataSetTypeDef,
-					$verControl
-					);
-		
-		$newDataSet->populate($lines);
-		
-		return $newDataSet;
+		$sets =& $this->fetchArrayOfIDs(array($dataSetID), $editable);
+		return $sets[$dataSetID];
 	}
 	
 	function _setupSelectQuery(&$query) {
