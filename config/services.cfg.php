@@ -7,7 +7,7 @@
  * necessary services.
  *
  * @package harmoni.services
- * @version $Id: services.cfg.php,v 1.4 2003/06/27 12:33:48 gabeschine Exp $
+ * @version $Id: services.cfg.php,v 1.5 2003/06/28 01:01:51 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -69,6 +69,10 @@ Services::registerService("Authentication","AuthenticationHandler");
 // load debug handler
 require_once(HARMONI."debugHandler/DebugHandler.class.php");
 Services::registerService("Debug","DebugHandler");
+
+// load the agent information handler
+require_once(HARMONI."authenticationHandler/AgentInformationHandler.class.php");
+Services::registerService("AgentInformation","AgentInformationHandler");
 
 /**
  * Load wrapper classes and functions for some of the above services. 

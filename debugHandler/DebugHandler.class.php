@@ -6,7 +6,7 @@ require_once(HARMONI."debugHandler/DebugHandler.interface.php");
 /**
  * The DebugHandler keeps track of multiple DebugItems.
  *
- * @version $Id: DebugHandler.class.php,v 1.4 2003/06/27 15:08:47 dobomode Exp $
+ * @version $Id: DebugHandler.class.php,v 1.5 2003/06/28 01:01:51 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugHandler
  **/
@@ -31,8 +31,8 @@ class DebugHandler extends DebugHandlerInterface {
 	 * Adds debug text to the handler.
 	 *
 	 * @param mixed $debug Either a string with debug text or a DebugItem object.
-	 * @param int [$level] (optional) The detail level of the debug text.
-	 * @param string [$category] (optional) The text category.
+	 * @param optional int $level The detail level of the debug text.
+	 * @param optional string $category The text category.
 	 * @access public
 	 * @return void
 	 **/
@@ -70,7 +70,7 @@ class DebugHandler extends DebugHandlerInterface {
 	/**
 	 * Returns an array of DebugItems, optionally limited to category $category.
 	 * 
-	 * @param string [$category] (optional) The category.
+	 * @param optional string $category The category.
 	 * @access public
 	 * @return array The array of DebugItems.
 	 **/

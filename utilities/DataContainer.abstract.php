@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/RuleSet.class.php");
  * The class is abstract and allows children to set up a list of fields (keys) that can be set/accessed, and rules to be associated with them.
  *
  * @abstract
- * @version $Id: DataContainer.abstract.php,v 1.3 2003/06/27 13:51:38 gabeschine Exp $
+ * @version $Id: DataContainer.abstract.php,v 1.4 2003/06/28 01:01:51 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities
  **/
@@ -43,8 +43,8 @@ class DataContainer extends DataContainerInterface {
 	/**
 	 * The add method adds a new field with associated rule and optional error if validation fails.
 	 * @param string $field The key of the field to add.
-	 * @param object ValidatorRule $rule The validator rule to apply to the value set to this key.
-	 * @param object Error [$error] (optional) The error to throw if validation of this key fails.
+	 * @param ref object ValidatorRule $rule The validator rule to apply to the value set to this key.
+	 * @param optional object Error $error The error to throw if validation of this key fails.
 	 * @access protected
 	 * @see {@link FieldSetValidator}
 	 * @return void 

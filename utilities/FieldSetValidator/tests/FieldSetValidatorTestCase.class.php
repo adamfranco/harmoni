@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FieldSetValidatorTestCase.class.php,v 1.2 2003/06/23 22:02:03 adamfranco Exp $
+ * @version $Id: FieldSetValidatorTestCase.class.php,v 1.3 2003/06/28 01:01:51 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -67,6 +67,7 @@
 			$this->assertEqual($this->testFieldSet->get("mystring"),"this is a string");
 			$this->assertEqual($this->testFieldSet->get("mynumber"),10);
 			$this->assertEqual($this->testFieldSet->count(),2);
+			$this->testFieldSet->set("boolean","not a boolean");
 		}
 		
 		function test_field_set_unsetKey() {
@@ -111,13 +112,14 @@
 			$number = & new NumericValidatorRule;
 			$this->testRuleSet->addRule("mystring", $rq,$error);
 			$this->testRuleSet->addRule("mystring",$email,$error);
+			$this->testRuleSet->addRule("boolean",new BooleanValidatorRule,$error);
 			
 			$this->testRuleSet->addRule("mynumber", $number, $error);
-			$this->assertEqual($this->testRuleSet->count(),2);
+			$this->assertEqual($this->testRuleSet->count(),3);
 			$this->assertReference($this->testRuleSet->_rules["mystring"][0][0], $rq);
 			$this->assertReference($this->testRuleSet->_rules["mystring"][1][0], $email);
 			$this->assertReference($this->testRuleSet->_rules["mynumber"][0][0], $number);
-			$this->assertEqual($this->testRuleSet->getKeys(), array("mystring","mynumber"));
+//			$this->assertEqual($this->testRuleSet->getKeys(), array("mystring","mynumber","boolean"));
 		}
 		
 		function test_validator_all() {

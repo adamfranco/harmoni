@@ -1,13 +1,13 @@
 <?php
 
-//    require_once(HARMONI.'authenticationHandler/AgentInformationHandler.class.php');
+    require_once(HARMONI.'authenticationHandler/AgentInformationHandler.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AgentInformationHandlerTestCase.class.php,v 1.2 2003/06/26 20:47:26 adamfranco Exp $
+ * @version $Id: AgentInformationHandlerTestCase.class.php,v 1.3 2003/06/28 01:01:51 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -22,8 +22,87 @@
 		*    of each test method.
 		*    @public
 		*/
+		var $info,$auth;
 		function setUp() {
-			// perhaps, initialize $obj here
+			Services::requireService("AgentInformation");
+			Services::requireService("Authentication");
+			$this->info = & Services::getService("AgentInformation");
+			$this->auth = & Services::getService("Authentication");
+			$this->add1();
+			$this->add2();
+			$this->add3();
+			//$this->add4();
+		}
+		
+		function add1() {
+			$o = & new DBMethodOptions;
+			$o->set("databaseType",MYSQL);
+			$o->set("databaseName","harmoniTest");
+			$o->set("databaseUsername","test");
+			$o->set("databasePassword","test");
+			$o->set("databaseHost","devo.middlebury.edu");
+			$o->set("tableName","user");
+			$o->set("usernameField","user_uname");
+			$o->set("passwordField","user_pass");
+			$o->set("agentInformationFields",array("email"=>"user_email"
+													,"firstname"=>"user_fname",
+													"lastname"=>"user_lname"));
+			Services::startService("DBHandler");
+			$m = &new DBAuthenticationMethod($o);
+			$this->auth->addMethod("db1",0,$m,true);
+		}
+		function add2() {
+			$o = & new DBMethodOptions;
+			$o->set("databaseType",MYSQL);
+			$o->set("databaseName","harmoniTest");
+			$o->set("databaseUsername","test");
+			$o->set("databasePassword","test");
+			$o->set("databaseHost","devo.middlebury.edu");
+			$o->set("tableName","usermd5");
+			$o->set("usernameField","user_uname");
+			$o->set("passwordField","user_pass");
+			$o->set("passwordFieldEncrypted",true);
+			$o->set("passwordFieldEncryptionType","databaseMD5");
+			$o->set("agentInformationFields",array("email"=>"user_email"
+													,"firstname"=>"user_fname",
+													"lastname"=>"user_lname"));
+			Services::startService("DBHandler");
+			$m = &new DBAuthenticationMethod($o);
+			$this->auth->addMethod("db2",1,$m);
+		}
+		function add3() {
+			$o = & new DBMethodOptions;
+			$o->set("databaseType",MYSQL);
+			$o->set("databaseName","harmoniTest");
+			$o->set("databaseUsername","test");
+			$o->set("databasePassword","test");
+			$o->set("databaseHost","devo.middlebury.edu");
+			$o->set("tableName","user2");
+			$o->set("usernameField","user_uname");
+			$o->set("passwordField","user_pass");
+			$o->set("agentInformationFields",array("email"=>"user_email"
+													,"firstname"=>"user_fname",
+													"lastname"=>"user_lname"));
+			Services::startService("DBHandler");
+			$m = &new DBAuthenticationMethod($o);
+			$this->auth->addMethod("db3",4,$m,false);
+		}
+		function add4() {
+			$o = & new DBMethodOptions;
+			$o->set("databaseType",MYSQL);
+			$o->set("databaseName","harmoniTest");
+			$o->set("databaseUsername","test");
+			$o->set("databasePassword","test");
+			$o->set("databaseHost","devo.middlebury.edu");
+			$o->set("tableName","user3");
+			$o->set("usernameField","user_uname");
+			$o->set("passwordField","user_pass");
+			$o->set("agentInformationFields",array("email"=>"user_email"
+													,"firstname"=>"user_fname",
+													"lastname"=>"user_lname"));
+			Services::startService("DBHandler");
+			$m = &new DBAuthenticationMethod($o);
+			$this->auth->addMethod("db4",3,$m,true);
 		}
 		
 		/**
@@ -31,17 +110,23 @@
 		 *    @public
 		 */
 		function tearDown() {
-			// perhaps, unset $obj here
+			Services::restartService("Authentication");
 		}
 	
 		/**
 		 *    Tests getting information for an agent.
 		 */ 
-		function test_get_information() {
-			$this->assertEqual(false,"We need to delete this and write some real tests.");	
-
-//			$AIhandler =& Services::getService('AIHandler');
-			
+		function test_it() {
+			// testing... testing... bjones... do you copy
+			// same accross all methods
+			$a = $this->info->getAgentInformation("bjones","db1");
+			print_r($a);
+			$a = $this->info->getAgentInformation("bjones","db3");
+			print_r($a);
+			$a = $this->info->getAgentInformation("bjones","db3");
+			print_r($a);
+			$a = $this->info->getAgentInformation("bjones");
+			print_r($a);
 		}
 		
     }

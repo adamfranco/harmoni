@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQuery.interface.php");
  * 
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * @version $Id: SelectQuery.class.php,v 1.9 2003/06/27 13:51:37 gabeschine Exp $
+ * @version $Id: SelectQuery.class.php,v 1.10 2003/06/28 01:01:50 gabeschine Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -193,7 +193,7 @@ class SelectQuery extends SelectQueryInterface {
 	 * @access public
 	 * @see {@link SelectQuery::setColumns()}
 	 */ 
-	function addColumn($column, $alias = null) {
+	function addColumn($column, $alias = "") {
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($column, $stringRule, true);

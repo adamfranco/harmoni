@@ -5,7 +5,7 @@
  * 
  * any RuleSet should let the user define a number of keys with associated rules (one or more) and then let the user check any value against the rules defined for a key
  *
- * @version $Id: RuleSet.interface.php,v 1.6 2003/06/27 02:59:37 gabeschine Exp $
+ * @version $Id: RuleSet.interface.php,v 1.7 2003/06/28 01:01:51 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/
@@ -14,12 +14,12 @@ class RuleSetInterface {
 	/**
 	 * adds a new $rule to $key, which if fails when validated throws $error
 	 * @param string $key the key to associate the rule with
-	 * @param object ValidatorRule $rule the ValidatorRule object to be added
-	 * @param object Error $error the error to throw if the validation fails
+	 * @param ref object ValidatorRule $rule the ValidatorRule object to be added
+	 * @param optional object Error $error the error to throw if the validation fails
 	 * @access public
 	 * @return void 
 	 **/
-	function addRule( $key, & $rule, & $error ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function addRule( $key, & $rule, $error=null ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * validates $val against the rules defined for $key. if validation fails the associated error is thrown

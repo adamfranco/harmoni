@@ -3,7 +3,7 @@
 /**
  * The DataContainer Interface defines the required methods for any DataContainer class or child.
  *
- * @version $Id: DataContainer.interface.php,v 1.1 2003/06/24 20:22:40 gabeschine Exp $
+ * @version $Id: DataContainer.interface.php,v 1.2 2003/06/28 01:01:51 gabeschine Exp $
  * @copyright 2003
  * @package harmoni.utilities 
  **/
@@ -22,8 +22,8 @@ class DataContainerInterface {
 	/**
 	 * The add method adds a new field with associated rule and optional error if validation fails.
 	 * @param string $field The key of the field to add.
-	 * @param object ValidatorRule $rule The validator rule to apply to the value set to this key.
-	 * @param object Error [$error] (optional) The error to throw if validation of this key fails.
+	 * @param ref object ValidatorRule $rule The validator rule to apply to the value set to this key.
+	 * @param optional object Error $error The error to throw if validation of this key fails.
 	 * @access protected
 	 * @return void 
 	 **/

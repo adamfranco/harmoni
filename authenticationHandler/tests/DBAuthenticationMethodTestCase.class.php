@@ -7,7 +7,7 @@ require_once(HARMONI.'authenticationHandler/methods/DBAuthenticationMethod.class
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DBAuthenticationMethodTestCase.class.php,v 1.1 2003/06/26 20:47:26 adamfranco Exp $
+ * @version $Id: DBAuthenticationMethodTestCase.class.php,v 1.2 2003/06/28 01:01:51 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -22,8 +22,21 @@ require_once(HARMONI.'authenticationHandler/methods/DBAuthenticationMethod.class
 		*    of each test method.
 		*    @public
 		*/
+		var $m;
+		var $o;
 		function setUp() {
-			// perhaps, initialize $obj here
+			$o = & new DBMethodOptions;
+			$o->set("databaseType",MYSQL);
+			$o->set("databaseName","harmoniTest");
+			$o->set("databaseUsername","test");
+			$o->set("databasePassword","test");
+			$o->set("databaseHost","devo.middlebury.edu");
+			$o->set("tableName","user");
+			$o->set("usernameField","user_uname");
+			$o->set("passwordField","user_pass");
+			Services::startService("DBHandler");
+			$this->m = &new DBAuthenticationMethod($o);
+			$this->o = &$o;
 		}
 		
 		/**
@@ -31,14 +44,59 @@ require_once(HARMONI.'authenticationHandler/methods/DBAuthenticationMethod.class
 		 *    @public
 		 */
 		function tearDown() {
-			// perhaps, unset $obj here
+			unset($this->m);
 		}
 	
 		/**
 		 *    First test Description
 		 */ 
-		function test_first_thing() {
-			$this->assertEqual(false,"We need to delete this and write some real tests.");	
+		 
+		function test_aaa_connect_disconnect() {
+			$this->assertFalse($this->m->_connected);
+			$this->m->_connect();
+			$this->assertTrue($this->m->_connected);
+			$this->m->_disconnect();
+			$this->assertFalse($this->m->_DBHandler->isConnected($this->m->_id));
+			$this->assertFalse($this->m->_connected);
+			$this->m->_connect();
+			$this->assertTrue($this->m->_connected);
+			$this->m->_disconnect();
+			$this->assertFalse($this->m->_DBHandler->isConnected($this->m->_id));
+			$this->assertFalse($this->m->_connected);
+
+		}
+		function test_agent_exists() {
+			$this->assertFalse($this->m->agentExists("blablastupid"));
+			$this->assertTrue($this->m->agentExists("afranco"));
+		}
+		function test_authenticate() {
+			$this->assertFalse($this->m->_connected);
+			$this->assertTrue($this->m->authenticate("afranco","afrancopassword"));
+			$this->assertFalse($this->m->_connected);
+			$this->assertTrue($this->m->authenticate("jdoe","jdoepassword"));
+			$this->assertFalse($this->m->authenticate("gschine","notthepasswd"));
+		}
+		function test_getagentinfo() {
+			$this->o->set("agentInformationFields",array("email"=>"user_email"
+													,"firstname"=>"user_fname",
+													"lastname"=>"user_lname"));
+			$a = $this->m->getAgentInformation("gschine");
+			$this->assertEqual(count($a),3);
+			$this->assertEqual($a['email'],"gschine@email.net");
+			$this->assertEqual($a['firstname'],"Gabriel");
+			$this->assertEqual($a['lastname'],'Schine');
+		}
+		function test_encrypted_passwd() {
+			// we are only testing Database-driven MD5 encryption here.
+			// the other two types supported: Database-driven SHA1 and
+			// system-driven crypt() are not being tested.
+			$this->o->set("passwordFieldEncrypted",true);
+			$this->o->set("tableName","usermd5");
+			$this->o->set("passwordFieldEncryptionType","databaseMD5");
+			$this->m->_connect();
+			var_dump($this->m->_getEncryptedPassword("gschine","pass"));
+			$this->assertTrue($this->m->authenticate("gschine","gschinepassword"));
+			$this->assertFalse($this->m->authenticate("afranco","weewee"));
 		}
 		
     }

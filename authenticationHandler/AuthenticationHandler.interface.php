@@ -6,7 +6,7 @@ require_once(HARMONI."services/Service.interface.php");
  * The AuthenticationHandlerInterface defines the functionallity that all extending classes should have.
  * An implementing class should reference one or several AuthenticationMethod objects and use them
  * to authenticate an agent.
- * @version $Id: AuthenticationHandler.interface.php,v 1.9 2003/06/27 13:51:38 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.interface.php,v 1.10 2003/06/28 01:01:51 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -57,11 +57,11 @@ class AuthenticationHandlerInterface extends ServiceInterface {
 	 * If multiple methods return conflicting Agent Information (like two 
 	 * different email addresses), the one with the higher priority (the LOWEST 
 	 * number) will be used.
-	 * @param object AuthenticationMethod $methodObject The instantiated method 
+	 * @param ref object AuthenticationMethod $methodObject The instantiated method 
 	 * to add to the system.
-	 * @param boolean $authoritative (optional) Sets if this method is 
+	 * @param optional boolean $authoritative Sets if this method is 
 	 * authoritative. At least ONE authoritative method MUST authenticate successfully 
-	 * or the entire authentication process will return false.
+	 * or the entire authentication process will return false. Default = false.
 	 * @see {@link AuthenticationMethodInterface}
 	 * @see {@link AuthenticationMethodInterface::setPriority()}
 	 * @see {@link AuthenticationMethodInterface::setAuthoritative()}

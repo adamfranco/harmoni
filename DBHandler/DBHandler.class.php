@@ -14,7 +14,7 @@ require_once(HARMONI.'utilities/Queue.class.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.5 2003/06/27 15:08:46 dobomode Exp $
+ * @version $Id: DBHandler.class.php,v 1.6 2003/06/28 01:01:50 gabeschine Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  * @access public
@@ -89,7 +89,7 @@ class DBHandler extends DBHandlerInterface {
 		}
 		
 		// return the index of the database we just created
-		return true;
+		return (count($this->_databases) - 1);
 	}
 
 	/**

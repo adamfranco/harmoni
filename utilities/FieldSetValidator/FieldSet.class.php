@@ -5,7 +5,7 @@ require_once(HARMONI."utilities/FieldSetValidator/FieldSet.interface.php");
 /**
  * the FieldSet holds a set of key=value pairs of data
  *
- * @version $Id: FieldSet.class.php,v 1.5 2003/06/23 20:59:13 gabeschine Exp $
+ * @version $Id: FieldSet.class.php,v 1.6 2003/06/28 01:01:51 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/
@@ -24,7 +24,7 @@ class FieldSet
 	/**
 	 * the constructor
 	 * 
-	 * @param array $fields (optional) an associative array of key/value pairs to initialize with
+	 * @param optional array $fields an associative array of key/value pairs to initialize with
 	 * @access public
 	 * @return void 
 	 **/

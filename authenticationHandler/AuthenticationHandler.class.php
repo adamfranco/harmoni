@@ -8,7 +8,7 @@ require_once(HARMONI."authenticationHandler/methods/inc.php");
  * The AuthenticationHandler keeps track of multiple AuthenticationMethods for 
  * authenticating agents.
  * 
- * @version $Id: AuthenticationHandler.class.php,v 1.7 2003/06/27 15:08:47 dobomode Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.8 2003/06/28 01:01:51 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -38,6 +38,9 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	 * @return boolean True if authentication succeeds, false otherwise.
 	 **/
 	function authenticate($systemName, $password, $method ) { 
+		// we're being used!!!
+		$this->_used = true;
+		
 		// if the method doesn't exist, return false
 		if (!$this->_methodExists($method)) return false;
 		
@@ -59,6 +62,9 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	 * @return object AuthenticationResult The AuthenticationResult object.
 	 **/
 	function & authenticateAllMethods($systemName, $password) { 
+		// we're being used!!!
+		$this->_used = true;
+		
 		// first, build an array of methods, their priority and authority
 		$aMethods = $pMethods = array();
 		foreach($this->getMethodNames() as $method) {
@@ -119,9 +125,9 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	 * If multiple methods return conflicting Agent Information (like two 
 	 * different email addresses), the one with the higher priority (the LOWEST 
 	 * number) will be used.
-	 * @param object AuthenticationMethod $methodObject The instantiated method 
+	 * @param ref object AuthenticationMethod $methodObject The instantiated method 
 	 * to add to the system.
-	 * @param boolean $authoritative (optional) Sets if this method is 
+	 * @param optional boolean $authoritative Sets if this method is 
 	 * authoritative. At least ONE authoritative method MUST authenticate successfully 
 	 * or the entire authentication process will return false.
 	 * @see {@link AuthenticationMethodInterface}
@@ -132,7 +138,9 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	 **/
 	function addMethod( $name, $priority, & $methodObject, $authoritative = false ) {
 		// if we have already been used for authentication, return.
-		if ($this->_used) return;
+		if ($this->_used) {
+			throw(new Error("AuthenticationHandler - can not add new method '$name': The handler has already been used for authentication. Please add your method before any authentication occurs.","AuthenticationHandler",true));
+		}
 		
 		// if we already have a method by this name, throw an error & return
 		if ($this->_methodExists($name)) {
@@ -174,8 +182,7 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 		if ($this->_methodExists($name))
 			return $this->_methods[$name];
 		else {
-			// @todo -cAuthenticationHandler throw a fatal error!
-			return false;
+			throw(new Error("AuthenticationHandler - can not getMethod('$name'): it does not exist.","AuthenticationHandler",true));
 		}
 	}
 	
@@ -207,8 +214,7 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 		// if not, unset the method from the array
 		unset($this->_methods[$name]);
 	}
-
-
+	
 	/**
 	 * The start function is called when a service is created. Services may
 	 * want to do pre-processing setup before any users are allowed access to
@@ -217,6 +223,7 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	 * @return void
 	 **/
 	function start() {
+		
 	}
 	
 	/**
@@ -227,9 +234,8 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	 * @return void
 	 **/
 	function stop() {
+		
 	}
-	
-
 }
 	
 ?>

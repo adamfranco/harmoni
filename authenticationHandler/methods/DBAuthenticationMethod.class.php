@@ -7,7 +7,7 @@ require_once(HARMONI."authenticationHandler/methods/DBMethodOptions.class.php");
  * the DB Authentication Method will contact an SQL database and check a username/password pair
  * against fields in a specified table.
  *
- * @version $Id: DBAuthenticationMethod.class.php,v 1.6 2003/06/27 02:59:36 gabeschine Exp $
+ * @version $Id: DBAuthenticationMethod.class.php,v 1.7 2003/06/28 01:01:51 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -37,20 +37,35 @@ class DBAuthenticationMethod
 	 **/
 	var $_id;
 	
-	
+	/**
+	 * Are we connected?
+	 * @access private
+	 * @var boolean $_connected
+	 **/
+	var $_connected = false;	
+
 	/**
 	 * the constructor
 	 *
-	 * @param object DBMethodOptions $options a FieldSet object with all the necessary options for this module
+	 * @param ref object DBMethodOptions $options a FieldSet object with all the necessary options for this module
 	 * @access public
 	 * @return void
 	 **/
 	function DBAuthenticationMethod ( & $options ) {
 		// store the options
-		$this->_opt = & $options;
+		$this->_opt =& $options;
 		
 		// get the DBHandler
 		$this->_DBHandler = & Services::getService("DBHandler");
+		
+		// create the new db definition
+		$id = $this->_DBHandler->createDatabase(
+				$options->get("databaseType"),
+				$options->get("databaseHost"),
+				$options->get("databaseName"),
+				$options->get("databaseUsername"),
+				$options->get("databasePassword"));
+		$this->_id = $id;
 	}
 
 	/**
@@ -62,15 +77,18 @@ class DBAuthenticationMethod
 	 * @return boolean true if authentication succeeded with the method, false if not 
 	 **/
 	function authenticate( $systemName, $password ) {
-		if (!$id = $this->_connect()) return false;
 		if ($this->agentExists($systemName)) {
+		
+			$id = $this->_connect();
+			if (!isset($id)) return false;
+			$o = &$this->_opt;
 			// they exist, now check their password
 			
 			// get the encrypted version of the pwd we got passed
 			$ourPass = $this->_getEncryptedPassword($systemName,$password);
 			
 			// now get the one from the DB
-			$a = $this->_fetchFieldFromDB( $systemName, $o->get("passwordField"));
+			$a = $this->_getFieldsFromDB( $systemName, $o->get("passwordField"));
 			$dbPass = $a[$o->get("passwordField")];
 			
 			// disconnect
@@ -96,16 +114,22 @@ class DBAuthenticationMethod
 		// check if the password in the DB is encrypted
 		if ($o->get("passwordFieldEncrypted")) {
 			switch($o->get("passwordFieldEncryptionType")){
-				case "database":
+				case "databaseSHA1":
 					$passwordQuery = & new SelectQuery;
-					$passwordQuery->addColumn("PASSWORD('".$password."')","encryptedPassword");
+					$passwordQuery->addColumn("SHA1('".$password."')","encryptedPassword");
+					$passwordResult = & $this->_DBHandler->query($passwordQuery,$this->_id);
+					return $passwordResult->field("encryptedPassword");
+					break;
+				case "databaseMD5":
+					$passwordQuery = & new SelectQuery;
+					$passwordQuery->addColumn("MD5('".$password."')","encryptedPassword");
 					$passwordResult = & $this->_DBHandler->query($passwordQuery,$this->_id);
 					return $passwordResult->field("encryptedPassword");
 					break;
 				case "crypt": 
 					$r = $this->_getFieldsFromDB($systemName,$o->get("passwordField"));
 					$dbPassword = $r[$o->get("passwordField")];
-					return crypt($password,substr($dbPassword, 0, CRYPT_SALT_LENGTH));
+					return crypt($password,$dbPassword);
 					break;
 				default:
 					return $password;
@@ -154,7 +178,7 @@ class DBAuthenticationMethod
 		return array();
 	}
 	
-	
+
 	/**
 	 * connects to the database
 	 * @access private
@@ -163,26 +187,17 @@ class DBAuthenticationMethod
 	function _connect( ) {
 		
 		// if we already connected this session, just return
-		if ($this->_id) return $this->_id;
-		
-		$o = &$this->_opt;
-		$DBHandler = & $this->_DBHandler;
-		$id = $DBHandler->createDatabase(
-				$o->get("databaseType"),
-				$o->get("databaseHost"),
-				$o->get("databaseName"),
-				$o->get("databaseUsername"),
-				$o->get("databasePassword"));
-		// persistent connect
-		$DBHandler->pConnect($id);
+		if ($this->_connected) return $this->_id;
+
+		$this->_DBHandler->pConnect($this->_id);
 		
 		// check if we're connected
-		if (!$DBHandler->isConnected($id)) {
+		if (!$this->_DBHandler->isConnected($this->_id)) {
 			// @todo -cDBAuthenticationMethod throw an error!
 			return false;
 		}
-		$this->_id = $id;
-		return $id;
+		$this->_connected = true;
+		return $this->_id;
 	}
 	
 	/**
@@ -191,7 +206,10 @@ class DBAuthenticationMethod
 	 * @return void 
 	 **/
 	function _disconnect( ) {
-		if ($this->_id)$this->_DBHandler->disconnect($this->_id);
+		if ($this->_connected) {
+			$this->_DBHandler->disconnect($this->_id);
+			$this->_connected = false;
+		}
 	}
 	
 	/**
@@ -202,14 +220,15 @@ class DBAuthenticationMethod
 	 * @return array An associative array of [key]=>value pairs. 
 	 **/
 	function getAgentInformation( $systemName ) {
-		if (!$id = $this->_connect()) return false;
+		$id = $this->_connect();
+		if (!isset($id)) return false;
 		
 		// what fields do we need to get?
 		$o = & $this->_opt;
 		$fields = $o->get("agentInformationFields");
 		if (!is_array($fields) || !count($fields)) return array();
 		
-		$results = $this->_fetchFieldsFromDB($systemName,$fields);
+		$results = $this->_getFieldsFromDB($systemName,$fields);
 		
 		// make a [key]=>value array for the results
 		$info = array();
@@ -229,7 +248,8 @@ class DBAuthenticationMethod
 	 * @return boolean If the agent exists or not. 
 	 **/
 	function agentExists( $systemName ) {
-		if (!$id = $this->_connect()) return false;
+		$id = $this->_connect();
+		if (!isset($id)) return false;
 
 		// get the options
 		$o = & $this->_opt;

@@ -3,7 +3,7 @@
 /**
  * the DebugHandlerPrinter interface defines the required methods for a DebugHandlerPrinter class
  *
- * @version $Id: DebugHandlerPrinter.interface.php,v 1.1 2003/06/23 23:59:40 gabeschine Exp $
+ * @version $Id: DebugHandlerPrinter.interface.php,v 1.2 2003/06/28 01:01:51 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugHandler
  **/
@@ -14,7 +14,7 @@ class DebugHandlerPrinterInterface {
 	 *
 	 * @param object DebugHandler $debugHandler The DebugHandler object to output.
 	 * @param int $level The level to output. All output < $level will be displayed. Default = print all.
-	 * @param string [$category] (optional) Limit output to only items under $category.
+	 * @param optional string $category Limit output to only items under $category.
 	 * @access public
 	 * @return void
 	 **/
