@@ -87,7 +87,9 @@ class FieldValues {
 			from the database readonly. You must re-fetch it fully to make changes.","FieldValues",true));
 		}
 		
-		if (!$this->_fieldDefinition->getMultFlag()) {
+		// if we are one-value only and we already have a value, throw an error.
+		// allow addValue() if we don't have any values yet.
+		if (!$this->_fieldDefinition->getMultFlag() && $this->_numValues) {
 			$label = $this->_myLabel;
 			throwError ( new Error(
 			"Field label '$label' can not add a new value because it does not allow multiple
@@ -119,7 +121,7 @@ class FieldValues {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
 		
-		$this->_values[$index]->setValue($value);
+		return $this->_values[$index]->setValue($value);
 	}
 	
 	function deleteValue($index) {
@@ -132,7 +134,20 @@ class FieldValues {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
 		
-		$this->_values[$index]->delete();
+		return $this->_values[$index]->delete();
+	}	
+	
+	function undeleteValue($index) {
+		if ($this->_parent->readOnly()) {
+			throwError( new Error("Can not set value in DataSet because it was fetched
+			from the database readonly. You must re-fetch it fully to make changes.","FieldValues",true));
+		}
+		
+		if (!isset($this->_values[$index])) {
+			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
+		}
+		
+		return $this->_values[$index]->undelete();
 	}
 	
 	function numValues() { return $this->_numValues; }

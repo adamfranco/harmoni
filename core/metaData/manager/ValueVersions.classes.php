@@ -1,5 +1,7 @@
 <?
 
+define("NEW_VERSION","new");
+
 // holds multiple values for a given label + index
 class ValueVersions {
 	
@@ -37,6 +39,18 @@ class ValueVersions {
 		foreach ($this->getVersionList() as $ver) {
 			$this->_versions[$ver]->commit();
 		}
+		
+		// now if we just committed a NEW_VERSION, let's move it to its proper place in the array
+		if ($this->_versions[NEW_VERSION]) {
+			$ref =& $this->_versions[NEW_VERSION];
+			$id = $ref->getID();
+			if (!$id) return;
+			
+			$this->_versions[$id] =& $this->_versions[NEW_VERSION];
+			// now unset the old
+			unset ($this->_versions[NEW_VERSION], $ref);
+			// done.
+		}
 	}
 	
 	function numVersions() {
@@ -52,19 +66,19 @@ class ValueVersions {
 			// of the value, so that it gets added to the DB.
 			$newVer =& $this->newVerObject();
 			$newVer->setValue($value->clone());
-//			$this->_versions[] =& $newVer;
-//			$this->_numVersions++;
 			
 			// tell the new version to update to the DB on commit();
-			$newVer->update();
+//			$newVer->update();
 			
-			// now, we h have to activate the new version
+/*			// now, we h have to activate the new version
 			$oldVer =& $this->getActiveVersion();
 			if ($oldVer) {
 				$oldVer->setActiveFlag(false);
 				$oldVer->update();
 			}
-			$newVer->setActiveFlag(true);
+*/			
+			// above functionality moved to newVerObject().
+//			$newVer->setActiveFlag(true);
 			
 			// all done (we hope)
 			return true;
@@ -72,7 +86,6 @@ class ValueVersions {
 		
 		// let's just set the value of the existing one.
 		$actVer =& $this->getActiveVersion();
-//		$actVer->getValue();
 		$actVer->takeValue($value);
 		
 		// now tell actVer to update the DB on commit()
@@ -80,19 +93,40 @@ class ValueVersions {
 		return true;
 	}
 	
-	function &newVerObject($active = false) {
-		if (!$this->numVersions()) $newID=1;
+	function &newVerObject() {
+/*		if (!$this->numVersions()) $newID=1;
 		else $newID = max($this->getVersionList()) + 1;
 		$this->_versions[$newID] =& new ValueVersion($this,$active);
 		$this->_numVersions++;
-		return $this->_versions[$newID];
+		return $this->_versions[$newID];*/
+		
+		
+		// change from above because:
+		// we don't want a new version *every* time a pageload occurs
+		// and a new value is entered into the field. we only want
+		// one new version per commit()
+		if (!isset($this->_versions[NEW_VERSION])) {
+			// first deactivate the old one
+			if ($this->_numVersions) {
+				$old =& $this->getActiveVersion();
+				if ($old) {
+					$old->setActiveFlag(false);
+					$old->update();
+				}
+			}
+			
+			$this->_versions[NEW_VERSION] =& new ValueVersion($this,true);
+			$this->_versions[NEW_VERSION]->update();
+			$this->_numVersions++;
+		}
+		return $this->_versions[NEW_VERSION];
 	}
 	
 	function &getActiveVersion() {
 		if ($this->_numVersions == 0) {
-			return $this->newVerObject(true);
+			return $this->newVerObject();
 		}
-			
+		
 		
 		foreach (array_keys($this->_versions) as $id) {
 			if ($this->_versions[$id]->isActive()) return $this->_versions[$id];
@@ -122,6 +156,36 @@ class ValueVersions {
 		}
 	}
 	
+	function undelete() {
+		// if we're not active, go through and find the newest ver, then activate it.
+		if ($this->isActive()) return true;
+		
+		$ver =& $this->getNewestVersion();
+		$ver->setActiveFlag(true);
+	}
+	
+	function & getNewestVersion() {
+		$newest = null;
+		if ($this->numVersions()) {
+			foreach ($this->getVersionList() as $ver) {
+				$ver =& $this->getVersion($ver);
+				
+				if ($newest == null || (DateTime::compare($newest->getDate(), $ver->getDate()) > 0)) {
+					$newest =& $ver;
+				}
+			}
+		}
+		return $newest;
+	}
+	
+	function isActive() {
+		if ($this->_numVersions == 0) return true; // if we don't have any values yet, assume we are active
+		
+		foreach (array_keys($this->_versions) as $id) {
+			if ($this->_versions[$id]->isActive()) return true;
+		}
+		return false;
+	}
 }
 
 class ValueVersion {

@@ -53,6 +53,14 @@ class CompactDataSet {
 		return true;
 	}
 	
+	function &getActiveValue($label, $index=0) {
+		$this->_checkLabel($label, __FUNCTION__);
+		
+		$valueVersions =& $this->getValueVersionsObject($label, $index);
+		
+		return $valueVersions->getActiveValue();
+	}
+	
 	function &getValueVersionsObject($label, $index=0) {
 		$this->_checkLabel($label, __FUNCTION__);
 		
@@ -157,6 +165,13 @@ class FullDataSet extends CompactDataSet {
 		}
 		return $this->_fields[$label]->setValue($index, $obj);
 	}
+	
+	function deleted($label, $index=0) {
+		$this->_checkLabel($label, __FUNCTION__);
+		
+		$vers =& $this->_fields[$label]->getValue($index);
+		return !($vers->isActive());
+	}
 		
 	function commit() {
 		if ($this->_myID) {
@@ -226,6 +241,12 @@ class FullDataSet extends CompactDataSet {
 		$this->_checkLabel($label, __FUNCTION__);
 		
 		return $this->_fields[$label]->deleteValue($index);
+	}
+	
+	function undeleteValue($label, $index=0) {
+		$this->_checkLabel($label, __FUNCTION__);
+		
+		return $this->_fields[$label]->undeleteValue($index);
 	}
 	
 	function delete() {

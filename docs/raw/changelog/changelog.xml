@@ -3,6 +3,18 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.5" date="Not Released">
+		<new author='gabe'>
+			DateTime::compare(date1, date2) returns difference in seconds between two dates.
+		</new>
+		<fix>
+			Typo in constructor for UnknownDBError class.
+		</fix>
+		<new author='gabe'>
+			Harmoni::forward(module,action) is now a synonym for Harmoni::ActionHandler::forward() for convenience.
+		</new>
+		<new author='gabe'>
+			Classes: Timer and QueryCounter for easy micro-second timing or DB query counting, respectively.
+		</new>
 		<change author='gabe'>
 			Harmoni::getData has been deprecated and replaced by Harmoni::getAttachedData to avoid ambiguity.
 		</change>

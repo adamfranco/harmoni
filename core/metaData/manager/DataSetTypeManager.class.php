@@ -25,6 +25,7 @@ class DataSetTypeManager
 	function DataSetTypeManager( &$idmanager, $dbID ) {
 		$this->_idmanager =& $idmanager;
 		$this->_dbID = $dbID;
+		$this->_types = array();
 		
 		// talk to the DB
 		$this->populate();
@@ -180,6 +181,10 @@ class DataSetTypeManager
 	
 	function & getAllDataSetTypes() {
 		return new HarmoniTypeIterator($this->_types);
+	}
+	
+	function & getDataSetTypeByID( $id ) {
+		return $this->_types[$id];
 	}
 	
 	function synchronize(&$newDef) {

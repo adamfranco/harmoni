@@ -2,7 +2,7 @@
 
 
 include "../../../../harmoni.inc.php";
-include HARMONI."metaData/manager/HarmoniDataManager.abstract.php";
+//include HARMONI."metaData/manager/HarmoniDataManager.abstract.php";
 //include HARMONI."debugHandler/NewWindowDebugHandlerPrinter.class.php";
 
 debug::level(20);
@@ -19,19 +19,14 @@ $manager =& Services::requireService("DataSetManager");
 
 //$dataSet =& $manager->fetchDataSet(9,false);
 
-$dataSet =& $manager->newDataSet(new HarmoniType("gabe","datasettype","supertest"), true);
+$dataSet =& $manager->newDataSet(new HarmoniType("middlebury.edu","harmoni","testtype"), false);
 
 //print "<pre>"; print_r($dataSet); print "</pre>";
 
-$dataSet->setValue("number", new IntegerDataType(200));
-$dataSet->setValue("number", new IntegerDataType(150));
-$dataSet->setValue("number2", new IntegerDataType(10));
-$dataSet->setValue("number2", new IntegerDataType(20), NEW_VALUE);
-$dataSet->setValue("number2", new IntegerDataType(25), 1);
-$dataSet->setValue("number2", new IntegerDataType(30), NEW_VALUE);
+$dataSet->setValue("name", new StringDataType("Gabe Schine"), NEW_VALUE);
 
 //print_r($val);
-$dataSet->commit();
+//$dataSet->commit();
 renderDataSet($dataSet);
 
 /*$dataSet->setValue("number2", new IntegerDataType(60034), 2);

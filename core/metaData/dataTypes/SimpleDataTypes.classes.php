@@ -92,7 +92,7 @@ class StringDataType
 	
 	var $_value;
 	
-	function IntegerDataType($value='') {
+	function StringDataType($value='') {
 		$this->_value = $value;
 	}
 	
@@ -160,7 +160,7 @@ class StringDataType
 	}
 	
 	function populate( &$dbRow ) {
-		$this->_value = intval($dbRow['data_string_data']);
+		$this->_value = $dbRow['data_string_data'];
 	}
 	
 	function takeValue(&$fromObject) {

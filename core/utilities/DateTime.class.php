@@ -5,7 +5,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.5 2003/12/26 19:32:59 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.6 2003/12/29 05:25:13 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -228,8 +228,9 @@ class DateTime {
 	
 	function toString() {
 		$months = array("January","February","March","April","May","June","July","August","September","October","November","December");
-		$hours = $this->getHours()+1;
+//		$hours = $this->getHours()+1;
 		if ($hours > 12) $hours -= 12;
+		if ($hours == 0) $hours = 12;
 		return $months[$this->getMonth() - 1] . " " .
 			sprintf("%d",$this->getDay()) . ", " .
 			$this->getYear() . " " .
@@ -237,8 +238,8 @@ class DateTime {
 	}
 	
 	function getHoursAMPM() {
-		$hour = $this->getHours() + 1;
-		if ($hour == 24 || ($hour > 0 && $hour < 12)) return "AM";
+//		$hour = $this->getHours() + 1;
+		if (($hour >= 0 && $hour < 12)) return "AM";
 		return "PM";
 	}
 	
@@ -252,10 +253,27 @@ class DateTime {
 		$year = intval(date('Y'));
 		$month = intval(date('m'));
 		$day = intval(date('d'));
-		$hours = intval(date('H')-1);
+		$hours = intval(date('H'));
 		$minutes = intval(date('i'));
 		$seconds = intval(date('s'));
 		return new DateTime($year, $month, $day, $hours, $minutes, $seconds);
+	}
+	
+	/**
+	 * @desc Returns the difference in seconds between $date1 and $date2, positive if $date2 is more recent.
+	 * @method public compare
+	 * @static
+	 * @param ref object $date1
+	 * @param ref object $date2
+	 * @return int
+	 */
+	function compare(&$date1, &$date2) {
+		$time1 = mktime($date1->_hours, $date1->_minutes, $date1->_seconds, $date1->_month,
+					$date1->_day, $date1->_year);
+		$time2 = mktime($date2->_hours, $date2->_minutes, $date2->_seconds, $date2->_month,
+					$date2->_day, $date2->_year);
+		
+		return $time2 - $time1;
 	}
 
 
