@@ -1,0 +1,71 @@
+
+
+Name: Harmoni ChangeLog
+
+
+v. 0.0.2 (2003-09-28)
+----------------------------------------------------
+		
+	* New feature: ActionHandler::forward($action) can now be called from within an action to continue execution. (Gabe Schine)
+		
+	* New feature: Services::registerObjectAsService() allows you to register an already-instantiated object as a service. (Gabe Schine)
+		
+	* Change: Services::requireService() now returns the started service. (Gabe Schine)
+		
+	* Change: LanguageLocalizer files can now have comments (designated by '#') and keys/values are trimmed. (Gabe Schine)
+		
+	* Change: Harmoni-&gt;execute() now returns the result from the action if outputHTML = false. (Gabe Schine)
+		
+	* Change: DebugHandlers now store an internal output level which is used when none is passed to the Printer. (Gabe Schine)
+		
+	* Change: LoginState now keeps track of both an Active and Logged-in agent. (Gabe Schine)
+		
+	* Change: Layouts &amp; other VisualComponents now have setLevel() and getLevel() methods and store the level locally. (Gabe Schine)
+		
+	* Change: Template-&gt;output() now accepts a variable length argument list of FieldSets or hash tables. (Gabe Schine)
+		
+	* Change: Actions are now passed a reference to the Harmoni object. (Gabe Schine)
+		
+	* New feature: Databases now have a toDBDate() and fromDBDate() function to convert to the necessary Date format. (Gabe Schine)
+		
+	* New feature: Completed ActionHandler, LoginHandler and Harmoni classes and services. (Gabe Schine)
+		
+	* Change: Deprecated the createDatabase() method in DBHandler. Use addDatabase(), instead. This change was provoked by the fact that Oracle requires different arguments to instantiate the DB object. (Dobo Radichkov)
+		
+	* New feature: Added RGBcolor and HTMLcolor classes. (Gabe Schine)
+		
+	* Change: Finished Layout, Theme and Template. (Gabe Schine)
+		
+	* Change: AuthenticationMethod includes changed to avoid random unprintable character output.
+		
+	* Change: FieldSetValidator and RuleSet now take optional argument on validate()/validateAll() functions specifying if errors should be thrown upon failure or not. (Gabe Schine)
+		
+	* Change: RuleSet can now accept an ErrorHandler to use via setErrorHandler(). (Gabe Schine)
+		
+	* New feature: DBHandler can now use a PostgreSQL server and fetching last insert ID works on all integrated DBs. (Dobo Radichkov)
+		
+	* Change: layoutHandler now works. Theme integration is to come. (Gabe Schine)
+		
+	* New feature: Database file storage method. (Max Ovsjanikovs)
+		
+	* New feature: Added interfaces for: VisualComponent, Layout, Menu, Content -- all part of the LayoutHandler. (Gabe Schine)
+		
+	* Change: AuthenticationResult now holds authenticated agent's system name as well as valid methods. (Gabe Schine)
+		
+	* Change: AgentInformationHandler now handles compiling of search results and returns the appropriate array format. (Gabe Schine)
+		
+	* Change: AuthenticationMethod::getAgentInformation now returns an associative array of [username]=&gt;array([key1]=&gt;value1,...),... (Gabe Schine)
+		
+	* New feature: ChangeLog now held in an XML file and translated by XSL! (Gabe Schine)
+	
+v. 0.0.1 (2003-07-10)
+----------------------------------------------------
+		
+	* Change: Changed AuthenticationMethod to allow for getAgentInformation(username,searchMode) so that one can search for a username/fullname etc as well as get information for a single entry. (Gabe Schine)
+		
+	* New feature: Added StatisticsHandler. (Max Ovsjanikovs)
+		
+	* Change: Updated DB and LDAP AuthenticationMethods to allow for user-info searching &amp; tested backwards compatibility. (Gabe Schine)
+		
+	* Change: Changed naming scheme of packages so that they describe more clearly what they DO as opposed to what they CONTAIN. (Gabe Schine)
+	

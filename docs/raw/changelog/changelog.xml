@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE changelog SYSTEM "../docs/raw/dtds/changelog.dtd">
+<!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.0.2">
+	<version number="0.0.2" date="2003-09-28">
 		<new author='gabe'>ActionHandler::forward($action) can now be called from within an action to continue execution.</new>
 		<new author='gabe'>Services::registerObjectAsService() allows you to register an already-instantiated object as a service.</new>
 		<change author='gabe'>Services::requireService() now returns the started service.</change>
