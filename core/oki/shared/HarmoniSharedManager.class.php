@@ -38,7 +38,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.46 2004/11/22 15:42:49 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.47 2004/11/22 16:14:54 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -469,17 +469,38 @@ class HarmoniSharedManager
 	/**
 	 * A private function that can be used by either getAgent or getAgents. Loads
 	 * agents in the internal cache.
-	 * @access public
-	 * @param string where An optional where clause.
+	 * @access protected
+	 * @param string $where An optional where clause.
+	 * @param string $fromGroup An optional group id string to limit the resulting
+	 * 		agents to.
+	 * @return array The agent ids found when limited by the where and fromGroup
+	 *		parameters.
 	 **/
-	function _loadAgents($where = null) {
+	function _loadAgents($where = null, $fromGroup = null) {
+		$foundIds = array();
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new SelectQuery();
 		
 		$db = $this->_sharedDB.".";
 		
 		// set the tables
-		$query->addTable($db."agent");
+		// If we have a group that we wish to limit the results to,
+		// join the agents to that group table.
+		if ($fromGroup !== NULL) {
+			// Add the group tables to join to.
+			$query->addTable($db."groups");
+			$joinc = $db."groups.groups_id = ".$db."j_groups_agent.fk_groups";
+			$query->addTable($db."j_groups_agent", LEFT_JOIN, $joinc);
+			$joinc = $db."j_groups_agent.fk_agent = ".$db."agent.agent_id";
+			$query->addTable($db."agent", LEFT_JOIN, $joinc);
+			
+			// Add a where clause to limit to this group
+			$query->addWhere($db."groups.groups_id = '".addslashes($fromGroup)."'");
+		} 
+		// If we want agents from any group, just start with the agent table
+		else {
+			$query->addTable($db."agent");
+		}
 		$joinc = $db."agent.fk_type = ".$db."type.type_id";
 		$query->addTable($db."type", INNER_JOIN, $joinc);
 		// Join to the properties mapping table
@@ -520,6 +541,7 @@ class HarmoniSharedManager
 			// If we are out of rows or have moved on to the next agent, create our agent object
 			if (!$queryResult->advanceRow() || $queryResult->field('id') != $arr['id']) {
 				$instantiateAgent = TRUE;
+				$foundIds[] = $arr['id'];
 			} else {
 				$instantiateAgent = FALSE;
 			}
@@ -595,6 +617,8 @@ class HarmoniSharedManager
 		// results
 		if ($where === NULL)
 			$this->_allAgentsCached = true;
+		
+		return $foundIds;
 	}
 	
 
@@ -1013,7 +1037,7 @@ class HarmoniSharedManager
 //		print_r($originallyCached);
 //		echo "</pre>\n";
 
-		// prepare two query objects that we will use in the loop
+		// prepare a query object that we will use in the loop
 		// we do so in order to avoid continuous initialization of the objects
 		// (the only thing that will change is the WHERE clause)
 		// --- 1st QUERY
@@ -1047,42 +1071,6 @@ class HarmoniSharedManager
 		$query->addTable($db."type", LEFT_JOIN, $joinc, "properties_type");
 		$joinc = $db."shared_properties.id = ".$db."shared_property.fk_properties";
 		$query->addTable($db."shared_property", LEFT_JOIN, $joinc);
-
-		// --- 2nd QUERY
-		$subquery2 =& new SelectQuery();
-		$subquery2->addColumn("agent_id", "a_id", $db."agent");
-		$subquery2->addColumn("agent_display_name", "a_display_name", $db."agent");
-		$subquery2->addColumn("type_domain", "at_domain", $db."type");
-		$subquery2->addColumn("type_authority", "at_authority", $db."type");
-		$subquery2->addColumn("type_keyword", "at_keyword", $db."type");
-		$subquery2->addColumn("type_description", "at_description", $db."type");
-		// Properties for the Agent
-		$query->addColumn("id", "properties_id", $db."shared_properties");
-		$query->addColumn("type_domain", "properties_domain", $db."properties_type");
-		$query->addColumn("type_authority", "properties_authority", $db."properties_type");
-		$query->addColumn("type_keyword", "properties_keyword", $db."properties_type");
-		$query->addColumn("type_description", "properties_description", $db."properties_type");
-		$query->addColumn("key", "property_key", $db."shared_property");
-		$query->addColumn("value", "property_value", $db."shared_property");
-		
-		// set the tables
-		$subquery2->addTable($db."groups");
-		$joinc = $db."groups.groups_id = ".$db."j_groups_agent.fk_groups";
-		$subquery2->addTable($db."j_groups_agent", LEFT_JOIN, $joinc);
-		$joinc = $db."j_groups_agent.fk_agent = ".$db."agent.agent_id";
-		$subquery2->addTable($db."agent", LEFT_JOIN, $joinc);
-		$joinc = $db."agent.fk_type = ".$db."type.type_id";
-		$subquery2->addTable($db."type", INNER_JOIN, $joinc);
-		// Join to the properties mapping table
-		$joinc = $db."agent.agent_id = ".$db."agent_properties.fk_agent";
-		$query->addTable($db."agent_properties", LEFT_JOIN, $joinc);
-		// Join to the properties and each Property
-		$joinc = $db."agent_properties.fk_properties = ".$db."shared_properties.id";
-		$query->addTable($db."shared_properties", LEFT_JOIN, $joinc);
-		$joinc = $db."shared_properties.fk_type = ".$db."properties_type.type_id";
-		$query->addTable($db."type", LEFT_JOIN, $joinc, "properties_type");
-		$joinc = $db."shared_properties.id = ".$db."shared_property.fk_properties";
-		$query->addTable($db."shared_property", LEFT_JOIN, $joinc);
 		
 		$groups = array();
 
@@ -1109,8 +1097,10 @@ class HarmoniSharedManager
 					$prev = $value;
 					continue;
 				}
-
+				
+				//**************************************
 				// create the group object if necessary
+				//**************************************
 				if (!isset($this->_groupsCache[$value])) {
 					// now fetch the info and all agents for this group
 					// set the columns to select
@@ -1137,37 +1127,13 @@ class HarmoniSharedManager
 													$subrow['g_description'], 
 													$this->_dbIndex, 
 													$this->_sharedDB);
-					// set cache
 
+					//**************************************
 					// now fetch all agents in this subgroup
-					$subquery2->resetWhere();
-					$subquery2->addWhere($db."groups.groups_id = '".addslashes($value)."'");
-					
-					$subqueryResult =& $dbHandler->query($subquery2, $this->_dbIndex);
-
-					while ($subqueryResult->hasMoreRows()) {
-						$subrow = $subqueryResult->getCurrentRow();
-						// if agent has not been cached, do so:
-						$aid = $subrow['a_id'];
-						if (!isset($this->_agentsCache[$aid])) {
-							$type =& new HarmoniType($subrow['at_domain'],
-													$subrow['at_authority'],
-													$subrow['at_keyword'],
-													$subrow['at_description']);
-
-							// Replace this when we implement group properties.
-							$propertiesArray = array();
-							
-							$agent =& new HarmoniAgent(
-													$subrow['a_display_name'], 
-													$this->getId($aid), $type, 
-													$propertiesArray, 
-													$this->_dbIndex, 
-													$this->_sharedDB);
-							$this->_agentsCache[$aid] =& $agent;
-						}
-						$group->attach($this->_agentsCache[$aid]);
-						$subqueryResult->advanceRow();
+					//**************************************
+					$agentIdsInSubgroup = $this->_loadAgents(NULL, $value);
+					foreach($agentIdsInSubgroup as $agentIdString) {
+						$group->attach($this->_agentsCache[$agentIdString]);
 					}
 
 					// finally, cache the group
