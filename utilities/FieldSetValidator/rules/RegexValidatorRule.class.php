@@ -1,11 +1,11 @@
 <?php
 
-require_once("ValidatorRule.interface.php");
+require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.php");
 
 /**
  * a RegexValidatorRule checks a given value against a regular expression
  *
- * @version $Id: RegexValidatorRule.class.php,v 1.1 2003/06/22 23:06:56 gabeschine Exp $
+ * @version $Id: RegexValidatorRule.class.php,v 1.2 2003/06/23 20:59:14 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/

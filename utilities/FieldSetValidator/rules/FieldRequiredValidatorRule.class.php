@@ -1,11 +1,11 @@
 <?php
 
-require_once("RegexValidatorRule.class.php");
+require_once(HARMONI."utilities/FieldSetValidator/rules/RegexValidatorRule.class.php");
 
 /**
  * a FieldRequiredValidatorRule checks a given value to make sure it is set (not blank)
  *
- * @version $Id: FieldRequiredValidatorRule.class.php,v 1.1 2003/06/22 23:06:56 gabeschine Exp $
+ * @version $Id: FieldRequiredValidatorRule.class.php,v 1.2 2003/06/23 20:59:14 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/

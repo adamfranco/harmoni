@@ -1,13 +1,14 @@
 <?php
 
-require_once("RuleSet.interface.php");
+require_once(HARMONI."utilities/FieldSetValidator/RuleSet.interface.php");
+require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * a RuleSet allows a user to define a number of keys each with associated rules and errors
  * 
  * a RuleSet allows a user to define a number of keys each with associated rules and errors. any one of these keys can be used to validate values and throw errors if a validation fails
  * 
- * @version $Id: RuleSet.class.php,v 1.3 2003/06/23 13:22:52 gabeschine Exp $
+ * @version $Id: RuleSet.class.php,v 1.4 2003/06/23 20:59:13 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FIeldSetValidator
  **/

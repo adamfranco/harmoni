@@ -1,11 +1,11 @@
 <?php
 
-require_once("RegexValidatorRule.class.php");
+require_once(HARMONI."utilities/FieldSetValidator/rules/RegexValidatorRule.class.php");
 
 /**
  * a EmailValidatorRule checks a given value to make sure it is an email address
  *
- * @version $Id: EmailValidatorRule.class.php,v 1.1 2003/06/22 23:06:56 gabeschine Exp $
+ * @version $Id: EmailValidatorRule.class.php,v 1.2 2003/06/23 20:59:14 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/

@@ -1,9 +1,11 @@
 <?php
 
+require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.php");
+
 /**
  * an ArrayValidatorRuleWithRule will make sure that a value is both an array and passes a given rule for each value
  *
- * @version $Id: ArrayValidatorRuleWithRule.class.php,v 1.1 2003/06/22 23:06:56 gabeschine Exp $
+ * @version $Id: ArrayValidatorRuleWithRule.class.php,v 1.2 2003/06/23 20:59:14 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/
