@@ -1,6 +1,7 @@
 <?php
 
 require_once(HARMONI."GUIManager/Container.interface.php");
+require_once(HARMONI."GUIManager/Component.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/WidthSP.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
 
@@ -11,7 +12,7 @@ require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
  * The <code>Container</code> interface is an extension of the <code>Component</code>
  * interface; <code>Containers</code> are capable of storing multiple sub-<code>Components</code>
  * and when rendering Containers, all sub-<code>Components</code> will be rendered as well.
- * @version $Id: Container.class.php,v 1.1 2004/07/19 23:59:50 dobomode Exp $
+ * @version $Id: Container.class.php,v 1.2 2004/07/22 16:31:39 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -44,30 +45,48 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * The constructor.
 	 * @access public
 	 * @param ref object layout The <code>Layout</code> of this container.
+	 * @param integer type The type of this component. One of BLANK, HEADING, FOOTER,
+	 * BLOCK, MENU, MENU_ITEM_UNSELECTED, MENY_ITEM_SELECTED, MENU_ITEM_HEADING, OTHER.
+	 * Default value is OTHER.
+	 * @param integer type The type of this component. One of BLANK, HEADING, FOOTER,
+	 * BLOCK, MENU, MENU_ITEM_UNSELECTED, MENY_ITEM_SELECTED, MENU_ITEM_HEADING, OTHER.
+	 * Default value is OTHER.
+	 * @param optional StyleCollections styles,... Zero, one, or more StyleCollection 
+	 * objects that will be added to the newly created Component. Warning, this will
+	 * result in copying the objects instead of referencing them as using
+	 * <code>addStyle()</code> would do.
 	 **/
-	function Container(& $layout) {
+	function Container(& $layout, $type, $index) {
 		// ** parameter validation
 		$rule =& new ExtendsValidatorRule("LayoutInterface");
 		ArgumentValidator::validate($layout, $rule, true);
+		ArgumentValidator::validate($index, new IntegerValidatorRule(), true);
 		// ** end of parameter validation	
 	
-		$this->Component(null);
+		$this->Component(null, $type, $index);
 		$this->_layout =& $layout;
 		$this->_components = array();
 		$this->_constraints = array();
+
+		// if there are style collections to add
+		if (func_num_args() > 3)
+			for ($i = 3; $i < func_num_args(); $i++)
+				$this->addStyle(func_get_arg($i));
 	}
 
 	/**
 	 * Renders the component on the screen.
+	 * @param ref object theme The Theme object to use in producing the result
+	 * of this method.
 	 * @param string tabs This is a string (normally a bunch of tabs) that will be
 	 * prepended to each text line. This argument is optional but its usage is highly 
 	 * recommended in order to produce a nicely formatted HTML output.
 	 * @access public
 	 **/
-	function render($tabs = "") {
-		echo $this->getPreHTML($tabs);
-		$this->_layout->render($this, $tabs);
-		echo $this->getPostHTML($tabs);
+	function render(& $theme, $tabs = "") {
+		echo $this->getPreHTML($theme, $tabs);
+		$this->_layout->render($this, $theme, $tabs);
+		echo $this->getPostHTML($theme, $tabs);
 	}
 
 	/**
@@ -77,10 +96,10 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * @param string width The available width for the added component. If null, will be ignored.
 	 * @param string height The available height for the added component. If null, will be ignored.
 	 * @param integer alignmentX The horizontal alignment for the added component. Allowed values are 
-	 * <code>ALIGNMENT_LEFT</code>, <code>ALIGNMENT_CENTER</code>, and <code>ALIGNMENT_RIGHT</code>.
+	 * <code>LEFT</code>, <code>CENTER</code>, and <code>RIGHT</code>.
 	 * If null, will be ignored.
 	 * @param integer alignmentY The vertical alignment for the added component. Allowed values are 
-	 * <code>ALIGNMENT_TOP</code>, <code>ALIGNMENT_CENTER</code>, and <code>ALIGNMENT_BOTTOM</code>.
+	 * <code>TOP</code>, <code>CENTER</code>, and <code>BOTTOM</code>.
 	 * If null, will be ignored.
 	 * @return ref object component The component that was just added.
 	 **/
@@ -222,7 +241,7 @@ class Container extends Component /* implements ContainerInterface */ {
 		ArgumentValidator::validate($layout, $rule, true);
 		// ** end of parameter validation	
 
-		$this->_layout = $layout;		
+		$this->_layout =& $layout;		
 	}
 	
 }

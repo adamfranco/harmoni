@@ -4,44 +4,44 @@ require_once(HARMONI."GUIManager/Component.interface.php");
 
 /**
  * An alignment constant.
- * @const integer ALIGNMENT_LEFT
+ * @const integer LEFT
  * @package harmoni.gui
  */
-define("ALIGNMENT_LEFT", 5);
+define("LEFT", 5);
 
 /**
  * An alignment constant.
- * @const integer ALIGNMENT_RIGHT
+ * @const integer RIGHT
  * @package harmoni.gui
  */
-define("ALIGNMENT_RIGHT", 6);
+define("RIGHT", 6);
 
 /**
  * An alignment constant.
- * @const integer ALIGNMENT_TOP
+ * @const integer TOP
  * @package harmoni.gui
  */
-define("ALIGNMENT_TOP", 7);
+define("TOP", 7);
 
 /**
  * An alignment constant.
- * @const integer ALIGNMENT_BOTTOM
+ * @const integer BOTTOM
  * @package harmoni.gui
  */
-define("ALIGNMENT_BOTTOM", 8);
+define("BOTTOM", 8);
 
 /**
  * An alignment constant.
- * @const integer ALIGNMENT_CENTER
+ * @const integer CENTER
  * @package harmoni.gui
  */
-define("ALIGNMENT_CENTER", 9);
+define("CENTER", 9);
 
 /**
  * The <code>Container</code> interface is an extension of the <code>Component</code>
  * interface; <code>Containers</code> are capable of storing multiple sub-<code>Components</code>
  * and when rendering Containers, all sub-<code>Components</code> will be rendered as well.
- * @version $Id: Container.interface.php,v 1.1 2004/07/19 23:59:50 dobomode Exp $
+ * @version $Id: Container.interface.php,v 1.2 2004/07/22 16:31:39 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -57,10 +57,10 @@ class ContainerInterface extends ComponentInterface {
 	 * @param string width The available width for the added component. If null, will be ignored.
 	 * @param string height The available height for the added component. If null, will be ignored.
 	 * @param integer alignmentX The horizontal alignment for the added component. Allowed values are 
-	 * <code>ALIGNMENT_LEFT</code>, <code>ALIGNMENT_CENTER</code>, and <code>ALIGNMENT_RIGHT</code>.
+	 * <code>LEFT</code>, <code>CENTER</code>, and <code>RIGHT</code>.
 	 * If null, will be ignored.
 	 * @param integer alignmentY The vertical alignment for the added component. Allowed values are 
-	 * <code>ALIGNMENT_TOP</code>, <code>ALIGNMENT_CENTER</code>, and <code>ALIGNMENT_BOTTOM</code>.
+	 * <code>TOP</code>, <code>CENTER</code>, and <code>BOTTOM</code>.
 	 * If null, will be ignored.
 	 * @return ref object component The component that was just added.
 	 **/
