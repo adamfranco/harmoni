@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/versionConstraints/VersionConstraint.inte
  * will throw an error.
  * @package harmoni.datamanager.versionconstraint
  * @copyright 2004, Middlebury College
- * @version $Id: DateVersionConstraint.class.php,v 1.2 2004/01/14 21:09:26 gabeschine Exp $
+ * @version $Id: DateVersionConstraint.class.php,v 1.1 2004/01/14 21:14:34 gabeschine Exp $
  */
 class DateVersionConstraint extends VersionConstraint {
 	

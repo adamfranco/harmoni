@@ -3,6 +3,10 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.1.0" date="Not Released">
+		<change author='gabe'>
+			DataManager: DataSet::prune() now takes a required VersionConstraint object on which to base the
+			pruning process. Handling of pruning Tags is very very messy, but it works.
+		</change>
 		<new author='gabe'>
 			DataManager: can now fetch from a list of DataSet IDs only those that match certain search
 			criteria, or can use DataSetManager::selectIDsBySearch() to search all/some DataSets and return

@@ -5,7 +5,7 @@
  * keep, what {@link DataSetTag}s to keep, and if the whole DataSets should be deleted or not.
  * @package harmoni.datamanager.versionconstraint
  * @copyright 2004, Middlebury College
- * @version $Id: VersionConstraint.interface.php,v 1.2 2004/01/14 21:09:26 gabeschine Exp $
+ * @version $Id: VersionConstraint.interface.php,v 1.1 2004/01/14 21:14:34 gabeschine Exp $
  */
 class VersionConstraint {
 	
