@@ -18,7 +18,7 @@ require_once(HARMONI."oki/hierarchy2/GenericNodeType.class.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.4 2004/06/01 00:05:26 dobomode Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.5 2004/06/02 20:42:56 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -54,13 +54,6 @@ class HarmoniNode extends Node {
 	
 
 	/**
-	 * The TreeNode object corresponding to this Node.
-	 * @attribute private object _tn
-	 */
-	var $_tn;
-	
-	
-	/**
 	 * This is the HierarchyCache object. Must be the same
 	 * one that all other nodes in the Hierarchy are using.
 	 * @attribute private object _cache
@@ -92,7 +85,6 @@ class HarmoniNode extends Node {
 		$this->_type =& $type;
 		$this->_displayName = $displayName;
 		$this->_description = $description;
-		$this->_tn =& new TreeNode($id->getIdString());
 		$this->_cache =& $cache;
 	}
 

@@ -6,7 +6,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
 /** 
  * The Tree data structure used by the Hierarchy.
  * @access public
- * @version $Id: Tree.class.php,v 1.4 2004/06/01 18:28:44 dobomode Exp $
+ * @version $Id: Tree.class.php,v 1.5 2004/06/02 20:42:57 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -25,13 +25,6 @@ class Tree extends TreeInterface {
 	
 	
 	/**
-	 * The root nodes of the tree are stored in this array.
-	 * @attribute private array _roots
-	 */
-	var $_roots;
-	
-	
-	/**
 	 * The size of this tree.
 	 * @attribute private integer _size
 	 */
@@ -44,7 +37,6 @@ class Tree extends TreeInterface {
 	 */
 	function Tree() {
 		$this->_nodes = array();
-		$this->_roots = array();
 		$this->_size = 0;
 	}
 	
@@ -78,10 +70,6 @@ class Tree extends TreeInterface {
 			
 			// now add $node as a child to $parent
 			$parent->addChild($node);
-			
-			// if the node used to be a root, then it's no more
-			if (isset($this->_roots[$id]))
-				unset($this->_roots[$id]);
 		}
 		
 		// if node has not been cached then do so
@@ -89,10 +77,6 @@ class Tree extends TreeInterface {
 			// add the node
 		    $this->_nodes[$id] =& $node;
 			$this->_size++;
-
-			// if there is no parent then this is a root node
-			if (is_null($parent)) 
-				$this->_roots[$id] =& $node;
 		}
 	}
 
@@ -166,17 +150,6 @@ class Tree extends TreeInterface {
 	
 	
 	/**
-	 * Returns an array of all root nodes (i.e., all nodes that don't have
-	 * parents) in no particular order.
-	 * @method public getRoot
-	 * @return ref array The root nodes.
-	 */
-	function & getRoots() {
-		return $this->_roots;
-	}
-	
-
-	/**
 	 * Simply returns all nodes of this tree in an array in no particular
 	 * order.
 	 * @method public getNodes
@@ -190,7 +163,7 @@ class Tree extends TreeInterface {
 	/**
 	 * Traverses the tree and returns all the nodes in an array. The traversal
 	 * is a depth-first pre-order traversal starting from the specified node.
-	 * @method public traverse
+			 * @method public traverse
 	 * @param ref object node The node to start traversal from.
 	 * @param boolean down If <code>true</code>, this argument specifies that the traversal will
 	 * go down the children; if <code>false</code> then it will go up the parents.
@@ -247,9 +220,19 @@ class Tree extends TreeInterface {
 	 */
 	function & _traverse(& $result, & $node, $down, $levels, $startingLevel) {
 		// visit the node
-		$result[$node->getId()][0] =& $node;
+		
+		// note: the node could possibly been have visited already (if it has
+		// several parents and we reached it earlier through a different parent);
+		// in this case, we would only change the depth if it got smaller
 		$mult = ($down) ? 1 : -1;
-		$result[$node->getId()][1] = ($startingLevel - $levels) * $mult;
+		$newLevel = ($startingLevel - $levels) * $mult;
+		
+		if (!isset($result[$node->getId()])) {
+			$result[$node->getId()][0] =& $node;
+			$result[$node->getId()][1] = $newLevel;
+		}
+		else if (abs($result[$node->getId()][1]) > abs($newLevel))
+			$result[$node->getId()][1] = $newLevel;
 
 		// base case 1 : all levels have been processed
 		if ($levels == 0)

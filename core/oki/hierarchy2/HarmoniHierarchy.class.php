@@ -4,8 +4,8 @@ require_once(OKI."/hierarchy.interface.php");
 require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
 require_once(HARMONI.'/oki/hierarchy2/HierarchyCache.class.php');
 require_once(HARMONI.'/oki/hierarchy2/HarmoniNodeIterator.class.php');
-//require_once(HARMONI.'/oki/hierarchy2/HarmoniTraversalInfo.class.php');
-//require_once(HARMONI.'/oki/hierarchy2/HarmoniTraversalInfoIterator.class.php');
+require_once(HARMONI.'/oki/hierarchy2/HarmoniTraversalInfo.class.php');
+require_once(HARMONI.'/oki/hierarchy2/HarmoniTraversalInfoIterator.class.php');
 require_once(HARMONI.'/oki/hierarchy2/GenericNodeType.class.php');
 
 /**
@@ -20,7 +20,7 @@ require_once(HARMONI.'/oki/hierarchy2/GenericNodeType.class.php');
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchy.class.php,v 1.1 2004/06/01 00:05:26 dobomode Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.2 2004/06/02 20:42:56 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -305,6 +305,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function addNodeType(& $nodeType) {
+		throwError(new Error(UNIMPLEMENTED, "Hierarchy", true));
 	}
 
 	/**
@@ -324,10 +325,12 @@ class HarmoniHierarchy extends Hierarchy {
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function removeNodeType(& $nodeType) {
+		throwError(new Error(UNIMPLEMENTED, "Hierarchy", true));
 	}
 
 	/**
-	 * Get all the Nodes in this Hierarchy.
+	 * Get all the Nodes in this Hierarchy. The order in which nodes are 
+	 * returned is undefined.
 	 *
 	 * @return NodeIterator  Iterators return a set, one at a time.  The
 	 *		   Iterator's hasNext method returns true if there are additional
@@ -340,6 +343,11 @@ class HarmoniHierarchy extends Hierarchy {
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getAllNodes() {
+		// if all the nodes haven't been cached then do it
+		$nodes =& $this->_cache->getAllNodes();
+
+		// create the iterator and return them
+		return new HarmoniNodeIterator($nodes);
 	}
 
 	/**
@@ -357,6 +365,11 @@ class HarmoniHierarchy extends Hierarchy {
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getRootNodes() {
+		// if all the nodes haven't been cached then do it
+		$nodes =& $this->_cache->getRootNodes();
+
+		// create the iterator and return them
+		return new HarmoniNodeIterator($nodes);
 	}
 
 	/**
@@ -371,6 +384,14 @@ class HarmoniHierarchy extends Hierarchy {
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getNode(& $nodeId) {
+		// ** parameter validation
+		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
+		// ** end of parameter validation
+		
+		$idValue = $nodeId->getIdString();
+		$node =& $this->_cache->getNode($idValue);
+		
+		return $node;
 	}
 
 	/**
@@ -387,6 +408,41 @@ class HarmoniHierarchy extends Hierarchy {
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getNodeTypes() {
+		$dbHandler =& Services::requireService("DBHandler");
+		$query =& new SelectQuery();
+		
+		$db = $this->_cache->_sharedDB.".";
+		
+		// set the tables
+		$query->addTable($db."node");
+		$joinc = $db."node.fk_type = ".$db."type.type_id";
+		$query->addTable($db."type", INNER_JOIN, $joinc);
+		
+		// set the columns to select
+		$query->setDistinct(true);
+		$query->addColumn("type_id", "id", $db."type");
+		$query->addColumn("type_domain", "domain", $db."type");
+		$query->addColumn("type_authority", "authority", $db."type");
+		$query->addColumn("type_keyword", "keyword", $db."type");
+		$query->addColumn("type_description", "description", $db."type");
+		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
+
+		$types = array();
+		while ($queryResult->hasMoreRows()) {
+			// fetch current row
+			$arr = $queryResult->getCurrentRow();
+			
+			// create agent object
+			$type =& new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
+			
+			// add it to array
+			$types[] =& $type;
+
+			$queryResult->advanceRow();
+		}
+		
+		$result =& new HarmoniTypeIterator($types);
+		return $result;
 	}
 
 	/**
@@ -417,6 +473,8 @@ class HarmoniHierarchy extends Hierarchy {
 
 	/**
 	 * Traverse a Hierarchy returning information about each Node encountered.
+	 * It is best in terms of efficiency to always do full traversal, i.e. with levels
+	 * < 0.
 	 *
 	 * @param object osid.shared.Id startId the unique Id of the node from which
 	 *		  traversal shoudl start.
@@ -451,7 +509,15 @@ class HarmoniHierarchy extends Hierarchy {
 		ArgumentValidator::validate($direction, new IntegerValidatorRule);
 		ArgumentValidator::validate($levels, new IntegerValidatorRule);
 
-		
+		if ($mode != TRAVERSE_MODE_DEPTH_FIRST) {
+			$str = "Only depth-first traversal is supported in the current implementation.";
+			throwError(new Error($str, "Hierarchy", true));
+		}
+
+		$down = ($direction == TRAVERSE_DIRECTION_DOWN);
+		$result =& $this->_cache->traverse($startId, $down, $levels);
+
+		return $result;
 	}
 	
 	

@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.2 2004/06/01 18:28:44 dobomode Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.3 2004/06/02 20:42:57 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -226,6 +226,71 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 			$this->hierarchy->_cache->_traverseUp($idD->getIdString(), 2);
 			$this->hierarchy->_cache->_traverseUp($idC->getIdString(), 1);
 			$nodeA->addParent($idC);
+			$nodeD->addParent($idF);
+
+			// clear cache
+			$this->hierarchy->clearCache();
+
+			$iterator =& $this->hierarchy->traverse($idG, 
+													TRAVERSE_MODE_DEPTH_FIRST, 
+													TRAVERSE_DIRECTION_DOWN, 
+													-1);
+													
+//			echo "<pre>\n";
+//			print_r($iterator);
+//			echo "</pre>\n";
+
+			$info =& $iterator->next();
+			$this->assertIdentical($info->getDisplayName(), 'G');
+			$this->assertIdentical($info->getLevel(), 0);
+			$info =& $iterator->next();
+			$this->assertIdentical($info->getDisplayName(), 'A');
+			$this->assertIdentical($info->getLevel(), 1);
+			$info =& $iterator->next();
+			$this->assertIdentical($info->getDisplayName(), 'D');
+			$this->assertIdentical($info->getLevel(), 2);
+			$info =& $iterator->next();
+			$this->assertIdentical($info->getDisplayName(), 'E');
+			$this->assertIdentical($info->getLevel(), 1);
+			$info =& $iterator->next();
+			$this->assertIdentical($info->getDisplayName(), 'F');
+			$this->assertIdentical($info->getLevel(), 1);
+			$this->assertFalse($iterator->hasNext());
+			
+			// clear cache
+			$this->hierarchy->clearCache();
+
+			$iterator =& $this->hierarchy->traverse($idD, 
+													TRAVERSE_MODE_DEPTH_FIRST, 
+													TRAVERSE_DIRECTION_UP, 
+													-1);
+//			echo "<pre>\n";
+//			print_r($iterator);
+//			echo "</pre>\n";
+	
+			$info =& $iterator->next();
+			$this->assertIdentical($info->getDisplayName(), 'D');
+			$this->assertIdentical($info->getLevel(), 0);
+			$info =& $iterator->next();
+			$this->assertIdentical($info->getDisplayName(), 'A');
+			$this->assertIdentical($info->getLevel(), -1);
+			$info =& $iterator->next();
+			$this->assertIdentical($info->getDisplayName(), 'B');
+			$this->assertIdentical($info->getLevel(), -2);
+			$info =& $iterator->next();
+			$this->assertIdentical($info->getDisplayName(), 'C');
+			$this->assertIdentical($info->getLevel(), -2);
+			$info =& $iterator->next();
+			$this->assertIdentical($info->getDisplayName(), 'G');
+			$this->assertIdentical($info->getLevel(), -2);
+			$info =& $iterator->next();
+			$this->assertIdentical($info->getDisplayName(), 'E');
+			$this->assertIdentical($info->getLevel(), -1);
+			$info =& $iterator->next();
+			$this->assertIdentical($info->getDisplayName(), 'F');
+			$this->assertIdentical($info->getLevel(), -1);
+			$this->assertFalse($iterator->hasNext());
+
 
 			// delete nodes
 			$this->hierarchy->deleteNode($idD);
@@ -245,4 +310,44 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 //			$this->hierarchy->_cache->_traverseUp("9", 7);
 		}
 		
+
+		/**
+		 * Testing getAgentTypes
+		 **/
+		function test_get_group_types() {
+			$types =& $this->hierarchy->getNodeTypes();
+			$this->assertIsA($types, "HarmoniTypeIterator");
+			while ($types->hasNext()) {
+				$type =& $types->next();
+				$this->assertIsA($type, "Type");
+			}
+		}
+		
+		
+		function test_get_stuff() {
+			// test getNode
+			$node =& $this->hierarchy->getNode(new HarmoniId("2"));
+			$this->assertIdentical($node->getId(), new HarmoniId("2"));
+			$this->assertIdentical($node->getDisplayName(), "B");
+
+			// clear cache
+			$this->hierarchy->clearCache();
+			
+			// test getAllNodes
+			$iterator =& $this->hierarchy->getAllNodes();
+			while ($iterator->hasNext()) {
+				$node =& $iterator->next();
+				$this->assertIsA($node, "HarmoniNode");
+			}
+			
+			// test getRootNodes
+			$iterator =& $this->hierarchy->getRootNodes();
+			while ($iterator->hasNext()) {
+				$node =& $iterator->next();
+				$this->assertIsA($node, "HarmoniNode");
+			}
+			
+		}
+	
+	
 	}
