@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/RegexValidatorRule.class
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FieldRequiredValidatorRule.class.php,v 1.2 2005/01/19 21:10:16 adamfranco Exp $
+ * @version $Id: FieldRequiredValidatorRule.class.php,v 1.3 2005/03/29 18:04:57 adamfranco Exp $
  */
 class FieldRequiredValidatorRule
 	extends RegexValidatorRule
@@ -23,6 +23,34 @@ class FieldRequiredValidatorRule
 	 **/
 	function FieldRequiredValidatorRule( ) {
 		$this->_regex = "[^[:blank:]]+"; // matches any string with at least one non-blank character
+	}
+	
+	/**
+	 * This is a static method to return an already-created instance of a validator
+	 * rule. There are at most about a hundred unique rule objects in use durring
+	 * any given execution cycle, but rule objects are instantiated hundreds of
+	 * thousands of times. 
+	 *
+	 * This method follows a modified Singleton pattern
+	 * 
+	 * @return object ValidatorRule
+	 * @access public
+	 * @static
+	 * @since 3/28/05
+	 */
+	function &getRule () {
+		// Because there is no way in PHP to get the class name of the descendent
+		// class on which this method is called, this method must be implemented
+		// in each descendent class.
+
+		if (!is_array($GLOBALS['validator_rules']))
+			$GLOBALS['validator_rules'] = array();
+		
+		$class = __CLASS__;
+		if (!$GLOBALS['validator_rules'][$class])
+			$GLOBALS['validator_rules'][$class] =& new $class;
+		
+		return $GLOBALS['validator_rules'][$class];
 	}
 }
 

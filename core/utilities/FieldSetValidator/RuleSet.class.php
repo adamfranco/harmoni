@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RuleSet.class.php,v 1.4 2005/01/19 23:23:32 adamfranco Exp $
+ * @version $Id: RuleSet.class.php,v 1.5 2005/03/29 18:03:07 adamfranco Exp $
  */
 class RuleSet {
 	/**
@@ -64,11 +64,11 @@ class RuleSet {
 	 * @return void 
 	 **/
 	function addRule( $key, & $rule, $error = null) {
-		ArgumentValidator::validate($rule, new ExtendsValidatorRule("ValidatorRuleInterface"));
+		ArgumentValidator::validate($rule, ExtendsValidatorRule::getRule("ValidatorRuleInterface"));
 		ArgumentValidator::validate($key, new StringValidatorRule);
 
 		if ($error !== null)
-			ArgumentValidator::validate($error,new ExtendsValidatorRule("ErrorInterface"),true);
+			ArgumentValidator::validate($error,ExtendsValidatorRule::getRule("ErrorInterface"),true);
 
 		if (!isset($this->_rules[$key])) $this->_rules[$key] = array();
 		$this->_rules[$key][] = array( &$rule, $error );

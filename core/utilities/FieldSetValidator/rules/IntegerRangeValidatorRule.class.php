@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IntegerRangeValidatorRule.class.php,v 1.4 2005/01/19 23:23:32 adamfranco Exp $
+ * @version $Id: IntegerRangeValidatorRule.class.php,v 1.5 2005/03/29 18:04:57 adamfranco Exp $
  */ 
 class IntegerRangeValidatorRule
 	extends ValidatorRuleInterface 
@@ -52,6 +52,50 @@ class IntegerRangeValidatorRule
 //		if (!(is_integer($val) || $val === 0))
 //			return false;
 		return ($val >= $this->_min && $val <= $this->_max);
+	}
+	
+	/**
+	 * This is a static method to return an already-created instance of a validator
+	 * rule. There are at most about a hundred unique rule objects in use durring
+	 * any given execution cycle, but rule objects are instantiated hundreds of
+	 * thousands of times. 
+	 *
+	 * This method follows a modified Singleton pattern
+	 * 
+	 * @return object ValidatorRule
+	 * @access public
+	 * @static
+	 * @since 3/28/05
+	 */
+	function &getRule ($min, $max) {
+		// Because there is no way in PHP to get the class name of the descendent
+		// class on which this method is called, this method must be implemented
+		// in each descendent class.
+
+		if (!is_array($GLOBALS['validator_rules']))
+			$GLOBALS['validator_rules'] = array();
+		
+		$class = __CLASS__;
+		$ruleKey = $class."(".$this->_min.", ".$this->_max.")";
+		if (!$GLOBALS['validator_rules'][$ruleKey])
+			$GLOBALS['validator_rules'][$ruleKey] =& new $class($min, $max);
+		
+		return $GLOBALS['validator_rules'][$ruleKey];
+	}
+	
+	/**
+	 * Return a key that can be used to identify this Rule for caching purposes.
+	 * If this rule takes no arguments, the class name should be sufficient.
+	 * otherwise, append the arguments. 
+	 *
+	 * This method should only be called by ValidatorRules.
+	 * 
+	 * @return string
+	 * @access protected
+	 * @since 3/29/05
+	 */
+	function getRuleKey () {
+		return get_class($this)."(".$this->_min.", ".$this->_max.")";
 	}
 }
 

@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FieldSetValidatorTestCase.class.php,v 1.2 2005/01/19 16:33:30 adamfranco Exp $
+ * @version $Id: FieldSetValidatorTestCase.class.php,v 1.3 2005/03/29 18:04:58 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -118,7 +118,7 @@
 			$number = & new NumericValidatorRule;
 			$this->testRuleSet->addRule("mystring", $rq,$error);
 			$this->testRuleSet->addRule("mystring",$email,$error);
-			$this->testRuleSet->addRule("boolean",new BooleanValidatorRule,$error);
+			$this->testRuleSet->addRule("boolean",BooleanValidatorRule::getRule(),$error);
 			
 			$this->testRuleSet->addRule("mynumber", $number, $error);
 			$this->assertEqual($this->testRuleSet->count(),3);
