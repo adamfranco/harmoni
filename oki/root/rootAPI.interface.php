@@ -73,9 +73,6 @@ class OsidRomiManager
 } // end OsidRomiManager
 
 
-// private final  java.util.Hashtable contextInfo = new java.util.Hashtable()
-define("contextInfo",new java.util.Hashtable());
-
 class OsidOwner
 { // begin OsidOwner
 } // end OsidOwner
