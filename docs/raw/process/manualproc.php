@@ -20,6 +20,7 @@ if (!function_exists("domxml_open_file")) {
 	+-------------------------------------------+
 	
 END_ERROR;
+exit(1);
 }
 
 define("MYDIR", dirname(__FILE__));
@@ -80,7 +81,7 @@ while ($f = @readdir($dir)) {
 unset($dir,$f,$answer);
 
 if (!@touch($targetDir.DIRECTORY_SEPARATOR."manual_created_stamp"))
-	doUsage("I do not seem to have write access to target directory.");
+	doError("I do not seem to have write access to target directory.");
 
 /*:: set up the handler classes ::*/
 $handlerClasses = array(

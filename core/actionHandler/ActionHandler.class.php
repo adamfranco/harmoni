@@ -21,7 +21,7 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.2 2003/08/23 23:56:20 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.3 2003/08/25 17:02:46 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandler extends ActionHandlerInterface {
@@ -129,10 +129,20 @@ class ActionHandler extends ActionHandlerInterface {
 	 * @access public
 	 * @return void
 	 */
-	function forward( $module, $action ) {
-		if ($this->_executing && $module && $action) {
-			$this->_forwardToAction = $module . "." . $action;
+	function forward( $module, $action=null ) {
+		$test =& new DottedPairValidatorRule;
+		if ($this->_executing) {
+			if ($test->check($module) && !$action) {
+				$this->_forwardToAction = $module;
+				return;
+			}
+			if ($module && $action) {
+				$this->_forwardToAction = $module . "." . $action;
+				return;
+			}
+			throwError( new Error("ActionHandler::forward($module, $action) - could not proceed. The action does not seem to be valid.","ActionHandler",true));
 		}
+		throwError( new Error("ActionHandler::forward($module, $action) - could not proceed. The ActionHandler is not currently executing any actions.","ActionHandler",true));
 	}
 	
 	/**
