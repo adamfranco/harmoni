@@ -16,7 +16,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.9 2005/01/27 16:49:12 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.10 2005/01/27 20:49:04 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -1059,8 +1059,6 @@ class HarmoniAsset
      * @access public
      */
     function &getRecords () { 
-		if ($recordStructureId)
-			ArgumentValidator::validate($recordStructureId, new ExtendsValidatorRule("Id"));
 		
 		$id =& $this->getId();
 		$recordMgr =& Services::getService("RecordManager");
@@ -1081,13 +1079,89 @@ class HarmoniAsset
 				$structure =& $record->getRecordStructure();
 				
 				// Add the record to our array
-				if (!$recordStructureId || $recordStructureId->isEqual($structure->getId()))
+				$records[] =& $record;
+			}
+		}
+		
+		// get the record ids that we want to inherit
+		$dbHandler =& Services::getService("DBHandler");
+		$myId =& $this->getId();
+		
+		$query =& new SelectQuery();
+		$query->addTable("dr_asset_record");
+		$query->addColumn("FK_record");
+		$query->addWhere("FK_asset = '".$myId->getIdString()."'");
+		
+		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		
+		while ($result->hasMoreRows()) {
+			$recordId =& $idManager->getId($result->field("FK_record"));
+			
+			$records[] =& $this->getRecord($recordId);
+			
+			$result->advanceRow();
+		}
+		
+		// Create an iterator and return it.
+		$recordIterator =& new HarmoniRecordIterator($records);
+		
+		return $recordIterator;
+	}
+	
+    /**
+     * Get all the Records of the specified RecordStructure for this Asset.
+     * Iterators return a set, one at a time.
+     * 
+     * @param object Id $recordStructureId
+     *  
+     * @return object RecordIterator
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+     * 
+     * @access public
+     */
+    function &getRecordsByRecordStructure ( &$recordStructureId ) { 
+		ArgumentValidator::validate($recordStructureId, new ExtendsValidatorRule("Id"));
+		
+		$id =& $this->getId();
+		$recordMgr =& Services::getService("RecordManager");
+		$idManager =& Services::getService("Id");		
+		$records = array();
+		
+		// Get the records from the data manager.
+		if ($recordSet =& $recordMgr->fetchRecordSet($id->getIdString())) {
+			// fetching as editable since we don't know if it will be edited.
+			$recordSet->loadRecords();
+			$dmRecords =& $recordSet->getRecords();
+	
+			// create  records for each dataSet as needed.
+			foreach (array_keys($dmRecords) as $key) {
+				$recordIdString = $dmRecords[$key]->getID();
+				$recordId =& $idManager->getId($recordIdString);
+				$record =& $this->getRecord($recordId);
+				$structure =& $record->getRecordStructure();
+				
+				// Add the record to our array
+				if ($recordStructureId->isEqual($structure->getId()))
 					$records[] =& $record;
 			}
 		}
 		
 		// Get our non-datamanager records
-		if (!$recordStructureId || in_array($recordStructureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
+		if (in_array($recordStructureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
 		{
 			// get the record ids that we want to inherit
 			$dbHandler =& Services::getService("DBHandler");
@@ -1097,8 +1171,7 @@ class HarmoniAsset
 			$query->addTable("dr_asset_record");
 			$query->addColumn("FK_record");
 			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
-			if ($recordStructureId)
-				$query->addWhere("structure_id = '".$recordStructureId->getIdString()."'", _AND);
+			$query->addWhere("structure_id = '".$recordStructureId->getIdString()."'", _AND);
 			
 			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 			
@@ -1116,6 +1189,35 @@ class HarmoniAsset
 		
 		return $recordIterator;
 	}
+	
+    /**
+     * Get all the Records of the specified RecordStructureType for this Asset.
+     * Iterators return a set, one at a time.
+     * 
+     * @param object Type $recordStructureType
+     *  
+     * @return object RecordIterator
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+     * 
+     * @access public
+     */
+    function &getRecordsByRecordStructureType ( &$recordStructureType ) { 
+        throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Repository :: Asset", TRUE));
+    } 
  	
  	/**
      * Get the AssetType of this Asset.  AssetTypes are used to categorize
