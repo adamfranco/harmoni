@@ -7,7 +7,7 @@
  * necessary services.
  *
  * @package harmoni.services
- * @version $Id: services.cfg.php,v 1.7 2003/07/03 18:03:20 gabeschine Exp $
+ * @version $Id: services.cfg.php,v 1.8 2003/07/06 21:31:28 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -63,6 +63,8 @@ require_once(HARMONI."DBHandler/DBHandler.class.php");
 Services::registerService("DBHandler","DBHandler");
 
 // load authentication handler
+require_once(HARMONI."authenticationHandler/AuthenticationHandler.class.php");
+Services::registerService("Authentication","AuthenticationHandler");
 require_once(HARMONI."config/authentication.cfg.php");
 
 // load debug handler
@@ -73,9 +75,11 @@ Services::registerService("Debug","DebugHandler");
 require_once(HARMONI."authenticationHandler/AgentInformationHandler.class.php");
 Services::registerService("AgentInformation","AgentInformationHandler");
 
-// storage handler
+// load the Storage handler.
 require_once(HARMONI."storageHandler/StorageHandler.class.php");
 Services::registerService("Storage","StorageHandler");
+require_once(HARMONI."config/storage.cfg.php");
+
 /**
  * Load wrapper classes and functions for some of the above services. 
  **/

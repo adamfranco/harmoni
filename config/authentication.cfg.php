@@ -3,9 +3,9 @@
 /**
  * The Authentication config file.
  * 
- * Here, set up your various AuthenticationMethods and their options and add them to the AuthenticationHandler
+ * Here, set up your various AuthenticationMethods and their options and add them to the AuthenticationHandler.
  *
- * @version $Id: authentication.cfg.php,v 1.1 2003/06/30 02:16:08 gabeschine Exp $
+ * @version $Id: authentication.cfg.php,v 1.2 2003/07/06 21:31:28 gabeschine Exp $
  * @package harmoni.authenticationHandler
  * @copyright 2003 
  **/
@@ -14,10 +14,6 @@
  * REQUIRED INCLUDES & COMMANDS 
  *		no need to change these options -- go below
  **/
-
-// register the Authentication Service
-require_once(HARMONI."authenticationHandler/AuthenticationHandler.class.php");
-Services::registerService("Authentication","AuthenticationHandler");
 
 // start the service
 Services::startService("Authentication");
