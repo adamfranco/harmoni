@@ -105,6 +105,10 @@ class DataSetTypeDefinition {
 		return count($this->_fields);
 	}
 	
+	function deleteField($label) {
+		unset($this->_fields[$label]);
+	}
+	
 	function getAllLabels( $includeInactive = false ) {
 		$array = array();
 		foreach (array_keys($this->_fields) as $label) {

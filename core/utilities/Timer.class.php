@@ -3,7 +3,7 @@
 /**
  * Allows you to time with microtime() from start() to end().
  *
- * @version $Id: Timer.class.php,v 1.1 2003/12/27 19:56:21 gabeschine Exp $
+ * @version $Id: Timer.class.php,v 1.2 2003/12/28 01:48:06 gabeschine Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -27,7 +27,7 @@ class Timer {
 		$s = $ss + $sm;
 		$e = $es + $em;
 		
-		print ($e-$s);
+		return ($e-$s);
 	}
 }
 

@@ -220,6 +220,9 @@ class DataSetTypeManager
 						... --> should we just not allow this?
 						... if values already exist (even inactive ones), throw a huge ugly error.
 						... otherwise, make the change but throw a warning too.
+					if active flag has changed ...
+						... from yes to no, delete the old
+						... from no to yes, re-activate the old
 				}
 			}
 		}
@@ -283,6 +286,19 @@ class DataSetTypeManager
 			}
 			unset($oldVctl, $newVctl);
 */			
+			// let's check the active flag
+			$oldActive = $oldField->isActive();
+			$newActive = $newField->isActive();
+			if ($oldActive != $newActive) {
+				if ($oldActive && !$newActive) {
+					$oldField->delete();
+				}
+				if (!$oldActive && $newActive) {
+					$oldField->setActiveFlag(true);
+					$oldField->update();
+				}
+			}
+
 			// now let's check the mult
 			$oldMult = $oldField->getMultFlag();
 			$newMult = $newField->getMultFlag();

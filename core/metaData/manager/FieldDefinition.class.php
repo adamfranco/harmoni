@@ -131,11 +131,12 @@ class FieldDefinition {
 			// do some updating
 			$query = new UpdateQuery();
 			$query->setTable("datasettypedef");
-			$query->setColumns(array("datasettypedef_mult"));
+			$query->setColumns(array("datasettypedef_mult","dataseettypedef_active"));
 			$query->setWhere("datasettypedef_id=".$this->getID());
 			
 			$query->setValues(array(
-					(($this->_mult)?1:0)
+					(($this->_mult)?1:0),
+					(($this->_active)?1:0)
 			));
 			
 			$result =& $dbHandler->query($query,$this->_dbID);
@@ -190,6 +191,7 @@ class FieldDefinition {
 	}
 	
 	function isActive() { return $this->_active; }
+	function setActiveFlag($bool) { $this->_active=$bool; }
 }
 
 class HarmoniFieldDefinitionType extends HarmoniType {
