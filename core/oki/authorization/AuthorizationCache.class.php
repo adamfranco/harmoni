@@ -11,7 +11,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.29 2005/02/07 21:38:19 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.30 2005/02/09 18:50:26 adamfranco Exp $
  **/
 
 class AuthorizationCache {
@@ -922,8 +922,8 @@ class AuthorizationCache {
 					$agentId =& $authorization->getAgentId();
 					$function =& $authorization->getFunction();
 					$functionId =& $function->getId();
-					$effectiveDate =& $authorization->getEffectiveDate();
-					$expirationDate =& $authorization->getExpirationDate();
+					$effectiveDate = $authorization->getEffectiveDate();
+					$expirationDate = $authorization->getExpirationDate();
 	
 					// this is set 2
 					$nodes =& $hierarchy->traverse($explicitQualifierId, TRAVERSE_MODE_DEPTH_FIRST,
