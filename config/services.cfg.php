@@ -7,27 +7,16 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.43 2005/03/28 23:32:36 nstamato Exp $
+* @version $Id: services.cfg.php,v 1.44 2005/04/01 18:54:23 adamfranco Exp $
 * @copyright 2003
 **/
 
 /* :: what services should we load? you can disable some to save on startup time :: */
 
 /**
- * functionality affected: Authentication, LoginHandler
- */
-if (!defined("LOAD_AUTHENTICATION")) 		define("LOAD_AUTHENTICATION", true);
-
-/**
  * functionality affected: StorageHandler
  */
 if (!defined("LOAD_STORAGE")) 				define("LOAD_STORAGE", true);
-
-/**
- * functionality affected: AgentInformationHandler
- * requires: authentication
- */
-if (!defined("LOAD_AGENTINFORMATION")) 		define("LOAD_AGENTINFORMATION", true);
 
 /**
  * functionality affected: Debug output
@@ -84,42 +73,13 @@ if (!defined("LOAD_LANG")) 			define("LOAD_LANG", true);
 /**
  * OKI OSID implementations:
  */
-if (!defined("OKI_VERSION")) 			define("OKI_VERSION", NULL);
+if (!defined("OKI_VERSION")) 			define("OKI_VERSION", 2);
 
-/**
- * Version 1 implementations
- */
-if (OKI_VERSION === 1 || OKI_VERSION === NULL) {
-	/**
-	 * functionality affected: Hiearchy, Digital Repository.
-	 */
-	if (!defined("LOAD_HIERARCHY")) 			define("LOAD_HIERARCHY", true);
-	
-	/**
-	 * functionality affected: Hiearchy, Digital Repository, DataManager, ID generation.
-	 */
-	if (!defined("LOAD_SHARED")) 				define("LOAD_SHARED", true);
-	
-	/**
-	 * functionality affected: OKI AuthN calls.
-	 */
-	if (!defined("LOAD_AUTHN")) 				define("LOAD_AUTHN", true);
-	
-	/**
-	 * functionality affected: OKI AuthZ calls.
-	 */
-	if (!defined("LOAD_AUTHZ")) 				define("LOAD_AUTHZ", true);
-	
-	/**
-	 * functionality affected: Digital Repository.
-	 */
-	if (!defined("LOAD_DR")) 			define("LOAD_DR", true);
-} 
 
 /**
  * Version 2 implementations
  */
-else if (OKI_VERSION === 2) {
+if (OKI_VERSION === 2) {
 	
 	/**
 	 * functionality affected: OKI Agent calls.
@@ -155,9 +115,8 @@ else if (OKI_VERSION === 2) {
 	 * functionality affected: Digital Repository.
 	 */
 	if (!defined("LOAD_REPOSITORY")) 			define("LOAD_REPOSITORY", true);
-}
 
-else if (OKI_VERSION) {
+} else {
 	die ("Unknown OKI version, '".OKI_VERSION."'");
 }
 
@@ -221,24 +180,6 @@ Services::registerService("UserError","ErrorHandler");
  */
 require_once(HARMONI."DBHandler/DBHandler.class.php");
 Services::registerService("DBHandler","DBHandler");
-
-/**
- * load authentication handler
- */
-if (LOAD_AUTHENTICATION) {
-	require_once(HARMONI."authenticationHandler/AuthenticationHandler.class.php");
-	Services::registerService("Authentication","AuthenticationHandler");
-	require_once(HARMONI_BASE."config/authentication.cfg.php");
-}
-
-
-/**
- * load the agent information handler
- */
-if (LOAD_AGENTINFORMATION && LOAD_AUTHENTICATION) {
-	require_once(HARMONI."authenticationHandler/AgentInformationHandler.class.php");
-	Services::registerService("AgentInformation","AgentInformationHandler");
-}
 
 /**
  * load debug handler
@@ -328,56 +269,11 @@ if (LOAD_IMAGEPROCESSOR) {
  * OKI OSID implementations:
  */
 
-/**
- * Version 1 implementations
- */
-if (OKI_VERSION === 1 || OKI_VERSION === NULL) {
-	
-	/**
-	 * load the AuthNManager
-	 */
-	if (LOAD_AUTHN) {
-		require_once(HARMONI."oki/authentication/HarmoniAuthenticationManager.class.php");
-		Services::registerService("AuthN","HarmoniAuthenticationManager");
-	}
-	
-	/**
-	 * load the AuthZManager
-	 */
-	if (LOAD_AUTHZ) {
-		require_once(HARMONI."oki/authorization/HarmoniAuthorizationManager.class.php");
-		Services::registerService("AuthZ","HarmoniAuthorizationManager");
-	}
-	
-	/**
-	 * load the DigitalRepositoryManager.
-	 */
-	if (LOAD_DR) {
-		require_once(HARMONI."oki/dr/HarmoniDigitalRepositoryManager.class.php");
-		Services::registerService("DR","HarmoniDigitalRepositoryManager");
-	}
-	
-	/**
-	 * load the HierarchyManager.
-	 */
-	if (LOAD_HIERARCHY) {
-		require_once(HARMONI."oki/hierarchy2/HarmoniHierarchyManager.class.php");
-		Services::registerService("Hierarchy","HarmoniHierarchyManager");
-	}
-	
-	/**
-	 * load the SharedManager
-	 */
-	if (LOAD_SHARED) {
-		require_once(HARMONI."oki/shared/HarmoniSharedManager.class.php");
-		Services::registerService("Shared","HarmoniSharedManager");
-	}
-} 
 
 /**
  * Version 2 implementations
  */
-else if (OKI_VERSION === 2) {
+if (OKI_VERSION == 2) {
 	
 	/**
 	 * load the AgentManager
