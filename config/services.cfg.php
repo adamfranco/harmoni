@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.14 2003/12/27 19:55:38 gabeschine Exp $
+* @version $Id: services.cfg.php,v 1.15 2004/01/06 22:09:56 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -36,6 +36,9 @@ if (!defined("LOAD_ARCHITECTURE")) 			define("LOAD_ARCHITECTURE", true);
 
 // functionality affected: Database connectivity, and anything that depends on it.
 if (!defined("LOAD_DBC")) 					define("LOAD_DBC", true);
+
+// functionality affected: Hiearchy, Digital Repository.
+if (!defined("LOAD_HIERARCHY")) 					define("LOAD_HIERARCHY", true);
 
 /**
 * USER DEFINED SERVICES
@@ -117,6 +120,13 @@ if (LOAD_STORAGE) {
 	require_once(HARMONI."storageHandler/StorageHandler.class.php");
 	Services::registerService("Storage","StorageHandler");
 	require_once(HARMONI_BASE."config/storage.cfg.php");
+}
+
+// load the HierarchyManager.
+if (LOAD_HIERARCHY) {
+	require_once(HARMONI."oki/hierarchy/HarmoniHierarchyManager.class.php");
+	Services::registerService("Hierarchy","HarmoniHierarchyManager");
+//	require_once(HARMONI_BASE."config/storage.cfg.php");
 }
 
 // include MetaDataManager files
