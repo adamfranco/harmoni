@@ -23,7 +23,7 @@ class HarmoniId extends Id {
 		ArgumentValidator::validate($id, new StringValidatorRule("Id"), true);
 		// ** end of parameter validation
 
-		$this->_id = $id
+		$this->_id = $id;
 	}
 
 	// public String getIdString();

@@ -5,7 +5,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.12 2004/06/03 15:39:59 dobomode Exp $
+ * @version $Id: SharedManagerTestCase.class.php,v 1.13 2004/06/21 19:09:13 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -136,7 +136,7 @@ class SharedManagerTestCase extends UnitTestCase {
 		$this->assertIsA($types, "HarmoniTypeIterator");
 		while ($types->hasNext()) {
 			$type =& $types->next();
-			$this->assertIsA($type, "Type");
+			$this->assertIsA($type, "TypeInterface");
 		}
 	}
 
@@ -172,8 +172,8 @@ class SharedManagerTestCase extends UnitTestCase {
 	 * Testing getGroup
 	 **/
 	function test_get_group() {
-		$group =& $this->manager->getGroup(new HarmoniId(-9));
-		$group =& $this->manager->getGroup(new HarmoniId(-1));
+		$group =& $this->manager->getGroup(new HarmoniId("-9"));
+		$group =& $this->manager->getGroup(new HarmoniId("-1"));
 		
 		$this->assertIsA($group, "HarmoniGroup");
 	}
@@ -226,7 +226,7 @@ class SharedManagerTestCase extends UnitTestCase {
 		$this->assertIsA($types, "HarmoniTypeIterator");
 		while ($types->hasNext()) {
 			$type =& $types->next();
-			$this->assertIsA($type, "Type");
+			$this->assertIsA($type, "TypeInterface");
 		}
 	}
 	

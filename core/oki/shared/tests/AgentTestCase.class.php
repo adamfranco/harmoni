@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/shared/HarmoniAgent.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AgentTestCase.class.php,v 1.2 2004/04/20 21:29:27 dobomode Exp $
+ * @version $Id: AgentTestCase.class.php,v 1.3 2004/06/21 19:09:13 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -37,7 +37,7 @@ require_once(HARMONI.'/oki/shared/HarmoniAgent.class.php');
 		//--------------the tests ----------------------
 
 		function test_everything() {
-			$id =& new HarmoniId(8);
+			$id =& new HarmoniId("8");
 			$type =& new HarmoniType("Look at me!", "I rock...", "I rule!", "And rise!");
 
 			$this->agent =& new HarmoniAgent("dobomode", $id, $type, 1, "blah");
