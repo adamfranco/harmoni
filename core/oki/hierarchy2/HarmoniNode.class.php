@@ -18,7 +18,7 @@ require_once(HARMONI."oki/hierarchy2/GenericNodeType.class.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.5 2004/06/02 20:42:56 dobomode Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.6 2004/06/02 22:57:33 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -329,7 +329,10 @@ class HarmoniNode extends Node {
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
-
+		
+		if (!$this->_cache->_allowsMultipleParents)
+			throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", true));
+		
 		$this->_cache->addParent($nodeId->getIdString(), $this->_id->getIdString());
 	}
 
@@ -353,6 +356,9 @@ class HarmoniNode extends Node {
 		// ** parameter validation
 		ArgumentValidator::validate($parentId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
+
+		if (!$this->_cache->_allowsMultipleParents)
+			throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", true));
 
 		$this->_cache->removeParent($parentId->getIdString(), $this->_id->getIdString());
 	}

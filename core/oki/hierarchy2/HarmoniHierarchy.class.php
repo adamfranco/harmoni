@@ -20,7 +20,7 @@ require_once(HARMONI.'/oki/hierarchy2/GenericNodeType.class.php');
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchy.class.php,v 1.2 2004/06/02 20:42:56 dobomode Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.3 2004/06/02 22:57:33 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -55,15 +55,18 @@ class HarmoniHierarchy extends Hierarchy {
 	 * @param object ID   $id   The Id of this Hierarchy.
 	 * @param string $displayName The displayName of the Hierarchy.
 	 * @param string $description The description of the Hierarchy.
+	 * @param boolean allowsMultipleParents This is true if the hierarchy will allow
+	 * multiple parents.
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 * @param string sharedDB The name of the shared database.
 	 * @access public
 	 */
-	function HarmoniHierarchy(& $id, $displayName, $description, $dbIndex, $sharedDB) {
+	function HarmoniHierarchy(& $id, $displayName, $description, $allowsMultipleParents, $dbIndex, $sharedDB) {
 		// ** parameter validation
  		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
  		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
  		ArgumentValidator::validate($description, new StringValidatorRule(), true);
+		ArgumentValidator::validate($allowsMultipleParents, new BooleanValidatorRule(), true);
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
 		ArgumentValidator::validate($sharedDB, new StringValidatorRule(), true);
 		// ** end of parameter validation
@@ -71,7 +74,7 @@ class HarmoniHierarchy extends Hierarchy {
 		$this->_id = $id;
 		$this->_displayName = $displayName;
 		$this->_description = $description;
-		$this->_cache =& new HierarchyCache($id->getIdString(), $dbIndex, $sharedDB);
+		$this->_cache =& new HierarchyCache($id->getIdString(), $allowsMultipleParents, $dbIndex, $sharedDB);
 	}
 
 	
@@ -412,12 +415,13 @@ class HarmoniHierarchy extends Hierarchy {
 		$query =& new SelectQuery();
 		
 		$db = $this->_cache->_sharedDB.".";
-		
 		// set the tables
 		$query->addTable($db."node");
 		$joinc = $db."node.fk_type = ".$db."type.type_id";
 		$query->addTable($db."type", INNER_JOIN, $joinc);
-		
+		$hierarchyIdValue = $this->_id->getIdString();
+		$query->addWhere($db."node.fk_hierarchy = '{$hierarchyIdValue}'");
+
 		// set the columns to select
 		$query->setDistinct(true);
 		$query->addColumn("type_id", "id", $db."type");
@@ -455,7 +459,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function allowsMultipleParents() {
-		return true;
+		return $this->_cache->_allowsMultipleParents;
 	}
 
 	/**
@@ -530,3 +534,5 @@ class HarmoniHierarchy extends Hierarchy {
 	}
 		
 }
+
+?>

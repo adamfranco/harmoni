@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.3 2004/06/01 00:05:58 dobomode Exp $
+ * @version $Id: test.php,v 1.4 2004/06/02 22:57:43 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003 
  **/
@@ -36,8 +36,9 @@ $harmonyLoadupTimer->end();
 	
 	
     $test =& new GroupTest('Hierarchy Tests');
-    $test->addTestFile(HARMONI.'/oki/hierarchy2/tests/NodeTestCase.class.php');
-    $test->addTestFile(HARMONI.'/oki/hierarchy2/tests/HierarchyTestCase.class.php');
+//    $test->addTestFile(HARMONI.'/oki/hierarchy2/tests/NodeTestCase.class.php');
+//    $test->addTestFile(HARMONI.'/oki/hierarchy2/tests/HierarchyTestCase.class.php');
+    $test->addTestFile(HARMONI.'/oki/hierarchy2/tests/HierarchyManagerTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 	

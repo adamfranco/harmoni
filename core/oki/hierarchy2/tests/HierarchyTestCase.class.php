@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.3 2004/06/02 20:42:57 dobomode Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.4 2004/06/02 22:57:43 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -29,7 +29,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 			$dbHandler->pConnect($dbIndex);
 			unset($dbHandler); // done with that for now
 			
-			$this->hierarchy =& new HarmoniHierarchy(new HarmoniId('8'), "Dobo Hierarchy", "Blah", $dbIndex, "doboHarmoniTest");
+			$this->hierarchy =& new HarmoniHierarchy(new HarmoniId('8'), "Dobo Hierarchy", "Blah", true, $dbIndex, "doboHarmoniTest");
 	       	$this->manager =& new HarmoniSharedManager($dbIndex, "doboHarmoniTest");
         }
 		

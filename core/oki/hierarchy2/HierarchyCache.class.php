@@ -25,7 +25,7 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
  * 
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
- * @version $Id: HierarchyCache.class.php,v 1.4 2004/06/02 20:42:56 dobomode Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.5 2004/06/02 22:57:33 dobomode Exp $
  * @package harmoni.osid.hierarchy2
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -91,15 +91,24 @@ class HierarchyCache {
 	
 	
 	/**
+	 * This is true if the hierarchy will allow
+	 * multiple parents.
+	 * @attribute private boolean _allowsMultipleParents
+	 */
+	var $_allowsMultipleParents;
+
+
+	/**
      * Constructor
 	 * @param string hierarchyId The id of the corresponding hierarchy.
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 * @param string sharedDB The name of the shared database.
      * @access protected
      */
-	function HierarchyCache($hierarchyId, $dbIndex, $sharedDB) {
+	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex, $sharedDB) {
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, new StringValidatorRule(), true);
+		ArgumentValidator::validate($allowsMultipleParents, new BooleanValidatorRule(), true);
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
 		ArgumentValidator::validate($sharedDB, new StringValidatorRule(), true);
 		// ** end of parameter validation
@@ -109,6 +118,7 @@ class HierarchyCache {
 		$this->_dbIndex = $dbIndex;
 		$this->_sharedDB = $sharedDB;
 		$this->_hierarchyId = $hierarchyId;
+		$this->_allowsMultipleParents = $allowsMultipleParents;
 
 		// initialize a generic SELECT query to fetch one node from the DB
 		$db = $this->_sharedDB.".";
@@ -358,6 +368,7 @@ class HierarchyCache {
 		$dbHandler =& Services::requireService("DBHandler");
 		$db = $this->_sharedDB.".";
 		$this->_nodeQuery->resetWhere();
+		$this->_nodeQuery->addWhere($db."node.fk_hierarchy = '{$this->_hierarchyId}'");
 		$nodeQueryResult =& $dbHandler->query($this->_nodeQuery, $this->_dbIndex);
 		
 		$result = array();
@@ -404,6 +415,7 @@ class HierarchyCache {
 		$joinc = "{$db}node.node_id = {$db}j_node_node.fk_child";
 		$query->addTable("{$db}j_node_node", LEFT_JOIN, $joinc);
 		$query->addColumn("fk_child", "join_id", "{$db}j_node_node");
+		$query->addWhere($db."node.fk_hierarchy = '{$this->_hierarchyId}'");
 		$query->addWhere("ISNULL({$db}j_node_node.fk_child)");
 
 		echo "<pre>\n";
@@ -1194,9 +1206,8 @@ class HierarchyCache {
 	function & createNode(& $nodeId, & $parentId, & $type, $displayName, $description) {
 		// create the root node and assign the parent
 		$node =& $this->createRootNode($nodeId, $type, $displayName, $description);
-		$parent =& $this->getNode($parentId->getIdString());
-		$node->addParent($parent->getId());
-
+		$this->addParent($parentId->getIdString(), $nodeId->getIdString());
+		
 		return $node;
 	}
 	
@@ -1294,7 +1305,8 @@ class HierarchyCache {
 		$this->_cache = null;
 		unset($this->_tree);
 		unset($this->_cache);
-		$this->HierarchyCache($this->_hierarchyId, $this->_dbIndex, $this->_sharedDB);
+		$this->HierarchyCache($this->_hierarchyId, $this->_allowsMultipleParents,
+							  $this->_dbIndex, $this->_sharedDB);
 	}
 
 }
