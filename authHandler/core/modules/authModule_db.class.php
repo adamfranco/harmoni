@@ -19,7 +19,7 @@ class authModule_db extends authModule {
 		$this->cfg->addAttr("passwordFieldEncrypted:b","passwordEncryptionType:s:md5,des,crypt");
 	}
 
-	function valid($name,$pass) {
+	function validate($name,$pass) {
 		
 		// if the password is encrypted, handle that here
 		if ($this->cfg->get("passwordFieldEncrypted")) {

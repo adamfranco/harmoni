@@ -60,17 +60,31 @@ class configHandler {
 		$this->numAttributes++;
 	}
 	
+	/**
+	 * sets $key to $val
+	 * @param string $key the key to set
+	 * @param mixed $val the value to set key to. pass $val as reference if you want to use something like an object
+	 */
 	function set($key, $val) {
 		if (isset($this->fields[$key])) {
 			$this->fields[$key]->set($val);
 		} else error::fatal("configHandler::set - could not set '$key' because it is not a valid key");
 	}
 	
+	/**
+	 * returns the contents of $key as a reference (in case it was set to something like an object)
+	 * @param string $key the key to return
+	 * @return mixed returns a reference to the value of $key
+	 */
 	function & get($key) {
 		if (isset($this->fields[$key])) return $this->fields[$key]->get();
 		else error::fatal("configHandler::get - could not get '$key' because it is not a valid key");
 	}
 	
+	/**
+	 * will return if $key exists as a node of this configHandler
+	 * @return bool true/false if key exists/doesnt' exist
+	 */
 	function keyExists($key) {
 		if (is_object($this->fields[$key])) return true;
 		return false;

@@ -66,6 +66,11 @@ class authHandler
 //	$this->cfg->addAttr("actionsNoAuth:s[]");
   }
 
+	/**
+	 * add a module of name $name and type $type. $type must be a valid authModule of name authModule_$type
+	 * @param string $name the name the module should get -- can be anything -- for your reference
+	 * @param string $type the type of authModule to instantiate (ie, db, ldap, pam, etc etc)
+	 */
 	function addModule($name,$type) {
 		
 		if (isset($this->modules[$name]) && is_object($this->modules[$name]))
@@ -83,6 +88,12 @@ class authHandler
 		return true;
 	}
 	
+	/**
+	 * configure a module that's already been added with addModule().
+	 * @param string $mod (optional) the module to configure -- if absent will use the last module added
+	 * @param string $key the configuration key to set
+	 * @param string $val the value to set key to
+	 */
 	function modCfg( ) {
 		$n = func_num_args();
 		if ($n == 2) {
@@ -117,7 +128,7 @@ class authHandler
 		$this->_userName = $username;
 		
 		foreach (array_keys($this->modules) as $mod) {
-			if ($this->modules[$mod]->valid($username,$password)) {
+			if ($this->modules[$mod]->validate($username,$password)) {
 				$this->numValid++;
 				if (!$this->cfg->get("authAll")) break;
 			}
@@ -189,10 +200,10 @@ class authHandler
 	 }
   
 	/**
-	* goes through the modules and gets the 'extra' info pulled down from the db/whatever
-	* @param string $field the field to pull out
-	* @return array returns an array of all values extracted
-	*/
+	 * goes through the modules and gets the 'extra' info pulled down from the db/whatever
+	 * @param string $field the field to pull out
+	 * @return array returns an array of all values extracted
+	 */
 	function getExtra( $field ) {
 		$a = array();
 		foreach (array_keys($this->modules) as $mod) {
