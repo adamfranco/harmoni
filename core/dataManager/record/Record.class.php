@@ -29,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.16 2005/01/05 18:18:20 gabeschine Exp $
+* @version $Id: Record.class.php,v 1.17 2005/01/08 01:20:33 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -147,7 +147,10 @@ class Record {
 		
 		$versions =& $this->getRecordFieldValue($label, $index);
 		
-		return $versions->getActiveVersion();
+		if ($versions->hasActiveValue())
+			return $versions->getActiveVersion();
+		else
+			return $versions->getNewestVersion();
 	}
 	
 	/**
