@@ -18,7 +18,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.20 2004/06/25 16:29:34 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.21 2004/07/14 21:23:56 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -136,9 +136,25 @@ class Harmoni {
 //		$this->language =& new LanguageLocalizer(HARMONI."languages");
 	}
 	
+	/**
+	 * Returns a pretty version string of our running Harmoni framework version.
+	 * @access public
+	 * @return string
+	 */
 	function getVersionStr() {
 		include HARMONI."version.inc.php";
 		return $harmoniVersionStr;
+	}
+	
+	/**
+	 * Returns the numeric representation of our framework version. The format is XXMMRR, two digits for each of the major, minor and release numbers.
+	 * @access public
+	 * @return integer
+	 */
+	function getVersionNumber()
+	{
+		include HARMONI."version.inc.php";
+		return $harmoniVersion;
 	}
 	
 	/**
