@@ -1,0 +1,22 @@
+
+  <html>
+<head>
+<title>Scheduling Open Service Interface Definition</title>
+</head>
+<body>
+  <p>Scheduling Open Service Interface Definition.</p>
+  
+<p>The Scheduling Open Service Interface Definition (OSID) provides an abstraction for an event that has a continuous duration. It provides services for creating and managing these events, and schedules composed of these events. This service allows an application to specify a time period and a list of Agents, and find the times that they have open in common. Typically, an application needs these services to integrate another calendar context, such as an enterprise calendar service.</p>
+
+<p>A ScheduleItem is the principal Scheduling object. Each ScheduleItem occupies a contiguous time period represented by a start and end time. A ScheduleItem can't represent recurrence, nor noncontiguous durations, that is, a duration that contains multiple start and end times.</p> 
+
+<p>There is no Schedule object in the Scheduling OSID. The reason is that it inappropriate to treat a schedule as a persistent object. A schedule is simply an iterator of ScheduledItems, selected based on some criteria such as a particular person or a particular time period.</p>
+
+<p>The AgentCommitment interface associates an Agent, usually a person, with a specific Status value. A separate status is maintained for each Agent involved with a ScheduleItem.</p> 
+
+<p>A Status is one of a range of Type objects set by the implementation. The SchedulingManager provides getCommittmentStatusTypes() and getItemStatusTypes() methods that return the Status Types of an Agent's commitment and a ScheduleItem supported by the implementation, respectively.</p> 
+
+</body>
+
+</html>
+

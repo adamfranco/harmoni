@@ -1,0 +1,20 @@
+
+  <html>
+<head>
+<title>Hierarchy Open Service Interface Definition</title>
+</head>
+<body>
+  <p>Hierarchy Open Service Interface Definition.</p>
+  <p>
+The Hierarchy OSID implementation provides a service to persist and manage hierarchies. Many types of things are organized in hierarchies and are used throughout systems. Examples of hierarchies are: HR Organizations, File Systems, Course Structures, etc.  A hierarchy object can have a rich structure. A hierarchy object is represented in the Hierarchy OSID implementation by an abstraction called a Node. A Node is not the hierarchy object itself, but, rather, contains parent/child relationships to Nodes representing other hierarchy objects. These parent/child relationships of Nodes in the Hierarchy OSID implementation are represented by an abstraction called a Hierarchy.  The Hierarchy OSID implementation manages these parent/child relationships of the Nodes in a Hierarchy.
+  </p><p>
+The Hierarchy OSID implementation can maintain many hierarchies, each of these is assigned a unique ID by the Hierarchy OSID implementation, so that the application can store a permanent reference to it. A Hierarchy is made up of nodes. Nodes can have parents (nodes) and children (nodes).  Nodes are meant to represent external objects. They have basic data of ID, Name, and Description. The ID is assigned by the calling system and is named a key to highlight this difference. (In most other OSIDs the unique IDs are generated internally by the service, instead of being assigned by the calling application.) Each hierarchy has at least one Root node( i.e. it is parent-less). A node is considered a leaf if it has no children.
+  </p><p>
+The traverse method gets information from a Hierarchy. Its arguments are the starting node, the traversal direction, and the number of levels to traverse. The traverse call returns an iterator from which the id and name of the Node can be gotten as well as the relative distance (level) from the initial Node. In the case of an implementation which allows for recursion (where a traversal may encounter a Node that has already been traversed), it is expected that the traversal will not traverse a Node that has already be traversed.
+  </p>
+  <p>
+    This service maintains not only strict hierarchies, but also directed graphs with multiple parents and/or recursion.
+  </p>
+</body>
+</html>
+

@@ -1,0 +1,26 @@
+
+  <html>
+<head>
+<title>Usermessaging Open Service Interface Definition</title>
+</head>
+<body>
+
+<p>Usermessaging Open Service Interface Definition.</p> 
+<p>The Usermessaging Open Service Interface Definition (OSID) provides an abstraction for subsystems which handle messages among people. Examples of these are instant messaging, e-mail, and Chat. Messages are sent and received from the service by an Agent representing a user.</p>
+
+<p>The Types provided by the service tell the application what is supported by the implementation. User Messages have types in two dimensions. They have delivery characteristics such as encrypted or reliable.  In addition, they have message types.</p> 
+
+<p>Topics are strings whose vocabulary is controlled by the service. Topics can be subscribed to and messages can be sent to a topic with no receivers specified. In this case all users who have subscribed receive this message.</p>
+ 
+<p>Topics can be organizing topics into groups and threads by implementing them as nodes in a hierarchy as provided by the Hierarchy OSID. </p>
+
+<p>A message may be deleted from the perspective of the agent who makes the request, or removed from the persistent message store. Use the deleteMessage() and deleteMessages() methods of the UserMessagingManager to delete a message from an agent's view. The purgeMessage() method is provided to delete a message from the persistent message store. </p> 
+
+<p>Note: This service is not intended to be used for inter-process messaging. It is named "usermessaging" to distinguish it from message queuing systems, and the JMS interfaces.</p>
+
+
+
+</body>
+
+</html>
+

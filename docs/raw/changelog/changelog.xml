@@ -3,6 +3,16 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.3.0" date="The nebulous future">
+		<new author='adam'>
+			Now includes v2.0 of the O.K.I OSIDs.
+		</new>
+		<fix author='adam'>
+			AuthorizationManager now handles group membership.
+		</fix>
+		<change author='adam'>
+			AuthorizationManager now properly returns implicit AZ corresponding to
+			explicit AZs at a parent instead of returning the explict AZs themselves.
+		</change>
 		<change author='gabe'>
 			DataManager: added function to SchemaManager to generate valid PHP code for a given Schema.
 		</change>

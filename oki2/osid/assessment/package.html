@@ -1,0 +1,19 @@
+
+  <html>
+<head>
+<title>Assessment Open Service Interface Definition</title>
+</head>
+<body>
+<p>Assessment Open Service Interface Definition.
+</p><p>
+The Assessment Open Service Interface Definition (OSID) supports creating, organizing, administrating, evaluating, storing and retrieving Assessments.  Assessments are organized into Sections and within Sections into Items.  Once composed, an Assessment can be Published in which case it is read to be Taken by an Agent  (Student).  Each Assessment, Section, or Item taken can have an Evaluation.  
+</p><p>
+Assessment, Section, and Item include the following:<ul><li>Id</li><li>Type</li><li>DisplayName</li><li>Description</li><li>Properties set by the implementation</li></ul>
+</p><p>
+The AssessmentManager keeps track of Assessments as well as returning the Types of that are supported by a particular implementation.
+</p><p>
+There may be relationships between this OSID and others and at different levels.  For example, an implementation might manage an Assessment's content, question banks, etc as a DigitalRepository.  A PublishedAssessment can include a reference both to a CourseSection, an element of the ClassAdmin OSID, and to a GradableAssignment, an element of the Grading OSID.  The Grading OSID might be appropriate for summative Evaluations of an Assessment.
+</p>
+</body>
+</html>
+

@@ -1,0 +1,52 @@
+
+  <html>
+<head>
+<title>Workflow Open Service Interface Definition</title>
+</head>
+<body>
+  <p>Workflow Open Service Interface Definition.</p>
+  <p>
+  The Workflow Open Service Interface Definition (OSID) shares some concepts with Authorization. It uses Roles and Qualifiers , referencing them by Id, but not providing a persistent store interface for these objects. If this is needed the Authorization OSID can provide this. In other words you would establish and maintain who had what role through Authorization,  In this way the authorization and the workflow definitions can be the same. This is often the case; a person is assigned to do a certain step and also must have the authorization to do it. Another way to think about qualifierId is that it is an external reference to something which might have a bunch of properties. (Examples; CourseSectionId, ...)
+  </p>
+  <p>
+  Functions can be separated in groups by the activity they support.
+  </p>
+  
+    <ul>
+    General
+        <ul>getProcess</ul>
+    <br/>
+    Defining a Process<br/>
+            <ul>
+                Creating and Copying processes<br/>
+                <ul>
+                    createProcess<br/>
+                    deleteProcess<br/>
+                    copyProcess<br/>
+                </ul>
+            </ul>
+            <ul>Creating and linking Steps</ul>
+            <ul>Creating Expressions</ul>
+            
+    <br/>
+    Using Workflow to control application behavior<br/>
+            <ul>
+                getAvailableWork -- Gets all work which is available to be acted upon.  That is, any could have their outputState set.<br/>
+                createWork -- Initialize a new piece of work into the process, supply a qualifierID which is used with Role to determine which people should see this work at each step.<br/>
+                updateStepOutputState<br/>
+                getNextSteps--Once you have a work object which could be acted upon, sometimes a piece of work could have more than one step 
+                ready to do. This functions gives the list of steps ready to have their output State set. The implementations should only 
+                show what the Owner is able to act on.<br/>
+            </ul>
+      <br/>
+      Monitoring Work and Process<br/>
+        <ul>
+            getUnfinishedWork<br/>
+            getCompletedWork<br/>
+            getHistory<br/>
+            getProcesses
+        </ul>
+    </ul>        
+</body>
+</html>
+

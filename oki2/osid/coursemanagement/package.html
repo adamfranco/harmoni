@@ -1,0 +1,22 @@
+
+  <html>
+<head>
+<title>CourseManagement Open Service Interface Definition</title>
+</head>
+<body>
+<p>
+CourseManagement Open Service Interface Definition.
+</p><p>
+The CourseManagement OSID abstracts course catalog creation and management, including course sections, student rosters, and related activities.
+</p><p>
+The top-tier organizing structure for CourseManagement is the CanonicalCourse.  A CanonicalCourse includes several properties: a title, a description, a number, a unique Id, a type, and number of credits.  The purpose of these properties is to provide enough structure and flexibility to map a CanonicalCourse to an institution's various systems for describing academic courses.
+</p><p>
+CanonicalCourse also include:<ul><li>a list of any equivalent CanonicalCourses (for cross-listing)</li><li>a list of any prerequisites</li><li>a list of any CanonicalCourses (hierarchical children)</li><li>a list of any CourseOfferings</li></ul>
+</p><p>
+CanonicalCourses are designed for use across many Terms and might be archived, even after there are no longer CourseOfferings for it.  CanonicalCourses are not intended to capture information about the Course for a specific Term.  That is the role of the CourseOffering.</p>
+<p>The CourseOffering contains the same title, Id, number, and description properties as a CanonicalCourse.  These properties' values can be the same as those for the CanonicalCourse or overridden for this particular CourseOffering.   In place of the CanonicalCourse's CourseType there is an OfferingType. The CourseOffering does not include a credits property but it does include a GradeType. The CourseManagementManager supports creating, deleting, and getting grades of this Type for any Agent and CourseOffering.  The CourseOffering is specific to a Term.</p>  
+<p>CourseOfferings include an AssetId property.  This is a place to put a reference to some DigitalRepository or other Asset associated with the CourseOffering .  CourseOfferings also include a StatusType.  This could be used to indicate open, closed, discontinued, etc but as with all Types, there are no restrictions on the meaning of the Type.  The CourseOffering includes both a list of the parent CanonicalCourses (there must be at least one) as well as any created CourseSections.</p>
+<p>The CourseSection again contains title, description, number and Id properties which can be those of the parent CourseOffering or overridden.  The CourseSection is in what Students actually enroll and it has a Schedule, a location, and manages a roster.  As with the CourseOffering, there is a property for a Asset reference.</p>
+</body> 
+</html>
+

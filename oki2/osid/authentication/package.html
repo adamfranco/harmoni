@@ -1,0 +1,15 @@
+
+  <html>
+<head>
+<title>Authentication Open Service Interface Definition</title>
+</head>
+<body>
+  <p>Authentication Open Service Interface Definition.</p>
+  <p>
+The Authentication Open Service Interface Definition helps an application determine if the user of the application is authenticated without having to manage the details of a particular authentication environment. In order for the application to establish the identity of a user (represented by a unique Agent identifier in OSIDs) some authentication process is necessary. An authentiation OSID implementation can handle one or more authentication Types.  The application can select which of the authentication Types will best serve its needs and get the user's agent id associated with that authentication Type.  The Authentication manager has methods to authenticate and destroy authentication by authentication Type.
+  </p><p>
+    The service must work over various kinds of authentication infrastructure. Many institutions already have, or are striving for, central authentication. Not only must the service handle different methods across the range of institutions, it must also handle these within a given institution. Some applications might rely on userid/password; some on certificates; most users authenticate locally; some might authenticate remotely. This range is represented in the interface using the concept of authentication Type.
+  </p>
+</body>
+</html>
+

@@ -1,0 +1,29 @@
+
+  <html>
+<head>
+<title>SQL Open Service Interface Definition</title>
+</head>
+<body>
+  <p>SQL Open Service Interface Definition.
+  </p><p>
+  The SQL Open Service Interface Definition (OSID) provides a means of storing, editing, and retrieving tabular data through the execution of SQL statements.  The data store is presumed to be a relational database. The SQL OSID provides an additional layer of abstraction between the application and the database enables a SQL OSID implementation:
+  <ul>
+    <li>to check user authorization</li>
+    <li>to log activity</li>
+    <li>to execute the SQL OSID methods on a remote machine</li>
+  </ul>
+  </p><p>
+  A Connection is used to access a database.  The Connection provides methods to execute both queries that return ResultTables, and updates that use SQL statements to manage the database's content and structure. The Connection also has a method to return the SQLTypes that are supported by an SQL OSID implementation.
+  </p><p>
+  A ResultTable is returned by a Connection query. The ResultTable contains tabular data.  The tabular data is arranged in Rows and each Row is composed of columns. The ResultMetaData contains information about a particular column. The ResultTable presents its tabular data as:
+  <ul>
+    <li>a RowIterator returned by the getRows method</li>
+    <li>a ResultMetaDataIterator that contains column metadata returned by the getResultMetaData method</li>
+    <li>a count of the number of columns returned by the getColumnCount method</li>
+  </ul>
+  </p><p>
+  A Row has methods to return all its data with a getColumns method or to return the data for a specific column either by column name or by column index. The column data in a Row can be a Blob, a Clob, or other serializable data.
+  </p>
+</body>
+</html>
+

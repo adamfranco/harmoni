@@ -1,0 +1,71 @@
+
+  <html>
+<head>
+<title>Osid Open Service Interface Definition</title>
+</head>
+<body>
+  <p>
+Open Service Interface Definitions (OSIDs) are coding contracts between applications and services. The org.osid package defines how the application loads and uses a service.  It also defines OSIDs for a number of commonly used services.  The OSIDs are neither applications, nor are they services. The applications are, of course, the applications. The services used by applications are implementations of OSIDs.
+  </p><p>
+The org.osid package consists of:
+<ul>
+   <li>Licenses to describe how the OSIDs may be used</li>
+   <li>Classes (OsidLoader, OsidContext, and OsidException)</li>
+   <li>Interfaces (OsidManager, OsidTransactionManager, and OsidRomiManager)</li>
+   <li>Open Service Interface Definitions (OSIDs) as sub-packages</li>
+</ul>
+  </p><p>
+An OSID abstracts the details of its service so that an application can use all implementations of an OSID the same way. The implementations of an OSID can be quite different, but to an application, the implementations look the same. Rewriting an implementation of an OSID does not require rewriting the applications that use it.
+  </p><p>
+An application uses the OsidLoader to load an implementation of an OSID by its unique package name. This approach to loading OSID implementations allows applications written at one institution to be used at another where the service defined by an OSID may be different. This means that certain rules must be followed by the OSID, the implementation, and the application:
+<ul>
+   <li>Every OSID must define an extension of the OsidManager interface.</li>
+   <li>Every implementation must have a class that implements the OsidManager.</li>
+   <li>The application uses the OsidLoader.getManager method to get an instance of the implementation's OsidManager class.</li>
+</ul>
+  </p><p>
+The OsidManager interface defines three methods:
+<ul>
+   <li>assignOsidContext</li>
+   <li>assignConfiguration</li>
+   <li>getOsidContext</li>
+</ul>
+The OsidLoader class defines one method (getManager) to load and initialize an instance of an OSID's OsidManager implementation.  The getManager method has the following arguments:<ul><li>the OSID's OsidManager name</li><li>the implementation package name</li><li>a context argument which must not be null</li><li>an additionalConfiguration argument which can be null</li></ul>The getManager method uses the implementation's OsidManager's Class.getResourceAsStream method to load the OSID implementation's properties file if one exists. The properties file contains configuration information. If the additionalConfiguration argument is not null, the contents of the additionalConfiguration become part of the Osid implementation's configuration and existing configuration information from the properties file may be overwritten.
+  </p><p>
+The OsidTransactionManager interface defines three methods for transaction support for OSIDs that have persistent storage:
+<ul>
+   <li>mark() establishes an accessible point in persistent storage.</li>
+   <li>commit() persists any storage changes that have occured since mark().</li>
+   <li>rollback() returns persistent storage to the point established by mark() if no commit() has occurred.</li>
+</ul>
+  </p><p>
+The OsidRomiManager interface defines one method (invoke) to facilitate remote invocation of a serializable object method. The arguments to the invoke method are:
+<ul>
+    <li>the object containing the method to invoke</li>
+    <li>the name of the method to invoke</li>
+    <li>the fully qualified names of the argument classes</li>
+    <li>the arguments</li>
+</ul>
+Applications usually are unaware of whether a method invocation is remote or local.  An OSID implementation used by an application can be implemented as a local service, a remote service, or both.  Applications using only OSIDs and their implementations can leave issues associated with remote invocation of methods to the OSID implementation.
+  </p><p>
+An application that uses only OSIDs to communicate with its computing environment will run when the computing environment changes and will be portable. Sometimes, the available OSIDs and their implementations do not provide the application with the necessary access to the computing environment. At this point the application developer's alternatives are:
+<ul>
+   <li> Access the computing environment directly and forego portability.</li>
+   <li> Access the computing environment indirectly and facilitate portability.</li>
+</ul>
+Indirect access of the computing environment can be made through the use of the OsidRomiManager and an implementation of OsidRomiManager. The direct access to the computing environment can take place in the implementation of the OsidRomiManager.  The application can then use the dynamic runtime loading of the OsidRomiManager implementation to make its access of the computing environment indirect.  When the computing environment changes the application will still be portable and any computing environment changes will be isolated to the OsidRomiManager implementation.
+  </p><p>
+Configuration information for an OSID implementation has three sources:
+<ul>
+   <li>A configuration properties file</li>
+   <li>The additionalConfiguration argument for the OsidLoader.getManager method</li>
+   <li>The OsidManager.assignConfiguration method overriding the other sources</li>
+</ul>   
+The configuration properties file for an implementation of an OSID is located in the same directory the implementation's OsidManager class. The configuration file has the same name as the implementation's OsidManager with the .class filename extension replaced with a .properties filename extension. The configuration properties file, if it exists, is loaded by the OsidLoader.getManager method. The application can provide additional configuration properties or override properties by supplying a non-null additionalConfiguration argument to the OsidLoader.getManager method. The application can also use the assignConfiguration method if it wants to override all existing configuration information. Configuration information is typically set by a system integrator in a configuration properties file. The other approaches are provided as a programming convenience.
+  </p><p>
+OsidContext holds contextual information that is shared by the application and the OSID implementations it uses. The osid package is designed to to work with all frameworks. The OSID implementations are intended to be independent of each other. These design constraints mean that there this no obvious place to put global information.  The OsidContext argument of the OsidLoader.getManager method is intended to provide access to information that is global to an application and the OSID implementations that it loads.  OsidContext can hold and retrieve context information. The only requirement is context information must be serializable. There are OsidContext methods to get and assign context.
+  </p><p>
+OsidException and its subclasses define the way an OSID can fail. All methods of all interfaces of all OSIDs throw a subclass of OsidException. An application calling an OSID package method must handle the OsidException thrown by the method. Since the application using an OSID implementation can not determine where the implementation will ultimately execute or if it can be trusted to handle failure, it must assume a worst case scenario for any OSID implementation that it loads.  The application must assume that an OSID implementation method will fail and provide the code necessary to handle that failure.  This approach to OSID implementation failure is important to the success of the interoperability of both an application and the OSID implementations that it uses.
+</p></body>
+</html>
+

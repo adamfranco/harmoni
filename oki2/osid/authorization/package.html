@@ -1,0 +1,116 @@
+
+  <html>
+   <head>
+      <title>
+         Authorization Open Service Interface Definition
+      </title>
+   </head>
+   <body>
+   <p>Authorization Open Service Interface Definition.</p>
+     <p>
+       The model for authorization involves three elements: the Agent
+       who is authorized, the Function that the Agent is authorized to
+       do, and the Qualifier representing the context in which the
+       Agent can perform the Function. The Authorization Service Interface
+       Definition (OSID) allows an application to persist and query Authorizations.
+     </p>
+     <p>
+       Qualifiers can be linked to other Qualifiers. This property of
+       Qualifiers is often used to represent the hierarchy of an organization.
+       Qualifiers have a QualifierType property that allows users of the OSID to retrieve
+       Authorizations or Agents who are authorized based on
+       QualifierType. Functions have a FunctionCategory property that
+       allows users of the OSID to retrieve Authorizations or Agents who
+       are authorized based on FunctionCategory.
+     </p>
+     <p>
+       The Authorization Open Service Interface Definition methods fall into the following categories:
+      </p>
+      <dl>
+         <dt class="c3">
+            <b>Checking and Viewing Authorizations</b>
+         </dt>
+         <dt class="c2">
+            <i>getExplicitAZs()</i>
+         </dt>
+         <dt class="c2">
+            <i>getExplicitAZsByFuncType()</i>
+         </dt>
+         <dt class="c2">
+            <i>getExplicitUserAZs()</i>
+         </dt>
+         <dt class="c2">
+            <i>getExplicitUserAZsByFuncType()</i>
+         </dt>
+         <dd>
+           The Authorizations that are explicitly defined may be modified.
+         </dd>
+      </dl>
+      <dl>
+         <dt class="c2">
+            <i>getAllAZs()</i>
+         </dt>
+         <dt class="c2">
+            <i>getImplicitAZsByFuncType()</i>
+         </dt>
+         <dt class="c2">
+            <i>getImplicitUserAZs()</i>
+         </dt>
+         <dt class="c2">
+            <i>getImplicitUserAZsByFuncType()</i>
+         </dt>
+         <dd>
+            given a Function and a Qualifier, finds a list of all
+            Authorizations that would permit an agent to do the
+            Function with the Qualifier. These method return both explicit and
+            implicit authorizations. The explicit Authorizations may be modified.  
+            The implicit Authorizations are implied by ancestors of the qualifier
+            and cannot be modified as they are not explicitly stored.
+      
+            Note that the Qualifier in any found Authorization
+            might be a parent of the Qualifier given as an argument.
+         </dd>
+	</dl>
+	<dl>
+         <dt class="c2">
+            <i>getWhoCanDo()</i>
+         </dt>
+         <dd>
+            Finds the Agents who are authorized given the argument
+         </dd>
+      </dl>
+      <dl>
+         <dt class="c3">
+		<b>Managing Authorizations</b>
+         </dt>
+         <dt class="c2">
+            <i>createAuthorization()</i>
+         </dt>
+         <dt class="c2">
+            <i>createDatedAuthorization()</i>
+         </dt>
+         <dt class="c2">
+            <i>createFunction(functionId, displayName, description, functionType, qualifierHierarchyId)</i>
+         </dt>
+         <dt class="c2">
+            <i>createQualifier(qualifierId, displayName, description, qualifierType, parent)</i>
+         </dt>
+         <dt class="c2">
+            <i>createRootQualifier(qualifierId, displayName, description, qualifierType, qualifierHierarchyId)</i>
+         </dt>
+      </dl>
+      <dl>
+         <dt class="c2">
+            <i>deleteAuthorization()</i>
+         </dt>
+         <dt class="c2">
+            <i>deleteFunction()</i>
+         </dt>
+         <dt class="c2">
+            <i>deleteQualifier()</i>
+         </dt>
+      </dl>
+   </body>
+</html>
+
+

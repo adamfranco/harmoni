@@ -1,0 +1,15 @@
+
+  <html>
+<head>
+<title>Shared Open Service Interface Definition</title>
+</head>
+<body>
+  <p>Shared Open Service Interface Definition.</p>
+  <p>
+    The Shared Open Service Interface Definition (OSID) includes a set of basic interfaces for defining and using Types, Ids, and Iterators.
+  </p>
+  <p>This service defines many iterators.  To maximize reuse and implementation substitutability, it is important not to reference a class in one OSID implementation directly in another.  Interfaces should be used and new called only on objects in the implementation package.  To avoid binding a specific implementation of Shared to a specific implementation of some other OSID, implementations TypeIterator and the other primitive-type Iteratros should reside in each OSID that requires them and not in an implementation of Shared.  For example, if an implementation of osid.logging.LoggingManager needs a class that implements osid.shared.StringIterator, the class should be in the package implementing Logging.
+  </p>
+</body>
+</html>
+
