@@ -12,7 +12,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a Record.
  * @package harmoni.datamanager
- * @version $Id: RecordFieldValue.class.php,v 1.4 2004/08/07 03:31:56 gabeschine Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.5 2004/08/12 20:21:15 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -87,7 +87,11 @@ class RecordFieldValue {
 			}
 		}
 		
+		// keep track of those versions that will be pruned, so we unset them after pruning.
+		$pruned = array();
+		
 		foreach ($this->getVersionIDs() as $ver) {
+			if ($this->_versions[$ver]->willPrune()) $pruned[] = $ver;
 			$this->_versions[$ver]->commit();
 		}
 		
@@ -102,6 +106,25 @@ class RecordFieldValue {
 			unset ($this->_versions[NEW_VERSION], $ref);
 			// done.
 		}
+		
+		foreach ($pruned as $id) {
+			unset($this->_versions[$id]);
+		}
+	}
+	
+	/**
+	 * USED INTERNALLY: Returns true if all of our versions are about to be pruned.
+	 * @access public
+	 * @return bool
+	 */
+	function willPruneAll()
+	{
+		foreach ($this->getVersionIDs() as $id) {
+			$ver =& $this->getVersion($id);
+			if (!$ver->willPrune()) return false;
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -129,6 +152,13 @@ class RecordFieldValue {
 	function setIndex( $index ) {
 		if ($index == $this->_myIndex) return false;
 		$this->_myIndex = $index;
+		
+		// now go through and tell all our values to update.
+		foreach ($this->getVersionIDs() as $id) {
+			$ver =& $this->getVersion($id);
+			$ver->update();
+		}
+		
 		return true;
 	}
 	

@@ -6,7 +6,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * Holds a number of indexes for values within a specific field within a Record. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: RecordField.class.php,v 1.5 2004/08/07 03:31:56 gabeschine Exp $
+ * @version $Id: RecordField.class.php,v 1.6 2004/08/12 20:21:15 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -54,7 +54,6 @@ class RecordField {
 			if (!isset($this->_values[$i])) {
 				$this->_values[$i] =& new RecordFieldValue($this,$i);
 				$this->_numValues++;
-//				print $this->_myLabel."[$i] added.<br>";
 			}
 			$this->_values[$i]->takeRow($row);
 		}
@@ -71,13 +70,47 @@ class RecordField {
 	}
 	
 	/**
+	 * Re-indexes all the values so that they start from 0 and increment by 1. Useful when indexes in the middle have been deleted.
+	 * @access public
+	 * @return void
+	 */
+	function reIndex()
+	{
+		$this->_parent->makeFull();
+		
+		$indices = $this->getIndices();
+		
+		$i = 0;
+		$newValues = array();
+		
+		foreach($indices as $index) {
+			$value =& $this->getRecordFieldValue($index);
+			$value->setIndex($i);
+			$newValues[$i] =& $value;
+			$i++;
+		}
+		
+		$this->_values =& $newValues;
+	}
+	
+	/**
 	* Spiders through each index and calls commit() on it.
 	* @return void
 	*/
 	function commit() {
 		// cycle through each index and commit()
+		// if any indexes are going to be completely pruned, we need to keep track of those
+		// so that we can unset them after we're done comitting. 
+		
+		$pruned = array();
+		
 		foreach ($this->getIndices() as $i) {
+			if ($this->_values[$i]->willPruneAll()) $pruned[] = $i;
 			$this->_values[$i]->commit();
+		}
+		
+		foreach ($pruned as $i) {
+			unset ($this->_values[$i]);
 		}
 	}
 	

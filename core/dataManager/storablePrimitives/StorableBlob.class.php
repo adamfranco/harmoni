@@ -6,7 +6,7 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * This is the {@link StorablePrimitive} equivalent of {@link Blob} for the dm_blob table.
  * @package harmoni.datamanager.storableprimitives
  * @copyright 2004
- * @version $Id: StorableBlob.class.php,v 1.1 2004/08/10 19:15:56 adamfranco Exp $
+ * @version $Id: StorableBlob.class.php,v 1.2 2004/08/12 20:21:16 gabeschine Exp $
  */
 class StorableBlob extends StorableStringAbstract /* implements StorablePrimitive */ {
 
@@ -36,6 +36,10 @@ class StorableBlob extends StorableStringAbstract /* implements StorablePrimitiv
 	 */
 	function populate( $dbRow ) {
 		$this->_string = (string) $dbRow["blob_data"];
+	}
+	
+	function getBlobValue() {
+		return $this->_string;
 	}
 	
 }

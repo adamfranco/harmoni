@@ -7,8 +7,8 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
  * configuration.
  * 
  * @package harmoni.sets
- * @version $Id: SetManager.class.php,v 1.3 2004/07/12 18:56:46 adamfranco Exp $
- * @date $Date: 2004/07/12 18:56:46 $
+ * @version $Id: SetManager.class.php,v 1.4 2004/08/12 20:21:16 gabeschine Exp $
+ * @date $Date: 2004/08/12 20:21:16 $
  * @copyright 2004 Middlebury College
  */
 
@@ -100,4 +100,3 @@ class SetManager {
 }
 
 ?>
-

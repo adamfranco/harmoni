@@ -4,7 +4,7 @@
  * Holds information about a specific version of a value index of a field in a {@link Record}. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object (usually a {@link Primitive}). 
  * @package harmoni.datamanager
- * @version $Id: RecordFieldData.class.php,v 1.5 2004/08/11 15:40:59 gabeschine Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.6 2004/08/12 20:21:15 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -124,6 +124,8 @@ class RecordFieldData {
 	 */
 	function prune() {
 		$this->_prune = true;
+		// if we're pruning, there's no point in updating the DB
+		$this->_update = false;
 	}
 	
 	/**

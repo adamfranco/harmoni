@@ -29,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.10 2004/08/11 15:49:43 gabeschine Exp $
+* @version $Id: Record.class.php,v 1.11 2004/08/12 20:21:15 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -125,6 +125,18 @@ class Record {
 	}
 	
 	/**
+	 * Re-indexes all the values in a multi-valued field so that they increment by 1 started at 0. 
+	 * @access public
+	 * @return void
+	 */
+	function reIndex($label)
+	{
+		$this->_checkLabel($label);
+		
+		$this->_fields[$label]->reIndex();
+	}
+	
+	/**
 	* Returns the active {@link RecordFieldData} object for value $index under $label.
 	* @return ref object
 	* @param string $label
@@ -148,7 +160,6 @@ class Record {
 	function &getCurrentValuePrimitive($label, $index=0)
 	{
 		$value =& $this->getCurrentValue($label, $index);
-		
 		return $value->getPrimitive();
 	}
 	
