@@ -5,7 +5,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: Services.class.php,v 1.2 2003/08/26 14:50:41 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -52,9 +52,23 @@ class Services extends ServicesAbstract {
 			die("Services::registerService('$name') - can not register service '$name' because the class '$class' does not exist!");
 			return false;
 		}
-		$rule =& new ExtendsValidatorRule("ServiceInterface");
+
+// Since objects in PHP4 can not impliment multiple interfaces -- interfaces don't exist --
+// and objects cannot extend multiple classes, a hack to allow services which ARE an
+// implimentation of the ServicesInterface (two methods, start() and stop() are all that's
+// needed), but need to extend other interfaces as well, are needed.
+
+// -----------Start Good Code ---------------
+//		$rule =& new ExtendsValidatorRule("ServiceInterface");
 		$tryObj =& new $class;
-		if (!$rule->check($tryObj)) {
+//		if (!$rule->check($tryObj)) {
+// -----------End Good Code ---------------
+
+// -----------Start Hack ---------------
+		$canStart = method_exists($tryObj, "start");
+		$canStop = method_exists($tryObj, "stop");
+		if (!$canStart || !$canStop) {
+// -----------End Hack ---------------
 			die("Services::registerService('$name') - can not register service '$name' because the class '$class' does not implement the Service Interface. Please change your PHP class definitions to include the Service Interface.");
 			return false;
 		}
@@ -72,9 +86,23 @@ class Services extends ServicesAbstract {
 	 * @return void
 	 **/
 	function registerObject($name ,&$object) {
-		$rule =& new ExtendsValidatorRule("ServiceInterface");
+
+// Since objects in PHP4 can not impliment multiple interfaces -- interfaces don't exist --
+// and objects cannot extend multiple classes, a hack to allow services which ARE an
+// implimentation of the ServicesInterface (two methods, start() and stop() are all that's
+// needed), but need to extend other interfaces as well, are needed.
+
+// -----------Start Good Code ---------------
+//		$rule =& new ExtendsValidatorRule("ServiceInterface");
 		$class = get_class($object);
-		if (!$rule->check($object)) {
+//		if (!$rule->check($object)) {
+// -----------End Good Code ---------------
+
+// -----------Start Hack ---------------
+		$canStart = method_exists($object, "start");
+		$canStop = method_exists($object, "stop");
+		if (!$canStart || !$canStop) {
+// -----------End Hack ---------------		
 			die("Services::registerService('$name') - can not register service '$name' because the class '$class' does not implement the Service Interface. Please change your PHP class definitions to include the Service Interface.");
 			return false;
 		}
@@ -189,8 +217,9 @@ class Services extends ServicesAbstract {
 	 * @return boolean True if the service is running, false otherwise.
 	 **/
 	function running ( $name ) {
-		if (isset($this->_services[$name]) && ($this->_services[$name]) && get_class($this->_services[$name]) == strtolower($this->_registeredServices[$name]))
+		if (isset($this->_services[$name]) && ($this->_services[$name]) && get_class($this->_services[$name]) == strtolower($this->_registeredServices[$name])) {
 			return true;
+		}
 		return false;
 	}
 	

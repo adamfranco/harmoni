@@ -4,7 +4,7 @@
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.18 2003/08/25 14:46:11 gabeschine Exp $
+ * @version $Id: harmoni.inc.php,v 1.19 2003/08/26 14:50:39 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
@@ -18,6 +18,7 @@ if (!ob_get_level()) ob_start();
  * @const string HARMONI The harmoni core directory.
  * @const string HARMONI_BASE The base harmoni directory.
  **/
+
 define("HARMONI",dirname(__FILE__).DIRECTORY_SEPARATOR."core".DIRECTORY_SEPARATOR);
 define("HARMONI_BASE",dirname(__FILE__).DIRECTORY_SEPARATOR);
 define("HARMONIBASE",dirname(__FILE__).DIRECTORY_SEPARATOR);
