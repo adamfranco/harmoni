@@ -1,0 +1,122 @@
+.normal {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	color: #000000;
+}
+
+.header {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:16pt;
+}
+
+.subheader {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:14pt;
+	font-weight:bold;
+}
+                    					
+.error {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	color: #aa6800;
+	font-style: italic;
+}
+
+td,p,li {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	color: #000000;
+}
+
+textarea, input, select {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	color: #000000;
+	background-color: #ffffff;
+}
+
+table.border {
+	border: 1px solid #000000;
+}
+
+table.menu {
+	border: 1px solid #000000;
+	background-color: #d8ca94;
+}
+
+table.dark {
+	background-color: #aa6800;
+}
+
+tr.border {
+	border: 1px solid #000000;
+}
+
+tr.menu {
+	border: 1px solid #000000;
+	background-color: #d8ca94;
+}
+
+tr.dark {
+	background-color: #aa6800;
+}
+
+td.border {
+	border: 1px solid #000000;
+}
+
+td.menu {
+	border: 1px solid #000000;
+	background-color: #d8ca94;
+}
+
+td.dark {
+	background-color: #aa6800;
+	color: #ffffff;
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	background-color: #dadac4;
+}
+
+a {
+	font-family: Arial, Helvetica, sans-serif; 
+	color: #000000;
+	text-decoration: underline;
+}
+
+a.menu:hover {
+	background-color: #888890;
+	text-decoration: none;
+}
+
+a.selected {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	color: #aa6800;
+	text-decoration: none;
+}
+
+.button {
+	color: #000000;
+	background-color: #d8ca94;
+	border-bottom: 1px solid #aa6800;
+	border-right: 1px solid #aa6800;
+	border-top: 1px solid #aa6800;
+	border-left: 1px solid #aa6800;
+	font-size:12pt;
+	margin:0px;
+	margin-left:0px;
+	margin-right:0px;
+	margin-top:0px;
+	margin-bottom:0px;
+	padding:1px;
+	padding-left:1px;
+	padding-right:1px;
+	padding-top:1px;
+	padding-bottom:1px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
