@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: GroupTestCase.class.php,v 1.2 2004/04/13 22:53:32 dobomode Exp $
+ * @version $Id: GroupTestCase.class.php,v 1.3 2004/04/20 21:29:37 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -15,6 +15,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
     class GroupTestCase extends UnitTestCase {
 	
 		var $group;
+		var $manager;
 
         /**
          *    Sets up unit test wide variables at the start
@@ -22,9 +23,18 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
          *    @public
          */
         function setUp() {
-			$this->id =& new HarmoniId(8);
+			// Set up the database connection
+			$dbHandler=&Services::requireService("DBHandler");
+			$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
+			$dbHandler->pConnect($dbIndex);
+			unset($dbHandler); // done with that for now
+			
+	       	$this->manager =& new HarmoniSharedManager($dbIndex, "doboHarmoniTest");
+	
 			$this->type =& new HarmoniType("Look at me!", "I rock...", "I rule!", "And rise!");
-			$this->group =& new HarmoniGroup("dobomode", $this->id, $this->type, "Muhaha!", 0, "doboHarmoniTest");
+			$this->group =& $this->manager->createGroup("dobomode", $this->type, "Muhaha!");
+			$this->id =& $this->group->getId();
+
         }
 		
         /**
@@ -51,17 +61,17 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 			// hehe, no hierarchy implied in the examples below ;)
 			
 			// create a bunch of agents
-			$id =& new HarmoniId(1);
 			$type =& new HarmoniType("First", "Primero", "Erste", "Parvi");
-			$agent1 =& new HarmoniAgent("dobomode", $id, $type);
-
-			$id =& new HarmoniId(2);
+			$agent1 =& $this->manager->createAgent("dobomode", $this->type);
+			$id_a1 =& $agent1->getId();
+			
 			$type =& new HarmoniType("Second", "Segundo", "Zweite", "Vtori");
-			$agent2 =& new HarmoniAgent("achapin", $id, $type);
+			$agent2 =& $this->manager->createAgent("achapin", $this->type);
+			$id_a2 =& $agent2->getId();
 
-			$id =& new HarmoniId(3);
 			$type =& new HarmoniType("Third", "Tercero", "Dritte", "Treti");
-			$agent3 =& new HarmoniAgent("afranco", $id, $type);
+			$agent3 =& $this->manager->createAgent("afranco", $this->type);
+			$id_a3 =& $agent3->getId();
 
 			// add them to the group
 			$this->group->add($agent1);
@@ -69,103 +79,121 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 			$this->group->add($agent3);
 		
 			$arr = array();
-			$arr[1] =& $agent1;
-			$arr[2] =& $agent2;
-			$arr[3] =& $agent3;
+			$arr[$id_a1->getIdString()] =& $agent1;
+			$arr[$id_a2->getIdString()] =& $agent2;
+			$arr[$id_a3->getIdString()] =& $agent3;
 			$this->assertIdentical($this->group->_agents, $arr);
 			
 			// now create a new group add a bunch of new users, 
 			// and add the group to the original one
-			$id =& new HarmoniId(256);
 			$type =& new HarmoniType("Fancy", "Mancy", "Shmootsy", "Tootsy");
-			$group1 =& new HarmoniGroup("dm", $id, $type, "So lala!", 0, "doboHarmoniTest");
+			$group1 =& $this->manager->createGroup("dm", $this->type, "so lala");
+			$id_g1 =& $group1->getId();
 			
-			$id =& new HarmoniId(15);
 			$type =& new HarmoniType("Fourth", "Cuarto", "Vierte", "Chetvarti");
-			$agent15 =& new HarmoniAgent("dobomode", $id, $type);
+			$agent4 =& $this->manager->createAgent("gschine", $this->type);
+			$id_a4 =& $agent4->getId();
 
-			$id =& new HarmoniId(16);
 			$type =& new HarmoniType("Fifth", "Quinto", "Funfte", "Peti");
-			$agent16 =& new HarmoniAgent("achapin", $id, $type);
+			$agent5 =& $this->manager->createAgent("movsjani", $this->type);
+			$id_a5 =& $agent5->getId();
 			
-			$group1->add($agent15);
-			$group1->add($agent16);
+			$group1->add($agent4);
+			$group1->add($agent5);
 			
 			$arr1 = array();
-			$arr1[15] =& $agent15;
-			$arr1[16] =& $agent16;
+			$arr1[$id_a4->getIdString()] =& $agent4;
+			$arr1[$id_a5->getIdString()] =& $agent5;
 			$this->assertIdentical($group1->_agents, $arr1);
 			
 			$this->group->add($group1);
 			$arr2 = array();
-			$arr2[256] =& $group1;
+			$arr2[$id_g1->getIdString()] =& $group1;
 			$this->assertIdentical($this->group->_groups, $arr2);
 			
 			$this->group->remove($agent2);
 			$arr = array();
-			$arr[1] =& $agent1;
-			$arr[3] =& $agent3;
+			$arr[$id_a1->getIdString()] =& $agent1;
+			$arr[$id_a3->getIdString()] =& $agent3;
 			$this->assertIdentical($this->group->_agents, $arr);
 			
 			$this->group->remove($group1);
 			$arr2 = array();
 			$this->assertIdentical($this->group->_groups, $arr2);
+			
+			$this->manager->deleteAgent($agent1->getId());
+			$this->manager->deleteAgent($agent2->getId());
+			$this->manager->deleteAgent($agent3->getId());
+			$this->manager->deleteAgent($agent4->getId());
+			$this->manager->deleteAgent($agent5->getId());
+			$this->manager->deleteGroup($group1->getId());
 		}
 		
 		function test_getMembersAndGetGroups() {
 			// hehe, no hierarchy implied in the examples below ;)
 			
 			// create a bunch of agents
-			$id =& new HarmoniId(1);
 			$type =& new HarmoniType("First", "Primero", "Erste", "Parvi");
-			$agent1 =& new HarmoniAgent("dobomode", $id, $type);
-
-			$id =& new HarmoniId(2);
+			$agent1 =& $this->manager->createAgent("dobomode", $this->type);
+			$id_a1 =& $agent1->getId();
+			
 			$type =& new HarmoniType("Second", "Segundo", "Zweite", "Vtori");
-			$agent2 =& new HarmoniAgent("achapin", $id, $type);
+			$agent2 =& $this->manager->createAgent("achapin", $this->type);
+			$id_a2 =& $agent2->getId();
 
-			$id =& new HarmoniId(3);
 			$type =& new HarmoniType("Third", "Tercero", "Dritte", "Treti");
-			$agent3 =& new HarmoniAgent("afranco", $id, $type);
+			$agent3 =& $this->manager->createAgent("afranco", $this->type);
+			$id_a3 =& $agent3->getId();
 
 			// add them to the group
 			$this->group->add($agent1);
 			$this->group->add($agent2);
 			$this->group->add($agent3);
 		
+			$arr = array();
+			$arr[$id_a1->getIdString()] =& $agent1;
+			$arr[$id_a2->getIdString()] =& $agent2;
+			$arr[$id_a3->getIdString()] =& $agent3;
+			$this->assertIdentical($this->group->_agents, $arr);
+			
 			// now create a new group add a bunch of new users, 
 			// and add the group to the original one
-			$id =& new HarmoniId(256);
 			$type =& new HarmoniType("Fancy", "Mancy", "Shmootsy", "Tootsy");
-			$group1 =& new HarmoniGroup("dm", $id, $type, "So lala!", 0, "doboHarmoniTest");
+			$group1 =& $this->manager->createGroup("dm", $this->type, "so lala");
+			$id_g1 =& $group1->getId();
 			
-			$id =& new HarmoniId(15);
 			$type =& new HarmoniType("Fourth", "Cuarto", "Vierte", "Chetvarti");
-			$agent15 =& new HarmoniAgent("dobomode", $id, $type);
+			$agent4 =& $this->manager->createAgent("gschine", $this->type);
+			$id_a4 =& $agent4->getId();
 
-			$id =& new HarmoniId(16);
 			$type =& new HarmoniType("Fifth", "Quinto", "Funfte", "Peti");
-			$agent16 =& new HarmoniAgent("achapin", $id, $type);
+			$agent5 =& $this->manager->createAgent("movsjani", $this->type);
+			$id_a5 =& $agent5->getId();
 			
-			$group1->add($agent15);
-			$group1->add($agent16);
+			$group1->add($agent4);
+			$group1->add($agent5);
+			
+			$arr1 = array();
+			$arr1[$id_a4->getIdString()] =& $agent4;
+			$arr1[$id_a5->getIdString()] =& $agent5;
+			$this->assertIdentical($group1->_agents, $arr1);
 			
 			$this->group->add($group1);
 
 			$arr1 =& $this->group->_getMembers(false);
 			$arr = array();
-			$arr[1] =& $agent1;
-			$arr[2] =& $agent2;
-			$arr[3] =& $agent3;
+			$arr[$id_a1->getIdString()] =& $agent1;
+			$arr[$id_a2->getIdString()] =& $agent2;
+			$arr[$id_a3->getIdString()] =& $agent3;
 			$this->assertIdentical($arr, $arr1);
 			
 			$arr1 =& $this->group->_getMembers(true);
 			$arr = array();
-			$arr[1] =& $agent1;
-			$arr[2] =& $agent2;
-			$arr[3] =& $agent3;
-			$arr[15] =& $agent15;
-			$arr[16] =& $agent16;
+			$arr[$id_a1->getIdString()] =& $agent1;
+			$arr[$id_a2->getIdString()] =& $agent2;
+			$arr[$id_a3->getIdString()] =& $agent3;
+			$arr[$id_a4->getIdString()] =& $agent4;
+			$arr[$id_a5->getIdString()] =& $agent5;
 			$this->assertIdentical($arr, $arr1);
 			
 			$members =& $this->group->getMembers(true);
@@ -177,18 +205,19 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 			
 			$arr1 =& $this->group->_getMembers(false, false);
 			$arr = array();
-			$arr[256] =& $group1;
+			$arr[$id_g1->getIdString()] =& $group1;
 			$this->assertIdentical($arr, $arr1);
 			
 			// check for uniqueness of returned elements
-			$group2 =& new HarmoniGroup("dm", new HarmoniId(300), $type, "So lala!", 0, "doboHarmoniTest");
+			$group2 =& $this->manager->createGroup("dm", $this->type, "So lala");
+			$id_g2 =& $group2->getId();
 			$group1->add($group2);
 			
 			$arr1 =& $this->group->_getMembers(true, false);
 
 			$arr = array();
-			$arr[256] =& $group1;
-			$arr[300] =& $group2;
+			$arr[$id_g1->getIdString()] =& $group1;
+			$arr[$id_g2->getIdString()] =& $group2;
 			$this->assertIdentical($arr, $arr1);
 			
 			$members =& $this->group->getMembers(true, false);
@@ -197,45 +226,63 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 				$member =& $members->next();
 				$this->assertIsA($member, "Agent");
 			}
+
+			$this->manager->deleteAgent($agent1->getId());
+			$this->manager->deleteAgent($agent2->getId());
+			$this->manager->deleteAgent($agent3->getId());
+			$this->manager->deleteAgent($agent4->getId());
+			$this->manager->deleteAgent($agent5->getId());
+			$this->manager->deleteGroup($group1->getId());
 		}
 		
 		function test_contains() {
 			// hehe, no hierarchy implied in the examples below ;)
 			
 			// create a bunch of agents
-			$id =& new HarmoniId(1);
 			$type =& new HarmoniType("First", "Primero", "Erste", "Parvi");
-			$agent1 =& new HarmoniAgent("dobomode", $id, $type);
-
-			$id =& new HarmoniId(2);
+			$agent1 =& $this->manager->createAgent("dobomode", $this->type);
+			$id_a1 =& $agent1->getId();
+			
 			$type =& new HarmoniType("Second", "Segundo", "Zweite", "Vtori");
-			$agent2 =& new HarmoniAgent("achapin", $id, $type);
+			$agent2 =& $this->manager->createAgent("achapin", $this->type);
+			$id_a2 =& $agent2->getId();
 
-			$id =& new HarmoniId(3);
 			$type =& new HarmoniType("Third", "Tercero", "Dritte", "Treti");
-			$agent3 =& new HarmoniAgent("afranco", $id, $type);
+			$agent3 =& $this->manager->createAgent("afranco", $this->type);
+			$id_a3 =& $agent3->getId();
 
 			// add them to the group
 			$this->group->add($agent1);
 			$this->group->add($agent2);
 			$this->group->add($agent3);
 		
+			$arr = array();
+			$arr[$id_a1->getIdString()] =& $agent1;
+			$arr[$id_a2->getIdString()] =& $agent2;
+			$arr[$id_a3->getIdString()] =& $agent3;
+			$this->assertIdentical($this->group->_agents, $arr);
+			
 			// now create a new group add a bunch of new users, 
 			// and add the group to the original one
-			$id =& new HarmoniId(256);
 			$type =& new HarmoniType("Fancy", "Mancy", "Shmootsy", "Tootsy");
-			$group1 =& new HarmoniGroup("dm", $id, $type, "So lala!", 0, "doboHarmoniTest");
+			$group1 =& $this->manager->createGroup("dm", $this->type, "so lala");
+			$id_g1 =& $group1->getId();
 			
-			$id =& new HarmoniId(15);
 			$type =& new HarmoniType("Fourth", "Cuarto", "Vierte", "Chetvarti");
-			$agent15 =& new HarmoniAgent("dobomode", $id, $type);
+			$agent4 =& $this->manager->createAgent("gschine", $this->type);
+			$id_a4 =& $agent4->getId();
 
-			$id =& new HarmoniId(16);
 			$type =& new HarmoniType("Fifth", "Quinto", "Funfte", "Peti");
-			$agent16 =& new HarmoniAgent("achapin", $id, $type);
+			$agent5 =& $this->manager->createAgent("movsjani", $this->type);
+			$id_a5 =& $agent5->getId();
 			
-			$group1->add($agent15);
-			$group1->add($agent16);
+			$group1->add($agent4);
+			$group1->add($agent5);
+			
+			$arr1 = array();
+			$arr1[$id_a4->getIdString()] =& $agent4;
+			$arr1[$id_a5->getIdString()] =& $agent5;
+			$this->assertIdentical($group1->_agents, $arr1);
 			
 			$this->group->add($group1);
 
@@ -245,17 +292,39 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 			$this->assertTrue($this->group->contains($agent3));
 			$this->assertTrue($this->group->contains($group1));
 			
-			$id =& new HarmoniId(300);
-			$type =& new HarmoniType("Fancy", "Mancy", "Shmootsy", "Tootsy");
-			$group2 =& new HarmoniGroup("dm", $id, $type, "So lala!", 0, "doboHarmoniTest");
+			$group2 =& $this->manager->createGroup("dm", $this->type, "nicht so lala");
+			$id_g2 =& $group2->getId();
 			$group1->add($group2);
 
-			$this->assertTrue($this->group->contains($agent15, true));
-			$this->assertTrue($this->group->contains($agent16, true));
+			$this->assertTrue($this->group->contains($agent4, true));
+			$this->assertTrue($this->group->contains($agent5, true));
 			$this->assertTrue($this->group->contains($group2, true));
 			$this->assertFalse($this->group->contains($this->group, true));
+
+			$this->manager->deleteAgent($agent1->getId());
+			$this->manager->deleteAgent($agent2->getId());
+			$this->manager->deleteAgent($agent3->getId());
+			$this->manager->deleteAgent($agent4->getId());
+			$this->manager->deleteAgent($agent5->getId());
+			$this->manager->deleteGroup($group1->getId());
+			$this->manager->deleteGroup($group2->getId());
 		}
 		
+		
+		function test_update_description() {
+			// create a type
+			$type =& new HarmoniType("Create", "Group", "Test", "A test for updating a group\'s description");
+	
+	 		// create one group
+			$group =& $this->manager->createGroup("depeche", $type, "The greatest band.");
+	
+			$group->updateDescription("Hoho!");
+	
+			$this->assertIdentical($group->getDescription(), "Hoho!");
+
+			$this->manager->deleteGroup($group->getId());
+		}
+	
 		
 		
 		

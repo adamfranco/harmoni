@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.6 2004/04/13 22:53:32 dobomode Exp $
+ * @version $Id: SharedManagerTestCase.class.php,v 1.7 2004/04/20 21:29:37 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -53,17 +53,29 @@ class SharedManagerTestCase extends UnitTestCase {
 	 * Testing getAgent
 	 **/
 	function test_get_agent() {
+		// create a type
+		$type =& new HarmoniType("Get", "Agent", "Test", "A test for getting an agent");
+		// create one agent
+		$agent =& $this->manager->createAgent("dreckridnow", $type);
+		$this->assertIsA($agent, "HarmoniAgent");
+		$id =& $agent->getId();
+
+		// clear the cache or else getAgent() will return from cache directly
+		$this->manager->clearCache();
+		
 		// first call gets it from database
-		$agent =& $this->manager->getAgent(new HarmoniId(19));
+		$agent =& $this->manager->getAgent($id);
 		$this->assertIsA($agent, "HarmoniAgent");
 
 		// check to see whether its in cache
-		$this->assertReference($agent, $this->manager->_agentsCache[19]);
+		$this->assertReference($agent, $this->manager->_agentsCache[$id->getIdString()]);
 
 		// second call gets it from database
-		$agent1 =& $this->manager->getAgent(new HarmoniId(19));
+		$agent1 =& $this->manager->getAgent($id);
 		$this->assertIsA($agent1, "HarmoniAgent");
 		$this->assertReference($agent, $agent1);
+		
+		$this->manager->deleteAgent($id);
 	}
 	
 	/**
@@ -157,17 +169,20 @@ class SharedManagerTestCase extends UnitTestCase {
 //		$this->manager->deleteGroup($group2->getId());
 	}
 	
-	
-	function test_update_description() {
+
+	/**
+	 * Testing getGroup
+	 **/
+	function test_get_group() {
 		// create a type
-		$type =& new HarmoniType("Create", "Group", "Test", "A test for updating a group\'s description");
+		$type =& new HarmoniType("Get", "Group", "Test", "A test for getting a group");
+		// create one agent
+//		$group1 =& $this->manager->createGroup("test_group", $type, "nothing really");
+//		$id_g1 =& $group1->getId();
 
- 		// create one group
-		$group =& $this->manager->createGroup("depeche", $type, "The greatest band.");
+		$this->manager->getGroup(new  HarmoniId(1));
 
-		$group->updateDescription("Hoho!");
-
-		$this->assertIdentical($group->getDescription(), "Hoho!");
 	}
 	
+
 }

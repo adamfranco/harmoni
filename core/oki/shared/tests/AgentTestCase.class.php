@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/shared/HarmoniAgent.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AgentTestCase.class.php,v 1.1 2004/04/01 22:44:14 dobomode Exp $
+ * @version $Id: AgentTestCase.class.php,v 1.2 2004/04/20 21:29:27 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -40,7 +40,7 @@ require_once(HARMONI.'/oki/shared/HarmoniAgent.class.php');
 			$id =& new HarmoniId(8);
 			$type =& new HarmoniType("Look at me!", "I rock...", "I rule!", "And rise!");
 
-			$this->agent =& new HarmoniAgent("dobomode", $id, $type);
+			$this->agent =& new HarmoniAgent("dobomode", $id, $type, 1, "blah");
 			
 			$this->assertIsA($this->agent, "HarmoniAgent");
 			$this->assertIdentical($this->agent->getDisplayName(), "dobomode");

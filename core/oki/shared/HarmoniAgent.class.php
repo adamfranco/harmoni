@@ -30,23 +30,42 @@ class HarmoniAgent extends Agent // :: API interface
 	
 	
 	/**
+	 * The database connection as returned by the DBHandler.
+	 * @attribute private integer _dbIndex
+	 */
+	var $_dbIndex;
+
+	
+	/**
+	 * The name of the shared database.
+	 * @attribute private string _sharedD
+	 */
+	var $_sharedDB;
+	
+
+	
+	/**
 	 * The constructor.
 	 * @param string displayName The display name.
 	 * @param object id The id.
 	 * @param object type The type.
 	 * @access public
 	 */
-	function HarmoniAgent($displayName, & $id, & $type) {
+	function HarmoniAgent($displayName, & $id, & $type, $dbIndex, $sharedDB) {
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
+		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($sharedDB, $stringRule, true);
 		// ** end of parameter validation
 		
 		$this->_displayName = $displayName;
 		$this->_id =& $id;
 		$this->_type =& $type;
+		$this->_dbIndex = $dbIndex;
+		$this->_sharedDB = $sharedDB;
 	}	
 	
 
@@ -106,6 +125,63 @@ class HarmoniAgent extends Agent // :: API interface
 	 */
 	function & getPropertiesTypes() { /* :: interface :: */ }
 	// :: full java declaration :: TypeIterator getPropertiesTypes()
+
+
+	
+	/**
+	 * Gets the dbIndex of this group.
+	 * @access public
+	 * @return integer The dbIndex.
+	 **/
+	function getDBIndex() {
+		return $this->_dbIndex;
+	}
+	
+	
+	/**
+	 * Gets the sharedDB of this group.
+	 * @access public
+	 * @return integer The sharedDB.
+	 **/
+	function getSharedDB() {
+		return $this->_sharedDB;
+	}
+	
+
+	/**
+	 * A method checking whether the specified agent exist in the database.
+	 * @access public
+	 * @static
+	 * @param object memberOrGroup The group or agent to check for existence.
+	 * @return boolean <code>tru</code> if it exists; <code>false</code> otherwise.
+	 **/
+	function exist(& $agent) {
+		$dbHandler =& Services::requireService("DBHandler");
+		$query =& new SelectQuery();
+		
+		// get the id
+		$id =& $agent->getId();
+		$idValue = $id->getIdString();
+
+		// string prefix
+		$db = $agent->_sharedDB.".";
+		
+		// set the tables
+		$query->addTable($db."agent");
+		// set the columns to select
+		$query->addColumn("agent_id", "id");
+		// set where
+		$where = "agent_id = '".$idValue."' AND ";
+		$where .= "agent_display_name = '".$agent->getDisplayName()."'";
+		$query->setWhere($where);
+
+		$queryResult =& $dbHandler->query($query, $agent->getDBIndex());
+		if ($queryResult->getNumberOfRows() == 1)
+			return true;
+		else
+			return false;
+	}
+	
 }
 
 

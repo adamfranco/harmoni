@@ -10,7 +10,6 @@ require_once(HARMONI."oki/shared/HarmoniGroup.class.php");
 require_once(HARMONI."oki/shared/HarmoniTestId.class.php");
 require_once(HARMONI."oki/shared/HarmoniId.class.php");
 require_once(HARMONI."oki/shared/HarmoniStringId.class.php");
-require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
 
 /**
  * Properties is a mechanism for returning read-only data about an Agent.  Each
@@ -38,7 +37,7 @@ require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.22 $ / $Date: 2004/04/14 21:46:43 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.23 $ / $Date: 2004/04/20 21:29:26 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -185,7 +184,7 @@ class HarmoniSharedManager
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		// create the agent object to return
-		$agent =& new HarmoniAgent($displayName, $agentId, $agentType);
+		$agent =& new HarmoniAgent($displayName, $agentId, $agentType, $this->_dbIndex, $this->_sharedDB);
 		// then cache it
 		$this->_agentsCache[$agentIdValue] =& $agent;
 		
@@ -256,8 +255,11 @@ class HarmoniSharedManager
 		}
 
 		// clear the cache
-		if (isset($this->_agentsCache[$idValue]))
-			unset ($this->_agentsCache[$idValue]);
+		if (isset($this->_agentsCache[$idValue])) {
+			$this->_agentsCache[$idValue] = null; // IMPORTANT: this will set to null all other
+												  // vars pointing to this one
+			unset($this->_agentsCache[$idValue]);
+		}
 	}
 
 	/**
@@ -318,7 +320,7 @@ class HarmoniSharedManager
 		
 		$arr = $queryResult->getCurrentRow();
 		$type =& new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
-		$agent =& new HarmoniAgent($arr['display_name'], new HarmoniId($idValue), $type);
+		$agent =& new HarmoniAgent($arr['display_name'], $id, $type, $this->_dbIndex, $this->_sharedDB);
 		
 		// set cache
 		$this->_agentsCache[$idValue] =& $agent;
@@ -367,7 +369,7 @@ class HarmoniSharedManager
 			
 			// create agent object
 			$type =& new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
-			$agent =& new HarmoniAgent($arr['display_name'], new HarmoniId($arr['id']), $type);
+			$agent =& new HarmoniAgent($arr['display_name'], new HarmoniId($arr['id']), $type, $this->_dbIndex, $this->_sharedDB);
 			
 			// add it to array
 			$agents[] =& $agent;
@@ -474,7 +476,7 @@ class HarmoniSharedManager
 		$domain = $groupType->getDomain();
 		$authority = $groupType->getAuthority();
 		$keyword = $groupType->getKeyword();
-		$description = $groupType->getDescription();
+		$desc = $groupType->getDescription();
 
 		// check whether the type is already in the DB, if not insert it
 		$query =& new SelectQuery();
@@ -483,7 +485,7 @@ class HarmoniSharedManager
 		$where = $db."type.type_domain = '".$domain."'";
 		$where .= " AND ".$db."type.type_authority = '".$authority."'";
 		$where .= " AND ".$db."type.type_keyword = '".$keyword."'";
-		$where .= " AND ".$db."type.type_description = '".$description."'";
+		$where .= " AND ".$db."type.type_description = '".$desc."'";
 		$query->addWhere($where);
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -502,7 +504,7 @@ class HarmoniSharedManager
 			$values[] = "'".$domain."'";
 			$values[] = "'".$authority."'";
 			$values[] = "'".$keyword."'";
-			$values[] = "'".$description."'";
+			$values[] = "'".$desc."'";
 			$query->setValues($values);
 
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -548,7 +550,21 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function deleteGroup(& $id) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("Id");
+		ArgumentValidator::validate($id, $extendsRule, true);
+		// ** end of parameter validation
+
+		// get the id
+		$idValue = $id->getIdString();
+		
+		// *************************************************************
+		// *************************************************************
+		// *************************************************************
+		// JUST DELETE ENTRY IN JOIN TABLE AND UPDATE CACHE IF NECESSARY
+		// *************************************************************
+		// *************************************************************
+		// *************************************************************
 	}
 
 	/**
@@ -566,9 +582,189 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getGroup(& $id) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("Id");
+		ArgumentValidator::validate($id, $extendsRule, true);
+		// ** end of parameter validation
 
+		// get the id
+		$idValue = $id->getIdString();
+		
+		// check the cache
+		if (isset($this->_groupsCache[$idValue]))
+			return $this->_groupsCache[$idValue];
+
+		// now just select the agent from the agent table
+		
+		$dbHandler =& Services::requireService("DBHandler");
+		$query =& new SelectQuery();
+		
+		$db = $this->_sharedDB.".";
+		
+		// set the columns to select
+		// these are columns related to the main group
+		$query->addColumn("groups_id", "subgroup0_id", $db."subgroup0");
+		$query->addColumn("groups_display_name", "display_name", $db."subgroup0");
+		$query->addColumn("groups_description", "group_description", $db."subgroup0");
+		$query->addColumn("type_domain", "domain", $db."type");
+		$query->addColumn("type_authority", "authority", $db."type");
+		$query->addColumn("type_keyword", "keyword", $db."type");
+		$query->addColumn("type_description", "type_description", $db."type");
+
+		// set the tables
+		$query->addTable($db."groups", NO_JOIN, "", "subgroup0");
+		$joinc = $db."subgroup0.fk_type = ".$db."type.type_id";
+		$query->addTable($db."type", INNER_JOIN, $joinc);
+		$joinc = $db."subgroup0.groups_id = ".$db."subgroup1.fk_parent";
+		$query->addTable($db."j_groups_groups", LEFT_JOIN, $joinc, "subgroup1");
+		$query->addColumn("fk_child", "subgroup".($level+1)."_id", "subgroup1");
+		
+		// now left join with itself.
+		// maximum number of joins is 31, we've used 3 already, so there are 28 left
+		// bottom line: a maximum group hierarchy of 29 levels
+		for ($level = 1; $level <= 28; $level++) {
+			$joinc = "subgroup".($level).".fk_child = subgroup".($level+1).".fk_parent";
+			$query->addTable($db."j_groups_groups", LEFT_JOIN, $joinc, "subgroup".($level+1));
+			$query->addColumn("fk_child", "subgroup".($level+1)."_id", "subgroup".($level+1));
+		}
+		
+		// set the where clause
+		$query->addWhere($db."subgroup0.groups_id = '".$idValue."'");
+		
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		if ($queryResult->getNumberOfRows() == 0)
+			throwError(new Error("The group with Id: ".$idValue." does not exist in the database.","SharedManager",true));
+
+		// Now, here is what we need to do.
+		// First of all, in the end, we want to have a Group object, with all 
+		// its Agent and sub Groups objects added appropriately. It should be then
+		// cached by storing it into the $_groupsCache array. Moreover, all the
+		// agent and subgroups should also be appropriately cached along the way.
+		
+		// In order to do so, we continuously fetch the subgroups, see if they have been cached, if not cache them.
+		// We start from the leaves, so that as we go up, children would have already been cached, and
+		// we can just add them to the current subgroup. Thus, we gradually build the subtree
+		// rooted at the group which we are trying to get (let's mention once more, we do so
+		// by building the group tree starting from the leaves).
+		
+		// an array of booleans specifying whether a group was originally cached
+		$originallyCached = array();
+		foreach (array_keys($this->_groupsCache) as $i => $key)
+			$originallyCached[$key] = true;
+			
+		echo "<pre>\n originallyCached: ";
+		print_r($originallyCached);
+		echo "</pre>\n";
+
+		// for all rows returned by the query
+		while($queryResult->hasMoreRows()) {
+			$row = $queryResult->getCurrentRow();
+			// check all non-null values in current row
+			// see if it is cached, if not create a group object and cache it
+			// do not add the agents just yet, we will do that at the end with just one query!
+			// (if we do it now, we will need as many queries as non-cached groups)
+			
+			// this will store the previously fetched group id from the current row
+			$prev = null;
+			
+			for ($level = 29; $level >= 0; $level--) {
+				$value = $row["subgroup{$level}_id"];
+
+				// ignore null values
+				if (is_null($value)) {
+					$prev = $value;
+				    continue;
+				}
+				
+				// ignore cached values
+				if (isset($this->_groupsCache[$value]) && $originallyCached[$value]) {
+					$prev = $value;
+					continue;
+				}
+
+				// create the group object if necessary
+				if (!isset($this->_groupsCache[$value])) {
+					// now fetch the info and all agents for this group
+					// set the columns to select
+					$subquery =& new SelectQuery();
+					$subquery->addColumn("groups_display_name", "g_display_name", $db."groups");
+					$subquery->addColumn("groups_description", "g_description", $db."groups");
+					$subquery->addColumn("type_domain", "gt_domain", $db."type");
+					$subquery->addColumn("type_authority", "gt_authority", $db."type");
+					$subquery->addColumn("type_keyword", "gt_keyword", $db."type");
+					$subquery->addColumn("type_description", "gt_description", $db."type");
+					$subquery->addWhere($db."groups.groups_id = '".$value."'");
+
+					// set the tables
+					$subquery->addTable($db."groups");
+					$joinc = $db."groups.fk_type = ".$db."type.type_id";
+					$subquery->addTable($db."type", INNER_JOIN, $joinc);
+					
+					$subqueryResult =& $dbHandler->query($subquery, $this->_dbIndex);
+					if ($subqueryResult->getNumberOfRows() == 0)
+						throwError(new Error("No rows returned.","SharedManager",true));
+					
+					$subrow = $subqueryResult->getCurrentRow();
+					$type =& new HarmoniType($subrow['gt_domain'],$subrow['gt_authority'],$subrow['gt_keyword'],$subrow['gt_description']);
+					$group =& new HarmoniGroup($subrow['g_display_name'], new HarmoniId($value), $type, $subrow['g_description'], $this->_dbIndex, $this->_sharedDB);
+					// set cache
+
+					// now fetch all agents in this subgroup
+					$subquery->reset();
+					$subquery->addColumn("agent_id", "a_id", $db."agent");
+					$subquery->addColumn("agent_display_name", "a_display_name", $db."agent");
+					$subquery->addColumn("type_domain", "at_domain", $db."type");
+					$subquery->addColumn("type_authority", "at_authority", $db."type");
+					$subquery->addColumn("type_keyword", "at_keyword", $db."type");
+					$subquery->addColumn("type_description", "at_description", $db."type");
+					// set the tables
+					$subquery->addTable($db."groups");
+					$joinc = $db."groups.groups_id = ".$db."j_groups_agent.fk_groups";
+					$subquery->addTable($db."j_groups_agent", LEFT_JOIN, $joinc);
+					$joinc = $db."j_groups_agent.fk_agent = ".$db."agent.agent_id";
+					$subquery->addTable($db."agent", LEFT_JOIN, $joinc);
+					$joinc = $db."agent.fk_type = ".$db."type.type_id";
+					$subquery->addTable($db."type", INNER_JOIN, $joinc);
+					$subquery->addWhere($db."groups.groups_id = '".$value."'");
+					
+					$subqueryResult =& $dbHandler->query($subquery, $this->_dbIndex);
+
+					while ($subqueryResult->hasMoreRows()) {
+						$subrow = $subqueryResult->getCurrentRow();
+						// if agent has not been cached, do so:
+						$aid = $subrow['a_id'];
+						if (!isset($this->_agentsCache[$aid])) {
+							$type =& new HarmoniType($subrow['at_domain'],$subrow['at_authority'],$subrow['at_keyword'],$subrow['at_description']);
+							$agent =& new HarmoniAgent($subrow['a_display_name'], new HarmoniId($aid), $type, $this->_dbIndex, $this->_sharedDB);
+							$this->_agentsCache[$aid] =& $agent;
+						}
+						$group->attach($this->_agentsCache[$aid]);
+						$subqueryResult->advanceRow();
+					}
+
+					// finally, cache the group
+					$this->_groupsCache[$value] =& $group;
+				}
+				
+				// add the previous subgroup to this subgroup, if necessary
+				if (isset($prev))
+					$this->_groupsCache[$value]->attach($this->_groupsCache[$prev]);
+	
+				$prev = $value;
+			}
+
+			$queryResult->advanceRow();
+		}
+
+//		echo "<pre>\n";
+//		print_r($this->_groupsCache);
+//		echo "</pre>\n";
+
+		return $this->_groupsCache[$idValue];
+	}
+	
+	
 	/**
 	 * Get all the Groups.  Note since Groups subclass Agents, we are returning
 	 * an AgentIterator and there is no GroupIterator.
@@ -691,5 +887,16 @@ class HarmoniSharedManager
 	 */
 	function stop() {
 	}
+	
+	
+	/**
+	 * Clears the agent and groups caches.
+	 * @access public
+	 **/
+	function clearCache() {
+		unset($this->_agentsCache);
+		unset($this->_groupsCache);
+	}
+	
 
 } // end SharedManager

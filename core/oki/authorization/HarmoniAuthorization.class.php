@@ -10,10 +10,9 @@ class HarmoniAuthorization /* :: API interface */
 
 	/**
 	 * The date when this Authorization starts being effective.
-	 * @attribute private  _effectiveDate
+	 * @attribute private object _effectiveDate
 	 */
 	var $_effectiveDate;
-	
 	
 	/**
 	 * Get the date when this Authorization starts being effective.

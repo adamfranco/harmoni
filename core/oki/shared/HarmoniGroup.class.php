@@ -17,20 +17,6 @@ class HarmoniGroup // :: API interface
 	
 	
 	/**
-	 * The database connection as returned by the DBHandler.
-	 * @attribute private integer _dbIndex
-	 */
-	var $_dbIndex;
-
-	
-	/**
-	 * The name of the shared database.
-	 * @attribute private string _sharedD
-	 */
-	var $_sharedDB;
-
-	
-	/**
 	 * An array storing groups that are members of this group.
 	 * @attribute private array _groups
 	 */
@@ -56,16 +42,12 @@ class HarmoniGroup // :: API interface
 	 */
 	function HarmoniGroup($displayName, & $id, & $type, $description, $dbIndex, $sharedDB) {
 		// ** parameter validation
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($sharedDB, new StringValidatorRule(), true);
+		ArgumentValidator::validate($description, new StringValidatorRule(), true);
 		// ** end of parameter validation
 		
-		$this->HarmoniAgent($displayName, & $id, & $type);
+		$this->HarmoniAgent($displayName, & $id, & $type, $dbIndex, $sharedDB);
 		
 		$this->_description = $description;
-
-		$this->_dbIndex = $dbIndex;
-		$this->_sharedDB = $sharedDB;
 
 		$this->_groups = array();
 		$this->_agents = array();
@@ -118,6 +100,37 @@ class HarmoniGroup // :: API interface
 	}
 
 
+
+	/**
+	 * An implementation-specific public method that does exactly the same as add(),
+	 * but does not insert into the database.
+	 * @access public
+	 * @param memberOrGroup
+	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#ALREADY_ADDED ALREADY_ADDED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * @package osid.shared
+	 **/
+	function attach(& $memberOrGroup) {
+		// ** parameter validation
+		$extend =& new ExtendsValidatorRule("Agent"); // Group objects extend Agent
+		ArgumentValidator::validate($memberOrGroup, $extend, true);
+		// ** end of parameter validation
+
+		// we have to figure out whether the argument is an agent or a group
+		$isGroup = is_a($memberOrGroup, get_class($this));
+		
+		$id =& $memberOrGroup->getId();
+		$idValue = $id->getIdString();
+		
+		if ($isGroup && !isset($this->_groups[$idValue]))
+			// add in the object
+		    $this->_groups[$id->getIdString()] =& $memberOrGroup;
+		elseif (!isset($this->_agents[$idValue]))
+			// add in the object
+			$this->_agents[$id->getIdString()] =& $memberOrGroup;
+	}
+	
+		
+
 	/**
 	 * Add an Agent member or a Group to this Group.  The Member or Group will not be added if it already exists in the group.
 	 * IMPORTANT: There is no check for cycles, i.e. if group A is a subgroup of group B, which is a subgroup of group A.
@@ -133,6 +146,10 @@ class HarmoniGroup // :: API interface
 		ArgumentValidator::validate($memberOrGroup, $extend, true);
 		// ** end of parameter validation
 
+		// update the database
+		$dbHandler =& Services::requireService("DBHandler");
+		$db = $this->_sharedDB.".";
+
 		// we have to figure out whether the argument is an agent or a group
 		$isGroup = is_a($memberOrGroup, get_class($this));
 		
@@ -140,20 +157,62 @@ class HarmoniGroup // :: API interface
 		$idValue = $id->getIdString();
 		if ($isGroup && !isset($this->_groups[$idValue])) {
 			// check to see for existence in database
-			// if the group do not exist, then we are in trouble
-			if (!HarmoniGroup::_exist($memberOrGroup))
-			    throwError(new Error("Cannot add a group that does not exist in the database.",
-							 		 "SharedManager", true));
-			
+			// if the agent does not exist, then we are in trouble
+			// NOTE: this check is not really needed because
+			// all groups or agents must have been gotten either trough
+			// the create or get methods, which ensure database existence.
+//			if (!HarmoniGroup::exist($memberOrGroup))
+//			    throwError(new Error("Cannot add the group, because it does not exist in the database.",
+//							 		 "SharedManager", true));
+//	
+			// update the join table
+			$query =& new InsertQuery();
+			$query->setTable($db."j_groups_groups");
+			$columns = array();
+			$columns[] = $db."j_groups_groups.fk_parent";
+			$columns[] = $db."j_groups_groups.fk_child";
+			$query->setColumns($columns);
+			$values = array();
+			$parentId =& $this->getId();
+			$childId =& $memberOrGroup->getId();
+			$values[] = "'".$parentId->getIdString()."'";
+			$values[] = "'".$childId->getIdString()."'";
+			$query->setValues($values);
+	
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			if ($queryResult->getNumberOfRows() != 1)
+				throwError(new Error("Insert failed.","SharedManager",true));
+
 			// add in the object
 		    $this->_groups[$id->getIdString()] =& $memberOrGroup;
 		}
 		elseif (!isset($this->_agents[$idValue])) {
 			// check to see for existence in database
-			// if the group do not exist, then we are in trouble
-			if (!HarmoniAgent::_exist($memberOrGroup))
-			    throwError(new Error("Cannot add an agent that does not exist in the database.",
-							 		 "SharedManager", true));
+			// if the agent does not exist, then we are in trouble
+			// NOTE: this check is not really needed because
+			// all groups or agents must have been gotten either trough
+			// the create or get methods, which ensure database existence.
+//			if (!HarmoniAgent::exist($memberOrGroup))
+//			    throwError(new Error("Cannot add the agent, because it does not exist in the database.",
+//							 		 "SharedManager", true));
+//
+			// update the join table
+			$query =& new InsertQuery();
+			$query->setTable($db."j_groups_agent");
+			$columns = array();
+			$columns[] = $db."j_groups_agent.fk_groups";
+			$columns[] = $db."j_groups_agent.fk_agent";
+			$query->setColumns($columns);
+			$values = array();
+			$parentId =& $this->getId();
+			$childId =& $memberOrGroup->getId();
+			$values[] = "'".$parentId->getIdString()."'";
+			$values[] = "'".$childId->getIdString()."'";
+			$query->setValues($values);
+	
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			if ($queryResult->getNumberOfRows() != 1)
+				throwError(new Error("Insert failed.","SharedManager",true));
 
 			// add in the object
 			$this->_agents[$id->getIdString()] =& $memberOrGroup;
@@ -173,18 +232,48 @@ class HarmoniGroup // :: API interface
 		ArgumentValidator::validate($memberOrGroup, $extend, true);
 		// ** end of parameter validation
 
+		$dbHandler =& Services::requireService("DBHandler");
+		$db = $this->_sharedDB.".";
+
 		// we have to figure out whether the argument is an agent or a group
 		$isGroup = is_a($memberOrGroup, get_class($this));
 		
 		$id =& $memberOrGroup->getId();
 		
 		if ($isGroup) {
-			if (isset($this->_groups[$id->getIdString()]))
+			if (isset($this->_groups[$id->getIdString()])) {
+				// remove from join table
+				$parentId =& $this->getId();
+				$childId =& $memberOrGroup->getId();
+				$query =& new DeleteQuery();
+				$query->setTable($db."j_groups_groups");
+				$query->addWhere($db."j_groups_groups.fk_parent = '".$parentId->getIdString()."'");
+				$query->addWhere($db."j_groups_groups.fk_child = '".$childId->getIdString()."'");
+				$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+				if ($queryResult->getNumberOfRows() != 1)
+					throwError(new Error("Delete failed.","SharedManager",true));
+				
+				// remove from object
+				// DO NOT SET TO NU
 		    	unset($this->_groups[$id->getIdString()]);
+			}
 		}
 		else
-			if (isset($this->_agents[$id->getIdString()]))
+			if (isset($this->_agents[$id->getIdString()])) {
+				// remove from join table
+				$parentId =& $this->getId();
+				$childId =& $memberOrGroup->getId();
+				$query =& new DeleteQuery();
+				$query->setTable($db."j_groups_agent");
+				$query->addWhere($db."j_groups_agent.fk_groups = '".$parentId->getIdString()."'");
+				$query->addWhere($db."j_groups_agent.fk_agent = '".$childId->getIdString()."'");
+				$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+				if ($queryResult->getNumberOfRows() != 1)
+					throwError(new Error("Delete failed.","SharedManager",true));
+				
+				// remove from object
 		    	unset($this->_agents[$id->getIdString()]);
+			}
 	}
 
 	
@@ -288,13 +377,14 @@ class HarmoniGroup // :: API interface
 	}
 	
 	/**
-	 * A private function checking whether the specified group exist in the database.
+	 * A method checking whether the specified group exist in the database.
 	 * @access public
 	 * @static
-	 * @param objcet group The groups to check for existence.
+	 * @param object memberOrGroup The group or agent to check for existence.
+	 * @param boolean agentOrGroup TRUE, if <code>$memberOrGroup</code> is an agent; FALSE, if it is a group.
 	 * @return boolean <code>tru</code> if it exists; <code>false</code> otherwise.
 	 **/
-	function _exist(& $group) {
+	function exist(& $group, $agentOrGroup) {
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new SelectQuery();
 		
@@ -308,20 +398,18 @@ class HarmoniGroup // :: API interface
 		// set the tables
 		$query->addTable($db."groups");
 		// set the columns to select
-		$query->addColumn("groups_id", "id", $db."groups");
+		$query->addColumn("groups_id", "id");
 		// set where
-		$where = $db."groups.groups_id = '".$idValue."' AND ";
-		$where .= $db."groups.groups_display_name = '".$group->getDisplayName()."' AND ";
-		$where .= $db."groups.groups_description = '".$group->getDescription()."'";
+		$where = "groups_id = '".$idValue."' AND ";
+		$where .= "groups_display_name = '".$group->getDisplayName()."' AND ";
+	    $where .= "groups_description = '".$group->getDescription()."'";
 		$query->addWhere($where);
 
 		echo "<pre>\n";
 		echo MySQL_SQLGenerator::generateSQLQuery($query);
 		echo "</pre>\n";
 		
-		
-		
-		$queryResult =& $dbHandler->query($query, $group->_dbIndex);
+		$queryResult =& $dbHandler->query($query, $group->getDBIndex());
 		if ($queryResult->getNumberOfRows() == 1)
 			return true;
 		else
