@@ -5,14 +5,13 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.8 2004/01/08 21:16:28 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.9 2004/01/08 23:42:33 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
  * @package harmoni.utilities
  */
 class DateTime {
-
 
 	/**
 	 * Year. 4-digit.
