@@ -4,7 +4,7 @@
 #
 # Host: localhost (MySQL 4.0.15)
 # Database: harmoni
-# Generation Time: 2004-01-07 15:19:31 -0500
+# Generation Time: 2004-01-16 17:16:29 -0500
 # ************************************************************
 
 # Dump of table data_blob
@@ -112,6 +112,18 @@ CREATE TABLE `dataset` (
 
 
 
+# Dump of table dataset_group
+# ------------------------------------------------------------
+
+CREATE TABLE `dataset_group` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `fk_dataset` bigint(20) unsigned NOT NULL default '0',
+  KEY `id` (`id`),
+  KEY `fk_dataset` (`fk_dataset`)
+) TYPE=MyISAM;
+
+
+
 # Dump of table dataset_tag
 # ------------------------------------------------------------
 
@@ -153,8 +165,7 @@ CREATE TABLE `datasetfield` (
   KEY `fk_dataset` (`fk_dataset`),
   KEY `fk_datasettypedef` (`fk_datasettypedef`),
   KEY `fk_data` (`fk_data`),
-  KEY `datasetfield_created` (`datasetfield_modified`),
-  KEY `datasetfield_index` (`datasetfield_index`)
+  KEY `datasetfield_active` (`datasetfield_active`)
 ) TYPE=MyISAM;
 
 
@@ -184,6 +195,7 @@ CREATE TABLE `datasettypedef` (
   `datasettypedef_mult` tinyint(1) unsigned NOT NULL default '0',
   `datasettypedef_fieldtype` varchar(255) NOT NULL default '',
   `datasettypedef_active` tinyint(1) unsigned NOT NULL default '0',
+  `datasettypedef_requied` tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`datasettypedef_id`),
   KEY `fk_datasettype` (`fk_datasettype`),
   KEY `datasettypedef_label` (`datasettypedef_label`)
