@@ -348,7 +348,6 @@ class HarmoniAuthenticationManager
 				$agentInfoHandler =& Services::getService("AgentInformation");
 				$info =& $agentInfoHandler->getAgentInformation($tokens, FALSE);
 				
-				printpre($info);
 				foreach (array_keys($info) as $key) {
 					$properties->addProperty($key, $info[$key]);
 				}
