@@ -243,7 +243,7 @@ class GUIManager {
 	 * @param string $value The new value of the styleComponent.
 	 * @access public
 	 */
-		function updateStyleComponent($themeId, $selector, $styleProperty, $styleComponentType, $value)
+		function updateStyleComponent($themeId, $selector, $styleProperty,$value)
 		{
 			
 			$query=& new SelectQuery;
@@ -254,7 +254,6 @@ class GUIManager {
 			$query->addWhere("StyleCollections.fk_theme_id=$themeId");
 			$query->addWhere("StyleCollections.selector='$selector'");
 			$query->addWhere("StyleProperties.styleProperty='$styleProperty'");
-			$query->addWhere("StyleComponents.styleComponentType='$styleComponentType'");
 			
 		
 			$styleComponentResult =& $this->_dbHandler->query($query, $this->_dbIndex);
@@ -319,11 +318,11 @@ class GUIManager {
 	 * @param string $selector The selector of the StyleCollection that will contain the styleComponent.
 	 * @param string $styleProperty The styleProperty that the styleComponent will belong to.
 	 * @param string $styleComponentType The type of the styleComponent that we want to create
-	 * @param integer $order
+	 * @param integer $order The order of the StyleComponents in the StyleProperty constructor
 	 * @param string $value The value of the styleComponent.
 	 * @access public
 	 */
-		function createStyleComponent($themeId, $selector, $styleProperty, $styleComponentType, $order, $value)
+		function createStyleComponent($themeId, $selector, $styleProperty, $order, $value)
 		{
 			$query=& new SelectQuery;
 			$query->addTable("StyleCollections");
@@ -359,8 +358,8 @@ class GUIManager {
 			
 			$query =& new InsertQuery;
 			$query->setTable("StyleComponents");
-			$query->setColumns(array("fk_styleProperty_id","styleComponent","styleComponentType", "argsorder"));
-			$query->addRowOfValues(array("'$stylePropertyId'","'$value'","'$styleComponentType'", "'$order'"));
+			$query->setColumns(array("fk_styleProperty_id","styleComponent", "argsorder"));
+			$query->addRowOfValues(array("'$stylePropertyId'","'$value'","'$order'"));
 			$this->_dbHandler->query($query, $this->_dbIndex);
 			
 			
