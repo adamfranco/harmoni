@@ -48,7 +48,7 @@
          *                           the context of the other tests.
          */
         function paintPass($message) {
-            TestDisplay.parent::paintPass($message);
+            'TestDisplay'.parent::paintPass($message);
             print "<div align=\"left\"><span class=\"pass\">Pass</span>: ";
             $breadcrumb = $this->getTestList();
             array_shift($breadcrumb);

@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ServicesTestCase.class.php,v 1.5 2003/06/30 15:30:52 adamfranco Exp $
+ * @version $Id: ServicesTestCase.class.php,v 1.6 2003/07/16 20:31:01 movsjani Exp $
  * @copyright 2003 
  **/
 
@@ -49,13 +49,14 @@
 			$this->assertReference(Services::getServices(),$__services__);
 		}
 		
-		function test_register_service() {
+		function test_a_register_service() {
 			// The following will kill the running of other tests.
 //			$this->assertTrue(Services::registerService("DBHandler","DBHandler"));
 //			$this->assertFalse(Services::serviceRunning("DBHandler"));
 			$this->assertTrue(Services::serviceAvailable("DBHandler"));
 			$this->assertTrue(Services::startService("DBHandler"));
 			$this->assertIsA(Services::getService("DBHandler"), "dbhandler");
+		   
 		}
 		
 		function test_start_stop_restart() {

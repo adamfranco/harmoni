@@ -8,7 +8,7 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseStorageMethodTestCase.class.php,v 1.1 2003/07/16 16:51:37 movsjani Exp $
+ * @version $Id: DatabaseStorageMethodTestCase.class.php,v 1.2 2003/07/16 20:31:02 movsjani Exp $
  * @copyright 2003 
  **/
 
@@ -58,10 +58,17 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
 			$this->assertTrue($storageMethod->exists(1));	
 			$this->assertFalse($storageMethod->exists(2));	
 			
-			$storable =&new FileStorable(HARMONI.'storageHandler/Storables/','','dude.txt');
-			
-			$storageMethod->store($storable,'','dude.txt');
-			$this->assertTrue($storageMethod->exists('','dude.txt'));	
+			$storable =&new FileStorable(HARMONI.'storageHandler/tests/','','seal01.gif');
+			 
+			$storageMethod->store($storable,'3','seal.gif');
+			$this->assertTrue($storageMethod->exists('3','seal.gif'));	
+
+			$newstorable = $storageMethod->retrieve('3','seal.gif');
+			$data = $newstorable->getData();
+
+			$newstorable = $storageMethod->retrieve('3','seal.gif');
+
+			$this->assertTrue($newstorable->getSize()==14096);
 
 		}
 

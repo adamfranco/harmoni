@@ -10,7 +10,7 @@ require_once(HARMONI.'storageHandler/Storables/DatabaseStorable.class.php');
  * Note: All methods assume the path parameter has a trailing slash ('/'). Otherwise
  * all recursive functions may get hold of paths that are unrelated.
  *
- * @version $Id: DatabaseStorageMethod.class.php,v 1.3 2003/07/16 19:02:31 movsjani Exp $
+ * @version $Id: DatabaseStorageMethod.class.php,v 1.4 2003/07/16 20:31:02 movsjani Exp $
  * @package harmoni.storage.methods
  * @copyright 2003
  * @access public
@@ -153,19 +153,17 @@ class DatabaseStorageMethod extends StorageMethodInterface {
      * @access public
      */
     function exists($path,$name=null) { 
-
 		$query =& new SelectQuery();
 		$query->addTable($this->_parameters->get("dbTable"));
 		$query->addColumn($this->_parameters->get("pathColumn"));
 
 		$path = addslashes($path);
-		$query->addWhere($this->_parameters->get("pathColumn")." = '$path.'");
+		$query->addWhere($this->_parameters->get("pathColumn")." = '$path'");
 
 		if($name!=null) {
 			$name = addslashes($name);
 			$query->addWhere($this->_parameters->get("nameColumn")." = '$name'",_AND);
 		}
-
 		$result =& $this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
 
 		if($result->getNumberOfRows()>0)
