@@ -11,6 +11,13 @@ require_once(HARMONI."/oki/dr/HarmoniInfoStructureIterator.class.php");
 require_once(HARMONI."/oki/shared/HarmoniTypeIterator.class.php");
 require_once(HARMONI."/oki/shared/HarmoniCalendarIterator.class.php");
 
+// Search Modules
+require_once(dirname(__FILE__)."/SearchModules/AssetTypeSearch.class.php");
+require_once(dirname(__FILE__)."/SearchModules/ContentSearch.class.php");
+require_once(dirname(__FILE__)."/SearchModules/DescriptionSearch.class.php");
+require_once(dirname(__FILE__)."/SearchModules/DisplayNameSearch.class.php");
+require_once(dirname(__FILE__)."/SearchModules/RootAssetSearch.class.php");
+
 /**
  * DigitialRepository manages Assets of various Types and information about the Assets.  Assets are created, persisted, and validated by the Digital Repository.  When initially created, an Asset has an immutable Type and Unique Id and its validation status is false.  In this state, all methods can be called, but integrity checks are not enforced.  When the Asset and its InfoRecords are ready to be validated, the validateAsset method checks the Asset and sets the validation status.  When working with a valid Asset, all methods include integrity checks and an exception is thrown if the activity would result in an inappropriate state.  Optionally, the invalidateAsset method can be called to release the requirement for integrity checks, but the Asset will not become valid again, until validateAsset is called and the entire Asset is checked.    <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
@@ -455,13 +462,16 @@ class HarmoniDigitalRepository
 		// Check that we support the searchType
 		$supported = FALSE;
 		foreach ($this->_searchTypes as $key => $type) {
-			if ($searchType->isEqual($type))
+			if ($searchType->isEqual($type)) {
 				$supported = TRUE;
+				$searchName = $key;
+				break;
+			}
 		}
 		
 		if ($supported) {
-			$searchFunction = "_searchBy_".$searchType->getDomain()."_".$searchType->getAuthority()."_".$searchType->getKeyword();
-			$assetIds =& $this->$searchFunction($searchCriteria);
+			$search =& new $searchName($this);
+			$assetIds =& $search->searchAssets($searchCriteria);
 			
 			// get the assets for the resuting ids
 			$assets = array();
@@ -569,153 +579,25 @@ class HarmoniDigitalRepository
 	 */
 	function _registerSearchTypes () {
 		$this->_searchTypes = array();
-		$this->_searchTypes[] =& new HarmoniType("DR","Harmoni","AssetType", "Select all asset's of the specified Type.");
 		
-		$this->_searchTypes[] =& new HarmoniType("DR","Harmoni","RootAssets", "Search for just the 'root' 
+		// classname => type obj
+		
+		$this->_searchTypes["AssetTypeSearch"] =& new HarmoniType("DR","Harmoni","AssetType", "Select all asset's of the specified Type.");
+		
+		$this->_searchTypes["RootAssetSearch"] =& new HarmoniType("DR","Harmoni","RootAssets", "Search for just the 'root' 
 											or 'top level' assets which are not assets of other assets.");
 		
-		$this->_searchTypes[] =& new HarmoniType("DR","Harmoni","DisplayName", "Search with a regular expression
+		$this->_searchTypes["DisplayNameSearch"] =& new HarmoniType("DR","Harmoni","DisplayName", "Search with a regular expression
 												string in the Asset DisplayName.");
 
-		$this->_searchTypes[] =& new HarmoniType("DR","Harmoni","Description", "Search with a regular expression
+		$this->_searchTypes["DescriptionSearch"] =& new HarmoniType("DR","Harmoni","Description", "Search with a regular expression
 												string in the Asset Description.");
 
-		$this->_searchTypes[] =& new HarmoniType("DR","Harmoni","Content", "Search with a regular expression
+		$this->_searchTypes["ContentSearch"] =& new HarmoniType("DR","Harmoni","Content", "Search with a regular expression
 												string in the Asset Content.");
 
 //		$this->_searchTypes[] =& new HarmoniType("DR","Harmoni","AssetInfo", "Search with a regular expression
 //												string in the Asset DisplayName, Description, and Content.");
-	}
-	
-	/**
-	 * Return assets of the specified type
-	 *
-	 * @param mixed Search criteria. This is unused for this search and can be anything.
-	 * @return array The root assets.
-	 * @access private
-	 */
-	function &_searchBy_dr_harmoni_assettype ($searchCriteria = NULL) {
-		// get the root Nodes
-		$assets =& $this->getAssetsByType($searchCriteria);
-		
-		// Add the ids of the root nodes to an array
-		$ids = array();
-		while ($assets->hasNext()) {
-			$asset =& $assets->next();
-			$ids[] =& $asset->getId();
-		}
-		
-		// Return the array
-		return $ids;
-	}
-	
-	/**
-	 * Search for just the 'root' or 'top level' assets which are not assets of other assets.
-	 *
-	 * @param mixed Search criteria. This is unused for this search and can be anything.
-	 * @return array The root assets.
-	 * @access private
-	 */
-	function &_searchBy_dr_harmoni_rootassets ($searchCriteria = NULL) {
-		// get the root Nodes
-		$rootNodes =& $this->_node->getChildren();
-		
-		// Add the ids of the root nodes to an array
-		$rootIds = array();
-		while ($rootNodes->hasNext()) {
-			$rootNode =& $rootNodes->next();
-			$rootIds[] =& $rootNode->getId();
-		}
-		
-		// Return the array
-		return $rootIds;
-	}
-	
-	/**
-	 * Search for assets with DisplayNames that match with the searchCriteria as the
-	 * search string.
-	 *
-	 * @param mixed Search criteria. A regular expression search string.
-	 * @return array The matching assets.
-	 * @access private
-	 */
-	function &_searchBy_dr_harmoni_displayname ($searchCriteria = NULL) {
-		$matchingIds = array();
-		
-		// Get All the assets
-		$assets =& $this->getAssets();
-		
-		// Add their id to the array if the displayName matches
-		while ($assets->hasNext()) {
-			$asset =& $assets->next();
-			if (ereg($searchCriteria, $asset->getDisplayName()))
-				$matchingIds[] =& $asset->getId();
-		}
-		
-		// Return the array
-		return $matchingIds;
-	}
-
-	/**
-	 * Search for assets with Description that match with the searchCriteria as the
-	 * search string.
-	 *
-	 * @param mixed Search criteria. A regular expression search string.
-	 * @return array The matching assets.
-	 * @access private
-	 */
-	function &_searchBy_dr_harmoni_description ($searchCriteria = NULL) {
-		$matchingIds = array();
-		
-		// Get All the assets
-		$assets =& $this->getAssets();
-		
-		// Add their id to the array if the displayName matches
-		while ($assets->hasNext()) {
-			$asset =& $assets->next();
-			if (ereg($searchCriteria, $asset->getDescription()))
-				$matchingIds[] =& $asset->getId();
-		}
-		
-		// Return the array
-		return $matchingIds;
-	}
-	
-	/**
-	 * Search for assets with Content that match with the searchCriteria as the
-	 * search string.
-	 *
-	 * @param mixed Search criteria. A regular expression search string.
-	 * @return array The matching assets.
-	 * @access private
-	 */
-	function &_searchBy_dr_harmoni_content ($searchCriteria = NULL) {
-		$matchingIds = array();
-		
-		// Get All the assets
-		$criteria =& new AndSearch();
-		$criteria->addCriteria(new ActiveRecordsSearch());
-		$criteria->addCriteria(new FieldValueSearch(new HarmoniType("DR", "Harmoni", "AssetContent", ""),"Content", new Blob($searchCriteria), SEARCH_TYPE_CONTAINS));
-		
-		$recordMgr =& Services::getService("RecordManager");
-		$recordIDs = $recordMgr->getRecordIDsBySearch($criteria);
-
-		$groupIds = array();
-		foreach  ($recordIDs as $id) {
-			$recordSetIds =& $recordMgr->getRecordSetIDsContainingID($id);
-			$groupIds = array_merge($groupIds, $recordSetIds);
-		}
-				
-		$groupIds = array_unique($groupIds);
-				
-		$sharedManager =& Services::getService("Shared");
-		
-		foreach ($groupIds as $id) {
-			$matchingIds[] =& $sharedManager->getId($id);
-		}
-				
-		// Return the array
-		return $matchingIds;
 	}
 
 }
