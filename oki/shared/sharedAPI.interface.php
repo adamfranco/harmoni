@@ -194,6 +194,36 @@ class Group
 } // end Group
 
 
+class Type
+{ // begin Type
+	// public boolean isEqual(Type & $type2);
+	function isEqual(& $type2) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+	// public String getDomain();
+	function getDomain() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+	// public String getAuthority();
+	function getAuthority() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+	// public String getKeyword();
+	function getKeyword() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+	// public String getDescription();
+	function getDescription() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+} // end Type
+
+
 class Id
 	// extends java.io.Serializable
 { // begin Id
@@ -417,5 +447,11 @@ define("UNIMPLEMENTED","Unimplemented method ");
 
 // public static final String UNKNOWN_KEY = "Unknown key "
 define("UNKNOWN_KEY","Unknown key ");
+
+class SharedException
+	extends OsidException
+{ // begin SharedException
+} // end SharedException
+
 
 ?>

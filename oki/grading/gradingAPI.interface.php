@@ -301,4 +301,10 @@ define("CONFIGURATION_ERROR","Configuration error ");
 // public static final String UNIMPLEMENTED = "Unimplemented method "
 define("UNIMPLEMENTED","Unimplemented method ");
 
+class GradingException
+	extends OsidException
+{ // begin GradingException
+} // end GradingException
+
+
 ?>

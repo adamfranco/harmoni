@@ -608,4 +608,10 @@ define("NULL_ARGUMENT","Null argument");
 // public static final String CONFIGURATION_ERROR = "Configuration error"
 define("CONFIGURATION_ERROR","Configuration error");
 
+class DigitalRepositoryException
+	extends OsidException
+{ // begin DigitalRepositoryException
+} // end DigitalRepositoryException
+
+
 ?>

@@ -127,4 +127,10 @@ define("UNIMPLEMENTED","Unimplemented method");
 // public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements"
 define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements");
 
+class DictionaryException
+	extends OsidException
+{ // begin DictionaryException
+} // end DictionaryException
+
+
 ?>

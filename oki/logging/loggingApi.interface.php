@@ -187,4 +187,10 @@ define("FILE_NOT_FOUND","File not found ");
 // public static final String CANNOT_APPEND = "Cannot append "
 define("CANNOT_APPEND","Cannot append ");
 
+class LoggingException
+	extends OsidException
+{ // begin LoggingException
+} // end LoggingException
+
+
 ?>

@@ -34,4 +34,10 @@ class AuthenticationManager
 // public static final String AUTHENTICATION_TYPE_INVALID = "Authentication type is invalid";
 define("AUTHENTICATION_TYPE_INVALID","Authentication type is invalid";);
 
+class AuthenticationException
+	extends OsidException
+{ // begin AuthenticationException
+} // end AuthenticationException
+
+
 ?>

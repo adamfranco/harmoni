@@ -313,4 +313,10 @@ define("CONFIGURATION_ERROR","Configuration error");
 // public static final String CAN_NOT_DELETE_ROOT = "Can't delete root Cabinet"
 define("CAN_NOT_DELETE_ROOT","Can't delete root Cabinet");
 
+class FilingException
+	extends OsidException
+{ // begin FilingException
+} // end FilingException
+
+
 ?>

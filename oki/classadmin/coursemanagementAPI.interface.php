@@ -758,4 +758,10 @@ class CourseGroupIterator
 } // end CourseGroupIterator
 
 
+class CourseManagementException
+	extends OsidException
+{ // begin CourseManagementException
+} // end CourseManagementException
+
+
 ?>

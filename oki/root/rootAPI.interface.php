@@ -1,5 +1,10 @@
 <?php
 
+class OsidLoader
+{ // begin OsidLoader
+} // end OsidLoader
+
+
 class OsidManager
 	// extends java.io.Serializable
 { // begin OsidManager
@@ -71,6 +76,11 @@ class OsidRomiManager
 // private final  java.util.Hashtable contextInfo = new java.util.Hashtable()
 define("contextInfo",new java.util.Hashtable());
 
+class OsidOwner
+{ // begin OsidOwner
+} // end OsidOwner
+
+
 // public static final String OPERATION_FAILED = "Operation failed "
 define("OPERATION_FAILED","Operation failed ");
 
@@ -109,5 +119,11 @@ define("ERROR_UPADTING_OWNER","Error updating owner ");
 
 // public static final String ERROR_UPADTING_CONFIGURATION = "Error updating configuration "
 define("ERROR_UPADTING_CONFIGURATION","Error updating configuration ");
+
+class OsidException
+	// extends java.lang.Exception
+{ // begin OsidException
+} // end OsidException
+
 
 ?>

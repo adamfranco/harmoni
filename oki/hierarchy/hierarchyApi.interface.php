@@ -375,4 +375,10 @@ define("PERMISSION_DENIED","Permission Denied ");
 // public static final String CONFIGURATION_ERROR = "Configuration error"
 define("CONFIGURATION_ERROR","Configuration error");
 
+class HierarchyException
+	extends OsidException
+{ // begin HierarchyException
+} // end HierarchyException
+
+
 ?>

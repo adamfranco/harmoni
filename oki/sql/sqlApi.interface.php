@@ -401,4 +401,10 @@ define("INVALID_PASSWORD","Invalid password\n";);
 // public static final String INVALID_ARGUMENTS = "Invalid arguments\n";
 define("INVALID_ARGUMENTS","Invalid arguments\n";);
 
+class SqlException
+	extends OsidException
+{ // begin SqlException
+} // end SqlException
+
+
 ?>

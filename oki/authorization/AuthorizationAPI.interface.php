@@ -735,4 +735,10 @@ define("QUALIFIERTYPE_NOT_FOUND_IN_AUTHORIZATION","Qualifier type not found in A
 // public static final String QUALIFIER_ENUMERATION_FAILED = "Enumeration of qualifiers failed ";
 define("QUALIFIER_ENUMERATION_FAILED","Enumeration of qualifiers failed ";);
 
+class AuthorizationException
+	extends OsidException
+{ // begin AuthorizationException
+} // end AuthorizationException
+
+
 ?>

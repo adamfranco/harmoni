@@ -776,4 +776,10 @@ class EvaluationIterator
 } // end EvaluationIterator
 
 
+class AssessmentException
+	extends OsidException
+{ // begin AssessmentException
+} // end AssessmentException
+
+
 ?>

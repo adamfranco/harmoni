@@ -3022,4 +3022,10 @@ define("INVALID_MAXROWS","Max rows of result set is not valid\n");
 // public static final String INVALID_MANAGER = "DBC Manager is not valid\n"
 define("INVALID_MANAGER","DBC Manager is not valid\n");
 
+class DbcException
+	extends OsidException
+{ // begin DbcException
+} // end DbcException
+
+
 ?>
