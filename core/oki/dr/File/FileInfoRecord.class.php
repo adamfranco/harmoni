@@ -4,6 +4,8 @@ require_once(dirname(__FILE__)."/Fields/FileDataInfoField.class.php");
 require_once(dirname(__FILE__)."/Fields/FileNameInfoField.class.php");
 require_once(dirname(__FILE__)."/Fields/FileSizeInfoField.class.php");
 require_once(dirname(__FILE__)."/Fields/MimeTypeInfoField.class.php");
+require_once(dirname(__FILE__)."/Fields/ThumbnailDataInfoField.class.php");
+require_once(dirname(__FILE__)."/Fields/ThumbnailMimeTypeInfoField.class.php");
 require_once(HARMONI."/oki/dr/HarmoniInfoFieldIterator.class.php");
 
 	/**
@@ -41,6 +43,14 @@ class FileInfoRecord extends InfoRecord
 									$this->_configuration);
 		$this->_infoFields['MIME_TYPE'] =& new MimeTypeInfoField(
 									$infoStructure->getInfoPart($sharedManager->getId('MIME_TYPE')),
+									$this->_id,
+									$this->_configuration);
+		$this->_infoFields['THUMBNAIL_DATA'] =& new ThumbnailDataInfoField(
+									$infoStructure->getInfoPart($sharedManager->getId('THUMBNAIL_DATA')),
+									$this->_id,
+									$this->_configuration);
+		$this->_infoFields['THUMBNAIL_MIME_TYPE'] =& new ThumbnailMimeTypeInfoField(
+									$infoStructure->getInfoPart($sharedManager->getId('THUMBNAIL_MIME_TYPE')),
 									$this->_id,
 									$this->_configuration);
 	}

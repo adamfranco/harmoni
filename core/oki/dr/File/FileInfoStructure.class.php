@@ -4,6 +4,8 @@ require_once(dirname(__FILE__)."/Fields/FileDataInfoPart.class.php");
 require_once(dirname(__FILE__)."/Fields/FileNameInfoPart.class.php");
 require_once(dirname(__FILE__)."/Fields/FileSizeInfoPart.class.php");
 require_once(dirname(__FILE__)."/Fields/MimeTypeInfoPart.class.php");
+require_once(dirname(__FILE__)."/Fields/ThumbnailDataInfoPart.class.php");
+require_once(dirname(__FILE__)."/Fields/ThumbnailMimeTypeInfoPart.class.php");
 require_once(HARMONI."/oki/dr/HarmoniInfoPartIterator.class.php");
 
 	/**
@@ -27,6 +29,8 @@ class HarmoniFileInfoStructure extends InfoStructure
 		$this->_infoParts['FILE_NAME'] =& new FileNameInfoPart($this);
 		$this->_infoParts['MIME_TYPE'] =& new MimeTypeInfoPart($this);
 		$this->_infoParts['FILE_SIZE'] =& new FileSizeInfoPart($this);
+		$this->_infoParts['THUMBNAIL_DATA'] =& new ThumbnailDataInfoPart($this);
+		$this->_infoParts['THUMBNAIL_MIME_TYPE'] =& new ThumbnailMimeTypeInfoPart($this);
 	}
 	
 	/**
