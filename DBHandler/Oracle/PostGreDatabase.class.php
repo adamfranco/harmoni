@@ -1,22 +1,22 @@
 <?php
 
 require_once(HARMONI."DBHandler/Database.interface.php");
-require_once(HARMONI."DBHandler/MySQL/MySQLSelectQueryResult.class.php");
-require_once(HARMONI."DBHandler/MySQL/MySQLInsertQueryResult.class.php");
-require_once(HARMONI."DBHandler/MySQL/MySQLUpdateQueryResult.class.php");
-require_once(HARMONI."DBHandler/MySQL/MySQLDeleteQueryResult.class.php");
-require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
+require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
+require_once(HARMONI."DBHandler/PostGre/PostGreInsertQueryResult.class.php");
+require_once(HARMONI."DBHandler/PostGre/PostGreUpdateQueryResult.class.php");
+require_once(HARMONI."DBHandler/PostGre/PostGreDeleteQueryResult.class.php");
+require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 
 /**
- * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.11 2003/07/18 21:07:07 dobomode Exp $
+ * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
+ * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
+ * @version $Id: PostGreDatabase.class.php,v 1.1 2003/07/18 21:07:07 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
  **/
  
-class MySQLDatabase extends DatabaseInterface {
+class PostGreDatabase extends DatabaseInterface {
 
 	/**
 	 * The hostname of the database, i.e. myserver.mydomain.edu.
@@ -88,7 +88,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @return integer $dbIndex The index of the new database
 	 * @access public
 	 */
-	function MySQLDatabase($dbHost, $dbName, $dbUser, $dbPass) {
+	function PostGreDatabase($dbHost, $dbName, $dbUser, $dbPass) {
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($dbHost, $stringRule, true);
@@ -119,7 +119,13 @@ class MySQLDatabase extends DatabaseInterface {
 			return false;
 			
 		// attempt to connect
-		$linkId = mysql_connect($this->_dbHost, $this->_dbUser, $this->_dbPass);
+		$conStr = "";
+		$conStr .= " host = ".$this->_dbHost;
+		$conStr .= " user = ".$this->_dbUser;
+		$conStr .= " password = ".$this->_dbPass;
+		$conStr .= " dbname = ".$this->_dbName;
+		
+		$linkId = pg_connect($conStr);
 		
 		// see if successful
 		if ($linkId) {
@@ -127,10 +133,6 @@ class MySQLDatabase extends DatabaseInterface {
 		    $this->_successfulQueries = 0;
 		    $this->_failedQueries = 0;
 		
-			// attempt to select the default database;
-			// if failure, not a big deal, because at this point we are connected
-			mysql_select_db($this->_dbName, $linkId);
-
 		    $this->_linkId = $linkId;
 			return $linkId;
 		}
@@ -149,22 +151,25 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @return mixed The connection's link identifier, if successful; False, otherwise.
 	 */
 	function pConnect() {
-		// if connected, attempt to reconnect
-		if ($this->isConnected()) $this->disconnect();
-		
+		// if connected, need to disconnect first
+		if ($this->isConnected()) 
+			return false;
+			
 		// attempt to connect
-		$linkId = mysql_pconnect($this->_dbHost, $this->_dbUser, $this->_dbPass);
+		$conStr = "";
+		$conStr .= " host = ".$this->_dbHost;
+		$conStr .= " user = ".$this->_dbUser;
+		$conStr .= " password = ".$this->_dbPass;
+		$conStr .= " dbname = ".$this->_dbName;
+		
+		$linkId = pg_pconnect($conStr);
 		
 		// see if successful
 		if ($linkId) {
 			// reset the query counters
 		    $this->_successfulQueries = 0;
 		    $this->_failedQueries = 0;
-
-			// attempt to select the default database;
-			// if failure, not a big deal, because at this point we are connected
-			mysql_select_db($this->_dbName, $linkId);
-
+		
 		    $this->_linkId = $linkId;
 			return $linkId;
 		}
@@ -173,6 +178,7 @@ class MySQLDatabase extends DatabaseInterface {
 		    $this->_linkId = false;
 			return false;						
 		}
+
 	}
 
 
@@ -194,7 +200,13 @@ class MySQLDatabase extends DatabaseInterface {
 		}
 			
 		// generate the SQL query string
-		$queryString = MySQL_SQLGenerator::generateSQLQuery($query);
+		$queryString = PostGre_SQLGenerator::generateSQLQuery($query);
+		
+		// if query is an insert, do it in a transaction (cause you will need
+		// to fetch the last inserted id)
+		if ($query->getType() == INSERT && $query->_sequence)
+			$this->_query("BEGIN");
+		
 		
 		// attempt to run the query
 		$resourceId = $this->_query($queryString);
@@ -205,22 +217,35 @@ class MySQLDatabase extends DatabaseInterface {
 
 		// create the appropriate QueryResult object
 		switch($query->getType()) {
-			case INSERT : 
-				$result =& new MySQLInsertQueryResult($this->_linkId);
+			case INSERT : {
+				// we need to fetch the last inserted id
+				// this is only possible if the user has specified the sequence
+				// object with the setAutoIncrementColumn() method.
+				$lastId = null;
+				if ($query->_sequence) {
+					$lastIdQuery = "SELECT CURRVAL('".$query->_sequence."')";
+					$lastIdResourceId = $this->_query($lastIdQuery);
+					$this->_query("COMMIT");
+					$arr = pg_fetch_row($lastIdResourceId, 0);
+					$lastId = intval($arr[0]);
+				}
+				
+				$result =& new PostGreInsertQueryResult($resourceId, $lastId);
 				break;
+			}
 			case UPDATE : 
-				$result =& new MySQLUpdateQueryResult($this->_linkId);
+				$result =& new PostGreUpdateQueryResult($resourceId);
 				break;
 			case DELETE : 
-				$result =& new MySQLDeleteQueryResult($this->_linkId);
+				$result =& new PostGreDeleteQueryResult($resourceId);
 				break;
 			case SELECT : 
-				$result =& new MySQLSelectQueryResult($resourceId, $this->_linkId);
+				$result =& new PostGreSelectQueryResult($resourceId, $this->_linkId);
 				break;
 			default:
 				throwError(new Error("Unsupported query type.", "DBHandler", true));
 		} // switch
-
+		
 		return $result;
 	}
 	
@@ -231,10 +256,12 @@ class MySQLDatabase extends DatabaseInterface {
 	 * Executes an SQL query.
 	 * Executes an SQL query.
 	 * @access private
-	 * @param string The SQL query string.
+	 * @param mixed query Either a string (this would be the case, normally) or 
+	 * an array of strings. Each string is corresponding to an SQL query.
 	 * @return mixed For a SELECT statement, a resource identifier, if
 	 * successful; For INSERT, DELETE, UPDATE statements, TRUE if successful;
-	 * for all: FALSE, if not successful.
+	 * for all: FALSE, if not successful. If <code>$query</code> had several
+	 * queries, this would be the result for the last one.
 	 */
 	function _query($query) {
 		// do not attempt to query, if not connected
@@ -247,19 +274,28 @@ class MySQLDatabase extends DatabaseInterface {
 		    $queries = $query;
 		else if (is_string($query))
 		    $queries = array($query);
+		
+		$count = count($queries);
 		     
+		// if more than one queries - do them in a transaction
+		if ($count > 1)
+			$this->_query("BEGIN");
+		
 		foreach ($queries as $q) {
 			// attempt to execute the query
-			$resourceId = mysql_query($q, $this->_linkId);
+			$resourceId = pg_query($this->_linkId, $q);
 		
 			if ($resourceId === false) {
 			    $this->_failedQueries++;
-			throwError(new Error(mysql_error($this->_linkId), "DBHandler", false));
+				throwError(new Error(pg_last_error($this->_linkId), "DBHandler", false));
 			}
 			else
 			    $this->_successfulQueries++;
 		}
 		
+		if ($count > 1)
+			$this->_query("COMMIT");
+
 		return $resourceId;
 	}
 
@@ -277,7 +313,7 @@ class MySQLDatabase extends DatabaseInterface {
 			return false;
 			
 		// attempt to disconnect
-		$isSuccessful = mysql_close($this->_linkId);
+		$isSuccessful = pg_close($this->_linkId);
 		if ($isSuccessful)
 			$this->_linkId = false;
 		
@@ -336,9 +372,27 @@ class MySQLDatabase extends DatabaseInterface {
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($database, $stringRule, true);
 		// ** end of parameter validation
+		
+		$this->disconnect();
 	
-		$this->_dbName = $database;
-		return mysql_select_db($database, $this->_linkId);
+		$conStr = "";
+		$conStr .= " host = ".$this->_dbHost;
+		$conStr .= " user = ".$this->_dbUser;
+		$conStr .= " password = ".$this->_dbPass;
+		$conStr .= " dbname = ".$database;
+		
+		$linkId = pg_pconnect($conStr);
+		
+		// see if successful
+		if ($linkId) {
+		    $this->_linkId = $linkId;
+			return true;
+		}
+		else {
+			throwError(new Error("Cannot connect to database.", "DBHandler", false));
+		    $this->_linkId = false;
+			return false;						
+		}
 	}
 
 }

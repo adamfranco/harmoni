@@ -5,7 +5,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
 /**
  * A PostGreQueryGenerator class provides the tools to build a PostGre query from a Query object.
  *
- * @version $Id: PostGre_SQLGenerator.class.php,v 1.2 2003/07/16 19:51:51 dobomode Exp $
+ * @version $Id: PostGre_SQLGenerator.class.php,v 1.3 2003/07/18 21:07:07 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -15,7 +15,8 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 	/**
 	 * Returns a string representing the SQL query corresonding to the specified Query object.
 	 * @param object QueryInterface $query The object from which to generate the SQL string.
-	 * @return string A string representing the SQL query corresonding to this Query object.
+	 * @return mixed Either a string (this would be the case, normally) or an array of strings. 
+	 * Each string is corresponding to an SQL query.
 	 * @static
 	 * @access public
 	 */
@@ -38,10 +39,43 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 			case SELECT : 
 				return PostGre_SQLGenerator::generateSelectSQLQuery($query);
 				break;
+			case GENERIC : 
+				return MySQL_SQLGenerator::generateGenericSQLQuery($query);
+				break;
 			default:
 				throwError(new Error("Unsupported query type.", "DBHandler", true));
 		} // switch
 	}
+
+	
+
+
+	/**
+	 * Returns a string representing the SQL query corresonding to this Query object.
+	 * @return string A string representing the SQL query corresonding to this Query object.
+	 * @access public
+	 * @static
+	 */
+	function generateGenericSQLQuery(& $query) {
+		// ** parameter validation
+		$queryRule =& new ExtendsValidatorRule("GenericSQLQueryInterface");
+		ArgumentValidator::validate($query, $queryRule, true);
+		// ** end of parameter validation
+
+		$queries = $query->_sql;
+
+		if (!is_array($queries) || count($queries) == 0) {
+			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
+			throwError(new Error($description, "DBHandler", false));
+			return null;
+		}
+		else if (count($queries) == 1)
+		    return $queries[0];
+		else 
+			return $queries;
+	}
+
+
 
 
 	/**
@@ -101,15 +135,15 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 	
 			$sql .= "(";
 			$sql .= $values;
-			$sql .= ")";
+			$sql .= ")\n";
 			
 			$queries[] = $sql;
 		}
 		
-		$sql = implode(";\n", $queries);
-		$sql .= "\n";
-			
-		return $sql;
+		if (count($queries) == 1)
+		    return $queries[0];
+		else 
+			return $queries;
 	}
 
 
@@ -169,9 +203,6 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 						case _OR :
 							$sql .= "\n\t\tOR";
 							break;
-						case _XOR :
-							$sql .= "\n\t\tXOR";
-							break;
 						default:
 							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
 					} // switch
@@ -225,9 +256,6 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 							break;
 						case _OR :
 							$sql .= "\n\t\tOR";
-							break;
-						case _XOR :
-							$sql .= "\n\t\tXOR";
 							break;
 						default:
 							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
@@ -353,9 +381,6 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 							break;
 						case _OR :
 							$sql .= "\n\t\tOR";
-							break;
-						case _XOR :
-							$sql .= "\n\t\tXOR";
 							break;
 						default:
 							throwError(new Error("Unsupported logical operator!", "DBHandler", true));				;

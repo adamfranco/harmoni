@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: PostGreInsertQueryTestCase.class.php,v 1.2 2003/07/16 19:51:51 dobomode Exp $
+ * @version $Id: PostGreInsertQueryTestCase.class.php,v 1.3 2003/07/18 21:07:08 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -94,9 +94,10 @@
 			$values = array("7","'movsjani'","'Maks'");
 			$this->query->addRowOfValues($values);
 
-			$sql = "INSERT INTO user\n\t(user_id, user_uname, user_fname, id)\n\tVALUES(5, 'dradichk', 'Dobromir', NEXTVAL('seq'));\n";
-			$sql .= "INSERT INTO user\n\t(user_id, user_uname, user_fname, id)\n\tVALUES(6, 'afranco', 'Adam', NEXTVAL('seq'));\n";
-			$sql .= "INSERT INTO user\n\t(user_id, user_uname, user_fname, id)\n\tVALUES(7, 'movsjani', 'Maks', NEXTVAL('seq'))\n";
+			$sql = array();
+			$sql[] = "INSERT INTO user\n\t(user_id, user_uname, user_fname, id)\n\tVALUES(5, 'dradichk', 'Dobromir', NEXTVAL('seq'))\n";
+			$sql[] = "INSERT INTO user\n\t(user_id, user_uname, user_fname, id)\n\tVALUES(6, 'afranco', 'Adam', NEXTVAL('seq'))\n";
+			$sql[] = "INSERT INTO user\n\t(user_id, user_uname, user_fname, id)\n\tVALUES(7, 'movsjani', 'Maks', NEXTVAL('seq'))\n";
 	
 			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);

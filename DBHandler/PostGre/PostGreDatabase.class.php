@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 /**
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * @version $Id: PostGreDatabase.class.php,v 1.3 2003/07/17 01:05:55 dobomode Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.4 2003/07/18 21:07:07 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -202,6 +202,12 @@ class PostGreDatabase extends DatabaseInterface {
 		// generate the SQL query string
 		$queryString = PostGre_SQLGenerator::generateSQLQuery($query);
 		
+		// if query is an insert, do it in a transaction (cause you will need
+		// to fetch the last inserted id)
+		if ($query->getType() == INSERT && $query->_sequence)
+			$this->_query("BEGIN");
+		
+		
 		// attempt to run the query
 		$resourceId = $this->_query($queryString);
 
@@ -219,6 +225,7 @@ class PostGreDatabase extends DatabaseInterface {
 				if ($query->_sequence) {
 					$lastIdQuery = "SELECT CURRVAL('".$query->_sequence."')";
 					$lastIdResourceId = $this->_query($lastIdQuery);
+					$this->_query("COMMIT");
 					$arr = pg_fetch_row($lastIdResourceId, 0);
 					$lastId = intval($arr[0]);
 				}
@@ -249,9 +256,8 @@ class PostGreDatabase extends DatabaseInterface {
 	 * Executes an SQL query.
 	 * Executes an SQL query.
 	 * @access private
-	 * @param string The SQL query string. If it contains several SQL queries
-	 * delimited by ";" then it splits them in individual queries and runs
-	 * all of them.
+	 * @param mixed query Either a string (this would be the case, normally) or 
+	 * an array of strings. Each string is corresponding to an SQL query.
 	 * @return mixed For a SELECT statement, a resource identifier, if
 	 * successful; For INSERT, DELETE, UPDATE statements, TRUE if successful;
 	 * for all: FALSE, if not successful. If <code>$query</code> had several
@@ -263,9 +269,17 @@ class PostGreDatabase extends DatabaseInterface {
 			throwError(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
 			return false;
 		}
-			
-		$queries = array();
-		$queries = explode(";", $query);
+		
+		if (is_array($query))
+		    $queries = $query;
+		else if (is_string($query))
+		    $queries = array($query);
+		
+		$count = count($queries);
+		     
+		// if more than one queries - do them in a transaction
+		if ($count > 1)
+			$this->_query("BEGIN");
 		
 		foreach ($queries as $q) {
 			// attempt to execute the query
@@ -279,6 +293,9 @@ class PostGreDatabase extends DatabaseInterface {
 			    $this->_successfulQueries++;
 		}
 		
+		if ($count > 1)
+			$this->_query("COMMIT");
+
 		return $resourceId;
 	}
 

@@ -40,10 +40,18 @@
 	 */
 	define("DELETE", 4);
 
+	/**
+	 * A constant for a GENERIC query type.
+ 	 * @const GENERIC A constant for a GENERIC query type.
+	 * @access public
+	 * @package harmoni.dbc
+	 */
+	define("GENERIC", 5);
+
 /**
  * A generic Query interface to be implemented by all Query objects.
  *
- * @version $Id: Query.interface.php,v 1.3 2003/07/10 02:34:19 gabeschine Exp $
+ * @version $Id: Query.interface.php,v 1.4 2003/07/18 21:07:07 dobomode Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 

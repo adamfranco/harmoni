@@ -3,10 +3,9 @@
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
 
 /**
- * A OracleSelectQueryGenerator class provides the tools to build a Oracle query from a Query object.
- * A OracleSelectQueryGenerator class provides the tools to build a Oracle query from a Query object.
+ * A OracleQueryGenerator class provides the tools to build a Oracle query from a Query object.
  *
- * @version $Id: Oracle_SQLGenerator.class.php,v 1.1 2003/07/16 02:55:57 dobomode Exp $
+ * @version $Id: Oracle_SQLGenerator.class.php,v 1.2 2003/07/18 21:07:07 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -16,7 +15,8 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 	/**
 	 * Returns a string representing the SQL query corresonding to the specified Query object.
 	 * @param object QueryInterface $query The object from which to generate the SQL string.
-	 * @return string A string representing the SQL query corresonding to this Query object.
+	 * @return mixed Either a string (this would be the case, normally) or an array of strings. 
+	 * Each string is corresponding to an SQL query.
 	 * @static
 	 * @access public
 	 */
@@ -39,10 +39,43 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 			case SELECT : 
 				return Oracle_SQLGenerator::generateSelectSQLQuery($query);
 				break;
+			case GENERIC : 
+				return MySQL_SQLGenerator::generateGenericSQLQuery($query);
+				break;
 			default:
 				throwError(new Error("Unsupported query type.", "DBHandler", true));
 		} // switch
 	}
+
+	
+
+
+	/**
+	 * Returns a string representing the SQL query corresonding to this Query object.
+	 * @return string A string representing the SQL query corresonding to this Query object.
+	 * @access public
+	 * @static
+	 */
+	function generateGenericSQLQuery(& $query) {
+		// ** parameter validation
+		$queryRule =& new ExtendsValidatorRule("GenericSQLQueryInterface");
+		ArgumentValidator::validate($query, $queryRule, true);
+		// ** end of parameter validation
+
+		$queries = $query->_sql;
+
+		if (!is_array($queries) || count($queries) == 0) {
+			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
+			throwError(new Error($description, "DBHandler", false));
+			return null;
+		}
+		else if (count($queries) == 1)
+		    return $queries[0];
+		else 
+			return $queries;
+	}
+
+
 
 
 	/**
@@ -57,14 +90,12 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 		ArgumentValidator::validate($query, $queryRule, true);
 		// ** end of parameter validation
 
-		$sql = "";
-	
-		if (!$query->_table || count($query->_columns) == 0 || count($query->_values) == 0) {
+		if (!$query->_table || count($query->_values) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
 			throwError(new Error($description, "DBHandler", false));
 			return null;
 		}
-	
+		
 		$count = count($query->_values);
 		$queries = array();
 		
@@ -72,14 +103,17 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 			$sql = "";
 			$sql .= "INSERT INTO ";
 			$sql .= $query->_table;
-			if ($query->_columns) {
+			if ($query->_columns || $query->_autoIncrementColumn) {
 				$sql .= "\n\t(";
 				
-				$sql .= implode(", ", $query->_columns);
+				$columns = $query->_columns;
+				
 				// include autoincrement column if necessary
 				if ($query->_autoIncrementColumn)
-				    $sql .= ", ".$query->_autoIncrementColumn;
+					$columns[] = $query->_autoIncrementColumn;
 					
+			    $sql .= implode(", ", $columns);
+
 				$sql .= ")";
 			}
 			
@@ -101,15 +135,15 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 	
 			$sql .= "(";
 			$sql .= $values;
-			$sql .= ")";
+			$sql .= ")\n";
 			
 			$queries[] = $sql;
 		}
 		
-		$sql = implode(";\n", $queries);
-		$sql .= "\n";
-			
-		return $sql;
+		if (count($queries) == 1)
+		    return $queries[0];
+		else 
+			return $queries;
 	}
 
 
@@ -169,9 +203,6 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 						case _OR :
 							$sql .= "\n\t\tOR";
 							break;
-						case _XOR :
-							$sql .= "\n\t\tXOR";
-							break;
 						default:
 							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
 					} // switch
@@ -225,9 +256,6 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 							break;
 						case _OR :
 							$sql .= "\n\t\tOR";
-							break;
-						case _XOR :
-							$sql .= "\n\t\tXOR";
 							break;
 						default:
 							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
@@ -289,7 +317,8 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 		}
 		
 		// include columns to select
-		$sql .= implode(",\n\t", $columns);
+		$columnsList = implode(",\n\t", $columns);
+		$sql .= $columnsList;
 		
 		// include FROM clause if necessary
 		if ($query->_tables) {
@@ -329,7 +358,7 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 				
 				// insert the alias if present
 				if ($table[3])
-				    $sql .= " AS ".$table[3];
+				    $sql .= " ".$table[3];
 				
 				// now append join condition
 				if ($key != 0 && $table[1] != NO_JOIN && $table[2]) {
@@ -353,9 +382,6 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 							break;
 						case _OR :
 							$sql .= "\n\t\tOR";
-							break;
-						case _XOR :
-							$sql .= "\n\t\tXOR";
 							break;
 						default:
 							throwError(new Error("Unsupported logical operator!", "DBHandler", true));				;
@@ -392,26 +418,42 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 			$sql .= implode(",\n\t", $columns);
 		}
 		
-		// include the LIMIT clause, if necessary
-		if ($query->_startFromRow || $query->_limitNumberOfRows) {
-			$sql .= "\nLIMIT\n\t";
-
-			if ($query->_startFromRow) {
-				$sql .= $query->_startFromRow - 1;
-				$sql .= ", ";
-			}
-
-			if ($query->_numberOfRows)
-				$sql .= $query->_numberOfRows;
-			else
-				$sql .= "-1";
-		}
-		
 		$sql .= "\n";
 		
-		return $sql;
+		// ORACLE does not support the LIMIT clause
+		// need to do some complicated nested queries to implement
+		// LIMIT functionallity (this could not be tested for at the time
+		// it was written, we had no ORACLE server available to test it on).
+		if (!$query->_numberOfRows && !$query->_startFromRow)
+		    return $sql;
+		
+		if ($query->_startFromRow)
+		    $startRow = $query->_startFromRow;
+		else
+			$startRow = 1;
+			
+		if ($query->_numberOfRows)
+			$endRow = $startRow + $query->_numberOfRows - 1;
+		else
+			$endRow = null;
+			
+		
+		$result = "SELECT *\nFROM (\nSELECT\n\t".$columnsList.",\n\tROWNUM ROW_NUM_UNIQUE_\nFROM (\n";
+		$result .= $sql;
+		$result .= ")\nWHERE ";
+		
+		if ($endRow)
+		    $result .= "ROWNUM < ".($endRow + 1);
+		
+		$result .= "\n)\nWHERE ROW_NUM_UNIQUE_ >= ".$startRow;
+		
+		if ($endRow)
+		    $result .= " AND ROW_NUM_UNIQUE_ <= ".$endRow;
+			
+		$result .= "\n";
+		
+		return $result;
 	}
-	
 
 }
 ?>

@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: OracleSelectQueryTestCase.class.php,v 1.1 2003/07/16 02:55:58 dobomode Exp $
+ * @version $Id: OracleSelectQueryTestCase.class.php,v 1.2 2003/07/18 21:07:08 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -120,7 +120,7 @@
 			$this->query->addWhere("user_id = 5");
 			$this->query->addWhere("user_id = 8", _AND);
 			$this->query->addWhere("user_id = 10", _OR);
-			$this->query->addWhere("user_id = 12", _XOR);
+			$this->query->addWhere("user_id = 12", _OR);
 			$this->query->setGroupBy(array("user_id", "user_sex"), "user_age = 38");
 			$this->query->addOrderBy("user_lname", ASCENDING);
 			$this->query->addOrderBy("user_fname", DESCENDING);
@@ -128,8 +128,9 @@
 			$this->query->limitNumberOfRows(100);
 			$this->query->startFromRow(10);
 			
-			$tables = "\n\tuser\n\t\tINNER JOIN\n\tclass\n\t\tON user.user_weight = class.class_id,\n\tperson AS PERSON\n\t\tLEFT JOIN\n\ttree\n\t\tON person.person_id = tree.tree_height - 10\n\t\tRIGHT JOIN\n\tbush AS BUSH\n\t\tON tree.tree_leaves = 3000,\n\tsand";
-			$sql = "SELECT DISTINCT\n\tuser_id AS 1,\n\tdb.user_uname AS username,\n\tCOUNT(*) AS c\nFROM{$tables}\nWHERE\n\tuser_id = 5\n\t\tAND\n\tuser_id = 8\n\t\tOR\n\tuser_id = 10\n\t\tXOR\n\tuser_id = 12\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname ASC,\n\tuser_fname DESC\nLIMIT\n\t9, 100\n";
+			$tables = "\n\tuser\n\t\tINNER JOIN\n\tclass\n\t\tON user.user_weight = class.class_id,\n\tperson PERSON\n\t\tLEFT JOIN\n\ttree\n\t\tON person.person_id = tree.tree_height - 10\n\t\tRIGHT JOIN\n\tbush BUSH\n\t\tON tree.tree_leaves = 3000,\n\tsand";
+			$sql = "SELECT DISTINCT\n\tuser_id AS 1,\n\tdb.user_uname AS username,\n\tCOUNT(*) AS c\nFROM{$tables}\nWHERE\n\tuser_id = 5\n\t\tAND\n\tuser_id = 8\n\t\tOR\n\tuser_id = 10\n\t\tOR\n\tuser_id = 12\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname ASC,\n\tuser_fname DESC\n";
+			$sql = "SELECT *\nFROM (\nSELECT\n\tuser_id AS 1,\n\tdb.user_uname AS username,\n\tCOUNT(*) AS c,\n\tROWNUM ROW_NUM_UNIQUE_\nFROM (\n".$sql.")\nWHERE ROWNUM < 110\n)\nWHERE ROW_NUM_UNIQUE_ >= 10 AND ROW_NUM_UNIQUE_ <= 109\n";
 	
 			$sqlFromObject = Oracle_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);

@@ -58,18 +58,11 @@ require_once("Query.abstract.php");
 	 * @package harmoni.dbc
 	 */
 	define("_OR", 8);
-	
-	/**
-	 * Defines a constant for 'OR' operations (used in WHERE and JOIN clauses)
-	 * @const integer _XOR
-	 * @package harmoni.dbc
-	 */
-	define("_XOR", 9);
 
 /**
  * A SelectQuery interface provides the tools to build an SQL SELECT query.
  *
- * @version $Id: SelectQuery.interface.php,v 1.8 2003/07/10 23:04:49 dobomode Exp $
+ * @version $Id: SelectQuery.interface.php,v 1.9 2003/07/18 21:07:07 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
