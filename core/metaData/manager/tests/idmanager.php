@@ -33,7 +33,7 @@ print "...";
 
 print "trying to get new ID...<br />";
 
-$type =& new HarmoniType("chunky","harmoni","testidtype");
+$type =& new HarmoniType("harmoni","chunky","testidtype");
 
 print "...";
 

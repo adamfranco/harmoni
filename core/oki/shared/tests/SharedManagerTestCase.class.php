@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.9 2004/04/23 19:29:26 dobomode Exp $
+ * @version $Id: SharedManagerTestCase.class.php,v 1.10 2004/04/27 19:48:38 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -54,7 +54,7 @@ class SharedManagerTestCase extends UnitTestCase {
 	 **/
 	function test_get_agent() {
 		// create a type
-		$type =& new HarmoniType("Get", "Agent", "Test", "A test for getting an agent");
+		$type =& new HarmoniType("Agent", "Get", "Test", "A test for getting an agent");
 		// create one agent
 		$agent =& $this->manager->createAgent("dreckridnow", $type);
 		$this->assertIsA($agent, "HarmoniAgent");
@@ -83,7 +83,7 @@ class SharedManagerTestCase extends UnitTestCase {
 	 **/
 	function test_create_agent() {
 		// create a type
-		$type =& new HarmoniType("Create", "Agent", "Test", "A test for creating an agent");
+		$type =& new HarmoniType("Agent", "Create", "Test", "A test for creating an agent");
 		
 		// create one agent
 		$agent1 =& $this->manager->createAgent("dreckridnow", $type);
@@ -110,7 +110,7 @@ class SharedManagerTestCase extends UnitTestCase {
 	 **/
 	function test_delete_agent() {
 		// create an agent and then delete it
-		$type =& new HarmoniType("Delete", "Agent", "Test", "A test for deleting an agent");
+		$type =& new HarmoniType("Agent", "Delete", "Test", "A test for deleting an agent");
 		$agent1 =& $this->manager->createAgent("kokomode", $type);
 		$this->assertIsA($agent1, "HarmoniAgent");
 
@@ -147,7 +147,7 @@ class SharedManagerTestCase extends UnitTestCase {
 	 **/
 	function test_create_group() {
 		// create a type
-		$type =& new HarmoniType("Create", "Group", "Test", "A test for creating a group");
+		$type =& new HarmoniType("Group", "Create", "Test", "A test for creating a group");
 		
 		// create one group
 		$group1 =& $this->manager->createGroup("depeche", $type, "The greatest band.");
@@ -212,7 +212,7 @@ class SharedManagerTestCase extends UnitTestCase {
 	 **/
 	function test_delete_group() {
 		// create a group and then delete it
-		$type =& new HarmoniType("Delete", "Group", "Test", "A test for deleting a group");
+		$type =& new HarmoniType("Group", "Delete", "Test", "A test for deleting a group");
 		$group1 =& $this->manager->createGroup("kokomode", $type, "blah");
 		$this->assertIsA($group1, "HarmoniGroup");
 

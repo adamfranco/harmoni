@@ -21,7 +21,7 @@ $dataSet =& $manager->fetchDataSet(228,true);
 
 //$sets =& $manager->fetchArrayOfIDs(array(138, 147, 188, 207), true);
 
-//$dataSet =& $manager->newDataSet(new HarmoniType("middlebury.edu","harmoni","testtype"), false);
+//$dataSet =& $manager->newDataSet(new HarmoniType("harmoni","middlebury.edu","testtype"), false);
 
 //print "<pre>"; print_r($dataSet); print "</pre>";
 

@@ -16,7 +16,7 @@ class HarmoniType
 	/**
 	 * Construct a Type object for this domain, authority and keyword.
 	 */
-	function HarmoniType($authority, $domain, $keyword, $description = "") { 
+	function HarmoniType($domain, $authority, $keyword, $description = "") { 
 		$this->_domain = $domain;
 		$this->_authority = $authority;
 		$this->_keyword = $keyword;

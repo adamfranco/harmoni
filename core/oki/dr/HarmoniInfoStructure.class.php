@@ -151,7 +151,7 @@ class HarmoniInfoStructure extends InfoStructure
 		
 		$typeMgr =& Services::getService("DataTypeManager");
 		foreach ($typeMgr->getRegisteredTypes() as $dataType) {
-			$types[] =& new HarmoniType ("Harmoni","DR",$dataType);
+			$types[] =& new HarmoniType ("DR","Harmoni",$dataType);
 		}
 		
 		$typeIterator =& new HarmoniTypeIterator($types);

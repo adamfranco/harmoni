@@ -169,7 +169,7 @@ class HarmoniAsset
 		$dataSetMgr =& Services::getService("DataSetManager");
 		
 		// Ready our type for comparisson
-		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
 		
 		// Get the content DataSet.
 		$id =& $this->_node->getId();
@@ -207,7 +207,7 @@ class HarmoniAsset
 		$dataSetMgr =& Services::getService("DataSetManager");
 		
 		// Ready our type for comparisson
-		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		$contentType =& new HarmoniType("DR", "Harmoni",  "AssetContent");
 		$id =& $this->_node->getId();
 		
 		// Get the content DataSet.
@@ -262,7 +262,7 @@ class HarmoniAsset
 		$dataSetMgr =& Services::getService("DataSetManager");
 		
 		// Ready our type for comparisson
-		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
 		
 		// Get the content DataSet.
 		$id =& $this->_node->getId();
@@ -300,7 +300,7 @@ class HarmoniAsset
 		$dataSetMgr =& Services::getService("DataSetManager");
 		
 		// Ready our type for comparisson
-		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
 		$id =& $this->_node->getId();
 		
 		// Get the content DataSet.
@@ -355,7 +355,7 @@ class HarmoniAsset
 		$dataSetMgr =& Services::getService("DataSetManager");
 		
 		// Ready our type for comparisson
-		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
 		
 		// Get the content DataSet.
 		$id =& $this->_node->getId();
@@ -393,7 +393,7 @@ class HarmoniAsset
 		$dataSetMgr =& Services::getService("DataSetManager");
 		
 		// Ready our type for comparisson
-		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
 		$id =& $this->_node->getId();
 		
 		// Get the content DataSet.
@@ -884,7 +884,7 @@ class HarmoniAsset
 		$infoStructures =& $this->_dr->getInfoStructures();
 
 		// Get the id of the Content DataSetTypeDef
-		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
 		$contentTypeId =& $sharedManager->getId($dataSetTypeMgr->getIDForType($contentType));
 		
 		while ($infoStructures->hasNext()) {

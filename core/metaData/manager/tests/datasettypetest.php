@@ -14,7 +14,7 @@ HarmoniDataManager::setup($dbid);
 
 $manager =& Services::requireService("DataSetTypeManager");
 
-$def = $manager->newDataSetType( new HarmoniType("gabe","datasettype","supertest","just a test"));
+$def = $manager->newDataSetType( new HarmoniType("datasettype","gabe","supertest","just a test"));
 
 $def->addNewField( new FieldDefinition("number","integer",false,true) );
 $def->addNewField( new FieldDefinition("number2","integer",true,true) );

@@ -12,7 +12,7 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: SQLDatabaseHierarchyStore.class.php,v 1.14 2004/04/21 17:55:33 adamfranco Exp $
+ * @version $Id: SQLDatabaseHierarchyStore.class.php,v 1.15 2004/04/27 19:48:38 adamfranco Exp $
  */
 
 
@@ -309,7 +309,7 @@ class SQLDatabaseHierarchyStore
 				$keyword = stripslashes($result->field("keyword"));
 				$description = stripslashes($result->field("description"));
 				
-				$this->_nodeTypes[$id] =& new HarmoniType($authority, $domain, $keyword, $description);
+				$this->_nodeTypes[$id] =& new HarmoniType($domain, $authority, $keyword, $description);
 				
 				$result->advanceRow();
 			}

@@ -88,8 +88,8 @@ $superTimer->end();
 
 print "first operation, ".$superTimer->getTime()." and ".$superTimer->getQueries()." queries.<br />";
 exit;
-$agent =& new HarmoniType("middlebury.edu","Harmoni","SimpleAgent");
-$comp =& new HarmoniType("middlebury.edu","Harmoni","Computer");
+$agent =& new HarmoniType("Harmoni","middlebury.edu","SimpleAgent");
+$comp =& new HarmoniType("Harmoni","middlebury.edu","Computer");
 
 $s =& new AndSearch;
 $s->addCriteria(new DataSetTypeSearch($comp));

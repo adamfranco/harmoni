@@ -492,7 +492,7 @@ class HarmoniDigitalRepository
 	 * @return object InfoStructure The newly created InfoStructure.
 	 */
 	function createInfoStructure($displayName, $description, $format, $schema) {
-		$dataSetType = new HarmoniType($schema, $format, $displayName, $description);
+		$dataSetType = new HarmoniType($format, $schema, $displayName, $description);
 		$dataSetTypeManager =& Services::getService("DataSetTypeManager");
 		
 		// Create the TypeDefinition
@@ -576,21 +576,21 @@ class HarmoniDigitalRepository
 	 */
 	function _registerSearchTypes () {
 		$this->_searchTypes = array();
-		$this->_searchTypes[] =& new HarmoniType("Harmoni","DR","AssetType", "Select all asset's of the specified Type.");
+		$this->_searchTypes[] =& new HarmoniType("DR","Harmoni","AssetType", "Select all asset's of the specified Type.");
 		
-		$this->_searchTypes[] =& new HarmoniType("Harmoni","DR","RootAssets", "Search for just the 'root' 
+		$this->_searchTypes[] =& new HarmoniType("DR","Harmoni","RootAssets", "Search for just the 'root' 
 											or 'top level' assets which are not assets of other assets.");
 		
-		$this->_searchTypes[] =& new HarmoniType("Harmoni","DR","DisplayName", "Search with a regular expression
+		$this->_searchTypes[] =& new HarmoniType("DR","Harmoni","DisplayName", "Search with a regular expression
 												string in the Asset DisplayName.");
 
-		$this->_searchTypes[] =& new HarmoniType("Harmoni","DR","Description", "Search with a regular expression
+		$this->_searchTypes[] =& new HarmoniType("DR","Harmoni","Description", "Search with a regular expression
 												string in the Asset Description.");
 
-		$this->_searchTypes[] =& new HarmoniType("Harmoni","DR","Content", "Search with a regular expression
+		$this->_searchTypes[] =& new HarmoniType("DR","Harmoni","Content", "Search with a regular expression
 												string in the Asset Content.");
 
-//		$this->_searchTypes[] =& new HarmoniType("Harmoni","DR","AssetInfo", "Search with a regular expression
+//		$this->_searchTypes[] =& new HarmoniType("DR","Harmoni","AssetInfo", "Search with a regular expression
 //												string in the Asset DisplayName, Description, and Content.");
 	}
 	
@@ -702,7 +702,7 @@ class HarmoniDigitalRepository
 		// Get All the assets
 		$criteria =& new AndSearch();
 		$criteria->addCriteria(new ActiveDataSetsSearch);
-		$criteria->addCriteria(new FieldValueSearch(new HarmoniType("Harmoni", "DR", "AssetContent", ""),"Content", new BlobDataType($searchCriteria)));
+		$criteria->addCriteria(new FieldValueSearch(new HarmoniType("DR", "Harmoni", "AssetContent", ""),"Content", new BlobDataType($searchCriteria)));
 		
 		$dataSetMgr =& Services::getService("DataSetManager");
 		$dataSetIds = $dataSetMgr->selectIDsBySearch($criteria);

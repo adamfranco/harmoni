@@ -20,8 +20,9 @@ $manager =& new DataSetTypeManager($dbid);
 // :: if we are adding a new one
 
 if ($_REQUEST['action'] == "addnew") {
-	$type = new HarmoniType($_REQUEST['authority'],
+	$type = new HarmoniType(
 				$_REQUEST['domain'],
+				$_REQUEST['authority'],
 				$_REQUEST['keyword'],
 				$_REQUEST['description']);
 	

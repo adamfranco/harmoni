@@ -20,8 +20,8 @@ $typeManager =& Services::requireService("DataSetTypeManager");
 
 // check the query string
 
-$agent =& new HarmoniType("middlebury.edu","Harmoni","SimpleAgent");
-$comp =& new HarmoniType("middlebury.edu","Harmoni","Computer");
+$agent =& new HarmoniType("Harmoni","middlebury.edu","SimpleAgent");
+$comp =& new HarmoniType("Harmoni","middlebury.edu","Computer");
 $ar = array($agent, $comp);
 $it =& new HarmoniTypeIterator($ar);
 $typeManager->loadMultiple($it);
