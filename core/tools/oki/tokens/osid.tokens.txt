@@ -1,0 +1,188 @@
+     [java] 830 COPYRIGHT 2 osid.SidLicense
+     [java] 870 ALWAYS_PACKAGE 0 osid
+     [java] 872 ALWAYS_THROWS 0 osid.OsidException
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 OsidLoader loads a particular implementation of an Open Service Interface Definition (OSID), sets the OsidOwner and its configuration information, and returns the instance of the implementation.  This service is how applications should bind a particular implementation to an OSID.  The value of this approach is that an application can defer which specific implementation is used until runtime.  In addition, the implementation package does not need to be specified elsewhere in application sources.  Changing implementations is simplified with this approach. <p> As an example, in order to create a new Hierarhcy, an application does not use the new operator.  Rather, the application uses OsidLoader to get an instance of a class that implements OsidManager and then asks that instance to create the Hierarchy.  It is the createHierarchy() method in some package (e.g. osid.hierarchy.impl.HierarchyManager) which does a new on osid.hierarchy.impl.Hierarchy, casts it as osid.hierarchy.Hierarchy, and returns it to the application.  This indirection offers the significant value of being able to change implementations in one spot with one modification, namely by using a different argument to OsidLoader. <p>Sample: <p>osid.OsidOwner myOwner = new osid.OsidOwner(); <p>String key = "myKey"; <p>myOwner.addContext(key, "I want to save this string as context"); <p>String whatWasMyContext = myOwner.getContext(key); <p>osid.hierarchy.HierarchyManager hierarchyManager = <br>&nbsp;&nbsp;&nbsp;osid.OsidLoader.getManager("osid.hierarchy.HierarchyManager","osid.shared.impl",myOwner); <p>osid.hierarchy.Hierarchy myHierarchy = hierarchyManager.createHierarchy(...); <p> A similar technique can be used for creating other objects.  OSIDs that have OsidManager implementations loaded by OsidLoader, will define an appropriate interface to create these objects. <p> The arguments to OsidLoader.getManager method are the OSID OsidManager interface name, the implementing package name and the OsidOwner.   <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
+     [java] 840 COMMENT 0 */
+     [java] 100 CLASS 1 OsidLoader
+     [java] 121 IMPLEMENTS 1 java.io.Serializable
+     [java] 228 MERGE_FROM 1 OsidLoader.merge
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Returns an instance of the OsidManager of the OSID specified by the OSID package OsidManager interface name and the implementation package name. The implementation class name is constructed from the SID package Manager interface name. A configuration file name is constructed in a similar manner and if the file exists it is loaded into the implementation's OsidManager's configuration.<p>Example:  To load an implementation of the osid.Filing SID implemented in a package "xyz", one would use:<p>osid.filing.FilingManager fm = (osid.filing.FilingManager)osid.OsidLoader.getManager(<p>"osid.filing.FilingManager" ,<p>"xyz" ,<p>new osid.OsidOwner());
+     [java] 840 COMMENT 0 @param SIDPackageManagerName SIDPackageManagerName is a fully qualified interface name
+     [java] 840 COMMENT 0 @param implPackageName implPackageName is a fully qualified package name
+     [java] 840 COMMENT 0 @param owner
+     [java] 840 COMMENT 0 @return OsidManager
+     [java] 840 COMMENT 0 @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link osid.OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.OsidException#VERSION_ERROR VERSION_ERROR}, ={@link osid.OsidException#INTERFACE_NOT_FOUND INTERFACE_NOT_FOUND}, ={@link osid.OsidException#MANAGER_NOT_FOUND MANAGER_NOT_FOUND}, ={@link osid.OsidException#MANAGER_INSTANTIATION_ERROR MANAGER_INSTANTIATION_ERROR}, ={@link osid.OsidException#ERROR_UPDATING_OWNER ERROR_UPDATING_OWNER}, ={@link osid.OsidException#ERROR_UPDATING_CONFIGURATION ERROR_UPDATING_CONFIGURATION}
+     [java] 840 COMMENT 0 */
+     [java] 226 MERGE 1 Merge_getManager:METHOD public static osid.OsidManager getManager(String SIDPackageManagerName,String implPackageName,osid.OsidOwner owner)
+     [java] 226 MERGE 1 Merge_makeClassName:METHOD private static String makeClassName(String packageManagerName)
+     [java] 226 MERGE 1 Merge_makeFullyQualifiedClassName:METHOD private static String makeFullyQualifiedClassName(String packageName, String className)
+     [java] 226 MERGE 1 Merge_getConfiguration:METHOD private static java.util.Map getConfiguration(String fullyQualifiedClassName)
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 OsidManager defines three methods: getOwner, updateOwner, updateConfiguration. The update methods are performed by the OsidLoader.getManager method. An application can use the update methods, but this would only be for overriding the default behavior of the OsidLoader.getManager method. <p> The OsidLoader.getManager method checks its OsidOwner argument to make sure it is not null, and then calls the Osidmanager implementation class updateOwner method. <p> The OsidLoader.getManager method loads a properties file that contains the configuration information if one exists. The configuration information is set by the system integrator who has installed an implementation. The configuration properties file is loaded by by the OsidLoader.getManager method using java.lang.ClassLoader.getSystemResourceAsStream to search for the configuration properties file. The updateConfiguration method is then called. <p> Typically, the application calls the getOwner method only.  It is unusual for the application to override the OsidLoader.getManager and call updateOwner or updateConfiguration. <p> The implementation of OsidManager can use both the OsidOwner and the Configuration properties as needed.
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 OsidManager
+     [java] 120 EXTENDS 1 java.io.Serializable
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Return owner of this OsidManager.
+     [java] 840 COMMENT 0 @return osid.OsidOwner
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 osid.OsidOwner getOwner()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Update the owner of this OsidManager.
+     [java] 840 COMMENT 0 @param owner
+     [java] 840 COMMENT 0 @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void updateOwner(osid.OsidOwner owner)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Update the configuration of this OsidManager.
+     [java] 840 COMMENT 0 @param configuration
+     [java] 840 COMMENT 0 @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link osid.OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.OsidException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.OsidException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void updateConfiguration(java.util.Map configuration)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Verify to OsidLoader that it is loading a version 1.0 SID.
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void osidVersion_1_0 ()
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Operations involved with these methods have the following characteristics:<p> either the entire set of actions occurs or nothing happens;<p>actions occurring within a transaction are hidden from other concurrent transactions; and<p>successfully committed transactions result in a consistent persisted data store.<p>mark() identifies a point in processing.  After mark(), at any point up until commit() is called, a call to rollback() causes all processing after mark() to be ignored.  The system is the same state it was at the time mark() was called.  If instead commit() is called after mark(), all processing since mark() was called is made permanent.  Once committed, these actions cannot be rolled back.
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 OsidTransactionManager
+     [java] 120 EXTENDS 1 OsidManager
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Marks the beginning of a transaction.
+     [java] 840 COMMENT 0 @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link osid.OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.OsidException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.OsidException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.OsidException#ALREADY_MARKED ALREADY_MARKED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 public void mark()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Commits a transaction, persisting its operations since a call to mark().
+     [java] 840 COMMENT 0 @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link osid.OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.OsidException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.OsidException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.OsidException#NOTHING_MARKED NOTHING_MARKED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 public void commit()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Rolls back a transaction's operations since a call to mark().
+     [java] 840 COMMENT 0 @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link osid.OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.OsidException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.OsidException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.OsidException#NOTHING_MARKED NOTHING_MARKED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 public void rollback()
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 This interface assists in accessing remote resources from an application.  Applications usually are unaware of whether a resource being used is remote or local.  The OSID implementation used by an application can be implemented as a local service, a remote service, or both.  Applications using only OSIDs and their implementations can leave issues associated with remote resources to the implementation.  Although implementations are expected to handle accessing most remote resources, there are cases where a special implementation, designed for this purpose, is needed.  An application should not handle remote access on its own and in an ad hoc way, because the application will no longer be interoperable across the O.K.I. community.  If the application can find no way to a resource through OSID implementations supporting OsidManager, the application should load an implementation of the OsidRomiManager interface.  This interface provides extra support for access to remote resources.
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 OsidRomiManager
+     [java] 120 EXTENDS 1 OsidManager
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Invokes a method remotely.
+     [java] 840 COMMENT 0 @return java.io.Serializable
+     [java] 840 COMMENT 0 @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link osid.OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.OsidException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.OsidException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 public java.io.Serializable invoke
+     [java] 221 METHOD_ARG 1 java.io.Serializable object
+     [java] 221 METHOD_ARG 1 String methodname
+     [java] 221 METHOD_ARG 1 String[] argTypes
+     [java] 221 METHOD_ARG 1 java.io.Serializable[] args
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 <p>OsidOwner is the holder of contextual information for the application and the OSID implementations. The OSIDs are designed to work and not interfere with frameworks. That is why OSIDs, with a few exceptions, are interfaces and not classes. If OSIDs were Java(TM) classes, it would be very difficult for them to work with frameworks because of Java(TM)'s inability to define classes that extend more than one class. Since there is no framework for the OSIDs, it is necessary to create a mechanism to pass around contextual information. <p> The OsidOwner class has the ability to hold and retrieve context. The only requirement for the context is that it is serializable. There are OsidOwner methods to add and remove context. OsidOwner uses an unambiguous String as a key to store the serializable context information. To retrieve the contextual information from the OsidOwner the getContext method is called with the key. This approach ignores the details of particular context instances, but does not substitute for encrypting data or other security measures. <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
+     [java] 840 COMMENT 0 */
+     [java] 100 CLASS 1 OsidOwner
+     [java] 121 IMPLEMENTS 1 java.io.Serializable
+     [java] 122 THROWS 1 osid.OsidException
+     [java] 150 DECLARE 1 private final java.util.Hashtable contextInfo = new java.util.Hashtable()
+     [java] 228 MERGE_FROM 1 Owner.merge
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Add a context to the OsidOwner. Context is associated with an unambiguous key, for example the context's fully qualified class name.  There is only one context asscociated with a particular key.  If a context already exists for this key, that context is overwritten.
+     [java] 840 COMMENT 0 @param key key is an unambiguous String identifier associated with a particular context. Any application or implementation knowing the key can add or remove the context.  The key may not be null.
+     [java] 840 COMMENT 0 @param context context is any serializable information that either an application or an implementation needs to store, retrieve, or share. For context to be sharable both parties must know the key.  The context may not be null.
+     [java] 840 COMMENT 0 @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+     [java] 840 COMMENT 0 */
+     [java] 226 MERGE 1 Merge_addContext_Context:METHOD public final void addContext(String key, java.io.Serializable context)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Remove a context from the OsidOwner.  If the context is not known, no exception is raised.
+     [java] 840 COMMENT 0 @param context context is the object to be removed from the OsidOwner
+     [java] 840 COMMENT 0 @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+     [java] 840 COMMENT 0 */
+     [java] 226 MERGE 1 Merge_removeContext_Context:METHOD public final void removeContext(java.io.Serializable context)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Remove a context from the OsidOwner.  If the context is not known, no exception is raised.
+     [java] 840 COMMENT 0 @param key key is an unambiguous String identifier
+     [java] 840 COMMENT 0 @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+     [java] 840 COMMENT 0 */
+     [java] 226 MERGE 1 Merge_removeContext_String:METHOD public final void removeContextByKey(String key)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the context associated with this key.  If the key is unknown, null is returned.
+     [java] 840 COMMENT 0 @param key key is an unambiguous String identifier
+     [java] 840 COMMENT 0 @return java.io.Serializable context
+     [java] 840 COMMENT 0 @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+     [java] 840 COMMENT 0 */
+     [java] 226 MERGE 1 Merge_getContext_String:METHOD public final java.io.Serializable getContext(String key)
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 All methods of all interfaces of the Open Service Interface Definition (OSID) throw a subclass of osid.OsidException. This requires the caller of an osid package method handle the OsidException. Since the application using an OsidManager can not determine where the implementation will ultimately execute, it must assume a worst case scenario and protect itself.
+     [java] 840 COMMENT 0 */
+     [java] 100 CLASS 1 OsidException
+     [java] 120 EXTENDS 1 java.lang.Exception
+     [java] 123 THROWS_NOTHING 1 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Operation failed
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String OPERATION_FAILED = "Operation failed "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Null argument
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String NULL_ARGUMENT = "Null argument"
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Unimplemented method
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String UNIMPLEMENTED = "Unimplemented method "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 OSID Version mismatch
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String VERSION_ERROR = "OSID Version mismatch error "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Transaction already marked
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String ALREADY_MARKED = "Transaction already marked "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 No transaction marked
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String NOTHING_MARKED = "No transaction marked "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Interface not found
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String INTERFACE_NOT_FOUND = "Interface not found "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Manager not found
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String MANAGER_NOT_FOUND = "Manager not found "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Manager instantiation error
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String MANAGER_INSTANTIATION_ERROR = "Manager instantiation error "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Error updating owner
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String ERROR_UPDATING_OWNER = "Error updating owner "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Error updating configuration
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String ERROR_UPDATING_CONFIGURATION = "Error updating configuration "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Permission denied
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String PERMISSION_DENIED = "Permission denied"
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Configuration error
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String CONFIGURATION_ERROR = "Configuration error"
+     [java] 200 CONSTRUCTOR 1 String message
+     [java] 201 CONSTRUCTOR_LINE 1 super(message);
+     [java] 823 END 1 null

@@ -2,7 +2,7 @@
 
 /**
  * Defines the throw functions.
- * @version $Id: throw.inc.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: throw.inc.php,v 1.2 2003/10/23 14:28:56 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.errorhandler
  **/
@@ -44,6 +44,7 @@ function userError(& $error) {
  * Prints all of the errors in the "UserError" service with a pretty error printer.
  * @access public
  * @return string A string containing the output of the error printer. 
+ * @package harmoni.errorhandler
  **/
 function printUserErrors() {
 	// require the service

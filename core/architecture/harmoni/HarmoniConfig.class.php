@@ -5,8 +5,8 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
 /**
  * The HamoniConfig is a {@link DataContainer} for the {@link Harmoni} object.
  * 
- * @package harmoni.authentication.ldap
- * @version $Id: HarmoniConfig.class.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @package harmoni.architecture
+ * @version $Id: HarmoniConfig.class.php,v 1.2 2003/10/23 14:28:56 gabeschine Exp $
  * @copyright 2003
  */
 

@@ -1,0 +1,358 @@
+     [java] 830 COPYRIGHT 2 osid.SidLicense
+     [java] 872 ALWAYS_THROWS 0 osid.sql.SqlException
+     [java] 851 API_PACKAGE 0 osid.sql
+     [java] 852 IMPL_PACKAGE 0 osid.sql.skel
+     [java] 836 MAKE_IMPL 0 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 A Blob is a variable length representation of binary (byte) values.  (Blob stands for <u>B</u>inary <u>L</u>arge <u>Ob</u>ject.)  The contents of a Blob are returned in a ByteValueIterator by the getBytes() method.  Its length is returned by the method length().
+     [java] 840 COMMENT 0 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 Blob
+     [java] 120 EXTENDS 1 java.io.Serializable
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * Method getBytes
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @param pos
+     [java] 840 COMMENT 0    * @param len
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return osid.shared.ByteValueIterator
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#BLOB_GETBYTES_FAILED}, {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 osid.shared.ByteValueIterator getBytes(long pos, int len)
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * return the length of the object
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return Blob length
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 long length()
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 A Clob is a variable length representation of character values.  (Clob stands for <u>C</u>haracter <u>L</u>arge <u>Ob</u>ject.)  The contents of a Clob are returned in a CharValueIterator by the getChars() method.  Its length is returned by the method length().
+     [java] 840 COMMENT 0 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 Clob
+     [java] 120 EXTENDS 1 java.io.Serializable
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * Method getChars
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @param pos
+     [java] 840 COMMENT 0    * @param len
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return osid.shared.CharValueIterator
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#CLOB_GETCHARS_FAILED}, {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 osid.shared.CharValueIterator getChars(long pos, int len)
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * return the length of the object
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return Clob length
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 long length()
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 ResultMetaData contains information about a specific column in the ResultTable.  You may retrieve the ResultMetaData for each column by calling the ResultTable method getResultMetaData().
+     [java] 840 COMMENT 0 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 ResultMetaData
+     [java] 120 EXTENDS 1 java.io.Serializable
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * return the column index.  Columns are numbered beginning with one.
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return column index
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 int getColumnIndex()
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * Method getColumnName
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return column name
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 String getColumnName()
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * The SQL data type of this column is an instance of osid.shared.Type.  It represents one of the data types supported by the implementation.
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return column type
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 osid.shared.Type getColumnType()
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * return whether this column allows nulls
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return true if column permits nulls
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 boolean areNullsAllowed()
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 The Connection represents the channel of communication with the database.  It is the means of submitting a query or update for execution.  A ResultTable is returned by the executeQuery() methods.  The executeUpdate() methods are used to execute commands that do not return resultsets such as inserts, deletes, and other data management commands.
+     [java] 840 COMMENT 0 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 Connection
+     [java] 120 EXTENDS 1 java.io.Serializable
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * execute the SQL statement
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @param sql The SQL statement to execute
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return table
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 ResultTable executeQuery(String sql)
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * execute the SQL statement
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @param sql The SQL statement to execute
+     [java] 840 COMMENT 0    * @param objs
+     [java] 840 COMMENT 0    * @param sqlTypes
+     [java] 840 COMMENT 0    * @param scales
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return table
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 ResultTable executeQuery(String sql, Object[] objs, osid.shared.Type[] sqlTypes, int[] scales)
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * Method executeUpdate
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @param sql The SQL statement to execute
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return integer as a result of an update
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 int executeUpdate(String sql)
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * Method executeUpdate
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @param sql The SQL statement to execute
+     [java] 840 COMMENT 0    * @param objs
+     [java] 840 COMMENT 0    * @param sqlTypes
+     [java] 840 COMMENT 0    * @param scales
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return integer as a result of an update
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 int executeUpdate(String sql, Object[] objs, osid.shared.Type[] sqlTypes, int[] scales)
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * return the SQL data types supported by this implementation
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return TypeIterator containing the valid SQL data types
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 osid.shared.TypeIterator getSqlTypes()
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 RowIterator provides access to these objects sequentially, one at a time.  The purpose of all Iterators is to to offer a way for OSID methods to return multiple values of a common type and not use an array.  Returning an array may not be appropriate if the number of values returned is large or is fetched remotely.  Iterators do not allow access to values by index, rather you must access values in sequence. Similarly, there is no way to go backwards through the sequence unless you place the values in a data structure, such as an array, that allows for access by index.
+     [java] 840 COMMENT 0 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 RowIterator
+     [java] 120 EXTENDS 1 java.io.Serializable
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * Return <code>true</code> if there are additional  Rows; <code>false</code> otherwise.
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return true if more rows are available
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 boolean hasNext()
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * Method next
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return Row
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 Row next()
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 ResultMetaDataIterator provides access to these objects sequentially, one at a time.  The purpose of all Iterators is to to offer a way for OSID methods to return multiple values of a common type and not use an array.  Returning an array may not be appropriate if the number of values returned is large or is fetched remotely.  Iterators do not allow access to values by index, rather you must access values in sequence. Similarly, there is no way to go backwards through the sequence unless you place the values in a data structure, such as an array, that allows for access by index.
+     [java] 840 COMMENT 0 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 ResultMetaDataIterator
+     [java] 120 EXTENDS 1 java.io.Serializable
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * Return <code>true</code> if there are additional  ResultMetaData; <code>false</code> otherwise.
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return true if more ResultMetaData are available
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 boolean hasNext()
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * Method next
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return ResultMetaData
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 ResultMetaData next()
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 <p>The SqlManager provides a means to retrieve a connection to the database. </p>
+     [java] 840 COMMENT 0 All implementors of OsidManager provide create, delete, and get methods for the various objects defined in the package.  Most managers also include methods for returning Types.  We use create methods in place of the new operator.  Create method implementations should both instantiate and persist objects.  The reason we avoid the new operator is that it makes the name of the implementing package explicit and requires a source code change in order to use a different package name. In combination with OsidLoader, applications developed using managers permit implementation substitution without source code changes.
+     [java] 840 COMMENT 0 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
+     [java] 840 COMMENT 0 */
+     [java] 110 INTERFACE 1 SqlManager
+     [java] 120 EXTENDS 1 osid.OsidManager
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * Method getConnection
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @param connectionString
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return Connection
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 public Connection getConnection( String connectionString)
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 A Row contains the row contents from a ResultTable.  Its methods provide access to the data returned in a ResultTable.
+     [java] 840 COMMENT 0 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
+     [java] 840 COMMENT 0 */
+     [java] 110 INTERFACE 1 Row
+     [java] 120 EXTENDS 1 java.io.Serializable
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     retrieve data from the column specified by index
+     [java] 840 COMMENT 0     @param columnIndex
+     [java] 840 COMMENT 0     @return Object
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#DATA_RETRIEVAL_ERROR}, {@link osid.sql.SqlException#INVALID_COLUMN_INDEX}, {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 public Object getColumnByIndex( int columnIndex )
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     retrieve data from the column specified by name
+     [java] 840 COMMENT 0     @param columnName
+     [java] 840 COMMENT 0     @return Object
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:   {@link osid.sql.SqlException#DATA_RETRIEVAL_ERROR}, {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 public Object getColumnByName( String columnName )
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    Method getColumns
+     [java] 840 COMMENT 0    @return osid.shared.ObjectIterator
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:   {@link osid.sql.SqlException#DATA_RETRIEVAL_ERROR}, {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 public osid.shared.ObjectIterator getColumns()
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 A ResultTable is tabular data returned by a query.  You access the returned data by calling the method getRows() which returns a RowIterator.
+     [java] 840 COMMENT 0 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 ResultTable
+     [java] 120 EXTENDS 1 java.io.Serializable
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * Method getColumnCount
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return number of columns
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 int getColumnCount()
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * Method getResultMetaData
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return metadata for Rows
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#DATA_RETRIEVAL_ERROR}, {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 ResultMetaDataIterator getResultMetaData()
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0    * Method getRows
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    * @return Rows object
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link osid.sql.SqlException#DATA_RETRIEVAL_ERROR}, {@link osid.sql.SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.sql.SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.sql.SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0    *
+     [java] 840 COMMENT 0    */
+     [java] 220 METHOD 1 RowIterator getRows()
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 All methods of all interfaces of the Open Service Interface Definition (OSID) throw a subclass of osid.OsidException. This requires the caller of an osid package method handle the OsidException. Since the application using an OsidManager can not determine where the implementation will ultimately execute, it must assume a worst case scenario and protect itself.
+     [java] 840 COMMENT 0 */
+     [java] 100 CLASS 1 SqlException
+     [java] 120 EXTENDS 1 osid.OsidException
+     [java] 123 THROWS_NOTHING 1 null
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     Blob get bytes failed
+     [java] 840 COMMENT 0   */
+     [java] 150 DECLARE 1 public static final String BLOB_GETBYTES_FAILED = "Blob get bytes failed ";
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     Clob get chars failed
+     [java] 840 COMMENT 0   */
+     [java] 150 DECLARE 1 public static final String CLOB_GETCHARS_FAILED = "Clob get chars failed ";
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     Connection failed
+     [java] 840 COMMENT 0   */
+     [java] 150 DECLARE 1 public static final String CONNECTION_FAILED = "Connection failed ";
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     Invalid arguments
+     [java] 840 COMMENT 0   */
+     [java] 150 DECLARE 1 public static final String INVALID_ARGUMENTS = "Invalid arguments ";
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     Invalid column index.  Note that column numbering begins with one, not zero.
+     [java] 840 COMMENT 0   */
+     [java] 150 DECLARE 1 public static final String INVALID_COLUMN_INDEX = "Invalid column index ";
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     Data retrieval error
+     [java] 840 COMMENT 0   */
+     [java] 150 DECLARE 1 public static final String DATA_RETRIEVAL_ERROR = "Data retrieval error ";
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     Unknown or unsupported Type
+     [java] 840 COMMENT 0   */
+     [java] 150 DECLARE 1 public static final String UNKNOWN_TYPE = "Unknown or unsupported Type "
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     Operation failed
+     [java] 840 COMMENT 0    */
+     [java] 150 DECLARE 1 public static final String OPERATION_FAILED = "Operation failed "
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     Iterator has no more elements
+     [java] 840 COMMENT 0    */
+     [java] 150 DECLARE 1 public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     Null argument
+     [java] 840 COMMENT 0    */
+     [java] 150 DECLARE 1 public static final String NULL_ARGUMENT = "Null argument "
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     Permission denied
+     [java] 840 COMMENT 0    */
+     [java] 150 DECLARE 1 public static final String PERMISSION_DENIED = "Permission denied "
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     Unimplemented method
+     [java] 840 COMMENT 0    */
+     [java] 150 DECLARE 1 public static final String UNIMPLEMENTED = "Unimplemented method "
+     [java] 840 COMMENT 0   /**
+     [java] 840 COMMENT 0     Configuration error
+     [java] 840 COMMENT 0    */
+     [java] 150 DECLARE 1 public static final String CONFIGURATION_ERROR = "Configuration error "
+     [java] 200 CONSTRUCTOR 1 String message
+     [java] 201 CONSTRUCTOR_LINE 1 super( message )
+     [java] 123 THROWS_NOTHING 1 null
+     [java] 823 END 1 null

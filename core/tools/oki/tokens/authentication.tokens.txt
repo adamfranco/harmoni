@@ -1,0 +1,83 @@
+     [java] 830 COPYRIGHT 2 osid.SidLicense
+     [java] 872 ALWAYS_THROWS 0 osid.authentication.AuthenticationException
+     [java] 851 API_PACKAGE 0 osid.authentication
+     [java] 852 IMPL_PACKAGE 0 osid.authentication.skel
+     [java] 836 MAKE_IMPL 0 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 The AuthenticationManager identifies the authentication Types supported by the implementation, authenticates the user using a particular authentication Type, determines if the user is authenticated for a particular authentication Type, destroys the user's authentication, and returns the id of the Agent that represents the user. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}.
+     [java] 840 COMMENT 0  */
+     [java] 111 API_INTERFACE 1 AuthenticationManager
+     [java] 120 EXTENDS 1 osid.OsidManager
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the authentication Types that are supported by the implementation.
+     [java] 840 COMMENT 0 @return osid.shared.TypeIterator
+     [java] 840 COMMENT 0 @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:   {@link osid.shared.SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.shared.SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.shared.SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 osid.shared.TypeIterator getAuthenticationTypes()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Invoke the authentication process of the specified Type to identify the user.  It may be necessary to call isUserAuthenticated to check the status of authentication.  The standard authentication technique of limiting the time an user's authentication is valid requires explicit queries of the authentication status. It is likely that checking the status of authentication will occur more frequently than invoking the mechanism to authenticate the user.  Separation of the authentication process from checking the status of the authentication process is made explicit by having the authenticateUser and isUserAuthenticated methods.
+     [java] 840 COMMENT 0 @param authenticationType
+     [java] 840 COMMENT 0 @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:   {@link osid.shared.SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.shared.SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.shared.SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.shared.SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.shared.SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void authenticateUser(osid.shared.Type authenticationType)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Check the current authentication status of the user. If the method returns true, the user is authenticated.  If the method returns false, the user is not authenticated.  This can indicate that the user could not be authenticated or that the user's authentication has timed out.  The intent is to use the method authenticateUser to invoke the authentication process.  The standard authentication technique of limiting the time an user's authentication is valid requires explicit queries of the authentication status. It is likely that checking the status of authentication will occur more frequently than invoking the mechanism to authenticate the user.  Separation of the authentication process from checking the status of the authentication process is made explicit by having the authenticateUser and isUserAuthenticated methods.
+     [java] 840 COMMENT 0 @param authenticationType
+     [java] 840 COMMENT 0 @return boolean
+     [java] 840 COMMENT 0 @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:   {@link osid.shared.SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.shared.SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.shared.SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.shared.SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.shared.SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 boolean isUserAuthenticated(osid.shared.Type authenticationType)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the Unique Id of the Agent that represents the user for the specified AuthenticationType.  Agents are managed in the Shared OSID.
+     [java] 840 COMMENT 0 @param authenticationType
+     [java] 840 COMMENT 0 @return osid.shared.Id
+     [java] 840 COMMENT 0 @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:   {@link osid.shared.SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.shared.SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.shared.SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.shared.SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.shared.SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 osid.shared.Id getUserId(osid.shared.Type authenticationType)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Destroy authentication for all authentication types.
+     [java] 840 COMMENT 0 @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:   {@link osid.shared.SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.shared.SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.shared.SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void destroyAuthentication()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Destroy authentication for the specified authentication type.
+     [java] 840 COMMENT 0 @param authenticationType
+     [java] 840 COMMENT 0 @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:   {@link osid.shared.SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.shared.SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.shared.SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.shared.SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.shared.SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void destroyAuthenticationForType(osid.shared.Type authenticationType)
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 All methods of all interfaces of the Open Service Interface Definition (OSID) throw a subclass of osid.OsidException. This requires the caller of an osid package method handle the OsidException. Since the application using an OsidManager can not determine where the implementation will ultimately execute, it must assume a worst case scenario and protect itself.. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}.
+     [java] 840 COMMENT 0 */
+     [java] 100 CLASS 1 AuthenticationException
+     [java] 120 EXTENDS 1 osid.OsidException
+     [java] 123 THROWS_NOTHING 1 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Unknown or unsupported Type
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String UNKNOWN_TYPE = "Unknown Type "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Operation failed
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String OPERATION_FAILED = "Operation failed "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Null argument
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String NULL_ARGUMENT = "Null argument "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Permission denied
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String PERMISSION_DENIED = "Permission denied "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Configuration error
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String CONFIGURATION_ERROR = "Configuration error "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Unimplemented method
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String UNIMPLEMENTED = "Unimplemented method "
+     [java] 200 CONSTRUCTOR 1 String message
+     [java] 201 CONSTRUCTOR_LINE 1 super( message )
+     [java] 823 END 1 null

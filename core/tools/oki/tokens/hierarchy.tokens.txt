@@ -1,0 +1,448 @@
+     [java] 830 COPYRIGHT 2 osid.SidLicense
+     [java] 871 ALWAYS_EXTENDS 0 java.io.Serializable
+     [java] 872 ALWAYS_THROWS 0 osid.hierarchy.HierarchyException
+     [java] 851 API_PACKAGE 0 osid.hierarchy
+     [java] 852 IMPL_PACKAGE 0 osid.hierarchy.skel
+     [java] 836 MAKE_IMPL 0 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 All implementors of OsidManager provide create, delete, and get methods for the various objects defined in the package.  Most managers also include methods for returning Types.  We use create methods in place of the new operator.  Create method implementations should both instantiate and persist objects.  The reason we avoid the new operator is that it makes the name of the implementing package explicit and requires a source code change in order to use a different package name. In combination with OsidLoader, applications developed using managers permit implementation substitution without source code changes.
+     [java] 840 COMMENT 0 <p>SID Version: 1.0 rc6 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}.
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 HierarchyManager
+     [java] 120 EXTENDS 1 osid.OsidManager
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Create a Hierarchy.
+     [java] 840 COMMENT 0 @param displayName
+     [java] 840 COMMENT 0 @param nodeTypes
+     [java] 840 COMMENT 0 @param description
+     [java] 840 COMMENT 0 @param allowsMultipleParents
+     [java] 840 COMMENT 0 @param allowsRecursion
+     [java] 840 COMMENT 0 @return Hierarchy
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.hierarchy.HierarchyException#UNSUPPORTED_CREATION UNSUPPORTED_CREATION}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 Hierarchy createHierarchy( String displayName, osid.shared.Type[] nodeTypes, String description, boolean allowsMultipleParents, boolean allowsRecursion )
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get a Hierarchy by Unique Id.
+     [java] 840 COMMENT 0 @param  hierarchyId
+     [java] 840 COMMENT 0 @return Hierarchy
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 Hierarchy getHierarchy( osid.shared.Id hierarchyId )
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get all Hierarchies.
+     [java] 840 COMMENT 0 @return HierarchyIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 HierarchyIterator getHierarchies()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Delete a Hierarchy by Unique Id. All Nodes must be removed from the Hierarchy before this method is called.
+     [java] 840 COMMENT 0 @param hierarchyId
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link osid.hierarchy.HierarchyException#HIERARCHY_NOT_EMPTY HIERARCHY_NOT_EMPTY}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void deleteHierarchy( osid.shared.Id hierarchyId )
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 A Hierarchy is a structure comprised of nodes arranged in root, parent, and child form.  The Hierarchy can be traversed in several ways to determine the arrangement of nodes. A Hierarchy can allow multiple parents.  A Hierarchy can allow recursion.  The implementation is responsible for ensuring that the integrity of the Hierarchy is always maintained.
+     [java] 840 COMMENT 0 <p>SID Version: 1.0 rc6 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}.
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 Hierarchy
+     [java] 120 EXTENDS 1 java.io.Serializable
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the Unique Id for this Hierarchy.
+     [java] 840 COMMENT 0 @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 osid.shared.Id getId()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the name for this Hierarchy.
+     [java] 840 COMMENT 0 @return String the name
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 String getDisplayName()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the description for this Hierarchy.
+     [java] 840 COMMENT 0 @return String the name
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 String getDescription()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Update the description for this Hierarchy.
+     [java] 840 COMMENT 0 @param description  Description cannot be null but may be empty.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void updateDescription(java.lang.String description)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Create a root Node with root status. The Node is created with the specified Unique Id, and, unlike Nodes created with createNode, initially has no parents or children.
+     [java] 840 COMMENT 0 @param nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
+     [java] 840 COMMENT 0 @param nodeType The Type of the new Node; type may be null if the node has no type.
+     [java] 840 COMMENT 0 @param displayName The displayName of the new Node; displayName cannot be null, but may be empty.
+     [java] 840 COMMENT 0 @param description The description of the new Node; description cannot be null, but may be empty.
+     [java] 840 COMMENT 0 new Node with root status.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}  {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.hierarchy.HierarchyException#SINGLE_PARENT_HIERARCHY SINGLE_PARENT_HIERARCHY}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 Node createRootNode
+     [java] 221 METHOD_ARG 1 osid.shared.Id nodeId
+     [java] 221 METHOD_ARG 1 osid.shared.Type nodeType
+     [java] 221 METHOD_ARG 1 String displayName
+     [java] 221 METHOD_ARG 1 String description
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Create a Node. The Node is created with the specified Unique Id and initially has only the one specified parent.
+     [java] 840 COMMENT 0 @param nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
+     [java] 840 COMMENT 0 @param parentId The Unique Id to be associated with the parent of this new Node; Unique Id cannot be null.
+     [java] 840 COMMENT 0 @param type The Type of the new Node; type may be null if the node has no type.
+     [java] 840 COMMENT 0 @param displayName The displayName of the new Node; displayName cannot be null, but may be empty.
+     [java] 840 COMMENT 0 @param description The description of the new Node; description cannot be null, but may be empty.
+     [java] 840 COMMENT 0 new Node.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.hierarchy.HierarchyException#UNKNOWN_PARENT_NODE UNKNOWN_PARENT_NODE}, {@link osid.hierarchy.HierarchyException#ATTEMPTED_RECURSION ATTEMPTED_RECURSION}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 Node createNode
+     [java] 221 METHOD_ARG 1 osid.shared.Id nodeId
+     [java] 221 METHOD_ARG 1 osid.shared.Id parentId
+     [java] 221 METHOD_ARG 1 osid.shared.Type type
+     [java] 221 METHOD_ARG 1 String displayName
+     [java] 221 METHOD_ARG 1 String description
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Delete a Node by Id.  Only leaf Nodes can be deleted.
+     [java] 840 COMMENT 0 @param nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link osid.hierarchy.HierarchyException#INCONSISTENT_STATE INCONSISTENT_STATE}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void deleteNode(osid.shared.Id nodeId)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Add a NodeType to this Hierarchy.
+     [java] 840 COMMENT 0 @param type nodeType
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.hierarchy.HierarchyException#ALREADY_ADDED ALREADY_ADDED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void addNodeType(osid.shared.Type type)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Remove a NodeType from this Hierarchy.  Note that no Nodes can have this NodeType.
+     [java] 840 COMMENT 0 @param type nodeType
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.hierarchy.HierarchyException#NODE_TYPE_IN_USE NODE_TYPE_IN_USE}, {@link osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void removeNodeType(osid.shared.Type type)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get all the Nodes in this Hierarchy.
+     [java] 840 COMMENT 0 @return NodeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 NodeIterator getAllNodes()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the root Nodes in this Hierarchy.  The root Nodes are defined as all Nodes without parents.
+     [java] 840 COMMENT 0 @return NodeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 NodeIterator getRootNodes()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get a Node by Unique Id.
+     [java] 840 COMMENT 0 @param nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
+     [java] 840 COMMENT 0 @return Node
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 Node getNode( osid.shared.Id nodeId )
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get all NodeTypes used in this Hierarchy.
+     [java] 840 COMMENT 0 @return osid.shared.TypeIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 osid.shared.TypeIterator getNodeTypes()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Returns true if multiple parents are allowed; false otherwise.
+     [java] 840 COMMENT 0 @return boolean
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 boolean allowsMultipleParents()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Returns true if recursion allowed; false otherwise.
+     [java] 840 COMMENT 0 @return boolean
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 boolean allowsRecursion()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 *  Constant indicating depth-first traversal.
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final int TRAVERSE_MODE_DEPTH_FIRST = 0xdf;
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 *  Constant indicating breadth-first traversal.
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final int TRAVERSE_MODE_BREADTH_FIRST = 0xbf;
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 *  Constant indicating traversal up the Hierarchy, or traversal of parents.
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final int TRAVERSE_DIRECTION_UP = 0x01;
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 *  Constant indicating traversal down the Hierarchy, or traversal of children.
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final int TRAVERSE_DIRECTION_DOWN = 0x02;
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 *  Constant indicating no limit on the depth of traversal.
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final int TRAVERSE_LEVELS_ALL = -1;
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Traverse a Hierarchy returning information about each Node encountered.
+     [java] 840 COMMENT 0 @param startId the Unique Id of the node from which traversal should start.
+     [java] 840 COMMENT 0 @param mode Mode must be either TRAVERSE_MODE_DEPTH_FIRST or TRAVERSE_MODE_BREADTH_FIRST, indicating either depth-first or breadth-first traversal, respectively
+     [java] 840 COMMENT 0 @param direction Direction must be either TRAVERSE_DIRECTION_UP or TRAVERSE_DIRECTION_DOWN, indicating the whether the traversal should proceed up the parents or down the children.
+     [java] 840 COMMENT 0 @param levels The number of levels to traverse.  If this value is $lt; 0 (or TRAVERSE_LEVELS_INFINITE, which equals -1), the traversal will proceed to the end of the Hierarchy or until a circular reference returns to a Node already traversed.
+     [java] 840 COMMENT 0 @return TraversalInfoIterator where each TraversalInfo object contains information about the Node traversed in the order they were encountered.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link osid.hierarchy.HierarchyException#UNKNOWN_TRAVERSAL_MODE UNKNOWN_TRAVERSAL_MODE}, {@link osid.hierarchy.HierarchyException#UNKNOWN_TRAVERSAL_DIRECTION UNKNOWN_TRAVERSAL_DIRECTION}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 TraversalInfoIterator traverse
+     [java] 221 METHOD_ARG 1 osid.shared.Id startId
+     [java] 221 METHOD_ARG 1 int mode
+     [java] 221 METHOD_ARG 1 int direction
+     [java] 221 METHOD_ARG 1 int levels
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 A TraversalInfo contains a Node Unique Id, a Node displayName, and a Node Level.  The level of the Node represented by the node Unique Id is in relation to the startId of the Hierarchy traverse method call. Children Nodes are represented by positive levels, parent Nodes by negative levels.  For example, a traverse of a Hierarchy has level -1 for parents of the Node represented by startId, and a level -2 for grandparents.  Similarly, the children of the Node would have level 1, and grandchildren would have level 2.
+     [java] 840 COMMENT 0 <p>SID Version: 1.0 rc6 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}.
+     [java] 840 COMMENT 0  */
+     [java] 111 API_INTERFACE 1 TraversalInfo
+     [java] 120 EXTENDS 1 java.io.Serializable
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the Unique Id for this Node.
+     [java] 840 COMMENT 0 @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 230 GET 1 osid.shared.Id NodeId
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the name for this Node.
+     [java] 840 COMMENT 0 @return String the name
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 230 GET 1 String DisplayName
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the level of this Node in relation to the startId of the Hierarchy traversal method call.  Descendants are assigned increasingly positive levels; ancestors increasingly negative levels.
+     [java] 840 COMMENT 0 @return int level
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 230 GET 1 int Level
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 A Node is a Hierarchy's representation of an external object that is one of a number of similar objects to be organized. Nodes must be connected to a Hierarchy.
+     [java] 840 COMMENT 0 <p>SID Version: 1.0 rc6 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}.
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 Node
+     [java] 120 EXTENDS 1 java.io.Serializable
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the Unique Id for this Node.
+     [java] 840 COMMENT 0 @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 osid.shared.Id getId()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the name for this Node.
+     [java] 840 COMMENT 0 @return String the name
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 String getDisplayName()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the description for this
+     [java] 840 COMMENT 0 @return String the name
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 String getDescription()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the parents of this Node.  To get other ancestors use the Hierarchy traverse method.
+     [java] 840 COMMENT 0 @return NodeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 NodeIterator getParents()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the children of this Node.  To get other descendants use the Hierarchy traverse method.
+     [java] 840 COMMENT 0 @return NodeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 NodeIterator getChildren()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Get the Type for this Node.
+     [java] 840 COMMENT 0 @return osid.shared.Type
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 osid.shared.Type getType()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Update the name of this Node.
+     [java] 840 COMMENT 0 @param description The description of the new Node; description cannot be null, but may be empty.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void updateDescription(java.lang.String description)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Update the name of this Node. Node name changes are permitted since the Hierarchy's integrity is based on the Node's Unique Id.
+     [java] 840 COMMENT 0 @param displayName The displayName of the new Node; displayName cannot be null, but may be empty.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void updateDisplayName(java.lang.String displayName)
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Return true if this Node is a leaf; false otherwise.  A Node is a leaf if it has no children.
+     [java] 840 COMMENT 0 @return boolean
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 boolean isLeaf()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Return true if this Node is a root; false otherwise.  A Node is a root if it has no parents.
+     [java] 840 COMMENT 0 @return boolean
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 boolean isRoot()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Link a parent to this Node.
+     [java] 840 COMMENT 0 @param nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link osid.hierarchy.HierarchyException#SINGLE_PARENT_HIERARCHY SINGLE_PARENT_HIERARCHY}, {@link osid.hierarchy.HierarchyException#ALREADY_ADDED ALREADY_ADDED}, {@link osid.hierarchy.HierarchyException#ATTEMPTED_RECURSION ATTEMPTED_RECURSION}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void addParent( osid.shared.Id nodeId )
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Unlink a parent from this Node.
+     [java] 840 COMMENT 0 @param parentId
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link osid.hierarchy.HierarchyException#SINGLE_PARENT_HIERARCHY SINGLE_PARENT_HIERARCHY}, {@link osid.hierarchy.HierarchyException#INCONSISTENT_STATE INCONSISTENT_STATE}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void removeParent( osid.shared.Id parentId )
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Changes the parent of this Node by adding a new parent and removing the old parent.
+     [java] 840 COMMENT 0 @param oldParentId
+     [java] 840 COMMENT 0 @param newParentId
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link osid.hierarchy.HierarchyException#ATTEMPTED_RECURSION ATTEMPTED_RECURSION}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 void changeParent(osid.shared.Id oldParentId, osid.shared.Id newParentId)
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 TraversalInfoIterator provides access to these objects sequentially, one at a time.  The purpose of all Iterators is to to offer a way for OSID methods to return multiple values of a common type and not use an array.  Returning an array may not be appropriate if the number of values returned is large or is fetched remotely.  Iterators do not allow access to values by index, rather you must access values in sequence. Similarly, there is no way to go backwards through the sequence unless you place the values in a data structure, such as an array, that allows for access by index.
+     [java] 840 COMMENT 0 <p>SID Version: 1.0 rc6 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}.
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 TraversalInfoIterator
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Return <code>true</code> if there are additional  TraversalInfos ; <code>false</code> otherwise.
+     [java] 840 COMMENT 0 @return boolean
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 boolean hasNext()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Return the next TraversalInfo.
+     [java] 840 COMMENT 0 @return TraversalInfo
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 TraversalInfo next()
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 HierarchyIterator provides access to these objects sequentially, one at a time.  The purpose of all Iterators is to to offer a way for OSID methods to return multiple values of a common type and not use an array.  Returning an array may not be appropriate if the number of values returned is large or is fetched remotely.  Iterators do not allow access to values by index, rather you must access values in sequence. Similarly, there is no way to go backwards through the sequence unless you place the values in a data structure, such as an array, that allows for access by index.
+     [java] 840 COMMENT 0 <p>SID Version: 1.0 rc6 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}.
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 HierarchyIterator
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Return <code>true</code> if there are additional  Hierarchies ; <code>false</code> otherwise.
+     [java] 840 COMMENT 0 @return boolean
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 boolean hasNext()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Return the next Hierarchy.
+     [java] 840 COMMENT 0 @return Hierarchy
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 Hierarchy next()
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 NodeIterator provides access to these objects sequentially, one at a time.  The purpose of all Iterators is to to offer a way for OSID methods to return multiple values of a common type and not use an array.  Returning an array may not be appropriate if the number of values returned is large or is fetched remotely.  Iterators do not allow access to values by index, rather you must access values in sequence. Similarly, there is no way to go backwards through the sequence unless you place the values in a data structure, such as an array, that allows for access by index.
+     [java] 840 COMMENT 0 <p>SID Version: 1.0 rc6 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}.
+     [java] 840 COMMENT 0 */
+     [java] 111 API_INTERFACE 1 NodeIterator
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Return <code>true</code> if there are additional  Nodes ; <code>false</code> otherwise.
+     [java] 840 COMMENT 0 @return boolean
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 boolean hasNext()
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Return the next Node.
+     [java] 840 COMMENT 0 @return Node
+     [java] 840 COMMENT 0 @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link osid.hierarchy.HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link osid.hierarchy.HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link osid.hierarchy.HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link osid.hierarchy.HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link osid.hierarchy.HierarchyException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
+     [java] 840 COMMENT 0 */
+     [java] 220 METHOD 1 Node next()
+     [java] 823 END 1 null
+     [java] 822 BEGIN 0 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 All methods of all interfaces of the Open Service Interface Definition (OSID) throw a subclass of osid.OsidException. This requires the caller of an osid package method handle the OsidException. Since the application using an OsidManager can not determine where the implementation will ultimately execute, it must assume a worst case scenario and protect itself.
+     [java] 840 COMMENT 0 <p>SID Version: 1.0 rc6 <p>Licensed under the {@link osid.SidLicense MIT O.K.I&#46; SID Definition License}.
+     [java] 840 COMMENT 0 */
+     [java] 100 CLASS 1 HierarchyException
+     [java] 120 EXTENDS 1 osid.OsidException
+     [java] 123 THROWS_NOTHING 1 null
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Unknown or unsupported Type
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String UNKNOWN_TYPE = "Unknown Type "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Unknown Id
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String UNKNOWN_ID = "Unknown Id "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Iterator has no more elements
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Cannot create Node without unknown parent
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String UNKNOWN_PARENT_NODE =        "Cannot create Node with unknown parent "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Cannot delete a Hierarchy containing Nodes
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String HIERARCHY_NOT_EMPTY = "Cannot delete a Hierarchy containing Nodes "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Null argument
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String NULL_ARGUMENT = "Null argument"
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Hierarchy does not support allowsMultipleParents is false and allowsRecursion is true
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String UNSUPPORTED_CREATION = "Hierarchy does not support allowsMultipleParents is false and allowsRecursion is true "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Hierarchy does not allow recursion
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String ATTEMPTED_RECURSION = "Hierarchy does not allow recursion "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Hierarchy does not allow multiple parents
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String SINGLE_PARENT_HIERARCHY = "Hierarchy does not allow multiple parents "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Removing parent will result in an inconsistent state
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String INCONSISTENT_STATE = "Removing node will result in an inconsistent state "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Unknown traversal mode
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String UNKNOWN_TRAVERSAL_MODE = "Unknown traversal mode "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Unknown traversal direction
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String UNKNOWN_TRAVERSAL_DIRECTION = "Unknown traversal direction "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 NodeType has never been added
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String NODE_TYPE_NOT_FOUND = "NodeType has never been added "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Cannot remove NodeType referenced by a Node
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String NODE_TYPE_IN_USE = "Cannot remove NodeType referenced by a Node "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Operation Failed
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String OPERATION_FAILED = "Operation failed "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Permission Denied
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String PERMISSION_DENIED = "Permission denied "
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Configuration error
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String CONFIGURATION_ERROR = "Configuration error"
+     [java] 840 COMMENT 0 /**
+     [java] 840 COMMENT 0 Object already added
+     [java] 840 COMMENT 0 */
+     [java] 150 DECLARE 1 public static final String ALREADY_ADDED = "Object already added "
+     [java] 200 CONSTRUCTOR 1 String message
+     [java] 201 CONSTRUCTOR_LINE 1 super( message );
+     [java] 823 END 1 null
