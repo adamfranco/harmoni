@@ -45,7 +45,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.14 2005/03/02 23:43:07 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.15 2005/03/23 21:03:13 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -376,10 +376,13 @@ class HarmoniAgentManager
 //		echo "</pre>\n";
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
-		// 7. Make sure that the AuthN system still isn't maintaining a
+		// 7. Make sure that the AgentTokenManager still isn't maintaining a
 		// Mapping to this agent
-		$authN =& Services::getService("AuthN");
-		$authN->deleteMapping($id);
+		$agentTokenMappingManager =& Services::getService("AgentTokenMapping");
+		$mappings =& $agentTokenMappingManager->getMappingsForAgentId($id);
+		while ($mappings->hasNextObject()) {
+			$agentTokenMappingManager->deleteMapping($mappings->nextObject());
+		}
 		
 		// 8. Update the cache
 		if (isset($this->_agentsCache[$idValue])) {
