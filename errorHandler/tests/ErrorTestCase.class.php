@@ -9,7 +9,8 @@ require_once('Error.class.php');
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: ErrorTestCase.class.php,v 1.3 2003/06/18 16:23:04 movsjani Exp $
+ * @version $Id: ErrorTestCase.class.php,v 1.4 2003/06/18 20:48:45 adamfranco Exp $
+ * @package harmoni.errorhandler.tests
  * @copyright 2003 
  **/
 
