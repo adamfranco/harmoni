@@ -18,12 +18,13 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * <p>
  * OSID Version: 2.0
  * </p>
- * 
+ *
  * @package harmoni.osid.hierarchy
- * @author Middlebury College
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: HarmoniHierarchy.class.php,v 1.4 2005/01/19 16:33:21 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniHierarchy.class.php,v 1.5 2005/01/19 17:39:11 adamfranco Exp $
  */
 
 class HarmoniHierarchy 

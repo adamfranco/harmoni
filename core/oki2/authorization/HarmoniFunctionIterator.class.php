@@ -9,8 +9,13 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * <p>
  * OSID Version: 2.0
  * </p>
- * 
+ *
  * @package harmoni.osid.authorization
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniFunctionIterator.class.php,v 1.4 2005/01/19 17:39:07 adamfranco Exp $
  */
 class HarmoniFunctionIterator
 	extends HarmoniIterator

@@ -5,11 +5,13 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
 /**
  * The AgentSearch interface defines methods for searching for agents. This is 
  * used by the AgentManager for searching for agents.
+ *
+ * @package harmoni.osid.agent.search
  * 
- * @package harmoni.osid.agent
- * @version $Id: HarmoniAgentExistsSearch.class.php,v 1.2 2005/01/12 16:51:45 adamfranco Exp $
- * @date $Date: 2005/01/12 16:51:45 $
- * @copyright 2004 Middlebury College
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniAgentExistsSearch.class.php,v 1.3 2005/01/19 17:38:52 adamfranco Exp $
  */
 
 class HarmoniAgentExistsSearch

@@ -14,6 +14,11 @@ require_once(OKI2."/osid/shared/Id.php");
  * </p>
  *
  * @package harmoni.osid.shared
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniId.class.php,v 1.4 2005/01/19 17:39:38 adamfranco Exp $
  */
 class HarmoniId 
 	extends Id 

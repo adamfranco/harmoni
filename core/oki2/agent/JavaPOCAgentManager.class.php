@@ -31,11 +31,13 @@ require_once(OKI2."/osid/agent/AgentManager.php");
  * <p>
  * OSID Version: 2.0
  * </p>
- * 
+ *
  * @package harmoni.osid.agent
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: JavaPOCAgentManager.class.php,v 1.3 2005/01/19 16:33:02 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: JavaPOCAgentManager.class.php,v 1.4 2005/01/19 17:37:14 adamfranco Exp $
  * 
  */
 class JavaPOCAgentManager

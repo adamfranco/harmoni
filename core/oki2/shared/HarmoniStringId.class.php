@@ -2,7 +2,13 @@
 
 /**
  * An Id class that allows for the passing of an arbitrary string as an Id object.
+ *
  * @package harmoni.osid.shared
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniStringId.class.php,v 1.2 2005/01/19 17:39:40 adamfranco Exp $
  */
 
 class HarmoniStringId

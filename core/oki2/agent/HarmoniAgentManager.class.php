@@ -37,16 +37,16 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * source code. As with all managers, use the OsidLoader to load an
  * implementation of this interface.
  * </p>
- * 
- * <p></p>
- * 
- * 
+ *
  * @package harmoni.osid.agent
- * @author Adam Franco, Dobromir Radichkov
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: HarmoniAgentManager.class.php,v 1.5 2005/01/19 16:33:01 adamfranco Exp $
  * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniAgentManager.class.php,v 1.6 2005/01/19 17:37:12 adamfranco Exp $
+ *
+ * @author Adam Franco
+ * @author Dobromir Radichkov
  */
 class HarmoniAgentManager
 	extends AgentManager

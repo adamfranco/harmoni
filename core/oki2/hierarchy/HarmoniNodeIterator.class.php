@@ -18,9 +18,11 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * </p>
  *
  * @package harmoni.osid.hierarchy
- * @copyright 2005 Middlebury College
- * @access public
- * @version $Id: HarmoniNodeIterator.class.php,v 1.3 2005/01/19 16:33:21 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniNodeIterator.class.php,v 1.4 2005/01/19 17:39:12 adamfranco Exp $
  */
 class HarmoniNodeIterator
 	extends HarmoniIterator

@@ -26,8 +26,13 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * <p>
  * OSID Version: 2.0
  * </p>
- * 
+ *
  * @package harmoni.osid.shared
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniLongValueIterator.class.php,v 1.3 2005/01/19 17:39:40 adamfranco Exp $
  */
 class HarmoniLongValueIterator
 	extends HarmoniIterator

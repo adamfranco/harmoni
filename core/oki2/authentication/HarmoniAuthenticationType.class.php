@@ -4,14 +4,14 @@ require_once(HARMONI."oki2/shared/HarmoniType.class.php");
 
 /**
  * This Type is that which makes use of the Harmoni AuthenticationHandler.
- * 
- * @version $Id: HarmoniAuthenticationType.class.php,v 1.2 2005/01/18 16:38:58 adamfranco Exp $
+ *
  * @package harmoni.osid.authentication
- * @author Middlebury College, ETS
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
-
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniAuthenticationType.class.php,v 1.3 2005/01/19 17:39:03 adamfranco Exp $
+ */
 class HarmoniAuthenticationType
 	 extends HarmoniType 
 {

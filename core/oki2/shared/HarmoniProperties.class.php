@@ -11,8 +11,13 @@ require_once(OKI2."/osid/shared/Properties.php");
  * <p>
  * OSID Version: 2.0
  * </p>
- * 
+ *
  * @package harmoni.osid.shared
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniProperties.class.php,v 1.6 2005/01/19 17:39:40 adamfranco Exp $
  */
 class HarmoniProperties
 	extends Properties

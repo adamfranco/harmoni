@@ -35,12 +35,13 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * <p>
  * OSID Version: 2.0
  * </p>
- * 
+ *
  * @package harmoni.osid.id
- * @author Adam Franco, Dobromir Radichkov
- * @copyright 2004 Middlebury College
- * @access public
- * @version $Id: HarmoniIdManager.class.php,v 1.6 2005/01/19 16:33:23 adamfranco Exp $
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniIdManager.class.php,v 1.7 2005/01/19 17:39:14 adamfranco Exp $
  */
 
 class HarmoniIdManager

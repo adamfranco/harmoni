@@ -54,9 +54,12 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * OSID Version: 2.0
  * </p>
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.3 2005/01/19 16:33:04 adamfranco Exp $
- * @copyright 2005 Middlebury College, ETS
  * @package harmoni.osid.authorization
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.4 2005/01/19 17:39:06 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 

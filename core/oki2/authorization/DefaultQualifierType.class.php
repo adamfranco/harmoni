@@ -5,12 +5,14 @@ require_once(HARMONI."oki2/shared/HarmoniType.class.php");
 /**
  * This class represents the default Type for Qualifier objects.
  * 
- * @version $Id: DefaultQualifierType.class.php,v 1.2 2005/01/18 16:39:59 adamfranco Exp $
+ *
  * @package harmoni.osid.authorization
- * @copyright 2004 Middlebury College, ETS
- * @access public
- **/
- 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DefaultQualifierType.class.php,v 1.3 2005/01/19 17:39:06 adamfranco Exp $
+ */
 class DefaultQualifierType 
 	extends HarmoniType 
 {
