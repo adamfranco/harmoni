@@ -11,7 +11,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.17 2005/03/09 19:38:17 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.18 2005/03/09 21:10:37 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.mysql
  * @access public
@@ -470,7 +470,8 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @since 3/9/05
 	 */
 	function beginTransaction () {
-		$this->_query("START TRANSACTION");
+		if ($this->supportsTransactions())
+			$this->_query("START TRANSACTION");
 	}
 	
 	/**
@@ -482,9 +483,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @since 3/9/05
 	 */
 	function commitTransaction () {
-		if (mysql_error($this->_linkId))
-			$this->rollbackTransaction();
-		else
+		if ($this->supportsTransactions())
 			$this->_query("COMMIT");
 	}
 	
@@ -496,7 +495,8 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @since 3/9/05
 	 */
 	function rollbackTransaction () {
-		$this->_query("ROLLBACK");
+		if ($this->supportsTransactions())
+			$this->_query("ROLLBACK");
 	}
 }
 
