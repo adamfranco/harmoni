@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.2 2004/12/13 05:06:54 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -62,7 +62,7 @@
 			$this->query->setColumns($columns);
 			$this->query->setValues($values);
 
-			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk'\n";
+			$sql = "UPDATE person\n   SET user_uname = 'dradichk'\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
@@ -82,7 +82,7 @@
 			$this->query->setColumns($columns);
 			$this->query->setValues($values);
 
-			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk',\n\tuser_fname = 'Dobo',\n\tuser_id = 5\n";
+			$sql = "UPDATE person\n   SET user_uname = 'dradichk',\n       user_fname = 'Dobo',\n       user_id = 5\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
@@ -106,7 +106,7 @@
 			$this->query->addWhere($condition);
 			
 
-			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk',\n\tuser_fname = 'Dobo',\n\tuser_id = 5\nWHERE\n\tuser_id = 3\n\t\tAND\n\tuser_id = 3\n";
+			$sql = "UPDATE person\n   SET user_uname = 'dradichk',\n       user_fname = 'Dobo',\n       user_id = 5\n WHERE user_id = 3\n   AND user_id = 3\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
@@ -117,7 +117,7 @@
 		/**
 		 * Tests the reset() method and error conditions.
 		 */ 
-        function test_Reset() {
+/*        function test_Reset() {
 			$table = "person";
 			$columns = array("user_uname", "user_fname", "user_id");
 			$values = array("'dradichk'", "'Dobo'", "5");
@@ -149,7 +149,7 @@
 			$this->assertNull($sqlFromObject);
 			
 		}
-
+*/
     }
 
 ?>

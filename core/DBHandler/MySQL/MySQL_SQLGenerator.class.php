@@ -6,7 +6,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  *
- * @version $Id: MySQL_SQLGenerator.class.php,v 1.8 2004/07/13 17:42:07 dobomode Exp $
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.9 2004/12/13 05:06:54 dobomode Exp $
  * @package harmoni.dbc.mysql
  * @copyright 2003 
  */
@@ -29,23 +29,29 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 
 		switch($query->getType()) {
 			case INSERT : 
-				return MySQL_SQLGenerator::generateInsertSQLQuery($query);
+				$result = MySQL_SQLGenerator::generateInsertSQLQuery($query);
 				break;
 			case UPDATE : 
-				return MySQL_SQLGenerator::generateUpdateSQLQuery($query);
+				$result = MySQL_SQLGenerator::generateUpdateSQLQuery($query);
 				break;
 			case DELETE : 
-				return MySQL_SQLGenerator::generateDeleteSQLQuery($query);
+				$result = MySQL_SQLGenerator::generateDeleteSQLQuery($query);
 				break;
 			case SELECT : 
-				return MySQL_SQLGenerator::generateSelectSQLQuery($query);
+				$result = MySQL_SQLGenerator::generateSelectSQLQuery($query);
 				break;
 			case GENERIC : 
-				return MySQL_SQLGenerator::generateGenericSQLQuery($query);
+				$result = MySQL_SQLGenerator::generateGenericSQLQuery($query);
 				break;
 			default:
 				throwError(new Error("Unsupported query type.", "DBHandler", true));
 		} // switch
+		
+//		echo "<pre>\n";
+//		echo $result;
+//		echo "</pre>\n";
+		
+		return $result;
 		
 	}
 
@@ -97,10 +103,10 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 			return null;
 		}
 	
-		$sql .= "INSERT INTO ";
+		$sql .= "INSERT\n  INTO ";
 		$sql .= $query->_table;
 		if ($query->_columns || $query->_autoIncrementColumn) {
-			$sql .= "\n\t(";
+			$sql .= " (";
 			
 			$columns = $query->_columns;
 			
@@ -113,7 +119,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 			$sql .= ")";
 		}
 		
-		$sql .= "\n\tVALUES";
+		$sql .= "\nVALUES ";
 
 		// process all rows in the $query->_values array
 		$allRows = array();
@@ -133,7 +139,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 		}
 
 		$sql .= "(";
-		$sql .= implode("), (", $allRows);
+		$sql .= implode("),\n       (", $allRows);
 		$sql .= ")\n";
 			
 		return $sql;
@@ -162,7 +168,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 			
 		$sql .= "UPDATE ";
 		$sql .= $query->_table;
-		$sql .= "\nSET\n\t";
+		$sql .= "\n   SET ";
 		
 		// make sure that the number of fields matches the number of columns
 		if (count($query->_values) != count($query->_columns)) {
@@ -179,11 +185,11 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 		foreach ($query->_columns as $key => $column)
 			$updateExpressions[] = $column." = ".$query->_values[$key];
 		
-		$sql .= implode(",\n\t", $updateExpressions);
+		$sql .= implode(",\n       ", $updateExpressions);
 		
 		// include the WHERE clause, if necessary
 		if ($query->_condition) {
-			$sql .= "\nWHERE";
+			$sql .= "\n WHERE ";
 
 			// include join
 			foreach($query->_condition as $key => $condition) {
@@ -191,17 +197,16 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 				if ($key != 0) {
 					switch ($condition[1]) {
 						case _AND :
-							$sql .= "\n\t\tAND";
+							$sql .= "\n   AND ";
 							break;
 						case _OR :
-							$sql .= "\n\t\tOR";
+							$sql .= "\n    OR ";
 							break;
 						default:
-							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
+							throw(new Error("Unsupported logical operator!", "DBHandler", true));
 					} // switch
 				}
 				
-				$sql .= "\n\t";
 				$sql .= $condition[0];
 			}
 		}
@@ -232,12 +237,12 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 			return null;
 		}
 			
-		$sql .= "DELETE\nFROM\n\t";
+		$sql .= "DELETE\n  FROM ";
 		$sql .= $query->_table;
 		
 		// include the WHERE clause, if necessary
 		if ($query->_condition) {
-			$sql .= "\nWHERE";
+			$sql .= "\n WHERE ";
 
 			// include join
 			foreach($query->_condition as $key => $condition) {
@@ -245,17 +250,16 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 				if ($key != 0) {
 					switch ($condition[1]) {
 						case _AND :
-							$sql .= "\n\t\tAND";
+							$sql .= "\n   AND ";
 							break;
 						case _OR :
-							$sql .= "\n\t\tOR";
-							break;	
+							$sql .= "\n    OR ";
+							break;
 						default:
-							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
+							throw(new Error("Unsupported logical operator!", "DBHandler", true));
 					} // switch
 				}
 				
-				$sql .= "\n\t";
 				$sql .= $condition[0];
 			}
 		}
@@ -286,14 +290,12 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 			return null;
 		}
 			
-		$sql .= "SELECT";
+		$sql .= "SELECT ";
 		
 		// include the DISTINCT keyword, if necessary
 		if ($query->_distinct) {
-		    $sql .= " DISTINCT";
+		    $sql .= "DISTINCT\n       ";
 		}
-		
-		$sql .= "\n\t";
 		
 		// process any aliases
 		$columns = array();
@@ -310,11 +312,11 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 		}
 		
 		// include columns to select
-		$sql .= implode(",\n\t", $columns);
+		$sql .= implode(",\n       ", $columns);
 		
 		// include FROM clause if necessary
 		if ($query->_tables) {
-			$sql .= "\nFROM";
+			$sql .= "\n  FROM ";
 
 			// include join
 			foreach($query->_tables as $key => $table) {
@@ -327,24 +329,22 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 				if ($key != 0) {
 					switch ($table[1]) {
 						case NO_JOIN : 
-							$sql .= ",";
+							$sql .= ",\n       ";
 							break;
 						case LEFT_JOIN :
-							$sql .= "\n\t\tLEFT JOIN";
+							$sql .= "\n  LEFT JOIN ";
 							break;
 						case INNER_JOIN :
-							$sql .= "\n\t\tINNER JOIN";
+							$sql .= "\n INNER JOIN ";
 							break;
 						case RIGHT_JOIN :
-							$sql .= "\n\t\tRIGHT JOIN";
+							$sql .= "\n RIGHT JOIN ";
 							break;
 						default:
 							throwError(new Error("Unsupported JOIN type!", "DBHandler", true));				;
 					} // switch
 				}
 
-				$sql .= "\n\t";
-				
 				// append table name
 				$sql .= $table[0];
 				
@@ -354,7 +354,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 				
 				// now append join condition
 				if ($key != 0 && $table[1] != NO_JOIN && $table[2]) {
-					$sql .= "\n\t\tON ";
+					$sql .= " ON ";
 					$sql .= $table[2];
 				}
 			}
@@ -362,7 +362,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 		
 		// include the WHERE clause, if necessary
 		if ($query->_condition) {
-			$sql .= "\nWHERE";
+			$sql .= "\n WHERE ";
 
 			// include join
 			foreach($query->_condition as $key => $condition) {
@@ -370,34 +370,34 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 				if ($key != 0) {
 					switch ($condition[1]) {
 						case _AND :
-							$sql .= "\n\t\tAND";
+							$sql .= "\n   AND ";
 							break;
 						case _OR :
-							$sql .= "\n\t\tOR";
+							$sql .= "\n    OR ";
 							break;
 						default:
-							throwError(new Error("Unsupported logical operator!", "DBHandler", true));				;
+							throw(new Error("Unsupported logical operator!", "DBHandler", true));
 					} // switch
 				}
 				
-				$sql .= "\n\t";
 				$sql .= $condition[0];
 			}
 		}
+
 		
 		// include the GROUP BY and HAVING clauses, if necessary
 		if ($query->_groupBy) {
-			$sql .= "\nGROUP BY\n\t";
-			$sql .= implode(",\n\t", $query->_groupBy);
+			$sql .= "\n GROUP BY\n       ";
+			$sql .= implode(",\n       ", $query->_groupBy);
 			if ($query->_having) {
-				$sql .= "\nHAVING\n\t";
+				$sql .= "\nHAVING ";
 				$sql .= $query->_having;
 			}
 		}
 
 		// include the ORDER BY clause, if necessary
 		if ($query->_orderBy) {
-			$sql .= "\nORDER BY\n\t";
+			$sql .= "\n ORDER BY\n       ";
 			
 			// generate an array for all the columns
 			$columns = array();
@@ -407,12 +407,12 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 				$column .= ($orderBy[1] === ASCENDING) ? "ASC" : "DESC";
 				$columns[] = $column;
 			}
-			$sql .= implode(",\n\t", $columns);
+			$sql .= implode(",\n       ", $columns);
 		}
 		
 		// include the LIMIT clause, if necessary
 		if ($query->_startFromRow || $query->_numberOfRows) {
-			$sql .= "\nLIMIT\n\t";
+			$sql .= "\n LIMIT ";
 
 			if ($query->_startFromRow) {
 				$sql .= $query->_startFromRow - 1;

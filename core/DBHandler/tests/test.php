@@ -3,13 +3,13 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: test.php,v 1.2 2004/12/13 05:06:54 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
  
     if (!defined('HARMONI')) {
-        require_once("../../harmoni.inc.php");
+        require_once("../../../harmoni.inc.php");
     }
 
     if (!defined('SIMPLE_TEST')) {
@@ -25,6 +25,9 @@
 	   	Services::registerService("ErrorHandler","ErrorHandler");
 		Services::startService("ErrorHandler");
 	}
+	
+	$errorHandler =& Services::requireService("ErrorHandler");
+	$errorHandler->setDebugMode(true);
 
     $test =& new GroupTest('DBHandler tests');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLInsertQueryTestCase.class.php');
@@ -35,7 +38,7 @@
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLSelectQueryResultTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLInsertQueryResultTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLComprehensiveTestCase.class.php');
-
+/*	
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleDeleteQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleUpdateQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleInsertQueryTestCase.class.php');
@@ -53,7 +56,7 @@
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreInsertQueryResultTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreSelectQueryResultTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreComprehensiveTestCase.class.php');
-
+*/
     $test->addTestFile(HARMONI.'DBHandler/tests/GenericSQLQueryTestCase.class.php');
 
     $test->addTestFile(HARMONI.'DBHandler/tests/DBHandlerTestCase.class.php');

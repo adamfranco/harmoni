@@ -7,7 +7,7 @@ require_once(HARMONI . 'DBHandler/MySQL/MySQLDatabase.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  * 
- * @version $Id: MySQLSelectQueryResultTestCase.class.php,v 1.2 2004/08/06 14:58:52 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryResultTestCase.class.php,v 1.3 2004/12/13 05:06:54 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003
  */
@@ -136,6 +136,38 @@ class MySQLSelectQueryResultTestCase extends UnitTestCase {
 			
 		$this->assertFalse($this->queryResult->hasMoreRows());
 	} 
+	
+	/**
+	 * Tests bindField.
+	 */
+	function test_bind_field() {
+		$this->queryResult->bindField("id", $id);
+		$this->queryResult->bindField(0, $idd);
+		$this->queryResult->bindField("FK", $fk);
+		$this->queryResult->bindField("value", $value);
+		
+		$this->assertEqual($id, "101");
+		$this->assertEqual($idd, "101");
+		$this->assertEqual($fk, "5");
+		$this->assertEqual($value, "This is the value");
+		
+		$this->queryResult->advanceRow();
+		
+		$this->assertEqual($id, "102");
+		$this->assertEqual($idd, "102");
+		
+		$this->queryResult->unbindField(0);
+		
+		$this->queryResult->advanceRow();
+		
+		$this->assertEqual($id, "103");
+		$this->assertNull($idd);
+		
+		$this->queryResult->advanceRow();
+		
+		$this->assertEqual($id, "104");
+		
+	}
 } 
 
 ?>

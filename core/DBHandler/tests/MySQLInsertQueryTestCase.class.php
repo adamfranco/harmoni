@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLInsertQueryTestCase.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: MySQLInsertQueryTestCase.class.php,v 1.2 2004/12/13 05:06:54 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -67,7 +67,7 @@
 			$this->query->setColumns($columns);
 			$this->query->addRowOfValues($values);
 
-			$sql = "INSERT INTO user\n\t(user_id, user_uname, user_fname)\n\tVALUES(5, 'dradichk', 'Dobromir')\n";
+			$sql = "INSERT\n  INTO user (user_id, user_uname, user_fname)\nVALUES (5, 'dradichk', 'Dobromir')\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
@@ -93,7 +93,7 @@
 			$values = array("7","'movsjani'","'Maks'");
 			$this->query->addRowOfValues($values);
 
-			$sql = "INSERT INTO user\n\t(user_id, user_uname, user_fname)\n\tVALUES(5, 'dradichk', 'Dobromir'), (6, 'afranco', 'Adam'), (7, 'movsjani', 'Maks')\n";
+			$sql = "INSERT\n  INTO user (user_id, user_uname, user_fname)\nVALUES (5, 'dradichk', 'Dobromir'),\n       (6, 'afranco', 'Adam'),\n       (7, 'movsjani', 'Maks')\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
@@ -102,7 +102,7 @@
 		/**
 		 * Tests the reset() method and error conditions.
 		 */ 
-        function test_Reset() {
+/*        function test_Reset() {
 			$table = "user";
 			$columns = array("user_id","user_uname","user_fname");
 			$values = array("5","'dradichk'","'Dobromir'");
@@ -153,7 +153,7 @@
 			$this->assertNull($sqlFromObject);
 			
 		}
-	
+	*/
     }
 
 ?>

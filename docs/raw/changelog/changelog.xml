@@ -8,6 +8,10 @@
 			simply return the passed string, so that localized apps can fail
 			gracefully to their native language if gettext is not installed.
 		</change>
+		<change author='dobo'>
+			DBHandler improvements: SQL strings are prettier now. Also added variable
+			binding functionallity.
+		</change>
 	</version>
 	<version number="0.2.0" date="2004-10-26">
 		<new author='adam'>

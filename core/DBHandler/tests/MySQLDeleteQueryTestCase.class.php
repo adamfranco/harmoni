@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLDeleteQueryTestCase.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: MySQLDeleteQueryTestCase.class.php,v 1.2 2004/12/13 05:06:54 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -58,7 +58,7 @@
 			$this->query->reset();
 			$this->query->setTable($table);
 
-			$sql = "DELETE\nFROM\n\tperson\n";
+			$sql = "DELETE\n  FROM person\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
@@ -77,7 +77,7 @@
 			$this->query->addWhere($condition);
 			$this->query->addWhere($condition);
 
-			$sql = "DELETE\nFROM\n\tperson\nWHERE\n\tuser_uname = 'dradichk'\n\t\tAND\n\tuser_uname = 'dradichk'\n";
+			$sql = "DELETE\n  FROM person\n WHERE user_uname = 'dradichk'\n   AND user_uname = 'dradichk'\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
@@ -88,7 +88,7 @@
 		/**
 		 * Tests the reset() method and error conditions.
 		 */ 
-        function test_Reset() {
+/*        function test_Reset() {
 			$table = "person";
 			$condition = "user_uname = 'dradichk'";
 
@@ -100,7 +100,7 @@
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertNull($sqlFromObject);
 		}
-
+*/
     }
 
 ?>

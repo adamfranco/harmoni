@@ -6,7 +6,7 @@ require_once(HARMONI."utilities/HTMLcolor.class.php");
 /**
  * the NewWindowDebugHandlerPrinter prints debug items to a new HTML window.
  *
- * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.3 2003/11/13 01:08:43 gabeschine Exp $
+ * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.4 2004/12/13 05:06:54 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugging
  **/
@@ -30,11 +30,11 @@ class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {
 		if (!count($items)) return true;
 		print "<script lang='JavaScript'>\n";
 		print "<!--\n";
-		print "debugWindow = window.open('','debug','scrollbars=yes,menubar=no,location=no,status=no,resizeable=yes,width=600,height=600');\n";
-		print "debugWindow.document.write('<div style=\"padding-left:25px; padding-top: 10px; border-bottom: solid 1px gray\">Starting debug output :: ".date("H").":".date("i").".".date("s")."</div>');\n";
+		print "debugWindow = window.open('','debug','scrollbars=yes,menubar=no,location=no,status=no,resizeable=yes,width=750,height=520');\n";
+		print "debugWindow.document.write('<body style=\"color: #fff; background-color:#222\"><div style=\"padding-left:25px; padding-top: 10px; border-bottom: solid 1px gray\">Starting debug output :: ".date("H").":".date("i").".".date("s")."</div>');\n";
 
 		// some colors
-		$base =& new HTMLcolor("#522");
+		$base =& new HTMLcolor("#833");
 
 		foreach (array_keys($items) as $key) {
 			if (($l = $items[$key]->getLevel()) <= $level) {
@@ -53,12 +53,13 @@ class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {
 				$string .= "{$btext}</font>";
 				$string .= "<div style='padding-left:10px'><font face='monaco' size=2>[<font color='#$htmlColor'>".$items[$key]->getCategory().":".$items[$key]->getLevel()."</font>] ".$items[$key]->getText();
 				$string .= "</font></div></div>";
-				print "debugWindow.document.write('".addslashes(str_replace("\n","<BR />",$string))."');\n";
+				print "debugWindow.document.write('".addslashes(str_replace("\n","<BR /> ",$string))."');\n";
 				print "debugWindow.scrollBy(0,100000);\n";
 			}
 		}
 
 //		print "debugWindow.document.close();\n";
+		print "debugWindow.document.write('</body>');\n";
 		print "//-->\n";
 		print "</script>\n";
 	}

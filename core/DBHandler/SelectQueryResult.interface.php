@@ -35,7 +35,7 @@ define("BOTH", 3);
  *
  * The SelectQueryResult interface provides the functionality common to a SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: SelectQueryResult.interface.php,v 1.3 2004/07/01 20:40:21 adamfranco Exp $
+ * @version $Id: SelectQueryResult.interface.php,v 1.4 2004/12/13 05:06:27 dobomode Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
@@ -153,6 +153,40 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	function moveToRow($rowNumber) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
+	
+	
+	/**
+	 * Binds the field specified by the first argument to the variable given as
+	 * the second argument. The method stores a reference to the variable represented
+	 * by the second argument; whenever a new row is fetched, the value of the field
+	 * in the new row will be updated in the referenced variable. This enables the
+	 * user to avoid unnecessary calls to <code>getCurrentRow()</code> or
+	 * <code>field()</code>.
+	 * @access public
+	 * @param string field The field to bind. This could be either
+	 * a string value that would correspond to the field as returned by 
+	 * <code>getFieldNames()</code>, or an integer (less than <code>getNumberOfFields()</code>)
+	 * corresponding to the index of the field.
+	 * @param ref mixed var The variable to be bound to the value of the field in
+	 * the current row.
+	 **/
+	function bindField($field, & $var) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
+	 * Unbinds the field that has been bound by <code>bindField()</code>.
+	 * @access public
+	 * @param string field The field to unbind. This could be either
+	 * a string value that would correspond to the field as returned by 
+	 * <code>getFieldNames()</code>, or an integer (less than <code>getNumberOfFields()</code>)
+	 * corresponding to the index of the field.
+	 **/
+	function unbindField($field) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
 
 }
 

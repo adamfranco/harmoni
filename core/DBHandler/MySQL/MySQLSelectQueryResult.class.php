@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  *
  * The MySQLSelectQueryResult interface provides the functionality common to a MySQL SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.5 2004/07/02 21:35:53 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.6 2004/12/13 05:06:54 dobomode Exp $
  * @package harmoni.dbc.mysql
  * @access public
  * @copyright 2003 
@@ -47,6 +47,13 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 * @access private
 	 */
 	var $_linkId;
+	
+	
+	/**
+	 * This is an array consisting of all bound variables.
+	 * @attribute private array _boundVars
+	 */
+	var $_boundVars;
 
 	
 	/**
@@ -71,6 +78,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 		$this->_currentRow[BOTH] = array();
 		$this->_currentRow[NUMERIC] = array();
 		$this->_currentRow[ASSOC] = array();
+		$this->_boundVars = array();
 		
 		// if we have at least one row in the result, fetch its array
 		if ($this->hasMoreRows()) {
@@ -145,6 +153,14 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 			    $this->_currentRow[NUMERIC][$key] = $value;
 			else
 			    $this->_currentRow[ASSOC][$key] = $value;
+				
+		// update the value of bound variables				
+		foreach (array_keys($this->_boundVars) as $i => $key) {
+			if (is_int($key))
+		   		$this->_boundVars[$key] = $this->_currentRow[NUMERIC][$key];
+			else
+		   		$this->_boundVars[$key] = $this->_currentRow[ASSOC][$key];
+		}
 		
 		return true;
 	}
@@ -265,8 +281,57 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 		return $result;
 		
 	}
-
 	
+
+	/**
+	 * Binds the field specified by the first argument to the variable given as
+	 * the second argument. The method stores a reference to the variable represented
+	 * by the second argument; whenever a new row is fetched, the value of the field
+	 * in the new row will be updated in the referenced variable. This enables the
+	 * user to avoid unnecessary calls to <code>getCurrentRow()</code> or
+	 * <code>field()</code>.
+	 * @access public
+	 * @param string field The field to bind. This could be either
+	 * a string value that would correspond to the field as returned by 
+	 * <code>getFieldNames()</code>, or an integer (less than <code>getNumberOfFields()</code>)
+	 * corresponding to the index of the field.
+	 * @param ref mixed var The variable to be bound to the value of the field in
+	 * the current row.
+	 **/
+	function bindField($field, & $var) {
+		// ** parameter validation
+		$orRule =& new OrValidatorRule(new IntegerValidatorRule(), new StringValidatorRule());
+		ArgumentValidator::validate($field, $orRule, true);
+		// ** end of parameter validation
+		
+		// add $var to the array of bound variables and update its value
+		$this->_boundVars[$field] =& $var; 
+		if (is_int($field))
+	   		$var = $this->_currentRow[NUMERIC][$field];
+		else
+	   		$var = $this->_currentRow[ASSOC][$field];
+	}
+	
+	/**
+	 * Unbinds the field that has been bound by <code>bindField()</code>.
+	 * @access public
+	 * @param string field The field to unbind. This could be either
+	 * a string value that would correspond to the field as returned by 
+	 * <code>getFieldNames()</code>, or an integer (less than <code>getNumberOfFields()</code>)
+	 * corresponding to the index of the field.
+	 **/
+	function unbindField($field) {
+		// ** parameter validation
+		$orRule =& new OrValidatorRule(new IntegerValidatorRule(), new StringValidatorRule());
+		ArgumentValidator::validate($field, $orRule, true);
+		// ** end of parameter validation
+		
+		if (isset($this->_boundVars[$field])) {
+		    $this->_boundVars[$field] = null;
+		    unset($this->_boundVars[$field]);
+		}
+	}
+
 }
 
 ?>

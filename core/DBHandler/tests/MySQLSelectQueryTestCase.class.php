@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.2 2004/12/13 05:06:54 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -59,7 +59,7 @@
 			$this->query->addTable($table, NO_JOIN);
 			$this->query->setColumns($columns);
 
-			$sql = "SELECT\n\tuser_id\nFROM\n\tperson\n";
+			$sql = "SELECT user_id\n  FROM person\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
@@ -77,7 +77,7 @@
 			$this->query->addTable("class", NO_JOIN);
 			$this->query->addTable("person", NO_JOIN);
 
-			$sql = "SELECT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM\n\tuser,\n\tclass,\n\tperson\n";
+			$sql = "SELECT user_id,\n       user_uname as username,\n       COUNT(*)\n  FROM user,\n       class,\n       person\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
@@ -97,7 +97,7 @@
 			$this->query->addOrderBy("user_lname", ASCENDING);
 			$this->query->addOrderBy("user_fname", DESCENDING);
 			
-			$sql = "SELECT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM\n\tuser,\n\tclass,\n\tperson\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname ASC,\n\tuser_fname DESC\n";
+			$sql = "SELECT user_id,\n       user_uname as username,\n       COUNT(*)\n  FROM user,\n       class,\n       person\n WHERE user_id = 5\n GROUP BY\n       user_id,\n       user_sex\nHAVING user_age = 38\n ORDER BY\n       user_lname ASC,\n       user_fname DESC\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
@@ -128,8 +128,8 @@
 			$this->query->limitNumberOfRows(100);
 			$this->query->startFromRow(10);
 			
-			$tables = "\n\tuser\n\t\tINNER JOIN\n\tclass\n\t\tON user.user_weight = class.class_id,\n\tperson AS PERSON\n\t\tLEFT JOIN\n\ttree\n\t\tON person.person_id = tree.tree_height - 10\n\t\tRIGHT JOIN\n\tbush AS BUSH\n\t\tON tree.tree_leaves = 3000,\n\tsand";
-			$sql = "SELECT DISTINCT\n\tuser_id AS 1,\n\tdb.user_uname AS username,\n\tCOUNT(*) AS c\nFROM{$tables}\nWHERE\n\tuser_id = 5\n\t\tAND\n\tuser_id = 8\n\t\tOR\n\tuser_id = 10\n\t\tOR\n\tuser_id = 12\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname ASC,\n\tuser_fname DESC\nLIMIT\n\t9, 100\n";
+			$tables = " user\n INNER JOIN class ON user.user_weight = class.class_id,\n       person AS PERSON\n  LEFT JOIN tree ON person.person_id = tree.tree_height - 10\n RIGHT JOIN bush AS BUSH ON tree.tree_leaves = 3000,\n       sand";
+			$sql = "SELECT DISTINCT\n       user_id AS 1,\n       db.user_uname AS username,\n       COUNT(*) AS c\n  FROM{$tables}\n WHERE user_id = 5\n   AND user_id = 8\n    OR user_id = 10\n    OR user_id = 12\n GROUP BY\n       user_id,\n       user_sex\nHAVING user_age = 38\n ORDER BY\n       user_lname ASC,\n       user_fname DESC\n LIMIT 9, 100\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
