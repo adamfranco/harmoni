@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.18 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.19 2005/01/28 19:34:32 adamfranco Exp $
 */
 class Record {
 	
@@ -72,6 +72,11 @@ class Record {
 			$this->_fields[$label] =& new RecordField($def, $this);
 			unset($def);
 		}
+		
+		if (OKI_VERSION > 1)
+			$this->_idManager =& Services::getService("Id");
+		else
+			$this->_idManager =& Services::getService("Shared");
 	}
 	
 	/**
@@ -427,8 +432,7 @@ class Record {
 			// we'll have to make a new entry
 			$schemaManager =& Services::getService("SchemaManager");
 			
-			$sharedManager =& Services::getService("Shared");
-			$id =& $sharedManager->createId();
+			$id =& $this->_idManager->createId();
 			$this->_myID = $id->getIdString();
 			
 			$query =& new InsertQuery();

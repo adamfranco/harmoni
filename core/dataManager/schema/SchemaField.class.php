@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaField.class.php,v 1.6 2005/01/19 21:09:42 adamfranco Exp $
+ * @version $Id: SchemaField.class.php,v 1.7 2005/01/28 19:34:44 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaField {
@@ -56,6 +56,11 @@ class SchemaField {
 		$this->_update = false;
 		
 		$this->_schema = null;
+		
+		if (OKI_VERSION > 1)
+			$this->_idManager =& Services::getService("Id");
+		else
+			$this->_idManager =& Services::getService("Shared");
 		
 		// let's do a quick check and make sure that this type is registered
 //		$typeMgr =& Services::getService("DataTypeManager");
@@ -189,8 +194,7 @@ class SchemaField {
 			$query->setTable("dm_schema_field");
 			$query->setColumns(array("id","fk_schema","label","mult","fieldtype","active","required","description"));
 			
-			$sharedManager =& Services::getService("Shared");
-			$newID =& $sharedManager->createId();
+			$newID =& $this->_idManager->createId();
 			
 			$schemaID = $this->_schema->getID();
 			

@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/Tag.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.5 2005/01/19 21:09:42 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.6 2005/01/28 19:34:33 adamfranco Exp $
 */
 class TagManager extends ServiceInterface {
 	
@@ -49,8 +49,12 @@ class TagManager extends ServiceInterface {
 		$query->setTable("dm_tag");
 		$query->setColumns(array("id","fk_record","date"));
 		
-		$sharedManager =& Services::getService("Shared");
-		$newID =& $sharedManager->createId();
+		if (OKI_VERSION > 1)
+			$idManager =& Services::getService("Id");
+		else
+			$idManager =& Services::getService("Shared");
+		
+		$newID =& $idManager->createId();
 		$query->addRowOfValues(array(
 				$newID->getIdString(),
 				$dataSetID,

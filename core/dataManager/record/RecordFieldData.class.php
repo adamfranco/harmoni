@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.8 2005/01/19 21:09:42 adamfranco Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.9 2005/01/28 19:34:33 adamfranco Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -187,8 +187,12 @@ class RecordFieldData {
 				// we have to insert a new one
 				$query =& new InsertQuery();
 				
-				$sharedManager =& Services::getService("Shared");
-				$newID =& $sharedManager->createId();
+				if (OKI_VERSION > 1)
+					$idManager =& Services::getService("Id");
+				else
+					$idManager =& Services::getService("Shared");
+				
+				$newID =& $idManager->createId();
 				
 				$this->_myID = $newID->getIdString();
 				$query->setColumns(array(

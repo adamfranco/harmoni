@@ -16,7 +16,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.10 2005/01/27 20:49:04 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.11 2005/01/28 19:34:47 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -293,6 +293,7 @@ class HarmoniAsset
 			$schemaMgr =& Services::getService("SchemaManager");
 			$contentSchema =& $schemaMgr->getSchemaByType($contentType);
 			$contentSchema->load();
+			printpre($contentSchema->getAllLabels());
 			
 			// Decide if we want to version-control this field.
 			$versionControl = $this->_versionControlAll;
