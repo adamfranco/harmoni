@@ -16,7 +16,7 @@ define("CONTENT","ContentInterface");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Content.interface.php,v 1.4 2005/01/19 21:10:01 adamfranco Exp $
+ * @version $Id: Content.interface.php,v 1.5 2005/02/07 21:15:17 adamfranco Exp $
  */
 class ContentInterface extends VisualComponent {
 	/**

@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuItem.interface.php,v 1.6 2005/02/04 15:59:04 adamfranco Exp $
+ * @version $Id: MenuItem.interface.php,v 1.7 2005/02/07 21:15:17 adamfranco Exp $
  **/
 class MenuItemInterface {
 	/**

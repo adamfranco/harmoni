@@ -33,7 +33,7 @@ require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.21 2005/02/04 15:59:06 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.22 2005/02/07 21:15:19 adamfranco Exp $
  **/
 
 class HierarchyCache {

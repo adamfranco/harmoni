@@ -12,7 +12,7 @@ require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: debug.class.php,v 1.9 2005/02/04 15:59:03 adamfranco Exp $
+ * @version $Id: debug.class.php,v 1.10 2005/02/07 21:13:35 adamfranco Exp $
  *
  * @static
  **/
