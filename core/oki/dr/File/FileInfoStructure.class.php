@@ -149,7 +149,8 @@ class HarmoniFileInfoStructure extends InfoStructure
 	 * @return object TypeIterator The Types supported in this implementation.
 	 */
 	function getInfoPartTypes() {
-		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: FileInfoStructure", TRUE));
+		$types = array();
+		return new HarmoniIterator($types);
 	}
 	
 }
