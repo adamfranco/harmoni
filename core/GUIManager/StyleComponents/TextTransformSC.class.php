@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TextTransformSC.class.php,v 1.4 2005/01/19 21:09:33 adamfranco Exp $
+ * @version $Id: TextTransformSC.class.php,v 1.5 2005/01/20 17:47:32 nstamato Exp $
  */
 class TextTransformSC extends StyleComponent {
 
@@ -32,7 +32,7 @@ class TextTransformSC extends StyleComponent {
 	function TextTransformSC($value) {
 		$options = array("none", "capitalize", "uppercase", "lowercase");
 	
-		$errDescription = "Could not validate the text-transform StyleComponent value \"$value\". ";
+		$errDescription = "Could not validate the text-transform StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed values are ".implode(", ", $options).".";
 		
 		$displayName = "Text Transform";

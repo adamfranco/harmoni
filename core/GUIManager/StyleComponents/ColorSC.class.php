@@ -22,7 +22,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ColorSC.class.php,v 1.5 2005/01/19 21:09:32 adamfranco Exp $
+ * @version $Id: ColorSC.class.php,v 1.6 2005/01/20 17:47:32 nstamato Exp $
  */
 class ColorSC extends StyleComponent {
 
@@ -32,7 +32,7 @@ class ColorSC extends StyleComponent {
 	 * @access public
 	 **/
 	function ColorSC($value) {
-		$errDescription = "Could not validate the color StyleComponent value \"$value\". ";
+		$errDescription = "Could not validate the color StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed formats are: #RGB, #RRGGBB, rgb(R,G,B), and rgb(R%,G%,B%).";
 		
 		$rule =& new CSSColorValidatorRule();

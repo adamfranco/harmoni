@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AlignmentPositionSC.class.php,v 1.3 2005/01/19 21:09:31 adamfranco Exp $
+ * @version $Id: AlignmentPositionSC.class.php,v 1.4 2005/01/20 17:47:30 nstamato Exp $
  */
 class AlignmentPositionSC extends StyleComponent {
 
@@ -38,7 +38,7 @@ class AlignmentPositionSC extends StyleComponent {
 	 * @access public
 	 **/
 	function AlignmentPositionSC($value, $options) {
-		$errDescription = "Could not validate the length StyleComponent value \"$value\". ";
+		$errDescription = "Could not validate the length StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed units are: %, in, cm, mm, em, ex, pt, pc, px, or any of:";
 		$errDescription .= " ".implode(", ", $options).".";
 		

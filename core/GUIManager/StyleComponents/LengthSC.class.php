@@ -26,7 +26,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LengthSC.class.php,v 1.5 2005/01/19 21:09:33 adamfranco Exp $
+ * @version $Id: LengthSC.class.php,v 1.6 2005/01/20 17:47:32 nstamato Exp $
  */
 class LengthSC extends StyleComponent {
 
@@ -36,7 +36,7 @@ class LengthSC extends StyleComponent {
 	 * @access public
 	 **/
 	function LengthSC($value) {
-		$errDescription = "Could not validate the length StyleComponent value \"$value\". ";
+		$errDescription = "Could not validate the length StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed untis are: %, in, cm, mm, em, ex, pt, pc, px.";
 		
 		$rule =& new CSSLengthValidatorRule();

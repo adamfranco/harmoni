@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DirectionSC.class.php,v 1.5 2005/01/19 21:09:32 adamfranco Exp $
+ * @version $Id: DirectionSC.class.php,v 1.6 2005/01/20 17:47:32 nstamato Exp $
  */
 class DirectionSC extends StyleComponent {
 
@@ -30,7 +30,7 @@ class DirectionSC extends StyleComponent {
 	function DirectionSC($value) {
 		$options = array("ltr","rtl");
 	
-		$errDescription = "Could not validate the direction StyleComponent value \"$value\". ";
+		$errDescription = "Could not validate the direction StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed values are ".implode(", ", $options).".";
 		
 		$displayName = "Direction";

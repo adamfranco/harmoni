@@ -26,7 +26,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: VerticalAlignSC.class.php,v 1.5 2005/01/19 21:09:33 adamfranco Exp $
+ * @version $Id: VerticalAlignSC.class.php,v 1.6 2005/01/20 17:47:32 nstamato Exp $
  */
 class VerticalAlignSC extends StyleComponent {
 
@@ -39,7 +39,7 @@ class VerticalAlignSC extends StyleComponent {
 		$options = array("baseline","middle","top","bottom","text-top","text-bottom",
 					"super","sub");
 
-		$errDescription = "Could not validate the vertical-align StyleComponent value \"$value\".
+		$errDescription = "Could not validate the vertical-align StyleComponent value \"%s\".
 						   Allowed values are: ".implode(", ", $options).", or a specific 
 						   value (a length value, i.e. px, in, %, etc.).";
 		

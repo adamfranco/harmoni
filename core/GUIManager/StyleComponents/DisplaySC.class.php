@@ -21,7 +21,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DisplaySC.class.php,v 1.4 2005/01/19 21:09:33 adamfranco Exp $
+ * @version $Id: DisplaySC.class.php,v 1.5 2005/01/20 17:47:32 nstamato Exp $
  */
 class DisplaySC extends StyleComponent {
 
@@ -33,7 +33,7 @@ class DisplaySC extends StyleComponent {
 	function DisplaySC($value) {
 		$options = array("none","inline","block","list-item");
 
-		$errDescription = "Could not validate the display StyleComponent value \"$value\".
+		$errDescription = "Could not validate the display StyleComponent value \"%s\".
 						   Allowed values are: ".implode(", ", $options).".";
 		
 		$displayName = "Display";

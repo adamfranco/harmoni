@@ -27,7 +27,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontFamilySC.class.php,v 1.4 2005/01/19 21:09:33 adamfranco Exp $
+ * @version $Id: FontFamilySC.class.php,v 1.5 2005/01/20 17:47:32 nstamato Exp $
  */
 class FontFamilySC extends StyleComponent {
 
@@ -39,7 +39,7 @@ class FontFamilySC extends StyleComponent {
 	function FontFamilySC($value) {
 		$options = array("serif","sans-serif","cursive","fantasy","monospace");
 
-		$errDescription = "Could not validate the font-family StyleComponent value \"$value\".
+		$errDescription = "Could not validate the font-family StyleComponent value \"%s\".
 						   Allowed values are: ".implode(", ", $options)."
   					       or a specific font-family name (names with white space must be quoted).
 						   Also, you can specify one or many comma-separated values.";

@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontSizeSC.class.php,v 1.4 2005/01/19 21:09:33 adamfranco Exp $
+ * @version $Id: FontSizeSC.class.php,v 1.5 2005/01/20 17:47:32 nstamato Exp $
  */
 class FontSizeSC extends StyleComponent {
 
@@ -41,7 +41,7 @@ class FontSizeSC extends StyleComponent {
 		$options = array("xx-small","x-small","small","medium",
 					     "large","x-large","xx-large","smaller","larger");
 
-		$errDescription = "Could not validate the font-size StyleComponent value \"$value\".
+		$errDescription = "Could not validate the font-size StyleComponent value \"%s\".
 						   Allowed values are: ".implode(", ", $options)."
   					       or a specific font-size value (in length units, i.e. px,
 						   in, %, etc).";

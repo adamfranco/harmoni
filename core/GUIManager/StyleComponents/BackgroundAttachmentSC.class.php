@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BackgroundAttachmentSC.class.php,v 1.3 2005/01/19 21:09:32 adamfranco Exp $
+ * @version $Id: BackgroundAttachmentSC.class.php,v 1.4 2005/01/20 17:47:31 nstamato Exp $
  */
 class BackgroundAttachmentSC extends StyleComponent {
 
@@ -30,7 +30,7 @@ class BackgroundAttachmentSC extends StyleComponent {
 	function BackgroundAttachmentSC($value) {
 		$options = array("scroll", "fixed");
 	
-		$errDescription = "Could not validate the background-attachment StyleComponent value \"$value\". ";
+		$errDescription = "Could not validate the background-attachment StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed values are ".implode(", ", $options).".";
 		
 		$displayName = "Background Attachment";

@@ -30,7 +30,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontWeightSC.class.php,v 1.4 2005/01/19 21:09:33 adamfranco Exp $
+ * @version $Id: FontWeightSC.class.php,v 1.5 2005/01/20 17:47:32 nstamato Exp $
  */
 class FontWeightSC extends StyleComponent {
 
@@ -44,7 +44,7 @@ class FontWeightSC extends StyleComponent {
 		                 "600", "700", "800", "900", "normal", 
 						 "bold", "lighter", "bolder");
 
-		$errDescription = "Could not validate the font-weight StyleComponent value \"$value\".
+		$errDescription = "Could not validate the font-weight StyleComponent value \"%s\".
 						   Allowed values are: ".implode(", ", $options).".";
 		
 		

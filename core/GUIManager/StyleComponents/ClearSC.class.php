@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ClearSC.class.php,v 1.5 2005/01/19 21:09:32 adamfranco Exp $
+ * @version $Id: ClearSC.class.php,v 1.6 2005/01/20 17:47:31 nstamato Exp $
  */
 class ClearSC extends StyleComponent {
 
@@ -32,7 +32,7 @@ class ClearSC extends StyleComponent {
 	function ClearSC($value) {
 		$options = array("none", "left", "right", "both");
 	
-		$errDescription = "Could not validate the clear StyleComponent value \"$value\". ";
+		$errDescription = "Could not validate the clear StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed values are ".implode(", ", $options).".";
 		
 		$displayName = "Clear";

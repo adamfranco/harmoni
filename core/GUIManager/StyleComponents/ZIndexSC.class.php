@@ -19,7 +19,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/IntegerValidatorRule.cla
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ZIndexSC.class.php,v 1.4 2005/01/19 21:09:33 adamfranco Exp $
+ * @version $Id: ZIndexSC.class.php,v 1.5 2005/01/20 17:47:32 nstamato Exp $
  */
 class ZIndexSC extends StyleComponent {
 
@@ -31,7 +31,7 @@ class ZIndexSC extends StyleComponent {
 	function ZIndexSC($value) {
 		$options = array("auto");
 	
-		$errDescription = "Could not validate the z-index StyleComponent value \"$value\". ";
+		$errDescription = "Could not validate the z-index StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed values are ".implode(", ", $options)." or a 
 							specific integer value.";
 		

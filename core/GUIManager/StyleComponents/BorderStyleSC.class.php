@@ -25,7 +25,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BorderStyleSC.class.php,v 1.4 2005/01/19 21:09:32 adamfranco Exp $
+ * @version $Id: BorderStyleSC.class.php,v 1.5 2005/01/20 17:47:31 nstamato Exp $
  */
 class BorderStyleSC extends StyleComponent {
 
@@ -39,7 +39,7 @@ class BorderStyleSC extends StyleComponent {
 					     "solid", "groove", "ridge", 
 						 "inset", "outset", "double");
 	
-		$errDescription = "Could not validate the border-style StyleComponent value \"$value\". ";
+		$errDescription = "Could not validate the border-style StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed values are ".implode(", ", $options).".";
 		
 		$displayName = "Border Style";

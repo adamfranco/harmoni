@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AttachmentSC.class.php,v 1.3 2005/01/19 21:09:32 adamfranco Exp $
+ * @version $Id: AttachmentSC.class.php,v 1.4 2005/01/20 17:47:30 nstamato Exp $
  */
 class AttachmentSC extends StyleComponent {
 
@@ -30,7 +30,7 @@ class AttachmentSC extends StyleComponent {
 	function AttachmentSC($value) {
 		$options = array("scroll","fixed");
 
-		$errDescription = "Could not validate the Attachment StyleComponent value \"$value\".
+		$errDescription = "Could not validate the Attachment StyleComponent value \"%s\".
 						   Allowed values are: ".implode(", ", $options).".";
 		
 		$displayName = "Attachment";

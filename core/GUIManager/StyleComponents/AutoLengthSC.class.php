@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AutoLengthSC.class.php,v 1.6 2005/01/19 21:09:32 adamfranco Exp $
+ * @version $Id: AutoLengthSC.class.php,v 1.7 2005/01/20 17:47:31 nstamato Exp $
  */
 class AutoLengthSC extends StyleComponent {
 
@@ -32,7 +32,7 @@ class AutoLengthSC extends StyleComponent {
 	function AutoLengthSC($value) {
 		$options = array("auto");
 
-		$errDescription = "Could not validate the AutoLength StyleComponent value \"$value\".
+		$errDescription = "Could not validate the AutoLength StyleComponent value \"%s\".
 						   Allowed values are: ".implode(", ", $options).", or a specific 
 						   value (a length value, i.e. px, in, %, etc.).";
 		

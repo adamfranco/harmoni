@@ -34,7 +34,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CursorSC.class.php,v 1.4 2005/01/19 21:09:32 adamfranco Exp $
+ * @version $Id: CursorSC.class.php,v 1.5 2005/01/20 17:47:32 nstamato Exp $
  */
 class CursorSC extends StyleComponent {
 
@@ -48,7 +48,7 @@ class CursorSC extends StyleComponent {
 		                 "s-resize","sw-resize","w-resize","nw-resize","crosshair",
 					     "pointer","move","text","wait","help","hand");
 
-		$errDescription = "Could not validate the cursor StyleComponent value \"$value\".
+		$errDescription = "Could not validate the cursor StyleComponent value \"%s\".
 						   Allowed values are: ".implode(", ", $options).".";
 		
 		$displayName = "Cursor";

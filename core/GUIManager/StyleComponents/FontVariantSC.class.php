@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontVariantSC.class.php,v 1.4 2005/01/19 21:09:33 adamfranco Exp $
+ * @version $Id: FontVariantSC.class.php,v 1.5 2005/01/20 17:47:32 nstamato Exp $
  */
 class FontVariantSC extends StyleComponent {
 
@@ -31,7 +31,7 @@ class FontVariantSC extends StyleComponent {
 	function FontVariantSC($value) {
 		$options = array("normal","small-caps");
 
-		$errDescription = "Could not validate the font-variant StyleComponent value \"$value\".
+		$errDescription = "Could not validate the font-variant StyleComponent value \"%s\".
 						   Allowed values are: ".implode(", ", $options).".";
 		
 		

@@ -21,7 +21,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TextDecorationSC.class.php,v 1.4 2005/01/19 21:09:33 adamfranco Exp $
+ * @version $Id: TextDecorationSC.class.php,v 1.5 2005/01/20 17:47:32 nstamato Exp $
  */
 class TextDecorationSC extends StyleComponent {
 
@@ -33,7 +33,7 @@ class TextDecorationSC extends StyleComponent {
 	function TextDecorationSC($value) {
 		$options = array("none", "underline", "overline", "line-through", "blink");
 	
-		$errDescription = "Could not validate the text-decoration StyleComponent value \"$value\". ";
+		$errDescription = "Could not validate the text-decoration StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed values are ".implode(", ", $options).".";
 		
 		$displayName = "Text Decoration";

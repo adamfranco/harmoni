@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BackgroundRepeatSC.class.php,v 1.3 2005/01/19 21:09:32 adamfranco Exp $
+ * @version $Id: BackgroundRepeatSC.class.php,v 1.4 2005/01/20 17:47:31 nstamato Exp $
  */
 class BackgroundRepeatSC extends StyleComponent {
 
@@ -32,7 +32,7 @@ class BackgroundRepeatSC extends StyleComponent {
 	function BackgroundRepeatSC($value) {
 		$options = array("repeat", "repeat-x", "repeat-y", "no-repeat");
 	
-		$errDescription = "Could not validate the background-repeat StyleComponent value \"$value\". ";
+		$errDescription = "Could not validate the background-repeat StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed values are ".implode(", ", $options).".";
 		
 		$displayName = "Background Repeat";
