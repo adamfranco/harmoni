@@ -1,4 +1,4 @@
-<?php
+<?
 /************************************************************************
   			authhandler.php - Copyright gabe
 
@@ -188,16 +188,33 @@ class authHandler
 	 	return $this->_userName;
 	 }
   
-  /**
-   * goes through the modules and gets the 'extra' info pulled down from the db/whatever
-   * @param string $field the field to pull out
-   * @return array returns an array of all values extracted
-   */
-	function getExtra( $field = NULL ) {
-		
+	/**
+	* goes through the modules and gets the 'extra' info pulled down from the db/whatever
+	* @param string $field the field to pull out
+	* @return array returns an array of all values extracted
+	*/
+	function getExtra( $field ) {
+		$a = array();
+		foreach (array_keys($this->modules) as $mod) {
+			$e = $this->modules[$mod]->_extras;
+			if ($f = $e[$field]) {
+				if (is_array($f)) {
+					$a = array_merge($f,$a);
+				} else $a[] = $f;
+			}
+		}
+		return array_unique($a);
 	}
 	
-
-
+	/**
+	 * like getExtra but returns only one value instead of an array of values
+	 * @param string $field the field to pull out
+	 * @return string returns a single string with a single value
+	 */
+	function getSingleExtra($field) {
+		$a = $this->getExtra($field);
+		if (count($a)) return $a[0];
+		else return NULL;
+	}
 }
 ?>

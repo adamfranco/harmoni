@@ -20,10 +20,12 @@ $a->modCfg("passwordEncryptionType","des"); // not implemented yet!
 
 
 
-$a->authUser("joe","test");
+$a->authUser("gabe","x33dm1m");
 
 if ($a->isValid()) {
-	print "You are valid: ".$a->getAgent();
+	print "You are valid: ".$a->getAgent()."<BR>";
+	print "full name: ".$a->getSingleExtra("fullname")."<BR>";
+	print "email: ".$a->getSingleExtra("email")."<BR>";
 	
 } else print "You are not valid!";
 

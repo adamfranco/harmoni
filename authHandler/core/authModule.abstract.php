@@ -27,5 +27,4 @@ class authModule {
 	function isValid() {
 		return $this->_isValid;
 	}
-	
 }
