@@ -2,12 +2,11 @@
 
 require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php");
 
-
 /**
  * This is the {@link StorablePrimitive} equivalent of {@link String} for the dm_shortstring table.
  * @package harmoni.datamanager.storableprimitives
  * @copyright 2004
- * @version $Id: StorableShortString.class.php,v 1.1 2004/07/27 18:15:26 gabeschine Exp $
+ * @version $Id: StorableShortString.class.php,v 1.2 2004/08/05 15:56:09 gabeschine Exp $
  */
 class StorableShortString extends StorableStringAbstract /* implements StorablePrimitive */ {
 
@@ -25,7 +24,7 @@ class StorableShortString extends StorableStringAbstract /* implements StorableP
 	 */
 	function alterQuery( &$query ) {
 		$query->addTable("dm_shortstring",LEFT_JOIN,"dm_shortstring.id = fk_data");
-		$query->addColumn("data","string_data","dm_shortstring");
+		$query->addColumn("data","shortstring_data","dm_shortstring");
 	}
 	
 	/**
@@ -36,7 +35,7 @@ class StorableShortString extends StorableStringAbstract /* implements StorableP
 	 * @return void
 	 */
 	function populate( $dbRow ) {
-		$this->_string = (string) $dbRow["string_data"];
+		$this->_string = (string) $dbRow["shortstring_data"];
 	}
 	
 }

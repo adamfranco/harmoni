@@ -11,7 +11,7 @@ require_once(HARMONI."dataManager/storablePrimitives/inc.php");
  * creation of the appropriate classes when those data types are required. Is also responsible for mapping {@link Primitive}s with
  * their respective {@link StorablePrimitive}s so that we can store them in the database.
  * @package harmoni.datamanager
- * @version $Id: DataTypeManager.class.php,v 1.3 2004/08/04 02:18:55 gabeschine Exp $
+ * @version $Id: DataTypeManager.class.php,v 1.4 2004/08/05 15:56:00 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -49,7 +49,7 @@ class DataTypeManager
 	function addDataType($typeName, $primitiveClass, $storablePrimitiveClass)
 	{
 		$this->_registeredTypes[$typeName] = array("primitive"=>$primitiveClass,"storable"=>$storablePrimitiveClass);
-		$this->_primitiveClassMapping[strtolower($primitiveClass)] = strtolower($storablePrimitiveClass);	
+		if (!in_array(strtolower($storablePrimitiveClass), $this->_primitiveClassMapping)) $this->_primitiveClassMapping[] = strtolower($storablePrimitiveClass);	
 	}
 	
 	/**
@@ -129,7 +129,7 @@ class DataTypeManager
 	 */
 	function getRegisteredStorablePrimitives()
 	{
-		return array_values($this->_primitiveClassMapping);
+		return $this->_primitiveClassMapping;
 	}
 	
 	/**
