@@ -3,6 +3,9 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.2.0" date="Unreleased">
+		<new author='gabe'>
+			Harmoni::executeLogin() executes the LoginHandler and stores the result to avoid discrepancies.
+		</new>
 		<change author='gabe'>
 			Migrated OKI DR implementation to use new DataManager.
 		</change>

@@ -29,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.5 2004/08/04 20:36:46 gabeschine Exp $
+* @version $Id: Record.class.php,v 1.6 2004/08/06 14:23:56 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -136,6 +136,20 @@ class Record {
 		$versions =& $this->getRecordFieldValue($label, $index);
 		
 		return $versions->getActiveVersion();
+	}
+	
+	/**
+	 * Returns the active {@link Primitive} value for the given $index under $label.
+	 * @param string $label
+	 * @param string $index
+	 * @access public
+	 * @return ref object
+	 */
+	function &getCurrentValuePrimitive($label, $index)
+	{
+		$value =& $this->getCurrentValue($label, $index);
+		
+		return $value->getPrimitive();
 	}
 	
 	/**
@@ -581,12 +595,12 @@ class Record {
 			if ($field->getMultFlag()) {
 				$array[$label] = array();
 				foreach ($this->getIndices($label) as $i) {
-					$value =& $this->getActiveValue($label,$i);
+					$value =& $this->getCurrentValue($label,$i);
 					$primitive =& $value->getPrimitive();
 					$array[$label][] = $primitive->toString();
 				}
 			} else {
-				$value =& $this->getActiveValue($label);
+				$value =& $this->getCurrentValue($label);
 				$primitive =& $value->getPrimitive();
 				$array[$label] = $primitive->toString();
 			}

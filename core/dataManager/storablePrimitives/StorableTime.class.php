@@ -4,7 +4,7 @@
  * This is the {@link StorablePrimitive} equivalent of {@link Time}.
  * @package harmoni.datamanager.storableprimitives
  * @copyright 2004
- * @version $Id: StorableTime.class.php,v 1.2 2004/08/04 02:18:56 gabeschine Exp $
+ * @version $Id: StorableTime.class.php,v 1.3 2004/08/06 14:23:57 gabeschine Exp $
  */
 class StorableTime extends Time /* implements StorablePrimitive */ {
 	
@@ -35,9 +35,7 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 	 * @return void
 	 */
 	function populate( $dbRow ) {
-		$dbHandler =& Services::getService("DBHandler");
-		$date =& $dbHandler->fromDBDate($dbRow["time_data"], DATAMANAGER_DBID);
-		$this->setDate($date->toTimestamp());
+		$this->setDate($dbRow["time_data"]);
 	}
 	
 	/**
@@ -55,7 +53,7 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 		$query->setColumns(array("id","data"));
 		$dbHandler =& Services::requireService("DBHandler");
 		
-		$query->addRowOfValues(array($newID->getIdString(), "'".$dbHandler->toDBDate($this, $dbID)."'"));
+		$query->addRowOfValues(array($newID->getIdString(), $this->toTimestamp()));
 		
 		$result =& $dbHandler->query($query, $dbID);
 		if (!$result || $result->getNumberOfRows() != 1) {
@@ -85,7 +83,7 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 		$dbHandler =& Services::getService("DBHandler");
 		$result =& $dbHandler->query($query, $dbID);
 
-		$query->setValues(array("'".$dbHandler->toDBDate($this, $dbID)."'"));
+		$query->setValues(array($this->toTimestamp()));
 				
 		if (!$result) {
 			throwError( new UnknownDBError("StorableTime") );
@@ -105,7 +103,19 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 	 */
 	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
 		if ($searchType == SEARCH_TYPE_EQUALS) {
-			return $this->_table.".data='".addslashes($value->toString())."'";
+			return $this->_table.".data=".$value->toTimestamp();
+		}
+		if ($searchType == SEARCH_TYPE_LESS_THAN) {
+			return $this->_table.".data<".$value->toTimestamp();			
+		}
+		if ($searchType == SEARCH_TYPE_GREATER_THAN) {
+			return $this->_table.".data>".$value->toTimestamp();
+		}
+		if ($searchType == SEARCH_TYPE_GREATER_THAN_OR_EQUALS) {
+			return $this->_table.".data>=".$value->toTimestamp();
+		}
+		if ($searchType == SEARCH_TYPE_LESS_THAN_OR_EQUALS) {
+			return $this->_table.".data<=".$value->toTimestamp();
 		}
 		return null;
 	}

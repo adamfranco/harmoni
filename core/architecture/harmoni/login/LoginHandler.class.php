@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.17 2004/07/29 17:28:52 adamfranco Exp $
+ * @version $Id: LoginHandler.class.php,v 1.18 2004/08/06 14:23:56 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -85,6 +85,7 @@ class LoginHandler {
 	 */
 	function actionRequiresAuthentication($pair) {
 		if (in_array($pair, $this->_noAuthActions)) return false;
+		if (!$pair) return false;
 		// this checks if we have a noAuthAction set to "module.*", meaning any action
 		// within it is a-OK.
 		if (in_array(ereg_replace("\..*$","\.\*",$pair), $this->_noAuthActions)) return false;
@@ -123,7 +124,7 @@ class LoginHandler {
 		}
 		
 		// first let's check if a LoginState has been saved in the session
-		if ($_SESSION['__LoginState']) {
+		if (isset($_SESSION['__LoginState'])) {
 			$state =& $_SESSION['__LoginState'];
 		}
 		else {// create one
@@ -149,7 +150,6 @@ class LoginHandler {
 		
 		$result = $collectionFunction($this->_harmoni);
 		
-		
 		//---------------
 		// If we don't have tokens and we need them (AuthReq action, forceAuthCheck, etc), prompt for login
 		if ( !$result && ($this->actionRequiresAuthentication($this->_harmoni->getCurrentAction()) || $forceAuthCheck)) {
@@ -169,7 +169,6 @@ class LoginHandler {
 		} else if (!$result) {
 			return $state;
 		}
-		
 		
 		//---------------
 		// If we have tokens, authenticate with them whether or not 

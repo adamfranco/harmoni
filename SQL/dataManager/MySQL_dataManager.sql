@@ -34,7 +34,7 @@ CREATE TABLE `dm_boolean` (
 
 CREATE TABLE `dm_time` (
   `id` bigint(20) unsigned NOT NULL default '0',
-  `data` datetime NOT NULL default '0000-00-00 00:00:00',
+  `data` bigint(20) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 

@@ -18,7 +18,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.23 2004/08/04 02:18:55 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.24 2004/08/06 14:23:56 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -104,7 +104,10 @@ class Harmoni {
 		else $this->HTTPVars =& new ReferencedFieldSet($_REQUEST);
 		
 		// set up the LoginHandler and the ActionHandler
-		if (LOAD_AUTHENTICATION) $this->LoginHandler =& new LoginHandler($this);
+		if (LOAD_AUTHENTICATION) {
+			$this->LoginHandler =& new LoginHandler($this);
+			$this->LoginState =& new LoginState();
+		}
 		$this->ActionHandler =& new ActionHandler($this);
 		
 		// set up config options
@@ -267,6 +270,22 @@ class Harmoni {
 	}
 	
 	/**
+	 * Executes the {@link LoginHandler} functionality and stores the result.
+	 * @access public
+	 * @return ref object
+	 */
+	function &executeLogin()
+	{
+		if ($this->config->get("useAuthentication")) {
+			$loginState =& $this->LoginHandler->execute();
+		} else $loginState =& new LoginState; // "blank" loginState
+		
+		$this->LoginState =& $loginState;
+		
+		return $loginState;
+	}
+	
+	/**
 	 * Executes the Harmoni procedures: login handling and authenticating, action
 	 * processing and themed output to the browser. Certain options must be 
 	 * set before execute() can be called.
@@ -284,12 +303,8 @@ class Harmoni {
 		$this->_detectCurrentAction();
 		
 		// process the login information
-		if ($this->config->get("useAuthentication")) {
-			$loginState =& $this->LoginHandler->execute();
-		} else $loginState =& new LoginState; // "blank" loginState
-		
-		$this->LoginState =& $loginState;
-		
+		$loginState =& $this->executeLogin();
+			
 		// check if we've still got the same action
 		$pair = $this->getCurrentAction();
 		list($module,$action) = explode(".",$pair);
@@ -309,6 +324,7 @@ class Harmoni {
 		
 		// we want to catch all the output in case we need to go to the failedLoginAction
 		ob_start();
+		
 		$result =& $this->ActionHandler->execute($module, $action);
 		$lastExecutedAction = $this->ActionHandler->lastExecutedAction();
 		// ask the LoginHandler if the current user was allowed to see this action
