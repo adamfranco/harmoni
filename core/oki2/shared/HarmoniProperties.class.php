@@ -1,0 +1,100 @@
+<?
+
+require_once(OKI."/shared.interface.php");
+
+/**
+ * Properties is a mechanism for returning read-only data about an Agent.  
+ * Each Agent can have data associated with a PropertiesType.  For each 
+ * PropertiesType, there are Properties which are Serializable values identified 
+ * by a key.  
+ * 
+ * <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}. 
+ * <p>SID Version: 1.0 rc6
+ * @package osid.shared
+ */
+class HarmoniProperties
+	extends Properties
+{
+
+	/**
+	 * Constructor. Create a new Properties object.
+	 * 
+	 * @param object Type $type
+	 * @return object
+	 * @access public
+	 * @date 11/18/04
+	 */
+	function HarmoniProperties (& $type) {
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
+		$this->_type = $type;
+		$this->_properties = array();
+	}
+
+	/**
+	 * Get the Type associated with these Properties. Properties
+	 * @return object Type
+	 * @throws osid.shared.SharedException An exception with one of the following 
+	 * messages defined in osid.shared.SharedException:  
+	 * {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, 
+	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
+	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
+	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * @package osid.shared
+	 */
+	function &getType() {
+		return $this->_type;
+	}
+
+	/**
+	 * Get the Property associated with this key.
+	 * @return object java.io.Serializable
+	 * @throws osid.shared.SharedException An exception with one of the following
+	 *  messages defined in osid.shared.SharedException:  
+	 * {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, 
+	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
+	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
+	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
+	 * {@link SharedException#UNKNOWN_KEY UNKNOWN_KEY}
+	 * @package osid.shared
+	 */
+	function &getProperty(& $key) {
+		return $this->_properties[serialize($key)];
+	}
+
+	/**
+	 * Get the Keys associated with these Properties.
+	 * @return object ObjectIterator
+	 * @throws osid.shared.SharedException An exception with one of the following 
+	 * messages defined in osid.shared.SharedException:  
+	 * {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, 
+	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
+	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
+	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * @package osid.shared
+	 */
+	function &getKeys() {
+		$keys = array();
+		foreach (array_keys($this->_properties) as $key) {
+			$keys[] = unserialize($key);
+		}
+		
+		return new HarmoniIterator($keys);
+	}
+	
+	/**
+	 * Add a Property to these Properties.
+	 * WARNING: This method is not in the OSIDs as of version 2.0
+	 * Use at your own risk
+	 * 
+	 * @param mixed $key
+	 * @param mixed $value
+	 * @return void
+	 * @access public
+	 * @date 11/18/04
+	 */
+	function addProperty (& $key, & $value) {
+		$this->_properties[serialize($key)] =& $value;
+	}
+	
+	
+}
