@@ -7,7 +7,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
 /**
  * The RecordManager handles the creation, tagging and fetching of {@link Record}s from the database.
  * @package harmoni.datamanager
- * @version $Id: RecordManager.class.php,v 1.11 2004/10/29 15:45:26 gabeschine Exp $
+ * @version $Id: RecordManager.class.php,v 1.12 2004/12/18 05:16:21 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -19,9 +19,27 @@ class RecordManager extends ServiceInterface {
 	var $_recordCache;
 	var $_recordSetCache;
 	
+	var $_cacheMode;
+	
 	function RecordManager() {
 		$this->_recordCache = array();
 		$this->_recordSetCache = array();
+		$this->_cacheMode = true;
+	}
+
+	/**
+	 * If set to true, records will be cached, otherwise not.
+	 * @param boolean $mode
+	 * @static
+	 * @return void
+	 */
+	function setCacheMode($mode) {
+		$mgr =& Services::getService("RecordManager");
+		$mgr->_setCacheMode($mode);
+	}
+
+	function _setCacheMode($mode) {
+		$this->_cacheMode = $mode;
 	}
 	
 	/**
@@ -47,8 +65,9 @@ class RecordManager extends ServiceInterface {
 	 */
 	function &getCachedRecordSet($id)
 	{
-		if (isset($this->_recordSetCache[$id]))
+		if (isset($this->_recordSetCache[$id])) {
 			return $this->_recordSetCache[$id];
+		}
 		else return ($null=null);
 	}
 	
@@ -66,6 +85,32 @@ class RecordManager extends ServiceInterface {
 		if ($force || !isset($this->_recordSetCache[$id])) {
 			$this->_recordSetCache[$id] =& $set;
 		}
+	}
+
+	/**
+	 * Removes a recordset (and all of its records!) from the cache.
+	 * @param int $id The ID of the record set.
+	 * @access public
+	 * @return void
+	 */
+	function uncacheRecordSet($id) {
+		$set =& $this->getCachedRecordSet($id);
+		if ($set) {
+			foreach($set->getRecordIDs() as $i) {
+				$this->uncacheRecord($i);
+			}
+		}
+		unset($this->_recordSetCache[$id]);
+	}
+
+	/**
+	 * Removes a record from the cache.
+	 * @param int $id The ID of the record.
+	 * @access public
+	 * @return void
+	 */
+	function uncacheRecord($id) {
+		unset($this->_recordCache[$id]);
 	}
 	
 	/**
@@ -250,7 +295,7 @@ class RecordManager extends ServiceInterface {
 					$schema =& $schemaManager->getSchemaByID($type);
 					$schema->load();
 					$records[$id] =& new Record($schema, $vcontrol?true:false);
-					$this->_recordCache[$id] =& $records[$id];
+					if ($this->_cacheMode) $this->_recordCache[$id] =& $records[$id];
 				}
 				
 				$records[$id]->takeRow($a);
@@ -353,10 +398,11 @@ class RecordManager extends ServiceInterface {
 	 * @access public
 	 * @date 10/6/04
 	 */
-	function deleteRecordSet ($id) {
+	function deleteRecordSet ($id, $prune = false) {
 		ArgumentValidator::validate($id, new IntegerValidatorRule);
 		$recordSet =& $this->fetchRecordSet($id);
 		
+		$recordSet->loadRecords($prune?RECORD_FULL:RECORD_NODATA);
 		// Delete the records in the set.
 		$records =& $recordSet->getRecords();
 		
@@ -364,11 +410,11 @@ class RecordManager extends ServiceInterface {
 			$record =& $records[$key];
 			
 			// Only delete records if they are not shared with other sets.
-			$setsContaining = $recordManager->getRecordSetIDsContaining($record);
+			$setsContaining = $this->getRecordSetIDsContaining($record);
 			if (count($setsContaining) == 1 
 				&& $setsContaing[0] == $id)
 			{
-				$this->deleteRecord($record->getID());
+				$this->deleteRecord($record->getID(), $prune);
 				$record->commit();
 			}
 		}
