@@ -4,6 +4,9 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.3.0" date="The nebulous future">
 		<change author='adam'>
+			OKI version 1 implementations have been removed.
+		</change>
+		<change author='adam'>
 			The hierarchy's Tree class, HierarchyManager/tree/Tree.class.php, now 
 			caches its traversal results. (Savings: 93,529 calls to tree->_traverse(), 
 			43 seconds execution time on a 500MHz PC in a 5000-node hierarchy)

@@ -1,12 +1,15 @@
-# phpMyAdmin MySQL-Dump
-# version 2.3.3pl1
-# http://www.phpmyadmin.net/ (download page)
+# phpMyAdmin SQL Dump
+# version 2.5.6
+# http://www.phpmyadmin.net
 #
 # Host: localhost
-# Generation Time: Jan 14, 2004 at 04:58 PM
+# Generation Time: Jun 03, 2004 at 12:36 PM
 # Server version: 3.23.56
 # PHP Version: 4.3.2
-# Database : `hierarchyManager`
+# 
+# Database : `doboHarmoniTest`
+# 
+
 # --------------------------------------------------------
 
 #
@@ -14,43 +17,43 @@
 #
 
 CREATE TABLE hierarchy (
-  id int(10) unsigned NOT NULL default '0',
-  display_name varchar(255) default NULL,
-  description text,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM COMMENT='Used by the OKI Hierarchy service.';
-# --------------------------------------------------------
-
-#
-# Table structure for table `hierarchy_node`
-#
-
-CREATE TABLE hierarchy_node (
-  id int(10) unsigned NOT NULL default '0',
-  fk_hierarchy int(10) unsigned NOT NULL default '0',
-  fk_parent int(10) unsigned NOT NULL default '0',
-  display_name varchar(255) NOT NULL default '',
-  description text NOT NULL,
-  fk_nodetype int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (id),
-  KEY id (id),
-  KEY fk_hierarchy (fk_hierarchy),
-  KEY fk_parent (fk_parent)
-) TYPE=MyISAM COMMENT='Used by the OKI Hierarchy service.';
-# --------------------------------------------------------
-
-#
-# Table structure for table `hierarchy_nodetype`
-#
-
-CREATE TABLE hierarchy_nodetype (
-  id int(10) unsigned NOT NULL auto_increment,
-  fk_hierarchy int(10) unsigned NOT NULL default '0',
-  domain varchar(255) NOT NULL default '',
-  authority varchar(255) NOT NULL default '',
-  keyword varchar(255) NOT NULL default '',
-  description text NOT NULL,
-  PRIMARY KEY  (id),
-  UNIQUE KEY TYPE (domain(150),authority(150),keyword(150),fk_hierarchy)
+  hierarchy_id int(10) unsigned NOT NULL default '0',
+  hierarchy_display_name varchar(255) NOT NULL default '',
+  hierarchy_description text NOT NULL,
+  hierarchy_multiparent enum('0','1') NOT NULL default '1',
+  PRIMARY KEY  (hierarchy_id),
+  KEY hierarchy_display_name (hierarchy_display_name),
+  KEY hierarchy_multiparent (hierarchy_multiparent)
 ) TYPE=MyISAM;
 
+# --------------------------------------------------------
+
+#
+# Table structure for table `j_node_node`
+#
+
+CREATE TABLE j_node_node (
+  fk_parent int(10) NOT NULL default '0',
+  fk_child int(10) NOT NULL default '0',
+  PRIMARY KEY  (fk_parent,fk_child),
+  KEY fk_parent (fk_parent),
+  KEY fk_child (fk_child)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `node`
+#
+
+CREATE TABLE node (
+  node_id int(10) unsigned NOT NULL default '0',
+  node_display_name varchar(255) NOT NULL default '',
+  node_description text NOT NULL,
+  fk_hierarchy int(10) unsigned NOT NULL default '0',
+  fk_type int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (node_id),
+  KEY node_display_name (node_display_name),
+  KEY fk_hierarchy (fk_hierarchy),
+  KEY fk_type (fk_type)
+) TYPE=MyISAM;
