@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Does authentication procedures with an LDAP server.
  *
- * @version $Id: LDAPAuthenticationMethod.class.php,v 1.1 2003/06/30 02:16:09 gabeschine Exp $
+ * @version $Id: LDAPAuthenticationMethod.class.php,v 1.2 2003/06/30 14:48:07 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -19,7 +19,7 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	 * @access private
 	 * @var mixed $_con 
 	 */ 
-	var $_con;
+	var $_conn;
 	
 	/**
 	 * 
@@ -72,21 +72,27 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	}
 	
 	/**
-	 * 
-	 * @access public
-	 * @return void 
+	 * Attempt to bind to the LDAP server using $dn and $password credentials.
+	 * @param string $dn The LDAP DN.
+	 * @param string $password The password.
+	 * @access private
+	 * @return boolean TRUE if bind was successful, FALSE otherwise. 
 	 **/
-	function _bind() {
-		
+	function _bind( $dn, $password ) {
+		$this->_bind = ldap_bind($this->_conn, $dn, $password);
+		if ($this->_bind) return true;
+		return false;
 	}
 	
 	/**
-	 * 
-	 * @access public
-	 * @return void 
+	 * Attempts to bind to the LDAP server anonymously.
+	 * @access private
+	 * @return boolean TRUE if bind was successful, FALSE otherwise. 
 	 **/
 	function _anonymousBind() {
-		
+		$this->_bind = ldap_bind($this->_conn);
+		if ($this->_bind) return true;
+		return false;
 	}
 	
 	
@@ -94,10 +100,33 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	 * Fetches the DN entry for $systemName.
 	 * @param string $systemName The name to fetch the DN for.
 	 * @access private
-	 * @return string The DN. 
+	 * @return string|null The DN, or NULL if it can't be found. 
 	 **/
 	function _getDN( $systemName ) {
+		$uidField = $this->_opt->get("usernameField");
 		
+		$info = $this->_search("$uidField=$systemName");
+		if ($info['count']) {
+			$dn = $info[0]['dn'][0];
+			return $dn;
+		}
+		return null;
+	}
+	
+	/**
+	 * Searches the LDAP directory for $filter and returns $return fields.
+	 * @param string $filter the LDAP search filter.
+	 * @param optional array $return An array of fields to return.
+	 * @access private
+	 * @return array An array of ldap_get_entries results.
+	 **/
+	function _search( $filter, $return = array() ) {
+		$sr = ldap_search($this->_conn,
+						$this->_opt->get("baseDN"),
+						$filter,
+						$return);
+		$info = ldap_get_entries($this->_conn,$sr);
+		return $info;
 	}
 	
 	/**
@@ -106,7 +135,7 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	 * @return void 
 	 **/
 	function _connect() {
-		
+		$this->_conn = ldap_connect($this->_opt->get("LDAPHost"),$this->_opt->get("LDAPPort")) or throw(new Error("LDAPAuthenticationMethod::_connect() - could not connect to LDAP host <b>".$this->_opt->get("LDAPHost")."</b>!","LDAPAuthenticationMethod",true));
 	}
 	
 	/**
@@ -115,7 +144,7 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	 * @return void 
 	 **/
 	function _disconnect() {
-		
+		// don't do anything -- we want to keep the connection open.
 	}
 	
 	/**
