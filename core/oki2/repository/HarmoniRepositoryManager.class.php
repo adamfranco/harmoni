@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.7 2005/01/26 17:29:47 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.8 2005/01/26 18:44:22 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -60,13 +60,13 @@ class HarmoniRepositoryManager
 	function HarmoniRepositoryManager ($configuration = NULL) {
 		// Set up our hierarchy
 		$hierarchyManager =& Services::getService("Hierarchy");
-		$sharedManager =& Services::getService("Shared");
-		$hierarchyId =& $sharedManager->getId($configuration['hierarchyId']);
+		$idManager =& Services::getService("Id");
+		$hierarchyId =& $idManager->getId($configuration['hierarchyId']);
 		$this->_hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
 		
 		// Record what parent to store newly created repositories under
 		if ($configuration['defaultParentId']) {
-			$this->_defaultParentId =& $sharedManager->getId($configuration['defaultParentId']);
+			$this->_defaultParentId =& $idManager->getId($configuration['defaultParentId']);
 		} else {
 			$this->_defaultParentId = NULL;
 		}
@@ -106,11 +106,11 @@ class HarmoniRepositoryManager
 			$schema =& $schemaMgr->getSchemaByType($recordType);
 			debug::output("InfoStructure is being created from Schema with Id: '".$schema->getID()."'");
 			
-			$this->_createdInfoStructures[$schema->getID()] =& new HarmoniInfoStructure(
+			$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure(
 																	$schema);
 			// Add the parts to the schema
 			$partType = new HarmoniType("Repository", "Harmoni", "Blob", "");
-			$this->_createdInfoStructures[$schema->getID()]->createInfoPart(
+			$this->_createdRecordStructures[$schema->getID()]->createInfoPart(
 																"Content",
 																"The binary content of the Asset",
 																$partType,
@@ -156,8 +156,8 @@ class HarmoniRepositoryManager
 		ArgumentValidator::validate(repositoryType, new ExtendsValidatorRule("Type"));
 		
 		// Create an Id for the digital Repository Node
-		$sharedManager =& Services::getService("Shared");
-		$newId =& $sharedManager->createId();
+		$idManager =& Services::getService("Id");
+		$newId =& $idManager->createId();
 		
 		// Store the type passed in our own table as we will be using
 		// a special type, "_repositoryKeyType", as definition of which
@@ -358,12 +358,12 @@ class HarmoniRepositoryManager
 		$dbc =& Services::getService("DBHandler");
 		$result =& $dbc->query($query, $this->_configuration['dbId']);
 		
-		$shared =& Services::getService("Shared");
+		$id =& Services::getService("Id");
 		
 		$rs = array();
 		while ($result->hasMoreRows()) {
 			$idString = $result->field("repository_id");
-			$id =& $shared->getId($idString);
+			$id =& $id->getId($idString);
 			
 			// make sure that the repository is loaded into the createdRepositories array
 			$rs[] =& $this->getRepository($id);
@@ -635,7 +635,7 @@ class HarmoniRepositoryManager
 		$asset =& $repository->getAsset($assetId);
 		return $repository->copyAsset( $asset );
 	}
-	// :: full java declaration :: osid.shared.Id copyAsset(DigitalRepository digitalRepository, osid.shared.Id assetId)
+	// :: full java declaration :: osid.id.Id copyAsset(DigitalRepository digitalRepository, osid.id.Id assetId)
 
 	/**
    * Get all the RepositoryTypes in this RepositoryManager. RepositoryTypes

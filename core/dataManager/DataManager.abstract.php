@@ -19,7 +19,7 @@ require_once(HARMONI."dataManager/versionConstraints/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataManager.abstract.php,v 1.9 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: DataManager.abstract.php,v 1.10 2005/01/26 18:43:13 adamfranco Exp $
  *
  * @author Gabe Schine
  * @abstract
@@ -68,11 +68,16 @@ class DataManager {
 		Services::registerObjectAsService("DataTypeManager",$dataTypeManager);
 		Services::registerObjectAsService("RecordManager",$recordManager);
 		Services::registerObjectAsService("TagManager",$tagManager);
-
-		if (!Services::serviceRunning("Shared")) {
-			Services::startService("Shared", DBID);
-		}
 		
+		if (OKI_VERSION > 1) {
+			if (!Services::serviceRunning("Id")) {
+				Services::startService("Id", DBID);
+			}
+		} else {
+			if (!Services::serviceRunning("Shared")) {
+				Services::startService("Shared", DBID);
+			}
+		}
 		debug::output("Activated Harmoni Data Manager.",DEBUG_SYS1,"DataManager");
 	}
 	

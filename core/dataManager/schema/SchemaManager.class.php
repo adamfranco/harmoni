@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.12 2005/01/26 17:37:52 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.13 2005/01/26 18:44:15 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaManager
@@ -36,6 +36,12 @@ class SchemaManager
 		
 		// talk to the DB
 		$this->loadTypes($preloadTypes);
+		
+		if (OKI_VERSION > 1) {
+			$this->_idService =& Services::getService("Id");
+		} else {
+			$this->_idService =& Services::getService("Shared");
+		}
 		
 		debug::output("Initialized new SchemaManager with ".$this->numberOfTypes()." types.",DEBUG_SYS4,"DataManager");
 	}
@@ -227,8 +233,7 @@ class SchemaManager
 		}
 		
 		// add somethin' to the database
-		$sharedManager =& Services::getService("Shared");
-		$newID =& $sharedManager->createId();
+		$newID =& $this->_idService->createId();
 		
 		$query =& new InsertQuery;
 		$query->setTable("dm_schema");
