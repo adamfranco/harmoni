@@ -9,7 +9,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyManagerTestCase.class.php,v 1.9 2003/10/15 15:34:09 adamfranco Exp $
+ * @version $Id: HierarchyManagerTestCase.class.php,v 1.10 2003/10/15 19:20:39 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -25,6 +25,12 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
          */
         function setUp() {
         	print "<pre>";
+        	
+        	$this->manager =& new HarmoniHierarchyManager;
+        	$nodeType =& new TestNodeType;
+			$nodeTypes = array ($nodeType);
+			$this->manager->createHierarchy(FALSE, "A test Hierarchy", "Hierarchy1", $nodeTypes, FALSE);
+			$this->manager->createHierarchy(FALSE, "Another test Hierarchy", "Hierarchy2", $nodeTypes, FALSE);
         }
 		
         /**
@@ -40,6 +46,81 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 		//--------------the tests ----------------------
 
 		function test_constructor() {
-			$this->assertTrue(FALSE);
+			$manager =& new HarmoniHierarchyManager;
+			$this->assertTrue(is_object($manager));
+		}
+		
+		function test_hierarchy_creation() {
+			$manager =& new HarmoniHierarchyManager;
+			$nodeType =& new TestNodeType;
+			$nodeTypes = array ($nodeType);
+			$manager->createHierarchy(FALSE, "A test Hierarchy", "Hierarchy1", $nodeTypes, FALSE);
+			$hierarchies =& $manager->getHierarchies();
+			$hierarchy =& $hierarchies->next();
+			
+			$this->assertIsA($hierarchy, "HarmoniHierarchy");
+			
+			$manager->createHierarchy(FALSE, "Another test Hierarchy", "Hierarchy2", $nodeTypes, FALSE);
+			$hierarchies =& $manager->getHierarchies();
+			$hierarchies->next();
+			$hierarchy =& $hierarchies->next();
+			
+//			print_r ($manager);
+			$this->assertIsA($hierarchy, "HarmoniHierarchy");
+		}
+		
+		function test_get_hierarchies() {
+			$manager =& $this->manager;
+			
+			$nodeType =& new TestNodeType;
+			$nodeTypes = array ($nodeType);
+			$thirdHierarchy =& $manager->createHierarchy(FALSE, "Yet another test Hierarchy", "Hierarchy3", $nodeTypes, FALSE);
+			
+			$hierarchies =& $manager->getHierarchies();
+			$count = 0;
+			while ($hierarchies->hasNext()) {
+				$count++;
+				$hierarchy =& $hierarchies->next();
+			}
+			$this->assertEqual($count, 3);
+			$this->assertReference($hierarchy, $thirdHierarchy);
+		}
+		
+		function test_get_hierarchy() {
+			$manager =& $this->manager;
+			
+			$nodeType =& new TestNodeType;
+			$nodeTypes = array ($nodeType);
+			$thirdHierarchy =& $manager->createHierarchy(FALSE, "Yet another test Hierarchy", "Hierarchy3", $nodeTypes, FALSE);
+			$thirdHierarchyId = $thirdHierarchy->getId();
+			$hierarchy =& $manager->getHierarchy($thirdHierarchyId);
+			$this->assertReference($hierarchy, $thirdHierarchy);
+		}
+		
+		function test_delete_hierarchy() {
+			$manager =& $this->manager;
+			
+						$nodeType =& new TestNodeType;
+			$nodeTypes = array ($nodeType);
+			$thirdHierarchy =& $manager->createHierarchy(FALSE, "Yet another test Hierarchy", "Hierarchy3", $nodeTypes, FALSE);
+			$thirdHierarchyId = $thirdHierarchy->getId();
+			
+			$hierarchies =& $manager->getHierarchies();
+			$count = 0;
+			while ($hierarchies->hasNext()) {
+				$count++;
+				$hierarchies->next();
+			}
+			$this->assertEqual($count, 3);
+			
+			$manager->deleteHierarchy($thirdHierarchyId);
+			
+			$hierarchies =& $manager->getHierarchies();
+			$count = 0;
+			while ($hierarchies->hasNext()) {
+				$count++;
+				$hierarchies->next();
+			}
+			$this->assertEqual($count, 2);
 		}
 	}

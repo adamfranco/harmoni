@@ -7,7 +7,7 @@ require_once(HARMONI."oki/hierarchy/HarmoniHierarchyIterator.class.php");
 require_once(HARMONI."oki/hierarchy/HarmoniNodeIterator.class.php");
 require_once(HARMONI."oki/hierarchy/HarmoniTraversalInfoIterator.class.php");
 
-require_once(HARMONI."oki/hierarchy/MemoryOnlyHierarchyStore.class.php");
+require_once(HARMONI."oki/hierarchy/MemoryOnlyHierarchyManagerStore.class.php");
 
 define("SQL_DATABASE", 1000);
 define("MEMORY_ONLY", 1001);
@@ -29,7 +29,7 @@ define("MEMORY_ONLY", 1001);
  * 
  * <p></p>
  *
- * @version $Revision: 1.9 $ / $Date: 2003/10/15 15:18:58 $
+ * @version $Revision: 1.10 $ / $Date: 2003/10/15 19:20:18 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -105,7 +105,7 @@ class HarmoniHierarchyManager
 		ArgumentValidator::validate($allowsMultipleParents, new BooleanValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
 		ArgumentValidator::validate($name, new StringValidatorRule);
-		ArgumentValidator::validate($nodeTypes, ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
+		ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
 		ArgumentValidator::validate($allowsRecursion, new BooleanValidatorRule);
 		
 		// if allowsMultipleParents is false and allowsRecursion is true
@@ -119,11 +119,21 @@ class HarmoniHierarchyManager
 		// Load this Manager from persistable storage
 		$this->load();
 		
-		// Create a HierarchyStore based on the given configuration.
+		// Create a HierarchyStore and id based on the given configuration.
 		$hierarchyStore =& $this->_managerStore->createHierarchyStore();
+		
+/******************************************************************************/
+ 		// @todo Replace with the calls to SharedManager below
+		if ($this->_configuration[type] == SQL_DATABASE)
+			$hierarchyId =& new HarmoniTestDBId;
+		else
+			$hierarchyId =& new HarmoniTestId;
+		//$sharedManager =& Services::require_service("SharedManager", "SharedManager");
+		//$hierarchyId =& $sharedManager->createId();
+/******************************************************************************/
 
 		// Create a new hierarchy and add it to the managerStore;
-		$hierarchy =& new HarmoniHierarchy($description, $name, $nodeTypes, $hierarchyStore);
+		$hierarchy =& new HarmoniHierarchy($hierarchyId, $description, $name, $nodeTypes, $hierarchyStore);
 		$this->_managerStore->addHierarchy($hierarchy);
 		
 		// Save this Manager to persistable storage
@@ -201,7 +211,17 @@ class HarmoniHierarchyManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function deleteHierarchy(& $hierarchyId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		ArgumentValidator::validate($hierarchyId, new ExtendsValidatorRule("Id"));
+		
+		if (!$hierarchy =& $this->getHierarchy($hierarchyId))
+			throwError(new Error(HIERARCHY_UNKNOWN, "Hierarchy", 1));
+			
+		$nodeIterator =& $hierarchy->getAllNodes();
+		if ($nodeIterator->hasNext()) 
+			throwError(new Error(HIERARCHY_NOT_EMPTY, "Hierarchy", 1));
+		
+		$this->_managerStore->deleteHierarchy($hierarchyId);
+		$this->save();
 	}
 
 	/**

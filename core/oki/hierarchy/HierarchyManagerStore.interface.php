@@ -18,6 +18,14 @@ class HierarchyManagerStore
 	function addHierarchy (& $hierarchy) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
+
+	/**
+	 * Deletes a hierachy from this managerStore.
+	 * @param object Id $hierarchyId The Id of the Hierarchy to delete.
+	 */
+	function deleteHierarchy (& $hierarchyId) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
 	
 	/**
 	 * Returns an array of hierachies known to this managerStore.
@@ -27,6 +35,15 @@ class HierarchyManagerStore
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
+	/**
+	 * Creates a new hierarchy store that will work in this manager's location.
+	 * @return object HierarchyStore A HierarchyStore that will work in this manager's 
+	 *				location.
+	 */
+	function createHierarchyStore () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
 	/**
 	 * Loads this object from persistable storage.
 	 * @access protected
