@@ -74,7 +74,7 @@ function globalFunc() {
  * </pre>
  * End of detailed description.
  *
- * @version $Id: SamplePHPDoc.class.php,v 1.1 2003/06/27 23:04:40 dobomode Exp $
+ * @version $Id: SamplePHPDoc.class.php,v 1.2 2003/06/30 03:08:32 dobomode Exp $
  * @author Middlebury College, ETS Department
  * @copyright 2003 Middlebury College, ETS Department
  * @package harmoni.help
@@ -85,7 +85,7 @@ function globalFunc() {
  * @todo Eat lunch.
  */
 class SamplePHPDoc {
-	
+
 	/**
 	 * This is the id of a human. Humans rock!
 	 * @attribute private integer _id
