@@ -60,6 +60,12 @@ class IntegerDataType
 		$query->setValues(array($this->_value));
 	}
 	
+	function commit() {
+		// decides whether to insert() or update()
+		if ($this->getID()) $this->update();
+		else $this->insert();
+	}
+	
 	function alterQuery( &$query ) {
 		$query->addTable("data_integer",LEFT_JOIN,"data_integer_id = fk_data");
 		$query->addColumn("data_integer_id");

@@ -14,6 +14,7 @@ class CompactDataSet {
 	var $_full;
 	
 	var $_myID;
+	var $_active;
 	
 	function CompactDataSet(&$idManager, $dbID, &$dataSetTypeDef, $verControl=false ) {
 		ArgumentValidator::validate($verControl, new BooleanValidatorRule());
@@ -22,6 +23,7 @@ class CompactDataSet {
 		$this->_dataSetTypeDef = $dataSetTypeDef;
 		$this->_fields = array();
 		$this->_versionControlled = $verControl;
+		$this->_active = true;
 		
 		$this->_myID = null;
 		
@@ -79,7 +81,7 @@ class CompactDataSet {
 }
 
 class FullDataSet extends CompactDataSet {
-		
+	
 	function FullDataSet(&$idManager, $dbID, &$dataSetTypeDef, $verControl=false ) {
 		parent::CompactDataSet($idManager, $dbID, $dataSetTypeDef, $verControl);
 /*		ArgumentValidator::validate($verControl, new BooleanValidatorRule());
@@ -114,7 +116,51 @@ class FullDataSet extends CompactDataSet {
 	}
 		
 	function commit() {
+		if ($this->_myID) {
+			// we're already in the database
+			$query =& new UpdateQuery();
+			
+			$query->setTable("dataset");
+			$query->setColumns(array("dataset_active","dataset_ver_control"));
+			$query->setValues(array(
+				($this->_active)?1:0,
+				($this->_versionControlled)?1:0
+				));
+			$query->setWhere("dataset_id=".$this->_myID);
+		} else {
+			// we'll have to make a new entry
+			$dataSetTypeManager =& Services::getService("DataSetTypeManager");
+			
+			$this->_myID = $this->_idManager->newID(new HarmoniDataType("Harmoni","HarmoniDataManager","DataSet"));
+			
+			$query =& new InsertQuery();
+			$query->setTable("dataset");
+			$query->setColumns(array("dataset_id","fk_datasettype","dataset_created","dataset_active","dataset_ver_control"));
+			$query->addRowOfValues(array(
+				$this->_myID,
+				$dataSetTypeManager->getIDForType($this->_dataSetTypeDef->getType()),
+				"NOW()",
+				($this->_active)?1:0,
+				($this->_versionControlled)?1:0
+				));
+		}
 		
+		// execute the query;
+		$dbHandler =& Services::getService("DBHandler");
+		
+		$result =& $dbHandler->query($query,$this->_dbID);
+		
+		if (!$result) {
+			throwError( new UnknownDBError() );
+			return false;
+		}
+		
+		// now let's cycle through our FieldValues and commit them
+		foreach ($this->_dataSetTypeDef->getAllLabels() as $label) {
+			$this->_fields[$label]->commit();
+		}
+		
+		return true;
 	}
 	
 	function clone() {
@@ -137,6 +183,10 @@ class FullDataSet extends CompactDataSet {
 		$this->_checkLabel($label, __FUNCTION__);
 		
 		return $this->_fields[$label]->deleteValue($index);
+	}
+	
+	function delete() {
+		$this->_active = false;
 	}
 	
 }

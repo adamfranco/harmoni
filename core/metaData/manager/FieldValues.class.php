@@ -25,6 +25,13 @@ class FieldValues {
 		
 	}
 	
+	function commit() {
+		// cycle through each index and commit()
+		for ($i=0; $i<$this->numValues(); $i++) {
+			
+		}
+	}
+	
 	function &getValue($index) {
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
@@ -69,7 +76,7 @@ class FieldValues {
 		}
 		$this->_checkObjectType($value);
 		
-		$this->_values[$this->_numValues] =& new ValueVersions($this);
+		$this->_values[$this->_numValues] =& new ValueVersions($this, $this->_numValues);
 		$this->_values[$this->_numValues]->setValue($value);
 		$this->_numValues++;
 		return true;
@@ -83,7 +90,7 @@ class FieldValues {
 		
 		// any field can have at least one value.. if index 0 is not yet set up, set it up
 		if ($index == 0 && !isset($this->_values[0])) {
-			$this->_values[0] =& new ValueVersions($this);
+			$this->_values[0] =& new ValueVersions($this, 0);
 			$this->_numValues++;
 		}
 		

@@ -6,15 +6,24 @@ class ValueVersions {
 	var $_numVersions;
 	var $_parent;
 	
+	var $_myIndex;
+	
 	var $_versions;
 	
-	function ValueVersions (&$parent) {
+	function ValueVersions (&$parent, $myIndex) {
 		$this->_parent =& $parent;
 		$this->_numVersions = 0;
+		$this->_myIndex = $myIndex;
 	}
 	
 	function populate( $arrayOfRows ) {
 		
+	}
+	
+	function commit() {
+		foreach ($this->getVersionList() as $ver) {
+			$this->_versions[$ver]->commit();
+		}
 	}
 	
 	function numVersions() {
@@ -133,6 +142,21 @@ class ValueVersion {
 	function isActive() { return $this->_active; }
 	
 	function populate( $arrayOfRows ) {
+		
+	}
+	
+	function commit() {
+		// first we need to commit the actual DataType value
+		// so that we can get its ID
+		$this->_valueObj->commit();
+		$valueID = $this->_valueObj->getID();
+		
+		if ($this->_myID) {
+			
+		} else {
+			
+		}
+		
 		
 	}
 	
