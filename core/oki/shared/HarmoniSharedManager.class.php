@@ -33,7 +33,7 @@ require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.5 $ / $Date: 2003/10/31 22:59:18 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.6 $ / $Date: 2004/01/09 04:53:00 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -253,8 +253,18 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & createId() {
-		$id =& new HarmoniDatabaseId($this->_idDBIndex);
-		return $id;
+//		$id =& new HarmoniDatabaseId($this->_idDBIndex);
+//		return $id;
+		
+		if (!Services::serviceAvailable("IDManager")) {
+			throwError(new Error("Could not create new ID because the HarmoniDataManager doesn't seem to be available!","HarmoniSharedManager",true));
+		}
+		
+		$mgr =& Services::getService("IDManager");
+		
+		$newID = $mgr->newID( new HarmoniType("Harmoni","HarmoniSharedManager","ID"));
+		
+		return new HarmoniId($newID);
 	}
 
 	/**
