@@ -23,7 +23,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: StyleCollection.class.php,v 1.2 2004/07/16 04:17:14 dobomode Exp $
+ * @version $Id: StyleCollection.class.php,v 1.3 2004/07/19 23:59:50 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -45,10 +45,17 @@ class StyleCollection extends StyleCollectionInterface {
 	var $_description;
 	
 	/**
-	 * The name of this StyleCollection.
-	 * @attribute private string _name
+	 * The selector of this StyleCollection.
+	 * @attribute private string _selector
 	 */
-	var $_name;
+	var $_selector;
+	
+	/**
+	 * The class selector of this style collection. A class selector is the string
+	 * that would be included in the 'class' attribute of HTML tags. 
+	 * @attribute private string _classSelector
+	 */
+	var $_classSelector;
 	
 	/**
 	 * An array of the StyleProperties contained by this StyleCollection.
@@ -59,16 +66,17 @@ class StyleCollection extends StyleCollectionInterface {
 	/**
 	 * The constructor.
 	 * @access public
-	 * @param string name The name of this StyleCollection.
-	 * @param ref mixed SCs Either one or an array of a few StyleComponents to be contained
-	 * by this StyleCollection.
+	 * @param string selector The selector of this StyleCollection.
+	 * @param string classSelector The class selector of this style collection. If <code>null</code>,
+	 * it will be ignored, but the collection will not be able to be applied 
+	 * to components.
 	 * @param string displayName The display name of this StyleCollection.
 	 * @param string description The description of this StyleCollection.
 	 **/
-	function StyleCollection($name, $displayName, $description) {
-		$this->_name = $name;
+	function StyleCollection($selector, $classSelector, $displayName, $description) {
+		$this->_selector = $selector;
+		$this->_classSelector = $classSelector;
 		$this->_SPs = array();
-
 		$this->_displayName = $displayName;
 		$this->_description = $description;
 	}
@@ -77,21 +85,17 @@ class StyleCollection extends StyleCollectionInterface {
 	/**
 	 * Returns the CSS code for this StyleCollection.
 	 * @access public
-	 * @param integer indent An optional integer specifying how many tabs to indent
-	 * the result string.
+	 * @param string tabs This is a string (normally a bunch of tabs) that will be
+	 * prepended to each text line. This argument is optional but its usage is highly 
+	 * recommended in order to produce a nicely formatted HTML output.
 	 * @return string The CSS code for this StyleCollection.
 	 **/
-	function getCSS($indent = 0) {
+	function getCSS($tabs = "") {
 		// nothing to return
 		if (count($this->_SPs) == 0) 
 			return "";
 
-		// the tabs
-		$tabs = "";
-		for ($i = 0; $i < $indent; $i++)
-			$tabs .= "\t";
-	
-		$css = $tabs.$this->_name." {\n\t".$tabs;
+		$css = $tabs.$this->_selector." {\n\t".$tabs;
 
 		$values = array();
 		foreach (array_keys($this->_SPs) as $key)
@@ -99,18 +103,38 @@ class StyleCollection extends StyleCollectionInterface {
 
 		$css .= implode("\n\t".$tabs, $values);
 
-		$css .= "\n".$tabs."}";
+		$css .= "\n".$tabs."}\n";
 
 		return $css;
 	}
 	
 	/**
-	 * Returns the name of this StyleCollection.
+	 * Returns the class selector of this style collection. A class selector is the string
+	 * that would be included in the 'class' attribute of HTML tags. One can use
+	 * this method in order to apply the style collection to an arbitrary component.
 	 * @access public
-	 * @return string The name of this StyleCollection.
+	 * @return string The class name of this style collection.
 	 **/
-	function getName() {
-		return $this->_name;
+	function getClassSelector() {
+		return $this->_classSelector;
+	}
+
+	/**
+	 * Determines whether this <code>StyleCollection</code> can be applied to <code>Components</code>.
+	 * @access public
+	 * @return boolean <code>TRUE</code> if this <code>StyleCollection</code> can be applied to <code>Components</code>.
+	 **/
+	function canBeApplied() {
+		return isset($this->_classSelector);
+	}
+
+	/**
+	 * Returns the selector of this StyleCollection.
+	 * @access public
+	 * @return string The selector of this StyleCollection.
+	 **/
+	function getSelector() {
+		return $this->_selector;
 	}
 
 	/**

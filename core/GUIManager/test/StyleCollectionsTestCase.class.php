@@ -9,7 +9,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StyleCollectionsTestCase.class.php,v 1.2 2004/07/16 04:17:23 dobomode Exp $
+ * @version $Id: StyleCollectionsTestCase.class.php,v 1.3 2004/07/19 23:59:51 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -37,21 +37,25 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
 		}
 	
 		function test_collections() {
-			$collection =& new StyleCollection("div", "The Block", "Some Blocky Block");
+			$collection =& new StyleCollection("div", null, "The Block", "Some Blocky Block");
 			$collection->addSP(new ColorSP("#FFBBAA"));
 			
 			$css1 =& $collection->getCSS();
-			$css2 = "div {\n\tcolor: #FFBBAA;\n}";
+			$css2 = "div {\n\tcolor: #FFBBAA;\n}\n";
 			$this->assertIdentical($css1, $css2);
+			$this->assertFalse($collection->canBeApplied());
 
 			// another one
-			$collection =& new StyleCollection("p.col3", "The Block", "Some Blocky Block");
+			$collection =& new StyleCollection("p.col3", "col3", "The Block", "Some Blocky Block");
 			$collection->addSP(new ColorSP("#FFBBAA"));
 			$collection->addSP(new BorderSP("3em", "solid", "#421"));
 			
-			$css1 =& $collection->getCSS(2);
-			$css2 = "\t\tp.col3 {\n\t\t\tcolor: #FFBBAA;\n\t\t\tborder: 3em solid #421;\n\t\t}";
+			$css1 =& $collection->getCSS("\t\t");
+			$css2 = "\t\tp.col3 {\n\t\t\tcolor: #FFBBAA;\n\t\t\tborder: 3em solid #421;\n\t\t}\n";
 			$this->assertIdentical($css1, $css2);
+			$this->assertTrue($collection->canBeApplied());
+			$this->assertIdentical($collection->getClassSelector(), "col3");
+			
 		}
 		
 		

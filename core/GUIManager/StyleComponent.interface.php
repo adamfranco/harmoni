@@ -21,8 +21,8 @@
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: StyleComponent.interface.php,v 1.2 2004/07/16 04:17:14 dobomode Exp $
- * @package 
+ * @version $Id: StyleComponent.interface.php,v 1.3 2004/07/19 23:59:50 dobomode Exp $
+ * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
  * @access public

@@ -21,7 +21,7 @@
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: StyleCollection.interface.php,v 1.2 2004/07/16 04:17:14 dobomode Exp $
+ * @version $Id: StyleCollection.interface.php,v 1.3 2004/07/19 23:59:50 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -33,20 +33,41 @@ class StyleCollectionInterface {
 	/**
 	 * Returns the CSS code for this StyleCollection.
 	 * @access public
-	 * @param integer indent An optional integer specifying how many tabs to indent
-	 * the result string.
+	 * @param string tabs This is a string (normally a bunch of tabs) that will be
+	 * prepended to each text line. This argument is optional but its usage is highly 
+	 * recommended in order to produce a nicely formatted HTML output.
 	 * @return string The CSS code for this StyleCollection.
 	 **/
-	function getCSS($indent) {
+	function getCSS($tabs = "") {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
 	/**
-	 * Returns the name of this StyleCollection.
+	 * Returns the class selector of this style collection. A class selector is the string
+	 * that would be included in the 'class' attribute of HTML tags. One can use
+	 * this method in order to apply the style collection to an arbitrary component.
 	 * @access public
-	 * @return string The name of this StyleCollection.
+	 * @return string The class name of this style collection.
 	 **/
-	function getName() {
+	function getClassSelector() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+	/**
+	 * Determines whether this <code>StyleCollection</code> can be applied to <code>Components</code>.
+	 * @access public
+	 * @return boolean <code>TRUE</code> if this <code>StyleCollection</code> can be applied to <code>Components</code>.
+	 **/
+	function canBeApplied() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+	/**
+	 * Returns the selector of this StyleCollection.
+	 * @access public
+	 * @return string The selector of this StyleCollection.
+	 **/
+	function getSelector() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

@@ -27,12 +27,15 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 
 require_once(HARMONI."GUIManager/StyleProperties/LineHeightSP.class.php");
 
+require_once(HARMONI."GUIManager/StyleProperties/CursorSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/DirectionSP.class.php");
+
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StylePropertiesTestCase.class.php,v 1.3 2004/07/16 04:17:23 dobomode Exp $
+ * @version $Id: StylePropertiesTestCase.class.php,v 1.4 2004/07/19 23:59:51 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -135,6 +138,15 @@ require_once(HARMONI."GUIManager/StyleProperties/LineHeightSP.class.php");
 			$this->assertIdentical($sp->getCSS(), "line-height: 3.54;");
 		}
 		
+		function test_cursor_sp() {
+			$sp =& new CursorSP("hand");
+			$this->assertIdentical($sp->getCSS(), "cursor: hand;");
+		}
+		
+		function test_direction_sp() {
+			$sp =& new DirectionSP("ltr");
+			$this->assertIdentical($sp->getCSS(), "direction: ltr;");
+		}
 		
 		
 		
