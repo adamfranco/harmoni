@@ -8,11 +8,20 @@
  * setting.
  *
  * @package harmoni.themes
- * @version $Id: ThemeSetting.interface.php,v 1.1 2004/03/03 19:09:42 adamfranco Exp $
+ * @version $Id: ThemeSetting.interface.php,v 1.2 2004/03/04 00:01:10 adamfranco Exp $
  * @copyright 2004 
  **/
 
 class ThemeSettingInterface {
+
+	/**
+	 * Returns the ID of this ThemeSetting.
+	 * @access public
+	 * @return object Id The ID of this ThemeSetting.
+	 **/
+	function & getId () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
 
 	/**
 	 * Returns the DisplayName of this ThemeSetting.

@@ -10,7 +10,7 @@
  * to create a powerful yet flexible system for content output.
  *
  * @package harmoni.themes
- * @version $Id: Theme.interface.php,v 1.2 2004/03/03 19:09:41 adamfranco Exp $
+ * @version $Id: Theme.interface.php,v 1.3 2004/03/04 00:01:10 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -84,6 +84,26 @@ class ThemeInterface {
 	}
 	
 	/**
+	 * Adds a Setting to those known to this Theme.
+	 * @access public
+	 * @param object SettingInterface The Setting to add.
+	 * @return void
+	 **/
+	function addSetting (& $setting) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns the Setting known to this manager with the specified Id.
+	 * @access public
+	 * @param object Id The id of the desired Setting.
+	 * @return object SettingInterface The desired Setting object.
+	 **/
+	function & getSetting (& $id) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
 	 * Returns a HarmoniIterator object with this theme's ThemeSetting objects.
 	 * @access public
 	 * @see {@link ThemeInterface::setSettings}
@@ -112,10 +132,22 @@ class ThemeInterface {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
+	
+	
 /******************************************************************************
  * 	ThemeWidget access methods
  ******************************************************************************/
-
+	
+	/**
+	 * Adds a MenuThemeWidget to this Theme.
+	 * @access public
+	 * @param object MenuThemeWidget The MenuThemeWidget to add.
+	 * @return integer The index of the added Widget.
+	 **/
+	function & addMenu ( & $menuThemeWidget ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
 	/**
 	 * Returns a ThemeWidget object with of the MenuThemeWidget class.
 	 * @access public
@@ -138,6 +170,18 @@ class ThemeInterface {
 	 * @return object ThemeWidgetIterator An iterator of all MenuThemeWidgets.
 	 **/
 	function & getMenus () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	
+	
+	/**
+	 * Adds a MenuItemThemeWidget to this Theme.
+	 * @access public
+	 * @param object MenuItemThemeWidget The MenuItemThemeWidget to add.
+	 * @return integer The index of the added Widget.
+	 **/
+	function & addMenuItem ( & $menuItemThemeWidget ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
@@ -166,6 +210,18 @@ class ThemeInterface {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
+	
+	
+	/**
+	 * Adds a MenuHeadingThemeWidget to this Theme.
+	 * @access public
+	 * @param object MenuHeadingThemeWidget The MenuHeadingThemeWidget to add.
+	 * @return integer The index of the added Widget.
+	 **/
+	function & addMenuHeading ( & $menuHeadingThemeWidget ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
 	/**
 	 * Returns a ThemeWidget object with of the MenuHeadingThemeWidget class.
 	 * @access public
@@ -188,6 +244,18 @@ class ThemeInterface {
 	 * @return object ThemeWidgetIterator An iterator of all MenuHeadingThemeWidgets.
 	 **/
 	function & getMenuHeadings () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	
+	
+	/**
+	 * Adds a HeadingThemeWidget to this Theme.
+	 * @access public
+	 * @param object HeadingThemeWidget The HeadingThemeWidget to add.
+	 * @return integer The index of the added Widget.
+	 **/
+	function & addHeading ( & $headingThemeWidget ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
@@ -216,6 +284,18 @@ class ThemeInterface {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
+	
+	
+	/**
+	 * Adds a FooterThemeWidget to this Theme.
+	 * @access public
+	 * @param object FooterThemeWidget The FooterThemeWidget to add.
+	 * @return integer The index of the added Widget.
+	 **/
+	function & addFooter ( & $footerThemeWidget ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
 	/**
 	 * Returns a ThemeWidget object with of the FooterThemeWidget class.
 	 * @access public
@@ -238,6 +318,18 @@ class ThemeInterface {
 	 * @return object ThemeWidgetIterator An iterator of all FooterThemeWidgets.
 	 **/
 	function & getFooters () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	
+	
+	/**
+	 * Adds a TextBlockThemeWidget to this Theme.
+	 * @access public
+	 * @param object TextBlockThemeWidget The TextBlockThemeWidget to add.
+	 * @return integer The index of the added Widget.
+	 **/
+	function & addTextBlock ( & $textBlockThemeWidget ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	

@@ -10,7 +10,7 @@
  * (in the sequence; 1, 2, 3, etc) as the theme developer desires.
  *
  * @package harmoni.themes
- * @version $Id: ThemeWidget.interface.php,v 1.1 2004/03/03 19:09:42 adamfranco Exp $
+ * @version $Id: ThemeWidget.interface.php,v 1.2 2004/03/04 00:01:10 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -19,11 +19,23 @@ class ThemeWidgetInterface {
 	/**
 	 * Returns the index of this ThemeWidget.
 	 * @access public
-	 * @return int The index of this Widget. Widgets are created with an imutable
-	 *		index. Indices start at 1 and go as high (in sequence; 1, 2, 3, etc) 
+	 * @return int The index of this Widget.
+	 *		Indices start at 1 and go as high (in sequence; 1, 2, 3, etc) 
 	 *		as the theme developer desires.
 	 **/
 	function getIndex() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Sets the index of this ThemeWidget.
+	 * @access public
+	 * @param int The index of this Widget.
+	 *		Indices start at 1 and go as high (in sequence; 1, 2, 3, etc) 
+	 *		as the theme developer desires.
+	 * @return void
+	 **/
+	function setIndex( $index ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 
@@ -42,6 +54,26 @@ class ThemeWidgetInterface {
 	 * @return string The Description name.
 	 **/
 	function getDescription() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Adds a Setting to those known to this Wiget.
+	 * @access public
+	 * @param object SettingInterface The Setting to add.
+	 * @return void
+	 **/
+	function addSetting (& $setting) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns the Setting known to this manager with the specified Id.
+	 * @access public
+	 * @param object Id The id of the desired Setting.
+	 * @return object SettingInterface The desired Setting object.
+	 **/
+	function & getSetting (& $id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 
