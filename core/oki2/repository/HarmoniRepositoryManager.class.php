@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.9 2005/01/26 22:43:41 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.10 2005/01/26 23:03:26 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -358,12 +358,12 @@ class HarmoniRepositoryManager
 		$dbc =& Services::getService("DBHandler");
 		$result =& $dbc->query($query, $this->_configuration['dbId']);
 		
-		$id =& Services::getService("Id");
+		$idManager =& Services::getService("Id");
 		
 		$rs = array();
 		while ($result->hasMoreRows()) {
 			$idString = $result->field("repository_id");
-			$id =& $id->getId($idString);
+			$id =& $idManager->getId($idString);
 			
 			// make sure that the repository is loaded into the createdRepositories array
 			$rs[] =& $this->getRepository($id);
