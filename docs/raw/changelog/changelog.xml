@@ -2,6 +2,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.1.0" date="Not Released">
+		<change author='gabe'>
+			DataManager: ValueVersion::prune() now deletes itself if the DataSet it is part of is inactive.
+		</change>
+		<change author='gabe'>
+			DataManager: DataSet::prune() now removes all Tags associated with itself.
+		</change>
+	</version>
 	<version number="0.0.5" date="2004-01-09">
 		<change>
 			Implementation of the OKI SharedManager (HarmoniSharedManager) now uses the HarmoniDataManager's IDManager

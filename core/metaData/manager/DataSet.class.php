@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.21 2004/01/09 04:21:21 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.22 2004/01/11 04:15:47 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -189,6 +189,14 @@ class CompactDataSet {
 	function isVersionControlled() {
 		return $this->_versionControlled;
 	}
+	
+	/**
+	 * Returns if this DataSet is active or not.
+	 * @return bool
+	 */
+	function isActive() {
+		return $this->_active;
+	}
 }
 
 
@@ -196,26 +204,18 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.21 2004/01/09 04:21:21 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.22 2004/01/11 04:15:47 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {
 	
+	var $_prune;
+	
 	function FullDataSet(&$idManager, $dbID, &$dataSetTypeDef, $verControl=false ) {
 		parent::CompactDataSet($idManager, $dbID, $dataSetTypeDef, $verControl);
-/*		ArgumentValidator::validate($verControl, new BooleanValidatorRule());
-		$this->_idManager = $idManager;
-		$this->_dbID = $dbID;
-		$this->_dataSetTypeDef = $dataSetTypeDef;
-		$this->_fields = array();
 		
-		// set up the individual fields
-		foreach ($dataSetTypeDef->getAllLabels() as $label) {
-			$def =& $dataSetTypeDef->getFieldDefinition($label);
-			$this->_fields[$label] =& new FieldValues($def, $this, $label );
-			unset($def);
-		}
-*/	}
+		$this->_prune=false;
+	}
 	
 	/**
 	* Returns false since this DataSet is editable.
@@ -310,6 +310,22 @@ class FullDataSet extends CompactDataSet {
 		foreach ($this->_dataSetTypeDef->getAllLabels() as $label) {
 			$this->_fields[$label]->commit();
 		}
+
+		if ($this->_prune) {
+			// now, remove any tags from the DB that have to do with us, since they will no longer
+			// be valid.
+			$tagMgr =& Services::getService("DataSetTagManager");
+			$tagMgr->pruneTags($this);
+			
+			// if we are inActive, delete ourselves
+			if (!$this->isActive) {
+				$query =& new DeleteQuery();
+				$query->setTable("dataset");
+				$query->setWhere("dataset_id=".$this->getID());
+				
+				$dbHandler->query($query, $this->_dbID);
+			}
+		}
 		
 		return true;
 	}
@@ -361,6 +377,8 @@ class FullDataSet extends CompactDataSet {
 		foreach ($this->_dataSetTypeDef->getAllLabels(true) as $label) {
 			$this->_fields[$label]->prune();
 		}
+		
+		$this->_prune = true;
 	}
 	
 	/**
@@ -429,7 +447,7 @@ class FullDataSet extends CompactDataSet {
 		
 		foreach ($this->_dataSetTypeDef->getAllLabels(true) as $label) {
 			// if the tag doesn't have any mappings for $label, skip it
-			if (!$tag->haveMappings($label)) continue;
+//			if (!$tag->haveMappings($label)) continue;
 			for ($i=0; $i<$this->numValues($label); $i++) {
 				$newVerID = $tag->getMapping($label, $i);
 				
@@ -488,7 +506,9 @@ function renderDataSet(&$dataSet) {
 	
 	print "<PRE>";
 	print "dataSet of type '".OKITypeToString($dataSet->_dataSetTypeDef->getType())."', ";
-	print "version controlled = ".($dataSet->isVersionControlled()?"yes":"no")."\n\n";
+	print "version controlled = ".($dataSet->isVersionControlled()?"yes":"no");
+	print $dataSet->isActive()?"":" (inactive)";
+	print "\n\n";
 	foreach ($fields as $label) {
 		$fieldDef =& $dataSet->_dataSetTypeDef->getFieldDefinition($label);
 		$numValues = $dataSet->numValues($label);

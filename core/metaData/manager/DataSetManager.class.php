@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.16 2004/01/09 22:40:52 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.17 2004/01/11 04:15:47 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -61,7 +61,7 @@ class DataSetManager extends ServiceInterface {
 		
 		$result =& $dbHandler->query($query,$this->_dbID);
 		
-		print "<pre>".MySQL_SQLGenerator::generateSQLQuery($query)."</pre>";
+//		print "<pre>".MySQL_SQLGenerator::generateSQLQuery($query)."</pre>";
 		
 		if (!$result) {
 			throwError(new UnknownDBError("DataSetManager"));
