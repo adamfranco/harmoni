@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.48 2005/04/04 18:21:16 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.49 2005/04/04 18:36:57 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -212,10 +212,14 @@ if (LOAD_STORAGE) {
 }
 
 /**
- * include MetaDataManager files
+ * include DataManager files
  */
 if (LOAD_DATAMANAGER) {
 	require_once(HARMONI."dataManager/DataManager.abstract.php");
+	// The DataManager class is simply a shell that creates other
+	// services that handle specific parts of the DataManager system's
+	// functionality.
+	Services::registerService("DataManager","DataManager");
 }
 
 /**
