@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.8 2004/01/07 19:14:07 gabeschine Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.9 2004/02/09 15:54:11 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -200,9 +200,9 @@ class MySQLDatabase extends DatabaseInterface {
 		$resourceId = $this->_query($queryString);
 
 		// if query was unsuccessful, return a null QueryResult object
-		if ($resourceId === false)
-			throwError( new Error("The query had errors: \n".$queryString, "DBHandler", true));
-
+//		if ($resourceId === false)
+//			throwError( new Error("The query had errors: \n".$queryString, "DBHandler", true));
+//
 		// create the appropriate QueryResult object
 		switch($query->getType()) {
 			case INSERT : 
@@ -251,10 +251,12 @@ class MySQLDatabase extends DatabaseInterface {
 		foreach ($queries as $q) {
 			// attempt to execute the query
 			$resourceId = mysql_query($q, $this->_linkId);
+			
+			debug::output("<pre>Query: <div>".$query."</div>Result: $resourceId</pre>", 1, "DBHandler");
 		
 			if ($resourceId === false) {
 			    $this->_failedQueries++;
-				throwError(new Error("MySQL Error: ".mysql_error($this->_linkId), "DBHandler", true));
+				throwError(new Error("MySQL Error: ".mysql_error($this->_linkId), "DBHandler", false));
 			}
 			else
 			    $this->_successfulQueries++;
