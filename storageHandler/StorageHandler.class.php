@@ -14,7 +14,7 @@ require_once(HARMONI."storageHandler/Storables/VirtualStorable.class.php");
  * 
  * @package harmoni.StorageHandler
  * @author Middlebury College, ETS 
- * @version $Id: StorageHandler.class.php,v 1.2 2003/07/01 21:50:20 gabeschine Exp $
+ * @version $Id: StorageHandler.class.php,v 1.3 2003/07/02 23:11:48 gabeschine Exp $
  * @copyright 2003
  */
 class StorageHandler extends StorageHandlerInterface {
@@ -267,13 +267,15 @@ class StorageHandler extends StorageHandlerInterface {
 	/**
 	 * Finds any subdirs of $path that have defined methods attached to them.
 	 * @param string $path The path.
+	 * @param optional integer $type The type of method to return.
 	 * @access public
 	 * @return array An array of $ids.
 	 **/
-	function _findDefinedSubdirsOf( $path ) {
+	function _findDefinedSubdirsOf( $path, $type=null ) {
 		$ids = array();
 		foreach ($this->_paths as $id=>$definedPath) {
-			if (ereg("^$path/.+",$definedPath)) $ids[] = $id;
+			if (ereg("^$path/.+",$definedPath)
+				&& ($type==null || ($this->_types[$id] == $type))) $ids[] = $id;
 		}
 		return $ids;
 	}
