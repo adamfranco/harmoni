@@ -17,7 +17,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.15 2004/04/30 21:00:03 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.16 2004/05/10 18:12:24 adamfranco Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -147,7 +147,7 @@ class Harmoni {
 	* Attaches some arbitrary data to the Harmoni object so that actions or later
 	* functions can make use of it.
 	*/
-	function attachData($key, &$value) {
+	function attachData($key, & $value) {
 		$this->_attachedData->set($key,$value);
 	}
 	
@@ -388,20 +388,7 @@ class Harmoni {
 		ini_set("session.use_cookies",($this->config->get("sessionUseCookies")?1:0));
 		session_start(); // yay!
 	}
-	
-	/**
-	 * Tells Harmoni to "start" with the given layout object. Instead of taking the layout from an action
-	 * and passing that directly to the theme, harmoni will take this layout object and add the one it gets
-	 * from the theme to it at index $index, and pass that to the theme.
-	 * @param ref object $layoutObject A {@link Layout} object. 
-	 * @param integer $index The index where the layout returned from actions should go in $layoutObject.
-	 * @access public
-	 * @return void 
-	 **/
-	function startWithLayout(&$layoutObject) {
-		ArgumentValidator::validate($layoutObject, new ExtendsValidatorRule("LayoutInterface"));
-		$this->_startWithLayout =& $layoutObject;
-	}
+
 }
 
 /**

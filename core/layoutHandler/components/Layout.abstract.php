@@ -14,7 +14,7 @@ define ("RIGHT", "right");
  * holds any number of components of different types.
  *
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.9 2004/04/01 19:22:21 adamfranco Exp $
+ * @version $Id: Layout.abstract.php,v 1.10 2004/05/10 18:12:24 adamfranco Exp $
  * @copyright 2003 
  * @abstract
  **/
@@ -100,9 +100,7 @@ class Layout extends LayoutInterface {
 	 * @return void
 	 **/
 	function addComponent( & $object, $valign = TOP, $halign = LEFT ) {
-// 		ArgumentValidator::validate($themeWidgetType, new StringValidatorRule);
-// 		ArgumentValidator::validate($themeWidgetIndex, new IntegerValidatorRule);
-		
+		ArgumentValidator::validate($object, new ExtendsValidatorRule('VisualComponent'));	
 		ArgumentValidator::validate($valign, new StringValidatorRule);
 		ArgumentValidator::validate($halign, new StringValidatorRule);
 		
