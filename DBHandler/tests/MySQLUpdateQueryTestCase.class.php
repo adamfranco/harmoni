@@ -8,7 +8,8 @@
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.2 2003/06/18 15:31:58 dobomode Exp $
+ * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.3 2003/06/18 20:33:18 adamfranco Exp $
+ * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
 
