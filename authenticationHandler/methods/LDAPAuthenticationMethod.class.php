@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Does authentication procedures with an LDAP server.
  *
- * @version $Id: LDAPAuthenticationMethod.class.php,v 1.8 2003/06/30 21:42:53 adamfranco Exp $
+ * @version $Id: LDAPAuthenticationMethod.class.php,v 1.9 2003/07/03 03:09:08 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -14,26 +14,23 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
  
 class LDAPAuthenticationMethod extends AuthenticationMethod {
 	/**
-	 * 
-	 * 
+	 * The LDAP connection ID.
 	 * @access private
-	 * @var mixed $_con 
+	 * @var integer $_con 
 	 */ 
 	var $_conn;
 	
 	/**
-	 * 
-	 * 
+	 * LDAP bind result.
 	 * @access private
-	 * @var mixed $_bind 
+	 * @var boolean $_bind 
 	 */ 
 	var $_bind;
 	
 	/**
-	 * 
-	 * 
+	 * The DataContainer containing (really) the options for this method.
 	 * @access private
-	 * @var mixed $_opt 
+	 * @var object LDAPMethodOptions $_opt 
 	 */ 
 	var $_opt;
 	

@@ -7,7 +7,7 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
  * File Storage Method interface provides functionality to store and handle
  * Storables on a file system. To be used by StorageHandler
  *
- * @version $Id: FileStorageMethod.class.php,v 1.5 2003/06/30 21:05:46 movsjani Exp $
+ * @version $Id: FileStorageMethod.class.php,v 1.6 2003/07/03 03:09:08 gabeschine Exp $
  * @package harmoni.Storagehandler
  * @copyright 2003
  * @access public
@@ -88,6 +88,7 @@ class FileStorageMethod extends StorageMethodInterface {
      * @param string $sourcePath The path of the storable to move.
      * @param string $destinationName The new name of the storable.
      * @param string $destinationPath The new path of the storable.
+	 * @deprecated Move functionality is handled by StorageHandler now.
      * @access public
      */
     function move($sourcePath,$sourceName,$destinationPath,$destinationName) { 
@@ -107,6 +108,7 @@ class FileStorageMethod extends StorageMethodInterface {
      * @param string $sourcePath The path of the storable to copy.
      * @param string $destinationName The name of the location to copy into.
      * @param string $destinationPath The path of the location to copy into.
+	 * @deprecated Copy functionality is handled by StorageHandler now.
      * @access public
      */
     function copy($sourcePath,$sourceName,$destinationPath,$destinationName) { 
@@ -137,9 +139,9 @@ class FileStorageMethod extends StorageMethodInterface {
      * @return integer The size of the storable(s).
      * @access public
      */
-    function getSizeOf($path,$name="") { 
+    function getSizeOf($path,$name=null) { 
 		$path = $this->_convertPath($path);
-		if($name!=""){
+		if($name!=null){
 			clearstatcache();
 			return filesize($this->_basePath.$path.$name);
 		}

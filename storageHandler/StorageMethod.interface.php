@@ -4,7 +4,7 @@
  * Storage Method interface provides functionality to create StorageMethods
  * to handle Storables. A collection of StorageMethods can be used by StorageHandler. 
  *
- * @version $Id: StorageMethod.interface.php,v 1.3 2003/06/30 19:03:49 movsjani Exp $
+ * @version $Id: StorageMethod.interface.php,v 1.4 2003/07/03 03:09:06 gabeschine Exp $
  * @package harmoni.Storagehandler
  * @copyright 2003
  * @access public
@@ -50,6 +50,7 @@ class StorageMethodInterface {
      * @param string $sourcePath The path of the storable to move.
      * @param string $locationName The new name of the storable.
      * @param string $locationPath The new path of the storable.
+	 * @deprecated Move functionality is handled by StorageHandler now.
      * @access public
      */
     function move($sourcePath,$sourceName,$locationPath,$locationName) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
@@ -63,6 +64,7 @@ class StorageMethodInterface {
      * @param string $sourcePath The path of the storable to copy.
      * @param string $locationName The name of the location to copy into.
      * @param string $locationPath The path of the location to copy into.
+	 * @deprecated Copy functionality is handled by StorageHandler now.
      * @access public
      */
     function copy($sourcePath,$sourceName,$locationPath,$locationName) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
@@ -84,7 +86,7 @@ class StorageMethodInterface {
      * @return integer The size of the storable(s).
      * @access public
      */
-    function getSizeOf($path,$name="") { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function getSizeOf($path,$name=null) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Delete a whole tree of storables.
