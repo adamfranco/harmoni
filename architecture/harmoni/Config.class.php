@@ -11,8 +11,8 @@ class Config {
 		
 	}
 	
-	function getDefaultModule () {
-	
+	function get ($propkey) {
+		return "Main";
 	}
 	
 }

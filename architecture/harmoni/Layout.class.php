@@ -12,7 +12,7 @@
 
 		// Constructor
 		function Layout($file) {
-			$this->layout_file = $file;
+			$this->layout_file = "layouts/$file.lay";
 		}
 
         // Adds a set of anmed content to a layout

@@ -11,17 +11,17 @@ class Harmoni {
 	
 	function Harmoni () {
 	
-		require_once ("User.inc");
-		require_once ("Context.inc");
-		require_once ("Form.inc");
-		require_once ("Config.inc");
-		require_once ("OKI.inc");
+		require_once ("User.class.php");
+		require_once ("Context.class.php");
+		require_once ("Form.class.php");
+		require_once ("Config.class.php");
+		//require_once ("OKI.class.php");
 	
 		$this->user = new User ();
 		$this->context = new Context ($_REQUEST);
 		$this->form = new Form ($_REQUEST);
 		$this->config = new Config ();
-		$this->oki = new OKI ();
+		//$this->oki = new OKI ();
 		
 		################
 		# OKI SERVICES #
@@ -51,16 +51,16 @@ class Harmoni {
 	}
 	
 	function getOKI () {
-		return $this->oki;
+		//return $this->oki;
 	}
 	
 	function execute () {
 		$module = $this->context->getValue('module');
 		$action = $this->context->getValue('action');
 		if (empty ($module)) {
-			$module = $this->config->getDefaultModule();
+			$module = $this->config->get('DefaultModule');
 		}
-		require_once ("modules/$module.inc");
+		require_once ("modules/$module.mod.php");
 		if (empty ($action)) {
 			eval ("\$action = $module::getDefaultAction();");
 		}
