@@ -1,13 +1,13 @@
 <?php
 
-require_once("../../utilities/Queue.class.php");
+require_once("../utilities/Queue.class.php");
 require_once("Error.class.php");
 require_once("ErrorHandler.interface.php");
 
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.3 2003/06/25 15:13:07 movsjani Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.4 2003/06/25 15:16:43 movsjani Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */
