@@ -23,7 +23,7 @@ class DataSetTagManager extends ServiceInterface {
 		$query->setWhere("datasetfield_active=1 AND fk_dataset=".$dataSetID);
 		
 		$dbHandler =& Services::getService("DBHandler");
-		$results =& $dbhandler->query($query, $this->_dbID);
+		$results =& $dbHandler->query($query, $this->_dbID);
 		
 		if (!$results) throwError( new UnknownDBError("DataSetTagManager"));
 		
@@ -67,12 +67,12 @@ class DataSetTagManager extends ServiceInterface {
 		return $newID;
 	}
 	
-	function _fetchTags( $id, $full=false) {
-		$query =& new SelectQuery;
-		
-		$query->addTable("dataset_tag_map");
-		$query->addTable
-	}
+//	function _fetchTags( $id, $full=false) {
+//		$query =& new SelectQuery;
+//		
+//		$query->addTable("dataset_tag_map");
+//		$query->addTable
+//	}
 	
 	function fetchTagDescriptors( $id) {
 		$query =& new SelectQuery;
