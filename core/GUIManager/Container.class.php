@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Container.class.php,v 1.10 2005/02/07 21:38:13 adamfranco Exp $
+ * @version $Id: Container.class.php,v 1.11 2005/03/10 03:18:18 dobomode Exp $
  */
 class Container extends Component /* implements ContainerInterface */ {
 
@@ -121,6 +121,7 @@ class Container extends Component /* implements ContainerInterface */ {
 		$constraint[2] = $alignmentX;
 		$constraint[3] = $alignmentY;
 		$this->_constraints[] =& $constraint;
+		
 		return $this->_components[] =& $component;
 	}
 	

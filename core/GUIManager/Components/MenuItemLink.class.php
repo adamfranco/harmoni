@@ -15,7 +15,7 @@ require_once(HARMONI."GUIManager/Components/MenuItem.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuItemLink.class.php,v 1.6 2005/02/07 21:38:14 adamfranco Exp $
+ * @version $Id: MenuItemLink.class.php,v 1.7 2005/03/10 03:18:18 dobomode Exp $
  */
 class MenuItemLink extends Component /* implements MenuItemInterface */ {
 
@@ -72,15 +72,15 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	
 	/**
 	 * The constructor.
+	 * @param string displayName The display name of this menu item.
+	 * @param string url The url of this menu item.
+	 * @param boolean selected The selected state of this menu item.
 	 * @param integer index The index of this component. The index has no semantic meaning: 
 	 * you can think of the index as 'level' of the component. Alternatively, 
 	 * the index could serve as means of distinguishing between components with 
 	 * the same type. Most often one would use the index in conjunction with
 	 * the <code>getStylesForComponentType()</code> and 
 	 * <code>addStyleForComponentType()</code> methods.
-	 * @param string displayName The display name of this menu item.
-	 * @param string url The url of this menu item.
-	 * @param boolean selected The selected state of this menu item.
 	 * @param string target The target window of this menu item.
 	 * @param string accessKey The access key (shortcut) of this menu item.
 	 * @param string toolTip The toolTip of this menu item.

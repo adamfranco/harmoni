@@ -1,6 +1,9 @@
 <?php
 
 require_once(HARMONI."GUIManager/Theme.class.php");
+require_once(HARMONI."GUIManager/MenuTheme.abstract.php");
+require_once(HARMONI."GUIManager/Components/Menu.class.php");
+require_once(HARMONI."GUIManager/Layouts/XLayout.class.php");
 require_once(HARMONI."GUIManager/StyleCollection.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/ColorSP.class.php");
@@ -12,7 +15,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ThemesTestCase.class.php,v 1.8 2005/02/07 21:38:18 adamfranco Exp $
+ * @version $Id: ThemesTestCase.class.php,v 1.9 2005/03/10 03:18:19 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -128,7 +131,21 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 			$this->assertIdentical($sp2a->_SCs[0]->getValue(), "#AAA");
 
 		}
-	
+
+		// test MenuTheme	
+		function test_menu_theme() {
+			$menuStyle =& new StyleCollection("*.menu", "menu", "Menu Style", "Style for the menu.");
+			$menuStyle->addSP(new BackgroundColorSP("#997755"));
+			$menuStyle->addSP(new BorderSP("1px", "solid", "#FFFFFF"));
+			
+			$menu =& new Menu(new XLayout(), 4, $menuStyle);			
+			
+			$theme =& new MenuThemeAbstract("Master", "And Servant");
+			$theme->setMenu($menu, 1);
+			
+			$menu1 =& $theme->getMenu(1);
+			$this->assertReference($menu, $menu1);
+		}
 		
     }
 

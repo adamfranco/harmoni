@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/Layout.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FlowLayout.class.php,v 1.5 2005/02/07 21:38:14 adamfranco Exp $
+ * @version $Id: FlowLayout.class.php,v 1.6 2005/03/10 03:18:19 dobomode Exp $
  */
 class FlowLayout extends LayoutInterface {
 
@@ -48,7 +48,7 @@ class FlowLayout extends LayoutInterface {
 		$components =& $container->getComponents();
 		foreach (array_keys($components) as $key) {
 			$component =& $components[$key];
-			$component->render($theme, $tabs);
+			$component->render($theme, $tabs."\t");
 		}
 	}
 	

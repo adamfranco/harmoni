@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.12 2005/02/07 21:38:14 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.13 2005/03/10 03:18:18 dobomode Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -465,7 +465,7 @@ class Theme extends ThemeInterface {
 		ArgumentValidator::validate($component, $rule, true);
 		// ** end of parameter validation
 
-		$this->_component = $component;
+		$this->_component =& $component;
 	}
 	
 	/**
@@ -548,6 +548,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function printPage() {
 		echo "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\n";
+//		echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n";
 		echo "<html>\n";
 		
 		echo "\t<head>";
