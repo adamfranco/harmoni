@@ -10,7 +10,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniConfig.class.php,v 1.5 2005/03/23 20:38:01 adamfranco Exp $
+ * @version $Id: HarmoniConfig.class.php,v 1.6 2005/03/29 19:44:12 adamfranco Exp $
  */
 
 class HarmoniConfig extends DataContainer {
@@ -26,28 +26,28 @@ class HarmoniConfig extends DataContainer {
         // initialize the data container
         $this -> init(); 
         // add the fields we want to allow
-		$this -> add("useAuthentication",new BooleanValidatorRule,new Error("HarmoniConfig - the option 'useAuthentication' must be set to either TRUE or FALSE!","DataContainer",true));
+		$this -> add("useAuthentication",BooleanValidatorRule::getRule(),new Error("HarmoniConfig - the option 'useAuthentication' must be set to either TRUE or FALSE!","DataContainer",true));
 		$this -> set("useAuthentication",false);
     	$e =& new Error("HarmoniConfig - the option 'defaultAction' must be set to a string value!","Harmoni",true);
-		$this -> add("defaultAction", new StringValidatorRule,$e);
-		$this -> add("defaultAction", new FieldRequiredValidatorRule,$e);
+		$this -> add("defaultAction", StringValidatorRule::getRule(),$e);
+		$this -> add("defaultAction", FieldRequiredValidatorRule::getRule(),$e);
 		unset($e);
     	$e =& new Error("HarmoniConfig - the option 'defaultModule' must be set to a string value!","Harmoni",true);
-		$this -> add("defaultModule", new StringValidatorRule,$e);
-		$this -> add("defaultModule", new FieldRequiredValidatorRule,$e);
+		$this -> add("defaultModule", StringValidatorRule::getRule(),$e);
+		$this -> add("defaultModule", FieldRequiredValidatorRule::getRule(),$e);
 		
-		$this -> add("charset", new FieldRequiredValidatorRule);
+		$this -> add("charset", FieldRequiredValidatorRule::getRule());
 		
-		$this -> add("outputHTML", new BooleanValidatorRule);
+		$this -> add("outputHTML", BooleanValidatorRule::getRule());
 		$this -> set("outputHTML", true);
 		
-		$this -> add("sessionName", new FieldRequiredValidatorRule);
+		$this -> add("sessionName", FieldRequiredValidatorRule::getRule());
 		$this -> set("sessionName","Harmoni");
-		$this -> add("sessionUseCookies", new BooleanValidatorRule);
+		$this -> add("sessionUseCookies", BooleanValidatorRule::getRule());
 		$this -> set("sessionUseCookies",true);
-		$this -> add("sessionCookiePath", new FieldRequiredValidatorRule);
+		$this -> add("sessionCookiePath", FieldRequiredValidatorRule::getRule());
 		$this -> set("sessionCookiePath","/");
-		$this -> add("sessionCookieDomain", new StringValidatorRule, new Error("HarmoniConfig - You must set the 'sessionDomain' to the DNS domain you would like your session cookie sent to! (eg, '.mydomain.com')","Harmoni",true));
+		$this -> add("sessionCookieDomain", StringValidatorRule::getRule(), new Error("HarmoniConfig - You must set the 'sessionDomain' to the DNS domain you would like your session cookie sent to! (eg, '.mydomain.com')","Harmoni",true));
 		$this -> set("sessionCookieDomain", ""); // default
 	} 
 } 

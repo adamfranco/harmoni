@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  *
  * The MySQLSelectQueryResult interface provides the functionality common to a MySQL SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.7 2005/01/19 23:22:58 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.8 2005/03/29 19:44:08 adamfranco Exp $
  * @package harmoni.dbc.mysql
  * @access public
  * @copyright 2003 
@@ -67,7 +67,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 */
 	function MySQLSelectQueryResult($resourceId, $linkId) {
 		// ** parameter validation
-		$resourceRule =& new ResourceValidatorRule();
+		$resourceRule =& ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);
 		ArgumentValidator::validate($linkId, $resourceRule, true);
 		// ** end of parameter validation
@@ -230,7 +230,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 **/
 	function getCurrentRow($arrayType = BOTH) {
 		// ** parameter validation
-		$integerRule =& new IntegerValidatorRule();
+		$integerRule =& IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($arrayType, $integerRule, true);
 		// ** end of parameter validation
 		
@@ -264,7 +264,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 */
 	function moveToRow($rowNumber) {
 		// ** parameter validation
-		$integerRule =& new IntegerValidatorRule();
+		$integerRule =& IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($rowNumber, $integerRule, true);
 		// ** end of parameter validation
 		
@@ -301,7 +301,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 **/
 	function bindField($field, & $var) {
 		// ** parameter validation
-		$orRule =& new OrValidatorRule(new IntegerValidatorRule(), new StringValidatorRule());
+		$orRule =& OrValidatorRule::getRule(IntegerValidatorRule::getRule(), StringValidatorRule::getRule());
 		ArgumentValidator::validate($field, $orRule, true);
 		// ** end of parameter validation
 		
@@ -323,7 +323,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 **/
 	function unbindField($field) {
 		// ** parameter validation
-		$orRule =& new OrValidatorRule(new IntegerValidatorRule(), new StringValidatorRule());
+		$orRule =& OrValidatorRule::getRule(IntegerValidatorRule::getRule(), StringValidatorRule::getRule());
 		ArgumentValidator::validate($field, $orRule, true);
 		// ** end of parameter validation
 		

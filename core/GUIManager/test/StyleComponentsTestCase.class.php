@@ -36,7 +36,7 @@ require_once(HARMONI."GUIManager/StyleComponents/BackgroundAttachmentSC.class.ph
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StyleComponentsTestCase.class.php,v 1.6 2005/02/07 21:38:18 adamfranco Exp $
+ * @version $Id: StyleComponentsTestCase.class.php,v 1.7 2005/03/29 19:44:11 adamfranco Exp $
  * @copyright 2003 
  */
 
@@ -65,7 +65,7 @@ require_once(HARMONI."GUIManager/StyleComponents/BackgroundAttachmentSC.class.ph
 	
 		function test_generic_sc() {
 			$error = "This Error should be here!";
-			$rule =& new StringValidatorRule();
+			$rule =& StringValidatorRule::getRule();
 			$sc =& new StyleComponent("catch me", $rule, null, null, $error, "Generic", "For Testing Purposes");
 			
 			$this->assertIdentical("catch me", $sc->getValue());

@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniId.class.php,v 1.15 2005/01/19 22:28:11 adamfranco Exp $
+ * @version $Id: HarmoniId.class.php,v 1.16 2005/03/29 19:44:21 adamfranco Exp $
  */
 
 class HarmoniId extends Id {
@@ -26,7 +26,7 @@ class HarmoniId extends Id {
 	 */
 	function HarmoniId ( $id  ) {
 		// ** parameter validation
-		ArgumentValidator::validate($id, new StringValidatorRule("Id"), true);
+		ArgumentValidator::validate($id, StringValidatorRule::getRule()("Id"), true);
 		// ** end of parameter validation
 
 		$this->_id = $id;
@@ -40,7 +40,7 @@ class HarmoniId extends Id {
 	// public boolean isEqual(osid.shared.Id & $id);
 	function isEqual(& $id) {
 		// Validate the arguments
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"));
 		
 		return ($id->getIdString() == $this->_id) ? true : false;
 	}

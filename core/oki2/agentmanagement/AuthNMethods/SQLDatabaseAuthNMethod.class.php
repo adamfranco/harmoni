@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.5 2005/03/24 15:43:21 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.6 2005/03/29 19:44:23 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.5 2005/03/24 15:43:21 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.6 2005/03/29 19:44:23 adamfranco Exp $
  */
 class SQLDatabaseAuthNMethod
 	extends AuthNMethod
@@ -39,40 +39,40 @@ class SQLDatabaseAuthNMethod
 		// Validate the configuration options we use:
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('properties_fields'), 
-			new ArrayValidatorRuleWithRule(new StringValidatorRule));
+			ArrayValidatorRuleWithRule::getRule(StringValidatorRule::getRule()));
 			
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('database_id'), 
-			new IntegerValidatorRule);
+			IntegerValidatorRule::getRule());
 			
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('authentication_table'), 
-			new StringValidatorRule);
+			StringValidatorRule::getRule());
 		
 			
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('username_field'), 
-			new StringValidatorRule);
+			StringValidatorRule::getRule());
 		
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('password_field'), 
-			new StringValidatorRule);
+			StringValidatorRule::getRule());
 			
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('allow_token_addition'), 
-			new OptionalRule(new BooleanValidatorRule));
+			OptionalRule::getRule(BooleanValidatorRule::getRule()));
 			
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('allow_token_deletion'), 
-			new OptionalRule(new BooleanValidatorRule));
+			OptionalRule::getRule(BooleanValidatorRule::getRule()));
 			
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('allow_token_updates'), 
-			new OptionalRule(new BooleanValidatorRule));
+			OptionalRule::getRule(BooleanValidatorRule::getRule()));
 			
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('allow_property_updates'), 
-			new OptionalRule(new BooleanValidatorRule));
+			OptionalRule::getRule(BooleanValidatorRule::getRule()));
 			
 	}
 		
@@ -87,7 +87,7 @@ class SQLDatabaseAuthNMethod
 		$tokensClass = $this->_configuration->getProperty('tokens_class');
 		$newTokens =& new $tokensClass($this->_configuration);
 		
-		$validatorRule = new ExtendsValidatorRule('UsernamePasswordAuthNTokens');
+		$validatorRule = ExtendsValidatorRule::getRule('UsernamePasswordAuthNTokens');
 		if ($validatorRule->check($newTokens))
 			return $newTokens;
 		else
@@ -105,7 +105,7 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function authenticateTokens ( &$authNTokens ) {
-		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
 		$dbc =& Services::getService("DBHandler");
 		$dbId = $this->_configuration->getProperty('database_id');
@@ -143,7 +143,7 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function tokensExist ( &$authNTokens ) {
-		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
 		$dbc =& Services::getService("DBHandler");
 		$dbId = $this->_configuration->getProperty('database_id');
@@ -180,8 +180,8 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function _populateProperties ( &$authNTokens, &$properties ) {
-		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
-		ArgumentValidator::validate($properties, new ExtendsValidatorRule("Properties"));
+		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
+		ArgumentValidator::validate($properties, ExtendsValidatorRule::getRule("Properties"));
 		
 		$dbc =& Services::getService("DBHandler");
 		$dbId = $this->_configuration->getProperty('database_id');
@@ -296,7 +296,7 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function addTokens ( &$authNTokens ) {
-		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
 		if ($this->tokensExist($authNTokens)) {
 			throwError( new Error("Token Addition Error: ".
@@ -346,7 +346,7 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function deleteTokens ( &$authNTokens ) {
-		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
 		if (!$this->tokensExist($authNTokens)) {
 			throwError( new Error("Token Deletion Error: "
@@ -391,8 +391,8 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function updateTokens ( &$oldAuthNTokens, &$newAuthNTokens ) {
-		ArgumentValidator::validate($oldAuthNTokens, new ExtendsValidatorRule("AuthNTokens"));
-		ArgumentValidator::validate($newAuthNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		ArgumentValidator::validate($oldAuthNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
+		ArgumentValidator::validate($newAuthNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
 		if (!$this->tokensExist($oldAuthNTokens)) {
 			throwError( new Error("Token Update Error: "
@@ -445,8 +445,8 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function updatePropertiesForTokens ( &$authNTokens, &$newProperties ) {
-		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
-		ArgumentValidator::validate($newProperties, new ExtendsValidatorRule("Properties"));
+		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
+		ArgumentValidator::validate($newProperties, ExtendsValidatorRule::getRule("Properties"));
 		
 		if (!$this->tokensExist($authNTokens)) {
 			throwError( new Error("Properties Update Error: "

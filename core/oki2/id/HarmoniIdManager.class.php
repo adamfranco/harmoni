@@ -41,7 +41,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdManager.class.php,v 1.11 2005/03/25 18:34:26 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.12 2005/03/29 19:44:27 adamfranco Exp $
  */
 
 class HarmoniIdManager
@@ -141,8 +141,8 @@ class HarmoniIdManager
 		$dbName =& $configuration->getProperty('database_name');
 		
 		// ** parameter validation
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($dbName, new StringValidatorRule(), true);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
+		ArgumentValidator::validate($dbName, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;

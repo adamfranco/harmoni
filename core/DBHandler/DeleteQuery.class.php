@@ -6,7 +6,7 @@ require_once(HARMONI."DBHandler/DeleteQuery.interface.php");
  * A DeleteQuery class provides the tools to build a DELETE query.
  * 
  * A DeleteQuery class provides the tools to build a DELETE query.
- * @version $Id: DeleteQuery.class.php,v 1.4 2005/01/19 23:21:34 adamfranco Exp $
+ * @version $Id: DeleteQuery.class.php,v 1.5 2005/03/29 19:42:40 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -48,7 +48,7 @@ class DeleteQuery extends DeleteQueryInterface {
 	 */
 	function setTable($table) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($table, $stringRule, true);
 		// ** end of parameter validation
 
@@ -67,7 +67,7 @@ class DeleteQuery extends DeleteQueryInterface {
 	 */
 	function setWhere($condition) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($condition, $stringRule, true);
 		// ** end of parameter validation
 
@@ -93,9 +93,9 @@ class DeleteQuery extends DeleteQueryInterface {
 	 */
 	function addWhere($condition, $logicalOperation = _AND) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
-		$integerRule =& new IntegerValidatorRule();
-		$optionalRule =& new OptionalRule($integerRule);
+		$stringRule =& StringValidatorRule::getRule();
+		$integerRule =& IntegerValidatorRule::getRule();
+		$optionalRule =& OptionalRule::getRule($integerRule);
 		ArgumentValidator::validate($condition, $stringRule, true);
 		ArgumentValidator::validate($logicalOperation, $optionalRule, true);
 		// ** end of parameter validation

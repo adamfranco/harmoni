@@ -21,7 +21,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TextSpacingSC.class.php,v 1.7 2005/02/07 21:38:15 adamfranco Exp $
+ * @version $Id: TextSpacingSC.class.php,v 1.8 2005/03/29 19:44:11 adamfranco Exp $
  */
 class TextSpacingSC extends StyleComponent {
 
@@ -39,7 +39,7 @@ class TextSpacingSC extends StyleComponent {
 						   in, etc. but NOT %).";
 		
 		
-		$rule =& new CSSLengthValidatorRule();
+		$rule =& CSSLengthValidatorRule::getRule();
 		
 		$displayName = "Text Spacing";
 		$description = "Affects the text spacing between words. Allowed values are: ".implode(", ", $options)."

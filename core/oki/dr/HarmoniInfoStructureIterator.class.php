@@ -15,7 +15,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniInfoStructureIterator.class.php,v 1.5 2005/02/04 15:59:05 adamfranco Exp $
+ * @version $Id: HarmoniInfoStructureIterator.class.php,v 1.6 2005/03/29 19:44:18 adamfranco Exp $
  */
 class HarmoniInfoStructureIterator
 	extends InfoStructureIterator
@@ -38,7 +38,7 @@ class HarmoniInfoStructureIterator
 	 */
 	function HarmoniInfoStructureIterator (& $infoStructureArray) {
 		// make sure that we get an array of DigitalRepository objects
-		ArgumentValidator::validate($infoStructureArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("InfoStructure")));
+		ArgumentValidator::validate($infoStructureArray, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("InfoStructure")));
 		
 		// load the types into our private array
 		foreach ($infoStructureArray as $key => $val) {

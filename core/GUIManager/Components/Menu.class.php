@@ -13,7 +13,7 @@ require_once(HARMONI."GUIManager/Components/Menu.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Menu.class.php,v 1.7 2005/02/07 21:38:14 adamfranco Exp $
+ * @version $Id: Menu.class.php,v 1.8 2005/03/29 19:44:10 adamfranco Exp $
  */
 class Menu extends Container /* implements MenuInterface */ {
 
@@ -76,9 +76,9 @@ class Menu extends Container /* implements MenuInterface */ {
 		// ** parameter validation
 		// some weird class checking here - would have been much simpler if PHP
 		// supported multiple inheritance
-		$rule1 =& new ExtendsValidatorRule("MenuItemLink");
-		$rule2 =& new ExtendsValidatorRule("MenuItemHeading");
-		ArgumentValidator::validate($menuItem, new OrValidatorRule($rule1, $rule2), true);
+		$rule1 =& ExtendsValidatorRule::getRule("MenuItemLink");
+		$rule2 =& ExtendsValidatorRule::getRule("MenuItemHeading");
+		ArgumentValidator::validate($menuItem, OrValidatorRule::getRule($rule1, $rule2), true);
 		// ** end of parameter validation
 
 		parent::add($menuItem, $width, $height, $alignmentX, $alignmentY);
@@ -113,7 +113,7 @@ class Menu extends Container /* implements MenuInterface */ {
 	 **/
 	function isSelected($id) {
 		// ** parameter validation
-		ArgumentValidator::validate($id, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($id, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		return $this->_selectedId === $id;
@@ -129,7 +129,7 @@ class Menu extends Container /* implements MenuInterface */ {
 	 **/
 	function select($id) {
 		// ** parameter validation
-		ArgumentValidator::validate($id, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($id, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		// make sure the id is valid

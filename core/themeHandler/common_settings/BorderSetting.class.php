@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/ThemeSetting.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BorderSetting.class.php,v 1.6 2005/01/19 21:10:14 adamfranco Exp $
+ * @version $Id: BorderSetting.class.php,v 1.7 2005/03/29 19:44:30 adamfranco Exp $
  */
 class BorderSetting
 	extends ThemeSetting {
@@ -47,7 +47,7 @@ class BorderSetting
 	 * @return void
 	 **/
 	function setValue($value) {
-		ArgumentValidator::validate($value, new StringValidatorRule);
+		ArgumentValidator::validate($value, StringValidatorRule::getRule());
 		
 		if(!in_array($value, $this->_options))
 			throwError(new Error("Invalid border value, '".$value."'.","BorderSetting", FALSE));
@@ -62,7 +62,7 @@ class BorderSetting
 	 * @return void
 	 **/
 	function &setDefaultValue ($defaultValue) {
-		ArgumentValidator::validate($defaultValue, new StringValidatorRule);
+		ArgumentValidator::validate($defaultValue, StringValidatorRule::getRule());
 		
 		if($defaultValue != "solid" && $defaultValue != "dotted" && $defaultValue != "dashed")
 			throwError(new Error("Invalid border value, '".$defaultValue."'.","BorderSetting", FALSE));

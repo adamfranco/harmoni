@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleComponent.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleComponent.class.php,v 1.9 2005/03/10 03:18:18 dobomode Exp $
+ * @version $Id: StyleComponent.class.php,v 1.10 2005/03/29 19:44:09 adamfranco Exp $
  **/
 
 class StyleComponent extends StyleComponentInterface {
@@ -111,7 +111,7 @@ class StyleComponent extends StyleComponentInterface {
 		if (isset($rule))
 			$this->_rule =& $rule;
 		else
-			$this->_rule =& new AlwaysTrueValidatorRule();
+			$this->_rule =& AlwaysTrueValidatorRule::getRule();
 
 		$this->_displayName = $displayName;
 		$this->_description = $description;
@@ -125,11 +125,11 @@ class StyleComponent extends StyleComponentInterface {
 			if ($limitedToOptions) {
 				// create the appropriate ChoiceValidatorRule with the given options
 				$this->_limitedToOptions = true;
-				$choiceRule =& new ChoiceValidatorRule($options);
-				$this->_rule =& new AndValidatorRule($this->_rule, $choiceRule);
+				$choiceRule =& ChoiceValidatorRule::getRule($options);
+				$this->_rule =& AndValidatorRule::getRule($this->_rule, $choiceRule);
 			}
 			else
-				$this->_rule =& new OrValidatorRule($this->_rule, new ChoiceValidatorRule($options));
+				$this->_rule =& OrValidatorRule::getRule($this->_rule, ChoiceValidatorRule::getRule($options));
 		}
 
 		// validate the value

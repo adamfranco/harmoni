@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/ThemeWidget.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BlankThemeWidget.class.php,v 1.4 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: BlankThemeWidget.class.php,v 1.5 2005/03/29 19:44:30 adamfranco Exp $
  */
 class Blank
 	extends ThemeWidget {
@@ -44,8 +44,8 @@ class Blank
 	 * @return void
 	 **/
 	function output (& $layoutOrContent, & $currentTheme) {
-		ArgumentValidator::validate($layoutOrContent, new ExtendsValidatorRule("VisualComponent"));
-		ArgumentValidator::validate($currentTheme, new ExtendsValidatorRule("ThemeInterface"));
+		ArgumentValidator::validate($layoutOrContent, ExtendsValidatorRule::getRule("VisualComponent"));
+		ArgumentValidator::validate($currentTheme, ExtendsValidatorRule::getRule("ThemeInterface"));
 		
 		$layoutOrContent->output($currentTheme);
 	}

@@ -16,7 +16,7 @@ require_once(HARMONI.'oki/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.28 2005/01/26 17:37:52 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.29 2005/03/29 19:44:15 adamfranco Exp $
  */
 class HarmoniAuthorizationManager extends AuthorizationManager {
 	
@@ -37,8 +37,8 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 */
 	function HarmoniAuthorizationManager($dbIndex, $authzDB) {
 		// ** parameter validation
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($authzDB, new StringValidatorRule(), true);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
+		ArgumentValidator::validate($authzDB, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$this->_cache =& new AuthorizationCache($dbIndex, $authzDB);
@@ -227,7 +227,7 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 */
 	function &getFunction(& $functionId) {
 		// ** parameter validation
-		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 	
 		$idValue = $functionId->getIdString();
@@ -316,7 +316,7 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	  */
 	function &getQualifierDescendants(& $qualifierId) {
 		// ** parameter validation
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 	
 		$result =& $this->_cache->getQualifierDescendants($qualifierId);
@@ -335,7 +335,7 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 */
 	function &getQualifier(& $qualifierId) {
 		// ** parameter validation
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 	
 		$result =& $this->_cache->getQualifier($qualifierId);
@@ -356,9 +356,9 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	  */
 	function &getWhoCanDo(& $functionId, & $qualifierId, $isActiveNow) {
 		// ** parameter validation
-		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($qualifierId, new OptionalRule(new ExtendsValidatorRule("Id")), true);
-		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, OptionalRule::getRule(ExtendsValidatorRule::getRule("Id")), true);
+		ArgumentValidator::validate($isActiveNow, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$authorizations =& $this->_cache->getAZs(null,
@@ -391,9 +391,9 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 */
 	function &getExplicitUserAZs(& $functionId, & $qualifierId, $isActiveNow) {
 		// ** parameter validation
-		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$authentication =& Services::requireService("AuthN", true);
@@ -421,9 +421,9 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 */
 	function &getExplicitUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) {
 		// ** parameter validation
-		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("Type"), true);
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$authentication =& Services::requireService("AuthN", true);
@@ -451,9 +451,9 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 */
 	function &getAllUserAZs(& $functionId, & $qualifierId, $isActiveNow) {
 		// ** parameter validation
-		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$authentication =& Services::requireService("AuthN", true);
@@ -482,9 +482,9 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 */
 	function &getAllUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) {
 		// ** parameter validation
-		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("Type"), true);
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$authentication =& Services::requireService("AuthN", true);
@@ -514,10 +514,10 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 */
 	function &getExplicitAZs(& $agentId, & $functionId, & $qualifierId, $isActiveNow) {
 		// ** parameter validation
-		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$authorizations =& $this->_cache->getAZs($agentId->getIdString(),
@@ -543,10 +543,10 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 */
 	function &getExplicitAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) {
 		// ** parameter validation
-		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("Type"), true);
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$authorizations =& $this->_cache->getAZs($agentId->getIdString(),
@@ -572,10 +572,10 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 */
 	function &getAllAZs(& $agentId, & $functionId, & $qualifierId, $isActiveNow) {
 		// ** parameter validation
-		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		
@@ -605,10 +605,10 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 */
 	function &getAllAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) {
 		// ** parameter validation
-		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("Type"), true);
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($isActiveNow, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($isActiveNow, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$authorizations =& $this->_cache->getAZs($agentId->getIdString(),
@@ -632,7 +632,7 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 **/
 	function &getExplicitUserAZsForImplicitAZ(& $implicitAuthorization) {
 		// ** parameter validation
-		ArgumentValidator::validate($implicitAuthorization, new ExtendsValidatorRule("Authorization"), true);
+		ArgumentValidator::validate($implicitAuthorization, ExtendsValidatorRule::getRule("Authorization"), true);
 		// ** end of parameter validation
 		
 		if ($implicitAuthorization->isExplicit()) {

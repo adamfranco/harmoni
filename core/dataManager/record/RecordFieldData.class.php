@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.9 2005/01/28 19:34:33 adamfranco Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.10 2005/03/29 19:44:13 adamfranco Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -66,7 +66,7 @@ class RecordFieldData {
 	 * @access public
 	 */
 	function setActiveFlag($active) {
-//		ArgumentValidator::validate($active, new BooleanValidatorRule());
+//		ArgumentValidator::validate($active, BooleanValidatorRule::getRule());
 		
 		$this->_active = $active;
 		
@@ -319,7 +319,7 @@ class RecordFieldData {
 	 * @access public
 	 */
 	function setDate(&$date) {
-		ArgumentValidator::validate($date, new ExtendsValidatorRule("DateTime"));
+		ArgumentValidator::validate($date, ExtendsValidatorRule::getRule("DateTime"));
 		$this->_date =& $date;
 	}
 	

@@ -14,7 +14,7 @@ if (!isset($_SESSION[harmoniid])) {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTestId.class.php,v 1.5 2005/02/07 21:38:27 adamfranco Exp $
+ * @version $Id: HarmoniTestId.class.php,v 1.6 2005/03/29 19:44:29 adamfranco Exp $
  */
 
 class HarmoniTestId
@@ -37,7 +37,7 @@ class HarmoniTestId
 	function HarmoniTestId ( $id = NULL ) {
 		if ($id != NULL) {
 			// use this id
-			ArgumentValidator::validate($id, new StringValidatorRule);
+			ArgumentValidator::validate($id, StringValidatorRule::getRule());
 			$this->_id = $id;
 		} else {
 			// get a new unique id

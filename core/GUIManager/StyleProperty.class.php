@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleProperty.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleProperty.class.php,v 1.5 2005/02/07 21:38:14 adamfranco Exp $
+ * @version $Id: StyleProperty.class.php,v 1.6 2005/03/29 19:44:09 adamfranco Exp $
  */
 class StyleProperty extends StylePropertyInterface {
 
@@ -136,7 +136,7 @@ class StyleProperty extends StylePropertyInterface {
 	 * @param ref object A StyleComponent object.
 	 **/
 	function addSC(& $sc) {
-		ArgumentValidator::validate($sc, new ExtendsValidatorRule("StyleComponentInterface"), true);
+		ArgumentValidator::validate($sc, ExtendsValidatorRule::getRule("StyleComponentInterface"), true);
 		$this->_SCs[] =& $sc;
 	}
 

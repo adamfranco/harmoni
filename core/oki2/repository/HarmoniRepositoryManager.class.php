@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.14 2005/03/25 18:34:26 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.15 2005/03/29 19:44:28 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -122,9 +122,9 @@ class HarmoniRepositoryManager
 		$defaultParentIdString = $configuration->getProperty('default_parent_id');
 		
 		// ** parameter validation
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($hierarchyIdString, new StringValidatorRule(), true);
-		ArgumentValidator::validate($defaultParentIdString, new OptionalRule(new StringValidatorRule()), true);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
+		ArgumentValidator::validate($hierarchyIdString, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($defaultParentIdString, OptionalRule::getRule(StringValidatorRule::getRule()), true);
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
@@ -201,9 +201,9 @@ class HarmoniRepositoryManager
 	 */
 	function &createRepository ( $displayName, $description, &$repositoryType ){
 		// Argument Validation
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
-		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate(repositoryType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
+		ArgumentValidator::validate($description, StringValidatorRule::getRule());
+		ArgumentValidator::validate(repositoryType, ExtendsValidatorRule::getRule("Type"));
 		
 		// Create an Id for the digital Repository Node
 		$idManager =& Services::getService("Id");
@@ -394,7 +394,7 @@ class HarmoniRepositoryManager
  */
 
   function &getRepositoriesByType ( &$repositoryType ) { 
-		ArgumentValidator::validate($repositoryType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($repositoryType, ExtendsValidatorRule::getRule("Type"));
 		
 		// Select the Ids of corresponding repositories
 		$query =& new SelectQuery;
@@ -452,7 +452,7 @@ class HarmoniRepositoryManager
    */
    
 	function &getRepository ( &$repositoryId ) { 
-		ArgumentValidator::validate($repositoryId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($repositoryId, ExtendsValidatorRule::getRule("Id"));
 		
 		if (!$this->_createdRepositories[$repositoryId->getIdString()]) {
 			// Get the node for this dr to make sure its availible
@@ -495,7 +495,7 @@ class HarmoniRepositoryManager
  * @access public
  */
 	function &getAsset ( &$assetId ) { 
-		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
 		// Get the node for this asset to make sure its availible
 		if (!$this->_hierarchy->getNode($assetId))

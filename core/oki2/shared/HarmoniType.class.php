@@ -11,7 +11,7 @@ require_once(OKI2."/osid/shared/Type.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniType.class.php,v 1.6 2005/02/07 21:38:27 adamfranco Exp $
+ * @version $Id: HarmoniType.class.php,v 1.7 2005/03/29 19:44:29 adamfranco Exp $
  */
 
 class HarmoniType
@@ -21,7 +21,7 @@ class HarmoniType
 }
 
 function OKITypeToString(&$type, $glue=", ") {
-	ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
+	ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"));
 	return $type->getDomain() . $glue . $type->getAuthority() . $glue . $type->getKeyword();
 }
 

@@ -3,6 +3,12 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.3.0" date="The nebulous future">
+		<new author='adam'>
+			ValidatorRule objects can now be accessed via static
+			XxxxxValidatorRule::getRule() methods, allowing the ValidatorRule classes
+			to behave as Singletons and avoid the instantiation of tens of thousands
+			of ValidatorRule objects.
+		</new>
 		<new author='dobo'>
 			GUI Manager now complete.
 		</new>

@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/OrderedSet.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.8 2005/01/27 16:12:18 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.9 2005/03/29 19:44:30 adamfranco Exp $
  * @author Adam Franco
  */
  
@@ -51,9 +51,9 @@ class OrderedSet
 	 * 		tables in which to store the set.
 	 */
 	function OrderedSet ( & $setId, $dbIndex = NULL ) {
-		ArgumentValidator::validate($setId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($setId, ExtendsValidatorRule::getRule("Id"), true);
 //		if ($dbIndex !== NULL)
-			ArgumentValidator::validate($dbIndex, new IntegerValidatorRule, true);
+			ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		
 		// Create our internal array
 		$this->_items = array();
@@ -147,7 +147,7 @@ class OrderedSet
 	 * @return void
 	 */
 	function addItem ( & $id ) {
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		// Add the item to our internal list
 		$position = $this->count();
@@ -173,7 +173,7 @@ class OrderedSet
 	 * @return void
 	 */
 	function removeItem ( & $id ) {
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		if (!$this->isInSet($id))
 			throwError(new Error("Item specified does not exist", "Set", 1));
@@ -223,7 +223,7 @@ class OrderedSet
 	 * @return integer
 	 */
 	function getPosition ( & $id ) {
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		return array_search($id->getIdString(), $this->_items);
 	}
@@ -245,7 +245,7 @@ class OrderedSet
 	 * @return void
 	 */
 	function moveToPosition ( & $id, $position ) {
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		if ($position != $this->getPosition($id) 
 			&& $position >= 0
@@ -281,7 +281,7 @@ class OrderedSet
 	 * @return void
 	 */
 	function moveUp ( & $id ) {
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		if (($position = $this->getPosition($id)) > 0) {
 			$oldOrder = $this->_items;
@@ -300,7 +300,7 @@ class OrderedSet
 	 * @return void
 	 */
 	function moveDown ( & $id ) {
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		if (($position = $this->getPosition($id)) < ($this->count() - 1)) {
 			$oldOrder = $this->_items;

@@ -17,7 +17,7 @@ require_once(OKI."/hierarchy.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTraversalInfo.class.php,v 1.8 2005/01/19 22:28:09 adamfranco Exp $
+ * @version $Id: HarmoniTraversalInfo.class.php,v 1.9 2005/03/29 19:44:18 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -51,9 +51,9 @@ class HarmoniTraversalInfo
 	 */
 	function HarmoniTraversalInfo(& $id, $displayName, $depth) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
-		ArgumentValidator::validate($depth, new IntegerValidatorRule);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
+		ArgumentValidator::validate($depth, IntegerValidatorRule::getRule());
 		
 		// set the private variables
 		$this->_id =& $id;

@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.8 2005/02/07 21:38:25 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.9 2005/03/29 19:44:25 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -107,6 +107,16 @@ class HierarchyCache {
 	 * @access private
 	 */
 	var $_allowsMultipleParents;
+	
+	/**
+	 * A cache of the created traversalInfoObjects. Intended to help solve some of
+	 * the memory blowup in Concerto. Checking 20 AZs on about 25 Assets in Concerto
+	 * was traversing such that ~100,000 HarmoniTraversalInfo objects were being created.
+	 * @var array _infoCache
+	 * @access private
+	 * @since 3/28/05
+	 */
+	var $_infoCache;
 
 
 	/**
@@ -118,10 +128,10 @@ class HierarchyCache {
 	 */
 	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex, $hyDB) {
 		// ** parameter validation
-		ArgumentValidator::validate($hierarchyId, new StringValidatorRule(), true);
-		ArgumentValidator::validate($allowsMultipleParents, new BooleanValidatorRule(), true);
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($hyDB, new StringValidatorRule(), true);
+		ArgumentValidator::validate($hierarchyId, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($allowsMultipleParents, BooleanValidatorRule::getRule(), true);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
+		ArgumentValidator::validate($hyDB, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		$this->_tree = new Tree();
@@ -146,6 +156,8 @@ class HierarchyCache {
 		$this->_nodeQuery->addOrderBy($db."node.node_id");
 		$joinc = $db."node.fk_type = ".$db."type.type_id";
 		$this->_nodeQuery->addTable($db."type", INNER_JOIN, $joinc);
+		
+		$this->_infoCache = array();
 	}
 	
 	
@@ -161,8 +173,8 @@ class HierarchyCache {
 	 **/
 	function _isCachedDown($idValue, $levels) {
 		// ** parameter validation
-		ArgumentValidator::validate($idValue, new StringValidatorRule(), true);
-		ArgumentValidator::validate($levels, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($idValue, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($levels, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		if (isset($this->_cache[$idValue]))
@@ -185,8 +197,8 @@ class HierarchyCache {
 	 **/
 	function _isCachedUp($idValue, $levels) {
 		// ** parameter validation
-		ArgumentValidator::validate($idValue, new StringValidatorRule(), true);
-		ArgumentValidator::validate($levels, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($idValue, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($levels, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		if (isset($this->_cache[$idValue]))
@@ -219,8 +231,8 @@ class HierarchyCache {
 	 **/
 	function addParent($parentIdValue, $childIdValue) {
 		// ** parameter validation
-		ArgumentValidator::validate($parentIdValue, new StringValidatorRule(), true);
-		ArgumentValidator::validate($childIdValue, new StringValidatorRule(), true);
+		ArgumentValidator::validate($parentIdValue, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($childIdValue, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		// get the two nodes
@@ -307,8 +319,8 @@ class HierarchyCache {
 	 **/
 	function removeParent($parentIdValue, $childIdValue) {
 		// ** parameter validation
-		ArgumentValidator::validate($parentIdValue, new StringValidatorRule(), true);
-		ArgumentValidator::validate($childIdValue, new StringValidatorRule(), true);
+		ArgumentValidator::validate($parentIdValue, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($childIdValue, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 
@@ -357,7 +369,7 @@ class HierarchyCache {
 	 **/
 	function &getNodesFromDB($where) {
 		// ** parameter validation
-		ArgumentValidator::validate($where, new StringValidatorRule(), true);
+		ArgumentValidator::validate($where, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		$dbHandler =& Services::requireService("DBHandler");
@@ -540,7 +552,7 @@ class HierarchyCache {
 	 **/
 	function &getNode($idValue) {
 		// ** parameter validation
-		ArgumentValidator::validate($idValue, new StringValidatorRule(), true);
+		ArgumentValidator::validate($idValue, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		// if the node has not been already cached, do it
@@ -582,7 +594,7 @@ class HierarchyCache {
 	 **/
 	function &getParents($node) {
 		// ** parameter validation
-		ArgumentValidator::validate($node, new ExtendsValidatorRule("HarmoniNode"), true);
+		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("HarmoniNode"), true);
 		// ** end of parameter validation
 		
 		$idValue = $node->_id->getIdString();
@@ -692,7 +704,7 @@ class HierarchyCache {
 	 **/
 	function &getChildren($node) {
 		// ** parameter validation
-		ArgumentValidator::validate($node, new ExtendsValidatorRule("HarmoniNode"), true);
+		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("HarmoniNode"), true);
 		// ** end of parameter validation
 		
 		$idValue = $node->_id->getIdString();
@@ -803,9 +815,9 @@ class HierarchyCache {
 	 **/
 	function &traverse(& $id, $down, $levels) {
 		// ** parameter validation
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($down, new BooleanValidatorRule(), true);
-		ArgumentValidator::validate($levels, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($down, BooleanValidatorRule::getRule(), true);
+		ArgumentValidator::validate($levels, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		// get the id value
@@ -843,11 +855,16 @@ class HierarchyCache {
 		$result = array();
 		foreach (array_keys($treeNodes) as $i => $key) {
 			$node =& $this->_cache[$key][0];
-			$result[] =& new HarmoniTraversalInfo($node->getId(),
+			$nodeId =& $node->getId();
+			if (!$this->_infoCache[$nodeId->getIdString()]) {
+				$this->_infoCache[$nodeId->getIdString()] 
+					=& new HarmoniTraversalInfo($nodeId,
 												  $node->getDisplayName(),
 												  $treeNodes[$key][1]);
+			}
+			$result[] =& $this->_infoCache[$nodeId->getIdString()];
 		}
-			
+		
 		return new HarmoniTraversalInfoIterator($result);
 	}
 	
@@ -1175,9 +1192,9 @@ class HierarchyCache {
 	 **/
 	function &createRootNode(& $nodeId, & $type, $displayName, $description) {
 		// ** parameter validation
-		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
-		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
@@ -1301,7 +1318,7 @@ class HierarchyCache {
 	 **/
 	function deleteNode($idValue) {
 		// ** parameter validation
-		ArgumentValidator::validate($idValue, new StringValidatorRule(), true);
+		ArgumentValidator::validate($idValue, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		// get the node

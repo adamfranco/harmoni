@@ -16,7 +16,7 @@ require_once(HARMONI.'storageHandler/Storable.abstract.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DatabaseStorageMethod.class.php,v 1.3 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: DatabaseStorageMethod.class.php,v 1.4 2005/03/29 19:44:30 adamfranco Exp $
  */
 
 class DatabaseStorageMethod extends StorageMethodInterface {
@@ -44,7 +44,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 
 	function DatabaseStorageMethod($databaseStorableDataContainer) {
         // validate the type of the parameter (dbSDC)
-        $extendsRule =& new ExtendsValidatorRule("DatabaseStorableDataContainer");
+        $extendsRule =& ExtendsValidatorRule::getRule("DatabaseStorableDataContainer");
 		ArgumentValidator::validate($databaseStorableDataContainer, $extendsRule, true);
         // now, validate the data container itself
         $databaseStorableDataContainer->checkAll();
@@ -70,7 +70,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
     function store(&$storable,$path,$name) { 
 		$path = addslashes($path); $name = addslashes($name);
 
-        $extendsRule =& new ExtendsValidatorRule("AbstractStorable");
+        $extendsRule =& ExtendsValidatorRule::getRule("AbstractStorable");
 		ArgumentValidator::validate($storable, $extendsRule, true);
 
 		Services::requireService("DBHandler");

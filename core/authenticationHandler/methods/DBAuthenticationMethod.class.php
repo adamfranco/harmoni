@@ -12,7 +12,7 @@ require_once(HARMONI."authenticationHandler/methods/DBMethodOptions.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBAuthenticationMethod.class.php,v 1.9 2005/02/28 22:07:16 thebravecowboy Exp $
+ * @version $Id: DBAuthenticationMethod.class.php,v 1.10 2005/03/29 19:44:12 adamfranco Exp $
  **/
  
 class DBAuthenticationMethod
@@ -110,8 +110,8 @@ class DBAuthenticationMethod
 	 **/
 	function &addAgent( $systemName, $password, $receivedProperties, $doNotEncrypt = null) {
 		
-		ArgumentValidator::validate($systemName, new StringValidatorRule(), true);
-		ArgumentValidator::validate($password, new StringValidatorRule(), true);
+		ArgumentValidator::validate($systemName, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($password, StringValidatorRule::getRule(), true);
 				
 		if ($this->agentExists($systemName)) {
 			print "<span style='color: red;'>Could not create user $systemName because username already exists in the system.</span><br />"; 

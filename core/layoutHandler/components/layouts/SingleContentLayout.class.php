@@ -11,7 +11,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * <ul><li />Index: 0, A Content object.</ul>
  *
  * @package harmoni.layout.components
- * @version $Id: SingleContentLayout.class.php,v 1.5 2004/04/01 19:22:21 adamfranco Exp $
+ * @version $Id: SingleContentLayout.class.php,v 1.6 2005/03/29 19:44:14 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -34,7 +34,7 @@ class SingleContentLayout extends Layout {
 	 * @return void
 	 **/
 	function output(& $theme) {
-		ArgumentValidator::validate($theme, new ExtendsValidatorRule("ThemeInterface"));
+		ArgumentValidator::validate($theme, ExtendsValidatorRule::getRule("ThemeInterface"));
 
 		$this->verifyComponents();
 

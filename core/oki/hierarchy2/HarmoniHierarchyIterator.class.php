@@ -13,7 +13,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyIterator.class.php,v 1.5 2005/01/19 22:28:10 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyIterator.class.php,v 1.6 2005/03/29 19:44:19 adamfranco Exp $
  */
  
 class HarmoniHierarchyIterator
@@ -37,7 +37,7 @@ class HarmoniHierarchyIterator
 	 */
 	function HarmoniHierarchyIterator (& $hierarchyArray) {
 		// make sure that we get an array of Hierarchy objects
-		ArgumentValidator::validate($hierarchyArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Hierarchy")));
+		ArgumentValidator::validate($hierarchyArray, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("Hierarchy")));
 		
 		// load the types into our private array
 		foreach (array_keys($hierarchyArray) as $i => $key) {

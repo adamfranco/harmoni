@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AlignmentPositionSC.class.php,v 1.4 2005/01/20 17:47:30 nstamato Exp $
+ * @version $Id: AlignmentPositionSC.class.php,v 1.5 2005/03/29 19:44:10 adamfranco Exp $
  */
 class AlignmentPositionSC extends StyleComponent {
 
@@ -42,7 +42,7 @@ class AlignmentPositionSC extends StyleComponent {
 		$errDescription .= "Allowed units are: %, in, cm, mm, em, ex, pt, pc, px, or any of:";
 		$errDescription .= " ".implode(", ", $options).".";
 		
-		$rule =& new CSSLengthValidatorRule();
+		$rule =& CSSLengthValidatorRule::getRule();
 		
 		$displayName = "AlignmentPosition";
 		$description = "Specifies the length (width, size, etc) in percentages (%),

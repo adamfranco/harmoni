@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  *
  * The OracleSelectQueryResult interface provides the functionality common to a Oracle SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: OracleSelectQueryResult.class.php,v 1.4 2005/01/19 23:22:59 adamfranco Exp $
+ * @version $Id: OracleSelectQueryResult.class.php,v 1.5 2005/03/29 19:44:08 adamfranco Exp $
  * @package harmoni.dbc.oracle
  * @access public
  * @copyright 2003 
@@ -59,7 +59,7 @@ class OracleSelectQueryResult extends SelectQueryResultInterface {
 	 */
 	function OracleSelectQueryResult($resourceId, $linkId) {
 		// ** parameter validation
-		$resourceRule =& new ResourceValidatorRule();
+		$resourceRule =& ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);
 		ArgumentValidator::validate($linkId, $resourceRule, true);
 		// ** end of parameter validation
@@ -211,7 +211,7 @@ class OracleSelectQueryResult extends SelectQueryResultInterface {
 	 **/
 	function getCurrentRow($arrayType = BOTH) {
 		// ** parameter validation
-		$integerRule =& new IntegerValidatorRule();
+		$integerRule =& IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($arrayType, $integerRule, true);
 		// ** end of parameter validation
 		
@@ -245,7 +245,7 @@ class OracleSelectQueryResult extends SelectQueryResultInterface {
 	 */
 	function moveToRow($rowNumber) {
 		// ** parameter validation
-		$integerRule =& new IntegerValidatorRule();
+		$integerRule =& IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($rowNumber, $integerRule, true);
 		// ** end of parameter validation
 		

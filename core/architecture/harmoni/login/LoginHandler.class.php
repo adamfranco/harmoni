@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LoginHandler.class.php,v 1.22 2005/01/19 21:09:40 adamfranco Exp $
+ * @version $Id: LoginHandler.class.php,v 1.23 2005/03/29 19:44:12 adamfranco Exp $
  **/
 class LoginHandler {
 	/**
@@ -106,7 +106,7 @@ class LoginHandler {
 	 * @return void
 	 */
 	function setFailedLoginError(&$error) {
-		ArgumentValidator::validate($error, new ExtendsValidatorRule("ErrorInterface"));
+		ArgumentValidator::validate($error, ExtendsValidatorRule::getRule("ErrorInterface"));
 		$this->_failedLoginError =& $error;
 	}
 	
@@ -288,7 +288,7 @@ class LoginHandler {
 	 * @return void
 	 **/
 	function setFailedLoginAction($action) {
-		ArgumentValidator::validate($action,new DottedPairValidatorRule);
+		ArgumentValidator::validate($action,DottedPairValidatorRule::getRule());
 		$this->_failedLoginAction = $action;
 	}
 	
@@ -304,7 +304,7 @@ class LoginHandler {
 		if (func_num_args()) {
 			for ($i=0; $i<func_num_args(); $i++) {
 				$arg = func_get_arg($i);
-				ArgumentValidator::validate($arg,new DottedPairValidatorRule);
+				ArgumentValidator::validate($arg,DottedPairValidatorRule::getRule());
 				$this->_noAuthActions[] = $arg;
 			}
 		}

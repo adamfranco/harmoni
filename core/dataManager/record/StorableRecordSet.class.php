@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/record/RecordSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableRecordSet.class.php,v 1.5 2005/01/19 21:09:42 adamfranco Exp $
+ * @version $Id: StorableRecordSet.class.php,v 1.6 2005/03/29 19:44:13 adamfranco Exp $
  */
 class StorableRecordSet extends RecordSet {
 	
@@ -166,7 +166,7 @@ class StorableRecordSet extends RecordSet {
 	 * @return void
 	 */
 	function addRecordID( $id ) {
-		ArgumentValidator::validate($id, new IntegerValidatorRule);
+		ArgumentValidator::validate($id, IntegerValidatorRule::getRule());
 		$this->_dirty = true;
 		
 		$recordManager =& Services::getService("RecordManager");

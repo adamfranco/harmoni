@@ -12,7 +12,7 @@ require_once(HARMONI.'storageHandler/Storables/DatabaseStorableDataContainer.cla
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DatabaseStorable.class.php,v 1.2 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: DatabaseStorable.class.php,v 1.3 2005/03/29 19:44:30 adamfranco Exp $
  */
 
 class DatabaseStorable extends AbstractStorable {
@@ -30,7 +30,7 @@ class DatabaseStorable extends AbstractStorable {
 	 */
 	function DatabaseStorable($databaseStorableDataContainer,$path,$name) {
 		// validate the type of the parameter (dbSDC)
-		$extendsRule =& new ExtendsValidatorRule("DatabaseStorableDataContainer");
+		$extendsRule =& ExtendsValidatorRule::getRule("DatabaseStorableDataContainer");
 		ArgumentValidator::validate($databaseStorableDataContainer, $extendsRule, true);
 		// now, validate the data container itself
 		$databaseStorableDataContainer->checkAll();

@@ -10,7 +10,7 @@ require_once(HARMONI.'/oki/hierarchy/HierarchyStore.interface.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MemoryOnlyHierarchyStore.class.php,v 1.10 2005/01/19 22:28:09 adamfranco Exp $
+ * @version $Id: MemoryOnlyHierarchyStore.class.php,v 1.11 2005/03/29 19:44:18 adamfranco Exp $
  */
 
 
@@ -71,7 +71,7 @@ class MemoryOnlyHierarchyStore
 	 */
 	function setExists($exists) {
 		// Check the arguments
-		ArgumentValidator::validate($exists, new BooleanValidatorRule);
+		ArgumentValidator::validate($exists, BooleanValidatorRule::getRule());
 		
 		$this->_exists = FALSE;
 	}
@@ -83,7 +83,7 @@ class MemoryOnlyHierarchyStore
 	 */
 	function setId(& $hierarchyId) {
 		// Check the arguments
-		ArgumentValidator::validate($hierarchyId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($hierarchyId, ExtendsValidatorRule::getRule("Id"));
 		
 		// set the private variables
 		$this->_id =& $hierarchyId;
@@ -138,7 +138,7 @@ class MemoryOnlyHierarchyStore
 	 */
 	function updateid($id) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new StringValidatorRule);
+		ArgumentValidator::validate($id, StringValidatorRule::getRule());
 				
 		// update and save
 		$this->_id = $id;
@@ -170,7 +170,7 @@ class MemoryOnlyHierarchyStore
 	 */
 	function updatedisplayName($displayName) {
 		// Check the arguments
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 				
 		// update and save
 		$this->_displayName = $displayName;
@@ -202,7 +202,7 @@ class MemoryOnlyHierarchyStore
 	 */
 	function updateDescription($description) {
 		// Check the arguments
-		ArgumentValidator::validate($description, new StringValidatorRule);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 				
 		// update and save
 		$this->_description = $description;

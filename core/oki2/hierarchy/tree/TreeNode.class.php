@@ -11,7 +11,7 @@ require_once(HARMONI."oki2/hierarchy/tree/TreeNode.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TreeNode.class.php,v 1.6 2005/01/19 23:23:11 adamfranco Exp $
+ * @version $Id: TreeNode.class.php,v 1.7 2005/03/29 19:44:27 adamfranco Exp $
  */
 
 class TreeNode extends TreeNodeInterface
@@ -52,7 +52,7 @@ class TreeNode extends TreeNodeInterface
 	 */
 	function TreeNode($id) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($id, $stringRule, true);
 		// ** end of parameter validation
 	
@@ -93,7 +93,7 @@ class TreeNode extends TreeNodeInterface
 	function addChild(& $child) {
 		// echo "Adding {$child->_id} to {$this->_id} <br />";
 	
-		$extendsRule =& new ExtendsValidatorRule("TreeNodeInterface");
+		$extendsRule =& ExtendsValidatorRule::getRule("TreeNodeInterface");
 		ArgumentValidator::validate($child, $extendsRule, true);
 
 		// check whether we are duplicating $child
@@ -137,7 +137,7 @@ class TreeNode extends TreeNodeInterface
 	function detachChild(& $child) {
 		// echo "Detaching {$child->_id} from {$this->_id} <br />";
 	
-		$extendsRule =& new ExtendsValidatorRule("TreeNodeInterface");
+		$extendsRule =& ExtendsValidatorRule::getRule("TreeNodeInterface");
 		ArgumentValidator::validate($child, $extendsRule, true);
 		
 //		echo "Removing child ".$child->_id." from parent ".$this->_id."<br />";
@@ -225,7 +225,7 @@ class TreeNode extends TreeNodeInterface
 	 * @return boolean <code>true</code> if <code>$node</code> is a child of this node.
 	 **/
 	function isChild(& $node) {
-		$extendsRule =& new ExtendsValidatorRule("TreeNodeInterface");
+		$extendsRule =& ExtendsValidatorRule::getRule("TreeNodeInterface");
 		ArgumentValidator::validate($node, $extendsRule, true);
 
 		if (!isset($this->_children[$node->_id]))
@@ -242,7 +242,7 @@ class TreeNode extends TreeNodeInterface
 	 * @return boolean <code>true</code> if <code>$node</code> is a parent of this node.
 	 **/
 	function isParent(& $node) {
-		$extendsRule =& new ExtendsValidatorRule("TreeNodeInterface");
+		$extendsRule =& ExtendsValidatorRule::getRule("TreeNodeInterface");
 		ArgumentValidator::validate($node, $extendsRule, true);
 
 		if (!isset($this->_parents[$node->_id]))

@@ -16,7 +16,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.9 2005/02/15 23:29:45 adamfranco Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.10 2005/03/29 19:44:24 adamfranco Exp $
  */
 class HarmoniAuthorization 
 	extends Authorization 
@@ -108,16 +108,16 @@ class HarmoniAuthorization
 	function HarmoniAuthorization($id, & $agentId, & $functionId, & $qualifierId, $explicit, & $cache, $effectiveDate, $expirationDate) {
 
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("Id");
-		ArgumentValidator::validate($id, new OptionalRule(new StringValidatorRule()), true);
+		$extendsRule =& ExtendsValidatorRule::getRule("Id");
+		ArgumentValidator::validate($id, OptionalRule::getRule(StringValidatorRule::getRule()), true);
 		ArgumentValidator::validate($agentId, $extendsRule, true);
 		ArgumentValidator::validate($functionId, $extendsRule, true);
 		ArgumentValidator::validate($qualifierId, $extendsRule, true);
-		$intRule =& new IntegerValidatorRule;
-		ArgumentValidator::validate($effectiveDate, new OptionalRule($intRule), true);
-		ArgumentValidator::validate($expirationDate, new OptionalRule($intRule), true);
-		ArgumentValidator::validate($explicit, new BooleanValidatorRule(), true);
-		ArgumentValidator::validate($cache, new ExtendsValidatorRule("AuthorizationCache"), true);
+		$intRule =& IntegerValidatorRule::getRule();
+		ArgumentValidator::validate($effectiveDate, OptionalRule::getRule($intRule), true);
+		ArgumentValidator::validate($expirationDate, OptionalRule::getRule($intRule), true);
+		ArgumentValidator::validate($explicit, BooleanValidatorRule::getRule(), true);
+		ArgumentValidator::validate($cache, ExtendsValidatorRule::getRule("AuthorizationCache"), true);
 		// ** end of parameter validation
 		
 		// make sure effective date is before expiration date
@@ -401,7 +401,7 @@ class HarmoniAuthorization
 		}
 		
 		// ** parameter validation
-		ArgumentValidator::validate($expirationDate, new IntegerValidatorRule, true);
+		ArgumentValidator::validate($expirationDate, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		// make sure effective date is before expiration date
@@ -467,7 +467,7 @@ class HarmoniAuthorization
 		}
 		
 		// ** parameter validation
-		ArgumentValidator::validate($effectiveDate, new IntegerValidatorRule, true);
+		ArgumentValidator::validate($effectiveDate, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		// make sure effective date is before expiration date

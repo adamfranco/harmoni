@@ -15,7 +15,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentIterator.class.php,v 1.6 2005/02/04 15:59:07 adamfranco Exp $
+ * @version $Id: HarmoniAgentIterator.class.php,v 1.7 2005/03/29 19:44:21 adamfranco Exp $
  */
 class HarmoniAgentIterator
 	extends AgentIterator
@@ -38,7 +38,7 @@ class HarmoniAgentIterator
 	 */
 	function HarmoniAgentIterator (& $agentArray) {
 		// make sure that we get an array of Agent objects
-		ArgumentValidator::validate($agentArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Agent")));
+		ArgumentValidator::validate($agentArray, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("Agent")));
 		
 		// load the agents into our private array
 		foreach (array_keys($agentArray) as $i => $key) {

@@ -15,7 +15,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Footer.class.php,v 1.5 2005/02/07 21:38:14 adamfranco Exp $
+ * @version $Id: Footer.class.php,v 1.6 2005/03/29 19:44:09 adamfranco Exp $
  */
 class Footer extends Component {
 
@@ -38,7 +38,7 @@ class Footer extends Component {
 	 **/
 	function Footer($content, $index) {
 		// ** parameter validation
-		$rule =& new StringValidatorRule($content);
+		$rule =& StringValidatorRule::getRule()($content);
 		ArgumentValidator::validate($content, $rule, true);
 		// ** end of parameter validation	
 

@@ -17,7 +17,7 @@ require_once(OKI."/hierarchy.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.7 2005/02/07 21:15:19 adamfranco Exp $
+ * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.8 2005/03/29 19:44:20 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -45,7 +45,7 @@ class HarmoniTraversalInfoIterator
 	 */
 	function HarmoniTraversalInfoIterator (& $traversalInfoArray) {
 		// make sure that we get an array of TraversalInfo objects
-		ArgumentValidator::validate($traversalInfoArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("TraversalInfo")));
+		ArgumentValidator::validate($traversalInfoArray, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("TraversalInfo")));
 		
 		// load the types into our private array
 		foreach (array_keys($traversalInfoArray) as $i => $key) {

@@ -43,7 +43,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.10 2005/03/25 18:34:26 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.11 2005/03/29 19:44:25 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -112,8 +112,8 @@ class HarmoniHierarchyManager
 		$dbName =& $configuration->getProperty('database_name');
 		
 		// ** parameter validation
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($dbName, new StringValidatorRule(), true);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
+		ArgumentValidator::validate($dbName, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
@@ -179,10 +179,10 @@ class HarmoniHierarchyManager
 	 */
 	function &createHierarchy ( $displayName, &$nodeTypes, $description, $allowsMultipleParents, $allowsRecursion ) { 
 		// ** parameter validation
-		ArgumentValidator::validate($description, new StringValidatorRule(), true);
-		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
-		ArgumentValidator::validate($allowsMultipleParents, new BooleanValidatorRule(), true);
-		ArgumentValidator::validate($allowsRecursion, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($allowsMultipleParents, BooleanValidatorRule::getRule(), true);
+		ArgumentValidator::validate($allowsRecursion, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		// check for supported hierarchies
@@ -254,7 +254,7 @@ class HarmoniHierarchyManager
 	 */
 	function &getHierarchy ( &$hierarchyId ) { 
 		// ** parameter validation
-		ArgumentValidator::validate($hierarchyId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($hierarchyId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 
 		$idValue = $hierarchyId->getIdString();
@@ -388,7 +388,7 @@ class HarmoniHierarchyManager
 	 */
 	function deleteHierarchy ( &$hierarchyId ) { 
 		// ** parameter validation
-		ArgumentValidator::validate($hierarchyId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($hierarchyId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
 		$dbHandler =& Services::requireService("DBHandler");
@@ -464,7 +464,7 @@ class HarmoniHierarchyManager
 	 **/
 	function &getNode(& $id) {
 		// ** parameter validation
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 
 		$idValue = $id->getIdString();

@@ -26,7 +26,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: VerticalAlignSC.class.php,v 1.7 2005/02/07 21:38:15 adamfranco Exp $
+ * @version $Id: VerticalAlignSC.class.php,v 1.8 2005/03/29 19:44:11 adamfranco Exp $
  */
 class VerticalAlignSC extends StyleComponent {
 
@@ -43,7 +43,7 @@ class VerticalAlignSC extends StyleComponent {
 						   Allowed values are: ".implode(", ", $options).", or a specific 
 						   value (a length value, i.e. px, in, %, etc.).";
 		
-		$rule =& new CSSLengthValidatorRule();
+		$rule =& CSSLengthValidatorRule::getRule();
 		
 		$displayName = "Vertical Alignment";
 		$description = "Specifies the vertical-align value. Allowed values are: 

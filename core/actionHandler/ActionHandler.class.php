@@ -63,7 +63,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.14 2005/01/19 22:27:47 adamfranco Exp $
+ * @version $Id: ActionHandler.class.php,v 1.15 2005/03/29 19:44:11 adamfranco Exp $
  */
 class ActionHandler {
 	/**
@@ -136,7 +136,7 @@ class ActionHandler {
 	 */
 	function forward( $module, $action=null ) {
 		debug::output("attempting to forward to action: $module.$action",DEBUG_SYS5,"ActionHandler");
-		$test =& new DottedPairValidatorRule;
+		$test =& DottedPairValidatorRule::getRule();
 		if ($this->_executing) {
 			if ($test->check($module) && !$action) {
 				$this->_forwardToAction = $module;
@@ -258,7 +258,7 @@ class ActionHandler {
 	 * @return mixed
 	 **/
 	function &executePair($pair) {
-		ArgumentValidator::validate($pair, new DottedPairValidatorRule());
+		ArgumentValidator::validate($pair, DottedPairValidatorRule::getRule());
 		return $this->_executePair($pair);
 	}
 	
@@ -377,7 +377,7 @@ class ActionHandler {
 	 **/
 	function setActionThread($action, $actionOnFail, $actionOnSuccess=null) {
 		// first, make sure that each thing we're passed is indeed a dotted pair
-		$dp =& new DottedPairValidatorRule;
+		$dp =& DottedPairValidatorRule::getRule();
 		ArgumentValidator::validate($action,$dp);
 		ArgumentValidator::validate($actionOnFail,$dp);
 		if ($actionOnSuccess)

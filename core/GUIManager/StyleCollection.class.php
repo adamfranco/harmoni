@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollection.class.php,v 1.8 2005/02/07 21:38:13 adamfranco Exp $
+ * @version $Id: StyleCollection.class.php,v 1.9 2005/03/29 19:44:09 adamfranco Exp $
  */
 class StyleCollection extends StyleCollectionInterface {
 
@@ -167,7 +167,7 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @return ref object The style property that was just added.
 	 **/
 	function &addSP(& $sp) {
-		ArgumentValidator::validate($sp, new ExtendsValidatorRule("StylePropertyInterface"), true);
+		ArgumentValidator::validate($sp, ExtendsValidatorRule::getRule("StylePropertyInterface"), true);
 		$this->_SPs[$sp->getName()] =& $sp;
 		
 		return $sp;
@@ -191,7 +191,7 @@ class StyleCollection extends StyleCollectionInterface {
 	 * if it could not be found.
 	 **/
 	function &removeSP(& $sp) {
-		ArgumentValidator::validate($sp, new ExtendsValidatorRule("StylePropertyInterface"), true);
+		ArgumentValidator::validate($sp, ExtendsValidatorRule::getRule("StylePropertyInterface"), true);
 
 		$result =& $this->_SPs[$sp->getName()];
 		unset($this->_SPs[$sp->getName()]);

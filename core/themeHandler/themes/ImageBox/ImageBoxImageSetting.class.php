@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/ThemeSetting.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageBoxImageSetting.class.php,v 1.5 2005/01/19 21:10:14 adamfranco Exp $
+ * @version $Id: ImageBoxImageSetting.class.php,v 1.6 2005/03/29 19:44:47 adamfranco Exp $
  */
 class ImageBoxImageSetting
 	extends ThemeSetting {
@@ -47,7 +47,7 @@ class ImageBoxImageSetting
 	 * @return void
 	 **/
 	function setValue($value) {
-		ArgumentValidator::validate($value, new StringValidatorRule);
+		ArgumentValidator::validate($value, StringValidatorRule::getRule());
 		
 		if(!in_array($value, $this->_options))
 			throwError(new Error("Invalid border value, '".$value."'.","BorderSetting", FALSE));
@@ -62,7 +62,7 @@ class ImageBoxImageSetting
 	 * @return void
 	 **/
 	function &setDefaultValue ($defaultValue) {
-		ArgumentValidator::validate($defaultValue, new StringValidatorRule);
+		ArgumentValidator::validate($defaultValue, StringValidatorRule::getRule());
 		
 		if(!in_array($defaultValue, $this->_options))
 			throwError(new Error("Invalid border value, '".$defaultValue."'.","BorderSetting", FALSE));

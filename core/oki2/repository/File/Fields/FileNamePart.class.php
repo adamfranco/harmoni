@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileNamePart.class.php,v 1.3 2005/01/26 22:44:11 adamfranco Exp $
+ * @version $Id: FileNamePart.class.php,v 1.4 2005/03/29 19:44:28 adamfranco Exp $
  */
 class FileNamePart extends Part
 //	extends java.io.Serializable
@@ -211,7 +211,7 @@ class FileNamePart extends Part
 	 * @access public
 	 */
 	function updateValue($value) {
-		ArgumentValidator::validate($value, new StringValidatorRule);
+		ArgumentValidator::validate($value, StringValidatorRule::getRule());
 		
 		// Store the name in the object in case its asked for again.
 		$this->_name = $value;

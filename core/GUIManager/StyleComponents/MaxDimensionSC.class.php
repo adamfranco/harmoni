@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MaxDimensionSC.class.php,v 1.5 2005/01/20 17:47:32 nstamato Exp $
+ * @version $Id: MaxDimensionSC.class.php,v 1.6 2005/03/29 19:44:10 adamfranco Exp $
  */
 class MaxDimensionSC extends StyleComponent {
 
@@ -38,7 +38,7 @@ class MaxDimensionSC extends StyleComponent {
 						   in, %, etc).";
 		
 		
-		$rule =& new CSSLengthValidatorRule();
+		$rule =& CSSLengthValidatorRule::getRule();
 		
 		$displayName = "Max Dimension";
 		$description = "Specifies the length to use. Allowed values are: ".implode(", ", $options)."

@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.9 2005/01/27 17:11:50 adamfranco Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.10 2005/03/29 19:44:27 adamfranco Exp $ 
  */
 
 class HarmoniRecord extends Record
@@ -95,7 +95,7 @@ class HarmoniRecord extends Record
 	 * @access public
 	 */
 	function &createPart ( &$partStructureId, &$value ) { 
-		ArgumentValidator::validate($value, new ExtendsValidatorRule("Primitive"));
+		ArgumentValidator::validate($value, ExtendsValidatorRule::getRule("Primitive"));
 		$partID = $partStructureId->getIdString();
 		
 		// we need to find the label associated with this ID

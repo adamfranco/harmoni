@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/ImageMagickProcessor.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageProcessor.class.php,v 1.4 2005/01/19 22:27:47 adamfranco Exp $
+ * @version $Id: ImageProcessor.class.php,v 1.5 2005/03/29 19:44:11 adamfranco Exp $
  */
 
 class ImageProcessor {
@@ -39,13 +39,13 @@ class ImageProcessor {
 		$useImageMagick = FALSE, $ImageMagickPath = "/usr/bin", 
 		$ImageMagickTempDir = "/tmp", $ImageMagickFormats = array()) 
 	{
-		ArgumentValidator::validate($thumbnailFormat, new StringValidatorRule);
-		ArgumentValidator::validate($useGD, new BooleanValidatorRule);
-		ArgumentValidator::validate($gdFormats, new ArrayValidatorRuleWithRule(new StringValidatorRule));
-		ArgumentValidator::validate($useImageMagick, new BooleanValidatorRule);
-		ArgumentValidator::validate($ImageMagickPath, new StringValidatorRule);
-		ArgumentValidator::validate($ImageMagickTempDir, new StringValidatorRule);
-		ArgumentValidator::validate($ImageMagickFormats, new ArrayValidatorRuleWithRule(new StringValidatorRule));
+		ArgumentValidator::validate($thumbnailFormat, StringValidatorRule::getRule());
+		ArgumentValidator::validate($useGD, BooleanValidatorRule::getRule());
+		ArgumentValidator::validate($gdFormats, ArrayValidatorRuleWithRule::getRule(StringValidatorRule::getRule()));
+		ArgumentValidator::validate($useImageMagick, BooleanValidatorRule::getRule());
+		ArgumentValidator::validate($ImageMagickPath, StringValidatorRule::getRule());
+		ArgumentValidator::validate($ImageMagickTempDir, StringValidatorRule::getRule());
+		ArgumentValidator::validate($ImageMagickFormats, ArrayValidatorRuleWithRule::getRule(StringValidatorRule::getRule()));
 		
 		$this->_thumbnailFormat = $thumbnailFormat;
 		$this->_useGD = $useGD;
@@ -72,7 +72,7 @@ class ImageProcessor {
 	 * @since 10/22/04
 	 */
 	function isFormatSupported ( $format ) {
-		ArgumentValidator::validate($format, new StringValidatorRule);
+		ArgumentValidator::validate($format, StringValidatorRule::getRule());
 		
 		if (in_array($format, $this->_gdFormats) 
 			|| in_array($format, $this->_ImageMagickFormats)

@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/Set.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Set.class.php,v 1.6 2005/01/27 16:12:18 adamfranco Exp $
+ * @version $Id: Set.class.php,v 1.7 2005/03/29 19:44:30 adamfranco Exp $
  * @author Adam Franco
  */
 class Set 
@@ -53,9 +53,9 @@ class Set
 		
 		die ("Please use OrderedSet instead.");
 		
-		ArgumentValidator::validate($setId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($setId, ExtendsValidatorRule::getRule("Id"), true);
 //		if ($dbIndex !== NULL)
-			ArgumentValidator::validate($dbIndex, new IntegerValidatorRule, true);
+			ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		
 		// Create our internal array
 		$this->_items = array();
@@ -132,7 +132,7 @@ class Set
 	 * @return void
 	 */
 	function addItem ( & $id ) {
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		// Add the item to the database
 		$query =& new InsertQuery;
@@ -155,7 +155,7 @@ class Set
 	 * @return void
 	 */
 	function removeItem ( & $id ) {
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		// Remove the item from the database
 		$query =& new DeleteQuery;

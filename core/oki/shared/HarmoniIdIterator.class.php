@@ -13,7 +13,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdIterator.class.php,v 1.4 2005/01/19 22:28:11 adamfranco Exp $
+ * @version $Id: HarmoniIdIterator.class.php,v 1.5 2005/03/29 19:44:21 adamfranco Exp $
  */
  
 class HarmoniIdIterator
@@ -37,7 +37,7 @@ class HarmoniIdIterator
 	 */
 	function HarmoniIdIterator (& $idArray) {
 		// make sure that we get an array of Id objects
-		ArgumentValidator::validate($idArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Id")));
+		ArgumentValidator::validate($idArray, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("Id")));
 		
 		// load the types into our private array
 		foreach (array_keys($idArray) as $i => $key) {

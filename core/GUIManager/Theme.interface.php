@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.interface.php,v 1.10 2005/02/07 21:38:14 adamfranco Exp $
+ * @version $Id: Theme.interface.php,v 1.11 2005/03/29 19:44:09 adamfranco Exp $
  **/
 class ThemeInterface {
 
@@ -211,7 +211,7 @@ class ThemeInterface {
 	 * @return void
 	 **/
 	function setPageTitle($title) {
-		ArgumentValidator::validate($title, new StringValidatorRule);
+		ArgumentValidator::validate($title, StringValidatorRule::getRule());
 		
 		$this->_pageTitle = $title;
 	}

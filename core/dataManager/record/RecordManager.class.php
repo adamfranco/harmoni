@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.16 2005/01/19 22:27:48 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.17 2005/03/29 19:44:13 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -235,8 +235,8 @@ class RecordManager extends ServiceInterface {
 	* criteria. If not specified, will fetch all IDs.
 	*/
 	function &fetchRecords( $IDs, $mode = RECORD_CURRENT, $limitResults = null ) {
-		ArgumentValidator::validate($IDs, new ArrayValidatorRuleWithRule(new NumericValidatorRule()));
-		ArgumentValidator::validate($mode, new IntegerValidatorRule());
+		ArgumentValidator::validate($IDs, ArrayValidatorRuleWithRule::getRule(NumericValidatorRule::getRule()));
+		ArgumentValidator::validate($mode, IntegerValidatorRule::getRule());
 		$IDs = array_unique($IDs);
 
 		// let's weed out those IDs that we can take from cache
@@ -330,7 +330,7 @@ class RecordManager extends ServiceInterface {
 		}				
 
 		// make sure we found the data sets
-		$rule =& new ExtendsValidatorRule("Record");
+		$rule =& ExtendsValidatorRule::getRule("Record");
 		foreach ($IDs as $id) {
 			if (!$rule->check($records[$id]))
 				throwError(new Error(UNKNOWN_ID.": Record $id was requested, but not found.", "DataManager", TRUE));
@@ -425,7 +425,7 @@ class RecordManager extends ServiceInterface {
 	 * @since 10/6/04
 	 */
 	function deleteRecordSet ($id, $prune = false) {
-		ArgumentValidator::validate($id, new IntegerValidatorRule);
+		ArgumentValidator::validate($id, IntegerValidatorRule::getRule());
 		$recordSet =& $this->fetchRecordSet($id);
 		
 		$recordSet->loadRecords($prune?RECORD_FULL:RECORD_NODATA);

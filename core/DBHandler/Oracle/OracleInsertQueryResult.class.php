@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
  *
  * The InsertQueryResult interface provides the functionality common to all INSERT query results.
  * For example, you can get the primary key for the last insertion, get number of inserted rows, etc.
- * @version $Id: OracleInsertQueryResult.class.php,v 1.3 2005/01/19 23:22:59 adamfranco Exp $
+ * @version $Id: OracleInsertQueryResult.class.php,v 1.4 2005/03/29 19:44:08 adamfranco Exp $
  * @package harmoni.dbc.oracle
  * @access public
  * @copyright 2003 
@@ -49,8 +49,8 @@ class OracleInsertQueryResult extends InsertQueryResultInterface  {
 	 */
 	function OracleInsertQueryResult($resourceId, $lastId) {
 		// ** parameter validation
-		$resourceRule =& new ResourceValidatorRule();
-		$integerRule =& new OptionalRule(new IntegerValidatorRule());
+		$resourceRule =& ResourceValidatorRule::getRule();
+		$integerRule =& OptionalRule::getRule(IntegerValidatorRule::getRule());
 		ArgumentValidator::validate($resourceId, $resourceRule, true);
 		ArgumentValidator::validate($lastId, $integerRule, true);
 		// ** end of parameter validation

@@ -12,7 +12,7 @@ require_once(HARMONI."/oki/dr/HarmoniInfoPartIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniInfoStructure.class.php,v 1.23 2005/02/07 21:38:20 adamfranco Exp $ */
+ * @version $Id: HarmoniInfoStructure.class.php,v 1.24 2005/03/29 19:44:17 adamfranco Exp $ */
 class HarmoniInfoStructure extends InfoStructure
 //	extends java.io.Serializable
 {
@@ -141,12 +141,12 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @return object InfoPart The newly created InfoPart.
 	 */
 	function createInfoPart($displayName, $description, & $infoPartType, $isMandatory, $isRepeatable, $isPopulatedByDR) {
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
-		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate($infoPartType, new ExtendsValidatorRule("Type"));
-		ArgumentValidator::validate($isMandatory, new BooleanValidatorRule);
-		ArgumentValidator::validate($isRepeatable, new BooleanValidatorRule);
-		ArgumentValidator::validate($isPopulatedByDR, new BooleanValidatorRule);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
+		ArgumentValidator::validate($description, StringValidatorRule::getRule());
+		ArgumentValidator::validate($infoPartType, ExtendsValidatorRule::getRule("Type"));
+		ArgumentValidator::validate($isMandatory, BooleanValidatorRule::getRule());
+		ArgumentValidator::validate($isRepeatable, BooleanValidatorRule::getRule());
+		ArgumentValidator::validate($isPopulatedByDR, BooleanValidatorRule::getRule());
 				
 		$fieldDef =& new SchemaField($displayName, $infoPartType->getKeyword(), $description, $isRepeatable, $isMandatory);
 		$this->_schema->addField($fieldDef);

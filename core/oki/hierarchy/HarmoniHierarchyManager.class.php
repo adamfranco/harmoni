@@ -31,7 +31,7 @@ define("MEMORY_ONLY", 1001);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.28 2005/02/07 21:38:20 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.29 2005/03/29 19:44:18 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -123,12 +123,12 @@ class HarmoniHierarchyManager
 	 */
 	function &createHierarchy($name, $description, $nodeTypes, $allowsMultipleParents, $allowsRecursion) {
 		// Check the arguments
-		ArgumentValidator::validate($allowsMultipleParents, new BooleanValidatorRule);
-		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate($name, new StringValidatorRule);
+		ArgumentValidator::validate($allowsMultipleParents, BooleanValidatorRule::getRule());
+		ArgumentValidator::validate($description, StringValidatorRule::getRule());
+		ArgumentValidator::validate($name, StringValidatorRule::getRule());
 		if ($nodeTypes != NULL)
-			ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
-		ArgumentValidator::validate($allowsRecursion, new BooleanValidatorRule);
+			ArgumentValidator::validate($nodeTypes, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("Type")));
+		ArgumentValidator::validate($allowsRecursion, BooleanValidatorRule::getRule());
 		
 		// if allowsMultipleParents is false and allowsRecursion is true
 		if ($allowsMultipleParents && !$allowsRecursion)
@@ -172,7 +172,7 @@ class HarmoniHierarchyManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function &getHierarchy(& $hierarchyId) {
-		ArgumentValidator::validate($hierarchyId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($hierarchyId, ExtendsValidatorRule::getRule("Id"));
 		
 		// if the Id is valid
 		$hierarchies =& $this->getHierarchies();
@@ -229,7 +229,7 @@ class HarmoniHierarchyManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function deleteHierarchy(& $hierarchyId) {
-		ArgumentValidator::validate($hierarchyId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($hierarchyId, ExtendsValidatorRule::getRule("Id"));
 		
 		if (!$hierarchy =& $this->getHierarchy($hierarchyId))
 			throwError(new Error(HIERARCHY_UNKNOWN, "Hierarchy", 1));

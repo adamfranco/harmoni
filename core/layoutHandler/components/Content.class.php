@@ -9,7 +9,7 @@ require_once(HARMONI."layoutHandler/components/Content.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Content.class.php,v 1.5 2005/01/19 21:10:01 adamfranco Exp $
+ * @version $Id: Content.class.php,v 1.6 2005/03/29 19:44:14 adamfranco Exp $
  **/
 class Content extends ContentInterface {
 	/**
@@ -102,7 +102,7 @@ class Content extends ContentInterface {
 	 * @return void
 	 */
 	function setThemeWidgetType( $type ) {
-		ArgumentValidator::validate($type, new StringValidatorRule);
+		ArgumentValidator::validate($type, StringValidatorRule::getRule());
 		
 		$this->_themeWidgetType = $type;
 	}
@@ -121,7 +121,7 @@ class Content extends ContentInterface {
 	 * @return void
 	 */
 	function setThemeWidgetIndex( $index ) {
-		ArgumentValidator::validate($index, new IntegerValidatorRule);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule());
 		
 		$this->_themeWidgetIndex = $index;
 	}
@@ -140,7 +140,7 @@ class Content extends ContentInterface {
 	 * @return void
 	 */
 	function setVerticalAlignment ( $valign ) {
-		ArgumentValidator::validate($valign, new StringValidatorRule);
+		ArgumentValidator::validate($valign, StringValidatorRule::getRule());
 		if ($valign != TOP && $valign != MIDDLE && $valign != BOTTOM)
  			throwError(new Error("Could not set vertical alignment, parameter out of range.","Layout",true));
  		
@@ -161,7 +161,7 @@ class Content extends ContentInterface {
 	 * @return void
 	 */
 	function setHorizontalAlignment ( $halign ) {
-		ArgumentValidator::validate($halign, new StringValidatorRule);
+		ArgumentValidator::validate($halign, StringValidatorRule::getRule());
 		if ($halign != LEFT && $halign != CENTER && $halign != RIGHT)
  			throwError(new Error("Could not set horizontal alignment, parameter out of range.","Layout",true));
 		

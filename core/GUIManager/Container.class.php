@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Container.class.php,v 1.11 2005/03/10 03:18:18 dobomode Exp $
+ * @version $Id: Container.class.php,v 1.12 2005/03/29 19:44:09 adamfranco Exp $
  */
 class Container extends Component /* implements ContainerInterface */ {
 
@@ -64,9 +64,9 @@ class Container extends Component /* implements ContainerInterface */ {
 	 **/
 	function Container(& $layout, $type, $index) {
 		// ** parameter validation
-		$rule =& new ExtendsValidatorRule("LayoutInterface");
+		$rule =& ExtendsValidatorRule::getRule("LayoutInterface");
 		ArgumentValidator::validate($layout, $rule, true);
-		ArgumentValidator::validate($index, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 	
 		$this->Component(null, $type, $index);
@@ -111,7 +111,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 **/
 	function &add(& $component, $width, $height, $alignmentX, $alignmentY) {
 		// ** parameter validation
-		$rule =& new ExtendsValidatorRule("ComponentInterface");
+		$rule =& ExtendsValidatorRule::getRule("ComponentInterface");
 		ArgumentValidator::validate($component, $rule, true);
 		// ** end of parameter validation
 		
@@ -135,7 +135,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 **/
 	function &getComponent($id) {
 		// ** parameter validation
-		ArgumentValidator::validate($id, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($id, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		if (isset($this->_components[$id-1]))
@@ -221,7 +221,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 **/
 	function &remove($id) {
 		// ** parameter validation
-		ArgumentValidator::validate($id, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($id, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		$component =& $this->_components[$id-1];
@@ -256,7 +256,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 **/
 	function setLayout(& $layout) {
 		// ** parameter validation
-		$rule =& new ExtendsValidatorRule("LayoutInterface");
+		$rule =& ExtendsValidatorRule::getRule("LayoutInterface");
 		ArgumentValidator::validate($layout, $rule, true);
 		// ** end of parameter validation	
 

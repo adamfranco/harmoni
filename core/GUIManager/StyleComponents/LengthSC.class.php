@@ -26,7 +26,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LengthSC.class.php,v 1.7 2005/02/07 21:38:15 adamfranco Exp $
+ * @version $Id: LengthSC.class.php,v 1.8 2005/03/29 19:44:10 adamfranco Exp $
  */
 class LengthSC extends StyleComponent {
 
@@ -39,7 +39,7 @@ class LengthSC extends StyleComponent {
 		$errDescription = "Could not validate the length StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed untis are: %, in, cm, mm, em, ex, pt, pc, px.";
 		
-		$rule =& new CSSLengthValidatorRule();
+		$rule =& CSSLengthValidatorRule::getRule();
 		
 		$displayName = "Length";
 		$description = "Specifies the length (width, size, etc) in percentages (%),
@@ -54,6 +54,34 @@ class CSSLengthValidatorRule extends ValidatorRuleInterface {
 
 	function check(& $val) {
 		return ereg("^-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px)$", $val);
+	}
+	
+	/**
+	 * This is a static method to return an already-created instance of a validator
+	 * rule. There are at most about a hundred unique rule objects in use durring
+	 * any given execution cycle, but rule objects are instantiated hundreds of
+	 * thousands of times. 
+	 *
+	 * This method follows a modified Singleton pattern
+	 * 
+	 * @return object ValidatorRule
+	 * @access public
+	 * @static
+	 * @since 3/28/05
+	 */
+	function &getRule () {
+		// Because there is no way in PHP to get the class name of the descendent
+		// class on which this method is called, this method must be implemented
+		// in each descendent class.
+
+		if (!is_array($GLOBALS['validator_rules']))
+			$GLOBALS['validator_rules'] = array();
+		
+		$class = __CLASS__;
+		if (!$GLOBALS['validator_rules'][$class])
+			$GLOBALS['validator_rules'][$class] =& new $class;
+		
+		return $GLOBALS['validator_rules'][$class];
 	}
 }
 ?>

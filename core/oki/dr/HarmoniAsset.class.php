@@ -15,7 +15,7 @@ require_once(HARMONI."/oki/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.52 2005/03/28 19:26:25 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.53 2005/03/29 19:44:15 adamfranco Exp $
  */
 
 class HarmoniAsset
@@ -50,7 +50,7 @@ class HarmoniAsset
 		$this->_configuration =& $configuration;
 		$this->_versionControlAll = ($configuration['versionControlAll'])?TRUE:FALSE;
 		if (is_array($configuration['versionControlTypes'])) {
-			ArgumentValidator::validate($configuration['versionControlTypes'], new ArrayValidatorRuleWithRule( new ExtendsValidatorRule("Type")));
+			ArgumentValidator::validate($configuration['versionControlTypes'], ArrayValidatorRuleWithRule::getRule( ExtendsValidatorRule::getRule("Type")));
 			$this->_versionControlTypes =& $configuration['versionControlTypes'];
 		} else {
 			$this->_versionControlTypes = array();
@@ -198,7 +198,7 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function updateContent(& $content) {
- 		ArgumentValidator::validate($content, new ExtendsValidatorRule("Blob"));
+ 		ArgumentValidator::validate($content, ExtendsValidatorRule::getRule("Blob"));
  		$sharedManager =& Services::getService("Shared");
  		$recordMgr =& Services::getService("RecordManager");
  		
@@ -277,7 +277,7 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function updateEffectiveDate(& $effectiveDate) {
-		ArgumentValidator::validate($effectiveDate, new ExtendsValidatorRule("Time"));
+		ArgumentValidator::validate($effectiveDate, ExtendsValidatorRule::getRule("Time"));
 		
 		// Make sure that we have dates from the DB if they exist.
 		$this->_loadDates();
@@ -318,7 +318,7 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function updateExpirationDate(& $expirationDate) {
-		ArgumentValidator::validate($expirationDate, new ExtendsValidatorRule("Time"));
+		ArgumentValidator::validate($expirationDate, ExtendsValidatorRule::getRule("Time"));
 		
 		// Make sure that we have dates from the DB if they exist.
 		$this->_loadDates();
@@ -456,7 +456,7 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function &createInfoRecord(& $infoStructureId) {
-		ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($infoStructureId, ExtendsValidatorRule::getRule("Id"));
 		
 		// If this is a schema that is hard coded into our implementation, create
 		// a record for that schema.
@@ -555,8 +555,8 @@ class HarmoniAsset
 	function inheritInfoStructure(& $infoStructureId, & $assetId) {	
 	
 		// Check the arguments
-		ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($infoStructureId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
 		// If this is a schema that is hard coded into our implementation, create
 		// a record for that schema.
@@ -644,8 +644,8 @@ class HarmoniAsset
 	function copyInfoStructure(& $infoStructureId, & $assetId) {
 	
 		// Check the arguments	
-		ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($infoStructureId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
 		// Get our managers:
 		$recordMgr =& Services::getService("RecordManager");
@@ -693,7 +693,7 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function deleteInfoRecord(& $infoRecordId) {
-		ArgumentValidator::validate($infoRecordId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($infoRecordId, ExtendsValidatorRule::getRule("Id"));
 		
 		$record =& $this->getInfoRecord($infoRecordId);
 		$structure =& $record->getInfoStructure();
@@ -758,7 +758,7 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function &getInfoRecord(& $infoRecordId ) {
-		ArgumentValidator::validate($infoRecordId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($infoRecordId, ExtendsValidatorRule::getRule("Id"));
 		
 		// Check to see if the info record is in our cache.
 		// If so, return it. If not, create it, then return it.
@@ -804,7 +804,7 @@ class HarmoniAsset
 				$record =& $recordMgr->fetchRecord($infoRecordId->getIdString());
 	
 				// Make sure that we have a valid dataSet
-				$rule =& new ExtendsValidatorRule("Record");
+				$rule =& ExtendsValidatorRule::getRule("Record");
 				if (!$rule->check($record))
 					throwError(new Error(UNKNOWN_ID, "Digital Repository :: Asset", TRUE));
 				
@@ -857,7 +857,7 @@ class HarmoniAsset
 	 */
 	function &getInfoRecords( $infoStructureId = null ) {
 		if ($infoStructureId)
-			ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
+			ArgumentValidator::validate($infoStructureId, ExtendsValidatorRule::getRule("Id"));
 		
 		$id =& $this->getId();
 		$recordMgr =& Services::getService("RecordManager");

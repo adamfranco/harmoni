@@ -17,7 +17,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * statements. This allows applications coded for PostgreSQL/Oracle-style nested
  * transactions to operate in MySQL. 
  *
- * @version $Id: MySQLDatabase.class.php,v 1.20 2005/03/09 22:44:13 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.21 2005/03/29 19:44:03 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.mysql
  * @access public
@@ -97,7 +97,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 */
 	function MySQLDatabase($dbHost, $dbName, $dbUser, $dbPass) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($dbHost, $stringRule, true);
 		ArgumentValidator::validate($dbName, $stringRule, true);
 		ArgumentValidator::validate($dbUser, $stringRule, true);
@@ -354,7 +354,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 */
 	function selectDatabase($database) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($database, $stringRule, true);
 		// ** end of parameter validation
 	

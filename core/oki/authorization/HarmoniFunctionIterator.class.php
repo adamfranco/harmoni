@@ -14,7 +14,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniFunctionIterator.class.php,v 1.6 2005/02/07 21:38:19 adamfranco Exp $ */
+ * @version $Id: HarmoniFunctionIterator.class.php,v 1.7 2005/03/29 19:44:15 adamfranco Exp $ */
 
 class HarmoniFunctionIterator
 	extends FunctionIterator
@@ -37,7 +37,7 @@ class HarmoniFunctionIterator
 	 */
 	function HarmoniFunctionIterator (& $functionArray) {
 		// make sure that we get an array of Function objects
-		ArgumentValidator::validate($functionArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("FunctionInterface")));
+		ArgumentValidator::validate($functionArray, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("FunctionInterface")));
 		
 		// load the types into our private array
 		foreach (array_keys($functionArray) as $i => $key) {

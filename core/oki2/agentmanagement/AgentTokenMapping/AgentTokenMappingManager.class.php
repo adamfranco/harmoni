@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.3 2005/03/16 22:49:34 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.4 2005/03/29 19:44:23 adamfranco Exp $
  */ 
  
  require_once(dirname(__FILE__)."/AgentTokenMapping.class.php");
@@ -36,7 +36,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.3 2005/03/16 22:49:34 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.4 2005/03/29 19:44:23 adamfranco Exp $
  */
 class AgentTokenMappingManager
 	extends OsidManager
@@ -108,7 +108,7 @@ class AgentTokenMappingManager
     function assignConfiguration ( &$configuration ) { 
         $this->_configuration =& $configuration;
         ArgumentValidator::validate($this->_configuration->getProperty('database_id'),
-        	new IntegerValidatorRule);
+        	IntegerValidatorRule::getRule());
         	
         $this->_dbId = $this->_configuration->getProperty('database_id');
         
@@ -128,9 +128,9 @@ class AgentTokenMappingManager
 	function &createMapping ( &$agentId, &$authNTokens, &$authenticationType ) {
 		$this->_checkConfig();
 		
-		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
-		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
+		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
 		if ($this->mappingExists($agentId, $authNTokens, $authenticationType))
 			throwError( new Error("Cannot create Mapping. Mapping already exists: ('"
@@ -188,7 +188,7 @@ class AgentTokenMappingManager
 	function deleteMapping ( &$mapping ) {
 		$this->_checkConfig();
 		
-		ArgumentValidator::validate($mapping, new ExtendsValidatorRule("AgentTokenMapping"));
+		ArgumentValidator::validate($mapping, ExtendsValidatorRule::getRule("AgentTokenMapping"));
 		
 		$dbc =& Services::getService("DBHandler");
 		$dbc->beginTransaction($this->_dbId);
@@ -241,8 +241,8 @@ class AgentTokenMappingManager
 	function &getMappingForTokens ( &$authNTokens, &$authenticationType ) {
 		$this->_checkConfig();
 		
-		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
+		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
 		$dbc =& Services::getService("DBHandler");
 		
@@ -286,8 +286,8 @@ class AgentTokenMappingManager
 	function &getMappingsForAgentIdAndAuthenticationType ( &$agentId, &$authenticationType ) {
 		$this->_checkConfig();
 		
-		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
 		$dbc =& Services::getService("DBHandler");
 		
@@ -324,7 +324,7 @@ class AgentTokenMappingManager
 	function &getMappingsForAgentId ( &$agentId ) {
 		$this->_checkConfig();
 		
-		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
 		
 		$dbc =& Services::getService("DBHandler");
 		
@@ -354,9 +354,9 @@ class AgentTokenMappingManager
 	function mappingExists ( &$agentId, &$authNTokens, &$authenticationType ) {
 		$this->_checkConfig();
 		
-		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
-		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
+		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
 		$dbc =& Services::getService("DBHandler");
 		
@@ -406,8 +406,8 @@ class AgentTokenMappingManager
 	function _mappingExistsForTokens (&$authNTokens, &$authenticationType ) {
 		$this->_checkConfig();
 		
-		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
+		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
 		$dbc =& Services::getService("DBHandler");
 		

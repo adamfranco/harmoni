@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.6 2005/03/24 15:49:38 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.7 2005/03/29 19:44:23 adamfranco Exp $
  */ 
 
 /**
@@ -32,7 +32,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.6 2005/03/24 15:49:38 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.7 2005/03/29 19:44:23 adamfranco Exp $
  */
 class AuthNMethod {
 	
@@ -55,7 +55,7 @@ class AuthNMethod {
 	 * @since 3/24/05
 	 */
 	function assignConfiguration ( &$configuration ) {
-		ArgumentValidator::validate ($configuration, new ExtendsValidatorRule("Properties"));
+		ArgumentValidator::validate ($configuration, ExtendsValidatorRule::getRule("Properties"));
 		$this->_configuration =& $configuration;
 	}
 	
@@ -69,7 +69,7 @@ class AuthNMethod {
 	 * @since 3/2/05
 	 */
 	function setType ( &$type ) {
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"));
 		$this->_type =& $type;
 	}
 	
@@ -96,7 +96,7 @@ class AuthNMethod {
 		$tokensClass = $this->_configuration->getProperty('tokens_class');
 		$newTokens =& new $tokensClass($this->_configuration);
 		
-		$validatorRule = new ExtendsValidatorRule('AuthNTokens');
+		$validatorRule = ExtendsValidatorRule::getRule('AuthNTokens');
 		if ($validatorRule->check($newTokens))
 			return $newTokens;
 		else
@@ -211,7 +211,7 @@ class AuthNMethod {
 	 * @since 3/1/05
 	 */
 	function &getPropertiesForTokens ( &$authNTokens ) {
-		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		$properties =& new HarmoniProperties($this->getType());
 
 		// Properties take values by reference, so we have to work around

@@ -14,7 +14,7 @@ require_once(HARMONI.'oki/authorization/HarmoniQualifierIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniQualifier.class.php,v 1.11 2005/02/07 21:38:19 adamfranco Exp $
+ * @version $Id: HarmoniQualifier.class.php,v 1.12 2005/03/29 19:44:15 adamfranco Exp $
  */
 class HarmoniQualifier extends Qualifier {
 
@@ -43,8 +43,8 @@ class HarmoniQualifier extends Qualifier {
 	 */
 	function HarmoniQualifier(& $node, & $cache) {
 		// ** parameter validation
-		ArgumentValidator::validate($node, new ExtendsValidatorRule("Node"), true);
-		ArgumentValidator::validate($cache, new ExtendsValidatorRule("AuthorizationCache"), true);
+		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("Node"), true);
+		ArgumentValidator::validate($cache, ExtendsValidatorRule::getRule("AuthorizationCache"), true);
 		// ** end of parameter validation
 		
 		$this->_node =& $node;
@@ -176,7 +176,7 @@ class HarmoniQualifier extends Qualifier {
 	 */
 	function isChildOf(& $parentId) {
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("Id");
+		$extendsRule =& ExtendsValidatorRule::getRule("Id");
 		ArgumentValidator::validate($parentId, $extendsRule, true);
 		// ** end of parameter validation
 

@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ArrayValidatorRuleWithRu
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ArrayValidatorRule.class.php,v 1.3 2005/03/29 18:04:57 adamfranco Exp $
+ * @version $Id: ArrayValidatorRule.class.php,v 1.4 2005/03/29 19:44:47 adamfranco Exp $
  */
 class ArrayValidatorRule
 	extends ArrayValidatorRuleWithRule
@@ -22,7 +22,7 @@ class ArrayValidatorRule
 	 * @return void 
 	 **/
 	function ArrayValidatorRule() {
-		$this->_rule = & new AlwaysTrueValidatorRule;
+		$this->_rule = & AlwaysTrueValidatorRule::getRule();
 	}
 	
 	/**

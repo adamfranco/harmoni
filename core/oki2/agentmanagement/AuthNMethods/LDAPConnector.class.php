@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.3 2005/03/04 23:49:47 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.4 2005/03/29 19:44:23 adamfranco Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.3 2005/03/04 23:49:47 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.4 2005/03/29 19:44:23 adamfranco Exp $
  */
 class LDAPConnector {
 		
@@ -54,23 +54,23 @@ class LDAPConnector {
 		// Validate the configuration options we use:
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('LDAPHost'),  
-			new FieldRequiredValidatorRule);
+			FieldRequiredValidatorRule::getRule());
 			
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('LDAPPort'),  
-			new OptionalRule(new NumericValidatorRule));
+			OptionalRule::getRule(NumericValidatorRule::getRule()));
 			
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('baseDN'), 
-			new FieldRequiredValidatorRule);
+			FieldRequiredValidatorRule::getRule());
 		
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('bindDN'), 
-			new OptionalRule(new StringValidatorRule));
+			OptionalRule::getRule(StringValidatorRule::getRule()));
 			
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('bindDNPassword'),  
-			new OptionalRule(new StringValidatorRule));
+			OptionalRule::getRule(StringValidatorRule::getRule()));
 	}
 	
 	/**

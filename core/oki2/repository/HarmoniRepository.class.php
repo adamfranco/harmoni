@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.19 2005/03/25 18:34:26 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.20 2005/03/29 19:44:27 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -339,7 +339,7 @@ class HarmoniRepository
 	 * @access public
 	 */
 	function deleteAsset ( &$assetId ) { 
-		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
 		// Get the asset
 		$asset =& $this->getAsset($assetId);
@@ -460,7 +460,7 @@ class HarmoniRepository
 	 * @access public
 	 */
 	function &getAssetsByType ( &$assetType ) { 
-		ArgumentValidator::validate($assetType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($assetType, ExtendsValidatorRule::getRule("Type"));
 		$assets = array();
 		$allAssets =& $this->getAssets();
 		while ($allAssets->hasNext()) {
@@ -898,8 +898,8 @@ class HarmoniRepository
 	 * @access public
 	 */
 	function &getAssetByDate ( &$assetId, $date ) { 
-		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($date, new ExtendsValidatorRule("DateTime"));
+		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($date, ExtendsValidatorRule::getRule("DateTime"));
 		
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
 		
@@ -932,7 +932,7 @@ class HarmoniRepository
 	 * @access public
 	 */
 	function &getAssetDates ( &$assetId ) { 
-		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
 		$recordMgr =& Services::getService("RecordManager");
 		

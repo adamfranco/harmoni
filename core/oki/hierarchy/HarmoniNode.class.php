@@ -12,7 +12,7 @@ require_once(OKI."/hierarchy.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.26 2005/02/07 21:38:20 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.27 2005/03/29 19:44:18 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -58,12 +58,12 @@ class HarmoniNode
 		// This function should only be called by the HarmoniHierarchyClass and the
 		// Hierarchy Stores, so we can assume that they have validated the parameters 
 		// already. Adding the validation adds 1/3 to the load time of the hierarchy.
-/* 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id")); */
-/* 		ArgumentValidator::validate($hierarchyStore, new ExtendsValidatorRule("HierarchyStore")); */
+/* 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id")); */
+/* 		ArgumentValidator::validate($hierarchyStore, ExtendsValidatorRule::getRule("HierarchyStore")); */
 /* 		if ($type !== NULL) */
-/* 			ArgumentValidator::validate($type, new ExtendsValidatorRule("Type")); */
-/* 		ArgumentValidator::validate($displayName, new StringValidatorRule); */
-/* 		ArgumentValidator::validate($description, new StringValidatorRule); */
+/* 			ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type")); */
+/* 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule()); */
+/* 		ArgumentValidator::validate($description, StringValidatorRule::getRule()); */
 		
 		// set the private variables
 		$this->_id =& $id;
@@ -191,7 +191,7 @@ class HarmoniNode
 	 */
 	function updateDescription($description) {
 		// Check the arguments
-		ArgumentValidator::validate($description, new StringValidatorRule);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 				
 		// update and save
 		$this->_description = $description;
@@ -211,7 +211,7 @@ class HarmoniNode
 	 */
 	function updateDisplayName($displayName) {
 		// Check the arguments
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 		
 		// update and save
 		$this->_displayName = $displayName;
@@ -297,8 +297,8 @@ class HarmoniNode
 	 */
 	function changeParent(& $oldParentId, & $newParentId) { 
 		// Check the arguments
-		ArgumentValidator::validate($oldParentId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($newParentId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($oldParentId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($newParentId, ExtendsValidatorRule::getRule("Id"));
 		
 		// Verify the old parent if not a root node
 		if (!$this->isRoot()) {

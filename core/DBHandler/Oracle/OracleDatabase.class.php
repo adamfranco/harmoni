@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
 /**
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
- * @version $Id: OracleDatabase.class.php,v 1.6 2005/03/09 19:38:17 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.7 2005/03/29 19:44:08 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.oracle
  * @access public
@@ -90,7 +90,7 @@ class OracleDatabase extends DatabaseInterface {
 	 */
 	function OracleDatabase($dbHost, $dbName, $dbUser, $dbPass) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($dbHost, $stringRule, true);
 		ArgumentValidator::validate($dbName, $stringRule, true);
 		ArgumentValidator::validate($dbUser, $stringRule, true);
@@ -372,7 +372,7 @@ class OracleDatabase extends DatabaseInterface {
 	 */
 	function selectDatabase($database) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($database, $stringRule, true);
 		// ** end of parameter validation
 		

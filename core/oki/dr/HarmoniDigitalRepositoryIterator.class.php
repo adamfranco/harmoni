@@ -15,7 +15,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniDigitalRepositoryIterator.class.php,v 1.7 2005/02/04 15:59:05 adamfranco Exp $
+ * @version $Id: HarmoniDigitalRepositoryIterator.class.php,v 1.8 2005/03/29 19:44:17 adamfranco Exp $
  */
 class HarmoniDigitalRepositoryIterator
 	extends DigitalRepositoryIterator
@@ -38,7 +38,7 @@ class HarmoniDigitalRepositoryIterator
 	 */
 	function HarmoniDigitalRepositoryIterator (& $drArray) {
 		// make sure that we get an array of DigitalRepository objects
-		ArgumentValidator::validate($drArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("DigitalRepository")));
+		ArgumentValidator::validate($drArray, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("DigitalRepository")));
 		
 		// load the types into our private array
 		foreach ($drArray as $key => $val) {

@@ -13,7 +13,7 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseHierarchyStore.class.php,v 1.19 2005/01/19 22:28:09 adamfranco Exp $
+ * @version $Id: SQLDatabaseHierarchyStore.class.php,v 1.20 2005/03/29 19:44:18 adamfranco Exp $
  */
 
 
@@ -181,17 +181,17 @@ class SQLDatabaseHierarchyStore
 			$typeKeywordColumn = "keyword", $typeDescriptionColumn = "description") {
 			
 		// Check the arguments
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule);
-		ArgumentValidator::validate($hierarchyTableName, new StringValidatorRule);
-		ArgumentValidator::validate($hierarchyIdColumn, new StringValidatorRule);
-		ArgumentValidator::validate($hierarchyDisplayNameColumn, new StringValidatorRule);
-		ArgumentValidator::validate($hierarchyDescriptionColumn, new StringValidatorRule);
-		ArgumentValidator::validate($nodeTableName, new StringValidatorRule);
-		ArgumentValidator::validate($nodeHierarchyKeyColumn, new StringValidatorRule);
-		ArgumentValidator::validate($nodeIdColumn, new StringValidatorRule);
-		ArgumentValidator::validate($nodeParentKeyColumn, new StringValidatorRule);
-		ArgumentValidator::validate($nodeDisplayNameColumn, new StringValidatorRule);
-		ArgumentValidator::validate($nodeDescriptionColumn, new StringValidatorRule);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule());
+		ArgumentValidator::validate($hierarchyTableName, StringValidatorRule::getRule());
+		ArgumentValidator::validate($hierarchyIdColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($hierarchyDisplayNameColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($hierarchyDescriptionColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($nodeTableName, StringValidatorRule::getRule());
+		ArgumentValidator::validate($nodeHierarchyKeyColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($nodeIdColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($nodeParentKeyColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($nodeDisplayNameColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($nodeDescriptionColumn, StringValidatorRule::getRule());
 		
 		$this->_dbIndex = $dbIndex;
 		$this->_hierarchyTableName = $hierarchyTableName;
@@ -237,7 +237,7 @@ class SQLDatabaseHierarchyStore
 	 */
 	function setExists($exists) {
 		// Check the arguments
-		ArgumentValidator::validate($exists, new BooleanValidatorRule);
+		ArgumentValidator::validate($exists, BooleanValidatorRule::getRule());
 		
 		$this->_exists = $exists;
 	}
@@ -255,9 +255,9 @@ class SQLDatabaseHierarchyStore
 	 */
 	function load ($nodeId=0, $childrenOnly=FALSE) {
 		// Check the arguments
-		ArgumentValidator::validate($childrenOnly, new BooleanValidatorRule);
+		ArgumentValidator::validate($childrenOnly, BooleanValidatorRule::getRule());
 		if ($nodeId !== NULL)
-			ArgumentValidator::validate($nodeId, new NumericValidatorRule);
+			ArgumentValidator::validate($nodeId, NumericValidatorRule::getRule());
 		
 		$dbc =& Services::requireService("DBHandler");
 		$sharedManager =& Services::requireService("Shared");
@@ -395,7 +395,7 @@ class SQLDatabaseHierarchyStore
 	
 		if ($nodeId !== NULL) {
 			// Check the arguments
-			ArgumentValidator::validate($nodeId, new NumericValidatorRule);
+			ArgumentValidator::validate($nodeId, NumericValidatorRule::getRule());
 		}
 		
 //		printpre($this);
@@ -657,7 +657,7 @@ class SQLDatabaseHierarchyStore
 	 */
 	function setId(& $id) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"));
 		
 		$this->_id =& $id;
 	}
@@ -688,7 +688,7 @@ class SQLDatabaseHierarchyStore
 	 */
 	function updatedisplayName($displayName) {
 		// Check the arguments
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 				
 		// update and save
 		$this->_displayName = $displayName;
@@ -721,7 +721,7 @@ class SQLDatabaseHierarchyStore
 	 */
 	function updateDescription($description) {
 		// Check the arguments
-		ArgumentValidator::validate($description, new StringValidatorRule);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 				
 		// update and save
 		$this->_description = $description;
@@ -839,7 +839,7 @@ class SQLDatabaseHierarchyStore
     */
 	function &getData($id)	{
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
 		
 		// There is a chance that not all of the children have been loaded.
 		// For instance, two of four children could have been loaded, each of which
@@ -861,7 +861,7 @@ class SQLDatabaseHierarchyStore
     */
 	function setData($id, & $data) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
 		
 		// There is a chance that not all of the children have been loaded.
 		// For instance, two of four children could have been loaded, each of which
@@ -884,7 +884,7 @@ class SQLDatabaseHierarchyStore
     */
 	function flagChanged($id) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
 		
 		if (!in_array($id, $this->_changed) && !in_array($id, $this->_added) && !in_array($id, $this->_deleted))
 			$this->_changed[] = $id;
@@ -899,7 +899,7 @@ class SQLDatabaseHierarchyStore
     */
 	function getParentID($id) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
 		
 		// There is a chance that not all of the children have been loaded.
 		// For instance, two of four children could have been loaded, each of which
@@ -923,7 +923,7 @@ class SQLDatabaseHierarchyStore
     */
 	function depth($id) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
 		
 		// There is a chance that not all of the children have been loaded.
 		// For instance, two of four children could have been loaded, each of which
@@ -947,7 +947,7 @@ class SQLDatabaseHierarchyStore
     */
 	function isChildOf($id, $parentID) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
 		
 		// There is a chance that not all of the children have been loaded.
 		// For instance, two of four children could have been loaded, each of which
@@ -971,7 +971,7 @@ class SQLDatabaseHierarchyStore
     */
 	function hasChildren($id) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
 		
 		// There is a chance that not all of the children have been loaded.
 		// For instance, two of four children could have been loaded, each of which
@@ -1009,7 +1009,7 @@ class SQLDatabaseHierarchyStore
     */
 	function numChildren($id) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
 		
 		// There is a chance that not all of the children have been loaded.
 		// For instance, two of four children could have been loaded, each of which
@@ -1032,7 +1032,7 @@ class SQLDatabaseHierarchyStore
     */
 	function getChildren($id) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
 		
 		// There is a chance that not all of the children have been loaded.
 		// For instance, two of four children could have been loaded, each of which
@@ -1054,8 +1054,8 @@ class SQLDatabaseHierarchyStore
     */
 	function moveChildrenTo($parentID, $newParentID) {
 		// Check the arguments
-		ArgumentValidator::validate($parentID, new NumericValidatorRule);
-		ArgumentValidator::validate($newParentID, new NumericValidatorRule);
+		ArgumentValidator::validate($parentID, NumericValidatorRule::getRule());
+		ArgumentValidator::validate($newParentID, NumericValidatorRule::getRule());
 
 		// There is a chance that not all of the children have been loaded.
 		// For instance, two of four children could have been loaded, each of which
@@ -1085,8 +1085,8 @@ class SQLDatabaseHierarchyStore
 		throwError(new Error("This should be handled on the program level to preserve Id integrity", "Hierarchy", 1));
 		
 		// Check the arguments
-		ArgumentValidator::validate($parentID, new NumericValidatorRule);
-		ArgumentValidator::validate($newParentID, new NumericValidatorRule);
+		ArgumentValidator::validate($parentID, NumericValidatorRule::getRule());
+		ArgumentValidator::validate($newParentID, NumericValidatorRule::getRule());
 
 		// There is a chance that not all of the children have been loaded.
 		// For instance, two of four children could have been loaded, each of which
@@ -1117,7 +1117,7 @@ class SQLDatabaseHierarchyStore
     */
 	function prevSibling($id) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
 
 		return $this->_tree->prevSibling($id);
 	}
@@ -1144,8 +1144,8 @@ class SQLDatabaseHierarchyStore
     */
 	function moveTo($id, $parentID) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
-		ArgumentValidator::validate($parentID, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
+		ArgumentValidator::validate($parentID, NumericValidatorRule::getRule());
 
 		$this->_tree->moveTo($id, $parentID);
 		if (!in_array($id, $this->_changed))
@@ -1166,8 +1166,8 @@ class SQLDatabaseHierarchyStore
 		throwError(new Error("This should be handled on the program level to preserve Id integrity", "Hierarchy", 1));
 	
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
-		ArgumentValidator::validate($parentID, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
+		ArgumentValidator::validate($parentID, NumericValidatorRule::getRule());
 		
 		$existingChildIds = $this->_tree->getChildren($parentID);
 
@@ -1189,7 +1189,7 @@ class SQLDatabaseHierarchyStore
     */
 	function firstNode($parentID = 0) {
 		// Check the arguments
-		ArgumentValidator::validate($parentID, new NumericValidatorRule);
+		ArgumentValidator::validate($parentID, NumericValidatorRule::getRule());
 		
 		return $this->_tree->firstNode($parentID);
 	}
@@ -1203,7 +1203,7 @@ class SQLDatabaseHierarchyStore
     */
 	function lastNode($parentID = 0) {
 		// Check the arguments
-		ArgumentValidator::validate($parentID, new NumericValidatorRule);
+		ArgumentValidator::validate($parentID, NumericValidatorRule::getRule());
 		
 		return $this->_tree->lastNode($parentID);
 	}
@@ -1217,7 +1217,7 @@ class SQLDatabaseHierarchyStore
     */
 	function getNodeCount($id = 0) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
 		
 		return $this->_tree->getNodeCount($id);
 	}
@@ -1230,7 +1230,7 @@ class SQLDatabaseHierarchyStore
     */
     function getFlatList($id = 0) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
 		
 		return $this->_tree-> getFlatList($id);
 	}
@@ -1275,7 +1275,7 @@ class SQLDatabaseHierarchyStore
     */	
 	function nodeExists($id) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($id, NumericValidatorRule::getRule());
 		
 		return $this->_tree->nodeExists($id);
 	}
@@ -1294,9 +1294,9 @@ class SQLDatabaseHierarchyStore
 	*/
 	function depthFirstEnumeration($currentId, $levels = NULL) {
 		// Check the arguments
-		ArgumentValidator::validate($currentId, new NumericValidatorRule);
+		ArgumentValidator::validate($currentId, NumericValidatorRule::getRule());
 		if ($levels != NULL)
-			ArgumentValidator::validate($levels, new NumericValidatorRule);
+			ArgumentValidator::validate($levels, NumericValidatorRule::getRule());
 		
 		return $this->_tree->depthFirstEnumeration($currentId, $levels);
 	}

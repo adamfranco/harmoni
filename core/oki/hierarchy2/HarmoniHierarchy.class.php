@@ -20,7 +20,7 @@ require_once(HARMONI.'/oki/hierarchy2/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.14 2005/02/07 21:38:21 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.15 2005/03/29 19:44:19 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -66,10 +66,10 @@ class HarmoniHierarchy extends Hierarchy {
 	 */
 	function HarmoniHierarchy(& $id, $displayName, $description, & $cache) {
 		// ** parameter validation
- 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
- 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
- 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
-		ArgumentValidator::validate($cache, new ExtendsValidatorRule("HierarchyCache"), true);
+ 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
+ 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
+ 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($cache, ExtendsValidatorRule::getRule("HierarchyCache"), true);
 		// ** end of parameter validation
 	
 		$this->_id =& $id;
@@ -132,7 +132,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 */
 	function updateDescription($description) {
 		// ** parameter validation
-		ArgumentValidator::validate($description, new StringValidatorRule(), true);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		if ($this->_description == $description)
@@ -176,7 +176,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 */
 	function updateDisplayName($displayName) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		// ** end of parameter validation
 		
@@ -229,9 +229,9 @@ class HarmoniHierarchy extends Hierarchy {
 	 */
 	function &createRootNode(& $nodeId, & $type, $displayName, $description) {
 		// ** parameter validation
-		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
-		$stringRule =& new StringValidatorRule();
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
+		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
+		$stringRule =& StringValidatorRule::getRule();
+		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
@@ -264,10 +264,10 @@ class HarmoniHierarchy extends Hierarchy {
 	 */
 	function &createNode(& $nodeId, & $parentId, & $type, $displayName, $description) {
 		// ** parameter validation
-		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($parentId, new ExtendsValidatorRule("Id"), true);
-		$stringRule =& new StringValidatorRule();
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
+		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($parentId, ExtendsValidatorRule::getRule("Id"), true);
+		$stringRule =& StringValidatorRule::getRule();
+		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
@@ -290,7 +290,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 */
 	function deleteNode(& $nodeId) {
 		// ** parameter validation
-		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
 		$this->_cache->deleteNode($nodeId->getIdString());
@@ -417,7 +417,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 */
 	function &getNode(& $nodeId) {
 		// ** parameter validation
-		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
 		$idValue = $nodeId->getIdString();
@@ -537,10 +537,10 @@ class HarmoniHierarchy extends Hierarchy {
 	 */
 	function &traverse(& $startId, $mode, $direction, $levels) {
 		// Check the arguments
-		ArgumentValidator::validate($startId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($mode, new IntegerValidatorRule);
-		ArgumentValidator::validate($direction, new IntegerValidatorRule);
-		ArgumentValidator::validate($levels, new IntegerValidatorRule);
+		ArgumentValidator::validate($startId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($mode, IntegerValidatorRule::getRule());
+		ArgumentValidator::validate($direction, IntegerValidatorRule::getRule());
+		ArgumentValidator::validate($levels, IntegerValidatorRule::getRule());
 
 		if ($mode != TRAVERSE_MODE_DEPTH_FIRST) {
 			$str = "Only depth-first traversal is supported in the current implementation.";

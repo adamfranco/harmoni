@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.12 2005/03/28 23:32:37 nstamato Exp $
+ * @version $Id: GUIManager.class.php,v 1.13 2005/03/29 19:44:09 adamfranco Exp $
  */
 class GUIManager extends GUIManagerInterface {
 
@@ -47,8 +47,8 @@ class GUIManager extends GUIManagerInterface {
 	 */
 	function GUIManager($dbIndex, $guiDB) {
 		// ** parameter validation
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($guiDB, new StringValidatorRule(), true);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
+		ArgumentValidator::validate($guiDB, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
@@ -264,7 +264,7 @@ class GUIManager extends GUIManagerInterface {
 	 **/
 	function &saveThemeState(& $theme) {
 		// ** parameter validation
-		ArgumentValidator::validate($theme, new ExtendsValidatorRule("ThemeInterface"), true);
+		ArgumentValidator::validate($theme, ExtendsValidatorRule::getRule("ThemeInterface"), true);
 		// ** end of parameter validation
 
 		$exportData = $theme->exportAllRegisteredSPs();
@@ -318,8 +318,8 @@ class GUIManager extends GUIManagerInterface {
 	 **/
 	function replaceThemeState(& $stateId, & $theme) {
 		// ** parameter validation
-		ArgumentValidator::validate($stateId, new ExtendsValidatorRule("HarmoniId"), true);
-		ArgumentValidator::validate($theme, new ExtendsValidatorRule("ThemeInterface"), true);
+		ArgumentValidator::validate($stateId, ExtendsValidatorRule::getRule("HarmoniId"), true);
+		ArgumentValidator::validate($theme, ExtendsValidatorRule::getRule("ThemeInterface"), true);
 		// ** end of parameter validation
 		
 		$exportData = $theme->exportAllRegisteredSPs();
@@ -374,8 +374,8 @@ class GUIManager extends GUIManagerInterface {
 	 **/
 	function loadThemeState(& $stateId, & $theme) {
 		// ** parameter validation
-		ArgumentValidator::validate($theme, new ExtendsValidatorRule("ThemeInterface"), true);
-		ArgumentValidator::validate($stateId, new ExtendsValidatorRule("HarmoniId"), true);
+		ArgumentValidator::validate($theme, ExtendsValidatorRule::getRule("ThemeInterface"), true);
+		ArgumentValidator::validate($stateId, ExtendsValidatorRule::getRule("HarmoniId"), true);
 		// ** end of parameter validation
 		
 		// get the theme state from the database
@@ -423,7 +423,7 @@ class GUIManager extends GUIManagerInterface {
 	 **/
 	function deleteThemeState(& $id) {
 		// ** parameter validation
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("HarmoniId"), true);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("HarmoniId"), true);
 		// ** end of parameter validation
 		
 		$db = $this->_guiDB.".";

@@ -12,7 +12,7 @@ require_once(HARMONI."/oki/dr/HarmoniInfoFieldIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniInfoRecord.class.php,v 1.18 2005/01/19 23:23:05 adamfranco Exp $ */
+ * @version $Id: HarmoniInfoRecord.class.php,v 1.19 2005/03/29 19:44:17 adamfranco Exp $ */
 class HarmoniInfoRecord extends InfoRecord
 //	extends java.io.Serializable
 {
@@ -48,7 +48,7 @@ class HarmoniInfoRecord extends InfoRecord
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 */
 	function &createInfoField(& $infoPartId, & $value) {
-		ArgumentValidator::validate($value, new ExtendsValidatorRule("Primitive"));
+		ArgumentValidator::validate($value, ExtendsValidatorRule::getRule("Primitive"));
 		$fieldID = $infoPartId->getIdString();
 		
 		// we need to find the label associated with this ID

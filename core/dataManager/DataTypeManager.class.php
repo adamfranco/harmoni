@@ -16,7 +16,7 @@ require_once(HARMONI."dataManager/storablePrimitives/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataTypeManager.class.php,v 1.7 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: DataTypeManager.class.php,v 1.8 2005/03/29 19:44:12 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -153,7 +153,7 @@ class DataTypeManager
 			return false;
 		}
 		
-		$rule =& new ExtendsValidatorRule($this->_registeredTypes[strtolower($type)]["primitive"]);
+		$rule =& ExtendsValidatorRule::getRule($this->_registeredTypes[strtolower($type)]["primitive"]);
 		return $rule->check($object);
 	}
 	

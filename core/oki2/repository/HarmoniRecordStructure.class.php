@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.13 2005/02/16 22:47:02 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.14 2005/03/29 19:44:27 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -332,12 +332,12 @@ class HarmoniRecordStructure
 	 * @return object PartStructure The newly created PartStructure.
 	 */
 	function createPartStructure($displayName, $description, & $partType, $isMandatory, $isRepeatable, $isPopulatedByRepository) {
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
-		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate($partType, new ExtendsValidatorRule("Type"));
-		ArgumentValidator::validate($isMandatory, new BooleanValidatorRule);
-		ArgumentValidator::validate($isRepeatable, new BooleanValidatorRule);
-		ArgumentValidator::validate($isPopulatedByRepository, new BooleanValidatorRule);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
+		ArgumentValidator::validate($description, StringValidatorRule::getRule());
+		ArgumentValidator::validate($partType, ExtendsValidatorRule::getRule("Type"));
+		ArgumentValidator::validate($isMandatory, BooleanValidatorRule::getRule());
+		ArgumentValidator::validate($isRepeatable, BooleanValidatorRule::getRule());
+		ArgumentValidator::validate($isPopulatedByRepository, BooleanValidatorRule::getRule());
 				
 		$fieldDef =& new SchemaField($displayName, $partType->getKeyword(), $description, $isRepeatable, $isMandatory);
 		$this->_schema->addField($fieldDef);

@@ -12,7 +12,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
   * @copyright Copyright &copy; 2005, Middlebury College
   * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
   *
-  * @version $Id: HarmoniTypeIterator.class.php,v 1.11 2005/02/07 21:38:22 adamfranco Exp $
+  * @version $Id: HarmoniTypeIterator.class.php,v 1.12 2005/03/29 19:44:21 adamfranco Exp $
   */
 class HarmoniTypeIterator
 	extends TypeIterator
@@ -35,7 +35,7 @@ class HarmoniTypeIterator
 	 */
 	function HarmoniTypeIterator (& $typeArray) {
 		// make sure that we get an array of Type objects
-		ArgumentValidator::validate($typeArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
+		ArgumentValidator::validate($typeArray, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("Type")));
 		
 		// load the types into our private array
 		foreach ($typeArray as $key => $val) {

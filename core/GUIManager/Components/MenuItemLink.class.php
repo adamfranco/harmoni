@@ -15,7 +15,7 @@ require_once(HARMONI."GUIManager/Components/MenuItem.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuItemLink.class.php,v 1.7 2005/03/10 03:18:18 dobomode Exp $
+ * @version $Id: MenuItemLink.class.php,v 1.8 2005/03/29 19:44:10 adamfranco Exp $
  */
 class MenuItemLink extends Component /* implements MenuItemInterface */ {
 
@@ -88,11 +88,11 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 **/
 	function MenuItemLink($displayName, $url, $selected, $index, $target = null, $accessKey = null, $toolTip = null) {
 		// ** parameter validation
-		$rule =& new StringValidatorRule();
-		$optionalRule =& new OptionalRule($rule);
+		$rule =& StringValidatorRule::getRule();
+		$optionalRule =& OptionalRule::getRule($rule);
 		ArgumentValidator::validate($displayName, $rule, true);
 		ArgumentValidator::validate($url, $rule, true);
-		ArgumentValidator::validate($selected, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($selected, BooleanValidatorRule::getRule(), true);
 		ArgumentValidator::validate($target, $optionalRule, true);
 		ArgumentValidator::validate($accessKey, $optionalRule, true);
 		ArgumentValidator::validate($toolTip, $optionalRule, true);
@@ -161,7 +161,7 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 **/
 	function setURL($url) {
 		// ** parameter validation
-		ArgumentValidator::validate($url, new StringValidatorRule(), true);
+		ArgumentValidator::validate($url, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
 		$this->_url = $url;
@@ -183,7 +183,7 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 **/
 	function setDisplayName($displayName) {
 		// ** parameter validation
-		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
 		$this->_displayName = $displayName;
@@ -207,7 +207,7 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 **/
 	function setSelected($selected) {
 		// ** parameter validation
-		ArgumentValidator::validate($selected, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($selected, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
 		$this->_selected = $selected;
@@ -232,7 +232,7 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 **/
 	function setTarget($target) {
 		// ** parameter validation
-		ArgumentValidator::validate($target, new StringValidatorRule(), true);
+		ArgumentValidator::validate($target, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
 		$this->_target = $target;
@@ -254,7 +254,7 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 **/
 	function setAccessKey($accessKey) {
 		// ** parameter validation
-		ArgumentValidator::validate($accessKey, new StringValidatorRule(), true);
+		ArgumentValidator::validate($accessKey, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
 		$this->_accessKey = $accessKey;
@@ -276,7 +276,7 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 **/
 	function setToolTip($toolTip) {
 		// ** parameter validation
-		ArgumentValidator::validate($toolTip, new StringValidatorRule(), true);
+		ArgumentValidator::validate($toolTip, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
 		$this->_toolTip = $toolTip;
@@ -293,7 +293,7 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 **/
 	function addAttribute($attribute, $value) {
 		// ** parameter validation
-		$rule =& new StringValidatorRule();
+		$rule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($attribute, $rule, true);
 		ArgumentValidator::validate($value, $rule, true);
 		// ** end of parameter validation

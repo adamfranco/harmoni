@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.12 2005/02/15 23:29:43 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.13 2005/03/29 19:44:24 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -64,8 +64,8 @@ class AuthorizationCache {
 	 */
 	function AuthorizationCache($dbIndex, $authzDB) {
 		// ** argument validation **
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($authzDB, new StringValidatorRule(), true);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
+		ArgumentValidator::validate($authzDB, StringValidatorRule::getRule(), true);
 		// ** end of argument validation **
 
 		$this->_dbIndex = $dbIndex;
@@ -89,11 +89,11 @@ class AuthorizationCache {
 	 **/
 	function &createAuthorization(& $agentId, & $functionId, & $qualifierId, $effectiveDate, $expirationDate) {
 		// ** parameter validation
-		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($effectiveDate, new OptionalRule(new IntegerValidatorRule), true);
-		ArgumentValidator::validate($expirationDate, new OptionalRule(new IntegerValidatorRule), true);
+		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($effectiveDate, OptionalRule::getRule(IntegerValidatorRule::getRule()), true);
+		ArgumentValidator::validate($expirationDate, OptionalRule::getRule(IntegerValidatorRule::getRule()), true);
 		// ** end of parameter validation
 		
 		// create the authorization object
@@ -163,11 +163,11 @@ class AuthorizationCache {
 	 */
 	function &createFunction(& $functionId, $displayName, $description, & $functionType, & $qualifierHierarchyId) {
 		// ** parameter validation
-		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
-		ArgumentValidator::validate($description, new StringValidatorRule(), true);
-		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("Type"), true);
-		ArgumentValidator::validate($qualifierHierarchyId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
+		ArgumentValidator::validate($qualifierHierarchyId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
 		// create the Function object
@@ -264,11 +264,11 @@ class AuthorizationCache {
 	 */
 	function &createRootQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $qualifierHierarchyId) {
 		// ** parameter validation
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
-		ArgumentValidator::validate($description, new StringValidatorRule(), true);
-		ArgumentValidator::validate($qualifierType, new ExtendsValidatorRule("Type"), true);
-		ArgumentValidator::validate($qualifierHierarchyId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($qualifierType, ExtendsValidatorRule::getRule("Type"), true);
+		ArgumentValidator::validate($qualifierHierarchyId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 
 		// create the node for the qualifier		
@@ -298,11 +298,11 @@ class AuthorizationCache {
 	 */
 	function &createQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $parentId) {
 		// ** parameter validation
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
-		ArgumentValidator::validate($description, new StringValidatorRule(), true);
-		ArgumentValidator::validate($qualifierType, new ExtendsValidatorRule("Type"), true);
-		ArgumentValidator::validate($parentId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($qualifierType, ExtendsValidatorRule::getRule("Type"), true);
+		ArgumentValidator::validate($parentId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 
 		// create the node for the qualifier		
@@ -373,7 +373,7 @@ class AuthorizationCache {
 	 */
 	function &getFunctions(& $functionType) {
 		// ** parameter validation
-		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("Type"), true);
+		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
 		// ** end of parameter validation
 		
 		$dbHandler =& Services::requireService("DBHandler");
@@ -442,7 +442,7 @@ class AuthorizationCache {
 	 **/
 	function &getFunction($idValue) {
 		// ** parameter validation
-		ArgumentValidator::validate($idValue, new StringValidatorRule(), true);
+		ArgumentValidator::validate($idValue, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		if (isset($this->_functions[$idValue]))
@@ -500,7 +500,7 @@ class AuthorizationCache {
 	 **/
 	function &getQualifier(& $qualifierId) {
 		// ** parameter validation
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
 		$idValue = $qualifierId->getIdString();
@@ -560,7 +560,7 @@ class AuthorizationCache {
 	 **/
 	function &getQualifierDescendants(& $qualifierId) {
 		// ** parameter validation
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
 		$idValue = $qualifierId->getIdString();
@@ -603,7 +603,7 @@ class AuthorizationCache {
 	 **/
 	function deleteAuthorization(& $authorization) {
 		// ** parameter validation
-		ArgumentValidator::validate($authorization, new ExtendsValidatorRule("Authorization"), true);
+		ArgumentValidator::validate($authorization, ExtendsValidatorRule::getRule("Authorization"), true);
 		// ** end of parameter validation
 		
 //		echo "<pre>\n";
@@ -641,7 +641,7 @@ class AuthorizationCache {
 	 **/
 	function deleteQualifier(& $qualifierId) {
 		// ** parameter validation
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 
 		// get the id
@@ -668,7 +668,7 @@ class AuthorizationCache {
 	 **/
 	function deleteFunction(& $functionId) {
 		// ** parameter validation
-		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 
 		// get the id
@@ -711,14 +711,14 @@ class AuthorizationCache {
 	 **/
 	function &getAZs($aId, $fId, $qId, $fType, $isExplicit, $isActiveNow, $groupIds = array()) {
 		// ** parameter validation
-		$rule =& new StringValidatorRule();
-		ArgumentValidator::validate($groupIds, new ArrayValidatorRuleWithRule(new OptionalRule($rule)), true);
-		ArgumentValidator::validate($aId, new OptionalRule($rule), true);
-		ArgumentValidator::validate($fId, new OptionalRule($rule), true);
+		$rule =& StringValidatorRule::getRule();
+		ArgumentValidator::validate($groupIds, ArrayValidatorRuleWithRule::getRule(OptionalRule::getRule($rule)), true);
+		ArgumentValidator::validate($aId, OptionalRule::getRule($rule), true);
+		ArgumentValidator::validate($fId, OptionalRule::getRule($rule), true);
 		ArgumentValidator::validate($qId, $rule, true);
-		ArgumentValidator::validate($fType, new OptionalRule(new ExtendsValidatorRule("Type")), true);
-		ArgumentValidator::validate($isExplicit, new BooleanValidatorRule(), true);
-		ArgumentValidator::validate($isActiveNow,new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($fType, OptionalRule::getRule(ExtendsValidatorRule::getRule("Type")), true);
+		ArgumentValidator::validate($isExplicit, BooleanValidatorRule::getRule(), true);
+		ArgumentValidator::validate($isActiveNow,BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$idManager =& Services::requireService("Id");

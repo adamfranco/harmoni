@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMapping.class.php,v 1.2 2005/03/14 22:20:39 adamfranco Exp $
+ * @version $Id: AgentTokenMapping.class.php,v 1.3 2005/03/29 19:44:23 adamfranco Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMapping.class.php,v 1.2 2005/03/14 22:20:39 adamfranco Exp $
+ * @version $Id: AgentTokenMapping.class.php,v 1.3 2005/03/29 19:44:23 adamfranco Exp $
  */
 class AgentTokenMapping {
 		
@@ -32,9 +32,9 @@ class AgentTokenMapping {
 	 * @since 3/1/05
 	 */
 	function AgentTokenMapping ( &$authenticationType, &$agentId, &$authNTokens ) {
-		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
-		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
+		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
 		$this->_tokens =& $authNTokens;
 		$this->_id =& $agentId;

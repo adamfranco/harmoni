@@ -11,7 +11,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tree.class.php,v 1.10 2005/02/07 21:38:21 adamfranco Exp $
+ * @version $Id: Tree.class.php,v 1.11 2005/03/29 19:44:20 adamfranco Exp $
  */
 class Tree extends TreeInterface {
 
@@ -55,8 +55,8 @@ class Tree extends TreeInterface {
 	 */
 	function addNode(& $node, & $parent) {
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("TreeNode");
-		$optionalRule =& new OptionalRule($extendsRule);
+		$extendsRule =& ExtendsValidatorRule::getRule("TreeNode");
+		$optionalRule =& OptionalRule::getRule($extendsRule);
 		ArgumentValidator::validate($node, $extendsRule, true);
 		ArgumentValidator::validate($parent, $optionalRule, true);
 		// ** end of parameter validation
@@ -93,7 +93,7 @@ class Tree extends TreeInterface {
 	 **/
 	function deleteNode(& $node) {
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("TreeNode");
+		$extendsRule =& ExtendsValidatorRule::getRule("TreeNode");
 		ArgumentValidator::validate($node, $extendsRule, true);
 		// ** end of parameter validation
 		
@@ -128,7 +128,7 @@ class Tree extends TreeInterface {
 	 */
 	function &getNode($id) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($id, $stringRule, true);
 		// ** end of parameter validation
 	
@@ -144,7 +144,7 @@ class Tree extends TreeInterface {
 	 */
 	function nodeExists($id) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($id, $stringRule, true);
 		// ** end of parameter validation
 	
@@ -182,10 +182,10 @@ class Tree extends TreeInterface {
 	 */
 	function &traverse(& $node, $down, $levels) {
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("TreeNodeInterface");
+		$extendsRule =& ExtendsValidatorRule::getRule("TreeNodeInterface");
 		ArgumentValidator::validate($node, $extendsRule, true);
-		ArgumentValidator::validate($down, new BooleanValidatorRule(), true);
-		ArgumentValidator::validate($levels, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($down, BooleanValidatorRule::getRule(), true);
+		ArgumentValidator::validate($levels, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		if (!$this->nodeExists($node->getId())) {

@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaField.class.php,v 1.7 2005/01/28 19:34:44 adamfranco Exp $
+ * @version $Id: SchemaField.class.php,v 1.8 2005/03/29 19:44:14 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaField {
@@ -37,11 +37,11 @@ class SchemaField {
 	 * @param optional boolean $active flag specifying if this field is to be used or no.
 	 */
 	function SchemaField( $label, $type, $description="", $mult=false, $required=false, $active=true ) {
-		ArgumentValidator::validate($mult, new BooleanValidatorRule());
-		ArgumentValidator::validate($type, new StringValidatorRule());
-		ArgumentValidator::validate($label, new StringValidatorRule());
-		ArgumentValidator::validate($required, new BooleanValidatorRule());
-		ArgumentValidator::validate($active, new BooleanValidatorRule());
+		ArgumentValidator::validate($mult, BooleanValidatorRule::getRule());
+		ArgumentValidator::validate($type, StringValidatorRule::getRule());
+		ArgumentValidator::validate($label, StringValidatorRule::getRule());
+		ArgumentValidator::validate($required, BooleanValidatorRule::getRule());
+		ArgumentValidator::validate($active, BooleanValidatorRule::getRule());
 		$this->_myID = null;
 		$this->_associated = false;
 		$this->_mult = $mult;
@@ -123,7 +123,7 @@ class SchemaField {
 	 * @access public
 	 */
 	function setMultFlag( $mult ) {
-		ArgumentValidator::validate($mult, new BooleanValidatorRule());
+		ArgumentValidator::validate($mult, BooleanValidatorRule::getRule());
 		$this->_mult = $mult;
 	}
 	

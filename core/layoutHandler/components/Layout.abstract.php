@@ -18,7 +18,7 @@ define ("RIGHT", "right");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Layout.abstract.php,v 1.13 2005/01/19 21:10:01 adamfranco Exp $
+ * @version $Id: Layout.abstract.php,v 1.14 2005/03/29 19:44:14 adamfranco Exp $
  * @abstract
  */
 class Layout extends LayoutInterface {
@@ -79,8 +79,8 @@ class Layout extends LayoutInterface {
 	 * @return void
 	 **/
 	function addComponentRequirement($index, $type) {
-		ArgumentValidator::validate($index, new IntegerValidatorRule);
-		ArgumentValidator::validate($type, new StringValidatorRule);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule());
+		ArgumentValidator::validate($type, StringValidatorRule::getRule());
 		
 		if (isset($this->_registeredComponents[$index])) {
 			throwError(new Error("Layout::addComponent($index) - A component for index $index is already defined!","layout",true));
@@ -101,9 +101,9 @@ class Layout extends LayoutInterface {
 	 * @return void
 	 **/
 	function addComponent( & $object, $valign = TOP, $halign = LEFT ) {
-		ArgumentValidator::validate($object, new ExtendsValidatorRule('VisualComponent'));	
-		ArgumentValidator::validate($valign, new StringValidatorRule);
-		ArgumentValidator::validate($halign, new StringValidatorRule);
+		ArgumentValidator::validate($object, ExtendsValidatorRule::getRule('VisualComponent'));	
+		ArgumentValidator::validate($valign, StringValidatorRule::getRule());
+		ArgumentValidator::validate($halign, StringValidatorRule::getRule());
 		
 		// get the next open index;
 		$this->_setComponents[] = NULL;
@@ -112,7 +112,7 @@ class Layout extends LayoutInterface {
 		
 		// first make sure they handed us the correct object type
 		if ($this->_registeredComponents[$index]) {
-			$rule = new ExtendsValidatorRule($this->_registeredComponents[$index]);
+			$rule = ExtendsValidatorRule::getRule($this->_registeredComponents[$index]);
 			if (!$rule->check($object)) {
 				unset ($this->_setComponents[$index]);
 				throwError(new Error(get_class($this)."::setComponent($index) - Could not set component for index $index because it is not of the required type: ".$this->_registeredComponents[$index],"layout",true));
@@ -144,17 +144,17 @@ class Layout extends LayoutInterface {
 	 * @return void
 	 **/
 	function setComponent($index, &$object, $valign=TOP, $halign=LEFT) {
-		ArgumentValidator::validate($index, new IntegerValidatorRule);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule());
 		
-// 		ArgumentValidator::validate($themeWidgetType, new StringValidatorRule);
-// 		ArgumentValidator::validate($themeWidgetIndex, new IntegerValidatorRule);
+// 		ArgumentValidator::validate($themeWidgetType, StringValidatorRule::getRule());
+// 		ArgumentValidator::validate($themeWidgetIndex, IntegerValidatorRule::getRule());
 		
-		ArgumentValidator::validate($valign, new StringValidatorRule);
-		ArgumentValidator::validate($halign, new StringValidatorRule);
+		ArgumentValidator::validate($valign, StringValidatorRule::getRule());
+		ArgumentValidator::validate($halign, StringValidatorRule::getRule());
 		
 		// first make sure they handed us the correct object type
 		if ($this->_registeredComponents[$index]) {
-			$rule = new ExtendsValidatorRule($this->_registeredComponents[$index]);
+			$rule = ExtendsValidatorRule::getRule($this->_registeredComponents[$index]);
 			if (!$rule->check($object)) {
 				throwError(new Error(get_class($this)."::setComponent($index) - Could not set component for index $index because it is not of the required type: ".$this->_registeredComponents[$index],"layout",true));
 				return false;
@@ -224,7 +224,7 @@ class Layout extends LayoutInterface {
 	 * @return void
 	 */
 	function setThemeWidgetType( $type ) {
-		ArgumentValidator::validate($type, new StringValidatorRule);
+		ArgumentValidator::validate($type, StringValidatorRule::getRule());
 		
 		$this->_themeWidgetType = $type;
 	}
@@ -243,7 +243,7 @@ class Layout extends LayoutInterface {
 	 * @return void
 	 */
 	function setThemeWidgetIndex( $index ) {
-		ArgumentValidator::validate($index, new IntegerValidatorRule);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule());
 		
 		$this->_themeWidgetIndex = $index;
 	}
@@ -262,7 +262,7 @@ class Layout extends LayoutInterface {
 	 * @return void
 	 */
 	function setVerticalAlignment ( $valign ) {
-		ArgumentValidator::validate($valign, new StringValidatorRule);
+		ArgumentValidator::validate($valign, StringValidatorRule::getRule());
 		if ($valign != TOP && $valign != MIDDLE && $valign != BOTTOM)
  			throwError(new Error("Could not set vertical alignment, parameter out of range.","Layout",true));
  		
@@ -283,7 +283,7 @@ class Layout extends LayoutInterface {
 	 * @return void
 	 */
 	function setHorizontalAlignment ( $halign ) {
-		ArgumentValidator::validate($halign, new StringValidatorRule);
+		ArgumentValidator::validate($halign, StringValidatorRule::getRule());
 		if ($halign != LEFT && $halign != CENTER && $halign != RIGHT)
  			throwError(new Error("Could not set horizontal alignment, parameter out of range.","Layout",true));
 		
@@ -349,7 +349,7 @@ class Layout extends LayoutInterface {
 	 * @return void
 	 */
 	function setPreSurroundingText( $text ) {
-		ArgumentValidator::validate($text, new StringValidatorRule);
+		ArgumentValidator::validate($text, StringValidatorRule::getRule());
 		$this->_preSurroundingText = $text;
 	}
 
@@ -371,7 +371,7 @@ class Layout extends LayoutInterface {
 	 * @return void
 	 */
 	function setPostSurroundingText( $text ) {
-		ArgumentValidator::validate($text, new StringValidatorRule);
+		ArgumentValidator::validate($text, StringValidatorRule::getRule());
 		$this->_postSurroundingText = $text;
 	}
 	

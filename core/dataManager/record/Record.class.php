@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.19 2005/01/28 19:34:32 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.20 2005/03/29 19:44:13 adamfranco Exp $
 */
 class Record {
 	
@@ -52,8 +52,8 @@ class Record {
 	var $_pruneConstraint;
 	
 	function Record(&$schema, $verControl=false) {
-		ArgumentValidator::validate($verControl, new BooleanValidatorRule());
-		ArgumentValidator::validate($schema, new ExtendsValidatorRule("Schema"));
+		ArgumentValidator::validate($verControl, BooleanValidatorRule::getRule());
+		ArgumentValidator::validate($schema, ExtendsValidatorRule::getRule("Schema"));
 
 		$this->_schema =& $schema;
 		$this->_fields = array();
@@ -583,7 +583,7 @@ class Record {
 	* @return void
 	*/
 	function setActiveFlag($bool) {
-		ArgumentValidator::validate($bool, new BooleanValidatorRule());
+		ArgumentValidator::validate($bool, BooleanValidatorRule::getRule());
 		$this->_active = $bool;
 	}
 	

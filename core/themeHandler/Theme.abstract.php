@@ -22,7 +22,7 @@ define ("BLANK_WIDGET", "blank");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.abstract.php,v 1.17 2005/02/04 15:59:12 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.18 2005/03/29 19:44:30 adamfranco Exp $
  */
 class Theme
 	extends ThemeInterface {
@@ -199,7 +199,7 @@ class Theme
 	 * @return void
 	 **/
 	function setId ( & $id ) {
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"));
 		$this->_id =& $id;
 	}
 
@@ -210,7 +210,7 @@ class Theme
 	 * @return void
 	 **/
 	function setPageTitle ( $title ) {
-		ArgumentValidator::validate($title, new StringValidatorRule);
+		ArgumentValidator::validate($title, StringValidatorRule::getRule());
 		
 		$this->_pageTitle = $title;
 	}
@@ -222,7 +222,7 @@ class Theme
 	 * @return void
 	 **/
 	function addHeadContent ( $contentString ) {
-		ArgumentValidator::validate($contentString, new StringValidatorRule);
+		ArgumentValidator::validate($contentString, StringValidatorRule::getRule());
 		
 		$this->_headContent .= "\n".$contentString;
 	}
@@ -234,7 +234,7 @@ class Theme
 	 * @return void
 	 **/
 	function addHeadStyle ( $styleString ) {
-		ArgumentValidator::validate($styleString, new StringValidatorRule);
+		ArgumentValidator::validate($styleString, StringValidatorRule::getRule());
 		
 		$this->_headStyles .= "\n".$styleString;
 	}
@@ -246,7 +246,7 @@ class Theme
 	 * @return void
 	 **/
 	function addHeadJavascript ( $javascriptString ) {
-		ArgumentValidator::validate($javascriptString, new StringValidatorRule);
+		ArgumentValidator::validate($javascriptString, StringValidatorRule::getRule());
 		
 		$this->_headJavascript .= "\n".$javascriptString;
 	}
@@ -261,7 +261,7 @@ class Theme
 	 * @return The id (unique in this theme object) of the setting.
 	 **/
 	function addSetting (& $setting, $displayName = NULL, $description = NULL, $defaultValue = NULL) {
-		ArgumentValidator::validate($setting, new ExtendsValidatorRule("ThemeSettingInterface"));
+		ArgumentValidator::validate($setting, ExtendsValidatorRule::getRule("ThemeSettingInterface"));
 		
 		if (!is_array($this->_settings))
 			$this->_settings = array();
@@ -433,7 +433,7 @@ class Theme
 	 * @return integer The index of the added Widget.
 	 **/
 	function &addWidget (  $type, & $themeWidget ) {
-		ArgumentValidator::validate($themeWidget, new ExtendsValidatorRule("ThemeWidgetInterface"));
+		ArgumentValidator::validate($themeWidget, ExtendsValidatorRule::getRule("ThemeWidgetInterface"));
 		if (!in_array($type, array(MENU_WIDGET, MENU_ITEM_WIDGET, SELECTED_MENU_ITEM_WIDGET, MENU_HEADING_WIDGET, HEADING_WIDGET, FOOTER_WIDGET, TEXT_BLOCK_WIDGET, BLANK_WIDGET)))
 			throwError(new Error("Unsupported widget type, '".$type."'.", "Theme", TRUE));
 		
@@ -463,7 +463,7 @@ class Theme
 	 *		index availible is returned.
 	 **/
 	function &getWidget ( $type, $index = 1 ) {
-		ArgumentValidator::validate($index, new IntegerValidatorRule);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule());
 		if (!in_array($type, array(MENU_WIDGET, MENU_ITEM_WIDGET, SELECTED_MENU_ITEM_WIDGET, MENU_HEADING_WIDGET, HEADING_WIDGET, FOOTER_WIDGET, TEXT_BLOCK_WIDGET, BLANK_WIDGET)))
 			throwError(new Error("Unsupported widget type, '".$type."'.", "Theme", TRUE));
 		

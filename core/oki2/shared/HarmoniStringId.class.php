@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniStringId.class.php,v 1.3 2005/01/19 22:28:26 adamfranco Exp $
+ * @version $Id: HarmoniStringId.class.php,v 1.4 2005/03/29 19:44:29 adamfranco Exp $
  */
 
 class HarmoniStringId
@@ -32,7 +32,7 @@ class HarmoniStringId
 		if ($id !== NULL) {
 			// use this id
 			// SLOW-VALIDATE -- comment validation out to increase program speed.
-			ArgumentValidator::validate($id, new NonzeroLengthStringValidatorRule);
+			ArgumentValidator::validate($id, NonzeroLengthStringValidatorRule::getRule());
 			$this->_id = $id;
 		} else {
 			// get a new unique id

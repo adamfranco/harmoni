@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDataPart.class.php,v 1.2 2005/01/26 16:10:56 thebravecowboy Exp $
+ * @version $Id: ThumbnailDataPart.class.php,v 1.3 2005/03/29 19:44:28 adamfranco Exp $
  */
 class ThumbnailDataPart extends Part
 //	extends java.io.Serializable
@@ -212,7 +212,7 @@ class ThumbnailDataPart extends Part
 	 * @access public
 	 */
 	function updateValue($value) {
-//		ArgumentValidator::validate($value, new StringValidatorRule);
+//		ArgumentValidator::validate($value, StringValidatorRule::getRule());
 		
 		// Store the data in the object in case its asked for again.
 //		$this->_data = $value;

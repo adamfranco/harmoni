@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FieldSetValidatorTestCase.class.php,v 1.3 2005/03/29 18:04:58 adamfranco Exp $
+ * @version $Id: FieldSetValidatorTestCase.class.php,v 1.4 2005/03/29 19:44:48 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -113,9 +113,9 @@
 			$error = new Error("UnitTest", "UnitTest", false);
 			
 			
-			$rq = & new FieldRequiredValidatorRule;
-			$email = & new EmailValidatorRule;
-			$number = & new NumericValidatorRule;
+			$rq = & FieldRequiredValidatorRule::getRule();
+			$email = & EmailValidatorRule::getRule();
+			$number = & NumericValidatorRule::getRule();
 			$this->testRuleSet->addRule("mystring", $rq,$error);
 			$this->testRuleSet->addRule("mystring",$email,$error);
 			$this->testRuleSet->addRule("boolean",BooleanValidatorRule::getRule(),$error);

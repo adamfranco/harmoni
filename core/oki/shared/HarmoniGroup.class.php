@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.22 2005/02/07 21:38:22 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.23 2005/03/29 19:44:21 adamfranco Exp $
  */
 class HarmoniGroup // :: API interface
 	extends HarmoniAgent // implements Group OSID interface
@@ -51,12 +51,12 @@ class HarmoniGroup // :: API interface
 	 */
 	function HarmoniGroup($displayName, & $id, & $type, & $propertiesArray, $description, $dbIndex, $sharedDB) {
 		// ** parameter validation
-		ArgumentValidator::validate($description, new StringValidatorRule(), true);
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
-		ArgumentValidator::validate($propertiesArray, new ArrayValidatorRuleWithRule(
-					new OptionalRule(
-						new ExtendsValidatorRule("Properties")
+		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
+		ArgumentValidator::validate($propertiesArray, ArrayValidatorRuleWithRule::getRule(
+					OptionalRule::getRule(
+						ExtendsValidatorRule::getRule("Properties")
 					)
 				), true);
 		// ** end of parameter validation
@@ -86,7 +86,7 @@ class HarmoniGroup // :: API interface
 	 */
 	function updateDescription($description) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
 		
@@ -127,7 +127,7 @@ class HarmoniGroup // :: API interface
 	 **/
 	function attach(& $memberOrGroup) {
 		// ** parameter validation
-		$extend =& new ExtendsValidatorRule("Agent"); // Group objects extend Agent
+		$extend =& ExtendsValidatorRule::getRule("Agent"); // Group objects extend Agent
 		ArgumentValidator::validate($memberOrGroup, $extend, true);
 		// ** end of parameter validation
 
@@ -157,7 +157,7 @@ class HarmoniGroup // :: API interface
 	 */
 	function add(& $memberOrGroup) {
 		// ** parameter validation
-		$extend =& new ExtendsValidatorRule("Agent"); // Group objects extend Agent
+		$extend =& ExtendsValidatorRule::getRule("Agent"); // Group objects extend Agent
 		ArgumentValidator::validate($memberOrGroup, $extend, true);
 		// ** end of parameter validation
 
@@ -242,7 +242,7 @@ class HarmoniGroup // :: API interface
 	 */
 	function remove(& $memberOrGroup) {
 		// ** parameter validation
-		$extend =& new ExtendsValidatorRule("Agent"); // Group objects extend Agent
+		$extend =& ExtendsValidatorRule::getRule("Agent"); // Group objects extend Agent
 		ArgumentValidator::validate($memberOrGroup, $extend, true);
 		// ** end of parameter validation
 
@@ -299,7 +299,7 @@ class HarmoniGroup // :: API interface
 	 */
 	function &getMembers($includeSubgroups) {
 		// ** parameter validation
-		ArgumentValidator::validate($includeSubgroups, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($includeSubgroups, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$result = new HarmoniAgentIterator($this->_getMembers($includeSubgroups, true));
@@ -336,7 +336,7 @@ class HarmoniGroup // :: API interface
 	 */
 	function &getGroups($includeSubgroups) {
 		// ** parameter validation
-		ArgumentValidator::validate($includeSubgroups, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($includeSubgroups, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$result = new HarmoniAgentIterator($this->_getMembers($includeSubgroups, false));
@@ -361,9 +361,9 @@ class HarmoniGroup // :: API interface
 	 */
 	function contains(& $memberOrGroup, $searchSubgroups = false) {
 		// ** parameter validation
-		$extend =& new ExtendsValidatorRule("Agent"); // Group objects extend Agent
+		$extend =& ExtendsValidatorRule::getRule("Agent"); // Group objects extend Agent
 		ArgumentValidator::validate($memberOrGroup, $extend, true);
-		ArgumentValidator::validate($searchSubgroups, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($searchSubgroups, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		// we have to figure out whether the argument is an agent or a group

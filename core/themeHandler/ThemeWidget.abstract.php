@@ -13,7 +13,7 @@ require_once(HARMONI."/themeHandler/ThemeWidget.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ThemeWidget.abstract.php,v 1.10 2005/01/26 15:20:49 adamfranco Exp $
+ * @version $Id: ThemeWidget.abstract.php,v 1.11 2005/03/29 19:44:30 adamfranco Exp $
  */
 class ThemeWidget
 	extends ThemeWidgetInterface {
@@ -94,7 +94,7 @@ class ThemeWidget
 	 * @return void
 	 **/
 	function setIndex( $index ) {
-		ArgumentValidator::validate($index, new IntegerValidatorRule);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule());
 				
 		$this->_index = $index;
 	}
@@ -119,7 +119,7 @@ class ThemeWidget
 	 * @return void
 	 **/
 	function setType( $type ) {
-		ArgumentValidator::validate($type, new StringValidatorRule);
+		ArgumentValidator::validate($type, StringValidatorRule::getRule());
 				
 		$this->_type = $type;
 	}
@@ -152,7 +152,7 @@ class ThemeWidget
 	 * @return object Id The id (unique in this widget) of the setting.
 	 **/
 	function addSetting (& $setting, $displayName = NULL, $description = NULL, $defaultValue = NULL) {
-		ArgumentValidator::validate($setting, new ExtendsValidatorRule("ThemeSettingInterface"));
+		ArgumentValidator::validate($setting, ExtendsValidatorRule::getRule("ThemeSettingInterface"));
 		
 		if (!is_array($this->_settings))
 			$this->_settings = array();

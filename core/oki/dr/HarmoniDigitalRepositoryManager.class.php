@@ -13,7 +13,7 @@ require_once(HARMONI."/oki/dr/HarmoniDigitalRepository.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniDigitalRepositoryManager.class.php,v 1.25 2005/01/26 17:37:53 adamfranco Exp $ */
+ * @version $Id: HarmoniDigitalRepositoryManager.class.php,v 1.26 2005/03/29 19:44:17 adamfranco Exp $ */
 
 class HarmoniDigitalRepositoryManager
 	extends DigitalRepositoryManager
@@ -116,9 +116,9 @@ class HarmoniDigitalRepositoryManager
 	 */
 	function &createDigitalRepository ($displayName, $description, & $digitalRepositoryType) {
 		// Argument Validation
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
-		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate($digitalRepositoryType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
+		ArgumentValidator::validate($description, StringValidatorRule::getRule());
+		ArgumentValidator::validate($digitalRepositoryType, ExtendsValidatorRule::getRule("Type"));
 		
 		// Create an Id for the digital Repository Node
 		$sharedManager =& Services::getService("Shared");
@@ -285,7 +285,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 */
 	function &getDigitalRepositoriesByType(& $digitalRepositoryType) {
-		ArgumentValidator::validate($digitalRepositoryType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($digitalRepositoryType, ExtendsValidatorRule::getRule("Type"));
 		
 		// Select the Ids of corresponding DRs
 		$query =& new SelectQuery;
@@ -332,7 +332,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 */
 	function &getDigitalRepository(& $digitalRepositoryId) {
-		ArgumentValidator::validate($digitalRepositoryId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($digitalRepositoryId, ExtendsValidatorRule::getRule("Id"));
 		
 		if (!$this->_createdDRs[$digitalRepositoryId->getIdString()]) {
 			// Get the node for this dr to make sure its availible
@@ -365,7 +365,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 */
 	function &getAsset(& $assetId) {
-		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
 		// Get the node for this asset to make sure its availible
 		if (!$this->_hierarchy->getNode($assetId))

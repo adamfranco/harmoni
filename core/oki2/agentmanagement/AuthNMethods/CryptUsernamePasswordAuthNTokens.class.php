@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CryptUsernamePasswordAuthNTokens.class.php,v 1.2 2005/03/04 22:22:45 adamfranco Exp $
+ * @version $Id: CryptUsernamePasswordAuthNTokens.class.php,v 1.3 2005/03/29 19:44:23 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CryptUsernamePasswordAuthNTokens.class.php,v 1.2 2005/03/04 22:22:45 adamfranco Exp $
+ * @version $Id: CryptUsernamePasswordAuthNTokens.class.php,v 1.3 2005/03/29 19:44:23 adamfranco Exp $
  */
 class CryptUsernamePasswordAuthNTokens
 	extends UsernamePasswordAuthNTokens
@@ -35,9 +35,9 @@ class CryptUsernamePasswordAuthNTokens
 	 * @since 3/1/05
 	 */
 	function initializeForTokens ( $tokens ) {
-		ArgumentValidator::validate($tokens, new ArrayValidatorRule);
-		ArgumentValidator::validate($tokens['username'], new StringValidatorRule);
-		ArgumentValidator::validate($tokens['password'], new StringValidatorRule);
+		ArgumentValidator::validate($tokens, ArrayValidatorRule::getRule());
+		ArgumentValidator::validate($tokens['username'], StringValidatorRule::getRule());
+		ArgumentValidator::validate($tokens['password'], StringValidatorRule::getRule());
 		
 		$this->_tokens = $tokens;
 		$this->_identifier = $tokens['username'];

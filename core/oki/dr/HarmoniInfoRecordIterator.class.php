@@ -15,7 +15,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniInfoRecordIterator.class.php,v 1.5 2005/02/04 15:59:05 adamfranco Exp $
+ * @version $Id: HarmoniInfoRecordIterator.class.php,v 1.6 2005/03/29 19:44:17 adamfranco Exp $
  */
 class HarmoniInfoRecordIterator
 	extends InfoRecordIterator
@@ -38,7 +38,7 @@ class HarmoniInfoRecordIterator
 	 */
 	function HarmoniInfoRecordIterator (& $infoRecordArray) {
 		// make sure that we get an array of DigitalRepository objects
-		ArgumentValidator::validate($infoRecordArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("InfoRecord")));
+		ArgumentValidator::validate($infoRecordArray, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("InfoRecord")));
 		
 		// load the types into our private array
 		foreach ($infoRecordArray as $key => $val) {

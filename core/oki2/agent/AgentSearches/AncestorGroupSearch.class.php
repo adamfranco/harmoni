@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.5 2005/02/08 17:21:10 adamfranco Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.6 2005/03/29 19:44:22 adamfranco Exp $
  */
 
 class AncestorGroupSearch
@@ -26,7 +26,7 @@ class AncestorGroupSearch
 	 * @since 12/1/04
 	 */
 	function AncestorGroupSearch ($dbIndex) {
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule());
 		$this->_dbIndex = $dbIndex;
 	}
 	
@@ -61,7 +61,7 @@ class AncestorGroupSearch
 	 * @since 11/10/04
 	 */
 	function &getGroupsBySearch ( & $searchCriteria, & $groupSearchType ) {
-		ArgumentValidator::validate($searchCriteria, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($searchCriteria, ExtendsValidatorRule::getRule("Id"));
 		
 		$groupOrAgentId = $searchCriteria->getIdString();
 		

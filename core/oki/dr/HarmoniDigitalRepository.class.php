@@ -28,7 +28,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniDigitalRepository.class.php,v 1.48 2005/01/26 17:37:53 adamfranco Exp $ */
+ * @version $Id: HarmoniDigitalRepository.class.php,v 1.49 2005/03/29 19:44:16 adamfranco Exp $ */
 class HarmoniDigitalRepository
 	extends HarmoniDigitalRepositoryInterface
 {
@@ -199,7 +199,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 */
 	function deleteAsset(& $assetId) {
-		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
 		// Get the asset
 		$asset =& $this->getAsset($assetId);
@@ -284,7 +284,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 */
 	function &getAssetsByType(& $assetType) {
-		ArgumentValidator::validate($assetType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($assetType, ExtendsValidatorRule::getRule("Type"));
 		$assets = array();
 		$allAssets =& $this->getAssets();
 		while ($allAssets->hasNext()) {
@@ -470,8 +470,8 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#NO_OBJECT_WITH_THIS_DATE NO_OBJECT_WITH_THIS_DATE}
 	 */
 	function &getAssetByDate(& $assetId, & $date) {
-		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($date, new ExtendsValidatorRule("DateTime"));
+		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($date, ExtendsValidatorRule::getRule("DateTime"));
 		
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
 		
@@ -485,7 +485,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 */
 	function &getAssetDates(& $assetId) {
-		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
 		$recordMgr =& Services::getService("RecordManager");
 		

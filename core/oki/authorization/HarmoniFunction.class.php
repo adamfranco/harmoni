@@ -10,7 +10,7 @@ require_once(OKI."/authorization.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniFunction.class.php,v 1.14 2005/02/07 21:38:19 adamfranco Exp $
+ * @version $Id: HarmoniFunction.class.php,v 1.15 2005/03/29 19:44:15 adamfranco Exp $
  */
 class HarmoniFunction extends FunctionInterface {
 
@@ -84,15 +84,15 @@ class HarmoniFunction extends FunctionInterface {
 	function HarmoniFunction(& $id, $referenceName, $description, & $functionType, 
 							 & $qualifierHierarchyId, $dbIndex, $authzDB) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($referenceName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
-		$extendsRule =& new ExtendsValidatorRule("Id");
+		$extendsRule =& ExtendsValidatorRule::getRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
 		ArgumentValidator::validate($qualifierHierarchyId, $extendsRule, true);
-		$extendsRule =& new ExtendsValidatorRule("HarmoniType");
+		$extendsRule =& ExtendsValidatorRule::getRule("HarmoniType");
 		ArgumentValidator::validate($functionType, $extendsRule, true);
-		$integerRule =& new IntegerValidatorRule();
+		$integerRule =& IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($dbIndex, $integerRule, true);
 		ArgumentValidator::validate($authzDB, $stringRule, true);
 		// ** end of parameter validation
@@ -174,7 +174,7 @@ class HarmoniFunction extends FunctionInterface {
 	 */
 	function updateReferenceName($referenceName) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($referenceName, $stringRule, true);
 		// ** end of parameter validation
 
@@ -214,7 +214,7 @@ class HarmoniFunction extends FunctionInterface {
 	 */
 	function updateDescription($description) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
 		

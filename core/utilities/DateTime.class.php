@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/Primitive.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateTime.class.php,v 1.22 2005/01/19 23:23:31 adamfranco Exp $
+ * @version $Id: DateTime.class.php,v 1.23 2005/03/29 19:44:47 adamfranco Exp $
  * @since Created: 7/20/2003
  */
 class DateTime 
@@ -83,19 +83,19 @@ class DateTime
 	function DateTime($year = 1970, $month = 1, $day = 1, 
 					  $hours = 0, $minutes = 0, $seconds = 0) {
 		// ** parameter validation
-/*		$integerRule =& new NumericValidatorRule();
+/*		$integerRule =& NumericValidatorRule::getRule();
 		ArgumentValidator::validate($year, $integerRule, true);
 
-		$rangeRule =& new IntegerRangeValidatorRule(1, 12);
+		$rangeRule =& IntegerRangeValidatorRule::getRule(1, 12);
 		ArgumentValidator::validate(intval($month), $rangeRule, true);
 
-		$rangeRule =& new IntegerRangeValidatorRule(1, 31);
+		$rangeRule =& IntegerRangeValidatorRule::getRule(1, 31);
 		ArgumentValidator::validate(intval($day), $rangeRule, true);
 		
-		$rangeRule =& new IntegerRangeValidatorRule(0, 23);
+		$rangeRule =& IntegerRangeValidatorRule::getRule(0, 23);
 		ArgumentValidator::validate(intval($hours), $rangeRule, true);
 		
-		$rangeRule =& new IntegerRangeValidatorRule(0, 59);
+		$rangeRule =& IntegerRangeValidatorRule::getRule(0, 59);
 		ArgumentValidator::validate(intval($minutes), $rangeRule, true);
 		ArgumentValidator::validate(intval($seconds), $rangeRule, true);*/
 		// ** end of parameter validation
@@ -115,7 +115,7 @@ class DateTime
 	 * @access public
 	 */
 	function setYear($year) {
-		$integerRule =& new IntegerValidatorRule();
+		$integerRule =& IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($year, $integerRule, true);
 
 		$this->_year = $year;
@@ -138,7 +138,7 @@ class DateTime
 	 * @access public
 	 */
 	function setMonth($month) {
-		$rangeRule =& new IntegerRangeValidatorRule(1, 12);
+		$rangeRule =& IntegerRangeValidatorRule::getRule(1, 12);
 		ArgumentValidator::validate($month, $rangeRule, true);
 
 		$this->_month = $month;
@@ -161,7 +161,7 @@ class DateTime
 	 * @access public
 	 */
 	function setDay($day) {
-		$rangeRule =& new IntegerRangeValidatorRule(1, 31);
+		$rangeRule =& IntegerRangeValidatorRule::getRule(1, 31);
 		ArgumentValidator::validate($day, $rangeRule, true);
 
 		$this->_day = $day;
@@ -184,7 +184,7 @@ class DateTime
 	 * @access public
 	 */
 	function setHours($hours) {
-		$rangeRule =& new IntegerRangeValidatorRule(0, 23);
+		$rangeRule =& IntegerRangeValidatorRule::getRule(0, 23);
 		ArgumentValidator::validate($hours, $rangeRule, true);
 
 		$this->_hours = $hours;
@@ -207,7 +207,7 @@ class DateTime
 	 * @access public
 	 */
 	function setMinutes($minutes) {
-		$rangeRule =& new IntegerRangeValidatorRule(0, 59);
+		$rangeRule =& IntegerRangeValidatorRule::getRule(0, 59);
 		ArgumentValidator::validate($minutes, $rangeRule, true);
 
 		$this->_minutes = $minutes;
@@ -230,7 +230,7 @@ class DateTime
 	 * @access public
 	 */
 	function setSeconds($seconds) {
-		$rangeRule =& new IntegerRangeValidatorRule(0, 59);
+		$rangeRule =& IntegerRangeValidatorRule::getRule(0, 59);
 		ArgumentValidator::validate($seconds, $rangeRule, true);
 
 		$this->_seconds = $seconds;
@@ -362,7 +362,7 @@ class DateTime
 	 */
 	function compare(&$date1, &$date2) {
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("DateTime");
+		$extendsRule =& ExtendsValidatorRule::getRule("DateTime");
 		ArgumentValidator::validate($date1, $extendsRule, true);
 		ArgumentValidator::validate($date2, $extendsRule, true);
 		// ** end of parameter validation

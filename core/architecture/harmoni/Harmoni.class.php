@@ -22,7 +22,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.31 2005/03/28 23:32:37 nstamato Exp $
+ * @version $Id: Harmoni.class.php,v 1.32 2005/03/29 19:44:12 adamfranco Exp $
  **/
 class Harmoni {
 	
@@ -137,7 +137,7 @@ class Harmoni {
 	function addPreExecActions($actions)
 	{
 		$args = func_get_args();
-		$rule =& new DottedPairValidatorRule();
+		$rule =& DottedPairValidatorRule::getRule();
 		foreach ($args as $arg) {
 			if ($rule->check($arg)) $this->_preExecActions[] = $arg;
 		}
@@ -152,7 +152,7 @@ class Harmoni {
 	function addPostExecActions($actions)
 	{
 		$args = func_get_args();
-		$rule =& new DottedPairValidatorRule();
+		$rule =& DottedPairValidatorRule::getRule();
 		foreach ($args as $arg) {
 			if ($rule->check($arg)) $this->_postExecActions[] = $arg;
 		}
@@ -167,8 +167,8 @@ class Harmoni {
 	 */
 	function setPostProcessAction($action, $ignore=null)
 	{
-		$rule1 =& new DottedPairValidatorRule();
-		$rule2 =& new ArrayValidatorRuleWithRule($rule1);
+		$rule1 =& DottedPairValidatorRule::getRule();
+		$rule2 =& ArrayValidatorRuleWithRule::getRule($rule1);
 		ArgumentValidator::validate($action, $rule1);
 		if ($ignore) ArgumentValidator::validate($ignore, $rule2);
 		
@@ -439,8 +439,8 @@ class Harmoni {
 		// we only need to print anything out if config->outputHTML is set.
 		if ($this->config->get("outputHTML")) {
 			// alright, if what we got back was a layout, let's print it out!
-			$rule = new ExtendsValidatorRule("LayoutInterface");
-			$rule2 = new ExtendsValidatorRule("ComponentInterface");
+			$rule = ExtendsValidatorRule::getRule("LayoutInterface");
+			$rule2 = ExtendsValidatorRule::getRule("ComponentInterface");
 			if ($rule->check($result)) {
 				// indeed!
 				$this->theme->printPage($result);
@@ -470,7 +470,7 @@ class Harmoni {
 	 * @return void
 	 **/
 	function setTheme(&$themeObject) {
-		ArgumentValidator::validate($themeObject, new ExtendsValidatorRule("ThemeInterface"));
+		ArgumentValidator::validate($themeObject, ExtendsValidatorRule::getRule("ThemeInterface"));
 		$this->theme =& $themeObject;
 	}
 	
@@ -512,7 +512,7 @@ class Harmoni {
 	 * @return void
 	 **/
 	function setCurrentAction($action) {
-		ArgumentValidator::validate($action, new DottedPairValidatorRule);
+		ArgumentValidator::validate($action, DottedPairValidatorRule::getRule());
 		$this->_currentAction = $action;
 	}
 	

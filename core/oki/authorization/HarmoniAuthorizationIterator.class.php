@@ -13,7 +13,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationIterator.class.php,v 1.7 2005/02/07 21:38:19 adamfranco Exp $ */
+ * @version $Id: HarmoniAuthorizationIterator.class.php,v 1.8 2005/03/29 19:44:15 adamfranco Exp $ */
 
 class HarmoniAuthorizationIterator
 	extends AuthorizationIterator
@@ -36,7 +36,7 @@ class HarmoniAuthorizationIterator
 	 */
 	function HarmoniAuthorizationIterator (& $authorizationArray) {
 		// make sure that we get an array of Authorization objects
-		ArgumentValidator::validate($authorizationArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Authorization")));
+		ArgumentValidator::validate($authorizationArray, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("Authorization")));
 		
 		// load the types into our private array
 		foreach (array_keys($authorizationArray) as $i => $key) {

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.7 2005/03/24 15:43:21 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.8 2005/03/29 19:44:23 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/LDAPConnector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.7 2005/03/24 15:43:21 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.8 2005/03/29 19:44:23 adamfranco Exp $
  */
 class LDAPAuthNMethod
 	extends AuthNMethod
@@ -43,7 +43,7 @@ class LDAPAuthNMethod
 		// Validate the configuration options we use:
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('properties_fields'), 
-			new ArrayValidatorRuleWithRule(new StringValidatorRule));
+			ArrayValidatorRuleWithRule::getRule(StringValidatorRule::getRule()));
 	}
 			
 	/**
@@ -57,7 +57,7 @@ class LDAPAuthNMethod
 		$tokensClass = $this->_configuration->getProperty('tokens_class');
 		$newTokens =& new $tokensClass($this->_configuration);
 		
-		$validatorRule = new ExtendsValidatorRule('LDAPAuthNTokens');
+		$validatorRule = ExtendsValidatorRule::getRule('LDAPAuthNTokens');
 		if ($validatorRule->check($newTokens))
 			return $newTokens;
 		else
@@ -75,7 +75,7 @@ class LDAPAuthNMethod
 	 * @since 3/1/05
 	 */
 	function authenticateTokens ( &$authNTokens ) {
-		ArgumentValidator::validate ($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		ArgumentValidator::validate ($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		return $this->_connector->authenticateDN($authNTokens->getUsername(), 
 			$authNTokens->getPassword());
 	}
@@ -89,7 +89,7 @@ class LDAPAuthNMethod
 	 * @since 3/1/05
 	 */
 	function tokensExist ( &$authNTokens ) {
-		ArgumentValidator::validate ($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		ArgumentValidator::validate ($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		return $this->_connector->dnExists($authNTokens->getUsername());
 	}
 	
@@ -104,8 +104,8 @@ class LDAPAuthNMethod
 	 * @since 3/1/05
 	 */
 	function _populateProperties ( &$authNTokens, &$properties ) {
-		ArgumentValidator::validate ($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
-		ArgumentValidator::validate ($properties, new ExtendsValidatorRule("Properties"));
+		ArgumentValidator::validate ($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
+		ArgumentValidator::validate ($properties, ExtendsValidatorRule::getRule("Properties"));
 		
 		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
 		
@@ -144,7 +144,7 @@ class LDAPAuthNMethod
 	 * @since 3/3/05
 	 */
 	function &getTokensBySearch ( $searchString ) {
-		ArgumentValidator::validate ($searchString, new StringValidatorRule);
+		ArgumentValidator::validate ($searchString, StringValidatorRule::getRule());
 		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
 				
 		if (is_array($propertiesFields) && count($propertiesFields)) {

@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.33 2005/02/07 21:38:20 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.34 2005/03/29 19:44:18 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -57,12 +57,12 @@ class HarmoniHierarchy
 	 */
 	function HarmoniHierarchy(& $id, $displayName, $description, & $nodeTypes, & $hierarchyStore, $exists = FALSE) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"));
 		if (count($nodeTypes))
-			ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
-		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate($hierarchyStore, new ExtendsValidatorRule("HierarchyStore"));
+			ArgumentValidator::validate($nodeTypes, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("Type")));
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
+		ArgumentValidator::validate($description, StringValidatorRule::getRule());
+		ArgumentValidator::validate($hierarchyStore, ExtendsValidatorRule::getRule("HierarchyStore"));
 		
 		// make sure that the Store was created with our same id
 		if ($hierarchyStore->getId()) 
@@ -143,7 +143,7 @@ class HarmoniHierarchy
 	 */
 	function updateDescription($description) {
 		// Check the arguments
-		ArgumentValidator::validate($description, new StringValidatorRule);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 				
 		// update and save
 		$this->_description = $description;
@@ -200,11 +200,11 @@ class HarmoniHierarchy
 	 */
 	function &createNode(& $nodeId, & $parentId, & $type, $displayName, $description) {
 		// Check the arguments
-		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($parentId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
-		ArgumentValidator::validate($description, new StringValidatorRule);
+		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($parentId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"));
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
+		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 		
 		$nodeIdString = $nodeId->getIdString();
 		if ($parentId->isEqual($nodeId)) { // if this is a root node (its parent is itsself)
@@ -251,7 +251,7 @@ class HarmoniHierarchy
 	 */
 	function deleteNode(& $nodeId) {
 		// Check the arguments
-		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"));
 		
 		$nodeIdString = $nodeId->getIdString();
 		
@@ -282,7 +282,7 @@ class HarmoniHierarchy
 	 */
 	function addNodeType(& $nodeType) {
 		// Check the arguments
-		ArgumentValidator::validate($nodeType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($nodeType, ExtendsValidatorRule::getRule("Type"));
 		
 		// Throw an error if the nodeType has already been added.
 		$nodeTypes =& $this->getNodeTypes();
@@ -314,7 +314,7 @@ class HarmoniHierarchy
 	 */
 	function removeNodeType(& $nodeType) {
 		// Check the arguments
-		ArgumentValidator::validate($nodeType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($nodeType, ExtendsValidatorRule::getRule("Type"));
 		
 		// Throw an error if the nodeType is in use.
 		$nodeIterator =& $this->getAllNodes();
@@ -413,7 +413,7 @@ class HarmoniHierarchy
 	 */
 	function &getNode(& $nodeId) {
 		// Check the arguments
-		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"));
 		
 		$nodeIdString = $nodeId->getIdString();
 		
@@ -502,10 +502,10 @@ class HarmoniHierarchy
 	 */
 	function &traverse(& $startId, $mode, $direction, $levels) {
 		// Check the arguments
-		ArgumentValidator::validate($startId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($mode, new IntegerValidatorRule);
-		ArgumentValidator::validate($direction, new IntegerValidatorRule);
-		ArgumentValidator::validate($levels, new IntegerValidatorRule);
+		ArgumentValidator::validate($startId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($mode, IntegerValidatorRule::getRule());
+		ArgumentValidator::validate($direction, IntegerValidatorRule::getRule());
+		ArgumentValidator::validate($levels, IntegerValidatorRule::getRule());
 
 		// check that the modes and directions are supported
 		if (($mode != TRAVERSE_MODE_DEPTH_FIRST) &&
@@ -583,10 +583,10 @@ class HarmoniHierarchy
 	 */
 	function load ($nodeId = NULL, $childrenOnly = FALSE) {
 		// Check the arguments
-		ArgumentValidator::validate($childrenOnly, new BooleanValidatorRule);
+		ArgumentValidator::validate($childrenOnly, BooleanValidatorRule::getRule());
 		if ($nodeId != NULL) {
 			// Check the arguments
-			ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"));
+			ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"));
 			
 			$nodeId = $nodeId->getIdString();
 		}

@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.12 2005/03/23 21:26:39 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.13 2005/03/29 19:44:24 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -144,8 +144,8 @@ class HarmoniAuthenticationManager
 		
 				$tokenCollectors =& $this->_configuration->getProperty('token_collectors');
 				ArgumentValidator::validate($tokenCollectors,
-					new ArrayValidatorRuleWithRule(
-						new ExtendsValidatorRule("TokenCollector")));
+					ArrayValidatorRuleWithRule::getRule(
+						ExtendsValidatorRule::getRule("TokenCollector")));
 					
 				foreach (array_keys($tokenCollectors) as $key) {
 					$authType = unserialize($key);
@@ -393,7 +393,7 @@ class HarmoniAuthenticationManager
 	 */
 	function _checkType ( &$type ) {
 		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"));
 
 		$typeValid = FALSE;
 		$authNTypes =& $this->getAuthenticationTypes();

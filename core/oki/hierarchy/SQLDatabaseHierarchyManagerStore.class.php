@@ -12,7 +12,7 @@ require_once(HARMONI."oki/hierarchy/SQLDatabaseHierarchyStore.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseHierarchyManagerStore.class.php,v 1.6 2005/01/19 22:28:09 adamfranco Exp $
+ * @version $Id: SQLDatabaseHierarchyManagerStore.class.php,v 1.7 2005/03/29 19:44:18 adamfranco Exp $
  */
 
 
@@ -45,17 +45,17 @@ class SQLDatabaseHierarchyManagerStore
 	 */
 	function SQLDatabaseHierarchyManagerStore ($dbIndex, $hierarchyTableName, $hierarchyIdColumn, $hierarchyDisplayNameColumn, $hierarchyDescriptionColumn, $nodeTableName, $nodeHierarchyKeyColumn, $nodeIdColumn, $nodeParentKeyColumn, $nodeDisplayNameColumn, $nodeDescriptionColumn) {
 		// Check the arguments
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule);
-		ArgumentValidator::validate($hierarchyTableName, new StringValidatorRule);
-		ArgumentValidator::validate($hierarchyIdColumn, new StringValidatorRule);
-		ArgumentValidator::validate($hierarchyDisplayNameColumn, new StringValidatorRule);
-		ArgumentValidator::validate($hierarchyDescriptionColumn, new StringValidatorRule);
-		ArgumentValidator::validate($nodeTableName, new StringValidatorRule);
-		ArgumentValidator::validate($nodeHierarchyKeyColumn, new StringValidatorRule);
-		ArgumentValidator::validate($nodeIdColumn, new StringValidatorRule);
-		ArgumentValidator::validate($nodeParentKeyColumn, new StringValidatorRule);
-		ArgumentValidator::validate($nodeDisplayNameColumn, new StringValidatorRule);
-		ArgumentValidator::validate($nodeDescriptionColumn, new StringValidatorRule);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule());
+		ArgumentValidator::validate($hierarchyTableName, StringValidatorRule::getRule());
+		ArgumentValidator::validate($hierarchyIdColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($hierarchyDisplayNameColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($hierarchyDescriptionColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($nodeTableName, StringValidatorRule::getRule());
+		ArgumentValidator::validate($nodeHierarchyKeyColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($nodeIdColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($nodeParentKeyColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($nodeDisplayNameColumn, StringValidatorRule::getRule());
+		ArgumentValidator::validate($nodeDescriptionColumn, StringValidatorRule::getRule());
 		
 		$this->_dbIndex = $dbIndex;
 		$this->_hierarchyTableName = $hierarchyTableName;
@@ -80,7 +80,7 @@ class SQLDatabaseHierarchyManagerStore
 	 */
 	function addHierarchy (& $hierarchy) {
 		// Check the arguments
-		ArgumentValidator::validate($hierarchy, new ExtendsValidatorRule("Hierarchy"));
+		ArgumentValidator::validate($hierarchy, ExtendsValidatorRule::getRule("Hierarchy"));
 		
 		$hierarchyId =& $hierarchy->getId();
 		
@@ -97,7 +97,7 @@ class SQLDatabaseHierarchyManagerStore
 	 */
 	function deleteHierarchy (& $hierarchyId) {
 		// Check the arguments
-		ArgumentValidator::validate($hierarchyId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($hierarchyId, ExtendsValidatorRule::getRule("Id"));
 		
 		$hierarchyIdString = $hierarchyId->getIdString();
 		$hierarchy =& $this->_hierarchies[$hierarchyIdString];

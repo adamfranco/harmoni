@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/UpdateQuery.interface.php");
  *
  * An UpdateQuery class provides the tools to build an UPDATE query.
  * 
- * @version $Id: UpdateQuery.class.php,v 1.4 2005/01/19 23:21:35 adamfranco Exp $
+ * @version $Id: UpdateQuery.class.php,v 1.5 2005/03/29 19:42:52 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -59,7 +59,7 @@ class UpdateQuery extends UpdateQueryInterface {
 	 */
 	function setTable($table) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($table, $stringRule, true);
 		// ** end of parameter validation
 
@@ -73,7 +73,7 @@ class UpdateQuery extends UpdateQueryInterface {
 	 */
 	function setColumns($columns) {
 		// ** parameter validation
-		$arrayRule =& new ArrayValidatorRule();
+		$arrayRule =& ArrayValidatorRule::getRule();
 		ArgumentValidator::validate($columns, $arrayRule, true);
 		// ** end of parameter validation
 
@@ -89,7 +89,7 @@ class UpdateQuery extends UpdateQueryInterface {
 	 */
 	function setValues($values) {
 		// ** parameter validation
-		$arrayRule =& new ArrayValidatorRule();
+		$arrayRule =& ArrayValidatorRule::getRule();
 		ArgumentValidator::validate($values, $arrayRule, true);
 		// ** end of parameter validation
 
@@ -108,7 +108,7 @@ class UpdateQuery extends UpdateQueryInterface {
 	 */
 	function setWhere($condition) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($condition, $stringRule, true);
 		// ** end of parameter validation
 
@@ -135,9 +135,9 @@ class UpdateQuery extends UpdateQueryInterface {
 	 */
 	function addWhere($condition, $logicalOperation = _AND) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
-		$integerRule =& new IntegerValidatorRule();
-		$optionalRule =& new OptionalRule($integerRule);
+		$stringRule =& StringValidatorRule::getRule();
+		$integerRule =& IntegerValidatorRule::getRule();
+		$optionalRule =& OptionalRule::getRule($integerRule);
 		ArgumentValidator::validate($condition, $stringRule, true);
 		ArgumentValidator::validate($logicalOperation, $optionalRule, true);
 		// ** end of parameter validation

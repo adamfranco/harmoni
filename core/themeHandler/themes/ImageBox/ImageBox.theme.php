@@ -25,7 +25,7 @@ require_once(dirname(__FILE__)."/ImageBoxTextBlock3.widget.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageBox.theme.php,v 1.4 2005/01/19 21:10:14 adamfranco Exp $
+ * @version $Id: ImageBox.theme.php,v 1.5 2005/03/29 19:44:47 adamfranco Exp $
  */
 class ImageBoxTheme
 	extends Theme {
@@ -85,7 +85,7 @@ class ImageBoxTheme
 	 * @return void
 	 **/
 	function printPage (& $layoutObj) {
-		ArgumentValidator::validate($layoutObj, new ExtendsValidatorRule("LayoutInterface"));
+		ArgumentValidator::validate($layoutObj, ExtendsValidatorRule::getRule("LayoutInterface"));
 		
 		print "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>";
 		print "\n<html>";

@@ -13,7 +13,7 @@ require_once(HARMONI."/themeHandler/ThemeSetting.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ThemeSetting.abstract.php,v 1.7 2005/01/26 15:20:49 adamfranco Exp $
+ * @version $Id: ThemeSetting.abstract.php,v 1.8 2005/03/29 19:44:30 adamfranco Exp $
  */
 class ThemeSetting
 	extends ThemeSettingInterface {
@@ -105,7 +105,7 @@ class ThemeSetting
 	 * @return void
 	 **/
 	function &setKey (& $key) {
-		ArgumentValidator::validate($key, new IntegerValidatorRule());
+		ArgumentValidator::validate($key, IntegerValidatorRule::getRule());
 		
 		$this->_key =& $key;
 	}
@@ -126,7 +126,7 @@ class ThemeSetting
 	 * @return void
 	 **/
 	function &setDisplayName ( $displayName ) {
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 		
 		$this->_displayName = $displayName;
 	}
@@ -147,7 +147,7 @@ class ThemeSetting
 	 * @return void
 	 **/
 	function &setDescription ( $description ) {
-		ArgumentValidator::validate($description, new StringValidatorRule);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 		
 		$this->_description = $description;
 	}
@@ -169,7 +169,7 @@ class ThemeSetting
 	 * @return void
 	 **/
 	function setValue($value) {
-		ArgumentValidator::validate($value, new StringValidatorRule);
+		ArgumentValidator::validate($value, StringValidatorRule::getRule());
 		
 		// This method is an outline only, please overload it to do proper checking
 		// of inputs to the setting.
@@ -194,7 +194,7 @@ class ThemeSetting
 	 * @return void
 	 **/
 	function &setDefaultValue (& $defaultValue) {
-		ArgumentValidator::validate($defaultValue, new StringValidatorRule);
+		ArgumentValidator::validate($defaultValue, StringValidatorRule::getRule());
 		
 		// This method is an outline only, please overload it to do proper checking
 		// of inputs to the setting.

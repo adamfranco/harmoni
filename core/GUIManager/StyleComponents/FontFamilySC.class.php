@@ -27,7 +27,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontFamilySC.class.php,v 1.6 2005/02/07 21:38:15 adamfranco Exp $
+ * @version $Id: FontFamilySC.class.php,v 1.7 2005/03/29 19:44:10 adamfranco Exp $
  */
 class FontFamilySC extends StyleComponent {
 
@@ -45,7 +45,7 @@ class FontFamilySC extends StyleComponent {
 						   Also, you can specify one or many comma-separated values.";
 		
 		
-		$rule =& new CSSFontFamilyValidatorRule();
+		$rule =& CSSFontFamilyValidatorRule::getRule();
 		
 		$displayName = "Font Family";
 		$description = "Specifies the font to use. Allowed values are: ".implode(", ", $options)."
@@ -76,6 +76,34 @@ class CSSFontFamilyValidatorRule extends ValidatorRuleInterface {
 				return false;
 
 		return true;
+	}
+	
+	/**
+	 * This is a static method to return an already-created instance of a validator
+	 * rule. There are at most about a hundred unique rule objects in use durring
+	 * any given execution cycle, but rule objects are instantiated hundreds of
+	 * thousands of times. 
+	 *
+	 * This method follows a modified Singleton pattern
+	 * 
+	 * @return object ValidatorRule
+	 * @access public
+	 * @static
+	 * @since 3/28/05
+	 */
+	function &getRule () {
+		// Because there is no way in PHP to get the class name of the descendent
+		// class on which this method is called, this method must be implemented
+		// in each descendent class.
+
+		if (!is_array($GLOBALS['validator_rules']))
+			$GLOBALS['validator_rules'] = array();
+		
+		$class = __CLASS__;
+		if (!$GLOBALS['validator_rules'][$class])
+			$GLOBALS['validator_rules'][$class] =& new $class;
+		
+		return $GLOBALS['validator_rules'][$class];
 	}
 }
 ?>

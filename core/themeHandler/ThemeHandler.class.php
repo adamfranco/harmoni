@@ -18,7 +18,7 @@ require_once(HARMONI."/themeHandler/themes/ImageBox/ImageBox.theme.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ThemeHandler.class.php,v 1.14 2005/01/26 15:20:49 adamfranco Exp $
+ * @version $Id: ThemeHandler.class.php,v 1.15 2005/03/29 19:44:30 adamfranco Exp $
  */
 class ThemeHandler {
 
@@ -169,7 +169,7 @@ class ThemeHandler {
 	 * @return object ThemeInterface The desired Theme object.
 	 **/
 	function &getStoredTheme ( & $id ) {
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"));
 		
 		// If the requested theme is not cached, look for it in storage and
 		// throw an error if it is not found.
@@ -234,7 +234,7 @@ class ThemeHandler {
 	 * @param object Id $id The id of the desired Theme.
 	 **/
 	function storeTheme( & $theme) {
-		ArgumentValidator::validate($theme, new ExtendsValidatorRule("ThemeInterface"));
+		ArgumentValidator::validate($theme, ExtendsValidatorRule::getRule("ThemeInterface"));
 		
 		if ($theme->hasId()) {
 			$id =& $theme->getId();

@@ -11,7 +11,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 /**
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * @version $Id: PostGreDatabase.class.php,v 1.7 2005/03/09 19:38:17 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.8 2005/03/29 19:44:08 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.postgre
  * @access public
@@ -91,7 +91,7 @@ class PostGreDatabase extends DatabaseInterface {
 	 */
 	function PostGreDatabase($dbHost, $dbName, $dbUser, $dbPass) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($dbHost, $stringRule, true);
 		ArgumentValidator::validate($dbName, $stringRule, true);
 		ArgumentValidator::validate($dbUser, $stringRule, true);
@@ -374,7 +374,7 @@ class PostGreDatabase extends DatabaseInterface {
 	 */
 	function selectDatabase($database) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($database, $stringRule, true);
 		// ** end of parameter validation
 		

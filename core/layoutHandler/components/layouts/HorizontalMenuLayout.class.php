@@ -12,7 +12,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * </ul>
  *
  * @package harmoni.layout.components
- * @version $Id: HorizontalMenuLayout.class.php,v 1.4 2004/04/01 19:22:21 adamfranco Exp $
+ * @version $Id: HorizontalMenuLayout.class.php,v 1.5 2005/03/29 19:44:14 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -39,18 +39,18 @@ class HorizontalMenuLayout extends Layout {
 	 * @return void
 	 **/
 	function addComponent( & $object, $valign = TOP, $halign = LEFT ) {
-// 		ArgumentValidator::validate($themeWidgetType, new StringValidatorRule);
-// 		ArgumentValidator::validate($themeWidgetIndex, new IntegerValidatorRule);
+// 		ArgumentValidator::validate($themeWidgetType, StringValidatorRule::getRule());
+// 		ArgumentValidator::validate($themeWidgetIndex, IntegerValidatorRule::getRule());
 		
-		ArgumentValidator::validate($valign, new StringValidatorRule);
-		ArgumentValidator::validate($halign, new StringValidatorRule);
+		ArgumentValidator::validate($valign, StringValidatorRule::getRule());
+		ArgumentValidator::validate($halign, StringValidatorRule::getRule());
 		
 		// get the next open index;
 		$this->_setComponents[] = NULL;
 		end($this->_setComponents);
 		$index = key($this->_setComponents);
 		
-		$rule = new ExtendsValidatorRule(MenuItem);
+		$rule = ExtendsValidatorRule::getRule(MenuItem);
 		if (!$rule->check($object)) {
 			unset ($this->_setComponents[$index]);
 			throwError(new Error(get_class($this)."::setComponent($index) - Could not set component for index $index because it is not of the required type: ".$this->_registeredComponents[$index],"layout",true));

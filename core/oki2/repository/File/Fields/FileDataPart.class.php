@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPart.class.php,v 1.4 2005/02/16 22:48:11 adamfranco Exp $
+ * @version $Id: FileDataPart.class.php,v 1.5 2005/03/29 19:44:28 adamfranco Exp $
  */
  
 class FileDataPart 
@@ -212,7 +212,7 @@ class FileDataPart
 	 * @access public
 	 */
 	function updateValue($value) {
-//		ArgumentValidator::validate($value, new StringValidatorRule);
+//		ArgumentValidator::validate($value, StringValidatorRule::getRule());
 		
 		// Store the data in the object in case its asked for again.
 //		$this->_data = $value;

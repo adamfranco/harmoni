@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.14 2005/03/28 23:32:37 nstamato Exp $
+ * @version $Id: Theme.class.php,v 1.15 2005/03/29 19:44:09 adamfranco Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -132,7 +132,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function Theme($displayName, $description) {
 		// ** parameter validation
-		$rule =& new OptionalRule(new StringValidatorRule());
+		$rule =& OptionalRule::getRule(StringValidatorRule::getRule());
 		ArgumentValidator::validate($displayName, $rule, true);
 		ArgumentValidator::validate($description, $rule, true);
 		// ** end of parameter validation
@@ -163,7 +163,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function setDisplayName($displayName) {
 		// ** parameter validation
-		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		$this->_displayName = $displayName;
@@ -185,7 +185,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function setDescription($description) {
 		// ** parameter validation
-		ArgumentValidator::validate($description, new StringValidatorRule(), true);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		$this->_description = $description;
@@ -200,7 +200,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function addGlobalStyle(& $styleCollection) {
 		// ** parameter validation
-		$rule =& new ExtendsValidatorRule("StyleCollectionInterface");
+		$rule =& ExtendsValidatorRule::getRule("StyleCollectionInterface");
 		ArgumentValidator::validate($styleCollection, $rule, true);
 		// ** end of parameter validation
 		
@@ -244,11 +244,11 @@ class Theme extends ThemeInterface {
 	 **/
 	function &getStylesForComponentType($type, $index) {
 		// ** parameter validation
-		$rule =& new ChoiceValidatorRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
-		ArgumentValidator::validate($index, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		// Frst of all, see if there are any registered styles for this
@@ -286,13 +286,13 @@ class Theme extends ThemeInterface {
 	 **/
 	function addStyleForComponentType(& $styleCollection, $type, $index) {
 		// ** parameter validation
-		$rule =& new ExtendsValidatorRule("StyleCollectionInterface");
+		$rule =& ExtendsValidatorRule::getRule("StyleCollectionInterface");
 		ArgumentValidator::validate($styleCollection, $rule, true);
-		$rule =& new ChoiceValidatorRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
-		ArgumentValidator::validate($index, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		// make sure we can apply it
@@ -325,12 +325,12 @@ class Theme extends ThemeInterface {
 	 **/
 	function setPreHTMLForComponentType($html, $type, $index) {
 		// ** parameter validation
-		ArgumentValidator::validate($html, new StringValidatorRule(), true);
-		$rule =& new ChoiceValidatorRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		ArgumentValidator::validate($html, StringValidatorRule::getRule(), true);
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
-		ArgumentValidator::validate($index, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$this->_componentPreHTML[$type][$index] = $html;
@@ -351,11 +351,11 @@ class Theme extends ThemeInterface {
 	 **/
 	function getPreHTMLForComponentType($type, $index) {
 		// ** parameter validation
-		$rule =& new ChoiceValidatorRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
-		ArgumentValidator::validate($index, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		// Frst of all, see if there are any registered HTML strings for this
@@ -396,12 +396,12 @@ class Theme extends ThemeInterface {
 	 **/
 	function setPostHTMLForComponentType($html, $type, $index) {
 		// ** parameter validation
-		ArgumentValidator::validate($html, new StringValidatorRule(), true);
-		$rule =& new ChoiceValidatorRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		ArgumentValidator::validate($html, StringValidatorRule::getRule(), true);
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
-		ArgumentValidator::validate($index, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$this->_componentPostHTML[$type][$index] = $html;
@@ -422,11 +422,11 @@ class Theme extends ThemeInterface {
 	 **/
 	function getPostHTMLForComponentType($type, $index) {
 		// ** parameter validation
-		$rule =& new ChoiceValidatorRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
-		ArgumentValidator::validate($index, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		// Frst of all, see if there are any registered HTML strings for this
@@ -468,7 +468,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function setComponent(& $component) {
 		// ** parameter validation
-		$rule =& new ExtendsValidatorRule("ComponentInterface");
+		$rule =& ExtendsValidatorRule::getRule("ComponentInterface");
 		ArgumentValidator::validate($component, $rule, true);
 		// ** end of parameter validation
 
@@ -483,7 +483,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function setPageTitle($title) {
 		// ** parameter validation
-		ArgumentValidator::validate($title, new StringValidatorRule(), true);
+		ArgumentValidator::validate($title, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$this->_pageTitle = $title;
@@ -496,7 +496,7 @@ class Theme extends ThemeInterface {
 	 * @return void
 	 **/
 	function addHeadJavascript ( $javascriptString ) {
-		ArgumentValidator::validate($javascriptString, new StringValidatorRule);
+		ArgumentValidator::validate($javascriptString, StringValidatorRule::getRule());
 		
 		$this->_headJavascript .= "\n".$javascriptString;
 	}
@@ -619,9 +619,9 @@ class Theme extends ThemeInterface {
 	 **/
 	function registerSP(& $sp, $postImportMethod) {
 		// ** parameter validation
-		$rule =& new ExtendsValidatorRule("StylePropertyInterface");
+		$rule =& ExtendsValidatorRule::getRule("StylePropertyInterface");
 		ArgumentValidator::validate($sp, $rule, true);
-		$rule =& new OptionalRule(new StringValidatorRule());
+		$rule =& OptionalRule::getRule(StringValidatorRule::getRule());
 		ArgumentValidator::validate($postImportMethod, $rule, true);
 		// ** end of parameter validation
 		
@@ -644,7 +644,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function &getRegisteredSP($id) {
 		// ** parameter validation
-		$rule =& new IntegerRangeValidatorRule(0, count($this->_registeredSPs) - 1);
+		$rule =& IntegerRangeValidatorRule::getRule(0, count($this->_registeredSPs) - 1);
 		ArgumentValidator::validate($sp, $rule, true);
 		// ** end of parameter validation
 			
@@ -714,7 +714,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function &importRegisteredSP($id, $importData) {
 		// ** parameter validation
-		$rule =& new ArrayValidatorRule();
+		$rule =& ArrayValidatorRule::getRule();
 		ArgumentValidator::validate($importData, $rule, true);
 		// ** end of parameter validation
 		

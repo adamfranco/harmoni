@@ -16,7 +16,7 @@ require_once(HARMONI."oki/hierarchy2/DefaultNodeType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.17 2005/01/26 17:37:54 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.18 2005/03/29 19:44:19 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -74,11 +74,11 @@ class HarmoniNode extends Node {
 	 */
 	function HarmoniNode(& $id, & $type, $displayName, $description, & $cache) {
 		// ** parameter validation
- 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
- 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
- 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
-		ArgumentValidator::validate($cache, new ExtendsValidatorRule("HierarchyCache"), true);
+ 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
+ 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
+ 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($cache, ExtendsValidatorRule::getRule("HierarchyCache"), true);
 		// ** end of parameter validation
 		
 		// set the private variables
@@ -202,7 +202,7 @@ class HarmoniNode extends Node {
 	 */
 	function updateDescription($description) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
 		
@@ -246,7 +246,7 @@ class HarmoniNode extends Node {
 	 */
 	function updateDisplayName($displayName) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		// ** end of parameter validation
 		
@@ -328,7 +328,7 @@ class HarmoniNode extends Node {
 	 */
 	function addParent(& $nodeId) {
 		// ** parameter validation
-		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
 		$this->_cache->addParent($nodeId->getIdString(), $this->_id->getIdString());
@@ -352,7 +352,7 @@ class HarmoniNode extends Node {
 	 */
 	function removeParent(& $parentId) {
 		// ** parameter validation
-		ArgumentValidator::validate($parentId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($parentId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 
 		$this->_cache->removeParent($parentId->getIdString(), $this->_id->getIdString());
@@ -366,8 +366,8 @@ class HarmoniNode extends Node {
 	 */
 	function changeParent(& $oldParentId, & $newParentId) { 
 		// ** parameter validation
-		ArgumentValidator::validate($oldParentId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($newParentId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($oldParentId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($newParentId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
 		if ($oldParentId->getIdString() === $newParentId->getIdString())

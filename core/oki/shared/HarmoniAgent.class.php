@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.16 2005/02/07 21:38:22 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.17 2005/03/29 19:44:21 adamfranco Exp $
  */
 class HarmoniAgent extends Agent // :: API interface
 //	extends java.io.Serializable
@@ -66,16 +66,16 @@ class HarmoniAgent extends Agent // :: API interface
 	 */
 	function HarmoniAgent($displayName, & $id, & $type, & $propertiesArray, $dbIndex, $sharedDB) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
-		ArgumentValidator::validate($propertiesArray, new ArrayValidatorRuleWithRule(
-					new OptionalRule(
-						new ExtendsValidatorRule("Properties")
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
+		ArgumentValidator::validate($propertiesArray, ArrayValidatorRuleWithRule::getRule(
+					OptionalRule::getRule(
+						ExtendsValidatorRule::getRule("Properties")
 					)
 				), true);
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		ArgumentValidator::validate($sharedDB, $stringRule, true);
 		// ** end of parameter validation
 		

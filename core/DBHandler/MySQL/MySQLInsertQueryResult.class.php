@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
  *
  * The InsertQueryResult interface provides the functionality common to all INSERT query results.
  * For example, you can get the primary key for the last insertion, get number of inserted rows, etc.
- * @version $Id: MySQLInsertQueryResult.class.php,v 1.2 2004/04/21 17:54:58 adamfranco Exp $
+ * @version $Id: MySQLInsertQueryResult.class.php,v 1.3 2005/03/29 19:44:08 adamfranco Exp $
  * @package harmoni.dbc.mysql
  * @access public
  * @copyright 2003 
@@ -50,7 +50,7 @@ class MySQLInsertQueryResult extends InsertQueryResultInterface  {
 	 */
 	function MySQLInsertQueryResult($linkId) {
 		// ** parameter validation
-		$resourceRule =& new ResourceValidatorRule();
+		$resourceRule =& ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($linkId, $resourceRule, true);
 		// ** end of parameter validation
 

@@ -14,7 +14,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniQualifierIterator.class.php,v 1.7 2005/02/07 21:38:19 adamfranco Exp $
+ * @version $Id: HarmoniQualifierIterator.class.php,v 1.8 2005/03/29 19:44:15 adamfranco Exp $
  */
 
 class HarmoniQualifierIterator
@@ -38,7 +38,7 @@ class HarmoniQualifierIterator
 	 */
 	function HarmoniQualifierIterator (& $qualifierArray) {
 		// make sure that we get an array of Qualifier objects
-		ArgumentValidator::validate($qualifierArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Qualifier")));
+		ArgumentValidator::validate($qualifierArray, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("Qualifier")));
 		
 		// load the types into our private array
 		foreach (array_keys($qualifierArray) as $i => $key) {

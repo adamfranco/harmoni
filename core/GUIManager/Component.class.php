@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.class.php,v 1.12 2005/02/07 21:38:13 adamfranco Exp $
+ * @version $Id: Component.class.php,v 1.13 2005/03/29 19:44:09 adamfranco Exp $
  */
 class Component extends ComponentInterface {
 
@@ -75,13 +75,13 @@ class Component extends ComponentInterface {
 	 **/
 	function Component($content, $type, $index) {
 		// ** parameter validation
-		$rule =& new OptionalRule(new StringValidatorRule($content));
+		$rule =& OptionalRule::getRule(StringValidatorRule::getRule());
 		ArgumentValidator::validate($content, $rule, true);
-		$rule =& new ChoiceValidatorRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
-		ArgumentValidator::validate($index, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
 		$this->_content = $content;
@@ -110,7 +110,7 @@ class Component extends ComponentInterface {
 	 **/
 	function &addStyle(& $styleCollection) {
 		// ** parameter validation
-		$rule =& new ExtendsValidatorRule("StyleCollectionInterface");
+		$rule =& ExtendsValidatorRule::getRule("StyleCollectionInterface");
 		ArgumentValidator::validate($styleCollection, $rule, true);
 		// ** end of parameter validation
 

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethodManager.class.php,v 1.2 2005/03/24 17:25:47 adamfranco Exp $
+ * @version $Id: AuthNMethodManager.class.php,v 1.3 2005/03/29 19:44:23 adamfranco Exp $
  */ 
 
 /**
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethodManager.class.php,v 1.2 2005/03/24 17:25:47 adamfranco Exp $
+ * @version $Id: AuthNMethodManager.class.php,v 1.3 2005/03/29 19:44:23 adamfranco Exp $
  */
 class AuthNMethodManager
 	extends OsidManager
@@ -110,8 +110,8 @@ class AuthNMethodManager
      * @since 3/2/05
      */
     function &addAuthNMethodWithType ( &$authNMethod, &$authNType ) {
-    	ArgumentValidator::validate($authNMethod, new ExtendsValidatorRule("AuthNMethod"));
-    	ArgumentValidator::validate($authNType, new ExtendsValidatorRule("Type"));
+    	ArgumentValidator::validate($authNMethod, ExtendsValidatorRule::getRule("AuthNMethod"));
+    	ArgumentValidator::validate($authNType, ExtendsValidatorRule::getRule("Type"));
     	
     	if ($this->_getKey($authNType) !== NULL)
     		throwError( new Error("Cannot add again, Type '"

@@ -46,7 +46,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.16 2005/03/25 18:34:25 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.17 2005/03/29 19:44:21 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -152,8 +152,8 @@ class HarmoniAgentManager
 		$dbName =& $configuration->getProperty('database_name');
 		
 		// ** parameter validation
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($dbName, new StringValidatorRule(), true);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
+		ArgumentValidator::validate($dbName, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
@@ -233,9 +233,9 @@ class HarmoniAgentManager
 	 */
 	function &createAgent ( $displayName, &$agentType, &$properties ) { 
 		// ** parameter validation
-		ArgumentValidator::validate($agentType, new ExtendsValidatorRule("Type"), true);
-		ArgumentValidator::validate($properties, new ExtendsValidatorRule("Properties"), true);
-		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
+		ArgumentValidator::validate($agentType, ExtendsValidatorRule::getRule("Type"), true);
+		ArgumentValidator::validate($properties, ExtendsValidatorRule::getRule("Properties"), true);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		// create a new unique id for the agent
@@ -318,7 +318,7 @@ class HarmoniAgentManager
 	 */
 	function deleteAgent ( &$id ) { 
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("Id");
+		$extendsRule =& ExtendsValidatorRule::getRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
 		// ** end of parameter validation
 
@@ -488,7 +488,7 @@ class HarmoniAgentManager
 	 */
 	function &getAgent ( &$id ) { 
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("Id");
+		$extendsRule =& ExtendsValidatorRule::getRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
 		// ** end of parameter validation
 
@@ -722,11 +722,11 @@ class HarmoniAgentManager
 	 */
 	function &createGroup ( $displayName, &$groupType, $description, &$properties ) { 
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("Type");
+		$extendsRule =& ExtendsValidatorRule::getRule("Type");
 		ArgumentValidator::validate($groupType, $extendsRule, true);
-		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
-		ArgumentValidator::validate($description, new StringValidatorRule(), true);
-		ArgumentValidator::validate($properties, new ExtendsValidatorRule("Properties"), true);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($properties, ExtendsValidatorRule::getRule("Properties"), true);
 		// ** end of parameter validation
 		
 		// create a new unique id for the group
@@ -847,7 +847,7 @@ class HarmoniAgentManager
 	 */
 	function deleteGroup ( &$id ) { 
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("Id");
+		$extendsRule =& ExtendsValidatorRule::getRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
 		// ** end of parameter validation
 
@@ -1012,7 +1012,7 @@ class HarmoniAgentManager
 	 */
 	function &getGroup ( &$id ) { 
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("Id");
+		$extendsRule =& ExtendsValidatorRule::getRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
 		// ** end of parameter validation
 
@@ -1089,7 +1089,7 @@ class HarmoniAgentManager
 	 * @access public
 	 */
 	function &getGroupsBySearch ( &$searchCriteria, &$groupSearchType ) { 
-		ArgumentValidator::validate($groupSearchType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($groupSearchType, ExtendsValidatorRule::getRule("Type"));
 		$typeString = $groupSearchType->getDomain()
 						."::".$groupSearchType->getAuthority()
 						."::".$groupSearchType->getKeyword();
@@ -1259,7 +1259,7 @@ class HarmoniAgentManager
 	 */
 	function isAgent(& $id) {
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("Id");
+		$extendsRule =& ExtendsValidatorRule::getRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
 		// ** end of parameter validation
 
@@ -1292,7 +1292,7 @@ class HarmoniAgentManager
 	 */
 	function isGroup(& $id) {
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("Id");
+		$extendsRule =& ExtendsValidatorRule::getRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
 		// ** end of parameter validation
 

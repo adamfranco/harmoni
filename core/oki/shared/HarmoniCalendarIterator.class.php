@@ -15,7 +15,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniCalendarIterator.class.php,v 1.5 2005/02/04 15:59:07 adamfranco Exp $
+ * @version $Id: HarmoniCalendarIterator.class.php,v 1.6 2005/03/29 19:44:21 adamfranco Exp $
  */
 class HarmoniCalendarIterator
 	extends CalendarIterator
@@ -38,7 +38,7 @@ class HarmoniCalendarIterator
 	 */
 	function HarmoniCalendarIterator (& $calendarArray) {
 		// make sure that we get an array of DigitalRepository objects
-		ArgumentValidator::validate($calendarArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("DateTime")));
+		ArgumentValidator::validate($calendarArray, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("DateTime")));
 		
 		// load the types into our private array
 		foreach ($calendarArray as $key => $val) {

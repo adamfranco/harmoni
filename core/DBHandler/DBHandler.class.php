@@ -20,7 +20,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.12 2005/03/09 19:37:28 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.13 2005/03/29 19:42:40 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
@@ -56,7 +56,7 @@ class DBHandler extends DBHandlerInterface {
 	 */
 	function addDatabase(& $database) {
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("DatabaseInterface");
+		$extendsRule =& ExtendsValidatorRule::getRule("DatabaseInterface");
 		ArgumentValidator::validate($database, $extendsRule, true);
 		// ** end of parameter validation
 
@@ -81,8 +81,8 @@ class DBHandler extends DBHandlerInterface {
 	 */
 	function createDatabase($dbType, $dbHost, $dbName, $dbUser, $dbPass) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
-		$integerRule =& new IntegerValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
+		$integerRule =& IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($dbType, $integerRule, true);
 		ArgumentValidator::validate($dbHost, $stringRule, true);
 		ArgumentValidator::validate($dbName, $stringRule, true);
@@ -128,7 +128,7 @@ class DBHandler extends DBHandlerInterface {
 	 */
 	function &query(& $query, $dbIndex=0) {
 		// ** parameter validation
-		$queryRule =& new ExtendsValidatorRule("QueryInterface");
+		$queryRule =& ExtendsValidatorRule::getRule("QueryInterface");
 		ArgumentValidator::validate($query, $queryRule, true);
 		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
@@ -149,7 +149,7 @@ class DBHandler extends DBHandlerInterface {
 	 */
 	function &queryQueue(& $queue, $dbIndex=0) {
 		// ** parameter validation
-		$queueRule =& new ExtendsValidatorRule("Queue");
+		$queueRule =& ExtendsValidatorRule::getRule("Queue");
 		ArgumentValidator::validate($queue, $queueRule, true);
 		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
@@ -298,7 +298,7 @@ class DBHandler extends DBHandlerInterface {
 	 */
 	function toDBDate(& $dateTime, $dbIndex = 0) {
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("DateTime");
+		$extendsRule =& ExtendsValidatorRule::getRule("DateTime");
 		ArgumentValidator::validate($dateTime, $extendsRule, true);
 		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
@@ -416,7 +416,7 @@ class DBHandler extends DBHandlerInterface {
 	 */
 	function _validateDBIndex ($dbIndex) {
 		// ** parameter validation
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		// check that the index is valid

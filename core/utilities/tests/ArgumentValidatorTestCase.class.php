@@ -9,7 +9,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ArgumentValidatorTestCase.class.php,v 1.2 2005/01/19 16:33:31 adamfranco Exp $
+ * @version $Id: ArgumentValidatorTestCase.class.php,v 1.3 2005/03/29 19:44:48 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -39,26 +39,26 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 		 */ 
 		function test_All_Sorts_Of_Values() {
 			// test a plain string
-			$this->assertTrue(ArgumentValidator::validate("Hello!", new StringValidatorRule(), true));
+			$this->assertTrue(ArgumentValidator::validate("Hello!", StringValidatorRule::getRule(), true));
 
 			// test numeric values
-			$this->assertTrue(ArgumentValidator::validate("23.21E10", new NumericValidatorRule(), true));
-			$this->assertTrue(ArgumentValidator::validate(23, new NumericValidatorRule(), true));
-			$this->assertTrue(ArgumentValidator::validate(23.21, new NumericValidatorRule(), true));
+			$this->assertTrue(ArgumentValidator::validate("23.21E10", NumericValidatorRule::getRule(), true));
+			$this->assertTrue(ArgumentValidator::validate(23, NumericValidatorRule::getRule(), true));
+			$this->assertTrue(ArgumentValidator::validate(23.21, NumericValidatorRule::getRule(), true));
 
 			// test integer values
-			$this->assertTrue(ArgumentValidator::validate(23, new IntegerValidatorRule(), true));
+			$this->assertTrue(ArgumentValidator::validate(23, IntegerValidatorRule::getRule(), true));
 
 			// test string values
-			$this->assertTrue(ArgumentValidator::validate("23", new StringValidatorRule(), true));
+			$this->assertTrue(ArgumentValidator::validate("23", StringValidatorRule::getRule(), true));
 
 			// test email values
-			$this->assertTrue(ArgumentValidator::validate("dradichk@middlebury.edu", new EmailValidatorRule(), true));
-			$this->assertFalse(ArgumentValidator::validate("dradichk@middlebury", new EmailValidatorRule(), false), "Gabe, fix this! Your EmailValidatorRule is faulty!");
+			$this->assertTrue(ArgumentValidator::validate("dradichk@middlebury.edu", EmailValidatorRule::getRule(), true));
+			$this->assertFalse(ArgumentValidator::validate("dradichk@middlebury", EmailValidatorRule::getRule(), false), "Gabe, fix this! Your EmailValidatorRule is faulty!");
 
 			// test boolean values
-			$this->assertTrue(ArgumentValidator::validate(true, new BooleanValidatorRule(), true));
-			$this->assertFalse(ArgumentValidator::validate("HOHO", new BooleanValidatorRule(), false), "Gabe, fix this! Your BooleanValidatorRule is faulty!\nIn fact, I think you should just use is_bool() in your check() function.");
+			$this->assertTrue(ArgumentValidator::validate(true, BooleanValidatorRule::getRule(), true));
+			$this->assertFalse(ArgumentValidator::validate("HOHO", BooleanValidatorRule::getRule(), false), "Gabe, fix this! Your BooleanValidatorRule is faulty!\nIn fact, I think you should just use is_bool() in your check() function.");
 		}
 			
     }

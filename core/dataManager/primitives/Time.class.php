@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.4 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.5 2005/03/29 19:44:13 adamfranco Exp $
  */
 class Time extends DateTime /* implements Primitive */ {
 	
@@ -39,7 +39,7 @@ class Time extends DateTime /* implements Primitive */ {
 				
 					// If we are passed a DateTime
 					case (is_object($arg)):
-						ArgumentValidator::validate($arg, new ExtendsValidatorRule("DateTime"));
+						ArgumentValidator::validate($arg, ExtendsValidatorRule::getRule("DateTime"));
 						$this->_year = $arg->getYear();
 						$this->_month = $arg->getMonth();
 						$this->_day = $arg->getDay();

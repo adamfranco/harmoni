@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/ThemeSetting.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ColorSetting.class.php,v 1.4 2005/01/19 21:10:14 adamfranco Exp $
+ * @version $Id: ColorSetting.class.php,v 1.5 2005/03/29 19:44:46 adamfranco Exp $
  */
 class ColorSetting
 	extends ThemeSetting {
@@ -49,7 +49,7 @@ class ColorSetting
 	 * @return void
 	 **/
 	function setValue($value) {
-		ArgumentValidator::validate($value, new StringValidatorRule);
+		ArgumentValidator::validate($value, StringValidatorRule::getRule());
 		
 		if(!(ereg("^[0-9a-fA-F]{3}$", $value) || ereg("^[0-9a-fA-F]{6}$", $value)))
 			throwError(new Error("Invalid RGB-Hexadecimal color value, '".$value."'.","ColorSetting", FALSE));
@@ -64,7 +64,7 @@ class ColorSetting
 	 * @return void
 	 **/
 	function &setDefaultValue ($defaultValue) {
-		ArgumentValidator::validate($defaultValue, new StringValidatorRule);
+		ArgumentValidator::validate($defaultValue, StringValidatorRule::getRule());
 		
 		if(!(ereg("^[0-9a-fA-F]{3}$", $defaultValue) || ereg("^[0-9a-fA-F]{6}$", $defaultValue)))
 			throwError(new Error("Invalid RGB-Hexadecimal color value, '".$defaultValue."'.","ColorSetting", FALSE));

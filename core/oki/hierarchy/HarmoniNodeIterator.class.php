@@ -13,7 +13,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNodeIterator.class.php,v 1.7 2005/01/19 22:28:08 adamfranco Exp $
+ * @version $Id: HarmoniNodeIterator.class.php,v 1.8 2005/03/29 19:44:18 adamfranco Exp $
  */
  
 class HarmoniNodeIterator
@@ -37,7 +37,7 @@ class HarmoniNodeIterator
 	 */
 	function HarmoniNodeIterator (& $nodeArray) {
 		// make sure that we get an array of Node objects
-		ArgumentValidator::validate($nodeArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Node")));
+		ArgumentValidator::validate($nodeArray, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule("Node")));
 		
 		// load the types into our private array
 		foreach ($nodeArray as $key => $val) {

@@ -9,7 +9,7 @@ require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
  * query types, or the resource links can be returned and accessed directly.
  *
  * 
- * @version $Id: MySQLGenericQueryResult.class.php,v 1.5 2005/02/04 15:58:41 adamfranco Exp $
+ * @version $Id: MySQLGenericQueryResult.class.php,v 1.6 2005/03/29 19:44:08 adamfranco Exp $
  * @package harmoni.dbc.mysql
  * @access public
  * @copyright 2003 
@@ -44,7 +44,7 @@ class MySQLGenericQueryResult extends GenericQueryResultInterface {
 	 */
 	function MySQLGenericQueryResult ($resourceId, $linkId) {
 		// ** parameter validation
-		$resourceRule =& new ResourceValidatorRule();
+		$resourceRule =& ResourceValidatorRule::getRule();
 		if (!is_bool($resourceId)) {
 			ArgumentValidator::validate($resourceId, $resourceRule, true);
 		}

@@ -9,7 +9,7 @@ require_once(HARMONI."DBHandler/InsertQuery.interface.php");
  * initialization steps, etc. What is left to be implemented is the
  * generateSQLQuery() method.
  * 
- * @version $Id: InsertQuery.class.php,v 1.3 2005/02/04 15:58:40 adamfranco Exp $
+ * @version $Id: InsertQuery.class.php,v 1.4 2005/03/29 19:42:52 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -71,7 +71,7 @@ class InsertQuery extends InsertQueryInterface {
 	 */
 	function setTable($table) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($table, $stringRule, true);
 		// ** end of parameter validation
 
@@ -85,7 +85,7 @@ class InsertQuery extends InsertQueryInterface {
 	 */
 	function setColumns($columns) {
 		// ** parameter validation
-		$arrayRule =& new ArrayValidatorRule();
+		$arrayRule =& ArrayValidatorRule::getRule();
 		ArgumentValidator::validate($columns, $arrayRule, true);
 		// ** end of parameter validation
 
@@ -103,7 +103,7 @@ class InsertQuery extends InsertQueryInterface {
 	 */
 	function addRowOfValues($values) {
 		// ** parameter validation
-		$arrayRule =& new ArrayValidatorRule();
+		$arrayRule =& ArrayValidatorRule::getRule();
 		ArgumentValidator::validate($values, $arrayRule, true);
 		// ** end of parameter validation
 
@@ -136,7 +136,7 @@ class InsertQuery extends InsertQueryInterface {
 		// be defined as such in the table definition.
 		
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
+		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($column, $stringRule, true);
 		ArgumentValidator::validate($sequence, $stringRule, true);
 		// ** end of parameter validation
