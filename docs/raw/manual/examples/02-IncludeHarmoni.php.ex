@@ -1,3 +1,0 @@
-require_once("/path/to/harmoni.inc.php");
-
-...

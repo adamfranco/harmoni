@@ -1,1 +1,0 @@
-$errorHandler =& Services::requireService("ErrorHandler");
