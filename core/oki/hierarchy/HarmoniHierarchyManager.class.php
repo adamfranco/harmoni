@@ -2,21 +2,10 @@
 
 require_once(OKI."/hierarchy/hierarchyAPI.interface.php");
 
-// public static final int TRAVERSE_MODE_DEPTH_FIRST = 0xdf;
-define("TRAVERSE_MODE_DEPTH_FIRST",0xdf;);
-
-// public static final int TRAVERSE_MODE_BREADTH_FIRST = 0xbf;
-define("TRAVERSE_MODE_BREADTH_FIRST",0xbf;);
-
-// public static final int TRAVERSE_DIRECTION_UP = 0x01;
-define("TRAVERSE_DIRECTION_UP",0x01;);
-
-// public static final int TRAVERSE_DIRECTION_DOWN = 0x02;
-define("TRAVERSE_DIRECTION_DOWN",0x02;);
-
-// public static final int TRAVERSE_LEVELS_INFINITE = -1;
-define("TRAVERSE_LEVELS_INFINITE",-1;);
-
+require_once(HARMONI."oki/hierarchy/HarmoniHierarchy.class.php");
+require_once(HARMONI."oki/hierarchy/HarmoniHierarchyIterator.class.php");
+require_once(HARMONI."oki/hierarchy/HarmoniNodeIterator.class.php");
+require_once(HARMONI."oki/hierarchy/HarmoniTraversalInfoIterator.class.php");
 
 class HarmoniHierarchyManager
 	extends HierarchyManager
