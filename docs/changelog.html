@@ -3,7 +3,42 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.1.0</h2><h3>2004-06-11</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.2.0</h2><h3>Unreleased</h3><ul>
+		<li/> Bug Fix:
+	 
+			AuthN queries now have slashes added to dbc query values.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Shared queries now have slashes added to query values.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Globally added addslashes() calls to quoted values in query strings.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Fixed LoginHandler problem which was preventing the use of custom
+			callback functions.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			A new &quot;Sets&quot; service provides an easy system for the creation, ordering,
+			and maintaining of persistant collections of Ids.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Added a &quot;revision&quot; to all DataSetTypeDefinitions for later program upgrades (can check revision number to see if the structure is up-to-date instead of comparing every field).
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			GUIManager service, based around CSS, will eventually replace the 
+			theme/layout handlers.
+		 (<i>Dobo Radichkov</i>)
+		<li/> New feature:  
+			Implemented the Authorization OSID.
+		 (<i>Dobo Radichkov</i>)
+		<li/> Change:  
+			Reworked the Hierarchy implementation to use a better data-fetching/caching
+			model.
+		 (<i>Dobo Radichkov</i>)
+	</ul><br/><h2>Version 0.1.0</h2><h3>2004-06-11</h3><ul>
 		<li/> New feature:  
 			Added a new OKI-Hiearchy implementation (hierarchy2).
 		 (<i>Dobo Radichkov</i>)
@@ -14,11 +49,10 @@
 	 
 			Bugs in LoginHandler.
 		 (<i>Gabe Schine</i>)
-		<li/> Bug Fix:
-	<a href="&#10;        &#9;&#9;&#9;&#9;http://sourceforge.net/tracker/index.php?func=detail&amp;aid=958187&amp;group_id=82873&amp;atid=567473">
-        			#958187</a> 
-			Added the XOR functionality described in the manual
-		 (<i></i>)	
+		<li/> Change:  
+			LanguageLocalizer reworked for easier usage and caching of language
+			preferences.
+		 (<i>Adam Franco</i>)
 		<li/> Change:  
 			The DataManager/metaData now uses the OKI Shared Ids instead of its own internal
 			id system. This keeps all access to unique ids safely behind the Shared interface.
@@ -29,7 +63,7 @@
 		 (<i>Adam Franco</i>)
 		<li/> Change:  
 			Argument Validator now dosn't fail on string representations of integers;
-			i.e. "100" as well as 100 will validate.
+			i.e. &quot;100&quot; as well as 100 will validate.
 		 (<i>Adam Franco</i>)
 		<li/> New feature:  
 			Implimented the Digital Repository OSID in Harmoni. The DR uses the Hierarchy OSID,
@@ -134,7 +168,7 @@
 			to give correct 1-24 value. Other DB Types haven't yet been checked.
 		 (<i>Gabe Schine</i>)
 		<li/> Change:  
-			Modified field in HarmoniDataManager table "datasetfield" from "datasetfield_created" to "datasetfield_modified"
+			Modified field in HarmoniDataManager table &quot;datasetfield&quot; from &quot;datasetfield_created&quot; to &quot;datasetfield_modified&quot;
 			since it is updated on every commit().
 		 (<i>Gabe Schine</i>)
 		<li/> New feature:  
@@ -193,10 +227,10 @@
 		<li/> Change:  LoginHandler and Harmoni: when LoginHandler is used, 
 		the action that is checked for required authentication is now the LAST action
 		executed instead of the first. This way, the action that finally ends up being
-		executed is the "authoritative" action. (<i>Gabe Schine</i>)
+		executed is the &quot;authoritative&quot; action. (<i>Gabe Schine</i>)
 	</ul><br/><h2>Version 0.0.3</h2><h3>2003-11-26</h3><ul>
 		<li/> Change:  Made ActionHandler check for class and method definitions before trying to execute them. (<i>Gabe Schine</i>)
-		<li/> New feature:  Added defines in config/services.cfg.php to allow a choice of which major "modules" of Harmoni to load, in order to save on startup time. (<i>Gabe Schine</i>)
+		<li/> New feature:  Added defines in config/services.cfg.php to allow a choice of which major &quot;modules&quot; of Harmoni to load, in order to save on startup time. (<i>Gabe Schine</i>)
 		<li/> Bug Fix:
 	 Numerous bug fixes in Harmoni, ActionHandler, LoginHandler (<i>Gabe Schine</i>)
 		<li/> New feature:  Added a file under core/version.inc.php which holds the current harmoni versions. (<i>Gabe Schine</i>)
@@ -238,7 +272,7 @@
 		 (<i>Gabe Schine</i>)
 		<li/> Change:  
 			LanguageLocalizer now uses gettext() functions instead of
-			home-brewed. Included PO generators, "borrowed" from the Horde
+			home-brewed. Included PO generators, &quot;borrowed&quot; from the Horde
 			project (www.horde.org).
 		 (<i>Gabe Schine</i>)
 		<li/> Change:  New OKI interfaces, OKI gen-scripts and token
