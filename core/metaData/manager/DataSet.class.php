@@ -122,11 +122,21 @@ class FullDataSet extends CompactDataSet {
 	}
 	
 	function deleteAllValues($label) {
+		$this->_checkLabel($label, __FUNCTION__);
 		
+		$num = $this->_fields[$label]->numValues();
+		$good = true;
+		for($i=0; $i<$num; $i++) {
+			if (!$this->_fields[$label]->deleteValue($i)) $good=false;
+		}
+		
+		return $good;
 	}
 	
 	function deleteValue($label, $index=0) {
+		$this->_checkLabel($label, __FUNCTION__);
 		
+		return $this->_fields[$label]->deleteValue($index);
 	}
 	
 }

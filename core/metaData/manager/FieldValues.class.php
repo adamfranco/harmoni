@@ -94,6 +94,19 @@ class FieldValues {
 		$this->_values[$index]->setValue($value);
 	}
 	
+	function deleteValue($index) {
+		if ($this->_parent->readOnly()) {
+			throwError( new Error("Can not set value in DataSet because it was fetched
+			from the database readonly. You must re-fetch it fully to make changes.","FieldValues",true));
+		}
+		
+		if (!isset($this->_values[$index])) {
+			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
+		}
+		
+		$this->_values[$index]->delete();
+	}
+	
 	function numValues() { return $this->_numValues; }
 	
 	function numVersions( $index=0 ) {

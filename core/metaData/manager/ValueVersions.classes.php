@@ -90,6 +90,14 @@ class ValueVersions {
 		return $this->_versions[$verID];
 	}
 	
+	function delete() {
+		// go through all the versions and deactivate them.
+		foreach ($this->getVersionList() as $ver) {
+			$this->_versions[$ver]->setActiveFlag(false);
+			$this->_versions[$ver]->update(); // update to DB on commit()
+		}
+	}
+	
 }
 
 class ValueVersion {
