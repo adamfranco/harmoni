@@ -19,7 +19,7 @@ define ("BLANK_WIDGET", "blank");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: Theme.abstract.php,v 1.8 2004/03/17 17:51:06 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.9 2004/03/31 23:03:06 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -424,7 +424,7 @@ class Theme
 			$widgetArray = array();
 		
 		$widgetArray[] =& $themeWidget;
-		$index = count(widgetArray);
+		$index = count($widgetArray);
 		$themeWidget->setIndex($index);
 		$themeWidget->setType($type);
 		return $index;
@@ -483,15 +483,33 @@ class Theme
 	 * @access protected
 	 * @return object HarmoniIterator All the widgets.
 	 */
-	function getAllWidgets() {
-		$allWidgets =& array_merge($this->_textBlocks,
-									$this->_headings,
-									$this->_footers,
-									$this->_menus, 
-									$this->_menuItems,
-									$this->_selectedMenuItems,
-									$this->_menuHeadings,
-									$this->_blanks);
+	function & getAllWidgets() {
+		$allWidgets = array(); 
+		
+		foreach(array_keys($this->_textBlocks) as $key)
+			$allWidgets[] =& $this->_textBlocks[$key];
+		
+		foreach(array_keys($this->_headings) as $key)
+			$allWidgets[] =& $this->_headings[$key];
+		
+		foreach(array_keys($this->_footers) as $key)
+			$allWidgets[] =& $this->_footers[$key];
+		
+		foreach(array_keys($this->_menus) as $key)
+			$allWidgets[] =& $this->_menus[$key];
+		
+		foreach(array_keys($this->_menuItems) as $key)
+			$allWidgets[] =& $this->_menuItems[$key];
+			
+		foreach(array_keys($this->_selectedMenuItems) as $key)
+			$allWidgets[] =& $this->_selectedMenuItems[$key];
+		
+		foreach(array_keys($this->_menuHeadings) as $key)
+			$allWidgets[] =& $this->_menuHeadings[$key];
+		
+		foreach(array_keys($this->_blanks) as $key)
+			$allWidgets[] =& $this->_blanks[$key];
+		
 		return new HarmoniIterator($allWidgets);
 	}
 }
