@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.44 2005/04/01 18:54:23 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.45 2005/04/01 19:59:36 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -22,11 +22,6 @@ if (!defined("LOAD_STORAGE")) 				define("LOAD_STORAGE", true);
  * functionality affected: Debug output
  */
 if (!defined("LOAD_DEBUG")) 				define("LOAD_DEBUG", true);
-
-/**
- * functionality affected: Layout/Themes
- */
-if (!defined("LOAD_THEMES")) 				define("LOAD_THEMES", true);
 
 /**
  * functionality affected: Themes/Layouts through the GUIManager
@@ -189,16 +184,6 @@ if (LOAD_DEBUG) {
 	Services::registerService("DebugManager","DebugHandler");
 	Services::createServiceAlias("DebugManager", "Debug");
 	require_once(HARMONI."debugHandler/debug.class.php");
-}
-
-/**
- * load layout and theme handlers
- */
-if (LOAD_THEMES) {
-	require_once(HARMONI."layoutHandler/LayoutHandler.class.php");
-	require_once(HARMONI."themeHandler/ThemeHandler.class.php");
-	Services::registerService("ThemeManager", "ThemeHandler");
-	Services::createServiceAlias("ThemeManager", "Themes");
 }
 
 /**

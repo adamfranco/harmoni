@@ -18,7 +18,7 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.33 2005/04/01 18:46:12 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.34 2005/04/01 19:59:36 adamfranco Exp $
  **/
 class Harmoni {
 	
@@ -332,7 +332,7 @@ class Harmoni {
 		$this->config->checkAll();
 		
 		// check to make sure we have a theme object set!
-		if ($this->config->get("outputHTML") && !$this->theme) throwError(new Error("Harmoni::execute() - You must 
+		if ($this->config->get("useThemingSystem") && !$this->theme) throwError(new Error("Harmoni::execute() - You must 
 							specify a theme to use before calling execute()!","Harmoni",true));
 		
 		// detect the current action
@@ -357,7 +357,7 @@ class Harmoni {
 		
 		// output a content-type header with specified charset. this can be
 		// overridden at any later time.
-		if ($this->config->get("outputHTML"))
+		if ($this->config->get("useThemingSystem"))
 			header("Content-type: text/html; charset=".$this->config->get("charset"));
 		
 		$result =& $this->ActionHandler->execute($module, $action);
@@ -379,15 +379,12 @@ class Harmoni {
 			}
 		}
 		
-		// we only need to print anything out if config->outputHTML is set.
-		if ($this->config->get("outputHTML")) {
+		// we only need to print anything out if config->useThemingSystem is set.
+		if ($this->config->get("useThemingSystem")) {
 			// alright, if what we got back was a layout, let's print it out!
-			$rule = ExtendsValidatorRule::getRule("LayoutInterface");
-			$rule2 = ExtendsValidatorRule::getRule("ComponentInterface");
-			if ($rule->check($result)) {
-				// indeed!
-				$this->theme->printPage($result);
-			} else if($rule2->check($result)){
+			$rule = ExtendsValidatorRule::getRule("ComponentInterface");
+			
+			if ($rule->check($result)){
 				$this->theme->setComponent($result);
 				$this->theme->printPage();
 			}

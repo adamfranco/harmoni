@@ -4,7 +4,8 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.3.0" date="The nebulous future">
 		<change author='adam'>
-			OKI version 1 implementations have been removed.
+			OKI version 1 interfaces and implementations have been removed, saving
+			2MB of files and cleaning up the source tree.
 		</change>
 		<change author='adam'>
 			The hierarchy's Tree class, HierarchyManager/tree/Tree.class.php, now 
@@ -18,7 +19,8 @@
 			of ValidatorRule objects.
 		</new>
 		<new author='dobo'>
-			GUI Manager now complete.
+			GUI Manager now complete. ThemeHandler and LayoutHandler have been
+			removed.
 		</new>
 		<new author='nik'>
 			GUI Manager saving functionality.

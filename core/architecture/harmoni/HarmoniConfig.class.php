@@ -10,7 +10,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniConfig.class.php,v 1.6 2005/03/29 19:44:12 adamfranco Exp $
+ * @version $Id: HarmoniConfig.class.php,v 1.7 2005/04/01 19:59:37 adamfranco Exp $
  */
 
 class HarmoniConfig extends DataContainer {
@@ -38,8 +38,8 @@ class HarmoniConfig extends DataContainer {
 		
 		$this -> add("charset", FieldRequiredValidatorRule::getRule());
 		
-		$this -> add("outputHTML", BooleanValidatorRule::getRule());
-		$this -> set("outputHTML", true);
+		$this -> add("useThemingSystem", BooleanValidatorRule::getRule());
+		$this -> set("useThemingSystem", true);
 		
 		$this -> add("sessionName", FieldRequiredValidatorRule::getRule());
 		$this -> set("sessionName","Harmoni");
