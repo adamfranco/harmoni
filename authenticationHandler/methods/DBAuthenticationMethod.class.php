@@ -1,13 +1,13 @@
 <?php
 
 require_once(HARMONI."authenticationHandler/AuthenticationMethod.abstract.php");
-require_once(HARMONI."utilities/DataContainer.abstract.php");
+require_once(HARMONI."authenticationHandler/methods/DBMethodOptions.class.php");
 
 /**
  * the DB Authentication Method will contact an SQL database and check a username/password pair
  * against fields in a specified table.
  *
- * @version $Id: DBAuthenticationMethod.class.php,v 1.2 2003/06/25 14:07:50 gabeschine Exp $
+ * @version $Id: DBAuthenticationMethod.class.php,v 1.3 2003/06/25 14:41:00 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -147,7 +147,7 @@ class DBAuthenticationMethod
 				$query->addColumn($field);
 		}
 		
-		$where = $o->get("userNameField")."='" . $systemName ."'";
+		$where = $o->get("usernameField")."='" . $systemName ."'";
 		$query->setWhere($where);
 		
 		$result = & $DBHandler->query($query,$this->_id);
@@ -253,9 +253,9 @@ class DBAuthenticationMethod
 		$query = & new SelectQuery;
 		$query->addTable($o->get("tableName"));
 		
-		$query->addColumn($o->get("userNameField"));
+		$query->addColumn($o->get("usernameField"));
 		
-		$where = $o->get("userNameField")."='" . $systemName ."'";
+		$where = $o->get("usernameField")."='" . $systemName ."'";
 		$query->setWhere($where);
 		
 		$result = & $DBHandler->query($query,$this->_id);
@@ -263,22 +263,6 @@ class DBAuthenticationMethod
 		if ($result->getNumberOfRows()) // yep
 			return true;
 		return false;
-	}
-}
-
-/** 
- * 
- * @package harmoni.authenticationHandler
- *
- **/
-class DBMethodOptions extends DataContainer {
-	/**
-     * Constructor
-     * @access protected
-	 * @return void
-     */
-	function DBMethodOptions(){
-		
 	}
 }
 
