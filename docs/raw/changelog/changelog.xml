@@ -3,44 +3,144 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.3" date="Not Released">
-		<new author='gabe'>Harmoni Users's Guide stored locally in XML format. Wrote a gen-script in PHP using domxml to make pretty HTML interface.</new>
-		<change author='gabe'>LanguageLocalizer now uses gettext() functions instead of home-brewed. Included PO generators, "borrowed" from the Horde project (www.horde.org).</change>
-		<change author='gabe'>New OKI interfaces, OKI gen-scripts and token files added (under harmoni/oki and harmoni/core/tools/oki respectively)</change>
+		<change author='adam'> 
+			Various fixes to the OSIDs. Added 'requires' for classes being extended. Fixed
+			syntax errors.
+		</change>
+		<new author='adam'>
+			Laid out a skeleton Shared Service implimentation. Currently the shared manager
+			only provides for the generation of unique IDs using a databse.
+		</new>
+		<new author='adam'>
+			Fully implimented the Hierarchy Service, the first of the OKI OSIDs to be
+			implimented. The Hierarchy Service supports saving to a database as well as
+			memory-only usage.
+		</new>
+		<new author='gabe'>
+			Harmoni Users's Guide stored locally in XML format. Wrote a gen-script in PHP 
+			using domxml to make pretty HTML interface.
+		</new>
+		<change author='gabe'>
+			LanguageLocalizer now uses gettext() functions instead of home-brewed. Included 
+			PO generators, "borrowed" from the Horde project (www.horde.org).
+		</change>
+		<change author='gabe'>New OKI interfaces, OKI gen-scripts and token files added 
+			(under harmoni/oki and harmoni/core/tools/oki respectively)
+		</change>
 	</version>
 	<version number="0.0.2" date="2003-09-28">
-		<new author='gabe'>ActionHandler::forward($action) can now be called from within an action to continue execution.</new>
-		<new author='gabe'>Services::registerObjectAsService() allows you to register an already-instantiated object as a service.</new>
-		<change author='gabe'>Services::requireService() now returns the started service.</change>
-		<change author='gabe'>LanguageLocalizer files can now have comments (designated by '#') and keys/values are trimmed.</change>
-		<change author='gabe'>Harmoni->execute() now returns the result from the action if outputHTML = false.</change>
-		<change author='gabe'>DebugHandlers now store an internal output level which is used when none is passed to the Printer.</change>
-		<change author='gabe'>LoginState now keeps track of both an Active and Logged-in agent.</change>
-		<change author='gabe'>Layouts &amp; other VisualComponents now have setLevel() and getLevel() methods and store the level locally.</change>
-		<change author='gabe'>Template->output() now accepts a variable length argument list of FieldSets or hash tables.</change>
-		<change author='gabe'>Actions are now passed a reference to the Harmoni object.</change>
-		<new author='gabe'>Databases now have a toDBDate() and fromDBDate() function to convert to the necessary Date format.</new>
-		<new author='gabe'>Completed ActionHandler, LoginHandler and Harmoni classes and services.</new>
-		<change author='dobo'>Deprecated the createDatabase() method in DBHandler. Use addDatabase(), instead. This
-		change was provoked by the fact that Oracle requires different arguments to instantiate the DB object.</change>
-		<new author='gabe'>Added RGBcolor and HTMLcolor classes.</new>
-		<change author='gabe'>Finished Layout, Theme and Template.</change>
-		<change>AuthenticationMethod includes changed to avoid random unprintable character output.</change>
-		<change author='gabe'>FieldSetValidator and RuleSet now take optional argument on validate()/validateAll() functions specifying if errors should be thrown upon failure or not.</change>
-		<change author='gabe'>RuleSet can now accept an ErrorHandler to use via setErrorHandler().</change>
-		<new author='dobo'>DBHandler can now use a PostgreSQL server and fetching last insert ID works on all integrated DBs.</new>
-		<change author='gabe'>layoutHandler now works. Theme integration is to come.</change>
-		<new author='max'>Database file storage method.</new>
-		<new author='gabe'>Added interfaces for: VisualComponent, Layout, Menu, Content -- all part of the LayoutHandler.</new>
-		<change author='gabe'>AuthenticationResult now holds authenticated agent's system name as well as valid methods.</change>
-		<change author='gabe'>AgentInformationHandler now handles compiling of search results and returns the appropriate array format.</change>
-		<change author='gabe'>AuthenticationMethod::getAgentInformation now returns an associative array of [username]=>array([key1]=>value1,...),...</change>
-		<new author='gabe'>ChangeLog now held in an XML file and translated by XSL!</new>
+		<new author='gabe'>
+			ActionHandler::forward($action) can now be called from within an action to 
+			continue execution.
+		</new>
+		<new author='gabe'>
+			Services::registerObjectAsService() allows you to register an already-instantiated
+			object as a service.
+		</new>
+		<change author='gabe'>
+			Services::requireService() now returns the started service.
+		</change>
+		<change author='gabe'>
+			LanguageLocalizer files can now have comments (designated by '#') and keys/values
+			are trimmed.
+		</change>
+		<change author='gabe'>
+			Harmoni->execute() now returns the result from the action if outputHTML = false.
+		</change>
+		<change author='gabe'>
+			DebugHandlers now store an internal output level which is used when none is 
+			passed to the Printer.
+		</change>
+		<change author='gabe'>
+			LoginState now keeps track of both an Active and Logged-in agent.
+		</change>
+		<change author='gabe'>
+			Layouts &amp; other VisualComponents now have setLevel() and getLevel() methods
+			and store the level locally.
+		</change>
+		<change author='gabe'>
+			Template->output() now accepts a variable length argument list of FieldSets or 
+			hash tables.
+		</change>
+		<change author='gabe'>
+			Actions are now passed a reference to the Harmoni object.
+		</change>
+		<new author='gabe'>
+			Databases now have a toDBDate() and fromDBDate() function to convert to the 
+			necessary Date format.
+		</new>
+		<new author='gabe'>
+			Completed ActionHandler, LoginHandler and Harmoni classes and services.
+		</new>
+		<change author='dobo'>
+			Deprecated the createDatabase() method in DBHandler. Use addDatabase(), instead.
+			This change was provoked by the fact that Oracle requires different arguments to
+			instantiate the DB object.
+		</change>
+		<new author='gabe'>
+			Added RGBcolor and HTMLcolor classes.
+		</new>
+		<change author='gabe'>
+			Finished Layout, Theme and Template.
+		</change>
+		<change>
+			AuthenticationMethod includes changed to avoid random unprintable character 
+			output.
+		</change>
+		<change author='gabe'>
+			FieldSetValidator and RuleSet now take optional argument on 
+			validate()/validateAll() functions specifying if errors should be thrown upon 
+			failure or not.
+		</change>
+		<change author='gabe'>
+			RuleSet can now accept an ErrorHandler to use via setErrorHandler().
+		</change>
+		<new author='dobo'>
+			DBHandler can now use a PostgreSQL server and fetching last insert ID works on 
+			all integrated DBs.
+		</new>
+		<change author='gabe'>
+			layoutHandler now works. Theme integration is to come.
+		</change>
+		<new author='max'>
+			Database file storage method.
+		</new>
+		<new author='gabe'>
+			Added interfaces for: VisualComponent, Layout, Menu, Content -- all part of the 
+			LayoutHandler.
+		</new>
+		<change author='gabe'>
+			AuthenticationResult now holds authenticated agent's system name as well as valid 
+			methods.
+		</change>
+		<change author='gabe'>
+			AgentInformationHandler now handles compiling of search results and returns the 
+			appropriate array format.
+		</change>
+		<change author='gabe'>
+			AuthenticationMethod::getAgentInformation now returns an associative array of 
+			[username]=>array([key1]=>value1,...),...
+		</change>
+		<new author='gabe'>
+			ChangeLog now held in an XML file and translated by XSL!
+		</new>
 	</version>
 	<version number="0.0.1" date="2003-07-10">
-		<change author='gabe'>Changed AuthenticationMethod to allow for getAgentInformation(username,searchMode) so that one can search for a username/fullname etc as well as get information for a single entry.</change>
-		<new author='max'>Added StatisticsHandler.</new>
-		<change author='gabe'>Updated DB and LDAP AuthenticationMethods to allow for user-info searching &amp; tested backwards compatibility.</change>
-		<change author='gabe'>Changed naming scheme of packages so that they describe more clearly what they DO as opposed to what they CONTAIN.</change>
+		<change author='gabe'>
+			Changed AuthenticationMethod to allow for getAgentInformation(username,searchMode)
+			so that one can search for a username/fullname etc as well as get information for a single entry.
+		</change>
+		<new author='max'>
+			Added StatisticsHandler.
+		</new>
+		<change author='gabe'>
+			Updated DB and LDAP AuthenticationMethods to allow for user-info searching &amp; 
+			tested backwards compatibility.
+		</change>
+		<change author='gabe'>
+			Changed naming scheme of packages so that they describe more clearly what they DO
+			as opposed to what they CONTAIN.
+		</change>
 	</version>
 	
 	<authors>

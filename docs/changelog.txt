@@ -3,6 +3,21 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.0.3 (Not Released)
+----------------------------------------------------
+		
+	* Change: Various fixes to the OSIDs. Added 'requires' for classes being extended. Fixed syntax errors. (Adam Franco)
+		
+	* New feature: Laid out a skeleton Shared Service implimentation. Currently the shared manager only provides for the generation of unique IDs using a databse. (Adam Franco)
+		
+	* New feature: Fully implimented the Hierarchy Service, the first of the OKI OSIDs to be implimented. The Hierarchy Service supports saving to a database as well as memory-only usage. (Adam Franco)
+		
+	* New feature: Harmoni Users's Guide stored locally in XML format. Wrote a gen-script in PHP using domxml to make pretty HTML interface. (Gabe Schine)
+		
+	* Change: LanguageLocalizer now uses gettext() functions instead of home-brewed. Included PO generators, &quot;borrowed&quot; from the Horde project (www.horde.org). (Gabe Schine)
+		
+	* Change: New OKI interfaces, OKI gen-scripts and token files added (under harmoni/oki and harmoni/core/tools/oki respectively) (Gabe Schine)
+	
 v. 0.0.2 (2003-09-28)
 ----------------------------------------------------
 		

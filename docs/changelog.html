@@ -3,37 +3,141 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.0.2</h2><h3>2003-09-28</h3><ul>
-		<li/> New feature:  ActionHandler::forward($action) can now be called from within an action to continue execution. (<i>Gabe Schine</i>)
-		<li/> New feature:  Services::registerObjectAsService() allows you to register an already-instantiated object as a service. (<i>Gabe Schine</i>)
-		<li/> Change:  Services::requireService() now returns the started service. (<i>Gabe Schine</i>)
-		<li/> Change:  LanguageLocalizer files can now have comments (designated by '#') and keys/values are trimmed. (<i>Gabe Schine</i>)
-		<li/> Change:  Harmoni-&gt;execute() now returns the result from the action if outputHTML = false. (<i>Gabe Schine</i>)
-		<li/> Change:  DebugHandlers now store an internal output level which is used when none is passed to the Printer. (<i>Gabe Schine</i>)
-		<li/> Change:  LoginState now keeps track of both an Active and Logged-in agent. (<i>Gabe Schine</i>)
-		<li/> Change:  Layouts &amp; other VisualComponents now have setLevel() and getLevel() methods and store the level locally. (<i>Gabe Schine</i>)
-		<li/> Change:  Template-&gt;output() now accepts a variable length argument list of FieldSets or hash tables. (<i>Gabe Schine</i>)
-		<li/> Change:  Actions are now passed a reference to the Harmoni object. (<i>Gabe Schine</i>)
-		<li/> New feature:  Databases now have a toDBDate() and fromDBDate() function to convert to the necessary Date format. (<i>Gabe Schine</i>)
-		<li/> New feature:  Completed ActionHandler, LoginHandler and Harmoni classes and services. (<i>Gabe Schine</i>)
-		<li/> Change:  Deprecated the createDatabase() method in DBHandler. Use addDatabase(), instead. This
-		change was provoked by the fact that Oracle requires different arguments to instantiate the DB object. (<i>Dobo Radichkov</i>)
-		<li/> New feature:  Added RGBcolor and HTMLcolor classes. (<i>Gabe Schine</i>)
-		<li/> Change:  Finished Layout, Theme and Template. (<i>Gabe Schine</i>)
-		<li/> Change:  AuthenticationMethod includes changed to avoid random unprintable character output.
-		<li/> Change:  FieldSetValidator and RuleSet now take optional argument on validate()/validateAll() functions specifying if errors should be thrown upon failure or not. (<i>Gabe Schine</i>)
-		<li/> Change:  RuleSet can now accept an ErrorHandler to use via setErrorHandler(). (<i>Gabe Schine</i>)
-		<li/> New feature:  DBHandler can now use a PostgreSQL server and fetching last insert ID works on all integrated DBs. (<i>Dobo Radichkov</i>)
-		<li/> Change:  layoutHandler now works. Theme integration is to come. (<i>Gabe Schine</i>)
-		<li/> New feature:  Database file storage method. (<i>Max Ovsjanikovs</i>)
-		<li/> New feature:  Added interfaces for: VisualComponent, Layout, Menu, Content -- all part of the LayoutHandler. (<i>Gabe Schine</i>)
-		<li/> Change:  AuthenticationResult now holds authenticated agent's system name as well as valid methods. (<i>Gabe Schine</i>)
-		<li/> Change:  AgentInformationHandler now handles compiling of search results and returns the appropriate array format. (<i>Gabe Schine</i>)
-		<li/> Change:  AuthenticationMethod::getAgentInformation now returns an associative array of [username]=&gt;array([key1]=&gt;value1,...),... (<i>Gabe Schine</i>)
-		<li/> New feature:  ChangeLog now held in an XML file and translated by XSL! (<i>Gabe Schine</i>)
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.0.3</h2><h3>Not Released</h3><ul>
+		<li/> Change:   
+			Various fixes to the OSIDs. Added 'requires' for classes being extended. Fixed
+			syntax errors.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Laid out a skeleton Shared Service implimentation. Currently the shared manager
+			only provides for the generation of unique IDs using a databse.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Fully implimented the Hierarchy Service, the first of the OKI OSIDs to be
+			implimented. The Hierarchy Service supports saving to a database as well as
+			memory-only usage.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Harmoni Users's Guide stored locally in XML format. Wrote a gen-script in PHP 
+			using domxml to make pretty HTML interface.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			LanguageLocalizer now uses gettext() functions instead of home-brewed. Included 
+			PO generators, &quot;borrowed&quot; from the Horde project (www.horde.org).
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  New OKI interfaces, OKI gen-scripts and token files added 
+			(under harmoni/oki and harmoni/core/tools/oki respectively)
+		 (<i>Gabe Schine</i>)
+	</ul><br/><h2>Version 0.0.2</h2><h3>2003-09-28</h3><ul>
+		<li/> New feature:  
+			ActionHandler::forward($action) can now be called from within an action to 
+			continue execution.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Services::registerObjectAsService() allows you to register an already-instantiated
+			object as a service.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Services::requireService() now returns the started service.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			LanguageLocalizer files can now have comments (designated by '#') and keys/values
+			are trimmed.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Harmoni-&gt;execute() now returns the result from the action if outputHTML = false.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			DebugHandlers now store an internal output level which is used when none is 
+			passed to the Printer.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			LoginState now keeps track of both an Active and Logged-in agent.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Layouts &amp; other VisualComponents now have setLevel() and getLevel() methods
+			and store the level locally.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Template-&gt;output() now accepts a variable length argument list of FieldSets or 
+			hash tables.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Actions are now passed a reference to the Harmoni object.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Databases now have a toDBDate() and fromDBDate() function to convert to the 
+			necessary Date format.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Completed ActionHandler, LoginHandler and Harmoni classes and services.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Deprecated the createDatabase() method in DBHandler. Use addDatabase(), instead.
+			This change was provoked by the fact that Oracle requires different arguments to
+			instantiate the DB object.
+		 (<i>Dobo Radichkov</i>)
+		<li/> New feature:  
+			Added RGBcolor and HTMLcolor classes.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Finished Layout, Theme and Template.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			AuthenticationMethod includes changed to avoid random unprintable character 
+			output.
+		
+		<li/> Change:  
+			FieldSetValidator and RuleSet now take optional argument on 
+			validate()/validateAll() functions specifying if errors should be thrown upon 
+			failure or not.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			RuleSet can now accept an ErrorHandler to use via setErrorHandler().
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			DBHandler can now use a PostgreSQL server and fetching last insert ID works on 
+			all integrated DBs.
+		 (<i>Dobo Radichkov</i>)
+		<li/> Change:  
+			layoutHandler now works. Theme integration is to come.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Database file storage method.
+		 (<i>Max Ovsjanikovs</i>)
+		<li/> New feature:  
+			Added interfaces for: VisualComponent, Layout, Menu, Content -- all part of the 
+			LayoutHandler.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			AuthenticationResult now holds authenticated agent's system name as well as valid 
+			methods.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			AgentInformationHandler now handles compiling of search results and returns the 
+			appropriate array format.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			AuthenticationMethod::getAgentInformation now returns an associative array of 
+			[username]=&gt;array([key1]=&gt;value1,...),...
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			ChangeLog now held in an XML file and translated by XSL!
+		 (<i>Gabe Schine</i>)
 	</ul><br/><h2>Version 0.0.1</h2><h3>2003-07-10</h3><ul>
-		<li/> Change:  Changed AuthenticationMethod to allow for getAgentInformation(username,searchMode) so that one can search for a username/fullname etc as well as get information for a single entry. (<i>Gabe Schine</i>)
-		<li/> New feature:  Added StatisticsHandler. (<i>Max Ovsjanikovs</i>)
-		<li/> Change:  Updated DB and LDAP AuthenticationMethods to allow for user-info searching &amp; tested backwards compatibility. (<i>Gabe Schine</i>)
-		<li/> Change:  Changed naming scheme of packages so that they describe more clearly what they DO as opposed to what they CONTAIN. (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Changed AuthenticationMethod to allow for getAgentInformation(username,searchMode)
+			so that one can search for a username/fullname etc as well as get information for a single entry.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Added StatisticsHandler.
+		 (<i>Max Ovsjanikovs</i>)
+		<li/> Change:  
+			Updated DB and LDAP AuthenticationMethods to allow for user-info searching &amp; 
+			tested backwards compatibility.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Changed naming scheme of packages so that they describe more clearly what they DO
+			as opposed to what they CONTAIN.
+		 (<i>Gabe Schine</i>)
 	</ul><br/></div>
