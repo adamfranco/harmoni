@@ -5,7 +5,6 @@ require_once("Query.abstract.php");
 	/**
 	 * Used with the setTable() method to indicate that no join will be performed. 
 	 * @const NO_JOIN No join will be performed.
-	 * @access public
 	 * @package harmoni.dbhandler
 	 */
 	define("NO_JOIN", 1);
@@ -13,7 +12,6 @@ require_once("Query.abstract.php");
 	/**
 	 * Used with the setTable() method to indicate that a left join will be performed. 
 	 * @const LEFT_JOIN A left join will be performed.
-	 * @access public
 	 * @package harmoni.dbhandler
 	 */
 	define("LEFT_JOIN", 2);
@@ -21,7 +19,6 @@ require_once("Query.abstract.php");
 	/**
 	 * Used with the setTable() method to indicate that an inner join will be performed. 
 	 * @const INNER_JOIN An inner join will be performed.
-	 * @access public
 	 * @package harmoni.dbhandler
 	 */
 	define("INNER_JOIN", 3);
@@ -29,7 +26,6 @@ require_once("Query.abstract.php");
 	/**
 	 * Used with the setTable() method to indicate that a right join will be performed. 
 	 * @const RIGHT_JOIN A right join will be performed.
-	 * @access public
 	 * @package harmoni.dbhandler
 	 */
 	define("RIGHT_JOIN", 4);
@@ -37,7 +33,6 @@ require_once("Query.abstract.php");
 	/**
 	 * Used with the setOrderBy() method to indicate that the order will be ascending. Used by {@link SelectQueryInterface::setOrderBy()}.
 	 * @const ASCENDING The order will be ascending.
-	 * @access public
 	 * @package harmoni.dbhandler
 	 */
 	define("ASCENDING", 5);
@@ -45,16 +40,38 @@ require_once("Query.abstract.php");
 	/**
 	 * Used with the setOrderBy() method to indicate that the order will be descending. Used by {@link SelectQueryInterface::setOrderBy()}.
 	 * @const DESCENDING The order will be descending.
-	 * @access public
 	 * @package harmoni.dbhandler
 	 */
 	define("DESCENDING", 6);
+	
+	/**
+	 * Defines a constant for 'AND' operations (used in WHERE and JOIN clauses)
+	 * @const integer SELECT
+	 * @package harmoni.dbhandler
+	 */
+	define("_AND", 7);
+
+	/**
+	 * Defines a constant for 'OR' operations (used in WHERE and JOIN clauses)
+	 * @const integer SELECT
+	 * @package harmoni.dbhandler
+	 */
+	define("_OR", 8);
+	
+	/**
+	 * Defines a constant for 'OR' operations (used in WHERE and JOIN clauses)
+	 * @const integer SELECT
+	 * @package harmoni.dbhandler
+	 */
+	define("_XOR", 9);
+	
+	
 
 
 /**
  * A SelectQuery interface provides the tools to build an SQL SELECT query.
  *
- * @version $Id: SelectQuery.interface.php,v 1.4 2003/06/27 13:51:37 gabeschine Exp $
+ * @version $Id: SelectQuery.interface.php,v 1.5 2003/07/08 03:33:46 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -106,11 +123,14 @@ class SelectQueryInterface extends Query {
 	 * Note: addColumn() and setColumns() can be used together in any order.
 	 * However, calling setColumns() after addColumn() resets the list of columns.
 	 * @param string $column The name of the column.
-	 * @param string $alias The alias of the column.
+	 * @param optional string $alias The alias of the column.
+	 * @param optional string $table An optional name of the table where
+	 * the column resides.
+	 * will be used.
 	 * @access public
 	 * @see {@link SelectQueryInterface::setColumns()}
 	 */ 
-	function addColumn($column, $alias = null) {
+	function addColumn($column, $alias = "", $table = "") {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");	
 	}
 
@@ -121,10 +141,30 @@ class SelectQueryInterface extends Query {
 	 *
 	 * The query will return only rows that fulfil the condition. If this method
 	 * is never called, then the WHERE clause will not be included.
-	 * @param string The WHERE clause condition.
+	 * @param string condition The WHERE clause condition.
+	 * @deprecated July 07, 2003 - Use addWhere() instead.
 	 * @access public
 	 */
 	function setWhere($condition) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	
+	
+	/**
+	 * Adds a new condition in the WHERE clause.
+	 * 
+	 * The query will return only rows that fulfil the condition. If this method
+	 * is never called, then the WHERE clause will not be included.
+	 * @param string condition The WHERE clause condition to add.
+	 * @param integer logicalOperation The logical operation to use to connect
+	 * this WHERE condition with the previous WHERE conditions. Allowed values:
+	 * <code>_AND</code> , <code>_OR</code> , and <code>_XOR</code>. 
+	 * @method public addWhere
+	 * @return void 
+	 */
+	function addWhere($condition, $logicalOperation = _AND) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
 
 
 	/**

@@ -6,7 +6,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  *
- * @version $Id: MySQL_SQLGenerator.class.php,v 1.5 2003/07/03 01:34:14 dobomode Exp $
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.6 2003/07/08 03:33:47 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -210,6 +210,8 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 		$columns = array();
 		foreach ($query->_columns AS $column) {
 			$str = "";
+			if ($column[2])
+			    $str .= $column[2].".";
 			$str .= $column[0];
 			if ($column[1]) {
 				$str .= " AS ";
@@ -267,8 +269,30 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 		
 		// include the WHERE clause, if necessary
 		if ($query->_condition) {
-			$sql .= "\nWHERE\n\t";
-			$sql .= $query->_condition;
+			$sql .= "\nWHERE";
+
+			// include join
+			foreach($query->_condition as $key => $condition) {
+				// we don't append anything for the first element
+				if ($key != 0) {
+					switch ($condition[1]) {
+						case _AND :
+							$sql .= "\n\t\tAND";
+							break;
+						case _OR :
+							$sql .= "\n\t\tOR";
+							break;
+						case _XOR :
+							$sql .= "\n\t\tXOR";
+							break;
+						default:
+							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
+					} // switch
+				}
+				
+				$sql .= "\n\t";
+				$sql .= $condition[0];
+			}
 		}
 		
 		// include the GROUP BY and HAVING clauses, if necessary

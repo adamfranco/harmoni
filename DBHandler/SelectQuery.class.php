@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQuery.interface.php");
  * 
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * @version $Id: SelectQuery.class.php,v 1.10 2003/06/28 01:01:50 gabeschine Exp $
+ * @version $Id: SelectQuery.class.php,v 1.11 2003/07/08 03:33:46 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -32,7 +32,8 @@ class SelectQuery extends SelectQueryInterface {
 	 * The list of columns we will be selecting. This is an array of arrays.
 	 * Each element in the outer array specifies one column. The first element
 	 * of each inner array is the column name itself. The second element is
-	 * the alias of that column and is optional.
+	 * the alias of that column and is optional. The third and last element
+	 * is the name of the table where the column resides.
 	 * @var array $_columns The list of columns we will be selecting.
 	 * @access private
 	 */
@@ -40,10 +41,10 @@ class SelectQuery extends SelectQueryInterface {
 
 
 	/**
-	 * This will store the condition in the WHERE clause.
-	 * 
-	 * This will store the condition in the WHERE clause.
-	 * @var string $_condition The condition in the WHERE clause.
+	 * This will store the condition in the WHERE clause. Each element of this
+	 * array stores 2 things: the condition itself, and the logical operator
+	 * to use to join with the previous condition.
+	 * @var array $_condition The condition in the WHERE clause.
 	 * @access private
 	 */
 	var $_condition;
@@ -175,6 +176,7 @@ class SelectQuery extends SelectQueryInterface {
 			$arr = array();
 			$arr[] = $column;
 			$arr[] = null;
+			$arr[] = null;
 			$this->_columns[] = $arr;
 		}
 	}
@@ -189,20 +191,27 @@ class SelectQuery extends SelectQueryInterface {
 	 * Note: addColumn() and setColumns() can be used together in any order.
 	 * However, calling setColumns() after addColumn() resets the list of columns.
 	 * @param string $column The name of the column.
-	 * @param string $alias The alias of the column.
+	 * @param optional string $alias The alias of the column.
+	 * @param optional string $table An optional name of the table where
+	 * the column resides.
+	 * will be used.
 	 * @access public
-	 * @see {@link SelectQuery::setColumns()}
+	 * @see {@link SelectQueryInterface::setColumns()}
 	 */ 
-	function addColumn($column, $alias = "") {
+	function addColumn($column, $alias = "", $table = "") {
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
+		$optionalRule =& new OptionalRule($stringRule);
 		ArgumentValidator::validate($column, $stringRule, true);
-		ArgumentValidator::validate($alias, $stringRule, true);
+		ArgumentValidator::validate($alias, $optionalRule, true);
+		ArgumentValidator::validate($table, $optionalRule, true);
 		// ** end of parameter validation
 		
 		$arr = array();
 		$arr[] = $column;
 		$arr[] = $alias;
+		$arr[] = $table;
+		
 		$this->_columns[] = $arr;
 	}
 
@@ -213,7 +222,8 @@ class SelectQuery extends SelectQueryInterface {
 	 *
 	 * The query will return only rows that fulfil the condition. If this method
 	 * is never called, then the WHERE clause will not be included.
-	 * @param string The WHERE clause condition.
+	 * @param string condition The WHERE clause condition.
+	 * @deprecated July 07, 2003 - Use addWhere() instead.
 	 * @access public
 	 */
 	function setWhere($condition) {
@@ -222,10 +232,44 @@ class SelectQuery extends SelectQueryInterface {
 		ArgumentValidator::validate($condition, $stringRule, true);
 		// ** end of parameter validation
 
-		$this->_condition = $condition;
+		$this->_condition = array();
+
+		$arr = array();
+		$arr[] = $condition;
+		$arr[] = null;
+		
+		$this->_condition[] = $arr;
 	}
 
 
+	/**
+	 * Adds a new condition in the WHERE clause.
+	 * 
+	 * The query will return only rows that fulfil the condition. If this method
+	 * is never called, then the WHERE clause will not be included.
+	 * @param string condition The WHERE clause condition to add.
+	 * @param integer logicalOperation The logical operation to use to connect
+	 * this WHERE condition with the previous WHERE conditions. Allowed values:
+	 * <code>_AND</code> , <code>_OR</code> , and <code>_XOR</code>. 
+	 * @method public addWhere
+	 * @return void 
+	 */
+	function addWhere($condition, $logicalOperation = _AND) {
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		$integerRule =& new IntegerValidatorRule();
+		$optionalRule =& new OptionalRule($integerRule);
+		ArgumentValidator::validate($condition, $stringRule, true);
+		ArgumentValidator::validate($logicalOperation, $optionalRule, true);
+		// ** end of parameter validation
+
+		$arr = array();
+		$arr[] = $condition;
+		$arr[] = $logicalOperation;
+		
+		$this->_condition[] = $arr;
+	}
+	
 
 	/**
 	 * Sets the GROUP BY and HAVING clause.

@@ -4,7 +4,7 @@
  * The interface for an AuthorizationContextHierarchy, a tree-like datastructure used by
  * the AuthorizationContextHierarchyGenerator objects.
  * @access public
- * @version $Id: AuthorizationContextHierarchy.interface.php,v 1.5 2003/07/07 04:39:14 dobomode Exp $
+ * @version $Id: AuthorizationContextHierarchy.interface.php,v 1.6 2003/07/08 03:33:47 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -59,8 +59,8 @@ class AuthorizationContextHierarchyInterface {
 	
 	
 	/**
-	 * Returns an array of all root nodes.
-	 * Equivalent to <code>getNodesAtLevel(0)</code>.
+	 * Returns an array of all root nodes (i.e., all nodes that don't have
+	 * parents) in no particular order.
 	 * @method public getRoot
 	 * @return ref array The root nodes.
 	 */
@@ -70,16 +70,12 @@ class AuthorizationContextHierarchyInterface {
 	
 	
 	/**
-	 * Returns the subtree rooted at the specified node (excluding the root).
-	 * @method public getSubtree
-	 * @return ref array An array of all the nodes in the subtree rooted at the 
-	 * specified node. Each element of the array corresponds to a certain level
-	 * in the hierarchy. For example, the first level will contain the root's children. 
-	 * The second level will have the root's grandchildren and so forth. 
-	 * The array does not consist of the actual node objects; 
-	 * instead, it only stores their system ids.
+	 * Returns an array of all leaf nodes (i.e., all nodes that don't have
+	 * children) in no particular order.
+	 * @method public getLeaves
+	 * @return ref array The leaf nodes.
 	 */
-	function & getSubtree() {
+	function & getLeaves() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -87,8 +83,39 @@ class AuthorizationContextHierarchyInterface {
 	
 	
 	/**
-	 * Returns all the nodes on a given level. <code>getNodesAtLevel(0)</code> is
-	 * equivalent to getRoots().
+	 * Returns all the ancestors of the given node.
+	 * @method public getAncestors
+	 * @param ref object node The node whose ancestors are to be found.
+	 * @return array An array of all the ancestors of the given node. Each array
+	 * key corresponds to the hierarchy level of the ancestor. Each element stores
+	 * the system id of the ancestor.
+	 */
+	function getAncestors(& $node) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
+
+	/**
+	 * Returns the subtree rooted at the specified node (excluding the root).
+	 * @method public getSubtree
+	 * @param ref object node The node whose subtree is to be found.
+	 * @return array An array of all the nodes in the subtree rooted at the 
+	 * specified node. Each array key corresponds to a certain level
+	 * in the hierarchy. For example, the first level (with array key = 0) will 
+	 * contain the root's children. The second level will have the root's 
+	 * grandchildren and so forth. The array does not consist of the actual node objects; 
+	 * instead, it only stores their system ids.
+	 */
+	function getSubtree(& $node) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
+	
+	
+	/**
+	 * Returns all the nodes on a given level.
 	 * @method public getNodesAtLevel
 	 * @param integer level The level to return all nodes for.
 	 * @return ref array The nodes on the given hierarchy level.
@@ -138,8 +165,6 @@ class AuthorizationContextHierarchyInterface {
 	function & getAllNodes() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
-	
-	
 	
 	
 	

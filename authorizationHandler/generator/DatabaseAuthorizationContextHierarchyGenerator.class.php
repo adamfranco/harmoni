@@ -12,7 +12,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * hierarchical information.
  * 
  * @access public
- * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.3 2003/07/07 04:39:14 dobomode Exp $
+ * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.4 2003/07/08 03:33:47 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
@@ -136,58 +136,26 @@ class DatabaseAuthorizationContextHierarchyGenerator
 	 * An auxilliary private function for the generateSubtree() method that will
 	 * return all the nodes that are to be excluded from the SELECT query.
 	 * @method public _getNodesToExcludeDown
-	 * @return ref array An array of the nodes to be excluded from the SELECT 
-	 * query in generateSubtree().
+	 * @return ref array An array whose keys specify the hierarchy level of the 
+	 * nodes. Each element of the array is another array storing the system ids
+	 * of the nodes.
 	 */
 	function & _getNodesToExcludeDown($hierarchyLevel, $systemId) {
-		/*
-		 * Several special cases here:
-		 * 
-		 * node = new Node($hierarchyLevel, $systemId)
-		 *
-		 * 1) If node IS in $cacheDown
-		 * 
-		 *    1.1) then just return node itself
-		 * 
-		 * 2) If node IS NOT in $cacheDown then get all nodes in $cacheDown 
-		 * and return them. In addition:
-		 * 
-		 * 	  2.1) if node IS in $cacheUp then get all descendents of node in 
-		 * 	  $cacheUp and return them
-		 */
+		$result = array();
 		 
-		 $result = array();
-		 
-		 // 1) if node IS in $cacheDown
-		 if ($this->_cacheDown->nodeExists($hierarchyLevel, $systemId)) {
-		 	// 1.1) then just return node itself
-		 	$result[] =& $this->_cacheDown->getNodeAtLevel($hierarchyLevel, $systemId);
-		 }
-		 // 2) If node IS NOT in $cacheDown
-		 else {
-		 	$nodesDown = array();
-			$nodesUp = array();
-
-		 	// 2) get all nodes in $cacheDown
-			$nodesDown =& $this->_cacheDown->getAllNodes();
-
-			// 2.1) if node IS in $cacheUp
-			if ($this->_cacheUp->nodeExists($hierarchyLevel, $systemId)) {
-			 	// 2.1) get all descendents of node in $cacheUp
-			 	$node =& $this->_cacheUp->getNodeAtLevel($hierarchyLevel, $systemId);
-				$nodesUp =& $this->_cacheUp->traverse($node);
-			}
-			
-			// now add whatever is in $nodesDown and $nodesUp to $result
-			foreach (array_keys($nodesDown) as $i => $key)
-				$result[] =& $nodesDown[$key];
-			
-			foreach (array_keys($nodesUp) as $i => $key)
-				$result[] =& $nodesUp[$key];
-		 }
-		     
+	 	// get all nodes in $cacheDown
+	 	$nodesDown = array();
+		$nodesDown =& $this->_cacheDown->getRoots();
+	
+		// now add whatever is in $nodesDown to $result
+		foreach (array_keys($nodesDown) as $i => $key) {
+			$node =& $nodesDown[$key];
+			$depth = $node->getDepth();
+			$id = $node->getSystemId();
+			$result[$depth][] = $id;
+		}
+	
 		return $result;
-		 
 	}
 	
 	
@@ -231,12 +199,20 @@ class DatabaseAuthorizationContextHierarchyGenerator
 
 		/***************************************************************/			
 
+		// this will store the result
+		$result = array();
+		
+		// special case: the root has already been cached
+		// then just return the cached subtree		
+		if ($this->_cacheDown->nodeExists($hierarchyLevel, $systemId)) {
+			$root =& $this->_cacheDown->getNodeAtLevel($hierarchyLevel, $systemId);
+			$result =& $this->_cacheDown->getSubtree($root);
+			return $result;
+		}
+
 		// get nodes that have been already cached and to be excluded from
 		// the select query
 		$nodesToExclude =& $this->_getNodesToExcludeDown($hierarchyLevel, $systemId);
-
-		// this will store the result
-		$result = array();
 
 		// create an appropriate query and fetch the information from the
 		// database
@@ -247,41 +223,36 @@ class DatabaseAuthorizationContextHierarchyGenerator
 		// select from the first level (this will be needed for the where condition)
 		$query->addTable($level[0]);
 		// set where condition (only get subtree for $systemId)
-		$where = $level[1]." = ".$systemId;
-		// put nodes to exclude
-		foreach (array_keys($nodesToExclude) as $i => $key) {
-			echo "<pre>";
-			print_r($nodesToExclude);
-			echo "</pre>";
-			
-			
-			$node =& $nodesToExclude[$key];
-			$level = $node->getDepth();
-			$id = $node->getSystemId();
-			$where .= " AND\n\t";
-			$where .= $this->_levels[$level][1]." <> ".$id;
-		}
-		$query->setWhere($where);
+		$query->addWhere($level[1]." = ".$systemId);
 
 		// process the other levels
 		for($key = $hierarchyLevel + 1; $key < $this->getHierarchyHeight(); $key++) {
 			$level = $this->_levels[$key];
 			$previousLevel = $this->_levels[$key - 1];
 
-			// make a LEFT JOIN between the previous and this level
-			$query->addTable($level[0], LEFT_JOIN, $level[2]." = ".$previousLevel[1]);
+			$joinCondition = "";
+			$joinCondition .= $level[2]." = ".$previousLevel[1];
 
+			// now the nodes to exclude
+			foreach ($nodesToExclude[$key - 1] as $id) {
+				$joinCondition .= "\n\t\tAND ";
+				$joinCondition .= $level[2]." <> ".$id;
+			}
+
+			// make a LEFT JOIN between the previous and this level
+			$query->addTable($level[0], LEFT_JOIN, $joinCondition);
+			
 			// select the id column of this level
-			$query->addColumn($level[1]);
+			$query->addColumn($level[1], "", $level[0]);
 
 			// set order by
 			$query->addOrderBy($level[1]);
 		}
 		
 		// follows, some debugging stuff
-		echo "<pre>";
-		echo MySQL_SQLGenerator::generateSQLQuery($query);
-		echo "</pre>";
+		//echo "<pre>";
+		//echo MySQL_SQLGenerator::generateSQLQuery($query);
+		//echo "</pre>";
 
 		// now, execute the query
 		Services::requireService("DBHandler");
@@ -294,13 +265,6 @@ class DatabaseAuthorizationContextHierarchyGenerator
 		    throw(new Error($str, "AuthorizationHandler", true));
 		}
 
-		if ($dbResult->getNumberOfRows() < 1) {
-			$str = "Query did not return any rows. ";
-			$str .= "Possible invalid configuration of the HierarchyGenerator object.";
-		    throw(new Error($str, "AuthorizationHandler", true));
-		}
-
-		
 		// the query will return something like this:
 		// +------------+---------+
 		// | section_id | page_id |
@@ -320,10 +284,8 @@ class DatabaseAuthorizationContextHierarchyGenerator
 		// fill the values of $result, and cache it, so that next time we request 
 		// this information, we don't have to query the database
 
-		// first cache the root, if not already done so
 		$root =& new AuthorizationContextHierarchyNode($systemId, $hierarchyLevel);
-		if (!$this->_cacheDown->nodeExists($hierarchyLevel, $systemId))
-		    $this->_cacheDown->addNode($root);
+	    $this->_cacheDown->addNode($root);
 			
 		$numFields = $dbResult->getNumberOfFields();
 		// for all rows returned by the query
@@ -331,19 +293,46 @@ class DatabaseAuthorizationContextHierarchyGenerator
 			// add all nodes to $result
 			for ($fieldIndex = 0; $fieldIndex < $numFields; $fieldIndex++) {
 				$level = $fieldIndex + $hierarchyLevel + 1;
-				$value = intval($dbResult->field($fieldIndex));
+
+				$value = $dbResult->field($fieldIndex);
+				// ignore null values
+				if (is_null($value))
+				    continue;
+				$value = intval($value);
+
 				// if we haven't put the value already in the array, then do it
 				if (!in_array($value, $result[$level])) {
 					// put in $result
 				    $result[$level][] = $value;
+
+					// this will be its parent
+					if ($fieldIndex == 0)
+						$parent =& $root;
+					else
+						$parent =& $this->_cacheDown->getNodeAtLevel($level - 1, 
+    									intval($dbResult->field($fieldIndex - 1)));
+
+					// need to add this node					
+					if ($this->_cacheDown->nodeExists($level, $value)) {
+					    $node =& $this->_cacheDown->getNodeAtLevel($level, $value);
+					    $parent->addChild($node);
+					}
+					else {
+						$node =& new AuthorizationContextHierarchyNode($value, $level);
+						$this->_cacheDown->addNode($node, $parent);
+					}
 				}
 			}
 
 			$dbResult->advanceRow();
 		}
 		
+		$result =& $this->_cacheDown->getSubtree($root);
+		
 		return $result;
 	}
+	
+	
 	
 	
 	/**
@@ -377,6 +366,19 @@ class DatabaseAuthorizationContextHierarchyGenerator
 			return array();
 
 		
+		/***************************************************************/			
+
+		// this will store the result
+		$result = array();
+		
+		// special case: the node has already been cached
+		// then just return the cached ancestors
+		if ($this->_cacheUp->nodeExists($hierarchyLevel, $systemId)) {
+			$root =& $this->_cacheUp->getNodeAtLevel($hierarchyLevel, $systemId);
+			$result =& $this->_cacheUp->getAncestors($root);
+			return $result;
+		}
+
 		// create an appropriate query and fetch the information from the
 		// database
 		$query = new SelectQuery();
@@ -401,9 +403,9 @@ class DatabaseAuthorizationContextHierarchyGenerator
 		}
 		
 		// follows, some debugging stuff
-		// echo "<pre>";
-		// echo MySQL_SQLGenerator::generateSQLQuery($query);
-		// echo "</pre>";
+		//echo "<pre>";
+		//echo MySQL_SQLGenerator::generateSQLQuery($query);
+		//echo "</pre>";
 		
 		// now, execute the query
 		Services::requireService("DBHandler");
@@ -431,14 +433,45 @@ class DatabaseAuthorizationContextHierarchyGenerator
 		}
 		    
 		// fill the result array
-		$result = array();
 		$numFields = $dbResult->getNumberOfFields();
-		for ($i = 0; $i < $numFields; $i++) {
-			$value = $dbResult->field($i);
-		    $result[$hierarchyLevel - ($i + 1)] = $value;
+		for ($fieldIndex = $numFields - 1; $fieldIndex >= 0; $fieldIndex--) {
+			$level = $hierarchyLevel - ($fieldIndex + 1);
+			$value = $dbResult->field($fieldIndex);
+			
+			// null values are bad
+			if (is_null($value)) {
+				$str = "";	
+				$str .= "NULL returned by SELECT query. ";
+				$str .= "Possible invalid configuration of the HierarchyGenerator object.";
+			    throw(new Error($str, "AuthorizationHandler", true));
+			}
+			$value = intval($value);
+			
+			// this will be its parent
+			if ($fieldIndex == $numFields - 1)
+				$parent = null;
+			else
+				$parent =& $this->_cacheUp->getNodeAtLevel($level - 1,
+  									intval($dbResult->field($fieldIndex + 1)));
+						
+			// need to add this node if not added already
+			if (!$this->_cacheUp->nodeExists($level, $value)) {
+				$node =& new AuthorizationContextHierarchyNode($value, $level);
+				$this->_cacheUp->addNode($node, $parent);
+			}
+			
 		}
 
-		return $result;		
+		// finally, add the original node
+		$root =& new AuthorizationContextHierarchyNode($systemId, $hierarchyLevel);
+		$parentId = intval($dbResult->field(0));
+		$parent =& $this->_cacheUp->getNodeAtLevel($hierarchyLevel - 1, $parentId);
+	    $this->_cacheUp->addNode($root, $parent);
+
+		// get result from cache
+		$result =& $this->_cacheUp->getAncestors($root);
+					
+		return $result;
 	}
 	
 
