@@ -9,7 +9,7 @@ require_once(HARMONI."/themeHandler/common_settings/ColorSetting.class.php");
  * A simple line and color-block based theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.2 2004/03/05 21:40:06 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.3 2004/03/05 22:26:18 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -104,7 +104,7 @@ class SimpleLinesTheme
  * The main TextBlock Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.2 2004/03/05 21:40:06 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.3 2004/03/05 22:26:18 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -168,7 +168,6 @@ class SimpleLinesTextBlock1
 	 **/
 	function output (& $layoutOrContent, & $currentTheme) {
 		$depth = $layoutOrContent->getLevel();
-		print "\nDepth='".$depth."'";
 		print "\n".$this->_getTabs($depth)."<div class='textblock1'>";
 		
 		$layoutOrContent->output($currentTheme);
@@ -182,7 +181,7 @@ class SimpleLinesTextBlock1
  * The main Menu Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.2 2004/03/05 21:40:06 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.3 2004/03/05 22:26:18 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -243,7 +242,6 @@ class SimpleLinesMenu1
 	 **/
 	function output (& $layoutOrContent) {
 		$depth = $layoutOrContent->getLevel();
-		print "\nDepth='".$depth."'";
 		print "\n".$this->_getTabs($depth)."<div class='menuitem1'>";
 		
 		$layoutOrContent->output();
@@ -256,7 +254,7 @@ class SimpleLinesMenu1
  * The main Heading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.2 2004/03/05 21:40:06 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.3 2004/03/05 22:26:18 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -317,7 +315,6 @@ class SimpleLinesHeading1
 	 **/
 	function output (& $layoutOrContent, & $currentTheme) {
 		$depth = $layoutOrContent->getLevel();
-		print "\nDepth='".$depth."'";
 		print "\n".$this->_getTabs($depth)."<div class='headingitem1'>";
 		
 		$layoutOrContent->output($currentTheme);
