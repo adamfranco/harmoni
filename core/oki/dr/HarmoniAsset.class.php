@@ -306,10 +306,8 @@ class HarmoniAsset
 		$versionControl = FALSE;
 		$newDataSet =& $dataSetMgr->newDataSet($type, $versionControl);
 		
-		printpre($myGroup->_dataSetIDs);
 		// Add the DataSet to our group
 		$myGroup->addDataSet($newDataSet);
-		printpre($myGroup->_dataSetIDs);
 		
 		// us the InfoStructure and the dataSet to create a new InfoRecord
 		$record =& new HarmoniInfoRecord($structure, $newDataSet);

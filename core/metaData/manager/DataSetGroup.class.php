@@ -31,10 +31,22 @@ class DataSetGroup {
 	
 	function takeRow(&$row) {
 		$this->_dataSetIDs[] = $row["fk_dataset"];
+		
+		// This has to be in here, otherwise we don't get a reference to the dataSet
+		// and when we try to do things to all of our dataSets, we have problems.
+		// This problem comes up when commit is called as it only looks at 
+		// _dataSets, not DataSetIds.
+		$this->_dataSets[] =& $this->_mgr->fetchDataSet( $row["fk_dataset"] );
 	}
 	
 	function &fetchDataSets($editable = false, $limitResults = null) {
-		if (!count($this->_dataSets) || (!$this->_fetchedFull && $editable)) {
+		// We need to fetch the dataSets if:
+		// 	We dont' have any 
+		// 		OR
+		// 	Our counts don't match
+		// 		OR
+		// 	We're not fetched full and we are supposed to be editable.
+		if (!count($this->_dataSets) || (count($this->_dataSets) != count($this->_dataSetIDs)) || (!$this->_fetchedFull && $editable)) {
 			$this->_dataSets =& $this->_mgr->fetchArrayOfIDs($this->_dataSetIDs, $editable, $limitResults);
 			
 			$this->_fetchedFull = $editable;
@@ -59,7 +71,7 @@ class DataSetGroup {
 	}
 	
 	function commit() {
-		$ids = array();
+		$ids =	array();
 		
 		if (count($this->_newDataSets)) {
 			for($i=0; $i<count($this->_newDataSets); $i++) {
@@ -72,7 +84,7 @@ class DataSetGroup {
 		if (count($this->_dataSets)) {
 			for($i=0; $i<count($this->_dataSets); $i++) {
 				// only save if they were fetched not read only.
-				if (!$this->_dataSets[$i]->readOnly) $this->_dataSets[$i]->commit();
+				if (!$this->_dataSets[$i]->readOnly()) $this->_dataSets[$i]->commit();
 				$ids[] = $this->_dataSets[$i]->getID();
 			}
 			$this->_dataSets = array();
@@ -84,19 +96,16 @@ class DataSetGroup {
 			if (!count($ids)) {
 				$ids = array_unique($this->_dataSetIDs);
 			}
-
-/******************************************************************************
- * @todo Fix this function!
- * If the dataSetGroup is not fully fetched before commit() is called, then
- * unfetched datasets are deleted from this group. When the group members are 
- * deleted needs to be defined more tightly.
- ******************************************************************************/
+			
+			// Make sure that we only have one ID for each set.
+			$ids = array_unique($ids);
 
 			$dbHandler =& Services::getService("DBHandler");
 			// first delete all the old mappings
 			$query =& new DeleteQuery;
 			$query->setTable("dataset_group");
 			$query->setWhere("dataset_group.id=".$this->_myID);
+//			printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 			$dbHandler->query($query, $this->_mgr->_dbID);
 			
 			if (count($ids)) {
@@ -107,7 +116,7 @@ class DataSetGroup {
 				foreach ($ids as $id) {
 					$query->addRowOfValues(array($this->_myID, $id));
 				}
-				
+//				printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 				$dbHandler->query($query,$this->_mgr->_dbID);
 				// done!
 			}
@@ -121,6 +130,7 @@ class DataSetGroup {
 		$this->_dirty = true;
 		
 		$this->_dataSetIDs[] = $dataSetID;
+		$this->_dataSets[] =& $this->_mgr->fetchDataSet( $dataSetID );
 	}
 	
 	function addDataSet(&$dataSet) {
