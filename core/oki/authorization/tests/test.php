@@ -3,67 +3,58 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.2 2004/04/01 22:44:14 dobomode Exp $
+ * @version $Id: test.php,v 1.3 2004/06/08 18:33:11 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003 
  **/
  
-	require_once "../../../utilities/Timer.class.php";
-	$timer =& new Timer();
-	$timer->start();
-	$harmonyLoadupTimer =& new Timer;
-	$harmonyLoadupTimer->start();
-	
-    if (!defined('HARMONI')) {
-        require_once("../../../../harmoni.inc.php");
-    }
+require_once dirname(__FILE__)."/../../../../core/utilities/Timer.class.php";
+$timer =& new Timer;
+$timer->start();
 
-	$harmonyLoadupTimer->end();
+$harmonyLoadupTimer =& new Timer;
+$harmonyLoadupTimer->start();
 
-    if (!defined('SIMPLE_TEST')) {
-        define('SIMPLE_TEST', HARMONI.'simple_test/');
-    }
+define("LOAD_HIERARCHY", false);
+
+require_once(dirname(__FILE__)."/../../../../harmoni.inc.php");
+
+$harmonyLoadupTimer->end();
+
         
     require_once(SIMPLE_TEST . 'simple_unit.php');
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
-	$errorHandler =& Services::requireService("ErrorHandler",true);
-	$dbHandler =& Services::requireService("DBHandler", true);
-	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("localhost","harmoniAuthzTest","test","test") );
-	$dbHandler->pConnect($dbIndex);
-	// Set up the SharedManager as this is required for the ID service
-	Services::startService("Shared", $dbIndex);
-	// Set up the DataManager
-	//HarmoniDataManager::setup($dbIndex);
-	$shared =& Services::getService("Shared",false);
+/* 	if (!defined('CONCERTODBID')) { */
+/* 		require_once(CONCERTO.'/tests/dbconnect.inc.php'); */
+/* 	} */
 
-	$id =& $shared->createId();
-	echo "<pre>\n";
-	print_r($id);
-	echo "</pre>\n";
-//	$errorHandler->setDebugMode(TRUE);
+	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
+	$errorHandler =& Services::requireService("ErrorHandler",true);
+	$dbHandler =& Services::requireService("DBHandler",true);
+	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
+	$dbHandler->pConnect($dbIndex);
+	Services::startService("Shared", $dbIndex, "doboHarmoniTest");
+	$errorHandler->setDebugMode(TRUE);
+	
 	
     $test =& new GroupTest('Hierarchy Tests');
-    $test->addTestFile(HARMONI.'oki/authorization/tests/HarmoniFunctionTestCase.class.php');
+    $test->addTestFile(HARMONI.'/oki/authorization/tests/FunctionTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
-		
-/* remove these */
-require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
-require_once(HARMONI.'oki/authorization/HarmoniFunction.class.php');
-require_once(HARMONI.'oki/authorization/HarmoniFunctionDBE.class.php');
-require_once(HARMONI.'oki/authorization/HarmoniQualifierIterator.class.php');
-require_once(HARMONI.'oki/authorization/HarmoniQualifier.class.php');
-require_once(HARMONI.'oki/authorization/HarmoniAuthorizationIterator.class.php');
-require_once(HARMONI.'oki/authorization/HarmoniAuthorization.class.php');
-require_once(HARMONI.'oki/authorization/HarmoniAuthorizationManager.class.php');
-require_once(HARMONI.'utilities/DBE.interface.php');
 	
 $timer->end();
 
-print "\n\n<p>Harmoni Load Time: ".$harmonyLoadupTimer->printTime();
-//print "\n<br />Execution Time: ".$counter->getTime();
+print "\n<br />Harmoni Load Time: ".$harmonyLoadupTimer->printTime();
 print "\n<br />Overall Time: ".$timer->printTime();
 print "\n</p>";
 
+$num = $dbHandler->getTotalNumberOfQueries();
+debug::output("Total # of queries: ".$num,1,"DBHandler");
+debug::printAll();
+unset($dbHandler,$errorHandler, $userError);
+unset($num);
+//	$errorHandler->printErrors(HIGH_DETAIL);
+//	print "<pre>";
+//	print_r($errorHandler);
 ?>

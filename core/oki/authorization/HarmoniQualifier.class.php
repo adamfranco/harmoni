@@ -1,11 +1,12 @@
 <?php
 
+require_once(OKI."/authorization.interface.php");
+
 /**
  * Qualifier is the context in which an Authorization is valid and consists of an Id, a description and a QualifierType.  Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * @package harmoni.osid.authorization
  */
-class HarmoniQualifier /* :: API interface */
-{
+class HarmoniQualifier extends Qualifier {
 
 	/**
 	 * The UNIQUE id of this qualifier.

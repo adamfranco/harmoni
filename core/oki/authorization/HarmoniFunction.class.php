@@ -1,13 +1,13 @@
 <?php
 
+require_once(OKI."/authorization.interface.php");
 
 /**
  * Function is composed of Id, a displayName, a description, a category, and a QualifierType.  Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * 
  * @package harmoni.osid.authorization
  */
-class HarmoniFunction /* :: API interface */
-{
+class HarmoniFunction extends FunctionInterface {
 
 	/**
 	 * The Unique ID of this function.
@@ -52,44 +52,46 @@ class HarmoniFunction /* :: API interface */
 	
 	
 	/**
-	 * The name of the table that stores all authorizatoin Functions.
+	 * The name of the Authorization database.
 	 * @attribute private string _table
 	 */
-	var $_table;
+	var $_authzDB;
 
 
 	/**
 	 * The constructor.
-	 * @param object functionId - is externally defined functionId - is externally defined
+	 * @param ref object id - is externally defined functionId - is externally defined
 	 * @param string displayName - is externally defined displayName - the name to display for this Function
 	 * @param string  description - is externally defined description - the description of this Function
-	 * @param object functionType - is externally defined functionType - the Type of this Function
-	 * @param object qualifierHierarchyId - is externally defined qualifierHierarchyId - the Id of the Qualifier Hierarchy associated with this Function 	 
+	 * @param ref object functionType - is externally defined functionType - the Type of this Function
+	 * @param ref object qualifierHierarchyId - is externally defined qualifierHierarchyId - the Id of the Qualifier Hierarchy associated with this Function 	 
+	 * @param  dbIndex integer The index of the database connection as returned by the DBHandler.
+	 * @param  authzDB string The name of the Authorization database.
 	 * @access public
 	 */
-	function HarmoniFunction($id, $displayName, $description, $functionType, 
-							 $qualifierHierarchyId, $dbIndex, $table) {
+	function HarmoniFunction(& $id, $displayName, $description, & $functionType, 
+							 & $qualifierHierarchyId, $dbIndex, $authzDB) {
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
-		ArgumentValidator::validate($table, $stringRule, true);
-		$extendsRule =& new ExtendsRule("HarmoniId");
+		$extendsRule =& new ExtendsValidatorRule("HarmoniId");
 		ArgumentValidator::validate($id, $extendsRule, true);
 		ArgumentValidator::validate($qualifierHierarchyId, $extendsRule, true);
-		$extendsRule =& new ExtendsRule("HarmoniType");
+		$extendsRule =& new ExtendsValidatorRule("HarmoniType");
 		ArgumentValidator::validate($functionType, $extendsRule, true);
 		$integerRule =& new IntegerValidatorRule();
 		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		ArgumentValidator::validate($authzDB, $stringRule, true);
 		// ** end of parameter validation
 		
-		$this->_id = $id;
+		$this->_id =& $id;
 		$this->_displayName = $displayName;
 		$this->_description = $description;
-		$this->_functionType = $functionType;
-		$this->_qualifierHierarchyId = $qualifierHierarchyId;
+		$this->_functionType =& $functionType;
+		$this->_qualifierHierarchyId =& $qualifierHierarchyId;
 		$this->_dbIndex = $dbIndex;
-		$this->_table = $table;
+		$this->_authzDB = $authzDB;
 	}
 		
 	
@@ -169,10 +171,31 @@ class HarmoniFunction /* :: API interface */
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		// ** end of parameter validation
+
+		if ($this->_displayName == $displayName)
+		    return; // nothing to update
 		
+		// update the object
 		$this->_displayName = $displayName;
-		// now update the database
+
+		// update the database
+		$dbHandler =& Services::requireService("DBHandler");
+		$db = $this->_authzDB.".";
 		
+		$query =& new UpdateQuery();
+		$query->setTable($db."function");
+		$id =& $this->getId();
+		$idValue = $id->getIdString();
+		$where = "{$db}function.function_id = '{$idValue}'";
+		$query->setWhere($where);
+		$query->setColumns(array("{$db}function.function_display_name"));
+		$query->setValues(array("'$displayName'"));
+		
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		if ($queryResult->getNumberOfRows() == 0)
+			throwError(new Error("The function with Id: ".$idValue." does not exist in the database.","Authorization",true));
+		if ($queryResult->getNumberOfRows() > 1)
+			throwError(new Error("Multiple functions with Id: ".$idValue." exist in the database. Note: their display names have been updated." ,"Authorization",true));
 	}
 
 
@@ -190,7 +213,30 @@ class HarmoniFunction /* :: API interface */
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
 		
+		if ($this->_description == $description)
+		    return; // nothing to update
+
+		// update the object
 		$this->_description = $description;
+
+		// update the database
+		$dbHandler =& Services::requireService("DBHandler");
+		$db = $this->_authzDB.".";
+		
+		$query =& new UpdateQuery();
+		$query->setTable($db."function");
+		$id =& $this->getId();
+		$idValue = $id->getIdString();
+		$where = "{$db}function.function_id = '{$idValue}'";
+		$query->setWhere($where);
+		$query->setColumns(array("{$db}function.function_description"));
+		$query->setValues(array("'$description'"));
+		
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		if ($queryResult->getNumberOfRows() == 0)
+			throwError(new Error("The function with Id: ".$idValue." does not exist in the database.","Authorization",true));
+		if ($queryResult->getNumberOfRows() > 1)
+			throwError(new Error("Multiple functions with Id: ".$idValue." exist in the database. Note: their descriptions have been updated." ,"Authorization",true));
 	}
 }
 

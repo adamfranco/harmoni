@@ -1,18 +1,84 @@
 <?php
 
+require_once(OKI."/authorization.interface.php");
+require_once(HARMONI."utilities/DateTime.class.php");
 
 /**
  * Authorization indicates what an Agent can do a Function in a Qualifier context. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * @package harmoni.osid.authorization
  */
-class HarmoniAuthorization /* :: API interface */
-{
+class HarmoniAuthorization extends Authorization {
 
 	/**
 	 * The date when this Authorization starts being effective.
 	 * @attribute private object _effectiveDate
 	 */
 	var $_effectiveDate;
+	
+	/**
+	 * The Id of the agent.
+	 * @attribute private object _agentId
+	 */
+	var $_agentId;
+	
+	
+	/**
+	 * The Id of the function.
+	 * @attribute private object _functionId
+	 */
+	var $_functionId;
+	
+	
+	/**
+	 * The Id of the qualifier.
+	 * @attribute private object _qualifierId
+	 */
+	var $_qualifierId;
+	
+	
+	/**
+	 * The date when the authorization becomes effective.
+	 * @attribute private object _effectiveDate
+	 */
+	var $_effectiveDate;
+	
+	
+	/**
+	 * The date when the authorization expires.
+	 * @attribute private object _expirationDate
+	 */
+	var $_expirationDate;
+	
+	
+	/**
+	 * The constructor.
+	 * @param ref object agentId The Id of the agent.
+	 * @param ref object functionId The Id of the function.
+	 * @param ref object qualifierId The Id of the qualifier.
+	 * @param ref object effectiveDate The date when the authorization becomes effective.
+	 * @param ref object expirationDate The date when the authorization expires.
+	 * @access public
+	 */
+	function HarmoniAuthorization(& $agentId, & $functionId, & $qualifierId, 
+							      & $effectiveDate, & $expirationDate) {
+		// ** parameter validation
+		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Agent"), true);
+		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Function"), true);
+		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Qualifier"), true);
+		ArgumentValidator::validate($effectiveDate, new ExtendsValidatorRule("DateTime"), true);
+		ArgumentValidator::validate($expirationDate, new ExtendsValidatorRule("DateTime"), true);
+		// ** end of parameter validation
+
+		
+		$this->_agentId =& $agentId;
+		$this->_functionId =& $functionId;
+		$this->_qualifierId =& $qualifierId;
+		$this->_effectiveDate =& $effectiveDate;
+		$this->_expirationDate =& $expirationDate;
+	}	
+	
+	
+	
 	
 	/**
 	 * Get the date when this Authorization starts being effective.
