@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * <br><br>
  * Each <code>Theme</code> has a single component (could be container) that will
  * be printed when <code>printPage()</code> is called.
- * @version $Id: Theme.class.php,v 1.5 2004/08/26 15:10:30 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.6 2004/10/26 21:05:52 adamfranco Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -94,7 +94,8 @@ class Theme extends ThemeInterface {
 	/**
 	 * The constructor.
 	 * @access public
-	 * @param 
+	 * @param string $displayName
+	 * @param string $description
 	 **/
 	function Theme($displayName, $description) {
 		// ** parameter validation

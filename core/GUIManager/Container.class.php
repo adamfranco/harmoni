@@ -12,7 +12,7 @@ require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
  * The <code>Container</code> interface is an extension of the <code>Component</code>
  * interface; <code>Containers</code> are capable of storing multiple sub-<code>Components</code>
  * and when rendering Containers, all sub-<code>Components</code> will be rendered as well.
- * @version $Id: Container.class.php,v 1.5 2004/08/26 15:10:30 adamfranco Exp $
+ * @version $Id: Container.class.php,v 1.6 2004/10/26 21:05:49 adamfranco Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -53,7 +53,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * the same type. Most often one would use the index in conjunction with
 	 * the <code>getStylesForComponentType()</code> and 
 	 * <code>addStyleForComponentType()</code> methods.
-	 * @param optional StyleCollections styles,... Zero, one, or more StyleCollection 
+	 * @param optional object StyleCollections styles,... Zero, one, or more StyleCollection 
 	 * objects that will be added to the newly created Component. Warning, this will
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.

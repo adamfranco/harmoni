@@ -32,8 +32,8 @@ require_once(HARMONI."GUIManager/StyleProperties/DisplaySP.class.php");
  * <br><br>
  * Each <code>Theme</code> has a single component (could be container) that will
  * be printed when <code>printPage()</code> is called.
- * @version $Id: SimpleTheme.class.php,v 1.1 2004/07/26 23:23:31 dobomode Exp $
- * @package 
+ * @version $Id: SimpleTheme.class.php,v 1.2 2004/10/26 21:07:28 adamfranco Exp $
+ * @package harmoni.gui.themes
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
  * @access public

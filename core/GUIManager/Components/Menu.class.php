@@ -7,7 +7,7 @@ require_once(HARMONI."GUIManager/Components/Menu.interface.php");
  * A <code>Menu</code> is a <code>Container</code> that stores a number of 
  * MenuItem objects. The familiar add/get/remove <code>Container</code> methods 
  * can be used to manage the <code>MenuItems</code>.
- * @version $Id: Menu.class.php,v 1.2 2004/08/26 15:10:30 adamfranco Exp $
+ * @version $Id: Menu.class.php,v 1.3 2004/10/26 21:07:28 adamfranco Exp $
  * @package harmoni.gui.components
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -32,7 +32,7 @@ class Menu extends Container /* implements MenuInterface */ {
 	 * the same type. Most often one would use the index in conjunction with
 	 * the <code>getStylesForComponentType()</code> and 
 	 * <code>addStyleForComponentType()</code> methods.
-	 * @param optional StyleCollections styles,... Zero, one, or more StyleCollection 
+	 * @param optional object StyleCollections styles,... Zero, one, or more StyleCollection 
 	 * objects that will be added to the newly created Component. Warning, this will
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
