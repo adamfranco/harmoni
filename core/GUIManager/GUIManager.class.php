@@ -1,12 +1,5 @@
 <?php
 
-/**
-*
-*GUIManager.class.php nikthegreek
-*@author Middlebury College, ETS
-*@copyright 2004 Middlebury College, ETS
-*@access public
-**/
 require_once(HARMONI."GUIManager/Theme.class.php");
 
 require_once(HARMONI."GUIManager/StyleCollection.class.php");
@@ -30,16 +23,46 @@ require_once(HARMONI."GUIManager/Themes/GenericTheme.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/FontFamilySP.class.php");
 
 
+
+/**
+ * The GuiManager takes care of the storing and retreiving  
+ * of themes from a database supported by the Harmoni DBHandler.
+ * 
+ *
+ * @copyright 2004 
+ * @access public
+ */
+
+
 class GUIManager {
 	
 	
+	/**
+	 * @var string $_theme The theme fetched by the Guimanager
+	 * @access private
+	 */
 	var $_theme;
 	
+	/**
+	 * @var object $_dbHandler The DBHandler used to connect to the database
+	 * @access private
+	 */
 	var $_dbHandler;
 	
+	/**
+	 * @var integer $_theme The id of the database we will connect to and use.
+	 * @access private
+	 */
 	var $_dbIndex;
 	
 
+		
+	
+	/**
+	 * Constructor.
+	 * @param integer $dbIndex The id of the database we will connect to and use.
+	 * @access public
+	 */
 	function GUIManager($dbIndex) {
 		
 		
@@ -59,6 +82,13 @@ class GUIManager {
 	
 	
 	
+	/**
+	 * "Compiles" all the attributes of the theme and returns the theme object with
+	 * the given id.
+	 * @param integer $themeId The id of the theme we want to get from the database
+	 * @return object $theme The theme fetched from the database with the specified id.
+	 * @access public
+	 */
 	function getTheme($themeId){
 		
              
@@ -75,6 +105,7 @@ class GUIManager {
 		
 		$styleCollectionsTableResult =& $this->_dbHandler->query($query, $this->_dbIndex);
 		//print $styleCollectionsTableResult->getNumberOfRows();
+		
 		$this->_theme =& new GenericTheme;
 		while($styleCollectionsTableResult->hasMoreRows()){ 
 			
@@ -85,17 +116,23 @@ class GUIManager {
 			
 			$styleCollection =& new StyleCollection($array["selector"],$array["classSelector"], $array["displayName"], $array["description"]);
 			foreach ($styleProperties as $key => $value) {
+			//the $key is the styleProperty
 			$sp = $key;
+			
+			//the $value is the styleComponent
 			$sc = $value;
 			$string ="";
 			foreach ($sc as $value1){
 				if($value!="")
 				$string.="'".$value1."',";
 			}
+			//get rid of the extra ','
 			$string = rtrim($string,","); 
 			$string2= "\$obj =& new ".$sp."(".$string.");";
 			//used for debugging
 			//print $string2;
+			
+			//evaluate the expression
 			eval($string2);
 			$styleCollection->addSP($obj);	
 			
@@ -124,7 +161,12 @@ class GUIManager {
 		
 	
 	
-	
+	/**
+	 * Find the styleProperties of a styleCollection with a given id
+	 * @param integer $styleCollectionId The id of the styleCollection whose styleProperties we want.
+	 * @return array $propertiesArray An array with the styleProperties of the give styleCollection
+	 * @access public
+	 */
 	function getStyleProperties($styleCollectionId){
 		
 		$query =& new SelectQuery;
@@ -158,6 +200,14 @@ class GUIManager {
 	}
 	
 	
+	
+	
+	/**
+	 * Find the styleComponents of a styleProperty with a given id
+	 * @param integer $styleCollectionId The id of the styleProperty whose styleComponents we want.
+	 * @return array $componentsArray An array with the styleComponents of the give styleProperty.
+	 * @access public
+	 */
 	function getStyleComponents($stylePropertyId){
 		
 		
@@ -184,7 +234,15 @@ class GUIManager {
 		}
 		
 		
-		
+	/**
+	 * Updates the value of a StyleComponent
+	 * @param integer $themeId The id of the theme that the styleComponent belongs to.
+	 * @param string $selector The selector of the StyleCollection that contains the styleComponent.
+	 * @param string $styleProperty The styleProperty that the styleComponent belongs to.
+	 * @param string $styleComponentType The type of the styleComponent that we want to update
+	 * @param string $value The new value of the styleComponent.
+	 * @access public
+	 */
 		function updateStyleComponent($themeId, $selector, $styleProperty, $styleComponentType, $value)
 		{
 			
@@ -209,6 +267,13 @@ class GUIManager {
 }
 		
 
+			
+	/**
+	 * Updates the value of a StyleComponent when the user knows the id.
+	 * @param integer $id The id of the styleComponent
+	 * @param string $value The new value of the styleComponent.
+	 * @access public
+	 */
 		function updateStyleComponentWithId($id, $value){
 			
 			$query =& new UpdateQuery;
@@ -220,7 +285,18 @@ class GUIManager {
 		}
 		
 		
-		function createStyleComponent($themeId, $selector, $styleProperty,$styleComponentType, $order, $value)
+			
+	/**
+	 * Creates a new styleComponent
+	 * @param integer $themeId The id of the theme that the styleComponent will be saved in.
+	 * @param string $selector The selector of the StyleCollection that will contain the styleComponent.
+	 * @param string $styleProperty The styleProperty that the styleComponent will belong to.
+	 * @param string $styleComponentType The type of the styleComponent that we want to create
+	 * @param integer $order
+	 * @param string $value The value of the styleComponent.
+	 * @access public
+	 */
+		function createStyleComponent($themeId, $selector, $styleProperty, $styleComponentType, $order, $value)
 		{
 			$query=& new SelectQuery;
 			$query->addTable("StyleCollections");
@@ -268,6 +344,14 @@ class GUIManager {
 		}
 		
 		
+			
+	/**
+	 * Creates a new StyleProperty
+	 * @param integer $themeId The id of the theme that the styleProperty will belong to.
+	 * @param string $selector The selector of the StyleCollection that will contain the styleProperty.
+	 * @param string $styleProperty The styleProperty created.
+	 * @access public
+	 */
 		function createStyleProperty($themeId, $selector, $styleProperty){
 			
 			
@@ -312,7 +396,17 @@ class GUIManager {
 		
 		
 			
-			
+				
+	/**
+	 * Creates a new StyleCollection
+	 * @param integer $themeId The id of the theme that the styleCollection will belong to.
+	 * @param string $selector The selector of the StyleCollection.
+	 * @param string $classSelector The classSelector of that Collection.
+	 * @param string $displayName The displayName of the styleCollection
+	 * @param string $componentType The component Type of the styleCollection if applicable. NULL otherwise.
+	 * @param string $componentIndex The component Index if applicable. NULL otherwise.
+	 * @access public
+	 */
 		function createStyleCollection($themeId, $selector, $classSelector, $displayName, $description, $componentType="null", $componentIndex="null"){
 			
 			/* Check whether the StyleCollection already exists in the */
