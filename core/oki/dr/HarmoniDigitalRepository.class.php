@@ -524,14 +524,14 @@ class HarmoniDigitalRepository
 		// is not being copied to the dr root.
 		if (!$newParentId->isEqual($this->getId())) {
 			$newParent =& $this->getAsset($newParentId);
-			$newParent->addAsset($newAsset);
+			$newParent->addAsset($newAsset->getId());
 		}
 		
 		// Copy its data
 		// @todo
 		
 		// Copy the children
-		$children =& $asset->getChildren();
+		$children =& $asset->getAssets();
 		while ($children->hasNext()) {
 			$childAsset =& $children->next();
 			$this->_copyAsset($childAsset, $newAsset->getId());
