@@ -7,6 +7,8 @@ require_once(HARMONI."oki/hierarchy/HarmoniHierarchyIterator.class.php");
 require_once(HARMONI."oki/hierarchy/HarmoniNodeIterator.class.php");
 require_once(HARMONI."oki/hierarchy/HarmoniTraversalInfoIterator.class.php");
 
+require_once(HARMONI."oki/hierarchy/MemoryOnlyHierarchyStore.class.php");
+
 /**
  * All implementors of OsidManager provide create, delete, and get methods for
  * the various objects defined in the package.  Most managers also include
@@ -24,7 +26,7 @@ require_once(HARMONI."oki/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.7 $ / $Date: 2003/10/10 17:31:24 $
+ * @version $Revision: 1.8 $ / $Date: 2003/10/14 14:23:06 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -45,16 +47,8 @@ class HarmoniHierarchyManager
 	 * manager.
 	 * @access public
 	 */
-	function HarmoniHierarchyManager ($hierarchies = NULL) {
-	 	if ($hierarchies != NULL) {
-		 	if (count($hierarchies)) {
-				ArgumentValidator::validate($hierarchies, ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Hierarchy")));
-				
-				foreach ($hierarchies as $key => $val) {
-					$this->_addHierarchy($hierarchies[$key]);
-				}
-			}
-	 	}
+	function HarmoniHierarchyManager () {
+		
 	 }
 
 	/**
@@ -107,9 +101,15 @@ class HarmoniHierarchyManager
 		// if allowsMultipleParents is false and allowsRecursion is true
 		if ($allowsMultipleParents || $allowsRecursion)
 			throwError(new Error(UNSUPPORTED_HIERARCHY, "HierarchyManager", 1));
+		
+		// Load this Manager from persistable storage
+		$this->load();
+		
+		// Create a HierarchyStore based on the given configuration.
+		// @todo fill this bit in.
 
 		// Create a new hierarchy and add it to the manager array;
-		$hierarchy =& new HarmoniHierarchy($description, $name, $nodeTypes);
+		$hierarchy =& new HarmoniHierarchy($description, $name, $nodeTypes, $hierarchyStore);
 		$hierarchy->save();
 		$this->_hierarchies[] =& $hierarchy;
 		
