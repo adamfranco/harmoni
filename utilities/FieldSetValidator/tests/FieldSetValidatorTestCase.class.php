@@ -1,14 +1,14 @@
 <?php
 
-    require_once('inc.php');
-    require_once('rules/inc.php');
+    require_once(HARMONI.'utilities/FieldSetValidator/FieldSetValidator.class.php');
+    require_once(HARMONI.'utilities/FieldSetValidator/rules/inc.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FieldSetValidatorTestCase.class.php,v 1.1 2003/06/23 19:14:26 gabeschine Exp $
+ * @version $Id: FieldSetValidatorTestCase.class.php,v 1.2 2003/06/23 22:02:03 adamfranco Exp $
  * @copyright 2003 
  **/
 

@@ -1,13 +1,13 @@
 <?php
 
-    require_once('Queue.class.php');
+    require_once(HARMONI.'utilities/Queue.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: QueueTestCase.class.php,v 1.8 2003/06/23 16:42:43 movsjani Exp $
+ * @version $Id: QueueTestCase.class.php,v 1.9 2003/06/23 22:02:03 adamfranco Exp $
  * @copyright 2003 
  **/
 
