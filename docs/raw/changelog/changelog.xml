@@ -4,7 +4,8 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.1.0" date="Not Released">
 		<new author='gabe'>
-			DataManager: added DataSet caching to the DataSetManager.
+			DataManager: added DataSet caching to the DataSetManager. Added support for required fields
+			in DataSetTypeDefinitions.
 		</new>
 		<change author='gabe'>
 			Removed argument validation from DateTime constructor to speed up code by 33%.
@@ -17,9 +18,8 @@
 			pruning process. Handling of pruning Tags is very very messy, but it works.
 		</change>
 		<new author='gabe'>
-			DataManager: can now fetch from a list of DataSet IDs only those that match certain search
-			criteria, or can use DataSetManager::selectIDsBySearch() to search all/some DataSets and return
-			a list of DataSets that match the criteria (same as former, just doesn't fetch the data).
+			DataManager: can use DataSetManager::selectIDsBySearch() to search all/some DataSets and return
+			a list of DataSets that match the criteria.
 		</new>
 		<change author='gabe'>
 			DataManager: ValueVersion::prune() now deletes itself if the DataSet it is part of is inactive.
@@ -31,7 +31,7 @@
 	<version number="0.0.5" date="2004-01-09">
 		<change>
 			Implementation of the OKI SharedManager (HarmoniSharedManager) now uses the HarmoniDataManager's IDManager
-			or ID creation.
+			for ID creation.
 		</change>
 		<fix>
 			DateTime::toString() now correctly displays minutes.
