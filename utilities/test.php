@@ -5,7 +5,8 @@
  * Just add the UnitTestCase files below using addTestFile().
  *
  * @author Dobo Radichkov
- * @version $Id: test.php,v 1.2 2003/06/16 22:07:29 adamfranco Exp $
+ * @version $Id: test.php,v 1.3 2003/06/18 21:31:47 adamfranco Exp $
+ * @package harmoni.utilities.tests
  * @copyright 2003 
  **/
 

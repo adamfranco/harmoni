@@ -8,7 +8,8 @@
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: QueueTestCase.class.php,v 1.3 2003/06/16 22:24:33 dobomode Exp $
+ * @version $Id: QueueTestCase.class.php,v 1.4 2003/06/18 21:31:47 adamfranco Exp $
+ * @package harmoni.utilities.tests
  * @copyright 2003 
  **/
 
