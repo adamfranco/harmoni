@@ -2,6 +2,7 @@
 
 require_once(HARMONI . "utilities/DataContainer.abstract.php");
 require_once(HARMONI . "errorHandler/Error.class.php");
+require_once(HARMONI . "errorHandler/throw.inc.php");
 
 
 /**
@@ -12,7 +13,7 @@ require_once(HARMONI . "errorHandler/Error.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniConfig.class.php,v 1.9 2005/04/05 18:53:18 adamfranco Exp $
+ * @version $Id: HarmoniConfig.class.php,v 1.10 2005/04/06 20:38:44 adamfranco Exp $
  */
 
 class HarmoniConfig extends DataContainer {
@@ -35,14 +36,6 @@ class HarmoniConfig extends DataContainer {
     	$e =& new Error("HarmoniConfig - the option 'defaultModule' must be set to a string value!","Harmoni",true);
 		$this -> add("defaultModule", StringValidatorRule::getRule(),$e);
 		$this -> add("defaultModule", FieldRequiredValidatorRule::getRule(),$e);
-		
-		$this -> add("charset", FieldRequiredValidatorRule::getRule());
-		
-		$this -> add("doctype", StringValidatorRule::getRule());
-		$this -> set("doctype", "text/html");
-		
-		$this -> add("doctype_definition", StringValidatorRule::getRule());
-		$this -> set("doctype_definition", '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">');
 		
 		$this -> add("sessionName", FieldRequiredValidatorRule::getRule());
 		$this -> set("sessionName","Harmoni");

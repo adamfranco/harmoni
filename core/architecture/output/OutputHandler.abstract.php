@@ -8,7 +8,7 @@ require_once(OKI2."/osid/OsidManager.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OutputHandler.abstract.php,v 1.2 2005/04/05 20:45:56 adamfranco Exp $
+ * @version $Id: OutputHandler.abstract.php,v 1.3 2005/04/06 20:38:44 adamfranco Exp $
  */ 
 
 /**
@@ -21,7 +21,7 @@ require_once(OKI2."/osid/OsidManager.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OutputHandler.abstract.php,v 1.2 2005/04/05 20:45:56 adamfranco Exp $
+ * @version $Id: OutputHandler.abstract.php,v 1.3 2005/04/06 20:38:44 adamfranco Exp $
  */
 class OutputHandler 
 	extends OsidManager
@@ -100,13 +100,13 @@ class OutputHandler
 	 * have been created such that it is a type that this OutputHandler can deal
 	 * with.
 	 * 
-	 * @param mixed $content Content returned by the action
+	 * @param mixed $returnedContent Content returned by the action
 	 * @param string $printedContent Additional content printed, but not returned.
 	 * @return void
 	 * @access public
 	 * @since 4/4/05
 	 */
-	function output ( &$content, $printedContent ) {		
+	function output ( &$returnedContent, $printedContent ) {		
 		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
 	}
 	

@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/Layout.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.abstract.php,v 1.1 2005/04/06 14:18:17 adamfranco Exp $
+ * @version $Id: GUIManager.abstract.php,v 1.2 2005/04/06 20:37:57 adamfranco Exp $
  */
 class GUIManagerAbstract
 	extends OutputHandler
@@ -30,22 +30,22 @@ class GUIManagerAbstract
 	 * have been created such that it is a type that this OutputHandler can deal
 	 * with.
 	 * 
-	 * @param mixed $content Content returned by the action
+	 * @param mixed $returnedContent Content returned by the action
 	 * @param string $printedContent Additional content printed, but not returned.
 	 * @return void
 	 * @access public
 	 * @since 4/4/05
 	 */
-	function output ( &$content, $printedContent ) {		
+	function output ( &$returnedContent, $printedContent ) {		
 		// alright, if what we got back was a layout, let's print it out!
 		$rule = ExtendsValidatorRule::getRule("ComponentInterface");
-		if ($rule->check($content)){
+		if ($rule->check($returnedContent)){
 			$osidContext =& $this->getOsidContext();
 			$harmoni =& $osidContext->getContext('harmoni');
 			
-			$doctypeDef = $harmoni->config->get('doctype_definition');
-			$doctype = $harmoni->config->get('doctype');
-			$characterSet = $harmoni->config->get('charset');
+			$doctypeDef = $this->_configuration->getProperty('document_type_definition');
+			$doctype =  $this->_configuration->getProperty('document_type');
+			$characterSet = $this->_configuration->getProperty('character_set');
 			$head = $this->getHead();
 			$css = $this->_theme->getCSS("\t\t\t");
 			
@@ -67,7 +67,7 @@ $css
 		
 END;
 
-			$this->_theme->setComponent($content);
+			$this->_theme->setComponent($returnedContent);
 			$this->_theme->printPage();
 			
 			print<<<END

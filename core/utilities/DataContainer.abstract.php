@@ -14,7 +14,7 @@ require_once(HARMONI."utilities/FieldSetValidator/RuleSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataContainer.abstract.php,v 1.5 2005/02/04 15:59:13 adamfranco Exp $
+ * @version $Id: DataContainer.abstract.php,v 1.6 2005/04/06 20:38:44 adamfranco Exp $
  *
  * @abstract
  */
@@ -95,6 +95,7 @@ class DataContainer
 		// first check if this is a valid field.
 		if (!in_array($field,$this->_ruleSet->getKeys())) {
 			// no good
+			printDebugBacktrace();
 			throwError( new Error(get_class($this)." - can not set key '$field' because it is not a valid key!","DataContainer",true));
 			return false;
 		}

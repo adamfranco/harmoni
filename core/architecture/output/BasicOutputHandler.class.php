@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandler.class.php,v 1.2 2005/04/05 20:45:56 adamfranco Exp $
+ * @version $Id: BasicOutputHandler.class.php,v 1.3 2005/04/06 20:38:44 adamfranco Exp $
  */ 
 
 require_once(HARMONI."/architecture/output/OutputHandler.abstract.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."/architecture/output/OutputHandler.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandler.class.php,v 1.2 2005/04/05 20:45:56 adamfranco Exp $
+ * @version $Id: BasicOutputHandler.class.php,v 1.3 2005/04/06 20:38:44 adamfranco Exp $
  */
 class BasicOutputHandler
 	extends OutputHandler 
@@ -31,19 +31,19 @@ class BasicOutputHandler
 	 * have been created such that it is a type that this OutputHandler can deal
 	 * with.
 	 * 
-	 * @param mixed $content Content returned by the action
+	 * @param mixed $returnedContent Content returned by the action
 	 * @param string $printedContent Additional content printed, but not returned.
 	 * @return void
 	 * @access public
 	 * @since 4/4/05
 	 */
-	function output ( &$content, $printedContent ) {		
+	function output ( &$returnedContent, $printedContent ) {		
 		$osidContext =& $this->getOsidContext();
 		$harmoni =& $osidContext->getContext('harmoni');
 		
-		$doctypeDef = $harmoni->config->get('doctype_definition');
-		$doctype = $harmoni->config->get('doctype');
-		$characterSet = $harmoni->config->get('charset');
+		$doctypeDef = $this->_configuration->getProperty('document_type_definition');
+		$doctype =  $this->_configuration->getProperty('document_type');
+		$characterSet = $this->_configuration->getProperty('character_set');
 		$head = $this->getHead();
 		
 		header("Content-type: $doctype; charset=$characterSet");

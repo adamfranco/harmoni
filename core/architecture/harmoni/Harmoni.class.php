@@ -8,6 +8,7 @@ require_once(HARMONI."architecture/harmoni/HarmoniConfig.class.php");
 require_once(HARMONI."architecture/harmoni/Context.class.php");
 require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
 require_once(HARMONI."/architecture/output/BasicOutputHandler.class.php");
+require_once(HARMONI."/architecture/output/BasicOutputHandlerConfigProperties.class.php");
 require_once(OKI2."/osid/OsidContext.php");
 
 /**
@@ -20,7 +21,7 @@ require_once(OKI2."/osid/OsidContext.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.36 2005/04/05 20:42:48 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.37 2005/04/06 20:38:44 adamfranco Exp $
  **/
 class Harmoni {
 	
@@ -91,7 +92,6 @@ class Harmoni {
 		
 		// set up config options
 		$this->config =& new HarmoniConfig;
-		$this->config->set("charset","utf-8"); // default
 		
 		// set up the default action callback function
 		$this->setActionCallbackFunction("httpTwoVarsActionCallback");
@@ -107,8 +107,10 @@ class Harmoni {
 		// Set up a default OutputHandler
 		$osidContext =& new OsidContext;
 		$osidContext->assignContext('harmoni', $this);
+		$configuration =& new BasicOutputHandlerConfigProperties;
 		$outputHandler =& new BasicOutputHandler;
 		$outputHandler->assignOsidContext($osidContext);
+		$outputHandler->assignConfiguration($configuration);
 		$this->attachOutputHandler($outputHandler);
 	}
 	
