@@ -9,6 +9,7 @@ require_once(HARMONI."DBHandler/GenericSQLQuery.class.php");
 require_once(HARMONI.'DBHandler/MySQL/MySQLDatabase.class.php');
 require_once(HARMONI.'DBHandler/PostGre/PostGreDatabase.class.php');
 require_once(HARMONI.'DBHandler/Oracle/OracleDatabase.class.php');
+require_once(HARMONI.'DBHandler/SQLUtils.static.php');
 require_once(HARMONI.'utilities/Queue.class.php');
 
 require_once(HARMONI."utilities/DateTime.class.php");
@@ -19,7 +20,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.8 2004/06/14 03:34:16 dobomode Exp $
+ * @version $Id: DBHandler.class.php,v 1.9 2004/07/02 21:35:42 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public

@@ -9,7 +9,7 @@ require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
  * query types, or the resource links can be returned and accessed directly.
  *
  * 
- * @version $Id: OracleGenericQueryResult.class.php,v 1.1 2004/07/02 19:13:09 adamfranco Exp $
+ * @version $Id: OracleGenericQueryResult.class.php,v 1.2 2004/07/02 21:35:53 adamfranco Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
@@ -44,8 +44,8 @@ class OracleGenericQueryResult extends GenericQueryResultInterface {
 	 */
 	function OracleGenericQueryResult ($resourceId, $linkId) {
 		// ** parameter validation
+		$resourceRule =& new ResourceValidatorRule();
 		if (!is_bool($resourceId)) {
-			$resourceRule =& new ResourceValidatorRule();
 			ArgumentValidator::validate($resourceId, $resourceRule, true);
 		}
 		ArgumentValidator::validate($linkId, $resourceRule, true);
