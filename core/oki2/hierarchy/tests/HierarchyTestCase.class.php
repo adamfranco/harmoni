@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.4 2005/01/19 22:28:22 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.5 2005/01/26 23:02:17 adamfranco Exp $
  * @package harmoni.tests.metadata
  * @copyright 2003
  **/
@@ -236,8 +236,8 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 			$this->hierarchy->clearCache();
 
 			$iterator =& $this->hierarchy->traverse($idG, 
-													TRAVERSE_MODE_DEPTH_FIRST, 
-													TRAVERSE_DIRECTION_DOWN, 
+													Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), 
+													Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
 													-1);
 													
 //			echo "<pre>\n";
@@ -265,8 +265,8 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 			$this->hierarchy->clearCache();
 
 			$iterator =& $this->hierarchy->traverse($idD, 
-													TRAVERSE_MODE_DEPTH_FIRST, 
-													TRAVERSE_DIRECTION_UP, 
+													Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), 
+													Hierarchy::TRAVERSE_DIRECTION_UP(), 
 													-1);
 //			echo "<pre>\n";
 //			print_r($iterator);

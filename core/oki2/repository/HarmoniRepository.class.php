@@ -44,7 +44,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.12 2005/01/26 22:43:41 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.13 2005/01/26 23:02:18 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -380,8 +380,8 @@ class HarmoniRepository
 	function &getAssets () { 
 		// get a list for all the nodes under this hierarchy.
 		$traversalInfoIterator =& $this->_hierarchy->traverse($this->_node->getId(), 
-										TRAVERSE_MODE_DEPTH_FIRST, TRAVERSE_DIRECTION_DOWN, 
-										TRAVERSE_LEVELS_INFINITE);
+										Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
+										Hierarchy::TRAVERSE_LEVELS_ALL());
 		
 		// These are for ignoring nodes, used when we have another repository
 		// as a child.

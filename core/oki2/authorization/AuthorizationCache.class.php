@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.7 2005/01/26 17:29:46 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.8 2005/01/26 23:02:16 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -97,8 +97,8 @@ class AuthorizationCache {
 		// ** end of parameter validation
 		
 		// create the authorization object
-		$sharedManager =& Services::requireService("Shared");
-		$id =& $sharedManager->createId();
+		$idManager =& Services::requireService("Id");
+		$id =& $idManager->createId();
 		$idValue = $id->getIdString();
 		// figure out whether it's dated or not
 		$dated = isset($effectiveDate) && isset($expirationDate);
@@ -169,7 +169,7 @@ class AuthorizationCache {
 		// ** end of parameter validation
 		
 		// create the Function object
-		$sharedManager =& Services::requireService("Shared");
+		$idManager =& Services::requireService("Id");
 		$function =& new HarmoniFunction($functionId, $displayName, $description, 
 										 $functionType, $qualifierHierarchyId,
 										 $this->_dbIndex, $this->_authzDB);
@@ -414,9 +414,9 @@ class AuthorizationCache {
 			else {
 				$type =& new HarmoniType($row['domain'], $row['authority'], 
 										 $row['keyword'], $row['type_description']);
-				$shared_manager =& Services::requireService("Shared");
-				$functionId =& $shared_manager->getId($row['id']);
-				$hierarchyId =& $shared_manager->getId($row['hierarchy_id']);
+				$idManager =& Services::requireService("Id");
+				$functionId =& $idManager->getId($row['id']);
+				$hierarchyId =& $idManager->getId($row['hierarchy_id']);
 				$function =& new HarmoniFunction($functionId, $row['reference_name'],
 												 $row['description'], $type, $hierarchyId ,
 												 $this->_dbIndex, $this->_authzDB);
@@ -477,9 +477,9 @@ class AuthorizationCache {
 								 $row['keyword'], $row['type_description']);
 		
 		
-		$shared_manager =& Services::requireService("Shared");
-		$functionId =& $shared_manager->getId($row['id']);
-		$hierarchyId =& $shared_manager->getId($row['hierarchy_id']);
+		$idManager =& Services::requireService("Id");
+		$functionId =& $idManager->getId($row['id']);
+		$hierarchyId =& $idManager->getId($row['hierarchy_id']);
 		$function =& new HarmoniFunction($functionId, $row['reference_name'],
 										 $row['description'], $type, $hierarchyId ,
 										 $this->_dbIndex, $this->_authzDB);
@@ -567,8 +567,8 @@ class AuthorizationCache {
 		$hierarchyManager =& Services::requireService("Hierarchy");
 		$node =& $hierarchyManager->getNode($qualifierId);
 		$hierarchy =& $hierarchyManager->getHierarchyForNode($node);
-		$nodes =& $hierarchy->traverse($qualifierId, TRAVERSE_MODE_DEPTH_FIRST, 
-										TRAVERSE_DIRECTION_DOWN, TRAVERSE_LEVELS_INFINITE);
+		$nodes =& $hierarchy->traverse($qualifierId, Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), 
+										Hierarchy::TRAVERSE_DIRECTION_DOWN(), Hierarchy::TRAVERSE_LEVELS_ALL());
 
 		// create the qualifiers
 		$qualifiers = array();
@@ -719,7 +719,7 @@ class AuthorizationCache {
 		ArgumentValidator::validate($isActiveNow,new BooleanValidatorRule(), true);
 		// ** end of parameter validation
 		
-		$sharedManager =& Services::requireService("Shared");
+		$idManager =& Services::requireService("Id");
 		
 		// the parameter that influences the result most is $isExplicit
 		// 1) If $isExplicit is TRUE, then we only need to check for Authorizations
@@ -733,13 +733,13 @@ class AuthorizationCache {
 		// check all ancestors of given qualifier
 		$hierarchyManager =& Services::requireService("Hierarchy");
 
-		$qualifierId =& $sharedManager->getId($qId);
+		$qualifierId =& $idManager->getId($qId);
 		$node =& $hierarchyManager->getNode($qualifierId);
 		$hierarchy =& $hierarchyManager->getHierarchyForNode($node);
 		
 		// these are the ancestor nodes
-		$nodes =& $hierarchy->traverse($qualifierId, TRAVERSE_MODE_DEPTH_FIRST,
-				TRAVERSE_DIRECTION_UP, TRAVERSE_LEVELS_INFINITE);
+		$nodes =& $hierarchy->traverse($qualifierId, Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
+				Hierarchy::TRAVERSE_DIRECTION_UP(), Hierarchy::TRAVERSE_LEVELS_ALL());
 				
 		// now get the id of each node and store in array
 		while($nodes->hasNext()){
@@ -853,14 +853,14 @@ class AuthorizationCache {
 //			printpre($row);
 
 			$idValue = $row['id'];
-			$id =& $sharedManager->getId($idValue);
+			$id =& $idManager->getId($idValue);
 			if (isset($this->_authorizations[$idValue])) {
 				$authorization =& $this->_authorizations[$idValue];
 			}
 			else {
-				$agentId =& $sharedManager->getId($row['aId']);
-				$functionId =& $sharedManager->getId($row['fId']);
-				$explicitQualifierId =& $sharedManager->getId($row['qId']);
+				$agentId =& $idManager->getId($row['aId']);
+				$functionId =& $idManager->getId($row['fId']);
+				$explicitQualifierId =& $idManager->getId($row['qId']);
 				$effectiveDate =& $dbHandler->fromDBDate($row['eff_date'], $this->_dbIndex);
 				$expirationDate =& $dbHandler->fromDBDate($row['exp_date'], $this->_dbIndex);
 				
@@ -888,7 +888,7 @@ class AuthorizationCache {
 				// if this is an AZ that is implicit because of a group instead
 				// of because of the hierarchy, create it.
 				if ($row['qId'] == $qId && $row['aId'] != $aId) {
-					$qualifierId =& $sharedManager->getId($qId);
+					$qualifierId =& $idManager->getId($qId);
 					$agentId =& $authorization->getAgentId();
 					$function =& $authorization->getFunction();
 					$functionId =& $function->getId();
@@ -925,8 +925,8 @@ class AuthorizationCache {
 					$expirationDate =& $authorization->getExpirationDate();
 	
 					// this is set 2
-					$nodes =& $hierarchy->traverse($explicitQualifierId, TRAVERSE_MODE_DEPTH_FIRST,
-							TRAVERSE_DIRECTION_DOWN, TRAVERSE_LEVELS_INFINITE);
+					$nodes =& $hierarchy->traverse($explicitQualifierId, Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
+							Hierarchy::TRAVERSE_DIRECTION_DOWN(), Hierarchy::TRAVERSE_LEVELS_ALL());
 							
 					// now get the id of each node and store in array
 					$set2 = array();
@@ -944,7 +944,7 @@ class AuthorizationCache {
 					// requested node, not for its parents as well.
 					if (isset($set2[$qId])) {
 						// create an implicit
-						$implicitQualifierId =& $sharedManager->getId($qId);
+						$implicitQualifierId =& $idManager->getId($qId);
 						$implicit =& new HarmoniAuthorization(null, $agentId, $functionId, $implicitQualifierId,
 															  false, $this, $effectiveDate, $expirationDate);
 						$authorizations[] =& $implicit;

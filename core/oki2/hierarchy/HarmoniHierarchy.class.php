@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.8 2005/01/26 17:29:46 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.9 2005/01/26 23:02:16 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
@@ -688,12 +688,12 @@ class HarmoniHierarchy
 		ArgumentValidator::validate($direction, new IntegerValidatorRule);
 		ArgumentValidator::validate($levels, new IntegerValidatorRule);
 
-		if ($mode != TRAVERSE_MODE_DEPTH_FIRST) {
+		if ($mode != Hierarchy::TRAVERSE_MODE_DEPTH_FIRST()) {
 			// Only depth-first traversal is supported in the current implementation.
 			throwError(new Error(HierarchyException::UNKNOWN_TRAVERSAL_DIRECTION(), "Hierarchy", true));
 		}
 
-		$down = ($direction == TRAVERSE_DIRECTION_DOWN);
+		$down = ($direction == Hierarchy::TRAVERSE_DIRECTION_DOWN());
 		$result =& $this->_cache->traverse($startId, $down, $levels);
 
 		return $result;
