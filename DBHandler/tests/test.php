@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.2 2003/06/25 19:23:12 dobomode Exp $
+ * @version $Id: test.php,v 1.3 2003/06/26 02:03:50 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -19,6 +19,7 @@
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
 	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
+	require_once(HARMONI."utilities/ArgumentValidator.class.php");
 
 	Services::registerService("ErrorHandler","ErrorHandler");
 	Services::startService("ErrorHandler");

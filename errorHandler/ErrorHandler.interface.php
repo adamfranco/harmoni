@@ -3,7 +3,7 @@
 /**
  * 
  *
- * @version $Id: ErrorHandler.interface.php,v 1.2 2003/06/25 15:13:07 movsjani Exp $
+ * @version $Id: ErrorHandler.interface.php,v 1.3 2003/06/26 02:03:50 dobomode Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  **/
@@ -53,8 +53,7 @@ class ErrorHandlerInterface{
      * @access public
      */
 
-    function clearErrors(){ die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.\
-");}
+    function clearErrors(){ die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
 
 }
 

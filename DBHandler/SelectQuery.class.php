@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQuery.interface.php");
  * 
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * @version $Id: SelectQuery.class.php,v 1.5 2003/06/25 19:23:12 dobomode Exp $
+ * @version $Id: SelectQuery.class.php,v 1.6 2003/06/26 02:03:50 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -133,14 +133,13 @@ class SelectQuery extends SelectQueryInterface {
 	 * @access public
 	 */
 	function addTable($table, $joinType = NO_JOIN, $joinCondition = "") {
-		// parameter checking
-		$eh =& Services::getService("ErrorHandler");
-		if (!is_string($table))
-			$eh->addNewError("Invalid parameter in ".__CLASS__."::".__FUNCTION__."()", "DBHandler", false);
-		if (!is_integer($joinType))
-			$eh->addNewError("Invalid parameter in ".__CLASS__."::".__FUNCTION__."()", "DBHandler", false);
-		if (!is_string($joinCondition))
-			$eh->addNewError("Invalid parameter in ".__CLASS__."::".__FUNCTION__."()", "DBHandler", false);
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($table, $stringRule, true);
+		ArgumentValidator::validate($joinType, $integerRule, true);
+		ArgumentValidator::validate($joinCondition, $stringRule, true);
+		// ** end of parameter validation
 		
 		$newTable = array($table, $joinType, $joinCondition);
 		$this->_tables[] = $newTable;
@@ -161,6 +160,11 @@ class SelectQuery extends SelectQueryInterface {
 	 * @see addColumn()
 	 */
 	function setColumns($columns) {
+		// ** parameter validation
+		$arrayRule =& new ArrayValidatorRule();
+		ArgumentValidator::validate($columns, $arrayRule, true);
+		// ** end of parameter validation
+		
 		// convert each string in the array to a 2-dimensional array
 		// (for compatibility with addColumn) and store in $this->_columns
 		$this->_columns = array();
@@ -187,6 +191,12 @@ class SelectQuery extends SelectQueryInterface {
 	 * @see setColumns()
 	 */ 
 	function addColumn($column, $alias = null) {
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($column, $stringRule, true);
+		ArgumentValidator::validate($alias, $stringRule, true);
+		// ** end of parameter validation
+		
 		$arr = array();
 		$arr[] = $column;
 		$arr[] = $alias;
@@ -204,6 +214,11 @@ class SelectQuery extends SelectQueryInterface {
 	 * @access public
 	 */
 	function setWhere($condition) {
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($condition, $stringRule, true);
+		// ** end of parameter validation
+
 		$this->_condition = $condition;
 	}
 
@@ -222,6 +237,13 @@ class SelectQuery extends SelectQueryInterface {
 	 * @access public
 	 */
 	function setGroupBy($columns, $condition = "") {
+		// ** parameter validation
+		$arrayRule =& new ArrayValidatorRule();
+		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($columns, $arrayRule, true);
+		ArgumentValidator::validate($condition, $stringRule, true);
+		// ** end of parameter validation
+		
 		$this->_groupBy = $columns;
 		$this->_having = $condition;
 	}
@@ -241,6 +263,13 @@ class SelectQuery extends SelectQueryInterface {
 	 * @access public
 	 */
 	function addOrderBy($column, $direction = ASCENDING) {
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($column, $stringRule, true);
+		ArgumentValidator::validate($direction, $integerRule, true);
+		// ** end of parameter validation
+
 		$this->_orderBy[] = array($column, $direction);
 	}
 	
@@ -255,6 +284,11 @@ class SelectQuery extends SelectQueryInterface {
 	 * @access public
 	 */
 	function setDistinct($distinct) {
+		// ** parameter validation
+		$booleanRule =& new BooleanValidatorRule();
+		ArgumentValidator::validate($distinct, $booleanRule, true);
+		// ** end of parameter validation
+
 		$this->_distinct = $distinct;
 	}
 
@@ -270,6 +304,11 @@ class SelectQuery extends SelectQueryInterface {
 	 * @access public
 	 */
 	function limitNumberOfRows($numberOfRows) {
+		// ** parameter validation
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($numberOfRows, $integerRule, true);
+		// ** end of parameter validation
+
 		$this->_numberOfRows = $numberOfRows;
 	}
 	
@@ -284,6 +323,11 @@ class SelectQuery extends SelectQueryInterface {
 	 * @access public
 	 */
 	function startFromRow($startFromRow) {
+		// ** parameter validation
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($startFromRow, $integerRule, true);
+		// ** end of parameter validation
+
 		$this->_startFromRow = $startFromRow;
 	}
 	
