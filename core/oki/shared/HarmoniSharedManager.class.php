@@ -39,7 +39,7 @@ require_once(HARMONI."oki/shared/AgentSearches/AncestorGroupSearch.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.54 2004/12/02 17:16:07 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.55 2004/12/08 15:55:58 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -700,7 +700,8 @@ class HarmoniSharedManager
 		// check the cache
 		if (isset($this->_agentsCache[$idValue]))
 			return TRUE;
-			
+		
+		$db = $this->_sharedDB.".";
 		$where = $db."agent.agent_id = '".addslashes($idValue)."'";
 
 		$this->_loadAgents($where);
@@ -731,8 +732,9 @@ class HarmoniSharedManager
 		// check the cache
 		if (isset($this->_groupsCache[$idValue]))
 			return TRUE;
-			
-		$where = $db."groups.groups_id = '".addslashes($idValue)."'";
+		
+		$db = $this->_sharedDB.".";
+		$where = $db."subgroup0.groups_id = '".addslashes($idValue)."'";
 
 		$this->_loadGroups($where);
 		

@@ -6,7 +6,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.23 2004/12/07 23:15:10 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.24 2004/12/08 15:54:55 adamfranco Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -789,12 +789,12 @@ class AuthorizationCache {
 		$where = $db."az_authorization.fk_qualifier IN ($list)";
 		$query->addWhere($where);
 		// the agent criteria
-// 		if (isset($aId)) {
+ 		if (isset($aId) || count($groupIds)) {
 // 			$joinc = $db."az_authorization.fk_agent = ".$db."agent.agent_id";
 // 			$query->addTable($db."agent", INNER_JOIN, $joinc);
 			$where = $db."az_authorization.fk_agent IN ($agentList)";
 			$query->addWhere($where);
-// 		}
+ 		}
 		// the function criteria
 		if (isset($fId)) {
 			$joinc = $db."az_authorization.fk_function = ".$db."az_function.function_id";
@@ -845,6 +845,8 @@ class AuthorizationCache {
 		// process all rows and create the explicit authorizations
 		while ($queryResult->hasMoreRows()) {
 			$row =& $queryResult->getCurrentRow();
+			
+// 			printpre($row);
 
 			$idValue = $row['id'];
 			$id =& $sharedManager->getId($idValue);
