@@ -6,7 +6,7 @@ require_once HARMONI."metaData/manager/ValueVersions.classes.php";
  * Holds a number of indexes for values within a specific field within a DataSet. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: FieldValues.class.php,v 1.7 2004/01/01 19:03:42 gabeschine Exp $
+ * @version $Id: FieldValues.class.php,v 1.8 2004/01/06 17:08:07 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -48,11 +48,19 @@ class FieldValues {
 		}
 		
 		// no go through each index and setup the ValueVersions object.
+		$i = -1;
 		foreach (array_keys($packages) as $index) {
-			$this->_values[$index] =& new ValueVersions($this,$index);
-			$this->_values[$index]->populate($packages[$index]);
+			$i = $this->_parent->readOnly()?$i+1:$index; // this is to compensate for skipped indexes - see below
+			$this->_values[$i] =& new ValueVersions($this,$i);
+			$this->_values[$i]->populate($packages[$index]);
 			$this->_numValues++;
 		}
+		
+		// if the dataset is fetched read-only, we have to be sure that our indexes are
+		// in order, going from 0 -> numValues. if an index was deleted, there may
+		// be a gap.
+//		$tmp =& array_slice($this->_values,0);
+//		$this->_values =& $tmp;
 	}
 	
 	function commit() {

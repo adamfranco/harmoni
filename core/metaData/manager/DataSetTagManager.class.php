@@ -12,8 +12,12 @@ class DataSetTagManager extends ServiceInterface {
 		$this->_dbID = $dbID;
 	}
 	
-	function tagToDB( $dataSetID, $date=null ) {
-		if (!$dataSetID) return null;
+	function tagToDB( &$dataSet, $date=null ) {
+//		if (!$dataSetID) return null;
+		// if the dataset is not versionControlled, there's no point in tagging
+		if (!$dataSet->isVersionControlled()) return null;
+		
+		$dataSetID = $dataSet->getID();
 		if (!$date) $date =& DateTime::now();
 		
 		$query =& new SelectQuery();

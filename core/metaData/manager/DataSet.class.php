@@ -225,7 +225,21 @@ class FullDataSet extends CompactDataSet {
 		return true;
 	}
 	
+	function tag($date=null) {
+		$tagMgr =& Services::getService("DataSetTagManager");
+		$tagMgr->tagToDB($this, $date);
+	}
+	
+	function commitAndTag($date=null) {
+		$this->commit();
+		$this->tag($date);
+	}
+	
 	function clone() {
+		
+	}
+	
+	function prune() {
 		
 	}
 	
