@@ -43,7 +43,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.8 2005/01/19 23:23:08 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.9 2005/01/27 15:09:37 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -175,7 +175,8 @@ class HarmoniAgentManager
 		// ** end of parameter validation
 		
 		// create a new unique id for the agent
-		$agentId =& $this->createId();
+		$idManager =& Services::getService("Id");
+		$agentId =& $idManager->createId();
 		// get the actual id
 		$agentIdValue = $agentId->getIdString();
 		
@@ -662,7 +663,8 @@ class HarmoniAgentManager
 		// ** end of parameter validation
 		
 		// create a new unique id for the group
-		$groupId =& $this->createId();
+		$idManager =& Services::getService("Id");
+		$groupId =& $idManager->createId();
 		// get the actual id
 		$groupIdValue = $groupId->getIdString();
 		
@@ -1257,6 +1259,8 @@ class HarmoniAgentManager
 	 *		parameters.
 	 **/
 	function _loadAgents($where = null, $fromGroup = null) {
+		$idManager =& Services::getService("Id");
+		
 		$foundIds = array();
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new SelectQuery();
@@ -1382,7 +1386,7 @@ class HarmoniAgentManager
 					// make sure that we aren't passing agents the same properties array.
 					$agent =& new HarmoniAgent(
 									$arr['display_name'], 
-									$this->getId($arr['id']), 
+									$idManager->getId($arr['id']), 
 									$type,
 									$$propertiesArrayName,
 									$this->_dbIndex, 
@@ -1408,6 +1412,7 @@ class HarmoniAgentManager
 	 * @param string where An optional where clause.
 	 **/
 	function _loadGroups($where = null) {
+		$idManager =& Services::getService("Id");
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new SelectQuery();
 		
@@ -1625,7 +1630,7 @@ class HarmoniAgentManager
 					
 					// Instantiate the Group object
 					$group =& new HarmoniGroup($displayName,
-													$this->getId($value), 
+													$idManager->getId($value), 
 													$type, 
 													$$propertiesArrayName,
 													$description,
