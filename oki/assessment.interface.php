@@ -12,10 +12,10 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Create a new Assessment and add it to the Assessment Bank.
-	 * @param name
-	 * @param description
-	 * @param assessmentType
-	 * @return Item with its name, description, and Unique Id set
+	 * @param string name
+	 * @param string description
+	 * @param object assessmentType
+	 * @return object Item with its name, description, and Unique Id set
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
@@ -24,7 +24,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Delete an Assessment from the Assessment Bank.
-	 * @param assessmentId
+	 * @param object assessmentId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -33,7 +33,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get the Assessment with the specified Unique Id
-	 * @param assessmentId
+	 * @param object assessmentId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -42,8 +42,8 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get all the Assessments of a specific Type.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @param assessmentType
-	 * @return AssessmentIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object assessmentType
+	 * @return object AssessmentIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
@@ -52,7 +52,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get all the Assessments in the Assessment Bank.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return AssessmentIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object AssessmentIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -61,10 +61,10 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Create a new Section and add it to the Section Bank.
-	 * @param name
-	 * @param description
-	 * @param sectionType
-	 * @return Item with its name, description, and Unique Id set
+	 * @param string displayName
+	 * @param string description
+	 * @param object sectionType
+	 * @return object Item with its name, description, and Unique Id set
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
@@ -73,7 +73,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Delete a Section from the Section Bank.
-	 * @param sectionId
+	 * @param object sectionId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} , {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -82,7 +82,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get the Section with the specified Unique Id
-	 * @param sectionId
+	 * @param object sectionId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -91,8 +91,8 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get all the Sections of a specific Type.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @param sectionType
-	 * @return SectionIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object sectionType
+	 * @return object SectionIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
@@ -101,7 +101,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get all the Sections in the Section Bank  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return SectionIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object SectionIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -110,10 +110,10 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Create a new Item  and add it to the Item Bank.
-	 * @param name
-	 * @param description
-	 * @param itemType
-	 * @return Item with its name, description, and Unique Id set
+	 * @param string displayName
+	 * @param string description
+	 * @param object itemType
+	 * @return object Item with its name, description, and Unique Id set
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
@@ -122,7 +122,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Delete a Item from the Item Bank.
-	 * @param itemId
+	 * @param object itemId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -131,7 +131,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get the Item with the specified Unique Id
-	 * @param itemId
+	 * @param object itemId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -140,8 +140,8 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get all the Items of a specific Type.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @param itemType
-	 * @return ItemIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object itemType
+	 * @return object ItemIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
@@ -150,7 +150,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get all the Items in the Item Bank.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return ItemIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object ItemIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -159,8 +159,8 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Create an AssessmentPublished based on an Assessment.
-	 * @param assessment
-	 * @return AssessmentPublished with its Unique Id set
+	 * @param object assessment
+	 * @return object AssessmentPublished with its Unique Id set
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
@@ -169,7 +169,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Delete an AssessmentPublished.
-	 * @param assessmentPublishedId
+	 * @param object assessmentPublishedId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -178,8 +178,8 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get the specified AssessmentPublished.
-	 * @param assessmentPublishedId
-	 * @return AssessmentPublishedIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object assessmentPublishedId
+	 * @return object AssessmentPublishedIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -188,7 +188,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get all the Assessments published.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return AssessmentPublishedIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object AssessmentPublishedIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -197,7 +197,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get all the Assessment Types.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -206,7 +206,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get all the Section Types.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -215,7 +215,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get all the Item Types.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -224,7 +224,7 @@ class AssessmentManager // :: API interface
 
 	/**
 	 * Get all the Evaluation Types.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -243,7 +243,7 @@ class Assessment // :: API interface
 
 	/**
 	 * Get the name for this Assessment.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -251,15 +251,15 @@ class Assessment // :: API interface
 
 	/**
 	 * Update the name for this Assessment.
-	 * @param displayName
+	 * @param string displayName
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
-	function updateDisplayName($DisplayName) { /* :: interface :: */ }
+	function updateDisplayName($displayName) { /* :: interface :: */ }
 
 	/**
 	 * Get the description for this Assessment.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -267,15 +267,15 @@ class Assessment // :: API interface
 
 	/**
 	 * Update the description for this Assessment.
-	 * @param description
+	 * @param string description
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
-	function updateDescription($Description) { /* :: interface :: */ }
+	function updateDescription($description) { /* :: interface :: */ }
 
 	/**
 	 * Get the Unique Id for this Assessment.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -283,7 +283,7 @@ class Assessment // :: API interface
 
 	/**
 	 * Get the AssessmentType for this Assessment.  AssessmentType The structure of the Data is not defined in the SID.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -291,7 +291,7 @@ class Assessment // :: API interface
 
 	/**
 	 * Get the Topic for this
-	 * @return String the Topic Assessment
+	 * @return object String the Topic Assessment
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -299,7 +299,7 @@ class Assessment // :: API interface
 
 	/**
 	 * Update the Topic for this
-	 * @param topic Assessment
+	 * @param object topic Assessment
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
@@ -307,7 +307,7 @@ class Assessment // :: API interface
 
 	/**
 	 * Add a Section to this Assessment. The Sections added to an Assessment are returned first in, first out (FIFO).  Sections can be ordered explicitly using the orderSections method.
-	 * @param section
+	 * @param object section
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#ALREADY_ADDED ALREADY_ADDED}
 	 * @package osid.assessment
 	 */
@@ -316,7 +316,7 @@ class Assessment // :: API interface
 
 	/**
 	 * Remove a Section from this Assessment.
-	 * @param sectionId
+	 * @param object sectionId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -325,7 +325,7 @@ class Assessment // :: API interface
 
 	/**
 	 * Get all the Sections in the Assessment.  The Sections added to a Assessment are returned first in, first out (FIFO).  Sections can be ordered explicitly using the orderSections method.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return SectionIterator
+	 * @return object SectionIterator
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -334,7 +334,7 @@ class Assessment // :: API interface
 
 	/**
 	 * Change the order of the  Sections in the Assessment.  Sections normally are returned first in, first out (FIFO).  This ordering, which has important pedagogical implications, is changed to match the order in the  Sections array.  Additional added Sections are returned first in, first out (FIFO) after the ordered Sections.
-	 * @param sections
+	 * @param object sections
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_SECTION UNKNOWN_SECTION}
 	 * @package osid.assessment
 	 */
@@ -343,7 +343,7 @@ class Assessment // :: API interface
 
 	/**
 	 * Get the serializable Data for this Assessment.  The structure of the Data is not defined in the SID.
-	 * @return java.io.Serializable the Data.
+	 * @return object java.io.Serializable the Data.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -368,7 +368,7 @@ class Section // :: API interface
 
 	/**
 	 * Get the name for this Section.
-	 * @return String the name
+	 * @return string The name
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -376,15 +376,15 @@ class Section // :: API interface
 
 	/**
 	 * Update the name for this Section.
-	 * @param displayName
+	 * @param string displayName
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
-	function updateDisplayName($DisplayName) { /* :: interface :: */ }
+	function updateDisplayName($displayName) { /* :: interface :: */ }
 
 	/**
 	 * Get the description for this Section.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -392,15 +392,15 @@ class Section // :: API interface
 
 	/**
 	 * Update the description for this Section.
-	 * @param description
+	 * @param string description
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
-	function updateDescription($Description) { /* :: interface :: */ }
+	function updateDescription($description) { /* :: interface :: */ }
 
 	/**
 	 * Get the Unique Id for this Item.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -408,7 +408,7 @@ class Section // :: API interface
 
 	/**
 	 * Get the SectionType for this Section.  is meaningful to an application and not specifically defined in the SID.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -416,7 +416,7 @@ class Section // :: API interface
 
 	/**
 	 * Add an Item to this Section.  The Items added to a Section are returned first in, first out (FIFO).  Items can be ordered explicitly using the orderItems method.
-	 * @param item
+	 * @param object item
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#ALREADY_ADDED ALREADY_ADDED}
 	 * @package osid.assessment
 	 */
@@ -425,7 +425,7 @@ class Section // :: API interface
 
 	/**
 	 * Remove an Item from this Section.
-	 * @param itemId
+	 * @param object itemId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -434,7 +434,7 @@ class Section // :: API interface
 
 	/**
 	 * Get all the Items in the Section.  The Items added to a Section are returned first in, first out (FIFO).  Items can be ordered explicitly using the orderItems method.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return ItemIterator
+	 * @return object ItemIterator
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -443,7 +443,7 @@ class Section // :: API interface
 
 	/**
 	 * Change the order of the  Items in the Section.  Items normally are returned first in, first out (FIFO).  This ordering, which has important pedagogical implications, is changed to match the order in the  Items array.  Additional added Items are returned first in, first out (FIFO) after the ordered Items.
-	 * @param items
+	 * @param object items
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ITEM UNKNOWN_ITEM}
 	 * @package osid.assessment
 	 */
@@ -452,7 +452,7 @@ class Section // :: API interface
 
 	/**
 	 * Add a Section to this Section. The Sections added to a Section are returned first in, first out (FIFO).  Sections can be ordered explicitly using the orderSections method.
-	 * @param section
+	 * @param object section
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#ALREADY_ADDED ALREADY_ADDED}
 	 * @package osid.assessment
 	 */
@@ -461,7 +461,7 @@ class Section // :: API interface
 
 	/**
 	 * Remove a Section from this Section.
-	 * @param sectionId
+	 * @param object sectionId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -470,7 +470,7 @@ class Section // :: API interface
 
 	/**
 	 * Get all the Sections in the Section.  The Sections added to a Section are returned first in, first out (FIFO).  Sections can be ordered explicitly using the orderSections method.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return SectionIterator
+	 * @return object SectionIterator
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -479,7 +479,7 @@ class Section // :: API interface
 
 	/**
 	 * Change the order of the  Sections in the Section.  Sections normally are returned first in, first out (FIFO).  This ordering, which has important pedagogical implications, is changed to match the order in the  Sections array.  Additional added Sections are returned first in, first out (FIFO) after the ordered Sections.
-	 * @param sections
+	 * @param object sections
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_SECTION UNKNOWN_SECTION}
 	 * @package osid.assessment
 	 */
@@ -488,7 +488,7 @@ class Section // :: API interface
 
 	/**
 	 * Get the serializable Data for this Section.  The structure of the Data is not defined in the SID.
-	 * @return java.io.Serializable the Data.
+	 * @return object java.io.Serializable the Data.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -514,7 +514,7 @@ class Item // :: API interface
 
 	/**
 	 * Get the name for this Item.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -522,15 +522,15 @@ class Item // :: API interface
 
 	/**
 	 * Update the name for this Item.
-	 * @param displayName
+	 * @param string displayName
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
-	function updateDisplayName($DisplayName) { /* :: interface :: */ }
+	function updateDisplayName($displayName) { /* :: interface :: */ }
 
 	/**
 	 * Get the description for this Item.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -538,15 +538,15 @@ class Item // :: API interface
 
 	/**
 	 * Update the description for this Item.
-	 * @param description
+	 * @param string description
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
-	function updateDescription($Description) { /* :: interface :: */ }
+	function updateDescription($description) { /* :: interface :: */ }
 
 	/**
 	 * Get the Unique Id for this Item.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -554,7 +554,7 @@ class Item // :: API interface
 
 	/**
 	 * Get the ItemType for this Item.  ItemType The structure of the Data is not defined in the SID.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -562,7 +562,7 @@ class Item // :: API interface
 
 	/**
 	 * Get the serializable Data for this Item. This may include the question, responses, answer, instructions, media, etc.  The structure of the Data is not defined in the SID.
-	 * @return java.io.Serializable the Data.
+	 * @return object java.io.Serializable the Data.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -570,7 +570,7 @@ class Item // :: API interface
 
 	/**
 	 * Update the data for this Item. This may include the question, responses, answer, instructions, media, etc.  The structure of the Data is not defined in the SID.
-	 * @param data
+	 * @param object data
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
@@ -588,7 +588,7 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Get the name for this AssessmentPublished.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -596,11 +596,11 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Update the name for this AssessmentPublished.
-	 * @param displayName
+	 * @param string displayName
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
-	function updateDisplayName($DisplayName) { /* :: interface :: */ }
+	function updateDisplayName($displayName) { /* :: interface :: */ }
 
 	/**
 	 * Get the description for this AssessmentPublished.
@@ -611,15 +611,15 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Update the description for this AssessmentPublished.
-	 * @param description
+	 * @param string description
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
-	function updateDescription($Description) { /* :: interface :: */ }
+	function updateDescription($description) { /* :: interface :: */ }
 
 	/**
 	 * Get the Unique Id for this AssessmentPublished.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -627,7 +627,7 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Get the date the Assessment was published.
-	 * @return osid.shared.Calendar
+	 * @return object osid.shared.Calendar
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -635,7 +635,7 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Get the Assessment being published.
-	 * @return Assessment
+	 * @return object Assessment
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -643,7 +643,7 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Get the Unique Id of the Assignment associated with this AssessmentPublished, if any.  The Unique Id refers to an object created through the Grading SID.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -651,15 +651,15 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Set the Unique Id of the Assignment associated with this AssessmentPublished, if any.  The Unique Id refers to an object created through the Grading SID.
-	 * @param gradingAssignmentId
+	 * @param object gradingAssignmentId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
-	function updateGradingAssignmentId(& $GradingAssignmentId) { /* :: interface :: */ }
+	function updateGradingAssignmentId(& $gradingAssignmentId) { /* :: interface :: */ }
 
 	/**
 	 * Get the Unique Id of the Course Section associated with this AssessmentPublished, if any.  The Unique Id refers to an object created through the Classadmin SID.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -667,15 +667,15 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Set the Unique Id of the Course Section associated with this AssessmentPublished, if any.  The Unique Id refers to an object created through the Classadmin SID.
-	 * @param courseSectionId
+	 * @param object courseSectionId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
-	function updateCourseSectionId(& $CourseSectionId) { /* :: interface :: */ }
+	function updateCourseSectionId(& $courseSectionId) { /* :: interface :: */ }
 
 	/**
 	 * Get the serializable Data for this AssessmentPublished. The structure of the Data is not defined in the SID.
-	 * @return java.io.Serializable the Data.
+	 * @return object java.io.Serializable the Data.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -691,8 +691,8 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Create an AssessmentTaken based on an AssessmentPublished and Agent.
-	 * @param agent
-	 * @return AssessmentTaken with its Unique Id set
+	 * @param object agent
+	 * @return object AssessmentTaken with its Unique Id set
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
@@ -701,7 +701,7 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Delete an AssessmentTaken.
-	 * @param assessmentTakenId
+	 * @param object assessmentTakenId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -710,7 +710,7 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Get all the Assessments taken.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return AssessmentTakenIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object AssessmentTakenIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -719,8 +719,8 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Get all the Assessments taken by a specific Agent.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @param agentId
-	 * @return AssessmentTakenIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object agentId
+	 * @return object AssessmentTakenIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -729,7 +729,7 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Get all the Evaluations for this Item.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -738,8 +738,8 @@ class AssessmentPublished // :: API interface
 
 	/**
 	 * Get the Evaluations of the specified Type for this Assessment.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @param evaluationType
-	 * @return EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object evaluationType
+	 * @return object EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
@@ -758,7 +758,7 @@ class AssessmentTaken // :: API interface
 
 	/**
 	 * Get the Unique Id for this AssessmentTaken.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -766,7 +766,7 @@ class AssessmentTaken // :: API interface
 
 	/**
 	 * Get the AssessmentPublished that was taken.
-	 * @return AssessmentPublished
+	 * @return object AssessmentPublished
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -774,7 +774,7 @@ class AssessmentTaken // :: API interface
 
 	/**
 	 * Get the student who took the Assessment.
-	 * @return osid.shared.Agent
+	 * @return object osid.shared.Agent
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -782,8 +782,8 @@ class AssessmentTaken // :: API interface
 
 	/**
 	 * Create a SectionTaken based on an AssessmentPublished and Agent.
-	 * @param section
-	 * @return SectionTaken with its Unique Id set
+	 * @param object section
+	 * @return object SectionTaken with its Unique Id set
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_SECTION UNKNOWN_SECTION}
 	 * @package osid.assessment
 	 */
@@ -792,7 +792,7 @@ class AssessmentTaken // :: API interface
 
 	/**
 	 * Delete a SectionTaken.
-	 * @param sectionTakenId
+	 * @param object sectionTakenId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -801,7 +801,7 @@ class AssessmentTaken // :: API interface
 
 	/**
 	 * Get all the Sections taken for this Assessment.  SectionsTaken are returned first in, first out (FIFO).  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return SectionTakenIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object SectionTakenIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -810,7 +810,7 @@ class AssessmentTaken // :: API interface
 
 	/**
 	 * Create an Evaluation of the specified Type for this Assessment.
-	 * @param evaluationType
+	 * @param object evaluationType
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
@@ -819,7 +819,7 @@ class AssessmentTaken // :: API interface
 
 	/**
 	 * Delete this Evaluation from this Assessment.
-	 * @param evaluationId
+	 * @param object evaluationId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -828,8 +828,8 @@ class AssessmentTaken // :: API interface
 
 	/**
 	 * Get the Evaluations of the specified Type for this Assessment.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @param evaluationType
-	 * @return EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object evaluationType
+	 * @return object EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
@@ -838,7 +838,7 @@ class AssessmentTaken // :: API interface
 
 	/**
 	 * Get all the Evaluations for this Assessment.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -847,7 +847,7 @@ class AssessmentTaken // :: API interface
 
 	/**
 	 * Get the date the Assessment was taken.
-	 * @return osid.shared.Calendar
+	 * @return object osid.shared.Calendar
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -855,7 +855,7 @@ class AssessmentTaken // :: API interface
 
 	/**
 	 * Get the serializable Data for this AssessmentTaken.  The structure of the Data is not defined in the SID.
-	 * @return java.io.Serializable the Data.
+	 * @return object java.io.Serializable the Data.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -881,7 +881,7 @@ class SectionTaken // :: API interface
 
 	/**
 	 * Get the Unique Id for this SectionTaken.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -889,7 +889,7 @@ class SectionTaken // :: API interface
 
 	/**
 	 * Get the SectionTaken to which this ItemTaken belongs.
-	 * @return Section
+	 * @return object Section
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -897,8 +897,8 @@ class SectionTaken // :: API interface
 
 	/**
 	 * Create an ItemTaken based on a SectionTaken.
-	 * @param item
-	 * @return ItemTaken with its Unique Id set
+	 * @param object item
+	 * @return object ItemTaken with its Unique Id set
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ITEM UNKNOWN_ITEM}
 	 * @package osid.assessment
 	 */
@@ -907,7 +907,7 @@ class SectionTaken // :: API interface
 
 	/**
 	 * Delete an ItemTaken.
-	 * @param itemTakenId
+	 * @param object itemTakenId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -916,7 +916,7 @@ class SectionTaken // :: API interface
 
 	/**
 	 * Get all the Items taken for this Section.  ItemsTaken are returned first in, first out (FIFO).  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return ItemsTakenIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object ItemsTakenIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -925,7 +925,7 @@ class SectionTaken // :: API interface
 
 	/**
 	 * Create an Evaluation of the specified Type for this Section.
-	 * @param evaluationType
+	 * @param object evaluationType
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
@@ -934,7 +934,7 @@ class SectionTaken // :: API interface
 
 	/**
 	 * Delete this Evaluation from this Section.
-	 * @param evaluationId
+	 * @param object evaluationId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -943,8 +943,8 @@ class SectionTaken // :: API interface
 
 	/**
 	 * Get the Evaluations of the specified Type for this Section.   Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @param evaluationType
-	 * @return EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object evaluationType
+	 * @return object EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
@@ -953,7 +953,7 @@ class SectionTaken // :: API interface
 
 	/**
 	 * Get all the Evaluations for this Section.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -962,7 +962,7 @@ class SectionTaken // :: API interface
 
 	/**
 	 * Get the serializable Data for this SectionTaken.  The structure of the Data is not defined in the SID.
-	 * @return java.io.Serializable the Data.
+	 * @return object java.io.Serializable the Data.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -978,7 +978,7 @@ class SectionTaken // :: API interface
 
 	/**
 	 * Get the AssessmentTaken to which this SectionTaken belongs.
-	 * @return AssessmentTaken
+	 * @return object AssessmentTaken
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -997,7 +997,7 @@ class ItemTaken // :: API interface
 
 	/**
 	 * Get the Unique Id for this ItemTaken.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1005,7 +1005,7 @@ class ItemTaken // :: API interface
 
 	/**
 	 * Get the Item taken.
-	 * @return Item
+	 * @return object Item
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1013,7 +1013,7 @@ class ItemTaken // :: API interface
 
 	/**
 	 * Create an Evaluation of the specified Type for this Item.
-	 * @param evaluationType
+	 * @param object evaluationType
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
@@ -1022,7 +1022,7 @@ class ItemTaken // :: API interface
 
 	/**
 	 * Delete this Evaluation from this Item.
-	 * @param evaluationId
+	 * @param object evaluationId
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
@@ -1031,8 +1031,8 @@ class ItemTaken // :: API interface
 
 	/**
 	 * Get the Evaluations of the specified Type for this Item.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @param evaluationType
-	 * @return EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object evaluationType
+	 * @return object EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
@@ -1041,7 +1041,7 @@ class ItemTaken // :: API interface
 
 	/**
 	 * Get all the Evaluations for this Item.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object EvaluationIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1050,7 +1050,7 @@ class ItemTaken // :: API interface
 
 	/**
 	 * Get the serializable Data for this ItemTaken.  The structure of the Data is not defined in the SID.
-	 * @return java.io.Serializable the Data.
+	 * @return object java.io.Serializable the Data.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1065,7 +1065,7 @@ class ItemTaken // :: API interface
 
 	/**
 	 * Get the SectionTaken to which this ItemTaken belongs.
-	 * @return SectionTaken
+	 * @return object SectionTaken
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1084,7 +1084,7 @@ class Evaluation // :: API interface
 
 	/**
 	 * Get the Unique Id for this Evaluation.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1092,7 +1092,7 @@ class Evaluation // :: API interface
 
 	/**
 	 * Get the EvaluationType for this Evaluation.  EvaluationType The structure of the Data is not defined in the SID.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1100,7 +1100,7 @@ class Evaluation // :: API interface
 
 	/**
 	 * Get the Id for the object taken.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1108,7 +1108,7 @@ class Evaluation // :: API interface
 
 	/**
 	 * Get the serializable Data for this Evaluation.  The structure of the Data is not defined in the SID.
-	 * @return java.io.Serializable the Data.
+	 * @return object java.io.Serializable the Data.
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1123,7 +1123,7 @@ class Evaluation // :: API interface
 
 	/**
 	 * Get the Agent who modified this Evaluation.
-	 * @return osid.shared.Agent
+	 * @return object osid.shared.Agent
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1131,7 +1131,7 @@ class Evaluation // :: API interface
 
 	/**
 	 * Get the date when this Evaluation was modified.
-	 * @return java.util.Calendar
+	 * @return object java.util.Calendar
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1148,7 +1148,7 @@ class AssessmentIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  Assessments ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1157,7 +1157,7 @@ class AssessmentIterator // :: API interface
 
 	/**
 	 * Return the next Assessment.
-	 * @return Assessment
+	 * @return object Assessment
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
@@ -1175,7 +1175,7 @@ class SectionIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  Sections ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1184,7 +1184,7 @@ class SectionIterator // :: API interface
 
 	/**
 	 * Return the next Section.
-	 * @return Section
+	 * @return object Section
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
@@ -1203,7 +1203,7 @@ class ItemIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  Items ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1212,7 +1212,7 @@ class ItemIterator // :: API interface
 
 	/**
 	 * Return the next Item.
-	 * @return Item
+	 * @return object Item
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
@@ -1230,7 +1230,7 @@ class AssessmentPublishedIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  AssessmentsPublished ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1239,7 +1239,7 @@ class AssessmentPublishedIterator // :: API interface
 
 	/**
 	 * Return the next AssessmentsPublished.
-	 * @return AssessmentPublished
+	 * @return object AssessmentPublished
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
@@ -1257,7 +1257,7 @@ class AssessmentTakenIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  AssessmentsTaken ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1266,7 +1266,7 @@ class AssessmentTakenIterator // :: API interface
 
 	/**
 	 * Return the next AssessmentTaken.
-	 * @return AssessmentTaken
+	 * @return object AssessmentTaken
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
@@ -1284,7 +1284,7 @@ class SectionTakenIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  SectionsTaken ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1293,7 +1293,7 @@ class SectionTakenIterator // :: API interface
 
 	/**
 	 * Return the next SectionTaken.
-	 * @return SectionTaken
+	 * @return object SectionTaken
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
@@ -1311,7 +1311,7 @@ class ItemTakenIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  ItemsTaken ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1320,7 +1320,7 @@ class ItemTakenIterator // :: API interface
 
 	/**
 	 * Return the next ItemTaken.
-	 * @return ItemTaken
+	 * @return object ItemTaken
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
@@ -1339,7 +1339,7 @@ class EvaluationIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  Evaluations ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
@@ -1348,7 +1348,7 @@ class EvaluationIterator // :: API interface
 
 	/**
 	 * Return the next Evaluation.
-	 * @return Evaluation
+	 * @return object Evaluation
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */

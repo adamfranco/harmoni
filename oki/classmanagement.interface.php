@@ -12,20 +12,20 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Create a new CanonicalCourse.
-	 * @param title
-	 * @param number
-	 * @param description
-	 * @param courseType
-	 * @param courseStatusType
-	 * @param credits
-	 * @return CanonicalCourse with its name, description, and Unique Id set
+	 * @param object title
+	 * @param object number
+	 * @param string description
+	 * @param object courseType
+	 * @param object courseStatusType
+	 * @param object credits
+	 * @return object CanonicalCourse with its name, description, and Unique Id set
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
 	function & createCanonicalCourse($title, $number, $description, & $courseType, & $courseStatusType, $credits) { /* :: interface :: */ }
 	// :: full java declaration :: CanonicalCourse createCanonicalCourse
 	 * Delete a CanonicalCourse.
-	 * @param canonicalCourseId
+	 * @param object canonicalCourseId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -34,7 +34,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all CanonicalCourses.
-	 * @return CanonicalCourseIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object CanonicalCourseIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -43,8 +43,8 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get a CanonicalCourse by Id.
-	 * @param canonicalCourseId
-	 * @return CanonicalCourse
+	 * @param object canonicalCourseId
+	 * @return object CanonicalCourse
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -53,8 +53,8 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all CanonicalCourses of the specified Type.
-	 * @param courseType
-	 * @return CanonicalCourseIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object courseType
+	 * @return object CanonicalCourseIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -63,8 +63,8 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get a CourseOffering by Unique Id.
-	 * @param courseOfferingId
-	 * @return CourseOffering
+	 * @param object courseOfferingId
+	 * @return object CourseOffering
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -73,8 +73,8 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get a CourseSection by Unique Id.
-	 * @param courseSectionId
-	 * @return CourseSection
+	 * @param object courseSectionId
+	 * @return object CourseSection
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -83,8 +83,8 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the Sections in which the specified Agent is enrolled.
-	 * @param agentId
-	 * @return CourseSectionIterator
+	 * @param object agentId
+	 * @return object CourseSectionIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -93,8 +93,8 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the Offerings in which the specified Agent is enrolled.
-	 * @param agentId
-	 * @return CourseOfferingIterator
+	 * @param object agentId
+	 * @return object CourseOfferingIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -103,8 +103,8 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Create a new Term with a specific type and Schedule.  Schedules are defined in the Scheduling SID.
-	 * @param termType
-	 * @param schedule
+	 * @param object termType
+	 * @param object schedule
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -113,7 +113,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Delete a Term by Unique Id.
-	 * @param termId
+	 * @param object termId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -122,8 +122,8 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get a Term by Unique Id.
-	 * @param termId
-	 * @return Term
+	 * @param object termId
+	 * @return object Term
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -132,7 +132,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the Terms.
-	 * @return TermIterator Terms are returned in chronological order by increasing start date.
+	 * @return object TermIterator Terms are returned in chronological order by increasing start date.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -141,7 +141,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the defined Course Types.  These Types are meaningful to the implementation and applications and is not specified by the OSID.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -150,7 +150,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the defined Canonical Course Status Types.  These Types are meaningful to the implementation and applications and is not specified by the OSID.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -159,7 +159,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the defined Course Offering Status Types.  These Types are meaningful to the implementation and applications and is not specified by the OSID.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -168,7 +168,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the defined Course Section Status Types.  These Types are meaningful to the implementation and applications and is not specified by the OSID.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -177,7 +177,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the defined Offering Types.  These Types are meaningful to the implementation and applications and is not specified by the OSID.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -186,7 +186,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the defined Section Types.  These Types are meaningful to the implementation and applications and is not specified by the OSID.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -195,7 +195,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the defined Enrollment Status Types.  These Types are meaningful to the implementation and applications and is not specified by the OSID.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -204,7 +204,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the defined Grade Types.  Grading is defined in the osid.grading OSID.  These Types are meaningful to the implementation and applications and is not specified by the OSID.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -213,7 +213,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the TermTypes.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -222,10 +222,10 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Create a GradeRecord for the specified Agent (student), CourseOffering, GradeType, and Grade.  Note that the intent is that this is a summative grade.
-	 * @param agentId
-	 * @param courseOfferingId
-	 * @param gradeType
-	 * @param grade
+	 * @param object agentId
+	 * @param object courseOfferingId
+	 * @param object gradeType
+	 * @param object grade
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -243,9 +243,9 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the GradeRecords, optionally including only those for a specific Student, CourseOffering, or GradeType.
-	 * @param agentId
-	 * @param courseOfferingId
-	 * @param gradeType
+	 * @param object agentId
+	 * @param object courseOfferingId
+	 * @param object gradeType
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -254,8 +254,8 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Create a CourseGroup of a particular CourseGroupType.  CourseGroups can be used to model prerequisites, corequisites, majors, minors, sequences, etc.
-	 * @param courseGroupType
-	 * @return CourseGroup with its Unique Id set
+	 * @param object courseGroupType
+	 * @return object CourseGroup with its Unique Id set
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -264,7 +264,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Delete a CourseGroup by Unique Id.
-	 * @param courseGroupId
+	 * @param object courseGroupId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -273,8 +273,8 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get a CourseGroup by Unique Id.
-	 * @param courseGroupId
-	 * @return CourseGroup
+	 * @param object courseGroupId
+	 * @return object CourseGroup
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -283,8 +283,8 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the CourseGroups of a given CourseGroupType.
-	 * @param courseGroupType
-	 * @return CourseGroupIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object courseGroupType
+	 * @return object CourseGroupIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -293,8 +293,8 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the CourseGroups that contain the specified CanoncialCourse.
-	 * @param canonicalCourseId
-	 * @return CourseGroupIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object canonicalCourseId
+	 * @return object CourseGroupIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -303,7 +303,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * Get all the CourseGroupTypes supported by this implementation.
-	 * @return osid.shared.TypeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object osid.shared.TypeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -322,7 +322,7 @@ class CourseGroup // :: API interface
 
 	/**
 	 * Get the Unique Id for this CourseGroup.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -330,7 +330,7 @@ class CourseGroup // :: API interface
 
 	/**
 	 * Get the Type for this CourseGroup.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -347,7 +347,7 @@ class CourseGroup // :: API interface
 
 	/**
 	 * Remove a CanonicalCourse from the CourseGroup.
-	 * @param canonicalCourseId
+	 * @param object canonicalCourseId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -356,7 +356,7 @@ class CourseGroup // :: API interface
 
 	/**
 	 * Get all the CanonicalCourses in this CourseGroup.  Note that different CourseGroupType imply different ordering.  For example, if the CourseGroupType indicates prerequisites order would need be guaranteed; if corequisites order might not need to be guaranteed.
-	 * @return CanonicalCourseIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object CanonicalCourseIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -375,7 +375,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Get the title for this CanonicalCourse.
-	 * @return String the title
+	 * @return object String the title
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -383,7 +383,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Update the title for this CanonicalCourse.
-	 * @param title
+	 * @param object title
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
@@ -391,7 +391,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Get the number for this CanonicalCourse.
-	 * @return String the number
+	 * @return object String the number
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -399,7 +399,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Update the number for this CanonicalCourse.
-	 * @param number
+	 * @param object number
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
@@ -407,7 +407,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Get the description for this CanonicalCourse.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -415,15 +415,15 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Update the description for this CanonicalCourse.
-	 * @param description
+	 * @param string description
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
-	function updateDescription($Description) { /* :: interface :: */ }
+	function updateDescription($description) { /* :: interface :: */ }
 
 	/**
 	 * Get the Unique Id for this CanonicalCourse.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -431,7 +431,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Get the Course Type for this CanonicalCourse.  This Type is meaningful to the implementation and applications and is not specified by the OSID.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -439,20 +439,20 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Create a new CanonicalCourse.
-	 * @param title
-	 * @param number
-	 * @param description
-	 * @param courseType
-	 * @param courseStatusType
-	 * @param credits
-	 * @return CanonicalCourse with its name, description, and Unique Id set
+	 * @param object title
+	 * @param object number
+	 * @param string description
+	 * @param object courseType
+	 * @param object courseStatusType
+	 * @param object credits
+	 * @return object CanonicalCourse with its name, description, and Unique Id set
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
 	function & createCanonicalCourse($title, $number, $description, & $courseType, & $courseStatusType, $credits) { /* :: interface :: */ }
 	// :: full java declaration :: CanonicalCourse createCanonicalCourse
 	 * Delete a CanonicalCourse.
-	 * @param canonicalCourseId
+	 * @param object canonicalCourseId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -461,7 +461,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Get all CanonicalCourses.
-	 * @return CanonicalCourseIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object CanonicalCourseIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -470,8 +470,8 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Get all CanonicalCourses of the specified Type.
-	 * @param courseType
-	 * @return CanonicalCourseIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object courseType
+	 * @return object CanonicalCourseIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -480,21 +480,21 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Create a new CourseOffering.
-	 * @param title
-	 * @param number
-	 * @param description
-	 * @param termId
-	 * @param offeringType
-	 * @param offeringStatusType
-	 * @param gradeType
-	 * @return CourseOffering with its name, description, and Unique Id set
+	 * @param object title
+	 * @param object number
+	 * @param string description
+	 * @param object termId
+	 * @param object offeringType
+	 * @param object offeringStatusType
+	 * @param object gradeType
+	 * @return object CourseOffering with its name, description, and Unique Id set
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
 	function & createCourseOffering($title, $number, $description, & $termId, & $offeringType, & $offeringStatusType, & $gradeType) { /* :: interface :: */ }
 	// :: full java declaration :: CourseOffering createCourseOffering
 	 * Delete a CourseOffering.
-	 * @param courseOfferingId
+	 * @param object courseOfferingId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -503,7 +503,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Get all CourseOfferingsc.
-	 * @return CourseOfferingIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object CourseOfferingIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -512,8 +512,8 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Get all CourseOfferings of the specified Type.
-	 * @param offeringType
-	 * @return CourseOfferingIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object offeringType
+	 * @return object CourseOfferingIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -522,7 +522,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Add an equivalent course which are for mapping courses across departments, schools, or institutions as well as for providing new courses that map to previous ones.  This can be used for cross-listening.  Note that if course A is equivalent to course B it does not necessarily follow that course B is equivalent to course A.  Course A could cover a superset of the mateiral in course B.
-	 * @param canonicalCourseId
+	 * @param object canonicalCourseId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#ALREADY_ADDED ALREADY_ADDED}
 	 * @package osid.classmanagement
 	 */
@@ -531,7 +531,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Remove a equivalent courses for this CanonicalCourse.
-	 * @param canonicalCourseId
+	 * @param object canonicalCourseId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -540,7 +540,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Get all equivalent courses for this CanonicalCourse.
-	 * @return CanonicalCourseIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object CanonicalCourseIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -549,7 +549,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Add a Topic for this CanonicalCourse.
-	 * @param topic
+	 * @param object topic
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#ALREADY_ADDED ALREADY_ADDED}
 	 * @package osid.classmanagement
 	 */
@@ -558,7 +558,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Remove a Topic for this CanonicalCourse.
-	 * @param topic
+	 * @param object topic
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
@@ -567,7 +567,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Get all Topics for this CanonicalCourse.
-	 * @return osid.shared.StringIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object osid.shared.StringIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -576,7 +576,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Get the credits for this CanonicalCourse.
-	 * @return float credits
+	 * @return object float credits
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -584,7 +584,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Update the credits for this CanonicalCourse.
-	 * @param credits
+	 * @param object credits
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
@@ -592,7 +592,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Get the Status for this CanonicalCourse.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -600,7 +600,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * Update the Status for this CanonicalCourse.
-	 * @param statusType
+	 * @param object statusType
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -619,7 +619,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Get the title for this CourseOffering.
-	 * @return String the title
+	 * @return object String the title
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -627,7 +627,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Update the title for this CourseOffering.
-	 * @param title
+	 * @param object title
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
@@ -635,7 +635,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Get the number for this CourseOffering.
-	 * @return String the number
+	 * @return object String the number
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -643,7 +643,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Update the number for this CourseOffering.
-	 * @param number
+	 * @param object number
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
@@ -651,7 +651,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Get the description for this CourseOffering.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -659,15 +659,15 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Update the description for this CourseOffering.
-	 * @param description
+	 * @param string description
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
-	function updateDescription($Description) { /* :: interface :: */ }
+	function updateDescription($description) { /* :: interface :: */ }
 
 	/**
 	 * Get the Unique Id for this CourseOffering.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -675,7 +675,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Get the Offering Type for this CourseOffering.  This Type is meaningful to the implementation and applications and is not specified by the OSID.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -683,7 +683,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Get the CanonicalCourse that contains this CourseOffering.
-	 * @return CanonicalCourse
+	 * @return object CanonicalCourse
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -692,20 +692,20 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Create a new CourseSection.
-	 * @param title
-	 * @param number
-	 * @param description
-	 * @param sectionType
-	 * @param sectionStatusType
-	 * @param location
-	 * @return CourseSection with its name, description, and Unique Id set
+	 * @param object title
+	 * @param object number
+	 * @param string description
+	 * @param object sectionType
+	 * @param object sectionStatusType
+	 * @param object location
+	 * @return object CourseSection with its name, description, and Unique Id set
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
 	function & createCourseSection($title, $number, $description, & $sectionType, & $sectionStatusType, & $location) { /* :: interface :: */ }
 	// :: full java declaration :: CourseSection createCourseSection
 	 * Delete a CourseSection.
-	 * @param courseSectionId
+	 * @param object courseSectionId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -714,7 +714,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Get all CourseSections.
-	 * @return CourseSectionIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object CourseSectionIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -723,8 +723,8 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Get all CourseSections of the specified Type.
-	 * @param sectionType
-	 * @return CourseSectionIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object sectionType
+	 * @return object CourseSectionIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -733,7 +733,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Add an Asset for this CourseOffering.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#ALREADY_ADDED ALREADY_ADDED}
 	 * @package osid.classmanagement
 	 */
@@ -742,7 +742,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Remove an Asset for this CourseOffering.
-	 * @param assetId
+	 * @param object assetId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -751,7 +751,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Get the Assets associated with this CourseOffering.
-	 * @return osid.shared.IdIterator
+	 * @return object osid.shared.IdIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -760,7 +760,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Get the Grade for this Offering.  Grading is defined in the osid.grading OSID.  These Types are meaningful to the implementation and applications and is not specified by the OSID.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -768,7 +768,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Update the Grade for this Offering.  Grading is defined in the osid.grading OSID.  These Types are meaningful to the implementation and applications and is not specified by the OSID.
-	 * @param gradeType
+	 * @param object gradeType
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -777,7 +777,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Get a Term by Unique Id.
-	 * @return Term
+	 * @return object Term
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -785,7 +785,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Get the Status for this CanonicalCourse.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -793,7 +793,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Update the Status for this CanonicalCourse.
-	 * @param statusType
+	 * @param object statusType
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -802,8 +802,8 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Add a student to the roster and assign the specified Enrollment Status Type.
-	 * @param agentId
-	 * @param enrollmentStatusType
+	 * @param object agentId
+	 * @param object enrollmentStatusType
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link CourseManagementException#ALREADY_ADDED ALREADY_ADDED}
 	 * @package osid.classmanagement
 	 */
@@ -812,8 +812,8 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Change the Enrollment Status Type for the student on the roster.
-	 * @param agentId
-	 * @param enrollmentStatusType
+	 * @param object agentId
+	 * @param object enrollmentStatusType
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -822,7 +822,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Remove a student from the roster.
-	 * @param agentId
+	 * @param object agentId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -831,7 +831,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Get the student roster.
-	 * @return EnrollmentRecordIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object EnrollmentRecordIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -840,8 +840,8 @@ class CourseOffering // :: API interface
 
 	/**
 	 * Get the student roster.  Include only students with the specified Enrollment Status Type.
-	 * @param enrollmentStatusType
-	 * @return EnrollmentRecordIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object enrollmentStatusType
+	 * @return object EnrollmentRecordIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -860,7 +860,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Get the title for this CourseSection.
-	 * @return String the title
+	 * @return object String the title
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -868,7 +868,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Update the title for this CourseSection.
-	 * @param title
+	 * @param object title
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
@@ -876,7 +876,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Get the number for this CourseSection.
-	 * @return String the number
+	 * @return object String the number
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -884,7 +884,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Update the number for this CourseSection.
-	 * @param number
+	 * @param object number
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
@@ -892,7 +892,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Get the description for this CourseSection.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -900,15 +900,15 @@ class CourseSection // :: API interface
 
 	/**
 	 * Update the description for this CourseSection.
-	 * @param description
+	 * @param string description
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
-	function updateDescription($Description) { /* :: interface :: */ }
+	function updateDescription($description) { /* :: interface :: */ }
 
 	/**
 	 * Get the Unique Id for this CourseSection.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -916,7 +916,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Get the Section Type for this CourseSection.  This Type is meaningful to the implementation and applications and is not specified by the OSID.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -924,7 +924,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Get the CourseOffering that contains this CourseSection.
-	 * @return CourseOffering
+	 * @return object CourseOffering
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -933,7 +933,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Add an Asset for this CourseSection.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#ALREADY_ADDED ALREADY_ADDED}
 	 * @package osid.classmanagement
 	 */
@@ -942,7 +942,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Remove an Asset for this CourseSection.
-	 * @param assetId
+	 * @param object assetId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -951,7 +951,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Get the Assets associated with this CourseSection.
-	 * @return osid.shared.IdIterator
+	 * @return object osid.shared.IdIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -960,7 +960,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Get the Schedule for this Section.  Schedules are defined in osid.sched.  ScheduleItems are returned in chronological order by increasing start date.
-	 * @return osid.scheduling.schedule
+	 * @return object osid.scheduling.schedule
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -968,7 +968,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Update the Schedule for this Section.  Schedules are defined in osid.sched.
-	 * @param scheduleItems
+	 * @param object scheduleItems
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
@@ -977,7 +977,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Get the location may be a room address, a map, or any other object.
-	 * @return java.io.Serializable
+	 * @return object java.io.Serializable
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -985,7 +985,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Update the location may be a room address, a map, or any other object.
-	 * @param location
+	 * @param object location
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
@@ -993,8 +993,8 @@ class CourseSection // :: API interface
 
 	/**
 	 * Add a student to the roster and assign the specified Enrollment Status Type.
-	 * @param agentId
-	 * @param enrollmentStatusType
+	 * @param object agentId
+	 * @param object enrollmentStatusType
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link CourseManagementException#ALREADY_ADDED ALREADY_ADDED}
 	 * @package osid.classmanagement
 	 */
@@ -1003,8 +1003,8 @@ class CourseSection // :: API interface
 
 	/**
 	 * Change the Enrollment Status Type for the student on the roster.
-	 * @param agentId
-	 * @param enrollmentStatusType
+	 * @param object agentId
+	 * @param object enrollmentStatusType
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -1013,7 +1013,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Remove a student from the roster.
-	 * @param agentId
+	 * @param object agentId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.classmanagement
 	 */
@@ -1022,7 +1022,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Get the student roster.
-	 * @return EnrollmentRecordIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object EnrollmentRecordIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1031,8 +1031,8 @@ class CourseSection // :: API interface
 
 	/**
 	 * Get the student roster.  Include only students with the specified Enrollment Status Type.
-	 * @param enrollmentStatusType
-	 * @return EnrollmentRecordIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @param object enrollmentStatusType
+	 * @return object EnrollmentRecordIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -1041,7 +1041,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Get the Status for this CourseSection.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1049,7 +1049,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Update the Status for this CourseSection.
-	 * @param statusType
+	 * @param object statusType
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.classmanagement
 	 */
@@ -1068,7 +1068,7 @@ class Term // :: API interface
 
 	/**
 	 * Get the Unique Id for this Term.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1076,7 +1076,7 @@ class Term // :: API interface
 
 	/**
 	 * Get the Type for this Term.  This Type is meaningful to the implementation and applications and is not specified by the SID.
-	 * @return osid.shared.Type Type
+	 * @return object osid.shared.Type Type
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1084,7 +1084,7 @@ class Term // :: API interface
 
 	/**
 	 * Get the Schedule for this Term.  Schedules are defined in osid.sched.  ScheduleItems are returned in chronological order by increasing start date.
-	 * @return osid.scheduling.ScheduleItemIterator
+	 * @return object osid.scheduling.ScheduleItemIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1102,7 +1102,7 @@ class EnrollmentRecord // :: API interface
 
 	/**
 	 * Get the Id of the Agent representing a student enrolled in the CourseSection.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation agentId
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation agentId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1110,7 +1110,7 @@ class EnrollmentRecord // :: API interface
 
 	/**
 	 * Get the Status Type for a student.  Students Status Type is supplied when the student is added or changed in the CourseSection.  The CourseManagementManager returns the Status Types supported by this implementation.
-	 * @return osid.shared.Type Type
+	 * @return object osid.shared.Type Type
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1128,7 +1128,7 @@ class GradeRecord // :: API interface
 
 	/**
 	 * Get the grade for this GradeRecord.
-	 * @return java.io.Serializable grade
+	 * @return object java.io.Serializable grade
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1136,7 +1136,7 @@ class GradeRecord // :: API interface
 
 	/**
 	 * Update the grade for this GradeRecord.
-	 * @param grade
+	 * @param object grade
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.classmanagement
 	 */
@@ -1144,7 +1144,7 @@ class GradeRecord // :: API interface
 
 	/**
 	 * Get the Unique Id for this GradeRecord.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1152,7 +1152,7 @@ class GradeRecord // :: API interface
 
 	/**
 	 * Get the Unique Id for the CourseOffering for this GradeRecord..
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation courseOfferingId
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation courseOfferingId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1161,7 +1161,7 @@ class GradeRecord // :: API interface
 
 	/**
 	 * Get the Agent (student) associated with this GradeRecord.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1169,7 +1169,7 @@ class GradeRecord // :: API interface
 
 	/**
 	 * Get the Grade for this Offering.  Grading is defined in the osid.grading OSID.  These Types are meaningful to the implementation and applications and is not specified by the OSID.
-	 * @return osid.shared.Type termType
+	 * @return object osid.shared.Type termType
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1187,7 +1187,7 @@ class CanonicalCourseIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  CanonicalCourses ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1196,7 +1196,7 @@ class CanonicalCourseIterator // :: API interface
 
 	/**
 	 * Return the next CanonicalCourses.
-	 * @return CanonicalCourse
+	 * @return object CanonicalCourse
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.classmanagement
 	 */
@@ -1215,7 +1215,7 @@ class CourseOfferingIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  CourseOfferings ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1224,7 +1224,7 @@ class CourseOfferingIterator // :: API interface
 
 	/**
 	 * Return the next CourseOfferings.
-	 * @return CourseOffering
+	 * @return object CourseOffering
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.classmanagement
 	 */
@@ -1243,7 +1243,7 @@ class CourseSectionIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  CourseSections ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1252,7 +1252,7 @@ class CourseSectionIterator // :: API interface
 
 	/**
 	 * Return the next CourseSections.
-	 * @return CourseSection
+	 * @return object CourseSection
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.classmanagement
 	 */
@@ -1271,7 +1271,7 @@ class TermIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  Term ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1280,7 +1280,7 @@ class TermIterator // :: API interface
 
 	/**
 	 * Return the next Terms.
-	 * @return Term
+	 * @return object Term
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.classmanagement
 	 */
@@ -1299,7 +1299,7 @@ class GradeRecordIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  GradeRecord ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1308,7 +1308,7 @@ class GradeRecordIterator // :: API interface
 
 	/**
 	 * Return the next GradeRecords.
-	 * @return GradeRecord
+	 * @return object GradeRecord
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.classmanagement
 	 */
@@ -1327,7 +1327,7 @@ class CourseGroupIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  CourseGroup ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1336,7 +1336,7 @@ class CourseGroupIterator // :: API interface
 
 	/**
 	 * Return the next CourseGroups.
-	 * @return CourseGroup
+	 * @return object CourseGroup
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.classmanagement
 	 */
@@ -1355,7 +1355,7 @@ class EnrollmentRecordIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  EnrollmentRecord ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
@@ -1364,7 +1364,7 @@ class EnrollmentRecordIterator // :: API interface
 
 	/**
 	 * Return the next EnrollmentRecords.
-	 * @return EnrollmentRecord
+	 * @return object EnrollmentRecord
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.classmanagement
 	 */

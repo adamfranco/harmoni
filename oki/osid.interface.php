@@ -10,10 +10,10 @@ class OsidLoader // :: normal class
 
 	/**
 	 * Returns an instance of the OsidManager of the OSID specified by the OSID package OsidManager interface name and the implementation package name. The implementation class name is constructed from the SID package Manager interface name. A configuration file name is constructed in a similar manner and if the file exists it is loaded into the implementation's OsidManager's configuration.<p>Example:  To load an implementation of the osid.Filing SID implemented in a package "xyz", one would use:<p>osid.filing.FilingManager fm = (osid.filing.FilingManager)osid.OsidLoader.getManager(<p>"osid.filing.FilingManager" ,<p>"xyz" ,<p>new osid.OsidOwner());
-	 * @param SIDPackageManagerName SIDPackageManagerName is a fully qualified interface name
-	 * @param implPackageName implPackageName is a fully qualified package name
-	 * @param owner
-	 * @return OsidManager
+	 * @param object SIDPackageManagerName SIDPackageManagerName is a fully qualified interface name
+	 * @param object implPackageName implPackageName is a fully qualified package name
+	 * @param object owner
+	 * @return object OsidManager
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link OsidException#NULL_ARGUMENT NULL_ARGUMENT}, {@link OsidException#VERSION_ERROR VERSION_ERROR}, ={@link OsidException#INTERFACE_NOT_FOUND INTERFACE_NOT_FOUND}, ={@link OsidException#MANAGER_NOT_FOUND MANAGER_NOT_FOUND}, ={@link OsidException#MANAGER_INSTANTIATION_ERROR MANAGER_INSTANTIATION_ERROR}, ={@link OsidException#ERROR_UPDATING_OWNER ERROR_UPDATING_OWNER}, ={@link OsidException#ERROR_UPDATING_CONFIGURATION ERROR_UPDATING_CONFIGURATION}
 	 * @package osid
 	 */
@@ -30,7 +30,7 @@ class OsidManager // :: API interface
 
 	/**
 	 * Return owner of this OsidManager.
-	 * @return osid.OsidOwner
+	 * @return object osid.OsidOwner
 	 * @package osid
 	 */
 	function & getOwner() { /* :: interface :: */ }
@@ -38,7 +38,7 @@ class OsidManager // :: API interface
 
 	/**
 	 * Update the owner of this OsidManager.
-	 * @param owner
+	 * @param object owner
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid
 	 */
@@ -47,7 +47,7 @@ class OsidManager // :: API interface
 
 	/**
 	 * Update the configuration of this OsidManager.
-	 * @param configuration
+	 * @param object configuration
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link OsidException#PERMISSION_DENIED PERMISSION_DENIED}, {@link OsidException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link OsidException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid
 	 */
@@ -107,7 +107,7 @@ class OsidRomiManager // :: API interface
 
 	/**
 	 * Invokes a method remotely.
-	 * @return java.io.Serializable
+	 * @return object java.io.Serializable
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link OsidException#PERMISSION_DENIED PERMISSION_DENIED}, {@link OsidException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link OsidException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid
 	 */
@@ -127,30 +127,30 @@ class OsidOwner // :: normal class
 
 	/**
 	 * Add a context to the OsidOwner. Context is associated with an unambiguous key, for example the context's fully qualified class name.  There is only one context asscociated with a particular key.  If a context already exists for this key, that context is overwritten.
-	 * @param key key is an unambiguous String identifier associated with a particular context. Any application or implementation knowing the key can add or remove the context.  The key may not be null.
-	 * @param context context is any serializable information that either an application or an implementation needs to store, retrieve, or share. For context to be sharable both parties must know the key.  The context may not be null.
+	 * @param object key key is an unambiguous String identifier associated with a particular context. Any application or implementation knowing the key can add or remove the context.  The key may not be null.
+	 * @param object context context is any serializable information that either an application or an implementation needs to store, retrieve, or share. For context to be sharable both parties must know the key.  The context may not be null.
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid
 	 */
 
 	/**
 	 * Remove a context from the OsidOwner.  If the context is not known, no exception is raised.
-	 * @param context context is the object to be removed from the OsidOwner
+	 * @param object context context is the object to be removed from the OsidOwner
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid
 	 */
 
 	/**
 	 * Remove a context from the OsidOwner.  If the context is not known, no exception is raised.
-	 * @param key key is an unambiguous String identifier
+	 * @param object key key is an unambiguous String identifier
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid
 	 */
 
 	/**
 	 * Get the context associated with this key.  If the key is unknown, null is returned.
-	 * @param key key is an unambiguous String identifier
-	 * @return java.io.Serializable context
+	 * @param object key key is an unambiguous String identifier
+	 * @return object java.io.Serializable context
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid
 	 */

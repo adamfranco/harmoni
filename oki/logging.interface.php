@@ -12,7 +12,7 @@ class LoggingManager // :: API interface
 
 	  /**
 	 * Return the format types available with this implementation.
-	 * @return osid.shared.TypeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object osid.shared.TypeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
@@ -21,7 +21,7 @@ class LoggingManager // :: API interface
 
 	  /**
 	 * Return the priority types available with this implementation.
-	 * @return osid.shared.TypeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object osid.shared.TypeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
@@ -30,7 +30,7 @@ class LoggingManager // :: API interface
 
 	  /**
 	 * Return the names of writable Logs.
-	 * @return osid.shared.StringIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object osid.shared.StringIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
@@ -39,15 +39,15 @@ class LoggingManager // :: API interface
 
 	  /**
 	 * Get an existing log for writing.
-	 * @param logName logName Represents the unique logical name of the Log.
-	 * @return WritableLog
+	 * @param object logName logName Represents the unique logical name of the Log.
+	 * @return object WritableLog
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#UNKNOWN_NAME UNKNOWN_NAME}
 	 * @package osid.logging
 	  */
 	function & getLogForWriting($logName) { /* :: interface :: */ }
 	// :: full java declaration :: WritableLog getLogForWriting
 	 * Return the names of readable Logs.
-	 * @return osid.shared.StringIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object osid.shared.StringIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
@@ -56,16 +56,16 @@ class LoggingManager // :: API interface
 
 	  /**
 	 * Get an existing log for reading.
-	 * @param logName logName Represents the unique logical name of the Log.
-	 * @return ReadableLog
+	 * @param object logName logName Represents the unique logical name of the Log.
+	 * @return object ReadableLog
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#UNKNOWN_NAME UNKNOWN_NAME}
 	 * @package osid.logging
 	  */
 	function & getLogForReading($logName) { /* :: interface :: */ }
 	// :: full java declaration :: ReadableLog getLogForReading
 	 * Create a Writable Log.
-	 * @param logName logName Represents the unique logical name of the Log.
-	 * @return WritableLog
+	 * @param object logName logName Represents the unique logical name of the Log.
+	 * @return object WritableLog
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#DUPLICATE_NAME DUPLICATE_NAME}
 	 * @package osid.logging
 	  */
@@ -74,7 +74,7 @@ class LoggingManager // :: API interface
 
 	  /**
 	 * Delete the log with the specified name.
-	 * @param logName logName Represents the unique logical name of the Log.
+	 * @param object logName logName Represents the unique logical name of the Log.
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#UNKNOWN_NAME UNKNOWN_NAME}
 	 * @package osid.logging
 	  */
@@ -92,7 +92,7 @@ class ReadableLog // :: API interface
 
 	  /**
 	 * Get the name for this ReadableLog.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
@@ -101,9 +101,9 @@ class ReadableLog // :: API interface
 
 	  /**
 	 * Return the ReadableLog Entries in a last-in, first-out (LIFO) order.
-	 * @param formatType formatType filters log entries so that only entries with this formatType appear in the EntryIterator; may be null.
-	 * @param priorityType filters log entries so that only entries with this priorityType appear in the EntryIterator; may be null.
-	 * @return EntryIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @param object formatType formatType filters log entries so that only entries with this formatType appear in the EntryIterator; may be null.
+	 * @param object priorityType filters log entries so that only entries with this priorityType appear in the EntryIterator; may be null.
+	 * @return object EntryIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#NULL_ARGUMENT NULL_ARGUMENT}, {@link LoggingException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.logging
 	  */
@@ -119,7 +119,7 @@ class EntryIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  entries Description_IteratorHasNext2]
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	 */
@@ -128,7 +128,7 @@ class EntryIterator // :: API interface
 
 	/**
 	 * Return the next Entry.
-	 * @return Entry.
+	 * @return object Entry.
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.logging
 	 */
@@ -146,7 +146,7 @@ class Entry // :: API interface
 
 	  /**
 	 * Return the logged item.
-	 * @return java.io.Serializable item
+	 * @return object java.io.Serializable item
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
@@ -155,7 +155,7 @@ class Entry // :: API interface
 
 	  /**
 	 * Return the format type of logged item.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
@@ -164,7 +164,7 @@ class Entry // :: API interface
 
 	  /**
 	 * Return the format type of logged item.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
@@ -173,7 +173,7 @@ class Entry // :: API interface
 
 	  /**
 	 * Return the time that the item was logged.
-	 * @return java.util.Calendar
+	 * @return object java.util.Calendar
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
@@ -191,7 +191,7 @@ class WritableLog // :: API interface
 
 	  /**
 	 * Get the name for this WritableLog.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
@@ -200,7 +200,7 @@ class WritableLog // :: API interface
 
 	  /**
 	 * Write the entryItem to the Log. The entryItem is written to the Log using the format type and priority type explicitly set by the application or the implementation default.
-	 * @param entryItem
+	 * @param object entryItem
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#PRIORITY_TYPE_NOT_SET PRIORITY_TYPE_NOT_SET}, {@link LoggingException#FORMAT_TYPE_NOT_SET FORMAT_TYPE_NOT_SET}, {@link LoggingException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.logging
 	  */
@@ -209,9 +209,9 @@ class WritableLog // :: API interface
 
 	  /**
 	 * Write the entry, the priorityType and formatType to the Log.
-	 * @param entryItem
-	 * @param formatType
-	 * @param priorityType
+	 * @param object entryItem
+	 * @param object formatType
+	 * @param object priorityType
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link LoggingException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.logging
 	  */
@@ -220,7 +220,7 @@ class WritableLog // :: API interface
 
 	  /**
 	 * Set the priorityType for all subsequent writes during the lifetime of this instance. PriorityType has meaning to the caller of this method.
-	 * @param priorityType
+	 * @param object priorityType
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link LoggingException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.logging
 	   */
@@ -229,7 +229,7 @@ class WritableLog // :: API interface
 
 	  /**
 	 * Set the priorityType for all subsequent writes during the lifetime of this instance. PriorityType has meaning to the caller of this method.
-	 * @param formatType
+	 * @param object formatType
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link LoggingException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.logging
 	   */

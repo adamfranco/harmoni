@@ -12,7 +12,7 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Get all the Types of Messages supported by this implementation.  Examples of these Types are instant, store and forward, and attempt to deliver once.
-	 * @return osid.shared.TypeIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object osid.shared.TypeIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -21,7 +21,7 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Get all the Types of Messages supported by this implementation.  Examples of these are rich-text and MIME.
-	 * @return osid.shared.TypeIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object osid.shared.TypeIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -30,7 +30,7 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Get all the Topics supported by this implementation.  This might also be all the currently available Topics in the case of an implementation that allows applications to add Topics by sending a Message with a new Topic.
-	 * @return osid.shared.StringIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object osid.shared.StringIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -39,7 +39,7 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Get all the current subscribers to this Service.
-	 * @return osid.shared.AgentIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object osid.shared.AgentIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -48,8 +48,8 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Get all the current subscribers to this Service for a specific Topic.
-	 * @param topic
-	 * @return osid.shared.AgentIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @param object topic
+	 * @return object osid.shared.AgentIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -58,8 +58,8 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Subscribe an Agent for a particular topic.
-	 * @param agentId
-	 * @param topic
+	 * @param object agentId
+	 * @param object topic
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link UsermessagingException#UNKNOWN_TOPIC UNKNOWN_TOPIC}
 	 * @package osid.usermessaging
 	 */
@@ -68,8 +68,8 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Unsubscribe an Agent for a particular topic.
-	 * @param agentId
-	 * @param topic
+	 * @param object agentId
+	 * @param object topic
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link UsermessagingException#UNKNOWN_TOPIC UNKNOWN_TOPIC}
 	 * @package osid.usermessaging
 	 */
@@ -78,7 +78,7 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Unsubscribe an Agent for all topics.
-	 * @param agentId
+	 * @param object agentId
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link UsermessagingException#NOT_SUBSCRIBED NOT_SUBSCRIBED}
 	 * @package osid.usermessaging
 	 */
@@ -87,11 +87,11 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Send a Message to a recipient.  The Topic is optional and should be ignored if null.
-	 * @param agents
-	 * @param content
-	 * @param messageType
-	 * @param deliveryType
-	 * @param topic
+	 * @param object agents
+	 * @param object content
+	 * @param object messageType
+	 * @param object deliveryType
+	 * @param object topic
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link UsermessagingException#NULL_ARGUMENT NULL_ARGUMENT}, {@link UsermessagingException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link UsermessagingException#UNKNOWN_TOPIC UNKNOWN_TOPIC}, {@link UsermessagingException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.usermessaging
 	 */
@@ -100,10 +100,10 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Send a Message to all subscribers.  The Topic is optional and should be ignored if null.
-	 * @param content
-	 * @param messageType
-	 * @param deliveryType
-	 * @param topic
+	 * @param object content
+	 * @param object messageType
+	 * @param object deliveryType
+	 * @param object topic
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link UsermessagingException#NULL_ARGUMENT NULL_ARGUMENT}, {@link UsermessagingException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link UsermessagingException#UNKNOWN_TOPIC UNKNOWN_TOPIC}, {@link UsermessagingException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.usermessaging
 	 */
@@ -112,7 +112,7 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Get all Messages for a specific Topic.
-	 * @return MessageIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object MessageIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -121,7 +121,7 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Get all Messages of a specific Message Type.
-	 * @return MessageIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object MessageIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -130,7 +130,7 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Get all Messages.
-	 * @return MessageIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object MessageIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -155,9 +155,9 @@ class UsermessagingManager // :: API interface
 
 	/**
 	 * Delete all Messages for the user.  Include only Messages before a date, on a Topic, and of a specific MessageType if those values are supplied.
-	 * @param before
-	 * @param messageType
-	 * @param topic
+	 * @param object before
+	 * @param object messageType
+	 * @param object topic
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link UsermessagingException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.usermessaging
 	 */
@@ -176,7 +176,7 @@ class Message // :: API interface
 
 	/**
 	 * Get the content of the Message.
-	 * @return java.io.Serializable
+	 * @return object java.io.Serializable
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -184,7 +184,7 @@ class Message // :: API interface
 
 	/**
 	 * Get the Type of the Message.
-	 * @return  osid.shared.Type
+	 * @return object  osid.shared.Type
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -192,7 +192,7 @@ class Message // :: API interface
 
 	/**
 	 * Get the Type of the Delivery for this Message.
-	 * @return  osid.shared.Type
+	 * @return object  osid.shared.Type
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -200,7 +200,7 @@ class Message // :: API interface
 
 	/**
 	 * Get the time the Message was sent.
-	 * @return java.util.Calendar
+	 * @return object java.util.Calendar
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -208,7 +208,7 @@ class Message // :: API interface
 
 	/**
 	 * Get the Topic of the Message. Note that the Topic is not necessarily the subject of the Message.  The subject can be embedded in the Content.  The intent is that the Topic is the same Topic used in CourseManagement to refer to an area of interest.
-	 * @return String
+	 * @return object String
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -216,7 +216,7 @@ class Message // :: API interface
 
 	/**
 	 * Get the Agent that sent the Message.
-	 * @return osid.shared.Id
+	 * @return object osid.shared.Id
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -233,7 +233,7 @@ class MessageIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  Message objects; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
@@ -242,7 +242,7 @@ class MessageIterator // :: API interface
 
 	/**
 	 * Return the next Message.
-	 * @return Message
+	 * @return object Message
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link UsermessagingException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.usermessaging
 	 */

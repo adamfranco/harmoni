@@ -13,12 +13,12 @@ class HierarchyManager // :: API interface
 
 	/**
 	 * Create a Hierarchy.
-	 * @param displayName
-	 * @param nodeTypes
-	 * @param description
-	 * @param allowsMultipleParents
-	 * @param allowsRecursion
-	 * @return Hierarchy
+	 * @param string displayName
+	 * @param object nodeTypes
+	 * @param string description
+	 * @param object allowsMultipleParents
+	 * @param object allowsRecursion
+	 * @return object Hierarchy
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#UNSUPPORTED_CREATION UNSUPPORTED_CREATION}
 	 * @package osid.hierarchy
 	 */
@@ -27,8 +27,8 @@ class HierarchyManager // :: API interface
 
 	/**
 	 * Get a Hierarchy by Unique Id.
-	 * @param  hierarchyId
-	 * @return Hierarchy
+	 * @param object  hierarchyId
+	 * @return object Hierarchy
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}
 	 * @package osid.hierarchy
 	 */
@@ -37,7 +37,7 @@ class HierarchyManager // :: API interface
 
 	/**
 	 * Get all Hierarchies.
-	 * @return HierarchyIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object HierarchyIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -46,7 +46,7 @@ class HierarchyManager // :: API interface
 
 	/**
 	 * Delete a Hierarchy by Unique Id. All Nodes must be removed from the Hierarchy before this method is called.
-	 * @param hierarchyId
+	 * @param object hierarchyId
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#HIERARCHY_NOT_EMPTY HIERARCHY_NOT_EMPTY}
 	 * @package osid.hierarchy
 	 */
@@ -66,7 +66,7 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Get the Unique Id for this Hierarchy.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -75,7 +75,7 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Get the name for this Hierarchy.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -84,7 +84,7 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Get the description for this Hierarchy.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -93,7 +93,7 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Update the description for this Hierarchy.
-	 * @param description  Description cannot be null but may be empty.
+	 * @param string description  Description cannot be null but may be empty.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.hierarchy
 	 */
@@ -102,10 +102,10 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Create a root Node with root status. The Node is created with the specified Unique Id, and, unlike Nodes created with createNode, initially has no parents or children.
-	 * @param nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
-	 * @param nodeType The Type of the new Node; type may be null if the node has no type.
-	 * @param displayName The displayName of the new Node; displayName cannot be null, but may be empty.
-	 * @param description The description of the new Node; description cannot be null, but may be empty.
+	 * @param object nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
+	 * @param object nodeType The Type of the new Node; type may be null if the node has no type.
+	 * @param string displayName The displayName of the new Node; displayName cannot be null, but may be empty.
+	 * @param string description The description of the new Node; description cannot be null, but may be empty.
 	 * new Node with root status.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}  {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#SINGLE_PARENT_HIERARCHY SINGLE_PARENT_HIERARCHY}
 	 * @package osid.hierarchy
@@ -115,11 +115,11 @@ class Hierarchy // :: API interface
 	
 	/**
 	 * Create a Node. The Node is created with the specified Unique Id and initially has only the one specified parent.
-	 * @param nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
-	 * @param parentId The Unique Id to be associated with the parent of this new Node; Unique Id cannot be null.
-	 * @param type The Type of the new Node; type may be null if the node has no type.
-	 * @param displayName The displayName of the new Node; displayName cannot be null, but may be empty.
-	 * @param description The description of the new Node; description cannot be null, but may be empty.
+	 * @param object nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
+	 * @param object parentId The Unique Id to be associated with the parent of this new Node; Unique Id cannot be null.
+	 * @param object type The Type of the new Node; type may be null if the node has no type.
+	 * @param string displayName The displayName of the new Node; displayName cannot be null, but may be empty.
+	 * @param string description The description of the new Node; description cannot be null, but may be empty.
 	 * new Node.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#UNKNOWN_PARENT_NODE UNKNOWN_PARENT_NODE}, {@link HierarchyException#ATTEMPTED_RECURSION ATTEMPTED_RECURSION}
 	 * @package osid.hierarchy
@@ -129,7 +129,7 @@ class Hierarchy // :: API interface
 	
 	/**
 	 * Delete a Node by Id.  Only leaf Nodes can be deleted.
-	 * @param nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
+	 * @param object nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#INCONSISTENT_STATE INCONSISTENT_STATE}
 	 * @package osid.hierarchy
 	 */
@@ -138,7 +138,7 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Add a NodeType to this Hierarchy.
-	 * @param type nodeType
+	 * @param object type nodeType
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#ALREADY_ADDED ALREADY_ADDED}
 	 * @package osid.hierarchy
 	 */
@@ -147,7 +147,7 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Remove a NodeType from this Hierarchy.  Note that no Nodes can have this NodeType.
-	 * @param type nodeType
+	 * @param object type nodeType
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_IN_USE NODE_TYPE_IN_USE}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}
 	 * @package osid.hierarchy
 	 */
@@ -156,7 +156,7 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Get all the Nodes in this Hierarchy.
-	 * @return NodeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object NodeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -165,7 +165,7 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Get the root Nodes in this Hierarchy.  The root Nodes are defined as all Nodes without parents.
-	 * @return NodeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object NodeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -174,8 +174,8 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Get a Node by Unique Id.
-	 * @param nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
-	 * @return Node
+	 * @param object nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
+	 * @return object Node
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}
 	 * @package osid.hierarchy
 	 */
@@ -184,7 +184,7 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Get all NodeTypes used in this Hierarchy.
-	 * @return osid.shared.TypeIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object osid.shared.TypeIterator Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -193,7 +193,7 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Returns true if multiple parents are allowed; false otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -202,7 +202,7 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Returns true if recursion allowed; false otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -241,11 +241,11 @@ class Hierarchy // :: API interface
 
 	/**
 	 * Traverse a Hierarchy returning information about each Node encountered.
-	 * @param startId the Unique Id of the node from which traversal should start.
-	 * @param mode Mode must be either TRAVERSE_MODE_DEPTH_FIRST or TRAVERSE_MODE_BREADTH_FIRST, indicating either depth-first or breadth-first traversal, respectively
-	 * @param direction Direction must be either TRAVERSE_DIRECTION_UP or TRAVERSE_DIRECTION_DOWN, indicating the whether the traversal should proceed up the parents or down the children.
-	 * @param levels The number of levels to traverse.  If this value is $lt; 0 (or TRAVERSE_LEVELS_ALL, which equals -1), the traversal will proceed to the end of the Hierarchy or until a circular reference returns to a Node already traversed.
-	 * @return TraversalInfoIterator where each TraversalInfo object contains information about the Node traversed in the order they were encountered.
+	 * @param object startId the Unique Id of the node from which traversal should start.
+	 * @param object mode Mode must be either TRAVERSE_MODE_DEPTH_FIRST or TRAVERSE_MODE_BREADTH_FIRST, indicating either depth-first or breadth-first traversal, respectively
+	 * @param object direction Direction must be either TRAVERSE_DIRECTION_UP or TRAVERSE_DIRECTION_DOWN, indicating the whether the traversal should proceed up the parents or down the children.
+	 * @param object levels The number of levels to traverse.  If this value is $lt; 0 (or TRAVERSE_LEVELS_ALL, which equals -1), the traversal will proceed to the end of the Hierarchy or until a circular reference returns to a Node already traversed.
+	 * @return object TraversalInfoIterator where each TraversalInfo object contains information about the Node traversed in the order they were encountered.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#UNKNOWN_TRAVERSAL_MODE UNKNOWN_TRAVERSAL_MODE}, {@link HierarchyException#UNKNOWN_TRAVERSAL_DIRECTION UNKNOWN_TRAVERSAL_DIRECTION}
 	 * @package osid.hierarchy
 	 */
@@ -266,7 +266,7 @@ class TraversalInfo // :: API interface
 
 	/**
 	 * Get the Unique Id for this Node.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -274,7 +274,7 @@ class TraversalInfo // :: API interface
 
 	/**
 	 * Get the name for this Node.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -282,7 +282,7 @@ class TraversalInfo // :: API interface
 
 	/**
 	 * Get the level of this Node in relation to the startId of the Hierarchy traversal method call.  Descendants are assigned increasingly positive levels; ancestors increasingly negative levels.
-	 * @return int level
+	 * @return object int level
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -332,7 +332,7 @@ class Node // :: API interface
 
 	/**
 	 * Get the Unique Id for this Node.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -341,7 +341,7 @@ class Node // :: API interface
 
 	/**
 	 * Get the name for this Node.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -350,7 +350,7 @@ class Node // :: API interface
 
 	/**
 	 * Get the description for this
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -359,7 +359,7 @@ class Node // :: API interface
 
 	/**
 	 * Get the parents of this Node.  To get other ancestors use the Hierarchy traverse method.
-	 * @return NodeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object NodeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -368,7 +368,7 @@ class Node // :: API interface
 
 	/**
 	 * Get the children of this Node.  To get other descendants use the Hierarchy traverse method.
-	 * @return NodeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object NodeIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -377,7 +377,7 @@ class Node // :: API interface
 
 	/**
 	 * Get the Type for this Node.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -386,7 +386,7 @@ class Node // :: API interface
 
 	/**
 	 * Update the name of this Node.
-	 * @param description The description of the new Node; description cannot be null, but may be empty.
+	 * @param string description The description of the new Node; description cannot be null, but may be empty.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.hierarchy
 	 */
@@ -395,7 +395,7 @@ class Node // :: API interface
 
 	/**
 	 * Update the name of this Node. Node name changes are permitted since the Hierarchy's integrity is based on the Node's Unique Id.
-	 * @param displayName The displayName of the new Node; displayName cannot be null, but may be empty.
+	 * @param string displayName The displayName of the new Node; displayName cannot be null, but may be empty.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.hierarchy
 	 */
@@ -404,7 +404,7 @@ class Node // :: API interface
 
 	/**
 	 * Return true if this Node is a leaf; false otherwise.  A Node is a leaf if it has no children.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -413,7 +413,7 @@ class Node // :: API interface
 
 	/**
 	 * Return true if this Node is a root; false otherwise.  A Node is a root if it has no parents.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -422,7 +422,7 @@ class Node // :: API interface
 
 	/**
 	 * Link a parent to this Node.
-	 * @param nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
+	 * @param object nodeId The Unique Id to be associated with the new Node; Unique Id cannot be null.
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#SINGLE_PARENT_HIERARCHY SINGLE_PARENT_HIERARCHY}, {@link HierarchyException#ALREADY_ADDED ALREADY_ADDED}, {@link HierarchyException#ATTEMPTED_RECURSION ATTEMPTED_RECURSION}
 	 * @package osid.hierarchy
 	 */
@@ -431,7 +431,7 @@ class Node // :: API interface
 
 	/**
 	 * Unlink a parent from this Node.
-	 * @param parentId
+	 * @param object parentId
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#SINGLE_PARENT_HIERARCHY SINGLE_PARENT_HIERARCHY}, {@link HierarchyException#INCONSISTENT_STATE INCONSISTENT_STATE}
 	 * @package osid.hierarchy
 	 */
@@ -440,8 +440,8 @@ class Node // :: API interface
 
 	/**
 	 * Changes the parent of this Node by adding a new parent and removing the old parent.
-	 * @param oldParentId
-	 * @param newParentId
+	 * @param object oldParentId
+	 * @param object newParentId
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#ATTEMPTED_RECURSION ATTEMPTED_RECURSION}
 	 * @package osid.hierarchy
 	 */
@@ -460,7 +460,7 @@ class TraversalInfoIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  TraversalInfos ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -469,7 +469,7 @@ class TraversalInfoIterator // :: API interface
 
 	/**
 	 * Return the next TraversalInfo.
-	 * @return TraversalInfo
+	 * @return object TraversalInfo
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.hierarchy
 	 */
@@ -488,7 +488,7 @@ class HierarchyIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  Hierarchies ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -497,7 +497,7 @@ class HierarchyIterator // :: API interface
 
 	/**
 	 * Return the next Hierarchy.
-	 * @return Hierarchy
+	 * @return object Hierarchy
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.hierarchy
 	 */
@@ -516,7 +516,7 @@ class NodeIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  Nodes ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.hierarchy
 	 */
@@ -525,7 +525,7 @@ class NodeIterator // :: API interface
 
 	/**
 	 * Return the next Node.
-	 * @return Node
+	 * @return object Node
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.hierarchy
 	 */

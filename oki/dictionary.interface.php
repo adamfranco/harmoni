@@ -12,10 +12,10 @@ class DictionaryManager // :: API interface
 
 	/**
 	 * Create a dictionary with the specified name and domain.
-	 * @param displayName
-	 * @param description
-	 * @param domain
-	 * @return Dictionary with its name, description, and Unique Id set
+	 * @param string displayName
+	 * @param string description
+	 * @param object domain
+	 * @return object Dictionary with its name, description, and Unique Id set
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DictionaryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.dictionary
 	 */
@@ -24,7 +24,7 @@ class DictionaryManager // :: API interface
 
 	/**
 	 * Delete the dictionary with the specified Unique Id.
-	 * @param dictionaryId
+	 * @param object dictionaryId
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DictionaryException#UNKNOWN_ID UNKNOWN_ID}, {@link DictionaryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.dictionary
 	 */
@@ -33,9 +33,9 @@ class DictionaryManager // :: API interface
 
 	/**
 	 * Get the dictionary with the specified name and domain.
-	 * @param displayName
-	 * @param domain
-	 * @return Dictionary
+	 * @param string displayName
+	 * @param object domain
+	 * @return object Dictionary
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DictionaryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.dictionary
 	 */
@@ -44,7 +44,7 @@ class DictionaryManager // :: API interface
 
 	/**
 	 * Get all the Dictionaries.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return DictionaryIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object DictionaryIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dictionary
 	 */
@@ -63,7 +63,7 @@ class Dictionary // :: API interface
 
 	/**
 	 * Get the name for this Dictionary.
-	 * @return String
+	 * @return object String
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dictionary
 	 */
@@ -71,15 +71,15 @@ class Dictionary // :: API interface
 
 	/**
 	 * Update the name for this Dictionary.
-	 * @param displayName
+	 * @param string displayName
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DictionaryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.dictionary
 	 */
-	function updateDisplayName($DisplayName) { /* :: interface :: */ }
+	function updateDisplayName($displayName) { /* :: interface :: */ }
 
 	/**
 	 * Get the description for this Dictionary.
-	 * @return String the name
+	 * @return string the name
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dictionary
 	 */
@@ -87,15 +87,15 @@ class Dictionary // :: API interface
 
 	/**
 	 * Update the description for this Dictionary.
-	 * @param description
+	 * @param string description
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DictionaryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.dictionary
 	 */
-	function updateDescription($Description) { /* :: interface :: */ }
+	function updateDescription($description) { /* :: interface :: */ }
 
 	/**
 	 * Get the Unique Id for this Dictionary.
-	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
+	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dictionary
 	 */
@@ -103,7 +103,7 @@ class Dictionary // :: API interface
 
 	/**
 	 * Get the domain of this Dictionary.  The domain identifies the context for the Dictionary. This could be java.util.Locale that is a designation that varies by country, language, or other context.
-	 * @return java.io.Serializable
+	 * @return object java.io.Serializable
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dictionary
 	 */
@@ -111,8 +111,8 @@ class Dictionary // :: API interface
 
 	/**
 	 * Add an entry, a string-tag / serializable-value pair, to this Dictionary.  If the tag is already used, the new value overwrites the old or this can be an error.
-	 * @param tag
-	 * @param value
+	 * @param object tag
+	 * @param object value
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DictionaryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DictionaryException#ALREADY_ADDED ALREADY_ADDED}
 	 * @package osid.dictionary
 	 */
@@ -121,7 +121,7 @@ class Dictionary // :: API interface
 
 	/**
 	 * Remove the specified entry, a string-tag / serializable-value pair, from this Dictionary.
-	 * @param tag
+	 * @param object tag
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DictionaryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DictionaryException#UNKNOWN_TAG UNKNOWN_TAG}
 	 * @package osid.dictionary
 	 */
@@ -130,8 +130,8 @@ class Dictionary // :: API interface
 
 	/**
 	 * Get the entry in this Dictionary that corresponds to the specified tag.
-	 * @param tag
-	 * @return java.io.Serializable
+	 * @param object tag
+	 * @return object java.io.Serializable
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED},  {@link DictionaryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DictionaryException#UNKNOWN_TAG UNKNOWN_TAG}
 	 * @package osid.dictionary
 	 */
@@ -140,7 +140,7 @@ class Dictionary // :: API interface
 
 	/**
 	 * Get all the tags in this Dictionary.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return osid.shared.StringIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object osid.shared.StringIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  {@link DictionaryException#OPERATION_FAILED OPERATION_FAILED}, {@link DictionaryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DictionaryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DictionaryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dictionary
 	 */
@@ -159,7 +159,7 @@ class DictionaryIterator // :: API interface
 
 	/**
 	 * Return <code>true</code> if there are additional  Dictionaries ; <code>false</code> otherwise.
-	 * @return boolean
+	 * @return object boolean
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  OPERATION_FAILED, PERMISSION_DENIED
 	 * @package osid.dictionary
 	 */
@@ -168,7 +168,7 @@ class DictionaryIterator // :: API interface
 
 	/**
 	 * Return the next Dictionaries.
-	 * @return Dictoinary
+	 * @return object Dictoinary
 	 * @throws osid.dictionary.DiictionaryException An exception with one of the following messages defined in osid.dictionary.DiictionaryException may be thrown:  OPERATION_FAILED, PERMISSION_DENIED, NO_MORE_ITERATOR_ELEMENTS
 	 * @package osid.dictionary
 	 */

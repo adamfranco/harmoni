@@ -12,7 +12,7 @@ class AuthenticationManager // :: API interface
 
 	/**
 	 * Get the authentication Types that are supported by the implementation.
-	 * @return osid.shared.TypeIterator
+	 * @return object osid.shared.TypeIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:   {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authentication
 	 */
@@ -21,7 +21,7 @@ class AuthenticationManager // :: API interface
 
 	/**
 	 * Invoke the authentication process of the specified Type to identify the user.  It may be necessary to call isUserAuthenticated to check the status of authentication.  The standard authentication technique of limiting the time an user's authentication is valid requires explicit queries of the authentication status. It is likely that checking the status of authentication will occur more frequently than invoking the mechanism to authenticate the user.  Separation of the authentication process from checking the status of the authentication process is made explicit by having the authenticateUser and isUserAuthenticated methods.
-	 * @param authenticationType
+	 * @param object authenticationType
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:   {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authentication
 	 */
@@ -30,8 +30,8 @@ class AuthenticationManager // :: API interface
 
 	/**
 	 * Check the current authentication status of the user. If the method returns true, the user is authenticated.  If the method returns false, the user is not authenticated.  This can indicate that the user could not be authenticated or that the user's authentication has timed out.  The intent is to use the method authenticateUser to invoke the authentication process.  The standard authentication technique of limiting the time an user's authentication is valid requires explicit queries of the authentication status. It is likely that checking the status of authentication will occur more frequently than invoking the mechanism to authenticate the user.  Separation of the authentication process from checking the status of the authentication process is made explicit by having the authenticateUser and isUserAuthenticated methods.
-	 * @param authenticationType
-	 * @return boolean
+	 * @param object authenticationType
+	 * @return object boolean
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:   {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authentication
 	 */
@@ -40,8 +40,8 @@ class AuthenticationManager // :: API interface
 
 	/**
 	 * Get the Unique Id of the Agent that represents the user for the specified AuthenticationType.  Agents are managed in the Shared OSID.
-	 * @param authenticationType
-	 * @return osid.shared.Id
+	 * @param object authenticationType
+	 * @return object osid.shared.Id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:   {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authentication
 	 */
@@ -58,7 +58,7 @@ class AuthenticationManager // :: API interface
 
 	/**
 	 * Destroy authentication for the specified authentication type.
-	 * @param authenticationType
+	 * @param object authenticationType
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:   {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authentication
 	 */

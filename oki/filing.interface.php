@@ -14,7 +14,7 @@ class ByteStore // :: API interface
 	  /**
 	   * Returns the length of this ByteStore
 	   *
-	   * @return The length, in bytes, of this ByteStore
+	   * @return object The length, in bytes, of this ByteStore
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	   * @throws osid.filing.FilingException if an IO error occurs reading Object
@@ -26,7 +26,7 @@ class ByteStore // :: API interface
 	  /**
 	   * Tests whether the Manager Owner may append to this ByteStore.
 	   *
-	   * @return <code>true</code> if and only if the Manager Owner is
+	   * @return object <code>true</code> if and only if the Manager Owner is
 	   *          allowed to append to this ByteStore,
 	   *          <code>false</code> otherwise.
 	   * @throws osid.filing.FilingException
@@ -47,7 +47,7 @@ class ByteStore // :: API interface
 	  /**
 	   * Gets the mime-type of this ByteStore.
 	   *
-	   * @return the mime-type (Content-Type in a jar file manifest)
+	   * @return object the mime-type (Content-Type in a jar file manifest)
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
 	   */
@@ -65,9 +65,9 @@ class ByteStore // :: API interface
 	   * <a href="http://www.iana.org/assignments/media-types/index.html">http://www.iana.org/assignments/media-types/index.html</a>)
 	   * may be substituted for a vendor or experimental type.
 	   *
-	   * @param mimeType
+	   * @param object mimeType
 	   *
-	   * @return String
+	   * @return object String
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
 	   */
@@ -77,7 +77,7 @@ class ByteStore // :: API interface
 	    /**
 	   * Tests whether the Manager Owner may read this CabinetEntry.
 	   *
-	   * @return <code>true</code> if and only if this CabinetEntry can be
+	   * @return object <code>true</code> if and only if this CabinetEntry can be
 	   *          read by the Manager Owner, <code>false</code> otherwise
 	   *
 	   * @throws osid.filing.FilingException
@@ -89,7 +89,7 @@ class ByteStore // :: API interface
 	  /**
 	   * Tests whether the Manager Owner may modify this CabinetEntry.
 	   *
-	   * @return <code>true</code> if and only if the Manager Owner is
+	   * @return object <code>true</code> if and only if the Manager Owner is
 	   *          allowed to write to this CabinetEntry,
 	   *          <code>false</code> otherwise.
 	   *
@@ -127,9 +127,9 @@ class ByteStore // :: API interface
 	   * Returns the Digest of this ByteStore using the specified algorithm used,
 	   * such as md5 or crc.
 	   *
-	   * @param algorithmType digestAlgorithmType selected from possible implementation digest algorithm types.
+	   * @param object algorithmType digestAlgorithmType selected from possible implementation digest algorithm types.
 	   *
-	   * @return String digest or null if digest is not supported for this ByteStore.
+	   * @return object String digest or null if digest is not supported for this ByteStore.
 	   *
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
@@ -140,7 +140,7 @@ class ByteStore // :: API interface
 	  /**
 	   * Returns the Digest algorithm types supported by the implementation, such as md5 or crc.
 	   *
-	   * @return osid.shared.TypeIterator the digest algorithm types supported by this implementation.
+	   * @return object osid.shared.TypeIterator the digest algorithm types supported by this implementation.
 	   *
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
@@ -151,7 +151,7 @@ class ByteStore // :: API interface
 	  /**
 	   * Reads the data.
 	   *
-	   * @return osid.shared.ByteValueIterator
+	   * @return object osid.shared.ByteValueIterator
 	   *
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
@@ -237,7 +237,7 @@ class Cabinet // :: API interface
 	   * value = new Integer(2)
 	   </code>
 	   *
-	   * @return java.util.Map of properties of this Cabinet and implementation
+	   * @return object java.util.Map of properties of this Cabinet and implementation
 	   *
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
@@ -251,9 +251,9 @@ class Cabinet // :: API interface
 	   *
 	   * The name must not include this Cabinet's separationCharacter.
 	   *
-	   * @param displayName  The name to be used
+	   * @param string displayName  The name to be used
 	   *
-	   * @return  The ByteStore created
+	   * @return object  The ByteStore created
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#ITEM_ALREADY_EXISTS ITEM_ALREADY_EXISTS}
 	 * @package osid.filing
@@ -267,9 +267,9 @@ class Cabinet // :: API interface
 	   *
 	   * The name must not include this Cabinet's separationCharacter.
 	   *
-	   * @param displayName  The name to be used
+	   * @param string displayName  The name to be used
 	   *
-	   * @return  The Cabinet created
+	   * @return object  The Cabinet created
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#ITEM_ALREADY_EXISTS ITEM_ALREADY_EXISTS}, {@link FilingException#NAME_CONTAINS_ILLEGAL_CHARS NAME_CONTAINS_ILLEGAL_CHARS}
 	 * @package osid.filing
@@ -281,10 +281,10 @@ class Cabinet // :: API interface
 	   * Copy an existing ByteStore in this Cabinet by copying contents and
 	   * the appropriate attributes of another ByteStore.
 	   *
-	   * @param displayName
-	   * @param oldByteStore
+	   * @param string displayName
+	   * @param object oldByteStore
 	   *
-	   * @return ByteStore
+	   * @return object ByteStore
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#ITEM_ALREADY_EXISTS ITEM_ALREADY_EXISTS}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
@@ -296,8 +296,8 @@ class Cabinet // :: API interface
 	   * Add a CabinetEntry, it must be from same Manager.
 	   *
 	   *
-	   * @param entry
-	   * @param displayName
+	   * @param object entry
+	   * @param string displayName
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#NAME_CONTAINS_ILLEGAL_CHARS NAME_CONTAINS_ILLEGAL_CHARS}, {@link FilingException#ITEM_ALREADY_EXISTS ITEM_ALREADY_EXISTS}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
@@ -309,7 +309,7 @@ class Cabinet // :: API interface
 	   * Remove a CabinetEntry. Does not destroy the CabinetEntry.
 	   *
 	   *
-	   * @param entry
+	   * @param object entry
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
@@ -320,9 +320,9 @@ class Cabinet // :: API interface
 	  /**
 	   * Get a CabinetEntry from a Cabinet by its ID.
 	   *
-	   * @param id
+	   * @param object id
 	   *
-	   * @return CabinetEntry which has given ID.
+	   * @return object CabinetEntry which has given ID.
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR},{@link FilingException#ITEM_DOES_NOT_EXIST ITEM_DOES_NOT_EXIST}
 	 * @package osid.filing
@@ -334,9 +334,9 @@ class Cabinet // :: API interface
 	   * Get a CabinetEntry by name.  Not all CabinetEntrys have names,
 	   * but if it has a name, the name is unique within a Cabinet.
 	   *
-	   * @param displayName
+	   * @param string displayName
 	   *
-	   * @return CabinetEntry which has given name
+	   * @return object CabinetEntry which has given name
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#DELETE_FAILED DELETE_FAILED}, {@link FilingException#ITEM_DOES_NOT_EXIST ITEM_DOES_NOT_EXIST}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
@@ -347,7 +347,7 @@ class Cabinet // :: API interface
 	  /**
 	   * Get an Iterator over all CabinetEntries in this Cabinet.
 	   *
-	   * @return CabinetEntryIterator
+	   * @return object CabinetEntryIterator
 	   *
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
@@ -359,7 +359,7 @@ class Cabinet // :: API interface
 	   * Return the root Cabinet of this Cabinet.
 	   *
 	   *
-	   * @return root Cabinet
+	   * @return object root Cabinet
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
@@ -371,7 +371,7 @@ class Cabinet // :: API interface
 	   * Return true if this Cabinet is the root Cabinet.
 	   *
 	   *
-	   * @return true if and only if this Cabinet is the root Cabinet.
+	   * @return object true if and only if this Cabinet is the root Cabinet.
 	   *
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
@@ -383,7 +383,7 @@ class Cabinet // :: API interface
 	   * Return true if this Cabinet can list its entries.
 	   *
 	   *
-	   * @return true if and only if this Cabinet can list its entries.
+	   * @return object true if and only if this Cabinet can list its entries.
 	   *
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
@@ -395,7 +395,7 @@ class Cabinet // :: API interface
 	   * Return true if this Cabinet allows entries to be added or removed.
 	   *
 	   *
-	   * @return true if and only if this Cabinet allows entries to be added or removed.
+	   * @return object true if and only if this Cabinet allows entries to be added or removed.
 	   *
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
@@ -406,7 +406,7 @@ class Cabinet // :: API interface
 	  /**
 	   * Get space available in Cabinet, for bytes.
 	   *
-	   * @return long Space available in this Cabinet, in bytes.
+	   * @return object long Space available in this Cabinet, in bytes.
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
@@ -417,7 +417,7 @@ class Cabinet // :: API interface
 	  /**
 	   * Get number of bytes used in this Cabinet.
 	   *
-	   * @return long Space used in this Cabinet, in bytes.
+	   * @return object long Space used in this Cabinet, in bytes.
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
@@ -441,7 +441,7 @@ class CabinetEntry // :: API interface
 	   * no parent (for example is the root Cabinet).
 	   *
 	   *
-	   * @return Cabinet the parent Cabinet of this entry, or null if it has
+	   * @return object Cabinet the parent Cabinet of this entry, or null if it has
 	   * no parent (e.g. is the root Cabinet)
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}
@@ -453,7 +453,7 @@ class CabinetEntry // :: API interface
 	  /**
 	   * Return the name of this CabinetEntry in its parent Cabinet.
 	   *
-	   * @return name
+	   * @return object name
 	   *
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
@@ -464,7 +464,7 @@ class CabinetEntry // :: API interface
 	  /**
 	   * Get Id of this CabinetEntry
 	   *
-	   * @return Id
+	   * @return object Id
 	   *
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
@@ -475,7 +475,7 @@ class CabinetEntry // :: API interface
 	  /**
 	   * Returns when this Cabinet was last modified.
 	   *
-	   * @return  java.util.Calendar The time this cabinet was last modified
+	   * @return object  java.util.Calendar The time this cabinet was last modified
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
@@ -486,7 +486,7 @@ class CabinetEntry // :: API interface
 	  /**
 	   * Returns all the times that this Cabinet was modified.
 	   *
-	   * @return  osid.shared.CalendarInterator The times this cabinet was modified
+	   * @return object  osid.shared.CalendarInterator The times this cabinet was modified
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
@@ -511,7 +511,7 @@ class CabinetEntry // :: API interface
 	   * at least the last modified time, the actual time when a read was
 	   * performed may be later.
 	   *
-	   * @return  java.util.Calendar The time the file was last accessed.
+	   * @return object  java.util.Calendar The time the file was last accessed.
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
@@ -526,7 +526,7 @@ class CabinetEntry // :: API interface
 	   * accurately.  The value returned will be at least the last
 	   * modified time, the actual creation time may be earlier.
 	   *
-	   * @return java.util.Calendar The time the file was created
+	   * @return object java.util.Calendar The time the file was created
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
@@ -537,7 +537,7 @@ class CabinetEntry // :: API interface
 	  /**
 	   * Return the Agent that owns this CabinetEntry.
 	   *
-	   * @return osid.shared.Agent
+	   * @return object osid.shared.Agent
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
@@ -548,7 +548,7 @@ class CabinetEntry // :: API interface
 	  /**
 	   * Change the name of this entry to <code>displayName</code>
 	   *
-	   * @param displayName the new name for the entry
+	   * @param string displayName the new name for the entry
 	   *
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
@@ -576,7 +576,7 @@ class FilingManager // :: API interface
 	  /**
 	   * List all the root Cabinets currently available in this Manager.
 	   *
-	   * @return CabinetEntryIterator
+	   * @return object CabinetEntryIterator
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}
 	 * @package osid.filing
@@ -587,9 +587,9 @@ class FilingManager // :: API interface
 	  /**
 	   * Get a CabinetEntry by ID.
 	   *
-	   * @param id
+	   * @param object id
 	   *
-	   * @return CabinetEntry with a given ID
+	   * @return object CabinetEntry with a given ID
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#ITEM_DOES_NOT_EXIST ITEM_DOES_NOT_EXIST}
 	 * @package osid.filing
@@ -603,7 +603,7 @@ class FilingManager // :: API interface
 	   * If the CabinetEntry is a Cabinet it must be empty, and the Owner of
 	   * the Manager must have sufficient permissions to perform this action.
 	   *
-	   * @param cabinetEntryId id is the CabinetEntry's id.
+	   * @param object cabinetEntryId id is the CabinetEntry's id.
 	   *
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#DELETE_FAILED DELETE_FAILED}, {@link FilingException#CABINET_NOT_EMPTY CABINET_NOT_EMPTY}, {@link FilingException#ITEM_DOES_NOT_EXIST ITEM_DOES_NOT_EXIST}
 	 * @package osid.filing
@@ -633,7 +633,7 @@ class CabinetEntryIterator // :: API interface
 	   /**
 	    * Method hasNext
 	    *
-	    * @return boolean
+	    * @return object boolean
 	    *
 	    * @throws osid.filing.FilingException
 	 * @package osid.filing

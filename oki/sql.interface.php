@@ -12,10 +12,10 @@ class Blob // :: API interface
 	  /**
 	   * Method getBytes
 	   *
-	   * @param pos
-	   * @param len
+	   * @param object pos
+	   * @param object len
 	   *
-	   * @return osid.shared.ByteValueIterator
+	   * @return object osid.shared.ByteValueIterator
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#BLOB_GETBYTES_FAILED}, {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -26,7 +26,7 @@ class Blob // :: API interface
 	  /**
 	   * return the length of the object
 	   *
-	   * @return Blob length
+	   * @return object Blob length
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -48,10 +48,10 @@ class Clob // :: API interface
 	  /**
 	   * Method getChars
 	   *
-	   * @param pos
-	   * @param len
+	   * @param object pos
+	   * @param object len
 	   *
-	   * @return osid.shared.CharValueIterator
+	   * @return object osid.shared.CharValueIterator
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#CLOB_GETCHARS_FAILED}, {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -62,7 +62,7 @@ class Clob // :: API interface
 	  /**
 	   * return the length of the object
 	   *
-	   * @return Clob length
+	   * @return object Clob length
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -84,7 +84,7 @@ class ResultMetaData // :: API interface
 	  /**
 	   * return the column index.  Columns are numbered beginning with one.
 	   *
-	   * @return column index
+	   * @return object column index
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -95,7 +95,7 @@ class ResultMetaData // :: API interface
 	  /**
 	   * Method getColumnName
 	   *
-	   * @return column name
+	   * @return object column name
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -106,7 +106,7 @@ class ResultMetaData // :: API interface
 	  /**
 	   * The SQL data type of this column is an instance of osid.shared.Type.  It represents one of the data types supported by the implementation.
 	   *
-	   * @return column type
+	   * @return object column type
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -117,7 +117,7 @@ class ResultMetaData // :: API interface
 	  /**
 	   * return whether this column allows nulls
 	   *
-	   * @return true if column permits nulls
+	   * @return object true if column permits nulls
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -139,9 +139,9 @@ class Connection // :: API interface
 	  /**
 	   * execute the SQL statement
 	   *
-	   * @param sql The SQL statement to execute
+	   * @param object sql The SQL statement to execute
 	   *
-	   * @return table
+	   * @return object table
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -152,12 +152,12 @@ class Connection // :: API interface
 	  /**
 	   * execute the SQL statement
 	   *
-	   * @param sql The SQL statement to execute
-	   * @param objs
-	   * @param sqlTypes
-	   * @param scales
+	   * @param object sql The SQL statement to execute
+	   * @param object objs
+	   * @param object sqlTypes
+	   * @param object scales
 	   *
-	   * @return table
+	   * @return object table
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -170,9 +170,9 @@ class Connection // :: API interface
 	  /**
 	   * Method executeUpdate
 	   *
-	   * @param sql The SQL statement to execute
+	   * @param object sql The SQL statement to execute
 	   *
-	   * @return integer as a result of an update
+	   * @return object integer as a result of an update
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -183,12 +183,12 @@ class Connection // :: API interface
 	  /**
 	   * Method executeUpdate
 	   *
-	   * @param sql The SQL statement to execute
-	   * @param objs
-	   * @param sqlTypes
-	   * @param scales
+	   * @param object sql The SQL statement to execute
+	   * @param object objs
+	   * @param object sqlTypes
+	   * @param object scales
 	   *
-	   * @return integer as a result of an update
+	   * @return object integer as a result of an update
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -201,7 +201,7 @@ class Connection // :: API interface
 	  /**
 	   * return the SQL data types supported by this implementation
 	   *
-	   * @return TypeIterator containing the valid SQL data types
+	   * @return object TypeIterator containing the valid SQL data types
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -223,7 +223,7 @@ class RowIterator // :: API interface
 	  /**
 	   * Return <code>true</code> if there are additional  Rows; <code>false</code> otherwise.
 	   *
-	   * @return true if more rows are available
+	   * @return object true if more rows are available
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	   *
@@ -235,7 +235,7 @@ class RowIterator // :: API interface
 	  /**
 	   * Method next
 	   *
-	   * @return Row
+	   * @return object Row
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	   *
@@ -258,7 +258,7 @@ class ResultMetaDataIterator // :: API interface
 	  /**
 	   * Return <code>true</code> if there are additional  ResultMetaData; <code>false</code> otherwise.
 	   *
-	   * @return true if more ResultMetaData are available
+	   * @return object true if more ResultMetaData are available
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	   *
@@ -270,7 +270,7 @@ class ResultMetaDataIterator // :: API interface
 	  /**
 	   * Method next
 	   *
-	   * @return ResultMetaData
+	   * @return object ResultMetaData
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	   *
@@ -294,9 +294,9 @@ class SqlManager // :: interface
 	  /**
 	   * Method getConnection
 	   *
-	   * @param connectionString
+	   * @param object connectionString
 	   *
-	   * @return Connection
+	   * @return object Connection
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -315,9 +315,9 @@ class Row // :: interface
 //	extends java.io.Serializable
 {
 
-	  /**
+    /**
 	 *     retrieve data from the column specified by index
-	 *     @param columnIndex
+	 *     @param integer columnIndex
 	 *     @return Object
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#DATA_RETRIEVAL_ERROR}, {@link SqlException#INVALID_COLUMN_INDEX}, {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -327,7 +327,7 @@ class Row // :: interface
 
 	  /**
 	 *     retrieve data from the column specified by name
-	 *     @param columnName
+	 *     @param string columnName
 	 *     @return Object
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:   {@link SqlException#DATA_RETRIEVAL_ERROR}, {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
@@ -358,7 +358,7 @@ class ResultTable // :: API interface
 	  /**
 	   * Method getColumnCount
 	   *
-	   * @return number of columns
+	   * @return object number of columns
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	   *
@@ -370,7 +370,7 @@ class ResultTable // :: API interface
 	  /**
 	   * Method getResultMetaData
 	   *
-	   * @return metadata for Rows
+	   * @return object metadata for Rows
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#DATA_RETRIEVAL_ERROR}, {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	   *
@@ -382,7 +382,7 @@ class ResultTable // :: API interface
 	  /**
 	   * Method getRows
 	   *
-	   * @return Rows object
+	   * @return object Rows object
 	   *
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#DATA_RETRIEVAL_ERROR}, {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	   *

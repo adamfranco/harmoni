@@ -12,9 +12,9 @@ class SharedManager // :: API interface
 
 	/**
 	 * Create an Agent with the display name and Type specified.  Both are immutable.
-	 * @param displayName
-	 * @param agentType
-	 * @return Agent
+	 * @param string displayName
+	 * @param object agentType
+	 * @return object Agent
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.shared
 	 */
@@ -23,7 +23,7 @@ class SharedManager // :: API interface
 
 	/**
 	 * Delete the Agent with the specified Unique Id.
-	 * @param id
+	 * @param object id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.shared
 	 */
@@ -32,8 +32,8 @@ class SharedManager // :: API interface
 
 	/**
 	 * Get the Agent with the specified Unique Id. Getting an Agent by name is not supported since names are not guaranteed to be unique.
-	 * @param id
-	 * @return Agent
+	 * @param object id
+	 * @return object Agent
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.shared
 	 */
@@ -42,7 +42,7 @@ class SharedManager // :: API interface
 
 	/**
 	 * Return an iterator containing all the Agents.  An iterator provides access to the Agents one at a time.  Iterators have a method hasNext() which returns <code>true</code> if there are more Agents available and a method next() which returns the next Agent.
-	 * @return AgentIterator
+	 * @return object AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -51,7 +51,7 @@ class SharedManager // :: API interface
 
 	/**
 	 * Return an iterator containing all the Agent Types.  An iterator provides access to the Agent Types from this implementation one at a time.  Iterators have a method hasNext() which returns true if there are more Agent Types available and a method next() which returns the next Agent Type.
-	 * @return TypeIterator
+	 * @return object TypeIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -60,10 +60,10 @@ class SharedManager // :: API interface
 
 	/**
 	 * Create a Group with the display name and Type specified.  Both are immutable.
-	 * @param displayName
-	 * @param groupType
-	 * @param description
-	 * @return Group
+	 * @param string displayName
+	 * @param object groupType
+	 * @param string description
+	 * @return object Group
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.shared
 	 */
@@ -72,7 +72,7 @@ class SharedManager // :: API interface
 
 	/**
 	 * Delete the Group with the specified Unique Id.
-	 * @param id
+	 * @param object id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.shared
 	 */
@@ -81,8 +81,8 @@ class SharedManager // :: API interface
 
 	/**
 	 * Gets the Group with the specified Unique Id. Getting a Group by name is not supported since names are not guaranteed to be unique.
-	 * @param id
-	 * @return Group
+	 * @param object id
+	 * @return object Group
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.shared
 	 */
@@ -91,7 +91,7 @@ class SharedManager // :: API interface
 
 	/**
 	 * Get all the Groups.  Note since Groups subclass Agents, we are returning an AgentIterator and there is no GroupIterator. An iterator provides access to the Groups one at a time.  Iterators have a method hasNext() which returns true if there are more Groups available and a method next() which returns the next Group.
-	 * @return AgentIterator
+	 * @return object AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -100,7 +100,7 @@ class SharedManager // :: API interface
 
 	/**
 	 * Return an iterator containing all the Group Types.  An iterator provides access to the Group Types from this implementation one at a time.  Iterators have a method hasNext() which returns true if there are more Group Types available and a method next() which returns the next Group Type.
-	 * @return TypeIterator
+	 * @return object TypeIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -109,7 +109,7 @@ class SharedManager // :: API interface
 
 	/**
 	 * Create a new unique identifier.
-	 * @return Id
+	 * @return object Id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -118,8 +118,8 @@ class SharedManager // :: API interface
 
 	/**
 	 * Get the Unique Id with this String representation or create a new Unique Id with this representation.
-	 * @param idString
-	 * @return Id
+	 * @param object idString
+	 * @return object Id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.shared
 	 */
@@ -128,7 +128,7 @@ class SharedManager // :: API interface
 
 	/**
 	 * Get all the Agents of the specified Type.
-	 * @return AgentIterator
+	 * @return object AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.shared
 	 */
@@ -137,7 +137,7 @@ class SharedManager // :: API interface
 
 	/**
 	 * Get all the Groups of the specified Type.
-	 * @return AgentIterator
+	 * @return object AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.shared
 	 */
@@ -156,7 +156,7 @@ class Agent // :: API interface
 
 	/**
 	 * Get the name of this Agent.
-	 * @return String
+	 * @return object String
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -165,7 +165,7 @@ class Agent // :: API interface
 
 	/**
 	 * Get the id of this Agent.
-	 * @return id
+	 * @return object id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -174,7 +174,7 @@ class Agent // :: API interface
 
 	/**
 	 * Get the type of this Agent.
-	 * @return Type
+	 * @return object Type
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -183,7 +183,7 @@ class Agent // :: API interface
 
 	/**
 	 * Get all the Properties associated with this Agent.
-	 * @return PropertiesIterator
+	 * @return object PropertiesIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -192,7 +192,7 @@ class Agent // :: API interface
 
 	/**
 	 * Get the Properties of this Type associated with this Agent.
-	 * @return Properties
+	 * @return object Properties
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.shared
 	 */
@@ -201,7 +201,7 @@ class Agent // :: API interface
 
 	/**
 	 * Get the Properties Types supported by the implementation.
-	 * @return TypeIterator
+	 * @return object TypeIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -220,7 +220,7 @@ class Properties // :: API interface
 
 	/**
 	 * Get the Type associated with these Properties. Properties
-	 * @return Type
+	 * @return object Type
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -229,7 +229,7 @@ class Properties // :: API interface
 
 	/**
 	 * Get the Property associated with this key.
-	 * @return java.io.Serializable
+	 * @return object java.io.Serializable
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#UNKNOWN_KEY UNKNOWN_KEY}
 	 * @package osid.shared
 	 */
@@ -238,7 +238,7 @@ class Properties // :: API interface
 
 	/**
 	 * Get the Keys associated with these Properties.
-	 * @return ObjectIterator
+	 * @return object ObjectIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -257,7 +257,7 @@ class Group // :: API interface
 
 	/**
 	 * Get the DisplayName of this Group as stored.
-	 * @return the String
+	 * @return object the String
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -266,7 +266,7 @@ class Group // :: API interface
 
 	/**
 	 * Get the Description of this Group as stored.
-	 * @return String
+	 * @return object String
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -274,7 +274,7 @@ class Group // :: API interface
 
 	/**
 	 * Update the Description of this Group as stored.
-	 * @param description
+	 * @param string description
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.shared
 	 */
@@ -282,7 +282,7 @@ class Group // :: API interface
 
 	/**
 	 * Get the Unique Id of this Group as stored.
-	 * @return Id
+	 * @return object Id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -290,7 +290,7 @@ class Group // :: API interface
 
 	/**
 	 * Update the Type of this Group as stored.
-	 * @return Type
+	 * @return object Type
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -299,7 +299,7 @@ class Group // :: API interface
 
 	/**
 	 * Add an Agent member or a Group to this Group.  The Member or Group will not be added if it already exists in the group.
-	 * @param memberOrGroup
+	 * @param object memberOrGroup
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#ALREADY_ADDED ALREADY_ADDED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.shared
 	 */
@@ -308,7 +308,7 @@ class Group // :: API interface
 
 	/**
 	 * Remove an Agent member or a Group from this Group. If the Member or Group is not in the group no action is taken and no exception is thrown.
-	 * @param memberOrGroup
+	 * @param object memberOrGroup
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.shared
 	 */
@@ -317,8 +317,8 @@ class Group // :: API interface
 
 	/**
 	 * Get all the Members of this group and optionally all the Members from all subgroups. Duplicates are not returned.
-	 * @param includeSubgroups
-	 * @return AgentIterator
+	 * @param object includeSubgroups
+	 * @return object AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -327,8 +327,8 @@ class Group // :: API interface
 
 	/**
 	 * Get all the Groups in this group and optionally all the subgroups in this group. Note since Groups subclass Agents, we are returning an AgentIterator and there is no GroupIterator.
-	 * @param includeSubgroups
-	 * @return AgentIterator
+	 * @param object includeSubgroups
+	 * @return object AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -337,8 +337,8 @@ class Group // :: API interface
 
 	/**
 	 * Get all the Groups, including subgroups, containing the Member. Note since Groups subclass Agents, we are returning an AgentIterator and there is no GroupIterator.
-	 * @param member
-	 * @return AgentIterator
+	 * @param object member
+	 * @return object AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.shared
 	 */
@@ -347,9 +347,9 @@ class Group // :: API interface
 
 	/**
 	 * Return <code>true</code> if the Member or Group is in the Group, optionally including subgroups, <code>false</code> otherwise.
-	 * @param memberOrGroup
-	 * @param searchSubgroups
-	 * @return boolean
+	 * @param object memberOrGroup
+	 * @param object searchSubgroups
+	 * @return object boolean
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.shared
 	 */
@@ -384,9 +384,9 @@ class Type // :: abstract
 
 	/**
 	 * Construct a Type object for this domain, authority and keyword.
-	 * @param domain
-	 * @param authority
-	 * @param keyword
+	 * @param object domain
+	 * @param object authority
+	 * @param object keyword
 	 * @package osid.shared
 	 */
 	function & Type($domain, $authority, $keyword) { /* :: interface :: */ }
@@ -394,10 +394,10 @@ class Type // :: abstract
 
 	/**
 	 * Construct a Type object for this domain, authority, keyword, and description.
-	 * @param domain
-	 * @param authority
-	 * @param keyword
-	 * @param description
+	 * @param object domain
+	 * @param object authority
+	 * @param object keyword
+	 * @param string description
 	 * @package osid.shared
 	 */
 //	 :: this function hidden due to previous declaration
@@ -407,8 +407,8 @@ class Type // :: abstract
 
 	/**
 	 * Compare the specified Type with this Type for equality.<p>Two Types are equal if the domain, authority and keyword are equal.
-	 * @param type2
-	 * @return boolean
+	 * @param object type2
+	 * @return object boolean
 	 * @package osid.shared
 	 */
 	function isEqual(& $type2) { /* :: interface :: */ }
@@ -416,7 +416,7 @@ class Type // :: abstract
 
 	/**
 	 * Get the domain part of this Type.  The domain is a String representing the domain which
-	 * @return String
+	 * @return object String
 	 * @package osid.shared
 	 */
 	function getDomain() { /* :: interface :: */ }
@@ -424,7 +424,7 @@ class Type // :: abstract
 
 	/**
 	 * Get the authority part of this Type.<p>The authority is a String representing the naming authority which gives meaning to the keyword, representing the vocabulary defining the keyword, or equivalent function.
-	 * @return String
+	 * @return object String
 	 * @package osid.shared
 	 */
 	function getAuthority() { /* :: interface :: */ }
@@ -432,7 +432,7 @@ class Type // :: abstract
 
 	/**
 	 * Return the keyword part of the Type.<p>The keyword is a String uniquely defining this Type within the scope of the authority.
-	 * @return String
+	 * @return object String
 	 * @package osid.shared
 	 */
 	function getKeyword() { /* :: interface :: */ }
@@ -440,7 +440,7 @@ class Type // :: abstract
 
 	/**
 	 * Get description part of the Type.<p>The description is a String which further qualifies this instance of a Type.  Two Types which differ only by description are still identical.
-	 * @return String
+	 * @return object String
 	 * @package osid.shared
 	 */
 	function getDescription() { /* :: interface :: */ }
@@ -458,7 +458,7 @@ class Id // :: API interface
 
 	/**
 	 * Return the String representation of this Unique Id.
-	 * @return String
+	 * @return object String
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -467,8 +467,8 @@ class Id // :: API interface
 
 	/**
 	 * Tests if an Unique Id equals this Unique Id.
-	 * @param id
-	 * @return boolean
+	 * @param object id
+	 * @return object boolean
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.shared
 	 */
@@ -497,7 +497,7 @@ class AgentIterator // :: API interface
 
 	/**
 	 * Return the next Agent.
-	 * @return Agent
+	 * @return object Agent
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.shared
 	 */
@@ -526,7 +526,7 @@ class PropertiesIterator // :: API interface
 
 	/**
 	 * Return the next Properties.
-	 * @return Properties
+	 * @return object Properties
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.shared
 	 */
@@ -555,7 +555,7 @@ class TypeIterator // :: API interface
 
 	/**
 	 * Return the next Type
-	 * @return Type
+	 * @return object Type
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.shared
 	 */
@@ -584,7 +584,7 @@ class IdIterator // :: API interface
 
 	/**
 	 * Return the next Id
-	 * @return Id
+	 * @return object Id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.shared
 	 */
@@ -613,7 +613,7 @@ class StringIterator // :: API interface
 
 	/**
 	 * Return the next String
-	 * @return String
+	 * @return object String
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.shared
 	 */
@@ -642,7 +642,7 @@ class IntValueIterator // :: API interface
 
 	/**
 	 * Return the next int
-	 * @return int
+	 * @return object int
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.shared
 	 */
@@ -671,7 +671,7 @@ class ByteValueIterator // :: API interface
 
 	/**
 	 * Return the next byte
-	 * @return byte
+	 * @return object byte
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.shared
 	 */
@@ -700,7 +700,7 @@ class CharValueIterator // :: API interface
 
 	/**
 	 * Return the next char
-	 * @return char
+	 * @return object char
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.shared
 	 */
@@ -729,7 +729,7 @@ class ObjectIterator // :: API interface
 
 	/**
 	 * Return the next Object
-	 * @return object
+	 * @return object object
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.shared
 	 */
@@ -758,7 +758,7 @@ class CalendarIterator // :: API interface
 
 	/**
 	 * Return the next Calendar
-	 * @return next Calendar
+	 * @return object next Calendar
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.shared
 	 */
@@ -787,7 +787,7 @@ class SerializableObjectIterator // :: API interface
 
 	/**
 	 * Return the next Object
-	 * @return next Object
+	 * @return object next Object
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.shared
 	 */

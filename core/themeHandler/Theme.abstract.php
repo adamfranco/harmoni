@@ -19,7 +19,7 @@ define ("BLANK_WIDGET", "blank");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: Theme.abstract.php,v 1.11 2004/04/21 17:55:43 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.12 2004/04/21 18:15:01 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -223,7 +223,7 @@ class Theme
 	function addHeadContent ( $contentString ) {
 		ArgumentValidator::validate($contentString, new StringValidatorRule);
 		
-		$this-&gt;_headContent .= "\n".$contentString;
+		$this->_headContent .= "\n".$contentString;
 	}
 	
 	/**
@@ -235,7 +235,7 @@ class Theme
 	function addHeadStyle ( $styleString ) {
 		ArgumentValidator::validate($styleString, new StringValidatorRule);
 		
-		$this-&gt;_headStyles .= "\n".$styleString;
+		$this->_headStyles .= "\n".$styleString;
 	}
 	
 	/**
@@ -247,7 +247,7 @@ class Theme
 	function addHeadJavascript ( $javascriptString ) {
 		ArgumentValidator::validate($javascriptString, new StringValidatorRule);
 		
-		$this-&gt;_headJavascript .= "\n".$javascriptString;
+		$this->_headJavascript .= "\n".$javascriptString;
 	}
 	
 	/**
