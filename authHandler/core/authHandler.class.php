@@ -86,7 +86,7 @@ class authHandler
 	function modCfg( ) {
 		$n = func_num_args();
 		if ($n == 2) {
-			if (!this->numModules) error::fatal("AuthHandler::modCfg - trying to configure a module before any have been added");
+			if (!$this->numModules) error::fatal("AuthHandler::modCfg - trying to configure a module before any have been added");
 			$mod = $this->_lastAddedMod;
 			$key = func_get_arg(0);
 			$val = & func_get_arg(1);

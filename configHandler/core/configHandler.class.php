@@ -9,9 +9,8 @@ class configHandler {
 	/**
 	 * @access private
 	 */
-	var $values = array();
 	var $fields = array();
-	var $numAttributes;
+	var $numAttributes = 0;
 	
 	
 	function configHandler() {
@@ -21,9 +20,9 @@ class configHandler {
 	
 	/**
 	 * adds an attribute to the config handler
-	 * @param string $addrStr,... each arg is of the format "key:t[:opt1,opt2,...]" where key is whatever key you want to use, t is one of the allowed types: s=string; n=numeric; b=boolean; m=mixed; o=other
-	 * 							if t is of the format 't[]' (ex 's[]') that tells configHandler that this key is an array. the optional ':opt1,...' gives configHandler a list of allowed values for this config
-	 *							key if you want to limit the user to a certain set
+	 * @param string $addrStr,... each arg is of the format "key:t[<:opt1,opt2,...>|array]" where key is whatever key you want to use, t is one of the allowed types: s=string; n=numeric; b=boolean; m=mixed; o=other
+	 * 							the optional ':opt1,...' gives configHandler a list of allowed values for this config
+	 *							key if you want to limit the user to a certain set, or by specifying 'array' configHandler will expect an array
 	 */
 	function addAttr( $addrStr ) {
 		$n = func_num_args();
@@ -49,21 +48,25 @@ class configHandler {
 		
 		// go through the options and trim off white space
 		// and then create an array
-		$options = array();
-		foreach (explode(',',$o) as $opt) {
-			$options[] = trim($opt);
+		if ($o && $o != 'array') {
+			$options = $o;
+			$o = array();
+			foreach (explode(',',$options) as $opt) {
+				$o[] = trim($opt);
+			}
 		}
 		
-		$this->fields[$k] = & new configNode($k,$t,$options);
+		$this->fields[$k] = & new configNode($t,$k,$o);
+		$this->numAttributes++;
 	}
 	
-	function set($key,& $val) {
+	function set($key, $val) {
 		if (isset($this->fields[$key])) {
 			$this->fields[$key]->set($val);
 		} else error::fatal("configHandler::set - could not set '$key' because it is not a valid key");
 	}
 	
-	function get($key) {
+	function & get($key) {
 		if (isset($this->fields[$key])) return $this->fields[$key]->get();
 		else error::fatal("configHandler::get - could not get '$key' because it is not a valid key");
 	}
@@ -83,21 +86,25 @@ class configNode {
 	
 	function configNode( $type, $key, $options = NULL) {
 		static $types = array('s','n','m','o','b');
-		/* s = string, n = numeric, m = mixed, o = other (like an object), b = bool */
-		if (!ereg("(.)(\[\]){0,1}",$type,$r))
-			error::fatal("configHandler::addAttr - '$type' is not a valid attribute type for key '$key'");
-		$this->type = $r[0];
-		if (!in_array($r[0],$types))
+		/* s = string, n = numeric, m = mixed, o = object, b = bool */
+		
+		if (!in_array($type,$types))
 			error::fatal("configHandler::addAttr - '$type' is not a valid attribute type for key '$key'");
 		if (!ereg("([A-Za-z0-9_-])",$key))
 			error::fatal("configHandler::addAttr - '$key' is not a valid key string");
-		if ($r[1]) $this->isarray = true;
-		if (is_array($options)) $this->options = $options;
+		if ($options == 'array') $this->isarray = true;
+		$this->type = $type;
+		$this->key = $key;
 		$this->val = NULL;
+		if (is_array($options)) {
+			foreach ($options as $opt) {
+				if (!$this->_validate($opt)) error::fatal("configHandler::newAttr - can not have '$opt' as an option for '$key': it does not match the type '$type'");
+			}
+			$this->options = $options;
+		}
 	}
 	
 	function set( & $val ) {
-		$e = false;
 		$c = array();
 		
 		// if we have a set number of options that we accept from the user, check if $val is one of them
@@ -110,23 +117,32 @@ class configNode {
 		if ($this->isarray) $c = & $val;
 		else $c[] = & $val;
 		if (!is_array($c)) error::fatal("configHandler::set - trying to set key '$this->key' to non-array when expecting array");
-		foreach ($c as $val) {
-			switch($this->type) {
-				case 's':
-					if (!is_string($val)) $e=true;
-					break;
-				case 'n':
-					if (!is_numeric($val)) $e=true;
-					break;
-				case 'b':
-					if (!($val === true || $val === false)) $e=true;
-					break;
-			}
+		foreach (array_keys($c) as $i) {
+			if (!$this->_validate($c[$i])) error::fatal("configHandler::set - trying to set '$this->key' to invalid value '$val' for type '$this->type'");
 		}
-		if ($e) error::fatal("configHandler::set - trying to set '$this->key' to invalid value '$val'");
 		if ($this->isarray)
 			$this->val = & $c;
 		else $this->val = & $c[0];
+		return true;
+	}
+	
+	function _validate( & $val ) {
+		$e = false;
+		switch($this->type) {
+			case 's':
+				if (!is_string($val)) $e=true;
+				break;
+			case 'n':
+				if (!is_numeric($val)) $e=true;
+				break;
+			case 'b':
+				if (!($val === true || $val === false)) $e=true;
+				break;
+			case 'o':
+				if (!is_object($val)) $e = true;
+				break;
+		}
+		if ($e) return false;
 		return true;
 	}
 	

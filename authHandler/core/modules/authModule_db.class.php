@@ -1,7 +1,7 @@
 <?
 
 // include necessary files
-require_once(basename(__FILE__)."/../../../adodb/adodb.inc.php");
+require_once(dirname(__FILE__)."/../../../adodb/adodb.inc.php");
 
 class authModule_db extends authModule {
 	var $_conn;
