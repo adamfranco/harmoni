@@ -4,7 +4,7 @@
  * Holds information about a specific version of a value index of a field in a {@link Record}. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object (usually a {@link Primitive}). 
  * @package harmoni.datamanager
- * @version $Id: RecordFieldData.class.php,v 1.4 2004/08/11 15:34:23 adamfranco Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.5 2004/08/11 15:40:59 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -42,8 +42,7 @@ class RecordFieldData {
 		
 		$date = $this->_date; // in PHP4 this will clone the DateTime
 		$newObj->setDate($date);
-		printDebugBacktrace();
-		$newObj->setValue($this->_primitive->clone());
+		$newObj->setValueFromPrimitive($this->_primitive->clone());
 		
 		$newObj->update();
 		
