@@ -4,8 +4,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @author Dobo Radichkov
- * @version $Id: test.php,v 1.4 2003/06/19 15:28:00 dobomode Exp $
+ * @version $Id: test.php,v 1.5 2003/06/19 18:28:07 adamfranco Exp $
  * @copyright 2003 
  **/
 

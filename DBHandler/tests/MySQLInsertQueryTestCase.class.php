@@ -7,8 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @author Dobo Radichkov
- * @version $Id: MySQLInsertQueryTestCase.class.php,v 1.4 2003/06/18 20:33:18 adamfranco Exp $
+ * @version $Id: MySQLInsertQueryTestCase.class.php,v 1.5 2003/06/19 18:28:06 adamfranco Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/

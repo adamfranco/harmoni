@@ -5,8 +5,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @author Dobo Radichkov
- * @version $Id: test.php,v 1.1 2003/06/16 20:01:08 dobomode Exp $
+ * @version $Id: test.php,v 1.2 2003/06/19 18:28:07 adamfranco Exp $
  * @copyright 2003 
  **/
 

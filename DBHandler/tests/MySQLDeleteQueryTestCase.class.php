@@ -7,8 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @author Dobo Radichkov
- * @version $Id: MySQLDeleteQueryTestCase.class.php,v 1.3 2003/06/18 22:27:46 dobomode Exp $
+ * @version $Id: MySQLDeleteQueryTestCase.class.php,v 1.4 2003/06/19 18:28:06 adamfranco Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/

@@ -9,8 +9,7 @@ require_once('Error.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @author Dobo Radichkov
- * @version $Id: ErrorHandlerTestCase.class.php,v 1.2 2003/06/18 20:48:45 adamfranco Exp $
+ * @version $Id: ErrorHandlerTestCase.class.php,v 1.3 2003/06/19 18:28:07 adamfranco Exp $
  * @package harmoni.errorhandler.tests
  * @copyright 2003 
  **/
