@@ -7,8 +7,8 @@ class IntegerDataType
 	
 	var $_value;
 	
-	function IntegerDataType() {
-		$this->_value = 0;
+	function IntegerDataType($value=0) {
+		$this->_value = $value;
 	}
 	
 	function setValueFromString( $string ) {

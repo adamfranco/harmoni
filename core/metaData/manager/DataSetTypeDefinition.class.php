@@ -110,6 +110,7 @@ class DataSetTypeDefinition {
 		foreach (array_keys($this->_fields) as $label) {
 			if ($includeInactive || $this->_fields[$label]->isActive()) $array[] = $label;
 		}
+		return $array;
 	}
 	
 	function &getFieldDefinition($label) {

@@ -4,7 +4,7 @@ require_once(HARMONI."metaData/manager/DataSetTypeManager.class.php");
 require_once(HARMONI."metaData/manager/DataTypeManager.class.php");
 require_once(HARMONI."metaData/manager/IDManager.class.php");
 require_once(HARMONI."metaData/manager/DataType.interface.php");
-//require_once(HARMONI."metaData/manager/DataSetManager.class.php");
+require_once(HARMONI."metaData/manager/DataSetManager.class.php");
 
 class HarmoniDataManager {
 	

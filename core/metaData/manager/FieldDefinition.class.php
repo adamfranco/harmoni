@@ -22,7 +22,7 @@ class FieldDefinition {
 		ArgumentValidator::validate($mult, new BooleanValidatorRule());
 		ArgumentValidator::validate($type, new StringValidatorRule());
 		ArgumentValidator::validate($label, new StringValidatorRule());
-		ArgumentValidator::validate($verControl, new BooleanValidatorRule());
+//		ArgumentValidator::validate($verControl, new BooleanValidatorRule());
 		$this->_dbID = null;
 		$this->_myID = null;
 		$this->_associated = false;

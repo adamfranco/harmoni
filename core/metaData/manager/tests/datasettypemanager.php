@@ -4,14 +4,16 @@ include "../../../../harmoni.inc.php";
 include "../IDManager.class.php";
 include "../DataSetTypeManager.class.php";
 //include HARMONI."oki/shared/HarmoniType.class.php";
-include HARMONI."debugHandler/NewWindowDebugHandlerPrinter.class.php";
+//include HARMONI."debugHandler/NewWindowDebugHandlerPrinter.class.php";
 
 print Harmoni::getVersionStr();
 debug::level(DEBUG_SYS5);
 
 $db =& Services::requireService("DBHandler");
 
-$dbid = $db->addDatabase( new MySQLDatabase("localhost","harmoni","root",file_get_contents("passwd")));
+$passwd = ereg_replace("[\n\r ]","",file_get_contents("passwd"));
+
+$dbid = $db->addDatabase( new MySQLDatabase("localhost","harmoni","root",$passwd));
 $db->connect($dbid);
 
 $idmanager =& new IDManager($dbid);
@@ -27,6 +29,7 @@ if ($_REQUEST['action'] == "addnew") {
 				$_REQUEST['description']);
 	
 	$definition =& $manager->newDataSetType($type);
+	$manager->synchronize($definition);
 	if ($definition) print "<p><b>Successfully added new type.</b>";
 }
 

@@ -1,6 +1,8 @@
 <?php
 
-class DataSetManager {
+require_once HARMONI."metaData/manager/DataSet.class.php";
+
+class DataSetManager extends ServiceInterface {
 	
 	var $_idManager;
 	var $_dbID;
@@ -25,7 +27,20 @@ class DataSetManager {
 	}
 	
 	function &newDataSet( &$type, $verControl = false ) {
+		if (!$this->_typeManager->dataSetTypeExists($type)) {
+			throwError ( new Error("DataSetManager::newDataSet('".OKITypeToString($type)."') - 
+			could not create new DataSet because the requested type does not seem to be registered
+			with the DataSetTypeManager.","DataSetManager",true));
+		}
 		
+		// ok, let's make a new one.
+		$typeDef =& $this->_typeManager->getDataSetTypeDefinition($type);
+		// load from the DB
+		$typeDef->load();
+		debug::output("Creating new DataSet of type '".OKITypeToString($type)."', which allows fields: ".implode(", ",$typeDef->getAllLabels()),DEBUG_SYS4,"DataSetManager");
+		$newDataSet =& new DataSet($this->_idManager, $this->_dbID, $typeDef, $verControl);
+		$newDataSet->setEditableFlag(true);
+		return $newDataSet;
 	}
 	
 	function getDataSetIDsOfType(&$type) {
@@ -36,7 +51,8 @@ class DataSetManager {
 		
 	}
 	
-	
+	function start() {}
+	function stop() {}
 	
 }
 

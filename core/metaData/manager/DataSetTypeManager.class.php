@@ -262,7 +262,7 @@ class DataSetTypeManager
 			unset($newType,$oldType);
 			
 			// now, check if the versionControl has changed.
-			$oldVctl = $oldField->getVersionControlFlag();
+/*			$oldVctl = $oldField->getVersionControlFlag();
 			$newVctl = $newField->getVersionControlFlag();
 
 			if ($oldVctl !== $newVctl) { 
@@ -272,7 +272,7 @@ class DataSetTypeManager
 				debug::output("Label '$label': setting version control flag to: ".(($newVctl)?"true":"false"),DEBUG_SYS5,"DataSetTypeManager");
 			}
 			unset($oldVctl, $newVctl);
-			
+*/			
 			// now let's check the mult
 			$oldMult = $oldField->getMultFlag();
 			$newMult = $newField->getMultFlag();
