@@ -4,7 +4,7 @@
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.6 2003/06/26 16:18:05 dobomode Exp $
+ * @version $Id: harmoni.inc.php,v 1.7 2003/06/26 20:46:44 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
@@ -38,3 +38,5 @@ require_once(HARMONI."errorHandler/throw.inc.php");
  **/
 $__services__ =& new Services();
 
+// load the Services registration config file
+require_once(HARMONI."config/services.cfg.php");
