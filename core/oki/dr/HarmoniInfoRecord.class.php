@@ -56,16 +56,19 @@ class HarmoniInfoRecord extends InfoRecord
 		$class = $fieldType."DataType";
 		$valueObj =& new $class($value);
 		
-		// If we dont' have an existing, deleted field to add to, create a new index.
-		if ($this->_dataSet->deleted($label)) {
-			$this->_dataSet->setValue($label, $valueObj, 0);
 		
-		// If the field is not multi-valued and not deleted, throw an error.
-		} else if ($this->_dataSet->deleted($label)) {
+		// If the value is deleted, add a new version to it.
+		if ($this->_dataSet->numValues($label) && $this->_dataSet->deleted($label)) {
+			$this->_dataSet->undeleteValue($label);
+			$this->_dataSet->setValue($label, $valueObj);
+		
+		// If the field is not multi-valued AND has a value AND that value is not deleted, 
+		// throw an error.
+		} else if (!$fieldDef->getMultFlag() && $this->_dataSet->numValues($label) && $this->_dataSet->getActiveValue($label)) {
 			throwError(new Error(PERMISSION_DENIED.": Can't add another field to a
 			non-multi-valued part.", "HarmoniInfoRecord", true));
 		
-		// If the value is deleted, add a new version to it.
+		// If we dont' have an existing, deleted field to add to, create a new index.
 		} else {
 			$this->_dataSet->setValue($label, $valueObj, NEW_VALUE);
 		}

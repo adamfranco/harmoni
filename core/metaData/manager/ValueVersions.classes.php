@@ -10,7 +10,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.27 2004/01/29 20:46:56 adamfranco Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.28 2004/01/30 15:40:09 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -172,22 +172,11 @@ class ValueVersions {
 		
 		// let's just set the value of the existing one.
 		// if we have an active version, set that one.
-		if ($this->hasActiveValue()) {
-			$actVer =& $this->getActiveVersion();
-		
-		// if we don't have an active version, but we do have a deleted one,
-		// activate the deleted one and set its value.
-		} else if ($this->numVersions()) {
-			$versions =& $this->getVersionList();
-			// get the first (and should be only, since we're not version-controlled) version.
-			$actVer =& $this->getVersion($versions[0]);
-			// Set the active flag.
-			$actVer->setActiveFlag(TRUE);
-			// Make sure we update the active flag in the DB even if the two 
-			// versions are equal
-			$actVer->update();
+		if (!$this->hasActiveValue()) {
+			$this->undelete();
 		}
 		
+		$actVer =& $this->getActiveVersion();
 		$actVal =& $actVer->getValue();
 		
 		if ($actVal && $actVal->isEqual($value)) return true;
@@ -383,7 +372,7 @@ class ValueVersions {
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.27 2004/01/29 20:46:56 adamfranco Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.28 2004/01/30 15:40:09 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
