@@ -9,6 +9,7 @@ require_once(HARMONI."oki/shared/HarmoniAgentIterator.class.php");
 require_once(HARMONI."oki/shared/HarmoniGroup.class.php");
 require_once(HARMONI."oki/shared/HarmoniTestId.class.php");
 require_once(HARMONI."oki/shared/HarmoniId.class.php");
+require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.php");
 
 /**
  * Properties is a mechanism for returning read-only data about an Agent.  Each
@@ -36,7 +37,7 @@ require_once(HARMONI."oki/shared/HarmoniId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.37 2004/08/26 15:10:35 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.38 2004/11/10 21:45:57 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -115,6 +116,11 @@ class HarmoniSharedManager
 		
 		$this->_allAgentsCached = false;
 		$this->_allGroupsCached = false;
+		
+		// initialize our Agent Search Types
+		$this->_agentSearches = array ();
+		$this->_agentSearches["Agent & Group Search::Middlebury::HarmoniAgentExists"] =&
+			new HarmoniAgentExistsSearch;
 	}
 
     /**
@@ -377,6 +383,49 @@ class HarmoniSharedManager
 		return $result;
 	}
 	
+	/**
+	 * Get all the Agents with the specified search criteria and search Type.
+	 *
+	 * This method is defined in v.2 of the OSIDs.
+	 * 
+	 * @param mixed $searchCriteria
+	 * @param object Type $agentSearchType
+	 * @return object AgentIterator
+	 * @access public
+	 * @date 11/10/04
+	 */
+	function &getAgentsBySearch ( & $searchCriteria, & $agentSearchType ) {
+		$typeString = $agentSearchType->getDomain()
+						."::".$agentSearchType->getAuthority()
+						."::".$agentSearchType->getKeyword();
+		
+		// get the Agent Search object
+		if (!$agentSearch =& $this->_agentSearches[$typeString])
+			throwError(new Error("Unknown AgentSearchType, '".$typeString."'.","AgentManager",true));
+		
+		return $agentSearch->getAgentsBySearch($searchCriteria); 
+	}
+	
+	/**
+	 * Get all the agent search Types supported by this implementation.
+	 *
+	 * This method is defined in v.2 of the OSIDs.
+	 * 
+	 * @return object TypeIterator
+	 * @access public
+	 * @date 11/10/04
+	 */
+	function &getAgentSearchTypes () {
+		$types = array();
+		// Break our search type keys on "::" and create type objects
+		// to return.
+		foreach (array_keys($this->_agentSearches) as $typeString) {
+			$parts = explode("::", $typeString);
+			$types[] =& new HarmoniType($parts[0], $parts[1], $parts[2]);
+		}
+		
+		return new HarmoniIterator($types);
+	}
 	
 	/**
 	 * A private function that can be used by either getAgent or getAgents. Loads
