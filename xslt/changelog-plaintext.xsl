@@ -64,6 +64,7 @@ v. <xsl:value-of select="@number" /><xsl:if test="@date!=''"> (<xsl:value-of sel
 ///////////////////////////////////////////////////////////////////////
 -->
 <xsl:template name="entry">
+	<xsl:if test="@ref">(<xsl:value-of select="@ref" />) </xsl:if>
 	<xsl:value-of select="normalize-space(translate(.,'&#10;',''))" />
 	<xsl:if test="@author">
 		<xsl:variable name="short" select="@author"/>
