@@ -12,7 +12,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ThemesTestCase.class.php,v 1.3 2005/01/17 05:03:36 dobomode Exp $
+ * @version $Id: ThemesTestCase.class.php,v 1.4 2005/01/19 04:54:36 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -117,6 +117,15 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 			$theme->importRegisteredSP($id3, $exportData3);
 			$this->assertIdentical($sp3, $sp3_copy);
 
+			// ***
+			
+			$bodyStyle =& new StyleCollection("body", "hey", "Body Style", "Global style settings.");
+			$bodyStyle->addSP($sp2);
+
+			$theme->addGlobalStyle($bodyStyle);
+			$theme->importRegisteredSP($id2, array("#AAA"));
+			$sp2a =& $bodyStyle->_SPs["color"];
+			$this->assertIdentical($sp2a->_SCs[0]->getValue(), "#AAA");
 
 		}
 	

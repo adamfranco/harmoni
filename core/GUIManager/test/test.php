@@ -4,7 +4,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.5 2004/07/22 16:31:55 dobomode Exp $
+ * @version $Id: test.php,v 1.6 2005/01/19 04:54:36 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -25,6 +25,12 @@
 
 	$errorHandler =& Services::requireService("ErrorHandler",true);
 	
+	$dbHandler =& Services::requireService("DBHandler",true);
+	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
+	$dbHandler->pConnect($dbIndex);
+	Services::startService("Shared", $dbIndex, "doboHarmoniTest");
+	$errorHandler->setDebugMode(TRUE);
+
     if (!defined('SIMPLE_TEST')) {
         define('SIMPLE_TEST', HARMONI.'simple_test/');
     }
@@ -38,6 +44,7 @@
     $test->addTestFile(HARMONI.'GUIManager/test/StyleCollectionsTestCase.class.php');
     $test->addTestFile(HARMONI.'GUIManager/test/ComponentsTestCase.class.php');
     $test->addTestFile(HARMONI.'GUIManager/test/ThemesTestCase.class.php');
+    $test->addTestFile(HARMONI.'GUIManager/test/GUIManagerTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 	

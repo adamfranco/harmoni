@@ -1,55 +1,22 @@
 <?php
 
-require_once(HARMONI."GUIManager/GUIManager.interface.php");
-require_once(HARMONI."GUIManager/Theme.class.php");
-require_once(HARMONI."GUIManager/StyleComponent.class.php");
-require_once(HARMONI."GUIManager/StyleProperty.class.php");
-require_once(HARMONI."GUIManager/Component.class.php");
+require_once(HARMONI."GUIManager/Theme.interface.php");
+require_once(HARMONI."GUIManager/StyleComponent.interface.php");
+require_once(HARMONI."GUIManager/StyleProperty.interface.php");
+require_once(HARMONI."GUIManager/Component.interface.php");
+require_once(HARMONI."GUIManager/Layout.interface.php");
+
 
 /**
- * An implmentation of the GUIManagerInterface. This implementation
- * is pretty straightforward and does not maintain any sort of caching
- * data structures. Theme states are dealt with on the fly whenever one of 
- * the load/replace/save/delete methods is called.<br /><br />
- * This class provides methods for theme management: saving/loading of theme state,
+ * This interface provides methods for theme management: saving/loading of theme state,
  * obtaining information about supported GUI components, etc.
- * @version $Id: GUIManager.class.php,v 1.5 2005/01/19 04:54:01 dobomode Exp $
+ * @version $Id: GUIManager.interface.php,v 1.1 2005/01/19 04:54:02 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
  * @access public
  **/
-class GUIManager extends GUIManagerInterface {
-
-	/**
-	 * The database connection as returned by the DBHandler.
-	 * @attribute protected integer _dbIndex
-	 */
-	var $_dbIndex;
-
-	
-	/**
-	 * The name of the GUIMAnager database.
-	 * @attribute protected string _guiDB
-	 */
-	var $_guiDB;
-	
-	/**
-	 * Constructor
-	 * @param integer dbIndex The database connection to use as returned by the DBHandler.
-	 * @param string guiDB The name of the GUIManager database.
-	 * manager.
-	 * @access public
-	 */
-	function GUIManager($dbIndex, $guiDB) {
-		// ** parameter validation
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($guiDB, new StringValidatorRule(), true);
-		// ** end of parameter validation
-		
-		$this->_dbIndex = $dbIndex;
-		$this->_guiDB = $guiDB;
-	}	
+class GUIManagerInterface {
 
 	/**
 	 * Returns a list of themes supported by the GUIManager.
@@ -153,49 +120,7 @@ class GUIManager extends GUIManagerInterface {
 	 * @return ref object A HarmoniId objecting identifying the saved state uniquely.
 	 **/
 	function &saveThemeState(& $theme) {
-		// ** parameter validation
-		ArgumentValidator::validate($theme, new ExtendsValidatorRule("ThemeInterface"), true);
-		// ** end of parameter validation
-
-		$exportData = $theme->exportAllRegisteredSPs();
-		
-		if (count($exportData) == 0) {
-		    // no theme state to save
-			$err = "Attempted to save a theme with no intrinsic state.";
-			throwError(new Error($err, "GUIManager", false));
-			return;
-		}
-		
-		// create the theme state to go into the database.
-		$themeState = serialize($exportData);
-		
-		// 1. create an id for the theme state
-		$sharedManager =& Services::requireService("Shared");
-		$id =& $sharedManager->createId();
-		$idValue = $id->getIdString();
-		// 2. now simply insert the theme state
-		$db = $this->_guiDB.".";
-		$dbHandler =& Services::requireService("DBHandler");
-		$query =& new InsertQuery();
-		$query->setTable($db."gui");
-		$columns = array();
-		$columns[] = $db."gui.gui_id";
-		$columns[] = $db."gui.gui_theme";
-		$columns[] = $db."gui.gui_state";
-		$query->setColumns($columns);
-		$values = array();
-		$values[] = "'".addslashes($idValue)."'";
-		$values[] = "'".addslashes(get_class($theme))."'";
-		$values[] = "'".addslashes($themeState)."'";
-		$query->setValues($values);
-		
-//		echo "<pre>\n";
-//		echo MySQL_SQLGenerator::generateSQLQuery($query);
-//		echo "</pre>\n";
-		
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		
-		return $id;		
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
 	/**
@@ -219,46 +144,8 @@ class GUIManager extends GUIManagerInterface {
 	 * @param ref object theme The theme whose state needs to be loaded.
 	 **/
 	function loadThemeState(& $stateId, & $theme) {
-		// ** parameter validation
-		ArgumentValidator::validate($theme, new ExtendsValidatorRule("ThemeInterface"), true);
-		ArgumentValidator::validate($stateId, new ExtendsValidatorRule("HarmoniId"), true);
-		// ** end of parameter validation
-		
-		// get the theme state from the database
-		$db = $this->_guiDB.".";
-		$dbHandler =& Services::requireService("DBHandler");
-		$idValue = $stateId->getIdString();
-		$query =& new SelectQuery();
-		$query->addColumn("gui_theme", "theme", $db."gui");
-		$query->addColumn("gui_state", "state", $db."gui");
-		$query->addTable($db."gui");
-		$query->addWhere($db."gui.gui_id = ".$idValue);
-
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		
-		if ($queryResult->getNumberOfRows() != 1) {
-			$err = "None or more than one theme states were returned.";
-			throwError(new Error($err, "GUIManager", true));
-		}
-		
-		$queryResult->bindField("theme", $themeName);
-		$queryResult->bindField("state", $themeState);
-		$row = $queryResult->getCurrentrow();
-		
-		if ($themeName != get_class($theme)) {
-			$err = "Attempted to load an incomptaible theme state (the theme state was saved for a different theme class).";
-			throwError(new Error($err, "GUIManager", true));
-		}
-		
-		// now import the theme state
-		$importData = unserialize($themeState);
-//		printpre($importData);
-		
-		foreach ($importData as $id => $data)
-			$theme->importRegisteredSP($id, $data);
-		
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
-
 	
 	/**
 	 * Deletes the theme state with the given id from the database. Notice that
@@ -270,7 +157,6 @@ class GUIManager extends GUIManagerInterface {
 	function deleteThemeState(& $id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
-
 }
 
 ?>
