@@ -10,4 +10,4 @@ require_once(dirname(__FILE__)."/core/modules/inc.php");
 require_once(dirname(__FILE__)."/../configHandler/inc.php");
 
 // requires the errorHandler
-require_once(dirname(__FILE__)."/../errorHandler/inc.php");
+//require_once(dirname(__FILE__)."/../errorHandler/inc.php");

@@ -1,10 +1,10 @@
 <?php
 
-require_once("Queue.interface.php");
+require_once(dirname(__FILE__)."/Queue.interface.php");
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.class.php,v 1.6 2003/06/20 01:29:35 dobomode Exp $
+ * @version $Id: Queue.class.php,v 1.7 2003/06/22 23:06:56 gabeschine Exp $
  * @copyright 2003 
  */
 

@@ -36,10 +36,17 @@ print "<br>";
 print "Creating new configHandler and passing it to 'anObject': ";
 $t = & new configHandler();
 $c->set("anObject",&$t);
+$t->addAttr("string:s");
 print_r($c->get("anObject"));
 print "<br>";
 // the following line should throw an error
 #$c->set("anObject",array("bla"));
+
+$num1 = 5;
+$c->set("number1", & $num1);
+$num2 = & $c->get("number1");
+$num1 = 7;
+print "$num1 - $num2<BR>";
 
 print "<pre>";
 print_r($c);
