@@ -20,7 +20,7 @@ require_once(HARMONI.'/oki/hierarchy2/DefaultNodeType.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchy.class.php,v 1.5 2004/06/14 03:34:31 dobomode Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.6 2004/06/22 15:23:08 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -228,7 +228,7 @@ class HarmoniHierarchy extends Hierarchy {
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
 		$stringRule =& new StringValidatorRule();
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
@@ -264,7 +264,7 @@ class HarmoniHierarchy extends Hierarchy {
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($parentId, new ExtendsValidatorRule("Id"), true);
 		$stringRule =& new StringValidatorRule();
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation

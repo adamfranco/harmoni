@@ -25,7 +25,7 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.4 2004/06/14 03:34:31 dobomode Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.5 2004/06/22 15:23:09 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -185,7 +185,8 @@ class HarmoniHierarchyManager extends HierarchyManager {
 		$row = $queryResult->getCurrentrow();
 
 		$idValue =& $row['id'];
-		$id =& new HarmoniId($idValue);
+		$shared_manager =& Services::requireService("Shared");
+		$id =& $shared_manager->getId($idValue);
 		$allowsMultipleParents = ($row['multiparent'] == '1');
 		
 		$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
@@ -227,6 +228,8 @@ class HarmoniHierarchyManager extends HierarchyManager {
 		
 		$hierarchies = array();
 		
+		$shared_manager =& Services::requireService("Shared");
+
 		while ($queryResult->hasMoreRows()) {
 			$row = $queryResult->getCurrentrow();
 	
@@ -236,7 +239,7 @@ class HarmoniHierarchyManager extends HierarchyManager {
 			if (isset($this->_hierarchies[$idValue]))
 				$hierarchy =& $this->_hierarchies[$idValue];
 			else {
-				$id =& new HarmoniId($idValue);
+				$id =& $shared_manager->getId($idValue);
 				$allowsMultipleParents = ($row['multiparent'] == '1');
 		
 				$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
@@ -334,12 +337,20 @@ class HarmoniHierarchyManager extends HierarchyManager {
 		$query->addWhere($where);
 		
 		$nodeQueryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		if ($nodeQueryResult->getNumberOfRows() != 1) {
+			$err = "Exactly one row should be returned!";
+			throwError(new Error($err, "Hierarchy", true));
+		}
+		
 		$nodeRow = $nodeQueryResult->getCurrentRow();
+
+		$shared_manager =& Services::requireService("Shared");
 
 		$hierarchyId = $nodeRow['hierarchy_id'];
 
 		// get the hierarchy
-		$hierarchy =& $this->getHierarchy(new HarmoniId($hierarchyId));
+		$hierarchy =& $this->getHierarchy($shared_manager->getId($hierarchyId));
 		
 	    $node =& $hierarchy->getNode($id);
 

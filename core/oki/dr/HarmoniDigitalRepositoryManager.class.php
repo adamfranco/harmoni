@@ -80,7 +80,7 @@ class HarmoniDigitalRepositoryManager
 		// Argument Validation
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate($digitalRepositoryType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($digitalRepositoryType, new ExtendsValidatorRule("TypeInterface"));
 		
 		// Create an Id for the digital Repository Node
 		$sharedManager =& Services::getService("Shared");
@@ -450,5 +450,6 @@ class HarmoniDigitalRepositoryManager
  }
 
 }
+
 
 ?>

@@ -8,7 +8,7 @@ require_once(HARMONI.'oki/authorization/DefaultQualifierType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: QualifierTestCase.class.php,v 1.1 2004/06/14 03:38:19 dobomode Exp $
+ * @version $Id: QualifierTestCase.class.php,v 1.2 2004/06/22 15:23:08 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -35,6 +35,14 @@ class HarmoniQualifierTestCase extends UnitTestCase {
 		$this->cache =& new HierarchyCache("6794", true, $dbIndex, "doboHarmoniTest");
 		$this->node =& $this->cache->getNode("6800");
 		$this->qualifier =& new HarmoniQualifier($this->node, new AuthorizationCache($dbIndex, "doboHarmoniTest"));
+
+		$hierarchyManager =& Services::requireService("Hierarchy");
+		$hierarchy =& $hierarchyManager->getHierarchy(new HarmoniId("6794"));
+		echo "<pre>\n";
+		print_r(array_keys($hierarchy->_cache->_tree->_nodes));
+		echo "</pre>\n";
+		ob_flush();
+		ob_start();
     }
 
 	function test_constructor() {

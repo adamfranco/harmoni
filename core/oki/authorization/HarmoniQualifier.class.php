@@ -3,6 +3,7 @@
 require_once(OKI."/authorization.interface.php");
 require_once(HARMONI.'oki/hierarchy2/HarmoniNode.class.php');
 require_once(HARMONI.'oki/authorization/AuthorizationCache.class.php');
+require_once(HARMONI.'oki/authorization/DefaultQualifierType.class.php');
 require_once(HARMONI.'oki/authorization/HarmoniQualifierIterator.class.php');
 
 /**
@@ -50,7 +51,8 @@ class HarmoniQualifier extends Qualifier {
 	 * @package harmoni.osid.authorization
 	 */
 	function & getId() {
-		return $this->_node->getId();
+		$id =& $this->_node->getId();
+		return $id;
 	}
 
 
@@ -141,7 +143,6 @@ class HarmoniQualifier extends Qualifier {
 	}
 
 
-
 	/* :: full java declaration :: void addParent(osid.shared.Id parentQualifierId)
 	/**
 	 * Removes a parent from this Qualifier.  If this is the last parent the delete will fail and an AuthorizationException will be thrown.  For a non-Root Qualifier there must always be a parent.
@@ -152,7 +153,6 @@ class HarmoniQualifier extends Qualifier {
 	function removeParent(& $parentQualifierId) {
 		$this->_node->removeParent($parentQualifierId);
 	}
-
 
 
 	/* :: full java declaration :: void removeParent(osid.shared.Id parentQualifierId)
@@ -291,6 +291,7 @@ class HarmoniQualifier extends Qualifier {
 		
 		return new HarmoniQualifierIterator($result);
 	}
+	
 }
 
 ?>

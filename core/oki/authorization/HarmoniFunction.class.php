@@ -75,7 +75,7 @@ class HarmoniFunction extends FunctionInterface {
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($referenceName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
-		$extendsRule =& new ExtendsValidatorRule("HarmoniId");
+		$extendsRule =& new ExtendsValidatorRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
 		ArgumentValidator::validate($qualifierHierarchyId, $extendsRule, true);
 		$extendsRule =& new ExtendsValidatorRule("HarmoniType");

@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchy.class.php,v 1.27 2004/04/22 14:53:17 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.28 2004/06/22 15:23:08 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -59,7 +59,7 @@ class HarmoniHierarchy
 		// Check the arguments
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
 		if (count($nodeTypes))
-			ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
+			ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("TypeInterface")));
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
 		ArgumentValidator::validate($hierarchyStore, new ExtendsValidatorRule("HierarchyStore"));
@@ -202,7 +202,7 @@ class HarmoniHierarchy
 		// Check the arguments
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"));
 		ArgumentValidator::validate($parentId, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"));
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
 		
@@ -282,7 +282,7 @@ class HarmoniHierarchy
 	 */
 	function addNodeType(& $nodeType) {
 		// Check the arguments
-		ArgumentValidator::validate($nodeType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($nodeType, new ExtendsValidatorRule("TypeInterface"));
 		
 		// Throw an error if the nodeType has already been added.
 		$nodeTypes =& $this->getNodeTypes();
@@ -314,7 +314,7 @@ class HarmoniHierarchy
 	 */
 	function removeNodeType(& $nodeType) {
 		// Check the arguments
-		ArgumentValidator::validate($nodeType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($nodeType, new ExtendsValidatorRule("TypeInterface"));
 		
 		// Throw an error if the nodeType is in use.
 		$nodeIterator =& $this->getAllNodes();

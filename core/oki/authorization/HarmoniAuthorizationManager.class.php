@@ -1,11 +1,15 @@
 <?php
 
+require_once(OKI."/authorization.interface.php");
 require_once(HARMONI.'oki/authorization/AuthorizationCache.class.php');
+require_once(HARMONI.'oki/authorization/HarmoniFunction.class.php');
+require_once(HARMONI.'oki/authorization/HarmoniAuthorization.class.php');
+require_once(HARMONI.'oki/authorization/HarmoniQualifier.class.php');
 
 /**
  * AuthorizationManager allows an application to create Authorizations, get Authorizations given selection criterias, ask questions of Authorization such as what Agent can do a Function in a Qualifier context, etc.<p><p>The primary objects in Authorization are Authorization, Function, Agent, and Qualifier. There are also Function and Qualifier types that are understood by the implementation.<p><p>Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p><p>There are two methods to create Authorizations. One uses method uses Agent, Function, and Qualifier.  The other adds effective date and expiration date.  For the method without the dates, the effective date is today and there is no expiration date.  <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * @access public
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.5 2004/06/14 03:34:31 dobomode Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.6 2004/06/22 15:23:07 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @package harmoni.osid.authorization
@@ -32,24 +36,25 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 		ArgumentValidator::validate($authzDB, new StringValidatorRule(), true);
 		// ** end of parameter validation
 		
-		$this->_dbIndex = $dbIndex;
-		$this->_sharedDB = $sharedDB;
 		$this->_cache =& new AuthorizationCache($dbIndex, $authzDB);
 	}	
 
 
 	/**
 	 * Creates a new Authorization for an Agent performing a Function with a Qualifier Id.
-	 * @param object agentId who is authorized to perform this Function for this Qualifer and its descendants
-	 * @param object functionId the Id of the Function for this Authorization
-	 * @param object qualifierId the Id of the Qualifier for this Authorization
-	 * @param object effectiveDate when the Authorization becomes effective
-	 * @param object expirationDate when the Authorization stops being effective
-	 * @return object Authorization
+	 * @param ref object agentId who is authorized to perform this Function for this Qualifer and its descendants
+	 * @param ref object functionId the Id of the Function for this Authorization
+	 * @param ref object qualifierId the Id of the Qualifier for this Authorization
+	 * @param ref object effectiveDate when the Authorization becomes effective
+	 * @param ref object expirationDate when the Authorization stops being effective
+	 * @return ref object Authorization
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
 	 * @package harmoni.osid.authorization
 	 */
-	function & createDatedAuthorization(& $agentId, & $functionId, & $qualifierId, & $effectiveDate, & $expirationDate) { /* :: interface :: */ }
+	function & createDatedAuthorization(& $agentId, & $functionId, & $qualifierId, & $effectiveDate, & $expirationDate) {
+		$authorization =& $this->_cache->createAuthorization($agentId, $functionId, $qualifierId, $effectiveDate, $expirationDate);
+		return $authorization;
+	}
 
 
 
@@ -62,7 +67,10 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function & createAuthorization(& $agentId, & $functionId, & $qualifierId) { /* :: interface :: */ }
+	function & createAuthorization(& $agentId, & $functionId, & $qualifierId) {
+		$authorization =& $this->_cache->createAuthorization($agentId, $functionId, $qualifierId);
+		return $authorization;
+	}
 
 
 
@@ -77,7 +85,10 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function & createFunction(& $functionId, $displayName, $description, & $functionType, & $qualifierHierarchyId) { /* :: interface :: */ }
+	function & createFunction(& $functionId, $displayName, $description, & $functionType, & $qualifierHierarchyId) {
+		$function =& $this->_cache->createFunction($functionId, $displayName, $description, $functionType, $qualifierHierarchyId);
+		return $function;
+	}
 
 
 
@@ -92,8 +103,11 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.authorization
 	 */
-	function & createRootQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $qualifierHierarchyId) { /* :: interface :: */ }
-
+	function & createRootQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $qualifierHierarchyId) {
+		$qualifier =& $this->_cache->createRootQualifier($qualifierId, $displayName, 
+								$description, $qualifierType, $qualifierHierarchyId);
+		return $qualifier;
+	}
 
 
 	/* :: full java declaration :: Qualifier createRootQualifier
@@ -107,17 +121,22 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.authorization
 	 */
-	function & createQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $parentId) { /* :: interface :: */ }
+	function & createQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $parentId) {
+		$qualifier =& $this->_cache->createQualifier($qualifierId, $displayName, $description, $qualifierType, $parentId);
+		return $qualifier;
+	}
 
 
 
 	/* :: full java declaration :: Qualifier createQualifier
 	 * Deletes an existing Authorization.
-	 * @param object authorizationId the Id of an Authorization
+	 * @param object authorization the Authorization
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function deleteAuthorization(& $authorizationId) { /* :: interface :: */ }
+	function deleteAuthorization(& $authorization) {
+		$this->_cache->deleteAuthorization($authorization);
+	}
 
 
 	/* :: full java declaration :: void deleteAuthorization(osid.shared.Id authorizationId)
@@ -127,18 +146,22 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function deleteFunction(& $functionId) { /* :: interface :: */ }
+	function deleteFunction(& $functionId) { 
+		$this->_cache->deleteFunction($functionId);
+	}
 
 
 
 	/* :: full java declaration :: void deleteFunction(osid.shared.Id functionId)
 	/**
 	 * Delete a Qualifier by Id.  The last root Qualifier cannot be deleted.
-	 * @param object qualifierId the Id of a Qualifer
+	 * @param ref object qualifierId the Id of a Qualifer
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#CANNOT_DELETE_LAST_ROOT_QUALIFIER CANNOT_DELETE_LAST_ROOT_QUALIFIER}
 	 * @package harmoni.osid.authorization
 	 */
-	function deleteQualifier(& $qualifierId) { /* :: interface :: */ }
+	function deleteQualifier(& $qualifierId) {
+		$this->_cache->deleteQualifier($qualifierId);
+	}
 
 
 

@@ -3,11 +3,13 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.4 2004/06/14 03:34:31 dobomode Exp $
+ * @version $Id: test.php,v 1.5 2004/06/22 15:23:08 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003 
  **/
  
+define("LOAD_DR", false);
+
 require_once dirname(__FILE__)."/../../../../core/utilities/Timer.class.php";
 $timer =& new Timer;
 $timer->start();
@@ -40,7 +42,7 @@ $harmonyLoadupTimer->end();
     $test =& new GroupTest('Authorization Tests');
 	$test->addTestFile(HARMONI.'/oki/authorization/tests/FunctionTestCase.class.php');
     $test->addTestFile(HARMONI.'/oki/authorization/tests/QualifierTestCase.class.php');
-    $test->addTestFile(HARMONI.'/oki/authorization/tests/AuthorizationTestCase.class.php');
+//    $test->addTestFile(HARMONI.'/oki/authorization/tests/AuthorizationTestCase.class.php');
     $test->addTestFile(HARMONI.'/oki/authorization/tests/AuthorizationManagerTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();

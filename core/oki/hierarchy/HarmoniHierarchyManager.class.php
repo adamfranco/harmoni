@@ -31,7 +31,7 @@ define("MEMORY_ONLY", 1001);
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.22 2004/05/13 18:31:01 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.23 2004/06/22 15:23:08 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -127,7 +127,7 @@ class HarmoniHierarchyManager
 		ArgumentValidator::validate($description, new StringValidatorRule);
 		ArgumentValidator::validate($name, new StringValidatorRule);
 		if ($nodeTypes != NULL)
-			ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
+			ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("TypeInterface")));
 		ArgumentValidator::validate($allowsRecursion, new BooleanValidatorRule);
 		
 		// if allowsMultipleParents is false and allowsRecursion is true

@@ -14,7 +14,7 @@ require_once(OKI."/hierarchy.interface.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.19 2004/05/20 20:49:02 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.20 2004/06/22 15:23:08 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -63,7 +63,7 @@ class HarmoniNode
 /* 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id")); */
 /* 		ArgumentValidator::validate($hierarchyStore, new ExtendsValidatorRule("HierarchyStore")); */
 /* 		if ($type !== NULL) */
-/* 			ArgumentValidator::validate($type, new ExtendsValidatorRule("Type")); */
+/* 			ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface")); */
 /* 		ArgumentValidator::validate($displayName, new StringValidatorRule); */
 /* 		ArgumentValidator::validate($description, new StringValidatorRule); */
 		

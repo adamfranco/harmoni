@@ -18,7 +18,7 @@ class HarmoniAuthorization extends Authorization {
 	
 	/**
 	 * The Id of this Authorization.
-	 * @attribute private object _id
+	 * @attribute protected object _id
 	 */
 	var $_id;
 	
@@ -84,8 +84,7 @@ class HarmoniAuthorization extends Authorization {
 	 * @access public
 	 */
 	function HarmoniAuthorization(& $id, & $agentId, & $functionId, & $qualifierId, 
-							      & $effectiveDate, & $expirationDate, $explicit,
-								    $dbIndex, $authzDB) {
+							      $explicit, $cache, & $effectiveDate, & $expirationDate) {
 
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("Id");
@@ -97,15 +96,15 @@ class HarmoniAuthorization extends Authorization {
 		ArgumentValidator::validate($effectiveDate, new OptionalRule($extendsRule), true);
 		ArgumentValidator::validate($expirationDate, new OptionalRule($extendsRule), true);
 		ArgumentValidator::validate($explicit, new BooleanValidatorRule(), true);
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($authzDB, new StringValidatorRule(), true);
+		ArgumentValidator::validate($cache, new ExtendsValidatorRule("AuthorizationCache"), true);
+		// ** end of parameter validation
 		
 		// make sure effective date is before expiration date
-		if (DateTime::compare($effectiveDate, $expirationDate) < 0) {
-			$str = "The effective date must be before the expiration date.";
-			throwError(new Error($str, "Authorization", true));
-		}
-		// ** end of parameter validation
+		if (isset($effectiveDate) && isset($expirationDate))
+			if (DateTime::compare($effectiveDate, $expirationDate) < 0) {
+				$str = "The effective date must be before the expiration date.";
+				throwError(new Error($str, "Authorization", true));
+			}
 
 		$this->_id =& $id;
 		$this->_agentId =& $agentId;
@@ -116,7 +115,7 @@ class HarmoniAuthorization extends Authorization {
 		if (isset($expirationDate))
 			$this->_expirationDate =& $expirationDate;
 		$this->_explicit = $explicit;
-		$this->_cache =& new AuthorizationCache($dbIndex, $authzDB);
+		$this->_cache =& $cache;
 	}	
 	
 	

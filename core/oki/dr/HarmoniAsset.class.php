@@ -48,7 +48,7 @@ class HarmoniAsset
 		$this->_configuration =& $configuration;
 		$this->_versionControlAll = ($configuration['versionControlAll'])?TRUE:FALSE;
 		if (is_array($configuration['versionControlTypes'])) {
-			ArgumentValidator::validate($configuration['versionControlTypes'], new ArrayValidatorRuleWithRule( new ExtendsValidatorRule("Type")));
+			ArgumentValidator::validate($configuration['versionControlTypes'], new ArrayValidatorRuleWithRule( new ExtendsValidatorRule("TypeInterface")));
 			$this->_versionControlTypes =& $configuration['versionControlTypes'];
 		} else {
 			$this->_versionControlTypes = array();
@@ -1004,5 +1004,4 @@ class HarmoniAsset
 	}
 
 } // end Asset
-
 ?>

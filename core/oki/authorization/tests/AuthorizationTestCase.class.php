@@ -7,7 +7,7 @@ require_once(HARMONI.'oki/authorization/HarmoniAuthorization.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AuthorizationTestCase.class.php,v 1.1 2004/06/14 03:38:19 dobomode Exp $
+ * @version $Id: AuthorizationTestCase.class.php,v 1.2 2004/06/22 15:23:08 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -38,8 +38,10 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 		$this->authzId =& new HarmoniId("16");
 		$this->date1 =& new DateTime(1981, 10, 24);
 		$this->date2 =& new DateTime(2004, 6, 25);
+
 		$this->authorization =& new HarmoniAuthorization($this->authzId, $this->agentId, $this->functionId, $this->qualifierId, 
-				$this->date1, $this->date2, false, $dbIndex, "doboHarmoniTest");
+				false, new AuthorizationCache($dbIndex, "doboHarmoniTest"), $this->date1, $this->date2);
+
     }
 
 	function test_constructor() {
@@ -111,6 +113,8 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 		$this->assertIdentical($type->getDescription(), $deftype->getDescription());
 		
 		$this->assertReference($qualifier, $this->authorization->_cache->_qualifiers['6796']);
+		
+		$qualifier->_node->_cache->clearCache();
 	}
 	
     /**
@@ -118,7 +122,8 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
      *    @public
      */
     function tearDown() {
-		// perhaps, unset $obj here
+		$this->authorization = null;
+		unset($this->authorization);
     }
 
 

@@ -112,7 +112,7 @@ class HarmoniAuthenticationManager
 	 */
 	function authenticateUser(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
@@ -156,7 +156,7 @@ class HarmoniAuthenticationManager
 	 */
 	function isUserAuthenticated(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
@@ -193,7 +193,7 @@ class HarmoniAuthenticationManager
 	 */
 	function & getUserId(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
@@ -301,7 +301,7 @@ class HarmoniAuthenticationManager
 	 */
 	function destroyAuthenticationForType(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->authTypes[$key]->isEqual($authenticationType)) {

@@ -27,7 +27,7 @@ require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
  * 
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
- * @version $Id: HierarchyCache.class.php,v 1.9 2004/06/14 03:34:31 dobomode Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.10 2004/06/22 15:23:09 dobomode Exp $
  * @package harmoni.osid.hierarchy2
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -361,11 +361,13 @@ class HierarchyCache {
 		
 		$result = array();
 
+		$shared_manager =& Services::requireService("Shared");
+
 		while ($nodeQueryResult->hasMoreRows()) {
 			$nodeRow = $nodeQueryResult->getCurrentRow();
 			$idValue =& $nodeRow['id'];
 			
-			$id =& new HarmoniId($idValue);
+			$id =& $shared_manager->getId($idValue);
 			$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
 									  $nodeRow['keyword'], $nodeRow['type_description']);
 		    $node =& new HarmoniNode($id, $type, 
@@ -387,6 +389,8 @@ class HierarchyCache {
 	 **/
 	function & getAllNodes() {
 		$dbHandler =& Services::requireService("DBHandler");
+		$shared_manager =& Services::requireService("Shared");
+
 		$db = $this->_hyDB.".";
 		$query =& new SelectQuery();
 		$query->addColumn("node_id", "id", $db."node");
@@ -429,8 +433,11 @@ class HierarchyCache {
 				$tn =& new TreeNode($idValue);
 			
 			// 2) create a TreeNode for the parent node, if necessary
-			if (is_null($parentIdValue))
+			if (is_null($parentIdValue)) {
+				unset($parent_tn); // this line is very important (without it, the previous 
+								// instance of $parent_tn will be reset to null
 				$parent_tn = null;
+			}
 			else if ($this->_tree->nodeExists($parentIdValue))
 				$parent_tn =& $this->_tree->getNode($parentIdValue);
 			else {
@@ -441,7 +448,7 @@ class HierarchyCache {
 			$this->_tree->addNode($tn, $parent_tn);
 
 			// 4) update cache of hierarchy nodes
-			$id =& new HarmoniId($idValue);
+			$id =& $shared_manager->getId($idValue);
 			$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
 									  $nodeRow['keyword'], $nodeRow['type_description']);
 		    $node =& new HarmoniNode($id, $type, 
@@ -466,6 +473,7 @@ class HierarchyCache {
 	 **/
 	function getRootNodes() {
 		$dbHandler =& Services::requireService("DBHandler");
+		$shared_manager =& Services::requireService("Shared");
 		$db = $this->_hyDB.".";
 
 		// copy _nodeQuery into a new object
@@ -490,7 +498,7 @@ class HierarchyCache {
 			$idValue =& $nodeRow['id'];
 			
 			if (!$this->_isCached($idValue)) {
-				$id =& new HarmoniId($idValue);
+				$id =& $shared_manager->getId($idValue);
 				$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
 										  $nodeRow['keyword'], $nodeRow['type_description']);
 			    $node =& new HarmoniNode($id, $type, 
@@ -586,6 +594,7 @@ class HierarchyCache {
 	
 			$db = $this->_hyDB.".";
 			$dbHandler =& Services::requireService("DBHandler");
+			$shared_manager =& Services::requireService("Shared");
 			$query =& new SelectQuery();
 	
 			// set the columns to select
@@ -627,7 +636,7 @@ class HierarchyCache {
 				$parentIdValue = $row['id'];
 				// if not create it and cache it
 				if (!$this->_isCached[$parentIdValue]) {
-					$parentId =& new HarmoniId($parentIdValue);
+					$parentId =& $shared_manager->getId($parentIdValue);
 					$parentType =& new HarmoniType($row['domain'], $row['authority'], 
 												  $row['keyword'], $row['type_description']);
 				    $parent =& new HarmoniNode($parentId, $parentType, 
@@ -694,6 +703,7 @@ class HierarchyCache {
 	
 			$db = $this->_hyDB.".";
 			$dbHandler =& Services::requireService("DBHandler");
+			$shared_manager =& Services::requireService("Shared");
 			$query =& new SelectQuery();
 	
 			// set the columns to select
@@ -735,7 +745,7 @@ class HierarchyCache {
 				$childIdValue = $row['id'];
 				// if not create it and cache it
 				if (!$this->_isCached[$childIdValue]) {
-					$childId =& new HarmoniId($childIdValue);
+					$childId =& $shared_manager->getId($childIdValue);
 					$childType =& new HarmoniType($row['domain'], $row['authority'], 
 												  $row['keyword'], $row['type_description']);
 				    $child =& new HarmoniNode($childId, $childType, 
@@ -1005,7 +1015,7 @@ class HierarchyCache {
 		// the original value of levels
 		$originalLevels = $levels;
 		
-//		echo "<br><br><br><b>=== Caching node # $idValue, $levels levels up</b><br>";
+		echo "<br><br><br><b>=== Caching node # $idValue, $levels levels up</b><br>";
 
 		// MySQL has a limit of 31 tables in a select query, thus essentially
 		// there is a limit to the max value of $levels.
@@ -1058,14 +1068,14 @@ class HierarchyCache {
 
 				// ignore null values
 				if (is_null($nodeId)) {
-//					echo "<br>--- skipping to next row (null value encountered)<br>";
+					echo "<br>--- skipping to next row (null value encountered)<br>";
 				    break;
 				}
 				
-//				echo "<br><b>Level: $level - Node # $nodeId</b>";
+				echo "<br><b>Level: $level - Node # $nodeId</b>";
 
 				// if the node has not been cached, then we must create it
-//				echo "<br>--- CACHE UPDATE: ";
+				echo "<br>--- CACHE UPDATE: ";
 				if (!$this->_isCached($nodeId)) {
 					$nodes =& $this->getNodesFromDB($db."node.node_id = '".$nodeId."'");
 					
@@ -1076,15 +1086,15 @@ class HierarchyCache {
 					}
 					
 					$displayName = $nodes[0]->getDisplayName();
-//					echo "Creating node # <b>$nodeId - '$displayName'</b>, ";
+					echo "Creating node # <b>$nodeId - '$displayName'</b>, ";
 
 					// insert node into cache
 					$this->_cache[$nodeId][0] =& $nodes[0];
 					$this->_cache[$nodeId][1] = 0;
 					$this->_cache[$nodeId][2] = 0;
 				}
-//				else
-//					echo "Node already in cache, ";
+				else
+					echo "Node already in cache, ";
 				
 				
 				// update the levels fetched up, if necessary
@@ -1098,19 +1108,19 @@ class HierarchyCache {
 						// if not fully, then set the value appropriately
 						$this->_cache[$nodeId][2] = $levels - $level;
 
-//					echo "changing level of caching from <b>$old</b> to <b>".$this->_cache[$nodeId][2]."</b>";
+					echo "changing level of caching from <b>$old</b> to <b>".$this->_cache[$nodeId][2]."</b>";
 				}
-//				else
-//					echo "no need to set level of caching";
+				else
+					echo "no need to set level of caching";
 				
 				// now, update tree structure
-//				echo "<br>--- TREE STRUCTURE UPDATE: ";
+				echo "<br>--- TREE STRUCTURE UPDATE: ";
 
 				// get the current node (create it, if necessary)
 				if ($this->_tree->nodeExists($nodeId))
 					$node =& $this->_tree->getNode($nodeId);
 				else {
-//					echo "Creating new tree node # <b>$nodeId</b>, ";
+					echo "Creating new tree node # <b>$nodeId</b>, ";
 					$node =& new TreeNode($nodeId);
 					$this->_tree->addNode($node);
 				}
@@ -1118,7 +1128,7 @@ class HierarchyCache {
 				// does the current node have a child?
 				// if no, there is nothing to update
 				if ($level == 0) {
-//					echo "Skipping leaf node, continuing with parent";
+					echo "Skipping leaf node, continuing with parent";
 					continue;
 				}
 				// if there is a child, check if it has already been added
@@ -1130,11 +1140,11 @@ class HierarchyCache {
 						
 					// has the child been added? if no, add it!
 					if (!$node->isChild($child)) {
-//						echo "adding node # <b>$nodeId</b> as a parent of node # <b>$childId</b>";
+						echo "adding node # <b>$nodeId</b> as a parent of node # <b>$childId</b>";
 						$this->_tree->addNode($child, $node);
 					}
-//					else
-//						echo "already child";
+					else
+						echo "already child";
 				}
 			}
 
@@ -1155,7 +1165,7 @@ class HierarchyCache {
 	function & createRootNode(& $nodeId, & $type, $displayName, $description) {
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);

@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.6 2004/06/14 03:34:32 dobomode Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.7 2004/06/22 15:23:09 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -323,7 +323,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 			$this->assertIsA($types, "HarmoniTypeIterator");
 			while ($types->hasNext()) {
 				$type =& $types->next();
-				$this->assertIsA($type, "Type");
+				$this->assertIsA($type, "TypeInterface");
 			}
 		}
 		

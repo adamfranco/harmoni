@@ -8,7 +8,7 @@ require_once(HARMONI."metaData/manager/FieldDefinition.class.php");
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link DataSetTypeManager}.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeDefinition.class.php,v 1.19 2004/06/22 14:34:52 nstamato Exp $
+ * @version $Id: DataSetTypeDefinition.class.php,v 1.20 2004/06/22 15:23:07 dobomode Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -26,7 +26,7 @@ class DataSetTypeDefinition {
 	var $_manager;
 	
 	function DataSetTypeDefinition(&$manager, $dbID, &$type, $id=null) {
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"));
 		ArgumentValidator::validate($dbID, new IntegerValidatorRule);
 		
 		$this->_manager =& $manager;
@@ -237,6 +237,5 @@ class DataSetTypeDefinition {
 		return $this->_fields[$label]->getType();
 	}
 }
-
 
 ?>

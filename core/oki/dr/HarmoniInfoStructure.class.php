@@ -126,7 +126,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @return object InfoPart The newly created InfoPart.
 	 */
 	function createInfoPart($displayName, $description, & $infoPartType, $isMandatory, $isRepeatable, $isPopulatedByDR) {
-		ArgumentValidator::validate($infoPartType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($infoPartType, new ExtendsValidatorRule("TypeInterface"));
 				
 		$fieldDef =& new FieldDefinition($displayName, $infoPartType->getKeyword(), $isRepeatable);
 		$this->_typeDef->addNewField($fieldDef);

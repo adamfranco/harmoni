@@ -204,7 +204,7 @@ class HarmoniDigitalRepository
 	 * @package harmoni.osid.dr
 	 */
 	function & getAssetsByType(& $assetType) {
-		ArgumentValidator::validate($assetType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($assetType, new ExtendsValidatorRule("TypeInterface"));
 		$assets = array();
 		$children =& $this->_node->getChildren();
 		while ($children->hasNext()) {
@@ -699,4 +699,5 @@ class HarmoniDigitalRepository
 	}
 
 }
+
 ?>

@@ -18,7 +18,7 @@ require_once(HARMONI."oki/hierarchy2/DefaultNodeType.class.php");
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.9 2004/06/14 03:34:31 dobomode Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.10 2004/06/22 15:23:09 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -74,14 +74,14 @@ class HarmoniNode extends Node {
 	function HarmoniNode(& $id, & $type, $displayName, $description, & $cache) {
 		// ** parameter validation
  		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
  		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
  		ArgumentValidator::validate($description, new StringValidatorRule(), true);
 		ArgumentValidator::validate($cache, new ExtendsValidatorRule("HierarchyCache"), true);
 		// ** end of parameter validation
 		
 		// set the private variables
-		$this->_id = $id;
+		$this->_id =& $id;
 		$this->_type =& $type;
 		$this->_displayName = $displayName;
 		$this->_description = $description;
@@ -376,6 +376,23 @@ class HarmoniNode extends Node {
 		$this->_cache->removeParent($oldParentId->getIdString(), $this->_id->getIdString());
 		$this->_cache->addParent($newParentId->getIdString(), $this->_id->getIdString());
 	}
+	
+	
+	/**
+	 * Returns the Id of the hierarchy to which this Node belongs. Note: this method
+	 * is not part of the OKI interface as of 06/21/04.
+	 * @access public
+	 * @return ref object The Id of the hierarchy to which this Node belongs.
+	 **/
+	function & getHierarchyId() {
+		echo "<br><br><b>NOTICE: A call to HarmoniNode::getHierarchyId() has been detected. This method is not part of the OKI interface. (dobomode, 06/21/04)</b><br><br>";
+
+		$sharedManager =& Services::requireService("Shared");
+		$id =& $sharedManager->getId($this->_cache->_hierarchyId);
+
+		return $id;
+	}
+	
 
 }
 
