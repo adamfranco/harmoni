@@ -5,7 +5,7 @@ require_once(HARMONI."dataManager/Primitive.interface.php");
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.18 2004/09/28 15:41:27 adamfranco Exp $
+ * @version $Id: DateTime.class.php,v 1.19 2004/12/16 05:48:06 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -234,22 +234,22 @@ class DateTime
 	 * @access public
 	 */
 	function setDate($timestamp) {
-		$year = date(Y, $timestamp);
+		$year = date('Y', $timestamp);
 		$this->setYear(intval($year));
 		
-		$month = date(n, $timestamp);
+		$month = date('n', $timestamp);
 		$this->setMonth(intval($month));
 		
-		$day = date(j, $timestamp);
+		$day = date('j', $timestamp);
 		$this->setDay(intval($day));
 		
-		$hour = date(G, $timestamp);
+		$hour = date('G', $timestamp);
 		$this->setHours(intval($hour));
 		
-		$min = date(i, $timestamp);
+		$min = date('i', $timestamp);
 		$this->setMinutes(intval($min));
 		
-		$sec = date(s, $timestamp);
+		$sec = date('s', $timestamp);
 		$this->setSeconds(intval($sec));
 	}
 	
