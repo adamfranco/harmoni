@@ -41,6 +41,10 @@ class DataSetTag {
 		return $this->_mappings[$label][$index]?$this->_mappings[$label][$index]:null;
 	}
 	
+	function haveMappings($label) {
+		return isset($this->_mappings[$label])?true:false;
+	}
+	
 	function getDataSetID() { return $this->_myDataSet; }
 	
 	function load() {

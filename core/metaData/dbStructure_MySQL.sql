@@ -4,8 +4,19 @@
 #
 # Host: localhost (MySQL 4.0.15)
 # Database: harmoni
-# Generation Time: 2004-01-01 14:37:03 -0500
+# Generation Time: 2004-01-06 14:38:19 -0500
 # ************************************************************
+
+# Dump of table data_blob
+# ------------------------------------------------------------
+
+CREATE TABLE `data_blob` (
+  `data_blob_id` bigint(20) unsigned NOT NULL default '0',
+  `data_blob_data` blob NOT NULL,
+  PRIMARY KEY  (`data_blob_id`)
+) TYPE=MyISAM;
+
+
 
 # Dump of table data_boolean
 # ------------------------------------------------------------
@@ -14,6 +25,41 @@ CREATE TABLE `data_boolean` (
   `data_boolean_id` bigint(20) unsigned NOT NULL default '0',
   `data_boolean_data` tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`data_boolean_id`)
+) TYPE=MyISAM;
+
+
+
+# Dump of table data_date
+# ------------------------------------------------------------
+
+CREATE TABLE `data_date` (
+  `data_date_id` bigint(20) unsigned NOT NULL default '0',
+  `data_date_data` datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`data_date_id`)
+) TYPE=MyISAM;
+
+
+
+# Dump of table data_float
+# ------------------------------------------------------------
+
+CREATE TABLE `data_float` (
+  `data_float_id` bigint(20) unsigned NOT NULL default '0',
+  `data_float_data` double NOT NULL default '0',
+  PRIMARY KEY  (`data_float_id`)
+) TYPE=MyISAM;
+
+
+
+# Dump of table data_fuzzydate
+# ------------------------------------------------------------
+
+CREATE TABLE `data_fuzzydate` (
+  `data_fuzzydate_id` bigint(20) unsigned NOT NULL default '0',
+  `data_fuzzydate_mean` bigint(20) unsigned NOT NULL default '0',
+  `data_fuzzydate_range` bigint(20) unsigned NOT NULL default '0',
+  `data_fuzzydate_string` varchar(255) default NULL,
+  PRIMARY KEY  (`data_fuzzydate_id`)
 ) TYPE=MyISAM;
 
 
@@ -29,12 +75,23 @@ CREATE TABLE `data_integer` (
 
 
 
+# Dump of table data_shortstring
+# ------------------------------------------------------------
+
+CREATE TABLE `data_shortstring` (
+  `data_shortstring_id` bigint(20) unsigned NOT NULL default '0',
+  `data_shortstring_data` text NOT NULL,
+  PRIMARY KEY  (`data_shortstring_id`)
+) TYPE=MyISAM;
+
+
+
 # Dump of table data_string
 # ------------------------------------------------------------
 
 CREATE TABLE `data_string` (
   `data_string_id` bigint(20) unsigned NOT NULL default '0',
-  `data_string_data` varchar(255) NOT NULL default '',
+  `data_string_data` text NOT NULL,
   PRIMARY KEY  (`data_string_id`)
 ) TYPE=MyISAM;
 

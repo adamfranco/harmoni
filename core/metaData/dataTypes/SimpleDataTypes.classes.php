@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataType.abstract.php";
 /**
  * A simple integer data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.11 2004/01/01 19:35:50 gabeschine Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.12 2004/01/06 19:38:36 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -96,9 +96,101 @@ class IntegerDataType
 }
 
 /**
- * A simple string data type.
+ * A simple float data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.11 2004/01/01 19:35:50 gabeschine Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.12 2004/01/06 19:38:36 gabeschine Exp $
+ * @author Gabe Schine
+ * @copyright 2004
+ * @access public
+ **/
+class FloatDataType
+	extends DataType {
+	
+	var $_value;
+	
+	function FloatDataType($value=0) {
+		$this->_value = floatval($value);
+	}
+	
+	function toString() {
+		return $this->_value;
+	}
+	
+	function isEqual(&$dataType) {
+		if ($this->_value == $dataType->_value) return true;
+		return false;
+	}
+	
+	function insert() {
+		$floatType = new HarmoniType("Harmoni","HarmoniDataManager","FloatDataType",
+			"Allows for the storage of integer values (big ones too) in DataSets.");
+		
+		$newID = $this->_idManager->newID($floatType);
+		
+		$query =& new InsertQuery();
+		$query->setTable("data_float");
+		$query->setColumns(array("data_float_id","data_float_data"));
+		
+		$query->addRowOfValues(array($newID,$this->_value));
+		
+		$dbHandler =& Services::requireService("DBHandler");
+		$result =& $dbHandler->query($query, $this->_dbID);
+		if (!$result || $result->getNumberOfRows() != 1) {
+			throwError( new UnknownDBError("FloatDataType") );
+			return false;
+		}
+		
+		$this->_setMyID($newID);
+		return true;
+	}
+	
+	function update() {
+		if (!$this->getID()) return false;
+		
+		$query =& new UpdateQuery();
+		$query->setTable("data_float");
+		$query->setColumns(array("data_float_data"));
+		$query->setWhere("data_float_id=".$this->getID());
+		
+		$query->setValues(array($this->_value));
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$result =& $dbHandler->query($query, $this->_dbID);
+		
+		if (!$result) {
+			throwError( new UnknownDBError("FloatDataType") );
+			return false;
+		}
+	}
+	
+	function commit() {
+		// decides whether to insert() or update()
+		if ($this->getID()) $this->update();
+		else $this->insert();
+	}
+	
+	function alterQuery( &$query ) {
+		$query->addTable("data_float",LEFT_JOIN,"data_float_id = fk_data");
+		$query->addColumn("data_float_data");
+	}
+	
+	function populate( &$dbRow ) {
+		$this->_value = floatval($dbRow['data_float_data']);
+	}
+	
+	function takeValue(&$fromObject) {
+		$this->_value = $fromObject->_value;
+	}
+	
+	function &clone() {
+		return new FloatDataType($this->_value);
+	}
+}
+
+/**
+ * A simple (large) string data type.
+ * @package harmoni.datamanager.datatypes
+ * @version $Id: SimpleDataTypes.classes.php,v 1.12 2004/01/06 19:38:36 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -123,7 +215,7 @@ class StringDataType
 	
 	function insert() {
 		$stringType = new HarmoniType("Harmoni","HarmoniDataManager","StringDataType",
-			"Allows for the storage of string values (up to 255 characters) in DataSets.");
+			"Allows for the storage of string values (large) in DataSets.");
 		
 		$newID = $this->_idManager->newID($stringType);
 		
@@ -188,9 +280,100 @@ class StringDataType
 	}
 }
 /**
+ * A simple short string (up to 255 chars) data type.
+ * @package harmoni.datamanager.datatypes
+ * @version $Id: SimpleDataTypes.classes.php,v 1.12 2004/01/06 19:38:36 gabeschine Exp $
+ * @author Gabe Schine
+ * @copyright 2004
+ * @access public
+ **/
+class ShortStringDataType
+	extends DataType {
+	
+	var $_value;
+	
+	function ShortStringDataType($value='') {
+		$this->_value = $value;
+	}
+	
+	function toString() {
+		return $this->_value;
+	}
+	
+	function isEqual(&$dataType) {
+		if ($this->_value == $dataType->toString()) return true;
+		return false;
+	}
+	
+	function insert() {
+		$stringType = new HarmoniType("Harmoni","HarmoniDataManager","ShortStringDataType",
+			"Allows for the storage of short string values (up to 255 characters) in DataSets.");
+		
+		$newID = $this->_idManager->newID($stringType);
+		
+		$query =& new InsertQuery();
+		$query->setTable("data_shortstring");
+		$query->setColumns(array("data_shortstring_id","data_shortstring_data"));
+		
+		$query->addRowOfValues(array($newID,"'".addslashes($this->_value)."'"));
+		
+		$dbHandler =& Services::requireService("DBHandler");
+		$result =& $dbHandler->query($query, $this->_dbID);
+		if (!$result || $result->getNumberOfRows() != 1) {
+			throwError( new UnknownDBError("ShortStringDataType") );
+			return false;
+		}
+		
+		$this->_setMyID($newID);
+		return true;
+	}
+	
+	function update() {
+		if (!$this->getID()) return false;
+		
+		$query =& new UpdateQuery();
+		$query->setTable("data_shortstring");
+		$query->setColumns(array("data_shortstring_data"));
+		$query->setWhere("data_shortstring_id=".$this->getID());
+		
+		$query->setValues(array("'".addslashes($this->_value)."'"));
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$result =& $dbHandler->query($query, $this->_dbID);
+		
+		if (!$result) {
+			throwError( new UnknownDBError("ShortStringDataType") );
+			return false;
+		}
+	}
+	
+	function commit() {
+		// decides whether to insert() or update()
+		if ($this->getID()) $this->update();
+		else $this->insert();
+	}
+	
+	function alterQuery( &$query ) {
+		$query->addTable("data_shortstring",LEFT_JOIN,"data_shortstring_id = fk_data");
+		$query->addColumn("data_shortstring_data");
+	}
+	
+	function populate( &$dbRow ) {
+		$this->_value = $dbRow['data_shortstring_data'];
+	}
+	
+	function takeValue(&$fromObject) {
+		$this->_value = $fromObject->_value;
+	}
+	
+	function &clone() {
+		return new ShortStringDataType($this->_value);
+	}
+}
+/**
  * A simple boolean data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.11 2004/01/01 19:35:50 gabeschine Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.12 2004/01/06 19:38:36 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public

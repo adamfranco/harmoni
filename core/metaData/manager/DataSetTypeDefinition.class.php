@@ -8,7 +8,7 @@ require_once(HARMONI."metaData/manager/FieldDefinition.class.php");
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link DataSetTypeManager}.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeDefinition.class.php,v 1.9 2004/01/01 19:03:42 gabeschine Exp $
+ * @version $Id: DataSetTypeDefinition.class.php,v 1.10 2004/01/06 19:38:37 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -42,6 +42,11 @@ class DataSetTypeDefinition {
 		$this->_id = $id;
 	}
 	
+	/**
+	 * 
+	 * @return void
+	 * @access public
+	 */
 	function addNewField(&$fieldDefinition) {
 		$this->_addField($fieldDefinition);
 	}
@@ -99,10 +104,17 @@ class DataSetTypeDefinition {
 			throwError( new UnknownDBError("DataSetTypeDefinition") );
 		}
 		
+		$rows = array();
 		while ($result->hasMoreRows()) {
-			$a = $result->getCurrentRow();
+			$rows[] = $result->getCurrentRow();
 			$result->advanceRow();
 			
+			$this->populate($rows);
+		}
+	}
+	
+	function populate($arrayOfRows) {
+		foreach ($arrayOfRows as $a) {
 			$newField =& new FieldDefinition($a['datasettypedef_label'],$a['datasettypedef_fieldtype'],
 					(($a['datasettypedef_mult'])?true:false),
 					(($a['datasettypedef_active'])?true:false)

@@ -8,7 +8,7 @@ include HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.9 2004/01/01 19:03:42 gabeschine Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.10 2004/01/06 19:38:37 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -112,17 +112,36 @@ class DataSetTypeManager
 		return implode($this->_hashSeparator, $parts);
 	}
 	
+	/**
+	 * Returns the ID for the DataType of $type.
+	 * @param ref object $type A {@link HarmoniType} object.
+	 * @return integer
+	 * @access public
+	 */
 	function getIDForType(&$type) {
 		$hash = $this->_mkHash($type);
 		return (isset($this->_typeIDs[$hash]))?$this->_typeIDs[$hash]:null;
 	}
 	
+	/**
+	 * Returns a new {@link DataSetTypeDefinition} object of $type.
+	 * @param ref object $type A {@link HarmoniType} object.
+	 * @return ref object The new DataSetTypeDefinition object.
+	 * @access public
+	 */
 	function & newDataSetType(&$type) {
 		$null = null;
 		$newDef =& new DataSetTypeDefinition($this, $null, null, $type);
 		return $newDef;
 	}
 	
+	/**
+	 * Adds a {@link DataSetTypeDefinition} to the list of registered types, and
+	 * makes sure that it is reference in the database as well.
+	 * @param ref object $type A {@link HarmoniType} object.
+	 * @return ref object The new DataSetTypeDefinition object.
+	 * @access private
+	 */
 	function & _addDataSetType(&$type) {
 		debug::output("Adding DataSetType '".OKITypeToString($type)."' to database.",DEBUG_SYS1,"DataSetTypeManager");
 		if ($id = $this->getIDForType($type)) {
@@ -161,13 +180,24 @@ class DataSetTypeManager
 		$this->_typeIDs[$this->_mkHash($type)] = $newID;
 		debug::output("Created new DataSetType object for '".OKITypeToString($type)."'",DEBUG_SYS5,"DataSetTypeManager");
 		return $newDataSetType;
-		return true;
 	}
 	
+	/**
+	 * Returns TRUE/FALSE if we have a DataSetTypeDefinition responsible for $type.
+	 * @param ref object $type A {@link HarmoniType} object.
+	 * @return boolean
+	 * @access public
+	 */
 	function dataSetTypeExists(&$type) {
 		return (isset($this->_typeIDs[$this->_mkHash($type)]))?true:false;
 	}
 	
+	/**
+	 * Returns the {@link DataSetTypeDefinition} object corresponding to $type.
+	 * @param ref object $type A {@link HarmoniType} object.
+	 * @return ref object The {@link DataSetTypeDefinition} object.
+	 * @access public
+	 */
 	function & getDataSetTypeDefinition(&$type) {
 		if (!($id = $this->getIDForType($type))) {
 			throwError( new Error(
@@ -178,6 +208,12 @@ class DataSetTypeManager
 		return $this->_typeDefinitions[$id];
 	}
 	
+	/**
+	 * Returns the {@link DataSetTypeDefinition} object corresponding to $id.
+	 * @param integer $id The DataBase ID of the definition.
+	 * @return ref object The definition.
+	 * @access public
+	 */
 	function & getDataSetTypeDefinitionByID($id) {
 		if (!isset($this->_typeDefinitions[$id])) {
 			throwError ( new Error(
@@ -188,14 +224,32 @@ class DataSetTypeManager
 		return $this->_typeDefinitions[$id];
 	}
 	
+	/**
+	 * Returns an iterator of all the registered DataSet types.
+	 * @return ref object A {@link HarmoniTypeIterator}
+	 * @access public
+	 */
 	function & getAllDataSetTypes() {
 		return new HarmoniTypeIterator($this->_types);
 	}
 	
+	/**
+	 * Returns the Type object associated with database $id.
+	 * @param integer $id The Database ID.
+	 * @return ref object The {@link HarmoniType} object.
+	 * @access public
+	 */
 	function & getDataSetTypeByID( $id ) {
 		return $this->_types[$id];
 	}
 	
+	/**
+	 * Is passed a {@link DataSetTypeDefinition} will make sure that the definition stored in the database
+	 * reflects what is stored in the passed object.
+	 * @param ref object A {@link DataSetTypeDefinition} object.
+	 * @return boolean Success/failure.
+	 * @access public
+	 */
 	function synchronize(&$newDef) {
 		$type =& $newDef->getType();
 		
@@ -287,19 +341,7 @@ class DataSetTypeManager
 				return false;
 			}
 			unset($newType,$oldType);
-			
-			// now, check if the versionControl has changed.
-/*			$oldVctl = $oldField->getVersionControlFlag();
-			$newVctl = $newField->getVersionControlFlag();
 
-			if ($oldVctl !== $newVctl) { 
-				$oldField->setVersionControlFlag($newVctl);
-				$oldField->update();
-				
-				debug::output("Label '$label': setting version control flag to: ".(($newVctl)?"true":"false"),DEBUG_SYS5,"DataSetTypeManager");
-			}
-			unset($oldVctl, $newVctl);
-*/			
 			// let's check the active flag
 			$oldActive = $oldField->isActive();
 			$newActive = $newField->isActive();

@@ -282,6 +282,8 @@ class FullDataSet extends CompactDataSet {
 		$tag->load();
 		
 		foreach ($this->_dataSetTypeDef->getAllLabels(true) as $label) {
+			// if the tag doesn't have any mappings for $label, skip it
+			if (!$tag->haveMappings($label)) continue;
 			for ($i=0; $i<$this->numValues($label); $i++) {
 				$newVerID = $tag->getMapping($label, $i);
 				
