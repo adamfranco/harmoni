@@ -152,17 +152,10 @@ class HarmoniInfoStructure extends InfoStructure
 		ArgumentValidator::validate($isPopulatedByDR, new BooleanValidatorRule);
 				
 		$fieldDef =& new SchemaField($displayName, $infoPartType->getKeyword(), $description, $isRepeatable, $isMandatory);
-// 		print "<p>Creating part with displayname: ".$displayname;
-// 		printpre($fieldDef);
 		$this->_schema->addField($fieldDef);
 		$fieldDef->addToDB();
-//		$fieldDef->commit();
  		$this->_schema->commitAllFields();
-// 		$schemaManager =& Services::getService("SchemaManager");
-// 		$schemaManager->synchronize($this->_schema);
-		
-//		$fieldDef =& $this->_schema->getField($displayName);
-// 		print "<br>Saving infoPart:"; printpre ($fieldDef);
+
 		$idString =& $this->_schema->getFieldId($displayName);
 		
 		$this->_createdInfoParts[$idString] =& new HarmoniInfoPart($this,

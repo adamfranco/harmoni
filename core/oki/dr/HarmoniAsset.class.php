@@ -162,11 +162,11 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getContent() {
-// 		$sharedManager =& Services::getService("Shared");
-// 		$recordMgr =& Services::getService("RecordManager");
-// 		
-// 		// Ready our type for comparisson
-// 		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
+		$sharedManager =& Services::getService("Shared");
+		$recordMgr =& Services::getService("RecordManager");
+		
+		// Ready our type for comparisson
+		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
 // 		
 // 		// Get the content DataSet.
 // 		$id =& $this->_node->getId();
@@ -199,48 +199,44 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function updateContent(& $content) {
-// 		ArgumentValidator::validate($content, new ExtendsValidatorRule("BlobDataType"));
-// 		$sharedManager =& Services::getService("Shared");
-// 		$recordMgr =& Services::getService("RecordManager");
-// 		
-// 		// Ready our type for comparisson
-// 		$contentType =& new HarmoniType("DR", "Harmoni",  "AssetContent");
-// 		$id =& $this->_node->getId();
-// 		
-// 		// Get the content DataSet.
-// 		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
-// 		// fetching as editable since we don't know if it will be edited.
-// 		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
-// 		foreach ($dataSets as $key => $dataSet) {
-// 			if($contentType->isEqual($dataSets[$key]->getType())) {
-// 				$contentDataSet =& $dataSets[$key];
-// 				break;
-// 			}
-// 		}
-// 		
-// 		if (!$contentDataSet) {		
-// 			// Set up and create our new dataset
-// 			
-// 			// Decide if we want to version-control this field.
-// 			$versionControl = $this->_versionControlAll;
-// 			if (!$versionControl) {
-// 				foreach ($this->_versionControlTypes as $key => $val) {
-// 					if ($contentType->isEqual($this->_versionControlTypes[$key])) {
-// 						$versionControl = TRUE;
-// 						break;
-// 					}
-// 				}
-// 			}
-// 			
-// 			$contentDataSet =& $recordMgr->newDataSet($contentType, $versionControl);
-// 			
-// 			// Add the DataSet to our group
-// 			$dataSetGroup->addDataSet($contentDataSet);
-// 		}
-// 		
-// 		$contentDataSet->setValue("Content", $content);
-// 		
-// 		$contentDataSet->commit();
+ 		ArgumentValidator::validate($content, new ExtendsValidatorRule("Blob"));
+ 		$sharedManager =& Services::getService("Shared");
+ 		$recordMgr =& Services::getService("RecordManager");
+ 		
+ 		// Ready our type for comparisson
+ 		$contentType =& new HarmoniType("DR", "Harmoni",  "AssetContent");
+ 		$myId =& $this->_node->getId();
+ 		
+ 		// Get the content DataSet.
+ 		$myRecordSet =& $recordMgr->fetchDataSetGroup($myId->getIdString());
+		$contentRecord =& $myRecordSet->getRecordsByType($contentType);
+
+ 		if (!$contentRecord) {		
+			// Set up and create our new record
+			$schemaMgr =& Services::getService("SchemaManager");
+			$contentSchema =& $schemaMgr->getSchemaByType($contentType);
+			
+			// Decide if we want to version-control this field.
+			$versionControl = $this->_versionControlAll;
+			if (!$versionControl) {
+				foreach ($this->_versionControlTypes as $key => $val) {
+					if ($contentType->isEqual($this->_versionControlTypes[$key])) {
+						$versionControl = TRUE;
+						break;
+					}
+				}
+			}
+			
+			$contentRecord =& new Record($contentSchema, $versionControl);
+	
+			// Add the record to our group
+			$myRecordSet->add($contentRecord);
+			$myRecordSet->commit(TRUE);
+		}
+		
+		$contentRecord->setValue("Content", $content);
+ 		
+		$contentRecord->commit(TRUE);
 	}
 
 	/**
@@ -628,9 +624,26 @@ class HarmoniAsset
 		
 		$recordMgr =& Services::getService("RecordManager");
 		$record =& $recordMgr->fetchRecord($infoRecordId->getIdString(),RECORD_FULL);
-		$record->delete();
-		$record->prune(new PruneAllVersionConstraint());
-		$record->commit();
+		
+		// Check if the record is part of other record sets (assets via inheretance)
+		$myId =& $this->getId();
+		$setsContaining = $recordMgr->getRecordSetIDsContaining($record);
+		$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
+		
+		// If this is the last asset referencing this record, delete it.
+		if (count($setsContaining) == 1 && $setsContaining[0] == $myId->getIdString()) {
+			$myRecordSet->removeRecord($record);
+			$myRecordSet->commit(TRUE);
+			$record->delete(TRUE);
+			$record->commit(TRUE);
+		}
+		// If this record is used by other assets, remove the record from this set, 
+		// but leave it in the rest.
+		else {
+			$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
+			$myRecordSet->removeRecord($record);
+			$myRecordSet->commit(TRUE);
+		}
 	}
 
 	/**

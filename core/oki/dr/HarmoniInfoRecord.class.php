@@ -98,7 +98,7 @@ class HarmoniInfoRecord extends InfoRecord
 			$index = $r[3];
 			
 			$this->_record->deleteValue($label, $index);
-			$this->_record->commit();
+			$this->_record->commit(TRUE);
 		} else {
 			throwError(new Error(UNKNOWN_ID.": $string", "HarmoniInfoField", true));
 		}

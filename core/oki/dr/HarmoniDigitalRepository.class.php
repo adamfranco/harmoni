@@ -163,6 +163,13 @@ class HarmoniDigitalRepository
 			$asset->deleteInfoRecord($recordId);
 		}
 		
+		// Delete the Record Set
+		$recordMgr =& Services::getService("RecordManager");
+		$assetId =& $asset->getId();
+		$recordSet =& $recordMgr->fetchRecordSet($assetId->getIdString());
+		$recordSet->delete();
+		$recordSet->commit(TRUE);
+		
 		// Delete the Node for this Asset
 		$this->_hierarchy->deleteNode($assetId);
 		
