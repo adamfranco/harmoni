@@ -10,7 +10,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniConfig.class.php,v 1.4 2005/02/04 15:58:42 adamfranco Exp $
+ * @version $Id: HarmoniConfig.class.php,v 1.5 2005/03/23 20:38:01 adamfranco Exp $
  */
 
 class HarmoniConfig extends DataContainer {
@@ -27,6 +27,7 @@ class HarmoniConfig extends DataContainer {
         $this -> init(); 
         // add the fields we want to allow
 		$this -> add("useAuthentication",new BooleanValidatorRule,new Error("HarmoniConfig - the option 'useAuthentication' must be set to either TRUE or FALSE!","DataContainer",true));
+		$this -> set("useAuthentication",false);
     	$e =& new Error("HarmoniConfig - the option 'defaultAction' must be set to a string value!","Harmoni",true);
 		$this -> add("defaultAction", new StringValidatorRule,$e);
 		$this -> add("defaultAction", new FieldRequiredValidatorRule,$e);
