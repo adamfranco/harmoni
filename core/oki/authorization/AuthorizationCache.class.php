@@ -6,7 +6,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.6 2004/07/28 21:37:42 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.7 2004/07/29 15:39:40 adamfranco Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -121,15 +121,15 @@ class AuthorizationCache {
 		}
 		$query->setColumns($columns);
 		$values = array();
-		$values[] = "'".$idValue."'";
-		$values[] = "'".$agentId->getIdString()."'";
-		$values[] = "'".$functionId->getIdString()."'";
-		$values[] = "'".$qualifierId->getIdString()."'";
+		$values[] = "'".addslashes($idValue)."'";
+		$values[] = "'".addslashes($agentId->getIdString())."'";
+		$values[] = "'".addslashes($functionId->getIdString())."'";
+		$values[] = "'".addslashes($qualifierId->getIdString())."'";
 		if ($dated) {
 			$timestamp = $dbHandler->toDBDate($effectiveDate, $this->_dbIndex);
-			$values[] = "'".$timestamp."'";
+			$values[] = "'".addslashes($timestamp)."'";
 			$timestamp = $dbHandler->toDBDate($expirationDate, $this->_dbIndex);
-			$values[] = "'".$timestamp."'";
+			$values[] = "'".addslashes($timestamp)."'";
 		}
 		$query->setValues($values);
 		
@@ -206,10 +206,10 @@ class AuthorizationCache {
 			$columns[] = "type_description";
 			$query->setColumns($columns);
 			$values = array();
-			$values[] = "'".$domain."'";
-			$values[] = "'".$authority."'";
-			$values[] = "'".$keyword."'";
-			$values[] = "'".$functionTypeDescription."'";
+			$values[] = "'".addslashes($domain)."'";
+			$values[] = "'".addslashes($authority)."'";
+			$values[] = "'".$addslashes(keyword)."'";
+			$values[] = "'".addslashes($functionTypeDescription)."'";
 			$query->setValues($values);
 
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -227,11 +227,11 @@ class AuthorizationCache {
 		$columns[] = "fk_type";
 		$query->setColumns($columns);
 		$values = array();
-		$values[] = "'".$idValue."'";
-		$values[] = "'".$displayName."'";
-		$values[] = "'".$description."'";
-		$values[] = "'".$qualifierHierarchyId->getIdString()."'";
-		$values[] = "'".$functionTypeIdValue."'";
+		$values[] = "'".addslashes($idValue)."'";
+		$values[] = "'".addslashes($displayName)."'";
+		$values[] = "'".addslashes($description)."'";
+		$values[] = "'".addslashes($qualifierHierarchyId->getIdString())."'";
+		$values[] = "'".addslashes($functionTypeIdValue)."'";
 		$query->setValues($values);
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -700,8 +700,12 @@ class AuthorizationCache {
 		// now include criteria
 		
 		// the qualifiers criteria
+		foreach (array_keys($qualifiers) as $key) {
+			$qualifiers[$key] = addslashes($qualifiers[$key]);
+		}
 		$list = implode("','", $qualifiers);
 		$list = "'".$list."'";
+		
 		$where = $db."az_authorization.fk_qualifier IN ($list)";
 		$query->addWhere($where);
 		// the agent criteria

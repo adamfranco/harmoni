@@ -15,7 +15,7 @@ require_once(HARMONI."/themeHandler/themes/ImageBox/ImageBox.theme.php");
  * setting.
  *
  * @package harmoni.themes
- * @version $Id: ThemeHandler.class.php,v 1.10 2004/07/28 21:37:42 adamfranco Exp $
+ * @version $Id: ThemeHandler.class.php,v 1.11 2004/07/29 15:39:51 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -273,11 +273,11 @@ class ThemeHandler {
 		$settings =& $theme->getSettings();
 		while ($settings->hasNext()) {
 			$setting =& $settings->next();
-			$query->addRowOfValues(array("'".$id->getIdString()."'",
+			$query->addRowOfValues(array("'".addslashes($id->getIdString())."'",
 										 "'0'", 
 										 "'0'", 
-										 "'".$setting->getKey()."'", 
-										 "'".$setting->getValue()."'"));
+										 "'".addslashes($setting->getKey())."'", 
+										 "'".addslashes($setting->getValue())."'"));
 		}
 		
 		// Store the widget settings
@@ -309,7 +309,7 @@ class ThemeHandler {
 						$widgetTypeQuery =& new InsertQuery();
 						$widgetTypeQuery->setTable("widget_type");
 						$widgetTypeQuery->setColumns(array("type"));
-						$widgetTypeQuery->addRowOfValues(array("'".$widget->getType()."'"));
+						$widgetTypeQuery->addRowOfValues(array("'".addslashes($widget->getType())."'"));
 						$result =& $dbhandler->query($widgetTypeQuery, $this->_storageLocation);
 						$widgetKey = $result->getLastAutoIncrementValue();
 						$widgetTypes[$widgetKey] = $widget->getType();
@@ -320,11 +320,11 @@ class ThemeHandler {
 				$settings =& $widget->getSettings();
 				while ($settings->hasNext()) {
 					$setting =& $settings->next();
-					$query->addRowOfValues(array("'".$id->getIdString()."'",
-												 "'".$widgetKey."'", 
-												 "'".$widget->getIndex()."'", 
-												 "'".$setting->getKey()."'", 
-												 "'".$setting->getValue()."'"));
+					$query->addRowOfValues(array("'".addslashes($id->getIdString())."'",
+												 "'".addslashes($widgetKey)."'", 
+												 "'".addslashes($widget->getIndex())."'", 
+												 "'".addslashes($setting->getKey())."'", 
+												 "'".addslashes($setting->getValue())."'"));
 				}
 			}
 		}

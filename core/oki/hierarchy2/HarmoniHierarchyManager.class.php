@@ -25,7 +25,7 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.7 2004/07/28 21:37:42 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.8 2004/07/29 15:39:51 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -126,9 +126,9 @@ class HarmoniHierarchyManager extends HierarchyManager {
 		$columns[] = "hierarchy_multiparent";
 		$query->setColumns($columns);
 		$values = array();
-		$values[] = "'".$idValue."'";
-		$values[] = "'".$displayName."'";
-		$values[] = "'".$description."'";
+		$values[] = "'".addslashes($idValue)."'";
+		$values[] = "'".addslashes($displayName)."'";
+		$values[] = "'".addslashes($description)."'";
 		$multiparent = ($allowsMultipleParents) ? '1' : '0';
 		$values[] = "'".$multiparent."'";
 		$query->setValues($values);

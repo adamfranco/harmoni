@@ -27,7 +27,7 @@ require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
  * 
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
- * @version $Id: HierarchyCache.class.php,v 1.12 2004/07/28 21:37:42 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.13 2004/07/29 15:39:51 adamfranco Exp $
  * @package harmoni.osid.hierarchy2
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -274,8 +274,8 @@ class HierarchyCache {
 		$columns[] = $db."j_node_node.fk_child";
 		$query->setColumns($columns);
 		$values = array();
-		$values[] = "'".$parentIdValue."'";
-		$values[] = "'".$childIdValue."'";
+		$values[] = "'".addslashes($parentIdValue)."'";
+		$values[] = "'".addslashes($childIdValue)."'";
 		$query->setValues($values);
 		
 //		echo "<pre>\n";
@@ -1218,10 +1218,10 @@ class HierarchyCache {
 			$columns[] = "type_description";
 			$query->setColumns($columns);
 			$values = array();
-			$values[] = "'".$domain."'";
-			$values[] = "'".$authority."'";
-			$values[] = "'".$keyword."'";
-			$values[] = "'".$typeDescription."'";
+			$values[] = "'".addslashes($domain)."'";
+			$values[] = "'".addslashes($authority)."'";
+			$values[] = "'".addslashes($keyword)."'";
+			$values[] = "'".addslashes($typeDescription)."'";
 			$query->setValues($values);
 
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -1239,11 +1239,11 @@ class HierarchyCache {
 		$columns[] = "fk_type";
 		$query->setColumns($columns);
 		$values = array();
-		$values[] = "'".$idValue."'";
-		$values[] = "'".$displayName."'";
-		$values[] = "'".$description."'";
-		$values[] = "'".$this->_hierarchyId."'";
-		$values[] = "'".$typeIdValue."'";
+		$values[] = "'".addslashes($idValue)."'";
+		$values[] = "'".addslashes($displayName)."'";
+		$values[] = "'".addslashes($description)."'";
+		$values[] = "'".addslashes($this->_hierarchyId)."'";
+		$values[] = "'".addslashes($typeIdValue)."'";
 		$query->setValues($values);
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);

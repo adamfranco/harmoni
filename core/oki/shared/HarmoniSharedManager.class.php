@@ -36,7 +36,7 @@ require_once(HARMONI."oki/shared/HarmoniId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.35 2004/07/28 21:37:42 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.36 2004/07/29 15:39:51 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -544,10 +544,10 @@ class HarmoniSharedManager
 			$columns[] = "type_description";
 			$query->setColumns($columns);
 			$values = array();
-			$values[] = "'".$domain."'";
-			$values[] = "'".$authority."'";
-			$values[] = "'".$keyword."'";
-			$values[] = "'".$desc."'";
+			$values[] = "'".addslashes($domain)."'";
+			$values[] = "'".addslashes($authority)."'";
+			$values[] = "'".addslashes($keyword)."'";
+			$values[] = "'".addslashes($desc)."'";
 			$query->setValues($values);
 
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -564,10 +564,10 @@ class HarmoniSharedManager
 		$columns[] = "fk_type";
 		$query->setColumns($columns);
 		$values = array();
-		$values[] = "'".$groupIdValue."'";
-		$values[] = "'".$displayName."'";
-		$values[] = "'".$description."'";
-		$values[] = "'".$typeIdValue."'";
+		$values[] = "'".addslashes($groupIdValue)."'";
+		$values[] = "'".addslashes($displayName)."'";
+		$values[] = "'".addslashes($description)."'";
+		$values[] = "'".addslashes($typeIdValue)."'";
 		$query->setValues($values);
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);

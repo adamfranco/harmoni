@@ -178,8 +178,8 @@ class HarmoniGroup // :: API interface
 			$values = array();
 			$parentId =& $this->getId();
 			$childId =& $memberOrGroup->getId();
-			$values[] = "'".$parentId->getIdString()."'";
-			$values[] = "'".$childId->getIdString()."'";
+			$values[] = "'".addslashes($parentId->getIdString())."'";
+			$values[] = "'".addslashes($childId->getIdString())."'";
 			$query->setValues($values);
 	
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -209,8 +209,8 @@ class HarmoniGroup // :: API interface
 			$values = array();
 			$parentId =& $this->getId();
 			$childId =& $memberOrGroup->getId();
-			$values[] = "'".$parentId->getIdString()."'";
-			$values[] = "'".$childId->getIdString()."'";
+			$values[] = "'".addslashes($parentId->getIdString())."'";
+			$values[] = "'".addslashes($childId->getIdString())."'";
 			$query->setValues($values);
 	
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
