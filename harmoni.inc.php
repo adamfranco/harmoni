@@ -4,7 +4,7 @@
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.13 2003/07/25 00:53:35 gabeschine Exp $
+ * @version $Id: harmoni.inc.php,v 1.14 2003/08/14 15:20:48 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
@@ -15,9 +15,16 @@ if (!ob_get_level()) ob_start();
  
 /**
  * Defines the global harmoni directory.
- * @const HARMONI The harmoni directory.
+ * @const string HARMONI The harmoni directory.
  **/
 define("HARMONI",dirname(__FILE__)."/");
+
+/**
+ * Defines where OKI interfaces for PHP are located.
+ * @const string OKI The OKI interfaces location.
+ */
+define("OKI",dirname(__FILE__)."/oki/");
+require_once(OKI."inc.php");
 
 /**
  * The name of the services variable.
