@@ -10,7 +10,7 @@
  * XML schema.
  *
  * @author 			Richard Tango-Lowy
- * @version 		$Revision: 1.1 $
+ * @version 		$Revision: 1.1.1.1 $
  * @copyright	Copyright (c) 2003 ars Cognita Inc., all rights reserved
  *
  * @package		xmlschema
