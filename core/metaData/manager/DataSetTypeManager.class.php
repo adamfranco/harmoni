@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.15 2004/01/08 21:10:01 gabeschine Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.16 2004/01/08 21:16:28 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -30,7 +30,7 @@ class DataSetTypeManager
 	* @param int $dbID The {@link DBHandler} connection ID to use for data type storage.
 	* @param ref object $preloadTypes A {@link HarmoniTypeIterator} containing a number of {@link HarmoniType}s to
 	* pre-load structure data for. This will avoid queries later on.
-	* @desc Constructor.
+	* Constructor.
 	*/
 	function DataSetTypeManager( &$idmanager, $dbID, &$preloadTypes ) {
 		$this->_idmanager =& $idmanager;
@@ -47,7 +47,7 @@ class DataSetTypeManager
 	* @return void
 	* @param ref object $preloadTypes A {@link HarmoniTypeIterator} containing a number of {@link HarmoniType}s to
 	* pre-load structure data for. This will avoid queries later on.
-	* @desc Fetches from the DB a list of registered DataSetTypes.
+	* Fetches from the DB a list of registered DataSetTypes.
 	*/
 	function populate(&$preloadTypes) {
 		debug::output("Fetching all our known DataSetTypes from the database.",DEBUG_SYS1, "DataSetTypeManager");
@@ -147,7 +147,7 @@ class DataSetTypeManager
 	
 	/**
 	* @return integer
-	* @desc Returns the number of registered dataset types.
+	* Returns the number of registered dataset types.
 	*/
 	function numberOfTypes() {
 		return count($this->_types);
@@ -158,7 +158,7 @@ class DataSetTypeManager
 	* @param mixed $type Either an OKI Type object or the Domain string.
 	* @param optional string $auth The Authority.
 	* @param optional string $key The Keyword.
-	* @desc Creates a hash of the OKI type for keying a type to an ID in a hash array. The hashes should be unique.
+	* Creates a hash of the OKI type for keying a type to an ID in a hash array. The hashes should be unique.
 	*/
 	function _mkHash($type, $auth=null, $key=null) {
 		if (!$this->_hashSeparator)

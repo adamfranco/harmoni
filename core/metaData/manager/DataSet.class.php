@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.19 2004/01/08 21:10:01 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.20 2004/01/08 21:16:28 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -50,13 +50,13 @@ class CompactDataSet {
 	
 	/**
 	* @return int
-	* @desc Returns this DataSet's ID.
+	* Returns this DataSet's ID.
 	*/
 	function getID() { return $this->_myID; }
 	
 	/**
 	* @return bool
-	* @desc Returns TRUE if this DataSet is read only (cannot be edited).
+	* Returns TRUE if this DataSet is read only (cannot be edited).
 	*/
 	function readOnly() {
 		return true;
@@ -64,7 +64,7 @@ class CompactDataSet {
 	
 	/**
 	* @return bool
-	* @desc Returns TRUE if this is a {@link CompactDataSet}.
+	* Returns TRUE if this is a {@link CompactDataSet}.
 	*/
 	function isCompact() {
 		return true;
@@ -82,7 +82,7 @@ class CompactDataSet {
 	* @return ref object
 	* @param string $label
 	* @param optional int $index default=0.
-	* @desc Returns the active {@link ValueVersion} object for value $index under $label.
+	* Returns the active {@link ValueVersion} object for value $index under $label.
 	*/
 	function &getActiveValue($label, $index=0) {
 		$this->_checkLabel($label, __FUNCTION__);
@@ -96,7 +96,7 @@ class CompactDataSet {
 	* @return ref object
 	* @param string $label
 	* @param optional int $index default=0.
-	* @desc Returns the {@link ValueVersions} object associated with $index under $label.
+	* Returns the {@link ValueVersions} object associated with $index under $label.
 	*/
 	function &getValueVersionsObject($label, $index=0) {
 		$this->_checkLabel($label, __FUNCTION__);
@@ -107,7 +107,7 @@ class CompactDataSet {
 	/**
 	* @return ref array
 	* @param string $label
-	* @desc Returns an array of {@link ValueVersions} objects for all indexes under $label.
+	* Returns an array of {@link ValueVersions} objects for all indexes under $label.
 	*/
 	function &getAllValueVersionsObjects($label) {
 		$this->_checkLabel($label, __FUNCTION__);
@@ -118,7 +118,7 @@ class CompactDataSet {
 	/**
 	* @return bool
 	* @param array $arrayOfRows
-	* @desc Creates a number of {@link FieldValues} objects based on an array of database rows.
+	* Creates a number of {@link FieldValues} objects based on an array of database rows.
 	*/
 	function populate( $arrayOfRows = null ) {
 		
@@ -174,7 +174,7 @@ class CompactDataSet {
 	/**
 	* @return int
 	* @param string $label
-	* @desc Returns the number of values we have set for $label.
+	* Returns the number of values we have set for $label.
 	*/
 	function numValues($label) {
 		$this->_checkLabel($label, __FUNCTION__);
@@ -184,7 +184,7 @@ class CompactDataSet {
 	
 	/**
 	* @return bool
-	* @desc Returns TRUE if this DataSet was created with Version Control.
+	* Returns TRUE if this DataSet was created with Version Control.
 	*/
 	function isVersionControlled() {
 		return $this->_versionControlled;
@@ -196,7 +196,7 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.19 2004/01/08 21:10:01 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.20 2004/01/08 21:16:28 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {
@@ -219,7 +219,7 @@ class FullDataSet extends CompactDataSet {
 	
 	/**
 	* @return bool
-	* @desc Returns false since this DataSet is editable.
+	* Returns false since this DataSet is editable.
 	*/
 	function readOnly() {
 		return false;
@@ -227,7 +227,7 @@ class FullDataSet extends CompactDataSet {
 
 	/**
 	* @return bool
-	* @desc Returns FALSE since this is a Full dataset.
+	* Returns FALSE since this is a Full dataset.
 	*/
 	function isCompact() {
 		return false;
@@ -238,7 +238,7 @@ class FullDataSet extends CompactDataSet {
 	* @param string $label
 	* @param ref object $obj
 	* @param optional int $index default=0
-	* @desc Sets the value of $index under $label to $obj where $obj is a {@link DataType}.
+	* Sets the value of $index under $label to $obj where $obj is a {@link DataType}.
 	*/
 	function setValue($label, &$obj, $index=0) {
 		$this->_checkLabel($label, __FUNCTION__);
@@ -253,7 +253,7 @@ class FullDataSet extends CompactDataSet {
 	* @return bool
 	* @param string $label
 	* @param optional int $index default=0
-	* @desc Returns TRUE if the value $index under $label is inactive.
+	* Returns TRUE if the value $index under $label is inactive.
 	*/
 	function deleted($label, $index=0) {
 		$this->_checkLabel($label, __FUNCTION__);
@@ -264,7 +264,7 @@ class FullDataSet extends CompactDataSet {
 		
 	/**
 	* @return bool
-	* @desc Commits (either inserts or updates) the data for this DataSet into the database.
+	* Commits (either inserts or updates) the data for this DataSet into the database.
 	*/
 	function commit() {
 		if ($this->_myID) {
@@ -317,7 +317,7 @@ class FullDataSet extends CompactDataSet {
 	/**
 	* @return void
 	* @param optional object $date An optional DateTime to specify the date that should be attached to the tag instead of the current date/time.
-	* @desc Uses the {@link DataSetTagManager} service to add a tag of the current state (in the DB) of this DataSet.
+	* Uses the {@link DataSetTagManager} service to add a tag of the current state (in the DB) of this DataSet.
 	*/
 	function tag($date=null) {
 		$tagMgr =& Services::getService("DataSetTagManager");
@@ -327,7 +327,7 @@ class FullDataSet extends CompactDataSet {
 	/**
 	* @return void
 	* @param optional object $date An optional {@link DateTime} object for tagging. If specified, it will use $date instead of the current date and time.
-	* @desc Calls both commit() and tag().
+	* Calls both commit() and tag().
 	*/
 	function commitAndTag($date=null) {
 		$this->commit();
@@ -336,7 +336,7 @@ class FullDataSet extends CompactDataSet {
 	
 	/**
 	* @return ref object A new {@link FullDataSet} object.
-	* @desc Creates an exact (specific to the data) copy of the DataSet, that can then be inserted into
+	* Creates an exact (specific to the data) copy of the DataSet, that can then be inserted into
 	* the DB as a new set with the same data.
 	*/
 	function &clone() {
@@ -354,7 +354,7 @@ class FullDataSet extends CompactDataSet {
 	
 	/**
 	* @return void
-	* @desc Goes through all the old versions of values and actually DELETES them from the database.
+	* Goes through all the old versions of values and actually DELETES them from the database.
 	*/
 	function prune() {
 		// just step through each FieldValues object and call prune()
@@ -366,7 +366,7 @@ class FullDataSet extends CompactDataSet {
 	/**
 	* @return bool
 	* @param string $label
-	* @desc Spiders through all of the values under $label and deactivates them.
+	* Spiders through all of the values under $label and deactivates them.
 	*/
 	function deleteAllValues($label) {
 		$this->_checkLabel($label, __FUNCTION__);
@@ -384,7 +384,7 @@ class FullDataSet extends CompactDataSet {
 	* @return bool
 	* @param string $label
 	* @param optional int $index default=0
-	* @desc Deactivates all the versions of $index under $label.
+	* Deactivates all the versions of $index under $label.
 	*/
 	function deleteValue($label, $index=0) {
 		$this->_checkLabel($label, __FUNCTION__);
@@ -396,7 +396,7 @@ class FullDataSet extends CompactDataSet {
 	* @return bool
 	* @param string $label
 	* @param optional int $index default=0
-	* @desc Re-activates the newest version of $index under $label.
+	* Re-activates the newest version of $index under $label.
 	*/
 	function undeleteValue($label, $index=0) {
 		$this->_checkLabel($label, __FUNCTION__);
@@ -406,7 +406,7 @@ class FullDataSet extends CompactDataSet {
 	
 	/**
 	* @return void
-	* @desc Deactivates the DataSet upon commit().
+	* Deactivates the DataSet upon commit().
 	*/
 	function delete() {
 		$this->_active = false;
@@ -415,7 +415,7 @@ class FullDataSet extends CompactDataSet {
 	/**
 	* @return bool
 	* @param ref object $tag A {@link DataSetTag} object.
-	* @desc Takes a tag object and activates the appropriate versions of values based on the tag mappings.
+	* Takes a tag object and activates the appropriate versions of values based on the tag mappings.
 	*/
 	function activateTag(&$tag) {
 		// check to make sure the tag is affiliated with us
@@ -481,7 +481,7 @@ class ValueIndexNotFoundError extends Error {
 /**
  * @package harmoni.datamanager
  * @param ref object A {@link FullDataSet} or {@link CompactDataSet} to render.
- * @desc Renders within PRE tags a full representation of a DataSet and all of its data.
+ * Renders within PRE tags a full representation of a DataSet and all of its data.
  */
 function renderDataSet(&$dataSet) {
 	$fields = $dataSet->_dataSetTypeDef->getAllLabels(true);
@@ -519,7 +519,7 @@ function renderDataSet(&$dataSet) {
 /**
  * @package harmoni.datamanager
  * @param ref array An array of DataSets to render.
- * @desc Renders an array of DataSets using {@link renderDataSet()}.
+ * Renders an array of DataSets using {@link renderDataSet()}.
  */
 function renderDataSetArray(&$sets) {
 	foreach (array_keys($sets) as $id) {

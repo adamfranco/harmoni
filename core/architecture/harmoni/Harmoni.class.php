@@ -17,7 +17,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.10 2004/01/08 21:09:53 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.11 2004/01/08 21:16:28 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -144,7 +144,7 @@ class Harmoni {
 	* @return void
 	* @param string $key
 	* @param mixed $value
-	* @desc Attaches some arbitrary data to the Harmoni object so that actions or later
+	* Attaches some arbitrary data to the Harmoni object so that actions or later
 	* functions can make use of it.
 	*/
 	function attachData($key, &$value) {
@@ -154,7 +154,7 @@ class Harmoni {
 	/**
 	* @return mixed
 	* @param string $key
-	* @desc Returns the data attached by {@link Harmoni::attachData} referenced by $key.
+	* Returns the data attached by {@link Harmoni::attachData} referenced by $key.
 	* @deprecated 12/27/03 See getAttachedData()
 	*/
 	function &getData($key) {
@@ -164,7 +164,7 @@ class Harmoni {
 	/**
 	* @return mixed
 	* @param string $key
-	* @desc Returns the data attached by {@link Harmoni::attachData} referenced by $key.
+	* Returns the data attached by {@link Harmoni::attachData} referenced by $key.
 	*/
 	function &getAttachedData($key) {
 		return $this->_attachedData->get($key);
@@ -174,7 +174,7 @@ class Harmoni {
 	* @return void
 	* @param string $module
 	* @param string $action
-	* @desc An alias for {@link ActionHandler::forward()}. Purely for convenience.
+	* An alias for {@link ActionHandler::forward()}. Purely for convenience.
 	*/
 	function &forward($module, $action) {
 		$this->ActionHandler->forward($module, $action);
