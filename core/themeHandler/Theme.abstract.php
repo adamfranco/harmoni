@@ -19,7 +19,7 @@ define ("BLANK_WIDGET", "blank");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: Theme.abstract.php,v 1.6 2004/03/10 00:10:29 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.7 2004/03/12 23:35:32 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -430,6 +430,7 @@ class Theme
 		$widgetArray[] =& $themeWidget;
 		$index = count(widgetArray);
 		$themeWidget->setIndex($index);
+		$themeWidget->setType($type);
 		return $index;
 	}
 	
@@ -487,13 +488,13 @@ class Theme
 	 * @return object HarmoniIterator All the widgets.
 	 */
 	function getAllWidgets() {
-		$allWidgets =& array_merge($this->_menus, 
+		$allWidgets =& array_merge($this->_textBlocks,
+									$this->_headings,
+									$this->_footers,
+									$this->_menus, 
 									$this->_menuItems,
 									$this->_selectedMenuItems,
 									$this->_menuHeadings,
-									$this->_headings,
-									$this->_footers,
-									$this->_textBlocks,
 									$this->_blanks);
 		return new HarmoniIterator($allWidgets);
 	}

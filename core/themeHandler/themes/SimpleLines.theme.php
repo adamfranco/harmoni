@@ -11,7 +11,7 @@ require_once(HARMONI."/themeHandler/common_settings/BorderSetting.class.php");
  * A simple line and color-block based theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.6 2004/03/11 16:02:49 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -108,7 +108,7 @@ class SimpleLinesTheme
  * The main TextBlock Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.6 2004/03/11 16:02:49 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -132,7 +132,7 @@ class SimpleLinesTextBlock1
 		$this->_rightBottomBorderThicknessId =& $this->addSetting(new SizeSetting, "Bottom/Right Border Size", "The size of the top and left sides of the main block's border.", "3px");
 		$this->_borderStyleId =& $this->addSetting(new BorderSetting, "Border Style", "The style of the main block's border.", "solid");
 		$this->_paddingId =& $this->addSetting(new SizeSetting, "Padding", "The size (in px) of padding on the inside of the main block.", "10px");
-		$this->_marginId =& $this->addSetting(new SizeSetting, "Margin", "The size (in px) of margin around the outside of the main block.", "0px");
+		$this->_marginId =& $this->addSetting(new SizeSetting, "Margin", "The size (in px) of margin around the outside of the main block.", "5px");
  	}
 
 	/**
@@ -192,7 +192,7 @@ class SimpleLinesTextBlock1
  * A TextBlock Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.6 2004/03/11 16:02:49 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -253,7 +253,7 @@ class SimpleLinesTextBlock2
  * A TextBlock Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.6 2004/03/11 16:02:49 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -332,7 +332,7 @@ class SimpleLinesTextBlock3
  * The main Heading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.6 2004/03/11 16:02:49 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -407,7 +407,7 @@ class SimpleLinesHeading1
  * A secondary Heading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.6 2004/03/11 16:02:49 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -486,7 +486,7 @@ class SimpleLinesHeading2
  * The main Heading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.6 2004/03/11 16:02:49 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -562,7 +562,7 @@ class SimpleLinesFooter1
  * A Menu Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.6 2004/03/11 16:02:49 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -574,10 +574,10 @@ class SimpleLinesMenu1
 	 */
  	function SimpleLinesMenu1 () {
 		// Set the Display Name:
-		$this->_displayName = "Menu 3";
+		$this->_displayName = "Menu 1";
 		
 		// Set the Descripiton:
-		$this->_description = "A third-level text block.";
+		$this->_description = "A prominent Menu.";
 		
 		// Set up any Setting objects for this theme and add them.
 		$this->_backgroundColorId =& $this->addSetting(new ColorSetting, "Background Color", "The color of this block's background.", "dddddd");
@@ -641,7 +641,7 @@ class SimpleLinesMenu1
  * A MenuHeading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.6 2004/03/11 16:02:49 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -653,10 +653,10 @@ class SimpleLinesMenuHeading1
 	 */
  	function SimpleLinesMenuHeading1 () {
 		// Set the Display Name:
-		$this->_displayName = "MenuHeading 3";
+		$this->_displayName = "MenuHeading 1";
 		
 		// Set the Descripiton:
-		$this->_description = "A third-level text block.";
+		$this->_description = "A prominent Menu Heading.";
 		
 		// Set up any Setting objects for this theme and add them.
 		$this->_backgroundColorId =& $this->addSetting(new ColorSetting, "Background Color", "The color of this block's background.", "dddddd");
@@ -709,7 +709,7 @@ class SimpleLinesMenuHeading1
  * A MenuItem Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.6 2004/03/11 16:02:49 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -781,7 +781,7 @@ class SimpleLinesMenuItem1
  * A MenuItem Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.6 2004/03/11 16:02:49 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
  * @copyright 2004 
  **/
 

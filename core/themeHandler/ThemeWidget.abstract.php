@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/ThemeWidget.interface.php");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: ThemeWidget.abstract.php,v 1.3 2004/03/05 21:40:06 adamfranco Exp $
+ * @version $Id: ThemeWidget.abstract.php,v 1.4 2004/03/12 23:35:32 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -98,6 +98,33 @@ class ThemeWidget
 		// Update the Ids of our settings.
 		
 		$this->_index = $index;
+	}
+
+	/**
+	 * Returns the type of this ThemeWidget.
+	 * @access public
+	 * @return int The type of this Widget.
+	 *		Indices start at 1 and go as high (in sequence; 1, 2, 3, etc) 
+	 *		as the theme developer desires.
+	 **/
+	function getType() {
+		return $this->_type;
+	}
+	
+	/**
+	 * Sets the type of this ThemeWidget.
+	 * @access public
+	 * @param int The type of this Widget.
+	 *		Indices start at 1 and go as high (in sequence; 1, 2, 3, etc) 
+	 *		as the theme developer desires.
+	 * @return void
+	 **/
+	function setType( $type ) {
+		ArgumentValidator::validate($type, new StringValidatorRule);
+		
+		// Update the Ids of our settings.
+		
+		$this->_type = $type;
 	}
 
 	/**
