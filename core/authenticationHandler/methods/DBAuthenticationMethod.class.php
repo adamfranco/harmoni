@@ -12,7 +12,7 @@ require_once(HARMONI."authenticationHandler/methods/DBMethodOptions.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBAuthenticationMethod.class.php,v 1.6 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: DBAuthenticationMethod.class.php,v 1.7 2005/02/14 19:19:38 thebravecowboy Exp $
  **/
  
 class DBAuthenticationMethod
@@ -100,6 +100,64 @@ class DBAuthenticationMethod
 	}
 	
 	/**
+	 * authenticate will check a systemName/password pair against the defined method
+	 * 
+	 * @param string $systemName the system name to validate (ie, a user name)
+	 * @param string $password the password associated with $systemName
+	 * @access public
+	 * @return boolean true if authentication succeeded with the method, false if not 
+	 **/
+	function & addAgent( $systemName, $password, $receivedProperties, $displayName = null) {
+		
+		ArgumentValidator::validate($systemName, new StringValidatorRule(), true);
+		ArgumentValidator::validate($password, new StringValidatorRule(), true);
+				
+		if ($this->agentExists($systemName)) {
+			print "<span style='color: red;'>Could not create user $systemName because username already exists in the system.</span><br />"; 
+			return false;
+			//throwError( new Error("DBAuthenticationMethod - Username already exists in system!","System",true));
+		}
+		
+		$DBHandler  =& $this->_DBHandler;
+						
+		//$connectionId = $this->_connect();
+		if (!isset($this->_id)) return false;
+		
+		$query =& new InsertQuery;
+		$query->setTable("auth_db_user");
+		$query->setColumns(array("username","password","display_name"));
+		$query->addRowOfValues(array("\"$systemName\"", "\"MD5(".$password.")\"", "\"$displayName\""));
+
+		$result =& $DBHandler->query($query, $this->_id);
+		
+		if(!$result){
+			return false;
+		}
+		
+		$agentManager =& Services::getService("Agent");
+		
+		if(!$displayName){
+			$displayName = $systemName;
+		}
+		
+		$type =& new HarmoniType("agent","harmoni","newAgent");
+		$properties =& new HarmoniProperties($type);
+		
+		foreach($receivedProperties as $key => $property){
+			$properties->addProperty($key, $property);
+		}
+			
+		$agent =& $agentManager->createAgent($displayName, $type, $properties);
+			
+		
+						
+		return $agent;
+				
+		
+	}
+	
+		
+	/**
 	 * Encrypts $password using the method specified by the user.
 	 * @param string $systemName The users's system name.
 	 * @param string $password The password to encrypt.
@@ -153,7 +211,7 @@ class DBAuthenticationMethod
 		$o = & $this->_opt;
 		
 		// get the DBHandler
-		$DBHandler = & $this->_DBHandler;
+		$DBHandler =& $this->_DBHandler;
 		
 		$query = & new SelectQuery;
 		$query->addTable($o->get("tableName"));

@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.10 2005/02/09 18:52:03 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.11 2005/02/14 19:19:41 thebravecowboy Exp $
  */
 class AuthorizationCache {
 
@@ -103,11 +103,9 @@ class AuthorizationCache {
 		// figure out whether it's dated or not
 		$dated = isset($effectiveDate) && isset($expirationDate);
 		if ($dated)
-			$authorization =& new HarmoniAuthorization($idValue, $agentId, $functionId, $qualifierId,
-													   true, $this, $effectiveDate, $expirationDate);
+			$authorization =& new HarmoniAuthorization($idValue, $agentId, $functionId, $qualifierId, true, $this, $effectiveDate, $expirationDate);
 		else													 
-			$authorization =& new HarmoniAuthorization($idValue, $agentId, $functionId, $qualifierId,
-													   true, $this);
+			$authorization =& new HarmoniAuthorization($idValue, $agentId, $functionId, $qualifierId,true, $this);
 		
 		// now insert into database
 		$dbHandler =& Services::requireService("DBHandler");
@@ -141,7 +139,7 @@ class AuthorizationCache {
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() != 1) {
 			$err = "Could not insert into database.";
-			throwError(new Error($err, "authorizarion", true));
+			throwError(new Error($err, "authorization", true));
 		}
 
 		$this->_authorizations[$idValue] =& $authorization;

@@ -16,7 +16,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.7 2005/02/07 21:38:24 adamfranco Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.8 2005/02/14 19:19:41 thebravecowboy Exp $
  */
 class HarmoniAuthorization 
 	extends Authorization 
@@ -105,8 +105,7 @@ class HarmoniAuthorization
 	 * @param boolean explicit Specifies whether this Authorization is explicit or not.
 	 * @access public
 	 */
-	function HarmoniAuthorization($id, & $agentId, & $functionId, & $qualifierId, 
-								  $explicit, & $cache, & $effectiveDate, & $expirationDate) {
+	function HarmoniAuthorization($id, & $agentId, & $functionId, & $qualifierId, $explicit, & $cache, & $effectiveDate, & $expirationDate) {
 
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("Id");
