@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandler.class.php,v 1.1 2005/04/05 18:53:18 adamfranco Exp $
+ * @version $Id: BasicOutputHandler.class.php,v 1.2 2005/04/05 20:45:56 adamfranco Exp $
  */ 
 
 require_once(HARMONI."/architecture/output/OutputHandler.abstract.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."/architecture/output/OutputHandler.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandler.class.php,v 1.1 2005/04/05 18:53:18 adamfranco Exp $
+ * @version $Id: BasicOutputHandler.class.php,v 1.2 2005/04/05 20:45:56 adamfranco Exp $
  */
 class BasicOutputHandler
 	extends OutputHandler 
@@ -31,14 +31,13 @@ class BasicOutputHandler
 	 * have been created such that it is a type that this OutputHandler can deal
 	 * with.
 	 * 
-	 * @param mixed $content
+	 * @param mixed $content Content returned by the action
+	 * @param string $printedContent Additional content printed, but not returned.
 	 * @return void
 	 * @access public
 	 * @since 4/4/05
 	 */
-	function output ( &$content ) {
-		ArguementValidator::validate($content, StringValidatorRule::getRule());
-		
+	function output ( &$content, $printedContent ) {		
 		$osidContext =& $this->getOsidContext();
 		$harmoni =& $osidContext->getContext('harmoni');
 		
@@ -56,7 +55,15 @@ $doctypeDef
 		$head
 	</head>
 	<body>
-		$content
+		$printedContent
+		
+END;
+		
+		if (is_string($content))
+			print $content;
+			
+		print<<<END
+
 	</body>
 </html>
 END;

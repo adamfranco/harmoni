@@ -1,11 +1,14 @@
 <?php
+
+require_once(OKI2."/osid/OsidManager.php");
+
 /**
  * @package harmoni.architecture
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OutputHandler.abstract.php,v 1.1 2005/04/05 18:53:18 adamfranco Exp $
+ * @version $Id: OutputHandler.abstract.php,v 1.2 2005/04/05 20:45:56 adamfranco Exp $
  */ 
 
 /**
@@ -18,9 +21,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OutputHandler.abstract.php,v 1.1 2005/04/05 18:53:18 adamfranco Exp $
+ * @version $Id: OutputHandler.abstract.php,v 1.2 2005/04/05 20:45:56 adamfranco Exp $
  */
-class OutputHandler {
+class OutputHandler 
+	extends OsidManager
+{
 	
 	/**
 	 * Assign the configuration of this Manager. Valid configuration options are as
@@ -95,12 +100,13 @@ class OutputHandler {
 	 * have been created such that it is a type that this OutputHandler can deal
 	 * with.
 	 * 
-	 * @param mixed $content
+	 * @param mixed $content Content returned by the action
+	 * @param string $printedContent Additional content printed, but not returned.
 	 * @return void
 	 * @access public
 	 * @since 4/4/05
 	 */
-	function output ( &$content ) {
+	function output ( &$content, $printedContent ) {		
 		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
 	}
 	

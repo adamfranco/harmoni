@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.15 2005/03/29 19:44:09 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.16 2005/04/05 20:45:55 adamfranco Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -566,31 +566,8 @@ class Theme extends ThemeInterface {
 	 * @access public
 	 **/
 	function printPage() {
-		echo "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\n";
-//		echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n";
-		echo "<html>\n";
-		
-		echo "\t<head>";
- 		echo "\n\t\t<title>";
-		echo $this->_pageTitle;
-		echo "</title>\n\n";
-
-		echo "\n\t\t<style type=\"text/css\">\n";
-		echo $this->getCSS("\t\t\t");
- 		echo "\t\t</style>\n";
- 		print "\n\t\t<script type='text/javascript'>
-//<![CDATA[";
-		print $this->_headJavascript;
-		print "\n\t\t//]]>
-</script>";
- 		
- 		echo "\t</head>\n";
-
- 		echo "\t<body>\n";
 		if (isset($this->_component))
 	 		$this->_component->render($this, "\t\t");
- 		echo "\t</body>\n";
- 		echo "</html>";
 	}
 	
 
