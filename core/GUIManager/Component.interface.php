@@ -5,7 +5,7 @@
  * @const integer BLANK
  * @package harmoni.gui
  */
-define("BLANK", 5);
+define("BLANK", 13);
  
 /**
  * A constant defining the HEADING component type.
@@ -67,7 +67,7 @@ define("OTHER", 13);
  * <code>Components</code> are the basic units that can be displayed on
  * the screen. The main method <code>render()</code> which renders the component 
  * on the screen.
- * @version $Id: Component.interface.php,v 1.3 2004/07/23 02:44:16 dobomode Exp $
+ * @version $Id: Component.interface.php,v 1.4 2004/07/28 21:35:35 adamfranco Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
