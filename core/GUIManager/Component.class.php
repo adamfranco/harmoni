@@ -10,7 +10,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * <code>Components</code> are the basic units that can be displayed on
  * the screen. The main method <code>render()</code> which renders the component 
  * on the screen.
- * @version $Id: Component.class.php,v 1.5 2004/08/09 02:58:30 dobomode Exp $
+ * @version $Id: Component.class.php,v 1.6 2004/08/09 03:54:23 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -129,7 +129,7 @@ class Component extends ComponentInterface {
 	/**
 	 * Returns the style collection with the specified selector.
 	 * @access public
-	 * @param string selectorName The selector.
+	 * @param string selector The selector.
 	 * @return ref object The style collection.
 	 **/
 	function & getStyle($selector) {
@@ -139,6 +139,20 @@ class Component extends ComponentInterface {
 			return null;
 	}
 	
+	/**
+	 * Remove the given StyleCollection from this Component.
+	 * @access public
+	 * @param string selector The selector of the style collection to remove.
+	 * @return ref object The style collection that was removed. <code>NULL</code>
+	 * if it could not be found.
+	 **/
+	function & removeStyle($selector) {
+	 	$result =& $this->_styleCollections[$selector];
+		unset($this->_styleCollections[$selector]);
+		
+		return $result;
+	}
+
 	/**
 	 * Returns all style collections for this component.
 	 * @access public

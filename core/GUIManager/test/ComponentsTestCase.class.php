@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ComponentsTestCase.class.php,v 1.4 2004/07/26 23:23:31 dobomode Exp $
+ * @version $Id: ComponentsTestCase.class.php,v 1.5 2004/08/09 03:54:35 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -61,7 +61,8 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 			$mainBoxStyle->addSP(new PaddingSP("5px"));
 		
 			$comp1 =& new Component(null, BLANK, 3);
-			$comp1->addStyle($bodyStyle);
+			$style =& $comp1->addStyle($bodyStyle);
+			$this->assertReference($style, $bodyStyle);
 			$comp1->addStyle($mainBoxStyle);
 			$this->assertReference($comp1->_styleCollections["body"], $bodyStyle);
 			$this->assertReference($comp1->_styleCollections["*.mainBoxStyle"], $mainBoxStyle);
@@ -75,6 +76,10 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 			$this->assertIdentical($comp2->getIndex(), 3);
 
 			$this->assertIdentical($comp1, $comp2);
+
+			$style =& $comp1->removeStyle("body");
+			$this->assertReference($style, $bodyStyle);
+			$this->assertNull($comp1->_styleCollections["body"]);
 		}
 	
 		function test_generic_container() {

@@ -12,7 +12,7 @@ require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
  * The <code>Container</code> interface is an extension of the <code>Component</code>
  * interface; <code>Containers</code> are capable of storing multiple sub-<code>Components</code>
  * and when rendering Containers, all sub-<code>Components</code> will be rendered as well.
- * @version $Id: Container.class.php,v 1.3 2004/07/23 02:44:16 dobomode Exp $
+ * @version $Id: Container.class.php,v 1.4 2004/08/09 03:54:23 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -138,7 +138,7 @@ class Container extends Component /* implements ContainerInterface */ {
 		else
 			return null;
 	}
-	
+
 	/**
 	 * Returns the number of components in this container.
 	 * @access public

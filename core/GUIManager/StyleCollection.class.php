@@ -23,7 +23,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: StyleCollection.class.php,v 1.3 2004/07/19 23:59:50 dobomode Exp $
+ * @version $Id: StyleCollection.class.php,v 1.4 2004/08/09 03:54:23 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -158,23 +158,41 @@ class StyleCollection extends StyleCollectionInterface {
 	/**
 	 * Adds one StyleProperty to this StyleCollection.
 	 * @access public
-	 * @param ref object A StyleComponent object.
+	 * @param ref object sc A StyleProperty object.
+	 * @return ref object The style property that was just added.
 	 **/
-	function addSP(& $sp) {
+	function & addSP(& $sp) {
 		ArgumentValidator::validate($sp, new ExtendsValidatorRule("StylePropertyInterface"), true);
-		$this->_SPs[] =& $sp;
+		$this->_SPs[$sp->getName()] =& $sp;
+		
+		return $sp;
 	}
 
 	/**
 	 * Returns the StyleProperties of this StyleCollection in a suitable
 	 * for CSS generation order.
 	 * @access public
-	 * @return array An array of the StyleComponents of this StyleCollection.
+	 * @return array An array of the StyleProperties of this StyleCollection.
 	 **/
 	function getSPs() {
 		return $this->_SPs;
 	}
 	
+	/**
+	 * Remove the given StyleProperty from this Style Collection.
+	 * @access public
+	 * @param ref object The style property to remove.
+	 * @return ref object The style property that was removed. <code>NULL</code>
+	 * if it could not be found.
+	 **/
+	function & removeSP(& $sp) {
+		ArgumentValidator::validate($sp, new ExtendsValidatorRule("StylePropertyInterface"), true);
+
+		$result =& $this->_SPs[$sp->getName()];
+		unset($this->_SPs[$sp->getName()]);
+		
+		return $result;
+	}
 	
 }
 

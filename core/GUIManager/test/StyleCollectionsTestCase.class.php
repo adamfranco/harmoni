@@ -9,7 +9,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StyleCollectionsTestCase.class.php,v 1.3 2004/07/19 23:59:51 dobomode Exp $
+ * @version $Id: StyleCollectionsTestCase.class.php,v 1.4 2004/08/09 03:54:35 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -47,7 +47,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
 
 			// another one
 			$collection =& new StyleCollection("p.col3", "col3", "The Block", "Some Blocky Block");
-			$collection->addSP(new ColorSP("#FFBBAA"));
+			$sp =& $collection->addSP(new ColorSP("#FFBBAA"));
 			$collection->addSP(new BorderSP("3em", "solid", "#421"));
 			
 			$css1 =& $collection->getCSS("\t\t");
@@ -56,6 +56,12 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
 			$this->assertTrue($collection->canBeApplied());
 			$this->assertIdentical($collection->getClassSelector(), "col3");
 			
+			$this->assertNotNull($collection->_SPs['color']);
+			$sp1 =& $collection->removeSP($sp);			
+			$this->assertReference($sp1, $sp);
+			$this->assertNull($collection->_SPs['color']);
+			$sps =& $collection->getSPs();
+			$this->assertNull($sps['color']);
 		}
 		
 		
