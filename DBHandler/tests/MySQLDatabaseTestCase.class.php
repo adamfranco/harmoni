@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLDatabaseTestCase.class.php,v 1.1 2003/06/20 15:38:03 dobomode Exp $
+ * @version $Id: MySQLDatabaseTestCase.class.php,v 1.2 2003/06/20 18:16:13 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -110,14 +110,14 @@
 
 			// test bad query
 			$query = "BAD QUERY";
-			$result = $this->database->query($query);
+			$result = $this->database->_query($query);
 			$this->assertFalse($result);
 			$this->assertEqual($this->database->getNumberFailedQueries(), 1);
 			$this->assertEqual($this->database->getNumberSuccessfulQueries(), 0);
 			
 			// test good query
 			$query = "SELECT * FROM gb";
-			$result = $this->database->query($query);
+			$result = $this->database->_query($query);
 			$this->assertTrue($result !== false);
 			$this->assertEqual($this->database->getNumberFailedQueries(), 1);
 			$this->assertEqual($this->database->getNumberSuccessfulQueries(), 1);
