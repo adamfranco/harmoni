@@ -14,10 +14,13 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.34 2004/01/30 21:33:09 adamfranco Exp $
+* @version $Id: DataSet.class.php,v 1.35 2004/02/02 20:44:06 adamfranco Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
+	
+	var $_myID;
+	var $_active;
 	
 	var $_idManager;
 	var $_dbID;
@@ -25,9 +28,6 @@ class CompactDataSet {
 	var $_versionControlled;
 	var $_fields;
 	var $_full;
-	
-	var $_myID;
-	var $_active;
 	
 	function CompactDataSet(&$idManager, $dbID, &$dataSetTypeDef, $verControl=false) {
 		ArgumentValidator::validate($verControl, new BooleanValidatorRule());
@@ -69,7 +69,12 @@ class CompactDataSet {
 	* Returns this DataSet's ID.
 	* @return int
 	*/
-	function getID() { return $this->_myID; }
+	function getID() { 
+		if ($this->_myID != NULL)
+			return $this->_myID; 
+		else
+			throwError( new Error("The ID for the dataSet is NULL, not returning.", "DataSet",true));
+	}
 	
 	/**
 	* Returns TRUE if this DataSet is read only (cannot be edited).
@@ -173,7 +178,8 @@ class CompactDataSet {
 		// (which should now be deprecated)
 		
 		// see if we can't get our ID from the row
-		if (!$this->_myID && $row['dataset_id']) $this->_myID = $row['dataset_id'];
+		if (!$this->_myID && $row['dataset_id']) 
+			$this->_myID = $row['dataset_id'];
 		else if ($row['dataset_id'] != $this->_myID) {
 			throwError( new Error("Can not take database row because it does not seem to correspond with our
 			DataSet ID.", "DataSet",true));
@@ -235,7 +241,7 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.34 2004/01/30 21:33:09 adamfranco Exp $
+* @version $Id: DataSet.class.php,v 1.35 2004/02/02 20:44:06 adamfranco Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {

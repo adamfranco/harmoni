@@ -17,7 +17,7 @@ class HarmoniInfoRecord extends InfoRecord
 	
 	var $_createdInfoFields;
 	
-	function HarmoniInfoRecord( &$infoStructure, &$dataSet ) {
+	function HarmoniInfoRecord( &$infoStructure, & $dataSet ) {
 		$this->_dataSet=& $dataSet;
 		$this->_infoStructure =& $infoStructure;
 		
@@ -31,7 +31,9 @@ class HarmoniInfoRecord extends InfoRecord
 	 * @package osid.dr
 	 */
 	function & getId() {
-		return new HarmoniId($this->_dataSet->getID());
+		$sharedManager =& Services::getService("Shared");
+		$id = $this->_dataSet->getID();
+		return $sharedManager->getId($id);
 	}
 
 	/**

@@ -35,7 +35,7 @@ require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.11 $ / $Date: 2004/01/29 20:51:15 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.12 $ / $Date: 2004/02/02 20:44:10 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -289,8 +289,10 @@ class HarmoniSharedManager
 		// an arbitrary string Id, so we will let them.
 		if (is_numeric($idString)) {
 			$id =& new HarmoniId($idString);
-		} else {
+		} else if (is_string($idString) && $idString != NULL) {
 			$id =& new HarmoniStringId($idString);
+		} else {
+			throwError(new Error(OPERATION_FAILED.": Unknown ID type for requested id-string, '".(($idString == NULL)?"NULL":$idString)."'.","HarmoniSharedManager",true));
 		}
 		
 		return $id;

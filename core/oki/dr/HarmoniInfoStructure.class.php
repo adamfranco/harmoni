@@ -54,7 +54,8 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @package osid.dr
 	 */
 	function & getId() {
-		return new HarmoniId($this->_typeDef->getID());
+		$sharedManager =& Services::getService("Shared");
+		return $sharedManager->getId($this->_typeDef->getID());
 	}
 
 	/**

@@ -163,11 +163,11 @@ class HarmoniAsset
 			}
 		}
 		
-		if ($contentDataSet->hasActiveValue("Content")) {
+		if ($contentDataSet && $contentDataSet->hasActiveValue("Content")) {
 			$valueVersion =& $contentDataSet->getActiveValue("Content");
 			return $valueVersion->getValue();
 		} else
-			return null;
+			return new BlobDataType;
 	}
 
 	/**
@@ -200,7 +200,16 @@ class HarmoniAsset
 				break;
 			}
 		}
-	
+		
+		if (!$contentDataSet) {		
+			// Set up and create our new dataset
+			$versionControl = FALSE;
+			$contentDataSet =& $dataSetMgr->newDataSet($contentType, $versionControl);
+			
+			// Add the DataSet to our group
+			$dataSetGroup->addDataSet($contentDataSet);
+		}
+		
 		$contentDataSet->setValue("Content", $content);
 		
 		$contentDataSet->commit();
@@ -236,11 +245,11 @@ class HarmoniAsset
 			}
 		}
 		
-		if ($contentDataSet->hasActiveValue("EffectiveDate")) {
+		if ($contentDataSet && $contentDataSet->hasActiveValue("EffectiveDate")) {
 			$valueVersion =& $contentDataSet->getActiveValue("EffectiveDate");
 			return $valueVersion->getValue();
 		} else
-			return null;
+			return new DateTimeDataType;
 	}
 
 	/**
@@ -273,7 +282,16 @@ class HarmoniAsset
 				break;
 			}
 		}
-	
+		
+		if (!$contentDataSet) {		
+			// Set up and create our new dataset
+			$versionControl = FALSE;
+			$contentDataSet =& $dataSetMgr->newDataSet($contentType, $versionControl);
+			
+			// Add the DataSet to our group
+			$dataSetGroup->addDataSet($contentDataSet);
+		}
+		
 		$contentDataSet->setValue("EffectiveDate", $effectiveDate);
 		
 		$contentDataSet->commit();
@@ -309,11 +327,11 @@ class HarmoniAsset
 			}
 		}
 		
-		if ($contentDataSet->hasActiveValue("ExpirationDate")) {
+		if ($contentDataSet && $contentDataSet->hasActiveValue("ExpirationDate")) {
 			$valueVersion =& $contentDataSet->getActiveValue("ExpirationDate");
 			return $valueVersion->getValue();
 		} else
-			return null;
+			return new DateTimeDataType;
 	}
 
 	/**
@@ -346,7 +364,16 @@ class HarmoniAsset
 				break;
 			}
 		}
-	
+		
+		if (!$contentDataSet) {		
+			// Set up and create our new dataset
+			$versionControl = FALSE;
+			$contentDataSet =& $dataSetMgr->newDataSet($contentType, $versionControl);
+			
+			// Add the DataSet to our group
+			$dataSetGroup->addDataSet($contentDataSet);
+		}
+		
 		$contentDataSet->setValue("ExpirationDate", $expirationDate);
 		
 		$contentDataSet->commit();
@@ -482,6 +509,8 @@ class HarmoniAsset
 		$versionControl = FALSE;
 		$newDataSet =& $dataSetMgr->newDataSet($type, $versionControl);
 		
+		$newDataSet->commit();
+		
 		// Add the DataSet to our group
 		$myGroup->addDataSet($newDataSet);
 		
@@ -545,6 +574,8 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function deleteInfoRecord(& $infoRecordId) {
+		ArgumentValidator::validate($infoRecordId, new ExtendsValidatorRule("Id"));
+		
 		$dataSetMgr =& Services::getService("DataSetManager");
 		$dataSetMgr->deleteDataSet( $infoRecordId->getIdString() );
 	}
@@ -651,6 +682,9 @@ class HarmoniAsset
 		
 		// Create an iterator and return it.
 		$recordIterator =& new HarmoniInfoRecordIterator($infoRecords);
+		
+		print "<br>DataSetID inside getInfoRecords()";
+		printpre ($recordIterator->_infoRecords[0]->_dataSet->_myID);
 		
 		return $recordIterator;
 	}

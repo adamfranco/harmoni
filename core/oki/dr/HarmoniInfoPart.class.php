@@ -44,7 +44,8 @@ class HarmoniInfoPart extends InfoPart
 	 * @package osid.dr
 	 */
 	function & getId() {
-		return new HarmoniId($this->_fieldDef->getID());
+		$sharedManager =& Services::getService("Shared");
+		return $sharedManager->getId($this->_fieldDef->getID());
 	}
 
 	/**
