@@ -1,6 +1,8 @@
 <?php
 
 require_once(HARMONI.'/oki/hierarchy/HierarchyStore.interface.php');
+Services::requireService("DBHandler","DBHandler");
+Services::requireService("Shared","HarmoniSharedManager");
 
 /******************************************************************************
  * A storage wrapper for the Tree class
@@ -12,6 +14,42 @@ require_once(HARMONI.'/oki/hierarchy/HierarchyStore.interface.php');
 class SQLDatabaseHierarchyStore
 	extends HierarchyStore
 {
+
+	/**
+	 * @var integer $_dbIndex The index of the database from which to fetch the hierarchy
+	 * 						and data.
+	 */
+	var $_dbIndex = 0;
+
+	/**
+	 * @var string $_tableName The name of the db table from which to access this hierarchy.
+	 */
+	var $_tableName = "hierarchy";
+
+	/**
+	 * @var string $_hierarchyKeyColumn The name of the hierarchy key column in the table.
+	 */
+	var $_hierarchyKeyColumn = "fk_hierarchy";	
+
+	/**
+	 * @var string $_idColumn The name of the id column in the table.
+	 */
+	var $_idColumn = "id";
+
+	/**
+	 * @var string $_parentKeyColumn The name of the parent key column in the table.
+	 */
+	var $_parentKeyColumn = "lk_parent";
+
+	/**
+	 * @var string $_displayNameColumn The name of the displayName column in the table.
+	 */
+	var $_displayNameColumn = "display_name";
+	
+	/**
+	 * @var string $_descriptionColumn The name of the description column in the table.
+	 */
+	var $_descriptionColumn = "description";
 	
 	/**
 	 * @var object Id $_id The id for this hierarchy.
@@ -32,11 +70,58 @@ class SQLDatabaseHierarchyStore
 	 * @var object Tree $_tree A tree object.
 	 */
 	var $_tree = NULL;
+	
+	/**
+	 * @var array $_changed The ids of objects that have been modified since they were 
+	 *						loaded from persistable storage.
+	 */
+	var $_changed = array();
+
+	/**
+	 * @var boolean $_isChanged True if the displayName, description, or type has been
+	 * 						modified since the dr was loaded from persistable storage.
+	 */
+	var $_isChanged = FALSE;
 
 	/**
 	 * @var array $_nodeTypes Node types in this hierarchy.
 	 */
 	var $_nodeTypes = array();
+	
+	/**
+	 * Constructor
+	 *
+	 * @param string $hierarchyId
+	 * @param integer $dbIndex	The index of the database from which to pull this hierarchy.
+	 * @param string $tableName	The table from which to pull this hierarchy.
+	 * @param string $hierarchyKeyColumn	The hierarchy key column.
+	 * @param string $idColumn	The id column.
+	 * @param string $parentKeyColumn	The parent key column.
+	 * @param string $displayNameColumn	The displayName column.
+	 * @param string $descriptionColumn	The description column.
+	 */
+	function SQLDatabaseHierarchyStore ($hierarchyId, $dbIndex, $tableName, $hierarchyKeyColumn, $idColumn, $parentKeyColumn, $displayNameColumn, $descriptionColumn) {
+		// Check the arguments
+		ArgumentValidator::validate($hierarchyId, new StringValidatorRule);
+		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule);
+		ArgumentValidator::validate($tableName, new StringValidatorRule);
+		ArgumentValidator::validate($hierarchyKeyColumn, new StringValidatorRule);
+		ArgumentValidator::validate($idColumn, new StringValidatorRule);
+		ArgumentValidator::validate($parentKeyColumn, new StringValidatorRule);
+		ArgumentValidator::validate($displayNameColumn, new StringValidatorRule);
+		ArgumentValidator::validate($descriptionColumn, new StringValidatorRule);
+		
+		$this->_id = $hierarchyId;
+		$this->_dbIndex = $dbIndex;
+		$this->_tableName = $tableName;
+		$this->_hierarchyKeyColumn = $hierarchyKeyColumn;
+		$this->_idColumn = $idColumn;
+		$this->_parentKeyColumn = $parentKeyColumn;
+		$this->_displayNameColumn = $displayNameColumn;
+		$this->_descriptionColumn = $descriptionColumn;
+		
+		$this->load();
+	}
 	
 	/**
 	 * Initializes this Store. Loads any saved data for the hierarchy.
@@ -69,7 +154,47 @@ class SQLDatabaseHierarchyStore
 	 * @access protected
 	 */
 	function load ($nodeId=NULL) {
-		// Do nothing as this store isn't saved
+		
+		// Check the arguments
+		ArgumentValidator::validate($nodeId, new StringValidatorRule);
+		
+		$dbc =& Services::getService("DBHandler");
+		$sharedManager =& Services::getService("Shared");
+		
+		$query =& new SelectQuery;
+		
+		// build the query. To get sub trees, this could be broken into
+		// two queries; one that fetched the parents, and one that fetched
+		// the children rooted at this node with joins.
+		// For now we will just fetch the whole schebang for proof of concept
+		// purposes.
+		$query->addColumn($this->_idColumn,"id");
+		$query->addColumn($this->_parentKeyColumn,"parent_id");
+		$query->addColumn($this->_displayNameColumn,"displayName");
+		$query->addColumn($this->_descriptionColumn,"description");
+		
+		$query->addWhere($this->_hierarchyKeyColumn."=".$this->_hierarchyId);
+		$query->addOrder($this->_parentKeyColumn, ASCENDING);
+		$query->addOrder($this->_idColumn, ASCENDING);
+		
+		$result =& $dbc->query($query, $this->_dbIndex);
+		
+		
+		// Build the tree from the results
+		while ($result->advanceRow()) {
+			// create the Id for the HarmoniNode object
+			$nodeIdObj =& $sharedManager->getId($result->field($this->_idColumn));
+			
+			// create the HarmoniNode object
+			$harmoniNode =& new HarmoniNode($nodeIdObj, $this, NULL, $result->field($this->_displayNameColumn), $result->field($this->_description));
+			
+			// the parentKey should be 0 if this is a root node, so addNode should work
+			// always.
+			// Add the node to the tree with HarmoniNode object as data
+			$this->_tree->addNode(NULL, $result->field($this->_parentKeyColumn), $result->field($this->_idColumn));
+			$this->_tree->setData($harmoniNode, $result->field($this->_idColumn));
+		}
+		
 	}
 	
 	/**
@@ -140,6 +265,7 @@ class SQLDatabaseHierarchyStore
 				
 		// update and save
 		$this->_description = $description;
+		$this->_isChanged = TRUE;
 	}
 
 /******************************************************************************
@@ -156,6 +282,8 @@ class SQLDatabaseHierarchyStore
     */
 	function addNode(&$data, $parentID=0, $id=0) {
 		$this->_tree->addNode($data, $parentID, $id);
+		if (!in_array($id,$this->_changed))
+			$this->_changed[] = $id;
 	}
 
 	/**
@@ -166,6 +294,8 @@ class SQLDatabaseHierarchyStore
     */
 	function removeNode($id) {
 		$this->_tree->removeNode($id);
+		if (!in_array($id,$this->_changed))
+			$this->_changed[] = $id;
 	}
 	
 	/**
@@ -196,6 +326,8 @@ class SQLDatabaseHierarchyStore
     */
 	function setData($id, & $data) {
 		$this->_tree->setData($id, $data);
+		if (!in_array($id,$this->_changed))
+			$this->_changed[] = $id;
 	}
 	
 	/**
