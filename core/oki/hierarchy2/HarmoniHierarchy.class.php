@@ -20,7 +20,7 @@ require_once(HARMONI.'/oki/hierarchy2/DefaultNodeType.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchy.class.php,v 1.8 2004/08/26 15:10:34 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.9 2004/12/16 22:37:40 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -369,6 +369,33 @@ class HarmoniHierarchy extends Hierarchy {
 	function &getRootNodes() {
 		// if all the nodes haven't been cached then do it
 		$nodes =& $this->_cache->getRootNodes();
+
+		// create the iterator and return them
+		return new HarmoniNodeIterator($nodes);
+	}
+	
+	/**
+	 * Get the Nodes of the specified Type in this Hierarchy. 
+	 *
+	 * WARNING: This method is not in the OSIDs as of version 2.0.
+	 *
+	 * @param object Type $nodeType
+	 * @return object NodeIterator  Iterators return a set, one at a time.  The
+	 *		   Iterator's hasNext method returns true if there are additional
+	 *		   objects available; false otherwise.  The Iterator's next method
+	 *		   returns the next object.  The order of the objects returned by
+	 *		   the Iterator is not guaranteed.
+	 *
+	 * @throws HierarchyException if there is a general failure.
+	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function &getNodesByType( & $nodeType ) {
+		// if all the nodes haven't been cached then do it
+		$where = "type_domain = '".addslashes($nodeType->getDomain())."'";
+		$where .= " AND type_authority = '".addslashes($nodeType->getAuthority())."'";
+		$where .= " AND type_keyword = '".addslashes($nodeType->getKeyword())."'";
+		$nodes =& $this->_cache->getNodesFromDB($where);
 
 		// create the iterator and return them
 		return new HarmoniNodeIterator($nodes);

@@ -27,7 +27,7 @@ require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
  * 
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
- * @version $Id: HierarchyCache.class.php,v 1.14 2004/08/26 15:10:34 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.15 2004/12/16 22:37:40 adamfranco Exp $
  * @package harmoni.osid.hierarchy2
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -346,7 +346,7 @@ class HierarchyCache {
 	 * which nodes to return.
 	 * @return ref object An array of HarmoniNode objects.
 	 **/
-	function getNodesFromDB($where) {
+	function &getNodesFromDB($where) {
 		// ** parameter validation
 		ArgumentValidator::validate($where, new StringValidatorRule(), true);
 		// ** end of parameter validation
@@ -471,7 +471,7 @@ class HierarchyCache {
 	 * @access public
 	 * @return ref array An array of all root nodes in this hierarchy.
 	 **/
-	function getRootNodes() {
+	function &getRootNodes() {
 		$dbHandler =& Services::requireService("DBHandler");
 		$shared_manager =& Services::requireService("Shared");
 		$db = $this->_hyDB.".";
