@@ -6,9 +6,11 @@ require_once(HARMONI."/themeHandler/Theme.interface.php");
 /**
  * The abstract Theme class provides some fleshed out methods for easier
  * implimentation of themes.
+ * The constructor as well as the print(& $layoutObj) method will need to be
+ * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: Theme.abstract.php,v 1.1 2004/03/03 22:00:53 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.2 2004/03/03 22:04:40 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -62,8 +64,17 @@ class Theme
 	var $_settings;
 	
 	
-	// Sample Constructor
-// 	function Theme () {
+	
+	/**
+	 * Constructor, throws an error since this is an abstract class.
+	 * The constructor as well as the print(& $layoutObj) method will need to be
+	 * implimented for any classes that extend this abstract class.
+	 */
+ 	function Theme () {
+ 		die ("Can not instantiate abstract class <b> ".__CLASS__."</b>. Extend with a non-abstract child class and instantiate that instead."); 
+ 		
+//	 	// Sample Constructor:
+//
 // 		// Set the Display Name:
 // 		$this->_displayName = "Pretty Bubble Theme";
 // 		
@@ -99,11 +110,6 @@ class Theme
 // 		$this->_footers[] = new PrettyBubbleFooter1;
 // 		$this->_textBlocks[] = new PrettyBubbleTextBlock1;
 // 	}
-
-	// Constructor put here to prevent instantiation of this abstract class.
-	function Theme () {
-		die ("Can not instantiate abstract class <b> ".__CLASS__."</b>. Extend with a non-abstract child class and instantiate that instead."); 
-	}
 
 	/**
 	 * Returns the DisplayName of this theme.
