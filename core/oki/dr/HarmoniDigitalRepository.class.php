@@ -7,6 +7,7 @@ require_once(HARMONI."/oki/dr/HarmoniDigitalRepositoryIterator.class.php");
 require_once(HARMONI."/oki/dr/HarmoniInfoStructure.class.php");
 require_once(HARMONI."/oki/dr/HarmoniInfoStructureIterator.class.php");
 require_once(HARMONI."/oki/shared/HarmoniTypeIterator.class.php");
+require_once(HARMONI."/oki/shared/HarmoniCalendarIterator.class.php");
 
 /**
  * DigitialRepository manages Assets of various Types and information about the Assets.  Assets are created, persisted, and validated by the Digital Repository.  When initially created, an Asset has an immutable Type and Unique Id and its validation status is false.  In this state, all methods can be called, but integrity checks are not enforced.  When the Asset and its InfoRecords are ready to be validated, the validateAsset method checks the Asset and sets the validation status.  When working with a valid Asset, all methods include integrity checks and an exception is thrown if the activity would result in an inappropriate state.  Optionally, the invalidateAsset method can be called to release the requirement for integrity checks, but the Asset will not become valid again, until validateAsset is called and the entire Asset is checked.    <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
@@ -369,6 +370,9 @@ class HarmoniDigitalRepository
 	 */
 	function & getAssetByDate(& $assetId, & $date) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+		
+		// Return an Asset where all InfoRecords have the values that they
+		// would have on the specified date.
 	}
 
 	/**
@@ -378,7 +382,44 @@ class HarmoniDigitalRepository
 	 * @package osid.dr
 	 */
 	function & getAssetDates(& $assetId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		
+		$dataSetMgr =& Services::getService("DataSetManager");
+		
+		// Get the DataSets in the Asset's DataSetGroup
+		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($assetId->getIdString());
+		$dataSets =& $dataSetGroup->fetchDataSets();
+		
+		// Get the dates for all Fields of all DataSets and
+		// put them into an array.
+		$dates = array();
+		$dateStrings = array();
+		foreach ($dataSets as $key => $set) {
+			if ($dataSets[$key]->isVersionControlled()) {
+				$typeDef =& $dataSets[$key]->getDataSetTypeDefinition();
+				$labels =& $typeDef->getAllLabels(TRUE);
+				foreach ($labels as $labelKey => $label) {
+					$versionsObjs =& $dataSets[$key]->getAllValueVersionsObjects($label);
+					foreach ($versionsObjs as $versionObjsKey => $versionObj) {
+						$versionIDs =& $versionsObjs[$versionObjsKey]->getVersionList();
+						foreach ($versionIDs as $id) {
+							$version =& $versionsObjs[$versionObjsKey]->getVersion($id);
+							$date =& $version->getDate();
+						
+							// Add Date to the array if it doesn't exist already.
+							if (!in_array($date->toString(), $dateStrings)) {
+								$dateStrings[] = $date->toString();
+								$dates[] =& $date;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// Create and return an iterator.
+		$dateIterator =& new HarmoniCalendarIterator($dates);
+		return $dateIterator;
 	}
 
 	/**

@@ -10,7 +10,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.28 2004/01/30 15:40:09 adamfranco Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.29 2004/02/05 00:19:19 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -179,8 +179,11 @@ class ValueVersions {
 		$actVer =& $this->getActiveVersion();
 		$actVal =& $actVer->getValue();
 		
-		if ($actVal && $actVal->isEqual($value)) return true;
+		if ($actVal && $actVal->isEqual($value)) 
+			return true;
+
 		$actVer->takeValue($value);
+		$actVer->setDate(DateTime::now());
 		
 		// now tell actVer to update the DB on commit()
 		$actVer->update();
@@ -372,7 +375,7 @@ class ValueVersions {
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.28 2004/01/30 15:40:09 adamfranco Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.29 2004/02/05 00:19:19 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
