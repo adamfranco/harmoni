@@ -29,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.11 2004/08/12 20:21:15 gabeschine Exp $
+* @version $Id: Record.class.php,v 1.12 2004/08/17 02:22:57 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -153,7 +153,7 @@ class Record {
 	/**
 	 * Returns the active {@link Primitive} value for the given $index under $label.
 	 * @param string $label
-	 * @param optional string $index defaults to 0
+	 * @param optional integer $index defaults to 0
 	 * @access public
 	 * @return ref object
 	 */
@@ -161,6 +161,20 @@ class Record {
 	{
 		$value =& $this->getCurrentValue($label, $index);
 		return $value->getPrimitive();
+	}
+	
+	/**
+	 * Returns the active value for a label/index by calling $function on the {@link Primitive} that is returned.
+	 * @param string $function The function to call.
+	 * @param string $label The label.
+	 * @param optional int $index defaults to 0
+	 * @access public
+	 * @return ref mixed
+	 */
+	function &getCurrentValueByFunction($function, $label, $index=0)
+	{
+		$prim =& $this->getCurrentValuePrimitive($label, $index);
+		return $prim->$function();
 	}
 	
 	/**
@@ -601,6 +615,7 @@ class Record {
 	{
 		$this->makeCurrent();
 		$array = array();
+		$array["__id"] = $this->getID();
 		
 		$labels = $this->_schema->getAllLabels();
 		foreach ($labels as $label) {
@@ -613,9 +628,11 @@ class Record {
 					$array[$label][] = $primitive->toString();
 				}
 			} else {
-				$value =& $this->getCurrentValue($label);
-				$primitive =& $value->getPrimitive();
-				$array[$label] = $primitive->toString();
+				if ($this->numValues($label)) {
+					$value =& $this->getCurrentValue($label);
+					$primitive =& $value->getPrimitive();
+					$array[$label] = $primitive->toString();
+				}
 			}
 		}
 		

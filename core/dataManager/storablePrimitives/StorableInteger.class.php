@@ -4,10 +4,14 @@
  * This is the {@link StorablePrimitive} equivalent of {@link Integer}.
  * @package harmoni.datamanager.storableprimitives
  * @copyright 2004
- * @version $Id: StorableInteger.class.php,v 1.1 2004/07/27 18:15:26 gabeschine Exp $
+ * @version $Id: StorableInteger.class.php,v 1.2 2004/08/17 02:23:03 gabeschine Exp $
  */
 class StorableInteger extends Integer /* implements StorablePrimitive */ {
 
+	function StorableInteger() {
+		// do nothing.
+	}
+	
 	/**
 	 * Inserts a new row into the Database with the data contained in the object.
 	 * @param integer $dbID The {@link DBHandler} database ID to query.

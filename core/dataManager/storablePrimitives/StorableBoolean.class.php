@@ -4,10 +4,14 @@
  * This is the {@link StorablePrimitive} equivalent of {@link Boolean}.
  * @package harmoni.datamanager.storableprimitives
  * @copyright 2004
- * @version $Id: StorableBoolean.class.php,v 1.1 2004/07/27 18:15:26 gabeschine Exp $
+ * @version $Id: StorableBoolean.class.php,v 1.2 2004/08/17 02:23:03 gabeschine Exp $
  */
 class StorableBoolean extends Boolean /* implements StorablePrimitive */ {
 
+	function StorableBoolean() {
+		// do nothing
+	}
+	
 	/**
 	 * Inserts a new row into the Database with the data contained in the object.
 	 * @param integer $dbID The {@link DBHandler} database ID to query.

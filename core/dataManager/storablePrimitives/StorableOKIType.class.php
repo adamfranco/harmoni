@@ -4,10 +4,12 @@
  * This is the {@link StorablePrimitive} equivalent of {@link OKIType}.
  * @package harmoni.datamanager.storableprimitives
  * @copyright 2004
- * @version $Id: StorableOKIType.class.php,v 1.1 2004/07/27 18:15:26 gabeschine Exp $
+ * @version $Id: StorableOKIType.class.php,v 1.2 2004/08/17 02:23:03 gabeschine Exp $
  */
 class StorableOKIType extends OKIType /* implements StorablePrimitive */ {
 
+	function StorableOKIType() {}
+	
 	/**
 	 * Inserts a new row into the Database with the data contained in the object.
 	 * @param integer $dbID The {@link DBHandler} database ID to query.

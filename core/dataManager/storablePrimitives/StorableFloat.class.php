@@ -4,9 +4,11 @@
  * This is the {@link StorablePrimitive} equivalent of {@link Float}.
  * @package harmoni.datamanager.storableprimitives
  * @copyright 2004
- * @version $Id: StorableFloat.class.php,v 1.1 2004/07/27 18:15:26 gabeschine Exp $
+ * @version $Id: StorableFloat.class.php,v 1.2 2004/08/17 02:23:03 gabeschine Exp $
  */
 class StorableFloat extends Double /* implements StorablePrimitive */ {
+	
+	function StorableFloat() { }
 	
 	/**
 	 * Inserts a new row into the Database with the data contained in the object.

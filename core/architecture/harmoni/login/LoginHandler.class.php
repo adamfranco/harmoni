@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.19 2004/08/08 19:43:40 gabeschine Exp $
+ * @version $Id: LoginHandler.class.php,v 1.20 2004/08/17 02:22:56 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -88,7 +88,7 @@ class LoginHandler {
 		if (!$pair) return false;
 		// this checks if we have a noAuthAction set to "module.*", meaning any action
 		// within it is a-OK.
-		if (in_array(ereg_replace("\..*$","\.\*",$pair), $this->_noAuthActions)) return false;
+		if (in_array(ereg_replace("\..*$",".*",$pair), $this->_noAuthActions)) return false;
 		return true;
 	}
 	
@@ -172,7 +172,7 @@ class LoginHandler {
 		} else if (!$result) {
 			return $state;
 		}
-		
+
 		//---------------
 		// If we have tokens, authenticate with them whether or not 
 		// we need to force an auth check.
@@ -192,7 +192,7 @@ class LoginHandler {
 			// save the new LoginState in the session
 			$state =& new LoginState($username,$authResult);
 			$_SESSION['__LoginState'] =& $state;
-
+			
 			//---------------
 			// If the tokens authenticate, send the user on their way
 			if ($authResult->isValid()) {
