@@ -1,17 +1,32 @@
 <?php
 
+require_once(HARMONI."authenticationHandler/AuthenticationHandler.interface.php");
+
 /**
- * The AuthenticationHandlerInterface defines the functionallity that all extending classes should have.
- * The AuthenticationHandlerInterface defines the functionallity that all extending classes should have.
- * An implementing class should reference one or several AuthenticationMethod objects and use them
- * to authenticate an agent.
- * @version $Id: AuthenticationHandler.interface.php,v 1.4 2003/06/25 21:46:53 gabeschine Exp $
+ * The AuthenticationHandler keeps track of multiple AuthenticationMethods for authenticating agents.
+ * The AuthenticationHandler keeps track of multiple AuthenticationMethods for 
+ * authenticating agents.
+ * 
+ * @see AuthenticationMethodInterface
+ * @version $Id: AuthenticationHandler.class.php,v 1.1 2003/06/25 21:46:54 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
  **/
 
-class AuthenticationHandlerInterface {
+class AuthenticationHandler extends AuthenticationHandlerInterface {
+	/**
+	 * @access private
+	 * @var boolean $_used If the handler has been used for authentication yet.
+	 **/
+	var $_used = false;
+	
+	/**
+	 * @access private
+	 * @var array $_methods An associative array of [name]=>AuthenticationMethod pairs.
+	 **/
+	var $_methods = array();
+	
 	/**
 	 * Attempts to validate the given credentials.
 	 * Attempts to validate the given credentials. It steps through the
@@ -23,8 +38,14 @@ class AuthenticationHandlerInterface {
 	 * @access public
 	 * @return boolean True if authentication succeeds, false otherwise.
 	 **/
-	function authenticate($systemName, $password, $method) { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	function authenticate($systemName, $password, $method ) { 
+		// if the method doesn't exist, return false
+		if (!$this->_methodExists($method)) return false;
+		
+		// return the result of the authentication method.
+		// first get it
+		$methodObject =& $this->getMethod($method);
+		return $methodObject->authenticate($systemName, $password);
 	}
 	
 	/**
@@ -37,7 +58,7 @@ class AuthenticationHandlerInterface {
 	 * @return object AuthenticationResult The AuthenticationResult object.
 	 **/
 	function authenticateAllMethods($systemName, $password) { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		
 	}
 	
 	/**
@@ -67,8 +88,38 @@ class AuthenticationHandlerInterface {
 	 * @return void 
 	 **/
 	function addMethod( $name, $priority, & $methodObject, $authoritative = false ) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		// if we have already been used for authentication, return.
+		if ($this->_used) return;
+		
+		// if we already have a method by this name, throw an error & return
+		if ($this->_methodExists($name)) {
+			//@todo -cAuthenticationHandler throw an error! -- fatal
+			
+			return;
+		}
+		
+		// otherwise, continue
+		// set the priority
+		$methodObject->setPriority($priority);
+		// set the authoritative flag
+		$methodObject->setAuthoritative($authoritative);
+		
+		// add it to our array
+		$this->_methods[$name] =& $methodObject;
 	}
+	
+	/**
+	 * Checks if method $name has been added already.
+	 * @param string $name The name of the method.
+	 * @access private
+	 * @return boolean True if method has been added.
+	 **/
+	function _methodExists( $name ) {
+		if (in_array($name,array_keys($this->_methods)))
+			return true;
+		return false;
+	}
+	
 	
 	/**
 	 * getMethod returns the AuthenticationMethod object associated with $name.
@@ -77,7 +128,12 @@ class AuthenticationHandlerInterface {
 	 * @return object AuthenticationMethod The AuthenticationMethod object.
 	 **/
 	function & getMethod( $name ) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		if ($this->_methodExists($name))
+			return $this->_methods[$name];
+		else {
+			// @todo -cAuthenticationHandler throw a fatal error!
+			return false;
+		}
 	}
 	
 	/**
@@ -86,7 +142,7 @@ class AuthenticationHandlerInterface {
 	 * @return array The array of method names.
 	 **/
 	function getMethodNames() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		return array_keys($this->_methods);
 	}
 	
 	/**
@@ -101,7 +157,14 @@ class AuthenticationHandlerInterface {
 	 * @return void 
 	 **/
 	function removeMethod( $name ) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		// if the AuthenticationManager has been used already, return.
+		if ($this->_used) return;
+		
+		// if the method doesn't exist, return.
+		if (!$this->_methodExists($name)) return;
+		
+		// if not, unset the method from the array
+		unset($this->_methods[$name]);
 	}
 }
 	

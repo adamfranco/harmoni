@@ -3,7 +3,7 @@
 /**
  * defines the methods that are required for any authenticationMethod
  *
- * @version $Id: AuthenticationMethod.interface.php,v 1.6 2003/06/25 20:43:49 gabeschine Exp $
+ * @version $Id: AuthenticationMethod.interface.php,v 1.7 2003/06/25 21:46:54 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -19,22 +19,6 @@ class AuthenticationMethodInterface {
 	 * @return boolean true if authentication succeeded with the method, false if not 
 	 **/
 	function authenticate( $systemName, $password ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
-	
-	/**
-	 * @access public
-	 * @return string returns the user-defined name/ID of the module
-	 **/
-	function getName () { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
-	
-	/**
-	 * Sets the user-defined name of this method.
-	 * @param string $name The name to set the method to.
-	 * @access public
-	 * @return void 
-	 **/
-	function setName( $name ) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
 	
 	/**
 	 * Sets this method's priority to $priority.

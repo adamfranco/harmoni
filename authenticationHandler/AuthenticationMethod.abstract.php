@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/AuthenticationMethod.interface.php")
  * the DB Authentication Method will contact an SQL database and check a username/password pair
  * against fields in a specified table.
  *
- * @version $Id: AuthenticationMethod.abstract.php,v 1.4 2003/06/25 20:43:49 gabeschine Exp $
+ * @version $Id: AuthenticationMethod.abstract.php,v 1.5 2003/06/25 21:46:53 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -46,26 +46,6 @@ class AuthenticationMethod
 	 * @return boolean true if authentication succeeded with the method, false if not 
 	 **/
 	function authenticate( $systemName, $password ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
-	
-	/**
-	 * @access public
-	 * @return string returns the user-defined name/ID of the module
-	 **/
-	function getName () {
-		return $this->_name;
-	}
-	
-	/**
-	 * Sets the user-defined name of this method.
-	 * @param string $name The name to set the method to.
-	 * @access public
-	 * @return void 
-	 **/
-	function setName( $name ) {
-		if (strlen($name)) {
-			$this->_name = $name;
-		}
-	}
 	
 	/**
 	 * Sets this method's priority to $priority.
