@@ -4,6 +4,7 @@ require_once(OKI."/hierarchy.interface.php");
 require_once(HARMONI."oki/hierarchy2/HierarchyCache.class.php");
 require_once(HARMONI."oki/hierarchy2/HarmoniNodeIterator.class.php");
 require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
+require_once(HARMONI."oki/hierarchy2/GenericNodeType.class.php");
 
 /**
  * A Node is a Hierarchy's representation of an external object that is one of
@@ -17,7 +18,7 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.2 2004/05/12 22:31:42 dobomode Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.3 2004/05/25 18:53:17 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -162,7 +163,12 @@ class HarmoniNode extends Node {
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getParents() {
-		$result =& new HarmoniNodeIterator($this->_parents);
+		$idValue = $this->_id->getIdString();
+	
+		// get the children (cache them if necessary)
+		$children =& $this->_cache->CacheAndGetParents($this);
+		$result =& new HarmoniNodeIterator($children);
+
 		return $result;
 	}
 
@@ -183,17 +189,9 @@ class HarmoniNode extends Node {
 	function & getChildren() {
 		$idValue = $this->_id->getIdString();
 	
-		// see if the children have been cached, if yes just return them
-		if ($this->_cache->_cachedChildren->nodeExists($idValue)) {
-			$node =& $this->_cache->_cachedChildren->getNode($idValue);
-			$result =& new HarmoniNodeIterator($node->getChildren());
-		}
-		// if children have not been cached, then do it!!
-		else {
-			$this->_cache->cacheChildren($this);
-			$node =& $this->_cache->_cachedChildren->getNode($idValue);
-			$result =& new HarmoniNodeIterator($node->getChildren());
-		}
+		// get the children (cache them if necessary)
+		$children =& $this->_cache->CacheAndGetChildren($this);
+		$result =& new HarmoniNodeIterator($children);
 
 		return $result;
 	}
