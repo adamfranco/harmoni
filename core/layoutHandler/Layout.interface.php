@@ -11,8 +11,8 @@ define("LAYOUT","LayoutInterface");
 /**
  * LayoutInterface defines the methods required of any {@link Layout}.
  *
- * @package harmoni.interfaces.layout
- * @version $Id: Layout.interface.php,v 1.3 2004/03/10 00:10:24 adamfranco Exp $
+ * @package harmoni.layout
+ * @version $Id: Layout.interface.php,v 1.4 2004/04/20 19:49:47 adamfranco Exp $
  * @copyright 2003 
  **/
 

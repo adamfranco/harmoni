@@ -7,8 +7,8 @@ require_once("QueryResult.interface.php");
  *
  * The DELETEQueryResult interface provides the functionality common to all DELETE query results.
  * For example, you can get the primary key for the last DELETEion, get number of DELETEed rows, etc.
- * @version $Id: DeleteQueryResult.interface.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
- * @package harmoni.interfaces.dbc
+ * @version $Id: DeleteQueryResult.interface.php,v 1.2 2004/04/20 19:48:58 adamfranco Exp $
+ * @package harmoni.dbc
  * @access public
  * @copyright 2003 
  */

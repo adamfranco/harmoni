@@ -30,8 +30,8 @@ define('HIGH_DETAIL', 3);
  * An ErrorPrinter interface provides functionality to output Error objects in any way one's soul may desire.
  * For example, you can print to a browser window, to a database, to a file, etc.
  *
- * @version $Id: ErrorPrinter.interface.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
- * @package harmoni.interfaces.errorhandler
+ * @version $Id: ErrorPrinter.interface.php,v 1.2 2004/04/20 19:49:47 adamfranco Exp $
+ * @package harmoni.errorhandler
  * @copyright 2003
  * @access public
  */

@@ -3,10 +3,10 @@
 /**
  * The ServicesInterface defines the functionality required by any Services class or derivative.
  * The ServicesInterface defines the functionality required by any Services class or derivative.
- * @version $Id: Services.interface.php,v 1.2 2003/11/07 05:57:46 gabeschine Exp $
+ * @version $Id: Services.interface.php,v 1.3 2004/04/20 19:50:00 adamfranco Exp $
  * @copyright 2003 
  * @access public
- * @package harmoni.interfaces.services
+ * @package harmoni.services
  **/
 
 class ServicesInterface {

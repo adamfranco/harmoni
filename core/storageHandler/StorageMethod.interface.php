@@ -4,8 +4,8 @@
  * Storage Method interface provides functionality to create StorageMethods
  * to handle Storables. A collection of StorageMethods can be used by StorageHandler. 
  *
- * @version $Id: StorageMethod.interface.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
- * @package harmoni.interfaces.storage.methods
+ * @version $Id: StorageMethod.interface.php,v 1.2 2004/04/20 19:50:00 adamfranco Exp $
+ * @package harmoni.storage.methods
  * @copyright 2003
  * @access public
  */

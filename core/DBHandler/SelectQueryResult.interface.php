@@ -35,8 +35,8 @@ define("BOTH", 3);
  *
  * The SelectQueryResult interface provides the functionality common to a SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: SelectQueryResult.interface.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
- * @package harmoni.interfaces.dbc
+ * @version $Id: SelectQueryResult.interface.php,v 1.2 2004/04/20 19:48:58 adamfranco Exp $
+ * @package harmoni.dbc
  * @access public
  * @copyright 2003 
  */

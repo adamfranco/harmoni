@@ -12,8 +12,8 @@
  * whom actions are performed. This feature is useful because the Active user can
  * be changed, allowing administrators or similar users to switch between Active users.
  * 
- * @package harmoni.interfaces.architecture.login
- * @version $Id: LoginState.interface.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @package harmoni.architecture.login
+ * @version $Id: LoginState.interface.php,v 1.2 2004/04/20 19:49:38 adamfranco Exp $
  * @copyright 2003 
  **/
 class LoginStateInterface {

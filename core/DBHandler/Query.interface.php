@@ -66,8 +66,8 @@
 /**
  * A generic Query interface to be implemented by all Query objects.
  *
- * @version $Id: Query.interface.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
- * @package harmoni.interfaces.dbc
+ * @version $Id: Query.interface.php,v 1.2 2004/04/20 19:48:58 adamfranco Exp $
+ * @package harmoni.dbc
  * @access public
  * @copyright 2003 
  */

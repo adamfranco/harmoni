@@ -4,11 +4,11 @@
  * This is the building piece of the tree-like AuthorizationContextHierarchy
  * data structure used in AuthorizationContextGenerator obejcts.
  * @access public
- * @version $Id: AuthorizationContextHierarchyNode.interface.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: AuthorizationContextHierarchyNode.interface.php,v 1.2 2004/04/20 19:49:46 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
- * @package harmoni.interfaces.authorization.generator
+ * @package harmoni.authorization.generator
  */
 class AuthorizationContextHierarchyNodeInterface {
 

@@ -3,8 +3,8 @@
 /**
  * VisualComponent defines the interface for any component within a {@link Layout}.
  *
- * @package harmoni.interfaces.layout
- * @version $Id: VisualComponent.interface.php,v 1.4 2004/04/01 19:22:21 adamfranco Exp $
+ * @package harmoni.layout
+ * @version $Id: VisualComponent.interface.php,v 1.5 2004/04/20 19:49:47 adamfranco Exp $
  * @copyright 2003 
  **/
 

@@ -7,8 +7,8 @@
  * The LanguageLocalizer is a class that handles the organization or strings
  * and other data for multiple languages.
  *
- * @package harmoni.interfaces.languages
- * @version $Id: LanguageLocalizer.interface.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @package harmoni.languages
+ * @version $Id: LanguageLocalizer.interface.php,v 1.2 2004/04/20 19:49:47 adamfranco Exp $
  * @copyright 2003 
  **/
 class LanguageLocalizerInterface extends ServiceInterface {
