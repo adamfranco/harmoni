@@ -4,7 +4,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.1 2004/07/09 06:06:39 dobomode Exp $
+ * @version $Id: test.php,v 1.2 2004/07/14 20:50:38 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -33,7 +33,8 @@
 	
     $test =& new GroupTest('GUI tests');
     $test->addTestFile(HARMONI.'GUIManager/test/StylePropertiesTestCase.class.php');
-    $test->addTestFile(HARMONI.'GUIManager/test/StylePropertyComponentsTestCase.class.php');
+    $test->addTestFile(HARMONI.'GUIManager/test/StyleComponentsTestCase.class.php');
+    $test->addTestFile(HARMONI.'GUIManager/test/StyleCollectionsTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 	

@@ -3,7 +3,7 @@
 require_once(HARMONI."GUIManager/StyleProperty.class.php");
 
 /**
- * The BorderSP represents the 'border' StyleProperty.
+ * The FontSP represents the 'font' StyleProperty.
  * 
  * A StyleProperty (SP) is one of the tree building pieces of CSS styles. It stores 
  * information about a single CSS style property by storing one or more 
@@ -26,27 +26,35 @@ require_once(HARMONI."GUIManager/StyleProperty.class.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: BorderSP.class.php,v 1.2 2004/07/14 20:50:37 dobomode Exp $
+ * @version $Id: FontSP.class.php,v 1.1 2004/07/14 20:50:37 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
  * @access public
  **/
 
-class BorderSP extends StyleProperty {
+class FontSP extends StyleProperty {
 
 	/**
-	 * The constructor.
+	 * The constructor. All parameters but size and family could be null, 
+	 * in which case they will not be taken in consideration.
 	 * @access public
-	 * @param string width The width of the border.
-	 * @param string style The style of the border.
-	 * @param string color The color of the border.
+	 * @param string family The font family.
+	 * @param string size The font size.
+	 * @param string style The font style.
+	 * @param string weight The font weight.
+	 * @param string variant The font variant.
 	 **/
-	function BorderSP($width, $style, $color) {
-		$this->StyleProperty("border", "Border", "This property specifies all four borders at once.");
-		if (isset($width)) $this->addSC(new LengthSC($width));
-		if (isset($style)) $this->addSC(new BorderStyleSC($style));
-		if (isset($color)) $this->addSC(new ColorSC($color));
+	function FontSP($family, $size, $style, $weight, $variant) {
+		$this->StyleProperty("font", "Font", "This property sets the current 
+											  font family, size, style, weight,
+											  variant.");
+
+		if (isset($style)) $this->addSC(new FontStyleSC($style));
+		if (isset($variant)) $this->addSC(new FontVariantSC($variant));
+		if (isset($weight)) $this->addSC(new FontWeightSC($weight));
+		$this->addSC(new FontSizeSC($size));
+		$this->addSC(new FontFamilySC($family));
 	}
 
 }
