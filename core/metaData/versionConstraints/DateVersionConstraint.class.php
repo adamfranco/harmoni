@@ -2,6 +2,14 @@
 
 require_once HARMONI."metaData/manager/versionConstraints/VersionConstraint.interface.php";
 
+/**
+ * Limits pruning based on a cutoff date, specified in the past. The date is passed to the constructor,
+ * and can be a specific date or a relative date, like "-2 weeks" or "-12 hours". Dates in the future
+ * will throw an error.
+ * @package harmoni.datamanager.versionconstraint
+ * @copyright 2004, Middlebury College
+ * @version $Id: DateVersionConstraint.class.php,v 1.2 2004/01/14 21:09:26 gabeschine Exp $
+ */
 class DateVersionConstraint extends VersionConstraint {
 	
 	var $_cutoffDate;
@@ -9,6 +17,10 @@ class DateVersionConstraint extends VersionConstraint {
 	function DateVersionContraint( $relativeDateString ) {
 		$now = time();
 		$relative = strtotime($relativeDateString, $now);
+		
+		if ($relative === -1) {
+			throwError( new Error("DateVersionConstraint: the passed relative date string, '$relativeDateString', does not appear to be valid.","DateVersionConstraint",true));
+		}
 		
 		if ($relativeDateString >= $now) {
 			throwError( new Error("DateVersionConstraint: the specified relative date must be in the PAST.", "DateVersionConstraint", true));
@@ -33,7 +45,7 @@ class DateVersionConstraint extends VersionConstraint {
 	function checkDataSetTags(&$dataSet) {
 		$mgr =& Services::getService("DataSetTagManager");
 		
-		$tags =& $mgr->fetchTagDescriptors($dataSet);
+		$tags =& $mgr->fetchTagDescriptors($dataSet->getID());
 		
 		if ($tags && is_array($tags)) {
 			foreach (array_keys($tags) as $id) {

@@ -1,5 +1,12 @@
 <?
 
+/**
+ * A VersionConstraint specifies, upon {@link FullDataSet::prune()}, what values to actually prune, and which to
+ * keep, what {@link DataSetTag}s to keep, and if the whole DataSets should be deleted or not.
+ * @package harmoni.datamanager.versionconstraint
+ * @copyright 2004, Middlebury College
+ * @version $Id: VersionConstraint.interface.php,v 1.2 2004/01/14 21:09:26 gabeschine Exp $
+ */
 class VersionConstraint {
 	
 	/**

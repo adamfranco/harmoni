@@ -9,11 +9,13 @@ require_once(HARMONI."metaData/manager/DataSetTagManager.class.php");
 
 require_once(HARMONI."metaData/manager/search/include.php");
 
+require_once(HARMONI."metaData/manager/versionConstraints/include.php");
+
 /**
  * The HarmoniDataManager class is used purely to setup the services required to use the
  * other DataManager classes such as the {@link DataSetTypeManager} or the {@link DataSetManager}.
  * @package harmoni.datamanager
- * @version $Id: HarmoniDataManager.abstract.php,v 1.11 2004/01/14 20:09:42 gabeschine Exp $
+ * @version $Id: HarmoniDataManager.abstract.php,v 1.12 2004/01/14 21:09:21 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public

@@ -7,7 +7,7 @@ require_once HARMONI."metaData/manager/DataSetTag.class.php";
 * more detailed explanation of the role of tags.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSetTagManager.class.php,v 1.12 2004/01/14 20:09:42 gabeschine Exp $
+* @version $Id: DataSetTagManager.class.php,v 1.13 2004/01/14 21:09:21 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class DataSetTagManager extends ServiceInterface {
@@ -149,6 +149,36 @@ class DataSetTagManager extends ServiceInterface {
 		$query->setWhere("dataset_tag_id=$id");
 		
 		$dbHandler->query($query, $this->_dbID);
+	}
+	
+	/**
+	 * Checks to see if any of our Tags are empty, and if so, deletes them.
+	 * @param ref object $dataSet The {@link FullDataSet} to check.
+	 * @return void
+	 */
+	function checkForEmptyTags(&$dataSet) {
+		// to do this, we are going to fetch the tag descriptors (from the "dataset_tag" table)
+		// and then fetch the full tags (which inner joins onto the "dataset_tag_map" table),
+		// find out if there are any descriptors not represented in full tags, and delete those.
+		
+		$tagDescriptors =& $this->fetchTagDescriptors($dataSet->getID());
+		$fullTags =& $this->fetchTags($dataSet->getID());
+		
+		if (count($tagDescriptors) == count($fullTags)) return;
+		
+		$pruneIDs = array();
+		foreach (array_keys($tagDescriptors) as $tagID) {
+			if (!isset($fullTags[$tagID])) $pruneIDs[] = "dataset_tag_id=".$tagID;
+		}
+		
+		if (count($pruneIDs)) {
+			$query =& new DeleteQuery;
+			$query->setTable("dataset_tag");
+			$query->setWhere(implode(" OR ",$pruneIDs));
+			
+			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler->query($query, $this->_dbID);
+		}
 	}
 	
 	/**

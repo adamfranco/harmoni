@@ -2,10 +2,20 @@
 
 require_once HARMONI."metaData/manager/search/SearchCriteria.interface.php";
 
+/**
+ * Limits a search to exclude all other DataSetTypes except the one specified.
+ * @package harmoni.datamanager.search
+ * @version $Id: DataSetTypeSearch.class.php,v 1.3 2004/01/14 21:09:25 gabeschine Exp $
+ * @copyright 2004, Middlebury College
+ */
 class DataSetTypeSearch extends SearchCriteria {
 	
 	var $_type;
 	
+	/**
+	 * The constructor.
+	 * @param ref object $theType The {@link HarmoniType} that describes the DataSetType.
+	 */
 	function DataSetTypeSearch( &$theType ) {
 		$this->_type = $theType;
 	}

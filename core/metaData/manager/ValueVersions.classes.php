@@ -10,7 +10,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.20 2004/01/14 20:09:42 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.21 2004/01/14 21:09:21 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -94,14 +94,17 @@ class ValueVersions {
 	
 	/**
 	* Goes through all the old versions of values and actually DELETES them from the database.
+	* @param ref object $versionConstraint A {@link VersionConstraint) on which to base our pruning.
 	* @return void
 	*/
-	function prune() {
-		// just step through each ValueVersion object and call prune();
+	function prune($versionConstraint) {
+		$versionConstraint->checkValueVersions($this);
+		
+/*		// just step through each ValueVersion object and call prune();
 		foreach ($this->getVersionList() as $verID) {
 			$ver =& $this->getVersion($verID);
 			$ver->prune();
-		}
+		}*/
 	}
 	
 	/**
@@ -318,7 +321,7 @@ class ValueVersions {
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.20 2004/01/14 20:09:42 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.21 2004/01/14 21:09:21 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -420,19 +423,12 @@ class ValueVersion {
 	}
 	
 	/**
-	 * Checks if we are inactive or contained within a field that has been deleted, and if so, flags
-	 * the "prune" flag so that we are deleted (permanently) from the database upon commit().
+	 * Flags us for deletion from the DB.
 	 * @return void
 	 * @access public
 	 */
 	function prune() {
-		// these are the conditions under which we will prune ourselves: (OR)
-		// 1) we are inactive
-		// 2) the field we are part of has been entirely deleted (inactivated) in the DataSetTypeDefinition
-		// 3) the dataset we are part of is inactive
-		if (!$this->isActive() || !$this->_parent->_parent->_fieldDefinition->isActive()
-			|| !$this->_parent->_parent->_parent->isActive())
-			$this->_prune = true;
+		$this->_prune = true;
 	}
 	
 	/**

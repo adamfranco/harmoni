@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.23 2004/01/14 20:09:42 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.24 2004/01/14 21:09:21 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -204,7 +204,7 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.23 2004/01/14 20:09:42 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.24 2004/01/14 21:09:21 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {
@@ -325,11 +325,12 @@ class FullDataSet extends CompactDataSet {
 			// check if we have to delete any dataset tags based on our constraints
 			$constraint->checkDataSetTags($this);
 			
+			$tagMgr =& Services::getService("DataSetTagManager");
+			
 			// if we are no good any more, delete ourselves completely
 			if (!$constraint->checkDataSet($this)) {
 				// now, remove any tags from the DB that have to do with us, since they will no longer
 				// be valid.
-				$tagMgr =& Services::getService("DataSetTagManager");
 				$tagMgr->pruneTags($this);
 				
 				$query =& new DeleteQuery();
@@ -337,7 +338,13 @@ class FullDataSet extends CompactDataSet {
 				$query->setWhere("dataset_id=".$this->getID());
 				
 				$dbHandler->query($query, $this->_dbID);
+			} else {
+				// if we're pruning but not deleting the whole shebang, let's
+				// make sure that there are no tags in the database with no 
+				// mappings whatsoever.
+				$tagMgr->checkForEmptyTags($this);
 			}
+			
 		}
 		
 		return true;

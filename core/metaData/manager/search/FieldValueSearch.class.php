@@ -2,12 +2,25 @@
 
 require_once HARMONI."metaData/manager/search/SearchCriteria.interface.php";
 
+/**
+ * Searches for only DataSets that contain a certain field=value pair.
+ * @package harmoni.datamanager.search
+ * @version $Id: FieldValueSearch.class.php,v 1.3 2004/01/14 21:09:25 gabeschine Exp $
+ * @copyright 2004, Middlebury College
+ */
 class FieldValueSearch extends SearchCriteria {
 	
 	var $_dataSetType;
 	var $_label;
 	var $_value;
 	
+	/**
+	 * The constructor.
+	 * @param ref object $dataSetType The {@link HarmoniType} that references the DataSetType to apply this search to.
+	 * @param string $label The specific field within that DataSetType to check.
+	 * @param ref object $value A {@link DataType} object which holds the value to search for.
+	 * @return void
+	 */
 	function FieldValueSearch( &$dataSetType, $label, &$value) {
 		$this->_dataSetType =& $dataSetType;
 		$this->_label = $label;
