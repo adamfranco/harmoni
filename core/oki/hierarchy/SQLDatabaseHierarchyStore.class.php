@@ -121,6 +121,11 @@ class SQLDatabaseHierarchyStore
 	 * 						modified since the dr was loaded from persistable storage.
 	 */
 	var $_isChanged = FALSE;
+	
+	/**
+	 * @var boolean $_exists True if the hierarchy exists in persistable storage.
+	 */
+	var $_exists = FALSE;
 
 	/**
 	 * @var array $_nodeTypes Node types in this hierarchy.
@@ -179,9 +184,10 @@ class SQLDatabaseHierarchyStore
 
 	/**
 	 * Initializes this Store. Loads any saved data for the hierarchy.
-	 *
+	 * @deprecated Use set exists instead
 	 */
 	function initialize() {
+		throwError(new Error("Manager should handle the existance state. Use setExists() to set the current existance", "Hierarchy", 1));
 		$dbc =& Services::requireService("DBHandler");
 		$sharedManager =& Services::requireService("Shared");
 		
@@ -208,6 +214,18 @@ class SQLDatabaseHierarchyStore
 			$this->_exists = FALSE;
 		}
 	}
+	
+    /**
+     * Set the existence state
+     *
+     * @param boolean $exists True if the hierarchy exists in persistable storage.
+	 */
+	function setExists($exists) {
+		// Check the arguments
+		ArgumentValidator::validate($exists, new BooleanValidatorRule);
+		
+		$this->_exists = $exists;
+	}
 
 	/**
 	 * Loads this object from persistable storage.
@@ -215,14 +233,16 @@ class SQLDatabaseHierarchyStore
 	 *
 	 * @param string $nodeId	The id of the node that needs to be updated. If 0 or NULL,
 	 * 							then load() will load the entire hierarchy as needed.
+	 * @param boolean $childrenOnly Set to true if it is wished only to load the children
+	 *					of the specified node and not the grandchildren, etc.
+	 * 
 	 * @access protected
 	 */
-	function load ($nodeId=0) {
-		
-		if ($nodeId !== NULL) {
-			// Check the arguments
+	function load ($nodeId=0, $childrenOnly=FALSE) {
+		// Check the arguments
+		ArgumentValidator::validate($childrenOnly, new BooleanValidatorRule);
+		if ($nodeId !== NULL)
 			ArgumentValidator::validate($nodeId, new NumericValidatorRule);
-		}
 		
 		$dbc =& Services::requireService("DBHandler");
 		$sharedManager =& Services::requireService("Shared");
@@ -230,23 +250,31 @@ class SQLDatabaseHierarchyStore
 		// This may be able to be droped if the hierarchy has been initialized, but it makes for a nice check
 		// of data integrity.
 		// Pull the info for this hierarchy if it doesn't already exist.
-		$query =& new SelectQuery;
-		$query->addColumn($this->_hierarchyDisplayNameColumn,"displayName");
-		$query->addColumn($this->_hierarchyDescriptionColumn,"description");
-		$query->addTable($this->_hierarchyTableName);
-		$query->addWhere($this->_hierarchyIdColumn."=".$this->_id->getIdString());
-		
-		$result =& $dbc->query($query, $this->_dbIndex);
-		
-		if ($result->getNumberOfRows() > 1) { // we have problems.
-			throwError(new Error("Loss of data integrity, multiple hierarchies of id, ".$this->_id->getIdString().", found!", "Hierarchy", 1));
+		if (!$this->_exists) {
+			$query =& new SelectQuery;
+			$query->addColumn($this->_hierarchyDisplayNameColumn,"displayName");
+			$query->addColumn($this->_hierarchyDescriptionColumn,"description");
+			$query->addTable($this->_hierarchyTableName);
+			$query->addWhere($this->_hierarchyIdColumn."=".$this->_id->getIdString());
 			
-		} else if ($result->getNumberOfRows() == 1) { // The hierarchy exists
-			$this->_exists = TRUE;
-			$this->_displayName = $result->field("displayName");
-			$this->_description = $result->field("description");
-		
+			$result =& $dbc->query($query, $this->_dbIndex);
+			$existingHierarchiesWithThisId = $result->getNumberOfRows();
 			
+			if ($existingHierarchiesWithThisId > 1) { // we have problems.
+				throwError(new Error("Loss of data integrity, multiple hierarchies of id, ".$this->_id->getIdString().", found!", "Hierarchy", 1));
+				
+			} else if ($existingHierarchiesWithThisId == 1) { // The hierarchy exists
+				$this->_exists = TRUE;
+				$this->_displayName = $result->field("displayName");
+				$this->_description = $result->field("description");
+			
+			} else {
+				$this->_exists = FALSE;
+			}
+		}
+		
+		// If this hierarchy exists in the database, lets load it.
+		if ($this->_exists) {
 			// build the query. To get trees, this could be broken into
 			// two queries; one that fetched the parents, and one that fetched
 			// the children rooted at this node with joins.
@@ -268,6 +296,7 @@ class SQLDatabaseHierarchyStore
 //				$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeParentKeyColumn, ASCENDING);
 //				$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeIdColumn, ASCENDING);
 				
+		
 				for ($i = 1; $i <= $this->_maxDepth; $i++) {
 					$query->addTable($this->_nodeTableName, LEFT_JOIN, $this->_nodeTableName.($i-1).".".$this->_nodeParentKeyColumn."=".$this->_nodeTableName.($i).".".$this->_nodeIdColumn, $this->_nodeTableName.($i));
 					$query->addColumn($this->_nodeTableName.$i.".".$this->_nodeIdColumn,"id".$i);
@@ -307,6 +336,15 @@ class SQLDatabaseHierarchyStore
 			}
 
 			// pull the sub-tree rooted at $nodeId
+			
+			// How deep should we search?
+			// The maxDepth thing should maybe be chosen intelligently. It is currently
+			// just set to "bigger than we need"
+			if ($childrenOnly)
+				$depthToSearch = 1;
+			else
+				$depthToSearch = $this->_maxDepth;
+					
 			$query =& new SelectQuery;
 			
 			$query->addColumn($this->_nodeTableName."0.".$this->_nodeIdColumn,"id");
@@ -321,7 +359,7 @@ class SQLDatabaseHierarchyStore
 			$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeIdColumn, ASCENDING);
 			
 			$additionalWhere = array();
-			for ($i = 0; $i <= $this->_maxDepth; $i++) {
+			for ($i = 0; $i <= $depthToSearch; $i++) {
 				$query->addTable($this->_nodeTableName, LEFT_JOIN, $this->_nodeTableName.$i.".".$this->_nodeParentKeyColumn."=".$this->_nodeTableName.($i+1).".".$this->_nodeIdColumn, $this->_nodeTableName.($i+1));
 				$additionalWhere[] = $this->_nodeTableName.$i.".".$this->_nodeIdColumn."=".$nodeId;
 //				$additionalWhere[] = $this->_nodeTableName.$i.".".$this->_nodeParentKeyColumn."=".$nodeId;
@@ -366,8 +404,6 @@ class SQLDatabaseHierarchyStore
 /* 			$this->_deleted = array(); */
 /* 			$this->_isChanged = FALSE; */
 			
-		} else {	// the hierarchy doesn't exist yet
-			$this->_exists = FALSE;
 		}
 	}
 	

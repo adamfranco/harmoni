@@ -66,7 +66,7 @@ class SQLDatabaseHierarchyManagerStore
 		
 		$this->_hierarchies = array();
 		
-		$this->load();
+//		$this->load();
 	}
 	
 	/**
@@ -163,7 +163,7 @@ class SQLDatabaseHierarchyManagerStore
 				$hierarchyStore =& $this->createHierarchyStore();
 				$hierarchyId =& $sharedManager->getId($id);
 				$nodeTypes = array();
-				$hierarchy =& new HarmoniHierarchy($hierarchyId, $displayName, $description, $nodeTypes, $hierarchyStore);
+				$hierarchy =& new HarmoniHierarchy($hierarchyId, $displayName, $description, $nodeTypes, $hierarchyStore, TRUE);
 				$this->_hierarchies[$id] =& $hierarchy;
 			}
 			

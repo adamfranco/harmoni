@@ -9,7 +9,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/FoodNodeType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FullSQLTestCase.class.php,v 1.1 2003/11/05 22:23:26 adamfranco Exp $
+ * @version $Id: FullSQLTestCase.class.php,v 1.2 2003/11/06 22:52:53 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -97,6 +97,9 @@ $this->dbc->query($query, $this->dbIndex);
 			// Create a hierarchy.
 			$hierarchy =& $manager->createHierarchy(FALSE, "Food Hierarchy", "A hierarchy of food categories.", NULL, FALSE);
 			
+			// Lets store the Id of the hierarchy so that we can reference it later.
+			$this->foodHierarchyId = $hierarchy->getId();
+			
 			// We'll need to create some ids, so lets get the Shared service.
 			$sharedManager =& Services::requireService("Shared");
 			
@@ -115,6 +118,8 @@ $this->dbc->query($query, $this->dbIndex);
 		// Lets fill out the tree a bit with some second-level nodes
 			// create an Id
 			$plantId =& $sharedManager->createId();
+			// lets store this id so we can get back to it later.
+			$this->plantId = $plantId;
 			// add the node
 			$plant =& $hierarchy->createNode($plantId, $foodId, $foodType, "Plants", "Foods that come from plants.");
 			
@@ -131,6 +136,8 @@ $this->dbc->query($query, $this->dbIndex);
 			
 			// create an Id
 			$vegetableId =& $sharedManager->createId();
+			// lets store this id so we can get back to it later.
+			$this->vegetableId = $vegetableId;
 			// add the node
 			$vegetable =& $hierarchy->createNode($vegetableId, $plantId, $foodType, "vegetable", "Foods that come from vegetables.");
 			
@@ -239,10 +246,44 @@ $this->dbc->query($query, $this->dbIndex);
 /******************************************************************************
  * Part 3 - hierarchy retrieval
  ******************************************************************************/
+ 		// First, we will create the manager with the nessesary configuration.
+ 			$startingNumQueries = $this->dbc->getTotalNumberOfQueries($this->dbIndex);
+ 			
+ 			// Create the Hierarchy manager with a configuration for our database.
+ 			$configuration = array(
+				"type" => SQL_DATABASE,
+				"database_index" => $this->dbIndex,
+				"hierarchy_table_name" => "hierarchy",
+				"hierarchy_id_column" => "id",
+				"hierarchy_display_name_column" => "display_name",
+				"hierarchy_description_column" => "description",
+				"node_table_name" => "hierarchy_node",
+				"node_hierarchy_key_column" => "fk_hierarchy",
+				"node_id_column" => "id",
+				"node_parent_key_column" => "lk_parent",
+				"node_display_name_column" => "display_name",
+				"node_description_column" => "description"
+			);
+			
+			$manager =& new HarmoniHierarchyManager($configuration);
+			
+		// Lets get our hierarchy
+			$hierarchy =& $manager->getHierarchy($this->foodHierarchyId);
+
+		// Let's look at vegetables
+			$hierarchy->load($this->plantId);
+			
+			print_r($hierarchy);
+
+		// Lets do some tests to make sure that all is working.
+			
+ 		
 
 /******************************************************************************
  * Part 4 - hierarchy deletion
  ******************************************************************************/
- 
+			$finishingNumQueries = $this->dbc->getTotalNumberOfQueries($this->dbIndex) - $startingNumQueries;
+			print "Pulling Queries: $finishingNumQueries\n";
+			print "Total Queries: ".$this->dbc->getTotalNumberOfQueries($this->dbIndex);
 		}
 }

@@ -33,7 +33,7 @@ define("MEMORY_ONLY", 1001);
  * 
  * <p></p>
  *
- * @version $Revision: 1.14 $ / $Date: 2003/11/05 22:21:48 $
+ * @version $Revision: 1.15 $ / $Date: 2003/11/06 22:52:48 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -137,7 +137,7 @@ class HarmoniHierarchyManager
 			throwError(new Error(UNSUPPORTED_HIERARCHY, "HierarchyManager", 1));
 		
 		// Load this Manager from persistable storage
-		$this->load();
+//		$this->load(); The manager should have been loaded when it was created.
 		
 		// Create an Id for the Hierarchy
 		$sharedManager =& Services::requireService("Shared");
@@ -178,7 +178,7 @@ class HarmoniHierarchyManager
 			$hierarchy =& $hierarchies->next();
 			if ($hierarchyId->isEqual($hierarchy->getId())) {
 				// if the hierarchy has the requested Id.
-				$hierarchy->load();
+//				$hierarchy->load(); // handle this elsewhere
 				return $hierarchy;	
 			}
 		}
@@ -202,9 +202,11 @@ class HarmoniHierarchyManager
 	 */
 	function & getHierarchies() {
 		$hierarchies =& $this->_managerStore->getHierarchyArray();
-		foreach ($hierarchies as $key => $val) {
-			$hierarchies[$key]->load();
-		}
+
+// Loading will be handled elsewhere
+//		foreach ($hierarchies as $key => $val) {
+//			$hierarchies[$key]->load();
+//		}
 		$hierarchyIterator =& new HarmoniHierarchyIterator($hierarchies);
 		return $hierarchyIterator;
 	}

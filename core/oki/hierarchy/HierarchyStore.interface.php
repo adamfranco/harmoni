@@ -12,9 +12,18 @@ class HierarchyStore
 
 	/**
 	 * Initializes this Store. Loads any saved data for the hierarchy.
-	 *
+	 * @deprecated Use set exists instead
 	 */
 	function initialize() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+    /**
+     * Set the existence state
+     *
+     * @param boolean $exists True if the hierarchy exists in persistable storage.
+	 */
+	function setExists($exists) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

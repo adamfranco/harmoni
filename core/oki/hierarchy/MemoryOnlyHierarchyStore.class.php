@@ -34,6 +34,11 @@ class MemoryOnlyHierarchyStore
 	var $_tree = NULL;
 
 	/**
+	 * @var boolean $_exists True if the hierarchy exists in persistable storage.
+	 */
+	var $_exists = FALSE;
+
+	/**
 	 * @var array $_nodeTypes Node types in this hierarchy.
 	 */
 	var $_nodeTypes = array();
@@ -48,10 +53,22 @@ class MemoryOnlyHierarchyStore
 
 	/**
 	 * Initializes this Store. Loads any saved data for the hierarchy.
-	 *
+	 * @deprecated Use set exists instead
 	 */
 	function initialize() {
 		// Do Nothing
+	}
+
+    /**
+     * Set the existence state
+     *
+     * @param boolean $exists True if the hierarchy exists in persistable storage.
+	 */
+	function setExists($exists) {
+		// Check the arguments
+		ArgumentValidator::validate($exists, new BooleanValidatorRule);
+		
+		$this->_exists = FALSE;
 	}
 
 	/**

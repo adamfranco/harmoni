@@ -25,7 +25,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.20 $ / $Date: 2003/11/05 22:21:48 $
+ * @version $Revision: 1.21 $ / $Date: 2003/11/06 22:52:48 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -51,10 +51,12 @@ class HarmoniHierarchy
 	 * @param string $displayName The displayName of the Node.
 	 * @param string $description The description of the Node.
 	 * @param array	 $nodeType  An array of Types of the supported nodes.
-	 * @param object HierarchyStore	The storage/loader for this hierarchy.
+	 * @param object HierarchyStore $hierarchyStore	The storage/loader for this hierarchy.
+	 * @parem boolean $exists Pass true if reading the hierarchy out of persistable storage,
+	 *					false otherwise.
 	 * @access public
 	 */
-	function HarmoniHierarchy(& $id, $displayName, $description, & $nodeTypes, & $hierarchyStore) {
+	function HarmoniHierarchy(& $id, $displayName, $description, & $nodeTypes, & $hierarchyStore, $exists = FALSE) {
 		// Check the arguments
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
 		if (count($nodeTypes))
@@ -71,7 +73,12 @@ class HarmoniHierarchy
 		$this->_id =& $id;
 		$this->_hierarchyStore =& $hierarchyStore;
 		$this->_hierarchyStore->setId($this->_id);
-		$this->_hierarchyStore->initialize();
+//		$this->_hierarchyStore->initialize(); 	// This is being handled by the $exists param
+												// Responsibility for this being correct is
+												// passed to the manager.
+		// lets pass on the existance state from the manager to the store
+		$this->_hierarchyStore->setExists($exists);
+		
 		
 		if ($this->_hierarchyStore->getDisplayName() != $displayName)
 			$this->_hierarchyStore->updateDisplayName($displayName);
@@ -561,10 +568,23 @@ class HarmoniHierarchy
 	 
 	/**
 	 * Loads this object from persistable storage.
+	 * 
+	 * @param object Id $nodeId The Id of the node from which to load the hierarchy from.
+	 * @param boolean $childrenOnly Set to true if it is wished only to load the children
+	 *					of the specified node and not the grandchildren, etc.
+	 * 
 	 * @access protected
 	 */
-	function load () {
-		$this->_hierarchyStore->load();
+	function load ($nodeId = NULL, $childrenOnly = FALSE) {
+		// Check the arguments
+		ArgumentValidator::validate($childrenOnly, new BooleanValidatorRule);
+		if ($nodeId != NULL) {
+			// Check the arguments
+			ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"));
+			
+			$nodeId = $nodeId->getIdString();
+		}
+		$this->_hierarchyStore->load($nodeId, $childrenOnly);
 	}	
 
 } // end Hierarchy
