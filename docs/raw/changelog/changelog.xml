@@ -4,6 +4,10 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.3.0" date="The nebulous future">
 		<change author='adam'>
+			New Framework/Architecture-GUI/Theme interaction decouples the Harmoni
+			object from the output system.
+		</change>
+		<change author='adam'>
 			Services::startService(), Services::stopService(), Services::restartService(), 
 			and Services::startAll() are now deprecated and print warnings if used.
 			Please use Services::startManagerAsService() and/or Services::getService() 
