@@ -3,6 +3,23 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.5" date="Not Released">
+		<fix author='gabe'>
+			DataSet::populate() now sets its own ID to avoid super re-duplication of DataSets in database.
+		</fix>
+		<fix author='gabe'>
+			DateTime::now() now gives correct Hour value. Likewise MySQLDatabase::toDBDate() now adds 1 to hour value
+			to give correct 1-24 value. Other DB Types haven't yet been checked.
+		</fix>
+		<change author='gabe'>
+			Modified field in HarmoniDataManager table "datasetfield" from "datasetfield_created" to "datasetfield_modified"
+			since it is updated on every commit().
+		</change>
+		<new author='gabe'>
+			Extensive work on DataManager. Now works for creating/retrieving datasets with version controls.
+		</new>
+		<fix author='gabe'>
+			Corrected ArgumentValidator call in DBHandler checking for DateTimeInterface instead of DateTime.
+		</fix>
 		<new author='gabe'>
 			Added AgentInformationHandler::agentExists($name, [$method]) which steps through each AuthenticationMethod
 			and checks for an existing agent.

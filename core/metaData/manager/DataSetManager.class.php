@@ -119,7 +119,7 @@ class DataSetManager extends ServiceInterface {
 		$query->addColumn("datasetfield_id");
 		$query->addColumn("datasetfield_index");
 		$query->addColumn("datasetfield_active");
-		$query->addColumn("datasetfield_created");
+		$query->addColumn("datasetfield_modified");
 		
 		/* datasettypedef table */
 		$query->addColumn("datasettypedef_id");

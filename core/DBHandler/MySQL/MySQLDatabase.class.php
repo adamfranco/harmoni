@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.3 2003/12/05 00:43:27 gabeschine Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.4 2003/12/26 19:32:59 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -361,7 +361,7 @@ class MySQLDatabase extends DatabaseInterface {
 		 */
 		$string = sprintf("%s%02d%02d%02d%02d%02d",$dateTime->getYear(),
 							$dateTime->getMonth(), $dateTime->getDay(),
-							$dateTime->getHours(), $dateTime->getMinutes(),
+							$dateTime->getHours()+1, $dateTime->getMinutes(),
 							$dateTime->getSeconds());
 		return $string;
 	}

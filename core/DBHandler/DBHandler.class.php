@@ -18,7 +18,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.2 2003/12/21 03:25:37 gabeschine Exp $
+ * @version $Id: DBHandler.class.php,v 1.3 2003/12/26 19:32:56 gabeschine Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
@@ -338,7 +338,7 @@ class DBHandler extends DBHandlerInterface {
 	function toDBDate(& $dateTime, $dbIndex = 0) {
 		// ** parameter validation
 		$integerRule =& new IntegerValidatorRule();
-		$extendsRule =& new ExtendsValidatorRule("DateTimeInterface");
+		$extendsRule =& new ExtendsValidatorRule("DateTime");
 		ArgumentValidator::validate($dbIndex, $integerRule, true);
 		ArgumentValidator::validate($dateTime, $extendsRule, true);
 		// ** end of parameter validation

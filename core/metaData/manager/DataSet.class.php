@@ -72,6 +72,8 @@ class CompactDataSet {
 		// that means we have to separate out the rows that have to do with each
 		// label, and hand each package to a FieldValues object.
 		
+		$myID = null;
+		
 		$packages = array();
 		
 		foreach ($arrayOfRows as $line) {
@@ -79,7 +81,17 @@ class CompactDataSet {
 			if (!is_array($packages[$label])) $packages[$label] = array();
 			
 			$packages[$label][] = $line;
+			
+			if (!$myID && $line['dataset_id']) $myID = $line['dataset_id'];
 		}
+		
+		if (!$myID) {
+			throwError ( new Error(
+				"Serious error fetching DataSet: no ID was stored in the database!","DataSet",true));
+			return false;
+		}
+		
+		$this->_myID = $myID;
 
 		// now go through each label we've found and populate the FieldValues object
 		foreach (array_keys($packages) as $label) {
@@ -238,6 +250,8 @@ function renderDataSet(&$dataSet) {
 	$fields = $dataSet->_dataSetTypeDef->getAllLabels();
 	
 	print "<PRE>";
+	print "dataSet of type '".OKITypeToString($dataSet->_dataSetTypeDef->getType())."', ";
+	print "version controlled = ".($dataSet->isVersionControlled()?"yes":"no")."\n\n";
 	foreach ($fields as $label) {
 		$numValues = $dataSet->numValues($label);
 		
@@ -250,8 +264,11 @@ function renderDataSet(&$dataSet) {
 			$verList = $vers->getVersionList();
 			foreach ($verList as $verID) {
 				$ver =& $vers->getVersion($verID);
-				print "\t\t$verID, active=".(($ver->isActive())?"yes":"no").": ";
+				print "\t\t$verID, active=".(($ver->isActive())?"yes":"no").", ";
+				$date =& $ver->getDate();
+				print $date->toString().": ";
 				$val =& $ver->getValue();
+				if ($ver->_update) print "(flagged for update) ";
 				print $val->toString()."\n";
 			}
 		}

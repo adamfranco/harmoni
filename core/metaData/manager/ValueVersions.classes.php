@@ -79,9 +79,10 @@ class ValueVersions {
 	}
 	
 	function &newVerObject($active = false) {
-		$this->_versions[$this->numVersions()] =& new ValueVersion($this,$active);
+		$newID = max($this->getVersionList()) + 1;
+		$this->_versions[$newID] =& new ValueVersion($this,$active);
 		$this->_numVersions++;
-		return $this->_versions[$this->numVersions()-1];
+		return $this->_versions[$newID];
 	}
 	
 	function &getActiveVersion() {
@@ -133,7 +134,8 @@ class ValueVersion {
 	var $_update;
 	
 	function ValueVersion(&$parent, $active=false) {
-		$this->_date = null; // @todo - should we create a new DateTime::now() or leave null?
+//		$this->_date = null; // @todo - should we create a new DateTime::now() or leave null?
+		$this->_date =& DateTime::now();
 		$this->_valueObj = null;
 		$this->_active = $active;
 		
@@ -157,7 +159,7 @@ class ValueVersion {
 		$dbID = $this->_parent->_parent->_parent->_dbID;
 		
 		$this->_myID = $row['datasetfield_id'];
-		$this->_date =& $dbHandler->fromDBDate($row['datasetfield_created'],$dbID);
+		$this->_date =& $dbHandler->fromDBDate($row['datasetfield_modified'],$dbID);
 		// $this->_active was set by parent on construction
 		
 		// now we need to create the valueObj
@@ -180,8 +182,6 @@ class ValueVersion {
 		$this->_valueObj->setup($this->_parent->_parent->_parent->_idManager,
 								$this->_parent->_parent->_parent->_dbID);
 		$this->_valueObj->commit();
-		
-		$this->_date =& DateTime::now();
 		
 		$dbHandler =& Services::getService("DBHandler");
 		$dbID = $this->_parent->_parent->_parent->_dbID;

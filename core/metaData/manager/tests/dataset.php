@@ -34,4 +34,8 @@ $dataSet->setValue("number2", new IntegerDataType(30), NEW_VALUE);*/
 //$dataSet->commit();
 renderDataSet($dataSet);
 
+/*$dataSet->setValue("number2", new IntegerDataType(60034), 2);
+renderDataSet($dataSet);
+$dataSet->commit();
+*/
 debug::printAll();

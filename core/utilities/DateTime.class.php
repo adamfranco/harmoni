@@ -5,7 +5,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.4 2003/12/05 00:43:34 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.5 2003/12/26 19:32:59 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -252,7 +252,7 @@ class DateTime {
 		$year = intval(date('Y'));
 		$month = intval(date('m'));
 		$day = intval(date('d'));
-		$hours = intval(date('H'));
+		$hours = intval(date('H')-1);
 		$minutes = intval(date('i'));
 		$seconds = intval(date('s'));
 		return new DateTime($year, $month, $day, $hours, $minutes, $seconds);
