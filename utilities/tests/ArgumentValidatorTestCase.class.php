@@ -9,7 +9,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ArgumentValidatorTestCase.class.php,v 1.1 2003/06/26 02:03:27 dobomode Exp $
+ * @version $Id: ArgumentValidatorTestCase.class.php,v 1.2 2003/06/26 15:15:00 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -54,7 +54,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 			// test email values
 			$this->assertTrue(ArgumentValidator::validate("dradichk@middlebury.edu", new EmailValidatorRule(), true));
-			$this->assertFalse(ArgumentValidator::validate("dradichk@middlebury", new EmailValidatorRule(), true), "Gabe, fix this! Your EmailValidatorRule is faulty!");
+			$this->assertFalse(ArgumentValidator::validate("dradichk@middlebury", new EmailValidatorRule(), false), "Gabe, fix this! Your EmailValidatorRule is faulty!");
 
 			// test boolean values
 			$this->assertTrue(ArgumentValidator::validate(true, new BooleanValidatorRule(), true));
