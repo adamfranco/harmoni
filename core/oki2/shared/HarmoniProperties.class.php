@@ -17,7 +17,7 @@ require_once(OKI2."/osid/shared/Properties.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniProperties.class.php,v 1.10 2005/03/02 23:09:30 adamfranco Exp $
+ * @version $Id: HarmoniProperties.class.php,v 1.11 2005/03/02 23:15:12 adamfranco Exp $
  */
 class HarmoniProperties
 	extends Properties
@@ -113,6 +113,20 @@ class HarmoniProperties
 	 * 
 	 * WARNING: NOT IN OSID - This method is not in the OSIDs as of version 2.0
 	 * Use at your own risk
+	 *
+	 * Since PHP4's reference handling sucks royally and call-time-pass-by-reference
+	 * currently throws errors since it is depricated, there is no way to pass
+	 * objects as references and primatives by value to the same arguement. As such,
+	 * in order to allow Properties to hold references to objects (such as in an
+	 * Osid Context or Osid Configuration) the param-by reference must stay. To
+	 * pass strings or other primatives you must set the primatives to variables
+	 * first as in the following example:
+	 *
+	 * $configuration =& new HarmoniProperties(new ConfigurationPropertiesType);
+	 * $configuration->addProperty('database_id', $arg1 = 0);
+	 * $configuration->addProperty('authentication_table', $arg2 = 'auth_db_user');
+	 * $configuration->addProperty('username_field', $arg3 = 'username');
+	 * $configuration->addProperty('password_field', $arg4 = 'password');
 	 * 
 	 * @param mixed $key
 	 * @param mixed $value
