@@ -21,7 +21,11 @@ class HarmoniId
 		if ($id != NULL) {
 			// use this id
 			// SLOW-VALIDATE -- comment validation out to increase program speed.
-			ArgumentValidator::validate($id, new NumericValidatorRule);
+			
+			// Make sure that we have a non-zero integer
+			if (ereg("^[1-9][0-9]*$",$idString))
+				throwError(new Error(OPERATION_FAILED.": Non-integer Id String: '".(($idString == NULL)?"NULL":$idString)."'.","HarmoniId",true));
+			
 			$this->_id = $id;
 		} else {
 			// get a new unique id
