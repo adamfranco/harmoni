@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.14 2004/06/25 21:32:41 adamfranco Exp $
+ * @version $Id: LoginHandler.class.php,v 1.15 2004/06/28 15:23:25 adamfranco Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -232,7 +232,7 @@ class LoginHandler {
 		// prompted, but didn't submit any tokens.
 		} else {
 // 			$this->_harmoni->setCurrentAction($this->_failedLoginAction);
-// 			printpre($this->_harmoni->ActionHandler->executePair();
+// 			$this->_harmoni->ActionHandler->executePair();
  			throwError(new Error("LoginHandler::execute() - Could not proceed. 
  				it is probably because the user was prompted, but didn't submit 
  				any tokens.","Login",true));
