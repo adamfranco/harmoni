@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DBHandlerTestCase.class.php,v 1.1 2003/06/20 18:57:39 adamfranco Exp $
+ * @version $Id: DBHandlerTestCase.class.php,v 1.2 2003/06/20 19:00:56 adamfranco Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -116,23 +116,23 @@
 
 			// test the first result
 			$result =& $resultQueue->next();
-/* 			$this->assertTrue($result->isSuccessful()); */
-/* 			$this->assertEqual($result->getNumberOfRows(),20); */
-/* 			$this->assertEqual($result->getNumberOfFields(),3); */
-/* 			$names = $result->getFieldNames(); */
-/* 			$this->assertTrue(in_array("test1_value",$names)); */
-/* 			$this->assertEqual("20",$result->field("test1_id")); */
-/* 			$this->assertEqual("This is the value",$result->field("test1_value")); */
+			$this->assertTrue($result->isSuccessful());
+			$this->assertEqual($result->getNumberOfRows(),20);
+			$this->assertEqual($result->getNumberOfFields(),3);
+			$names = $result->getFieldNames();
+			$this->assertTrue(in_array("test1_value",$names));
+			$this->assertEqual("20",$result->field("test1_id"));
+			$this->assertEqual("This is the value",$result->field("test1_value"));
 
 			// test the second result
 			$result =& $resultQueue->next();
-/* 			$this->assertTrue($result->isSuccessful()); */
-/* 			$this->assertEqual($result->getNumberOfRows(),20); */
-/* 			$this->assertEqual($result->getNumberOfFields(),3); */
-/* 			$names = $result->getFieldNames(); */
-/* 			$this->assertTrue(in_array("test1_value",$names)); */
-/* 			$this->assertEqual("20",$result->field("test1_id")); */
-/* 			$this->assertEqual("This is the value",$result->field("test1_value")); */
+			$this->assertTrue($result->isSuccessful());
+			$this->assertEqual($result->getNumberOfRows(),20);
+			$this->assertEqual($result->getNumberOfFields(),3);
+			$names = $result->getFieldNames();
+			$this->assertTrue(in_array("test1_value",$names));
+			$this->assertEqual("20",$result->field("test1_id"));
+			$this->assertEqual("This is the value",$result->field("test1_value"));
 		}
 		
 		function test_connect_and_disconnect() {
