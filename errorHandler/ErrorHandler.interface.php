@@ -5,7 +5,7 @@ require_once(HARMONI.'services/Service.interface.php');
 /**
  * 
  *
- * @version $Id: ErrorHandler.interface.php,v 1.6 2003/06/26 23:36:50 gabeschine Exp $
+ * @version $Id: ErrorHandler.interface.php,v 1.7 2003/06/27 01:19:59 dobomode Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  **/
@@ -71,9 +71,11 @@ class ErrorHandlerInterface extends ServiceInterface {
 	/**
      * Fetch the Error queue as it is to each ErrorPrinter in the Error Printer queue.
      * Fetch the Error queue as it is to each ErrorPrinter in the Error Printer queue.
+     * @param constant $detailLevel The level of detail when printing. Could be
+	 * LOW_LEVEL, MEDIUM_LEVEL or HIGH_LEVEL.
 	 * @access public
 	 */
-	function printErrors(){ die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function printErrors($detailLevel = MEDIUM_LEVEL) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 }
 
 

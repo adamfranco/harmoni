@@ -6,7 +6,7 @@ require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
  * An ErrorPrinter provides functionality to output Error objects in any way one's soul may desire.
  * to be used by the ErrorHandler
  *
- * @version $Id: ErrorPrinterBasic.class.php,v 1.2 2003/06/26 18:38:55 dobomode Exp $
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.3 2003/06/27 01:19:59 dobomode Exp $
  * @package harmoni.errorhandler
  * @copyright 2003
  * @access public
@@ -17,10 +17,12 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
     /**
      * Outputs a queue of errors to any medium.
      * Outputs a queue of errors to any medium.
-     * @param object Queue of Errors The queue of the errors to be printed
+     * @param object Queue The queue of the errors to be printed
+     * @param constant $detailLevel The level of detail when printing. Could be
+	 * LOW_LEVEL, MEDIUM_LEVEL or HIGH_LEVEL.
      * @access public
      */
-    function printErrors(& $errors) { 
+    function printErrors(& $errors, $detailLevel = MEDIUM_LEVEL) { 
 		$result = "";
 		
 		// get header
@@ -29,10 +31,15 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 		/* We are assuming that only the last Error (first in the reversed queue) can be Fatal.*/
 		while($errors->hasNext()) {
 			$error =& $errors->next();
-			if($error->isFatal())
-				$result .= $this->_printError(& $error, true);
-			else
-				$result .= $this->_printError(& $error, false);
+			
+			$printWithDetails = false;
+			
+			if ($detailLevel == HIGH_DETAIL)
+				$printWithDetails = true;
+			elseif ($detailLevel == MEDIUM_DETAIL && $error->isFatal())
+				$printWithDetails = true;
+
+			$result .= $this->_printError(& $error, $printWithDetails);
 		}
 		
 		// print result

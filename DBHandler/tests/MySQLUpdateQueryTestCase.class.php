@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.9 2003/06/24 21:14:41 adamfranco Exp $
+ * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.10 2003/06/27 01:19:59 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -130,7 +130,7 @@
 			$this->query->reset();
 
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
-			$this->assertEqual("Exception", $sqlFromObject);
+			$this->assertNull($sqlFromObject);
 			
 			// ----- test exception when # fields does not match # columns
 			$table = "person";
@@ -145,7 +145,7 @@
 			$this->query->setWhere($condition);
 
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
-			$this->assertEqual("Exception", $sqlFromObject);
+			$this->assertNull($sqlFromObject);
 			
 		}
 

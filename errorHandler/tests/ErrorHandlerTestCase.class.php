@@ -9,7 +9,7 @@ require_once(HARMONI.'errorHandler/ErrorPrinterBasic.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ErrorHandlerTestCase.class.php,v 1.7 2003/06/26 16:05:45 movsjani Exp $
+ * @version $Id: ErrorHandlerTestCase.class.php,v 1.8 2003/06/27 01:19:59 dobomode Exp $
  * @package harmoni.errorhandler.tests
  * @copyright 2003 
  **/
@@ -41,12 +41,12 @@ require_once(HARMONI.'errorHandler/ErrorPrinterBasic.class.php');
 	}
 
 	function testTwoParameters(){
-	    $this->_testHandler = new ErrorHandler();
-		$printer = new ErrorPrinterBasic();
+	    $this->_testHandler =& new ErrorHandler();
+		$printer =& new ErrorPrinterBasic();
 		$this->_testHandler->addErrorPrinter(& $printer);
 		$this->_testHandler->addNewError("first Error","user");
 		$this->_testHandler->addNewError("second Error","prof");
-		$testError = new Error("third error","system",true);
+		$testError =& new Error("third error","system",true);
 		$this->_testHandler->addError(& $testError);
 		$this->assertEqual(3,$this->_testHandler->getNumberOfErrors());
 		$this->assertReference($testError,$this->_testHandler->_errorQueue->_queue[2]);

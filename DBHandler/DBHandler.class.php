@@ -14,7 +14,7 @@ require_once(HARMONI.'utilities/Queue.class.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.3 2003/06/26 16:18:06 dobomode Exp $
+ * @version $Id: DBHandler.class.php,v 1.4 2003/06/27 01:19:58 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  * @access public
@@ -81,9 +81,11 @@ class DBHandler extends DBHandlerInterface {
 			case OKI :
 				;
 				break;
-			default :
+			default : {
 			    // unsupported database type
+				throw(new Error("Unknown database type.", "DBHandler", true));
 				return false;
+			}
 		}
 		
 		// return the index of the database we just created
@@ -127,8 +129,10 @@ class DBHandler extends DBHandlerInterface {
 		// ** end of parameter validation
 
 		// check that the index is valid
-		if (!is_object($this->_databases[$dbIndex]))
+		if (!is_object($this->_databases[$dbIndex])) {
+			throw(new Error("Invalid database index.", "DBHandler", false));
 			return false;
+		}
 
 		$resultQueue =& new Queue();
 		while ($queue->hasNext()) {
@@ -196,8 +200,10 @@ class DBHandler extends DBHandlerInterface {
 		// ** end of parameter validation
 
 		// check that the index is valid
-		if (!is_object($this->_databases[$dbIndex]))
+		if (!is_object($this->_databases[$dbIndex])) {
+			throw(new Error("Invalid database index.", "DBHandler", false));
 			return false;
+		}
 		
 		// attempt to connect to the specified database
 		$result = $this->_databases[$dbIndex]->connect();
@@ -221,8 +227,10 @@ class DBHandler extends DBHandlerInterface {
 		// ** end of parameter validation
 
 		// check that the index is valid
-		if (!is_object($this->_databases[$dbIndex]))
+		if (!is_object($this->_databases[$dbIndex])) {
+			throw(new Error("Invalid database index.", "DBHandler", false));
 			return false;
+		}
 			
 		// attempt to connect to the specified database
 		$result = $this->_databases[$dbIndex]->pConnect();
@@ -246,8 +254,10 @@ class DBHandler extends DBHandlerInterface {
 		// ** end of parameter validation
 
 		// check that the index is valid
-		if (!is_object($this->_databases[$dbIndex]))
+		if (!is_object($this->_databases[$dbIndex])) {
+			throw(new Error("Invalid database index.", "DBHandler", false));
 			return false;
+		}
 			
 		// attempt to disconnect from the specified database
 		$result = $this->_databases[$dbIndex]->disconnect();
@@ -272,8 +282,10 @@ class DBHandler extends DBHandlerInterface {
 		// ** end of parameter validation
 
 		// check that the index is valid
-		if (!is_object($this->_databases[$dbIndex]))
+		if (!is_object($this->_databases[$dbIndex])) {
+			throw(new Error("Invalid database index.", "DBHandler", false));
 			return false;
+		}
 			
 		// see if the specified database is connected
 		$isConnected = $this->_databases[$dbIndex]->isConnected();

@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.3 2003/06/26 15:24:20 dobomode Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.4 2003/06/27 01:19:59 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.dbhandler
  * @access public
@@ -135,6 +135,7 @@ class MySQLDatabase extends DatabaseInterface {
 			return $linkId;
 		}
 		else {
+			throw(new Error("Cannot connect to database.", "DBHandler", false));
 		    $this->_linkId = false;
 			return false;						
 		}
@@ -168,6 +169,7 @@ class MySQLDatabase extends DatabaseInterface {
 			return $linkId;
 		}
 		else {
+			throw(new Error("Cannot connect to database.", "DBHandler", false));
 		    $this->_linkId = false;
 			return false;						
 		}
@@ -214,7 +216,7 @@ class MySQLDatabase extends DatabaseInterface {
 				$result =& new MySQLSelectQueryResult($resourceId, $this->_linkId);
 				break;
 			default:
-				return "Exception";
+				throw(new Error("Unsupported query type.", "DBHandler", true));
 		} // switch
 
 		return $result;
@@ -240,8 +242,10 @@ class MySQLDatabase extends DatabaseInterface {
 		// attempt to execute the query
 		$resourceId = mysql_query($query, $this->_linkId);
 		
-		if ($resourceId === false)
+		if ($resourceId === false) {
 		    $this->_failedQueries++;
+			throw(new Error(mysql_error($this->_linkId), "DBHandler", false));
+		}
 		else
 		    $this->_successfulQueries++;
 		
