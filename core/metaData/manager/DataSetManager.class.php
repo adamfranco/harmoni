@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.24 2004/01/16 19:23:23 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.25 2004/01/16 20:36:10 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -31,33 +31,25 @@ class DataSetManager extends ServiceInterface {
 	}
 	
 	/**
-	 * Sets up a global version constraint for all DataSets that pass through or have operations done on them.
-	 * @param ref object $versionConstraint A {@link VersionConstraint} object to use for checking if values are too old, etc.
-	 * @return void
-	 */
-/*	function setGlobalVersionConstraint(&$versionConstraint) {
-		$this->_versionConstraint =& $versionConstraint;
-	}*/
-	
-	/**
-	 * Returns the global {@link VersionConstraint} if one is set.
+	 * Returns a {@link DataSetGroup} object associated with the numeric ID. If none exists in the Database,
+	 * a new one is created with the given ID.
+	 * @param int $groupID The DataSetGroup ID.
+	 * @param optional bool $dontLoad If set to TRUE will not attempt to load the DataSetGroup, only return it if it's already loaded.
 	 * @return ref object
 	 */
-/*	function &getGlobalVersionConstraint() {
-		return $this->_versionConstraint;
-	}*/
-	
-	/**
-	 * Fetches all DataSets within a DataSetGroup.
-	 * @param int $groupID The DataSetGroup ID.
-	 * @param optional bool $editable If TRUE will fetch the DataSets as Editable and with ALL versions. Default: FALSE (will only fetch ACTIVE values).
-	 * @param optional object $limitResults NOT YET IMPLEMENTED
-	 * @return ref array
-	 */
-	function fetchDataSetGroup($groupID, $editable=false, $limitResults = null) {
-		return $this->fetchArrayOfIDs( $this->getDataSetIDsInGroup($groupID),
-				$editable,
-				$limitResults);
+	function &fetchDataSetGroup($groupID, $dontLoad=false) {
+		if ($dontLoad) {
+			return isset($this->_dataSetGroupCache[$groupID])?$this->_dataSetGroupCache[$groupID]:null;
+		} else {
+			$this->loadGroups(array($groupID));
+			
+			// if we still don't have it cached, that means it doesn't exist in the DB
+			// so create a new one
+			if (!isset($this->_dataSetGroupCache[$groupID]))
+				$this->_dataSetGroupCache[$groupID] =& new DataSetGroup($this, $groupID);
+			
+			return $this->_dataSetGroupCache[$groupID];
+		}
 	}
 	
 	/**
@@ -66,35 +58,40 @@ class DataSetManager extends ServiceInterface {
 	 * @return void
 	 */
 	function loadGroups($groupIDsArray) {
+		$fromDBIDs = array();
 		
+		foreach ($groupIDsArray as $id) {
+			if (!isset($this->_dataSetGroupCache[$id]))
+				$fromDBIDs[] = $id;
+		}
+		
+		if (count($fromDBIDs)) {
+			$wheres = array();
+			foreach ($fromDBIDs as $id) {
+				$wheres[] = "dataset_group.id=$id";
+			}
+			
+			$query =& new SelectQuery;
+			$query->addTable("dataset_group");
+			$query->addColumn("id");
+			$query->addColumn("fk_dataset");
+			$query->setWhere(implode(" OR ",$wheres));
+			
+			$dbHandler =& Services::getService("DBHandler");
+			$result = $dbHandler->query($query,$this->_dbID);
+			
+			while ($result->hasMoreRows()) {
+				$a = $result->getCurrentRow();
+				$result->advanceRow();
+				$id = $a["id"];
+				if (!isset($this->_dataSetGroupCache[$id])) {
+					$this->_dataSetGroupCache[$id] =& new DataSetGroup($this, $id);
+				}
+				
+				$this->_dataSetGroupCache[$id]->takeRow($a);
+			}
+		}
 	}
-	
-//	/**
-//	 * Returns an array of all IDs within a DataSetGroup.
-//	 * @param int $groupID
-//	 * @return array
-//	 */
-//	function getDataSetIDsInGroup($groupID) {
-//		if ($this->_dataSetGroupCache[$groupID]) return $this->_dataSetGroupCache[$groupID];
-//		
-//		$query =& new SelectQuery;
-//		$query->setTable("dataset_group");
-//		$query->addColumn("fk_dataset");
-//		$query->setWhere("dataset_group.id=$groupID");
-//		
-//		$dbHandler =& Services::getService("DBHandler");
-//		
-//		$result =& $dbHandler->query($query, $this->_dbID);
-//		$ids = array();
-//		while ($result->hasMoreRows()) {
-//			$ids[] = $result->field(0);
-//			$result->advanceRow();
-//		}
-//		
-//		$this->_dataSetGroupCache[$groupID] = $ids;
-//		
-//		return $ids;
-//	}
 	
 	/**
 	*  Fetches and returns an array of DataSet IDs from the database in one Query.
@@ -179,10 +176,13 @@ class DataSetManager extends ServiceInterface {
 		}
 				
 		// and add the IDs we're gonna take from cache to the array to return
-		foreach ($fromCacheIDs as $id) {
-			if (!isset($sets[$id])) $sets[$id] =& $this->_dataSetCache[$id];
+		// -- only put into cache if we're not limiting results
+		if (!$limitResults) {
+			foreach ($fromCacheIDs as $id) {
+				if (!isset($sets[$id])) $sets[$id] =& $this->_dataSetCache[$id];
+			}
 		}
-		
+			
 		return $sets;
 	}
 	

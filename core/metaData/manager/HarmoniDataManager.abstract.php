@@ -6,6 +6,7 @@ require_once(HARMONI."metaData/manager/IDManager.class.php");
 require_once(HARMONI."metaData/manager/DataType.interface.php");
 require_once(HARMONI."metaData/manager/DataSetManager.class.php");
 require_once(HARMONI."metaData/manager/DataSetTagManager.class.php");
+require_once(HARMONI."metaData/manager/DataSetGroup.class.php");
 
 require_once(HARMONI."metaData/manager/search/include.php");
 
@@ -15,7 +16,7 @@ require_once(HARMONI."metaData/manager/versionConstraints/include.php");
  * The HarmoniDataManager class is used purely to setup the services required to use the
  * other DataManager classes such as the {@link DataSetTypeManager} or the {@link DataSetManager}.
  * @package harmoni.datamanager
- * @version $Id: HarmoniDataManager.abstract.php,v 1.13 2004/01/16 19:23:23 gabeschine Exp $
+ * @version $Id: HarmoniDataManager.abstract.php,v 1.14 2004/01/16 20:36:10 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
