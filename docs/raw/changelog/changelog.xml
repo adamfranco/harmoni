@@ -3,6 +3,28 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.3.0" date="The nebulous future">
+		<new author='dobo'>
+			GUI Manager now complete.
+		</new>
+		<new author='nik'>
+			GUI Manager saving functionality.
+		</new>
+		<new author='adam'>
+			New back-end for managing authentication tokens, agents, and the mappings
+			between agents and authentication tokens. This is all contained within
+			the core/oki2/agentmanagement/ directory.
+		</new>
+		<change author='adam'>
+			DBHandler now provides methods for transaction handling. Applications
+			can be coded to use transactions to ensure atomic writes. Databases
+			that do not support transactions will simply ignore the calls. Nested
+			transaction calls in MySQL are interperated so that only the outer 
+			transaction is run allowing applications coded to use nested transactions
+			to often operate on MySQL 4.0.11+.
+		</change>
+		<new author='adam'>
+			Now includes implementations of v2.0 of the O.K.I OSIDs.
+		</new>
 		<new author='adam'>
 			Now includes v2.0 of the O.K.I OSIDs.
 		</new>
@@ -14,10 +36,12 @@
 			explicit AZs at a parent instead of returning the explict AZs themselves.
 		</change>
 		<change author='gabe'>
-			DataManager: added function to SchemaManager to generate valid PHP code for a given Schema.
+			DataManager: added function to SchemaManager to generate valid PHP code 
+			for a given Schema.
 		</change>
 		<change author='gabe'>
-			DataManager: deleting a value from a Record without version control now actually deletes the value instead of flagging it as inactive.
+			DataManager: deleting a value from a Record without version control now 
+			actually deletes the value instead of flagging it as inactive.
 		</change>
 		<change author='adam'>
 			The LanguageLocalizer now defines functions for _() and gettext() that

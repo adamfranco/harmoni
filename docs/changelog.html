@@ -3,7 +3,59 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.2.0</h2><h3>2004-10-26</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.3.0</h2><h3>The nebulous future</h3><ul>
+		<li/> New feature:  
+			GUI Manager now complete.
+		 (<i>Dobo Radichkov</i>)
+		<li/> New feature:  
+			GUI Manager saving functionality.
+		 (<i>Nikitas Stamatopoulos</i>)
+		<li/> New feature:  
+			New back-end for managing authentication tokens, agents, and the mappings
+			between agents and authentication tokens. This is all contained within
+			the core/oki2/agentmanagement/ directory.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			 DBHandler now provides methods for transaction handling. Applications
+			can be coded to use transactions to ensure atomic writes. Databases
+			that do not support transactions will simply ignore the calls. Nested
+			transaction calls in MySQL are interperated so that only the outer 
+			transaction is run allowing applications coded to use nested transactions
+			to often operate on MySQL 4.0.11+.
+			
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Now includes implementations of v2.0 of the O.K.I OSIDs.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Now includes v2.0 of the O.K.I OSIDs.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			AuthorizationManager now handles group membership.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			AuthorizationManager now properly returns implicit AZ corresponding to
+			explicit AZs at a parent instead of returning the explict AZs themselves.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			DataManager: added function to SchemaManager to generate valid PHP code 
+			for a given Schema.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			DataManager: deleting a value from a Record without version control now 
+			actually deletes the value instead of flagging it as inactive.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			The LanguageLocalizer now defines functions for _() and gettext() that
+			simply return the passed string, so that localized apps can fail
+			gracefully to their native language if gettext is not installed.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			DBHandler improvements: SQL strings are prettier now. Also added variable
+			binding functionallity.
+		 (<i>Dobo Radichkov</i>)
+	</ul><br/><h2>Version 0.2.0</h2><h3>2004-10-26</h3><ul>
 		<li/> New feature:  
 			Added a &quot;MIME&quot; service for sniffing mime types from file extensions.
 		 (<i>Adam Franco</i>)

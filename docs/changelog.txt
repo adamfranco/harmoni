@@ -3,6 +3,33 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.3.0 (The nebulous future)
+----------------------------------------------------
+		
+	* New feature: GUI Manager now complete. (Dobo Radichkov)
+		
+	* New feature: GUI Manager saving functionality. (Nikitas Stamatopoulos)
+		
+	* New feature: New back-end for managing authentication tokens, agents, and the mappings between agents and authentication tokens. This is all contained within the core/oki2/agentmanagement/ directory. (Adam Franco)
+		
+	* Change: DBHandler now provides methods for transaction handling. Applications can be coded to use transactions to ensure atomic writes. Databases that do not support transactions will simply ignore the calls. Nested transaction calls in MySQL are interperated so that only the outer transaction is run allowing applications coded to use nested transactions to often operate on MySQL 4.0.11+. (Adam Franco)
+		
+	* New feature: Now includes implementations of v2.0 of the O.K.I OSIDs. (Adam Franco)
+		
+	* New feature: Now includes v2.0 of the O.K.I OSIDs. (Adam Franco)
+		
+	* Bug Fix: AuthorizationManager now handles group membership. (Adam Franco)
+		
+	* Change: AuthorizationManager now properly returns implicit AZ corresponding to explicit AZs at a parent instead of returning the explict AZs themselves. (Adam Franco)
+		
+	* Change: DataManager: added function to SchemaManager to generate valid PHP code for a given Schema. (Gabe Schine)
+		
+	* Change: DataManager: deleting a value from a Record without version control now actually deletes the value instead of flagging it as inactive. (Gabe Schine)
+		
+	* Change: The LanguageLocalizer now defines functions for _() and gettext() that simply return the passed string, so that localized apps can fail gracefully to their native language if gettext is not installed. (Adam Franco)
+		
+	* Change: DBHandler improvements: SQL strings are prettier now. Also added variable binding functionallity. (Dobo Radichkov)
+	
 v. 0.2.0 (2004-10-26)
 ----------------------------------------------------
 		

@@ -1,6 +1,7 @@
 <?php
 
 require_once(OKI2."/osid/agent/Agent.php");
+require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
 
 /**
  * Agent is an abstraction that includes Id, display name, type, and
@@ -16,7 +17,7 @@ require_once(OKI2."/osid/agent/Agent.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.9 2005/02/07 21:38:23 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.10 2005/03/14 21:37:46 adamfranco Exp $
  */
 class HarmoniAgent 
 	extends Agent
@@ -181,7 +182,7 @@ class HarmoniAgent
 	 * @access public
 	 */
 	function &getProperties () { 
-		$iterator =& new HarmoniIterator($this->_propertiesArray);
+		$iterator =& new HarmoniPropertiesIterator($this->_propertiesArray);
 		return $iterator;
 	
 	}
