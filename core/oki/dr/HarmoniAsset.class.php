@@ -829,6 +829,82 @@ class HarmoniAsset
 		}
 		throwError(new Error(OPERATION_FAILED, "Digital Repository :: Asset", TRUE));
 	}
+	
+	/**
+	 * Get the InfoField for an InfoRecord for this Asset that matches this 
+	 * InfoField Unique Id.
+	 *
+	 * @param osid.shared.Id infoFieldId
+	 *
+	 * @return osid.dr.InfoField
+	 *
+	 * @throws An exception with one of the following messages defined in 
+	 * 		osid.dr.DigitalRepositoryException may be thrown: 
+	 * 		OPERATION_FAILED, PERMISSION_DENIED, CONFIGURATION_ERROR, 
+	 *		UNIMPLEMENTED, NULL_ARGUMENT, UNKNOWN_ID
+ 	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function & getInfoField(& $infoFieldId) {
+		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
+	}
+	
+	/**
+	 * Get the Value of the InfoField of the InfoRecord for this Asset that 
+	 * matches this InfoField Unique Id.
+	 *
+	 * @param osid.shared.Id infoFieldId
+	 *
+	 * @return java.io.Serializable
+	 *
+	 * @throws An exception with one of the following messages defined in 
+	 * 		osid.dr.DigitalRepositoryException may be thrown: 
+	 * 		OPERATION_FAILED, PERMISSION_DENIED, CONFIGURATION_ERROR, 
+	 *		UNIMPLEMENTED, NULL_ARGUMENT, UNKNOWN_ID
+ 	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function & getInfoFieldValue(& $infoFieldId) {
+		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
+	}
+	
+	/**
+	 * Get the InfoFields of the InfoRecords for this Asset that are based 
+	 * on this InfoStructure InfoPart Unique Id.
+	 *
+	 * @param osid.shared.Id infoPartId
+	 *
+	 * @return osid.dr.InfoFieldIterator
+	 *
+	 * @throws An exception with one of the following messages defined in 
+	 * 		osid.dr.DigitalRepositoryException may be thrown: 
+	 * 		OPERATION_FAILED, PERMISSION_DENIED, CONFIGURATION_ERROR, 
+	 *		UNIMPLEMENTED, NULL_ARGUMENT, UNKNOWN_ID
+ 	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function & getInfoFieldByPart(& $infoPartId) {
+		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
+	}
+	
+	/**
+	 * Get the Values of the InfoFields of the InfoRecords for this Asset
+	 * that are based on this InfoStructure InfoPart Unique Id.
+	 *
+	 * @param osid.shared.Id infoPartId
+	 *
+	 * @return osid.shared.SerializableObjectIterator
+	 *
+	 * @throws An exception with one of the following messages defined in 
+	 * 		osid.dr.DigitalRepositoryException may be thrown: 
+	 * 		OPERATION_FAILED, PERMISSION_DENIED, CONFIGURATION_ERROR, 
+	 *		UNIMPLEMENTED, NULL_ARGUMENT, UNKNOWN_ID
+ 	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function & getInfoFieldValueByPart(& $infoPartId) {
+		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
+	}
 
 	/**
 	 * Saves this object to persistable storage.

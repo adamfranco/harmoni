@@ -144,15 +144,26 @@ class HarmoniDigitalRepository
 	 * @package osid.dr
 	 */
 	function deleteAsset(& $assetId) {
-		// Delete the Data for this Asset
-		//@todo 
-		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		
+		// Get the asset
+		$asset =& $this->getAsset($assetId);
+		
+		// Delete the InfoRecords for the Asset
+		$infoRecords =& $asset->getInfoRecords();
+		while ($infoRecords->hasNext()) {
+			$record =& $infoRecords->next();
+			$recordId =& $record->getId();
+			$asset->deleteInfoRecord($recordId);
+		}
 		
 		// Delete the Node for this Asset
-		$this->_hiearchy->deleteNode($assetId);
+		$this->_hierarchy->deleteNode($assetId);
 		
 		// Delete this asset from the createdAssets cache
 		unset($this->_createdAssets[$assetId->getIdString()]);
+		
+		$this->save();
 	}
 
 	/**
