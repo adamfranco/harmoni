@@ -4,7 +4,7 @@ require_once(HARMONI."utilities/Queue.interface.php");
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.class.php,v 1.14 2003/06/27 02:09:53 dobomode Exp $
+ * @version $Id: Queue.class.php,v 1.15 2003/06/27 15:42:45 movsjani Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -13,20 +13,17 @@ class Queue extends QueueInterface {
 
 	/**
 	 * An array used to store the elements of the queue.
-	 * An array used to store the elements of the queue.
 	 * @var array $_queue An array used to store the elements of the queue.
 	 */
 	var $_queue;
 
 	/**
 	 * The position in the array of the next element of the queue that will be returned when next() is called.
-	 * The position in the array of the next element of the queue that will be returned when next() is called.
 	 * @var integer $_nextPosition The position in the array of the next element of the queue that will be returned when next() is called.
 	 */
 	var $_nextPosition;
 
 	/**
-	 * The start position of the queue in the array.
 	 * The start position of the queue in the array. In a reversed queue, this
 	 * would be the last element of the array. In a normal queue, this would equal
 	 * zero.
@@ -45,7 +42,7 @@ class Queue extends QueueInterface {
 	
 
 	/**
-     * Create a new Queue
+     * Constructor. Create a new Queue.
 	 * 
 	 * @param boolean $reversed The order of extraction from the queue.
 	 * @access public
@@ -58,7 +55,7 @@ class Queue extends QueueInterface {
 	
 	
 	/**
-	 * Clear the queue
+	 * Clear the queue.
 	 *
 	 * @access public
 	 */
@@ -73,7 +70,6 @@ class Queue extends QueueInterface {
 	
 	
 	/**
-	 * Add an object to the queue.
 	 * Add an object to the queue. The queue is automatically rewound at the end.
 	 * @param object $object The object to add to the queue.
 	 * @access public
@@ -97,6 +93,7 @@ class Queue extends QueueInterface {
 
 	
 	/**
+     * Get the current element and increase the position by one.
 	 * @return object Object at the current position in the queue and increase the position by one.
 	 * @access public
 	 */
@@ -122,6 +119,7 @@ class Queue extends QueueInterface {
 	}
 	
 	/**
+     * Get the size of the queue.
 	 * @return integer The size of the queue
 	 * @access public
 	 */

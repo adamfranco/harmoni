@@ -1,12 +1,11 @@
 <?php
 
 /**
- * An ArgumentValidator performs validation of function arguments.
- * An ArgumentValidator performs validation of function arguments. The validator
+ * ArgumentValidator performs validation of function arguments. The validator
  * makes use of a specified ValidatorRule object. In addition, if validation
  * fails, a new fatal error is added to the default ErrorHandler.
  *
- * @version $Id: ArgumentValidator.interface.php,v 1.2 2003/06/26 16:18:06 dobomode Exp $
+ * @version $Id: ArgumentValidator.interface.php,v 1.3 2003/06/27 15:42:45 movsjani Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.utilities
@@ -15,7 +14,6 @@
 class ArgumentValidatorInterface {
 
 	/**
-	 * Validates a single argument.
 	 * Validates a single argument. Uses a specified ValidatorRule object for validation.
 	 * @param mixed $argument The argument to be validated.
 	 * @param object ValidatorRule $rule The rule to use for validation.

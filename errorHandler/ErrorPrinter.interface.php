@@ -26,17 +26,17 @@
 	 */
 	define(HIGH_DETAIL, 3);
 	
-/**
- * An ErrorPrinter interface provides functionality to output Error objects in any way one's soul may desire.
- * For example, you can print to a browser window, to a database, to a file, etc.
- *
- * @version $Id: ErrorPrinter.interface.php,v 1.7 2003/06/27 12:44:17 gabeschine Exp $
- * @package harmoni.errorhandler
- * @copyright 2003
- * @access public
- */
+	/**
+	 * An ErrorPrinter interface provides functionality to output Error objects in any way one's soul may desire.
+	 * For example, you can print to a browser window, to a database, to a file, etc.
+	 *
+	 * @version $Id: ErrorPrinter.interface.php,v 1.8 2003/06/27 15:42:44 movsjani Exp $
+	 * @package harmoni.errorhandler
+	 * @copyright 2003
+	 * @access public
+	 */
 
-class ErrorPrinterInterface {
+	class ErrorPrinterInterface {
 
     /**
      * Outputs a queue of errors to any NORMAL. This function will call
@@ -50,7 +50,7 @@ class ErrorPrinterInterface {
     function printErrors($errors, $detailLevel = NORMAL_DETAIL) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
-     * Prints the header of the Error output. This function will be invoked before Errors  are printed.
+     * Prints the header of the Error output. This function will be invoked before Errors are printed.
      * @param object Queue $errors The queue of the errors to be printed
      * @access public
 	 * @return string A string representation of what was printed.
