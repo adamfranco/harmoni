@@ -9,7 +9,7 @@ require_once(HARMONI."authenticationHandler/AgentInformationHandler.interface.ph
  * as email addresses, full names, etc.
  *
  * @package harmoni.authenticationHandler.agentInformationHandler
- * @version $Id: AgentInformationHandler.class.php,v 1.1 2003/06/28 04:06:12 gabeschine Exp $
+ * @version $Id: AgentInformationHandler.class.php,v 1.2 2003/06/30 02:16:09 gabeschine Exp $
  * @copyright 2003 
  **/
 class AgentInformationHandler extends AgentInformationHandlerInterface {
@@ -62,9 +62,9 @@ class AgentInformationHandler extends AgentInformationHandlerInterface {
 		
 		// now get their priority, each in turn
 		$priorities = array();
-		foreach($methods as $m) {
-			$method =& $this->_authHandler->getMethod($m);
-			$priorities[$m] = $method->getPriority();
+		foreach($methods as $method) {
+			$methodObj =& $this->_authHandler->getMethod($method);
+			$priorities[$method] = $methodObj->getPriority();
 		}
 		
 		// sort them lower priority (highest priority value) to highest to over-write
@@ -74,9 +74,8 @@ class AgentInformationHandler extends AgentInformationHandlerInterface {
 		// go through them and populate the $info hashtable
 		$info = array();
 
-		foreach (array_keys($priorities) as $meth) {
-			$array = $this->_getInformation($systemName, $meth);
-			print_r($array); print "wheeee";
+		foreach (array_keys($priorities) as $method) {
+			$array = $this->_getInformation($systemName, $method);
 			foreach ($array as $field=>$value) {
 				if ($value)
 					$info[$field] = $value;
