@@ -1,7 +1,5 @@
 <?php
 
-
-
 	/**
 	 * A constant for the MySQL database type.
 	 * A constant for the MySQL database type.
@@ -46,19 +44,20 @@
 	 */
 	define("OKI", 5);
 	
+require_once(HARMONI.'services/Service.interface.php');
 
 /**
  * A Database Handler interface. The DBHandler is to be loaded at the beginning
  * program executution with configuration settings for the database type, name, 
  * server, user, and password.
  *
- * @version $Id: DBHandler.interface.php,v 1.1 2003/06/24 20:56:26 gabeschine Exp $
+ * @version $Id: DBHandler.interface.php,v 1.2 2003/06/26 20:47:25 adamfranco Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  * @access public
  */
 
-class DBHandlerInterface { 
+class DBHandlerInterface extends ServiceInterface { 
 
 	/**
 	 * Creates a new database connection.

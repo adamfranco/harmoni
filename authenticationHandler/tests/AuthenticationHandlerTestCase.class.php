@@ -1,19 +1,19 @@
 <?php
 
-//    require_once(HARMONI.'authenticationHandler/AgentInformationHandler.class.php');
+require_once(HARMONI.'authenticationHandler/AuthenticationHandler.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AgentInformationHandlerTestCase.class.php,v 1.2 2003/06/26 20:47:26 adamfranco Exp $
+ * @version $Id: AuthenticationHandlerTestCase.class.php,v 1.1 2003/06/26 20:47:26 adamfranco Exp $
  * @copyright 2003 
  **/
 
-    class AgentInformationHandlerTestCase extends UnitTestCase {
+    class AuthenticationHandlerTestCase extends UnitTestCase {
 	
-		function AgentInformationHandlerTestCase() {
+		function AuthenticationHandlerTestCase() {
 			$this->UnitTestCase();
 		}
 	
@@ -35,13 +35,10 @@
 		}
 	
 		/**
-		 *    Tests getting information for an agent.
+		 *    First test Description
 		 */ 
-		function test_get_information() {
+		function test_first_thing() {
 			$this->assertEqual(false,"We need to delete this and write some real tests.");	
-
-//			$AIhandler =& Services::getService('AIHandler');
-			
 		}
 		
     }

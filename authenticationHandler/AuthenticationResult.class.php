@@ -1,5 +1,7 @@
 <?php
 
+require_once(HARMONI.'authenticationHandler/AuthenticationResult.interface.php');
+
 /**
  * The AuthenticationResult holds a list of valid AuthenticationMethods from an AuthenticationHandler.
  * 
@@ -8,7 +10,7 @@
  * @see AuthenticationMethodInterface
  * @see AuthenticationHandlerInterface
  * @package harmoni.authenticationHandler
- * @version $Id: AuthenticationResult.class.php,v 1.1 2003/06/26 18:11:45 gabeschine Exp $
+ * @version $Id: AuthenticationResult.class.php,v 1.2 2003/06/26 20:47:26 adamfranco Exp $
  * @copyright 2003 
  **/
 class AuthenticationResult extends AuthenticationResultInterface {
