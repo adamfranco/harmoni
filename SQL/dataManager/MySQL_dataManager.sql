@@ -7,207 +7,207 @@
 # Generation Time: 2004-01-16 20:09:19 -0500
 # ************************************************************
 
-# Dump of table data_blob
+# Dump of table dm_blob
 # ------------------------------------------------------------
 
-CREATE TABLE `data_blob` (
-  `data_blob_id` bigint(20) unsigned NOT NULL default '0',
-  `data_blob_data` blob NOT NULL,
-  PRIMARY KEY  (`data_blob_id`)
-) TYPE=MyISAM;
-
-
-
-# Dump of table data_boolean
-# ------------------------------------------------------------
-
-CREATE TABLE `data_boolean` (
-  `data_boolean_id` bigint(20) unsigned NOT NULL default '0',
-  `data_boolean_data` tinyint(1) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`data_boolean_id`)
-) TYPE=MyISAM;
-
-
-
-# Dump of table data_date
-# ------------------------------------------------------------
-
-CREATE TABLE `data_date` (
-  `data_date_id` bigint(20) unsigned NOT NULL default '0',
-  `data_date_data` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`data_date_id`)
-) TYPE=MyISAM;
-
-
-
-# Dump of table data_float
-# ------------------------------------------------------------
-
-CREATE TABLE `data_float` (
-  `data_float_id` bigint(20) unsigned NOT NULL default '0',
-  `data_float_data` double NOT NULL default '0',
-  PRIMARY KEY  (`data_float_id`)
-) TYPE=MyISAM;
-
-
-
-# Dump of table data_fuzzydate
-# ------------------------------------------------------------
-
-CREATE TABLE `data_fuzzydate` (
-  `data_fuzzydate_id` bigint(20) unsigned NOT NULL default '0',
-  `data_fuzzydate_mean` bigint(20) unsigned NOT NULL default '0',
-  `data_fuzzydate_range` bigint(20) unsigned NOT NULL default '0',
-  `data_fuzzydate_string` varchar(255) default NULL,
-  PRIMARY KEY  (`data_fuzzydate_id`)
-) TYPE=MyISAM;
-
-
-
-# Dump of table data_integer
-# ------------------------------------------------------------
-
-CREATE TABLE `data_integer` (
-  `data_integer_id` bigint(20) unsigned NOT NULL default '0',
-  `data_integer_data` bigint(20) NOT NULL default '0',
-  PRIMARY KEY  (`data_integer_id`)
-) TYPE=MyISAM;
-
-
-
-# Dump of table data_shortstring
-# ------------------------------------------------------------
-
-CREATE TABLE `data_shortstring` (
-  `data_shortstring_id` bigint(20) unsigned NOT NULL default '0',
-  `data_shortstring_data` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`data_shortstring_id`)
-) TYPE=MyISAM;
-
-# Dump of table data_okitype
-# ------------------------------------------------------------
-
-CREATE TABLE `data_okitype` (
-  `data_okitype_id` bigint(20) unsigned NOT NULL default '0',
-  `data_okitype_domain` varchar(255) NOT NULL default '',
-  `data_okitype_authority` varchar(255) NOT NULL default '',
-  `data_okitype_keyword` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`data_okitype_id`)
-) TYPE=MyISAM;
-
-# Dump of table data_string
-# ------------------------------------------------------------
-
-CREATE TABLE `data_string` (
-  `data_string_id` bigint(20) unsigned NOT NULL default '0',
-  `data_string_data` text NOT NULL,
-  PRIMARY KEY  (`data_string_id`)
-) TYPE=MyISAM;
-
-
-
-# Dump of table dataset
-# ------------------------------------------------------------
-
-CREATE TABLE `dataset` (
-  `dataset_id` bigint(20) unsigned NOT NULL default '0',
-  `fk_datasettype` bigint(20) unsigned NOT NULL default '0',
-  `dataset_created` datetime NOT NULL default '0000-00-00 00:00:00',
-  `dataset_active` tinyint(1) unsigned NOT NULL default '0',
-  `dataset_ver_control` tinyint(1) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`dataset_id`),
-  KEY `fk_datasettype` (`fk_datasettype`)
-) TYPE=MyISAM;
-
-
-
-# Dump of table dataset_group
-# ------------------------------------------------------------
-
-CREATE TABLE `dataset_group` (
+CREATE TABLE `dm_blob` (
   `id` bigint(20) unsigned NOT NULL default '0',
-  `fk_dataset` bigint(20) unsigned NOT NULL default '0',
+  `data` blob NOT NULL,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+
+
+# Dump of table dm_boolean
+# ------------------------------------------------------------
+
+CREATE TABLE `dm_boolean` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `data` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+
+
+# Dump of table dm_date
+# ------------------------------------------------------------
+
+CREATE TABLE `dm_time` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `data` datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+
+
+# Dump of table dm_float
+# ------------------------------------------------------------
+
+CREATE TABLE `dm_float` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `data` double NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+
+
+# Dump of table dm_fuzzydate
+# ------------------------------------------------------------
+
+CREATE TABLE `dm_fuzzydate` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `mean` bigint(20) unsigned NOT NULL default '0',
+  `range` bigint(20) unsigned NOT NULL default '0',
+  `string` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+
+
+# Dump of table dm_integer
+# ------------------------------------------------------------
+
+CREATE TABLE `dm_integer` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `data` bigint(20) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+
+
+# Dump of table dm_shortstring
+# ------------------------------------------------------------
+
+CREATE TABLE `dm_shortstring` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `data` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+# Dump of table dm_okitype
+# ------------------------------------------------------------
+
+CREATE TABLE `dm_okitype` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `domain` varchar(255) NOT NULL default '',
+  `authority` varchar(255) NOT NULL default '',
+  `keyword` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+# Dump of table dm_string
+# ------------------------------------------------------------
+
+CREATE TABLE `dm_string` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `data` text NOT NULL,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+
+
+# Dump of table dm_record
+# ------------------------------------------------------------
+
+CREATE TABLE `dm_record` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `fk_schema` bigint(20) unsigned NOT NULL default '0',
+  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `active` tinyint(1) unsigned NOT NULL default '0',
+  `ver_control` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `fk_schema` (`fk_schema`)
+) TYPE=MyISAM;
+
+
+
+# Dump of table dm_record_set
+# ------------------------------------------------------------
+
+CREATE TABLE `dm_record_set` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `fk_record` bigint(20) unsigned NOT NULL default '0',
   KEY `id` (`id`),
-  KEY `fk_dataset` (`fk_dataset`)
+  KEY `fk_record` (`fk_record`)
 ) TYPE=MyISAM;
 
 
 
-# Dump of table dataset_tag
+# Dump of table dm_tag
 # ------------------------------------------------------------
 
-CREATE TABLE `dataset_tag` (
-  `dataset_tag_id` bigint(20) unsigned NOT NULL default '0',
-  `fk_dataset` bigint(20) unsigned NOT NULL default '0',
-  `dataset_tag_date` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`dataset_tag_id`),
-  KEY `fk_dataset` (`fk_dataset`),
-  KEY `dataset_tag_date` (`dataset_tag_date`)
+CREATE TABLE `dm_tag` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `fk_record` bigint(20) unsigned NOT NULL default '0',
+  `date` datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`id`),
+  KEY `fk_record` (`fk_record`),
+  KEY `date` (`date`)
 ) TYPE=MyISAM;
 
 
 
-# Dump of table dataset_tag_map
+# Dump of table dm_tag_map
 # ------------------------------------------------------------
 
-CREATE TABLE `dataset_tag_map` (
-  `fk_dataset_tag` bigint(20) unsigned NOT NULL default '0',
+CREATE TABLE `dm_tag_map` (
+  `fk_dm_tag` bigint(20) unsigned NOT NULL default '0',
   `fk_datasetfield` bigint(20) unsigned NOT NULL default '0',
-  KEY `fk_dataset_tag` (`fk_dataset_tag`),
+  KEY `fk_dm_tag` (`fk_dm_tag`),
   KEY `fk_datasetfield` (`fk_datasetfield`)
 ) TYPE=MyISAM;
 
 
 
-# Dump of table datasetfield
+# Dump of table dm_record_field
 # ------------------------------------------------------------
 
-CREATE TABLE `datasetfield` (
-  `datasetfield_id` bigint(20) unsigned NOT NULL default '0',
-  `fk_dataset` bigint(20) unsigned NOT NULL default '0',
-  `fk_datasettypedef` bigint(20) unsigned NOT NULL default '0',
-  `datasetfield_index` bigint(20) unsigned NOT NULL default '0',
+CREATE TABLE `dm_record_field` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `fk_record` bigint(20) unsigned NOT NULL default '0',
+  `fk_schema_field` bigint(20) unsigned NOT NULL default '0',
+  `index` bigint(20) unsigned NOT NULL default '0',
   `fk_data` bigint(20) unsigned NOT NULL default '0',
-  `datasetfield_active` tinyint(1) unsigned NOT NULL default '0',
-  `datasetfield_modified` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`datasetfield_id`),
-  KEY `fk_dataset` (`fk_dataset`),
-  KEY `fk_datasettypedef` (`fk_datasettypedef`),
+  `active` tinyint(1) unsigned NOT NULL default '0',
+  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`id`),
+  KEY `fk_record` (`fk_record`),
+  KEY `fk_schema_field` (`fk_schema_field`),
   KEY `fk_data` (`fk_data`),
-  KEY `datasetfield_active` (`datasetfield_active`)
+  KEY `active` (`active`)
 ) TYPE=MyISAM;
 
 
 
-# Dump of table datasettype
+# Dump of table dm_schema
 # ------------------------------------------------------------
 
-CREATE TABLE `datasettype` (
-  `datasettype_id` bigint(20) unsigned NOT NULL default '0',
-  `datasettype_domain` varchar(255) NOT NULL default '',
-  `datasettype_authority` varchar(255) NOT NULL default '',
-  `datasettype_keyword` varchar(255) NOT NULL default '',
-  `datasettype_description` tinytext NOT NULL,
-  `datasettype_revision` int(8) unsigned NOT NULL,
-  PRIMARY KEY  (`datasettype_id`),
-  UNIQUE KEY `datasettype_unique_key` (`datasettype_domain`(100),`datasettype_authority`(100),`datasettype_keyword`(100))
+CREATE TABLE `dm_schema` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `domain` varchar(255) NOT NULL default '',
+  `authority` varchar(255) NOT NULL default '',
+  `keyword` varchar(255) NOT NULL default '',
+  `description` tinytext NOT NULL,
+  `revision` int(8) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_key` (`domain`(100),`authority`(100),`keyword`(100))
 ) TYPE=MyISAM;
 
 
 
-# Dump of table datasettypedef
+# Dump of table dm_schema_field
 # ------------------------------------------------------------
 
-CREATE TABLE `datasettypedef` (
-  `datasettypedef_id` bigint(20) unsigned NOT NULL default '0',
-  `fk_datasettype` bigint(20) unsigned NOT NULL default '0',
-  `datasettypedef_label` varchar(255) NOT NULL default '',
-  `datasettypedef_mult` tinyint(1) unsigned NOT NULL default '0',
-  `datasettypedef_fieldtype` varchar(255) NOT NULL default '',
-  `datasettypedef_active` tinyint(1) unsigned NOT NULL default '0',
-  `datasettypedef_required` tinyint(1) unsigned NOT NULL default '0',
-  `datasettypedef_description` tinytext NOT NULL default '',
-  PRIMARY KEY  (`datasettypedef_id`),
-  KEY `fk_datasettype` (`fk_datasettype`),
-  KEY `datasettypedef_label` (`datasettypedef_label`)
+CREATE TABLE `dm_schema_field` (
+  `id` bigint(20) unsigned NOT NULL default '0',
+  `fk_schema` bigint(20) unsigned NOT NULL default '0',
+  `label` varchar(255) NOT NULL default '',
+  `mult` tinyint(1) unsigned NOT NULL default '0',
+  `fieldtype` varchar(255) NOT NULL default '',
+  `active` tinyint(1) unsigned NOT NULL default '0',
+  `required` tinyint(1) unsigned NOT NULL default '0',
+  `description` tinytext NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `fk_schema` (`fk_schema`),
+  KEY `label` (`label`)
 ) TYPE=MyISAM;

@@ -1,0 +1,131 @@
+<?php
+
+require_once(HARMONI."utilities/recast.function.php");
+
+/**
+ * Responsible for keeping track of the available data type primitives (such as string, integer, etc) and 
+ * creation of the appropriate classes when those data types are required. Is also responsible for mapping {@link Primitive}s with
+ * their respective {@link StorablePrimitive}s so that we can store them in the database.
+ * @package harmoni.datamanager
+ * @version $Id: DataTypeManager.class.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+ * @author Gabe Schine
+ * @copyright 2004
+ * @access public
+ **/
+class DataTypeManager 
+	extends ServiceInterface {
+	
+	var $_registeredTypes;
+	var $_primitiveClassMapping;
+	
+	function DataTypeManager() {
+		$this->_registeredTypes = array();
+		$this->_primitiveClassMapping = array();
+		
+		include HARMONI."dataManager/registerPrimitives.inc.php";
+	}
+	
+	/**
+	 * Returns an array of strings that represent all of the available {@link Primitive}s.
+	 * @return array
+	 * @access public
+	 */
+	function getRegisteredTypes() {
+		return array_keys($this->_registeredTypes);
+	}
+	
+	/**
+	 * Adds a specific data type (identified by a string such as "integer") to our registry. Each data type has two classes associated with it: a {@link Primitive} and a {@link StorablePrimitive}. The former is used when setting/getting values, the latter used when talking with the database.
+	 * @param string $typeName The name (such as "integer" or "boolean") of this new data type.
+	 * @param string $primitiveClass The name of the {@link Primitive} class.
+	 * @param string $storablePrimitiveClass The name of the {@link StorablePrimitive} class.
+	 * @access public
+	 * @return void
+	 */
+	function addDataType($typeName, $primitiveClass, $storablePrimitiveClass)
+	{
+		$this->_registeredTypes[$typeName] = array("primitive"=>$primitiveClass,"storable"=>$storablePrimitiveClass);
+		$this->_primitiveClassMapping[strtolower($primitiveClass)] = strtolower($storablePrimitiveClass);	
+	}
+	
+	/**
+	 * Check if we have a datatype registered under $name.
+	 * @param string $name
+	 * @return bool
+	 * @access public
+	 */
+	function typeRegistered( $name ) {
+		return (isset($this->_registeredTypes[$name]))?true:false;
+	}
+	
+	/**
+	 * Creates a new {@link Primitive} object that is associated with the type registered under $name.
+	 * @param string $name
+	 * @return ref object
+	 * @access public
+	 */
+	function &newPrimitive( $name ) {
+		if (!$this->typeRegistered($name)) {
+			throwError( new Error("Could not create new DataType object for '$name' because it doesn't seem to be registered.",
+			"DataTypeManager",true));
+		}
+		
+		$class = $this->_registeredTypes[$name]["primitive"];
+		
+		$object =& new $class;
+		return $object;
+	}
+	
+	/**
+	 * Recasts a {@link Primitive} to its associated {@link StorablePrimitive} class and returns the new object.
+	 * @param ref object $primitive
+	 * @access public
+	 * @return ref object
+	 */
+	function &recastAsStorablePrimitive(&$primitive)
+	{
+		$class = strtolower(get_class($primitive));
+		if (!isset($this->_primitiveClassMapping[$class])) {
+			// this means that either we can't do anything with this primitive (we dont' know it) or
+			// it's already a storable.
+			return $primitive;
+		}
+		
+		$newClass = $this->_primitiveClassMapping[$class];
+		return recast($primitive, $newClass);
+	}
+	
+	/**
+	 * Returns an array of the {@link StorablePrimitive}s that we have registered.
+	 * @access public
+	 * @return ref object
+	 */
+	function getRegisteredStorablePrimitives()
+	{
+		return array_values($this->_primitiveClassMapping);
+	}
+	
+	/**
+	 * Takes an object and a DataType name and checks if the object is of the correct class to be
+	 * an object of DataType $type.
+	 * @param ref object The {@link Primitive} object to check.
+	 * @param string $type The type (name) of the registered DataType to check against.
+	 * @return bool
+	 * @access public
+	 */
+	function isObjectOfDataType(&$object, $type) {
+		if (!$this->typeRegistered($type)) {
+			throwError ( new Error("AAAH! Trying to check the data type of an object... but '$type' isn't defined!","DataTypeManager",true));
+			return false;
+		}
+		
+		$rule =& new ExtendsValidatorRule($this->_registeredTypes[$type]["primitive"]);
+		return $rule->check($object);
+	}
+	
+	function start() { }
+	
+	function stop() { }
+}
+
+?>
