@@ -13,7 +13,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * </ul>
  *
  * @package harmoni.layout.components
- * @version $Id: RowLayout.class.php,v 1.1 2004/02/28 00:00:58 adamfranco Exp $
+ * @version $Id: RowLayout.class.php,v 1.2 2004/03/01 15:48:36 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -41,13 +41,13 @@ class RowLayout extends Layout {
 		$childLayouts =& $this->getAllComponents();
 		
 		// output the table;
-		print "\n<table border=0 cellpadding=0 cellspacing=0 width=100%>";
+		print "\n".$this->_getTabs()."<table border=0 cellpadding=0 cellspacing=0 width=100%>";
 		foreach (array_keys($childLayouts) as $i => $key) {
-			print "\n<tr><td align=center>\n";
+			print "\n".$this->_getTabs()."\t<tr><td valign='".$this->_valign."' align='".$this->_halign."'>";
 			$childLayouts[$key]->output($theme);
-			print "\n</td></tr>";
+			print "\n".$this->_getTabs()."\t</td></tr>";
 		}
-		print "\n</table>\n";
+		print "\n".$this->_getTabs()."</table>\n";
 	}
 }
 

@@ -9,7 +9,7 @@ require_once(HARMONI."utilities/FieldSetValidator/FieldSet.class.php");
  * This is a test theme object.
  *
  * @package harmoni.themes
- * @version $Id: TestTheme.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: TestTheme.class.php,v 1.2 2004/03/01 15:48:36 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -77,20 +77,20 @@ class TestTheme extends NamedTheme {
 		$h = ($orientation == VERTICAL)?false:true;
 		// make a copy
 		$color = $this->_baseColor;
-		print "<table cellpadding=0 cellspacing=1 width=100%>";
-		print "<tr>";
 		$level = $menuObj->getLevel();
+		print "\n".$this->_getTabs($level)."<table cellpadding=0 cellspacing=1 width=100%>";
+		print "\n".$this->_getTabs($level)."\t<tr>";
 		$color->lighten($level*10 + 50);
 		$bgcolor = $color->getHTMLcolor();
 		for($i = 0; $i < $menuObj->getCount(); $i++) {
 			$item =& $menuObj->getItem($i);
 			if ($item->getType() == LINK)$item->addExtraAttributes("class='menu'");
-			print "<td style='background-color: $bgcolor'".($h?" align=center":"").">";
-			print $item->getFormattedText();
-			print "</td>";
-			print (!$h)?"</tr><tr>":"";
+			print "\n".$this->_getTabs($level)."\t<td style='background-color: $bgcolor'".($h?" align=center":"").">";
+			print "\n".$this->_getTabs($level)."\t\t".$item->getFormattedText();
+			print "\n".$this->_getTabs($level)."\t</td>";
+			print (!$h)?"\n".$this->_getTabs($level)."\t</tr><tr>":"";
 		} // for
-		print "</tr></table>";
+		print "\n".$this->_getTabs($level)."</tr></table>";
 //		print "</div>";
 	}
 	
@@ -114,10 +114,13 @@ class TestTheme extends NamedTheme {
 	 * @return void
 	 **/
 	function printLayout(&$layoutObj) {
-    	print "<div style='border: 1px solid gray; padding: 2px; margin: 2px;'>";
-		print "<div align=center style='background-color: #eee;'>level=<b>".$layoutObj->getLevel()."</b></div>";
+		$level = $layoutObj->getLevel();
+    	print "\n".$this->_getTabs($level)."<div style='border: 1px solid gray; padding: 2px; margin: 2px;'>";
+		print "\n".$this->_getTabs($level)."<div align=center style='background-color: #eee;'>";
+		print "\n".$this->_getTabs($level)."\tlevel=<b>".$layoutObj->getLevel()."</b>";
+		print "\n".$this->_getTabs($level)."</div>";
 		$layoutObj->outputLayout($this);
-		print "</div>";
+		print "\n".$this->_getTabs($level)."</div>";
 	}
 }
 

@@ -2,12 +2,18 @@
 
 require_once(HARMONI."layoutHandler/Layout.interface.php");
 
+define ("TOP", "top");
+define ("CENTER", "center");
+define ("BOTTOM", "bottom");
+define ("LEFT", "left");
+define ("RIGHT", "right");
+
 /**
  * The Layout class lays (hah!) out ground work for any layout-type children. It
  * holds any number of components of different types.
  *
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.2 2004/02/28 00:00:57 adamfranco Exp $
+ * @version $Id: Layout.abstract.php,v 1.3 2004/03/01 15:48:36 adamfranco Exp $
  * @copyright 2003 
  * @abstract
  **/
@@ -57,12 +63,19 @@ class Layout extends LayoutInterface {
 	 * Sets the "content" for the component indexed by $index to $object.
 	 * @param integer $index The index number for the component to be set.
 	 * @param ref object $object The object that complies to the expected type for $index.
+	 * @param optional boolean $valign Constants TOP = 0, CENTER = 1, BOTTOM = 2 define where
+	 *			the child object will be aligned.
+	 * @param optional boolean $halign Constants LEFT = 0, CENTER = 1, RIGHT = 2 define where
+	 *			the child object will be aligned.
 	 * @param optional boolean $dontSetLevel When TRUE, setComponent will not call setLevel on this component. Default = FALSE.
 	 * @access public
 	 * @return void
 	 **/
-	function setComponent($index, &$object, $dontSetLevel=false) {
+	function setComponent($index, &$object, $valign=TOP, $halign=LEFT, $dontSetLevel=false) {
 		ArgumentValidator::validate($index, new IntegerValidatorRule);
+		
+		ArgumentValidator::validate($valign, new StringValidatorRule);
+		ArgumentValidator::validate($halign, new StringValidatorRule);
 		
 		// first make sure they handed us the correct object type
 		$rule = new ExtendsValidatorRule($this->_registeredComponents[$index]);
@@ -77,6 +90,15 @@ class Layout extends LayoutInterface {
 		
 		// looks like it's good
 		$this->_setComponents[$index] =& $object;
+		
+		// Set the alignment tags
+		if ($valign != TOP && $valign != CENTER && $valign != BOTTOM)
+ 			throwError(new Error(get_class($this)."::setComponent($index $object, $valign, $halign) - Could not set vertical alignment, parameter out of range.","layout",true));
+ 		if ($halign != LEFT && $halign != CENTER && $halign != RIGHT)
+ 			throwError(new Error(get_class($this)."::setComponent($index $object, $valign, $halign) - Could not set horizontal alignment, parameter out of range.","layout",true));
+			
+		$this->_valign = $valign;
+		$this->_halign = $halign;
 	}
 	
 	/**
@@ -152,6 +174,16 @@ class Layout extends LayoutInterface {
 				$this->_setComponents[$key]->setLevel($this->_level+$increment,$spiderDown,$increment);
 			}
 		}
+	}
+	
+	function _getTabs() {
+		// Set up tabs for nice html output.
+		$tabs = "\t\t";
+		for ($i = 0; $i < $this->_level; $i++) {
+			$tabs .= "\t";
+		}
+		
+		return $tabs;
 	}
 }
 

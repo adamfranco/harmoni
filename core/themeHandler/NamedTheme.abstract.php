@@ -8,7 +8,7 @@ require_once(HARMONI."utilities/HTMLcolor.class.php");
  * {@link NamedThemeInterface}.
  *
  * @package harmoni.themes
- * @version $Id: NamedTheme.abstract.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: NamedTheme.abstract.php,v 1.2 2004/03/01 15:48:36 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -155,6 +155,16 @@ class NamedTheme extends NamedThemeInterface {
 	 **/
 	function printLayout($layoutObj) {
 		$layoutObj->outputLayout($this);
+	}
+	
+	function _getTabs($level=0) {
+		// Set up tabs for nice html output.
+		$tabs = "\t\t";
+		for ($i = 0; $i < $level; $i++) {
+			$tabs .= "\t";
+		}
+		
+		return $tabs;
 	}
 }
 

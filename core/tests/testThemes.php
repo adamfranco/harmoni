@@ -51,10 +51,10 @@ $content .= highlight_string(implode("",file(HARMONI."themeHandler/TestTheme.tpl
 $contentLayout->setComponent(0,new Content($content));
 // add it to the left menu
 $leftMenuLayout->setComponent(1,$contentLayout);
-$leftMenuLayout->setLevel(100);
 
 // add the leftmenulayout to the topmenulayout
-$topMenuLayout->setComponent(1,$leftMenuLayout,true);
+$topMenuLayout->setComponent(1,$leftMenuLayout);
+//$leftMenuLayout->setLevel(100);
 
 // print it all with the theme
 $theme->printPageWithLayout($topMenuLayout);
