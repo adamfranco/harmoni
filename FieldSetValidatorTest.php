@@ -3,7 +3,7 @@
 /**
  * this file tests the functionality of the FieldSet, RuleSet and FieldSetValidators
  *
- * @version $Id: FieldSetValidatorTest.php,v 1.1 2003/06/22 23:06:56 gabeschine Exp $
+ * @version $Id: FieldSetValidatorTest.php,v 1.2 2003/06/23 00:58:44 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -20,8 +20,9 @@ $a = array(	"string1"=>"this is string 1",
 			"choice"=>"valid1",
 			"array"=>"not an array"
 			);
- 
-$f = & new FieldSet( $a );
+
+$f = & new FieldSet( $_REQUEST );
+
 //print_r($f->getKeys());
 //print $f->get("string1");
 
@@ -39,7 +40,7 @@ $r->addRule("array", new ArrayValidatorRuleWithRule(new NumericValidatorRule), $
 $v = & new FieldSetValidator( $f, $r );
 
 tryKey("number1");
-$f->set("number1","not a number");
+//$f->set("number1","not a number");
 tryKey("number1");
 
 
@@ -51,11 +52,11 @@ tryKey("blank1");
 
 
 tryKey("email");
-$f->set("email","bad!@email");
+//$f->set("email","bad!@email");
 tryKey("email");
 
-$f->set("choice",7);
-$f->set("array",array(1,2,"not a number"));
+//$f->set("choice",7);
+//$f->set("array",array(1,2,"not a number"));
 
 $v->validateAll();
 

@@ -5,7 +5,7 @@ require_once("FieldSet.interface.php");
 /**
  * the FieldSet holds a set of key=value pairs of data
  *
- * @version $Id: FieldSet.class.php,v 1.1 2003/06/22 23:06:56 gabeschine Exp $
+ * @version $Id: FieldSet.class.php,v 1.2 2003/06/23 00:58:44 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/
@@ -29,7 +29,7 @@ class FieldSet
 	 * @return void 
 	 **/
 	function FieldSet( $fields = null ) {
-		if ($fields) $this->_fields = & $fields;
+		if ($fields && is_array($fields)) $this->_fields = & $fields;
 	}
 	
 	/**
@@ -50,7 +50,18 @@ class FieldSet
 	 * @return array an array of keys that are set
 	 **/
 	function getKeys() {
-		return array_keys($this->_fields);
+		if ($this->size())return array_keys($this->_fields);
+		return array();
+	}
+	
+	/**
+	 * returns the number of fields set
+	 * 
+	 * @access public
+	 * @return int the number of fields
+	 **/
+	function size() {
+		return count($this->_fields);
 	}
 	
 	/**

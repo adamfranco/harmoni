@@ -3,7 +3,7 @@
 /**
  * the FieldSetInterface defines the methods required by any FieldSet class or derivatives
  *
- * @version $Id: FieldSet.interface.php,v 1.1 2003/06/22 23:06:56 gabeschine Exp $
+ * @version $Id: FieldSet.interface.php,v 1.2 2003/06/23 00:58:44 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/
@@ -25,6 +25,14 @@ class FieldSetInterface {
 	 * @return array an array of keys that are set
 	 **/
 	function getKeys() {}
+	
+	/**
+	 * returns the number of fields set
+	 * 
+	 * @access public
+	 * @return int the number of fields
+	 **/
+	function size() {}
 	
 	/**
 	 * sets the value associated with $key to $val

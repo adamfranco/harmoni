@@ -6,7 +6,7 @@ require_once("FieldSetValidator.interface.php");
  * the FieldSetValidator takes a FieldSet and a RuleSet and validates values between the two
  *
  * @package harmoni.untilities.FieldSetValidator
- * @version $Id: FieldSetValidator.class.php,v 1.1 2003/06/22 23:06:56 gabeschine Exp $
+ * @version $Id: FieldSetValidator.class.php,v 1.2 2003/06/23 00:58:44 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -87,7 +87,7 @@ class FieldSetValidator
 	 **/
 	function validateAll() {
 		// get all the defined keys
-		$keys = $this->_fieldset->getKeys();
+		$keys = array_unique(array_merge($this->_fieldset->getKeys(),$this->_ruleset->getKeys()));
 		
 		$error = false; // assume no error
 		// go through them and validate
