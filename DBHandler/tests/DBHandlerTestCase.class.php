@@ -1,13 +1,13 @@
 <?php
 
-    require_once('DBHandler.class.php');
+    require_once(HARMONI.'DBHandler/classes/DBHandler.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DBHandlerTestCase.class.php,v 1.5 2003/06/23 17:12:28 dobomode Exp $
+ * @version $Id: DBHandlerTestCase.class.php,v 1.6 2003/06/23 21:37:22 adamfranco Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -27,7 +27,8 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->dbhandler =& new DBHandler(MYSQL,"devo.middlebury.edu", "test", "test", "test");
+			$this->dbhandler =& new DBHandler();
+			$this->dbhandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");
         }
 		
         /**
