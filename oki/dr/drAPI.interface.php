@@ -1,5 +1,7 @@
 <?php
 
+require_once(OKI."inc.php");
+
 class DigitalRepositoryManager
 	extends OsidManager
 { // begin DigitalRepositoryManager

@@ -4,7 +4,7 @@
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.19 2003/08/26 14:50:39 adamfranco Exp $
+ * @version $Id: harmoni.inc.php,v 1.20 2003/08/26 15:47:16 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
@@ -22,6 +22,7 @@ if (!ob_get_level()) ob_start();
 define("HARMONI",dirname(__FILE__).DIRECTORY_SEPARATOR."core".DIRECTORY_SEPARATOR);
 define("HARMONI_BASE",dirname(__FILE__).DIRECTORY_SEPARATOR);
 define("HARMONIBASE",dirname(__FILE__).DIRECTORY_SEPARATOR);
+define("SIMPLE_TEST",HARMONI.DIRECTORY_SEPARATOR."simple_test".DIRECTORY_SEPARATOR);
 
 /**
  * Defines where OKI interfaces for PHP are located.
