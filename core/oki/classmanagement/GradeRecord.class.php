@@ -14,7 +14,7 @@ class HarmoniGradeRecord // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function & getGrade() { /* :: interface :: */ }
+	function &getGrade() { /* :: interface :: */ }
 
 	/**
 	 * Update the grade for this GradeRecord.
@@ -30,7 +30,7 @@ class HarmoniGradeRecord // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the Unique Id for the CourseOffering for this GradeRecord..
@@ -38,7 +38,7 @@ class HarmoniGradeRecord // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function & getCourseOffering() { /* :: interface :: */ }
+	function &getCourseOffering() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Id getCourseOffering()
 
 	/**
@@ -47,7 +47,7 @@ class HarmoniGradeRecord // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function & getStudent() { /* :: interface :: */ }
+	function &getStudent() { /* :: interface :: */ }
 
 	/**
 	 * Get the Grade for this Offering.  Grading is defined in the osid.grading OSID.  These Types are meaningful to the implementation and applications and is not specified by the OSID.
@@ -55,5 +55,5 @@ class HarmoniGradeRecord // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function & getGradeType() { /* :: interface :: */ }
+	function &getGradeType() { /* :: interface :: */ }
 }

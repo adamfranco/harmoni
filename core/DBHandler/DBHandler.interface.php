@@ -46,7 +46,7 @@ require_once(HARMONI.'services/Service.interface.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password.
  *
- * @version $Id: DBHandler.interface.php,v 1.5 2004/05/20 17:24:12 adamfranco Exp $
+ * @version $Id: DBHandler.interface.php,v 1.6 2004/08/26 15:10:17 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
@@ -85,7 +85,7 @@ class DBHandlerInterface extends ServiceInterface {
 	 * @return object QueryResultInterface Returns a QueryResult object that impliments QueryResultInterface and corresponds to the DB configuration.
 	 * @access public
 	 */
-	function & query(& $query, $dbIndex=0) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function &query(& $query, $dbIndex=0) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
 	/**
 	 * Run a database query for each Query in the Queue and return a Queue of QueryResults.
@@ -94,7 +94,7 @@ class DBHandlerInterface extends ServiceInterface {
 	 * @return object QueInterface Returns a Queue of QueryResults.
 	 * @access public
 	 */
-	function & queryQueue(& $queue, $dbIndex=0) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function &queryQueue(& $queue, $dbIndex=0) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * Gets the total number of queries that have been run so far.
@@ -175,7 +175,7 @@ class DBHandlerInterface extends ServiceInterface {
 	 * from the db).
 	 * @return ref object The DateTime object.
 	 */
-	function & fromDBDate($value, $dbIndex = 0) {
+	function &fromDBDate($value, $dbIndex = 0) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

@@ -44,7 +44,7 @@ class HarmoniNodeIterator
 	}
 
 	// public Type & next();
-	function & next() {
+	function &next() {
 		if ($this->hasNext()) {
 			$this->_i++;
 			return $this->_nodes[$this->_i];

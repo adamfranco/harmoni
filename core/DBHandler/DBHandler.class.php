@@ -20,7 +20,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.9 2004/07/02 21:35:42 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.10 2004/08/26 15:10:17 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
@@ -126,7 +126,7 @@ class DBHandler extends DBHandlerInterface {
 	 * @return object QueryResultInterface Returns a QueryResult object that impliments QueryResultInterface and corresponds to the DB configuration.
 	 * @access public
 	 */
-	function & query(& $query, $dbIndex=0) {
+	function &query(& $query, $dbIndex=0) {
 		// ** parameter validation
 		$queryRule =& new ExtendsValidatorRule("QueryInterface");
 		$integerRule =& new IntegerValidatorRule();
@@ -154,7 +154,7 @@ class DBHandler extends DBHandlerInterface {
 	 * @return object QueInterface Returns a Queue of QueryResults.
 	 * @access public
 	 */
-	function & queryQueue(& $queue, $dbIndex=0) {
+	function &queryQueue(& $queue, $dbIndex=0) {
 		// ** parameter validation
 		$queueRule =& new ExtendsValidatorRule("Queue");
 		$integerRule =& new IntegerValidatorRule();
@@ -365,7 +365,7 @@ class DBHandler extends DBHandlerInterface {
 	 * @param integer dbIndex The index of the database to use (0 by default).
 	 * @return ref object The DateTime object.
 	 */
-	function & fromDBDate($value, $dbIndex = 0) {
+	function &fromDBDate($value, $dbIndex = 0) {
 		// ** parameter validation
 		$integerRule =& new IntegerValidatorRule();
 		ArgumentValidator::validate($dbIndex, $integerRule, true);

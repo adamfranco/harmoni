@@ -61,7 +61,7 @@ define("CANNOT_DELETE_LAST_ROOT_QUALIFIER", "Cannot delete last root Qualifier "
 /**
  * AuthorizationManager allows an application to create Authorizations, get Authorizations given selection criterias, ask questions of Authorization such as what Agent can do a Function in a Qualifier context, etc.<p><p>The primary objects in Authorization are Authorization, Function, Agent, and Qualifier. There are also Function and Qualifier types that are understood by the implementation.<p><p>Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p><p>There are two methods to create Authorizations. One uses method uses Agent, Function, and Qualifier.  The other adds effective date and expiration date.  For the method without the dates, the effective date is today and there is no expiration date.  <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * @access public
- * @version $Id: authorization.interface.php,v 1.7 2004/07/07 15:09:27 dobomode Exp $
+ * @version $Id: authorization.interface.php,v 1.8 2004/08/26 15:10:37 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @package harmoni.authorization
@@ -81,7 +81,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
 	 * @package osid.authorization
 	 */
-	function & createDatedAuthorization(& $agentId, & $functionId, & $qualifierId, & $effectiveDate, & $expirationDate) { /* :: interface :: */ }
+	function &createDatedAuthorization(& $agentId, & $functionId, & $qualifierId, & $effectiveDate, & $expirationDate) { /* :: interface :: */ }
 
 
 
@@ -94,7 +94,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & createAuthorization(& $agentId, & $functionId, & $qualifierId) { /* :: interface :: */ }
+	function &createAuthorization(& $agentId, & $functionId, & $qualifierId) { /* :: interface :: */ }
 
 
 
@@ -109,7 +109,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & createFunction(& $functionId, $displayName, $description, & $functionType, & $qualifierHierarchyId) { /* :: interface :: */ }
+	function &createFunction(& $functionId, $displayName, $description, & $functionType, & $qualifierHierarchyId) { /* :: interface :: */ }
 
 
 
@@ -124,7 +124,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & createRootQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $qualifierHierarchyId) { /* :: interface :: */ }
+	function &createRootQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $qualifierHierarchyId) { /* :: interface :: */ }
 
 
 
@@ -139,7 +139,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & createQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $parentId) { /* :: interface :: */ }
+	function &createQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $parentId) { /* :: interface :: */ }
 
 
 
@@ -206,7 +206,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getFunctionTypes() { /* :: interface :: */ }
+	function &getFunctionTypes() { /* :: interface :: */ }
 
 
 
@@ -218,7 +218,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & getFunctions(& $functionType) { /* :: interface :: */ }
+	function &getFunctions(& $functionType) { /* :: interface :: */ }
 
 
 
@@ -230,7 +230,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getFunction(& $functionId) { /* :: interface :: */ }
+	function &getFunction(& $functionId) { /* :: interface :: */ }
 
 
 
@@ -253,7 +253,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getQualifierTypes() { /* :: interface :: */ }
+	function &getQualifierTypes() { /* :: interface :: */ }
 
 
 
@@ -265,7 +265,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & getRootQualifiers(& $qualifierHierarchyId) { /* :: interface :: */ }
+	function &getRootQualifiers(& $qualifierHierarchyId) { /* :: interface :: */ }
 
 
 
@@ -277,7 +277,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	  */
-	function & getQualifierChildren(& $qualifierId) { /* :: interface :: */ }
+	function &getQualifierChildren(& $qualifierId) { /* :: interface :: */ }
 
 
 
@@ -289,7 +289,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	  */
-	function & getQualifierDescendants(& $qualifierId) { /* :: interface :: */ }
+	function &getQualifierDescendants(& $qualifierId) { /* :: interface :: */ }
 
 
 
@@ -301,7 +301,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getQualifier(& $qualifierId) { /* :: interface :: */ }
+	function &getQualifier(& $qualifierId) { /* :: interface :: */ }
 
 
 
@@ -315,7 +315,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	  */
-	function & getWhoCanDo(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getWhoCanDo(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
 
 
@@ -328,7 +328,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getExplicitUserAZs(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getExplicitUserAZs(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
 
 
@@ -341,7 +341,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & getExplicitUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getExplicitUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
 
 
@@ -354,7 +354,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getAllUserAZs(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getAllUserAZs(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
 
 
@@ -367,7 +367,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & getAllUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getAllUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
 
 
@@ -381,7 +381,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getExplicitAZs(& $agentId, & $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getExplicitAZs(& $agentId, & $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
 
 
@@ -395,7 +395,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & getExplicitAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getExplicitAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
 
 
@@ -409,7 +409,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getAllAZs(& $agentId, & $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getAllAZs(& $agentId, & $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
 
 
@@ -423,7 +423,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & getAllAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getAllAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
 
 
@@ -433,7 +433,7 @@ class AuthorizationManager extends OsidManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getQualifierHierarchies() { /* :: interface :: */ }
+	function &getQualifierHierarchies() { /* :: interface :: */ }
 
 
 }
@@ -452,7 +452,7 @@ class Authorization /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getEffectiveDate() { /* :: interface :: */ }
+	function &getEffectiveDate() { /* :: interface :: */ }
 
 
 
@@ -463,7 +463,7 @@ class Authorization /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getExpirationDate() { /* :: interface :: */ }
+	function &getExpirationDate() { /* :: interface :: */ }
 
 
 
@@ -474,7 +474,7 @@ class Authorization /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getModifiedBy() { /* :: interface :: */ }
+	function &getModifiedBy() { /* :: interface :: */ }
 
 
 
@@ -485,7 +485,7 @@ class Authorization /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getModifiedDate() { /* :: interface :: */ }
+	function &getModifiedDate() { /* :: interface :: */ }
 
 
 
@@ -496,7 +496,7 @@ class Authorization /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getFunction() { /* :: interface :: */ }
+	function &getFunction() { /* :: interface :: */ }
 
 
 
@@ -507,7 +507,7 @@ class Authorization /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getQualifier() { /* :: interface :: */ }
+	function &getQualifier() { /* :: interface :: */ }
 
 
 
@@ -518,7 +518,7 @@ class Authorization /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getAgent() { /* :: interface :: */ }
+	function &getAgent() { /* :: interface :: */ }
 
 
 
@@ -593,7 +593,7 @@ class AuthorizationIterator /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 
 }
 
@@ -622,7 +622,7 @@ class QualifierIterator /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 
 }
 
@@ -651,7 +651,7 @@ class FunctionIterator /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 
 
 }
@@ -673,7 +673,7 @@ class FunctionInterface /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 
 
@@ -706,7 +706,7 @@ class FunctionInterface /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getFunctionType() { /* :: interface :: */ }
+	function &getFunctionType() { /* :: interface :: */ }
 
 
 
@@ -717,7 +717,7 @@ class FunctionInterface /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getQualifierHierarchyId() { /* :: interface :: */ }
+	function &getQualifierHierarchyId() { /* :: interface :: */ }
 
 
 
@@ -756,7 +756,7 @@ class Qualifier /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 
 
@@ -800,7 +800,7 @@ class Qualifier /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getQualifierType() { /* :: interface :: */ }
+	function &getQualifierType() { /* :: interface :: */ }
 
 
 
@@ -891,7 +891,7 @@ class Qualifier /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getChildren() { /* :: interface :: */ }
+	function &getChildren() { /* :: interface :: */ }
 
 
 
@@ -902,7 +902,7 @@ class Qualifier /* :: API interface */
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getParents() { /* :: interface :: */ }
+	function &getParents() { /* :: interface :: */ }
 }
 
 

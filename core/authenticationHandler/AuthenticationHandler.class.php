@@ -15,7 +15,7 @@ require_once(HARMONI."authenticationHandler/methods/DummyAuthenticationMethod.cl
  * The AuthenticationHandler keeps track of multiple AuthenticationMethods for 
  * authenticating agents.
  * 
- * @version $Id: AuthenticationHandler.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.3 2004/08/26 15:10:31 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication
@@ -68,7 +68,7 @@ class AuthenticationHandler extends ServiceInterface {
 	 * @access public
 	 * @return object AuthenticationResult The AuthenticationResult object.
 	 **/
-	function & authenticateAllMethods($systemName, $password) { 
+	function &authenticateAllMethods($systemName, $password) { 
 		// we're being used!!!
 		$this->_used = true;
 		
@@ -184,7 +184,7 @@ class AuthenticationHandler extends ServiceInterface {
 	 * @access public
 	 * @return object AuthenticationMethod The AuthenticationMethod object.
 	 **/
-	function & getMethod( $name ) {
+	function &getMethod( $name ) {
 		if ($this->_methodExists($name))
 			return $this->_methods[$name];
 		else {

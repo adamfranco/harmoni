@@ -12,7 +12,7 @@ require_once(dirname(__FILE__)."/OrderedSet.interface.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: OrderedSet.class.php,v 1.3 2004/07/28 21:37:42 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.4 2004/08/26 15:10:35 adamfranco Exp $
  */
  
 class OrderedSet 
@@ -117,7 +117,7 @@ class OrderedSet
 	 * @access public
 	 * @return object id
 	 */
-	function & next () {
+	function &next () {
 		if ($this->hasNext()) {
 			$this->_i++;
 			return $this->_sharedManager->getId($this->_items[$this->_i]);

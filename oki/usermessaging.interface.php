@@ -16,7 +16,7 @@ class UsermessagingManager // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
-	function & getDeliveryTypes() { /* :: interface :: */ }
+	function &getDeliveryTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getDeliveryTypes()
 
 	/**
@@ -25,7 +25,7 @@ class UsermessagingManager // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
-	function & getMessageTypes() { /* :: interface :: */ }
+	function &getMessageTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getMessageTypes()
 
 	/**
@@ -34,7 +34,7 @@ class UsermessagingManager // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
-	function & getTopics() { /* :: interface :: */ }
+	function &getTopics() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.StringIterator getTopics()
 
 	/**
@@ -43,7 +43,7 @@ class UsermessagingManager // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
-	function & getSubscribers() { /* :: interface :: */ }
+	function &getSubscribers() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.AgentIterator getSubscribers()
 
 	/**
@@ -53,7 +53,7 @@ class UsermessagingManager // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
-	function & getSubscribersByTopic($topic) { /* :: interface :: */ }
+	function &getSubscribersByTopic($topic) { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.AgentIterator getSubscribersByTopic(String topic)
 
 	/**
@@ -116,7 +116,7 @@ class UsermessagingManager // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
-	function & receiveForTopic($topic) { /* :: interface :: */ }
+	function &receiveForTopic($topic) { /* :: interface :: */ }
 	// :: full java declaration :: MessageIterator receiveForTopic(String topic)
 
 	/**
@@ -125,7 +125,7 @@ class UsermessagingManager // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
-	function & receiveForMessageType(& $messageType) { /* :: interface :: */ }
+	function &receiveForMessageType(& $messageType) { /* :: interface :: */ }
 	// :: full java declaration :: MessageIterator receiveForMessageType(osid.shared.Type messageType)
 
 	/**
@@ -134,7 +134,7 @@ class UsermessagingManager // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
-	function & receive() { /* :: interface :: */ }
+	function &receive() { /* :: interface :: */ }
 	// :: full java declaration :: MessageIterator receive()
 
 	/**
@@ -180,7 +180,7 @@ class Message // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
-	function & getContent() { /* :: interface :: */ }
+	function &getContent() { /* :: interface :: */ }
 
 	/**
 	 * Get the Type of the Message.
@@ -188,7 +188,7 @@ class Message // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
-	function & getMessageType() { /* :: interface :: */ }
+	function &getMessageType() { /* :: interface :: */ }
 
 	/**
 	 * Get the Type of the Delivery for this Message.
@@ -196,7 +196,7 @@ class Message // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
-	function & getDeliveryType() { /* :: interface :: */ }
+	function &getDeliveryType() { /* :: interface :: */ }
 
 	/**
 	 * Get the time the Message was sent.
@@ -204,7 +204,7 @@ class Message // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
-	function & getMessageTimestamp() { /* :: interface :: */ }
+	function &getMessageTimestamp() { /* :: interface :: */ }
 
 	/**
 	 * Get the Topic of the Message. Note that the Topic is not necessarily the subject of the Message.  The subject can be embedded in the Content.  The intent is that the Topic is the same Topic used in CourseManagement to refer to an area of interest.
@@ -220,7 +220,7 @@ class Message // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.usermessaging
 	 */
-	function & getSender() { /* :: interface :: */ }
+	function &getSender() { /* :: interface :: */ }
 }
 
 
@@ -246,7 +246,7 @@ class MessageIterator // :: API interface
 	 * @throws osid.usermessaging.UsermessagingException An exception with one of the following messages defined in osid.usermessaging.UsermessagingException:   {@link UsermessagingException#OPERATION_FAILED OPERATION_FAILED}, {@link UsermessagingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link UsermessagingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link UsermessagingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link UsermessagingException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.usermessaging
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Message next()
 }
 

@@ -4,7 +4,7 @@
  * This is the building piece of the Tree data structure used for the backbone of the
  * hierarchy.
  * @access public
- * @version $Id: TreeNode.interface.php,v 1.3 2004/06/01 00:05:58 dobomode Exp $
+ * @version $Id: TreeNode.interface.php,v 1.4 2004/08/26 15:10:34 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -40,7 +40,7 @@ class TreeNodeInterface {
 	 * @method public getParent
 	 * @return ref array The parent nodes of this node.
 	 */
-	function & getParents() {
+	function &getParents() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -71,7 +71,7 @@ class TreeNodeInterface {
 	 * @method public getChildren
 	 * @return ref array An array of the children nodes of this node.
 	 */
-	function & getChildren() {
+	function &getChildren() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

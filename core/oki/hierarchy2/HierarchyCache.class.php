@@ -27,7 +27,7 @@ require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
  * 
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
- * @version $Id: HierarchyCache.class.php,v 1.13 2004/07/29 15:39:51 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.14 2004/08/26 15:10:34 adamfranco Exp $
  * @package harmoni.osid.hierarchy2
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -387,7 +387,7 @@ class HierarchyCache {
 	 * @access public
 	 * @return ref array An array of all nodes in this hierarchy.
 	 **/
-	function & getAllNodes() {
+	function &getAllNodes() {
 		$dbHandler =& Services::requireService("DBHandler");
 		$shared_manager =& Services::requireService("Shared");
 
@@ -529,7 +529,7 @@ class HierarchyCache {
 	 * @param string idValue The string id of the node.
 	 * @return mixed The corresponding <code>Node</code> object.
 	 **/
-	function & getNode($idValue) {
+	function &getNode($idValue) {
 		// ** parameter validation
 		ArgumentValidator::validate($idValue, new StringValidatorRule(), true);
 		// ** end of parameter validation
@@ -572,7 +572,7 @@ class HierarchyCache {
 	 * @param object node The node object whose parents we must cache.
 	 * @return ref array An array of the parent nodes of the given node.
 	 **/
-	function & getParents($node) {
+	function &getParents($node) {
 		// ** parameter validation
 		ArgumentValidator::validate($node, new ExtendsValidatorRule("HarmoniNode"), true);
 		// ** end of parameter validation
@@ -682,7 +682,7 @@ class HierarchyCache {
 	 * @param object node The node object whose children we must cache.
 	 * @return ref array An array of the children nodes of the given node.
 	 **/
-	function & getChildren($node) {
+	function &getChildren($node) {
 		// ** parameter validation
 		ArgumentValidator::validate($node, new ExtendsValidatorRule("HarmoniNode"), true);
 		// ** end of parameter validation
@@ -793,7 +793,7 @@ class HierarchyCache {
 	 * @return ref array An array of all nodes in the tree visited in a pre-order
 	 * manner.
 	 **/
-	function & traverse(& $id, $down, $levels) {
+	function &traverse(& $id, $down, $levels) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($down, new BooleanValidatorRule(), true);
@@ -1167,7 +1167,7 @@ class HierarchyCache {
 	 * @param string description The description of the node.
 	 * @return void
 	 **/
-	function & createRootNode(& $nodeId, & $type, $displayName, $description) {
+	function &createRootNode(& $nodeId, & $type, $displayName, $description) {
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
@@ -1277,7 +1277,7 @@ class HierarchyCache {
 	 * @param string description The description of the node.
 	 * @return void
 	 **/
-	function & createNode(& $nodeId, & $parentId, & $type, $displayName, $description) {
+	function &createNode(& $nodeId, & $parentId, & $type, $displayName, $description) {
 		// create the root node and assign the parent
 		$node =& $this->createRootNode($nodeId, $type, $displayName, $description);
 		$this->addParent($parentId->getIdString(), $nodeId->getIdString());

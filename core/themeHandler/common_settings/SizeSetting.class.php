@@ -6,7 +6,7 @@ require_once(HARMONI."/themeHandler/ThemeSetting.abstract.php");
  * A simple size setting that takes a positive integer size.
  *
  * @package harmoni.themes.included_settings
- * @version $Id: SizeSetting.class.php,v 1.2 2004/04/21 17:55:44 adamfranco Exp $
+ * @version $Id: SizeSetting.class.php,v 1.3 2004/08/26 15:10:36 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -59,7 +59,7 @@ class SizeSetting
 	 * @param string $defaultValue The DefaultValue of this ThemeSetting.
 	 * @return void
 	 **/
-	function & setDefaultValue ($defaultValue) {
+	function &setDefaultValue ($defaultValue) {
 		ArgumentValidator::validate($defaultValue, new StringValidatorRule);
 		
 		if(!(ereg("^[0-9]+px$", $defaultValue) || ereg("^[0-9]+%$", $defaultValue)))

@@ -10,7 +10,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * <code>Components</code> are the basic units that can be displayed on
  * the screen. The main method <code>render()</code> which renders the component 
  * on the screen.
- * @version $Id: Component.class.php,v 1.6 2004/08/09 03:54:23 dobomode Exp $
+ * @version $Id: Component.class.php,v 1.7 2004/08/26 15:10:30 adamfranco Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -103,7 +103,7 @@ class Component extends ComponentInterface {
 	 * to this component. 
 	 * @return ref object The style collection that was just added.
 	 **/
-	function & addStyle(& $styleCollection) {
+	function &addStyle(& $styleCollection) {
 		// ** parameter validation
 		$rule =& new ExtendsValidatorRule("StyleCollectionInterface");
 		ArgumentValidator::validate($styleCollection, $rule, true);
@@ -132,7 +132,7 @@ class Component extends ComponentInterface {
 	 * @param string selector The selector.
 	 * @return ref object The style collection.
 	 **/
-	function & getStyle($selector) {
+	function &getStyle($selector) {
 		if (isset($this->_styleCollections[$selector]))
 			return $this->_styleCollections[$selector];
 		else
@@ -146,7 +146,7 @@ class Component extends ComponentInterface {
 	 * @return ref object The style collection that was removed. <code>NULL</code>
 	 * if it could not be found.
 	 **/
-	function & removeStyle($selector) {
+	function &removeStyle($selector) {
 	 	$result =& $this->_styleCollections[$selector];
 		unset($this->_styleCollections[$selector]);
 		
@@ -159,7 +159,7 @@ class Component extends ComponentInterface {
 	 * @return array An array of style collections; the key corresponds to the
 	 * selector of each collection.
 	 **/
-	function & getStyles() {
+	function &getStyles() {
 		return $this->_styleCollections;
 	}
 	

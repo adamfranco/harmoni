@@ -13,7 +13,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * hierarchical information.
  * 
  * @access public
- * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.3 2004/03/11 16:02:45 adamfranco Exp $
+ * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.4 2004/08/26 15:10:31 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
@@ -141,7 +141,7 @@ class DatabaseAuthorizationContextHierarchyGenerator
 	 * nodes. Each element of the array is another array storing the system ids
 	 * of the nodes.
 	 */
-	function & _getNodesToExcludeDown($hierarchyLevel, $systemId) {
+	function &_getNodesToExcludeDown($hierarchyLevel, $systemId) {
 		$result = array();
 		 
 	 	// get all nodes in $cacheDown

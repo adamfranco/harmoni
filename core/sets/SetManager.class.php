@@ -7,8 +7,8 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
  * configuration.
  * 
  * @package harmoni.sets
- * @version $Id: SetManager.class.php,v 1.4 2004/08/12 20:21:16 gabeschine Exp $
- * @date $Date: 2004/08/12 20:21:16 $
+ * @version $Id: SetManager.class.php,v 1.5 2004/08/26 15:10:35 adamfranco Exp $
+ * @date $Date: 2004/08/26 15:10:35 $
  * @copyright 2004 Middlebury College
  */
 
@@ -50,7 +50,7 @@ class SetManager {
 	 * @access public
 	 * @date 6/28/04
 	 */
-	function & getSet ( & $id ) {
+	function &getSet ( & $id ) {
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
 		
 		if (!isset($this->_sets[$id->getIdString()])) {

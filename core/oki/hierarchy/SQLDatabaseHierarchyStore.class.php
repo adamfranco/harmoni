@@ -12,7 +12,7 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: SQLDatabaseHierarchyStore.class.php,v 1.16 2004/05/20 17:24:36 adamfranco Exp $
+ * @version $Id: SQLDatabaseHierarchyStore.class.php,v 1.17 2004/08/26 15:10:34 adamfranco Exp $
  */
 
 
@@ -640,7 +640,7 @@ class SQLDatabaseHierarchyStore
      *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getId() {
+	function &getId() {
 		return $this->_id;
 	}
 	
@@ -836,7 +836,7 @@ class SQLDatabaseHierarchyStore
 	* @param  integer $id Node ID
 	* @return mixed       The data
     */
-	function & getData($id)	{
+	function &getData($id)	{
 		// Check the arguments
 		ArgumentValidator::validate($id, new NumericValidatorRule);
 		

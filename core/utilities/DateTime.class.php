@@ -5,7 +5,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.16 2004/08/10 16:29:27 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.17 2004/08/26 15:10:37 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -325,7 +325,7 @@ class DateTime {
 	 * @static
 	 * @return ref object A DateTime object corresponding to the current date and time.
 	 */
-	function & now() {
+	function &now() {
 		$year = intval(date('Y'));
 		$month = intval(date('m'));
 		$day = intval(date('d'));

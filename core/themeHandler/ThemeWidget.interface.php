@@ -10,7 +10,7 @@
  * (in the sequence; 1, 2, 3, etc) as the theme developer desires.
  *
  * @package harmoni.themes
- * @version $Id: ThemeWidget.interface.php,v 1.6 2004/04/21 17:55:44 adamfranco Exp $
+ * @version $Id: ThemeWidget.interface.php,v 1.7 2004/08/26 15:10:36 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -73,7 +73,7 @@ class ThemeWidgetInterface {
 	 * @param string $key The id of the desired Setting.
 	 * @return object SettingInterface The desired Setting object.
 	 **/
-	function & getSetting ( $key ) {
+	function &getSetting ( $key ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 
@@ -82,7 +82,7 @@ class ThemeWidgetInterface {
 	 * @access public
 	 * @return object HarmoniIterator An iterator of ThemeSetting objects
 	 **/
-	function & getSettings() {
+	function &getSettings() {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	

@@ -15,7 +15,7 @@ require_once(HARMONI."/themeHandler/themes/ImageBox/ImageBox.theme.php");
  * setting.
  *
  * @package harmoni.themes
- * @version $Id: ThemeHandler.class.php,v 1.11 2004/07/29 15:39:51 adamfranco Exp $
+ * @version $Id: ThemeHandler.class.php,v 1.12 2004/08/26 15:10:36 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -87,7 +87,7 @@ class ThemeHandler {
 	 * @param string $class The class of the desired Theme.
 	 * @return object ThemeInterface The desired Theme object.
 	 **/
-	function & getRegisteredThemeByClass ( $class ) {
+	function &getRegisteredThemeByClass ( $class ) {
 		return $this->_registeredThemes[strtolower($class)];
 	}
 	
@@ -96,7 +96,7 @@ class ThemeHandler {
 	 * @access public
 	 * @return object HarmoniIterator The an iterator of the Themes.
 	 **/
-	function & getRegisteredThemes () {
+	function &getRegisteredThemes () {
 		return new HarmoniIterator($this->_registeredThemes);
 	}
 	
@@ -105,7 +105,7 @@ class ThemeHandler {
 	 * @access public
 	 * @return object HarmoniIterator The an iterator of the Themes.
 	 **/
-	function & getStoredThemes () {
+	function &getStoredThemes () {
 		$query =& new SelectQuery;
 		$query->addColumn("theme.id", "theme_id");
 		$query->addColumn("theme.class_name", "theme_class");
@@ -167,7 +167,7 @@ class ThemeHandler {
 	 * @param object Id $id The id of the desired Theme.
 	 * @return object ThemeInterface The desired Theme object.
 	 **/
-	function & getStoredTheme ( & $id ) {
+	function &getStoredTheme ( & $id ) {
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
 		
 		// If the requested theme is not cached, look for it in storage and

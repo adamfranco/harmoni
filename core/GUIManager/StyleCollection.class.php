@@ -23,7 +23,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: StyleCollection.class.php,v 1.4 2004/08/09 03:54:23 dobomode Exp $
+ * @version $Id: StyleCollection.class.php,v 1.5 2004/08/26 15:10:30 adamfranco Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -161,7 +161,7 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @param ref object sc A StyleProperty object.
 	 * @return ref object The style property that was just added.
 	 **/
-	function & addSP(& $sp) {
+	function &addSP(& $sp) {
 		ArgumentValidator::validate($sp, new ExtendsValidatorRule("StylePropertyInterface"), true);
 		$this->_SPs[$sp->getName()] =& $sp;
 		
@@ -185,7 +185,7 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @return ref object The style property that was removed. <code>NULL</code>
 	 * if it could not be found.
 	 **/
-	function & removeSP(& $sp) {
+	function &removeSP(& $sp) {
 		ArgumentValidator::validate($sp, new ExtendsValidatorRule("StylePropertyInterface"), true);
 
 		$result =& $this->_SPs[$sp->getName()];

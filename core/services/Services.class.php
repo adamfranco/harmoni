@@ -5,7 +5,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.12 2004/03/11 16:02:47 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.13 2004/08/26 15:10:35 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -173,7 +173,7 @@ class Services extends ServicesAbstract {
 	 * @access public
 	 * @return object Object|false The service object.
 	 **/
-	function & get( $name ) {
+	function &get( $name ) {
 		if (!$this->running($name)) {
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.

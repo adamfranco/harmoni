@@ -20,7 +20,7 @@ class DigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.dr
 	 */
-	function & createDigitalRepository($displayName, $description, & $digitalRepositoryType) { /* :: interface :: */ }
+	function &createDigitalRepository($displayName, $description, & $digitalRepositoryType) { /* :: interface :: */ }
 	// :: full java declaration :: DigitalRepository createDigitalRepository(String displayName, String description, osid.shared.Type digitalRepositoryType)
 
 	/**
@@ -38,7 +38,7 @@ class DigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getDigitalRepositories() { /* :: interface :: */ }
+	function &getDigitalRepositories() { /* :: interface :: */ }
 	// :: full java declaration :: DigitalRepositoryIterator getDigitalRepositories()
 
 	/**
@@ -48,7 +48,7 @@ class DigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.dr
 	 */
-	function & getDigitalRepositoriesByType(& $digitalRepositoryType) { /* :: interface :: */ }
+	function &getDigitalRepositoriesByType(& $digitalRepositoryType) { /* :: interface :: */ }
 	// :: full java declaration :: DigitalRepositoryIterator getDigitalRepositoriesByType(osid.shared.Type digitalRepositoryType)
 
 	/**
@@ -58,7 +58,7 @@ class DigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & getDigitalRepository(& $digitalRepositoryId) { /* :: interface :: */ }
+	function &getDigitalRepository(& $digitalRepositoryId) { /* :: interface :: */ }
 	// :: full java declaration :: DigitalRepository getDigitalRepository(osid.shared.Id digitalRepositoryId)
 
 	/**
@@ -68,7 +68,7 @@ class DigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & getAsset(& $assetId) { /* :: interface :: */ }
+	function &getAsset(& $assetId) { /* :: interface :: */ }
 	// :: full java declaration :: public Asset getAsset(osid.shared.Id assetId)
 
 	/**
@@ -79,7 +79,7 @@ class DigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#NO_OBJECT_WITH_THIS_DATE NO_OBJECT_WITH_THIS_DATE}
 	 * @package osid.dr
 	 */
-	function & getAssetByDate(& $assetId, & $date) { /* :: interface :: */ }
+	function &getAssetByDate(& $assetId, & $date) { /* :: interface :: */ }
 	// :: full java declaration :: public Asset getAssetByDate(osid.shared.Id assetId, java.util.Calendar date)
 
 	/**
@@ -88,7 +88,7 @@ class DigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.dr
 	 */
-	function & getAssetDates(& $assetId) { /* :: interface :: */ }
+	function &getAssetDates(& $assetId) { /* :: interface :: */ }
 	// :: full java declaration :: public osid.shared.CalendarIterator getAssetDates(osid.shared.Id assetId)
 
 	/**
@@ -100,7 +100,7 @@ class DigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link DigitalRepositoryException#UNKNOWN_DR UNKNOWN_DR}
 	 * @package osid.dr
 	 */
-	function & getAssets(& $digitalRepositories, & $searchCriteria, & $searchType) { /* :: interface :: */ }
+	function &getAssets(& $digitalRepositories, & $searchCriteria, & $searchType) { /* :: interface :: */ }
 	// :: full java declaration :: public AssetIterator getAssets
 	
 	/**
@@ -111,7 +111,7 @@ class DigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & copyAsset(& $digitalRepository, & $assetId) { /* :: interface :: */ }
+	function &copyAsset(& $digitalRepository, & $assetId) { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Id copyAsset(DigitalRepository digitalRepository, osid.shared.Id assetId)
 
 	/**
@@ -120,7 +120,7 @@ class DigitalRepositoryManager // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getDigitalRepositoryTypes() { /* :: interface :: */ }
+	function &getDigitalRepositoryTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getDigitalRepositoryTypes()
 }
 
@@ -175,7 +175,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the the DigitalRepositoryType of this DigitalRepository.
@@ -183,7 +183,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getType() { /* :: interface :: */ }
+	function &getType() { /* :: interface :: */ }
 
 	/**
 	 * Create a new Asset of this AssetType to this DigitalRepository.  The implementation of this method sets the Id for the new object.
@@ -191,7 +191,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.dr
 	 */
-	function & createAsset($displayName, $description, & $assetType) { /* :: interface :: */ }
+	function &createAsset($displayName, $description, & $assetType) { /* :: interface :: */ }
 	// :: full java declaration :: Asset createAsset(String displayName, String description, osid.shared.Type assetType)
 
 	/**
@@ -209,7 +209,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getAssets() { /* :: interface :: */ }
+	function &getAssets() { /* :: interface :: */ }
 	// :: full java declaration :: AssetIterator getAssets()
 
 	/**
@@ -218,7 +218,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.dr
 	 */
-	function & getAssetsByType(& $assetType) { /* :: interface :: */ }
+	function &getAssetsByType(& $assetType) { /* :: interface :: */ }
 	// :: full java declaration :: public AssetIterator getAssetsByType(osid.shared.Type assetType)
 
 	/**
@@ -227,7 +227,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getAssetTypes() { /* :: interface :: */ }
+	function &getAssetTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getAssetTypes()
 
 	/**
@@ -236,7 +236,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getInfoStructures() { /* :: interface :: */ }
+	function &getInfoStructures() { /* :: interface :: */ }
 	// :: full java declaration :: InfoStructureIterator getInfoStructures()
 
 	/**
@@ -245,7 +245,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.dr
 	 */
-	function & getMandatoryInfoStructures(& $assetType) { /* :: interface :: */ }
+	function &getMandatoryInfoStructures(& $assetType) { /* :: interface :: */ }
 	// :: full java declaration :: InfoStructureIterator getMandatoryInfoStructures(osid.shared.Type assetType)
 
 	/**
@@ -254,7 +254,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getSearchTypes() { /* :: interface :: */ }
+	function &getSearchTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getSearchTypes()
 
 	/**
@@ -263,7 +263,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getStatusTypes() { /* :: interface :: */ }
+	function &getStatusTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getStatusTypes()
 
 	/**
@@ -272,7 +272,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & getStatus(& $assetId) { /* :: interface :: */ }
+	function &getStatus(& $assetId) { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Type getStatus(osid.shared.Id assetId)
 
 	/**
@@ -302,7 +302,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & getAsset(& $assetId) { /* :: interface :: */ }
+	function &getAsset(& $assetId) { /* :: interface :: */ }
 	// :: full java declaration :: public Asset getAsset(osid.shared.Id assetId)
 
 	/**
@@ -313,7 +313,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#NO_OBJECT_WITH_THIS_DATE NO_OBJECT_WITH_THIS_DATE}
 	 * @package osid.dr
 	 */
-	function & getAssetByDate(& $assetId, & $date) { /* :: interface :: */ }
+	function &getAssetByDate(& $assetId, & $date) { /* :: interface :: */ }
 	// :: full java declaration :: public Asset getAssetByDate(osid.shared.Id assetId, java.util.Calendar date)
 	
 	/**
@@ -322,7 +322,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.dr
 	 */
-	function & getAssetDates(& $assetId) { /* :: interface :: */ }
+	function &getAssetDates(& $assetId) { /* :: interface :: */ }
 	// :: full java declaration :: public osid.shared.CalendarIterator getAssetDates(osid.shared.Id assetId)
 
 	/**
@@ -333,7 +333,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.dr
 	 */
-	function & getAssetsBySearch(& $searchCriteria, & $searchType) { /* :: interface :: */ }
+	function &getAssetsBySearch(& $searchCriteria, & $searchType) { /* :: interface :: */ }
 	// :: full java declaration :: public AssetIterator getAssetsBySearch
 	
 	/**
@@ -343,7 +343,7 @@ class DigitalRepository // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & copyAsset(& $asset) { /* :: interface :: */ }
+	function &copyAsset(& $asset) { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Id copyAsset(osid.dr.Asset asset)
 }
 
@@ -397,7 +397,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the Id of the DigitalRepository in which this Asset resides.  This is set by the DigitalRepository's createAsset method.
@@ -405,7 +405,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getDigitalRepository() { /* :: interface :: */ }
+	function &getDigitalRepository() { /* :: interface :: */ }
 	// :: full java declaration :: public osid.shared.Id getDigitalRepository()
 
 	/**
@@ -414,7 +414,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getContent() { /* :: interface :: */ }
+	function &getContent() { /* :: interface :: */ }
 	// :: full java declaration :: public java.io.Serializable getContent()
 
 	/**
@@ -450,7 +450,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getAssets() { /* :: interface :: */ }
+	function &getAssets() { /* :: interface :: */ }
 	// :: full java declaration :: AssetIterator getAssets()
 
 	/**
@@ -459,7 +459,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.dr
 	 */
-	function & getAssetsByType(& $assetType) { /* :: interface :: */ }
+	function &getAssetsByType(& $assetType) { /* :: interface :: */ }
 	// :: full java declaration :: public AssetIterator getAssetsByType(osid.shared.Type assetType)
 
 	/**
@@ -469,7 +469,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & createInfoRecord(& $infoStructureId) { /* :: interface :: */ }
+	function &createInfoRecord(& $infoStructureId) { /* :: interface :: */ }
 	// :: full java declaration :: public InfoRecord createInfoRecord(osid.shared.Id infoStructureId)
 
 	/**
@@ -507,7 +507,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getInfoRecords() { /* :: interface :: */ }
+	function &getInfoRecords() { /* :: interface :: */ }
 	// :: full java declaration :: public InfoRecordIterator getInfoRecords()
 
 	/**
@@ -517,7 +517,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & getInfoRecordsByInfoStructure(& $infoStructureId) { /* :: interface :: */ }
+	function &getInfoRecordsByInfoStructure(& $infoStructureId) { /* :: interface :: */ }
 	// :: full java declaration :: public InfoRecordIterator getInfoRecordsByInfoStructure(osid.shared.Id infoStructureId)
 
 	/**
@@ -526,7 +526,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getAssetType() { /* :: interface :: */ }
+	function &getAssetType() { /* :: interface :: */ }
 
 	/**
 	 * Get all the InfoStructures for this Asset.  InfoStructures are used to categorize information about Assets.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
@@ -534,7 +534,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & InfoStructureIterator() { /* :: interface :: */ }
+	function &InfoStructureIterator() { /* :: interface :: */ }
 	// :: full java declaration :: public InfoStructureIterator
 	
 	/**
@@ -543,7 +543,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & InfoStructure() { /* :: interface :: */ }
+	function &InfoStructure() { /* :: interface :: */ }
 	// :: full java declaration :: public InfoStructure
 	
 	/**
@@ -552,7 +552,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & getInfoRecord(& $infoRecordId) { /* :: interface :: */ }
+	function &getInfoRecord(& $infoRecordId) { /* :: interface :: */ }
 	// :: full java declaration :: InfoRecord getInfoRecord(osid.shared.Id infoRecordId)
 
 	/**
@@ -561,7 +561,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & getInfoField(& $infoFieldId) { /* :: interface :: */ }
+	function &getInfoField(& $infoFieldId) { /* :: interface :: */ }
 	// :: full java declaration :: InfoField getInfoField(osid.shared.Id infoFieldId)
 
 	/**
@@ -570,7 +570,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & getInfoFieldValue(& $infoFieldId) { /* :: interface :: */ }
+	function &getInfoFieldValue(& $infoFieldId) { /* :: interface :: */ }
 	// :: full java declaration :: java.io.Serializable getInfoFieldValue(osid.shared.Id infoFieldId)
 
 	/**
@@ -579,7 +579,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & getInfoFieldByPart(& $infoPartId) { /* :: interface :: */ }
+	function &getInfoFieldByPart(& $infoPartId) { /* :: interface :: */ }
 	// :: full java declaration :: InfoFieldIterator getInfoFieldByPart(osid.shared.Id infoPartId)
 
 	/**
@@ -588,7 +588,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & getInfoFieldValueByPart(& $infoPartId) { /* :: interface :: */ }
+	function &getInfoFieldValueByPart(& $infoPartId) { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.SerializableObjectIterator getInfoFieldValueByPart(osid.shared.Id infoPartId)
 
 	/**
@@ -597,7 +597,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getEffectiveDate() { /* :: interface :: */ }
+	function &getEffectiveDate() { /* :: interface :: */ }
 
 	/**
 	 * Update the date at which this Asset is effective.  Note that this is separate for any authorization to get or update the Asset.
@@ -613,7 +613,7 @@ class Asset // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getExpirationDate() { /* :: interface :: */ }
+	function &getExpirationDate() { /* :: interface :: */ }
 
 	/**
 	 * Update the date at which this Asset expires.  Note that this is separate for any authorization to get or update the Asset.
@@ -656,7 +656,7 @@ class InfoStructure // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get all the InfoParts in the InfoStructure.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
@@ -664,7 +664,7 @@ class InfoStructure // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getInfoParts() { /* :: interface :: */ }
+	function &getInfoParts() { /* :: interface :: */ }
 	// :: full java declaration :: public InfoPartIterator getInfoParts()
 
 	/**
@@ -726,7 +726,7 @@ class InfoPart // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get all the InfoParts in the InfoPart.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
@@ -734,7 +734,7 @@ class InfoPart // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getInfoParts() { /* :: interface :: */ }
+	function &getInfoParts() { /* :: interface :: */ }
 	// :: full java declaration :: public InfoPartIterator getInfoParts()
 
 	/**
@@ -767,7 +767,7 @@ class InfoPart // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getInfoStructure() { /* :: interface :: */ }
+	function &getInfoStructure() { /* :: interface :: */ }
 
 	/**
 	 * Validate an InfoField against its InfoPart.  Return true if valid; false otherwise.  The status of the Asset holding this InfoRecord is not changed through this method.  The implementation may throw an Exception for any validation failures and use the Exception's message to identify specific causes.
@@ -796,7 +796,7 @@ class InfoRecord // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Create an InfoField.  InfoRecords are composed of InfoFields. InfoFields can also contain other InfoFields.  Each InfoRecord is associated with a specific InfoStructure and each InfoField is associated with a specific InfoPart.
@@ -806,7 +806,7 @@ class InfoRecord // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & createInfoField(& $infoPartId, & $value) { /* :: interface :: */ }
+	function &createInfoField(& $infoPartId, & $value) { /* :: interface :: */ }
 	// :: full java declaration :: public InfoField createInfoField(osid.shared.Id infoPartId, java.io.Serializable value)
 
 	/**
@@ -824,7 +824,7 @@ class InfoRecord // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getInfoFields() { /* :: interface :: */ }
+	function &getInfoFields() { /* :: interface :: */ }
 	// :: full java declaration :: public InfoFieldIterator getInfoFields()
 
 	/**
@@ -859,7 +859,7 @@ class InfoField // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Create an InfoField.  InfoRecords are composed of InfoFields. InfoFields can also contain other InfoFields.  Each InfoRecord is associated with a specific InfoStructure and each InfoField is associated with a specific InfoPart.
@@ -869,7 +869,7 @@ class InfoField // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & createInfoField(& $infoPartId, & $value) { /* :: interface :: */ }
+	function &createInfoField(& $infoPartId, & $value) { /* :: interface :: */ }
 	// :: full java declaration :: public InfoField createInfoField(osid.shared.Id infoPartId, java.io.Serializable value)
 
 	/**
@@ -887,7 +887,7 @@ class InfoField // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getInfoFields() { /* :: interface :: */ }
+	function &getInfoFields() { /* :: interface :: */ }
 	// :: full java declaration :: public InfoFieldIterator getInfoFields()
 
 	/**
@@ -896,7 +896,7 @@ class InfoField // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getValue() { /* :: interface :: */ }
+	function &getValue() { /* :: interface :: */ }
 	// :: full java declaration :: public java.io.Serializable getValue()
 
 	/**
@@ -914,7 +914,7 @@ class InfoField // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getInfoPart() { /* :: interface :: */ }
+	function &getInfoPart() { /* :: interface :: */ }
 }
 
 
@@ -941,7 +941,7 @@ class DigitalRepositoryIterator // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.dr
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: DigitalRepository next()
 }
 
@@ -969,7 +969,7 @@ class AssetIterator // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.dr
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Asset next()
 }
 
@@ -997,7 +997,7 @@ class InfoStructureIterator // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.dr
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: InfoStructure next()
 }
 
@@ -1025,7 +1025,7 @@ class InfoPartIterator // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.dr
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: InfoPart next()
 }
 
@@ -1053,7 +1053,7 @@ class InfoRecordIterator // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.dr
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: InfoRecord next()
 }
 
@@ -1081,7 +1081,7 @@ class InfoFieldIterator // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.dr
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: InfoField next()
 }
 

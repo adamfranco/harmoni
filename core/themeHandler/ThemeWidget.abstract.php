@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/ThemeWidget.interface.php");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: ThemeWidget.abstract.php,v 1.7 2004/04/21 17:55:43 adamfranco Exp $
+ * @version $Id: ThemeWidget.abstract.php,v 1.8 2004/08/26 15:10:36 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -178,7 +178,7 @@ class ThemeWidget
 	 * @param string $key The id of the desired Setting.
 	 * @return object SettingInterface The desired Setting object.
 	 **/
-	function & getSetting ( $key ) {
+	function &getSetting ( $key ) {
 		if (!$this->_settings[$key])
 			throwError(new Error("Unknown Setting Id.", "ThemeWidget", TRUE));
 		
@@ -190,7 +190,7 @@ class ThemeWidget
 	 * @access public
 	 * @return object HarmoniIterator An iterator of ThemeSetting objects
 	 **/
-	function & getSettings() {
+	function &getSettings() {
 		if (!is_array($this->_settings))
 			$this->_settings = array();
 		

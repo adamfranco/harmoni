@@ -4,7 +4,7 @@
  * The interface for an AuthorizationContextHierarchy, a tree-like datastructure used by
  * the AuthorizationContextHierarchyGenerator objects.
  * @access public
- * @version $Id: AuthorizationContextHierarchy.interface.php,v 1.3 2004/04/21 13:42:25 adamfranco Exp $
+ * @version $Id: AuthorizationContextHierarchy.interface.php,v 1.4 2004/08/26 15:10:31 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -21,7 +21,7 @@ class AuthorizationContextHierarchyInterface {
 	 * @param optional ref object parent The node that will become the parent of the added node.
 	 * @return ref object The newly created node.
 	 */
-	function & addNewNode($systemId, & $parent) {
+	function &addNewNode($systemId, & $parent) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -34,7 +34,7 @@ class AuthorizationContextHierarchyInterface {
 	 * @param optional ref object parent The node that will become the parent of the added node.
 	 * @return boolean <code>true</code> on success; <code>false</code>, otherwise.
 	 */
-	function & addNode(& $node, & $parent) {
+	function &addNode(& $node, & $parent) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -64,7 +64,7 @@ class AuthorizationContextHierarchyInterface {
 	 * @method public getRoot
 	 * @return ref array The root nodes.
 	 */
-	function & getRoots() {
+	function &getRoots() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -75,7 +75,7 @@ class AuthorizationContextHierarchyInterface {
 	 * @method public getLeaves
 	 * @return ref array The leaf nodes.
 	 */
-	function & getLeaves() {
+	function &getLeaves() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -120,7 +120,7 @@ class AuthorizationContextHierarchyInterface {
 	 * @param integer level The level to return all nodes for.
 	 * @return ref array The nodes on the given hierarchy level.
 	 */
-	function & getNodesAtLevel($level) {
+	function &getNodesAtLevel($level) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -135,7 +135,7 @@ class AuthorizationContextHierarchyInterface {
 	 * @return ref object The requested node. <code>Null</code>, if the node
 	 * is not in the hierarchy.
 	 */
-	function & getNodeAtLevel($level, $systemId) {
+	function &getNodeAtLevel($level, $systemId) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -162,7 +162,7 @@ class AuthorizationContextHierarchyInterface {
 	 * @method public getAllNodes
 	 * @return ref array An array of all nodes.
 	 */
-	function & getAllNodes() {
+	function &getAllNodes() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -176,7 +176,7 @@ class AuthorizationContextHierarchyInterface {
 	 * @return ref array An array of all nodes in the hierarchy visited in a pre-order
 	 * manner.
 	 */
-	function & traverse(& $node) {
+	function &traverse(& $node) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

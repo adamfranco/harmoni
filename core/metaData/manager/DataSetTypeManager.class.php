@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.29 2004/08/03 18:08:02 adamfranco Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.30 2004/08/26 15:10:32 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -200,7 +200,7 @@ class DataSetTypeManager
 	 * @return ref object The new DataSetTypeDefinition object.
 	 * @access public
 	 */
-	function & newDataSetType(&$type, $revision=1) {
+	function &newDataSetType(&$type, $revision=1) {
 		$newDef =& new DataSetTypeDefinition($this, $this->_dbID, $type, null, $revision);
 		return $newDef;
 	}
@@ -213,7 +213,7 @@ class DataSetTypeManager
 	 * @return ref object The new DataSetTypeDefinition object.
 	 * @access private
 	 */
-	function & _addDataSetType(&$type, $revision) {
+	function &_addDataSetType(&$type, $revision) {
 		debug::output("Adding DataSetType '".OKITypeToString($type)."' to database.",DEBUG_SYS1,"DataSetTypeManager");
 		if ($id = $this->getIDForType($type)) {
 			throwError( new Error(
@@ -273,7 +273,7 @@ class DataSetTypeManager
 	 * @return ref object The {@link DataSetTypeDefinition} object.
 	 * @access public
 	 */
-	function & getDataSetTypeDefinition(&$type) {
+	function &getDataSetTypeDefinition(&$type) {
 		if (!($id = $this->getIDForType($type))) {
 			throwError( new Error(
 				"DataSetTypeManager::getDataSetTypeDefinition(".OKITypeToString($type).") - no DataSetTypeDefinition exists.",
@@ -289,7 +289,7 @@ class DataSetTypeManager
 	 * @return ref object The definition.
 	 * @access public
 	 */
-	function & getDataSetTypeDefinitionByID($id) {
+	function &getDataSetTypeDefinitionByID($id) {
 		if (!isset($this->_typeDefinitions[$id])) {
 			throwError ( new Error(
 				"Could not find DataSetTypeDefinition with ID '$id'!","DataSetTypeManager",true));
@@ -304,7 +304,7 @@ class DataSetTypeManager
 	 * @return ref object A {@link HarmoniTypeIterator}
 	 * @access public
 	 */
-	function & getAllDataSetTypes() {
+	function &getAllDataSetTypes() {
 		return new HarmoniTypeIterator($this->_types);
 	}
 	
@@ -323,7 +323,7 @@ class DataSetTypeManager
 	 * @return ref object The {@link HarmoniType} object.
 	 * @access public
 	 */
-	function & getDataSetTypeByID( $id ) {
+	function &getDataSetTypeByID( $id ) {
 		return $this->_types[$id];
 	}
 	

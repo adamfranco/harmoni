@@ -8,7 +8,7 @@
  * setting.
  *
  * @package harmoni.themes
- * @version $Id: ThemeSetting.interface.php,v 1.5 2004/03/17 17:51:06 adamfranco Exp $
+ * @version $Id: ThemeSetting.interface.php,v 1.6 2004/08/26 15:10:36 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -19,7 +19,7 @@ class ThemeSettingInterface {
 	 * @access public
 	 * @return string key The key of this ThemeSetting.
 	 **/
-	function & getKey () {
+	function &getKey () {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -29,7 +29,7 @@ class ThemeSettingInterface {
 	 * @param string $key The ID of this ThemeSetting.
 	 * @return void
 	 **/
-	function & setKey ( $key ) {
+	function &setKey ( $key ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 
@@ -48,7 +48,7 @@ class ThemeSettingInterface {
 	 * @param string $displayName The DisplayName of this ThemeSetting.
 	 * @return void
 	 **/
-	function & setDisplayName ( $displayName ) {
+	function &setDisplayName ( $displayName ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -67,7 +67,7 @@ class ThemeSettingInterface {
 	 * @param string $description The Description of this ThemeSetting.
 	 * @return void
 	 **/
-	function & setDescription ( $description ) {
+	function &setDescription ( $description ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 
@@ -106,7 +106,7 @@ class ThemeSettingInterface {
 	 * @param string $defaultValue The DefaultValue of this ThemeSetting.
 	 * @return void
 	 **/
-	function & setDefaultValue ( $defaultValue ) {
+	function &setDefaultValue ( $defaultValue ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -125,7 +125,7 @@ class ThemeSettingInterface {
 	 * @access public
 	 * @return object HarmoniIterator An iterator of the Option strings for the ThemeSetting.
 	 **/
-	function & getOptions() {
+	function &getOptions() {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 }

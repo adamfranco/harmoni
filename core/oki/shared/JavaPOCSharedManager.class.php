@@ -15,7 +15,7 @@ class JavaPOCSharedManager {
 	}
 	
 	// public Agent & createAgent(Type & $agentType, String $name);
-	function & createAgent(& $agentType, $name) {
+	function &createAgent(& $agentType, $name) {
 		$result = $this->_javaClass->createAgent($agentType, $name);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -32,7 +32,7 @@ class JavaPOCSharedManager {
 	}
 
 	// public Agent & getAgent(Id & $id);
-	function & getAgent(& $id) {
+	function &getAgent(& $id) {
 		$result = $this->_javaClass->getAgent($id);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -41,7 +41,7 @@ class JavaPOCSharedManager {
 	}
 
 	// public AgentIterator & getAgents();
-	function & getAgents() {
+	function &getAgents() {
 		$result = $this->_javaClass->getAgents();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -50,7 +50,7 @@ class JavaPOCSharedManager {
 	}
 
 	// public TypeIterator & getAgentTypes();
-	function & getAgentTypes() {
+	function &getAgentTypes() {
 		$result = $this->_javaClass->getAgentTypes();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -59,7 +59,7 @@ class JavaPOCSharedManager {
 	}
 
 	// public Group & createGroup(String $description, String $name, Type & $groupType);
-	function & createGroup($description, $name, & $groupType) {
+	function &createGroup($description, $name, & $groupType) {
 		$result = $this->_javaClass->createGroup($description, $name, $groupType);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -76,7 +76,7 @@ class JavaPOCSharedManager {
 	}
 
 	// public Group & getGroup(Id & $id);
-	function & getGroup(& $id) {
+	function &getGroup(& $id) {
 		$result = $this->_javaClass->getGroup($id);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -85,7 +85,7 @@ class JavaPOCSharedManager {
 	}
 
 	// public AgentIterator & getGroups();
-	function & getGroups() {
+	function &getGroups() {
 		$result = $this->_javaClass->getGroups();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -94,7 +94,7 @@ class JavaPOCSharedManager {
 	}
 
 	// public TypeIterator & getGroupTypes();
-	function & getGroupTypes() {
+	function &getGroupTypes() {
 		$result = $this->_javaClass->getGroupTypes();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -103,7 +103,7 @@ class JavaPOCSharedManager {
 	}
 
 	// public Id & createId();
-	function & createId() {
+	function &createId() {
 		$result = $this->_javaClass->createId();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -112,7 +112,7 @@ class JavaPOCSharedManager {
 	}
 
 	// public Id & getId(String $idString);
-	function & getId($idString) {
+	function &getId($idString) {
 		$result = $this->_javaClass->getId($idString);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -121,12 +121,12 @@ class JavaPOCSharedManager {
 	}
 /*
 	// public AgentIterator & getAgents(osid.shared.Type & $agentType);
-	function & getAgents(& $agentType) {
+	function &getAgents(& $agentType) {
 		return $this->_javaClass->getAgents($agentType);
 	}
 
 	// public AgentIterator & getGroups(osid.shared.Type & $groupType);
-	function & getGroups(& $groupType) {
+	function &getGroups(& $groupType) {
 		return $this->_javaClass->getGroups($groupType);
 	}*/
 }

@@ -18,7 +18,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
-	function & createAssessment($name, $description, & $assessmentType) { /* :: interface :: */ }
+	function &createAssessment($name, $description, & $assessmentType) { /* :: interface :: */ }
 	// :: full java declaration :: Assessment createAssessment(String name, String description, osid.shared.Type assessmentType)
 
 	/**
@@ -36,7 +36,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
-	function & getAssessment(& $assessmentId) { /* :: interface :: */ }
+	function &getAssessment(& $assessmentId) { /* :: interface :: */ }
 	// :: full java declaration :: Assessment getAssessment(osid.shared.Id assessmentId)
 
 	/**
@@ -46,7 +46,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
-	function & getAssessmentsByType(& $assessmentType) { /* :: interface :: */ }
+	function &getAssessmentsByType(& $assessmentType) { /* :: interface :: */ }
 	// :: full java declaration :: AssessmentIterator getAssessmentsByType(osid.shared.Type assessmentType)
 
 	/**
@@ -55,7 +55,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getAssessments() { /* :: interface :: */ }
+	function &getAssessments() { /* :: interface :: */ }
 	// :: full java declaration :: AssessmentIterator getAssessments()
 
 	/**
@@ -67,7 +67,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
-	function & createSection($name, $description, & $sectionType) { /* :: interface :: */ }
+	function &createSection($name, $description, & $sectionType) { /* :: interface :: */ }
 	// :: full java declaration :: Section createSection(String name, String description, osid.shared.Type sectionType)
 
 	/**
@@ -85,7 +85,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
-	function & getSection(& $sectionId) { /* :: interface :: */ }
+	function &getSection(& $sectionId) { /* :: interface :: */ }
 	// :: full java declaration :: Section getSection(osid.shared.Id sectionId)
 
 	/**
@@ -95,7 +95,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
-	function & getSectionsByType(& $sectionType) { /* :: interface :: */ }
+	function &getSectionsByType(& $sectionType) { /* :: interface :: */ }
 	// :: full java declaration :: SectionIterator getSectionsByType(osid.shared.Type sectionType)
 
 	/**
@@ -104,7 +104,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getSections() { /* :: interface :: */ }
+	function &getSections() { /* :: interface :: */ }
 	// :: full java declaration :: SectionIterator getSections()
 
 	/**
@@ -116,7 +116,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
-	function & createItem($name, $description, & $itemType) { /* :: interface :: */ }
+	function &createItem($name, $description, & $itemType) { /* :: interface :: */ }
 	// :: full java declaration :: Item createItem(String name, String description, osid.shared.Type itemType)
 
 	/**
@@ -134,7 +134,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
-	function & getItem(& $itemId) { /* :: interface :: */ }
+	function &getItem(& $itemId) { /* :: interface :: */ }
 	// :: full java declaration :: Item getItem(osid.shared.Id itemId)
 
 	/**
@@ -144,7 +144,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
-	function & getItemsByType(& $itemType) { /* :: interface :: */ }
+	function &getItemsByType(& $itemType) { /* :: interface :: */ }
 	// :: full java declaration :: ItemIterator getItemsByType(osid.shared.Type itemType)
 
 	/**
@@ -153,7 +153,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getItems() { /* :: interface :: */ }
+	function &getItems() { /* :: interface :: */ }
 	// :: full java declaration :: ItemIterator getItems()
 
 	/**
@@ -163,7 +163,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
-	function & createAssessmentPublished(& $assessment) { /* :: interface :: */ }
+	function &createAssessmentPublished(& $assessment) { /* :: interface :: */ }
 	// :: full java declaration :: AssessmentPublished createAssessmentPublished(Assessment assessment)
 
 	/**
@@ -182,7 +182,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.assessment
 	 */
-	function & getAssessmentPublished(& $assessmentPublishedId) { /* :: interface :: */ }
+	function &getAssessmentPublished(& $assessmentPublishedId) { /* :: interface :: */ }
 	// :: full java declaration :: AssessmentPublished getAssessmentPublished(osid.shared.Id assessmentPublishedId)
 
 	/**
@@ -191,7 +191,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getAssessmentsPublished() { /* :: interface :: */ }
+	function &getAssessmentsPublished() { /* :: interface :: */ }
 	// :: full java declaration :: AssessmentPublishedIterator getAssessmentsPublished()
 
 	/**
@@ -200,7 +200,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getAssessmentTypes() { /* :: interface :: */ }
+	function &getAssessmentTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getAssessmentTypes()
 
 	/**
@@ -209,7 +209,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getSectionTypes() { /* :: interface :: */ }
+	function &getSectionTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getSectionTypes()
 
 	/**
@@ -218,7 +218,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getItemTypes() { /* :: interface :: */ }
+	function &getItemTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getItemTypes()
 
 	/**
@@ -227,7 +227,7 @@ class AssessmentManager // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getEvaluationTypes() { /* :: interface :: */ }
+	function &getEvaluationTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getEvaluationTypes()
 }
 
@@ -278,7 +278,7 @@ class Assessment // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the AssessmentType for this Assessment.  AssessmentType The structure of the Data is not defined in the SID.
@@ -286,7 +286,7 @@ class Assessment // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getAssessmentType() { /* :: interface :: */ }
+	function &getAssessmentType() { /* :: interface :: */ }
 
 	/**
 	 * Get the Topic for this
@@ -328,7 +328,7 @@ class Assessment // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getSections() { /* :: interface :: */ }
+	function &getSections() { /* :: interface :: */ }
 	// :: full java declaration :: SectionIterator getSections()
 
 	/**
@@ -346,7 +346,7 @@ class Assessment // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getData() { /* :: interface :: */ }
+	function &getData() { /* :: interface :: */ }
 
 	/**
 	 * Update the data for this Assessment.  The structure of the Data is not defined in the SID.
@@ -403,7 +403,7 @@ class Section // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the SectionType for this Section.  is meaningful to an application and not specifically defined in the SID.
@@ -411,7 +411,7 @@ class Section // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getSectionType() { /* :: interface :: */ }
+	function &getSectionType() { /* :: interface :: */ }
 
 	/**
 	 * Add an Item to this Section.  The Items added to a Section are returned first in, first out (FIFO).  Items can be ordered explicitly using the orderItems method.
@@ -437,7 +437,7 @@ class Section // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getItems() { /* :: interface :: */ }
+	function &getItems() { /* :: interface :: */ }
 	// :: full java declaration :: ItemIterator getItems()
 
 	/**
@@ -473,7 +473,7 @@ class Section // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getSections() { /* :: interface :: */ }
+	function &getSections() { /* :: interface :: */ }
 	// :: full java declaration :: SectionIterator getSections()
 
 	/**
@@ -491,7 +491,7 @@ class Section // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getData() { /* :: interface :: */ }
+	function &getData() { /* :: interface :: */ }
 
 	/**
 	 * Update the data for this Section.  The structure of the Data is not defined in the SID.
@@ -549,7 +549,7 @@ class Item // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the ItemType for this Item.  ItemType The structure of the Data is not defined in the SID.
@@ -557,7 +557,7 @@ class Item // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getItemType() { /* :: interface :: */ }
+	function &getItemType() { /* :: interface :: */ }
 
 	/**
 	 * Get the serializable Data for this Item. This may include the question, responses, answer, instructions, media, etc.  The structure of the Data is not defined in the SID.
@@ -565,7 +565,7 @@ class Item // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getData() { /* :: interface :: */ }
+	function &getData() { /* :: interface :: */ }
 
 	/**
 	 * Update the data for this Item. This may include the question, responses, answer, instructions, media, etc.  The structure of the Data is not defined in the SID.
@@ -622,7 +622,7 @@ class AssessmentPublished // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the date the Assessment was published.
@@ -630,7 +630,7 @@ class AssessmentPublished // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getDate() { /* :: interface :: */ }
+	function &getDate() { /* :: interface :: */ }
 
 	/**
 	 * Get the Assessment being published.
@@ -638,7 +638,7 @@ class AssessmentPublished // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getAssessment() { /* :: interface :: */ }
+	function &getAssessment() { /* :: interface :: */ }
 
 	/**
 	 * Get the Unique Id of the Assignment associated with this AssessmentPublished, if any.  The Unique Id refers to an object created through the Grading SID.
@@ -646,7 +646,7 @@ class AssessmentPublished // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getGradingAssignmentId() { /* :: interface :: */ }
+	function &getGradingAssignmentId() { /* :: interface :: */ }
 
 	/**
 	 * Set the Unique Id of the Assignment associated with this AssessmentPublished, if any.  The Unique Id refers to an object created through the Grading SID.
@@ -662,7 +662,7 @@ class AssessmentPublished // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getCourseSectionId() { /* :: interface :: */ }
+	function &getCourseSectionId() { /* :: interface :: */ }
 
 	/**
 	 * Set the Unique Id of the Course Section associated with this AssessmentPublished, if any.  The Unique Id refers to an object created through the Classadmin SID.
@@ -678,7 +678,7 @@ class AssessmentPublished // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getData() { /* :: interface :: */ }
+	function &getData() { /* :: interface :: */ }
 
 	/**
 	 * Update the data for this AssessmentPublished. The structure of the Data is not defined in the SID.
@@ -695,7 +695,7 @@ class AssessmentPublished // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.assessment
 	 */
-	function & createAssessmentTaken(& $agent) { /* :: interface :: */ }
+	function &createAssessmentTaken(& $agent) { /* :: interface :: */ }
 	// :: full java declaration :: AssessmentTaken createAssessmentTaken(osid.shared.Agent agent)
 
 	/**
@@ -713,7 +713,7 @@ class AssessmentPublished // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getAssessmentsTaken() { /* :: interface :: */ }
+	function &getAssessmentsTaken() { /* :: interface :: */ }
 	// :: full java declaration :: AssessmentTakenIterator getAssessmentsTaken()
 
 	/**
@@ -723,7 +723,7 @@ class AssessmentPublished // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getAssessmentsTakenBy(& $agentId) { /* :: interface :: */ }
+	function &getAssessmentsTakenBy(& $agentId) { /* :: interface :: */ }
 	// :: full java declaration :: AssessmentTakenIterator getAssessmentsTakenBy(osid.shared.Id agentId)
 
 	/**
@@ -732,7 +732,7 @@ class AssessmentPublished // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getEvaluations() { /* :: interface :: */ }
+	function &getEvaluations() { /* :: interface :: */ }
 	// :: full java declaration :: EvaluationIterator getEvaluations()
 
 	/**
@@ -742,7 +742,7 @@ class AssessmentPublished // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
-	function & getEvaluationsByType(& $evaluationType) { /* :: interface :: */ }
+	function &getEvaluationsByType(& $evaluationType) { /* :: interface :: */ }
 	// :: full java declaration :: EvaluationIterator getEvaluationsByType(osid.shared.Type evaluationType)
 }
 
@@ -761,7 +761,7 @@ class AssessmentTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the AssessmentPublished that was taken.
@@ -769,7 +769,7 @@ class AssessmentTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getAssessmentPublished() { /* :: interface :: */ }
+	function &getAssessmentPublished() { /* :: interface :: */ }
 
 	/**
 	 * Get the student who took the Assessment.
@@ -777,7 +777,7 @@ class AssessmentTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getAgent() { /* :: interface :: */ }
+	function &getAgent() { /* :: interface :: */ }
 
 	/**
 	 * Create a SectionTaken based on an AssessmentPublished and Agent.
@@ -786,7 +786,7 @@ class AssessmentTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_SECTION UNKNOWN_SECTION}
 	 * @package osid.assessment
 	 */
-	function & createSectionTaken(& $section) { /* :: interface :: */ }
+	function &createSectionTaken(& $section) { /* :: interface :: */ }
 	// :: full java declaration :: SectionTaken createSectionTaken(Section section)
 
 	/**
@@ -804,7 +804,7 @@ class AssessmentTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getSectionsTaken() { /* :: interface :: */ }
+	function &getSectionsTaken() { /* :: interface :: */ }
 	// :: full java declaration :: SectionTakenIterator getSectionsTaken()
 
 	/**
@@ -813,7 +813,7 @@ class AssessmentTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
-	function & createEvaluation(& $evaluationType) { /* :: interface :: */ }
+	function &createEvaluation(& $evaluationType) { /* :: interface :: */ }
 	// :: full java declaration :: Evaluation createEvaluation(osid.shared.Type evaluationType)
 
 	/**
@@ -832,7 +832,7 @@ class AssessmentTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
-	function & getEvaluationsByType(& $evaluationType) { /* :: interface :: */ }
+	function &getEvaluationsByType(& $evaluationType) { /* :: interface :: */ }
 	// :: full java declaration :: EvaluationIterator getEvaluationsByType(osid.shared.Type evaluationType)
 
 	/**
@@ -841,7 +841,7 @@ class AssessmentTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getEvaluations() { /* :: interface :: */ }
+	function &getEvaluations() { /* :: interface :: */ }
 	// :: full java declaration :: EvaluationIterator getEvaluations()
 
 	/**
@@ -850,7 +850,7 @@ class AssessmentTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getDate() { /* :: interface :: */ }
+	function &getDate() { /* :: interface :: */ }
 
 	/**
 	 * Get the serializable Data for this AssessmentTaken.  The structure of the Data is not defined in the SID.
@@ -858,7 +858,7 @@ class AssessmentTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getData() { /* :: interface :: */ }
+	function &getData() { /* :: interface :: */ }
 
 	/**
 	 * Update the data for this AssessmentTaken.  The structure of the Data is not defined in the SID.
@@ -884,7 +884,7 @@ class SectionTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the SectionTaken to which this ItemTaken belongs.
@@ -892,7 +892,7 @@ class SectionTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getSection() { /* :: interface :: */ }
+	function &getSection() { /* :: interface :: */ }
 
 	/**
 	 * Create an ItemTaken based on a SectionTaken.
@@ -901,7 +901,7 @@ class SectionTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_ITEM UNKNOWN_ITEM}
 	 * @package osid.assessment
 	 */
-	function & createItemTaken(& $item) { /* :: interface :: */ }
+	function &createItemTaken(& $item) { /* :: interface :: */ }
 	// :: full java declaration :: ItemTaken createItemTaken(Item item)
 
 	/**
@@ -919,7 +919,7 @@ class SectionTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getItemsTaken() { /* :: interface :: */ }
+	function &getItemsTaken() { /* :: interface :: */ }
 	// :: full java declaration :: ItemIterator getItemsTaken()
 
 	/**
@@ -928,7 +928,7 @@ class SectionTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
-	function & createEvaluation(& $evaluationType) { /* :: interface :: */ }
+	function &createEvaluation(& $evaluationType) { /* :: interface :: */ }
 	// :: full java declaration :: Evaluation createEvaluation(osid.shared.Type evaluationType)
 
 	/**
@@ -947,7 +947,7 @@ class SectionTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
-	function & getEvaluationsByType(& $evaluationType) { /* :: interface :: */ }
+	function &getEvaluationsByType(& $evaluationType) { /* :: interface :: */ }
 	// :: full java declaration :: EvaluationIterator getEvaluationsByType(osid.shared.Type evaluationType)
 
 	/**
@@ -956,7 +956,7 @@ class SectionTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getEvaluations() { /* :: interface :: */ }
+	function &getEvaluations() { /* :: interface :: */ }
 	// :: full java declaration :: EvaluationIterator getEvaluations()
 
 	/**
@@ -965,7 +965,7 @@ class SectionTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getData() { /* :: interface :: */ }
+	function &getData() { /* :: interface :: */ }
 
 	/**
 	 * Update the data for this AssessmentTaken.  The structure of the Data is not defined in the SID.
@@ -981,7 +981,7 @@ class SectionTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getAssessmentTaken() { /* :: interface :: */ }
+	function &getAssessmentTaken() { /* :: interface :: */ }
 	// :: full java declaration :: AssessmentTaken getAssessmentTaken()
 }
 
@@ -1000,7 +1000,7 @@ class ItemTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the Item taken.
@@ -1008,7 +1008,7 @@ class ItemTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getItem() { /* :: interface :: */ }
+	function &getItem() { /* :: interface :: */ }
 
 	/**
 	 * Create an Evaluation of the specified Type for this Item.
@@ -1035,7 +1035,7 @@ class ItemTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AssessmentException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AssessmentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.assessment
 	 */
-	function & getEvaluationsByType(& $evaluationType) { /* :: interface :: */ }
+	function &getEvaluationsByType(& $evaluationType) { /* :: interface :: */ }
 	// :: full java declaration :: EvaluationIterator getEvaluationsByType(osid.shared.Type evaluationType)
 
 	/**
@@ -1044,7 +1044,7 @@ class ItemTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getEvaluations() { /* :: interface :: */ }
+	function &getEvaluations() { /* :: interface :: */ }
 	// :: full java declaration :: EvaluationIterator getEvaluations()
 
 	/**
@@ -1053,7 +1053,7 @@ class ItemTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getData() { /* :: interface :: */ }
+	function &getData() { /* :: interface :: */ }
 
 	/**
 	 * Update the data for this ItemTaken.  The structure of the Data is not defined in the SID.
@@ -1068,7 +1068,7 @@ class ItemTaken // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getSectionTaken() { /* :: interface :: */ }
+	function &getSectionTaken() { /* :: interface :: */ }
 	// :: full java declaration :: SectionTaken getSectionTaken()
 }
 
@@ -1087,7 +1087,7 @@ class Evaluation // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the EvaluationType for this Evaluation.  EvaluationType The structure of the Data is not defined in the SID.
@@ -1095,7 +1095,7 @@ class Evaluation // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getType() { /* :: interface :: */ }
+	function &getType() { /* :: interface :: */ }
 
 	/**
 	 * Get the Id for the object taken.
@@ -1103,7 +1103,7 @@ class Evaluation // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getObjectTaken() { /* :: interface :: */ }
+	function &getObjectTaken() { /* :: interface :: */ }
 
 	/**
 	 * Get the serializable Data for this Evaluation.  The structure of the Data is not defined in the SID.
@@ -1111,7 +1111,7 @@ class Evaluation // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getData() { /* :: interface :: */ }
+	function &getData() { /* :: interface :: */ }
 
 	/**
 	 * Update the data for this Evaluation.  The structure of the Data is not defined in the SID.
@@ -1126,7 +1126,7 @@ class Evaluation // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getModifiedBy() { /* :: interface :: */ }
+	function &getModifiedBy() { /* :: interface :: */ }
 
 	/**
 	 * Get the date when this Evaluation was modified.
@@ -1134,7 +1134,7 @@ class Evaluation // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.assessment
 	 */
-	function & getModifiedDate() { /* :: interface :: */ }
+	function &getModifiedDate() { /* :: interface :: */ }
 }
 
 
@@ -1160,7 +1160,7 @@ class AssessmentIterator // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Assessment next()
 }
 
@@ -1187,7 +1187,7 @@ class SectionIterator // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Section next()
 }
 
@@ -1215,7 +1215,7 @@ class ItemIterator // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Item next()
 }
 
@@ -1242,7 +1242,7 @@ class AssessmentPublishedIterator // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: AssessmentPublished next()
 }
 
@@ -1269,7 +1269,7 @@ class AssessmentTakenIterator // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: AssessmentTaken next()
 }
 
@@ -1296,7 +1296,7 @@ class SectionTakenIterator // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: SectionTaken next()
 }
 
@@ -1323,7 +1323,7 @@ class ItemTakenIterator // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: ItemTaken next()
 }
 
@@ -1351,7 +1351,7 @@ class EvaluationIterator // :: API interface
 	 * @throws osid.assessment.AssessmentException An exception with one of the following messages defined in osid.assessment.AssessmentException:  {@link AssessmentException#OPERATION_FAILED OPERATION_FAILED}, {@link AssessmentException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AssessmentException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AssessmentException#UNIMPLEMENTED UNIMPLEMENTED} Throws an exception with the message osid.OsidException.NO_MORE_ELEMENTS if all objects have already been returned.
 	 * @package osid.assessment
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Evaluation next()
 }
 

@@ -4,7 +4,7 @@
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
+ * @version $Id: Queue.class.php,v 1.3 2004/08/26 15:10:37 adamfranco Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -97,7 +97,7 @@ class Queue {
 	 * @return object Object at the current position in the queue and increase the position by one.
 	 * @access public
 	 */
-	function & next() {
+	function &next() {
 		// get next element
 		$object =& $this->_queue[$this->_nextPosition];
 

@@ -19,7 +19,7 @@ require_once(OKI."/hierarchy.interface.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniTraversalInfo.class.php,v 1.5 2004/04/22 14:53:19 adamfranco Exp $
+ * @version $Id: HarmoniTraversalInfo.class.php,v 1.6 2004/08/26 15:10:34 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -73,7 +73,7 @@ class HarmoniTraversalInfo
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getNodeId() {
+	function &getNodeId() {
 		return $this->_id;
 	}
 

@@ -53,7 +53,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getId() {
+	function &getId() {
 		$sharedManager =& Services::getService("Shared");
 		return $sharedManager->getId($this->_schema->getID());
 	}
@@ -65,7 +65,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getInfoPart(& $infoPartId) {
+	function &getInfoPart(& $infoPartId) {
 		if (!$this->_createdInfoParts[$infoPartId->getIdString()]) {
 			$this->_schema->load();
 			$this->_createdInfoParts[$infoPartId->getIdString()] =& new HarmoniInfoPart($this, $this->_schema->getFieldById($infoPartId->getIdString()));
@@ -80,7 +80,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getInfoParts() {
+	function &getInfoParts() {
 		$this->_schema->load();
 		$array = array();
 		foreach ($this->_schema->getAllLabels() as $label) {

@@ -21,7 +21,7 @@ class Blob // :: API interface
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#BLOB_GETBYTES_FAILED}, {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
 	   */
-	function & getBytes($pos, $len) { /* :: interface :: */ }
+	function &getBytes($pos, $len) { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.ByteValueIterator getBytes(long pos, int len)
 
 	  /**
@@ -57,7 +57,7 @@ class Clob // :: API interface
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#CLOB_GETCHARS_FAILED}, {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
 	   */
-	function & getChars($pos, $len) { /* :: interface :: */ }
+	function &getChars($pos, $len) { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.CharValueIterator getChars(long pos, int len)
 
 	  /**
@@ -112,7 +112,7 @@ class ResultMetaData // :: API interface
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
 	   */
-	function & getColumnType() { /* :: interface :: */ }
+	function &getColumnType() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Type getColumnType()
 
 	  /**
@@ -147,7 +147,7 @@ class Connection // :: API interface
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
 	   */
-	function & executeQuery($sql) { /* :: interface :: */ }
+	function &executeQuery($sql) { /* :: interface :: */ }
 	// :: full java declaration :: ResultTable executeQuery(String sql)
 
 	  /**
@@ -164,7 +164,7 @@ class Connection // :: API interface
 	 * @package osid.sql
 	   */
 //	 :: this function hidden due to previous declaration
-//	function & executeQuery($sql, & $objs, & $sqlTypes, & $scales) { /* :: interface :: */ }
+//	function &executeQuery($sql, & $objs, & $sqlTypes, & $scales) { /* :: interface :: */ }
 //	 :: end
 	// :: full java declaration :: ResultTable executeQuery(String sql, Object[] objs, osid.shared.Type[] sqlTypes, int[] scales)
 
@@ -207,7 +207,7 @@ class Connection // :: API interface
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
 	   */
-	function & getSqlTypes() { /* :: interface :: */ }
+	function &getSqlTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getSqlTypes()
 }
 
@@ -242,7 +242,7 @@ class RowIterator // :: API interface
 	   *
 	 * @package osid.sql
 	   */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Row next()
 }
 
@@ -277,7 +277,7 @@ class ResultMetaDataIterator // :: API interface
 	   *
 	 * @package osid.sql
 	   */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: ResultMetaData next()
 }
 
@@ -302,7 +302,7 @@ class SqlManager // :: interface
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
 	   */
-	function & getConnection($connectionString) { /* :: interface :: */ }
+	function &getConnection($connectionString) { /* :: interface :: */ }
 	// :: full java declaration :: public Connection getConnection( String connectionString)
 }
 
@@ -323,7 +323,7 @@ class Row // :: interface
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:  {@link SqlException#DATA_RETRIEVAL_ERROR}, {@link SqlException#INVALID_COLUMN_INDEX}, {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
 	   */
-	function & getColumnByIndex($columnIndex) { /* :: interface :: */ }
+	function &getColumnByIndex($columnIndex) { /* :: interface :: */ }
 	// :: full java declaration :: public Object getColumnByIndex( int columnIndex )
 
 	  /**
@@ -333,7 +333,7 @@ class Row // :: interface
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:   {@link SqlException#DATA_RETRIEVAL_ERROR}, {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
 	   */
-	function & getColumnByName($columnName) { /* :: interface :: */ }
+	function &getColumnByName($columnName) { /* :: interface :: */ }
 	// :: full java declaration :: public Object getColumnByName( String columnName )
 
 	  /**
@@ -342,7 +342,7 @@ class Row // :: interface
 	 *    @throws osid.sql.SqlException An exception with one of the following messages defined in osid.sql.SqlException:   {@link SqlException#DATA_RETRIEVAL_ERROR}, {@link SqlException#OPERATION_FAILED OPERATION_FAILED}, {@link SqlException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SqlException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SqlException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.sql
 	   */
-	function & getColumns() { /* :: interface :: */ }
+	function &getColumns() { /* :: interface :: */ }
 	// :: full java declaration :: public osid.shared.ObjectIterator getColumns()
 }
 
@@ -377,7 +377,7 @@ class ResultTable // :: API interface
 	   *
 	 * @package osid.sql
 	   */
-	function & getResultMetaData() { /* :: interface :: */ }
+	function &getResultMetaData() { /* :: interface :: */ }
 	// :: full java declaration :: ResultMetaDataIterator getResultMetaData()
 
 	  /**
@@ -389,7 +389,7 @@ class ResultTable // :: API interface
 	   *
 	 * @package osid.sql
 	   */
-	function & getRows() { /* :: interface :: */ }
+	function &getRows() { /* :: interface :: */ }
 	// :: full java declaration :: RowIterator getRows()
 }
 

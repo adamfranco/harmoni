@@ -46,7 +46,7 @@ class HarmoniFunctionIterator
 	}
 
 	// public Type & next();
-	function & next() {
+	function &next() {
 		if ($this->hasNext()) {
 			$this->_i++;
 			return $this->_functions[$this->_i];

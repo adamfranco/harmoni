@@ -10,7 +10,7 @@
  * to create a powerful yet flexible system for content output.
  *
  * @package harmoni.themes
- * @version $Id: Theme.interface.php,v 1.6 2004/04/21 17:55:43 adamfranco Exp $
+ * @version $Id: Theme.interface.php,v 1.7 2004/08/26 15:10:36 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -48,7 +48,7 @@ class ThemeInterface {
 	 * @access public
 	 * @return object Id The ID of this theme.
 	 **/
-	function & getId () {
+	function &getId () {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 
@@ -118,7 +118,7 @@ class ThemeInterface {
 	 * @param object Id The id of the desired Setting.
 	 * @return object SettingInterface The desired Setting object.
 	 **/
-	function & getSetting (& $id) {
+	function &getSetting (& $id) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -128,7 +128,7 @@ class ThemeInterface {
 	 * @see {@link ThemeInterface::setSettings}
 	 * @return object HarmoniIterator An iterator of ThemeSetting objects
 	 **/
-	function & getSettings () {
+	function &getSettings () {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -163,7 +163,7 @@ class ThemeInterface {
 	 * @param object MenuThemeWidget The MenuThemeWidget to add.
 	 * @return integer The index of the added Widget.
 	 **/
-	function & addMenu ( & $menuThemeWidget ) {
+	function &addMenu ( & $menuThemeWidget ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -179,7 +179,7 @@ class ThemeInterface {
 	 *		index is higher than the Theme supports, the MenuThemeWidget of the highest 
 	 *		index availible is returned.
 	 **/
-	function & getMenu ( $index = 1 ) {
+	function &getMenu ( $index = 1 ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -188,7 +188,7 @@ class ThemeInterface {
 	 * @access public
 	 * @return object ThemeWidgetIterator An iterator of all MenuThemeWidgets.
 	 **/
-	function & getMenus () {
+	function &getMenus () {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -200,7 +200,7 @@ class ThemeInterface {
 	 * @param object MenuItemThemeWidget The MenuItemThemeWidget to add.
 	 * @return integer The index of the added Widget.
 	 **/
-	function & addMenuItem ( & $menuItemThemeWidget ) {
+	function &addMenuItem ( & $menuItemThemeWidget ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -216,7 +216,7 @@ class ThemeInterface {
 	 *		index is higher than the Theme supports, the MenuItemThemeWidget of the highest 
 	 *		index availible is returned.
 	 **/
-	function & getMenuItem ( $index = 1 ) {
+	function &getMenuItem ( $index = 1 ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -225,7 +225,7 @@ class ThemeInterface {
 	 * @access public
 	 * @return object ThemeWidgetIterator An iterator of all MenuItemThemeWidgets.
 	 **/
-	function & getMenuItems () {
+	function &getMenuItems () {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -237,7 +237,7 @@ class ThemeInterface {
 	 * @param object MenuHeadingThemeWidget The MenuHeadingThemeWidget to add.
 	 * @return integer The index of the added Widget.
 	 **/
-	function & addMenuHeading ( & $menuHeadingThemeWidget ) {
+	function &addMenuHeading ( & $menuHeadingThemeWidget ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -253,7 +253,7 @@ class ThemeInterface {
 	 *		index is higher than the Theme supports, the MenuHeadingThemeWidget of the highest 
 	 *		index availible is returned.
 	 **/
-	function & getMenuHeading ( $index = 1 ) {
+	function &getMenuHeading ( $index = 1 ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -262,7 +262,7 @@ class ThemeInterface {
 	 * @access public
 	 * @return object ThemeWidgetIterator An iterator of all MenuHeadingThemeWidgets.
 	 **/
-	function & getMenuHeadings () {
+	function &getMenuHeadings () {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -274,7 +274,7 @@ class ThemeInterface {
 	 * @param object HeadingThemeWidget The HeadingThemeWidget to add.
 	 * @return integer The index of the added Widget.
 	 **/
-	function & addHeading ( & $headingThemeWidget ) {
+	function &addHeading ( & $headingThemeWidget ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -290,7 +290,7 @@ class ThemeInterface {
 	 *		index is higher than the Theme supports, the HeadingThemeWidget of the highest 
 	 *		index availible is returned.
 	 **/
-	function & getHeading ( $index = 1 ) {
+	function &getHeading ( $index = 1 ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -299,7 +299,7 @@ class ThemeInterface {
 	 * @access public
 	 * @return object ThemeWidgetIterator An iterator of all HeadingThemeWidgets.
 	 **/
-	function & getHeadings () {
+	function &getHeadings () {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -311,7 +311,7 @@ class ThemeInterface {
 	 * @param object FooterThemeWidget The FooterThemeWidget to add.
 	 * @return integer The index of the added Widget.
 	 **/
-	function & addFooter ( & $footerThemeWidget ) {
+	function &addFooter ( & $footerThemeWidget ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -327,7 +327,7 @@ class ThemeInterface {
 	 *		index is higher than the Theme supports, the FooterThemeWidget of the highest 
 	 *		index availible is returned.
 	 **/
-	function & getFooter ( $index = 1 ) {
+	function &getFooter ( $index = 1 ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -336,7 +336,7 @@ class ThemeInterface {
 	 * @access public
 	 * @return object ThemeWidgetIterator An iterator of all FooterThemeWidgets.
 	 **/
-	function & getFooters () {
+	function &getFooters () {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -348,7 +348,7 @@ class ThemeInterface {
 	 * @param object TextBlockThemeWidget The TextBlockThemeWidget to add.
 	 * @return integer The index of the added Widget.
 	 **/
-	function & addTextBlock ( & $textBlockThemeWidget ) {
+	function &addTextBlock ( & $textBlockThemeWidget ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -364,7 +364,7 @@ class ThemeInterface {
 	 *		index is higher than the Theme supports, the TextBlockThemeWidget of the highest 
 	 *		index availible is returned.
 	 **/
-	function & getTextBlock ( $index = 1 ) {
+	function &getTextBlock ( $index = 1 ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -373,7 +373,7 @@ class ThemeInterface {
 	 * @access public
 	 * @return object ThemeWidgetIterator An iterator of all TextBlockThemeWidgets.
 	 **/
-	function & getTextBlocks () {
+	function &getTextBlocks () {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 }

@@ -10,7 +10,7 @@ require_once(HARMONI."oki/shared/HarmoniIterator.class.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: Set.interface.php,v 1.2 2004/06/28 21:18:36 adamfranco Exp $
+ * @version $Id: Set.interface.php,v 1.3 2004/08/26 15:10:35 adamfranco Exp $
  */
  
 class SetInterface 
@@ -39,7 +39,7 @@ class SetInterface
 	 * @access public
 	 * @return object id
 	 */
-	function & next () {
+	function &next () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

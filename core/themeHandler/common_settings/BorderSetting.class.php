@@ -6,7 +6,7 @@ require_once(HARMONI."/themeHandler/ThemeSetting.abstract.php");
  * A simple border setting that takes a positive integer border.
  *
  * @package harmoni.themes.included_settings
- * @version $Id: BorderSetting.class.php,v 1.4 2004/04/21 17:55:44 adamfranco Exp $
+ * @version $Id: BorderSetting.class.php,v 1.5 2004/08/26 15:10:36 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -59,7 +59,7 @@ class BorderSetting
 	 * @param string $defaultValue The DefaultValue of this ThemeSetting.
 	 * @return void
 	 **/
-	function & setDefaultValue ($defaultValue) {
+	function &setDefaultValue ($defaultValue) {
 		ArgumentValidator::validate($defaultValue, new StringValidatorRule);
 		
 		if($defaultValue != "solid" && $defaultValue != "dotted" && $defaultValue != "dashed")

@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.35 2004/05/29 13:39:37 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.36 2004/08/26 15:10:32 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -294,7 +294,7 @@ class DataSetManager extends ServiceInterface {
 	 * Deletes the DataSet of the SpecifiedId
 	 * @param int $dataSetID
 	 */
-	function & deleteDataSet ( $dataSetID ) {
+	function &deleteDataSet ( $dataSetID ) {
 		$dataSet =& $this->fetchDataSet( $dataSetID, TRUE );
 		$dataSet->delete();
 		$dataSet->commit();

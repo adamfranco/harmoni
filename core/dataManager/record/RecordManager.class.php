@@ -7,7 +7,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
 /**
  * The RecordManager handles the creation, tagging and fetching of {@link Record}s from the database.
  * @package harmoni.datamanager
- * @version $Id: RecordManager.class.php,v 1.5 2004/08/11 14:48:09 gabeschine Exp $
+ * @version $Id: RecordManager.class.php,v 1.6 2004/08/26 15:10:31 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -336,7 +336,7 @@ class RecordManager extends ServiceInterface {
 	 * @param int $id
 	 * @param optional bool $prune Set to TRUE if you want the Record to actually be pruned from the database and not just deactivated.
 	 */
-	function & deleteRecord ( $id, $prune=false ) {
+	function &deleteRecord ( $id, $prune=false ) {
 		$mode = $prune?RECORD_FULL:RECORD_NODATA;
 		$record =& $this->fetchRecord( $id, $mode );
 		$record->setActiveFlag(false);

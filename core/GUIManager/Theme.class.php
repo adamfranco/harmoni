@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * <br><br>
  * Each <code>Theme</code> has a single component (could be container) that will
  * be printed when <code>printPage()</code> is called.
- * @version $Id: Theme.class.php,v 1.4 2004/08/09 02:58:30 dobomode Exp $
+ * @version $Id: Theme.class.php,v 1.5 2004/08/26 15:10:30 adamfranco Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -206,7 +206,7 @@ class Theme extends ThemeInterface {
 	 * for the given component type, then the highest index availible will be used.
 	 * @return ref array An array of Style Collections.
 	 **/
-	function & getStylesForComponentType($type, $index) {
+	function &getStylesForComponentType($type, $index) {
 		// ** parameter validation
 		$rule =& new ChoiceValidatorRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
@@ -421,7 +421,7 @@ class Theme extends ThemeInterface {
 	 * @access public
 	 * @return ref object The component of this <code>Theme</code>.
 	 **/
-	function & getComponent() {
+	function &getComponent() {
 		return $this->_component;
 	}
 	

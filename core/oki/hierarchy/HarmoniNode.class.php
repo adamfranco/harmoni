@@ -14,7 +14,7 @@ require_once(OKI."/hierarchy.interface.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.20 2004/06/22 15:23:08 dobomode Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.21 2004/08/26 15:10:34 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -86,7 +86,7 @@ class HarmoniNode
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getId() {
+	function &getId() {
 		return $this->_id;
 	}
 
@@ -130,7 +130,7 @@ class HarmoniNode
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getParents() {
+	function &getParents() {
 		if ($this->isRoot()) {
 			$parentArray = array();
 		} else {			
@@ -156,7 +156,7 @@ class HarmoniNode
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getChildren() {
+	function &getChildren() {
 		$childIds = $this->_hierarchyStore->getChildren($this->_id->getIdString());
 		$childArray = array();
 		foreach ($childIds as $id) {
@@ -175,7 +175,7 @@ class HarmoniNode
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getType() {
+	function &getType() {
 		return $this->_type;
 	}
 

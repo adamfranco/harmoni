@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 /**
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * @version $Id: PostGreDatabase.class.php,v 1.3 2004/07/02 19:13:09 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.4 2004/08/26 15:10:30 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.postgre
  * @access public
@@ -192,7 +192,7 @@ class PostGreDatabase extends DatabaseInterface {
 	 * @return mixed The appropriate QueryResult object. If the query failed, it would
 	 * return NULL.
 	 */
-	function & query(& $query) {
+	function &query(& $query) {
 		// do not attempt, to query, if not connected
 		if (!$this->isConnected()) {
 			throwError(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
@@ -431,7 +431,7 @@ class PostGreDatabase extends DatabaseInterface {
 	 * from the db).
 	 * @return ref object The DateTime object.
 	 */
-	function & fromDBDate($value) {
+	function &fromDBDate($value) {
 		/**
 		 * Depending on the server configuration PostGre retrieves date/time
 		 * types as 4 different formats. (format could be set with SET DateStyle

@@ -19,7 +19,7 @@ require_once(OKI."/hierarchy.interface.php");
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.3 2004/06/14 03:34:31 dobomode Exp $
+ * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.4 2004/08/26 15:10:34 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -78,7 +78,7 @@ class HarmoniTraversalInfoIterator
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & next() {
+	function &next() {
 		if ($this->hasNext()) {
 			$this->_i++;
 			return $this->_traversalInfos[$this->_i];

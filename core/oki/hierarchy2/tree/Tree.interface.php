@@ -3,7 +3,7 @@
 /** 
  * The interface for the Tree data structure used by the Hierarchy.
  * @access public
- * @version $Id: Tree.interface.php,v 1.3 2004/06/09 19:26:27 dobomode Exp $
+ * @version $Id: Tree.interface.php,v 1.4 2004/08/26 15:10:34 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -21,7 +21,7 @@ class TreeInterface {
 	 * @param optional ref object parent The node that will become the parent of the added node.
 	 * @return boolean <code>true</code> on success; <code>false</code>, otherwise.
 	 */
-	function & addNode(& $node, & $parent) {
+	function &addNode(& $node, & $parent) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -87,7 +87,7 @@ class TreeInterface {
 	 * @return ref object The requested node. <code>Null</code>, if the node
 	 * is not in the tree.
 	 */
-	function & getNode($id) {
+	function &getNode($id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -109,7 +109,7 @@ class TreeInterface {
 	 * @method public getAllNodes
 	 * @return ref array An array of all nodes.
 	 */
-	function & getAllNodes() {
+	function &getAllNodes() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -123,7 +123,7 @@ class TreeInterface {
 	 * @return ref array An array of all nodes in the hierarchy visited in a pre-order
 	 * manner.
 	 */
-	function & traverse(& $node) {
+	function &traverse(& $node) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

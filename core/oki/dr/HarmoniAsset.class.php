@@ -128,7 +128,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getId() {
+	function &getId() {
 		return $this->_node->getId();
 	}
 
@@ -145,7 +145,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getDigitalRepository() {
+	function &getDigitalRepository() {
 		return $this->_dr;
 	}
 
@@ -161,30 +161,23 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getContent() {
-		$sharedManager =& Services::getService("Shared");
-		$recordMgr =& Services::getService("RecordManager");
-		
-		// Ready our type for comparisson
-		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
-// 		
-// 		// Get the content DataSet.
-// 		$id =& $this->_node->getId();
-// 		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
-// 		// fetching as editable since we don't know if it will be edited.
-// 		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
-// 		foreach ($dataSets as $key => $dataSet) {
-// 			if($contentType->isEqual($dataSets[$key]->getType())) {
-// 				$contentDataSet =& $dataSets[$key];
-// 				break;
-// 			}
-// 		}
-// 		
-// 		if ($contentDataSet && $contentDataSet->hasActiveValue("Content")) {
-// 			$valueVersion =& $contentDataSet->getActiveValue("Content");
-// 			return $valueVersion->getValue();
-// 		} else
-			return new Blob;
+	function &getContent() {
+ 		$sharedManager =& Services::getService("Shared");
+ 		$recordMgr =& Services::getService("RecordManager");
+ 		
+ 		// Ready our type for comparisson
+ 		$contentType =& new HarmoniType("DR", "Harmoni",  "AssetContent");
+ 		$myId =& $this->_node->getId();
+ 		
+ 		// Get the content DataSet.
+ 		$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
+		$contentRecord =& $myRecordSet->getRecordsByType($contentType);
+
+ 		if (!$contentRecord) {
+ 			return new Blob;
+ 		} else {
+ 			return $contentRecord->getValue();
+ 		}
 	}
 
 	/**
@@ -208,7 +201,7 @@ class HarmoniAsset
  		$myId =& $this->_node->getId();
  		
  		// Get the content DataSet.
- 		$myRecordSet =& $recordMgr->fetchDataSetGroup($myId->getIdString());
+ 		$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
 		$contentRecord =& $myRecordSet->getRecordsByType($contentType);
 
  		if (!$contentRecord) {		
@@ -250,7 +243,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getEffectiveDate() {
+	function &getEffectiveDate() {
 		if (!$this->_effectiveDate) {
 			$this->_loadDates();
 		}
@@ -291,7 +284,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getExpirationDate() {
+	function &getExpirationDate() {
 		if (!$this->_expirationDate) {
 			$this->_loadDates();
 		}
@@ -403,7 +396,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getAssets() {
+	function &getAssets() {
 		$assets = array();
 		$children =& $this->_node->getChildren();
 		while ($children->hasNext()) {
@@ -423,7 +416,7 @@ class HarmoniAsset
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.dr
 	 */
-	function & getAssetsByType(& $assetType) {
+	function &getAssetsByType(& $assetType) {
 		$assets = array();
 		$children =& $this->_node->getChildren();
 		while ($children->hasNext()) {
@@ -449,7 +442,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & createInfoRecord(& $infoStructureId) {
+	function &createInfoRecord(& $infoStructureId) {
 		ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
 		
 		// Get the DataSetGroup for this Asset
@@ -656,7 +649,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getInfoRecord(& $infoRecordId ) {
+	function &getInfoRecord(& $infoRecordId ) {
 		ArgumentValidator::validate($infoRecordId, new ExtendsValidatorRule("Id"));
 		
 		// Check to see if the info record is in our cache.
@@ -721,7 +714,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getInfoRecords( $infoStructureId = null ) {
+	function &getInfoRecords( $infoStructureId = null ) {
 		if ($infoStructureId)
 			ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
 		
@@ -766,7 +759,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getAssetType() {
+	function &getAssetType() {
 		return $this->_node->getType();
 	}
 
@@ -786,7 +779,7 @@ class HarmoniAsset
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getInfoStructures() {
+	function &getInfoStructures() {
 		// cycle through all our DataSets, get their type and make an InfoStructure for each. 
 		$infoStructures = array();
 		
@@ -814,7 +807,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getContentInfoStructure() {
+	function &getContentInfoStructure() {
 		$sharedManager =& Services::getService("Shared");
 		$schemaMgr =& Services::getService("SchemaManager");
 		
@@ -847,7 +840,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getInfoField(& $infoFieldId) {
+	function &getInfoField(& $infoFieldId) {
 		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
 	}
 	
@@ -866,7 +859,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getInfoFieldValue(& $infoFieldId) {
+	function &getInfoFieldValue(& $infoFieldId) {
 		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
 	}
 	
@@ -885,7 +878,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getInfoFieldByPart(& $infoPartId) {
+	function &getInfoFieldByPart(& $infoPartId) {
 		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
 	}
 	
@@ -904,7 +897,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getInfoFieldValueByPart(& $infoPartId) {
+	function &getInfoFieldValueByPart(& $infoPartId) {
 		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
 	}
 

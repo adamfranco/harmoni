@@ -50,7 +50,7 @@ class HarmoniQualifier extends Qualifier {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getId() {
+	function &getId() {
 		$id =& $this->_node->getId();
 		return $id;
 	}
@@ -101,7 +101,7 @@ class HarmoniQualifier extends Qualifier {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getQualifierType() {
+	function &getQualifierType() {
 		return $this->_node->getType();
 	}
 
@@ -237,7 +237,7 @@ class HarmoniQualifier extends Qualifier {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getChildren() {
+	function &getChildren() {
 		// obtain the parent nodes
 		$children =& $this->_node->getChildren();
 		
@@ -269,7 +269,7 @@ class HarmoniQualifier extends Qualifier {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getParents() {
+	function &getParents() {
 		// obtain the parent nodes
 		$parents =& $this->_node->getParents();
 		

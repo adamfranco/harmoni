@@ -9,7 +9,7 @@ require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
  * query types, or the resource links can be returned and accessed directly.
  *
  * 
- * @version $Id: PostGreGenericQueryResult.class.php,v 1.2 2004/07/02 21:35:54 adamfranco Exp $
+ * @version $Id: PostGreGenericQueryResult.class.php,v 1.3 2004/08/26 15:10:30 adamfranco Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
@@ -75,7 +75,7 @@ class PostGreGenericQueryResult extends GenericQueryResultInterface {
 	 * @access public
 	 * @date 7/1/04
 	 */
-	function & returnAsSelectQueryResult () {
+	function &returnAsSelectQueryResult () {
 		return new PostGreSelectQueryResult($this->_resourceId, $this->_linkId);
 	}
 	
@@ -86,7 +86,7 @@ class PostGreGenericQueryResult extends GenericQueryResultInterface {
 	 * @access public
 	 * @date 7/1/04
 	 */
-	function & returnAsInsertQueryResult () {
+	function &returnAsInsertQueryResult () {
 		return new PostGreInsertQueryResult($this->_linkId);
 	}
 	
@@ -97,7 +97,7 @@ class PostGreGenericQueryResult extends GenericQueryResultInterface {
 	 * @access public
 	 * @date 7/1/04
 	 */
-	function & returnAsUpdateQueryResult () {
+	function &returnAsUpdateQueryResult () {
 		return new PostGreUpdateQueryResult($this->_linkId);
 	}
 	
@@ -108,7 +108,7 @@ class PostGreGenericQueryResult extends GenericQueryResultInterface {
 	 * @access public
 	 * @date 7/1/04
 	 */
-	function & returnAsDeleteQueryResult () {
+	function &returnAsDeleteQueryResult () {
 		return new PostGreDeleteQueryResult($this->_linkId);
 	}
 }

@@ -6,7 +6,7 @@ require_once(HARMONI."GUIManager/Component.interface.php");
  * A <code>Menu</code> is a <code>Container</code> that stores a number of 
  * MenuItem objects. The familiar add/get/remove <code>Container</code> methods 
  * can be used to manage the <code>MenuItems</code>.
- * @version $Id: Menu.interface.php,v 1.1 2004/07/23 02:44:17 dobomode Exp $
+ * @version $Id: Menu.interface.php,v 1.2 2004/08/26 15:10:30 adamfranco Exp $
  * @package harmoni.gui.components
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -20,7 +20,7 @@ class MenuInterface extends ContainerInterface {
 	 * @access public
 	 * @return ref object The menu item that is currently selected.
 	 **/
-	function & getSelected() {
+	function &getSelected() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

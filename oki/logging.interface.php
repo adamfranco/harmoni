@@ -16,7 +16,7 @@ class LoggingManager // :: API interface
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
-	function & getFormatTypes() { /* :: interface :: */ }
+	function &getFormatTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getFormatTypes()
 
 	  /**
@@ -25,7 +25,7 @@ class LoggingManager // :: API interface
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
-	function & getPriorityTypes() { /* :: interface :: */ }
+	function &getPriorityTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getPriorityTypes()
 
 	  /**
@@ -34,7 +34,7 @@ class LoggingManager // :: API interface
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
-	function & getLogNamesForWriting() { /* :: interface :: */ }
+	function &getLogNamesForWriting() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.StringIterator getLogNamesForWriting()
 
 	  /**
@@ -44,14 +44,14 @@ class LoggingManager // :: API interface
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#UNKNOWN_NAME UNKNOWN_NAME}
 	 * @package osid.logging
 	  */
-	function & getLogForWriting($logName) { /* :: interface :: */ }
+	function &getLogForWriting($logName) { /* :: interface :: */ }
 	// :: full java declaration :: WritableLog getLogForWriting
 	 * Return the names of readable Logs.
 	 * @return object osid.shared.StringIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
-	function & getLogNamesForReading() { /* :: interface :: */ }
+	function &getLogNamesForReading() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.StringIterator getLogNamesForReading()
 
 	  /**
@@ -61,7 +61,7 @@ class LoggingManager // :: API interface
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#UNKNOWN_NAME UNKNOWN_NAME}
 	 * @package osid.logging
 	  */
-	function & getLogForReading($logName) { /* :: interface :: */ }
+	function &getLogForReading($logName) { /* :: interface :: */ }
 	// :: full java declaration :: ReadableLog getLogForReading
 	 * Create a Writable Log.
 	 * @param object logName logName Represents the unique logical name of the Log.
@@ -69,7 +69,7 @@ class LoggingManager // :: API interface
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#DUPLICATE_NAME DUPLICATE_NAME}
 	 * @package osid.logging
 	  */
-	function & createLog($logName) { /* :: interface :: */ }
+	function &createLog($logName) { /* :: interface :: */ }
 	// :: full java declaration :: WritableLog createLog(String logName)
 
 	  /**
@@ -107,7 +107,7 @@ class ReadableLog // :: API interface
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#NULL_ARGUMENT NULL_ARGUMENT}, {@link LoggingException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.logging
 	  */
-	function & getEntries(& $formatType, & $priorityType) { /* :: interface :: */ }
+	function &getEntries(& $formatType, & $priorityType) { /* :: interface :: */ }
 	// :: full java declaration :: EntryIterator getEntries
 
 	/**
@@ -132,7 +132,7 @@ class EntryIterator // :: API interface
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.logging
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Entry next()
 }
 
@@ -150,7 +150,7 @@ class Entry // :: API interface
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
-	function & getItem() { /* :: interface :: */ }
+	function &getItem() { /* :: interface :: */ }
 	// :: full java declaration :: java.io.Serializable getItem()
 
 	  /**
@@ -159,7 +159,7 @@ class Entry // :: API interface
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
-	function & getFormatType() { /* :: interface :: */ }
+	function &getFormatType() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Type getFormatType()
 
 	  /**
@@ -168,7 +168,7 @@ class Entry // :: API interface
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
-	function & getPriorityType() { /* :: interface :: */ }
+	function &getPriorityType() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Type getPriorityType()
 
 	  /**
@@ -177,7 +177,7 @@ class Entry // :: API interface
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
 	 * @package osid.logging
 	  */
-	function & getTimestamp() { /* :: interface :: */ }
+	function &getTimestamp() { /* :: interface :: */ }
 	// :: full java declaration :: java.util.Calendar getTimestamp()
 }
 

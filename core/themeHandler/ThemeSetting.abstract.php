@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/ThemeSetting.interface.php");
  * abstract class. As well, the setValue() method should check for valid inputs.
  *
  * @package harmoni.themes
- * @version $Id: ThemeSetting.abstract.php,v 1.4 2004/03/31 23:03:06 adamfranco Exp $
+ * @version $Id: ThemeSetting.abstract.php,v 1.5 2004/08/26 15:10:36 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -90,7 +90,7 @@ class ThemeSetting
 	 * @access public
 	 * @return string The Key of this ThemeSetting.
 	 **/
-	function & getKey () {
+	function &getKey () {
 		if ($this->_key === NULL)
 			throwError(new Error("This setting has not been given a Key yet.","ThemeSetting", TRUE));
 		
@@ -103,7 +103,7 @@ class ThemeSetting
 	 * @param string $key The Key of this ThemeSetting.
 	 * @return void
 	 **/
-	function & setKey (& $key) {
+	function &setKey (& $key) {
 		ArgumentValidator::validate($key, new IntegerValidatorRule());
 		
 		$this->_key =& $key;
@@ -124,7 +124,7 @@ class ThemeSetting
 	 * @param string $displayName The DisplayName of this ThemeSetting.
 	 * @return void
 	 **/
-	function & setDisplayName ( $displayName ) {
+	function &setDisplayName ( $displayName ) {
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		
 		$this->_displayName = $displayName;
@@ -145,7 +145,7 @@ class ThemeSetting
 	 * @param string $description The Description of this ThemeSetting.
 	 * @return void
 	 **/
-	function & setDescription ( $description ) {
+	function &setDescription ( $description ) {
 		ArgumentValidator::validate($description, new StringValidatorRule);
 		
 		$this->_description = $description;
@@ -192,7 +192,7 @@ class ThemeSetting
 	 * @param string $defaultValue The DefaultValue of this ThemeSetting.
 	 * @return void
 	 **/
-	function & setDefaultValue (& $defaultValue) {
+	function &setDefaultValue (& $defaultValue) {
 		ArgumentValidator::validate($defaultValue, new StringValidatorRule);
 		
 		// This method is an outline only, please overload it to do proper checking
@@ -220,7 +220,7 @@ class ThemeSetting
 	 * @access public
 	 * @return object HarmoniIterator An iterator of the Option strings for the ThemeSetting.
 	 **/
-	function & getOptions() {
+	function &getOptions() {
 		if (!is_array($this->_options))
 			$this->_options = array();
 		

@@ -59,7 +59,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.11 2004/06/02 20:31:40 nstamato Exp $
+ * @version $Id: ActionHandler.class.php,v 1.12 2004/08/26 15:10:30 adamfranco Exp $
  * @copyright 2003 
  **/
 class ActionHandler {
@@ -158,7 +158,7 @@ class ActionHandler {
 	 * @return ref mixed Returns whatever is recieved from the last action
 	 * to execute. Can be: a {@link Layout} object, TRUE/FALSE, etc.
 	 **/
-	function & execute($module, $action) {
+	function &execute($module, $action) {
 		
 		$this->_executing = true;
 		$result =& $this->_execute($module, $action);

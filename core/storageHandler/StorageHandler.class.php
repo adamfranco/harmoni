@@ -43,7 +43,7 @@ define("STORAGE_PRIMARY", 3);
 * 
 * @package harmoni.storage
 * @author Middlebury College, ETS 
-* @version $Id: StorageHandler.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
+* @version $Id: StorageHandler.class.php,v 1.3 2004/08/26 15:10:35 adamfranco Exp $
 * @copyright 2003
 */
 class StorageHandler {
@@ -466,7 +466,7 @@ class StorageHandler {
 	* @return object The Storable object associated with $path/$name. False if
 	* it could not be found.
 	*/
-	function & retrieve($path, $name)
+	function &retrieve($path, $name)
 	{
 		$this->_checkMethods();
 		$this->_checkPath($path); 
@@ -500,7 +500,7 @@ class StorageHandler {
 	* @access public 
 	* @return object VirtualStorable
 	*/
-	function & _createVirtual(& $storable, $id)
+	function &_createVirtual(& $storable, $id)
 	{
 		$virtual = & new VirtualStorable($this->_paths[$id], $storable);
 		return $virtual;
@@ -514,7 +514,7 @@ class StorageHandler {
 	* @access public 
 	* @return array 
 	*/
-	function & _createVirtualsArray(& $array, $id)
+	function &_createVirtualsArray(& $array, $id)
 	{
 		$newArray = array();
 		for ($i = 0; $i < count($array); $i++) {
@@ -742,7 +742,7 @@ class StorageHandler {
 	* @access public 
 	* @return void 
 	*/
-	function & _removeDuplicateStorables(& $array)
+	function &_removeDuplicateStorables(& $array)
 	{
 		$files = array();
 		$newArray = array();

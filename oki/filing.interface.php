@@ -145,7 +145,7 @@ class ByteStore // :: API interface
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
 	   */
-	function & getDigestAlgorithmTypes() { /* :: interface :: */ }
+	function &getDigestAlgorithmTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getDigestAlgorithmTypes()
 
 	  /**
@@ -156,7 +156,7 @@ class ByteStore // :: API interface
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
 	   */
-	function & read(& $version) { /* :: interface :: */ }
+	function &read(& $version) { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.ByteValueIterator read(java.util.Calendar version)
 
 	  /**
@@ -242,7 +242,7 @@ class Cabinet // :: API interface
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
 	   */
-	function & getProperties() { /* :: interface :: */ }
+	function &getProperties() { /* :: interface :: */ }
 	// :: full java declaration :: java.util.Map getProperties()
 
 	  /**
@@ -258,7 +258,7 @@ class Cabinet // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#ITEM_ALREADY_EXISTS ITEM_ALREADY_EXISTS}
 	 * @package osid.filing
 	   */
-	function & createByteStore($displayName) { /* :: interface :: */ }
+	function &createByteStore($displayName) { /* :: interface :: */ }
 	// :: full java declaration :: ByteStore createByteStore(String displayName)
 
 	  /**
@@ -274,7 +274,7 @@ class Cabinet // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#ITEM_ALREADY_EXISTS ITEM_ALREADY_EXISTS}, {@link FilingException#NAME_CONTAINS_ILLEGAL_CHARS NAME_CONTAINS_ILLEGAL_CHARS}
 	 * @package osid.filing
 	   */
-	function & createCabinet($displayName) { /* :: interface :: */ }
+	function &createCabinet($displayName) { /* :: interface :: */ }
 	// :: full java declaration :: Cabinet createCabinet(String displayName)
 
 	  /**
@@ -289,7 +289,7 @@ class Cabinet // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#ITEM_ALREADY_EXISTS ITEM_ALREADY_EXISTS}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
 	   */
-	function & copyByteStore($displayName, & $oldByteStore) { /* :: interface :: */ }
+	function &copyByteStore($displayName, & $oldByteStore) { /* :: interface :: */ }
 	// :: full java declaration :: ByteStore copyByteStore(String displayName, ByteStore oldByteStore)
 
 	  /**
@@ -327,7 +327,7 @@ class Cabinet // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR},{@link FilingException#ITEM_DOES_NOT_EXIST ITEM_DOES_NOT_EXIST}
 	 * @package osid.filing
 	   */
-	function & getCabinetEntryById(& $id) { /* :: interface :: */ }
+	function &getCabinetEntryById(& $id) { /* :: interface :: */ }
 	// :: full java declaration :: CabinetEntry getCabinetEntryById(osid.shared.Id id)
 
 	  /**
@@ -341,7 +341,7 @@ class Cabinet // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#DELETE_FAILED DELETE_FAILED}, {@link FilingException#ITEM_DOES_NOT_EXIST ITEM_DOES_NOT_EXIST}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
 	   */
-	function & getCabinetEntryByName($displayName) { /* :: interface :: */ }
+	function &getCabinetEntryByName($displayName) { /* :: interface :: */ }
 	// :: full java declaration :: CabinetEntry getCabinetEntryByName(String displayName)
 
 	  /**
@@ -352,7 +352,7 @@ class Cabinet // :: API interface
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
 	   */
-	function & entries() { /* :: interface :: */ }
+	function &entries() { /* :: interface :: */ }
 	// :: full java declaration :: CabinetEntryIterator entries()
 
 	  /**
@@ -364,7 +364,7 @@ class Cabinet // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
 	   */
-	function & getRootCabinet() { /* :: interface :: */ }
+	function &getRootCabinet() { /* :: interface :: */ }
 	// :: full java declaration :: Cabinet getRootCabinet()
 
 	  /**
@@ -447,7 +447,7 @@ class CabinetEntry // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}
 	 * @package osid.filing
 	   */
-	function & getParent() { /* :: interface :: */ }
+	function &getParent() { /* :: interface :: */ }
 	// :: full java declaration :: Cabinet getParent()
 
 	  /**
@@ -469,7 +469,7 @@ class CabinetEntry // :: API interface
 	   * @throws osid.filing.FilingException
 	 * @package osid.filing
 	   */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Id getId()
 
 	  /**
@@ -480,7 +480,7 @@ class CabinetEntry // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
 	  */
-	function & getLastModifiedTime() { /* :: interface :: */ }
+	function &getLastModifiedTime() { /* :: interface :: */ }
 	// :: full java declaration :: java.util.Calendar getLastModifiedTime()
 
 	  /**
@@ -491,7 +491,7 @@ class CabinetEntry // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
 	  */
-	function & getAllModifiedTimes() { /* :: interface :: */ }
+	function &getAllModifiedTimes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.CalendarIterator getAllModifiedTimes()
 
 	  /**
@@ -516,7 +516,7 @@ class CabinetEntry // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
 	   */
-	function & getLastAccessedTime() { /* :: interface :: */ }
+	function &getLastAccessedTime() { /* :: interface :: */ }
 	// :: full java declaration :: java.util.Calendar getLastAccessedTime()
 
 	  /**
@@ -531,7 +531,7 @@ class CabinetEntry // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
 	   */
-	function & getCreatedTime() { /* :: interface :: */ }
+	function &getCreatedTime() { /* :: interface :: */ }
 	// :: full java declaration :: java.util.Calendar getCreatedTime()
 
 	  /**
@@ -542,7 +542,7 @@ class CabinetEntry // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.filing
 	   */
-	function & getCabinetEntryAgent() { /* :: interface :: */ }
+	function &getCabinetEntryAgent() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Agent getCabinetEntryAgent()
 
 	  /**
@@ -581,7 +581,7 @@ class FilingManager // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}
 	 * @package osid.filing
 	   */
-	function & listRoots() { /* :: interface :: */ }
+	function &listRoots() { /* :: interface :: */ }
 	// :: full java declaration :: CabinetEntryIterator listRoots()
 
 	  /**
@@ -594,7 +594,7 @@ class FilingManager // :: API interface
 	   * @throws osid.filing.FilingException An exception with one of the following messages defined in osid.filing.FilingException may be thrown: {@link FilingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link FilingException#IO_ERROR IO_ERROR}, {@link FilingException#ITEM_DOES_NOT_EXIST ITEM_DOES_NOT_EXIST}
 	 * @package osid.filing
 	   */
-	function & getCabinetEntry(& $id) { /* :: interface :: */ }
+	function &getCabinetEntry(& $id) { /* :: interface :: */ }
 	// :: full java declaration :: CabinetEntry getCabinetEntry(osid.shared.Id id)
 
 	  /**
@@ -649,7 +649,7 @@ class CabinetEntryIterator // :: API interface
 	    * @throws osid.filing.FilingException
 	 * @package osid.filing
 	    */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: CabinetEntry next()
 }
 

@@ -8,7 +8,7 @@ require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.3 2003/12/03 02:38:44 gabeschine Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.4 2004/08/26 15:10:32 adamfranco Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */
@@ -91,7 +91,7 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 * @return object Error Reference to the error object that was created.
 	 * @access public
 	 */
-	function & addNewError($description,$type,$isFatal = false){
+	function &addNewError($description,$type,$isFatal = false){
 		$newError =& new Error($description,$type,$isFatal);
 		$this->addError($newError);
 

@@ -6,7 +6,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * Responsible for the synchronization of {@link Schema} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: SchemaManager.class.php,v 1.6 2004/08/11 14:40:55 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.7 2004/08/26 15:10:32 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -200,7 +200,7 @@ class SchemaManager
 	 * @return ref object The new Schema object.
 	 * @access public
 	 */
-	function & createSchema(&$type, $revision=1) {
+	function &createSchema(&$type, $revision=1) {
 		$newDef =& new Schema( $type, $revision );
 		return $newDef;
 	}
@@ -213,7 +213,7 @@ class SchemaManager
 	 * @return ref object The new Schema object.
 	 * @access private
 	 */
-	function & _addSchema(&$type, $revision) {
+	function &_addSchema(&$type, $revision) {
 		debug::output("Adding Schema type '".OKITypeToString($type)."' to database.",DEBUG_SYS1,"DataManager");
 		if ($id = $this->getIDByType($type)) {
 			throwError( new Error(
@@ -272,7 +272,7 @@ class SchemaManager
 	 * @return ref object The {@link Schema} object.
 	 * @access public
 	 */
-	function & getSchemaByType(&$type) {
+	function &getSchemaByType(&$type) {
 		if (!($id = $this->getIDByType($type))) {
 			throwError( new Error(
 				"No Schema exists for type '".OKITypeToString($type)."'.",
@@ -288,7 +288,7 @@ class SchemaManager
 	 * @return ref object The schema.
 	 * @access public
 	 */
-	function & getSchemaByID($id) {
+	function &getSchemaByID($id) {
 		if (!isset($this->_schemas[$id])) {
 			throwError ( new Error(
 				"Could not find Schema with ID '$id'!","DataManager",true));
@@ -303,7 +303,7 @@ class SchemaManager
 	 * @return ref object A {@link HarmoniTypeIterator}
 	 * @access public
 	 */
-	function & getAllSchemaTypes() {
+	function &getAllSchemaTypes() {
 		return new HarmoniTypeIterator($this->_types);
 	}
 	
@@ -322,7 +322,7 @@ class SchemaManager
 	 * @return ref object The {@link HarmoniType} object.
 	 * @access public
 	 */
-	function & getSchemaTypeByID( $id ) {
+	function &getSchemaTypeByID( $id ) {
 		return $this->_types[$id];
 	}
 	

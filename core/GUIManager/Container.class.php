@@ -12,7 +12,7 @@ require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
  * The <code>Container</code> interface is an extension of the <code>Component</code>
  * interface; <code>Containers</code> are capable of storing multiple sub-<code>Components</code>
  * and when rendering Containers, all sub-<code>Components</code> will be rendered as well.
- * @version $Id: Container.class.php,v 1.4 2004/08/09 03:54:23 dobomode Exp $
+ * @version $Id: Container.class.php,v 1.5 2004/08/26 15:10:30 adamfranco Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -105,7 +105,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * If null, will be ignored.
 	 * @return ref object The component that was just added.
 	 **/
-	function & add(& $component, $width, $height, $alignmentX, $alignmentY) {
+	function &add(& $component, $width, $height, $alignmentX, $alignmentY) {
 		// ** parameter validation
 		$rule =& new ExtendsValidatorRule("ComponentInterface");
 		ArgumentValidator::validate($component, $rule, true);
@@ -128,7 +128,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * @param integer id The id of the component which should be returned.
 	 * @return ref object The component.
 	 **/
-	function & getComponent($id) {
+	function &getComponent($id) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, new IntegerValidatorRule(), true);
 		// ** end of parameter validation
@@ -153,7 +153,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * @access public
 	 * @return ref array An array of the components in this <code>Container</code>.
 	 **/
-	function & getComponents() {
+	function &getComponents() {
 		return $this->_components;
 	}
 
@@ -214,7 +214,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * this container..
 	 * @return ref object The component that was just removed.
 	 **/
-	function & remove($id) {
+	function &remove($id) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, new IntegerValidatorRule(), true);
 		// ** end of parameter validation
@@ -240,7 +240,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * @access public
 	 * @return ref object The <code>Layout</code> of this container.
 	 **/
-	function & getLayout() {
+	function &getLayout() {
 		return $this->_layout;
 	}
 	

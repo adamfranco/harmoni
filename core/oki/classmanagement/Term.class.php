@@ -14,7 +14,7 @@ class HarmoniTerm // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the Type for this Term.  This Type is meaningful to the implementation and applications and is not specified by the SID.
@@ -22,7 +22,7 @@ class HarmoniTerm // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function & getType() { /* :: interface :: */ }
+	function &getType() { /* :: interface :: */ }
 
 	/**
 	 * Get the Schedule for this Term.  Schedules are defined in osid.sched.  ScheduleItems are returned in chronological order by increasing start date.
@@ -30,5 +30,5 @@ class HarmoniTerm // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function & getSchedule() { /* :: interface :: */ }
+	function &getSchedule() { /* :: interface :: */ }
 }

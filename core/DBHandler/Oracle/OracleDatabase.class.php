@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
 /**
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
- * @version $Id: OracleDatabase.class.php,v 1.3 2004/07/02 19:13:09 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.4 2004/08/26 15:10:29 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.oracle
  * @access public
@@ -192,7 +192,7 @@ class OracleDatabase extends DatabaseInterface {
 	 * @return mixed The appropriate QueryResult object. If the query failed, it would
 	 * return NULL.
 	 */
-	function & query(& $query) {
+	function &query(& $query) {
 		// do not attempt, to query, if not connected
 		if (!$this->isConnected()) {
 			throwError(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
@@ -422,7 +422,7 @@ class OracleDatabase extends DatabaseInterface {
 	 * from the db).
 	 * @return ref object The DateTime object.
 	 */
-	function & fromDBDate($value) {
+	function &fromDBDate($value) {
 		/*
 		 * NOT SURE HOW TO DO THIS FOR ORACLE
 		 */

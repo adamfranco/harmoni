@@ -45,7 +45,7 @@ class HarmoniHierarchyIterator
 	}
 
 	// public Type & next();
-	function & next() {
+	function &next() {
 		if ($this->hasNext()) {
 			$this->_i++;
 			return $this->_hierarchies[$this->_i];

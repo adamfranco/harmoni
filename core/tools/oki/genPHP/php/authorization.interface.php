@@ -20,7 +20,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
 	 * @package osid.authorization
 	 */
-	function & createDatedAuthorization(& $agentId, & $functionId, & $qualifierId, & $effectiveDate, & $expirationDate) { /* :: interface :: */ }
+	function &createDatedAuthorization(& $agentId, & $functionId, & $qualifierId, & $effectiveDate, & $expirationDate) { /* :: interface :: */ }
 	// :: full java declaration :: Authorization createDatedAuthorization
 	 * Creates a new Authorization for a Agent performing a Function with a Qualifier. Uses current date/time as the effectiveDate and doesn't set an expiration date.
 	 * @param agentId who is authorized to perform this Function for this Qualifer and its descendants
@@ -30,7 +30,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & createAuthorization(& $agentId, & $functionId, & $qualifierId) { /* :: interface :: */ }
+	function &createAuthorization(& $agentId, & $functionId, & $qualifierId) { /* :: interface :: */ }
 	// :: full java declaration :: Authorization createAuthorization
 	 * Ids in Authorization are externally defined and their uniqueness is enforced by the implementation.
 	 * @param functionId is externally defined
@@ -42,7 +42,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & createFunction(& $functionId, $displayName, $description, & $functionType, & $qualifierHierarchyId) { /* :: interface :: */ }
+	function &createFunction(& $functionId, $displayName, $description, & $functionType, & $qualifierHierarchyId) { /* :: interface :: */ }
 	// :: full java declaration :: Function createFunction
 	 * Creates a new Qualifier in the Authorization Service that has no parent.  This is different from making a new instance of a Qualifier object locally as the Qualifier will be inserted into the Authorization Service.
 	 * @param qualifierId is externally defined
@@ -54,7 +54,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & createRootQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $qualifierHierarchyId) { /* :: interface :: */ }
+	function &createRootQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $qualifierHierarchyId) { /* :: interface :: */ }
 	// :: full java declaration :: Qualifier createRootQualifier
 	 * Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. Creates a new Qualifier in the Authorization Service. This is different than making a new instance of a Qualifier object locally as the Qualifier will be inserted into the Authorization Service.
 	 * @param qualifierId is externally defined
@@ -66,7 +66,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & createQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $parentId) { /* :: interface :: */ }
+	function &createQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $parentId) { /* :: interface :: */ }
 	// :: full java declaration :: Qualifier createQualifier
 	 * Deletes an existing Authorization.
 	 * @param authorizationId the Id of an Authorization
@@ -119,7 +119,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getFunctionTypes() { /* :: interface :: */ }
+	function &getFunctionTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getFunctionTypes()
 
 	/**
@@ -129,7 +129,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & getFunctions(& $functionType) { /* :: interface :: */ }
+	function &getFunctions(& $functionType) { /* :: interface :: */ }
 	// :: full java declaration :: FunctionIterator getFunctions(osid.shared.Type functionType)
 
 	/**
@@ -139,7 +139,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getFunction(& $functionId) { /* :: interface :: */ }
+	function &getFunction(& $functionId) { /* :: interface :: */ }
 	// :: full java declaration :: Function getFunction(osid.shared.Id functionId)
 
 	/**
@@ -158,7 +158,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getQualifierTypes() { /* :: interface :: */ }
+	function &getQualifierTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getQualifierTypes()
 
 	/**
@@ -168,7 +168,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & getRootQualifiers(& $qualifierHierarchyId) { /* :: interface :: */ }
+	function &getRootQualifiers(& $qualifierHierarchyId) { /* :: interface :: */ }
 	// :: full java declaration :: QualifierIterator getRootQualifiers(osid.shared.Id qualifierHierarchyId)
 
 	/**
@@ -178,7 +178,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	  */
-	function & getQualifierChildren(& $qualifierId) { /* :: interface :: */ }
+	function &getQualifierChildren(& $qualifierId) { /* :: interface :: */ }
 	// :: full java declaration :: QualifierIterator getQualifierChildren(osid.shared.Id qualifierId)
 
 	/**
@@ -188,7 +188,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	  */
-	function & getQualifierDescendants(& $qualifierId) { /* :: interface :: */ }
+	function &getQualifierDescendants(& $qualifierId) { /* :: interface :: */ }
 	// :: full java declaration :: QualifierIterator getQualifierDescendants(osid.shared.Id qualifierId)
 
 	/**
@@ -198,7 +198,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getQualifier(& $qualifierId) { /* :: interface :: */ }
+	function &getQualifier(& $qualifierId) { /* :: interface :: */ }
 	// :: full java declaration :: Qualifier getQualifier(osid.shared.Id qualifierId)
 
 	/**
@@ -210,7 +210,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	  */
-	function & getWhoCanDo(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getWhoCanDo(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.AgentIterator getWhoCanDo
 	 * Given a Function and Qualifier (one must be non-null) returns an enumeration of matching user Authorizations.  Explicit Authorizations can be modified..  Any null argument will be treated as a wildcard.
 	 * @param functionId
@@ -220,7 +220,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getExplicitUserAZs(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getExplicitUserAZs(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 	// :: full java declaration :: AuthorizationIterator getExplicitUserAZs
 	 * Given a FunctionType and Qualifier returns an enumeration of matching user Authorizations. The Authorizations must be for Functions within the given FunctionType. Explicit Authorizations can be modified.  Any null argument will be treated as a wildcard.
 	 * @param functionType
@@ -230,7 +230,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & getExplicitUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getExplicitUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 	// :: full java declaration :: AuthorizationIterator getExplicitUserAZsByFuncType
 	 * Given a Function and a Qualifier returns an enumeration of all Authorizations that would allow the user to do the Function with the Qualifier. This method differs from the simple form of getAuthorizations in that this method looks for any Authorization that permits doing the Function with the Qualifier even if the Authorization's Qualifier happens to be a parent of this Qualifier argument.
 	 * @param functionId
@@ -240,7 +240,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getAllUserAZs(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getAllUserAZs(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 	// :: full java declaration :: AuthorizationIterator getAllUserAZs
 	 * Given a FunctionType and a Qualifier returns an enumeration of all Authorizations that would allow the user to do Functions in the FunctionType with the Qualifier. This method differs from getAuthorizations in that this method looks for any Authorization that permits doing the Function with the Qualifier even if the Authorization's Qualifier happens to be a parent of the Qualifier argument.
 	 * @param functionType
@@ -250,7 +250,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & getAllUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getAllUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 	// :: full java declaration :: AuthorizationIterator getAllUserAZsByFuncType
 	 * Given a Agent, a Function, and a Qualifier (at least one of these must be non-null) returns an enumeration of matching Authorizations.  Explicit Authorizations can be modified.  Any null argument will be treated as a wildcard.
 	 * @param agentId
@@ -261,7 +261,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getExplicitAZs(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getExplicitAZs(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 	// :: full java declaration :: AuthorizationIterator getExplicitAZs
 	 * Given a Agent, a FunctionType, and a Qualifier (either Agent or Qualifier must be non-null) returns an enumeration of matching Authorizations. The Authorizations must be for Functions within the given FunctionType. Explicit Authorizations can be modified.  Any null argument will be treated as a wildcard.
 	 * @param agentId
@@ -272,7 +272,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & getExplicitAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getExplicitAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 	// :: full java declaration :: AuthorizationIterator getExplicitAZsByFuncType
 	 * Given a Function and a Qualifier returns an enumeration of all Authorizations that would allow agents to do the Function with the Qualifier. This method differs from the simple form of getAuthorizations in that this method looks for any Authorization that permits doing the Function with the Qualifier even if the Authorization's Qualifier happens to be a parent of this Qualifier argument.
 	 * @param agentId
@@ -283,7 +283,7 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */
-	function & getAllAZs(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getAllAZs(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 	// :: full java declaration :: AuthorizationIterator getAllAZs
 	 * Given a FunctionType and a Qualifier returns an enumeration of all Authorizations that would allow agents to do Functions in the FunctionType with the Qualifier. This method differs from getAuthorizations in that this method looks for any Authorization that permits doing the Function with the Qualifier even if the Authorization's Qualifier happens to be a parent of the Qualifier argument.
 	 * @param agentId
@@ -294,14 +294,14 @@ class AuthorizationManager // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authorization
 	 */
-	function & getAllAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
+	function &getAllAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 	// :: full java declaration :: AuthorizationIterator getAllAZsByFuncType
 	 * Returns the Qualifier Hierarchies supported by the Authorization implementation.  Qualifier Hierarchies are referenced by Id and may be known and managed through the Hierarchy OSID.
 	 * @return osid.shared.IdIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getQualifierHierarchies() { /* :: interface :: */ }
+	function &getQualifierHierarchies() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.IdIterator getQualifierHierarchies()
 }
 
@@ -319,7 +319,7 @@ class Authorization // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getEffectiveDate() { /* :: interface :: */ }
+	function &getEffectiveDate() { /* :: interface :: */ }
 	// :: full java declaration :: java.util.Calendar getEffectiveDate()
 
 	/**
@@ -328,7 +328,7 @@ class Authorization // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getExpirationDate() { /* :: interface :: */ }
+	function &getExpirationDate() { /* :: interface :: */ }
 	// :: full java declaration :: java.util.Calendar getExpirationDate()
 
 	/**
@@ -337,7 +337,7 @@ class Authorization // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getModifiedBy() { /* :: interface :: */ }
+	function &getModifiedBy() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Agent getModifiedBy()
 
 	/**
@@ -346,7 +346,7 @@ class Authorization // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getModifiedDate() { /* :: interface :: */ }
+	function &getModifiedDate() { /* :: interface :: */ }
 	// :: full java declaration :: java.util.Calendar getModifiedDate()
 
 	/**
@@ -355,7 +355,7 @@ class Authorization // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getFunction() { /* :: interface :: */ }
+	function &getFunction() { /* :: interface :: */ }
 	// :: full java declaration :: Function getFunction()
 
 	/**
@@ -364,7 +364,7 @@ class Authorization // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getQualifier() { /* :: interface :: */ }
+	function &getQualifier() { /* :: interface :: */ }
 	// :: full java declaration :: Qualifier getQualifier()
 
 	/**
@@ -373,7 +373,7 @@ class Authorization // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getAgent() { /* :: interface :: */ }
+	function &getAgent() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Agent getAgent()
 
 	/**
@@ -436,7 +436,7 @@ class AuthorizationIterator // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Authorization next()
 }
 
@@ -463,7 +463,7 @@ class QualifierIterator // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Qualifier next()
 }
 
@@ -490,7 +490,7 @@ class FunctionIterator // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Function next()
 }
 
@@ -508,7 +508,7 @@ class Function // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Id getId()
 
 	/**
@@ -535,7 +535,7 @@ class Function // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getFunctionType() { /* :: interface :: */ }
+	function &getFunctionType() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Type getFunctionType()
 
 	/**
@@ -544,7 +544,7 @@ class Function // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getQualifierHierarchyId() { /* :: interface :: */ }
+	function &getQualifierHierarchyId() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Id getQualifierHierarchyId()
 
 	/**
@@ -580,7 +580,7 @@ class Qualifier // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Id getId()
 
 	/**
@@ -616,7 +616,7 @@ class Qualifier // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getQualifierType() { /* :: interface :: */ }
+	function &getQualifierType() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Type getQualifierType()
 
 	/**
@@ -691,7 +691,7 @@ class Qualifier // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getChildren() { /* :: interface :: */ }
+	function &getChildren() { /* :: interface :: */ }
 	// :: full java declaration :: QualifierIterator getChildren()
 
 	/**
@@ -700,7 +700,7 @@ class Qualifier // :: API interface
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
-	function & getParents() { /* :: interface :: */ }
+	function &getParents() { /* :: interface :: */ }
 	// :: full java declaration :: QualifierIterator getParents()
 }
 

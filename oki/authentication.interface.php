@@ -16,7 +16,7 @@ class AuthenticationManager // :: API interface
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:   {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authentication
 	 */
-	function & getAuthenticationTypes() { /* :: interface :: */ }
+	function &getAuthenticationTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getAuthenticationTypes()
 
 	/**
@@ -45,7 +45,7 @@ class AuthenticationManager // :: API interface
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:   {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.authentication
 	 */
-	function & getUserId(& $authenticationType) { /* :: interface :: */ }
+	function &getUserId(& $authenticationType) { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Id getUserId(osid.shared.Type authenticationType)
 
 	/**

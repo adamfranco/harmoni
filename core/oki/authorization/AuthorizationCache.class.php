@@ -6,7 +6,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.8 2004/07/29 16:00:46 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.9 2004/08/26 15:10:33 adamfranco Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -82,7 +82,7 @@ class AuthorizationCache {
 	 * @param ref object expirationDate when the Authorization stops being effective
 	 * @return ref object Authorization
 	 **/
-	function & createAuthorization(& $agentId, & $functionId, & $qualifierId, & $effectiveDate, & $expirationDate) {
+	function &createAuthorization(& $agentId, & $functionId, & $qualifierId, & $effectiveDate, & $expirationDate) {
 		// ** parameter validation
 		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
@@ -154,7 +154,7 @@ class AuthorizationCache {
 	 * @param ref object qualifierHierarchyId the Id of the Qualifier Hierarchy associated with this Function
 	 * @return ref object Function
 	 */
-	function & createFunction(& $functionId, $displayName, $description, & $functionType, & $qualifierHierarchyId) {
+	function &createFunction(& $functionId, $displayName, $description, & $functionType, & $qualifierHierarchyId) {
 		// ** parameter validation
 		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
@@ -255,7 +255,7 @@ class AuthorizationCache {
 	 * @param ref object qualifierHierarchyId the Id of the Qualifier Hierarchy associated with this Qualifier
 	 * @return ref object Qualifier
 	 */
-	function & createRootQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $qualifierHierarchyId) {
+	function &createRootQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $qualifierHierarchyId) {
 		// ** parameter validation
 		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
@@ -290,7 +290,7 @@ class AuthorizationCache {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.authorization
 	 */
-	function & createQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $parentId) {
+	function &createQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $parentId) {
 		// ** parameter validation
 		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
@@ -323,7 +323,7 @@ class AuthorizationCache {
 	 * @param ref object functionType the Type of the Functions to return
 	 * @return ref object FunctionIterator
 	 */
-	function & getFunctions(& $functionType) {
+	function &getFunctions(& $functionType) {
 		// ** parameter validation
 		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("TypeInterface"), true);
 		// ** end of parameter validation
@@ -392,7 +392,7 @@ class AuthorizationCache {
 	 * @param string id The id of the function.
 	 * @return ref object The Function with the specified id.
 	 **/
-	function & getFunction($idValue) {
+	function &getFunction($idValue) {
 		// ** parameter validation
 		ArgumentValidator::validate($idValue, new StringValidatorRule(), true);
 		// ** end of parameter validation
@@ -450,7 +450,7 @@ class AuthorizationCache {
 	 * @param string id The id of the Qualifier .
 	 * @return ref object The Qualifier with the specified id.
 	 **/
-	function & getQualifier(& $qualifierId) {
+	function &getQualifier(& $qualifierId) {
 		// ** parameter validation
 		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
@@ -480,7 +480,7 @@ class AuthorizationCache {
 	 * @param string id The id of the Qualifier .
 	 * @return ref object The Qualifier with the specified id.
 	 **/
-	function & getQualifierDescendants(& $qualifierId) {
+	function &getQualifierDescendants(& $qualifierId) {
 		// ** parameter validation
 		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
@@ -631,7 +631,7 @@ class AuthorizationCache {
 	 * @param boolean isActiveNow If True, only active Authorizations will be returned.
 	 * @return ref object An AuthorizationIterator.
 	 **/
-	function & getAZs($aId, $fId, $qId, $fType, $isExplicit, $isActiveNow) {
+	function &getAZs($aId, $fId, $qId, $fType, $isExplicit, $isActiveNow) {
 		// ** parameter validation
 		$rule =& new StringValidatorRule();
 		ArgumentValidator::validate($aId, new OptionalRule($rule), true);

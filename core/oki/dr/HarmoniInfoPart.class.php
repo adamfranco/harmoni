@@ -49,7 +49,7 @@ class HarmoniInfoPart extends InfoPart
 	 *
 	 * @return object Type
 	 */
-	function & getType() {
+	function &getType() {
 		if (!isset($this->_type)) {
 			$type = $this->_schemaField->getType();
 			$this->_type =& new HarmoniType("DR", "Harmoni", $type);
@@ -64,7 +64,7 @@ class HarmoniInfoPart extends InfoPart
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getId() {
+	function &getId() {
 		$sharedManager =& Services::getService("Shared");
 		return $sharedManager->getId(
 			$this->_infoStructure->_schema->getFieldID(
@@ -79,7 +79,7 @@ class HarmoniInfoPart extends InfoPart
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getInfoParts() {
+	function &getInfoParts() {
 		$array = array();
 		return new HarmoniNodeIterator($array); // @todo replace with HarmoniInfoPartIterator
 	}
@@ -120,7 +120,7 @@ class HarmoniInfoPart extends InfoPart
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getInfoStructure() {
+	function &getInfoStructure() {
 		return $this->_infoStructure;
 	}
 

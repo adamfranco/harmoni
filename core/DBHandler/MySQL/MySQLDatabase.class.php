@@ -11,7 +11,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.13 2004/07/02 19:13:07 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.14 2004/08/26 15:10:29 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.mysql
  * @access public
@@ -187,7 +187,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @return mixed The appropriate QueryResult object. If the query failed, it would
 	 * return NULL.
 	 */
-	function & query(& $query) {
+	function &query(& $query) {
 //		static $time = 0;
 	
 		// do not attempt, to query, if not connected
@@ -389,7 +389,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 * from the db).
 	 * @return ref object The DateTime object.
 	 */
-	function & fromDBDate($value) {
+	function &fromDBDate($value) {
 		/**
 		 * Depending whether the value was fecthed from a datetime, date or 
 		 * timestamp column, $value could have the following two formats:

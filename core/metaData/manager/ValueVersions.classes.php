@@ -10,7 +10,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.31 2004/03/31 19:13:26 adamfranco Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.32 2004/08/26 15:10:32 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -300,7 +300,7 @@ class ValueVersions {
 	* Returns the most recently created version for this value.
 	* @return ref object The newest {@link ValueVersion} object.
 	*/
-	function & getNewestVersion() {
+	function &getNewestVersion() {
 		$newest = null;
 		if ($this->numVersions()) {
 			foreach ($this->getVersionList() as $ver) {
@@ -384,7 +384,7 @@ class ValueVersions {
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.31 2004/03/31 19:13:26 adamfranco Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.32 2004/08/26 15:10:32 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public

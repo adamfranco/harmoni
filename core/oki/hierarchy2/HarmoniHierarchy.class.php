@@ -20,7 +20,7 @@ require_once(HARMONI.'/oki/hierarchy2/DefaultNodeType.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchy.class.php,v 1.7 2004/07/29 16:00:48 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.8 2004/08/26 15:10:34 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -86,7 +86,7 @@ class HarmoniHierarchy extends Hierarchy {
      *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getId() {
+	function &getId() {
 		return $this->_id;
 	}
 
@@ -224,7 +224,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & createRootNode(& $nodeId, & $type, $displayName, $description) {
+	function &createRootNode(& $nodeId, & $type, $displayName, $description) {
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
 		$stringRule =& new StringValidatorRule();
@@ -259,7 +259,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & createNode(& $nodeId, & $parentId, & $type, $displayName, $description) {
+	function &createNode(& $nodeId, & $parentId, & $type, $displayName, $description) {
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($parentId, new ExtendsValidatorRule("Id"), true);
@@ -344,7 +344,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getAllNodes() {
+	function &getAllNodes() {
 		// if all the nodes haven't been cached then do it
 		$nodes =& $this->_cache->getAllNodes();
 
@@ -366,7 +366,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getRootNodes() {
+	function &getRootNodes() {
 		// if all the nodes haven't been cached then do it
 		$nodes =& $this->_cache->getRootNodes();
 
@@ -385,7 +385,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getNode(& $nodeId) {
+	function &getNode(& $nodeId) {
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
@@ -409,7 +409,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getNodeTypes() {
+	function &getNodeTypes() {
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new SelectQuery();
 		
@@ -505,7 +505,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & traverse(& $startId, $mode, $direction, $levels) {
+	function &traverse(& $startId, $mode, $direction, $levels) {
 		// Check the arguments
 		ArgumentValidator::validate($startId, new ExtendsValidatorRule("Id"));
 		ArgumentValidator::validate($mode, new IntegerValidatorRule);

@@ -6,7 +6,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
 /** 
  * The Tree data structure used by the Hierarchy.
  * @access public
- * @version $Id: Tree.class.php,v 1.5 2004/06/02 20:42:57 dobomode Exp $
+ * @version $Id: Tree.class.php,v 1.6 2004/08/26 15:10:34 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -123,7 +123,7 @@ class Tree extends TreeInterface {
 	 * @return ref object The requested node. <code>Null</code>, if the node
 	 * is not in the tree.
 	 */
-	function & getNode($id) {
+	function &getNode($id) {
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($id, $stringRule, true);
@@ -155,7 +155,7 @@ class Tree extends TreeInterface {
 	 * @method public getNodes
 	 * @return ref array An array of all nodes.
 	 */
-	function & getNodes() {
+	function &getNodes() {
 		return $this->_nodes;
 	}
 	
@@ -177,7 +177,7 @@ class Tree extends TreeInterface {
 	 * to the starting node. Descendants are assigned increasingly positive levels; 
 	 * ancestors increasingly negative levels. 
 	 */
-	function & traverse(& $node, $down, $levels) {
+	function &traverse(& $node, $down, $levels) {
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("TreeNodeInterface");
 		ArgumentValidator::validate($node, $extendsRule, true);
@@ -218,7 +218,7 @@ class Tree extends TreeInterface {
 	 * to the starting node. Descendants are assigned increasingly positive levels; 
 	 * ancestors increasingly negative levels. 
 	 */
-	function & _traverse(& $result, & $node, $down, $levels, $startingLevel) {
+	function &_traverse(& $result, & $node, $down, $levels, $startingLevel) {
 		// visit the node
 		
 		// note: the node could possibly been have visited already (if it has

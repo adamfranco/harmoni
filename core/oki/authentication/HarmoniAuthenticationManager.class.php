@@ -81,7 +81,7 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authentication
 	 */
-	function & getAuthenticationTypes() {
+	function &getAuthenticationTypes() {
 		$iterator =& new HarmoniIterator($this->_authTypes);
 		return $iterator;
 	}
@@ -190,7 +190,7 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.authentication
 	 */
-	function & getUserId(& $authenticationType) {
+	function &getUserId(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
 		$typeValid = FALSE;

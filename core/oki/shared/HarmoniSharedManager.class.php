@@ -36,7 +36,7 @@ require_once(HARMONI."oki/shared/HarmoniId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.36 2004/07/29 15:39:51 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.37 2004/08/26 15:10:35 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -134,7 +134,7 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & createAgent($displayName, & $agentType) { 
+	function &createAgent($displayName, & $agentType) { 
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("HarmoniType");
 		ArgumentValidator::validate($agentType, $extendsRule, true);
@@ -332,7 +332,7 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getAgent(& $id) {
+	function &getAgent(& $id) {
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
@@ -369,7 +369,7 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getAgents() {
+	function &getAgents() {
 		if (!$this->_allAgentsCached)
 			$this->_loadAgents();
 		
@@ -441,7 +441,7 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getAgentTypes() {
+	function &getAgentTypes() {
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new SelectQuery();
 		
@@ -496,7 +496,7 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & createGroup($displayName, & $groupType, $description) {
+	function &createGroup($displayName, & $groupType, $description) {
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("HarmoniType");
 		ArgumentValidator::validate($groupType, $extendsRule, true);
@@ -699,7 +699,7 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getGroup(& $id) {
+	function &getGroup(& $id) {
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
@@ -738,7 +738,7 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getGroups() {
+	function &getGroups() {
 		if (!$this->_allGroupsCached)
 			$this->_loadGroups();
 		
@@ -955,7 +955,7 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getGroupTypes() {
+	function &getGroupTypes() {
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new SelectQuery();
 		
@@ -1005,7 +1005,7 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & createId() {
+	function &createId() {
 		debug::output("Attempting to generate new id.", 20, "SharedManager");
 		$dbHandler =& Services::requireService("DBHandler");
 		
@@ -1047,7 +1047,7 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getId($idString) {
+	function &getId($idString) {
 		if (isset($this->_ids[$idString]))
 			return $this->_ids[$idString];
 	

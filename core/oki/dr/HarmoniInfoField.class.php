@@ -23,7 +23,7 @@ class HarmoniInfoField extends InfoField
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getId() {
+	function &getId() {
 		// The unique ID for the info field should be the 
 		// RecordID::RecordFieldLabel::RecordFieldIndex
 		return $this->_recordFieldValue->getId();
@@ -37,7 +37,7 @@ class HarmoniInfoField extends InfoField
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.dr
 	 */
-	function & createInfoField(& $infoPartId, & $value) {
+	function &createInfoField(& $infoPartId, & $value) {
 		throwError(
 			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
 	}
@@ -59,7 +59,7 @@ class HarmoniInfoField extends InfoField
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getInfoFields() {
+	function &getInfoFields() {
 		throwError(
 			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
 	}
@@ -70,7 +70,7 @@ class HarmoniInfoField extends InfoField
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getValue() {
+	function &getValue() {
 		// NOTE: if no active versions exist, false will be returned here.
 		$actValue =& $this->_recordFieldValue->getActiveVersion();
 		
@@ -98,7 +98,7 @@ class HarmoniInfoField extends InfoField
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getInfoPart() {
+	function &getInfoPart() {
 		return $this->_infoPart;
 	}
 }

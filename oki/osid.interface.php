@@ -33,7 +33,7 @@ class OsidManager // :: API interface
 	 * @return object osid.OsidOwner
 	 * @package osid
 	 */
-	function & getOwner() { /* :: interface :: */ }
+	function &getOwner() { /* :: interface :: */ }
 	// :: full java declaration :: osid.OsidOwner getOwner()
 
 	/**
@@ -111,7 +111,7 @@ class OsidRomiManager // :: API interface
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link OsidException#PERMISSION_DENIED PERMISSION_DENIED}, {@link OsidException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link OsidException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid
 	 */
-	function & invoke(& $object, $methodname, & $argTypes, & $args) { /* :: interface :: */ }
+	function &invoke(& $object, $methodname, & $argTypes, & $args) { /* :: interface :: */ }
 	// :: full java declaration :: public java.io.Serializable invoke
 }
 

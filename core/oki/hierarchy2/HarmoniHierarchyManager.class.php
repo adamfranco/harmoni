@@ -25,7 +25,7 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.8 2004/07/29 15:39:51 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.9 2004/08/26 15:10:34 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -92,7 +92,7 @@ class HarmoniHierarchyManager extends HierarchyManager {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & createHierarchy($displayName, $nodeTypes, $description, $allowsMultipleParents, $allowsRecursion) {
+	function &createHierarchy($displayName, $nodeTypes, $description, $allowsMultipleParents, $allowsRecursion) {
 		// ** parameter validation
 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
@@ -155,7 +155,7 @@ class HarmoniHierarchyManager extends HierarchyManager {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getHierarchy(& $hierarchyId) {
+	function &getHierarchy(& $hierarchyId) {
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
@@ -213,7 +213,7 @@ class HarmoniHierarchyManager extends HierarchyManager {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getHierarchies() {
+	function &getHierarchies() {
 		$dbHandler =& Services::requireService("DBHandler");
 		$db = $this->_hyDB.".";
 		
@@ -317,7 +317,7 @@ class HarmoniHierarchyManager extends HierarchyManager {
 	 * @param ref object id The Id object.
 	 * @return ref object The Node with the given Id.
 	 **/
-	function & getNode(& $id) {
+	function &getNode(& $id) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
@@ -366,7 +366,7 @@ class HarmoniHierarchyManager extends HierarchyManager {
 	 * @access public
 	 * @return ref object The Hierarchy to which the Node belongs.
 	 **/
-	function & getHierarchyForNode(& $node) {
+	function &getHierarchyForNode(& $node) {
 		$sharedManager =& Services::requireService("Shared");
 		$hierarchyId =& $sharedManager->getId($node->_cache->_hierarchyId);
 		$hierarchy =& $this->getHierarchy($hierarchyId);

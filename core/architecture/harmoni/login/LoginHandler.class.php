@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.20 2004/08/17 02:22:56 gabeschine Exp $
+ * @version $Id: LoginHandler.class.php,v 1.21 2004/08/26 15:10:31 adamfranco Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -115,7 +115,7 @@ class LoginHandler {
 	 * @access public
 	 * @return object|false Returns a {@link LoginState} object or FALSE on failure.
 	 **/
-	function & execute($forceAuthCheck = FALSE) {
+	function &execute($forceAuthCheck = FALSE) {
 		// do we have a failedLoginAction?
 		if (!$this->_failedLoginAction) {
 			throwError(new Error("LoginHandler::execute() - could not proceed 

@@ -106,7 +106,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getId() {
+	function &getId() {
 		return $this->_node->getId();
 	}
 
@@ -116,7 +116,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getType() {
+	function &getType() {
 		return $this->_node->getType();
 	}
 
@@ -126,7 +126,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.dr
 	 */
-	function & createAsset($displayName, $description, & $assetType) {
+	function &createAsset($displayName, $description, & $assetType) {
 		// Get our id for the parent id
 		$drId =& $this->_node->getId();
 		
@@ -183,7 +183,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getAssets() {
+	function &getAssets() {
 		// get a list for all the nodes under this hierarchy.
 		$traversalInfoIterator =& $this->_hierarchy->traverse($this->_node->getId(), 
 										TRAVERSE_MODE_DEPTH_FIRST, TRAVERSE_DIRECTION_DOWN, 
@@ -210,7 +210,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.dr
 	 */
-	function & getAssetsByType(& $assetType) {
+	function &getAssetsByType(& $assetType) {
 		ArgumentValidator::validate($assetType, new ExtendsValidatorRule("TypeInterface"));
 		$assets = array();
 		$allAssets =& $this->getAssets();
@@ -229,7 +229,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getAssetTypes() {
+	function &getAssetTypes() {
 		$assets =& $this->getAssets();
 		$types = array();
 		while ($assets->hasNext()) {
@@ -263,7 +263,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getInfoStructure( & $infoStructureId ) {
+	function &getInfoStructure( & $infoStructureId ) {
 		// Check that we have created an infoStructure with the ID
 		if (!$this->_createdInfoStructures[$infoStructureId->getIdString()]) {
 			// If not, create the infoStructure
@@ -283,7 +283,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getInfoStructures() {
+	function &getInfoStructures() {
 		$schemaMgr =& Services::getService("SchemaManager");
 		$schemaIDs =& $schemaMgr->getAllSchemaIDs();
 		foreach ($schemaIDs as $id) {
@@ -309,7 +309,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.dr
 	 */
-	function & getMandatoryInfoStructures(& $assetType) {
+	function &getMandatoryInfoStructures(& $assetType) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
 	}
 
@@ -319,7 +319,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getSearchTypes() {
+	function &getSearchTypes() {
 		return new HarmoniTypeIterator($this->_searchTypes);
 	}
 
@@ -329,7 +329,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getStatusTypes() {
+	function &getStatusTypes() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
 	}
 
@@ -339,7 +339,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.dr
 	 */
-	function & getStatus(& $assetId) {
+	function &getStatus(& $assetId) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
 	}
 
@@ -376,7 +376,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.dr
 	 */
-	function & getAsset(& $assetId) {
+	function &getAsset(& $assetId) {
 		if (!$this->_createdAssets[$assetId->getIdString()]) {
 			// Get the node for this asset to make sure its availible
 			if (!$this->_hierarchy->getNode($assetId))
@@ -399,7 +399,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#NO_OBJECT_WITH_THIS_DATE NO_OBJECT_WITH_THIS_DATE}
 	 * @package harmoni.osid.dr
 	 */
-	function & getAssetByDate(& $assetId, & $date) {
+	function &getAssetByDate(& $assetId, & $date) {
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
 		ArgumentValidator::validate($date, new ExtendsValidatorRule("DateTime"));
 		
@@ -415,7 +415,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package harmoni.osid.dr
 	 */
-	function & getAssetDates(& $assetId) {
+	function &getAssetDates(& $assetId) {
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
 		
 		$recordMgr =& Services::getService("RecordManager");
@@ -440,7 +440,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.dr
 	 */
-	function & getAssetsBySearch(& $searchCriteria, & $searchType) {
+	function &getAssetsBySearch(& $searchCriteria, & $searchType) {
 		// Check that we support the searchType
 		$supported = FALSE;
 		foreach ($this->_searchTypes as $key => $type) {
@@ -475,7 +475,7 @@ class HarmoniDigitalRepository
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.dr
 	 */
-	function & copyAsset(& $asset) {
+	function &copyAsset(& $asset) {
 		// Copy the asset to the dr root (recursivley for children)
 		$id =& $this->_copyAsset($asset, $this->getId());
 		
@@ -516,7 +516,7 @@ class HarmoniDigitalRepository
 	 *
 	 *
 	 */
-	function & _copyAsset(& $asset, & $newParentId) {
+	function &_copyAsset(& $asset, & $newParentId) {
 		// Create the new asset
 		$newAsset =& $this->createAsset($asset->getDisplayName(),$asset->getDescription(), $asset->getAssetType());
 		
@@ -583,7 +583,7 @@ class HarmoniDigitalRepository
 	 * @return array The root assets.
 	 * @access private
 	 */
-	function & _searchBy_dr_harmoni_assettype ($searchCriteria = NULL) {
+	function &_searchBy_dr_harmoni_assettype ($searchCriteria = NULL) {
 		// get the root Nodes
 		$assets =& $this->getAssetsByType($searchCriteria);
 		
@@ -605,7 +605,7 @@ class HarmoniDigitalRepository
 	 * @return array The root assets.
 	 * @access private
 	 */
-	function & _searchBy_dr_harmoni_rootassets ($searchCriteria = NULL) {
+	function &_searchBy_dr_harmoni_rootassets ($searchCriteria = NULL) {
 		// get the root Nodes
 		$rootNodes =& $this->_node->getChildren();
 		
@@ -628,7 +628,7 @@ class HarmoniDigitalRepository
 	 * @return array The matching assets.
 	 * @access private
 	 */
-	function & _searchBy_dr_harmoni_displayname ($searchCriteria = NULL) {
+	function &_searchBy_dr_harmoni_displayname ($searchCriteria = NULL) {
 		$matchingIds = array();
 		
 		// Get All the assets
@@ -653,7 +653,7 @@ class HarmoniDigitalRepository
 	 * @return array The matching assets.
 	 * @access private
 	 */
-	function & _searchBy_dr_harmoni_description ($searchCriteria = NULL) {
+	function &_searchBy_dr_harmoni_description ($searchCriteria = NULL) {
 		$matchingIds = array();
 		
 		// Get All the assets
@@ -678,7 +678,7 @@ class HarmoniDigitalRepository
 	 * @return array The matching assets.
 	 * @access private
 	 */
-	function & _searchBy_dr_harmoni_content ($searchCriteria = NULL) {
+	function &_searchBy_dr_harmoni_content ($searchCriteria = NULL) {
 		$matchingIds = array();
 		
 		// Get All the assets

@@ -40,7 +40,7 @@ class HarmoniTypeIterator
 	}
 
 	// public Type & next();
-	function & next() {
+	function &next() {
 		if ($this->hasNext()) {
 			$this->_i++;
 			return $this->_types[$this->_i];

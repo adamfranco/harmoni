@@ -9,7 +9,7 @@ require_once(HARMONI.'/oki/hierarchy/HierarchyStore.interface.php');
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: MemoryOnlyHierarchyStore.class.php,v 1.7 2004/05/20 17:24:36 adamfranco Exp $
+ * @version $Id: MemoryOnlyHierarchyStore.class.php,v 1.8 2004/08/26 15:10:34 adamfranco Exp $
  */
 
 
@@ -120,7 +120,7 @@ class MemoryOnlyHierarchyStore
      *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getId() {
+	function &getId() {
 		return $this->_id;
 	}
 
@@ -249,7 +249,7 @@ class MemoryOnlyHierarchyStore
 	* @param  integer $id Node ID
 	* @return mixed       The data
     */
-	function & getData($id)	{
+	function &getData($id)	{
 		return $this->_tree->getData($id);
 	}
 	

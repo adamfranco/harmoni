@@ -30,7 +30,7 @@ class HarmoniInfoRecord extends InfoRecord
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getId() {
+	function &getId() {
 		$sharedManager =& Services::getService("Shared");
 		$id = $this->_record->getID();
 		return $sharedManager->getId($id);
@@ -44,7 +44,7 @@ class HarmoniInfoRecord extends InfoRecord
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.dr
 	 */
-	function & createInfoField(& $infoPartId, & $value) {
+	function &createInfoField(& $infoPartId, & $value) {
 		ArgumentValidator::validate($value, new ExtendsValidatorRule("Primitive"));
 		$fieldID = $infoPartId->getIdString();
 		
@@ -110,7 +110,7 @@ class HarmoniInfoRecord extends InfoRecord
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getInfoFields() {
+	function &getInfoFields() {
 		// Get all of the InfoParts in this structure
 		$infoParts =& $this->_infoStructure->getInfoParts();
 		while ($infoParts->hasNext()) {

@@ -4,7 +4,7 @@
  * This is the building piece of the tree-like AuthorizationContextHierarchy
  * data structure used in AuthorizationContextGenerator obejcts.
  * @access public
- * @version $Id: AuthorizationContextHierarchyNode.interface.php,v 1.2 2004/04/20 19:49:46 adamfranco Exp $
+ * @version $Id: AuthorizationContextHierarchyNode.interface.php,v 1.3 2004/08/26 15:10:31 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -44,7 +44,7 @@ class AuthorizationContextHierarchyNodeInterface {
 	 * @method public getParent
 	 * @return ref object The parent node of this node.
 	 */
-	function & getParent() {
+	function &getParent() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -53,7 +53,7 @@ class AuthorizationContextHierarchyNodeInterface {
 	 * @method public getChildren
 	 * @return ref array An array of the children nodes of this node.
 	 */
-	function & getChildren() {
+	function &getChildren() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

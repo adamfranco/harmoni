@@ -7,7 +7,7 @@
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HierarchyStore.interface.php,v 1.8 2004/05/20 17:24:36 adamfranco Exp $
+ * @version $Id: HierarchyStore.interface.php,v 1.9 2004/08/26 15:10:34 adamfranco Exp $
  */
 
 class HierarchyStore
@@ -61,7 +61,7 @@ class HierarchyStore
      *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getId() {
+	function &getId() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -75,7 +75,7 @@ class HierarchyStore
      *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & setId(& $id) {
+	function &setId(& $id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -176,7 +176,7 @@ class HierarchyStore
 	* @param  integer $id Node ID
 	* @return mixed       The data
     */
-	function & getData($id)	{
+	function &getData($id)	{
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

@@ -109,7 +109,7 @@
 *
 * @package harmoni.osid.hierarchy
 * @access public
-* @version $Id: Tree.php,v 1.9 2004/04/21 17:55:33 adamfranco Exp $
+* @version $Id: Tree.php,v 1.10 2004/08/26 15:10:34 adamfranco Exp $
 */
 
 
@@ -176,7 +176,7 @@ class Tree
     * @param  string $separator The separator to use
     * @return object            A tree structure (Tree object)
     */
-    function & createFromList($data, $separator = '/')
+    function &createFromList($data, $separator = '/')
     {
 		$nodeList = array();
         $tree     =& new Tree();
@@ -240,7 +240,7 @@ class Tree
     *                                 SELECT id, parent_id FROM structure ORDER BY parent_id, id
     *                                 The query MUST be ordered by parent_id, then id.
     */
-    function & createFromMySQL($params)
+    function &createFromMySQL($params)
     {
         $tree     = &new Tree();
         $nodeList = array();
@@ -292,7 +292,7 @@ class Tree
 	* @param  boolean $ignoreRoot Whether to ignore the root XML element
 	* @return object              The Tree object
     */
-	function & createFromXMLTree($xmlTree, $ignoreRoot = false)
+	function &createFromXMLTree($xmlTree, $ignoreRoot = false)
 	{
 		$tree     = &new Tree();
 		$parentID = 0;
@@ -480,7 +480,7 @@ class Tree
 	* @param  integer $id Node ID
 	* @return mixed       The data
     */
-	function & getData($id)
+	function &getData($id)
 	{
 		if (isset($this->data[$id])) {
 			return $this->data[$id];

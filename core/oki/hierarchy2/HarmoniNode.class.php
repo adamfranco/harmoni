@@ -18,7 +18,7 @@ require_once(HARMONI."oki/hierarchy2/DefaultNodeType.class.php");
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.12 2004/07/29 16:00:48 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.13 2004/08/26 15:10:34 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -98,7 +98,7 @@ class HarmoniNode extends Node {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getId() {
+	function &getId() {
 		return $this->_id;
 	}
 
@@ -137,7 +137,7 @@ class HarmoniNode extends Node {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getType() {
+	function &getType() {
 		return $this->_type;
 	}
 
@@ -155,7 +155,7 @@ class HarmoniNode extends Node {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getParents() {
+	function &getParents() {
 		$idValue = $this->_id->getIdString();
 	
 		// get the children (cache them if necessary)
@@ -179,7 +179,7 @@ class HarmoniNode extends Node {
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & getChildren() {
+	function &getChildren() {
 		$idValue = $this->_id->getIdString();
 	
 		// get the children (cache them if necessary)

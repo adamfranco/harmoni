@@ -7,7 +7,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * An AuthorizationContextHierarchy is a tree-like datastructure used by
  * the AuthorizationContextHierarchyGenerator objects.
  * @access public
- * @version $Id: AuthorizationContextHierarchy.class.php,v 1.2 2004/04/21 13:42:22 adamfranco Exp $
+ * @version $Id: AuthorizationContextHierarchy.class.php,v 1.3 2004/08/26 15:10:31 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -58,7 +58,7 @@ class AuthorizationContextHierarchy
 	 * @param optional ref object parent The node that will become the parent of the added node.
 	 * @return ref object The newly created node.
 	 */
-	function & addNewNode($systemId, & $parent) {
+	function &addNewNode($systemId, & $parent) {
 		// ** parameter validation
 		$integerRule =& new IntegerValidatorRule();
 		$extendsRule =& new ExtendsValidatorRule("AuthorizationContextHierarchyNodeInterface");
@@ -85,7 +85,7 @@ class AuthorizationContextHierarchy
 	 * @param optional ref object parent The node that will become the parent of the added node.
 	 * @return boolean <code>true</code> on success; <code>false</code>, otherwise.
 	 */
-	function & addNode(& $node, & $parent) {
+	function &addNode(& $node, & $parent) {
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("AuthorizationContextHierarchyNodeInterface");
 		$optionalRule =& new OptionalRule($extendsRule);
@@ -162,7 +162,7 @@ class AuthorizationContextHierarchy
 	 * @method public getRoot
 	 * @return ref array The root nodes.
 	 */
-	function & getRoots() {
+	function &getRoots() {
 		// get all nodes
 		$nodes =& $this->getAllNodes();
 		
@@ -186,7 +186,7 @@ class AuthorizationContextHierarchy
 	 * @method public getLeaves
 	 * @return ref array The leaf nodes.
 	 */
-	function & getLeaves() {
+	function &getLeaves() {
 		// get all nodes
 		$nodes =& $this->getAllNodes();
 		
@@ -277,7 +277,7 @@ class AuthorizationContextHierarchy
 	 * @param integer level The level to return all nodes for.
 	 * @return ref array The nodes on the given hierarchy level.
 	 */
-	function & getNodesAtLevel($level) {
+	function &getNodesAtLevel($level) {
 		// ** parameter validation
 		$integerRule =& new IntegerValidatorRule();
 		ArgumentValidator::validate($level, $integerRule, true);
@@ -297,7 +297,7 @@ class AuthorizationContextHierarchy
 	 * @return ref object The requested node. <code>Null</code>, if the node
 	 * is not in the hierarchy.
 	 */
-	function & getNodeAtLevel($level, $systemId) {
+	function &getNodeAtLevel($level, $systemId) {
 		// ** parameter validation
 		$integerRule =& new IntegerValidatorRule();
 		ArgumentValidator::validate($level, $integerRule, true);
@@ -342,7 +342,7 @@ class AuthorizationContextHierarchy
 	 * @method public getAllNodes
 	 * @return ref array An array of all nodes.
 	 */
-	function & getAllNodes() {
+	function &getAllNodes() {
 		$result = array();		
 	
 		foreach (array_keys($this->_nodes) as $i1 => $key1)
@@ -363,7 +363,7 @@ class AuthorizationContextHierarchy
 	 * @return ref array An array of all nodes in the hierarchy visited in a pre-order
 	 * manner.
 	 */
-	function & traverse(& $node) {
+	function &traverse(& $node) {
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("AuthorizationContextHierarchyNodeInterface");
 		$optionalRule =& new OptionalRule($extendsRule);

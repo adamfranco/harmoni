@@ -21,7 +21,7 @@ class SchedulingManager // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SchedulingException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SchedulingException#UNKNOWN_ID UNKNOWN_ID}, {@link SchedulingException#END_BEFORE_START END_BEFORE_START}
 	 * @package osid.scheduling
 	 */
-	function & createScheduleItem($displayName, $description, & $agents, & $start, & $end, $masterIdentifier) { /* :: interface :: */ }
+	function &createScheduleItem($displayName, $description, & $agents, & $start, & $end, $masterIdentifier) { /* :: interface :: */ }
 	// :: full java declaration :: ScheduleItem createScheduleItem(String displayName, String description, osid.shared.Id[] agents, java.util.Calendar start, java.util.Calendar end, String masterIdentifier)
 
 	/**
@@ -41,7 +41,7 @@ class SchedulingManager // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SchedulingException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SchedulingException#UNKNOWN_ID UNKNOWN_ID}, {@link SchedulingException#END_BEFORE_START END_BEFORE_START}
 	 * @package osid.scheduling
 	 */
-	function & getAvailableTimes(& $agents, & $start, & $end) { /* :: interface :: */ }
+	function &getAvailableTimes(& $agents, & $start, & $end) { /* :: interface :: */ }
 	// :: full java declaration :: TimespanIterator getAvailableTimes(osid.shared.Id[] agents, java.util.Calendar start, java.util.Calendar end)
 
 	/**
@@ -50,7 +50,7 @@ class SchedulingManager // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SchedulingException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SchedulingException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.scheduling
 	 */
-	function & getScheduleItem(& $scheduleItemId) { /* :: interface :: */ }
+	function &getScheduleItem(& $scheduleItemId) { /* :: interface :: */ }
 	// :: full java declaration :: ScheduleItem getScheduleItem(osid.shared.Id scheduleItemId)
 
 	/**
@@ -61,7 +61,7 @@ class SchedulingManager // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SchedulingException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SchedulingException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link SchedulingException#END_BEFORE_START END_BEFORE_START}
 	 * @package osid.scheduling
 	 */
-	function & getScheduleItems(& $start, & $end, & $status) { /* :: interface :: */ }
+	function &getScheduleItems(& $start, & $end, & $status) { /* :: interface :: */ }
 	// :: full java declaration :: ScheduleItemIterator getScheduleItems(java.util.Calendar start, java.util.Calendar end, osid.shared.Type status)
 
 	/**
@@ -73,7 +73,7 @@ class SchedulingManager // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SchedulingException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SchedulingException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link SchedulingException#END_BEFORE_START END_BEFORE_START}, {@link SchedulingException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.scheduling
 	 */
-	function & getScheduleItemsForAgents(& $start, & $end, & $status, & $agents) { /* :: interface :: */ }
+	function &getScheduleItemsForAgents(& $start, & $end, & $status, & $agents) { /* :: interface :: */ }
 	// :: full java declaration :: ScheduleItemIterator getScheduleItemsForAgents(java.util.Calendar start, java.util.Calendar end, osid.shared.Type status, osid.shared.Id[] agents)
 
 	/**
@@ -82,7 +82,7 @@ class SchedulingManager // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SchedulingException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.scheduling
 	 */
-	function & getScheduleItemsByMasterId($masterIdentifier) { /* :: interface :: */ }
+	function &getScheduleItemsByMasterId($masterIdentifier) { /* :: interface :: */ }
 	// :: full java declaration :: ScheduleItemIterator getScheduleItemsByMasterId(String masterIdentifier)
 
 	/**
@@ -90,7 +90,7 @@ class SchedulingManager // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.scheduling
 	 */
-	function & getItemStatusTypes() { /* :: interface :: */ }
+	function &getItemStatusTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getItemStatusTypes()
 
 	/**
@@ -98,7 +98,7 @@ class SchedulingManager // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.scheduling
 	 */
-	function & getCommitmentStatusTypes() { /* :: interface :: */ }
+	function &getCommitmentStatusTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getCommitmentStatusTypes()
 }
 
@@ -117,7 +117,7 @@ class AgentCommitment // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.scheduling
 	 */
-	function & getAgent() { /* :: interface :: */ }
+	function &getAgent() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Agent getAgent()
 
 	/**
@@ -126,7 +126,7 @@ class AgentCommitment // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.scheduling
 	 */
-	function & getStatus() { /* :: interface :: */ }
+	function &getStatus() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Type getStatus()
 }
 
@@ -145,7 +145,7 @@ class ScheduleItem // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.scheduling
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the DisplayName of this ScheduleItem.
@@ -185,7 +185,7 @@ class ScheduleItem // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.scheduling
 	 */
-	function & getCreator() { /* :: interface :: */ }
+	function &getCreator() { /* :: interface :: */ }
 
 	/**
 	 * Get the Start for this ScheduleItem.
@@ -193,7 +193,7 @@ class ScheduleItem // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.scheduling
 	 */
-	function & getStart() { /* :: interface :: */ }
+	function &getStart() { /* :: interface :: */ }
 
 	/**
 	 * Get the End for this ScheduleItem.
@@ -201,7 +201,7 @@ class ScheduleItem // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.scheduling
 	 */
-	function & getEnd() { /* :: interface :: */ }
+	function &getEnd() { /* :: interface :: */ }
 
 	/**
 	 * Update the Start for this ScheduleItem.
@@ -225,7 +225,7 @@ class ScheduleItem // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.scheduling
 	 */
-	function & getStatus() { /* :: interface :: */ }
+	function &getStatus() { /* :: interface :: */ }
 
 	/**
 	 * Update the Status Type for this ScheduleItem.
@@ -249,7 +249,7 @@ class ScheduleItem // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.scheduling
 	 */
-	function & getAgentCommitments() { /* :: interface :: */ }
+	function &getAgentCommitments() { /* :: interface :: */ }
 	// :: full java declaration :: AgentCommitmentIterator getAgentCommitments()
 
 	/**
@@ -288,7 +288,7 @@ class Timespan // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.scheduling
 	 */
-	function & getStart() { /* :: interface :: */ }
+	function &getStart() { /* :: interface :: */ }
 
 	/**
 	 * Get the End date and time of this Timespan.
@@ -296,7 +296,7 @@ class Timespan // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.scheduling
 	 */
-	function & getEnd() { /* :: interface :: */ }
+	function &getEnd() { /* :: interface :: */ }
 }
 
 
@@ -322,7 +322,7 @@ class AgentCommitmentIterator // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SchedulingException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.scheduling
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: AgentCommitment next()
 }
 
@@ -350,7 +350,7 @@ class TimespanIterator // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SchedulingException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.scheduling
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Timespan next()
 }
 
@@ -378,7 +378,7 @@ class ScheduleItemIterator // :: API interface
 	 * @throws osid.scheduling.SchedulingException An exception with one of the following messages defined in osid.scheduling.SchedulingException:   {@link SchedulingException#OPERATION_FAILED OPERATION_FAILED}, {@link SchedulingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SchedulingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SchedulingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SchedulingException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.scheduling
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: ScheduleItem next()
 }
 

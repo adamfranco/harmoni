@@ -5,7 +5,7 @@
 /**
  * the FieldSet holds a set of key=value pairs of data
  *
- * @version $Id: FieldSet.class.php,v 1.4 2004/06/21 19:26:19 gabeschine Exp $
+ * @version $Id: FieldSet.class.php,v 1.5 2004/08/26 15:10:37 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.utilities.fieldsetvalidator
  **/
@@ -38,7 +38,7 @@ class FieldSet {
 	 * @access public
 	 * @return mixed the value associated with $key
 	 **/
-	function & get( $key ) {
+	function &get( $key ) {
 		return $this->_fields[$key];
 	}
 	

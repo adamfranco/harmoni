@@ -18,7 +18,7 @@ class WorkflowManager // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.workflow
 	 */
-	function & createProcess($displayName, $description) { /* :: interface :: */ }
+	function &createProcess($displayName, $description) { /* :: interface :: */ }
 	// :: full java declaration :: Process createProcess(String displayName, String description)
 
 	/**
@@ -30,7 +30,7 @@ class WorkflowManager // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.workflow
 	 */
-	function & copyProcess(& $originalProcessId, $newDisplayName, $newDescription) { /* :: interface :: */ }
+	function &copyProcess(& $originalProcessId, $newDisplayName, $newDescription) { /* :: interface :: */ }
 	// :: full java declaration :: Process copyProcess(osid.shared.Id originalProcessId, String newDisplayName, String newDescription)
 
 	/**
@@ -49,7 +49,7 @@ class WorkflowManager // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.workflow
 	 */
-	function & getProcess(& $processId) { /* :: interface :: */ }
+	function &getProcess(& $processId) { /* :: interface :: */ }
 	// :: full java declaration :: Process getProcess(osid.shared.Id processId)
 
 	/**
@@ -58,7 +58,7 @@ class WorkflowManager // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getProcesses() { /* :: interface :: */ }
+	function &getProcesses() { /* :: interface :: */ }
 	// :: full java declaration :: ProcessIterator getProcesses()
 
 	/**
@@ -67,7 +67,7 @@ class WorkflowManager // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getExpressions() { /* :: interface :: */ }
+	function &getExpressions() { /* :: interface :: */ }
 	// :: full java declaration :: ExpressionIterator getExpressions()
 
 	/**
@@ -77,7 +77,7 @@ class WorkflowManager // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package osid.workflow
 	 */
-	function & getExpressionsByType(& $expressionType) { /* :: interface :: */ }
+	function &getExpressionsByType(& $expressionType) { /* :: interface :: */ }
 	// :: full java declaration :: ExpressionIterator getExpressionsByType(osid.shared.Type expressionType)
 
 	/**
@@ -87,7 +87,7 @@ class WorkflowManager // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.workflow
 	 */
-	function & getUnfinishedWork(& $processId) { /* :: interface :: */ }
+	function &getUnfinishedWork(& $processId) { /* :: interface :: */ }
 	// :: full java declaration :: WorkIterator getUnfinishedWork(osid.shared.Id processId)
 
 	/**
@@ -97,7 +97,7 @@ class WorkflowManager // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.workflow
 	 */
-	function & getCompletedWork(& $processId) { /* :: interface :: */ }
+	function &getCompletedWork(& $processId) { /* :: interface :: */ }
 	// :: full java declaration :: WorkIterator getCompletedWork(osid.shared.Id processId)
 
 	/**
@@ -106,7 +106,7 @@ class WorkflowManager // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getOutputStates() { /* :: interface :: */ }
+	function &getOutputStates() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.StringIterator getOutputStates()
 
 	/**
@@ -115,7 +115,7 @@ class WorkflowManager // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getExpressionTypes() { /* :: interface :: */ }
+	function &getExpressionTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getExpressionTypes()
 }
 
@@ -133,7 +133,7 @@ class Expression // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getType() { /* :: interface :: */ }
+	function &getType() { /* :: interface :: */ }
 
 	/**
 	 * Get the DisplayName of this Expression.
@@ -167,7 +167,7 @@ class Step // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the DisplayName of this Step.
@@ -208,7 +208,7 @@ class Step // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getRoleId() { /* :: interface :: */ }
+	function &getRoleId() { /* :: interface :: */ }
 
 	/**
 	 * Update the Unique Id of the role associate with this Step.
@@ -243,7 +243,7 @@ class Step // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getPredecessors() { /* :: interface :: */ }
+	function &getPredecessors() { /* :: interface :: */ }
 	// :: full java declaration :: StepIterator getPredecessors()
 
 	/**
@@ -252,7 +252,7 @@ class Step // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getSuccessors() { /* :: interface :: */ }
+	function &getSuccessors() { /* :: interface :: */ }
 	// :: full java declaration :: StepIterator getSuccessors()
 
 	/**
@@ -261,7 +261,7 @@ class Step // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getInputConditions() { /* :: interface :: */ }
+	function &getInputConditions() { /* :: interface :: */ }
 	// :: full java declaration :: ExpressionIterator getInputConditions()
 
 	/**
@@ -288,7 +288,7 @@ class Step // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getOutputStates() { /* :: interface :: */ }
+	function &getOutputStates() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.StringIterator getOutputStates()
 
 	/**
@@ -324,7 +324,7 @@ class Work // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the DisplayName of this Work.
@@ -364,7 +364,7 @@ class Work // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getQualifierId() { /* :: interface :: */ }
+	function &getQualifierId() { /* :: interface :: */ }
 
 	/**
 	 * Get the next Steps for a specific role this body of Work.
@@ -372,7 +372,7 @@ class Work // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.workflow
 	 */
-	function & getNextStepsForRole(& $roleId) { /* :: interface :: */ }
+	function &getNextStepsForRole(& $roleId) { /* :: interface :: */ }
 	// :: full java declaration :: StepIterator getNextStepsForRole(osid.shared.Id roleId)
 
 	/**
@@ -381,7 +381,7 @@ class Work // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getNextSteps() { /* :: interface :: */ }
+	function &getNextSteps() { /* :: interface :: */ }
 	// :: full java declaration :: StepIterator getNextSteps()
 
 	/**
@@ -400,7 +400,7 @@ class Work // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getHistory() { /* :: interface :: */ }
+	function &getHistory() { /* :: interface :: */ }
 	// :: full java declaration :: WorkEventIterator getHistory()
 }
 
@@ -418,7 +418,7 @@ class WorkEvent // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getTimestamp() { /* :: interface :: */ }
+	function &getTimestamp() { /* :: interface :: */ }
 	// :: full java declaration :: java.util.Calendar getTimestamp()
 
 	/**
@@ -427,7 +427,7 @@ class WorkEvent // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getAgentId() { /* :: interface :: */ }
+	function &getAgentId() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.Id getAgentId()
 
 	/**
@@ -436,7 +436,7 @@ class WorkEvent // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getStep() { /* :: interface :: */ }
+	function &getStep() { /* :: interface :: */ }
 	// :: full java declaration :: Step getStep()
 
 	/**
@@ -463,7 +463,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getId() { /* :: interface :: */ }
+	function &getId() { /* :: interface :: */ }
 
 	/**
 	 * Get the DisplayName of this Process.
@@ -504,7 +504,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getType() { /* :: interface :: */ }
+	function &getType() { /* :: interface :: */ }
 
 	/**
 	 * Returns true if this Process is enabled; false otherwise.
@@ -531,7 +531,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_ID UNKNOWN_ID}, {@link WorkflowException#INVALID_NETWORK INVALID_NETWORK}
 	 * @package osid.workflow
 	 */
-	function & createInitialStep($displayName, $description, & $roleId) { /* :: interface :: */ }
+	function &createInitialStep($displayName, $description, & $roleId) { /* :: interface :: */ }
 	// :: full java declaration :: Step createInitialStep(String displayName, String description, osid.shared.Id roleId)
 
 	/**
@@ -544,7 +544,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_ID UNKNOWN_ID}, {@link WorkflowException#INVALID_NETWORK INVALID_NETWORK}
 	 * @package osid.workflow
 	 */
-	function & createStep(& $predecessorStepId, $displayName, $description, & $roleId) { /* :: interface :: */ }
+	function &createStep(& $predecessorStepId, $displayName, $description, & $roleId) { /* :: interface :: */ }
 	// :: full java declaration :: Step createStep(osid.shared.Id predecessorStepId, String displayName, String description, osid.shared.Id roleId)
 
 	/**
@@ -553,7 +553,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.workflow
 	 */
-	function & getStep(& $stepId) { /* :: interface :: */ }
+	function &getStep(& $stepId) { /* :: interface :: */ }
 	// :: full java declaration :: Step getStep(osid.shared.Id stepId)
 
 	/**
@@ -562,7 +562,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getSteps() { /* :: interface :: */ }
+	function &getSteps() { /* :: interface :: */ }
 	// :: full java declaration :: StepIterator getSteps()
 
 	/**
@@ -583,7 +583,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.workflow
 	 */
-	function & createWork($displayName, $description, & $qualifierId) { /* :: interface :: */ }
+	function &createWork($displayName, $description, & $qualifierId) { /* :: interface :: */ }
 	// :: full java declaration :: Work createWork(String displayName, String description, osid.shared.Id qualifierId)
 
 	/**
@@ -602,7 +602,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getWork(& $workId) { /* :: interface :: */ }
+	function &getWork(& $workId) { /* :: interface :: */ }
 	// :: full java declaration :: Work getWork(osid.shared.Id workId)
 
 	/**
@@ -611,7 +611,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getAllWork() { /* :: interface :: */ }
+	function &getAllWork() { /* :: interface :: */ }
 	// :: full java declaration :: WorkIterator getAllWork()
 
 	/**
@@ -620,7 +620,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getAvailableWork() { /* :: interface :: */ }
+	function &getAvailableWork() { /* :: interface :: */ }
 	// :: full java declaration :: WorkIterator getAvailableWork()
 
 	/**
@@ -630,7 +630,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.workflow
 	 */
-	function & getAvailableWorkForRole(& $roleId) { /* :: interface :: */ }
+	function &getAvailableWorkForRole(& $roleId) { /* :: interface :: */ }
 	// :: full java declaration :: WorkIterator getAvailableWorkForRole(osid.shared.Id roleId)
 
 	/**
@@ -640,7 +640,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.workflow
 	 */
-	function & getAvailableWorkForStep(& $stepId) { /* :: interface :: */ }
+	function &getAvailableWorkForStep(& $stepId) { /* :: interface :: */ }
 	// :: full java declaration :: WorkIterator getAvailableWorkForStep(osid.shared.Id stepId)
 
 	/**
@@ -649,7 +649,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.workflow
 	 */
-	function & getUnfinishedWork() { /* :: interface :: */ }
+	function &getUnfinishedWork() { /* :: interface :: */ }
 	// :: full java declaration :: WorkIterator getUnfinishedWork()
 
 	/**
@@ -659,7 +659,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.workflow
 	 */
-	function & getUnfinishedWorkForRole(& $roleId) { /* :: interface :: */ }
+	function &getUnfinishedWorkForRole(& $roleId) { /* :: interface :: */ }
 	// :: full java declaration :: WorkIterator getUnfinishedWorkForRole(osid.shared.Id roleId)
 
 	/**
@@ -669,7 +669,7 @@ class Process // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NULL_ARGUMENT NULL_ARGUMENT}, {@link WorkflowException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.workflow
 	 */
-	function & getUnfinishedWorkForStep(& $stepId) { /* :: interface :: */ }
+	function &getUnfinishedWorkForStep(& $stepId) { /* :: interface :: */ }
 	// :: full java declaration :: WorkIterator getUnfinishedWorkForStep(osid.shared.Id stepId)
 
 	/**
@@ -714,7 +714,7 @@ class ProcessIterator // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.workflow
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Process next()
 }
 
@@ -741,7 +741,7 @@ class StepIterator // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.workflow
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Process next()
 }
 
@@ -768,7 +768,7 @@ class WorkIterator // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.workflow
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Process next()
 }
 
@@ -795,7 +795,7 @@ class ExpressionIterator // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.workflow
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Process next()
 }
 
@@ -822,7 +822,7 @@ class WorkEventIterator // :: API interface
 	 * @throws osid.workflow.WorkflowException An exception with one of the following messages defined in osid.workflow.WorkflowException:   {@link WorkflowException#OPERATION_FAILED OPERATION_FAILED}, {@link WorkflowException#PERMISSION_DENIED PERMISSION_DENIED}, {@link WorkflowException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link WorkflowException#UNIMPLEMENTED UNIMPLEMENTED}, {@link WorkflowException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
 	 * @package osid.workflow
 	 */
-	function & next() { /* :: interface :: */ }
+	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Process next()
 }
 

@@ -41,7 +41,7 @@ define("CENTER", 9);
  * The <code>Container</code> interface is an extension of the <code>Component</code>
  * interface; <code>Containers</code> are capable of storing multiple sub-<code>Components</code>
  * and when rendering Containers, all sub-<code>Components</code> will be rendered as well.
- * @version $Id: Container.interface.php,v 1.3 2004/07/23 02:44:16 dobomode Exp $
+ * @version $Id: Container.interface.php,v 1.4 2004/08/26 15:10:30 adamfranco Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -64,7 +64,7 @@ class ContainerInterface extends ComponentInterface {
 	 * If null, will be ignored.
 	 * @return ref object The component that was just added.
 	 **/
-	function & add(& $component, $width, $height, $alignmentX, $alignmentY) {
+	function &add(& $component, $width, $height, $alignmentX, $alignmentY) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -76,7 +76,7 @@ class ContainerInterface extends ComponentInterface {
 	 * @param integer id The id of the component which should be returned.
 	 * @return ref object The component.
 	 **/
-	function & getComponent($id) {
+	function &getComponent($id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -94,7 +94,7 @@ class ContainerInterface extends ComponentInterface {
 	 * @access public
 	 * @return ref array An array of the components in this <code>Container</code>.
 	 **/
-	function & getComponents() {
+	function &getComponents() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -155,7 +155,7 @@ class ContainerInterface extends ComponentInterface {
 	 * this container..
 	 * @return ref object The component that was just removed.
 	 **/
-	function & remove($id) {
+	function &remove($id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -172,7 +172,7 @@ class ContainerInterface extends ComponentInterface {
 	 * @access public
 	 * @return ref object The <code>Layout</code> of this container.
 	 **/
-	function & getLayout() {
+	function &getLayout() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

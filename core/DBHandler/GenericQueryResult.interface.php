@@ -9,7 +9,7 @@ require_once("QueryResult.interface.php");
  * query types, or the resource links can be returned and accessed directly.
  *
  * 
- * @version $Id: GenericQueryResult.interface.php,v 1.1 2004/07/02 19:12:37 adamfranco Exp $
+ * @version $Id: GenericQueryResult.interface.php,v 1.2 2004/08/26 15:10:17 adamfranco Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
@@ -33,7 +33,7 @@ class GenericQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @date 7/1/04
 	 */
-	function & returnAsSelectQueryResult () {
+	function &returnAsSelectQueryResult () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -44,7 +44,7 @@ class GenericQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @date 7/1/04
 	 */
-	function & returnAsInsertQueryResult () {
+	function &returnAsInsertQueryResult () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -55,7 +55,7 @@ class GenericQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @date 7/1/04
 	 */
-	function & returnAsUpdateQueryResult () {
+	function &returnAsUpdateQueryResult () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -66,7 +66,7 @@ class GenericQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @date 7/1/04
 	 */
-	function & returnAsDeleteQueryResult () {
+	function &returnAsDeleteQueryResult () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 }

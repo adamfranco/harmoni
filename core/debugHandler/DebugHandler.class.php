@@ -98,7 +98,7 @@ define("DEBUG_SYS5",15);
 /**
  * The DebugHandler keeps track of multiple DebugItems.
  *
- * @version $Id: DebugHandler.class.php,v 1.4 2004/06/24 17:51:27 dobomode Exp $
+ * @version $Id: DebugHandler.class.php,v 1.5 2004/08/26 15:10:32 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugging
  **/
@@ -176,7 +176,7 @@ class DebugHandler extends ServiceInterface {
 	 * @access public
 	 * @return array The array of DebugItems.
 	 **/
-	function & getDebugItems( $category="" ) {
+	function &getDebugItems( $category="" ) {
 		$array = array();
 		for ($i = 0; $i < $this->getDebugItemCount(); $i++) {
 			if ($category == "" || $this->_queue[$i]->getCategory() == $category)

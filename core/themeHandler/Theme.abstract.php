@@ -19,7 +19,7 @@ define ("BLANK_WIDGET", "blank");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: Theme.abstract.php,v 1.12 2004/04/21 18:15:01 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.13 2004/08/26 15:10:35 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -187,7 +187,7 @@ class Theme
 	 * @access public
 	 * @return object Id The ID of this theme.
 	 **/
-	function & getId () {
+	function &getId () {
 		return $this->_id;
 	}
 	
@@ -287,7 +287,7 @@ class Theme
 	 * @param object Id The id of the desired Setting.
 	 * @return object SettingInterface The desired Setting object.
 	 **/
-	function & getSetting ( $key ) {		
+	function &getSetting ( $key ) {		
 		if (!$this->_settings[$key])
 			throwError(new Error("Unknown Setting Id.", "Theme", TRUE));
 		
@@ -300,7 +300,7 @@ class Theme
 	 * @see {@link ThemeInterface::setSettings}
 	 * @return object HarmoniIterator An iterator of ThemeSetting objects
 	 **/
-	function & getSettings () {
+	function &getSettings () {
 		if (!is_array($this->_settings))
 			$this->_settings = array();
 		
@@ -431,7 +431,7 @@ class Theme
 	 * @param object MenuThemeWidget The MenuThemeWidget to add.
 	 * @return integer The index of the added Widget.
 	 **/
-	function & addWidget (  $type, & $themeWidget ) {
+	function &addWidget (  $type, & $themeWidget ) {
 		ArgumentValidator::validate($themeWidget, new ExtendsValidatorRule("ThemeWidgetInterface"));
 		if (!in_array($type, array(MENU_WIDGET, MENU_ITEM_WIDGET, SELECTED_MENU_ITEM_WIDGET, MENU_HEADING_WIDGET, HEADING_WIDGET, FOOTER_WIDGET, TEXT_BLOCK_WIDGET, BLANK_WIDGET)))
 			throwError(new Error("Unsupported widget type, '".$type."'.", "Theme", TRUE));
@@ -461,7 +461,7 @@ class Theme
 	 *		index is higher than the Theme supports, the MenuThemeWidget of the highest 
 	 *		index availible is returned.
 	 **/
-	function & getWidget ( $type, $index = 1 ) {
+	function &getWidget ( $type, $index = 1 ) {
 		ArgumentValidator::validate($index, new IntegerValidatorRule);
 		if (!in_array($type, array(MENU_WIDGET, MENU_ITEM_WIDGET, SELECTED_MENU_ITEM_WIDGET, MENU_HEADING_WIDGET, HEADING_WIDGET, FOOTER_WIDGET, TEXT_BLOCK_WIDGET, BLANK_WIDGET)))
 			throwError(new Error("Unsupported widget type, '".$type."'.", "Theme", TRUE));
@@ -484,7 +484,7 @@ class Theme
 	 * @param string $type The type of theme widget to get.
 	 * @return object ThemeWidgetIterator An iterator of all $typeThemeWidgets.
 	 **/
-	function & getWidgets ( $type ) {
+	function &getWidgets ( $type ) {
 		if (!in_array($type, array(MENU_WIDGET, MENU_ITEM_WIDGET, SELECTED_MENU_ITEM_WIDGET, MENU_HEADING_WIDGET, HEADING_WIDGET, FOOTER_WIDGET, TEXT_BLOCK_WIDGET, BLANK_WIDGET)))
 			throwError(new Error("Unsupported widget type, '".$type."'.", "Theme", TRUE));
 		
@@ -502,7 +502,7 @@ class Theme
 	 * @access protected
 	 * @return object HarmoniIterator All the widgets.
 	 */
-	function & getAllWidgets() {
+	function &getAllWidgets() {
 		$allWidgets = array(); 
 		
 		foreach(array_keys($this->_textBlocks) as $key)

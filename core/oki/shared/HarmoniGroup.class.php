@@ -287,7 +287,7 @@ class HarmoniGroup // :: API interface
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.shared
 	 */
-	function & getMembers($includeSubgroups) {
+	function &getMembers($includeSubgroups) {
 		// ** parameter validation
 		ArgumentValidator::validate($includeSubgroups, new BooleanValidatorRule(), true);
 		// ** end of parameter validation
@@ -305,7 +305,7 @@ class HarmoniGroup // :: API interface
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.shared
 	 */
-	function & _getMembers($recursive, $agents = TRUE) {
+	function &_getMembers($recursive, $agents = TRUE) {
 		if ($agents)
 			$result = $this->_agents;
 		else
@@ -325,7 +325,7 @@ class HarmoniGroup // :: API interface
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.shared
 	 */
-	function & getGroups($includeSubgroups) {
+	function &getGroups($includeSubgroups) {
 		// ** parameter validation
 		ArgumentValidator::validate($includeSubgroups, new BooleanValidatorRule(), true);
 		// ** end of parameter validation
@@ -341,7 +341,7 @@ class HarmoniGroup // :: API interface
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package harmoni.osid.shared
 	 */
-	function & getGroupsContainingMember(& $member) { /* :: interface :: */ }
+	function &getGroupsContainingMember(& $member) { /* :: interface :: */ }
 	// :: full java declaration :: AgentIterator getGroupsContainingMember(Agent member)
 
 	/**

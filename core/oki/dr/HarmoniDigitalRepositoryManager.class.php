@@ -102,7 +102,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.dr
 	 */
-	function & createDigitalRepository ($displayName, $description, & $digitalRepositoryType) {
+	function &createDigitalRepository ($displayName, $description, & $digitalRepositoryType) {
 		// Argument Validation
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
@@ -168,7 +168,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getDigitalRepositories() {
+	function &getDigitalRepositories() {
 		$rootNodes =& $this->_hierarchy->getRootNodes();
 		while ($rootNodes->hasNext()) {
 			$rootNode =& $rootNodes->next();
@@ -204,7 +204,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.dr
 	 */
-	function & getDigitalRepositoriesByType(& $digitalRepositoryType) {
+	function &getDigitalRepositoriesByType(& $digitalRepositoryType) {
 		$rootNodes =& $this->_hierarchy->getRootNodes();
 		$drs = array();
 		while ($rootNodes->hasNext()) {
@@ -238,7 +238,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.dr
 	 */
-	function & getDigitalRepository(& $digitalRepositoryId) {
+	function &getDigitalRepository(& $digitalRepositoryId) {
 		ArgumentValidator::validate($digitalRepositoryId, new ExtendsValidatorRule("Id"));
 		
 		if (!$this->_createdDRs[$digitalRepositoryId->getIdString()]) {
@@ -270,7 +270,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.dr
 	 */
-	function & getAsset(& $assetId) {
+	function &getAsset(& $assetId) {
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
 		
 		// Get the node for this asset to make sure its availible
@@ -302,7 +302,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#NO_OBJECT_WITH_THIS_DATE NO_OBJECT_WITH_THIS_DATE}
 	 * @package harmoni.osid.dr
 	 */
-	function & getAssetByDate(& $assetId, & $date) {
+	function &getAssetByDate(& $assetId, & $date) {
 		// figure out which DR it is in.
 		$drId =& $this->_getAssetDR($assetId);
 		$dr =& $this->getDigitalRepository($drId);
@@ -326,7 +326,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package harmoni.osid.dr
 	 */
-	function & getAssetDates(& $assetId) {
+	function &getAssetDates(& $assetId) {
 		// figure out which DR it is in.
 		$drId =& $this->_getAssetDR($assetId);
 		$dr =& $this->getDigitalRepository($drId);
@@ -359,7 +359,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_DR UNKNOWN_DR}
 	 * @package harmoni.osid.dr
 	 */
-	function & getAssets(& $digitalRepositories, & $searchCriteria, & $searchType) {
+	function &getAssets(& $digitalRepositories, & $searchCriteria, & $searchType) {
 		$combinedAssets = array();
 		
 		foreach ($digitalRepositories as $key => $val) {
@@ -396,7 +396,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.dr
 	 */
-	function & copyAsset(& $digitalRepository, & $assetId) {
+	function &copyAsset(& $digitalRepository, & $assetId) {
 		$asset =& $digitalRepository->getAsset($assetId);
 		return $digitalRepository->copyAsset( $asset );
 	}
@@ -420,7 +420,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
-	function & getDigitalRepositoryTypes() {
+	function &getDigitalRepositoryTypes() {
 		$drs =& $this->getDigitalRepositories();
 		$types = array();
 		$typeStrings = array();

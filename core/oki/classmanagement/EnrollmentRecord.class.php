@@ -14,7 +14,7 @@ class HarmoniEnrollmentRecord // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function & getStudent() { /* :: interface :: */ }
+	function &getStudent() { /* :: interface :: */ }
 
 	/**
 	 * Get the Status Type for a student.  Students Status Type is supplied when the student is added or changed in the CourseSection.  The CourseManagementManager returns the Status Types supported by this implementation.
@@ -22,5 +22,5 @@ class HarmoniEnrollmentRecord // :: API interface
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.classmanagement
 	 */
-	function & getStatus() { /* :: interface :: */ }
+	function &getStatus() { /* :: interface :: */ }
 }

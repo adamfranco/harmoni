@@ -6,7 +6,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.interface.php");
  * This is the building piece of the Tree data structure used for the backbone of the
  * hierarchy.
  * @access public
- * @version $Id: TreeNode.class.php,v 1.6 2004/06/09 19:26:27 dobomode Exp $
+ * @version $Id: TreeNode.class.php,v 1.7 2004/08/26 15:10:34 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -157,7 +157,7 @@ class TreeNode extends TreeNodeInterface
 	 * @method public getParent
 	 * @return ref array The parent nodes of this node.
 	 */
-	function & getParents() {
+	function &getParents() {
 		return $this->_parents;
 	}
 	
@@ -188,7 +188,7 @@ class TreeNode extends TreeNodeInterface
 	 * @method public getChildren
 	 * @return ref array An array of the children nodes of this node.
 	 */
-	function & getChildren() {
+	function &getChildren() {
 		return $this->_children;
 	}
 	

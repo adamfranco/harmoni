@@ -3,7 +3,7 @@
 /**
  * The ServicesInterface defines the functionality required by any Services class or derivative.
  * The ServicesInterface defines the functionality required by any Services class or derivative.
- * @version $Id: Services.interface.php,v 1.4 2004/08/04 02:18:58 gabeschine Exp $
+ * @version $Id: Services.interface.php,v 1.5 2004/08/26 15:10:35 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -42,7 +42,7 @@ class ServicesInterface {
 	 * @static
 	 * @return object Services The Services object.
 	 **/
-	function & getServices() {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
+	function &getServices() {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
 	
 	/**
 	 * Returns the service object associated with reference name $name.
@@ -51,7 +51,7 @@ class ServicesInterface {
 	 * @static
 	 * @return object Object The service object.
 	 **/
-	function & getService( $name ) {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
+	function &getService( $name ) {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
 	
 	/**
 	 * Attempts to start the service referenced by $name.
@@ -170,7 +170,7 @@ class ServicesInterface {
 	 * @access public
 	 * @return object Object The service object.
 	 **/
-	function & get( $name ) {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
+	function &get( $name ) {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
 	
 	/**
 	 * Attempts to stop all running services.
