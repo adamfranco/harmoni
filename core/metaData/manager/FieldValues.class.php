@@ -6,7 +6,7 @@ require_once HARMONI."metaData/manager/ValueVersions.classes.php";
  * Holds a number of indexes for values within a specific field within a DataSet. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: FieldValues.class.php,v 1.17 2004/01/26 16:17:26 adamfranco Exp $
+ * @version $Id: FieldValues.class.php,v 1.18 2004/01/26 19:16:22 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -81,7 +81,6 @@ class FieldValues {
 	function takeRow( &$row ) {
 		// If we don't just have null values...
 		if ($row['datasetfield_index'] != NULL) {
-			printpre($row);
 			$index = $row['datasetfield_index'];
 			// the below will: if we are readOnly (compact), then only one value (one row) will be
 			// passed for each index, so we number the indexes ourselves. otherwise, the real index
