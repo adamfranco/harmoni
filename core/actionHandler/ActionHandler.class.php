@@ -55,7 +55,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.7 2003/11/30 01:30:51 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.8 2004/05/26 18:12:43 adamfranco Exp $
  * @copyright 2003 
  **/
 class ActionHandler {
@@ -73,16 +73,9 @@ class ActionHandler {
 	
 	/**
 	 * @access private
-	 * @var string $_modulesPath The path in the filesystem of the modules.
+	 * @var array $_modulesLocations An array of module parameters and paths in the filesystem of the modules.
 	 **/
-	var $_modulesPath;
-	
-	/**
-	 * @access private
-	 * @var string $_modulesFileExtension The file extension for modules (only needed when
-	 * they are classes).
-	 **/
-	var $_modulesFileExtension;
+	var $_modulesLocations;
 	
 	/**
 	 * @access private
@@ -90,12 +83,6 @@ class ActionHandler {
 	 * actions are either files or classes).
 	 **/
 	var $_actionsFileExtension;
-	
-	/**
-	 * @access private
-	 * @var integer $_modulesType What the modules are: folders or classes.
-	 **/
-	var $_modulesType;
 	
 	/**
 	 * @access private
@@ -172,26 +159,34 @@ class ActionHandler {
 	 * to execute. Can be: a {@link Layout} object, TRUE/FALSE, etc.
 	 **/
 	function & execute($module, $action) {
-		// first make sure that the pair of actionType/moduleType we have is valid
+		
+		// make sure that the pair of actionType/moduleType we have is valid
 		// eg, if modules are folder, actions cannot be class-methods.
 		// if modules are classes, actions cannot be flatfiles.
-		$are_ok = false;
-		if ($this->_modulesType == MODULES_FOLDERS) {
-			if ($this->_actionsType == ACTIONS_FLATFILES) $are_ok = true;
-			if ($this->_actionsType == ACTIONS_CLASSES) $are_ok = true;
-		} else if ($this->_modulesType == MODULES_CLASSES) {
-			if ($this->_actionsType == ACTIONS_CLASS_METHODS) $are_ok = true;
+		$are_ok = TRUE;
+		foreach ($this->_modulesLocations as $modulesLocation) {
+			$modulesType = $modulesLocation['type'];
+			if ($modulesLocation['actions_type'])
+				$actionsType = $modulesLocation['actions_type'];
+			else
+				$actionsType = $this->_actionsType;
+			
+			if ($modulesType == MODULES_FOLDERS) {
+				if ($actionsType != ACTIONS_FLATFILES && $actionsType != ACTIONS_CLASSES) 
+					$are_ok = FALSE;
+			} else if ($modulesType == MODULES_CLASSES) {
+				if ($actionsType != ACTIONS_CLASS_METHODS)
+					$are_ok = FALSE;
+			}
 		}
+		
+		
 		if (!$are_ok) {
 			// throw an error
 			throwError(new Error("ActionHandler::execute() - Could not proceed: an illegal combination of modulesType and actionsType was set.","ActionHandler",true));
 			return $are_ok;
 		}
 		
-		// make sure we have a login state -- BAD! if people choose useAuthentication=false
-		// in config, then this will always fail
-//		if (!$this->_loginState)
-//			throwError(new Error("ActionHandler::execute() - Could not proceed: it seems we do not yet have a LoginState object set.","ActionHandler",true));
 		
 		$this->_executing = true;
 		$result =& $this->_execute($module, $action);
@@ -219,38 +214,76 @@ class ActionHandler {
 			return false;
 		}
 	
-	
-		$_includeFile = $this->_modulesPath;
-		$_includeFile .= DIRECTORY_SEPARATOR . $module;
-		if ($this->_modulesType == MODULES_CLASSES) $_includeFile .= $this->_modulesFileExtension;
-		else $_includeFile .= DIRECTORY_SEPARATOR . $action . $this->_actionsFileExtension;
+		
+		// :: Including the appropriate files ::
+		// check existance (and uniqueness) of the appropriate file
+		$includeFileExists = FALSE;
+		foreach ($this->_modulesLocations as $modulesLocation) {
+		
+			$currentIncludeFile = $modulesLocation['location'];
+			$currentIncludeFile .= DIRECTORY_SEPARATOR . $module;
+			
+			
+			// If Modules are classes, then the class file is the one we want to include
+			if ($modulesLocation['type'] == MODULES_CLASSES) {
+				$currentIncludeFile .= $modulesLocation['file_extension'];
+			
+			// Otherwise, we want to include an action file.
+			} else  {
+				if ($modulesLocation['actions_file_extension'])
+					$currentIncludeFile .= DIRECTORY_SEPARATOR . $action . $modulesLocation['actions_file_extension'];
+				else 
+					$currentIncludeFile .= DIRECTORY_SEPARATOR . $action . $this->_actionsFileExtension;
+			}
+			
+			
+			// if the includeFile exists
+			if (file_exists($currentIncludeFile)) {
 				
-		// if we are using flatfiles for actions, we have to set some global variables for it to use
-		if ($this->_actionsType == ACTIONS_FLATFILES) {
-			$harmoni =& $this->_harmoni;
+				// If the file exists already, then it is in two places, 
+				// which could be bad, throw an error.
+				if ($actionFileExists) {
+					throwError(new Error("ActionHandler::execute($_pair) - could not proceed: The file '$includeFile' exists at '$currentIncludeFile' as well.","ActionHandler",true));
+				
+				// Otherwise, save our location and continue to check for conflicts.
+				} else {
+					$includeFileExists = TRUE;
+					$includeFile = $currentIncludeFile;
+					$modulesType = $modulesLocation['type'];
+					if ($modulesLocation['actions_type'])
+						$actionsType = $modulesLocation['actions_type'];
+					else
+						$actionsType = $this->_actionsType;
+				}
+			}
 		}
-		
-		// include the file
-		if (!file_exists($_includeFile)) throwError(new Error("ActionHandler::execute($_pair) - 
-							could not proceed: The file '$_includeFile' does not exist!","ActionHandler",true));
-        if ($this->_actionsType == ACTIONS_FLATFILES)
-        	$incResult = include($_includeFile);
-		
+
+
+		if ($includeFileExists) {
+			if ($actionsType == ACTIONS_FLATFILES) {
+				$harmoni =& $this->_harmoni;
+				$incResult = include($includeFile);
+			}
+		} else {
+	    		throwError(new Error("ActionHandler::execute($_pair) - could not proceed: The file '$includeFile' does not exist!","ActionHandler",true));
+		}
+
+
 		$result = false; // default
 
 		$class = $method = false;
-		if ($this->_actionsType == ACTIONS_FLATFILES) {
+		if ($actionsType == ACTIONS_FLATFILES) {
 			$result =& $incResult;
 		}
 		
 		// if actions are classes, execute the class.
-		if ($this->_actionsType == ACTIONS_CLASSES) {
+		if ($actionsType == ACTIONS_CLASSES) {
 			$class = $action;
 			$method = ACTIONS_CLASSES_METHOD;
 		}
 		
 		// if actions are class-methods
-		if ($this->_actionsType == ACTIONS_CLASS_METHODS) {
+		if ($actionsType == ACTIONS_CLASS_METHODS) {
 			$class = $module;
 			$method = $action;
 		}
@@ -355,14 +388,43 @@ class ActionHandler {
 			return false;
 		}
 		
-		$this->_modulesPath = $location;
-		$this->_modulesType = $type;
-		$this->_modulesFileExtension = $fileExtension;
-		// done.
+		$modulesLocation = array("location" => $location, 
+								 "type" => $type, 
+								 "file_extension" => $fileExtension);
+		
+		// overwrite the modulesLocations with the current one.
+		$this->_modulesLocations = array($location => $modulesLocation);
 	}
 	
 	/**
-	 * Sets how we locate actions.
+	 * Adds another location of modules.
+	 * @param string $location The path to the modules.
+	 * @param integer $type Should be either MODULES_FOLDERS or MODULES_CLASSES
+	 * @param optional string $fileExtension If $type=MODULES_CLASSES, the string to append
+	 * onto the module name to find the class file (ie, ".class.php").
+	 * @use MODULES_FOLDERS
+	 * @use MODULES_CLASSES
+	 * @access public
+	 * @return void
+	 **/
+	function addModulesLocation($location, $type, $fileExtension=null) {
+		// if $type=MODULES_CLASSES and $fileExtension is not set, throw an error
+		if ($type==MODULES_CLASSES && !$fileExtension) {
+			throwError(new Error("ActionHandler::addModulesLocation($location) - could not proceed: with \$type = MODULES_CLASSES you must specify the 3rd argument 'fileExtension'!","ActionHandler",true));
+			return false;
+		}
+		
+		$modulesLocation = array("location" => $location, 
+								 "type" => $type, 
+								 "file_extension" => $fileExtension);
+								 
+		// add this location to our modulesLocations
+		$this->_modulesLocations[$location] = $modulesLocation;
+	}
+	
+	/**
+	 * Sets the default way for how we locate actions. Action Types for
+	 * particular modules can be set with setActionsTypeForModulesLocation() method.
 	 * @param integer $type Should be any of ACTIONS_FLATFILES, ACTIONS_CLASSES, ACTIONS_CLASS_METHODS.
 	 * @param optional string $fileExtension If $type=ACTIONS_FLATFILES or ACTIONS_CLASSES, the extension to apply to
 	 * the action name to find the file (ie, ".inc.php" would give "action1name.inc.php").
@@ -382,6 +444,31 @@ class ActionHandler {
 		$this->_actionsType = $type;
 		$this->_actionsFileExtension = $fileExtension;
 		// done.
+	}
+	
+	/**
+	 * Sets the Action Types for the modulesLocation.
+	 * @param integer $type Should be any of ACTIONS_FLATFILES, ACTIONS_CLASSES, ACTIONS_CLASS_METHODS.
+	 * @param optional string $fileExtension If $type=ACTIONS_FLATFILES or ACTIONS_CLASSES, the extension to apply to
+	 * the action name to find the file (ie, ".inc.php" would give "action1name.inc.php").
+	 * @use ACTIONS_FLATFILES
+	 * @use ACTIONS_CLASSES
+	 * @use ACTIONS_CLASS_METHODS
+	 * @access public
+	 * @return void
+	 **/
+	function setActionsTypeForModulesLocation($location, $type, $fileExtension=null) {
+		// we need a fileExtension for FLATFILES and CLASSES
+		if (($type == ACTIONS_FLATFILES || $type == ACTIONS_CLASSES) && !$fileExtension) {
+			throwError(new Error("ActionHandler::setActionsType - since \$type = ACTIONS_FLATFILE or ACTIONS_CLASSES, you must pass 2nd argument 'fileExtension'!","ActionHandler",true));
+			return false;
+		}
+		
+		if (!$this->_modulesLocations[$location])
+			throwError(new Error("ActionHandler::setActionsTypeForModulesLocation - moduleLocation, '$location', has not been added yet.","ActionHandler",true));
+		
+		$this->_modulesLocations[$location]['actions_type'] = $type;
+		$this->_modulesLocations[$location]['actions_file_extension'] = $fileExtension;
 	}
 	
 	/**
