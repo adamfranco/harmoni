@@ -5,14 +5,14 @@
 	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 	 * @package harmoni.osid_v2.dr
 	 */
-class ThumbnailMimeTypeInfoPart extends InfoPart
+class ThumbnailMimeTypePartStructure extends PartStructure
 //	extends java.io.Serializable
 {
 
-	var $_infoStructure;
+	var $_partStructure;
 	
-	function ThumbnailMimeTypeInfoPart(&$infoStructure) {
-		$this->_infoStructure =& $infoStructure;
+	function ThumbnailMimeTypePartStructure(&$partStructure) {
+		$this->_partStructure =& $partStructure;
 	}
 	
 	/**
@@ -34,7 +34,7 @@ class ThumbnailMimeTypeInfoPart extends InfoPart
 	}
 	
 	/**
-	 * Get the type for this InfoPart
+	 * Get the type for this PartStructure
 	 *
 	 * WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	 * This method is not part of the OSID, but we
@@ -46,7 +46,7 @@ class ThumbnailMimeTypeInfoPart extends InfoPart
 	 */
 	function &getType() {
 		if (!isset($this->_type)) {
-			$this->_type =& new HarmoniType("DR", "Harmoni", "string");
+			$this->_type =& new HarmoniType("Repository", "Harmoni", "string");
 		}
 		
 		return $this->_type;
@@ -58,8 +58,8 @@ class ThumbnailMimeTypeInfoPart extends InfoPart
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
 	function &getId() {
-		$sharedManager =& Services::getService("Shared");
-		return $sharedManager->getId("THUMBNAIL_MIME_TYPE");
+		$idManager =& Services::getService("Id");
+		return $idManager->getId("THUMBNAIL_MIME_TYPE");
 	}
 
 	/**
@@ -67,7 +67,7 @@ class ThumbnailMimeTypeInfoPart extends InfoPart
 	 * @return object InfoPartIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function &getInfoParts() {
+	function &getPartStructures() {
 		$array = array();
 		return new HarmoniNodeIterator($array); // @todo replace with HarmoniInfoPartIterator
 	}
@@ -77,7 +77,7 @@ class ThumbnailMimeTypeInfoPart extends InfoPart
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function isPopulatedByDR() {
+	function isPopulatedByRepository() {
 		return TRUE;
 	}
 
@@ -104,8 +104,8 @@ class ThumbnailMimeTypeInfoPart extends InfoPart
 	 * @return object InfoStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function &getInfoStructure() {
-		return $this->_infoStructure;
+	function &getPartStructure() {
+		return $this->_partStructure;
 	}
 
 	/**
@@ -114,7 +114,7 @@ class ThumbnailMimeTypeInfoPart extends InfoPart
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 */
-	function validateInfoField(& $infoField) {
+	function validateInfoField(& $part) {
 		// we can check if the infoField (ie, ValueVersions) has values of the right type.
 		// @todo
 		

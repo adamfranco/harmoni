@@ -1,4 +1,5 @@
 <?
+require(OKI2."osid/repository/Part.php");
 /**
  * Each Asset has one of the AssetType supported by the Repository.	 There are
  * also zero or more RecordStructures required by the Repository for each
@@ -18,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.4 2005/01/19 23:23:12 adamfranco Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.5 2005/01/20 21:07:44 thebravecowboy Exp $ 
  */
 class HarmoniPart 
 	extends Part

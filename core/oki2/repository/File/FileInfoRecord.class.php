@@ -6,51 +6,51 @@ require_once(dirname(__FILE__)."/Fields/FileSizeInfoField.class.php");
 require_once(dirname(__FILE__)."/Fields/MimeTypeInfoField.class.php");
 require_once(dirname(__FILE__)."/Fields/ThumbnailDataInfoField.class.php");
 require_once(dirname(__FILE__)."/Fields/ThumbnailMimeTypeInfoField.class.php");
-require_once(HARMONI."/oki/dr/HarmoniInfoFieldIterator.class.php");
+require_once(HARMONI."/oki2/repository/HarmoniInfoFieldIterator.class.php");
 
 	/**
 	 * Each Asset has one of the AssetType supported by the DigitalRepository.  There are also zero or more InfoStructures required by the DigitalRepository for each AssetType. InfoStructures provide structural information.  The values for a given Asset's InfoStructure are stored in an InfoRecord.  InfoStructures can contain sub-elements which are referred to as InfoParts.  The structure defined in the InfoStructure and its InfoParts is used in for any InfoRecords for the Asset.  InfoRecords have InfoFields which parallel InfoParts.  <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 	 * @package harmoni.osid_v2.dr
 	 */
-class FileInfoRecord extends InfoRecord
+class FileRecord extends Record
 //	extends java.io.Serializable
 {
 	
 	var $_id;
-	var $_infoStructure;
+	var $_recordStructure;
 	
-	var $_infoFields;
+	var $_parts;
 	
-	function FileInfoRecord( &$infoStructure, & $id, $configuration ) {
+	function FileRecord( &$recordStructure, & $id, $configuration ) {
 		$this->_id=& $id;
-		$this->_infoStructure =& $infoStructure;
+		$this->_recordStructure =& $recordStructure;
 		$this->_configuration = $configuration;
 		
-		$sharedManager =& Services::getService("Shared");	
-		$this->_infoFields = array();
-		$this->_infoFields['FILE_DATA'] =& new FileDataInfoField(
-									$infoStructure->getInfoPart($sharedManager->getId('FILE_DATA')),
+		$idManager =& Services::getService("Id");	
+		$this->_parts = array();
+		$this->_parts['FILE_DATA'] =& new FileDataInfoField(
+									$recordStructure->getPartStructure($idManager->getId('FILE_DATA')),
 									$this->_id,
 									$this->_configuration);
-		$this->_infoFields['FILE_NAME'] =& new FileNameInfoField(
-									$infoStructure->getInfoPart($sharedManager->getId('FILE_NAME')),
+		$this->_parts['FILE_NAME'] =& new FileNameInfoField(
+									$recordStructure->getPartStructure($idManager->getId('FILE_NAME')),
 									$this->_id,
 									$this->_configuration);
-		$this->_infoFields['FILE_SIZE'] =& new FileSizeInfoField(
-									$infoStructure->getInfoPart($sharedManager->getId('FILE_SIZE')),
+		$this->_parts['FILE_SIZE'] =& new FileSizeInfoField(
+									$recordStructure->getParts($idManager->getId('FILE_SIZE')),
 									$this->_id,
 									$this->_configuration);
-		$this->_infoFields['MIME_TYPE'] =& new MimeTypeInfoField(
-									$infoStructure->getInfoPart($sharedManager->getId('MIME_TYPE')),
+		$this->_parts['MIME_TYPE'] =& new MimeTypeInfoField(
+									$infoStructure->getPartStructure($idManager->getId('MIME_TYPE')),
 									$this->_id,
 									$this->_configuration);
-		$this->_infoFields['THUMBNAIL_DATA'] =& new ThumbnailDataInfoField(
-									$infoStructure->getInfoPart($sharedManager->getId('THUMBNAIL_DATA')),
+		$this->_parts['THUMBNAIL_DATA'] =& new ThumbnailDataInfoField(
+									$infoStructure->getInfoPart($idManager->getId('THUMBNAIL_DATA')),
 									$this->_id,
 									$this->_configuration);
-		$this->_infoFields['THUMBNAIL_MIME_TYPE'] =& new ThumbnailMimeTypeInfoField(
-									$infoStructure->getInfoPart($sharedManager->getId('THUMBNAIL_MIME_TYPE')),
+		$this->_parts['THUMBNAIL_MIME_TYPE'] =& new ThumbnailMimeTypeInfoField(
+									$recordStructure->getPartStructure($idManager->getId('THUMBNAIL_MIME_TYPE')),
 									$this->_id,
 									$this->_configuration);
 	}
@@ -71,18 +71,18 @@ class FileInfoRecord extends InfoRecord
 	 * @return object InfoField
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 */
-	function &createInfoField(& $infoPartId, & $value) {
+	function &createPart(& $PartStructureId, & $value) {
 		$found = FALSE;
 		while ($parts->hasNext()) {
 			$part =& $parts->next();
-			if ($infoPartId->isEqual($part->getId())) {
+			if ($PartStructureId->isEqual($part->getId())) {
 				break;
 				$found = TRUE;
 			}
 		}
 		
 		if (!$found)
-			throwError(new Error(UNKNOWN_ID, "FileInfoRecord", true));
+			throwError(new Error(RepositoryException::UNKNOWN_ID(), "FileRecord", true));
 		
 		$partIdString = $partId->getIdString();
 		
@@ -114,9 +114,9 @@ class FileInfoRecord extends InfoRecord
 // 									$this->configuration);
 // 		}
 		
-		$this->_infoFields[$partIdString]->updateValue($value);
+		$this->_parts[$partIdString]->updateValue($value);
 		
-		return $this->_infoFields[$partIdString];
+		return $this->_parts[$partIdString];
 	}
 
 	/**
@@ -131,8 +131,8 @@ class FileInfoRecord extends InfoRecord
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 */
-	function deleteInfoField(& $infoFieldId) {
-		$string = $infoFieldId->getIdString();
+	function deletePart(& $partId) {
+		$string = $partId->getIdString();
 		if (ereg("(.*)-(FILE_SIZE|FILE_NAME|FILE_DATA|MIME_TYPE|THUMBNAIL_DATA|THUMBNAIL_MIME_TYPE)",$string,$r)) {
 			$recordId = $r[1];
 			$field = $r[2];
@@ -158,10 +158,10 @@ class FileInfoRecord extends InfoRecord
 				$query->setWhere("id = '".$this->_id->getIdString()."'");
 				$dbHandler->query($query, $this->_configuration["dbId"]);
 			} else if ($field != "FILE_SIZE") {
-				$this->_infoFields[$field]->updateValue("NULL");
+				$this->_parts[$field]->updateValue("NULL");
 			}
 		} else {
-			throwError(new Error(UNKNOWN_ID.": $string", "FileInfoRecord", true));
+			throwError(new Error(RepositoryException::UNKNOWN_ID().": $string", "FileRecord", true));
 		}
 	}
 

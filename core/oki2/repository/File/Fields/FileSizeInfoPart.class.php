@@ -5,14 +5,14 @@
 	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 	 * @package harmoni.osid_v2.dr
 	 */
-class FileSizeInfoPart extends InfoPart
+class FileSizePartStructure extends PartStructure
 //	extends java.io.Serializable
 {
 
-	var $_infoStructure;
+	var $_partStructure;
 	
-	function FileSizeInfoPart(&$infoStructure) {
-		$this->_infoStructure =& $infoStructure;
+	function FileSizePartStructure(&$partStructure) {
+		$this->_partStructure =& $partStructure;
 	}
 	
 	/**
@@ -46,7 +46,7 @@ class FileSizeInfoPart extends InfoPart
 	 */
 	function &getType() {
 		if (!isset($this->_type)) {
-			$this->_type =& new HarmoniType("DR", "Harmoni", "integer");
+			$this->_type =& new HarmoniType("Repository", "Harmoni", "integer");
 		}
 		
 		return $this->_type;
@@ -58,7 +58,7 @@ class FileSizeInfoPart extends InfoPart
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
 	function &getId() {
-		$sharedManager =& Services::getService("Shared");
+		$idManager =& Services::getService("Id");
 		return $sharedManager->getId("FILE_SIZE");
 	}
 
@@ -67,7 +67,7 @@ class FileSizeInfoPart extends InfoPart
 	 * @return object InfoPartIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function &getInfoParts() {
+	function &getPartStructure() {
 		$array = array();
 		return new HarmoniNodeIterator($array); // @todo replace with HarmoniInfoPartIterator
 	}
@@ -77,7 +77,7 @@ class FileSizeInfoPart extends InfoPart
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function isPopulatedByDR() {
+	function isPopulatedByRepository() {
 		return TRUE;
 	}
 
@@ -104,8 +104,8 @@ class FileSizeInfoPart extends InfoPart
 	 * @return object InfoStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function &getInfoStructure() {
-		return $this->_infoStructure;
+	function &getRecordStructure() {
+		return $this->_recordStructure;
 	}
 
 	/**
@@ -114,7 +114,7 @@ class FileSizeInfoPart extends InfoPart
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 */
-	function validateInfoField(& $infoField) {
+	function validatePart(& $part) {
 		// we can check if the infoField (ie, ValueVersions) has values of the right type.
 		// @todo
 		

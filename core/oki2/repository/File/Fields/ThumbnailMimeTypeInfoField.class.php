@@ -5,17 +5,17 @@
 	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 	 * @package harmoni.osid_v2.dr
 	 */
-class ThumbnailMimeTypeInfoField extends InfoField
+class ThumbnailMimeTypePart extends Part
 //	extends java.io.Serializable
 {
 
 	var $_recordId;
-	var $_infoPart;
+	var $_partStructure;
 	var $_type;
 	
-	function ThumbnailMimeTypeInfoField( &$infoPart, &$recordId, $configuration ) {
+	function ThumbnailMimeTypeInfoField( &$partStructure, &$recordId, $configuration ) {
 		$this->_recordId =& $recordId;
-		$this->_infoPart =& $infoPart;
+		$this->_partStructure =& $partStructure;
 		$this->_configuration = $configuration;
 		
 		// Set our name to NULL, so that we can know if it has not been checked
@@ -30,8 +30,8 @@ class ThumbnailMimeTypeInfoField extends InfoField
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
 	function &getId() {
-		$sharedManager =& Services::getService("Shared");
-		return $sharedManager->getId($this->_recordId->getIdString()."-THUMBNAIL_MIME_TYPE");
+		$idManager =& Services::getService("Id");
+		return $idManager->getId($this->_recordId->getIdString()."-THUMBNAIL_MIME_TYPE");
 	}
 
 	/**
@@ -41,9 +41,9 @@ class ThumbnailMimeTypeInfoField extends InfoField
 	 * @return object InfoField
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 */
-	function &createInfoField(& $infoPartId, & $value) {
+	function &createPar(& $partStructureId, & $value) {
 		throwError(
-			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
+			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -51,9 +51,9 @@ class ThumbnailMimeTypeInfoField extends InfoField
 	 *  infoFieldId
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 */
-	function deleteInfoField(& $infoFieldId) {
+	function deletePart(& $partId) {
 		throwError(
-			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
+			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -61,9 +61,9 @@ class ThumbnailMimeTypeInfoField extends InfoField
 	 * @return object InfoFieldIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function &getInfoFields() {
+	function &getParts() {
 		throwError(
-			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
+			new Error(RespositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -152,7 +152,7 @@ class ThumbnailMimeTypeInfoField extends InfoField
 	 * @return object InfoPart
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function &getInfoPart() {
-		return $this->_infoPart;
+	function &getPartStructure() {
+		return $this->_partStructure;
 	}
 }

@@ -5,14 +5,14 @@
 	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 	 * @package harmoni.osid_v2.dr
 	 */
-class MimeTypeInfoPart extends InfoPart
+class MimeTypePartStructure extends PartStructure
 //	extends java.io.Serializable
 {
 
-	var $_infoStructure;
+	var $_recordStructure;
 	
-	function MimeTypeInfoPart(&$infoStructure) {
-		$this->_infoStructure =& $infoStructure;
+	function MimeTypePartStructure(&$recordStructure) {
+		$this->_recordStructure =& $recordStructure;
 	}
 	
 	/**
@@ -46,7 +46,7 @@ class MimeTypeInfoPart extends InfoPart
 	 */
 	function &getType() {
 		if (!isset($this->_type)) {
-			$this->_type =& new HarmoniType("DR", "Harmoni", "string");
+			$this->_type =& new HarmoniType("Repository", "Harmoni", "string");
 		}
 		
 		return $this->_type;
@@ -58,8 +58,8 @@ class MimeTypeInfoPart extends InfoPart
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
 	function &getId() {
-		$sharedManager =& Services::getService("Shared");
-		return $sharedManager->getId("MIME_TYPE");
+		$idManager =& Services::getService("Id");
+		return $idManager->getId("MIME_TYPE");
 	}
 
 	/**
@@ -67,7 +67,7 @@ class MimeTypeInfoPart extends InfoPart
 	 * @return object InfoPartIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function &getInfoParts() {
+	function &getPartStructure() {
 		$array = array();
 		return new HarmoniNodeIterator($array); // @todo replace with HarmoniInfoPartIterator
 	}
@@ -77,7 +77,7 @@ class MimeTypeInfoPart extends InfoPart
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function isPopulatedByDR() {
+	function isPopulatedByRepository() {
 		return TRUE;
 	}
 
@@ -104,8 +104,8 @@ class MimeTypeInfoPart extends InfoPart
 	 * @return object InfoStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function &getInfoStructure() {
-		return $this->_infoStructure;
+	function &getRecordStructure() {
+		return $this->_recordStructure;
 	}
 
 	/**
@@ -114,8 +114,8 @@ class MimeTypeInfoPart extends InfoPart
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 */
-	function validateInfoField(& $infoField) {
-		// we can check if the infoField (ie, ValueVersions) has values of the right type.
+	function validatePart(& $part) {
+		// we can check if the part (ie, ValueVersions) has values of the right type.
 		// @todo
 		
 		return true;
