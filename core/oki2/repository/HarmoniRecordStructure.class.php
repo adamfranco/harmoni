@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.11 2005/01/28 19:34:47 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.12 2005/02/07 21:38:26 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure extends RecordStructure

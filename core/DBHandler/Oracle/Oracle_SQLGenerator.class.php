@@ -5,7 +5,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
 /**
  * A OracleQueryGenerator class provides the tools to build a Oracle query from a Query object.
  *
- * @version $Id: Oracle_SQLGenerator.class.php,v 1.5 2004/07/13 17:42:15 dobomode Exp $
+ * @version $Id: Oracle_SQLGenerator.class.php,v 1.6 2005/02/07 21:38:12 adamfranco Exp $
  * @package harmoni.dbc.oracle
  * @copyright 2003 
  */

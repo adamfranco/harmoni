@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/ColorSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BackgroundColorSP.class.php,v 1.3 2005/01/19 21:09:33 adamfranco Exp $
+ * @version $Id: BackgroundColorSP.class.php,v 1.4 2005/02/07 21:38:15 adamfranco Exp $
  */
 class BackgroundColorSP extends StyleProperty {
 

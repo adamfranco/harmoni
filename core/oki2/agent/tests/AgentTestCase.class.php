@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki2/agent/HarmoniAgent.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AgentTestCase.class.php,v 1.5 2005/01/19 22:28:14 adamfranco Exp $
+ * @version $Id: AgentTestCase.class.php,v 1.6 2005/02/07 21:38:23 adamfranco Exp $
  * @package harmoni.tests.metadata
  * @copyright 2003
  **/

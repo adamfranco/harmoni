@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.11 2005/01/19 23:23:00 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.12 2005/02/07 21:38:14 adamfranco Exp $
  */
 class Theme extends ThemeInterface {
 

@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/RegexValidatorRule.class
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DottedPairValidatorRule.class.php,v 1.4 2005/01/19 22:27:48 adamfranco Exp $
+ * @version $Id: DottedPairValidatorRule.class.php,v 1.5 2005/02/07 21:38:18 adamfranco Exp $
  */
 
 class DottedPairValidatorRule

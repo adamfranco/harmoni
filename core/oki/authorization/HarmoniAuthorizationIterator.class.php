@@ -13,7 +13,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationIterator.class.php,v 1.6 2005/01/19 22:27:48 adamfranco Exp $ */
+ * @version $Id: HarmoniAuthorizationIterator.class.php,v 1.7 2005/02/07 21:38:19 adamfranco Exp $ */
 
 class HarmoniAuthorizationIterator
 	extends AuthorizationIterator

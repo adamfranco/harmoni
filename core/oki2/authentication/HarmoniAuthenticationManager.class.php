@@ -60,7 +60,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.8 2005/01/26 23:00:34 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.9 2005/02/07 21:38:24 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager

@@ -7,7 +7,7 @@ require_once(HARMONI . 'DBHandler/Oracle/OracleDatabase.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  * 
- * @version $Id: OracleSelectQueryResultTestCase.class.php,v 1.2 2005/01/19 16:31:31 adamfranco Exp $
+ * @version $Id: OracleSelectQueryResultTestCase.class.php,v 1.3 2005/02/07 21:38:13 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003
  */

@@ -8,7 +8,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: NodeTestCase.class.php,v 1.12 2005/01/19 22:28:09 adamfranco Exp $
+ * @version $Id: NodeTestCase.class.php,v 1.13 2005/02/07 21:38:21 adamfranco Exp $
  * @package harmoni.tests.metadata
  * @copyright 2003
  **/

@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BackgroundAttachmentSC.class.php,v 1.4 2005/01/20 17:47:31 nstamato Exp $
+ * @version $Id: BackgroundAttachmentSC.class.php,v 1.5 2005/02/07 21:38:14 adamfranco Exp $
  */
 class BackgroundAttachmentSC extends StyleComponent {
 

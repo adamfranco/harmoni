@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLComprehensiveTestCase.class.php,v 1.2 2005/01/19 16:31:30 adamfranco Exp $
+ * @version $Id: MySQLComprehensiveTestCase.class.php,v 1.3 2005/02/07 21:38:12 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/

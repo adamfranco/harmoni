@@ -11,7 +11,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.28 2005/01/26 17:37:52 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.29 2005/02/07 21:38:19 adamfranco Exp $
  **/
 
 class AuthorizationCache {

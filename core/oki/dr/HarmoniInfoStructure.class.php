@@ -12,7 +12,7 @@ require_once(HARMONI."/oki/dr/HarmoniInfoPartIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniInfoStructure.class.php,v 1.22 2005/01/26 17:37:53 adamfranco Exp $ */
+ * @version $Id: HarmoniInfoStructure.class.php,v 1.23 2005/02/07 21:38:20 adamfranco Exp $ */
 class HarmoniInfoStructure extends InfoStructure
 //	extends java.io.Serializable
 {

@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AutoLengthSC.class.php,v 1.7 2005/01/20 17:47:31 nstamato Exp $
+ * @version $Id: AutoLengthSC.class.php,v 1.8 2005/02/07 21:38:14 adamfranco Exp $
  */
 class AutoLengthSC extends StyleComponent {
 

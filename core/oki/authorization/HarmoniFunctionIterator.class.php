@@ -14,7 +14,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniFunctionIterator.class.php,v 1.5 2005/01/19 22:28:04 adamfranco Exp $ */
+ * @version $Id: HarmoniFunctionIterator.class.php,v 1.6 2005/02/07 21:38:19 adamfranco Exp $ */
 
 class HarmoniFunctionIterator
 	extends FunctionIterator

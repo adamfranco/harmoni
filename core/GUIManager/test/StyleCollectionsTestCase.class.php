@@ -9,7 +9,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StyleCollectionsTestCase.class.php,v 1.5 2005/01/19 16:32:55 adamfranco Exp $
+ * @version $Id: StyleCollectionsTestCase.class.php,v 1.6 2005/02/07 21:38:18 adamfranco Exp $
  * @copyright 2003 
  */
 

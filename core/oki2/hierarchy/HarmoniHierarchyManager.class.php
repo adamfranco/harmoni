@@ -43,7 +43,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.8 2005/01/19 23:23:10 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.9 2005/02/07 21:38:25 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {

@@ -22,7 +22,7 @@ require_once(HARMONI."GUIManager/StyleComponents/BackgroundAttachmentSC.class.ph
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BackgroundSP.class.php,v 1.2 2005/01/19 21:09:34 adamfranco Exp $
+ * @version $Id: BackgroundSP.class.php,v 1.3 2005/02/07 21:38:15 adamfranco Exp $
  */
 class BackgroundSP extends StyleProperty {
 

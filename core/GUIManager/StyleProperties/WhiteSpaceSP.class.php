@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/WhiteSpaceSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: WhiteSpaceSP.class.php,v 1.2 2005/01/19 21:09:36 adamfranco Exp $
+ * @version $Id: WhiteSpaceSP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
  */
 class WhiteSpaceSP extends StyleProperty {
 

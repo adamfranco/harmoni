@@ -5,7 +5,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
 /**
  * A PostGreQueryGenerator class provides the tools to build a PostGre query from a Query object.
  *
- * @version $Id: PostGre_SQLGenerator.class.php,v 1.5 2004/10/14 05:45:43 adamfranco Exp $
+ * @version $Id: PostGre_SQLGenerator.class.php,v 1.6 2005/02/07 21:38:12 adamfranco Exp $
  * @package harmoni.dbc.postgre
  * @copyright 2003 
  */

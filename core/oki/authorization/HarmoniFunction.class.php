@@ -10,7 +10,7 @@ require_once(OKI."/authorization.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniFunction.class.php,v 1.13 2005/01/19 23:23:02 adamfranco Exp $
+ * @version $Id: HarmoniFunction.class.php,v 1.14 2005/02/07 21:38:19 adamfranco Exp $
  */
 class HarmoniFunction extends FunctionInterface {
 

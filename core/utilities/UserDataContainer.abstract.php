@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UserDataContainer.abstract.php,v 1.2 2005/01/19 21:10:15 adamfranco Exp $
+ * @version $Id: UserDataContainer.abstract.php,v 1.3 2005/02/07 21:38:28 adamfranco Exp $
  */
 class UserDataContainer extends DataContainer {
 	/**

@@ -14,7 +14,7 @@ require_once(HARMONI.'oki/authorization/HarmoniQualifierIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniQualifier.class.php,v 1.10 2005/01/19 23:23:02 adamfranco Exp $
+ * @version $Id: HarmoniQualifier.class.php,v 1.11 2005/02/07 21:38:19 adamfranco Exp $
  */
 class HarmoniQualifier extends Qualifier {
 

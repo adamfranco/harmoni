@@ -33,7 +33,7 @@ require_once(HARMONI."oki/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleComponent.class.php,v 1.7 2005/01/19 23:23:00 adamfranco Exp $
+ * @version $Id: StyleComponent.class.php,v 1.8 2005/02/07 21:38:13 adamfranco Exp $
  **/
 
 class StyleComponent extends StyleComponentInterface {

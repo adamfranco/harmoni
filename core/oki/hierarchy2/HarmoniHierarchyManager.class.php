@@ -25,7 +25,7 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.12 2005/01/19 23:23:06 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.13 2005/02/07 21:38:21 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

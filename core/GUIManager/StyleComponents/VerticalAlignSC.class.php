@@ -26,7 +26,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: VerticalAlignSC.class.php,v 1.6 2005/01/20 17:47:32 nstamato Exp $
+ * @version $Id: VerticalAlignSC.class.php,v 1.7 2005/02/07 21:38:15 adamfranco Exp $
  */
 class VerticalAlignSC extends StyleComponent {
 

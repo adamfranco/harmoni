@@ -7,7 +7,7 @@ require_once(HARMONI.'authenticationHandler/methods/DBAuthenticationMethod.class
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DBAuthenticationMethodTestCase.class.php,v 1.2 2005/01/19 16:32:56 adamfranco Exp $
+ * @version $Id: DBAuthenticationMethodTestCase.class.php,v 1.3 2005/02/07 21:38:18 adamfranco Exp $
  * @copyright 2003 
  **/
 

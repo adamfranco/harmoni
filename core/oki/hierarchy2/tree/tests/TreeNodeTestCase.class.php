@@ -7,7 +7,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: TreeNodeTestCase.class.php,v 1.2 2005/01/19 16:33:00 adamfranco Exp $
+ * @version $Id: TreeNodeTestCase.class.php,v 1.3 2005/02/07 21:38:22 adamfranco Exp $
  * @copyright 2003 
  */
 

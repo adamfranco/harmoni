@@ -16,7 +16,7 @@ require_once(OKI2."/osid/agent/Agent.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.8 2005/01/26 17:29:44 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.9 2005/02/07 21:38:23 adamfranco Exp $
  */
 class HarmoniAgent 
 	extends Agent

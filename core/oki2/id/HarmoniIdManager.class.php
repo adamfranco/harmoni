@@ -41,7 +41,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdManager.class.php,v 1.9 2005/01/19 23:23:11 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.10 2005/02/07 21:38:26 adamfranco Exp $
  */
 
 class HarmoniIdManager

@@ -19,7 +19,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/IntegerValidatorRule.cla
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ZIndexSC.class.php,v 1.5 2005/01/20 17:47:32 nstamato Exp $
+ * @version $Id: ZIndexSC.class.php,v 1.6 2005/02/07 21:38:15 adamfranco Exp $
  */
 class ZIndexSC extends StyleComponent {
 

@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.14 2005/01/19 23:23:02 adamfranco Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.15 2005/02/07 21:38:19 adamfranco Exp $
  */
 class HarmoniAuthorization extends Authorization {
 

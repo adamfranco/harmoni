@@ -20,7 +20,7 @@ require_once(HARMONI.'/oki/hierarchy2/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.13 2005/01/26 17:37:54 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.14 2005/02/07 21:38:21 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: QueueTestCase.class.php,v 1.2 2005/01/19 16:33:31 adamfranco Exp $
+ * @version $Id: QueueTestCase.class.php,v 1.3 2005/02/07 21:38:29 adamfranco Exp $
  * @copyright 2003 
  **/
 

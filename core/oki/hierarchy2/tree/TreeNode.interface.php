@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TreeNode.interface.php,v 1.7 2005/01/19 23:23:07 adamfranco Exp $
+ * @version $Id: TreeNode.interface.php,v 1.8 2005/02/07 21:38:22 adamfranco Exp $
  */
 class TreeNodeInterface {
 

@@ -10,7 +10,7 @@ require_once(HARMONI."oki/shared/HarmoniType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationType.class.php,v 1.3 2005/01/19 22:27:48 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationType.class.php,v 1.4 2005/02/07 21:38:19 adamfranco Exp $
  **/
 
 class HarmoniAuthenticationType extends HarmoniType {

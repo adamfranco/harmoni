@@ -7,7 +7,7 @@ require_once(HARMONI.'examlePackageDir/ExampleClass.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ExampleClassTestCase.class.php,v 1.2 2005/01/19 16:33:29 adamfranco Exp $
+ * @version $Id: ExampleClassTestCase.class.php,v 1.3 2005/02/07 21:38:27 adamfranco Exp $
  * @copyright 2003 
  **/
 

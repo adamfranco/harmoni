@@ -15,7 +15,7 @@ require_once(HARMONI."GUIManager/Components/MenuItem.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuItemLink.class.php,v 1.5 2005/01/19 23:23:00 adamfranco Exp $
+ * @version $Id: MenuItemLink.class.php,v 1.6 2005/02/07 21:38:14 adamfranco Exp $
  */
 class MenuItemLink extends Component /* implements MenuItemInterface */ {
 

@@ -11,7 +11,7 @@ require_once(HARMONI."oki2/hierarchy/tree/TreeNode.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tree.class.php,v 1.6 2005/01/19 23:23:10 adamfranco Exp $
+ * @version $Id: Tree.class.php,v 1.7 2005/02/07 21:38:25 adamfranco Exp $
  * @since Created: 8/30/2003
  */
 class Tree extends TreeInterface {

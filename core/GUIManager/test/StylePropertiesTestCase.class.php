@@ -57,7 +57,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BackgroundSP.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StylePropertiesTestCase.class.php,v 1.8 2005/01/19 16:32:55 adamfranco Exp $
+ * @version $Id: StylePropertiesTestCase.class.php,v 1.9 2005/02/07 21:38:18 adamfranco Exp $
  * @copyright 2003 
  */
 

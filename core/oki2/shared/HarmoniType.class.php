@@ -11,7 +11,7 @@ require_once(OKI2."/osid/shared/Type.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniType.class.php,v 1.5 2005/01/26 17:29:47 adamfranco Exp $
+ * @version $Id: HarmoniType.class.php,v 1.6 2005/02/07 21:38:27 adamfranco Exp $
  */
 
 class HarmoniType

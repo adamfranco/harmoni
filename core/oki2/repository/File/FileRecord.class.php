@@ -43,7 +43,7 @@ class FileRecord
 	var $_parts;
 	
 	function FileRecord( &$recordStructure, & $id, $configuration ) {
-		$this->_id=& $id;
+		$this->_id =& $id;
 		$this->_recordStructure =& $recordStructure;
 		$this->_configuration = $configuration;
 		

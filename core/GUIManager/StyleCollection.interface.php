@@ -26,7 +26,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollection.interface.php,v 1.6 2005/01/19 21:07:52 adamfranco Exp $
+ * @version $Id: StyleCollection.interface.php,v 1.7 2005/02/07 21:38:13 adamfranco Exp $
  **/
 
 class StyleCollectionInterface {

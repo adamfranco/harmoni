@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.10 2005/01/27 15:45:38 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.11 2005/02/07 21:38:23 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent

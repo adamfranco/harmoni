@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.5 2005/01/26 23:02:17 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.6 2005/02/07 21:38:25 adamfranco Exp $
  * @package harmoni.tests.metadata
  * @copyright 2003
  **/

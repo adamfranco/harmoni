@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.32 2005/01/26 17:37:53 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.33 2005/02/07 21:38:20 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

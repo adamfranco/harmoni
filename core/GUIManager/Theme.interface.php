@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.interface.php,v 1.9 2005/01/19 21:46:28 adamfranco Exp $
+ * @version $Id: Theme.interface.php,v 1.10 2005/02/07 21:38:14 adamfranco Exp $
  **/
 class ThemeInterface {
 

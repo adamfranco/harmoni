@@ -12,7 +12,7 @@ require_once(OKI."/hierarchy.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.25 2005/01/26 17:37:54 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.26 2005/02/07 21:38:20 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

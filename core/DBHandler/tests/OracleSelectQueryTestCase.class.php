@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: OracleSelectQueryTestCase.class.php,v 1.2 2005/01/19 16:31:31 adamfranco Exp $
+ * @version $Id: OracleSelectQueryTestCase.class.php,v 1.3 2005/02/07 21:38:13 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/

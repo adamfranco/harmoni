@@ -31,7 +31,7 @@ define("MEMORY_ONLY", 1001);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.27 2005/01/26 17:37:54 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.28 2005/02/07 21:38:20 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

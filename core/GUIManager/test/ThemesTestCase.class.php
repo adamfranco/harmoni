@@ -12,7 +12,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ThemesTestCase.class.php,v 1.7 2005/01/27 15:45:38 adamfranco Exp $
+ * @version $Id: ThemesTestCase.class.php,v 1.8 2005/02/07 21:38:18 adamfranco Exp $
  * @copyright 2003 
  */
 

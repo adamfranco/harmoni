@@ -9,7 +9,7 @@ require_once(HARMONI.'errorHandler/ErrorPrinterBasic.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ErrorHandlerTestCase.class.php,v 1.2 2005/01/19 16:32:57 adamfranco Exp $
+ * @version $Id: ErrorHandlerTestCase.class.php,v 1.3 2005/02/07 21:38:19 adamfranco Exp $
  * @package harmoni.errorhandler.tests
  * @copyright 2003 
  **/
