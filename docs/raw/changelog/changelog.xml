@@ -3,6 +3,9 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.1.0" date="Not Released">
+		<fix author='nstamato' bug='958187'>
+			Added the XOR functionality described in the manual
+		</fix>	
 		<change author='adam'>
 			The DataManager/metaData now uses the OKI Shared Ids instead of its own internal
 			id system. This keeps all access to unique ids safely behind the Shared interface.
