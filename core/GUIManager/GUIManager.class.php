@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.13 2005/03/29 19:44:09 adamfranco Exp $
+ * @version $Id: GUIManager.class.php,v 1.14 2005/04/01 20:30:29 adamfranco Exp $
  */
 class GUIManager extends GUIManagerInterface {
 
@@ -45,15 +45,76 @@ class GUIManager extends GUIManagerInterface {
 	 * manager.
 	 * @access public
 	 */
-	function GUIManager($dbIndex, $guiDB) {
+	function GUIManager() {
+	}
+	
+		/**
+	 * Assign the configuration of this Manager. Valid configuration options are as
+	 * follows:
+	 *	database_index			integer
+	 *	database_name			string
+	 * 
+	 * @param object Properties $configuration (original type: java.util.Properties)
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#OPERATION_FAILED OPERATION_FAILED},
+	 *		   {@link org.osid.OsidException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.OsidException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignConfiguration ( &$configuration ) { 
+		$this->_configuration =& $configuration;
+		
+		$dbIndex =& $configuration->getProperty('database_index');
+		$dbName =& $configuration->getProperty('database_name');
+		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
-		ArgumentValidator::validate($guiDB, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($dbName, StringValidatorRule::getRule(), true);		
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
-		$this->_guiDB = $guiDB;
-	}	
+		$this->_guiDB = $dbName;
+		
+		if ($theme =& $configuration->getProperty('default_theme')) {
+			$harmoni =& $this->_osidContext->getContext('harmoni');
+			$harmoni->setTheme($theme);
+		}
+	}
+
+	/**
+	 * Return context of this OsidManager.
+	 *	
+	 * @return object OsidContext
+	 * 
+	 * @throws object OsidException 
+	 * 
+	 * @access public
+	 */
+	function &getOsidContext () { 
+		return $this->_osidContext;
+	} 
+
+	/**
+	 * Assign the context of this OsidManager.
+	 * 
+	 * @param object OsidContext $context
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignOsidContext ( &$context ) { 
+		$this->_osidContext =& $context;
+	}
 
 	/**
 	 * Returns a list of themes supported by the GUIManager.

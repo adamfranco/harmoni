@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.45 2005/04/01 19:59:36 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.46 2005/04/01 20:29:50 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -192,7 +192,8 @@ if (LOAD_DEBUG) {
 if(LOAD_GUI) {
 
 	require_once(HARMONI."GUIManager/GUIManager.class.php");
-	Services::registerService("GUI","GUIManager");
+	Services::registerService("GUIManager","GUIManager");
+	Services::createServiceAlias("GUIManager", "GUI");
 
 }
 
