@@ -1,13 +1,13 @@
 <?php
 
-require_once(HARMONI."DBHandler/classes/UpdateQueryResult.interface.php");
+require_once(HARMONI."DBHandler/UpdateQueryResult.interface.php");
 
 /**
  * The UPDATEQueryResult interface provides the functionality common to all UPDATE query results.
  *
  * The UPDATEQueryResult interface provides the functionality common to all UPDATE query results.
  * For example, you can get the primary key for the last UPDATEion, get number of UPDATEed rows, etc.
- * @version $Id: MySQLUpdateQueryResult.class.php,v 1.1 2003/06/24 20:56:25 gabeschine Exp $
+ * @version $Id: MySQLUpdateQueryResult.class.php,v 1.2 2003/06/24 21:08:45 adamfranco Exp $
  * @package harmoni.dbhandler
  * @access public
  * @copyright 2003 

@@ -1,16 +1,16 @@
 <?php
 
-require_once(HARMONI."DBHandler/classes/Database.interface.php");
-require_once(HARMONI."DBHandler/classes/MySQL/MySQLSelectQueryResult.class.php");
-require_once(HARMONI."DBHandler/classes/MySQL/MySQLInsertQueryResult.class.php");
-require_once(HARMONI."DBHandler/classes/MySQL/MySQLUpdateQueryResult.class.php");
-require_once(HARMONI."DBHandler/classes/MySQL/MySQLDeleteQueryResult.class.php");
-require_once(HARMONI."DBHandler/classes/MySQL/MySQL_SQLGenerator.class.php");
+require_once(HARMONI."DBHandler/Database.interface.php");
+require_once(HARMONI."DBHandler/MySQL/MySQLSelectQueryResult.class.php");
+require_once(HARMONI."DBHandler/MySQL/MySQLInsertQueryResult.class.php");
+require_once(HARMONI."DBHandler/MySQL/MySQLUpdateQueryResult.class.php");
+require_once(HARMONI."DBHandler/MySQL/MySQLDeleteQueryResult.class.php");
+require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.1 2003/06/24 20:56:25 gabeschine Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.2 2003/06/24 21:08:45 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbhandler
  * @access public

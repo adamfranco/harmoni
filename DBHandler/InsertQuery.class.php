@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI."DBHandler/classes/InsertQuery.interface.php");
+require_once(HARMONI."DBHandler/InsertQuery.interface.php");
 
 /**
  * An InsertQuery object provides the tools to build an INSERT query.
@@ -9,7 +9,7 @@ require_once(HARMONI."DBHandler/classes/InsertQuery.interface.php");
  * initialization steps, etc. What is left to be implemented is the
  * generateSQLQuery() method.
  * 
- * @version $Id: InsertQuery.class.php,v 1.1 2003/06/24 20:56:25 gabeschine Exp $
+ * @version $Id: InsertQuery.class.php,v 1.2 2003/06/24 21:08:45 adamfranco Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */

@@ -1,13 +1,13 @@
 <?php
 
-require_once(HARMONI."DBHandler/classes/SelectQuery.interface.php");
+require_once(HARMONI."DBHandler/SelectQuery.interface.php");
 
 /**
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * @version $Id: SelectQuery.class.php,v 1.1 2003/06/24 20:56:26 gabeschine Exp $
+ * @version $Id: SelectQuery.class.php,v 1.2 2003/06/24 21:08:45 adamfranco Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */

@@ -1,11 +1,11 @@
 <?php
 
-require_once(HARMONI.'DBHandler/classes/DBHandler.interface.php');
-require_once(HARMONI."DBHandler/classes/SelectQuery.class.php");
-require_once(HARMONI."DBHandler/classes/UpdateQuery.class.php");
-require_once(HARMONI."DBHandler/classes/DeleteQuery.class.php");
-require_once(HARMONI."DBHandler/classes/InsertQuery.class.php");
-require_once(HARMONI.'DBHandler/classes/MySQL/MySQLDatabase.class.php');
+require_once(HARMONI.'DBHandler/DBHandler.interface.php');
+require_once(HARMONI."DBHandler/SelectQuery.class.php");
+require_once(HARMONI."DBHandler/UpdateQuery.class.php");
+require_once(HARMONI."DBHandler/DeleteQuery.class.php");
+require_once(HARMONI."DBHandler/InsertQuery.class.php");
+require_once(HARMONI.'DBHandler/MySQL/MySQLDatabase.class.php');
 require_once(HARMONI.'utilities/Queue.class.php');
 
 
@@ -14,7 +14,7 @@ require_once(HARMONI.'utilities/Queue.class.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.1 2003/06/24 20:56:26 gabeschine Exp $
+ * @version $Id: DBHandler.class.php,v 1.2 2003/06/24 21:08:45 adamfranco Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  * @access public
