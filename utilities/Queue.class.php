@@ -1,10 +1,10 @@
 <?php
 
-require_once(dirname(__FILE__)."/Queue.interface.php");
+require_once(HARMONI."utilities/Queue.interface.php");
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.class.php,v 1.8 2003/06/23 16:42:43 movsjani Exp $
+ * @version $Id: Queue.class.php,v 1.9 2003/06/23 19:14:26 gabeschine Exp $
  * @copyright 2003 
  */
 

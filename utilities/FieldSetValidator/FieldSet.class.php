@@ -5,7 +5,7 @@ require_once("FieldSet.interface.php");
 /**
  * the FieldSet holds a set of key=value pairs of data
  *
- * @version $Id: FieldSet.class.php,v 1.3 2003/06/23 13:22:52 gabeschine Exp $
+ * @version $Id: FieldSet.class.php,v 1.4 2003/06/23 19:14:26 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/
@@ -94,7 +94,7 @@ class FieldSet
 	 * @access public
 	 * @return int the number of fields
 	 **/
-	function unset( $key ) {
+	function unsetKey( $key ) {
 		unset($this->_fields[$key]);
 	}
 }

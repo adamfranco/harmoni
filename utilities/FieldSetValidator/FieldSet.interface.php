@@ -3,7 +3,7 @@
 /**
  * the FieldSetInterface defines the methods required by any FieldSet class or derivatives
  *
- * @version $Id: FieldSet.interface.php,v 1.3 2003/06/23 13:22:52 gabeschine Exp $
+ * @version $Id: FieldSet.interface.php,v 1.4 2003/06/23 19:14:26 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/
@@ -59,7 +59,7 @@ class FieldSetInterface {
 	 * @access public
 	 * @return int the number of fields
 	 **/
-	function unset( $key ) {}
+	function unsetKey( $key ) {}
 }
 
 ?>
