@@ -5,14 +5,14 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.15 2005/01/26 17:48:51 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.16 2005/03/02 21:33:48 adamfranco Exp $
  *
  * @package harmoni.services
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.class.php,v 1.15 2005/01/26 17:48:51 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.16 2005/03/02 21:33:48 adamfranco Exp $
  */
 class Services extends ServicesAbstract {
 	/**
@@ -85,30 +85,6 @@ class Services extends ServicesAbstract {
 			return false;
 		}
 
-// Since objects in PHP4 can not impliment multiple interfaces -- interfaces don't exist --
-// and objects cannot extend multiple classes, a hack to allow services which ARE an
-// implimentation of the ServicesInterface (two methods, start() and stop() are all that's
-// needed), but need to extend other interfaces as well, are needed.
-
-// NEW NOTE: we cannot just instantiate classes at will. some require arguments to the constructor, etc.
-// we'll just have to trust that things are correct. if they're not, then we'll be getting an error.
-
-/*// -----------Start Good Code ---------------
-//		$rule =& new ExtendsValidatorRule("ServiceInterface");
-		$tryObj =& new $class;
-//		if (!$rule->check($tryObj)) {
-// -----------End Good Code ---------------
-
-// -----------Start Hack ---------------
-		$canStart = method_exists($tryObj, "start");
-		$canStop = method_exists($tryObj, "stop");
-		if (!$canStart || !$canStop) {
-// -----------End Hack ---------------
-			die($this->_getBacktrace()."Services::registerService('$name') - can not register service '$name' because the class '$class' does not implement the Service Interface. Please change your PHP class definitions to include the Service Interface.");
-			return false;
-		}
-		unset($rule,$tryObj);*/
-		// otherwise add to the the registered services array
 		$this->_registeredServices[$name] = $class;
 		return true;
 	}
@@ -121,39 +97,8 @@ class Services extends ServicesAbstract {
 	 * @return void
 	 **/
 	function registerObject($name ,&$object) {
-
-// Since objects in PHP4 can not impliment multiple interfaces -- interfaces don't exist --
-// and objects cannot extend multiple classes, a hack to allow services which ARE an
-// implimentation of the ServicesInterface (two methods, start() and stop() are all that's
-// needed), but need to extend other interfaces as well, are needed.
-
-// -----------Start Good Code ---------------
-//		$rule =& new ExtendsValidatorRule("ServiceInterface");
 		$class = get_class($object);
-//		if (!$rule->check($object)) {
-// -----------End Good Code ---------------
 
-// -----------Start Hack ---------------
-		$canStart = method_exists($object, "start");
-		$canStop = method_exists($object, "stop");
-		if (!$canStart || !$canStop) {
-// -----------End Hack ---------------	
-			// if we have the error Handler, throw a pretty error with that,
-			// otherwise, use the die() function.
-			if ($this->_registeredServices['ErrorHandler']) {
-				throwError(new Error("Services::registerService('$name') - can not 
-						register service '$name' because the class '$class' does not 
-						implement the Service Interface. Please change your PHP class 
-						definitions to include the Service Interface.", "Services", 1));
-			} else {
-				die($this->_getBacktrace()."Services::registerService('$name') - can
-					not register service '$name' because the class '$class' does not 
-					implement the Service Interface. Please change your PHP class 
-					definitions to include the Service Interface.");
-			}
-			return false;
-		}
-		
 		$this->_registeredServices[$name] = $class;
 		$this->_services[$name] =& $object;
 		return true;
@@ -245,8 +190,10 @@ class Services extends ServicesAbstract {
 			return false;
 		}
 		
-		// call the service's start() method
-		$this->_services[$name]->start();
+		// call the service's start() method if it exists
+		if (method_exists($this->_services[$name], 'start'))
+			$this->_services[$name]->start();
+		
 		return true;
 	}
 	 
@@ -268,7 +215,10 @@ class Services extends ServicesAbstract {
 	 * @return boolean True on success.
 	 **/
 	function stop( $name ) {
-		if ($this->running($name)) $this->_services[$name]->stop();
+		if ($this->running($name)) {
+			if (method_exists($this->_services[$name], 'stop'))
+				$this->_services[$name]->stop();
+		}
 		unset($this->_services[$name]);
 		return true;
 	}
