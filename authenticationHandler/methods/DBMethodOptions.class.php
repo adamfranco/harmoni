@@ -6,7 +6,7 @@ require_once(HARMONI."utilities/DataContainer.abstract.php");
  * The DBMethodOptions is a data container for the {@link DBAuthenticationMethod}.
  * 
  * @package harmoni.authenticationHandler
- * @version $Id: DBMethodOptions.class.php,v 1.5 2003/06/28 01:01:51 gabeschine Exp $
+ * @version $Id: DBMethodOptions.class.php,v 1.6 2003/07/03 18:52:02 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -36,7 +36,7 @@ class DBMethodOptions extends DataContainer {
 		
 		$this->add("passwordFieldEncrypted", new BooleanValidatorRule);
 		$this->set("passwordFieldEncrypted",false);
-		$this->add("passwordFieldEncryptionType", new ChoiceValidatorRule("databaseSHA1","databaseMD5","crypt"));
+		$this->add("passwordFieldEncryptionType", new ChoiceValidatorRule(NULL,"databaseSHA1","databaseMD5","crypt"));
 		
 		$this->add("agentInformationFields", new ArrayValidatorRule);
 		$this->set("agentInformationFields", array());

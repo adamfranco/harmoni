@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AgentInformationHandlerTestCase.class.php,v 1.5 2003/06/30 18:43:13 adamfranco Exp $
+ * @version $Id: AgentInformationHandlerTestCase.class.php,v 1.6 2003/07/03 18:52:03 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -190,6 +190,9 @@
 			$this->assertEqual($a[lastname],"Franco");
 		}
 		
+		function test_member_of() {
+			$this->assertFalse(true);
+		}
     }
 
 ?>
