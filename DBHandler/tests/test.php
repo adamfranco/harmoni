@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.8 2003/07/16 19:51:51 dobomode Exp $
+ * @version $Id: test.php,v 1.9 2003/07/17 01:05:55 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -34,6 +34,7 @@
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLDatabaseTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLSelectQueryResultTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLInsertQueryResultTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/MySQLComprehensiveTestCase.class.php');
 
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleDeleteQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleUpdateQueryTestCase.class.php');
@@ -46,6 +47,7 @@
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreDatabaseTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreInsertQueryResultTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreSelectQueryResultTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreComprehensiveTestCase.class.php');
 
     $test->addTestFile(HARMONI.'DBHandler/tests/DBHandlerTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());

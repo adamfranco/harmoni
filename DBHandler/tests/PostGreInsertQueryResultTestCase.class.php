@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.2 2003/07/16 19:51:51 dobomode Exp $
+ * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.3 2003/07/17 01:05:55 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -63,7 +63,7 @@
 			$lastIdQuery = "SELECT CURRVAL('test1_id_seq')";
 			$lastIdResourceId = $this->db->_query($lastIdQuery);
 			$arr = pg_fetch_row($lastIdResourceId, 0);
-			$lastId = $arr[0];
+			$lastId = intval($arr[0]);
 
 			$queryResult =& new PostGreInsertQueryResult($rid, $lastId);
 
@@ -85,7 +85,7 @@
 			$lastIdQuery = "SELECT CURRVAL('test1_id_seq')";
 			$lastIdResourceId = $this->db->_query($lastIdQuery);
 			$arr = pg_fetch_row($lastIdResourceId, 0);
-			$lastId = $arr[0];
+			$lastId = intval($arr[0]);
 
 			$queryResult =& new PostGreInsertQueryResult($rid, $lastId);
 

@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLDatabaseTestCase.class.php,v 1.6 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: MySQLDatabaseTestCase.class.php,v 1.7 2003/07/17 01:05:55 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -27,7 +27,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->database =& new MySQLDatabase("et.middlebury.edu", "dobo", "dobo", "dobo");
+			$this->database =& new MySQLDatabase("devo.middlebury.edu", "harmoniTest", "test", "test");
         }
 		
         /**
@@ -44,10 +44,10 @@
 		 * Tests the constructor.
 		 **/
 		function test_constructor() {
-			$this->assertEqual("et.middlebury.edu", $this->database->_dbHost);
-			$this->assertEqual("dobo", $this->database->_dbName);
-			$this->assertEqual("dobo", $this->database->_dbUser);
-			$this->assertEqual("dobo", $this->database->_dbPass);
+			$this->assertEqual("devo.middlebury.edu", $this->database->_dbHost);
+			$this->assertEqual("harmoniTest", $this->database->_dbName);
+			$this->assertEqual("test", $this->database->_dbUser);
+			$this->assertEqual("test", $this->database->_dbPass);
 		}
 		
 		/**
@@ -116,7 +116,7 @@
 			$this->assertEqual($this->database->getNumberSuccessfulQueries(), 0);
 			
 			// test good query
-			$query = "SELECT * FROM gb";
+			$query = "SELECT * FROM test";
 			$result = $this->database->_query($query);
 			$this->assertTrue($result !== false);
 			$this->assertEqual($this->database->getNumberFailedQueries(), 1);

@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
  *
  * The InsertQueryResult interface provides the functionality common to all INSERT query results.
  * For example, you can get the primary key for the last insertion, get number of inserted rows, etc.
- * @version $Id: PostGreInsertQueryResult.class.php,v 1.2 2003/07/16 19:51:51 dobomode Exp $
+ * @version $Id: PostGreInsertQueryResult.class.php,v 1.3 2003/07/17 01:05:55 dobomode Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
@@ -49,7 +49,9 @@ class PostGreInsertQueryResult extends InsertQueryResultInterface  {
 	function PostGreInsertQueryResult($resourceId, $lastId) {
 		// ** parameter validation
 		$resourceRule =& new ResourceValidatorRule();
+		$integerRule =& new OptionalRule(new IntegerValidatorRule());
 		ArgumentValidator::validate($resourceId, $resourceRule, true);
+		ArgumentValidator::validate($lastId, $integerRule, true);
 		// ** end of parameter validation
 
 		$this->_resourceId = $resourceId;

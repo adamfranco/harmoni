@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 /**
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * @version $Id: PostGreDatabase.class.php,v 1.2 2003/07/16 19:51:51 dobomode Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.3 2003/07/17 01:05:55 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -220,17 +220,17 @@ class PostGreDatabase extends DatabaseInterface {
 					$lastIdQuery = "SELECT CURRVAL('".$query->_sequence."')";
 					$lastIdResourceId = $this->_query($lastIdQuery);
 					$arr = pg_fetch_row($lastIdResourceId, 0);
-					$lastId = $arr[0];
+					$lastId = intval($arr[0]);
 				}
 				
-				$result =& new PostGreInsertQueryResult($this->_resourceId, $lastId);
+				$result =& new PostGreInsertQueryResult($resourceId, $lastId);
 				break;
 			}
 			case UPDATE : 
-				$result =& new PostGreUpdateQueryResult($this->_resourceId);
+				$result =& new PostGreUpdateQueryResult($resourceId);
 				break;
 			case DELETE : 
-				$result =& new PostGreDeleteQueryResult($this->_resourceId);
+				$result =& new PostGreDeleteQueryResult($resourceId);
 				break;
 			case SELECT : 
 				$result =& new PostGreSelectQueryResult($resourceId, $this->_linkId);

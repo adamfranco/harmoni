@@ -8,7 +8,7 @@ require_once(HARMONI . 'DBHandler/PostGre/PostGreDatabase.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  * 
- * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.1 2003/07/16 19:51:51 dobomode Exp $
+ * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.2 2003/07/17 01:05:55 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003
  */
@@ -38,7 +38,7 @@ class PostGreSelectQueryResultTestCase extends UnitTestCase {
 		// connect to some database and do a select query
 		$this->db =& new PostGreDatabase("devo.middlebury.edu", "harmoniTest", "test", "test");
 		$this->db->connect();
-		$this->rid = $this->db->_query("SELECT * FROM test LIMIT 4 OFFSET 100"); 
+		$this->rid = $this->db->_query("SELECT * FROM test ORDER BY id LIMIT 4 OFFSET 100"); 
 		// create the query result
 		$this->queryResult =& new PostGreSelectQueryResult($this->rid, $this->db->_linkId);
 	} 
@@ -78,16 +78,16 @@ class PostGreSelectQueryResultTestCase extends UnitTestCase {
 		// see if field names are correct
 		$fieldNames = $this->queryResult->getFieldNames();
 		
-		$this->assertEqual($fieldNames, array("id", "FK", "value"));
+		$this->assertEqual($fieldNames, array("id", "fk", "value"));
 	
 		$id = $this->queryResult->field("id");
-		$FK = $this->queryResult->field("FK");
+		$fk = $this->queryResult->field("fk");
 		$value = $this->queryResult->field("value");
 		$row["id"] = $id;
-		$row["FK"] = $FK;
+		$row["fk"] = $fk;
 		$row["value"] = $value;
 		$this->assertEqual($id, "101");
-		$this->assertEqual($FK, "5");
+		$this->assertEqual($fk, "5");
 		$this->assertEqual($value, "This is the value");
 		$this->assertEqual($row, $this->queryResult->getCurrentRow(ASSOC)); 
 		
