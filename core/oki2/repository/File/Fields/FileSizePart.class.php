@@ -19,10 +19,10 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePart.class.php,v 1.2 2005/01/26 16:10:56 thebravecowboy Exp $
+ * @version $Id: FileSizePart.class.php,v 1.3 2005/01/26 16:58:19 adamfranco Exp $
  */
-class FileSizePart extends InfoField
-//	extends java.io.Serializable
+class FileSizePart 
+	extends Part
 {
 
 	var $_recordId;

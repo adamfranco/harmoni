@@ -1,5 +1,7 @@
 <?
 
+require_once(OKI2."/osid/repository/PartStructure.php");
+
 /**
  * Each Asset has one of the AssetType supported by the Repository.	 There are
  * also zero or more RecordStructures required by the Repository for each
@@ -19,10 +21,10 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePartStructure.class.php,v 1.1 2005/01/24 16:23:29 thebravecowboy Exp $ 
+ * @version $Id: FileSizePartStructure.class.php,v 1.2 2005/01/26 16:58:19 adamfranco Exp $ 
  */
-class FileSizePartStructure extends PartStructure
-//	extends java.io.Serializable
+class FileSizePartStructure 
+	extends PartStructure
 {
 
 	var $_partStructure;

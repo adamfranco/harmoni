@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailMimetypePartStructure.class.php,v 1.1 2005/01/24 16:31:06 thebravecowboy Exp $ 
+ * @version $Id: ThumbnailMimeTypePartStructure.class.php,v 1.1 2005/01/26 16:58:19 adamfranco Exp $ 
  */
 class ThumbnailMimeTypePartStructure extends PartStructure
 //	extends java.io.Serializable

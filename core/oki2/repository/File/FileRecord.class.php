@@ -1,6 +1,6 @@
 <?
 
-require_once(dirname(__FILE__)."/Fields/FileDataRecord.class.php");
+require_once(dirname(__FILE__)."/Fields/FileDataPart.class.php");
 require_once(dirname(__FILE__)."/Fields/FileNamePart.class.php");
 require_once(dirname(__FILE__)."/Fields/FileSizePart.class.php");
 require_once(dirname(__FILE__)."/Fields/MimeTypePart.class.php");
@@ -33,8 +33,8 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * of this class is a temporary fix due to another class named Record already existing
  * in Harmoni.
  */
-class FileRecord extends Record
-//	extends java.io.Serializable
+class FileRecord 
+	extends Record
 {
 	
 	var $_id;

@@ -5,11 +5,13 @@ require_once(HARMONI."/oki2/repository/HarmoniAsset.class.php");
 require_once(HARMONI."/oki2/repository/HarmoniAssetIterator.class.php");
 require_once(HARMONI."/oki2/repository/HarmoniRepositoryIterator.class.php");
 require_once(HARMONI."/oki2/repository/HarmoniRecordStructure.class.php");
-require_once(HARMONI."/oki2/repository/File/FileInfoStructure.class.php");
-require_once(HARMONI."/oki2/repository/File/FileInfoRecord.class.php");
+
+require_once(HARMONI."/oki2/repository/File/FileRecord.class.php");
+require_once(HARMONI."/oki2/repository/File/FileRecordStructure.class.php");
+
 require_once(HARMONI."/oki2/repository/HarmoniRecordStructureIterator.class.php");//where is this now?
 require_once(HARMONI."/oki2/shared/HarmoniTypeIterator.class.php");
-require_once(HARMONI."/oki2/shared/HarmoniCalendarIterator.class.php");
+//require_once(HARMONI."/oki2/shared/HarmoniCalendarIterator.class.php");
 
 // Search Modules
 require_once(dirname(__FILE__)."/SearchModules/AssetTypeSearch.class.php");
@@ -42,7 +44,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.9 2005/01/20 21:07:44 thebravecowboy Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.10 2005/01/26 16:57:45 adamfranco Exp $ 
  */
 
 class HarmoniRepository
