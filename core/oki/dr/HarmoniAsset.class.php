@@ -396,6 +396,8 @@ class HarmoniAsset
 		// We are assuming a single-parent hierarchy
 		$oldParent =& $oldParents->next();
 		$node->changeParent($oldParent->getId(), $this->_node->getId());
+		
+		$this->save();
 	}
 
 	/**

@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.14 $ / $Date: 2004/01/15 18:29:57 $
+ * @version $Revision: 1.15 $ / $Date: 2004/02/04 17:56:31 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -306,12 +306,12 @@ class HarmoniNode
 		if (!$this->isRoot()) {
 			$parentId = $this->_hierarchyStore->getParentID($this->_id->getIdString());
 			if ($oldParentId->getIdString() != $parentId)
-				throwError(new Error(OPERATION_FAILED, "Hierarchy", 1));
+				throwError(new Error(OPERATION_FAILED.": Unknown parent node.", "Hierarchy", 1));
 		}
 		
 		// Make sure that we are not moving a node to itsself
 		if ($newParentId->isEqual($this->getId()))
-			throwError(new Error(OPERATION_FAILED, "Hierarchy", 1));
+			throwError(new Error(OPERATION_FAILED.": Can not add a node to its self.", "Hierarchy", 1));
 			
 		// Make sure that we are not moving a node to one of its children
 		$depth = $this->_hierarchyStore->depth($this->_id->getIdString());
@@ -319,7 +319,7 @@ class HarmoniNode
 		if ($newParentDepth > $depth) {
 			$descendentIds = $this->_hierarchyStore->depthFirstEnumeration($this->_id->getIdString());
 			if (in_array($newParentId->getIdString(), $descendentIds))
-				throwError(new Error(OPERATION_FAILED, "Hierarchy", 1));
+				throwError(new Error(OPERATION_FAILED.": Can not add a node to its decendent.", "Hierarchy", 1));
 		}
 		
 		// move the node
