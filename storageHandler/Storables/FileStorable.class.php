@@ -7,7 +7,7 @@ require_once(HARMONI.'storageHandler/Storable.abstract.php');
  * that are files (file uploads), images and such. To be used 
  * by the StorageMethod and StorageHandler.
  *
- * @version $Id: FileStorable.class.php,v 1.2 2003/06/30 15:41:56 adamfranco Exp $
+ * @version $Id: FileStorable.class.php,v 1.3 2003/06/30 19:10:29 movsjani Exp $
  * @package harmoni.Storagehandler
  * @copyright 2003
  * @access public
@@ -16,12 +16,25 @@ require_once(HARMONI.'storageHandler/Storable.abstract.php');
 class FileStorable extends AbstractStorable {
 
     /**
+     * Constructor. Create a new storable.
+     * @param string $name Name (primary key) of the storable.
+     * @param string $path Path (descriptor) of the storable.
+     * @param string $basePath The path to the base directory of the Storable.
+     * @access public
+     */
+    function FileStorable($basePath,$path,$name) { 
+		$this->_name = $name;
+		$this->_path = $path;
+		$this->_basePath = $this->_convertPath($basePath);
+	}
+
+    /**
      * Gets the data content of the storable.
      * @return string Data content of the storable.
      * @access public
      */
     function getData() { 
-		$filename = $this->_path."/".$this->_name;
+		$filename = $this->_basePath.$this->_convertPath($this->_path).$this->_name;
 
 		$handle = fopen ($filename, "r");
 		$contents = fread ($handle, filesize ($filename));
@@ -36,11 +49,20 @@ class FileStorable extends AbstractStorable {
      * @access public
      */
     function getSize() { 
-		$filename = $this->_path."/".$this->_name;
+		$filename = $this->_basePath.$this->_convertPath($this->_path).$this->_name;
 
 		$size = filesize($filename);
 		
 		return $size;
+	}
+
+	/**
+     * Internal function used to convert (mostly empty Paths) to avoid double slashes and such
+     * @acess private
+     */
+	function _convertPath($path){
+		if ($path!="" && $path[strlen($path)-1]!='/') $path.="/";
+		return $path;
 	}
 }
 

@@ -4,22 +4,13 @@
  * Storable class interface provides functionality to create Storable objects 
  * to be used by the StorageMethod and StorageHandler.
  *
- * @version $Id: Storable.interface.php,v 1.1 2003/06/30 14:17:27 adamfranco Exp $
+ * @version $Id: Storable.interface.php,v 1.2 2003/06/30 19:10:29 movsjani Exp $
  * @package harmoni.Storagehandler
  * @copyright 2003
  * @access public
  */
 
 class StorableInterface {
-
-    /**
-     * Constructor. Create a new storable.
-     * @param string $name Name (primary key) of the storable.
-     * @param string $path Path (descriptor) of the storable.
-     * @access public
-     */
-    function Storable($name,$path) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
-	
 
     /**
      * Gets the name (primary key) of the storable.
