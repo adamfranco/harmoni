@@ -7,7 +7,7 @@ require_once(HARMONI.'storageHandler/Storable.abstract.php');
  * that are files (file uploads), images and such. To be used 
  * by the StorageMethod and StorageHandler.
  *
- * @version $Id: FileStorable.class.php,v 1.4 2003/07/10 02:34:21 gabeschine Exp $
+ * @version $Id: FileStorable.class.php,v 1.5 2003/07/15 18:41:53 movsjani Exp $
  * @package harmoni.storage.storables
  * @copyright 2003
  * @access public
@@ -57,9 +57,9 @@ class FileStorable extends AbstractStorable {
 	}
 
 	/**
-     * Internal function used to convert (mostly empty Paths) to avoid double slashes and such
-     * @acess private
-     */
+   	 * Internal function used to convert (mostly empty Paths) to avoid double slashes and such
+	 * @acess private
+	 */
 	function _convertPath($path){
 		if ($path!="" && $path[strlen($path)-1]!='/') $path.="/";
 		return $path;
