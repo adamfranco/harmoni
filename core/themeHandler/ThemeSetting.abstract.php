@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/ThemeSetting.interface.php");
  * abstract class. As well, the setValue() method should check for valid inputs.
  *
  * @package harmoni.themes
- * @version $Id: ThemeSetting.abstract.php,v 1.2 2004/03/05 21:40:05 adamfranco Exp $
+ * @version $Id: ThemeSetting.abstract.php,v 1.3 2004/03/30 20:02:40 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -86,27 +86,27 @@ class ThemeSetting
 	}
 
 	/**
-	 * Returns the ID of this ThemeSetting.
+	 * Returns the Key of this ThemeSetting.
 	 * @access public
-	 * @return object Id The ID of this ThemeSetting.
+	 * @return string The Key of this ThemeSetting.
 	 **/
-	function & getId () {
-		if (!$this->_id)
-			throwError(new Error("This setting has not been given an Id yet.","ThemeSetting", TRUE));
+	function & getKey () {
+		if (!$this->_key)
+			throwError(new Error("This setting has not been given a Key yet.","ThemeSetting", TRUE));
 		
-		return $this->_id;
+		return $this->_key;
 	}
 	
 	/**
-	 * Sets the ID of this ThemeSetting.
+	 * Sets the Key of this ThemeSetting.
 	 * @access public
-	 * @param object Id $id The ID of this ThemeSetting.
+	 * @param string $key The Key of this ThemeSetting.
 	 * @return void
 	 **/
-	function & setId (& $id) {
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
+	function & setKey (& $key) {
+		ArgumentValidator::validate($key, new IntegerValidatorRule("Key"));
 		
-		$this->_id =& $id;
+		$this->_key =& $key;
 	}
 
 	/**
