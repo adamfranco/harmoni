@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQuery.interface.php");
  * 
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * @version $Id: SelectQuery.class.php,v 1.2 2004/04/22 20:45:08 dobomode Exp $
+ * @version $Id: SelectQuery.class.php,v 1.3 2004/05/20 17:24:12 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -153,7 +153,7 @@ class SelectQuery extends SelectQueryInterface {
 
 
 	/**
-	 * Sets the columns to select.
+	 * *Deprecated* Sets the columns to select.
 	 * Sets the columns to select.
 	 * Note: addColumn() and setColumns() can be used together in any order.
 	 * However, calling setColumns() after addColumn() resets the list of columns.
@@ -220,7 +220,7 @@ class SelectQuery extends SelectQueryInterface {
 
 
 	/**
-	 * Specifies the condition in the WHERE clause.
+	 * *Deprecated* Specifies the condition in the WHERE clause.
 	 *
 	 * The query will return only rows that fulfil the condition. If this method
 	 * is never called, then the WHERE clause will not be included.

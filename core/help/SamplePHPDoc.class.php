@@ -74,7 +74,7 @@ function globalFunc() {
  * </pre>
  * End of detailed description.
  *
- * @version $Id: SamplePHPDoc.class.php,v 1.2 2004/03/11 16:02:46 adamfranco Exp $
+ * @version $Id: SamplePHPDoc.class.php,v 1.3 2004/05/20 17:24:35 adamfranco Exp $
  * @author Middlebury College, ETS Department
  * @copyright 2003 Middlebury College, ETS Department
  * @package harmoni.help
@@ -145,7 +145,7 @@ class SamplePHPDoc {
 	}
 	
 	/**
-	 * A complex method accepting several arguments. Just an example of some
+	 * *Deprecated* A complex method accepting several arguments. Just an example of some
 	 * method tags.
 	 * <pre>
 	 * Be careful!

@@ -46,7 +46,7 @@ require_once(HARMONI.'services/Service.interface.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password.
  *
- * @version $Id: DBHandler.interface.php,v 1.4 2004/04/20 19:48:58 adamfranco Exp $
+ * @version $Id: DBHandler.interface.php,v 1.5 2004/05/20 17:24:12 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
@@ -55,7 +55,7 @@ require_once(HARMONI.'services/Service.interface.php');
 class DBHandlerInterface extends ServiceInterface { 
 
 	/**
-	 * Creates a new database connection.
+	 * *Deprecated* Creates a new database connection.
 	 * @param string $dbType The type of database: MYSQL, POSTGRES, ORACLE, OKI, etc.
 	 * @param string $dbHost The hostname for the database, i.e. myserver.mydomain.edu.
 	 * @param string $dbName The name of the database.

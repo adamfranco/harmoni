@@ -48,7 +48,7 @@ require_once("Query.abstract.php");
 /**
  * A SelectQuery interface provides the tools to build an SQL SELECT query.
  *
- * @version $Id: SelectQuery.interface.php,v 1.3 2004/04/22 20:45:08 dobomode Exp $
+ * @version $Id: SelectQuery.interface.php,v 1.4 2004/05/20 17:24:12 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -77,7 +77,7 @@ class SelectQueryInterface extends Query {
 	function addTable($table, $joinType = NO_JOIN, $joinCondition = "", $alias = "") { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
 	/**
-	 * Sets the columns to select.
+	 * *Deprecated* Sets the columns to select.
 	 * Sets the columns to select.
 	 * Note: addColumn() and setColumns() can be used together in any order.
 	 * However, calling setColumns() after addColumn() resets the list of columns.
@@ -115,7 +115,7 @@ class SelectQueryInterface extends Query {
 	
 
 	/**
-	 * Specifies the condition in the WHERE clause.
+	 * *Deprecated* Specifies the condition in the WHERE clause.
 	 *
 	 * The query will return only rows that fulfil the condition. If this method
 	 * is never called, then the WHERE clause will not be included.

@@ -6,7 +6,7 @@ require_once(HARMONI."DBHandler/DeleteQuery.interface.php");
  * A DeleteQuery class provides the tools to build a DELETE query.
  * 
  * A DeleteQuery class provides the tools to build a DELETE query.
- * @version $Id: DeleteQuery.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: DeleteQuery.class.php,v 1.2 2004/05/20 17:24:12 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -57,7 +57,7 @@ class DeleteQuery extends DeleteQueryInterface {
 
 
 	/**
-	 * Specifies the condition in the WHERE clause.
+	 * *Deprecated* Specifies the condition in the WHERE clause.
 	 *
 	 * The query will execute only on rows that fulfil the condition. If this method
 	 * is never called, then the WHERE clause will not be included.

@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/UpdateQuery.interface.php");
  *
  * An UpdateQuery class provides the tools to build an UPDATE query.
  * 
- * @version $Id: UpdateQuery.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: UpdateQuery.class.php,v 1.2 2004/05/20 17:24:12 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -98,7 +98,7 @@ class UpdateQuery extends UpdateQueryInterface {
 	
 
 	/**
-	 * Specifies the condition in the WHERE clause.
+	 * *Deprecated* Specifies the condition in the WHERE clause.
 	 *
 	 * The query will execute only on rows that fulfil the condition. If this method
 	 * is never called, then the WHERE clause will not be included.

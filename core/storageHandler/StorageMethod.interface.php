@@ -4,7 +4,7 @@
  * Storage Method interface provides functionality to create StorageMethods
  * to handle Storables. A collection of StorageMethods can be used by StorageHandler. 
  *
- * @version $Id: StorageMethod.interface.php,v 1.2 2004/04/20 19:50:00 adamfranco Exp $
+ * @version $Id: StorageMethod.interface.php,v 1.3 2004/05/20 17:24:36 adamfranco Exp $
  * @package harmoni.storage.methods
  * @copyright 2003
  * @access public
@@ -42,7 +42,7 @@ class StorageMethodInterface {
     function delete($path,$name) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
-     * Moves a storable with a given name and path to a new location. 
+     * *Deprecated* Moves a storable with a given name and path to a new location. 
      * For security reasons you have to specify the source name and path
      * rather than the storable itself. It is up to the method to locate
      * the storable before moving it.
@@ -56,7 +56,7 @@ class StorageMethodInterface {
     function move($sourcePath,$sourceName,$locationPath,$locationName) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
-     * Copies a storable with a given name and path to a specified location. 
+     * *Deprecated* Copies a storable with a given name and path to a specified location. 
      * For security reasons you have to specify the source name and path
      * rather than the storable itself. It is up to the method to locate
      * the storable before moving it.

@@ -12,7 +12,7 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: SQLDatabaseHierarchyStore.class.php,v 1.15 2004/04/27 19:48:38 adamfranco Exp $
+ * @version $Id: SQLDatabaseHierarchyStore.class.php,v 1.16 2004/05/20 17:24:36 adamfranco Exp $
  */
 
 
@@ -222,7 +222,7 @@ class SQLDatabaseHierarchyStore
 	}
 
 	/**
-	 * Initializes this Store. Loads any saved data for the hierarchy.
+	 * *Deprecated* Initializes this Store. Loads any saved data for the hierarchy.
 	 * @deprecated Use set exists instead
 	 */
 	function initialize() {

@@ -6,7 +6,7 @@ require_once("Query.abstract.php");
 /**
  * An UpdateQuery interface provides the tools to build an SQL UPDATE query.
  *
- * @version $Id: UpdateQuery.interface.php,v 1.2 2004/04/20 19:48:58 adamfranco Exp $
+ * @version $Id: UpdateQuery.interface.php,v 1.3 2004/05/20 17:24:12 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -36,7 +36,7 @@ class UpdateQueryInterface extends Query {
 	function setValues($values) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
 	/**
-	 * Specifies the condition in the WHERE clause.
+	 * *Deprecated* Specifies the condition in the WHERE clause.
 	 *
 	 * The query will execute only on rows that fulfil the condition. If this method
 	 * is never called, then the WHERE clause will not be included.

@@ -7,7 +7,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * and other data for multiple languages.
  *
  * @package harmoni.languages
- * @version $Id: LanguageLocalizer.class.php,v 1.5 2004/05/12 19:28:04 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.6 2004/05/20 17:24:36 adamfranco Exp $
  * @copyright 2003 
  **/
 class LanguageLocalizer extends LanguageLocalizerInterface {
@@ -176,7 +176,7 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 	}
 	
 	/**
-	 * Returns a string in the language set with setLanguage() of "id" $stringName.
+	 * *Deprecated* Returns a string in the language set with setLanguage() of "id" $stringName.
 	 * @param string $stringName The corresponding string name in the language strings file.
 	 * @access public
 	 * @deprecated 8/8/2003 - localization functionality now handled by gettext()
@@ -187,7 +187,7 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 	}
 	
 	/**
-	 * Reads all the strings from the strings file into memory.
+	 * *Deprecated* Reads all the strings from the strings file into memory.
 	 * @access private
 	 * @deprecated 8/8/2003 - localization functionality now handled by gettext()
 	 * @return void

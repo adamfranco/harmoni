@@ -7,14 +7,14 @@
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HierarchyStore.interface.php,v 1.7 2004/04/21 17:55:33 adamfranco Exp $
+ * @version $Id: HierarchyStore.interface.php,v 1.8 2004/05/20 17:24:36 adamfranco Exp $
  */
 
 class HierarchyStore
 {
 
 	/**
-	 * Initializes this Store. Loads any saved data for the hierarchy.
+	 * *Deprecated* Initializes this Store. Loads any saved data for the hierarchy.
 	 * @deprecated Use set exists instead
 	 */
 	function initialize() {
