@@ -6,8 +6,8 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * Return assets of the specified type
  * 
  * @package harmoni.osid_v2.repository.search
- * @version $Id: ContentSearch.class.php,v 1.3 2005/01/27 15:45:40 adamfranco Exp $
- * @since $Date: 2005/01/27 15:45:40 $
+ * @version $Id: ContentSearch.class.php,v 1.4 2005/01/27 16:12:18 adamfranco Exp $
+ * @since $Date: 2005/01/27 16:12:18 $
  * @copyright 2004 Middlebury College
  */
 
@@ -55,10 +55,10 @@ class ContentSearch
 				
 		$groupIds = array_unique($groupIds);
 				
-		$sharedManager =& Services::getService("Shared");
+		$idManager =& Services::getService("Id");
 		
 		foreach ($groupIds as $id) {
-			$matchingIds[] =& $sharedManager->getId($id);
+			$matchingIds[] =& $idManager->getId($id);
 		}
 				
 		// Return the array

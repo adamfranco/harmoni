@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDataPartStructure.class.php,v 1.2 2005/01/26 22:44:11 adamfranco Exp $ 
+ * @version $Id: ThumbnailDataPartStructure.class.php,v 1.3 2005/01/27 16:12:18 adamfranco Exp $ 
  */
 class ThumbnailDataPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -125,7 +125,7 @@ class ThumbnailDataPartStructure extends PartStructure
 	 */
 	function &getId() {
 		$idManager =& Services::getService("Id");
-		return $sharedManager->getId("THUMBNAIL_DATA");
+		return $idManager->getId("THUMBNAIL_DATA");
 	}
 
 	/**

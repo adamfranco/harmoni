@@ -21,7 +21,7 @@ require_once(OKI2."/osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePartStructure.class.php,v 1.3 2005/01/26 22:44:11 adamfranco Exp $ 
+ * @version $Id: FileSizePartStructure.class.php,v 1.4 2005/01/27 16:12:18 adamfranco Exp $ 
  */
 class FileSizePartStructure 
 	extends PartStructure
@@ -127,7 +127,7 @@ class FileSizePartStructure
 	 */
 	function &getId() {
 		$idManager =& Services::getService("Id");
-		return $sharedManager->getId("FILE_SIZE");
+		return $idManager->getId("FILE_SIZE");
 	}
 
 	/**

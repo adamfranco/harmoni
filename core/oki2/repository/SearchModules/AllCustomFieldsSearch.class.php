@@ -6,8 +6,8 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * Return assets of the specified type
  * 
  * @package harmoni.osid_v2.repository.search
- * @version $Id: AllCustomFieldsSearch.class.php,v 1.3 2005/01/27 15:45:40 adamfranco Exp $
- * @since $Date: 2005/01/27 15:45:40 $
+ * @version $Id: AllCustomFieldsSearch.class.php,v 1.4 2005/01/27 16:12:18 adamfranco Exp $
+ * @since $Date: 2005/01/27 16:12:18 $
  * @copyright 2004 Middlebury College
  */
 
@@ -87,12 +87,12 @@ class AllCustomFieldsSearch
 				
 		$groupIds = array_unique($groupIds);
 				
-		$sharedManager =& Services::getService("Shared");
+		$idManager =& Services::getService("Id");
 		
 		$myId =& $this->_dr->getId();
 		
 		foreach ($groupIds as $id) {
-			$assetId =& $sharedManager->getId($id);
+			$assetId =& $idManager->getId($id);
 			$asset =& $drMgr->getAsset($assetId);
 			$dr =& $asset->getDigitalRepository();
 			

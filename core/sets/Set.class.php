@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/Set.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Set.class.php,v 1.5 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: Set.class.php,v 1.6 2005/01/27 16:12:18 adamfranco Exp $
  * @author Adam Franco
  */
 class Set 
@@ -77,9 +77,12 @@ class Set
 			$result->advanceRow();
 		}
 		
-		// get a reference to the shared manager so we don't have to keep getting
+		// get a reference to the id manager so we don't have to keep getting
 		// it.
-		$this->_sharedManager =& Services::getService("Shared");
+		if (OKI_VERSION > 1)
+			$this->_idManager =& Services::getService("Id");
+		else
+			$this->_idManager =& Services::getService("Shared");
 	}
 	
 	/**
@@ -108,7 +111,7 @@ class Set
 	function &next () {
 		if ($this->hasNext()) {
 			$this->_i++;
-			return $this->_sharedManager->getId($this->_items[$this->_i]);
+			return $this->_idManager->getId($this->_items[$this->_i]);
 		} else {
 			throwError(new Error(NO_MORE_ITERATOR_ELEMENTS, "Set", 1));
 		}

@@ -49,7 +49,7 @@ class FileRecord
 		
 		$idManager =& Services::getService("Id");	
 		$this->_parts = array();
-		$this->_parts['FILE_DATA'] =& new FileDataRecord(
+		$this->_parts['FILE_DATA'] =& new FileDataPart(
 									$recordStructure->getPartStructure($idManager->getId('FILE_DATA')),
 									$this->_id,
 									$this->_configuration);
@@ -58,7 +58,7 @@ class FileRecord
 									$this->_id,
 									$this->_configuration);
 		$this->_parts['FILE_SIZE'] =& new FileSizePart(
-									$recordStructure->getParts($idManager->getId('FILE_SIZE')),
+									$recordStructure->getPartStructure($idManager->getId('FILE_SIZE')),
 									$this->_id,
 									$this->_configuration);
 		$this->_parts['MIME_TYPE'] =& new MimeTypePart(

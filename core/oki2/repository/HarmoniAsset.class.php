@@ -16,7 +16,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.7 2005/01/27 15:45:39 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.8 2005/01/27 16:10:50 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -1103,7 +1103,7 @@ class HarmoniAsset
 			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 			
 			while ($result->hasMoreRows()) {
-				$recordId =& $sharedManager->getId($result->field("FK_record"));
+				$recordId =& $idManager->getId($result->field("FK_record"));
 				
 				$records[] =& $this->getRecord($recordId);
 				
