@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.16 2005/03/30 17:42:32 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.17 2005/03/31 20:28:30 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -83,7 +83,7 @@ class HarmoniRepositoryManager
 																	$schema);
 			// Add the parts to the schema
 			$partType = new HarmoniType("Repository", "Harmoni", "Blob", "");
-			$this->_createdRecordStructures[$schema->getID()]->createPart(
+			$this->_createdRecordStructures[$schema->getID()]->createPartStructure(
 																"Content",
 																"The binary content of the Asset",
 																$partType,
@@ -307,9 +307,30 @@ class HarmoniRepositoryManager
 		// Check to see if this DR has any assets.
 		$assets =& $repository->getAssets();
 		// If so, delete them.
-		while ($assets->hasNext()) {
-			$asset =& $assets->next();
-			$repository->deleteAsset($asset->getId());
+		if ($assets->hasNext()) {
+			// We need to delete the assets starting from the leaf nodes,
+			// so sort the asset ids by depth
+			$infoIterator =& $this->_hierarchy->traverse(
+				$repositoryId,
+				Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
+				Hierarchy::TRAVERSE_DIRECTION_DOWN(),
+				Hierarchy::TRAVERSE_LEVELS_ALL());
+			$levels = array();
+			while ($infoIterator->hasNextTraversalInfo()) {
+				$info =& $infoIterator->nextTraversalInfo();
+				
+				if (!is_array($levels[$info->getLevel()]))
+					$levels[$info->getLevel()] = array();
+				
+				$levels[$info->getLevel()][] =& $info->getNodeId();
+			}
+			
+			for ($i = count($levels) - 1; $i > 0; $i--) {
+				$level =& $levels[$i];
+				foreach (array_keys($level) as $key) {
+					$repository->deleteAsset($level[$key]);
+				}
+			}
 		}
 		
 		// Delete the node for the DR
