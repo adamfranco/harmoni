@@ -3,7 +3,7 @@
 /**
  * The ServicesInterface defines the functionality required by any Services class or derivative.
  * The ServicesInterface defines the functionality required by any Services class or derivative.
- * @version $Id: Services.interface.php,v 1.2 2003/06/25 20:42:02 gabeschine Exp $
+ * @version $Id: Services.interface.php,v 1.3 2003/06/26 15:44:08 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -92,6 +92,23 @@ class ServicesInterface {
 	 * @return boolean True if the service is running, false otherwise.
 	 **/
 	function serviceRunning( $name ) {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
+	
+	/**
+	 * The Require Service function checks for required service availability.
+	 * 
+	 * The function first checks for service availabilty, and then attempts to
+	 * start the service if it's available. If either action fails, it stops
+	 * script execution. If $start=false then the function will only check for 
+	 * availability.
+	 * @param string $name The name of the service.
+	 * @param boolean $start If we should attempt to start the service or not.
+	 * @access public
+	 * @static
+	 * @return void
+	 **/
+	function requireService( $service, $start=true ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
 	
 	
 	/* 			MEMBER METHODS			*/

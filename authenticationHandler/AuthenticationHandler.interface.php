@@ -5,18 +5,18 @@
  * The AuthenticationHandlerInterface defines the functionallity that all extending classes should have.
  * An implementing class should reference one or several AuthenticationMethod objects and use them
  * to authenticate an agent.
- * @version $Id: AuthenticationHandler.interface.php,v 1.4 2003/06/25 21:46:53 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.interface.php,v 1.5 2003/06/26 15:44:07 gabeschine Exp $
  * @copyright 2003 
  * @access public
+ * @see AuthenticationMethod
  * @package harmoni.authenticationHandler
  **/
 
 class AuthenticationHandlerInterface {
 	/**
 	 * Attempts to validate the given credentials.
-	 * Attempts to validate the given credentials. It steps through the
-	 * current set of AuthenticationMethod objects and stops as soon as
-	 * it validates the credentials successfully with one.
+	 * Attempts to validate the given credentials using the method specified
+	 * in $method.
 	 * @param string $systemName The system name, i.e. the username, etc.
 	 * @param string $password The password.
 	 * @param string $method The method with which to try authentication.
@@ -30,7 +30,10 @@ class AuthenticationHandlerInterface {
 	/**
 	 * Attempts to validate the given credentials.
 	 * Attempts to validate the given credentials. It steps through all of the 
-	 * AuthenticationMethod objects and tries to validate with each one.
+	 * AuthenticationMethod objects and tries to validate with each one. Authentication
+	 * order is based on two things: First, any authoritative methods are tried first, in
+	 * order of their priority setting. Second, any other methods are tried in order of
+	 * their priority.
 	 * @param string $systemName The system name, i.e. the username, etc.
 	 * @param string $password The password.
 	 * @access public

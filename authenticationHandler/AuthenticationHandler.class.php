@@ -8,7 +8,7 @@ require_once(HARMONI."authenticationHandler/AuthenticationHandler.interface.php"
  * authenticating agents.
  * 
  * @see AuthenticationMethodInterface
- * @version $Id: AuthenticationHandler.class.php,v 1.1 2003/06/25 21:46:54 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.2 2003/06/26 15:44:07 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -29,9 +29,8 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	
 	/**
 	 * Attempts to validate the given credentials.
-	 * Attempts to validate the given credentials. It steps through the
-	 * current set of AuthenticationMethod objects and stops as soon as
-	 * it validates the credentials successfully with one.
+	 * Attempts to validate the given credentials using the method specified
+	 * in $method.
 	 * @param string $systemName The system name, i.e. the username, etc.
 	 * @param string $password The password.
 	 * @param string $method The method with which to try authentication.
@@ -51,14 +50,20 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	/**
 	 * Attempts to validate the given credentials.
 	 * Attempts to validate the given credentials. It steps through all of the 
-	 * AuthenticationMethod objects and tries to validate with each one.
+	 * AuthenticationMethod objects and tries to validate with each one. Authentication
+	 * order is based on two things: First, any authoritative methods are tried first, in
+	 * order of their priority setting. Second, any other methods are tried in order of
+	 * their priority.
 	 * @param string $systemName The system name, i.e. the username, etc.
 	 * @param string $password The password.
 	 * @access public
 	 * @return object AuthenticationResult The AuthenticationResult object.
 	 **/
 	function authenticateAllMethods($systemName, $password) { 
-		
+		// first, build an array of methods, their priority and authority
+		foreach($this->getMethodNames() as $method) {
+			
+		}
 	}
 	
 	/**

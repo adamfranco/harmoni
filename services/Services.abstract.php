@@ -13,7 +13,7 @@ $__services__ = NULL;				// above defined variable must be set to NULL
 /**
  * The ServicesAbstract class defines the public static methods used by users.
  * The ServicesAbstract class defines the public static methods used by users.
- * @version $Id: Services.abstract.php,v 1.3 2003/06/25 20:42:02 gabeschine Exp $
+ * @version $Id: Services.abstract.php,v 1.4 2003/06/26 15:44:08 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -109,5 +109,40 @@ class ServicesAbstract
 	 **/
 	function serviceRunning( $name ) {
 		return $GLOBALS[SERVICES_OBJECT]->running( $name );
+	}
+	
+	/**
+	 * The Require Service function checks for required service availability.
+	 * 
+	 * The function first checks for service availabilty, and then attempts to
+	 * start the service if it's available. If either action fails, it stops
+	 * script execution. If $start=false then the function will only check for 
+	 * availability.
+	 * @param string $name The name of the service.
+	 * @param boolean $start If we should attempt to start the service or not.
+	 * @access public
+	 * @static
+	 * @return void
+	 **/
+	function requireService( $service, $start=true ) {
+		$error = false;
+		if (!Services::serviceAvailable($service)) {
+			$error = true;
+		} else if ($start && !Service::serviceRunning($service) && !Services::startService($service)) {
+			$error = true;
+		}
+		
+		if (($error) {
+			$debug = debug_backtrace();
+			$str = "<B>FATAL ERROR</b><BR><BR>";
+			$str .= "A required Service ('$service') ";
+			$str .= ($start)? "could not be started":"is not available";
+			$str .= ".<br><br>\n";
+			$str .= "<b>Debug backtrace:</b>\n";
+			$str = "<pre>\n";
+			$str .= print_r($debug, true);
+			$str .= "\n</pre>\n";
+			die($str);
+		}
 	}
 }
