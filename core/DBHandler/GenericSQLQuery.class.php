@@ -8,7 +8,7 @@ require_once("GenericSQLQuery.interface.php");
  * query type to execute queries not available through the other Query
  * objects (for example, data-definition queries).
  *
- * @version $Id: GenericSQLQuery.class.php,v 1.2 2003/12/09 05:38:58 gabeschine Exp $
+ * @version $Id: GenericSQLQuery.class.php,v 1.3 2004/05/21 19:04:04 nstamato Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -35,7 +35,7 @@ class GenericSQLQuery extends GenericSQLQueryInterface {
 	
 	/**
 	 * Adds one SQL string to this query.
-	 * @method public addSQLString
+	 * @method public addSQLQuery
 	 * @param string sql One SQL string,
 	 * @return void 
 	 */
