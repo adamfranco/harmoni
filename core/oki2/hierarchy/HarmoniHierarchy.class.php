@@ -23,7 +23,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchy.class.php,v 1.2 2005/01/17 19:10:06 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.3 2005/01/17 21:07:05 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
@@ -169,9 +169,9 @@ class HarmoniHierarchy
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error("The hierarchy with Id: ".$idValue." does not exist in the database.","Hierarchy",true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error("Multiple hierarchys with Id: ".$idValue." exist in the database. Note: their display names have been updated." ,"Hierarchy",true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED() ,"Hierarchy",true));
 	}
 
 	/**
@@ -244,9 +244,9 @@ class HarmoniHierarchy
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error("The hierarchy with Id: ".$idValue." does not exist in the database.","Hierarchy",true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error("Multiple hierarchies with Id: ".$idValue." exist in the database. Note: their descriptions have been updated." ,"Hierarchy",true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 	}
 	
 	/**
@@ -393,7 +393,7 @@ class HarmoniHierarchy
 	 * @public
 	 */
 	function addNodeType ( &$type ) { 
-		throwError(new Error(UNIMPLEMENTED, "Hierarchy", true));
+		throwError(new Error(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
 	}
 
 	/**
@@ -423,7 +423,7 @@ class HarmoniHierarchy
 	 * @public
 	 */
 	function removeNodeType ( &$type ) { 
-		throwError(new Error(UNIMPLEMENTED, "Hierarchy", true));
+		throwError(new Error(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
 	}
 
 	/**
@@ -561,7 +561,7 @@ class HarmoniHierarchy
 			// fetch current row
 			$arr = $queryResult->getCurrentRow();
 			
-			// create agent object
+			// create type object
 			$type =& new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
 			
 			// add it to array
@@ -685,8 +685,8 @@ class HarmoniHierarchy
 		ArgumentValidator::validate($levels, new IntegerValidatorRule);
 
 		if ($mode != TRAVERSE_MODE_DEPTH_FIRST) {
-			$str = "Only depth-first traversal is supported in the current implementation.";
-			throwError(new Error($str, "Hierarchy", true));
+			// Only depth-first traversal is supported in the current implementation.
+			throwError(new Error(HierarchyException::UNKNOWN_TRAVERSAL_DIRECTION(), "Hierarchy", true));
 		}
 
 		$down = ($direction == TRAVERSE_DIRECTION_DOWN);

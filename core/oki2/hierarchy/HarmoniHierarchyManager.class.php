@@ -41,7 +41,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.2 2005/01/17 19:10:17 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.3 2005/01/17 21:07:06 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -126,14 +126,14 @@ class HarmoniHierarchyManager
 
 		// check for supported hierarchies
 		if ($allowsRecursion)
-			throwError(new Error(UNSUPPORTED_HIERARCHY, "HierarchyManager", 1));
+			throwError(new Error(HierarchyException::UNSUPPORTED_HIERARCHY(), "HierarchyManager", 1));
 		
 		$dbHandler =& Services::requireService("DBHandler");
 		$db = $this->_hyDB.".";
 
 		// Create an Id for the Hierarchy
-		$sharedManager =& Services::requireService("Shared");
-		$id =& $sharedManager->createId();
+		$idManager =& Services::requireService("Id");
+		$id =& $idManager->createId();
 		$idValue = $id->getIdString();
 		
 		// Create a new hierarchy and insert it into the database
@@ -216,13 +216,13 @@ class HarmoniHierarchyManager
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() != 1) 
-			throwError(new Error(UNKNOWN_ID, "Hierarchy", 1));
+			throwError(new Error(HierarchyException::UNKNOWN_ID(), "Hierarchy", 1));
 		
 		$row = $queryResult->getCurrentrow();
 
 		$idValue =& $row['id'];
-		$shared_manager =& Services::requireService("Shared");
-		$id =& $shared_manager->getId($idValue);
+		$idManager =& Services::requireService("Id");
+		$id =& $idManager->getId($idValue);
 		$allowsMultipleParents = ($row['multiparent'] == '1');
 		
 		$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
@@ -271,7 +271,7 @@ class HarmoniHierarchyManager
 		
 		$hierarchies = array();
 		
-		$shared_manager =& Services::requireService("Shared");
+		$idManager =& Services::requireService("Id");
 
 		while ($queryResult->hasMoreRows()) {
 			$row = $queryResult->getCurrentrow();
@@ -282,7 +282,7 @@ class HarmoniHierarchyManager
 			if (isset($this->_hierarchies[$idValue]))
 				$hierarchy =& $this->_hierarchies[$idValue];
 			else {
-				$id =& $shared_manager->getId($idValue);
+				$id =& $idManager->getId($idValue);
 				$allowsMultipleParents = ($row['multiparent'] == '1');
 		
 				$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
@@ -345,7 +345,7 @@ class HarmoniHierarchyManager
 		$row = $queryResult->getCurrentRow();
 		// if the hierarchy contains any nodes, cannot delete
 		if ($row['num'] > 0) {
-			throwError(new Error(HIERARCHY_NOT_EMPTY, "Hierarchy", true));
+			throwError(new Error(HierarchyException::HIERARCHY_NOT_EMPTY(), "Hierarchy", true));
 			return;
 		}
 		
@@ -355,8 +355,7 @@ class HarmoniHierarchyManager
 		$query->addWhere("{$db}hierarchy.hierarchy_id = '{$idValue}'");
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() != 1) {
-			$str = "Something went wrong when deleting the hierarchy.";
-			throwError(new Error($str, "Hierarchy", true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED(), "Hierarchy", true));
 		}
 		
 		// update the cache
@@ -424,18 +423,17 @@ class HarmoniHierarchyManager
 		$nodeQueryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		if ($nodeQueryResult->getNumberOfRows() != 1) {
-			$err = "Exactly one row should be returned!";
-			throwError(new Error($err, "Hierarchy", true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED(), "Hierarchy", true));
 		}
 		
 		$nodeRow = $nodeQueryResult->getCurrentRow();
 
-		$shared_manager =& Services::requireService("Shared");
+		$idManager =& Services::requireService("Id");
 
 		$hierarchyId = $nodeRow['hierarchy_id'];
 
 		// get the hierarchy
-		$hierarchy =& $this->getHierarchy($shared_manager->getId($hierarchyId));
+		$hierarchy =& $this->getHierarchy($idManager->getId($hierarchyId));
 		
 		$node =& $hierarchy->getNode($id);
 
@@ -455,8 +453,8 @@ class HarmoniHierarchyManager
 	 * @return ref object The Hierarchy to which the Node belongs.
 	 **/
 	function &getHierarchyForNode(& $node) {
-		$sharedManager =& Services::requireService("Shared");
-		$hierarchyId =& $sharedManager->getId($node->_cache->_hierarchyId);
+		$idManager =& Services::requireService("Id");
+		$hierarchyId =& $idManager->getId($node->_cache->_hierarchyId);
 		$hierarchy =& $this->getHierarchy($hierarchyId);
 		
 		return $hierarchy;

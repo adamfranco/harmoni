@@ -1,33 +1,32 @@
 <?
 
-require_once(OKI."/hierarchy.interface.php");
+require_once(OKI2."/osid/hierarchy/TraversalInfo.php");
 
 /**
- * A TraversalInfo contains a Node unique Id, a Node displayName, and a Node
+ * TraversalInfo contains a Node unique Id, a Node displayName, and a Node
  * Level.  The level of the Node represented by the node unique Id is in
  * relation to the startId of the Hierarchy traverse method call. Children
  * Nodes are represented by positive levels, parent Nodes by negative levels.
  * For example, a traverse of a Hierarchy has level -1 for parents of the Node
- * represented by startId, and a level -2 for grandparents.  Similarly, the
+ * represented by startId, and a level -2 for grandparents.	 Similarly, the
  * children of the Node would have level 1, and grandchildren would have level
  * 2.
  * 
- * 
- * <p></p>
+ * <p>
+ * OSID Version: 2.0
+ * </p>
  *
- * @package harmoni.osid.hierarchy2
+ * @package harmoni.osid.hierarchy
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniTraversalInfo.class.php,v 1.1 2005/01/11 17:40:20 adamfranco Exp $
+ * @version $Id: HarmoniTraversalInfo.class.php,v 1.2 2005/01/17 21:07:06 adamfranco Exp $
  *
- * @todo Replace JavaDoc with PHPDoc
  */
 
 class HarmoniTraversalInfo
 	extends TraversalInfo
-{ // begin TraversalInfo
-
+{
 	/**
 	 * @var object Id $_id The id for this Node.
 	 */
@@ -46,7 +45,7 @@ class HarmoniTraversalInfo
 	/**
 	 * Constructor.
 	 *
-	 * @param object ID   $id   The Id of this Node.
+	 * @param object ID	  $id	The Id of this Node.
 	 * @param string $displayName The displayName of the Node.
 	 * @param integer $depth The depth of the Node.
 	 * @access public
@@ -65,44 +64,75 @@ class HarmoniTraversalInfo
 
 	/**
 	 * Get the unique Id for this Node.
-	 *
-	 * @return object osid.shared.Id A unique Id that is usually set by a create
-	 *		   method's implementation
-	 *
-	 * @throws HierarchyException if there is a general failure.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 *	
+	 * @return object Id
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getNodeId() {
+	function &getNodeId () { 
 		return $this->_id;
 	}
 
 	/**
 	 * Get the display name for this Node.
-	 *
-	 * @return String the display name
-	 *
-	 * @throws HierarchyException if there is a general failure.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 *	
+	 * @return string
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function getDisplayName() {
+	function getDisplayName () {
 		return $this->_displayName;
 	}
 
 	/**
 	 * Get the level of this Node in relation to the startId of the Hierarchy
-	 * traversal method call.  Descendents are assigned increasingly positive
+	 * traversal method call.  Descendants are assigned increasingly positive
 	 * levels; ancestors increasingly negative levels.
-	 *
-	 * @return int level
-	 *
-	 * @throws HierarchyException if there is a general failure.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 *	
+	 * @return int
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function getLevel() {
+	function getLevel () { 
 		return $this->_depth;
 	}
 
-} // end TraversalInfo
+}
+
+?>

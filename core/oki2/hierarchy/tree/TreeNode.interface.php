@@ -4,11 +4,11 @@
  * This is the building piece of the Tree data structure used for the backbone of the
  * hierarchy.
  * @access public
- * @version $Id: TreeNode.interface.php,v 1.1 2005/01/11 17:40:22 adamfranco Exp $
+ * @version $Id: TreeNode.interface.php,v 1.2 2005/01/17 21:08:55 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
- * @package harmoni.osid.hierarchy2.tree
+ * @package harmoni.osid.hierarchy.tree
  */
 class TreeNodeInterface {
 

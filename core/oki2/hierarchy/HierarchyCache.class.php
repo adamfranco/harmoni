@@ -1,8 +1,8 @@
 <?php
 
-require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
-require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfo.class.php");
-require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
+require_once(HARMONI."oki2/hierarchy/tree/Tree.class.php");
+require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfo.class.php");
+require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
 
 /**
  * This class provides a mechanism for caching different parts of a hierarchy and
@@ -27,8 +27,8 @@ require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
  * 
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
- * @version $Id: HierarchyCache.class.php,v 1.1 2005/01/11 17:40:20 adamfranco Exp $
- * @package harmoni.osid.hierarchy2
+ * @version $Id: HierarchyCache.class.php,v 1.2 2005/01/17 21:07:06 adamfranco Exp $
+ * @package harmoni.osid.hierarchy
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
  * @access public
@@ -101,12 +101,12 @@ class HierarchyCache {
 
 
 	/**
-     * Constructor
+	 * Constructor
 	 * @param string hierarchyId The id of the corresponding hierarchy.
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 * @param string hyDB The name of the hierarchy database.
-     * @access protected
-     */
+	 * @access protected
+	 */
 	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex, $hyDB) {
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, new StringValidatorRule(), true);
@@ -181,8 +181,8 @@ class HierarchyCache {
 		// ** end of parameter validation
 
 		if (isset($this->_cache[$idValue]))
-			return (($this->_cache[$idValue][2] >= $levels)  && ($levels >= 0)) || 
-			       ($this->_cache[$idValue][2] < 0);
+			return (($this->_cache[$idValue][2] >= $levels)	 && ($levels >= 0)) || 
+				   ($this->_cache[$idValue][2] < 0);
 		else
 			return false;
 	}
@@ -230,7 +230,7 @@ class HierarchyCache {
 		// make sure that we are not adding a second parent in a single-parent hierarchy
 		if (!$this->_allowsMultipleParents)
 			if ($childTreeNode->getParentsCount() > 1)
-				throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", true));
+				throwError(new Error(HierarchyException::SINGLE_PARENT_HIERARCHY(), "HierarchyCache", true));
 
 
 
@@ -285,7 +285,7 @@ class HierarchyCache {
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 	
 		if ($queryResult->getNumberOfRows() != 1)
-			throwError(new Error("Insert failed.","Hierarchy",true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED(),"HierarchyCache",true));
 	}
 	
 	
@@ -334,7 +334,7 @@ class HierarchyCache {
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() != 1)
-			throwError(new Error("Delete failed.","SharedManager",true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED(),"HierarchyCache",true));
 	}
 	
 		
@@ -361,16 +361,16 @@ class HierarchyCache {
 		
 		$result = array();
 
-		$shared_manager =& Services::requireService("Shared");
+		$idManager =& Services::requireService("Id");
 
 		while ($nodeQueryResult->hasMoreRows()) {
 			$nodeRow = $nodeQueryResult->getCurrentRow();
 			$idValue =& $nodeRow['id'];
 			
-			$id =& $shared_manager->getId($idValue);
+			$id =& $idManager->getId($idValue);
 			$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
 									  $nodeRow['keyword'], $nodeRow['type_description']);
-		    $node =& new HarmoniNode($id, $type, 
+			$node =& new HarmoniNode($id, $type, 
 									  $nodeRow['display_name'], $nodeRow['description'], $this);
 	
 			$result[] =& $node;
@@ -389,7 +389,7 @@ class HierarchyCache {
 	 **/
 	function &getAllNodes() {
 		$dbHandler =& Services::requireService("DBHandler");
-		$shared_manager =& Services::requireService("Shared");
+		$idManager =& Services::requireService("Id");
 
 		$db = $this->_hyDB.".";
 		$query =& new SelectQuery();
@@ -448,10 +448,10 @@ class HierarchyCache {
 			$this->_tree->addNode($tn, $parent_tn);
 
 			// 4) update cache of hierarchy nodes
-			$id =& $shared_manager->getId($idValue);
+			$id =& $idManager->getId($idValue);
 			$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
 									  $nodeRow['keyword'], $nodeRow['type_description']);
-		    $node =& new HarmoniNode($id, $type, 
+			$node =& new HarmoniNode($id, $type, 
 									  $nodeRow['display_name'], $nodeRow['description'], $this);
 			$this->_cache[$idValue][0] =& $node;
 			$this->_cache[$idValue][1] = -1;
@@ -473,7 +473,7 @@ class HierarchyCache {
 	 **/
 	function &getRootNodes() {
 		$dbHandler =& Services::requireService("DBHandler");
-		$shared_manager =& Services::requireService("Shared");
+		$idManager =& Services::requireService("Id");
 		$db = $this->_hyDB.".";
 
 		// copy _nodeQuery into a new object
@@ -499,10 +499,10 @@ class HierarchyCache {
 			$idValue =& $nodeRow['id'];
 			
 			if (!$this->_isCached($idValue)) {
-				$id =& $shared_manager->getId($idValue);
+				$id =& $idManager->getId($idValue);
 				$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
 										  $nodeRow['keyword'], $nodeRow['type_description']);
-			    $node =& new HarmoniNode($id, $type, 
+				$node =& new HarmoniNode($id, $type, 
 										  $nodeRow['display_name'], $nodeRow['description'], $this);
 
 				// insert node into cache
@@ -541,8 +541,7 @@ class HierarchyCache {
 			
 			// must be only one node
 			if (count($nodes) != 1) {
-				$str = "Exactly one node must have been returned!";
-				throwError(new Error($str, "Hierarchy", true));
+				throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
 			}
 			
 			$displayName = $nodes[0]->getDisplayName();
@@ -585,7 +584,7 @@ class HierarchyCache {
 			// include the given node in the cache of nodes if necessary
 			if (!$this->_isCached($idValue)) {
 				$this->_tree->addNode(new TreeNode($idValue));
-			    $this->_cache[$idValue][0] =& $node;
+				$this->_cache[$idValue][0] =& $node;
 			}
 	
 			// now fetch <code>$node</code>'s parents from the database
@@ -595,7 +594,7 @@ class HierarchyCache {
 	
 			$db = $this->_hyDB.".";
 			$dbHandler =& Services::requireService("DBHandler");
-			$shared_manager =& Services::requireService("Shared");
+			$idManager =& Services::requireService("Id");
 			$query =& new SelectQuery();
 	
 			// set the columns to select
@@ -638,10 +637,10 @@ class HierarchyCache {
 				$parentIdValue = $row['id'];
 				// if not create it and cache it
 				if (!$this->_isCached[$parentIdValue]) {
-					$parentId =& $shared_manager->getId($parentIdValue);
+					$parentId =& $idManager->getId($parentIdValue);
 					$parentType =& new HarmoniType($row['domain'], $row['authority'], 
 												  $row['keyword'], $row['type_description']);
-				    $parent =& new HarmoniNode($parentId, $parentType, 
+					$parent =& new HarmoniNode($parentId, $parentType, 
 											  $row['display_name'], $row['description'], $this);
 					$parentTreeNode =& new TreeNode($parentIdValue);
 					$this->_tree->addNode($parentTreeNode);
@@ -695,7 +694,7 @@ class HierarchyCache {
 			// include the given node in the cache of nodes if necessary
 			if (!$this->_isCached($idValue)) {
 				$this->_tree->addNode(new TreeNode($idValue));
-			    $this->_cache[$idValue][0] =& $node;
+				$this->_cache[$idValue][0] =& $node;
 			}
 	
 			// now fetch <code>$node</code>'s children from the database
@@ -705,7 +704,7 @@ class HierarchyCache {
 	
 			$db = $this->_hyDB.".";
 			$dbHandler =& Services::requireService("DBHandler");
-			$shared_manager =& Services::requireService("Shared");
+			$idManager =& Services::requireService("Id");
 			$query =& new SelectQuery();
 	
 			// set the columns to select
@@ -748,10 +747,10 @@ class HierarchyCache {
 				$childIdValue = $row['id'];
 				// if not create it and cache it
 				if (!$this->_isCached[$childIdValue]) {
-					$childId =& $shared_manager->getId($childIdValue);
+					$childId =& $idManager->getId($childIdValue);
 					$childType =& new HarmoniType($row['domain'], $row['authority'], 
 												  $row['keyword'], $row['type_description']);
-				    $child =& new HarmoniNode($childId, $childType, 
+					$child =& new HarmoniNode($childId, $childType, 
 											  $row['display_name'], $row['description'], $this);
 					$this->_tree->addNode(new TreeNode($childIdValue), $treeNode);
 					$this->_cache[$childIdValue][0] =& $child;
@@ -915,7 +914,7 @@ class HierarchyCache {
 				// ignore null values
 				if (is_null($nodeId)) {
 //					echo "<br />--- skipping to next row (null value encountered)<br />";
-				    break;
+					break;
 				}
 				
 //				echo "<br /><b>Level: $level - Node # $nodeId</b>";
@@ -927,8 +926,7 @@ class HierarchyCache {
 					
 					// must be only one node
 					if (count($nodes) != 1) {
-						$str = "Exactly one node must have been returned!";
-						throwError(new Error($str, "Hierarchy", true));
+						throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
 					}
 					
 					$displayName = $nodes[0]->getDisplayName();
@@ -945,7 +943,7 @@ class HierarchyCache {
 				
 				// update the levels fetched down, if necessary
 				if (($this->_cache[$nodeId][1] >= 0) && 
-				    ($this->_cache[$nodeId][1] < ($levels - $level))) {
+					($this->_cache[$nodeId][1] < ($levels - $level))) {
 					$old = $this->_cache[$nodeId][1];
 					if ($originalLevels < 0)
 						// if fully, then the node is fetched fully as well
@@ -1029,7 +1027,7 @@ class HierarchyCache {
 			
 		// generate query
 		$query->addColumn("fk_child", "level0_id", "level0");
-		$query->addColumn("fk_parent",  "level1_id", "level0");
+		$query->addColumn("fk_parent",	"level1_id", "level0");
 		$query->addTable($db."j_node_node", NO_JOIN, "", "level0");
 		$query->addOrderBy("level0_id");
 		$query->addOrderBy("level1_id");
@@ -1072,7 +1070,7 @@ class HierarchyCache {
 				// ignore null values
 				if (is_null($nodeId)) {
 //					echo "<br />--- skipping to next row (null value encountered)<br />";
-				    break;
+					break;
 				}
 				
 //				echo "<br /><b>Level: $level - Node # $nodeId</b>";
@@ -1084,8 +1082,7 @@ class HierarchyCache {
 					
 					// must be only one node
 					if (count($nodes) != 1) {
-						$str = "Exactly one node must have been returned!";
-						throwError(new Error($str, "Hierarchy", true));
+						throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
 					}
 					
 					$displayName = $nodes[0]->getDisplayName();
@@ -1102,7 +1099,7 @@ class HierarchyCache {
 				
 				// update the levels fetched up, if necessary
 				if (($this->_cache[$nodeId][2] >= 0) && 
-				    ($this->_cache[$nodeId][2] < ($levels - $level))) {
+					($this->_cache[$nodeId][2] < ($levels - $level))) {
 					$old = $this->_cache[$nodeId][2];
 					if ($originalLevels < 0)
 						// if fully, then the node is fetched fully as well
@@ -1179,8 +1176,8 @@ class HierarchyCache {
 		// check that the node does not exist in the cache
 		$idValue =& $nodeId->getIdString();
 		if ($this->_isCached($idValue)) {
-				$str = "The node has already been cached!";
-				throwError(new Error($str, "Hierarchy", true));
+				// The node has already been cached!
+				throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
 		}
 		
 		// attempt to insert the node now
@@ -1249,8 +1246,8 @@ class HierarchyCache {
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() != 1) {
-				$str = "Could not insert the node (it already exists?)";
-				throwError(new Error($str, "Hierarchy", true));
+				//"Could not insert the node (it already exists?)";
+				throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
 		}
 		
 		// create the node object to return
@@ -1302,8 +1299,8 @@ class HierarchyCache {
 		$node =& $this->getNode($idValue);
 		// if not a leaf, cannot delete
 		if (!$node->isLeaf()) {
-				$str = "Cannon delete non-leaf nodes.";
-				throwError(new Error($str, "Hierarchy", true));
+				// "Can not delete non-leaf nodes.";
+				throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
 		}
 		
 		// clear the cache and update the _tree structure
@@ -1338,9 +1335,9 @@ class HierarchyCache {
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error("The node with Id: ".$idValue." does not exist in the database.","SharedManager",true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED(),"HierarchyCache",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error("Multiple nodes with Id: ".$idValue." exist in the database." ,"SharedManager",true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED() ,"HierarchyCache",true));
 		$typeIdValue = $queryResult->field("type_id");
 		
 		// 2. Now delete the node

@@ -19,7 +19,7 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.2 2005/01/17 19:10:17 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.3 2005/01/17 21:07:06 adamfranco Exp $
  */
 
 class HarmoniNode 
@@ -289,9 +289,9 @@ class HarmoniNode
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error("The node with Id: ".$idValue." does not exist in the database.","Hierarchy",true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error("Multiple nodes with Id: ".$idValue." exist in the database. Note: their descriptions have been updated." ,"Hierarchy",true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED() ,"Hierarchy",true));
 	}
 
 	/**
@@ -343,9 +343,9 @@ class HarmoniNode
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error("The node with Id: ".$idValue." does not exist in the database.","Hierarchy",true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error("Multiple nodes with Id: ".$idValue." exist in the database. Note: their display names have been updated." ,"Hierarchy",true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED() ,"Hierarchy",true));
 	}
 
 	/**
