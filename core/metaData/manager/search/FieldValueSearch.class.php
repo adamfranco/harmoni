@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/search/SearchCriteria.interface.php";
 /**
  * Searches for only DataSets that contain a certain field=value pair.
  * @package harmoni.datamanager.search
- * @version $Id: FieldValueSearch.class.php,v 1.3 2004/01/14 21:09:25 gabeschine Exp $
+ * @version $Id: FieldValueSearch.class.php,v 1.4 2004/01/15 02:26:09 gabeschine Exp $
  * @copyright 2004, Middlebury College
  */
 class FieldValueSearch extends SearchCriteria {
@@ -47,7 +47,7 @@ class FieldValueSearch extends SearchCriteria {
 		
 		$string = $tmpObj->makeSearchString($this->_value);
 		
-		return "(datasetfield.fk_datasettypedef=".$fieldDef->getID()." AND ".$string.")";
+		return "(datasetfield.fk_datasettypedef=".$fieldDef->getID()." AND ".$string." AND datasetfield.datasetfield_active=1)";
 	}
 	
 	function getTypeList() {

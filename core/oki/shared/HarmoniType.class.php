@@ -53,7 +53,7 @@ class HarmoniType
 } // end Type
 
 function OKITypeToString(&$type, $glue=", ") {
-	return $type->getAuthority()  . $glue . $type->getDomain() . $glue . $type->getKeyword();
+	return $type->getAuthority() . $glue . $type->getDomain() . $glue . $type->getKeyword();
 }
 
 ?>

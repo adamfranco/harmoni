@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.19 2004/01/14 20:09:42 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.20 2004/01/15 02:26:01 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -65,6 +65,8 @@ class DataSetManager extends ServiceInterface {
 		if (!$editable) $query->addWhere("datasetfield_active=1");
 		
 		$dbHandler =& Services::getService("DBHandler");
+		
+//		print "<PRE>" . MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
 		
 		$result =& $dbHandler->query($query,$this->_dbID);
 		
@@ -134,7 +136,7 @@ class DataSetManager extends ServiceInterface {
 		$query =& new SelectQuery();
 		$this->_setupSelectQuery($query, TRUE);
 		
-		$typeIDs = $criteria->getTypeList();
+		$typeIDs = array_unique($criteria->getTypeList());
 		
 		$searchString = $criteria->returnSearchString();
 		
@@ -165,6 +167,15 @@ class DataSetManager extends ServiceInterface {
 		$result =& $dbHandler->query($query, $this->_dbID);
 		
 		$resultIds = array();
+		
+		while ($result->hasMoreRows()) {
+			$a = $result->getCurrentRow();
+			$result->advanceRow();
+			
+			$resultIds[] = $a["dataset_id"];
+		}
+		
+		return array_unique($resultIds);
 	}
 	
 	/**

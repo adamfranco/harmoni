@@ -19,11 +19,24 @@ $manager =& Services::requireService("DataSetManager");
 
 // check the query string
 
-$manager->_selectIDsBySearch(array(1,2,3,4,5),
-	new FieldValueSearch(new HarmoniType("middlebury.edu","Harmoni","SimpleAgent"),
-				"firstName", new ShortStringDataType("hello")));
+$agent =& new HarmoniType("middlebury.edu","Harmoni","SimpleAgent");
+$comp =& new HarmoniType("middlebury.edu","Harmoni","Computer");
 
+//$s =& new AndSearch;
+//$s->addCriteria(new DataSetTypeSearch($comp));
+//$s->addCriteria(new DataSetTypeSearch($agent));
+//$s->addCriteria(new FieldValueSearch($comp,"vendor",new ShortStringDataType("Dell")));
+$s =& new OnlyThisSearch(new FieldValueSearch($comp,"vendor",new ShortStringDataType("Dell")));
 
+$ids = $manager->selectIDsBySearch(
+//		new FieldValueSearch(
+//			$agent,"firstName", 
+//				new ShortStringDataType("Gabe"))
+//		new DataSetTypeSearch($comp)
+		$s
+		);
+
+print_r($ids);
 
 
 debug::printAll();
