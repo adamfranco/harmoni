@@ -6,7 +6,7 @@ require_once(HARMONI."debugHandler/DebugHandler.interface.php");
 /**
  * The DebugHandler keeps track of multiple DebugItems.
  *
- * @version $Id: DebugHandler.class.php,v 1.1 2003/06/23 23:59:40 gabeschine Exp $
+ * @version $Id: DebugHandler.class.php,v 1.2 2003/06/24 20:21:47 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugHandler
  **/
@@ -40,17 +40,17 @@ class DebugHandler extends DebugHandlerInterface {
 		if (is_object($debug))
 			$this->_add(&$debug);
 		else if (is_string($debug))
-			$this->_add(& new DebugItem($debug, $level, $category));
+			$this->_add( new DebugItem($debug, $level, $category));
 	}
 	
 	/**
 	 * Adds a DebugItem to the queue.
 	 *
 	 * @param object DebugItem $debugItem The DebugItem to add to the queue.
-	 * @access public
+	 * @access private
 	 * @return void
 	 **/
-	function add( $debugItem ) {
+	function _add( $debugItem ) {
 		$this->_queue[] = & $debugItem;
 	}
 	
@@ -73,8 +73,8 @@ class DebugHandler extends DebugHandlerInterface {
 	 **/
 	function & getDebugItems( $category="" ) {
 		$array = array();
-		for ($i = 0; $i < $this->getDebugItemCount; $i++) {
-			if ($category == "" || $this->_queue[$i]->getCategory == $category)
+		for ($i = 0; $i < $this->getDebugItemCount(); $i++) {
+			if ($category == "" || $this->_queue[$i]->getCategory() == $category)
 				$array[] = &$this->_queue[$i];
 		}
 		return $array;

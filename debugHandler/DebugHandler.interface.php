@@ -3,7 +3,7 @@
 /**
  * the DebugHandler interface defines the required methods for a DebugHandler class
  *
- * @version $Id: DebugHandler.interface.php,v 1.1 2003/06/23 23:59:40 gabeschine Exp $
+ * @version $Id: DebugHandler.interface.php,v 1.2 2003/06/24 20:21:47 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugHandler
  **/
@@ -18,7 +18,7 @@ class DebugHandlerInterface {
 	 * @access public
 	 * @return void
 	 **/
-	function add( $text, $level=5, $category="general") { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function add( $debug, $level=5, $category="general") { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * Returns the number of DebugItems registered.

@@ -5,7 +5,7 @@ require_once(HARMONI."debugHandler/DebugHandlerPrinter.interface.php");
 /**
  * the PlainTextDebugHandlerPrinter prints debug items right to stdout
  *
- * @version $Id: PlainTextDebugHandlerPrinter.class.php,v 1.1 2003/06/23 23:59:40 gabeschine Exp $
+ * @version $Id: PlainTextDebugHandlerPrinter.class.php,v 1.2 2003/06/24 20:22:40 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugHandler
  **/
@@ -21,7 +21,7 @@ class PlainTextDebugHandlerPrinter extends DebugHandlerPrinterInterface {
 	 * @return void
 	 **/
 	function printDebugHandler( $debugHandler, $level = 9, $category = "" ) {
-		$items = $debugHandler->getDebugItems($category);
+		$items = & $debugHandler->getDebugItems($category);
 		if ($level == 0) return true;
 		
 		foreach (array_keys($items) as $key) {
