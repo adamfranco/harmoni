@@ -1,4 +1,5 @@
 <?php
+
 // +-----------------------------------------------------------------------+
 // | Copyright (c) 2002-2003, Richard Heyes                                |
 // | All rights reserved.                                                  |
@@ -381,10 +382,11 @@ class Tree
 	/**
     * Adds a node to the tree.
 	* 
-	* @param mixed   $data     The data that pertains to this node
+	* @param mixed   $data	The data that pertains to this node. This cannot contain
+	*						objects. Use setData for objects.
 	* @param integer $parentID Optional parent node ID
     */
-	function addNode(& $data = null, $parentID = 0)
+	function addNode($data = NULL, $parentID = 0)
 	{
 		$newID = $this->uid++;
 
@@ -823,10 +825,64 @@ class Tree
 	* @return boolean     True if the node exists in the tree.
     */	
 	function nodeExists($id) {
-		if (in_array($this->structure))
+		if (in_array($id, array_keys($this->structure)))
 			return true;
 		else
 			return false;
 	}
+	
+	/**
+    * Returns a list (array) of nodes after traversal.
+	*
+	* @author Adam Franco <adam@adamfranco.com>
+	* @since 2003-10-02
+	*
+	* @param	string	$id 	The starting node's id
+	* @param	integer	$levels	The number of levels to traverse. 
+	*							NULL for infinate, 1 for the currentNode only, 2 for the current
+	*							node and its children.
+	* @return	array			An array of the resulting ids
+	*/
+	function depthFirstEnumeration($currentId, $levels = NULL) {
+		// set the maxDepth to the max possible if NULL
+		if ($levels === NULL) {
+			$maxDepth = count($this->structure);
+			$newLevels = NULL;
+		} else {
+			// If levels == 0, cut off loop.
+			if ($levels == 0)
+				$maxDepth = $this->depth($currentId) - 1;
+			else
+				$maxDepth = $this->depth($currentId) + $levels;
+			
+			// set the new number of levels to descend.
+			if ($levels >= 1)
+				$newLevels = $levels - 1;
+			else
+				$newLevels = 0;
+		}
+		
+		// If we aren't yet at the max depth, continue
+		if ($this->depth($currentId) <= $maxDepth) {
+			$meArray = array($currentId);
+			
+			// if we have children, descend into them
+			if ($this->hasChildren($currentId)) {
+				$children = $this->getChildren($currentId);
+				foreach ($children as $childId) {
+					$descendentArray = array_merge($descendentArray, $this->depthFirstEnumeration($childId, $newLevels));
+				}
+			} else {
+				$descendentArray = array();
+			}
+			
+			$result = array_merge($meArray, $descendentArray);
+			return $result;
+			
+		} else {
+			return array();
+		}
+	}
+
 }
 ?>
