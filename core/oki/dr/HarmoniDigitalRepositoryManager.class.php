@@ -39,6 +39,8 @@ class HarmoniDigitalRepositoryManager // :: API interface
 		if (!$dataSetTypeManager->dataSetTypeExists($type)) {
 			$definition =& $dataSetTypeManager->newDataSetType($type);
 			$definition->addNewField( new FieldDefinition("Content", "blob"));
+			$definition->addNewField( new FieldDefinition("EffectiveDate", "datetime"));
+			$definition->addNewField( new FieldDefinition("ExpirationDate", "datetime"));
 			$dataSetTypeManager->synchronize($definition);
 		}
 	}

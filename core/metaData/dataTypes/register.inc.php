@@ -11,7 +11,7 @@ $this->registerType("string","StringDataType");
 $this->registerType("boolean","BooleanDataType");
 $this->registerType("float","FloatDataType");
 $this->registerType("shortstring","ShortStringDataType");
-//$this->registerType("datetime","DateTimeDataType");
+$this->registerType("datetime","DateTimeDataType");
 //$this->registerType("fuzzydate","FuzzyDateDataType");
 $this->registerType("blob","BlobDataType");
 

@@ -145,19 +145,29 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getContent() {
-		throwError( new Error("This Has not been implemented yet.","HarmoniAsset",true));
-		
+		$sharedManager =& Services::getService("Shared");
 		$dataSetMgr =& Services::getService("DataSetManager");
-		$myId = $this->_node->getId();
-		$myGroup =& $dataSetMgr->fetchDataSetGroup($myId->getIdString());
 		
-		$valid = $this->_dr->isAssetValid($myId);
+		// Ready our type for comparisson
+		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
 		
-		/*$sets =& */$myGroup->fetchDataSets(!$valid);
+		// Get the content DataSet.
+		$id =& $this->_node->getId();
+		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
+		// fetching as editable since we don't know if it will be edited.
+		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
+		foreach ($dataSets as $key => $dataSet) {
+			if($contentType->isEqual($dataSets[$key]->getType())) {
+				$contentDataSet =& $dataSets[$key];
+				break;
+			}
+		}
 		
-		// return the group, but have the above line pre-load the DataSets in the group.
-		return $myGroup;
-//		return $sets;
+		if ($contentDataSet->hasActiveValue("Content")) {
+			$valueVersion =& $contentDataSet->getActiveValue("Content");
+			return $valueVersion->getValue();
+		} else
+			return null;
 	}
 
 	/**
@@ -172,10 +182,183 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function updateContent(& $content) {
-		// let's update what we've got stored with the new IDs & DataSets
+		$sharedManager =& Services::getService("Shared");
+		$dataSetMgr =& Services::getService("DataSetManager");
 		
-		throwError( new Error(
-			OPERATION_FAILED.": The method updateContent() has not been implemented. Use getContent() and modify that directly.","HarmoniAsset",true));
+		// Ready our type for comparisson
+		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		
+		// Get the content DataSet.
+		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
+		// fetching as editable since we don't know if it will be edited.
+		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
+		foreach ($dataSets as $key => $dataSet) {
+			if($contentType->isEqual($dataSets[$key]->getType())) {
+				$contentDataSet =& $dataSets[$key];
+				break;
+			}
+		}
+		
+		$valueVersions =& $contentDataSet->getValueVersionsObject("Content");
+		
+		// Create a blob valueObj for the content
+		$valueObj =& new BlobDataType($content);
+	
+		$valueVersions->setValue($valueObj);
+		
+		$valueVersions->commit();
+	}
+
+	/**
+	 * Get an Asset's EffectiveDate
+	 *
+	 * @return java.util.Calendar
+	 *
+	 * @throws An exception with one of the following messages defined in
+	 *		 osid.dr.DigitalRepositoryException may be thrown:
+	 *		 OPERATION_FAILED
+ 	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function & getEffectiveDate() {
+		$sharedManager =& Services::getService("Shared");
+		$dataSetMgr =& Services::getService("DataSetManager");
+		
+		// Ready our type for comparisson
+		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		
+		// Get the content DataSet.
+		$id =& $this->_node->getId();
+		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
+		// fetching as editable since we don't know if it will be edited.
+		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
+		foreach ($dataSets as $key => $dataSet) {
+			if($contentType->isEqual($dataSets[$key]->getType())) {
+				$contentDataSet =& $dataSets[$key];
+				break;
+			}
+		}
+		
+		if ($contentDataSet->hasActiveValue("EffectiveDate")) {
+			$valueVersion =& $contentDataSet->getActiveValue("EffectiveDate");
+			return $valueVersion->getValue();
+		} else
+			return null;
+	}
+
+	/**
+	 * Update an Asset's EffectiveDate.
+	 *
+	 * @param java.util.Calendar
+	 *
+	 * @throws An exception with one of the following messages defined in
+	 *		 osid.dr.DigitalRepositoryException may be thrown:
+	 *		 OPERATION_FAILED, NULL_ARGUMENT
+ 	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function updateEffectiveDate(& $effectiveDate) {
+		$sharedManager =& Services::getService("Shared");
+		$dataSetMgr =& Services::getService("DataSetManager");
+		
+		// Ready our type for comparisson
+		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		
+		// Get the content DataSet.
+		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
+		// fetching as editable since we don't know if it will be edited.
+		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
+		foreach ($dataSets as $key => $dataSet) {
+			if($contentType->isEqual($dataSets[$key]->getType())) {
+				$contentDataSet =& $dataSets[$key];
+				break;
+			}
+		}
+		
+		$valueVersions =& $contentDataSet->getValueVersionsObject("EffectiveDate");
+		
+		// Create a blob valueObj for the content
+		$valueObj =& new DateDataType($effectiveDate);
+	
+		$valueVersions->setValue($valueObj);
+		
+		$valueVersions->commit();
+	}
+
+	/**
+	 * Get an Asset's EffectiveDate
+	 *
+	 * @return java.util.Calendar
+	 *
+	 * @throws An exception with one of the following messages defined in
+	 *		 osid.dr.DigitalRepositoryException may be thrown:
+	 *		 OPERATION_FAILED
+ 	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function & getExpirationDate() {
+		$sharedManager =& Services::getService("Shared");
+		$dataSetMgr =& Services::getService("DataSetManager");
+		
+		// Ready our type for comparisson
+		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		
+		// Get the content DataSet.
+		$id =& $this->_node->getId();
+		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
+		// fetching as editable since we don't know if it will be edited.
+		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
+		foreach ($dataSets as $key => $dataSet) {
+			if($contentType->isEqual($dataSets[$key]->getType())) {
+				$contentDataSet =& $dataSets[$key];
+				break;
+			}
+		}
+		
+		if ($contentDataSet->hasActiveValue("ExpirationDate")) {
+			$valueVersion =& $contentDataSet->getActiveValue("ExpirationDate");
+			return $valueVersion->getValue();
+		} else
+			return null;
+	}
+
+	/**
+	 * Update an Asset's ExpirationDate.
+	 *
+	 * @param java.util.Calendar
+	 *
+	 * @throws An exception with one of the following messages defined in
+	 *		 osid.dr.DigitalRepositoryException may be thrown:
+	 *		 OPERATION_FAILED, NULL_ARGUMENT
+ 	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function updateExpirationDate(& $expirationDate) {
+		$sharedManager =& Services::getService("Shared");
+		$dataSetMgr =& Services::getService("DataSetManager");
+		
+		// Ready our type for comparisson
+		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		
+		// Get the content DataSet.
+		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
+		// fetching as editable since we don't know if it will be edited.
+		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
+		foreach ($dataSets as $key => $dataSet) {
+			if($contentType->isEqual($dataSets[$key]->getType())) {
+				$contentDataSet =& $dataSets[$key];
+				break;
+			}
+		}
+		
+		$valueVersions =& $contentDataSet->getValueVersionsObject("ExpirationDate");
+		
+		// Create a blob valueObj for the content
+		$valueObj =& new DateDataType($expirationDate);
+	
+		$valueVersions->setValue($valueObj);
+		
+		$valueVersions->commit();
 	}
 
 	/**
@@ -538,7 +721,21 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getContentInfoStructure() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		$sharedManager =& Services::getService("Shared");
+		$dataSetTypeMgr =& Services::getService("DataSetTypeManager");
+		
+		$infoStructures =& $this->_dr->getInfoStructures();
+
+		// Get the id of the Content DataSetTypeDef
+		$contentType =& new HarmoniType("Harmoni", "DR", "AssetContent");
+		$contentTypeId =& $sharedManager->getId($dataSetTypeMgr->getIDForType($contentType));
+		
+		while ($infoStructures->hasNext()) {
+			$structure =& $infoStructures->next();
+			if ($contentTypeId->isEqual($structure->getId()))
+				return $structure;
+		}
+		throwError(new Error(OPERATION_FAILED, "Digital Repository :: Asset", TRUE));
 	}
 
 	/**
