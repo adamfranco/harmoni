@@ -8,7 +8,7 @@
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: MySQLInsertQueryTestCase.class.php,v 1.2 2003/06/18 03:16:21 dobomode Exp $
+ * @version $Id: MySQLInsertQueryTestCase.class.php,v 1.3 2003/06/18 15:31:58 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -52,7 +52,7 @@
 			$this->query->setColumns($columns);
 			$this->query->addRowOfValues($values);
 
-			$sql = "INSERT INTO user\n\t(user_id, user_uname, user_fname)\n\tVALUES(5, 'dradichk', 'Dobromir');";
+			$sql = "INSERT INTO user\n\t(user_id, user_uname, user_fname)\n\tVALUES(5, 'dradichk', 'Dobromir')\n";
 	
 			$sqlFromObject = $this->query->generateSQLQuery();
 			$this->assertEqual($sql, $sqlFromObject);
@@ -78,7 +78,7 @@
 			$values = array("7","'movsjani'","'Maks'");
 			$this->query->addRowOfValues($values);
 
-			$sql = "INSERT INTO user\n\t(user_id, user_uname, user_fname)\n\tVALUES(5, 'dradichk', 'Dobromir'), (6, 'afranco', 'Adam'), (7, 'movsjani', 'Maks');";
+			$sql = "INSERT INTO user\n\t(user_id, user_uname, user_fname)\n\tVALUES(5, 'dradichk', 'Dobromir'), (6, 'afranco', 'Adam'), (7, 'movsjani', 'Maks')\n";
 	
 			$sqlFromObject = $this->query->generateSQLQuery();
 			$this->assertEqual($sql, $sqlFromObject);

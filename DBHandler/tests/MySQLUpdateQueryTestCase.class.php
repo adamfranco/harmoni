@@ -8,7 +8,7 @@
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.1 2003/06/18 03:17:24 dobomode Exp $
+ * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.2 2003/06/18 15:31:58 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -52,7 +52,7 @@
 			$this->query->setColumns($columns);
 			$this->query->setValues($values);
 
-			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk';";
+			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk'\n";
 	
 			$sqlFromObject = $this->query->generateSQLQuery();
 			$this->assertEqual($sql, $sqlFromObject);
@@ -72,7 +72,7 @@
 			$this->query->setColumns($columns);
 			$this->query->setValues($values);
 
-			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk',\n\tuser_fname = 'Dobo',\n\tuser_id = 5;";
+			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk',\n\tuser_fname = 'Dobo',\n\tuser_id = 5\n";
 	
 			$sqlFromObject = $this->query->generateSQLQuery();
 			$this->assertEqual($sql, $sqlFromObject);
@@ -95,7 +95,7 @@
 			$this->query->setCondition($condition);
 			
 
-			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk',\n\tuser_fname = 'Dobo',\n\tuser_id = 5\nWHERE\n\tuser_id = 3;";
+			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk',\n\tuser_fname = 'Dobo',\n\tuser_id = 5\nWHERE\n\tuser_id = 3\n";
 	
 			$sqlFromObject = $this->query->generateSQLQuery();
 			$this->assertEqual($sql, $sqlFromObject);
