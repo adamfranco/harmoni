@@ -25,7 +25,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.24 $ / $Date: 2004/03/04 22:59:07 $
+ * @version $Revision: 1.25 $ / $Date: 2004/04/21 13:45:24 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -94,7 +94,7 @@ class HarmoniHierarchy
     /**
      * Get the unique Id for this Hierarchy.
      *
-     * @return osid.shared.Id A unique Id that is usually set by a create
+     * @return object osid.shared.Id A unique Id that is usually set by a create
      *         method's implementation
      *
      * @throws HierarchyException if there is a general failure.
@@ -156,9 +156,9 @@ class HarmoniHierarchy
 	 * specified unique Id, and, unlike Nodes created with createNode,
 	 * initially has no parents or children.
 	 *
-	 * @param osid.shared.Id nodeId nodeId The unique Id to be associated with
+	 * @param object osid.shared.Id nodeId nodeId The unique Id to be associated with
 	 *		  the new Node; unique Id cannot be null.
-	 * @param osid.shared.Type nodeType type The Type of the new Node; type may
+	 * @param object osid.shared.Type nodeType type The Type of the new Node; type may
 	 *		  be null if the node has no type.
 	 * @param String displayName name The displayName of the new Node;
 	 *		  displayName cannot be null, but may be empty.
@@ -180,11 +180,11 @@ class HarmoniHierarchy
 	 * Create a Node. The Node is created with the specified unique Id and
 	 * initially has only the one specified parent.
 	 *
-	 * @param osid.shared.Id nodeId nodeId The unique Id to be associated with
+	 * @param object osid.shared.Id nodeId nodeId The unique Id to be associated with
 	 *		  the new Node; unique Id cannot be null.
-	 * @param osid.shared.Id parentId nodeId The unique Id to be associated
+	 * @param object osid.shared.Id parentId nodeId The unique Id to be associated
 	 *		  with the parent of this new Node; unique Id cannot be null.
-	 * @param osid.shared.Type nodeType type The Type of the new Node; type may
+	 * @param object osid.shared.Type nodeType type The Type of the new Node; type may
 	 *		  be null if the node has no type.
 	 * @param String displayName name The displayName of the new Node;
 	 *		  displayName cannot be null, but may be empty.
@@ -240,7 +240,7 @@ class HarmoniHierarchy
 	/**
 	 * Delete a Node by Id.  Only leaf Nodes can be deleted.
 	 *
-	 * @param osid.shared.Id nodeId
+	 * @param object osid.shared.Id nodeId
 	 *
 	 * @throws HierarchyException if there is a general failure.     Throws an
 	 *		   exception with the message HierarchyException.UNKNOWN_NODE if
@@ -271,7 +271,7 @@ class HarmoniHierarchy
 	/**
 	 * Add a NodeType to this Hierarchy.
 	 *
-	 * @param osid.shared.Type nodeType
+	 * @param object osid.shared.Type nodeType
 	 *
 	 * @throws HierarchyException if there is a general failure.     Throws an
 	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
@@ -301,7 +301,7 @@ class HarmoniHierarchy
 	 * Remove a NodeType from this Hierarchy.  Note that no Nodes can have this
 	 * NodeType.
 	 *
-	 * @param osid.shared.Type nodeType
+	 * @param object osid.shared.Type nodeType
 	 *
 	 * @throws HierarchyException if there is a general failure.     Throws an
 	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
@@ -430,7 +430,7 @@ class HarmoniHierarchy
 	/**
 	 * Get all NodeTypes used in this Hierarchy.
 	 *
-	 * @return osid.shared.TypeIterator Iterators return a set, one at a time.
+	 * @return object osid.shared.TypeIterator Iterators return a set, one at a time.
 	 *		   The Iterator's hasNext method returns true if there are
 	 *		   additional objects available; false otherwise.  The Iterator's
 	 *		   next method returns the next object.  The order of the objects
@@ -475,7 +475,7 @@ class HarmoniHierarchy
 	/**
 	 * Traverse a Hierarchy returning information about each Node encountered.
 	 *
-	 * @param osid.shared.Id startId the unique Id of the node from which
+	 * @param object osid.shared.Id startId the unique Id of the node from which
 	 *		  traversal shoudl start.
 	 * @param int mode must be either TRAVERSE_MODE_DEPTH_FIRST or
 	 *		  TRAVERSE_MODE_BREADTH_FIRST, indicating either depth-first or

@@ -5,7 +5,7 @@
  * keep, what {@link DataSetTag}s to keep, and if the whole DataSets should be deleted or not.
  * @package harmoni.datamanager.versionconstraint
  * @copyright 2004, Middlebury College
- * @version $Id: VersionConstraint.interface.php,v 1.1 2004/01/14 21:14:34 gabeschine Exp $
+ * @version $Id: VersionConstraint.interface.php,v 1.2 2004/04/21 13:43:08 adamfranco Exp $
  */
 class VersionConstraint {
 	
@@ -31,7 +31,7 @@ class VersionConstraint {
 	 * Takes a {@link FullDataSet} and returns if it is still valid or should be delete. TRUE if it's still OK.
 	 * NOTE: if a dataset is flagged for deletion and the children are not, then
 	 * there's gonna be broken data in the database.
-	 * @param ref object
+	 * @param ref object $dataSet
 	 * @return bool
 	 */
 	function checkDataSet(&$dataSet) { }

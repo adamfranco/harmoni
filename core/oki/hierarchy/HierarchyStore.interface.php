@@ -51,7 +51,7 @@ class HierarchyStore
 	/**
      * Get the unique Id for this Hierarchy.
      *
-     * @return osid.shared.Id A unique Id that is usually set by a create
+     * @return object osid.shared.Id A unique Id that is usually set by a create
      *         method's implementation
      *
      * @throws HierarchyException if there is a general failure.
@@ -65,7 +65,7 @@ class HierarchyStore
 	/**
      * Get the unique Id for this Hierarchy.
      *
-     * @param osid.shared.Id A unique Id that is usually set by a create
+     * @param object osid.shared.Id A unique Id that is usually set by a create
      *         method's implementation
      *
      * @throws HierarchyException if there is a general failure.
@@ -390,7 +390,7 @@ class HierarchyStore
 	* $tree->getData($id). The traversal goes from top to bottom, left to right
     * (ie same order as what you get from getFlatList()).
     *
-    * @param callback $function The callback function to use
+    * @param string $function The callback function to use
     */
     function traverse($function) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");

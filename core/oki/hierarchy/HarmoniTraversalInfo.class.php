@@ -18,7 +18,7 @@ require_once(OKI."/hierarchy.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.2 $ / $Date: 2003/10/23 20:29:28 $
+ * @version $Revision: 1.3 $ / $Date: 2004/04/21 13:45:49 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -65,7 +65,7 @@ class HarmoniTraversalInfo
 	/**
 	 * Get the unique Id for this Node.
 	 *
-	 * @return osid.shared.Id A unique Id that is usually set by a create
+	 * @return object osid.shared.Id A unique Id that is usually set by a create
 	 *		   method's implementation
 	 *
 	 * @throws HierarchyException if there is a general failure.

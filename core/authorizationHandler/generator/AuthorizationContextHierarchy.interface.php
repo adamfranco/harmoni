@@ -4,7 +4,7 @@
  * The interface for an AuthorizationContextHierarchy, a tree-like datastructure used by
  * the AuthorizationContextHierarchyGenerator objects.
  * @access public
- * @version $Id: AuthorizationContextHierarchy.interface.php,v 1.2 2004/04/20 19:49:46 adamfranco Exp $
+ * @version $Id: AuthorizationContextHierarchy.interface.php,v 1.3 2004/04/21 13:42:25 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -146,7 +146,7 @@ class AuthorizationContextHierarchyInterface {
 	 * id is in the hierarchy.
 	 * @method public nodeExists
 	 * @param integer depth The depth of the node.
-	 * @oaram integer systemId The system id of the node.
+	 * @param integer systemId The system id of the node.
 	 * @return boolean <code>true</code> if the node with the specified depth and system
 	 * id is in the hierarchy.
 	 */

@@ -113,27 +113,27 @@ class Tree
 {
 	/**
 	* Next available node id
-    * @var integer
+    * @var integer uid
     */
 	var $uid;
 
 	/**
 	* Stores a node id (key) to parent node id
 	* (value) relation
-    * @var array
+    * @var array structure
     */
 	var $structure;
 	
 	/**
 	* Stores a node id (key) to indexed array of
 	* child node ids (value)
-    * @var array
+    * @var array childIDs
     */
 	var $childIDs;
 	
 	/**
 	* Stores the node data
-    * @var array
+    * @var array data
     */
 	var $data;
 
@@ -793,7 +793,7 @@ class Tree
 	* $tree->getData($id). The traversal goes from top to bottom, left to right
     * (ie same order as what you get from getFlatList()).
     *
-    * @param callback $function The callback function to use
+    * @param string $function The callback function to use
     */
     function traverse($function)
     {

@@ -32,7 +32,7 @@ define("MEMORY_ONLY", 1001);
  * 
  * <p></p>
  *
- * @version $Revision: 1.18 $ / $Date: 2004/03/03 19:56:17 $
+ * @version $Revision: 1.19 $ / $Date: 2004/04/21 13:45:47 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -161,7 +161,7 @@ class HarmoniHierarchyManager
 	/**
 	 * Get a Hierarchy by unique Id.
 	 *
-	 * @param osid.shared.Id hierarchyId
+	 * @param object osid.shared.Id hierarchyId
 	 *
 	 * @return Hierarchy
 	 *
@@ -217,7 +217,7 @@ class HarmoniHierarchyManager
 	 * Delete a Hierarchy by unique Id. All Nodes must be removed from the
 	 * Hierarchy before this method is called.
 	 *
-	 * @param osid.shared.Id hierarchyId
+	 * @param object osid.shared.Id hierarchyId
 	 *
 	 * @throws HierarchyException if there is a general failure.     Throws an
 	 *		   exception with the message HierarchyException.HIERARCHY_UNKNOWN

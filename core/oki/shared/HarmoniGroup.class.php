@@ -36,7 +36,7 @@ class HarmoniGroup // :: API interface
 	 * @param object id The id.
 	 * @param object type The type.
 	 * @param string description The description.
-	 * @param dbIndex integer The database connection as returned by the DBHandler.
+	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 * @param string sharedDB The name of the shared database.
 	 * @access public
 	 */
@@ -66,7 +66,7 @@ class HarmoniGroup // :: API interface
 
 	/**
 	 * Update the Description of this Group as stored.
-	 * @param description
+	 * @param string description
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.shared
 	 */
@@ -136,7 +136,7 @@ class HarmoniGroup // :: API interface
 	 * IMPORTANT: There is no check for cycles, i.e. if group A is a subgroup of group B, which is a subgroup of group A.
 	 * The user should be the one to be looking to avoid cycles. In the case that a cycle appears, then the recursive version of getMembers will
 	 * not work and in fact will terminate the script.
-	 * @param memberOrGroup
+	 * @param object memberOrGroup
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#ALREADY_ADDED ALREADY_ADDED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.shared
 	 */
@@ -222,7 +222,7 @@ class HarmoniGroup // :: API interface
 	
 	/**
 	 * Remove an Agent member or a Group from this Group. If the Member or Group is not in the group no action is taken and no exception is thrown.
-	 * @param memberOrGroup
+	 * @param object memberOrGroup
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.shared
 	 */
@@ -280,7 +280,7 @@ class HarmoniGroup // :: API interface
 	/**
 	 * Get all the Members of this group and optionally all the Members from all subgroups. Duplicates are not returned.
 	 * @param boolean includeSubgroups If True, will execute recursively.
-	 * @return AgentIterator
+	 * @return object AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -296,7 +296,7 @@ class HarmoniGroup // :: API interface
 	/**
 	 * A private recursive auxiliary function for the getMembers method.
 	 * @access private
-	 * @param includeSubgroups
+	 * @param boolean includeSubgroups
 	 * @param boolean agents If TRUE will return groups, if FALSE will return agents. 
 	 * @return array 
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
@@ -317,8 +317,8 @@ class HarmoniGroup // :: API interface
 
 	/**
 	 * Get all the Groups in this group and optionally all the subgroups in this group. Note since Groups subclass Agents, we are returning an AgentIterator and there is no GroupIterator.
-	 * @param includeSubgroups
-	 * @return AgentIterator
+	 * @param boolean includeSubgroups
+	 * @return object AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.shared
 	 */
@@ -333,8 +333,8 @@ class HarmoniGroup // :: API interface
 	
 	/**
 	 * Get all the Groups, including subgroups, containing the Member. Note since Groups subclass Agents, we are returning an AgentIterator and there is no GroupIterator.
-	 * @param member
-	 * @return AgentIterator
+	 * @param object member
+	 * @return object AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.shared
 	 */
@@ -343,8 +343,8 @@ class HarmoniGroup // :: API interface
 
 	/**
 	 * Return <code>true</code> if the Member or Group is in the Group, optionally including subgroups, <code>false</code> otherwise.
-	 * @param memberOrGroup
-	 * @param searchSubgroups
+	 * @param object memberOrGroup
+	 * @param boolean searchSubgroups
 	 * @return boolean
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.shared
@@ -380,7 +380,6 @@ class HarmoniGroup // :: API interface
 	 * A method checking whether the specified group exist in the database.
 	 * @access public
 	 * @static
-	 * @param object memberOrGroup The group or agent to check for existence.
 	 * @param boolean agentOrGroup TRUE, if <code>$memberOrGroup</code> is an agent; FALSE, if it is a group.
 	 * @return boolean <code>tru</code> if it exists; <code>false</code> otherwise.
 	 **/

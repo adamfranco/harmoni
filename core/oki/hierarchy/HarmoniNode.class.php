@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.15 $ / $Date: 2004/02/04 17:56:31 $
+ * @version $Revision: 1.16 $ / $Date: 2004/04/21 13:45:48 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -78,7 +78,7 @@ class HarmoniNode
 	/**
 	 * Get the unique Id for this Node.
 	 *
-	 * @return osid.shared.Id A unique Id that is usually set by a create
+	 * @return object osid.shared.Id A unique Id that is usually set by a create
 	 *		   method's implementation
 	 *
 	 * @throws HierarchyException if there is a general failure.
@@ -168,7 +168,7 @@ class HarmoniNode
 	/**
 	 * Get the Type for this Node.
 	 *
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 *
 	 * @throws HierarchyException if there is a general failure.
 	 *
@@ -251,7 +251,7 @@ class HarmoniNode
 	/**
 	 * Link a parent to this Node.
 	 *
-	 * @param osid.shared.Id parentId
+	 * @param object osid.shared.Id parentId
 	 *
 	 * @throws HierarchyException if there is a general failure.	 Throws an
 	 *		   exception with the message HierarchyException.UNKNOWN_NODE if
@@ -272,7 +272,7 @@ class HarmoniNode
 	/**
 	 * Unlink a parent from this Node.
 	 *
-	 * @param osid.shared.Id parentId
+	 * @param object osid.shared.Id parentId
 	 *
 	 * @throws HierarchyException if there is a general failure.	 Throws an
 	 *		   exception with the message HierarchyException.UNKNOWN_NODE if
@@ -292,8 +292,8 @@ class HarmoniNode
 
 	/**
 	 * Changes the parent of this Node by adding a new parent and removing the old parent.
-	 * @param oldParentId
-	 * @param newParentId
+	 * @param object oldParentId
+	 * @param object newParentId
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#ATTEMPTED_RECURSION ATTEMPTED_RECURSION}
 	 * @package osid.hierarchy
 	 */

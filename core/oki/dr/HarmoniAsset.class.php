@@ -117,7 +117,7 @@ class HarmoniAsset
 	/**
 	 * Get the unique Id for this Asset.
 	 *
-	 * @return osid.shared.Id A unique Id that is usually set by a create
+	 * @return object osid.shared.Id A unique Id that is usually set by a create
 	 *		 method's implementation
 	 *
 	 * @throws An exception with one of the following messages defined in
@@ -134,7 +134,7 @@ class HarmoniAsset
 	 * Get the DigitalRepository in which this Asset resides.  This is set by
 	 * the DigitalRepository's createAsset method.
 	 *
-	 * @return osid.shared.Id A unique Id that is usually set by a create
+	 * @return object osid.shared.Id A unique Id that is usually set by a create
 	 *		 method's implementation digitalRepositoryId
 	 *
 	 * @throws An exception with one of the following messages defined in
@@ -188,7 +188,7 @@ class HarmoniAsset
 	/**
 	 * Update an Asset's content.
 	 *
-	 * @param java.io.Serializable
+	 * @param mixed java.io.Serializable
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.dr.DigitalRepositoryException may be thrown:
@@ -281,7 +281,7 @@ class HarmoniAsset
 	/**
 	 * Update an Asset's EffectiveDate.
 	 *
-	 * @param java.util.Calendar
+	 * @param object java.util.Calendar
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.dr.DigitalRepositoryException may be thrown:
@@ -374,7 +374,7 @@ class HarmoniAsset
 	/**
 	 * Update an Asset's ExpirationDate.
 	 *
-	 * @param java.util.Calendar
+	 * @param object java.util.Calendar
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.dr.DigitalRepositoryException may be thrown:
@@ -430,7 +430,7 @@ class HarmoniAsset
 	/**
 	 * Add an Asset to this Asset.
 	 *
-	 * @param osid.shared.Id assetId
+	 * @param object osid.shared.Id assetId
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.dr.DigitalRepositoryException may be thrown:
@@ -452,7 +452,7 @@ class HarmoniAsset
 	 * Remove an Asset to this Asset.  This method does not delete the Asset
 	 * from the DigitalRepository.
 	 *
-	 * @param osid.shared.Id assetId
+	 * @param object osid.shared.Id assetId
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.dr.DigitalRepositoryException may be thrown:
@@ -485,7 +485,7 @@ class HarmoniAsset
 	 * additional objects available; false otherwise.  The Iterator's next
 	 * method returns the next object.
 	 *
-	 * @return osid.dr.AssetIterator  The order of the objects returned by the
+	 * @return object osid.dr.AssetIterator  The order of the objects returned by the
 	 *		 Iterator is not guaranteed.
 	 *
 	 * @throws An exception with one of the following messages defined in
@@ -500,7 +500,7 @@ class HarmoniAsset
 	 * returns true if there are additional objects available; false
 	 * otherwise.  The Iterator's next method returns the next object.
 	 *
-	 * @return osid.dr.AssetIterator  The order of the objects returned by the
+	 * @return object osid.dr.AssetIterator  The order of the objects returned by the
 	 *		 Iterator is not guaranteed.
 	 *
 	 * @throws An exception with one of the following messages defined in
@@ -527,9 +527,9 @@ class HarmoniAsset
 	 * Create a new Asset InfoRecord of the specified InfoStructure.   The
 	 * implementation of this method sets the Id for the new object.
 	 *
-	 * @param osid.shared.Id infoStructureId
+	 * @param object osid.shared.Id infoStructureId
 	 *
-	 * @return osid.dr.InfoRecord
+	 * @return object osid.dr.InfoRecord
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.dr.DigitalRepositoryException may be thrown:
@@ -593,8 +593,8 @@ class HarmoniAsset
 	 * specified asset.  The current and future content of the specified
 	 * InfoRecord is synchronized automatically.
 	 *
-	 * @param osid.shared.Id assetId
-	 * @param osid.shared.Id infoStructureId
+	 * @param object osid.shared.Id assetId
+	 * @param object osid.shared.Id infoStructureId
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.dr.DigitalRepositoryException may be thrown:
@@ -643,8 +643,8 @@ class HarmoniAsset
 	 * Add the specified InfoStructure and all the related InfoRecords from the
 	 * specified asset.
 	 *
-	 * @param osid.shared.Id assetId
-	 * @param osid.shared.Id infoStructureId
+	 * @param object osid.shared.Id assetId
+	 * @param object osid.shared.Id infoStructureId
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.dr.DigitalRepositoryException may be thrown:
@@ -694,7 +694,7 @@ class HarmoniAsset
 	 * Delete an InfoRecord.  If the specified InfoRecord has content that is
 	 * inherited by other InfoRecords, those
 	 *
-	 * @param osid.shared.Id infoRecordId
+	 * @param object osid.shared.Id infoRecordId
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.dr.DigitalRepositoryException may be thrown:
@@ -712,9 +712,9 @@ class HarmoniAsset
 	/**
 	 * Get the InfoRecord of the specified ID for this Asset.
 	 *
-	 * @param osid.shared.Id infoRecordId
+	 * @param object osid.shared.Id infoRecordId
 	 *
-	 * @return osid.dr.InfoRecord 
+	 * @return object osid.dr.InfoRecord 
 	 *
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
@@ -758,7 +758,7 @@ class HarmoniAsset
 	 * additional objects available; false otherwise.  The Iterator's next
 	 * method returns the next object.
 	 *
-	 * @return osid.dr.InfoRecordIterator  The order of the objects returned by
+	 * @return object osid.dr.InfoRecordIterator  The order of the objects returned by
 	 *		 the Iterator is not guaranteed.
 	 *
 	 * @throws An exception with one of the following messages defined in
@@ -773,9 +773,9 @@ class HarmoniAsset
 	 * returns true if there are additional objects available; false
 	 * otherwise.  The Iterator's next method returns the next object.
 	 *
-	 * @param osid.shared.Id infoStructureId
+	 * @param object osid.shared.Id infoStructureId
 	 *
-	 * @return osid.dr.InfoRecordIterator  The order of the objects returned by
+	 * @return object osid.dr.InfoRecordIterator  The order of the objects returned by
 	 *		 the Iterator is not guaranteed.
 	 *
 	 * @throws An exception with one of the following messages defined in
@@ -819,7 +819,7 @@ class HarmoniAsset
 	 * Description_getAssetTypes=Get the AssetType of this Asset.  AssetTypes
 	 * are used to categorize Assets.
 	 *
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.dr.DigitalRepositoryException may be thrown:
@@ -838,7 +838,7 @@ class HarmoniAsset
 	 * additional objects available; false otherwise.  The Iterator's next
 	 * method returns the next object.
 	 *
-	 * @return osid.shared.TypeIterator The order of the objects returned by
+	 * @return object osid.shared.TypeIterator The order of the objects returned by
 	 *		 the Iterator is not guaranteed.
 	 *
 	 * @throws An exception with one of the following messages defined in
@@ -864,7 +864,7 @@ class HarmoniAsset
 	/**
 	 * Get the InfoStructure associated with this Asset's content.
 	 *
-	 * @return osid.dr.InfoStructure
+	 * @return object osid.dr.InfoStructure
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.dr.DigitalRepositoryException may be thrown:
@@ -894,9 +894,9 @@ class HarmoniAsset
 	 * Get the InfoField for an InfoRecord for this Asset that matches this 
 	 * InfoField Unique Id.
 	 *
-	 * @param osid.shared.Id infoFieldId
+	 * @param object osid.shared.Id infoFieldId
 	 *
-	 * @return osid.dr.InfoField
+	 * @return object osid.dr.InfoField
 	 *
 	 * @throws An exception with one of the following messages defined in 
 	 * 		osid.dr.DigitalRepositoryException may be thrown: 
@@ -913,7 +913,7 @@ class HarmoniAsset
 	 * Get the Value of the InfoField of the InfoRecord for this Asset that 
 	 * matches this InfoField Unique Id.
 	 *
-	 * @param osid.shared.Id infoFieldId
+	 * @param object osid.shared.Id infoFieldId
 	 *
 	 * @return java.io.Serializable
 	 *
@@ -932,9 +932,9 @@ class HarmoniAsset
 	 * Get the InfoFields of the InfoRecords for this Asset that are based 
 	 * on this InfoStructure InfoPart Unique Id.
 	 *
-	 * @param osid.shared.Id infoPartId
+	 * @param object osid.shared.Id infoPartId
 	 *
-	 * @return osid.dr.InfoFieldIterator
+	 * @return object osid.dr.InfoFieldIterator
 	 *
 	 * @throws An exception with one of the following messages defined in 
 	 * 		osid.dr.DigitalRepositoryException may be thrown: 
@@ -951,9 +951,9 @@ class HarmoniAsset
 	 * Get the Values of the InfoFields of the InfoRecords for this Asset
 	 * that are based on this InfoStructure InfoPart Unique Id.
 	 *
-	 * @param osid.shared.Id infoPartId
+	 * @param object osid.shared.Id infoPartId
 	 *
-	 * @return osid.shared.SerializableObjectIterator
+	 * @return object osid.shared.SerializableObjectIterator
 	 *
 	 * @throws An exception with one of the following messages defined in 
 	 * 		osid.dr.DigitalRepositoryException may be thrown: 

@@ -38,7 +38,7 @@ class HarmoniAuthorization /* :: API interface */
 	/* :: full java declaration :: java.util.Calendar getExpirationDate()
 	/**
 	 * Get the Id of the Agent that modified this Authorization.
-	 * @return osid.shared.Agent
+	 * @return object osid.shared.Agent
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
@@ -82,7 +82,7 @@ class HarmoniAuthorization /* :: API interface */
 	/* :: full java declaration :: Qualifier getQualifier()
 	/**
 	 * Get the Agent associated with this Authorization.
-	 * @return osid.shared.Agent
+	 * @return object osid.shared.Agent
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */

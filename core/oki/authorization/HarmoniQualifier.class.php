@@ -38,7 +38,7 @@ class HarmoniQualifier /* :: API interface */
 
 	/**
 	 * Get the Unique Id for this Qualifier.
-	 * @return osid.shared.Id
+	 * @return object osid.shared.Id
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
@@ -88,7 +88,7 @@ class HarmoniQualifier /* :: API interface */
 	/* :: full java declaration :: boolean isParent()
 	/**
 	 * Get the QualifierType for this Qualifier.
-	 * @return osid.shared.Type
+	 * @return object osid.shared.Type
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.authorization
 	 */
@@ -101,7 +101,7 @@ class HarmoniQualifier /* :: API interface */
 	/* :: full java declaration :: osid.shared.Type getQualifierType()
 	/**
 	 * Update the name for this Qualifier.
-	 * @param displayName
+	 * @param string displayName
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.authorization
 	 */
@@ -119,7 +119,7 @@ class HarmoniQualifier /* :: API interface */
 	/* :: full java declaration :: void updateDisplayName(String displayName)
 	/**
 	 * Update the description for this Qualifier.
-	 * @param description
+	 * @param string description
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.authorization
 	 */
@@ -159,8 +159,8 @@ class HarmoniQualifier /* :: API interface */
 	/* :: full java declaration :: void removeParent(osid.shared.Id parentQualifierId)
 	/**
 	 * Changes the parent of this Qualifier by adding a new parent and removing the old parent.
-	 * @param oldParentId a Qualifier
-	 * @param newParentId a Qualifier
+	 * @param object oldParentId a Qualifier
+	 * @param object newParentId a Qualifier
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.authorization
 	 */

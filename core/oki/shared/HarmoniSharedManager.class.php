@@ -37,7 +37,7 @@ require_once(HARMONI."oki/shared/HarmoniStringId.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.23 $ / $Date: 2004/04/20 21:29:26 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.24 $ / $Date: 2004/04/21 13:46:01 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -76,7 +76,7 @@ class HarmoniSharedManager
 	
 	/**
 	 * Constructor. Set up any database connections needed.
-	 * @param dbIndex integer The database connection as returned by the DBHandler.
+	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 * @param string sharedDB The name of the shared database.
 	 */
 	function HarmoniSharedManager($dbIndex, $sharedDB) {
@@ -99,9 +99,9 @@ class HarmoniSharedManager
 	 * 2 SQL queries.
      *
      * @param String displayName
-     * @param osid.shared.Type agentType
+     * @param object osid.shared.Type agentType
      *
-     * @return osid.shared.Agent with its unique Id set
+     * @return object osid.shared.Agent with its unique Id set
      *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
@@ -194,7 +194,7 @@ class HarmoniSharedManager
 	/**
 	 * Delete the Agent with the specified unique Id.
 	 *
-	 * @param osid.shared.Id agentId
+	 * @param object osid.shared.Id agentId
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
@@ -265,9 +265,9 @@ class HarmoniSharedManager
 	/**
 	 * Get the Agent with the specified unique Id. Implemented with 1 SELECT query.
 	 *
-	 * @param osid.shared.Id agentId
+	 * @param object osid.shared.Id agentId
 	 *
-	 * @return osid.shared.Agent
+	 * @return object osid.shared.Agent
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
@@ -331,7 +331,7 @@ class HarmoniSharedManager
 	/**
 	 * Get all the Agents.
 	 *
-	 * @return osid.shared.AgentIterator.  Iterators return a set, one at a
+	 * @return object osid.shared.AgentIterator.  Iterators return a set, one at a
 	 *		 time.  The Iterator's hasNext method returns true if there are
 	 *		 additional objects available; false otherwise.  The Iterator's
 	 *		 next method returns the next object.
@@ -387,7 +387,7 @@ class HarmoniSharedManager
 	/**
 	 * Get all the Types of Agent.
 	 *
-	 * @return osid.shared.TypeIterator.  Iterators return a set, one at a
+	 * @return object osid.shared.TypeIterator.  Iterators return a set, one at a
 	 *		 time.  The Iterator's hasNext method returns true if there are
 	 *		 additional objects available; false otherwise.  The Iterator's
 	 *		 next method returns the next object.
@@ -441,10 +441,10 @@ class HarmoniSharedManager
 	 * immutable.
 	 *
 	 * @param String displayName
-	 * @param osid.shared.Type groupType
+	 * @param object osid.shared.Type groupType
 	 * @param String description
 	 *
-	 * @return osid.shared.Group with its unique Id set
+	 * @return object osid.shared.Group with its unique Id set
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
@@ -540,7 +540,7 @@ class HarmoniSharedManager
 	/**
 	 * Deletes the Group with the specified unique Id.
 	 *
-	 * @param osid.shared.Id groupId
+	 * @param object osid.shared.Id groupId
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
@@ -570,9 +570,9 @@ class HarmoniSharedManager
 	/**
 	 * Gets the Group with the specified unique Id.
 	 *
-	 * @param osid.shared.Id groupId
+	 * @param object osid.shared.Id groupId
 	 *
-	 * @return osid.shared.Group
+	 * @return object osid.shared.Group
 	 *
 	 * @throws An exception with one of the following messages defined in
 	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
@@ -769,7 +769,7 @@ class HarmoniSharedManager
 	 * Get all the Groups.  Note since Groups subclass Agents, we are returning
 	 * an AgentIterator and there is no GroupIterator.
 	 *
-	 * @return osid.shared.AgentIterator.  Iterators return a set, one at a
+	 * @return object osid.shared.AgentIterator.  Iterators return a set, one at a
 	 *		 time.  The Iterator's hasNext method returns true if there are
 	 *		 additional objects available; false otherwise.  The Iterator's
 	 *		 next method returns the next object.
@@ -787,7 +787,7 @@ class HarmoniSharedManager
 	/**
 	 * Get all the Types of Group.
 	 *
-	 * @return osid.shared.TypeIterator.  Iterators return a set, one at a
+	 * @return object osid.shared.TypeIterator.  Iterators return a set, one at a
 	 *		 time.  The Iterator's hasNext method returns true if there are
 	 *		 additional objects available; false otherwise.  The Iterator's
 	 *		 next method returns the next object.
@@ -805,7 +805,7 @@ class HarmoniSharedManager
 	/**
 	 * Create a new unique identifier.
 	 *
-	 * @return osid.shared.Id A unique Id that is usually set by a create
+	 * @return object osid.shared.Id A unique Id that is usually set by a create
 	 *		 method's implementation
 	 *
 	 * @throws An exception with one of the following messages defined in
@@ -839,9 +839,9 @@ class HarmoniSharedManager
 	 * Get the unique Id with this String representation or create a new unique
 	 * Id with this representation.
 	 *
-	 * @param String idString
+	 * @param string idString
 	 *
-	 * @return osid.shared.Id A unique Id that is usually set by a create
+	 * @return object osid.shared.Id A unique Id that is usually set by a create
 	 *		 method's implementation
 	 *
 	 * @throws An exception with one of the following messages defined in
