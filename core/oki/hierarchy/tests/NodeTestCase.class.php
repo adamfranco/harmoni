@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: TreeTestCase.class.php,v 1.2 2003/10/08 15:16:35 adamfranco Exp $
+ * @version $Id: NodeTestCase.class.php,v 1.1 2003/10/08 15:16:35 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -54,7 +54,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
 
 		function test_nodeExists() {
 			$tree =& $this->tree;
-//			print_r($tree);
+			print_r($tree);
 			$this->assertTrue($tree->nodeExists("7"));
 		}
 		
@@ -95,13 +95,6 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
 
 		function test_data_object_consistancy() {
 			$tree =& $this->tree;
-			$tree2 =& new Tree;
-			$tree->setData(2, $tree2);
-			print_r($tree->data);
-			$this->assertReference($tree2, $tree->data[2]);
-			
-			$result =& $tree->getData(2);
-			$this->assertReference($tree2, $tree->data[2]);
-			$this->assertReference($tree2, $result);
+			$this->assertFalse(TRUE);
 		}
 	}

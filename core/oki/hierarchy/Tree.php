@@ -470,7 +470,11 @@ class Tree
     */
 	function & getData($id)
 	{
-		return isset($this->data[$id]) ? $this->data[$id] : null;
+		if (isset($this->data[$id])) {
+			return $this->data[$id];
+		} else {
+			return null;
+		}
 	}
 	
 	/**
