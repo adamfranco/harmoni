@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: TreeTestCase.class.php,v 1.3 2003/10/08 21:14:48 adamfranco Exp $
+ * @version $Id: TreeTestCase.class.php,v 1.4 2003/10/10 13:56:34 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
         function setUp() {
 			// perhaps, initialize $obj here
 //			print "<pre>";
-			
+					
 			// The id for each of these will be the initial number of the last part.
 			$list = array(
 						"1 Collection A",
@@ -40,6 +40,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
 						"10 Collection B/11 Group A"
 					);
 			$this->tree =& Tree::createFromList($list, '/');
+//			print_r($this->tree);
         }
 		
         /**
@@ -91,6 +92,16 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
 			$this->assertEqual("5,6,7,8,9",implode(",",$traversalArray));
 
 //			print_r($traversalArray);
+		}
+
+		function test_depth () {
+			$tree =& $this->tree;
+			
+			$this->assertEqual(0, $tree->depth(1));
+			$this->assertEqual(1, $tree->depth(2));
+			$this->assertEqual(2, $tree->depth(3));
+			$this->assertEqual(1, $tree->depth(5));
+			$this->assertEqual(0, $tree->depth(10));
 		}
 
 		function test_setdata_object_consistancy() {

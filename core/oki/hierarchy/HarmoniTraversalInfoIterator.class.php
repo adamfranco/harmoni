@@ -1,9 +1,27 @@
 <?
 
-require_once(OKI."/hierarchy/hierarchyAPI.interface.php");
+require_once(OKI."/hierarchy/hierarchyApi.interface.php");
 
-// public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
-define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
+/**
+ * TraversalInfoIterator returns a set, one at a time.  The purpose of all
+ * Iterators is to to offer a way for SID methods to return multiple values of
+ * a common type and not use an array.  Returning an array may not be
+ * appropriate if the number of values returned is large or is fetched
+ * remotely.  Iterators do not allow access to values by index, rather you
+ * must access values in sequence. Similarly, there is no way to go backwards
+ * through the sequence unless you place the values in a data structure, such
+ * as an array, that allows for access by index.
+ * 
+ * <p>
+ * Licensed under the {@link osid.SidLicense MIT O.K.I SID Definition License}.
+ * </p>
+ * 
+ * <p></p>
+ *
+ * @version $Revision: 1.3 $ / $Date: 2003/10/10 13:56:26 $
+ *
+ * @todo Replace JavaDoc with PHPDoc
+ */
 
 class HarmoniTraversalInfoIterator
 	extends TraversalInfoIterator
@@ -23,6 +41,8 @@ class HarmoniTraversalInfoIterator
 	
 	/**
 	 * Constructor
+	 * 
+	 * @todo Fill this in.
 	 */
 	function HarmoniTraversalInfoIterator (& $traversalInfoArray) {
 		// make sure that we get an array of TraversalInfo objects
@@ -34,12 +54,29 @@ class HarmoniTraversalInfoIterator
 		}
 	}
 
-	// public boolean hasNext();
+	/**
+	 * Return true if there are additional  TraversalInfos ; false otherwise.
+	 *
+	 * @return boolean
+	 *
+	 * @throws HierarchyException if there is a general failure.
+	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
 	function hasNext() {
 		return ($this->_i < count($this->_traversalInfos)-1);
 	}
 
-	// public Type & next();
+	/**
+	 * Return the next TraversalInfo
+	 *
+	 * @return TraversalInfo
+	 *
+	 * @throws HierarchyException if there is a general failure.	or if all
+	 *		   objects have already been returned.
+	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
 	function & next() {
 		if ($this->hasNext()) {
 			$this->_i++;

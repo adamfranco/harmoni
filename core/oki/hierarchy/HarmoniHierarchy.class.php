@@ -2,9 +2,12 @@
 
 require_once(OKI."/hierarchy/hierarchyApi.interface.php");
 require_once(HARMONI.'/oki/hierarchy/HarmoniNode.class.php');
+require_once(HARMONI.'/oki/hierarchy/HarmoniNodeIterator.class.php');
+require_once(HARMONI.'/oki/hierarchy/HarmoniTraversalInfo.class.php');
+require_once(HARMONI.'/oki/hierarchy/HarmoniTraversalInfoIterator.class.php');
 require_once(HARMONI.'/oki/hierarchy/GenericNodeType.class.php');
-require_once(HARMONI.'/oki/hierarchy/Tree.php');
 require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
+require_once(HARMONI.'/oki/hierarchy/Tree.php');
 
 
 /**
@@ -20,7 +23,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.10 $ / $Date: 2003/10/08 22:04:26 $
+ * @version $Revision: 1.11 $ / $Date: 2003/10/10 13:56:26 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -61,6 +64,7 @@ class HarmoniHierarchy
 	 * @param string $displayName The displayName of the Node.
 	 * @param string $description The description of the Node.
 	 * @param array	 $nodeType  An array of Types of the supported nodes.
+	 * @access public
 	 */
 	function HarmoniHierarchy(& $id, $displayName, $description, & $nodeTypes) {
 		// Check the arguments
@@ -176,7 +180,7 @@ class HarmoniHierarchy
 	 */
 	function & createRootNode(& $nodeId, & $type, $displayName, $description) {
 		// return a node with itself as the parent.
-		return createNode($nodeId, $nodeId, $type, $displayName, $description);
+		return $this->createNode($nodeId, $nodeId, $type, $displayName, $description);
 	}
 
 	/**
@@ -221,10 +225,9 @@ class HarmoniHierarchy
 			if (!$this->_tree->nodeExists($parentIdString))
 				throwError(new Error(UNKNOWN_PARENT_NODE, "Hierarchy", 1));
 		}
-		
-		$node =& new HaromoniNode($nodeId, $this->_tree, $type, $displayName, $description);
-		// @todo check that object references are being passed properly.
-		$treeNodeId = $this->_tree->addNode($node, $parentIdString);
+
+		$node =& new HarmoniNode($nodeId, $this->_tree, $type, $displayName, $description);
+		$treeNodeId = $this->_tree->addNode($node, $parentIdString, $nodeIdString);
 		
 		// Store the updated tree
 		$this->save();
@@ -252,7 +255,7 @@ class HarmoniHierarchy
 		$nodeIdString = $nodeId->getIdString();
 		
 		// Throw an error if the node doesn't exist
-		if ($this->_tree->nodeExists($nodeIdString))
+		if (!$this->_tree->nodeExists($nodeIdString))
 			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
 		
 		// If the node is not a leaf, trow a HIERARCHY_NOT_EMPTY error
@@ -508,7 +511,7 @@ class HarmoniHierarchy
 	 */
 	function & traverse(& $startId, $mode, $direction, $levels) {
 		// Check the arguments
-		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($startId, new ExtendsValidatorRule("Id"));
 		ArgumentValidator::validate($mode, new IntegerValidatorRule);
 		ArgumentValidator::validate($direction, new IntegerValidatorRule);
 		ArgumentValidator::validate($levels, new IntegerValidatorRule);
@@ -529,8 +532,8 @@ class HarmoniHierarchy
 			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
 		
 		// A string of our ID and the starting depth
-		$nodeIdString = $nodeId->getIdString();
-		$startLevel = $this->_tree->depth($nodeIdString);
+		$startIdString = $startId->getIdString();
+		$startLevel = $this->_tree->depth($startIdString);
 
 		// Object array of TraversalInfo objects to pass to the iterator
 		$traversalInfoArray = array();
@@ -543,7 +546,7 @@ class HarmoniHierarchy
 					$treeLevels = NULL;
 				else
 					$treeLevels = $levels + 1;
-				$traversalIdArray = $this->_tree->depthFirstEnumeration($nodeIdString, $treeLevels);
+				$traversalIdArray = $this->_tree->depthFirstEnumeration($startIdString, $treeLevels);
 			} else {	// Mode: breadth first
 				// @todo if needed
 				throwError(new Error(UNKNOWN_TRAVERSAL_MODE, "Hierarchy", 1));
@@ -559,7 +562,10 @@ class HarmoniHierarchy
 		
 		foreach ($traversalIdArray as $id) {
 			$node =& $this->_tree->getData($id);
-			$traversalInfoArray[] =& new TraversalInfo($node->getDisplayName(),$this->_tree->depth($id),$node->getId());
+			$nodeId =& $node->getId();
+			$displayName = $node->getDisplayName();
+			$depth = $this->_tree->depth($id);
+			$traversalInfoArray[] =& new HarmoniTraversalInfo($nodeId, $displayName, $depth);
 		}
 		
 		// pass off the array to the iterator and return it.

@@ -67,32 +67,12 @@ class Hierarchy
 	}
 
 	// public Node & createRootNode();
-	function & createRootNode() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Id & nodeId();
-	function & nodeId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Type & nodeType();
-	function & nodeType() {
+	function & createRootNode(& $nodeId, & $type, $displayName, $description) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
 	// public Node & createNode();
-	function & createNode() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Id & parentId();
-	function & parentId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Type & type();
-	function & type() {
+	function & createNode(& $nodeId, & $parentId, & $type, $displayName, $description) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -142,7 +122,7 @@ class Hierarchy
 	}
 
 	// public TraversalInfoIterator & traverse();
-	function & traverse() {
+	function & traverse(& $startId, $mode, $direction, $levels) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -282,7 +262,7 @@ class NodeIterator
 
 
 // public static final String UNKNOWN_PARENT_NODE = "Cannot create Node without unknown parent "
-define("UNKNOWN_PARENT_NODE","Cannot create Node without unknown parent ");
+define("UNKNOWN_PARENT_NODE","Cannot create Node with unknown parent ");
 
 // public static final String HIERARCHY_NOT_EMPTY = "Cannot delete a Hierarchy containing Nodes "
 define("HIERARCHY_NOT_EMPTY","Cannot delete a Hierarchy containing Nodes ");

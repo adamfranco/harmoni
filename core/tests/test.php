@@ -4,7 +4,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: test.php,v 1.2 2003/10/10 13:56:34 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -36,6 +36,6 @@ $errorHandler->setDebugMode(true);
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 	
-$errorHandler->printErrors(LOW_DETAIL);
+$errorHandler->printErrors(NORMAL_DETAIL);
 
 ?>

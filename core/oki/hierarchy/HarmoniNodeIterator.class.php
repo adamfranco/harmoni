@@ -1,6 +1,6 @@
 <?
 
-require_once(OKI."/hierarchy/hierarchyAPI.interface.php");
+require_once(OKI."/hierarchy/hierarchyApi.interface.php");
 
 // public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
 define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");

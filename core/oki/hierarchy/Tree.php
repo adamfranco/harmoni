@@ -187,7 +187,7 @@ class Tree
                     continue;
                 } else {
                 	$tmp = array($pathParts[0], $data[$i]);
-					$nodeList[$pathParts[0]] = $tree->addNode($tmp);
+					$nodeList[$pathParts[0]] = $tree->addNode($tmp,0);
                 }
 
             // Multiple parts means each part/parent combination
@@ -391,9 +391,12 @@ class Tree
 	*						objects. Use setData for objects.
 	* @param integer $parentID Optional parent node ID
     */
-	function addNode(&$data, $parentID=0)
+	function addNode(&$data, $parentID=0, $id=0)
 	{
-		$newID = $this->uid++;
+		if ($id)
+			$newID = $id;
+		else 
+			$newID = $this->uid++;
 
 		// Setup parent/child relationship
 		$this->childIDs[$parentID][] = $newID;
@@ -522,11 +525,11 @@ class Tree
 		$depth  = 0;
 		$currID = $id;
 
-		while (isset($this->structure[$currID]) AND $this->structure[$currID] != 0) {
+		while (isset($this->structure[$currID]) AND $this->structure[$currID] !== 0) {
 			$depth++;
 			$currID = $this->structure[$currID];
 		}
-		
+
 		return $depth;
 	}
 	

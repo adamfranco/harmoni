@@ -1,6 +1,6 @@
 <?
 
-require_once(OKI."/hierarchy/hierarchyAPI.interface.php");
+require_once(OKI."/hierarchy/hierarchyApi.interface.php");
 
 require_once(HARMONI."oki/hierarchy/HarmoniHierarchy.class.php");
 require_once(HARMONI."oki/hierarchy/HarmoniHierarchyIterator.class.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.5 $ / $Date: 2003/10/03 15:43:14 $
+ * @version $Revision: 1.6 $ / $Date: 2003/10/10 13:56:26 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

@@ -1,6 +1,6 @@
 <?
 
-require_once(OKI."/hierarchy/hierarchyAPI.interface.php");
+require_once(OKI."/hierarchy/hierarchyApi.interface.php");
 
 /**
  * A Node is a Hierarchy's representation of an external object that is one of
@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy/hierarchyAPI.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.3 $ / $Date: 2003/10/07 18:48:02 $
+ * @version $Revision: 1.4 $ / $Date: 2003/10/10 13:56:26 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -40,7 +40,7 @@ class HarmoniNode
 	/**
 	 * @var object Tree $_tree A tree object.
 	 */
-	var $_tree = new Tree();
+	var $_tree;
 	
 	/**
 	 * Constructor.
