@@ -5,7 +5,10 @@
 	<version number="0.3.0" date="The nebulous future">
 		<change author='adam'>
 			New Framework/Architecture-GUI/Theme interaction decouples the Harmoni
-			object from the output system.
+			object from the output system. The GUIManager and other OutputHandlers
+			extend the OutputHandler abstract class and can be attached to Harmoni.
+			A default 'BasicOutputHandler' is used when no other OutputHandler is
+			specified.
 		</change>
 		<change author='adam'>
 			Services::startService(), Services::stopService(), Services::restartService(), 

@@ -6,7 +6,11 @@ Name: Harmoni ChangeLog
 v. 0.3.0 (The nebulous future)
 ----------------------------------------------------
 		
-	* Change: Services::requireService() is now deprecated. Please use Services::startService() and/or Services::getService() instead. (Adam Franco)
+	* Change: New Framework/Architecture-GUI/Theme interaction decouples the Harmoni object from the output system. The GUIManager and other OutputHandlers extend the OutputHandler abstract class and can be attached to Harmoni. A default 'BasicOutputHandler' is used when no other OutputHandler is specified. (Adam Franco)
+		
+	* Change: Services::startService(), Services::stopService(), Services::restartService(), and Services::startAll() are now deprecated and print warnings if used. Please use Services::startManagerAsService() and/or Services::getService() instead. (Adam Franco)
+		
+	* Change: 'Service' classes no longer extend the services interface or use start()/stop() methods. These had been designed into Harmoni, but were never used and are now removed. start()/stop() methods will NOT be called during service starting/stopping. (Adam Franco)
 		
 	* Change: OKI version 1 interfaces and implementations have been removed, saving 2MB of files and cleaning up the source tree. (Adam Franco)
 		
