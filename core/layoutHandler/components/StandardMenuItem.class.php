@@ -13,23 +13,26 @@ define("HEADING",1);
  * on vertical menus, but works on both.
  *
  * @package harmoni.layout.components
- * @version $Id: HeaderMenuItem.class.php,v 1.3 2004/03/10 00:10:29 adamfranco Exp $
+ * @version $Id: StandardMenuItem.class.php,v 1.1 2004/03/10 00:10:29 adamfranco Exp $
  * @copyright 2003 
  **/
-class HeaderMenuItem extends MenuItem {
+class StandardMenuItem extends MenuItem {
 	/**
 	 * The constructor.
 	 * @param string $label The label for the heading.
 	 * @access public
 	 * @return void
 	 **/
-	function HeaderMenuItem($label) {
-		$this->setThemeWidgetType(MENU_HEADING_WIDGET);
+	function StandardMenuItem($menuText, $isSelected=FALSE) {
+		if ($isSelected)
+			$this->setThemeWidgetType(SELECTED_MENU_ITEM_WIDGET);
+		else
+			$this->setThemeWidgetType(MENU_ITEM_WIDGET);
 		
 		// This will be set by the Menu later
 		$this->setThemeWidgetIndex(1);
 		
-		$this->_label = $label;
+		$this->_label = $menuText;
 	}
 
 	/**

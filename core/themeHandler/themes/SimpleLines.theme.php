@@ -11,7 +11,7 @@ require_once(HARMONI."/themeHandler/common_settings/BorderSetting.class.php");
  * A simple line and color-block based theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.4 2004/03/08 22:28:39 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.5 2004/03/10 00:10:30 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -42,6 +42,7 @@ class SimpleLinesTheme
 		$this->addWidget(TEXT_BLOCK_WIDGET, new SimpleLinesTextBlock3);
 		$this->addWidget(MENU_WIDGET, new SimpleLinesMenu1);
 		$this->addWidget(MENU_ITEM_WIDGET, new SimpleLinesMenuItem1);
+		$this->addWidget(SELECTED_MENU_ITEM_WIDGET, new SimpleLinesSelectedMenuItem1);
 		$this->addWidget(MENU_HEADING_WIDGET, new SimpleLinesMenuHeading1);
 		$this->addWidget(HEADING_WIDGET, new SimpleLinesHeading1);
 		$this->addWidget(HEADING_WIDGET, new SimpleLinesHeading2);
@@ -107,7 +108,7 @@ class SimpleLinesTheme
  * The main TextBlock Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.4 2004/03/08 22:28:39 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.5 2004/03/10 00:10:30 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -191,7 +192,7 @@ class SimpleLinesTextBlock1
  * A TextBlock Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.4 2004/03/08 22:28:39 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.5 2004/03/10 00:10:30 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -252,7 +253,7 @@ class SimpleLinesTextBlock2
  * A TextBlock Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.4 2004/03/08 22:28:39 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.5 2004/03/10 00:10:30 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -331,7 +332,7 @@ class SimpleLinesTextBlock3
  * The main Heading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.4 2004/03/08 22:28:39 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.5 2004/03/10 00:10:30 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -406,7 +407,7 @@ class SimpleLinesHeading1
  * A secondary Heading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.4 2004/03/08 22:28:39 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.5 2004/03/10 00:10:30 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -485,7 +486,7 @@ class SimpleLinesHeading2
  * The main Heading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.4 2004/03/08 22:28:39 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.5 2004/03/10 00:10:30 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -507,7 +508,7 @@ class SimpleLinesFooter1
 // 		$this->_linkColorId =& $this->addSetting(new LinkColorSetting);
 // 		$this->_backgroundColorId =& $this->addSetting(new BackgroundColorSetting);
 // 		$this->_hooverBackgroundColorId =& $this->addSetting(new HooverBackgroundColorSetting);
- 		$this->_textSizeId =& $this->addSetting(new SizeSetting, "Main Footer TextSize", "Size of the Header text in pixels", "75%");
+ 		$this->_textSizeId =& $this->addSetting(new SizeSetting, "Main Footer TextSize", "Size of the Header text in pixels", "125%");
 // 		$this->_paddingId =& $this->addSetting(new PaddingSetting);
  	}
 
@@ -561,7 +562,7 @@ class SimpleLinesFooter1
  * A Menu Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.4 2004/03/08 22:28:39 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.5 2004/03/10 00:10:30 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -640,7 +641,7 @@ class SimpleLinesMenu1
  * A MenuHeading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.4 2004/03/08 22:28:39 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.5 2004/03/10 00:10:30 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -677,6 +678,8 @@ class SimpleLinesMenuHeading1
 		$padding =& $this->getSetting($this->_paddingId);
 		$styles .= "\n\t\t\t\tpadding: ".$padding->getValue().";";
 		
+		$styles .= "\n\t\t\t\tfont-weight: bold;";
+		
 		$styles .= "\n\t\t\t}";
 		
 		return $styles;
@@ -706,7 +709,7 @@ class SimpleLinesMenuHeading1
  * A MenuItem Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.4 2004/03/08 22:28:39 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.5 2004/03/10 00:10:30 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -718,10 +721,10 @@ class SimpleLinesMenuItem1
 	 */
  	function SimpleLinesMenuItem1 () {
 		// Set the Display Name:
-		$this->_displayName = "MenuItem 3";
+		$this->_displayName = "MenuItem 1";
 		
 		// Set the Descripiton:
-		$this->_description = "A third-level text block.";
+		$this->_description = "A main-menu item.";
 		
 		// Set up any Setting objects for this theme and add them.
 		$this->_backgroundColorId =& $this->addSetting(new ColorSetting, "Background Color", "The color of this block's background.", "dddddd");
@@ -766,6 +769,70 @@ class SimpleLinesMenuItem1
 	function output (& $layoutOrContent, & $currentTheme) {
 		$depth = $layoutOrContent->getLevel();
 		print "\n".$this->_getTabs($depth)."<div class='menuitem1'>";
+		
+		$layoutOrContent->output($currentTheme);
+		
+		print "\n".$this->_getTabs($depth)."</div>";
+	}
+}
+
+
+/**
+ * A MenuItem Widget for the SimpleLines theme.
+ *
+ * @package harmoni.themes
+ * @version $Id: SimpleLines.theme.php,v 1.5 2004/03/10 00:10:30 adamfranco Exp $
+ * @copyright 2004 
+ **/
+
+class SimpleLinesSelectedMenuItem1
+	extends ThemeWidget {
+	
+	/**
+	 * Constructor.
+	 */
+ 	function SimpleLinesSelectedMenuItem1 () {
+		// Set the Display Name:
+		$this->_displayName = "SelectedMenuItem 1";
+		
+		// Set the Descripiton:
+		$this->_description = "A selected menu item corresponding to MenuItem1";
+		
+		// Set up any Setting objects for this theme and add them.
+		$this->_backgroundColorId =& $this->addSetting(new ColorSetting, "Background Color", "The color of this block's background.", "aaaaaa");
+		$this->_paddingId =& $this->addSetting(new SizeSetting, "Padding", "The size (in px) of padding on the inside of this block.", "10px");
+ 	}
+
+	/**
+	 * Returns a SettingsIterator object with this ThemeWidget's ThemeSetting objects.
+	 * @access public
+	 * @return string A set of CSS styles corresponding to this widget's settings. These
+	 *		are to be inserted into the page's <head><style> section.
+	 **/
+	function getStyles () {	 
+		$styles = "\n\n\t\t\t.selectedmenuitem1 {";
+		
+		$backgroundColor =& $this->getSetting($this->_backgroundColorId);
+		$styles .= "\n\t\t\t\tbackground-color: #".$backgroundColor->getValue().";";
+	
+		$padding =& $this->getSetting($this->_paddingId);
+		$styles .= "\n\t\t\t\tpadding: ".$padding->getValue().";";
+		
+		$styles .= "\n\t\t\t}";
+		
+		return $styles;
+	}
+	
+	/**
+	 * Takes a {@link Layout} or {@link Content} object and prints a <div ...> ... </div>
+	 * block with the layout's contents or content inside.
+	 * @param ref object $layoutOrContent The {@link Layout} object or {@link Content} object.
+	 * @access public
+	 * @return void
+	 **/
+	function output (& $layoutOrContent, & $currentTheme) {
+		$depth = $layoutOrContent->getLevel();
+		print "\n".$this->_getTabs($depth)."<div class='selectedmenuitem1'>";
 		
 		$layoutOrContent->output($currentTheme);
 		

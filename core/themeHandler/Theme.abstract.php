@@ -5,6 +5,7 @@ require_once(HARMONI."/themeHandler/Theme.interface.php");
 
 define ("MENU_WIDGET", "menu");
 define ("MENU_ITEM_WIDGET", "menuItem");
+define ("SELECTED_MENU_ITEM_WIDGET", "selectedMenuItem");
 define ("MENU_HEADING_WIDGET", "menuHeading");
 define ("HEADING_WIDGET", "heading");
 define ("FOOTER_WIDGET", "footer");
@@ -18,7 +19,7 @@ define ("BLANK_WIDGET", "blank");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: Theme.abstract.php,v 1.5 2004/03/05 21:40:05 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.6 2004/03/10 00:10:29 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -417,7 +418,7 @@ class Theme
 	 **/
 	function & addWidget (  $type, & $themeWidget ) {
 		ArgumentValidator::validate($themeWidget, new ExtendsValidatorRule("ThemeWidgetInterface"));
-		if (!in_array($type, array(MENU_WIDGET, MENU_ITEM_WIDGET, MENU_HEADING_WIDGET, HEADING_WIDGET, FOOTER_WIDGET, TEXT_BLOCK_WIDGET, BLANK_WIDGET)))
+		if (!in_array($type, array(MENU_WIDGET, MENU_ITEM_WIDGET, SELECTED_MENU_ITEM_WIDGET, MENU_HEADING_WIDGET, HEADING_WIDGET, FOOTER_WIDGET, TEXT_BLOCK_WIDGET, BLANK_WIDGET)))
 			throwError(new Error("Unsupported widget type, '".$type."'.", "Theme", TRUE));
 		
 		$currentString = "_".$type."s";
@@ -446,7 +447,7 @@ class Theme
 	 **/
 	function & getWidget ( $type, $index = 1 ) {
 		ArgumentValidator::validate($index, new IntegerValidatorRule);
-		if (!in_array($type, array(MENU_WIDGET, MENU_ITEM_WIDGET, MENU_HEADING_WIDGET, HEADING_WIDGET, FOOTER_WIDGET, TEXT_BLOCK_WIDGET, BLANK_WIDGET)))
+		if (!in_array($type, array(MENU_WIDGET, MENU_ITEM_WIDGET, SELECTED_MENU_ITEM_WIDGET, MENU_HEADING_WIDGET, HEADING_WIDGET, FOOTER_WIDGET, TEXT_BLOCK_WIDGET, BLANK_WIDGET)))
 			throwError(new Error("Unsupported widget type, '".$type."'.", "Theme", TRUE));
 		
 		$currentString = "_".$type."s";
@@ -468,7 +469,7 @@ class Theme
 	 * @return object ThemeWidgetIterator An iterator of all $typeThemeWidgets.
 	 **/
 	function & getWidgets ( $type ) {
-		if (!in_array($type, array(MENU_WIDGET, MENU_ITEM_WIDGET, MENU_HEADING_WIDGET, HEADING_WIDGET, FOOTER_WIDGET, TEXT_BLOCK_WIDGET, BLANK_WIDGET)))
+		if (!in_array($type, array(MENU_WIDGET, MENU_ITEM_WIDGET, SELECTED_MENU_ITEM_WIDGET, MENU_HEADING_WIDGET, HEADING_WIDGET, FOOTER_WIDGET, TEXT_BLOCK_WIDGET, BLANK_WIDGET)))
 			throwError(new Error("Unsupported widget type, '".$type."'.", "Theme", TRUE));
 		
 		$currentString = "_".$type."s";
@@ -488,6 +489,7 @@ class Theme
 	function getAllWidgets() {
 		$allWidgets =& array_merge($this->_menus, 
 									$this->_menuItems,
+									$this->_selectedMenuItems,
 									$this->_menuHeadings,
 									$this->_headings,
 									$this->_footers,

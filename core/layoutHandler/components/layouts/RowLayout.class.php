@@ -13,7 +13,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * </ul>
  *
  * @package harmoni.layout.components
- * @version $Id: RowLayout.class.php,v 1.4 2004/03/05 21:40:05 adamfranco Exp $
+ * @version $Id: RowLayout.class.php,v 1.5 2004/03/10 00:10:29 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -23,7 +23,7 @@ class RowLayout extends Layout {
 	 * @access public
 	 * @return void
 	 **/
-	function RowLayout($themeWidgetType, $themeWidgetIndex) {
+	function RowLayout ( $themeWidgetType = BLANK_WIDGET, $themeWidgetIndex = 1 ) {
 		$this->setThemeWidgetType($themeWidgetType);
 		$this->setThemeWidgetIndex($themeWidgetIndex);
 	}

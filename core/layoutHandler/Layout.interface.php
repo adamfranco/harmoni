@@ -12,7 +12,7 @@ define("LAYOUT","LayoutInterface");
  * LayoutInterface defines the methods required of any {@link Layout}.
  *
  * @package harmoni.interfaces.layout
- * @version $Id: Layout.interface.php,v 1.2 2004/03/05 21:39:51 adamfranco Exp $
+ * @version $Id: Layout.interface.php,v 1.3 2004/03/10 00:10:24 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -38,7 +38,7 @@ class LayoutInterface extends VisualComponent {
 	 * @access public
 	 * @return void
 	 **/
-	function setComponent ( $index, &$object, $dontSetLevel=false ) {
+	function setComponent ( $index, & $object) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
@@ -56,85 +56,7 @@ class LayoutInterface extends VisualComponent {
 	 * @access protected
 	 * @return object The component object.
 	 **/
-	function &getComponent ( $index ) {
-		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
-	}
-	
-	/**
-	 * Output this layout's HTML & components.
-	 * @param ref object $theme The theme to use.
-	 * @access public
-	 * @return void
-	 **/
-	function output(&$theme, $orientation=HORIZONTAL) {
-		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
-	}
-	
-		/**
-	 * Gets the ThemeWidget type for this element.
-	 * return string The type of the theme widget.
-	 */
-	function getThemeWidgetType() {
-		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
-	}
-	
-	/**
-	 * Sets the ThemeWidget type for this element.
-	 * @param string $type The type of the theme widget.
-	 * @return void
-	 */
-	function setThemeWidgetType( $type ) {
-		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
-	}
-	
-	/**
-	 * Gets the ThemeWidget index for this element.
-	 * return integer The index of the theme widget.
-	 */
-	function getThemeWidgetIndex() {
-		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
-	}
-	
-	/**
-	 * Sets the ThemeWidget index for this element.
-	 * @param string $index The index of the theme widget.
-	 * @return void
-	 */
-	function setThemeWidgetIndex( $index ) {
-		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
-	}
-	
-		/**
-	 * gets the Vertical Alignment for this element in its parent.
-	 * @return string The alignment of the element; TOP, CENTER, BOTTOM.
-	 */
-	function getVerticalAlignment () {
-		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
-	}
-	
-	/**
-	 * Sets the Vertical Alignment for this element in its parent.
-	 * @param string $valign The alignment of the element; TOP, CENTER, BOTTOM.
-	 * @return void
-	 */
-	function setVerticalAlignment ( $valign ) {
-		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
-	}
-	
-	/**
-	 * Gets the Horizontal Alignment for this element in its parent.
-	 * @return string The alignment of the element; LEFT, CENTER, RIGHT.
-	 */
-	function getHorizontalAlignment () {
-		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
-	}
-	
-	/**
-	 * Sets the Horizontal Alignment for this element in its parent.
-	 * @param string $hvalign The alignment of the element; LEFT, CENTER, RIGHT.
-	 * @return void
-	 */
-	function setHorizontalAlignment ( $halign ) {
+	function & getComponent ( $index ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	

@@ -1,22 +1,10 @@
 <?php
 
-/** 
- * @const integer HORIZONTAL Defines a horizontal visual component (eg, a menu).
- * @package harmoni.layout
- **/
-define("HORIZONTAL",1);
-
-/** 
- * @const integer VERTICAL Defines a vertical visual component (eg, a menu).
- * @package harmoni.layout
- **/
-define("VERTICAL",2);
-
 /**
  * VisualComponent defines the interface for any component within a {@link Layout}.
  *
  * @package harmoni.interfaces.layout
- * @version $Id: VisualComponent.interface.php,v 1.2 2004/03/05 21:39:51 adamfranco Exp $
+ * @version $Id: VisualComponent.interface.php,v 1.3 2004/03/10 00:10:24 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -30,7 +18,7 @@ class VisualComponent {
 	 * @access public
 	 * @return void
 	 **/
-	function output(&$theme, $orientation=HORIZONTAL) {
+	function output ( & $theme ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	

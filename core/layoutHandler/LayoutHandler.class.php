@@ -13,5 +13,6 @@ require_once(HARMONI.'layoutHandler/components/Content.class.php');
 //require_once(HARMONI.'layoutHandler/components/Menu.class.php');
 require_once(HARMONI.'layoutHandler/components/HeaderMenuItem.class.php');
 require_once(HARMONI.'layoutHandler/components/LinkMenuItem.class.php');
+require_once(HARMONI.'layoutHandler/components/StandardMenuItem.class.php');
 
 ?>
