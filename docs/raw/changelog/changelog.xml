@@ -4,6 +4,12 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.2.0" date="Unreleased">
 		<new author='gabe'>
+			Harmoni::addPreExecActions($action,...) adds a number of actions to execute before executing the action requested by the end user.
+		</new>
+		<new author='gabe'>
+			Harmoni::addPostExecActions($action,...) adds a number of actions to execute after executing the action requested by the end user.
+		</new>
+		<new author='gabe'>
 			Harmoni::executeLogin() executes the LoginHandler and stores the result to avoid discrepancies.
 		</new>
 		<change author='gabe'>

@@ -18,7 +18,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.25 2004/08/06 14:58:52 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.26 2004/08/07 03:31:50 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -86,6 +86,9 @@ class Harmoni {
 	
 	var $_attachedData;
 	
+	var $_preExecActions;
+	var $_postExecActions;
+	
 	/**
 	 * @access public
 	 * @var array $pathInfoParts An array of split PATH_INFO elements.
@@ -119,6 +122,8 @@ class Harmoni {
 		$this->setActionCallbackFunction("httpTwoVarsActionCallback");
 		
 		$this->_attachedData =& new ReferencedFieldSet;
+		$this->_preExecActions = array();
+		$this->_postExecActions = array();
 			
 		// set up pathInfoParts
 		$pathInfo = $_SERVER['PATH_INFO'];
@@ -126,6 +131,36 @@ class Harmoni {
 		
 		// set up the language localizer :: BROKEN?
 //		$this->language =& new LanguageLocalizer(HARMONI."languages");
+	}
+	
+	/**
+	 * Adds an action, or multiple, (see the {@link ActionHandler}) to execute before executing the action requested by the end user.
+	 * @param string $action,... A number of actions (module.action) to execute.
+	 * @access public
+	 * @return return
+	 */
+	function addPreExecActions($actions)
+	{
+		$args = func_get_args();
+		$rule =& new DottedPairValidatorRule();
+		foreach ($args as $arg) {
+			if ($rule->check($arg)) $this->_preExecActions[] = $arg;
+		}
+	}
+	
+	/**
+	 * Adds an action, or multiple, (see the {@link ActionHandler}) to execute after executing the action requested by the end user.
+	 * @param string $action,... A number of actions (module.action) to execute.
+	 * @access public
+	 * @return return
+	 */
+	function addPostExecActions($actions)
+	{
+		$args = func_get_args();
+		$rule =& new DottedPairValidatorRule();
+		foreach ($args as $arg) {
+			if ($rule->check($arg)) $this->_postExecActions[] = $arg;
+		}
 	}
 	
 	/**
@@ -304,7 +339,14 @@ class Harmoni {
 		
 		// process the login information
 		$loginState =& $this->executeLogin();
-			
+		
+		// check if we have any pre-exec actions. if so, execute them
+		if (count($this->_preExecActions)) {
+			foreach ($this->_preExecActions as $pair) {
+				$this->ActionHandler->executePair($pair);
+			}
+		}
+		
 		// check if we've still got the same action
 		$pair = $this->getCurrentAction();
 		list($module,$action) = explode(".",$pair);
@@ -339,6 +381,13 @@ class Harmoni {
 		} else {
 			// looks like they're just fine
 			ob_end_flush();
+		}
+		
+		// check if we have any post-exec actions. if so, execute them
+		if (count($this->_postExecActions)) {
+			foreach ($this->_postExecActions as $pair) {
+				$this->ActionHandler->executePair($pair);
+			}
 		}
 		
 		// we only need to print anything out if config->outputHTML is set.

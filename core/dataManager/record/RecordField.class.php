@@ -6,7 +6,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * Holds a number of indexes for values within a specific field within a Record. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: RecordField.class.php,v 1.4 2004/08/04 19:22:33 gabeschine Exp $
+ * @version $Id: RecordField.class.php,v 1.5 2004/08/07 03:31:56 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -167,10 +167,20 @@ class RecordField {
 		}
 		$this->_checkObjectType($value);
 		
-		$this->_values[$this->_numValues] =& new RecordFieldValue($this, $this->_numValues);
-		$this->_values[$this->_numValues]->setValueFromPrimitive($value);
+		$newIndex = $this->_getNextAvailableIndex();
+		
+		$this->_values[$newIndex] =& new RecordFieldValue($this, $newIndex);
+		$this->_values[$newIndex]->setValueFromPrimitive($value);
 		$this->_numValues++;
 		return true;
+	}
+	
+	function _getNextAvailableIndex() {
+		for($i=0; true; $i++) {
+			if (!in_array($i,$this->getIndices())) return $i;
+		}
+		print "<b>Eh? We can't find a new index?</b><br>";
+		printDebugBacktrace(); exit();
 	}
 	
 	/**
@@ -188,7 +198,12 @@ class RecordField {
 		}
 		
 		if (!isset($this->_values[$index])) {
-			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
+			// if we allow multiple values, just create a new value at $index
+			if ($this->_schemaField->getMultFlag()) {
+				$this->_values[$index] =& new RecordFieldValue($this, $index);
+				$this->_numValues++;
+			} else
+				throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
 		
 		return $this->_values[$index]->setValueFromPrimitive($value);

@@ -4,7 +4,7 @@
  * This is the {@link StorablePrimitive} equivalent of {@link Time}.
  * @package harmoni.datamanager.storableprimitives
  * @copyright 2004
- * @version $Id: StorableTime.class.php,v 1.3 2004/08/06 14:23:57 gabeschine Exp $
+ * @version $Id: StorableTime.class.php,v 1.4 2004/08/07 03:31:57 gabeschine Exp $
  */
 class StorableTime extends Time /* implements StorablePrimitive */ {
 	
@@ -79,12 +79,12 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 		$query->setTable($this->_table);
 		$query->setColumns(array("data"));
 		$query->setWhere("id=".$dataID);
-
+		
+		$query->setValues(array($this->toTimestamp()));
+		
 		$dbHandler =& Services::getService("DBHandler");
 		$result =& $dbHandler->query($query, $dbID);
-
-		$query->setValues(array($this->toTimestamp()));
-				
+		
 		if (!$result) {
 			throwError( new UnknownDBError("StorableTime") );
 			return false;

@@ -29,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.6 2004/08/06 14:23:56 gabeschine Exp $
+* @version $Id: Record.class.php,v 1.7 2004/08/07 03:31:56 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -141,11 +141,11 @@ class Record {
 	/**
 	 * Returns the active {@link Primitive} value for the given $index under $label.
 	 * @param string $label
-	 * @param string $index
+	 * @param optional string $index defaults to 0
 	 * @access public
 	 * @return ref object
 	 */
-	function &getCurrentValuePrimitive($label, $index)
+	function &getCurrentValuePrimitive($label, $index=0)
 	{
 		$value =& $this->getCurrentValue($label, $index);
 		

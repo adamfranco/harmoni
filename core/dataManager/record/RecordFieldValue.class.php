@@ -12,7 +12,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a Record.
  * @package harmoni.datamanager
- * @version $Id: RecordFieldValue.class.php,v 1.3 2004/08/04 02:18:56 gabeschine Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.4 2004/08/07 03:31:56 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -92,7 +92,7 @@ class RecordFieldValue {
 		}
 		
 		// now if we just committed a NEW_VERSION, let's move it to its proper place in the array
-		if ($this->_versions[NEW_VERSION]) {
+		if (isset($this->_versions[NEW_VERSION])) {
 			$ref =& $this->_versions[NEW_VERSION];
 			$id = $ref->getID();
 			if (!$id) return;
