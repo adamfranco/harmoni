@@ -1,17 +1,19 @@
 <?php
 
-require_once(HARMONI.'examlePackageDir/ExampleClass.class.php');
+require_once(HARMONI.'authorizationHandler/AuthorizationAgent.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ExampleClassTestCase.class.php,v 1.1 2003/06/30 14:50:37 adamfranco Exp $
+ * @version $Id: AuthorizationAgentTestCase.class.php,v 1.1 2003/07/01 23:51:50 dobomode Exp $
  * @copyright 2003 
- **/
+ */
 
-    class ExampleClassTestCase extends UnitTestCase {
+    class AuthorizationAgentTestCase extends UnitTestCase {
+		
+		var $agent;
 	
 		function ExampleClassTestCase() {
 			$this->UnitTestCase();
@@ -23,6 +25,7 @@ require_once(HARMONI.'examlePackageDir/ExampleClass.class.php');
 		*    @public
 		*/
 		function setUp() {
+			$this->agent =& new AuthorizationAgent(15, "dobo", "smartass");
 			// perhaps, initialize $obj here
 		}
 		
@@ -32,13 +35,16 @@ require_once(HARMONI.'examlePackageDir/ExampleClass.class.php');
 		 */
 		function tearDown() {
 			// perhaps, unset $obj here
+			unset($this->agent);
 		}
 	
 		/**
-		 *    First test Description.
+		 *    Test the constructor
 		 */ 
-		function test_first_thing() {
-			$this->assertEqual(false,"We need to delete this and write some real tests.");	
+		function test_constructor() {
+			$this->assertEqual($this->agent->getSystemId(), 15);	
+			$this->assertEqual($this->agent->getSystemName(), "dobo");
+			$this->assertEqual($this->agent->getType(), "smartass");
 		}
 		
     }

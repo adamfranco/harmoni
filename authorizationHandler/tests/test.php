@@ -4,7 +4,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.2 2003/07/01 17:14:13 dobomode Exp $
+ * @version $Id: test.php,v 1.3 2003/07/01 23:51:50 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -20,7 +20,12 @@
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 	
     $test =& new GroupTest('AuthorizationHandler tests');
-    $test->addTestFile(HARMONI.'authorizationHandler/tests/DatabaseCachedAuthorizationContextHierarchyGeneratorTestCase.class.php');
+    $test->addTestFile(HARMONI.'authorizationHandler/tests/AuthorizationAgentTestCase.class.php');
+    $test->addTestFile(HARMONI.'authorizationHandler/tests/AuthorizationFunctionTestCase.class.php');
+    $test->addTestFile(HARMONI.'authorizationHandler/tests/HierarchicalAuthorizationContextTestCase.class.php');
+    $test->addTestFile(HARMONI.'authorizationHandler/tests/DatabaseAuthorizationContextHierarchyGeneratorTestCase.class.php');
+    $test->addTestFile(HARMONI.'authorizationHandler/tests/AuthorizationContextHierarchyNodeTestCase.class.php');
+    $test->addTestFile(HARMONI.'authorizationHandler/tests/AuthorizationContextHierarchyTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 
