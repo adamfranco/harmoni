@@ -4,7 +4,7 @@
  * A {@link HarmoniType} for DR Assets that will define CanonicalCourses.
  * @package harmoni.osid.classmanagement
  * @copyright 2004
- * @version $Id: CourseManagementManager.class.php,v 1.2 2004/06/08 14:03:20 gabeschine Exp $
+ * @version $Id: CourseManagementManager.class.php,v 1.3 2004/06/11 13:23:31 gabeschine Exp $
  */
 class CanonicalCourseAssetType extends HarmoniType {
 
@@ -148,6 +148,31 @@ class HarmoniCourseManagementManager
 		// we'll have to search the dataManager and get all the datasets for which the type field = $courseType
 		// then, find all the datasetgroups to which those datasets belong, and fetch those assets and create
 		// canonical course objects for them.
+		
+		$mgr =& Services::getService("DataManager");
+		$search =& new OnlyThisSearch(new FieldValueSearch(new CanonicalCourseDataSetType(), "type", new OKITypeDataType($courseType)));
+		
+		$ids =& $mgr->selectIDsBySearch($search);
+		$dataSets =& $mgr->fetchArrayOfIDs($ids,true);
+		
+		// now, we find all the dataset groups in which these IDs appear
+		$groups = array();
+		$map = array();
+		foreach ($ids as $id) {
+			$tmp = $mgr->getGroupIdsForDataSet($id);
+			$groups = array_merge($groups, $tmp);
+			foreach ($tmp as $t) { $map[$t] = $id; }
+		}
+		
+		$groups = array_unique($groups);
+		
+		$courses = array();
+		foreach ($groups as $group) {
+			$courses[] =& new HarmoniCanonicalCourse($this, $this->_dr->getAsset(new HarmoniId($group)),
+				$dataSets[$map[$group]]);
+		}
+		
+		return new HarmoniIterator($courses);
 	}
 	// :: full java declaration :: CanonicalCourseIterator getCanonicalCoursesByType(osid.shared.Type courseType)
 

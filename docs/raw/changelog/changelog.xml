@@ -2,8 +2,17 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.1.0" date="Not Released">
-		<fix author='nstamato' bug='958187'>
+	<version number="0.1.0" date="2004-06-11">
+		<new author='dobo'>
+			Added a new OKI-Hiearchy implementation (hierarchy2).
+		</new>
+		<new author='gabe'>
+			DataManager: added a datatype to store OKI-style types.
+		</new>
+		<fix author='gabe'>
+			Bugs in LoginHandler.
+		</fix>
+		<fix author='nstamato' ref='958187' reftype='bug'>
 			Added the XOR functionality described in the manual
 		</fix>	
 		<change author='adam'>

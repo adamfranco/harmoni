@@ -143,8 +143,24 @@ class HarmoniCanonicalCourse // :: API interface
 	 * @package osid.classmanagement
 	 */
 	function & getCanonicalCourses() {
-		// wait for Asset::getAssetsByType() function
-		// @todo
+		$assets =& $this->_asset->getAssetsByType( new CanonicalCourseAssetType() );
+		$courses = array();
+		
+		$mgr =& Services::getService("DataManager");
+		// in order to save time on fetching datasets, we're going to pre-load all of the datasets.
+		$ids = array();
+		foreach (array_keys($assets) as $key) {
+			$id =& $assets[$key]->getId();
+			$ids[] = $id->getIdString();
+		}
+		$dataSets =& $mgr->fetchArrayOfIDs($ids,true);
+		
+		foreach (array_keys($assets) as $key) {
+			$id =& $assets[$key]->getId();
+			$courses[] =& new HarmoniCanonicalCourse($this, $assets[$key], $dataSets[$id->getIdString()]);
+		}
+		
+		return new HarmoniIterator($courses);
 	}
 	// :: full java declaration :: CanonicalCourseIterator getCanonicalCourses()
 

@@ -3,14 +3,22 @@
 Name: Harmoni ChangeLog
 
 
-v. 0.1.0 (Not Released)
+v. 0.1.0 (2004-06-11)
 ----------------------------------------------------
+		
+	* New feature: Added a new OKI-Hiearchy implementation (hierarchy2). (Dobo Radichkov)
+		
+	* New feature: DataManager: added a datatype to store OKI-style types. (Gabe Schine)
+		
+	* Bug Fix: Bugs in LoginHandler. (Gabe Schine)
+		
+	* Bug Fix: #958187 Added the XOR functionality described in the manual ()	
 		
 	* Change: The DataManager/metaData now uses the OKI Shared Ids instead of its own internal id system. This keeps all access to unique ids safely behind the Shared interface. (Adam Franco)
 		
 	* Change: Themes and layouts have been completely re-worked to support easier use and more user control of the themes. (Adam Franco)
 		
-	* Change: Argument Validator now dosn't fail on string representations of integers; i.e. &quot;100&quot; as well as 100 will validate. (Adam Franco)
+	* Change: Argument Validator now dosn't fail on string representations of integers; i.e. "100" as well as 100 will validate. (Adam Franco)
 		
 	* New feature: Implimented the Digital Repository OSID in Harmoni. The DR uses the Hierarchy OSID, the DataManager, and the Shared OSID to provide for high-level access and browsing of Assets and their associated data/metadata. (Adam Franco)
 		
@@ -69,7 +77,7 @@ v. 0.0.5 (2004-01-09)
 		
 	* Bug Fix: DateTime::now() now gives correct Hour value. Likewise MySQLDatabase::toDBDate() now adds 1 to hour value to give correct 1-24 value. Other DB Types haven't yet been checked. (Gabe Schine)
 		
-	* Change: Modified field in HarmoniDataManager table &quot;datasetfield&quot; from &quot;datasetfield_created&quot; to &quot;datasetfield_modified&quot; since it is updated on every commit(). (Gabe Schine)
+	* Change: Modified field in HarmoniDataManager table "datasetfield" from "datasetfield_created" to "datasetfield_modified" since it is updated on every commit(). (Gabe Schine)
 		
 	* New feature: Extensive work on DataManager. Now works for creating/retrieving datasets with version controls. (Gabe Schine)
 		
@@ -100,14 +108,14 @@ v. 0.0.4 (2003-12-06)
 		
 	* Change: LoginState::attachData() has been moved to Harmoni::attachContextData() and LoginState::getData() has been moved to Context::getData() for logical and organizational reasons. (Gabe Schine)
 		
-	* Change: LoginHandler and Harmoni: when LoginHandler is used, the action that is checked for required authentication is now the LAST action executed instead of the first. This way, the action that finally ends up being executed is the &quot;authoritative&quot; action. (Gabe Schine)
+	* Change: LoginHandler and Harmoni: when LoginHandler is used, the action that is checked for required authentication is now the LAST action executed instead of the first. This way, the action that finally ends up being executed is the "authoritative" action. (Gabe Schine)
 	
 v. 0.0.3 (2003-11-26)
 ----------------------------------------------------
 		
 	* Change: Made ActionHandler check for class and method definitions before trying to execute them. (Gabe Schine)
 		
-	* New feature: Added defines in config/services.cfg.php to allow a choice of which major &quot;modules&quot; of Harmoni to load, in order to save on startup time. (Gabe Schine)
+	* New feature: Added defines in config/services.cfg.php to allow a choice of which major "modules" of Harmoni to load, in order to save on startup time. (Gabe Schine)
 		
 	* Bug Fix: Numerous bug fixes in Harmoni, ActionHandler, LoginHandler (Gabe Schine)
 		
@@ -133,7 +141,7 @@ v. 0.0.3 (2003-11-26)
 		
 	* New feature: Harmoni Users's Guide stored locally in XML format. Wrote a gen-script in PHP using domxml to make pretty HTML interface. (Gabe Schine)
 		
-	* Change: LanguageLocalizer now uses gettext() functions instead of home-brewed. Included PO generators, &quot;borrowed&quot; from the Horde project (www.horde.org). (Gabe Schine)
+	* Change: LanguageLocalizer now uses gettext() functions instead of home-brewed. Included PO generators, "borrowed" from the Horde project (www.horde.org). (Gabe Schine)
 		
 	* Change: New OKI interfaces, OKI gen-scripts and token files added (under harmoni/oki and harmoni/core/tools/oki respectively) (Gabe Schine)
 	

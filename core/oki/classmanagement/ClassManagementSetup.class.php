@@ -4,7 +4,7 @@
  * This class is used to setup the Harmoni implementation of the ClassManagement package from OKI.
  * @package harmoni.osid.classmanagement
  * @copyright 2004
- * @version $Id: ClassManagementSetup.class.php,v 1.1 2004/06/03 21:27:14 gabeschine Exp $
+ * @version $Id: ClassManagementSetup.class.php,v 1.2 2004/06/11 13:23:31 gabeschine Exp $
  */
 class ClassManagementSetup {
 	
@@ -50,6 +50,16 @@ class ClassManagementSetup {
 	{
 		// this function will create all the DataSetTypes we need in the DataManager.
 		
+		$mgr =& Services::getService("DataSetTypeManager");
+		$def =& $mgr->newDataSetType(new CanonicalCourseDataSetType());
+		
+		$def->addField( new FieldDefinition("title","shortstring",false,true));
+		$def->addField( new FieldDefinition("number","shortstring",false,true));
+		$def->addField( new FieldDefinition("type","okitype",false,true));
+		$def->addField( new FieldDefinition("statusType","okitype",false,true));
+		$def->addField( new FieldDefinition("credits","float",false,true));
+		
+		$mgr->synchronize($def);
 	}
 	
 }
@@ -58,7 +68,7 @@ class ClassManagementSetup {
  * This defines the {@link DataSetType} for our {@link CanonicalCourse}s.
  * @package harmoni.osid.classmanagement
  * @copyright 2004
- * @version $Id: ClassManagementSetup.class.php,v 1.1 2004/06/03 21:27:14 gabeschine Exp $
+ * @version $Id: ClassManagementSetup.class.php,v 1.2 2004/06/11 13:23:31 gabeschine Exp $
  */
 class CanonicalCourseDataSetType extends HarmoniType {
 
