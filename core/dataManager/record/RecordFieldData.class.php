@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.10 2005/03/29 19:44:13 adamfranco Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.11 2005/04/04 18:23:23 adamfranco Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -99,7 +99,7 @@ class RecordFieldData {
 	 * @access public
 	 */
 	function populate( &$row ) {
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 //		$recordField =& $this->_parent->getRecordField();
 //		$record =& $recordField->getRecord();
 //		$dbID = $dataSet->getDatabaseId();
@@ -162,7 +162,7 @@ class RecordFieldData {
 	 */
 	function commit() {
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		if ($this->_update) {
 			// let's re-cast our primitive to a storablePrimitive

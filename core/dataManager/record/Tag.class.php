@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.3 2005/01/19 21:09:42 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.4 2005/04/04 18:23:23 adamfranco Exp $
  */
 class Tag {
 	
@@ -118,7 +118,7 @@ class Tag {
 		
 		$query->setWhere("fk_tag=".$this->_myID);
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
 		
 		if (!$result) throwError( new UnknownDBError("Tag"));

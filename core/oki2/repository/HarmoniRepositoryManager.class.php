@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.20 2005/04/04 18:01:57 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.21 2005/04/04 18:23:55 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -212,7 +212,7 @@ class HarmoniRepositoryManager
 		// Store the type passed in our own table as we will be using
 		// a special type, "_repositoryKeyType", as definition of which
 		// Nodes in the Hierarchy are Repositories.
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		
 		$query =& new SelectQuery;
 		$query->addColumn("type_id");
@@ -342,7 +342,7 @@ class HarmoniRepositoryManager
 		$query->addWhere("repository_id = '"
 						.addslashes($repositoryId->getIdString())
 						."' LIMIT 1");
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		$dbc->query($query, $this->_dbIndex);
 		
 		unset($this->_createdRepositories[$repositoryId->getIdString()]);
@@ -426,7 +426,7 @@ class HarmoniRepositoryManager
 		$query->addWhere("type_authority = '".addslashes($repositoryType->getAuthority())."'", _AND);
 		$query->addWhere("type_keyword = '".addslashes($repositoryType->getKeyword())."'", _AND);
 		
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		$result =& $dbc->query($query, $this->_dbIndex);
 		
 		$idManager =& Services::getService("Id");
@@ -739,7 +739,7 @@ class HarmoniRepositoryManager
 		$query->addColumn("type_description");
 		$query->addTable("dr_type");
 		
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		$result =& $dbc->query($query, $this->_dbIndex);
 		
 		// Return our types

@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDataPart.class.php,v 1.4 2005/03/30 18:46:33 adamfranco Exp $
+ * @version $Id: ThumbnailDataPart.class.php,v 1.5 2005/04/04 18:23:59 adamfranco Exp $
  */
 class ThumbnailDataPart extends Part
 //	extends java.io.Serializable
@@ -170,7 +170,7 @@ class ThumbnailDataPart extends Part
 	function getValue() {
 		// If we don't have the data, load it from the database.
 		if ($this->_data === NULL) {
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			
 			// Get the data from the database,
 			$query =& new SelectQuery;
@@ -219,7 +219,7 @@ class ThumbnailDataPart extends Part
 		
 	// Base64 encode the data to preserve it,
 	// then write it to the database.
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 	
 		// Check to see if the data is in the database
 		$query =& new SelectQuery;

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseMD5UsernamePasswordAuthNTokens.class.php,v 1.2 2005/03/29 19:44:23 adamfranco Exp $
+ * @version $Id: SQLDatabaseMD5UsernamePasswordAuthNTokens.class.php,v 1.3 2005/04/04 18:23:32 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseMD5UsernamePasswordAuthNTokens.class.php,v 1.2 2005/03/29 19:44:23 adamfranco Exp $
+ * @version $Id: SQLDatabaseMD5UsernamePasswordAuthNTokens.class.php,v 1.3 2005/04/04 18:23:32 adamfranco Exp $
  */
 class SQLDatabaseMD5UsernamePasswordAuthNTokens
 	extends UsernamePasswordAuthNTokens
@@ -43,7 +43,7 @@ class SQLDatabaseMD5UsernamePasswordAuthNTokens
 		$this->_identifier = $tokens['username'];
 		
 		// set the password to the encrypted version.
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		$dbId = $this->_configuration->getProperty('database_id');
 		
 		$passwordQuery = & new SelectQuery;

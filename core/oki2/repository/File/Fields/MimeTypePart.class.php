@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: MimeTypePart.class.php,v 1.5 2005/03/30 18:46:32 adamfranco Exp $
+ * @version $Id: MimeTypePart.class.php,v 1.6 2005/04/04 18:23:59 adamfranco Exp $
  */
 class MimeTypePart extends Part
 //	extends java.io.Serializable
@@ -170,7 +170,7 @@ class MimeTypePart extends Part
 	function getValue() {
 		// If we don't have the type, load it from the database.
 		if ($this->_type === NULL) {
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			
 			// Get the type from the database,
 			$query =& new SelectQuery;
@@ -219,7 +219,7 @@ class MimeTypePart extends Part
 		$this->_type = $value;
 		
 	// then write it to the database.
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		// If we have a key, make sure it exists.
 		if ($this->_type && $this->_type != "NULL") {

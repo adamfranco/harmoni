@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/OrderedSet.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.9 2005/03/29 19:44:30 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.10 2005/04/04 18:23:59 adamfranco Exp $
  * @author Adam Franco
  */
  
@@ -69,7 +69,7 @@ class OrderedSet
 		$query->addWhere("sets.id = '".addslashes($this->_setId->getIdString())."'");
 		$query->addOrderBy("sets.item_order");
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, $this->_dbIndex);
 		
 		$i = 0;
@@ -162,7 +162,7 @@ class OrderedSet
 		$query->setColumns($columns);
 		$query->setValues($values);
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$dbHandler->query($query, $this->_dbIndex);
 	}
 	
@@ -193,7 +193,7 @@ class OrderedSet
 		$query->addWhere("sets.id='".addslashes($this->_setId->getIdString())."'");
 		$query->addWhere("sets.item_id='".addslashes($id->getIdString())."'");
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$dbHandler->query($query, $this->_dbIndex);
 	}
 	
@@ -208,7 +208,7 @@ class OrderedSet
 		$query->setTable("sets");
 		$query->addWhere("sets.id='".addslashes($this->_setId->getIdString())."'");
 				
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$dbHandler->query($query, $this->_dbIndex);
 		
 		// Create our internal array
@@ -320,7 +320,7 @@ class OrderedSet
 	 * @return void
 	 */
 	function _updateOrders ( $oldOrders ) {
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 
 		foreach ($this->_items as $key => $val) {
 			// If the old key-value pairs don't match the current ones, 

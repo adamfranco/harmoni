@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchyManager.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyManagerTestCase.class.php,v 1.6 2005/04/04 17:39:44 adamfranco Exp $
+ * @version $Id: HierarchyManagerTestCase.class.php,v 1.7 2005/04/04 18:23:48 adamfranco Exp $
  * @package harmoni.tests.metadata
  * @copyright 2003
  **/
@@ -23,7 +23,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchyManager.class.php');
 		 */
 		function setUp() {
 			// Set up the database connection
-			$dbHandler=&Services::getService("DBHandler");
+			$dbHandler=&Services::getService("DatabaseManager");
 			$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
 			$dbHandler->pConnect($dbIndex);
 			unset($dbHandler); // done with that for now

@@ -25,7 +25,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSystemFileRecord.class.php,v 1.3 2005/03/30 18:44:33 adamfranco Exp $ 
+ * @version $Id: FileSystemFileRecord.class.php,v 1.4 2005/04/04 18:23:56 adamfranco Exp $ 
  */
 class FileSystemFileRecord 
 	extends FileRecord
@@ -94,7 +94,7 @@ class FileSystemFileRecord
 			$field = $r[2];
 			
 			if ($this->_isLastPart($field)) {
-				$dbHandler =& Services::getService("DBHandler");
+				$dbHandler =& Services::getService("DatabaseManager");
 				
 				// Delete the data
 				$file = $this->_parts['FILE_DATA']->_getFilePath();
@@ -139,7 +139,7 @@ class FileSystemFileRecord
 	 * @since 10/25/04
 	 */
 	function _isLastPart ($idString) {
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 	
 		// Check to see if the data is in the database
 		$query =& new SelectQuery;

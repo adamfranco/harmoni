@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.14 2005/04/04 18:01:41 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.15 2005/04/04 18:23:47 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -190,7 +190,7 @@ class HarmoniHierarchyManager
 		if ($allowsRecursion)
 			throwError(new Error(HierarchyException::UNSUPPORTED_CREATION(), "HierarchyManager", 1));
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$db = $this->_hyDB.".";
 
 		// Create an Id for the Hierarchy
@@ -264,7 +264,7 @@ class HarmoniHierarchyManager
 		if (isset($this->_hierarchies[$idValue]))
 			return $this->_hierarchies[$idValue];
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$db = $this->_hyDB.".";
 		
 		$query =& new SelectQuery();
@@ -319,7 +319,7 @@ class HarmoniHierarchyManager
 	 */
 	function &getHierarchies () { 
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$db = $this->_hyDB.".";
 		
 		$query =& new SelectQuery();
@@ -392,7 +392,7 @@ class HarmoniHierarchyManager
 		ArgumentValidator::validate($hierarchyId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$db = $this->_hyDB.".";
 		
 		$idValue = $hierarchyId->getIdString();
@@ -470,7 +470,7 @@ class HarmoniHierarchyManager
 
 		$idValue = $id->getIdString();
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 
 		// find the hierarchy id for this node
 		$db = $this->_hyDB.".";

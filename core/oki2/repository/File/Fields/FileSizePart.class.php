@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePart.class.php,v 1.4 2005/03/30 18:46:32 adamfranco Exp $
+ * @version $Id: FileSizePart.class.php,v 1.5 2005/04/04 18:23:58 adamfranco Exp $
  */
 class FileSizePart 
 	extends Part
@@ -169,7 +169,7 @@ class FileSizePart
 	function getValue() {
 		// If we don't have the name, load it from the database.
 		if ($this->_size === NULL) {
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			
 			// Get the name from the database,
 			$query =& new SelectQuery;

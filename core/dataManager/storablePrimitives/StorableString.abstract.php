@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableString.abstract.php,v 1.4 2005/04/04 17:39:22 adamfranco Exp $
+ * @version $Id: StorableString.abstract.php,v 1.5 2005/04/04 18:23:26 adamfranco Exp $
  */
 class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 	
@@ -33,7 +33,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 		
 		$query->addRowOfValues(array($newID->getIdString(), "'".addslashes($this->toString())."'"));
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, $dbID);
 		if (!$result || $result->getNumberOfRows() != 1) {
 			throwError( new UnknownDBError("StorableString") );
@@ -61,7 +61,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 		
 		$query->setValues(array("'".addslashes($this->toString())."'"));
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, $dbID);
 		
 		if (!$result) {
@@ -106,7 +106,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 		$query->setTable($table);
 		$query->setWhere("id=".$dataID);
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$res =& $dbHandler->query($query, $dbID);
 		
 		if (!$res) throwError( new UnknownDBError("StorablePrimitive"));

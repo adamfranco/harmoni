@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.16 2005/04/04 18:01:37 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.17 2005/04/04 18:23:25 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
@@ -65,7 +65,7 @@ class SchemaManager {
 		$query->addColumn("description","","dm_schema");
 		$query->addColumn("revision","","dm_schema");
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 		if (!$result) throwError(new UnknownDBError("DataManager"));
 		
@@ -133,7 +133,7 @@ class SchemaManager {
 			
 //			print "<PRE>".MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
 			
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			$res = $dbHandler->query($query, DATAMANAGER_DBID);
 			
 			$rows = array();
@@ -246,7 +246,7 @@ class SchemaManager {
 			$revision
 		));
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 		if (!$result || $result->getNumberOfRows() != 1) {
 			throwError( new UnknownDBError("DataManager") );
@@ -509,7 +509,7 @@ class SchemaManager {
 			$query->setColumns(array("revision"));
 			$query->setValues(array($new->getRevision()));
 			
-			$dbHandler=& Services::getService("DBHandler");
+			$dbHandler=& Services::getService("DatabaseManager");
 			$dbHandler->query($query,DATAMANAGER_DBID);
 		}
 		

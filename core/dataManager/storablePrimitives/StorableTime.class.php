@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableTime.class.php,v 1.7 2005/04/04 17:39:22 adamfranco Exp $
+ * @version $Id: StorableTime.class.php,v 1.8 2005/04/04 18:23:26 adamfranco Exp $
  */
 class StorableTime extends Time /* implements StorablePrimitive */ {
 	
@@ -58,7 +58,7 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 		$query =& new InsertQuery();
 		$query->setTable($this->_table);
 		$query->setColumns(array("id","data"));
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		$query->addRowOfValues(array($newID->getIdString(), $this->toTimestamp()));
 		
@@ -89,7 +89,7 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 		
 		$query->setValues(array($this->toTimestamp()));
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, $dbID);
 		
 		if (!$result) {
@@ -143,7 +143,7 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 		$query->setTable($table);
 		$query->setWhere("id=".$dataID);
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$res =& $dbHandler->query($query, $dbID);
 		
 		if (!$res) throwError( new UnknownDBError("StorablePrimitive"));

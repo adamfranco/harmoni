@@ -17,7 +17,7 @@ require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.12 2005/04/04 17:39:23 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.13 2005/04/04 18:23:26 adamfranco Exp $
  */
 class HarmoniAgent 
 	extends Agent
@@ -298,7 +298,7 @@ class HarmoniAgent
 	 * @return boolean <code>tru</code> if it exists; <code>false</code> otherwise.
 	 **/
 	function exist(& $agent) {
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$query =& new SelectQuery();
 		
 		// get the id

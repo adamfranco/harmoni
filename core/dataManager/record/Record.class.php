@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.20 2005/03/29 19:44:13 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.21 2005/04/04 18:23:23 adamfranco Exp $
 */
 class Record {
 	
@@ -273,7 +273,7 @@ class Record {
 		
 		// let's check if we have our creation date set yet.
 		if (!$this->_dateFromDB) {
-			$dbHandler=& Services::getService("DBHandler");
+			$dbHandler=& Services::getService("DatabaseManager");
 			$this->_creationDate =& $dbHandler->fromDBDate($row["record_created"], DATAMANAGER_DBID);
 			$this->_dateFromDB = true;
 		}
@@ -411,7 +411,7 @@ class Record {
 		}
 		
 		// Get the DBHandler
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		if ($this->_myID) {
 			// we're already in the database

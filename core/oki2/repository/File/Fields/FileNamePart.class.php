@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileNamePart.class.php,v 1.5 2005/03/30 18:46:32 adamfranco Exp $
+ * @version $Id: FileNamePart.class.php,v 1.6 2005/04/04 18:23:57 adamfranco Exp $
  */
 class FileNamePart extends Part
 //	extends java.io.Serializable
@@ -169,7 +169,7 @@ class FileNamePart extends Part
 	function getValue() {
 		// If we don't have the name, load it from the database.
 		if ($this->_name === NULL) {
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			
 			// Get the name from the database,
 			$query =& new SelectQuery;
@@ -217,7 +217,7 @@ class FileNamePart extends Part
 		$this->_name = $value;
 		
 	// then write it to the database.
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 	
 		// Check to see if the name is in the database
 		$query =& new SelectQuery;

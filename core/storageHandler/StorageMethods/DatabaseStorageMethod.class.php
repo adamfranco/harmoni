@@ -16,7 +16,7 @@ require_once(HARMONI.'storageHandler/Storable.abstract.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DatabaseStorageMethod.class.php,v 1.5 2005/04/04 17:39:49 adamfranco Exp $
+ * @version $Id: DatabaseStorageMethod.class.php,v 1.6 2005/04/04 18:24:01 adamfranco Exp $
  */
 
 class DatabaseStorageMethod extends StorageMethodInterface {
@@ -51,7 +51,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 
         $this->_parameters = $databaseStorableDataContainer;
 
-		$this->_dbHandler =& Services::getService("DBHandler");
+		$this->_dbHandler =& Services::getService("DatabaseManager");
 
 		if(!$this->_dbHandler->isConnected($this->_parameters->get("dbIndex")))
             return $this->_dbHandler->pConnect($this->_parameters->get("dbIndex"));
@@ -72,7 +72,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
         $extendsRule =& ExtendsValidatorRule::getRule("AbstractStorable");
 		ArgumentValidator::validate($storable, $extendsRule, true);
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 
 		// create a new queue of queries to execuete
 		$queryQueue =& new Queue();

@@ -8,7 +8,7 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseStorageMethodTestCase.class.php,v 1.4 2005/04/04 17:39:50 adamfranco Exp $
+ * @version $Id: DatabaseStorageMethodTestCase.class.php,v 1.5 2005/04/04 18:24:12 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -39,7 +39,7 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
 		 *    First test Description.
 		 */ 
 		function test_exists_store() {
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 
 			$dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");
 			$databaseId = $dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");
@@ -72,7 +72,7 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
 		}
 
 		function test_getSize() {
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 
 			$dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test33", "test3", "test3");
 			$databaseId = $dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");
@@ -92,7 +92,7 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
 		}
 
 		function test_delete() {
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 
 			$dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test33", "test3", "test3");
 			$databaseId = $dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");
@@ -112,7 +112,7 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
 		}
 
 		function test_listInPath_getcont() {
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 
 			$dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test33", "test3", "test3");
 			$databaseId = $dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");

@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/Set.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Set.class.php,v 1.7 2005/03/29 19:44:30 adamfranco Exp $
+ * @version $Id: Set.class.php,v 1.8 2005/04/04 18:23:59 adamfranco Exp $
  * @author Adam Franco
  */
 class Set 
@@ -69,7 +69,7 @@ class Set
 		$query->addTable("sets");
 		$query->addWhere("sets.id = '".addslashes($this->_setId->getIdString())."'");
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, $this->_dbIndex);
 		
 		while ($result->hasMoreRows()) {
@@ -142,7 +142,7 @@ class Set
 		$query->setColumns($columns);
 		$query->setValues($values);
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$dbHandler->query($query, $this->_dbIndex);
 		
 		// Add the item to our internal list
@@ -163,7 +163,7 @@ class Set
 		$query->addWhere("sets.id='".addslashes($this->_setId->getIdString())."'");
 		$query->addWhere("sets.item_id='".addslashes($id->getIdString())."'");
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$dbHandler->query($query, $this->_dbIndex);
 		
 		// Remove the item from our internal list

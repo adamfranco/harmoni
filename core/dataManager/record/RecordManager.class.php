@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.18 2005/04/04 18:01:35 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.19 2005/04/04 18:23:23 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -140,7 +140,7 @@ class RecordManager {
 		$query->addColumn("id");
 		$query->addWhere("fk_record=".$id);
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$result = $dbHandler->query($query,DATAMANAGER_DBID);
 		
 		$groupIds = array();
@@ -179,7 +179,7 @@ class RecordManager {
 			$query->addColumn("active","","dm_record");
 			$query->setWhere(implode(" OR ",$wheres));
 			
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			$result = $dbHandler->query($query,DATAMANAGER_DBID);
 
 			while ($result->hasMoreRows()) {
@@ -297,7 +297,7 @@ class RecordManager {
 				$query->addWhere('(' . implode(" AND ", $temp) . ')');
 			}
 			
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			
 //			print "<PRE>" . MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
 			
@@ -374,7 +374,7 @@ class RecordManager {
 		
 //		print "<PRE>". MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
 		
@@ -450,7 +450,7 @@ class RecordManager {
 		$query->setTable("dm_record_set");
 		$query->addWhere("id = '".$id."'");
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 		
 		$this->_recordSetCache[$id] = NULL;
@@ -546,7 +546,7 @@ class RecordManager {
 						"dm_schema.keyword='".addslashes($type->getKeyword())."'".
 						($activeOnly?" AND dm_record.active=1":""));
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 		

@@ -12,7 +12,7 @@ require_once(HARMONI.'storageHandler/Storables/DatabaseStorableDataContainer.cla
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DatabaseStorable.class.php,v 1.4 2005/04/04 17:39:47 adamfranco Exp $
+ * @version $Id: DatabaseStorable.class.php,v 1.5 2005/04/04 18:24:00 adamfranco Exp $
  */
 
 class DatabaseStorable extends AbstractStorable {
@@ -46,7 +46,7 @@ class DatabaseStorable extends AbstractStorable {
      * @access public
      */
     function getData() {
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		$query =& new SelectQuery();
 
@@ -74,7 +74,7 @@ class DatabaseStorable extends AbstractStorable {
      * @access public
      */
     function getSize() { 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		$query =& new SelectQuery();
 

@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.14 2005/04/04 17:39:37 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.15 2005/04/04 18:23:32 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -108,7 +108,7 @@ class AuthorizationCache {
 			$authorization =& new HarmoniAuthorization($idValue, $agentId, $functionId, $qualifierId,true, $this);
 		
 		// now insert into database
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$dbt = $this->_authzDB.".az_authorization";
 
 		$query =& new InsertQuery();
@@ -177,7 +177,7 @@ class AuthorizationCache {
 										 $this->_dbIndex, $this->_authzDB);
 		
 		// now insert into database
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$db = $this->_authzDB.".";
 		$dbt = $this->_authzDB.".az_function";
 		$idValue = $functionId->getIdString();
@@ -330,7 +330,7 @@ class AuthorizationCache {
 	 */
 	function &getFunctionTypes() {
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		$db = $this->_authzDB;
 		$dbt = $db.".az_function";
@@ -376,7 +376,7 @@ class AuthorizationCache {
 		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
 		// ** end of parameter validation
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		$db = $this->_authzDB;
 		$dbt = $db.".az_function";
@@ -448,7 +448,7 @@ class AuthorizationCache {
 		if (isset($this->_functions[$idValue]))
 			return $this->_functions[$idValue];
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		$db = $this->_authzDB;
 		$dbt = $db.".az_function";
@@ -614,7 +614,7 @@ class AuthorizationCache {
 		$idValue = $authorization->_id;
 		
 		// now remove from database
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$dbt = $this->_authzDB.".az_authorization";
 
 		$query =& new DeleteQuery();
@@ -675,7 +675,7 @@ class AuthorizationCache {
 		$idValue = $functionId->getIdString();
 		
 		// now remove from database
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$dbt = $this->_authzDB.".az_function";
 
 		$query =& new DeleteQuery();
@@ -764,7 +764,7 @@ class AuthorizationCache {
 //		print_r($qualifiers);
 		
 		// setup the query
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$db = $this->_authzDB.".";
 		$query =& new SelectQuery();
 		$query->addColumn("authorization_id", "id", $db."az_authorization");

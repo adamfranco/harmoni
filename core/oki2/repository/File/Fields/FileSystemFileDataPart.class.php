@@ -17,7 +17,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSystemFileDataPart.class.php,v 1.2 2005/03/30 18:46:32 adamfranco Exp $
+ * @version $Id: FileSystemFileDataPart.class.php,v 1.3 2005/04/04 18:23:59 adamfranco Exp $
  */
  
 class FileSystemFileDataPart 
@@ -95,7 +95,7 @@ class FileSystemFileDataPart
 		
 		
 		// Check to see if the size is in the database
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		$query =& new SelectQuery;
 		$query->addTable("dr_file");

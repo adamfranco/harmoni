@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.6 2005/03/29 19:44:22 adamfranco Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.7 2005/04/04 18:23:30 adamfranco Exp $
  */
 
 class AncestorGroupSearch
@@ -75,7 +75,7 @@ class AncestorGroupSearch
 		// add these to our final list and use these to start our join clause
 		$groupsToCheck = array();
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		$query =& new SelectQuery();
 		$query->addColumn("fk_groups", "group_id");

@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPart.class.php,v 1.6 2005/03/30 18:46:31 adamfranco Exp $
+ * @version $Id: FileDataPart.class.php,v 1.7 2005/04/04 18:23:57 adamfranco Exp $
  */
  
 class FileDataPart 
@@ -170,7 +170,7 @@ class FileDataPart
 	function getValue() {
 		// If we don't have the data, load it from the database.
 		if ($this->_data === NULL) {
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			
 			// Get the data from the database,
 			$query =& new SelectQuery;
@@ -219,7 +219,7 @@ class FileDataPart
 		
 	// Base64 encode the data to preserve it,
 	// then write it to the database.
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 	
 		// Check to see if the data is in the database
 		$query =& new SelectQuery;

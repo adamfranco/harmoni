@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/Tag.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.7 2005/04/04 18:01:36 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.8 2005/04/04 18:23:23 adamfranco Exp $
 */
 class TagManager {
 	
@@ -86,7 +86,7 @@ class TagManager {
 		$theID = $record->getID();
 		if (!$theID) return;
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		// first get a list of tags for this dataset
 		$query =& new SelectQuery;
 		$query->addTable("dm_tag");
@@ -125,7 +125,7 @@ class TagManager {
 		$id = $tag->getID();
 		if (!$id) return;
 		
-		$dbHandler=& Services::getService("DBHandler");
+		$dbHandler=& Services::getService("DatabaseManager");
 		
 		// first get rid of all our mappings
 		$query =& new DeleteQuery;
@@ -169,7 +169,7 @@ class TagManager {
 			$query->setTable("dm_tag");
 			$query->setWhere(implode(" OR ",$pruneIDs));
 			
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			$dbHandler->query($query, DATAMANAGER_DBID);
 		}
 	}
@@ -190,7 +190,7 @@ class TagManager {
 		
 		$query->setWhere("dm_tag.fk_record=$id");
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 		
@@ -234,7 +234,7 @@ class TagManager {
 		
 		$query->setWhere("dm_tag.fk_record=$id");
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
 		
 		if (!$result) throwError( new UnknownDBError("TagManager"));
@@ -280,7 +280,7 @@ class TagManager {
 		$query->addColumn("id");
 		$query->setWhere("fk_record=$id");
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$res =& $dbHandler->query($query, DATAMANAGER_DBID);
 		
 		$ids = array();

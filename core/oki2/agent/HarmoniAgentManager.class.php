@@ -46,7 +46,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.19 2005/04/04 18:01:40 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.20 2005/04/04 18:23:27 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -246,7 +246,7 @@ class HarmoniAgentManager
 		
 		// now insert the agent in the database
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$db = $this->_sharedDB.".";
 
 		// 1. Insert the type
@@ -325,7 +325,7 @@ class HarmoniAgentManager
 		// get the id
 		$idValue = $id->getIdString();
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 
 		// 1. Get the id of the type associated with the agent
 		$query =& new SelectQuery();
@@ -630,7 +630,7 @@ class HarmoniAgentManager
 	 * @access public
 	 */
 	function &getAgentTypes () { 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$query =& new SelectQuery();
 		
 		$db = $this->_sharedDB.".";
@@ -737,7 +737,7 @@ class HarmoniAgentManager
 		
 		// now insert the group in the database
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$db = $this->_sharedDB.".";
 
 		// 1. Insert the type
@@ -854,7 +854,7 @@ class HarmoniAgentManager
 		// get the id
 		$idValue = $id->getIdString();
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 
 		// 1. Get the id of the type associated with the agent
 		$query =& new SelectQuery();
@@ -1157,7 +1157,7 @@ class HarmoniAgentManager
 	 * @access public
 	 */
 	function &getGroupTypes () { 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$query =& new SelectQuery();
 		
 		$db = $this->_sharedDB.".";
@@ -1329,7 +1329,7 @@ class HarmoniAgentManager
 		$idManager =& Services::getService("Id");
 		
 		$foundIds = array();
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$query =& new SelectQuery();
 		
 		$db = $this->_sharedDB.".";
@@ -1484,7 +1484,7 @@ class HarmoniAgentManager
 	 **/
 	function _loadGroups($where = null) {
 		$idManager =& Services::getService("Id");
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$query =& new SelectQuery();
 		
 		$db = $this->_sharedDB.".";
@@ -1766,7 +1766,7 @@ class HarmoniAgentManager
 	 * @since 11/18/04
 	 */
 	function _getTypeId ( & $type ) {
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		
 		// Check to see if the type already exists in the DB
 		$query =& new SelectQuery;
@@ -1813,7 +1813,7 @@ class HarmoniAgentManager
 	 * @since 11/18/04
 	 */
 	function _storeProperties (& $properties ) {
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		
 		// Store the Properties Type
 		$type =& $properties->getType();

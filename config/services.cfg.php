@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.47 2005/04/04 17:37:15 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.48 2005/04/04 18:21:16 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -176,7 +176,8 @@ Services::startService("UserError");
  * load DBHandler
  */
 require_once(HARMONI."DBHandler/DBHandler.class.php");
-Services::registerService("DBHandler","DBHandler");
+Services::registerService("DatabaseManager","DBHandler");
+Services::createServiceAlias("DatabaseManager", "DBHandler");
 
 /**
  * load debug handler

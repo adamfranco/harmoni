@@ -5,7 +5,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.6 2005/04/04 17:39:37 adamfranco Exp $
+ * @version $Id: SharedManagerTestCase.class.php,v 1.7 2005/04/04 18:23:31 adamfranco Exp $
  * @package harmoni.tests.metadata
  * @copyright 2003
  **/
@@ -22,7 +22,7 @@ class SharedManagerTestCase extends UnitTestCase {
 		*/
 	   function setUp() {
 		// Set up the database connection
-		$dbHandler=&Services::getService("DBHandler");
+		$dbHandler=&Services::getService("DatabaseManager");
 		$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
 		$dbHandler->pConnect($dbIndex);
 		unset($dbHandler); // done with that for now

@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.14 2005/04/04 17:39:36 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.15 2005/04/04 18:23:29 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
@@ -136,7 +136,7 @@ class HarmoniGroup
 		$this->_description = $description;
 
 		// update the database
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$db = $this->_sharedDB.".";
 		
 		$query =& new UpdateQuery();
@@ -184,7 +184,7 @@ class HarmoniGroup
 		// ** end of parameter validation
 
 		// update the database
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$db = $this->_sharedDB.".";
 
 		// we have to figure out whether the argument is an agent or a group
@@ -324,7 +324,7 @@ class HarmoniGroup
 		ArgumentValidator::validate($memberOrGroup, $extend, true);
 		// ** end of parameter validation
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$db = $this->_sharedDB.".";
 
 		// we have to figure out whether the argument is an agent or a group
@@ -524,7 +524,7 @@ class HarmoniGroup
 	 * @return boolean <code>tru</code> if it exists; <code>false</code> otherwise.
 	 **/
 	function exist(& $group, $agentOrGroup) {
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$query =& new SelectQuery();
 		
 		// get the id

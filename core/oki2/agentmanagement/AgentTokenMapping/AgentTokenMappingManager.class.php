@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.4 2005/03/29 19:44:23 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.5 2005/04/04 18:23:31 adamfranco Exp $
  */ 
  
  require_once(dirname(__FILE__)."/AgentTokenMapping.class.php");
@@ -36,7 +36,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.4 2005/03/29 19:44:23 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.5 2005/04/04 18:23:31 adamfranco Exp $
  */
 class AgentTokenMappingManager
 	extends OsidManager
@@ -150,7 +150,7 @@ class AgentTokenMappingManager
 				.$authenticationType->getKeyword()."')",
 				"AgentTokenMappingManager", true));
 		
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		$dbc->beginTransaction($this->_dbId);
 		
 		$typeKey = $this->_getTypeKey($authenticationType);
@@ -190,7 +190,7 @@ class AgentTokenMappingManager
 		
 		ArgumentValidator::validate($mapping, ExtendsValidatorRule::getRule("AgentTokenMapping"));
 		
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		$dbc->beginTransaction($this->_dbId);
 		
 		$agentId =& $mapping->getAgentId();
@@ -244,7 +244,7 @@ class AgentTokenMappingManager
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		
 		$query =& $this->_createSelectQuery();
 		
@@ -289,7 +289,7 @@ class AgentTokenMappingManager
 		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
 		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		
 		$query =& $this->_createSelectQuery();
 		
@@ -326,7 +326,7 @@ class AgentTokenMappingManager
 		
 		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
 		
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		
 		$query =& $this->_createSelectQuery();
 		
@@ -358,7 +358,7 @@ class AgentTokenMappingManager
 		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
 		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		
 		$query =& new SelectQuery;
 		$query->addTable($this->_mappingTable);
@@ -409,7 +409,7 @@ class AgentTokenMappingManager
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		
 		$query =& new SelectQuery;
 		$query->addTable($this->_mappingTable);
@@ -464,7 +464,7 @@ class AgentTokenMappingManager
 	 * @since 3/9/05
 	 */
 	function _getTypeKey ( &$type ) {
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		
 		// Check if the type exists and return its key if found.
 		$query =& new SelectQuery;

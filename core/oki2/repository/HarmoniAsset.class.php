@@ -16,7 +16,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.14 2005/03/29 19:44:27 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.15 2005/04/04 18:23:51 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -634,7 +634,7 @@ class HarmoniAsset
 			$record =& new $recordClass($recordStructure, $newId, $this->_configuration);
 			
 			// store a relation to the record
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			$query =& new InsertQuery;
 			$query->setTable("dr_asset_record");
 			$query->setColumns(array("FK_asset", "FK_record", "structure_id"));
@@ -740,7 +740,7 @@ class HarmoniAsset
 		{
 			// Create an Id for the record;
 			$idManager =& Services::getService("Id");
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 	
 			// get the record ids that we want to inherit
 			$query =& new SelectQuery();
@@ -752,7 +752,7 @@ class HarmoniAsset
 			$result =& $dbHandler->query($query, $this->_dbIndex);
 			
 			// store a relation to the record
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			$query =& new InsertQuery;
 			$query->setTable("dr_asset_record");
 			$query->setColumns(array("FK_asset", "FK_record", "structure_id"));
@@ -913,7 +913,7 @@ class HarmoniAsset
 			}
 			
 			// Delete the relation for the record.
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			$query =& new DeleteQuery;
 			$query->setTable("dr_asset_record");
 			$myId =& $this->getId();
@@ -983,7 +983,7 @@ class HarmoniAsset
 			// Check for the record in our non-datamanager records;
 		
 			$idManager =& Services::getService("Id");
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			$myId =& $this->getId();
 			
 			// get the record ids that we want to inherit
@@ -1086,7 +1086,7 @@ class HarmoniAsset
 		}
 		
 		// get the record ids that we want to inherit
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$myId =& $this->getId();
 		
 		$query =& new SelectQuery();
@@ -1166,7 +1166,7 @@ class HarmoniAsset
 		if (in_array($recordStructureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
 		{
 			// get the record ids that we want to inherit
-			$dbHandler =& Services::getService("DBHandler");
+			$dbHandler =& Services::getService("DatabaseManager");
 			$myId =& $this->getId();
 			
 			$query =& new SelectQuery();
@@ -1459,7 +1459,7 @@ class HarmoniAsset
 	 * @since 8/10/04
 	 */
 	function _storeDates () {
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		$id =& $this->_node->getId();
 		
 		// If we have stored dates for this asset set them
@@ -1492,7 +1492,7 @@ class HarmoniAsset
 	 * @since 8/10/04
 	 */
 	function _loadDates () {
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		// Get the content DataSet.
 		$id =& $this->_node->getId();
 		

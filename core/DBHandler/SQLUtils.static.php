@@ -5,8 +5,8 @@
  * SQL strings and files.
  * 
  * @package harmoni.dbc
- * @version $Id: SQLUtils.static.php,v 1.4 2005/03/31 23:10:00 adamfranco Exp $
- * @since $Date: 2005/03/31 23:10:00 $
+ * @version $Id: SQLUtils.static.php,v 1.5 2005/04/04 18:23:22 adamfranco Exp $
+ * @since $Date: 2005/04/04 18:23:22 $
  * @copyright 2004 Middlebury College
  * @static
  */
@@ -69,7 +69,7 @@ class SQLUtils {
 		// break up the query string.
 		$queryStrings = explode(";", $queryString);
 	
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler =& Services::getService("DatabaseManager");
 		
 		// Run each query
 		foreach ($queryStrings as $string) {

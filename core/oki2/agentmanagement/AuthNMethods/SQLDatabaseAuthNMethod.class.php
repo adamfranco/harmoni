@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.6 2005/03/29 19:44:23 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.7 2005/04/04 18:23:32 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.6 2005/03/29 19:44:23 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.7 2005/04/04 18:23:32 adamfranco Exp $
  */
 class SQLDatabaseAuthNMethod
 	extends AuthNMethod
@@ -107,7 +107,7 @@ class SQLDatabaseAuthNMethod
 	function authenticateTokens ( &$authNTokens ) {
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		$dbId = $this->_configuration->getProperty('database_id');
 		$authenticationTable = $this->_configuration->getProperty('authentication_table');
 		$usernameField = $this->_configuration->getProperty('username_field');
@@ -145,7 +145,7 @@ class SQLDatabaseAuthNMethod
 	function tokensExist ( &$authNTokens ) {
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		$dbId = $this->_configuration->getProperty('database_id');
 		$authenticationTable = $this->_configuration->getProperty('authentication_table');
 		$usernameField = $this->_configuration->getProperty('username_field');
@@ -183,7 +183,7 @@ class SQLDatabaseAuthNMethod
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		ArgumentValidator::validate($properties, ExtendsValidatorRule::getRule("Properties"));
 		
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		$dbId = $this->_configuration->getProperty('database_id');
 		$authenticationTable = $this->_configuration->getProperty('authentication_table');
 		$usernameField = $this->_configuration->getProperty('username_field');
@@ -241,7 +241,7 @@ class SQLDatabaseAuthNMethod
 	 * @since 3/3/05
 	 */
 	function &getTokensBySearch ( $searchString ) {
-		$dbc =& Services::getService("DBHandler");
+		$dbc =& Services::getService("DatabaseManager");
 		$dbId = $this->_configuration->getProperty('database_id');
 		$authenticationTable = $this->_configuration->getProperty('authentication_table');
 		$usernameField = $this->_configuration->getProperty('username_field');
@@ -303,7 +303,7 @@ class SQLDatabaseAuthNMethod
 							"'".$authNTokens->getUsername()."' already exists.",
 									 "SQLDatabaseAuthNMethod", true));
 		} else {
-			$dbc =& Services::getService("DBHandler");
+			$dbc =& Services::getService("DatabaseManager");
 			$dbId = $this->_configuration->getProperty('database_id');
 			$authenticationTable = $this->_configuration->getProperty('authentication_table');
 			$usernameField = $this->_configuration->getProperty('username_field');
@@ -353,7 +353,7 @@ class SQLDatabaseAuthNMethod
 							."'".$authNTokens->getUsername()."' does not exist.",
 									 "SQLDatabaseAuthNMethod", true));
 		} else {
-			$dbc =& Services::getService("DBHandler");
+			$dbc =& Services::getService("DatabaseManager");
 			$dbId = $this->_configuration->getProperty('database_id');
 			$authenticationTable = $this->_configuration->getProperty('authentication_table');
 			$usernameField = $this->_configuration->getProperty('username_field');
@@ -399,7 +399,7 @@ class SQLDatabaseAuthNMethod
 							."'".$oldAuthNTokens->getUsername()."' does not exist.",
 									 "SQLDatabaseAuthNMethod", true));
 		} else {
-			$dbc =& Services::getService("DBHandler");
+			$dbc =& Services::getService("DatabaseManager");
 			$dbId = $this->_configuration->getProperty('database_id');
 			$authenticationTable = $this->_configuration->getProperty('authentication_table');
 			$usernameField = $this->_configuration->getProperty('username_field');
@@ -453,7 +453,7 @@ class SQLDatabaseAuthNMethod
 							."'".$authNTokens->getUsername()."' does not exist.",
 									 "SQLDatabaseAuthNMethod", true));
 		} else {
-			$dbc =& Services::getService("DBHandler");
+			$dbc =& Services::getService("DatabaseManager");
 			$dbId = $this->_configuration->getProperty('database_id');
 			$authenticationTable = $this->_configuration->getProperty('authentication_table');
 			$usernameField = $this->_configuration->getProperty('username_field');
