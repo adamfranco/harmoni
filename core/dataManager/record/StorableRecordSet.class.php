@@ -5,14 +5,13 @@ require_once(HARMONI."dataManager/record/RecordSet.class.php");
 /**
  * The StorableRecordSet allows you to store a {@link RecordSet} in the database.
  * @package harmoni.datamanager
- * @version $Id: StorableRecordSet.class.php,v 1.3 2004/08/27 17:44:45 adamfranco Exp $
+ * @version $Id: StorableRecordSet.class.php,v 1.4 2004/12/18 05:17:19 gabeschine Exp $
  * @copyright 2004, Middlebury College
  */
 class StorableRecordSet extends RecordSet {
 	
 	var $_fetchedIDs;
 	var $_storedRecordIDs;
-	var $_records;
 	var $_fetchMode;
 	var $_myID;
 	
@@ -51,9 +50,9 @@ class StorableRecordSet extends RecordSet {
 	 	if (!is_array($this->_records)) $this->_records = array();
 	 	foreach (array_keys($records) as $key) {
 	 		$id = $records[$key]->getID();
-	 		if (in_array($id, $this->_fetchedIDs)) continue;
-	 		$this->_records[] =& $records[$key];
-	 		$this->_fetchedIDs[] = $id;
+//	 		if (in_array($id, $this->_fetchedIDs)) continue;
+	 		if ($this->getRecordByID($id)==null) $this->_records[] =& $records[$key];
+	 		if (!in_array($id, $this->_fetchedIDs)) $this->_fetchedIDs[] = $id;
 	 	}
 
 	 	$this->_fetchMode = $mode;
