@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.1 2003/07/16 02:55:58 dobomode Exp $
+ * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.2 2003/07/16 19:51:51 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -60,13 +60,39 @@
         function test_One_Insert() {
 			// get the query result
 			$rid = $this->db->_query("INSERT INTO test1 (value) VALUES('depeche')");
-			$queryResult =& new PostGreInsertQueryResult($rid);
+			$lastIdQuery = "SELECT CURRVAL('test1_id_seq')";
+			$lastIdResourceId = $this->db->_query($lastIdQuery);
+			$arr = pg_fetch_row($lastIdResourceId, 0);
+			$lastId = $arr[0];
+
+			$queryResult =& new PostGreInsertQueryResult($rid, $lastId);
 
 			$this->assertNotNull($queryResult->getLastAutoIncrementValue());
 			$this->assertEqual($queryResult->getNumberOfRows(), 1);
-			
-			echo $queryResult->getLastAutoIncrementValue()."<br>*********";
 		}
+
+		
+		/**
+		 * Tests many inserts.
+		 */ 
+        function test_Many_Inserts() {
+			// get the query result
+			$sql = "INSERT INTO test1 (value) VALUES('depeche1');\n";
+			$sql .= "INSERT INTO test1 (value) VALUES('depeche2');\n";
+			$sql .= "INSERT INTO test1 (value) VALUES('depeche3')";
+
+			$rid = $this->db->_query($sql);
+			$lastIdQuery = "SELECT CURRVAL('test1_id_seq')";
+			$lastIdResourceId = $this->db->_query($lastIdQuery);
+			$arr = pg_fetch_row($lastIdResourceId, 0);
+			$lastId = $arr[0];
+
+			$queryResult =& new PostGreInsertQueryResult($rid, $lastId);
+
+			$this->assertNotNull($queryResult->getLastAutoIncrementValue());
+			$this->assertEqual($queryResult->getNumberOfRows(), 1);
+		}
+	
 		
 		
     }

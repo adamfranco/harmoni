@@ -5,7 +5,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
 /**
  * A PostGreQueryGenerator class provides the tools to build a PostGre query from a Query object.
  *
- * @version $Id: PostGre_SQLGenerator.class.php,v 1.1 2003/07/16 02:55:58 dobomode Exp $
+ * @version $Id: PostGre_SQLGenerator.class.php,v 1.2 2003/07/16 19:51:51 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -56,7 +56,7 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 		ArgumentValidator::validate($query, $queryRule, true);
 		// ** end of parameter validation
 
-		if (!$query->_table || count($query->_columns) == 0 || count($query->_values) == 0) {
+		if (!$query->_table || count($query->_values) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
 			throwError(new Error($description, "DBHandler", false));
 			return null;
@@ -69,14 +69,17 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 			$sql = "";
 			$sql .= "INSERT INTO ";
 			$sql .= $query->_table;
-			if ($query->_columns) {
+			if ($query->_columns || $query->_autoIncrementColumn) {
 				$sql .= "\n\t(";
 				
-				$sql .= implode(", ", $query->_columns);
+				$columns = $query->_columns;
+				
 				// include autoincrement column if necessary
 				if ($query->_autoIncrementColumn)
-				    $sql .= ", ".$query->_autoIncrementColumn;
+					$columns[] = $query->_autoIncrementColumn;
 					
+			    $sql .= implode(", ", $columns);
+
 				$sql .= ")";
 			}
 			
@@ -92,7 +95,7 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 			
 			// include autoincrement column if necessary
 			if ($query->_autoIncrementColumn)
-				$rowOfValues[] = $query->_sequence.".NEXTVAL";
+				$rowOfValues[] = "NEXTVAL('".$query->_sequence."')";
 				
 			$values = implode(", ", $rowOfValues);
 	

@@ -1,16 +1,16 @@
 <?php
 
 require_once(HARMONI."DBHandler/Database.interface.php");
-//require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
+require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreInsertQueryResult.class.php");
-//require_once(HARMONI."DBHandler/PostGre/PostGreUpdateQueryResult.class.php");
-//require_once(HARMONI."DBHandler/PostGre/PostGreDeleteQueryResult.class.php");
+require_once(HARMONI."DBHandler/PostGre/PostGreUpdateQueryResult.class.php");
+require_once(HARMONI."DBHandler/PostGre/PostGreDeleteQueryResult.class.php");
 require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 
 /**
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * @version $Id: PostGreDatabase.class.php,v 1.1 2003/07/16 02:55:58 dobomode Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.2 2003/07/16 19:51:51 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -211,9 +211,21 @@ class PostGreDatabase extends DatabaseInterface {
 
 		// create the appropriate QueryResult object
 		switch($query->getType()) {
-			case INSERT : 
-				$result =& new PostGreInsertQueryResult($this->_resourceId);
+			case INSERT : {
+				// we need to fetch the last inserted id
+				// this is only possible if the user has specified the sequence
+				// object with the setAutoIncrementColumn() method.
+				$lastId = null;
+				if ($query->_sequence) {
+					$lastIdQuery = "SELECT CURRVAL('".$query->_sequence."')";
+					$lastIdResourceId = $this->_query($lastIdQuery);
+					$arr = pg_fetch_row($lastIdResourceId, 0);
+					$lastId = $arr[0];
+				}
+				
+				$result =& new PostGreInsertQueryResult($this->_resourceId, $lastId);
 				break;
+			}
 			case UPDATE : 
 				$result =& new PostGreUpdateQueryResult($this->_resourceId);
 				break;
@@ -237,10 +249,13 @@ class PostGreDatabase extends DatabaseInterface {
 	 * Executes an SQL query.
 	 * Executes an SQL query.
 	 * @access private
-	 * @param string The SQL query string.
+	 * @param string The SQL query string. If it contains several SQL queries
+	 * delimited by ";" then it splits them in individual queries and runs
+	 * all of them.
 	 * @return mixed For a SELECT statement, a resource identifier, if
 	 * successful; For INSERT, DELETE, UPDATE statements, TRUE if successful;
-	 * for all: FALSE, if not successful.
+	 * for all: FALSE, if not successful. If <code>$query</code> had several
+	 * queries, this would be the result for the last one.
 	 */
 	function _query($query) {
 		// do not attempt to query, if not connected
@@ -249,15 +264,20 @@ class PostGreDatabase extends DatabaseInterface {
 			return false;
 		}
 			
-		// attempt to execute the query
-		$resourceId = pg_query($this->_linkId, $query);
+		$queries = array();
+		$queries = explode(";", $query);
 		
-		if ($resourceId === false) {
-		    $this->_failedQueries++;
-			throwError(new Error(pg_last_error($this->_linkId), "DBHandler", false));
+		foreach ($queries as $q) {
+			// attempt to execute the query
+			$resourceId = pg_query($this->_linkId, $q);
+		
+			if ($resourceId === false) {
+			    $this->_failedQueries++;
+				throwError(new Error(pg_last_error($this->_linkId), "DBHandler", false));
+			}
+			else
+			    $this->_successfulQueries++;
 		}
-		else
-		    $this->_successfulQueries++;
 		
 		return $resourceId;
 	}

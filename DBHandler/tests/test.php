@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.7 2003/07/16 02:55:58 dobomode Exp $
+ * @version $Id: test.php,v 1.8 2003/07/16 19:51:51 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -45,6 +45,7 @@
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreSelectQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreDatabaseTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreInsertQueryResultTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreSelectQueryResultTestCase.class.php');
 
     $test->addTestFile(HARMONI.'DBHandler/tests/DBHandlerTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
