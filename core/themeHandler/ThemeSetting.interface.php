@@ -8,7 +8,7 @@
  * setting.
  *
  * @package harmoni.themes
- * @version $Id: ThemeSetting.interface.php,v 1.2 2004/03/04 00:01:10 adamfranco Exp $
+ * @version $Id: ThemeSetting.interface.php,v 1.3 2004/03/04 22:59:07 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -22,6 +22,16 @@ class ThemeSettingInterface {
 	function & getId () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
+	
+	/**
+	 * Sets the ID of this ThemeSetting.
+	 * @access public
+	 * @param object Id $id The ID of this ThemeSetting.
+	 * @return void
+	 **/
+	function & setId (& $id) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
 
 	/**
 	 * Returns the DisplayName of this ThemeSetting.
@@ -33,11 +43,31 @@ class ThemeSettingInterface {
 	}
 	
 	/**
+	 * Sets the DisplayName of this ThemeSetting.
+	 * @access public
+	 * @param string $displayName The DisplayName of this ThemeSetting.
+	 * @return void
+	 **/
+	function & setDisplayName ( $displayName ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
 	 * Returns the Description of this ThemeSetting.
 	 * @access public
 	 * @return string The Description of the ThemeSetting.
 	 **/
 	function getDescription() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Sets the Description of this ThemeSetting.
+	 * @access public
+	 * @param string $description The Description of this ThemeSetting.
+	 * @return void
+	 **/
+	function & setDescription ( $description ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 
@@ -71,6 +101,16 @@ class ThemeSettingInterface {
 	}
 	
 	/**
+	 * Sets the DefaultValue of this ThemeSetting.
+	 * @access public
+	 * @param string $defaultValue The DefaultValue of this ThemeSetting.
+	 * @return void
+	 **/
+	function & setDefaultValue ( $defaultValue ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
 	 * Returns the FormType of this ThemeSetting.
 	 * @access public
 	 * @return boolean True if the ThemeSetting has a list of options. FALSE if 
@@ -83,9 +123,9 @@ class ThemeSettingInterface {
 	/**
 	 * Returns the Options of this ThemeSetting.
 	 * @access public
-	 * @return array The Options for the ThemeSetting.
+	 * @return object HarmoniIterator An iterator of the Option strings for the ThemeSetting.
 	 **/
-	function getOptions() {
+	function & getOptions() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 }

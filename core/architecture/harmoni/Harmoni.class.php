@@ -17,7 +17,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.11 2004/01/08 21:16:28 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.12 2004/03/04 22:59:07 adamfranco Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -301,9 +301,9 @@ class Harmoni {
 				// now check if we have a "startWithLayout" layout
 				if ($this->_startWithLayout) {
 					$this->_startWithLayout->setComponent($this->_startWithLayoutIndex,$result);
-					$this->theme->printPageWithLayout($this->_startWithLayout);
+					$this->theme->printPage($this->_startWithLayout);
 				} else
-					$this->theme->printPageWithLayout($result);
+					$this->theme->printPage($result);
 			} else {
 				// we got something else back... well, let's print out an error
 				// explaining what happened.

@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/ThemeWidget.interface.php");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: ThemeWidget.abstract.php,v 1.1 2004/03/04 00:01:45 adamfranco Exp $
+ * @version $Id: ThemeWidget.abstract.php,v 1.2 2004/03/04 22:59:07 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -65,12 +65,12 @@ class ThemeWidget
 // 		$this->_description = "A prominent menu item.";
 // 		
 // 		// Set up any Setting objects for this theme and add them.
-// 		$this->_textColorId =& $this->addSetting(new TextColorThemeSetting);
-// 		$this->_linkColorId =& $this->addSetting(new LinkColorThemeSetting);
-// 		$this->_backgroundColorId =& $this->addSetting(new BackgroundColorThemeSetting);
-// 		$this->_hooverBackgroundColorId =& $this->addSetting(new HooverBackgroundColorThemeSetting);
-// 		$this->_textSizeId =& $this->addSetting(new TextSizeThemeSetting);
-// 		$this->_paddingId =& $this->addSetting(new PaddingThemeSetting);
+// 		$this->_textColorId =& $this->addSetting(new TextColorSetting);
+// 		$this->_linkColorId =& $this->addSetting(new LinkColorSetting);
+// 		$this->_backgroundColorId =& $this->addSetting(new BackgroundColorSetting);
+// 		$this->_hooverBackgroundColorId =& $this->addSetting(new HooverBackgroundColorSetting);
+// 		$this->_textSizeId =& $this->addSetting(new TextSizeSetting);
+// 		$this->_paddingId =& $this->addSetting(new PaddingSetting);
  	}
 
 	/**
@@ -94,6 +94,8 @@ class ThemeWidget
 	 **/
 	function setIndex( $index ) {
 		ArgumentValidator::validate($index, new IntegerValidatorRule);
+		
+		// Update the Ids of our settings.
 		
 		$this->_index = $index;
 	}
@@ -119,17 +121,32 @@ class ThemeWidget
 	/**
 	 * Adds a Setting to those known to this Wiget.
 	 * @access public
-	 * @param object SettingInterface The Setting to add.
-	 * @return void
+	 * @param object SettingInterface $setting The Setting to add.
+	 * @param string $displayName A display name to over-ride the setting default.
+	 * @param string $description A description to over-ride the setting default.
+	 * @param string $defaultValue A default value to over-ride the setting default.
+	 * @return object Id The id (unique in this widget) of the setting.
 	 **/
-	function addSetting (& $setting) {
+	function addSetting (& $setting, $displayName = NULL, $description = NULL, $defaultValue = NULL) {
 		ArgumentValidator::validate($setting, new ExtendsValidatorRule("ThemeSettingInterface"));
 		
 		if (!is_array($this->_settings))
 			$this->_settings = array();
 		
-		$id =& $setting->getId();
+		$idString = count($this->_settings);
+		$sharedManager =& Services::getService("Shared");
+		$id =& $sharedManager->getId($idString);
+		$setting->setId($id);
+		
+		if ($displayName !== NULL)
+			$setting->setDisplayName($displayName);
+		if ($description !== NULL)
+			$setting->setDescription($description);
+		if ($defaultValue !== NULL)
+			$setting->setDefaultValue($defaultValue);
+		
 		$this->_settings[$id->getIdString()] =& $setting;
+		return $id;
 	}
 	
 	/**
@@ -191,7 +208,7 @@ class ThemeWidget
 // 		$styles .= "\n\t\t\t\tcolor: #".$textColor->getValue().";";
 // 		
 // 		$backgroundColor =& $this->getSetting($this->_backgroundColorId);
-// 		$styles .= "\n\t\t\t\tcolor: #".$backgroundColor->getValue().";";
+// 		$styles .= "\n\t\t\t\tbackground-color: #".$backgroundColor->getValue().";";
 // 		
 // 		$textSize =& $this->getSetting($this->_textSizeId);
 // 		$styles .= "\n\t\t\t\tfont-size: ".$textSize->getValue().";";
@@ -221,7 +238,7 @@ class ThemeWidget
 	 * @access public
 	 * @return void
 	 **/
-	function print (& $layoutOrContent) {
+	function output (& $layoutOrContent) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 		
 //		// Sample implimentation (for a "Menu" Widget)

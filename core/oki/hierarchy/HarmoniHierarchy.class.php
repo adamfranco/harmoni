@@ -25,7 +25,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.23 $ / $Date: 2004/01/23 16:40:09 $
+ * @version $Revision: 1.24 $ / $Date: 2004/03/04 22:59:07 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -67,7 +67,7 @@ class HarmoniHierarchy
 		
 		// make sure that the Store was created with our same id
 		if ($hierarchyStore->getId()) 
-			throwError(new Error("Hierarchy Store already in use.", 1));
+			throwError(new Error("Hierarchy Store already in use.","Hierarchy", TRUE));
 		
 		// set the private variables
 		$this->_id =& $id;

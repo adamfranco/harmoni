@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/Theme.interface.php");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: Theme.abstract.php,v 1.3 2004/03/04 00:01:10 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.4 2004/03/04 22:59:07 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -121,15 +121,17 @@ class Theme
  		die ("Can not instantiate abstract class <b> ".__CLASS__."</b>. Extend with a non-abstract child class and instantiate that instead."); 
  		
 //	 	// Sample Constructor:
-//
+// 
 // 		// Set the Display Name:
-// 		$this->_displayName = "Pretty Bubble Theme";
+// 		$this->_displayName = "Simple Shadow Theme";
 // 		
 // 		// Set the Descripiton:
-// 		$this->_description = "A pretty theme with bubbles.";
+// 		$this->_description = "A pretty theme with drop shadows.";
 // 	
 // 		// Set up any Setting objects for this theme and add them.
-// 		$this->addSetting(new PrettyBubble_BubbleSizeSetting);
+// 		$this->_bodyColorId =& $this->addSetting(new ColorSetting, "Body Color", "The color of the page body.", "aaaaaa");
+// 		$this->_backgroundColorId =& $this->addSetting(new ColorSetting, "Background Color", "The color of the main block background.", "ffffff");
+// 		$this->_borderColorId =& $this->addSetting(new BorderColorSetting);
 // 		
 // 		// Set up our widgets:
 // 		// In this example there are two types of menus and one type of everything else.
@@ -142,7 +144,7 @@ class Theme
 // 		$this->addHeading(new PrettyBubbleHeading1);
 // 		$this->addFooter(new PrettyBubbleFooter1);
 // 		$this->addTextBlock(new PrettyBubbleTextBlock1);
-// 	}
+	}
 
 	/**
 	 * Returns the DisplayName of this theme.
@@ -223,17 +225,32 @@ class Theme
 	/**
 	 * Adds a Setting to those known to this Theme.
 	 * @access public
-	 * @param object SettingInterface The Setting to add.
-	 * @return void
+	 * @param object SettingInterface $setting The Setting to add.
+	 * @param string $displayName A display name to over-ride the setting default.
+	 * @param string $description A description to over-ride the setting default.
+	 * @param string $defaultValue A default value to over-ride the setting default.
+	 * @return The id (unique in this theme object) of the setting.
 	 **/
-	function addSetting (& $setting) {
+	function addSetting (& $setting, $displayName = NULL, $description = NULL, $defaultValue = NULL) {
 		ArgumentValidator::validate($setting, new ExtendsValidatorRule("ThemeSettingInterface"));
 		
 		if (!is_array($this->_settings))
 			$this->_settings = array();
 		
-		$id =& $setting->getId();
+		$idString = count($this->_settings);
+		$sharedManager =& Services::getService("Shared");
+		$id =& $sharedManager->getId($idString);
+		$setting->setId($id);
+		
+		if ($displayName !== NULL)
+			$setting->setDisplayName($displayName);
+		if ($description !== NULL)
+			$setting->setDescription($description);
+		if ($defaultValue !== NULL)
+			$setting->setDefaultValue($defaultValue);
+		
 		$this->_settings[$id->getIdString()] =& $setting;
+		return $id;
 	}
 	
 	/**
@@ -278,6 +295,50 @@ class Theme
 		else
 			return FALSE;
 	}
+
+	/**
+	 * Returns a SettingsIterator object with this Theme's ThemeSetting objects.
+	 * @access public
+	 * @return string A set of CSS styles corresponding to this theme's settings. These
+	 *		are to be inserted into the page's <head><style> section.
+	 *		Note: these styles do not include those of the theme's child widgets.
+	 *		Those must be accessed otherwise.
+	 **/
+	function getStyles () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		
+//		// Sample implimentation (for a "MenuItem" Widget)
+// 
+// 		$styles = "\n\n\t\t\t.mainblock {";
+// 		
+// 		$backgroundColor =& $this->getSetting($this->_backgroundColorId);
+// 		$styles .= "\n\t\t\t\tbackground-color: #".$backgroundColor->getValue().";";
+// 	
+// 		$borderColor =& $this->getSetting($this->_borderColorId);
+// 		$leftTopBorderThickness =& $this->getSetting($this->_leftTopBorderThicknessId);
+// 		$rightBottomBorderThickness =& $this->getSetting($this->_rightBottomBorderThicknessId);
+// 		$borderStyle =& $this->getSetting($this->_borderStyleId);
+// 		
+// 		$styles .= "\n\t\t\t\tborder-top: ".$leftTopBorderThickness->getValue()." ".$borderStyle->getValue()." #".$borderColor->getValue().";";
+// 		$styles .= "\n\t\t\t\tborder-left: ".$leftTopBorderThickness->getValue()." ".$borderStyle->getValue()." #".$borderColor->getValue().";";
+// 		$styles .= "\n\t\t\t\tborder-right: ".$rightBottomBorderThickness->getValue()." ".$borderStyle->getValue()." #".$borderColor->getValue().";";
+// 		$styles .= "\n\t\t\t\tborder-bottom: ".$rightBottomBorderThickness->getValue()." ".$borderStyle->getValue()." #".$borderColor->getValue().";";
+// 
+// 		$padding =& $this->getSetting($this->_paddingId);
+// 		$styles .= "\n\t\t\t\tpadding: ".$padding->getValue().";";
+// 
+// 		$margin =& $this->getSetting($this->_marginId);
+// 		$styles .= "\n\t\t\t\tmargin: ".$margin->getValue().";";
+// 		
+// 		$styles .= "\n\t\t\t}";
+// 		
+// 		$styles = "\n\t\t\tbody {";
+// 		$bodyColor =& $this->getSetting($this->_bodyColorId);
+// 		$styles .= "\n\t\t\t\tbackground-color: #".$bodyColor->getValue().";";
+// 		$styles .= "\n\t\t\t}";
+// 		
+// 		return $styles;
+	}
 	
 	/**
 	 * Takes a {@link Layout} object and outputs a full HTML page with the layout's contents in the body section.
@@ -306,7 +367,9 @@ class Theme
 // 		print "\n\t</head>";
 // 		print "\n\t<body>";
 // 		
+//		print "\n\t\t<div class='mainblock'>";
 // 		$layout->output($this);
+//		print "\n\t\t</div>";
 // 		
 // 		print "\n\t</body>";
 // 		print "\n</html>";

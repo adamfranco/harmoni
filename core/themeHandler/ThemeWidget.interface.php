@@ -10,7 +10,7 @@
  * (in the sequence; 1, 2, 3, etc) as the theme developer desires.
  *
  * @package harmoni.themes
- * @version $Id: ThemeWidget.interface.php,v 1.2 2004/03/04 00:01:10 adamfranco Exp $
+ * @version $Id: ThemeWidget.interface.php,v 1.3 2004/03/04 22:59:07 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -112,7 +112,7 @@ class ThemeWidgetInterface {
 	 * @access public
 	 * @return void
 	 **/
-	function print(& $layoutOrContent) {
+	function output(& $layoutOrContent) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 }

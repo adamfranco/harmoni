@@ -13,7 +13,7 @@ define ("RIGHT", "right");
  * holds any number of components of different types.
  *
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.4 2004/03/01 19:32:26 adamfranco Exp $
+ * @version $Id: Layout.abstract.php,v 1.5 2004/03/04 22:59:07 adamfranco Exp $
  * @copyright 2003 
  * @abstract
  **/
@@ -158,7 +158,8 @@ class Layout extends LayoutInterface {
 	 * @return void
 	 **/
 	function output(&$theme, $orientation=HORIZONTAL) {
-		$theme->printLayout($this);
+		
+		$theme->output($this);
 	}
 	
 	/**
