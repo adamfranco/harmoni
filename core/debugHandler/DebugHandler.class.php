@@ -6,7 +6,7 @@ require_once(HARMONI."debugHandler/DebugHandler.interface.php");
 /**
  * The DebugHandler keeps track of multiple DebugItems.
  *
- * @version $Id: DebugHandler.class.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: DebugHandler.class.php,v 1.2 2003/08/31 23:01:50 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugging
  **/
@@ -31,7 +31,7 @@ class DebugHandler extends DebugHandlerInterface {
 	 **/
 	function DebugHandler() {
 		$this->_queue = array();
-		$this->_outputLevel = 9;
+		$this->_outputLevel = 20;
 	}
 	
 	/**
