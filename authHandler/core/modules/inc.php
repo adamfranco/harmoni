@@ -2,4 +2,4 @@
 
 // include all the modules
 
-require_once(basename(__FILE__)."/authModule_db.class.php");
+require_once(dirname(__FILE__)."/authModule_db.class.php");
