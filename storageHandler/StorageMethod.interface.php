@@ -4,7 +4,7 @@
  * Storage Method interface provides functionality to create StorageMethods
  * to handle Storables. A collection of StorageMethods can be used by StorageHandler. 
  *
- * @version $Id: StorageMethod.interface.php,v 1.6 2003/07/06 22:07:41 gabeschine Exp $
+ * @version $Id: StorageMethod.interface.php,v 1.7 2003/07/07 13:13:31 gabeschine Exp $
  * @package harmoni.Storagehandler.methods
  * @copyright 2003
  * @access public
@@ -16,8 +16,8 @@ class StorageMethodInterface {
      * Store a given storable in a given location. This is the basic function that should 
      * be used to put a storable in the location of choice. 
      * @param object Storable $storable The Storable to be stored.
-     * @param string $name The name (primary key) under which the storable is to be stored.
 	 * @param string $path The path (descriptor) under which the storable is to be stored.
+     * @param string $name The name (primary key) under which the storable is to be stored.
 	 * @return boolean True on success False on falure.
      * @access public
      */
@@ -26,8 +26,8 @@ class StorageMethodInterface {
 
     /**
      * Returns a storable with a given name and path.
+	 * @param string $path The path of the storable to return.
      * @param string $name The name of the storable to return.
-     * @param string $path The path of the storable to return.
 	 * @return object Storable The storable, which can be used to retreive the data. False if no such storable exists.
      * @access public
      */
@@ -35,8 +35,8 @@ class StorageMethodInterface {
 
     /**
      * Deletes the storable with a given name and path.
+	 * @param string $path The path of the storable to delete.
      * @param string $name The name of the storable to delete.
-     * @param string $path The path of the storable to delete.
      * @access public
      */
     function delete($path,$name) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
@@ -46,10 +46,10 @@ class StorageMethodInterface {
      * For security reasons you have to specify the source name and path
      * rather than the storable itself. It is up to the method to locate
      * the storable before moving it.
+	 * @param string $sourcePath The path of the storable to move.
      * @param string $sourceName The name of the storable to move.
-     * @param string $sourcePath The path of the storable to move.
-     * @param string $locationName The new name of the storable.
      * @param string $locationPath The new path of the storable.
+     * @param string $locationName The new name of the storable.
 	 * @deprecated Move functionality is handled by StorageHandler now.
      * @access public
      */
@@ -60,10 +60,10 @@ class StorageMethodInterface {
      * For security reasons you have to specify the source name and path
      * rather than the storable itself. It is up to the method to locate
      * the storable before moving it.
+	 * @param string $sourcePath The path of the storable to copy.
      * @param string $sourceName The name of the storable to copy.
-     * @param string $sourcePath The path of the storable to copy.
+	 * @param string $locationPath The path of the location to copy into.
      * @param string $locationName The name of the location to copy into.
-     * @param string $locationPath The path of the location to copy into.
 	 * @deprecated Copy functionality is handled by StorageHandler now.
      * @access public
      */
@@ -71,8 +71,9 @@ class StorageMethodInterface {
 
     /**
      * Tells whether a certain storable exists.
+	 * @param string $path The path of the storable to check.
      * @param string $name The name of the storable to check.
-     * @param string $path The path of the storable to check.
+     * 
      * @return boolean True if storable exists, false otherwise.
      * @access public
      */
@@ -80,9 +81,10 @@ class StorageMethodInterface {
 
     /**
      * Get the size of either one Storable or the whole tree within a certain path.
+	 * @param string $path The path of the storable(s) to get the size of.
      * @param string $name The name of the storable to get the size of. 
      * If ommited, the returned size will represent the total size of all storables within a certain path.
-     * @param string $path The path of the storable(s) to get the size of.
+     * 
      * @return integer The size of the storable(s).
      * @access public
      */
