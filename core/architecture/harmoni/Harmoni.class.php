@@ -18,7 +18,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.24 2004/08/06 14:23:56 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.25 2004/08/06 14:58:52 adamfranco Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -80,7 +80,7 @@ class Harmoni {
 	
 	/**
 	 * @access public
-	 * @var object $language A {@link LanguageLocalizer} object. (NO LONGER USED -� BROKEN)
+	 * @var object $language A {@link LanguageLocalizer} object. (NO LONGER USED -- BROKEN)
 	 **/
 	var $language;
 	

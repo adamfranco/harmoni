@@ -1,4 +1,3 @@
-
 <?php
 
 require_once(HARMONI . 'DBHandler/MySQL/MySQLDatabase.class.php');
@@ -8,7 +7,7 @@ require_once(HARMONI . 'DBHandler/MySQL/MySQLDatabase.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  * 
- * @version $Id: MySQLSelectQueryResultTestCase.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: MySQLSelectQueryResultTestCase.class.php,v 1.2 2004/08/06 14:58:52 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003
  */
