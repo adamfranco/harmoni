@@ -38,7 +38,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.44 2004/11/20 00:43:40 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.45 2004/11/20 01:03:36 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -250,40 +250,43 @@ class HarmoniSharedManager
 		$query =& new SelectQuery();
 		$query->addTable($db."agent_properties");
 		$query->addColumn("fk_properties");
-		$query->addWhere($db."fk_agent = '".addslashes($idValue)."'");
+		$query->addWhere($db."agent_properties.fk_agent = '".addslashes($idValue)."'");
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		$propertiesIdValues = array();
 		while ($row =& $queryResult->getCurrentRow()) {
 			$propertiesIdValues[] = $row['fk_properties'];
+			$queryResult->advanceRow();
 		}
 		
 		// Delete the mapping
 		$query =& new DeleteQuery();
 		$query->setTable($db."agent_properties");
-		$query->addWhere($db."fk_agent = '".addslashes($idValue)."'");
+		$query->addWhere($db."agent_properties.fk_agent = '".addslashes($idValue)."'");
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		// 3. Delete the properties of the agent
 		// Delete each Property entry.
-		$query =& new DeleteQuery();
-		$query->setTable($db."shared_property");
-		$where = array();
-		foreach ($propertiesIdValues as $propertiesIdValue) {
-			$where[] = "fk_properties = '".addslashes($propertiesIdValue)."'";
+		if (count($propertiesIdValues)) {
+			$query =& new DeleteQuery();
+			$query->setTable($db."shared_property");
+			$where = array();
+			foreach ($propertiesIdValues as $propertiesIdValue) {
+				$where[] = "fk_properties = '".addslashes($propertiesIdValue)."'";
+			}
+			$query->addWhere(implode(" OR ", $where));
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			
+			// Delete each Properties entry
+			$query =& new DeleteQuery();
+			$query->setTable($db."shared_properties");
+			$where = array();
+			foreach ($propertiesIdValues as $propertiesIdValue) {
+				$where[] = "id = '".addslashes($propertiesIdValue)."'";
+			}
+			$query->addWhere(implode(" OR ", $where));
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		}
-		$query->addWhere(implode(" OR ", $where));
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		
-		// Delete each Properties entry
-		$query =& new DeleteQuery();
-		$query->setTable($db."shared_properties");
-		$where = array();
-		foreach ($propertiesIdValues as $propertiesIdValue) {
-			$where[] = "id = '".addslashes($propertiesIdValue)."'";
-		}
-		$query->addWhere(implode(" OR ", $where));
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		// 4. Now delete the agent
 		$query =& new DeleteQuery();
