@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.2 2005/03/03 22:15:27 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.3 2005/03/04 22:22:45 adamfranco Exp $
  */ 
 
 /**
@@ -32,7 +32,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.2 2005/03/03 22:15:27 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.3 2005/03/04 22:22:45 adamfranco Exp $
  */
 class AuthNMethod {
 	
@@ -71,6 +71,26 @@ class AuthNMethod {
 	 */
 	function getType () {
 		return $this->_type;
+	}
+	
+	
+	/**
+	 * Create a Tokens Object
+	 * 
+	 * @return object Tokens
+	 * @access public
+	 * @since 3/1/05
+	 */
+	function createTokensObject () {
+		$tokensClass = $this->_configuration->getProperty('tokens_class');
+		$newTokens =& new $tokensClass($this->_configuration);
+		
+		$validatorRule = new ExtendsValidatorRule('AuthNTokens');
+		if ($validatorRule->check($newTokens))
+			return $newTokens;
+		else
+			throwError( new Error("Configuration Error: tokens_class, '".$tokensClass."' does not extend AuthNTokens.",
+									 "AuthNMethod", true));
 	}
 	
 	/**

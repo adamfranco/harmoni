@@ -5,21 +5,21 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CryptUsernamePasswordAuthNTokens.class.php,v 1.1 2005/03/03 01:03:51 adamfranco Exp $
+ * @version $Id: CryptUsernamePasswordAuthNTokens.class.php,v 1.2 2005/03/04 22:22:45 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
 
 /**
  * This UserNamePasswordAuthNTokens class encrypts the password passed to it using
- * the database's MD5 function.
+ * the database's PHP's crypt() function.
  * 
  * @package harmoni.oki_v2.agentmanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CryptUsernamePasswordAuthNTokens.class.php,v 1.1 2005/03/03 01:03:51 adamfranco Exp $
+ * @version $Id: CryptUsernamePasswordAuthNTokens.class.php,v 1.2 2005/03/04 22:22:45 adamfranco Exp $
  */
 class CryptUsernamePasswordAuthNTokens
 	extends UsernamePasswordAuthNTokens
