@@ -6,7 +6,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * Responsible for the synchronization of {@link Schema} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: SchemaManager.class.php,v 1.8 2004/09/09 16:53:41 gabeschine Exp $
+ * @version $Id: SchemaManager.class.php,v 1.9 2004/10/29 15:46:05 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -450,7 +450,7 @@ class SchemaManager
 			if ($oldMult !== $newMult) { // boolean-safe compare
 				// ok, now, if we're changing from true to false, just go ahead, make the change
 				if (!$oldMult && $newMult) {
-					$oldField->setMultFlat(true);
+					$oldField->setMultFlag(true);
 					$oldField->update();
 					
 					debug::output("Label '$label': activating multiple-values.",DEBUG_SYS5,"DataManager");
