@@ -76,7 +76,7 @@ class SQLDatabaseHierarchyStore
 	/**
 	 * @var integer $_maxDepth The maximum depth of this hierarchy.
 	 */
-	var $_maxDepth = 10;
+	var $_maxDepth = 29;
 	
 	/**
 	 * @var object Id $_id The id for this hierarchy.
