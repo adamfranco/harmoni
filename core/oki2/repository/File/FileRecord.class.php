@@ -27,10 +27,10 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.11 2005/04/04 18:23:56 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.12 2005/04/06 16:15:31 adamfranco Exp $ 
  */
 class FileRecord 
-	extends Record
+	extends RecordInterface
 {
 	
 	var $_id;
