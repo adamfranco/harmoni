@@ -1,10 +1,16 @@
 <?php
+/**
+ * @package osid.coursemanagment
+ */
 
+/**
+ * @ignore
+ */
 require_once(OKI."/osid.interface.php");
 
 	/**
 	 * All implementors of OsidManager provide create, delete, and get methods for the various objects defined in the package.  Most managers also include methods for returning Types.  We use create methods in place of the new operator.  Create method implementations should both instantiate and persist objects.  The reason we avoid the new operator is that it makes the name of the implementing package explicit and requires a source code change in order to use a different package name. In combination with OsidLoader, applications developed using managers permit implementation substitution without source code changes. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class CourseManagementManager // :: API interface
 	extends OsidManager
@@ -284,7 +290,7 @@ class CourseManagementManager // :: API interface
 
 	/**
 	 * CourseGroup manages a set of CanonicalCourses.  CourseGroups have a CourseGroupType which characterizes the group.  CourseGroups can be used to model prerequisites, corequisites, majors, minors, sequences, etc.   <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class CourseGroup // :: API interface
 //	extends java.io.Serializable
@@ -332,7 +338,7 @@ class CourseGroup // :: API interface
 
 	/**
 	 * CanonicalCourse is designed to capture general information about a course.  This is in contrast to the CourseOffering which is designed to capture information about a concrete offering of this course in a specific term and with identified people and roles.  The CourseSection is the third and most specific course-related object.  The section includes information about the location of the class as well as the roster of students.  CanonicalCourses can contain other CanonicalCourses and may be organized hierarchically, in schools, departments, for majors, and so on.  For each CanonicalCourse, there are zero or more offerings and for each offering, zero or more sections.  All three levels have separate data for Title, Number, Description, and Id.  This information can be the same or different as implementations choose and applications require. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class CanonicalCourse // :: API interface
 //	extends java.io.Serializable
@@ -552,7 +558,7 @@ class CanonicalCourse // :: API interface
 
 	/**
 	 * CourseOffering is a CanonicalCourse offered in a specific Term.  CanonicalCourse is designed to capture general information about a course in general.  The CourseSection is the third and most specific course-related object.  The section includes information about the location of the class as well as the roster of students.  CanonicalCourses can contain other CanonicalCourses and may be organized hierarchically, in schools, departments, for majors, and so on.  For each CanonicalCourse, there are zero or more offerings and for each offering, zero or more sections.  All three levels have separate data for Title, Number, Description, and Id.  This information can be the same or different as implementations choose and applications require.  <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class CourseOffering // :: API interface
 //	extends java.io.Serializable
@@ -768,7 +774,7 @@ class CourseOffering // :: API interface
 
 	/**
 	 * CourseSection is associated with a CourseOffering and is has a separate roster and possibly a separate SectionType from any other Sections of the Offering. CanonicalCourse is designed to capture general information about a course.  This is in contrast to the CourseOffering which is designed to capture information about a concrete offering of this course in a specific term and with identified people and roles.  The section includes information about the location of the class as well as the roster of students.  CanonicalCourses can contain other CanonicalCourses and may be organized hierarchically, in schools, departments, for majors, and so on.  For each CanonicalCourse, there are zero or more offerings and for each offering, zero or more sections.  All three levels have separate data for Title, Number, Description, and Id.  This information can be the same or different as implementations choose and applications require. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class CourseSection // :: API interface
 //	extends java.io.Serializable
@@ -953,7 +959,7 @@ class CourseSection // :: API interface
 
 	/**
 	 * Term includes an Unique Id set by the implementation, a TermType, and an osid.sched.Schedule. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class Term // :: API interface
 //	extends java.io.Serializable
@@ -984,7 +990,7 @@ class Term // :: API interface
 
 	/**
 	 * EnrollmentRecord stores a student (Agent) and an Enrollment Status Type.  The EnrollmentRecord is the result of adding or changing a student in a CourseSection.  If the student is removed from the CourseSection, there will no longer be an EnrollmentRecord for the student.  The joining of a status type to a student allows for the characterization of the student.  For example, students might be added as regular students or auditing.  Students might be on the enrollment list, but their status might be withdrawn passing or withdrawn failing, etc.   <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class EnrollmentRecord // :: API interface
 //	extends java.io.Serializable
@@ -1008,7 +1014,7 @@ class EnrollmentRecord // :: API interface
 
 	/**
 	 * GradeRecord manages the Grade of a specific GradeType for an Agent and a CourseOffering.   <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class GradeRecord // :: API interface
 //	extends java.io.Serializable
@@ -1061,7 +1067,7 @@ class GradeRecord // :: API interface
 
 	/**
 	 * CanonicalCourseIterator provides access to CanonicalCourses.  CanonicalCourse provides access to these objects sequentially, one at a time.  The purpose of all Iterators is to to offer a way for OSID methods to return multiple values of a common type and not use an array.  Returning an array may not be appropriate if the number of values returned is large or is fetched remotely.  Iterators do not allow access to values by index, rather you must access values in sequence. Similarly, there is no way to go backwards through the sequence unless you place the values in a data structure, such as an array, that allows for access by index. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class CanonicalCourseIterator // :: API interface
 //	extends java.io.Serializable
@@ -1087,7 +1093,7 @@ class CanonicalCourseIterator // :: API interface
 
 	/**
 	 * CourseOfferingIterator provides access to CourseOfferings.  CourseOffering provides access to these objects sequentially, one at a time.  The purpose of all Iterators is to to offer a way for OSID methods to return multiple values of a common type and not use an array.  Returning an array may not be appropriate if the number of values returned is large or is fetched remotely.  Iterators do not allow access to values by index, rather you must access values in sequence. Similarly, there is no way to go backwards through the sequence unless you place the values in a data structure, such as an array, that allows for access by index. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class CourseOfferingIterator // :: API interface
 //	extends java.io.Serializable
@@ -1113,7 +1119,7 @@ class CourseOfferingIterator // :: API interface
 
 	/**
 	 * CourseSectionIterator provides access to CourseSections.  CourseSection provides access to these objects sequentially, one at a time.  The purpose of all Iterators is to to offer a way for OSID methods to return multiple values of a common type and not use an array.  Returning an array may not be appropriate if the number of values returned is large or is fetched remotely.  Iterators do not allow access to values by index, rather you must access values in sequence. Similarly, there is no way to go backwards through the sequence unless you place the values in a data structure, such as an array, that allows for access by index. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class CourseSectionIterator // :: API interface
 //	extends java.io.Serializable
@@ -1139,7 +1145,7 @@ class CourseSectionIterator // :: API interface
 
 	/**
 	 * TermIterator provides access to Terms.  Term provides access to these objects sequentially, one at a time.  The purpose of all Iterators is to to offer a way for OSID methods to return multiple values of a common type and not use an array.  Returning an array may not be appropriate if the number of values returned is large or is fetched remotely.  Iterators do not allow access to values by index, rather you must access values in sequence. Similarly, there is no way to go backwards through the sequence unless you place the values in a data structure, such as an array, that allows for access by index. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class TermIterator // :: API interface
 //	extends java.io.Serializable
@@ -1165,7 +1171,7 @@ class TermIterator // :: API interface
 
 	/**
 	 * GradeRecordIterator provides access to GradeRecords.  GradeRecord provides access to these objects sequentially, one at a time.  The purpose of all Iterators is to to offer a way for OSID methods to return multiple values of a common type and not use an array.  Returning an array may not be appropriate if the number of values returned is large or is fetched remotely.  Iterators do not allow access to values by index, rather you must access values in sequence. Similarly, there is no way to go backwards through the sequence unless you place the values in a data structure, such as an array, that allows for access by index. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class GradeRecordIterator // :: API interface
 //	extends java.io.Serializable
@@ -1191,7 +1197,7 @@ class GradeRecordIterator // :: API interface
 
 	/**
 	 * CourseGroupIterator provides access to CourseGroups.  CourseGroup provides access to these objects sequentially, one at a time.  The purpose of all Iterators is to to offer a way for OSID methods to return multiple values of a common type and not use an array.  Returning an array may not be appropriate if the number of values returned is large or is fetched remotely.  Iterators do not allow access to values by index, rather you must access values in sequence. Similarly, there is no way to go backwards through the sequence unless you place the values in a data structure, such as an array, that allows for access by index. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class CourseGroupIterator // :: API interface
 //	extends java.io.Serializable
@@ -1217,7 +1223,7 @@ class CourseGroupIterator // :: API interface
 
 	/**
 	 * EnrollmentRecordIterator provides access to EnrollmentRecords.  EnrollmentRecord provides access to these objects sequentially, one at a time.  The purpose of all Iterators is to to offer a way for OSID methods to return multiple values of a common type and not use an array.  Returning an array may not be appropriate if the number of values returned is large or is fetched remotely.  Iterators do not allow access to values by index, rather you must access values in sequence. Similarly, there is no way to go backwards through the sequence unless you place the values in a data structure, such as an array, that allows for access by index. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class EnrollmentRecordIterator // :: API interface
 //	extends java.io.Serializable
@@ -1243,7 +1249,7 @@ class EnrollmentRecordIterator // :: API interface
 
 	/**
 	 * All methods of all interfaces of the Open Service Interface Definition (OSID) throw a subclass of osid.OsidException. This requires the caller of an osid package method handle the OsidException. Since the application using an OsidManager can not determine where the implementation will ultimately execute, it must assume a worst case scenario and protect itself. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.classmanagement
+	 * @package osid.coursemanagement
 	 */
 class CourseManagementException // :: normal class
 	extends OsidException
@@ -1251,135 +1257,124 @@ class CourseManagementException // :: normal class
 
 	/**
 	 * Unknown Id
-	 * @package osid.classmanagement
 	 */
 	// :: defined globally :: define("UNKNOWN_ID","Unknown Id ");
 
 	/**
 	 * Unknown or unsupported Type
-	 * @package osid.classmanagement
 	 */
 	// :: defined globally :: define("UNKNOWN_TYPE","Unknown Type ");
 
 	/**
 	 * Operation failed
-	 * @package osid.classmanagement
 	 */
 	// :: defined globally :: define("OPERATION_FAILED","Operation failed ");
 
 	/**
 	 * Iterator has no more elements
-	 * @package osid.classmanagement
 	 */
 	// :: defined globally :: define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
 
 	/**
 	 * Null argument
-	 * @package osid.classmanagement
 	 */
 	// :: defined globally :: define("NULL_ARGUMENT","Null argument ");
 
 	/**
 	 * Permission denied
-	 * @package osid.classmanagement
 	 */
 	// :: defined globally :: define("PERMISSION_DENIED","Permission denied ");
 
 	/**
 	 * Object already added
-	 * @package osid.classmanagement
 	 */
 	// :: defined globally :: define("ALREADY_ADDED","Object already added ");
 
 	/**
 	 * Configuration error
-	 * @package osid.classmanagement
 	 */
 	// :: defined globally :: define("CONFIGURATION_ERROR","Configuration error ");
 
 	/**
 	 * Unimplemented method
-	 * @package osid.classmanagement
 	 */
 	// :: defined globally :: define("UNIMPLEMENTED","Unimplemented method ");
 
 	/**
 	 * Unknown topic
-	 * @package osid.classmanagement
 	 */
 	// :: defined globally :: define("UNKNOWN_TOPIC","Unknown Topic ");
 
 	/**
 	 * Invalid credits value
-	 * @package osid.classmanagement
 	 */
 	// :: defined globally :: define("INVALID_CREDITS_VALUE","Invalid value for credits ");
 }
 
 // :: post-declaration code ::
 /**
- * @const string UNKNOWN_ID public static final String UNKNOWN_ID = "Unknown Id "
- * @package osid.classmanagement
+ * string: Unknown Id 
+ * @name UNKNOWN_ID
  */
 define("UNKNOWN_ID", "Unknown Id ");
 
 /**
- * @const string UNKNOWN_TYPE public static final String UNKNOWN_TYPE = "Unknown Type "
- * @package osid.classmanagement
+ * string: Unknown Type 
+ * @name UNKNOWN_TYPE
  */
 define("UNKNOWN_TYPE", "Unknown Type ");
 
 /**
- * @const string OPERATION_FAILED public static final String OPERATION_FAILED = "Operation failed "
- * @package osid.classmanagement
+ * string: Operation failed 
+ * @name OPERATION_FAILED
  */
 define("OPERATION_FAILED", "Operation failed ");
 
 /**
- * @const string NO_MORE_ITERATOR_ELEMENTS public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
- * @package osid.classmanagement
+ * string: Iterator has no more elements 
+ * @name NO_MORE_ITERATOR_ELEMENTS
  */
 define("NO_MORE_ITERATOR_ELEMENTS", "Iterator has no more elements ");
 
 /**
- * @const string NULL_ARGUMENT public static final String NULL_ARGUMENT = "Null argument "
- * @package osid.classmanagement
+ * string: Null argument 
+ * @name NULL_ARGUMENT
  */
 define("NULL_ARGUMENT", "Null argument ");
 
 /**
- * @const string PERMISSION_DENIED public static final String PERMISSION_DENIED = "Permission denied "
- * @package osid.classmanagement
+ * string: Permission denied 
+ * @name PERMISSION_DENIED
  */
 define("PERMISSION_DENIED", "Permission denied ");
 
 /**
- * @const string ALREADY_ADDED public static final String ALREADY_ADDED = "Object already added "
- * @package osid.classmanagement
+ * string: Object already added 
+ * @name ALREADY_ADDED
  */
 define("ALREADY_ADDED", "Object already added ");
 
 /**
- * @const string CONFIGURATION_ERROR public static final String CONFIGURATION_ERROR = "Configuration error "
- * @package osid.classmanagement
+ * string: Configuration error 
+ * @name CONFIGURATION_ERROR
  */
 define("CONFIGURATION_ERROR", "Configuration error ");
 
 /**
- * @const string UNIMPLEMENTED public static final String UNIMPLEMENTED = "Unimplemented method "
- * @package osid.classmanagement
+ * string: Unimplemented method 
+ * @name UNIMPLEMENTED
  */
 define("UNIMPLEMENTED", "Unimplemented method ");
 
 /**
- * @const string UNKNOWN_TOPIC public static final String UNKNOWN_TOPIC = "Unknown Topic "
- * @package osid.classmanagement
+ * string: Unknown Topic 
+ * @name UNKNOWN_TOPIC
  */
 define("UNKNOWN_TOPIC", "Unknown Topic ");
 
 /**
- * @const string INVALID_CREDITS_VALUE public static final String INVALID_CREDITS_VALUE = "Invalid value for credits "
- * @package osid.classmanagement
+ * string: Invalid value for credits 
+ * @name INVALID_CREDITS_VALUE
  */
 define("INVALID_CREDITS_VALUE", "Invalid value for credits ");
 

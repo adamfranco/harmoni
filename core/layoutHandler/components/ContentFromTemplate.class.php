@@ -9,7 +9,7 @@ require_once(HARMONI."layoutHandler/components/Content.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ContentFromTemplate.class.php,v 1.2 2005/01/19 21:10:01 adamfranco Exp $
+ * @version $Id: ContentFromTemplate.class.php,v 1.3 2005/01/25 14:55:20 adamfranco Exp $
  */
 class ContentFromTemplate extends Content {
 	var $_template;
@@ -18,7 +18,7 @@ class ContentFromTemplate extends Content {
 	/**
 	 * The constructor.
 	 * @param ref object $template The template to use.
-	 * @param ref mixed $vars The array or {@link FieldSet) to use.
+	 * @param ref mixed $vars The array or {@link FieldSet} to use.
 	 * @access public
 	 * @return void
 	 **/

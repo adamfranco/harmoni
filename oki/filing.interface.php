@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package osid.filing
+ */
 
+/**
+ * @ignore
+ */
 require_once(OKI."/osid.interface.php");
 
 	  /**
@@ -728,110 +734,110 @@ class FilingException // :: normal class
 
 // :: post-declaration code ::
 /**
- * @const string ITEM_ALREADY_EXISTS public final static String ITEM_ALREADY_EXISTS = "Selected item already exists";
- * @package osid.filing
+ * string: Selected item already exists
+ * @name ITEM_ALREADY_EXISTS;
  */
 define("ITEM_ALREADY_EXISTS", "Selected item already exists";);
 
 /**
- * @const string ITEM_DOES_NOT_EXIST public final static String ITEM_DOES_NOT_EXIST = "Selected item does not exist";
- * @package osid.filing
+ * string: Selected item does not exist
+ * @name ITEM_DOES_NOT_EXIST;
  */
 define("ITEM_DOES_NOT_EXIST", "Selected item does not exist";);
 
 /**
- * @const string UNSUPPORTED_OPERATION public final static String UNSUPPORTED_OPERATION = "Unsupported operation";
- * @package osid.filing
+ * string: Unsupported operation
+ * @name UNSUPPORTED_OPERATION;
  */
 define("UNSUPPORTED_OPERATION", "Unsupported operation";);
 
 /**
- * @const string IO_ERROR public final static String IO_ERROR = "IO error";
- * @package osid.filing
+ * string: IO error
+ * @name IO_ERROR;
  */
 define("IO_ERROR", "IO error";);
 
 /**
- * @const string UNSUPPORTED_TYPE public final static String UNSUPPORTED_TYPE = "Unsupported CabinetEntry Type";
- * @package osid.filing
+ * string: Unsupported CabinetEntry Type
+ * @name UNSUPPORTED_TYPE;
  */
 define("UNSUPPORTED_TYPE", "Unsupported CabinetEntry Type";);
 
 /**
- * @const string CABINET_NOT_EMPTY public final static String CABINET_NOT_EMPTY = "Cabinet is not empty";
- * @package osid.filing
+ * string: Cabinet is not empty
+ * @name CABINET_NOT_EMPTY;
  */
 define("CABINET_NOT_EMPTY", "Cabinet is not empty";);
 
 /**
- * @const string NOT_A_CABINET public final static String NOT_A_CABINET = "Object is not a Cabinet";
- * @package osid.filing
+ * string: Object is not a Cabinet
+ * @name NOT_A_CABINET;
  */
 define("NOT_A_CABINET", "Object is not a Cabinet";);
 
 /**
- * @const string NOT_A_BYTESTORE public final static String NOT_A_BYTESTORE = "Object is not a ByteStore";
- * @package osid.filing
+ * string: Object is not a ByteStore
+ * @name NOT_A_BYTESTORE;
  */
 define("NOT_A_BYTESTORE", "Object is not a ByteStore";);
 
 /**
- * @const string NAME_CONTAINS_ILLEGAL_CHARS public final static String NAME_CONTAINS_ILLEGAL_CHARS = "Name contains illegal characters";
- * @package osid.filing
+ * string: Name contains illegal characters
+ * @name NAME_CONTAINS_ILLEGAL_CHARS;
  */
 define("NAME_CONTAINS_ILLEGAL_CHARS", "Name contains illegal characters";);
 
 /**
- * @const string NULL_OWNER public final static String NULL_OWNER = "Owner is null";
- * @package osid.filing
+ * string: Owner is null
+ * @name NULL_OWNER;
  */
 define("NULL_OWNER", "Owner is null";);
 
 /**
- * @const string DELETE_FAILED public final static String DELETE_FAILED = "Delete failed";
- * @package osid.filing
+ * string: Delete failed
+ * @name DELETE_FAILED;
  */
 define("DELETE_FAILED", "Delete failed";);
 
 /**
- * @const string OPERATION_FAILED public static final String OPERATION_FAILED = "Operation failed"
- * @package osid.filing
+ * string: Operation failed
+ * @name OPERATION_FAILED
  */
 define("OPERATION_FAILED", "Operation failed");
 
 /**
- * @const string NO_MORE_ITERATOR_ELEMENTS public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements"
- * @package osid.filing
+ * string: Iterator has no more elements
+ * @name NO_MORE_ITERATOR_ELEMENTS
  */
 define("NO_MORE_ITERATOR_ELEMENTS", "Iterator has no more elements");
 
 /**
- * @const string UNIMPLEMENTED public static final String UNIMPLEMENTED = "Unimplemented method "
- * @package osid.filing
+ * string: Unimplemented method 
+ * @name UNIMPLEMENTED
  */
 define("UNIMPLEMENTED", "Unimplemented method ");
 
 /**
- * @const string PERMISSION_DENIED public static final String PERMISSION_DENIED = "Permission denied"
- * @package osid.filing
+ * string: Permission denied
+ * @name PERMISSION_DENIED
  */
 define("PERMISSION_DENIED", "Permission denied");
 
 /**
- * @const string NULL_ARGUMENT public static final String NULL_ARGUMENT = "Null argument"
- * @package osid.filing
+ * string: Null argument
+ * @name NULL_ARGUMENT
  */
 define("NULL_ARGUMENT", "Null argument");
 
 /**
- * @const string CONFIGURATION_ERROR public static final String CONFIGURATION_ERROR = "Configuration error"
- * @package osid.filing
+ * string: Configuration error
+ * @name CONFIGURATION_ERROR
  */
 define("CONFIGURATION_ERROR", "Configuration error");
 
 /**
- * @const string CANNOT_DELETE_ROOT_CABINET public static final String CANNOT_DELETE_ROOT_CABINET = "Cannot delete root Cabinet"
- * @package osid.filing
+ * string: Cannot delete root Cabinet
+ * @name CANNOT_DELETE_ROOT_CABINET
  */
 define("CANNOT_DELETE_ROOT_CABINET", "Cannot delete root Cabinet");
 

@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package osid.logging
+ */
 
+/**
+ * @ignore
+ */
 require_once(OKI."/osid.interface.php");
 
 	 /**
@@ -42,6 +48,8 @@ class LoggingManager // :: API interface
 	 */
 	function &getLogForWriting($logName) { /* :: interface :: */ }
 	// :: full java declaration :: WritableLog getLogForWriting
+	
+	/**
 	 * Return the names of readable Logs.
 	 * @return object osid.shared.StringIterator  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:  {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
@@ -57,6 +65,8 @@ class LoggingManager // :: API interface
 	 */
 	function &getLogForReading($logName) { /* :: interface :: */ }
 	// :: full java declaration :: ReadableLog getLogForReading
+	
+	/**
 	 * Create a Writable Log.
 	 * @param object logName logName Represents the unique logical name of the Log.
 	 * @return object WritableLog
@@ -99,6 +109,7 @@ class ReadableLog // :: API interface
 	 */
 	function &getEntries(& $formatType, & $priorityType) { /* :: interface :: */ }
 	// :: full java declaration :: EntryIterator getEntries
+}
 
 	/**
 	 * EntryIterator provides access to these objects sequentially, one at a time.  The purpose of all Iterators is to to offer a way for OSID methods to return multiple values of a common type and not use an array.  Returning an array may not be appropriate if the number of values returned is large or is fetched remotely.  Iterators do not allow access to values by index, rather you must access values in sequence. Similarly, there is no way to go backwards through the sequence unless you place the values in a data structure, such as an array, that allows for access by index. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
@@ -227,135 +238,124 @@ class LoggingException // :: normal class
 
 	/**
 	 * Unknown or unsupported Type
-	 * @package osid.logging
 	 */
 	// :: defined globally :: define("UNKNOWN_TYPE","Unknown Type ");
 
 	/**
 	 * Unknown name
-	 * @package osid.logging
 	 */
 	// :: defined globally :: define("UNKNOWN_NAME","Unknown log name ");
 
 	/**
 	 * Duplicate name
-	 * @package osid.logging
 	 */
 	// :: defined globally :: define("DUPLICATE_NAME","Duplicate log name ");
 
 	/**
 	 * Operation failed
-	 * @package osid.logging
 	 */
 	// :: defined globally :: define("OPERATION_FAILED","Operation failed ");
 
 	/**
 	 * Iterator has no more elements
-	 * @package osid.logging
 	 */
 	// :: defined globally :: define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
 
 	/**
 	 * Null argument
-	 * @package osid.logging
 	 */
 	// :: defined globally :: define("NULL_ARGUMENT","Null argument ");
 
 	/**
 	 * Permission denied
-	 * @package osid.logging
 	 */
 	// :: defined globally :: define("PERMISSION_DENIED","Permission denied ");
 
 	/**
 	 * Configuration error
-	 * @package osid.logging
 	 */
 	// :: defined globally :: define("CONFIGURATION_ERROR","Configuration error ");
 
 	/**
 	 * Unimplemented method
-	 * @package osid.logging
 	 */
 	// :: defined globally :: define("UNIMPLEMENTED","Unimplemented method ");
 
 	/**
 	 * Default priority Type not set
-	 * @package osid.logging
 	 */
 	// :: defined globally :: define("PRIORITY_TYPE_NOT_SET","PriorityType not set ");
 
 	/**
 	 * Default format Type not set
-	 * @package osid.logging
 	 */
 	// :: defined globally :: define("FORMAT_TYPE_NOT_SET","FormatType not set ");
 }
 
 // :: post-declaration code ::
 /**
- * @const string UNKNOWN_TYPE public static final String UNKNOWN_TYPE = "Unknown Type "
- * @package osid.logging
+ * string: Unknown Type 
+ * @name UNKNOWN_TYPE
  */
 define("UNKNOWN_TYPE", "Unknown Type ");
 
 /**
- * @const string UNKNOWN_NAME public static final String UNKNOWN_NAME = "Unknown log name "
- * @package osid.logging
+ * string: Unknown log name 
+ * @name UNKNOWN_NAME
  */
 define("UNKNOWN_NAME", "Unknown log name ");
 
 /**
- * @const string DUPLICATE_NAME public static final String DUPLICATE_NAME = "Duplicate log name "
- * @package osid.logging
+ * string: Duplicate log name 
+ * @name DUPLICATE_NAME
  */
 define("DUPLICATE_NAME", "Duplicate log name ");
 
 /**
- * @const string OPERATION_FAILED public static final String OPERATION_FAILED = "Operation failed "
- * @package osid.logging
+ * string: Operation failed 
+ * @name OPERATION_FAILED
  */
 define("OPERATION_FAILED", "Operation failed ");
 
 /**
- * @const string NO_MORE_ITERATOR_ELEMENTS public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
- * @package osid.logging
+ * string: Iterator has no more elements 
+ * @name NO_MORE_ITERATOR_ELEMENTS
  */
 define("NO_MORE_ITERATOR_ELEMENTS", "Iterator has no more elements ");
 
 /**
- * @const string NULL_ARGUMENT public static final String NULL_ARGUMENT = "Null argument "
- * @package osid.logging
+ * string: Null argument 
+ * @name NULL_ARGUMENT
  */
 define("NULL_ARGUMENT", "Null argument ");
 
 /**
- * @const string PERMISSION_DENIED public static final String PERMISSION_DENIED = "Permission denied "
- * @package osid.logging
+ * string: Permission denied 
+ * @name PERMISSION_DENIED
  */
 define("PERMISSION_DENIED", "Permission denied ");
 
 /**
- * @const string CONFIGURATION_ERROR public static final String CONFIGURATION_ERROR = "Configuration error "
- * @package osid.logging
+ * string: Configuration error 
+ * @name CONFIGURATION_ERROR
  */
 define("CONFIGURATION_ERROR", "Configuration error ");
 
 /**
- * @const string UNIMPLEMENTED public static final String UNIMPLEMENTED = "Unimplemented method "
- * @package osid.logging
+ * string: Unimplemented method 
+ * @name UNIMPLEMENTED
  */
 define("UNIMPLEMENTED", "Unimplemented method ");
 
 /**
- * @const string PRIORITY_TYPE_NOT_SET public static final String PRIORITY_TYPE_NOT_SET = "PriorityType not set "
- * @package osid.logging
+ * string: PriorityType not set 
+ * @name PRIORITY_TYPE_NOT_SET
  */
 define("PRIORITY_TYPE_NOT_SET", "PriorityType not set ");
 
 /**
- * @const string FORMAT_TYPE_NOT_SET public static final String FORMAT_TYPE_NOT_SET = "FormatType not set "
- * @package osid.logging
+ * string: FormatType not set 
+ * @name FORMAT_TYPE_NOT_SET
  */
 define("FORMAT_TYPE_NOT_SET", "FormatType not set ");
 

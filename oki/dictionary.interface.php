@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package osid.dictionary
+ */
 
+/**
+ * @ignore
+ */
 require_once(OKI."/osid.interface.php");
 
 	/**
@@ -172,111 +178,102 @@ class DictionaryException // :: normal class
 
 	/**
 	 * Unknown Id
-	 * @package osid.dictionary
 	 */
 	// :: defined globally :: define("UNKNOWN_ID","Unknown Id ");
 
 	/**
 	 * Unknown Tag
-	 * @package osid.dictionary
 	 */
 	// :: defined globally :: define("UNKNOWN_TAG","Unknown Tag ");
 
 	/**
 	 * Operation failed
-	 * @package osid.dictionary
 	 */
 	// :: defined globally :: define("OPERATION_FAILED","Operation failed ");
 
 	/**
 	 * Null argument
-	 * @package osid.dictionary
 	 */
 	// :: defined globally :: define("NULL_ARGUMENT","Null argument");
 
 	/**
 	 * Permission denied
-	 * @package osid.dictionary
 	 */
 	// :: defined globally :: define("PERMISSION_DENIED","Permission denied ");
 
 	/**
 	 * Object already added
-	 * @package osid.dictionary
 	 */
 	// :: defined globally :: define("ALREADY_ADDED","Object already added ");
 
 	/**
 	 * Configuration error
-	 * @package osid.dictionary
 	 */
 	// :: defined globally :: define("CONFIGURATION_ERROR","Configuration error ");
 
 	/**
 	 * Unimplemented method
-	 * @package osid.dictionary
 	 */
 	// :: defined globally :: define("UNIMPLEMENTED","Unimplemented method");
 
 	/**
 	 * Iterator has no more elements
-	 * @package osid.dictionary
 	 */
 	// :: defined globally :: define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements");
 }
 
 // :: post-declaration code ::
 /**
- * @const string UNKNOWN_ID public static final String UNKNOWN_ID = "Unknown Id "
- * @package osid.dictionary
+ * string: Unknown Id 
+ * @name UNKNOWN_ID
  */
 define("UNKNOWN_ID", "Unknown Id ");
 
 /**
- * @const string UNKNOWN_TAG public static final String UNKNOWN_TAG = "Unknown Tag "
- * @package osid.dictionary
+ * string: Unknown Tag 
+ * @name UNKNOWN_TAG
  */
 define("UNKNOWN_TAG", "Unknown Tag ");
 
 /**
- * @const string OPERATION_FAILED public static final String OPERATION_FAILED = "Operation failed "
- * @package osid.dictionary
+ * string: Operation failed 
+ * @name OPERATION_FAILED
  */
 define("OPERATION_FAILED", "Operation failed ");
 
 /**
- * @const string NULL_ARGUMENT public static final String NULL_ARGUMENT = "Null argument"
- * @package osid.dictionary
+ * string: Null argument
+ * @name NULL_ARGUMENT
  */
 define("NULL_ARGUMENT", "Null argument");
 
 /**
- * @const string PERMISSION_DENIED public static final String PERMISSION_DENIED = "Permission denied "
- * @package osid.dictionary
+ * string: Permission denied 
+ * @name PERMISSION_DENIED
  */
 define("PERMISSION_DENIED", "Permission denied ");
 
 /**
- * @const string ALREADY_ADDED public static final String ALREADY_ADDED = "Object already added "
- * @package osid.dictionary
+ * string: Object already added 
+ * @name ALREADY_ADDED
  */
 define("ALREADY_ADDED", "Object already added ");
 
 /**
- * @const string CONFIGURATION_ERROR public static final String CONFIGURATION_ERROR = "Configuration error "
- * @package osid.dictionary
+ * string: Configuration error 
+ * @name CONFIGURATION_ERROR
  */
 define("CONFIGURATION_ERROR", "Configuration error ");
 
 /**
- * @const string UNIMPLEMENTED public static final String UNIMPLEMENTED = "Unimplemented method"
- * @package osid.dictionary
+ * string: Unimplemented method
+ * @name UNIMPLEMENTED
  */
 define("UNIMPLEMENTED", "Unimplemented method");
 
 /**
- * @const string NO_MORE_ITERATOR_ELEMENTS public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements"
- * @package osid.dictionary
+ * string: Iterator has no more elements
+ * @name NO_MORE_ITERATOR_ELEMENTS
  */
 define("NO_MORE_ITERATOR_ELEMENTS", "Iterator has no more elements");
 

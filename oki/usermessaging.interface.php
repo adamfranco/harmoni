@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package osid.usermessaging
+ */
+ 
+/**
+ * @ignore
+ */
 require_once(OKI."/osid.interface.php");
 
 	/**
@@ -237,123 +243,113 @@ class UsermessagingException // :: normal class
 
 	/**
 	 * Unknown Id
-	 * @package osid.usermessaging
 	 */
 	// :: defined globally :: define("UNKNOWN_ID","Unknown Id ");
 
 	/**
 	 * Unknown or unsupported Type
-	 * @package osid.usermessaging
 	 */
 	// :: defined globally :: define("UNKNOWN_TYPE","Unknown Type ");
 
 	/**
 	 * Unknown or unsupported Topic
-	 * @package osid.usermessaging
 	 */
 	// :: defined globally :: define("UNKNOWN_TOPIC","Unknown Topic ");
 
 	/**
 	 * Operation failed
-	 * @package osid.usermessaging
 	 */
 	// :: defined globally :: define("OPERATION_FAILED","Operation failed ");
 
 	/**
 	 * Iterator has no more elements
-	 * @package osid.usermessaging
 	 */
 	// :: defined globally :: define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
 
 	/**
 	 * Null argument
-	 * @package osid.usermessaging
 	 */
 	// :: defined globally :: define("NULL_ARGUMENT","Null argument ");
 
 	/**
 	 * Permission denied
-	 * @package osid.usermessaging
 	 */
 	// :: defined globally :: define("PERMISSION_DENIED","Permission denied ");
 
 	/**
 	 * Configuration error
-	 * @package osid.usermessaging
 	 */
 	// :: defined globally :: define("CONFIGURATION_ERROR","Configuration error ");
 
 	/**
 	 * Unimplemented method
-	 * @package osid.usermessaging
 	 */
 	// :: defined globally :: define("UNIMPLEMENTED","Unimplemented method ");
 
 	/**
 	 * Not currently subscribed to this Topic
-	 * @package osid.usermessaging
 	 */
 	// :: defined globally :: define("NOT_SUBSCRIBED","Not currently subscribed to this Topic ");
 }
 
 // :: post-declaration code ::
 /**
- * @const string UNKNOWN_ID public static final String UNKNOWN_ID = "Unknown Id "
- * @package osid.usermessaging
+ * string: Unknown Id 
+ * @name UNKNOWN_ID
  */
 define("UNKNOWN_ID", "Unknown Id ");
 
 /**
- * @const string UNKNOWN_TYPE public static final String UNKNOWN_TYPE = "Unknown Type "
- * @package osid.usermessaging
+ * string: Unknown Type 
+ * @name UNKNOWN_TYPE
  */
 define("UNKNOWN_TYPE", "Unknown Type ");
 
 /**
- * @const string UNKNOWN_TOPIC public static final String UNKNOWN_TOPIC = "Unknown Topic "
- * @package osid.usermessaging
+ * string: Unknown Topic 
+ * @name UNKNOWN_TOPIC
  */
 define("UNKNOWN_TOPIC", "Unknown Topic ");
 
 /**
- * @const string OPERATION_FAILED public static final String OPERATION_FAILED = "Operation failed "
- * @package osid.usermessaging
+ * string: Operation failed 
+ * @name OPERATION_FAILED
  */
 define("OPERATION_FAILED", "Operation failed ");
 
 /**
- * @const string NO_MORE_ITERATOR_ELEMENTS public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
- * @package osid.usermessaging
+ * string: Iterator has no more elements 
+ * @name NO_MORE_ITERATOR_ELEMENTS
  */
 define("NO_MORE_ITERATOR_ELEMENTS", "Iterator has no more elements ");
 
 /**
- * @const string NULL_ARGUMENT public static final String NULL_ARGUMENT = "Null argument "
- * @package osid.usermessaging
+ * string: Null argument 
+ * @name NULL_ARGUMENT
  */
 define("NULL_ARGUMENT", "Null argument ");
 
 /**
- * @const string PERMISSION_DENIED public static final String PERMISSION_DENIED = "Permission denied "
- * @package osid.usermessaging
+ * string: Permission denied 
+ * @name PERMISSION_DENIED
  */
 define("PERMISSION_DENIED", "Permission denied ");
 
 /**
- * @const string CONFIGURATION_ERROR public static final String CONFIGURATION_ERROR = "Configuration error "
- * @package osid.usermessaging
+ * string: Configuration error 
+ * @name CONFIGURATION_ERROR
  */
 define("CONFIGURATION_ERROR", "Configuration error ");
 
 /**
- * @const string UNIMPLEMENTED public static final String UNIMPLEMENTED = "Unimplemented method "
- * @package osid.usermessaging
+ * string: Unimplemented method 
+ * @name UNIMPLEMENTED
  */
 define("UNIMPLEMENTED", "Unimplemented method ");
 
 /**
- * @const string NOT_SUBSCRIBED public static final String NOT_SUBSCRIBED = "Not currently subscribed to this Topic "
- * @package osid.usermessaging
+ * string: Not currently subscribed to this Topic 
+ * @name NOT_SUBSCRIBED
  */
 define("NOT_SUBSCRIBED", "Not currently subscribed to this Topic ");
 

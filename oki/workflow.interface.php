@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package osid.workflow
+ */
 
+/**
+ * @ignore
+ */
 require_once(OKI."/osid.interface.php");
 
 	/**
@@ -757,171 +763,157 @@ class WorkflowException // :: normal class
 
 	/**
 	 * Unknown Id
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("UNKNOWN_ID","Unknown Id ");
 
 	/**
 	 * Unknown or unsupported Type
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("UNKNOWN_TYPE","Unknown Type ");
 
 	/**
 	 * Operation failed
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("OPERATION_FAILED","Operation failed ");
 
 	/**
 	 * Iterator has no more elements
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
 
 	/**
 	 * Circular operation
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("CIRCULAR_OPERATION","Circular operation not allowed ");
 
 	/**
 	 * Null argument
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("NULL_ARGUMENT","Null argument ");
 
 	/**
 	 * Permission denied
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("PERMISSION_DENIED","Permission denied ");
 
 	/**
 	 * Object already added
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("ALREADY_ADDED","Object already added ");
 
 	/**
 	 * Configuration error
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("CONFIGURATION_ERROR","Configuration error ");
 
 	/**
 	 * Unimplemented method
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("UNIMPLEMENTED","Unimplemented method ");
 
 	/**
 	 * Unknown Expression
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("UNKNOWN_EXPRESSION","Unknown Expression ");
 
 	/**
 	 * Unknown Output State
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("UNKNOWN_OUTPUT_STATE","Unknown Output State ");
 
 	/**
 	 * Invalid network
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("INVALID_NETWORK","Invalid network ");
 
 	/**
 	 * Work is not halted
-	 * @package osid.workflow
 	 */
 	// :: defined globally :: define("NOT_HALTED","Work is not halted ");
 }
 
 // :: post-declaration code ::
 /**
- * @const string UNKNOWN_ID public static final String UNKNOWN_ID = "Unknown Id "
- * @package osid.workflow
+ * string: Unknown Id 
+ * @name UNKNOWN_ID
  */
 define("UNKNOWN_ID", "Unknown Id ");
 
 /**
- * @const string UNKNOWN_TYPE public static final String UNKNOWN_TYPE = "Unknown Type "
- * @package osid.workflow
+ * string: Unknown Type 
+ * @name UNKNOWN_TYPE
  */
 define("UNKNOWN_TYPE", "Unknown Type ");
 
 /**
- * @const string OPERATION_FAILED public static final String OPERATION_FAILED = "Operation failed "
- * @package osid.workflow
+ * string: Operation failed 
+ * @name OPERATION_FAILED
  */
 define("OPERATION_FAILED", "Operation failed ");
 
 /**
- * @const string NO_MORE_ITERATOR_ELEMENTS public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
- * @package osid.workflow
+ * string: Iterator has no more elements 
+ * @name NO_MORE_ITERATOR_ELEMENTS
  */
 define("NO_MORE_ITERATOR_ELEMENTS", "Iterator has no more elements ");
 
 /**
- * @const string CIRCULAR_OPERATION public static final String CIRCULAR_OPERATION = "Circular operation not allowed "
- * @package osid.workflow
+ * string: Circular operation not allowed 
+ * @name CIRCULAR_OPERATION
  */
 define("CIRCULAR_OPERATION", "Circular operation not allowed ");
 
 /**
- * @const string NULL_ARGUMENT public static final String NULL_ARGUMENT = "Null argument "
- * @package osid.workflow
+ * string: Null argument 
+ * @name NULL_ARGUMENT
  */
 define("NULL_ARGUMENT", "Null argument ");
 
 /**
- * @const string PERMISSION_DENIED public static final String PERMISSION_DENIED = "Permission denied "
- * @package osid.workflow
+ * string: Permission denied 
+ * @name PERMISSION_DENIED
  */
 define("PERMISSION_DENIED", "Permission denied ");
 
 /**
- * @const string ALREADY_ADDED public static final String ALREADY_ADDED = "Object already added "
- * @package osid.workflow
+ * string: Object already added 
+ * @name ALREADY_ADDED
  */
 define("ALREADY_ADDED", "Object already added ");
 
 /**
- * @const string CONFIGURATION_ERROR public static final String CONFIGURATION_ERROR = "Configuration error "
- * @package osid.workflow
+ * string: Configuration error 
+ * @name CONFIGURATION_ERROR
  */
 define("CONFIGURATION_ERROR", "Configuration error ");
 
 /**
- * @const string UNIMPLEMENTED public static final String UNIMPLEMENTED = "Unimplemented method "
- * @package osid.workflow
+ * string: Unimplemented method 
+ * @name UNIMPLEMENTED
  */
 define("UNIMPLEMENTED", "Unimplemented method ");
 
 /**
- * @const string UNKNOWN_EXPRESSION public static final String UNKNOWN_EXPRESSION = "Unknown Expression "
- * @package osid.workflow
+ * string: Unknown Expression 
+ * @name UNKNOWN_EXPRESSION
  */
 define("UNKNOWN_EXPRESSION", "Unknown Expression ");
 
 /**
- * @const string UNKNOWN_OUTPUT_STATE public static final String UNKNOWN_OUTPUT_STATE = "Unknown Output State "
- * @package osid.workflow
+ * string: Unknown Output State 
+ * @name UNKNOWN_OUTPUT_STATE
  */
 define("UNKNOWN_OUTPUT_STATE", "Unknown Output State ");
 
 /**
- * @const string INVALID_NETWORK public static final String INVALID_NETWORK = "Invalid network "
- * @package osid.workflow
+ * string: Invalid network 
+ * @name INVALID_NETWORK
  */
 define("INVALID_NETWORK", "Invalid network ");
 
 /**
- * @const string NOT_HALTED public static final String NOT_HALTED = "Work is not halted "
- * @package osid.workflow
+ * string: Work is not halted 
+ * @name NOT_HALTED
  */
 define("NOT_HALTED", "Work is not halted ");
 

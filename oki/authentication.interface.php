@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package osid.authentication
+ */
 
+/**
+ * @ignore
+ */
 require_once(OKI."/osid.interface.php");
 
 	/**
@@ -71,75 +77,69 @@ class AuthenticationException // :: normal class
 
 	/**
 	 * Unknown or unsupported Type
-	 * @package osid.authentication
 	 */
 	// :: defined globally :: define("UNKNOWN_TYPE","Unknown Type ");
 
 	/**
 	 * Operation failed
-	 * @package osid.authentication
 	 */
 	// :: defined globally :: define("OPERATION_FAILED","Operation failed ");
 
 	/**
 	 * Null argument
-	 * @package osid.authentication
 	 */
 	// :: defined globally :: define("NULL_ARGUMENT","Null argument ");
 
 	/**
 	 * Permission denied
-	 * @package osid.authentication
 	 */
 	// :: defined globally :: define("PERMISSION_DENIED","Permission denied ");
 
 	/**
 	 * Configuration error
-	 * @package osid.authentication
 	 */
 	// :: defined globally :: define("CONFIGURATION_ERROR","Configuration error ");
 
 	/**
 	 * Unimplemented method
-	 * @package osid.authentication
 	 */
 	// :: defined globally :: define("UNIMPLEMENTED","Unimplemented method ");
 }
 
 // :: post-declaration code ::
 /**
- * @const string UNKNOWN_TYPE public static final String UNKNOWN_TYPE = "Unknown Type "
- * @package osid.authentication
+ * string: Unknown Type 
+ * @name UNKNOWN_TYPE
  */
 define("UNKNOWN_TYPE", "Unknown Type ");
 
 /**
- * @const string OPERATION_FAILED public static final String OPERATION_FAILED = "Operation failed "
- * @package osid.authentication
+ * string: Operation failed 
+ * @name OPERATION_FAILED
  */
 define("OPERATION_FAILED", "Operation failed ");
 
 /**
- * @const string NULL_ARGUMENT public static final String NULL_ARGUMENT = "Null argument "
- * @package osid.authentication
+ * string: Null argument 
+ * @name NULL_ARGUMENT
  */
 define("NULL_ARGUMENT", "Null argument ");
 
 /**
- * @const string PERMISSION_DENIED public static final String PERMISSION_DENIED = "Permission denied "
- * @package osid.authentication
+ * string: Permission denied 
+ * @name PERMISSION_DENIED
  */
 define("PERMISSION_DENIED", "Permission denied ");
 
 /**
- * @const string CONFIGURATION_ERROR public static final String CONFIGURATION_ERROR = "Configuration error "
- * @package osid.authentication
+ * string: Configuration error 
+ * @name CONFIGURATION_ERROR
  */
 define("CONFIGURATION_ERROR", "Configuration error ");
 
 /**
- * @const string UNIMPLEMENTED public static final String UNIMPLEMENTED = "Unimplemented method "
- * @package osid.authentication
+ * string: Unimplemented method 
+ * @name UNIMPLEMENTED
  */
 define("UNIMPLEMENTED", "Unimplemented method ");
 

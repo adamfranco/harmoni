@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package osid.hierarchy
+ */
 
+/**
+ * @ignore
+ */
 require_once(OKI."/osid.interface.php");
 
 	/**
@@ -192,31 +198,26 @@ class Hierarchy // :: API interface
 
 	/**
 	 *  Constant indicating depth-first traversal.
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("TRAVERSE_MODE_DEPTH_FIRST",0xdf;);
 
 	/**
 	 *  Constant indicating breadth-first traversal.
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("TRAVERSE_MODE_BREADTH_FIRST",0xbf;);
 
 	/**
 	 *  Constant indicating traversal up the Hierarchy, or traversal of parents.
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("TRAVERSE_DIRECTION_UP",0x01;);
 
 	/**
 	 *  Constant indicating traversal down the Hierarchy, or traversal of children.
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("TRAVERSE_DIRECTION_DOWN",0x02;);
 
 	/**
 	 *  Constant indicating no limit on the depth of traversal.
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("TRAVERSE_LEVELS_ALL",-1;);
 
@@ -269,31 +270,26 @@ class TraversalInfo // :: API interface
 // :: post-declaration code ::
 /**
  * @const int TRAVERSE_MODE_DEPTH_FIRST public static final int TRAVERSE_MODE_DEPTH_FIRST = 0xdf;
- * @package osid.hierarchy
  */
 define("TRAVERSE_MODE_DEPTH_FIRST", 0xdf);
 
 /**
  * @const int TRAVERSE_MODE_BREADTH_FIRST public static final int TRAVERSE_MODE_BREADTH_FIRST = 0xbf;
- * @package osid.hierarchy
  */
 define("TRAVERSE_MODE_BREADTH_FIRST", 0xbf);
 
 /**
  * @const int TRAVERSE_DIRECTION_UP public static final int TRAVERSE_DIRECTION_UP = 0x01;
- * @package osid.hierarchy
  */
 define("TRAVERSE_DIRECTION_UP", 0x01);
 
 /**
  * @const int TRAVERSE_DIRECTION_DOWN public static final int TRAVERSE_DIRECTION_DOWN = 0x02;
- * @package osid.hierarchy
  */
 define("TRAVERSE_DIRECTION_DOWN", 0x02);
 
 /**
  * @const int TRAVERSE_LEVELS_ALL public static final int TRAVERSE_LEVELS_ALL = -1;
- * @package osid.hierarchy
  */
 define("TRAVERSE_LEVELS_INFINITE", -1);
 
@@ -503,219 +499,200 @@ class HierarchyException // :: normal class
 
 	/**
 	 * Unknown or unsupported Type
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("UNKNOWN_TYPE","Unknown Type ");
 
 	/**
 	 * Unknown Id
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("UNKNOWN_ID","Unknown Id ");
 
 	/**
 	 * Iterator has no more elements
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
 
 	/**
 	 * Cannot create Node without unknown parent
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("UNKNOWN_PARENT_NODE","Cannot create Node with unknown parent ");
 
 	/**
 	 * Cannot delete a Hierarchy containing Nodes
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("HIERARCHY_NOT_EMPTY","Cannot delete a Hierarchy containing Nodes ");
 
 	/**
 	 * Null argument
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("NULL_ARGUMENT","Null argument");
 
 	/**
 	 * Hierarchy does not support allowsMultipleParents is false and allowsRecursion is true
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("UNSUPPORTED_CREATION","Hierarchy does not support allowsMultipleParents is false and allowsRecursion is true ");
 
 	/**
 	 * Hierarchy does not allow recursion
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("ATTEMPTED_RECURSION","Hierarchy does not allow recursion ");
 
 	/**
 	 * Hierarchy does not allow multiple parents
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("SINGLE_PARENT_HIERARCHY","Hierarchy does not allow multiple parents ");
 
 	/**
 	 * Removing parent will result in an inconsistent state
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("INCONSISTENT_STATE","Removing node will result in an inconsistent state ");
 
 	/**
 	 * Unknown traversal mode
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("UNKNOWN_TRAVERSAL_MODE","Unknown traversal mode ");
 
 	/**
 	 * Unknown traversal direction
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("UNKNOWN_TRAVERSAL_DIRECTION","Unknown traversal direction ");
 
 	/**
 	 * NodeType has never been added
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("NODE_TYPE_NOT_FOUND","NodeType has never been added ");
 
 	/**
 	 * Cannot remove NodeType referenced by a Node
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("NODE_TYPE_IN_USE","Cannot remove NodeType referenced by a Node ");
 
 	/**
 	 * Operation Failed
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("OPERATION_FAILED","Operation failed ");
 
 	/**
 	 * Permission Denied
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("PERMISSION_DENIED","Permission denied ");
 
 	/**
 	 * Configuration error
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("CONFIGURATION_ERROR","Configuration error");
 
 	/**
 	 * Object already added
-	 * @package osid.hierarchy
 	 */
 	// :: defined globally :: define("ALREADY_ADDED","Object already added ");
 }
 
 // :: post-declaration code ::
 /**
- * @const string UNKNOWN_TYPE public static final String UNKNOWN_TYPE = "Unknown Type "
- * @package osid.hierarchy
+ * string: Unknown Type 
+ * @name UNKNOWN_TYPE
  */
 define("UNKNOWN_TYPE", "Unknown Type ");
 
 /**
- * @const string UNKNOWN_ID public static final String UNKNOWN_ID = "Unknown Id "
- * @package osid.hierarchy
+ * string: Unknown Id 
+ * @name UNKNOWN_ID
  */
 define("UNKNOWN_ID", "Unknown Id ");
 
 /**
- * @const string NO_MORE_ITERATOR_ELEMENTS public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
- * @package osid.hierarchy
+ * string: Iterator has no more elements 
+ * @name NO_MORE_ITERATOR_ELEMENTS
  */
 define("NO_MORE_ITERATOR_ELEMENTS", "Iterator has no more elements ");
 
 /**
  * @const string UNKNOWN_PARENT_NODE public static final String UNKNOWN_PARENT_NODE =        "Cannot create Node with unknown parent "
- * @package osid.hierarchy
  */
 define("UNKNOWN_PARENT_NODE", "Cannot create Node with unknown parent ");
 
 /**
- * @const string HIERARCHY_NOT_EMPTY public static final String HIERARCHY_NOT_EMPTY = "Cannot delete a Hierarchy containing Nodes "
- * @package osid.hierarchy
+ * string: Cannot delete a Hierarchy containing Nodes 
+ * @name HIERARCHY_NOT_EMPTY
  */
 define("HIERARCHY_NOT_EMPTY", "Cannot delete a Hierarchy containing Nodes ");
 
 /**
- * @const string NULL_ARGUMENT public static final String NULL_ARGUMENT = "Null argument"
- * @package osid.hierarchy
+ * string: Null argument
+ * @name NULL_ARGUMENT
  */
 define("NULL_ARGUMENT", "Null argument");
 
 /**
- * @const string UNSUPPORTED_CREATION public static final String UNSUPPORTED_CREATION = "Hierarchy does not support allowsMultipleParents is false and allowsRecursion is true "
- * @package osid.hierarchy
+ * string: Hierarchy does not support allowsMultipleParents is false and allowsRecursion is true 
+ * @name UNSUPPORTED_CREATION
  */
 define("UNSUPPORTED_CREATION", "Hierarchy does not support allowsMultipleParents is false and allowsRecursion is true ");
 
 /**
- * @const string ATTEMPTED_RECURSION public static final String ATTEMPTED_RECURSION = "Hierarchy does not allow recursion "
- * @package osid.hierarchy
+ * string: Hierarchy does not allow recursion 
+ * @name ATTEMPTED_RECURSION
  */
 define("ATTEMPTED_RECURSION", "Hierarchy does not allow recursion ");
 
 /**
- * @const string SINGLE_PARENT_HIERARCHY public static final String SINGLE_PARENT_HIERARCHY = "Hierarchy does not allow multiple parents "
- * @package osid.hierarchy
+ * string: Hierarchy does not allow multiple parents 
+ * @name SINGLE_PARENT_HIERARCHY
  */
 define("SINGLE_PARENT_HIERARCHY", "Hierarchy does not allow multiple parents ");
 
 /**
- * @const string INCONSISTENT_STATE public static final String INCONSISTENT_STATE = "Removing node will result in an inconsistent state "
- * @package osid.hierarchy
+ * string: Removing node will result in an inconsistent state 
+ * @name INCONSISTENT_STATE
  */
 define("INCONSISTENT_STATE", "Removing node will result in an inconsistent state ");
 
 /**
- * @const string UNKNOWN_TRAVERSAL_MODE public static final String UNKNOWN_TRAVERSAL_MODE = "Unknown traversal mode "
- * @package osid.hierarchy
+ * string: Unknown traversal mode 
+ * @name UNKNOWN_TRAVERSAL_MODE
  */
 define("UNKNOWN_TRAVERSAL_MODE", "Unknown traversal mode ");
 
 /**
- * @const string UNKNOWN_TRAVERSAL_DIRECTION public static final String UNKNOWN_TRAVERSAL_DIRECTION = "Unknown traversal direction "
- * @package osid.hierarchy
+ * string: Unknown traversal direction 
+ * @name UNKNOWN_TRAVERSAL_DIRECTION
  */
 define("UNKNOWN_TRAVERSAL_DIRECTION", "Unknown traversal direction ");
 
 /**
- * @const string NODE_TYPE_NOT_FOUND public static final String NODE_TYPE_NOT_FOUND = "NodeType has never been added "
- * @package osid.hierarchy
+ * string: NodeType has never been added 
+ * @name NODE_TYPE_NOT_FOUND
  */
 define("NODE_TYPE_NOT_FOUND", "NodeType has never been added ");
 
 /**
- * @const string NODE_TYPE_IN_USE public static final String NODE_TYPE_IN_USE = "Cannot remove NodeType referenced by a Node "
- * @package osid.hierarchy
+ * string: Cannot remove NodeType referenced by a Node 
+ * @name NODE_TYPE_IN_USE
  */
 define("NODE_TYPE_IN_USE", "Cannot remove NodeType referenced by a Node ");
 
 /**
- * @const string OPERATION_FAILED public static final String OPERATION_FAILED = "Operation failed "
- * @package osid.hierarchy
+ * string: Operation failed 
+ * @name OPERATION_FAILED
  */
 define("OPERATION_FAILED", "Operation failed ");
 
 /**
- * @const string PERMISSION_DENIED public static final String PERMISSION_DENIED = "Permission denied "
- * @package osid.hierarchy
+ * string: Permission denied 
+ * @name PERMISSION_DENIED
  */
 define("PERMISSION_DENIED", "Permission denied ");
 
 /**
- * @const string CONFIGURATION_ERROR public static final String CONFIGURATION_ERROR = "Configuration error"
- * @package osid.hierarchy
+ * string: Configuration error
+ * @name CONFIGURATION_ERROR
  */
 define("CONFIGURATION_ERROR", "Configuration error");
 
 /**
- * @const string ALREADY_ADDED public static final String ALREADY_ADDED = "Object already added "
- * @package osid.hierarchy
+ * string: Object already added 
+ * @name ALREADY_ADDED
  */
 define("ALREADY_ADDED", "Object already added ");
 

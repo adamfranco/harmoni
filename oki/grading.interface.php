@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package osid.grading
+ */
 
+/**
+ * @ignore
+ */
 require_once(OKI."/osid.interface.php");
 
 	/**
@@ -24,6 +30,8 @@ class GradingManager // :: API interface
 	 */
 	function &createGradableObject($displayName, $description, & $courseSectionId, & $externalReferenceId, & $gradeType, & $scoringDefinition, & $gradeScale) { /* :: interface :: */ }
 	// :: full java declaration :: GradableObject createGradableObject
+	 
+	/**
 	 * Delete a GradableObject.
 	 *  gradableObjectId
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}
@@ -49,6 +57,8 @@ class GradingManager // :: API interface
 	 */
 	function &getGradableObjects(& $courseSectionId, & $externalReferenceId) { /* :: interface :: */ }
 	// :: full java declaration :: GradableObjectIterator getGradableObjects
+	
+	/**
 	 * Create a new GradeRecord for an Agent and with a Grade and GradeRecordType.   The GradeRecordType is they Type of GradeRecord not the Type of Grade contained in it.  GradeRecord Types might indicate a mid-term, partial, or final grade while GradeTypes might be letter, numeric, etc.  The Agent in this context is not the
 	 *  GradableObjectId - the Unique Id of the GradableObject created by the createGradableObject method.
 	 * null
@@ -59,6 +69,8 @@ class GradingManager // :: API interface
 	 */
 	function &createGradeRecord(& $gradbaleObjectId, & $agent, & $gradeValue, & $gradeRecordType) { /* :: interface :: */ }
 	// :: full java declaration :: GradeRecord createGradeRecord
+	
+	/**
 	 * Delete a GradableObject.
 	 *  gradableObjectId
 	 * null
@@ -80,6 +92,8 @@ class GradingManager // :: API interface
 	 */
 	function &getGradeRecords(& $courseSectionId, & $externalReferenceId, & $gradableObjectId, & $agent, & $gradeRecordType) { /* :: interface :: */ }
 	// :: full java declaration :: GradeRecordIterator getGradeRecords
+	
+	/**
 	 * Get all GradeRecordTypes.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @return object osid.shared.TypeIterator The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
@@ -319,75 +333,69 @@ class GradingException // :: normal class
 
 	/**
 	 * Unknown Id
-	 * @package osid.grading
 	 */
 	// :: defined globally :: define("UNKNOWN_ID","Unknown Id ");
 
 	/**
 	 * Unknown or unsupported Type
-	 * @package osid.grading
 	 */
 	// :: defined globally :: define("UNKNOWN_TYPE","Unknown Type ");
 
 	/**
 	 * Operation failed
-	 * @package osid.grading
 	 */
 	// :: defined globally :: define("OPERATION_FAILED","Operation failed ");
 
 	/**
 	 * Iterator has no more elements
-	 * @package osid.grading
 	 */
 	// :: defined globally :: define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
 
 	/**
 	 * Configuration error
-	 * @package osid.grading
 	 */
 	// :: defined globally :: define("CONFIGURATION_ERROR","Configuration error ");
 
 	/**
 	 * Unimplemented method
-	 * @package osid.grading
 	 */
 	// :: defined globally :: define("UNIMPLEMENTED","Unimplemented method ");
 }
 
 // :: post-declaration code ::
 /**
- * @const string UNKNOWN_ID public static final String UNKNOWN_ID = "Unknown Id "
- * @package osid.grading
+ * string: Unknown Id 
+ * @name UNKNOWN_ID
  */
 define("UNKNOWN_ID", "Unknown Id ");
 
 /**
- * @const string UNKNOWN_TYPE public static final String UNKNOWN_TYPE = "Unknown Type "
- * @package osid.grading
+ * string: Unknown Type 
+ * @name UNKNOWN_TYPE
  */
 define("UNKNOWN_TYPE", "Unknown Type ");
 
 /**
- * @const string OPERATION_FAILED public static final String OPERATION_FAILED = "Operation failed "
- * @package osid.grading
+ * string: Operation failed 
+ * @name OPERATION_FAILED
  */
 define("OPERATION_FAILED", "Operation failed ");
 
 /**
- * @const string NO_MORE_ITERATOR_ELEMENTS public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
- * @package osid.grading
+ * string: Iterator has no more elements 
+ * @name NO_MORE_ITERATOR_ELEMENTS
  */
 define("NO_MORE_ITERATOR_ELEMENTS", "Iterator has no more elements ");
 
 /**
- * @const string CONFIGURATION_ERROR public static final String CONFIGURATION_ERROR = "Configuration error "
- * @package osid.grading
+ * string: Configuration error 
+ * @name CONFIGURATION_ERROR
  */
 define("CONFIGURATION_ERROR", "Configuration error ");
 
 /**
- * @const string UNIMPLEMENTED public static final String UNIMPLEMENTED = "Unimplemented method "
- * @package osid.grading
+ * string: Unimplemented method 
+ * @name UNIMPLEMENTED
  */
 define("UNIMPLEMENTED", "Unimplemented method ");
 

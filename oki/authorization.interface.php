@@ -1,58 +1,64 @@
 <?php
+/**
+ * @package osid.authorization
+ */
 
+/**
+ * @ignore
+ */
 require_once(OKI."/osid.interface.php");
 
 /**
- * @const string UNKNOWN_TYPE public static final String UNKNOWN_TYPE = "Unknown Type "
- * @package osid.authorization
+ * string: Unknown Type 
+ * @name UNKNOWN_TYPE
  */
 define("UNKNOWN_TYPE", "Unknown Type ");
 
 /**
- * @const string UNKNOWN_ID public static final String UNKNOWN_ID = "Unknown Id "
- * @package osid.authorization
+ * string: Unknown Id 
+ * @name UNKNOWN_ID
  */
 define("UNKNOWN_ID", "Unknown Id ");
 
 /**
- * @const string NO_MORE_ITERATOR_ELEMENTS public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
- * @package osid.authorization
+ * string: Iterator has no more elements 
+ * @name NO_MORE_ITERATOR_ELEMENTS
  */
 define("NO_MORE_ITERATOR_ELEMENTS", "Iterator has no more elements ");
 
 /**
- * @const string PERMISSION_DENIED public static final String PERMISSION_DENIED = "Permission denied "
- * @package osid.authorization
+ * string: Permission denied 
+ * @name PERMISSION_DENIED
  */
 define("PERMISSION_DENIED", "Permission denied ");
 
 /**
- * @const string NULL_ARGUMENT public static final String NULL_ARGUMENT = "Null argument "
- * @package osid.authorization
+ * string: Null argument 
+ * @name NULL_ARGUMENT
  */
 define("NULL_ARGUMENT", "Null argument ");
 
 /**
- * @const string CONFIGURATION_ERROR public static final String CONFIGURATION_ERROR = "Configuration error "
- * @package osid.authorization
+ * string: Configuration error 
+ * @name CONFIGURATION_ERROR
  */
 define("CONFIGURATION_ERROR", "Configuration error ");
 
 /**
- * @const string EFFECTIVE_PRECEDE_EXPIRATION public static final String EFFECTIVE_PRECEDE_EXPIRATION = "Effective date must precede expiration date "
- * @package osid.authorization
+ * string: Effective date must precede expiration date 
+ * @name EFFECTIVE_PRECEDE_EXPIRATION
  */
 define("EFFECTIVE_PRECEDE_EXPIRATION", "Effective date must precede expiration date ");
 
 /**
- * @const string OPERATION_FAILED public static final String OPERATION_FAILED = "Operation failed"
- * @package osid.authorization
+ * string: Operation failed
+ * @name OPERATION_FAILED
  */
 define("OPERATION_FAILED", "Operation failed");
 
 /**
- * @const string CANNOT_DELETE_LAST_ROOT_QUALIFIER public static final String CANNOT_DELETE_LAST_ROOT_QUALIFIER = "Cannot delete last root Qualifier "
- * @package osid.authorization
+ * string: Cannot delete last root Qualifier 
+ * @name CANNOT_DELETE_LAST_ROOT_QUALIFIER
  */
 define("CANNOT_DELETE_LAST_ROOT_QUALIFIER", "Cannot delete last root Qualifier ");
 
@@ -61,10 +67,10 @@ define("CANNOT_DELETE_LAST_ROOT_QUALIFIER", "Cannot delete last root Qualifier "
 /**
  * AuthorizationManager allows an application to create Authorizations, get Authorizations given selection criterias, ask questions of Authorization such as what Agent can do a Function in a Qualifier context, etc.<p><p>The primary objects in Authorization are Authorization, Function, Agent, and Qualifier. There are also Function and Qualifier types that are understood by the implementation.<p><p>Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p><p>There are two methods to create Authorizations. One uses method uses Agent, Function, and Qualifier.  The other adds effective date and expiration date.  For the method without the dates, the effective date is today and there is no expiration date.  <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * @access public
- * @version $Id: authorization.interface.php,v 1.10 2005/01/20 14:45:02 adamfranco Exp $
+ * @version $Id: authorization.interface.php,v 1.11 2005/01/25 14:55:59 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
- * @package harmoni.authorization
+ * @package osid.authorization
  */
 class AuthorizationManager extends OsidManager
 

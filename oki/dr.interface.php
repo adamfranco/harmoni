@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package osid.dr
+ */
 
+/**
+ * @ignore
+ */
 require_once(OKI."/osid.interface.php");
 
 	/**
@@ -1575,159 +1581,146 @@ class DigitalRepositoryException // :: normal class
 
 	/**
 	 * Unknown or unsupported Type
-	 * @package osid.dr
 	 */
 	// :: defined globally :: define("UNKNOWN_TYPE","Unknown Type ");
 
 	/**
 	 * Unknown Id
-	 * @package osid.dr
 	 */
 	// :: defined globally :: define("UNKNOWN_ID","Unknown Id ");
 
 	/**
 	 * Unknown Digital Repository
-	 * @package osid.dr
 	 */
 	// :: defined globally :: define("UNKNOWN_DR","Unknown Digital Repository ");
 
 	/**
 	 * Operation failed
-	 * @package osid.dr
 	 */
 	// :: defined globally :: define("OPERATION_FAILED","Operation failed ");
 
 	/**
 	 * No object has this date
-	 * @package osid.dr
 	 */
 	// :: defined globally :: define("NO_OBJECT_WITH_THIS_DATE","No object has this date ");
 
 	/**
 	 * Object already added
-	 * @package osid.dr
 	 */
 	// :: defined globally :: define("ALREADY_ADDED","Object already added ");
 
 	/**
 	 * Cannot copy or inherit InfoStructure from itself
-	 * @package osid.dr
 	 */
 	// :: defined globally :: define("CANNOT_COPY_OR_INHERIT_SELF","Cannot copy or inherit InfoStructure from itself ");
 
 	/**
 	 * Already inheriting this InfoStructure
-	 * @package osid.dr
 	 */
 	// :: defined globally :: define("ALREADY_INHERITING_STRUCTURE","Already inheriting this InfoStructure ");
 
 	/**
 	 * Iterator has no more elements
-	 * @package osid.dr
 	 */
 	// :: defined globally :: define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
 
 	/**
 	 * Permission denied
-	 * @package osid.dr
 	 */
 	// :: defined globally :: define("PERMISSION_DENIED","Permission denied ");
 
 	/**
 	 * Null argument
-	 * @package osid.dr
 	 */
 	// :: defined globally :: define("NULL_ARGUMENT","Null argument ");
 
 	/**
 	 * Configuration error
-	 * @package osid.dr
 	 */
 	// :: defined globally :: define("CONFIGURATION_ERROR","Configuration error ");
 
 	/**
 	 * Effective date must precede expiration date
-	 * @package osid.dr
 	 */
 	// :: defined globally :: define("EFFECTIVE_PRECEDE_EXPIRATION","Effective date must precede expiration date ");
 }
 
 // :: post-declaration code ::
 /**
- * @const string UNKNOWN_TYPE public static final String UNKNOWN_TYPE = "Unknown Type "
- * @package osid.dr
+ * string: Unknown Type 
+ * @name UNKNOWN_TYPE
  */
 define("UNKNOWN_TYPE", "Unknown Type ");
 
 /**
- * @const string UNKNOWN_ID public static final String UNKNOWN_ID = "Unknown Id "
- * @package osid.dr
+ * string: Unknown Id 
+ * @name UNKNOWN_ID
  */
 define("UNKNOWN_ID", "Unknown Id ");
 
 /**
- * @const string UNKNOWN_DR public static final String UNKNOWN_DR = "Unknown Digital Repository "
- * @package osid.dr
+ * string: Unknown Digital Repository 
+ * @name UNKNOWN_DR
  */
 define("UNKNOWN_DR", "Unknown Digital Repository ");
 
 /**
- * @const string OPERATION_FAILED public static final String OPERATION_FAILED = "Operation failed "
- * @package osid.dr
+ * string: Operation failed 
+ * @name OPERATION_FAILED
  */
 define("OPERATION_FAILED", "Operation failed ");
 
 /**
- * @const string NO_OBJECT_WITH_THIS_DATE public static final String NO_OBJECT_WITH_THIS_DATE = "No object has this date "
- * @package osid.dr
+ * string: No object has this date 
+ * @name NO_OBJECT_WITH_THIS_DATE
  */
 define("NO_OBJECT_WITH_THIS_DATE", "No object has this date ");
 
 /**
- * @const string ALREADY_ADDED public static final String ALREADY_ADDED = "Object already added "
- * @package osid.dr
+ * string: Object already added 
+ * @name ALREADY_ADDED
  */
 define("ALREADY_ADDED", "Object already added ");
 
 /**
- * @const string CANNOT_COPY_OR_INHERIT_SELF public static final String CANNOT_COPY_OR_INHERIT_SELF = "Cannot copy or inherit InfoStructure from itself "
- * @package osid.dr
+ * string: Cannot copy or inherit InfoStructure from itself 
+ * @name CANNOT_COPY_OR_INHERIT_SELF
  */
 define("CANNOT_COPY_OR_INHERIT_SELF", "Cannot copy or inherit InfoStructure from itself ");
 
 /**
- * @const string ALREADY_INHERITING_STRUCTURE public static final String ALREADY_INHERITING_STRUCTURE = "Already inheriting this InfoStructure "
- * @package osid.dr
+ * string: Already inheriting this InfoStructure 
+ * @name ALREADY_INHERITING_STRUCTURE
  */
 define("ALREADY_INHERITING_STRUCTURE", "Already inheriting this InfoStructure ");
 
 /**
- * @const string NO_MORE_ITERATOR_ELEMENTS public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
- * @package osid.dr
+ * string: Iterator has no more elements 
+ * @name NO_MORE_ITERATOR_ELEMENTS
  */
 define("NO_MORE_ITERATOR_ELEMENTS", "Iterator has no more elements ");
 
 /**
- * @const string PERMISSION_DENIED public static final String PERMISSION_DENIED = "Permission denied "
- * @package osid.dr
+ * string: Permission denied 
+ * @name PERMISSION_DENIED
  */
 define("PERMISSION_DENIED", "Permission denied ");
 
 /**
- * @const string NULL_ARGUMENT public static final String NULL_ARGUMENT = "Null argument "
- * @package osid.dr
+ * string: Null argument 
+ * @name NULL_ARGUMENT
  */
 define("NULL_ARGUMENT", "Null argument ");
 
 /**
- * @const string CONFIGURATION_ERROR public static final String CONFIGURATION_ERROR = "Configuration error "
- * @package osid.dr
+ * string: Configuration error 
+ * @name CONFIGURATION_ERROR
  */
 define("CONFIGURATION_ERROR", "Configuration error ");
 
 /**
- * @const string EFFECTIVE_PRECEDE_EXPIRATION public static final String EFFECTIVE_PRECEDE_EXPIRATION = "Effective date must precede expiration date "
- * @package osid.dr
+ * string: Effective date must precede expiration date 
+ * @name EFFECTIVE_PRECEDE_EXPIRATION
  */
 define("EFFECTIVE_PRECEDE_EXPIRATION", "Effective date must precede expiration date ");
 

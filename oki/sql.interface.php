@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package osid.sql
+ */
 
 	/**
 	 * A Blob is a variable length representation of binary (byte) values.  (Blob stands for <u>B</u>inary <u>L</u>arge <u>Ob</u>ject.)  The contents of a Blob are returned in a ByteValueIterator by the getBytes() method.  Its length is returned by the method length().
@@ -458,80 +461,80 @@ class SqlException // :: normal class
 
 // :: post-declaration code ::
 /**
- * @const string BLOB_GETBYTES_FAILED public static final String BLOB_GETBYTES_FAILED = "Blob get bytes failed ";
- * @package osid.sql
+ * string: Blob get bytes failed 
+ * @name BLOB_GETBYTES_FAILED;
  */
 define("BLOB_GETBYTES_FAILED", "Blob get bytes failed ";);
 
 /**
- * @const string CLOB_GETCHARS_FAILED public static final String CLOB_GETCHARS_FAILED = "Clob get chars failed ";
- * @package osid.sql
+ * string: Clob get chars failed 
+ * @name CLOB_GETCHARS_FAILED;
  */
 define("CLOB_GETCHARS_FAILED", "Clob get chars failed ";);
 
 /**
- * @const string CONNECTION_FAILED public static final String CONNECTION_FAILED = "Connection failed ";
- * @package osid.sql
+ * string: Connection failed 
+ * @name CONNECTION_FAILED;
  */
 define("CONNECTION_FAILED", "Connection failed ";);
 
 /**
- * @const string INVALID_ARGUMENTS public static final String INVALID_ARGUMENTS = "Invalid arguments ";
- * @package osid.sql
+ * string: Invalid arguments 
+ * @name INVALID_ARGUMENTS;
  */
 define("INVALID_ARGUMENTS", "Invalid arguments ";);
 
 /**
- * @const string INVALID_COLUMN_INDEX public static final String INVALID_COLUMN_INDEX = "Invalid column index ";
- * @package osid.sql
+ * string: Invalid column index 
+ * @name INVALID_COLUMN_INDEX;
  */
 define("INVALID_COLUMN_INDEX", "Invalid column index ";);
 
 /**
- * @const string DATA_RETRIEVAL_ERROR public static final String DATA_RETRIEVAL_ERROR = "Data retrieval error ";
- * @package osid.sql
+ * string: Data retrieval error 
+ * @name DATA_RETRIEVAL_ERROR;
  */
 define("DATA_RETRIEVAL_ERROR", "Data retrieval error ";);
 
 /**
- * @const string UNKNOWN_TYPE public static final String UNKNOWN_TYPE = "Unknown or unsupported Type "
- * @package osid.sql
+ * string: Unknown or unsupported Type 
+ * @name UNKNOWN_TYPE
  */
 define("UNKNOWN_TYPE", "Unknown or unsupported Type ");
 
 /**
- * @const string OPERATION_FAILED public static final String OPERATION_FAILED = "Operation failed "
- * @package osid.sql
+ * string: Operation failed 
+ * @name OPERATION_FAILED
  */
 define("OPERATION_FAILED", "Operation failed ");
 
 /**
- * @const string NO_MORE_ITERATOR_ELEMENTS public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
- * @package osid.sql
+ * string: Iterator has no more elements 
+ * @name NO_MORE_ITERATOR_ELEMENTS
  */
 define("NO_MORE_ITERATOR_ELEMENTS", "Iterator has no more elements ");
 
 /**
- * @const string NULL_ARGUMENT public static final String NULL_ARGUMENT = "Null argument "
- * @package osid.sql
+ * string: Null argument 
+ * @name NULL_ARGUMENT
  */
 define("NULL_ARGUMENT", "Null argument ");
 
 /**
- * @const string PERMISSION_DENIED public static final String PERMISSION_DENIED = "Permission denied "
- * @package osid.sql
+ * string: Permission denied 
+ * @name PERMISSION_DENIED
  */
 define("PERMISSION_DENIED", "Permission denied ");
 
 /**
- * @const string UNIMPLEMENTED public static final String UNIMPLEMENTED = "Unimplemented method "
- * @package osid.sql
+ * string: Unimplemented method 
+ * @name UNIMPLEMENTED
  */
 define("UNIMPLEMENTED", "Unimplemented method ");
 
 /**
- * @const string CONFIGURATION_ERROR public static final String CONFIGURATION_ERROR = "Configuration error "
- * @package osid.sql
+ * string: Configuration error 
+ * @name CONFIGURATION_ERROR
  */
 define("CONFIGURATION_ERROR", "Configuration error ");
 

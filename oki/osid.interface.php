@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package osid.osid
+ */
 
 	/**
 	 * OsidLoader loads a particular implementation of an Open Service Interface Definition (OSID), sets the OsidOwner and its configuration information, and returns the instance of the implementation.  This service is how applications should bind a particular implementation to an OSID.  The value of this approach is that an application can defer which specific implementation is used until runtime.  In addition, the implementation package does not need to be specified elsewhere in application sources.  Changing implementations is simplified with this approach. <p> As an example, in order to create a new Hierarhcy, an application does not use the new operator.  Rather, the application uses OsidLoader to get an instance of a class that implements OsidManager and then asks that instance to create the Hierarchy.  It is the createHierarchy() method in some package (e.g. osid.hierarchy.impl.HierarchyManager) which does a new on osid.hierarchy.impl.Hierarchy, casts it as osid.hierarchy.Hierarchy, and returns it to the application.  This indirection offers the significant value of being able to change implementations in one spot with one modification, namely by using a different argument to OsidLoader. <p>Sample: <p>osid.OsidOwner myOwner = new osid.OsidOwner(); <p>String key = "myKey"; <p>myOwner.addContext(key, "I want to save this string as context"); <p>String whatWasMyContext = myOwner.getContext(key); <p>osid.hierarchy.HierarchyManager hierarchyManager = <br />&nbsp;&nbsp;&nbsp;osid.OsidLoader.getManager("osid.hierarchy.HierarchyManager","osid.shared.impl",myOwner); <p>osid.hierarchy.Hierarchy myHierarchy = hierarchyManager.createHierarchy(...); <p> A similar technique can be used for creating other objects.  OSIDs that have OsidManager implementations loaded by OsidLoader, will define an appropriate interface to create these objects. <p> The arguments to OsidLoader.getManager method are the OSID OsidManager interface name, the implementing package name and the OsidOwner.   <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
@@ -166,159 +169,146 @@ class OsidException // :: normal class
 
 	/**
 	 * Operation failed
-	 * @package osid
 	 */
 	// :: defined globally :: define("OPERATION_FAILED","Operation failed ");
 
 	/**
 	 * Null argument
-	 * @package osid
 	 */
 	// :: defined globally :: define("NULL_ARGUMENT","Null argument");
 
 	/**
 	 * Unimplemented method
-	 * @package osid
 	 */
 	// :: defined globally :: define("UNIMPLEMENTED","Unimplemented method ");
 
 	/**
 	 * OSID Version mismatch
-	 * @package osid
 	 */
 	// :: defined globally :: define("VERSION_ERROR","OSID Version mismatch error ");
 
 	/**
 	 * Transaction already marked
-	 * @package osid
 	 */
 	// :: defined globally :: define("ALREADY_MARKED","Transaction already marked ");
 
 	/**
 	 * No transaction marked
-	 * @package osid
 	 */
 	// :: defined globally :: define("NOTHING_MARKED","No transaction marked ");
 
 	/**
 	 * Interface not found
-	 * @package osid
 	 */
 	// :: defined globally :: define("INTERFACE_NOT_FOUND","Interface not found ");
 
 	/**
 	 * Manager not found
-	 * @package osid
 	 */
 	// :: defined globally :: define("MANAGER_NOT_FOUND","Manager not found ");
 
 	/**
 	 * Manager instantiation error
-	 * @package osid
 	 */
 	// :: defined globally :: define("MANAGER_INSTANTIATION_ERROR","Manager instantiation error ");
 
 	/**
 	 * Error updating owner
-	 * @package osid
 	 */
 	// :: defined globally :: define("ERROR_UPDATING_OWNER","Error updating owner ");
 
 	/**
 	 * Error updating configuration
-	 * @package osid
 	 */
 	// :: defined globally :: define("ERROR_UPDATING_CONFIGURATION","Error updating configuration ");
 
 	/**
 	 * Permission denied
-	 * @package osid
 	 */
 	// :: defined globally :: define("PERMISSION_DENIED","Permission denied");
 
 	/**
 	 * Configuration error
-	 * @package osid
 	 */
 	// :: defined globally :: define("CONFIGURATION_ERROR","Configuration error");
 }
 
 // :: post-declaration code ::
 /**
- * @const string OPERATION_FAILED public static final String OPERATION_FAILED = "Operation failed "
- * @package osid
+ * string: Operation failed 
+ * @name OPERATION_FAILED
  */
 define("OPERATION_FAILED", "Operation failed ");
 
 /**
- * @const string NULL_ARGUMENT public static final String NULL_ARGUMENT = "Null argument"
- * @package osid
+ * string: Null argument
+ * @name NULL_ARGUMENT
  */
 define("NULL_ARGUMENT", "Null argument");
 
 /**
- * @const string UNIMPLEMENTED public static final String UNIMPLEMENTED = "Unimplemented method "
- * @package osid
+ * string: Unimplemented method 
+ * @name UNIMPLEMENTED
  */
 define("UNIMPLEMENTED", "Unimplemented method ");
 
 /**
- * @const string VERSION_ERROR public static final String VERSION_ERROR = "OSID Version mismatch error "
- * @package osid
+ * string: OSID Version mismatch error 
+ * @name VERSION_ERROR
  */
 define("VERSION_ERROR", "OSID Version mismatch error ");
 
 /**
- * @const string ALREADY_MARKED public static final String ALREADY_MARKED = "Transaction already marked "
- * @package osid
+ * string: Transaction already marked 
+ * @name ALREADY_MARKED
  */
 define("ALREADY_MARKED", "Transaction already marked ");
 
 /**
- * @const string NOTHING_MARKED public static final String NOTHING_MARKED = "No transaction marked "
- * @package osid
+ * string: No transaction marked 
+ * @name NOTHING_MARKED
  */
 define("NOTHING_MARKED", "No transaction marked ");
 
 /**
- * @const string INTERFACE_NOT_FOUND public static final String INTERFACE_NOT_FOUND = "Interface not found "
- * @package osid
+ * string: Interface not found 
+ * @name INTERFACE_NOT_FOUND
  */
 define("INTERFACE_NOT_FOUND", "Interface not found ");
 
 /**
- * @const string MANAGER_NOT_FOUND public static final String MANAGER_NOT_FOUND = "Manager not found "
- * @package osid
+ * string: Manager not found 
+ * @name MANAGER_NOT_FOUND
  */
 define("MANAGER_NOT_FOUND", "Manager not found ");
 
 /**
- * @const string MANAGER_INSTANTIATION_ERROR public static final String MANAGER_INSTANTIATION_ERROR = "Manager instantiation error "
- * @package osid
+ * string: Manager instantiation error 
+ * @name MANAGER_INSTANTIATION_ERROR
  */
 define("MANAGER_INSTANTIATION_ERROR", "Manager instantiation error ");
 
 /**
- * @const string ERROR_UPDATING_OWNER public static final String ERROR_UPDATING_OWNER = "Error updating owner "
- * @package osid
+ * string: Error updating owner 
+ * @name ERROR_UPDATING_OWNER
  */
 define("ERROR_UPDATING_OWNER", "Error updating owner ");
 
 /**
- * @const string ERROR_UPDATING_CONFIGURATION public static final String ERROR_UPDATING_CONFIGURATION = "Error updating configuration "
- * @package osid
+ * string: Error updating configuration 
+ * @name ERROR_UPDATING_CONFIGURATION
  */
 define("ERROR_UPDATING_CONFIGURATION", "Error updating configuration ");
 
 /**
- * @const string PERMISSION_DENIED public static final String PERMISSION_DENIED = "Permission denied"
- * @package osid
+ * string: Permission denied
+ * @name PERMISSION_DENIED
  */
 define("PERMISSION_DENIED", "Permission denied");
 
 /**
- * @const string CONFIGURATION_ERROR public static final String CONFIGURATION_ERROR = "Configuration error"
- * @package osid
+ * string: Configuration error
+ * @name CONFIGURATION_ERROR
  */
 define("CONFIGURATION_ERROR", "Configuration error");
 
