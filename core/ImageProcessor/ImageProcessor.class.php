@@ -7,8 +7,8 @@ require_once(dirname(__FILE__)."/ImageMagickProcessor.class.php");
  * Class for resizing of images
  * 
  * @package harmoni.image_processor
- * @version $Id: ImageProcessor.class.php,v 1.1 2004/10/22 21:58:46 adamfranco Exp $
- * @date $Date: 2004/10/22 21:58:46 $
+ * @version $Id: ImageProcessor.class.php,v 1.2 2004/11/06 02:18:13 adamfranco Exp $
+ * @date $Date: 2004/11/06 02:18:13 $
  * @copyright 2004 Middlebury College
  */
 
@@ -73,7 +73,9 @@ class ImageProcessor {
 		ArgumentValidator::validate($format, new StringValidatorRule);
 		
 		if (in_array($format, $this->_gdFormats) 
-			|| in_array($format, $this->_ImageMagickFormats))
+			|| in_array($format, $this->_ImageMagickFormats)
+			|| ($this->_useImageMagick
+				&& $this->_ImageMagickProcessor->isSupported($format)))
 		{
 			return TRUE;
 		} else {
@@ -95,6 +97,9 @@ class ImageProcessor {
 			return $this->_gdProcessor->generateThumbnailData($format, $data);
 		if (in_array($format, $this->_ImageMagickFormats))
 			return $this->_ImageMagickProcessor->generateThumbnailData($format, $data);
+		if ($this->_useImageMagick
+			&& $this->_ImageMagickProcessor->isSupported($format))
+			return $this->_ImageMagickProcessor->generateThumbnailData($format, $data);
 		
 		throwError(new Error("Unsupported Format, '$format'.", "ImageProcessor", true));
 	}
@@ -110,7 +115,89 @@ class ImageProcessor {
 		return $this->_thumbnailFormat;
 	}
 	
+	/**
+	 * Get the format that a resized image will be returned in
+	 * 
+	 * @param string $format The format of the source image
+	 * @return string The mime type.
+	 * @access public
+	 * @date 10/22/04
+	 */
+	function getResizedFormat ($format) {
+		if (in_array($format, $this->_gdFormats))
+			return $this->_gdProcessor->getResizedFormat($format);
+		if (in_array($format, $this->_ImageMagickFormats))
+			return $this->_ImageMagickProcessor->getResizedFormat($format);
+		if ($this->_useImageMagick
+			&& $this->_ImageMagickProcessor->isSupported($format))
+			return $this->_ImageMagickProcessor->getResizedFormat($format);
+		
+		throwError(new Error("Unsupported Format, '$format'.", "ImageProcessor", true));
+	}
 	
+	/**
+	 * Generate a resized image from the image format/data passed
+	 * 
+	 * @param string $format The format of the source image
+	 * @param string $data	The data of the source image
+	 * @return string The thumbnail data of a mime type that can be obtained with
+	 *		getResizedFormat.
+	 * @access public
+	 * @date 10/22/04
+	 */
+	function getResizedData ($format, $size, $data) {
+		if (in_array($format, $this->_gdFormats))
+			return $this->_gdProcessor->getResizedData($format, $size, $data);
+		if (in_array($format, $this->_ImageMagickFormats))
+			return $this->_ImageMagickProcessor->getResizedData($format, $size, $data);
+		if ($this->_useImageMagick
+			&& $this->_ImageMagickProcessor->isSupported($format))
+			return $this->_ImageMagickProcessor->getResizedData($format, $size, $data);
+		
+		throwError(new Error("Unsupported Format, '$format'.", "ImageProcessor", true));
+	}
+	
+	/**
+	 * Get the format that a resized image will be returned in
+	 * 
+	 * @param string $format The format of the source image
+	 * @return string The mime type.
+	 * @access public
+	 * @date 10/22/04
+	 */
+	function getWebsafeFormat ($format) {
+		if (in_array($format, $this->_gdFormats))
+			return $this->_gdProcessor->getWebsafeFormat($format);
+		if (in_array($format, $this->_ImageMagickFormats))
+			return $this->_ImageMagickProcessor->getWebsafeFormat($format);
+		if ($this->_useImageMagick
+			&& $this->_ImageMagickProcessor->isSupported($format))
+			return $this->_ImageMagickProcessor->getWebsafeFormat($format);
+		
+		throwError(new Error("Unsupported Format, '$format'.", "ImageProcessor", true));
+	}
+	
+	/**
+	 * Generate a resized image from the image format/data passed
+	 * 
+	 * @param string $format The format of the source image
+	 * @param string $data	The data of the source image
+	 * @return string The thumbnail data of a mime type that can be obtained with
+	 *		getResizedFormat.
+	 * @access public
+	 * @date 10/22/04
+	 */
+	function getWebsafeData ($format, $size, $data) {
+		if (in_array($format, $this->_gdFormats))
+			return $this->_gdProcessor->getWebsafeData($format, $size, $data);
+		if (in_array($format, $this->_ImageMagickFormats))
+			return $this->_ImageMagickProcessor->getWebsafeData($format, $size, $data);
+		if ($this->_useImageMagick
+			&& $this->_ImageMagickProcessor->isSupported($format))
+			return $this->_ImageMagickProcessor->getWebsafeData($format, $size, $data);
+		
+		throwError(new Error("Unsupported Format, '$format'.", "ImageProcessor", true));
+	}	
 		
 	/**
 	 * Start the service
