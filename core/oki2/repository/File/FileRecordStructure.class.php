@@ -254,9 +254,11 @@ class HarmoniFileRecordStructure extends RecordStructure
 	}
 
 	/**
-	 * Create an PartStructure in this RecordStructure. This is not part of the DR OSID at 
-	 * the time of this writing, but is needed for dynamically created 
-	 * RecordStructures/PartStructures.
+	 * Create an PartStructure in this RecordStructure. 
+	 * 
+	 * WARNING: NOT IN OSID - This is not part of the 
+	 * Repository OSID at the time of this writing, but is needed for dynamically 
+	 * created RecordStructures/PartStructures.
 	 *
 	 * @param string $displayName	The DisplayName of the new RecordStructure.
 	 * @param string $description	The Description of the new RecordStructure.

@@ -17,7 +17,7 @@ require_once(OKI2."/osid/shared/Properties.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniProperties.class.php,v 1.8 2005/01/26 17:29:47 adamfranco Exp $
+ * @version $Id: HarmoniProperties.class.php,v 1.9 2005/01/27 15:45:40 adamfranco Exp $
  */
 class HarmoniProperties
 	extends Properties
@@ -110,7 +110,8 @@ class HarmoniProperties
 	
 	/**
 	 * Add a Property to these Properties.
-	 * WARNING: This method is not in the OSIDs as of version 2.0
+	 * 
+	 * WARNING: NOT IN OSID - This method is not in the OSIDs as of version 2.0
 	 * Use at your own risk
 	 * 
 	 * @param mixed $key

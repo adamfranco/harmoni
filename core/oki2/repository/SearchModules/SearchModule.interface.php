@@ -3,9 +3,9 @@
 /**
  * Search Modules implement the functionality of searching the digital repository
  * 
- * @package harmoni.osid_v2.dr.search
- * @version $Id: SearchModule.interface.php,v 1.2 2005/01/19 22:28:26 adamfranco Exp $
- * @since $Date: 2005/01/19 22:28:26 $
+ * @package harmoni.osid_v2.repository.search
+ * @version $Id: SearchModule.interface.php,v 1.3 2005/01/27 15:45:40 adamfranco Exp $
+ * @since $Date: 2005/01/27 15:45:40 $
  * @copyright 2004 Middlebury College
  */
 

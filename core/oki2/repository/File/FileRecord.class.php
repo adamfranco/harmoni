@@ -257,10 +257,11 @@ class FileRecord
 
 	/**
 	 * Return true if this Record is multi-valued; false otherwise.	 This is determined by the implementation.
+	 * 
+	 * WARNING: NOT IN OSID - Use at your own risk
+	 *
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 *
-	 * WARNING: Not in the OSIDs. Use at your own risk
 	 */
 	function isMultivalued() {
 		return true; // we allow as many Records of any RecordStructure as people want.
@@ -293,12 +294,12 @@ class FileRecord
 	/**
 	 * Return TRUE if the Part of the passed Id is the last one, and the whole schebang should be deleted.
 	 * 
+	 * WARNING: NOT IN OSID - Use at your own risk
+	 * 
 	 * @param string $idString
 	 * @return boolean
 	 * @access public
 	 * @since 10/25/04
-	 *
-	 * WARNING: Not in the OSID
 	 */
 	function _isLastPart ($idString) {
 		$dbHandler =& Services::getService("DBHandler");

@@ -16,7 +16,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.6 2005/01/26 22:43:41 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.7 2005/01/27 15:45:39 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -41,7 +41,7 @@ class HarmoniAsset
 	 	// Get the node coresponding to our id
 		$this->_hierarchy =& $hierarchy;
 		$this->_node =& $this->_hierarchy->getNode($id);
-		$this->_repository =& $dr;
+		$this->_repository =& $repository;
 		
 		$this->_recordIDs = array();
 		$this->_createdRecords = array();
@@ -76,7 +76,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDisplayName () { 
 		return $this->_node->getDisplayName();
@@ -101,7 +101,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDisplayName ( $displayName ) { 
 		$this->_node->updateDisplayName($displayName);
@@ -124,7 +124,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDescription () { 
 		return $this->_node->getDescription();
@@ -149,7 +149,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDescription ( $description ) { 
 		$this->_node->updateDescription($description);
@@ -172,7 +172,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getId () { 
 		return $this->_node->getId();
@@ -196,7 +196,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getRepository () { 
 
@@ -221,7 +221,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getContent () { 
 	
@@ -266,7 +266,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateContent ( &$content ) { 
  		ArgumentValidator::validate($content, new ExtendsValidatorRule("Blob"));
@@ -334,7 +334,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getEffectiveDate () { 
 	
@@ -365,7 +365,7 @@ class HarmoniAsset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#EFFECTIVE_PRECEDE_EXPIRATION}
      * 
-     * @public
+     * @access public
      */
     function updateEffectiveDate ( $effectiveDate ) { 
 		ArgumentValidator::validate($effectiveDate, new ExtendsValidatorRule("Time"));
@@ -395,7 +395,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getExpirationDate () { 
 		if (!$this->_expirationDate) {
@@ -426,7 +426,7 @@ class HarmoniAsset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#EFFECTIVE_PRECEDE_EXPIRATION}
      * 
-     * @public
+     * @access public
      */
     function updateExpirationDate ( $expirationDate ) { 
 		ArgumentValidator::validate($expirationDate, new ExtendsValidatorRule("Time"));
@@ -461,7 +461,7 @@ class HarmoniAsset
      *         {@link org.osid.repository.RepositoryException#ALREADY_ADDED
      *         ALREADY_ADDED}
      * 
-     * @public
+     * @access public
      */
     function addAsset ( &$assetId ) { 
 		$node =& $this->_hierarchy->getNode($assetId);
@@ -495,14 +495,14 @@ class HarmoniAsset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function removeAsset ( &$assetId, $includeChildren ) { 
 		$node =& $this->_hierarchy->getNode($assetId);
 	
 		if (!$includeChildren) {
 			// Move the children to the current asset before moving
-			// the asset to the dr root
+			// the asset to the repository root
 			$children =& $node->getChildren();
 			while ($children->hasNext()) {
 				$child =& $children->next();
@@ -517,7 +517,7 @@ class HarmoniAsset
 	}
 
 	 /**
-     * Get all the Assets in this Asset.  Iterators return a set, one at a
+     * Get all the Assets in this Asset. Iterators return a set, one at a
      * time.
      *  
      * @return object AssetIterator
@@ -534,7 +534,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getAssets () { 
     	$assets = array();
@@ -575,7 +575,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
 	
     function &getAssetsByType ( &$assetType ) { 
@@ -613,7 +613,7 @@ class HarmoniAsset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &createRecord ( &$recordStructureId ) { 
 		ArgumentValidator::validate($recordStructureId, new ExtendsValidatorRule("Id"));
@@ -724,7 +724,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#ALREADY_INHERITING_STRUCTURE
      *         ALREADY_INHERITING_STRUCTURE}
      * 
-     * @public
+     * @access public
      */
     function inheritRecordStructure ( &$assetId, &$recordStructureId ) { 
 	
@@ -827,7 +827,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#CANNOT_COPY_OR_INHERIT_SELF
      *         CANNOT_COPY_OR_INHERIT_SELF}
      * 
-     * @public
+     * @access public
      */
     function copyRecordStructure ( &$assetId, &$recordStructureId ) { 
 	
@@ -890,7 +890,7 @@ class HarmoniAsset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteRecord ( &$recordId ) { 
 		ArgumentValidator::validate($recordId, new ExtendsValidatorRule("Id"));
@@ -969,7 +969,7 @@ class HarmoniAsset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getRecord ( &$recordId ) { 
 		ArgumentValidator::validate($recordId, new ExtendsValidatorRule("Id"));
@@ -1056,7 +1056,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getRecords () { 
 		if ($recordStructureId)
@@ -1135,7 +1135,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getAssetType () { 
 		return $this->_node->getType();
@@ -1160,7 +1160,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getRecordStructures () { 
 		// cycle through all our DataSets, get their type and make an RecordStructure for each. 
@@ -1196,7 +1196,7 @@ class HarmoniAsset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getContentRecordStructure () { 
 		$idManager =& Services::getService("Id");
@@ -1240,7 +1240,7 @@ class HarmoniAsset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getPart ( &$partId ) { 
 	
@@ -1281,7 +1281,7 @@ class HarmoniAsset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getPartValue ( &$partId ) { 
 
@@ -1311,7 +1311,7 @@ class HarmoniAsset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getPartsByPartStructure ( &$partStructureId ) { 
         throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Digital Repository :: Asset", TRUE));
@@ -1340,7 +1340,7 @@ class HarmoniAsset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getPartValuesByPartStructure ( &$partStructureId ) { 
         throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Digital Repository :: Asset", TRUE));

@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.4 2005/01/26 22:43:41 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.5 2005/01/27 15:45:39 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -50,7 +50,7 @@ class HarmoniPartStructure extends PartStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDisplayName () { 
 		return $this->_schemaField->getLabel();
@@ -76,7 +76,7 @@ class HarmoniPartStructure extends PartStructure
 	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -99,7 +99,7 @@ class HarmoniPartStructure extends PartStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDescription () { 
 		if ($desc = $this->_schemaField->getDescription()) return $desc;
@@ -123,7 +123,7 @@ class HarmoniPartStructure extends PartStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getType () { 
 		if (!isset($this->_type)) {
@@ -151,7 +151,7 @@ class HarmoniPartStructure extends PartStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () { 
 		$idManager =& Services::getService("Id");
@@ -180,7 +180,7 @@ class HarmoniPartStructure extends PartStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getPartStructures () { 
 		$array = array();
@@ -206,7 +206,7 @@ class HarmoniPartStructure extends PartStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isPopulatedByRepository () { 
 		return false;
@@ -229,7 +229,7 @@ class HarmoniPartStructure extends PartStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isMandatory () { 
 		return $this->_schemaField->isRequired();
@@ -253,7 +253,7 @@ class HarmoniPartStructure extends PartStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isRepeatable () { 
 		return $this->_schemaField->getMultFlag();
@@ -277,7 +277,7 @@ class HarmoniPartStructure extends PartStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getRecordStructure () { 
 		return $this->_recordStructure;
@@ -308,7 +308,7 @@ class HarmoniPartStructure extends PartStructure
 	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function validatePart ( &$part ) { 
 		// we can check if the part (ie, ValueVersions) has values of the right type.

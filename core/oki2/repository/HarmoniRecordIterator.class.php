@@ -21,7 +21,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordIterator.class.php,v 1.5 2005/01/26 22:43:41 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordIterator.class.php,v 1.6 2005/01/27 15:45:39 adamfranco Exp $ 
  */
  
 define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
@@ -49,7 +49,7 @@ class HarmoniRecordIterator
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function hasNextRecord () { 
 		return $this->hasNext();
@@ -74,7 +74,7 @@ class HarmoniRecordIterator
 	 *		   org.osid.repository.RepositoryException#NO_MORE_ITERATOR_ELEMENTS
 	 *		   NO_MORE_ITERATOR_ELEMENTS}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &nextRecord () { 
 		

@@ -8,7 +8,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: GUIManagerTestCase.class.php,v 1.4 2005/01/21 04:59:22 nstamato Exp $
+ * @version $Id: GUIManagerTestCase.class.php,v 1.5 2005/01/27 15:45:38 adamfranco Exp $
  * @copyright 2003 
  */
 
@@ -23,7 +23,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 		/**
 		*  Sets up unit test wide variables at the start
 		*    of each test method.
-		*    @public
+		*    @access public
 		*/
 		function setUp() {
 			$dbHandler=&Services::requireService("DBHandler");
@@ -36,7 +36,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 		
 		/**
 		 *    Clears the data set in the setUp() method call.
-		 *    @public
+		 *    @access public
 		 */
 		function tearDown() {
 			// perhaps, unset $obj here

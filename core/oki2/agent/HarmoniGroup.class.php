@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.9 2005/01/26 17:29:44 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.10 2005/01/27 15:45:38 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
@@ -465,7 +465,8 @@ class HarmoniGroup
 	 * Get all the Groups, including subgroups, containing the Member. 
 	 * Note since Groups subclass Agents, we are returning an AgentIterator and 
 	 * there is no GroupIterator.
-	 * WARNING: This method does not exist in the OSIDs as of version 2.0
+	 * 
+	 * WARNING: NOT IN OSID - This method does not exist in the OSIDs as of version 2.0
 	 *
 	 * @param object member
 	 * @return object AgentIterator

@@ -8,7 +8,7 @@ require_once(OKI2."osid/repository/Asset.php");
  * as the collecting of changes for later committing and the exposure of
  * the hierarchical nature of DRs used in Harmoni
  *
- * @package harmoni.osid_v2.dr
+ * @package harmoni.osid_v2.repository
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public

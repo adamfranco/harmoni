@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.8 2005/01/26 22:43:41 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.9 2005/01/27 15:45:39 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure extends RecordStructure
@@ -58,7 +58,7 @@ class HarmoniRecordStructure extends RecordStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDisplayName () { 
 		$type =& $this->_schema->getType();
@@ -83,7 +83,7 @@ class HarmoniRecordStructure extends RecordStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -106,7 +106,7 @@ class HarmoniRecordStructure extends RecordStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDescription () { 
 		$type =& $this->_schema->getType();
@@ -131,7 +131,7 @@ class HarmoniRecordStructure extends RecordStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () { 
 		$idManager =& Services::getService("Id");
@@ -171,7 +171,7 @@ class HarmoniRecordStructure extends RecordStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getPartStructures () { 
 		$this->_schema->load();
@@ -203,7 +203,7 @@ class HarmoniRecordStructure extends RecordStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getSchema () { 
 		return "Harmoni DataManager User-defined Schema";
@@ -227,7 +227,7 @@ class HarmoniRecordStructure extends RecordStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isRepeatable () { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -251,7 +251,7 @@ class HarmoniRecordStructure extends RecordStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getFormat () { 
 		return "DataManagerPrimatives";
@@ -274,7 +274,7 @@ class HarmoniRecordStructure extends RecordStructure
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getType () { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -306,7 +306,7 @@ class HarmoniRecordStructure extends RecordStructure
 	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function validateRecord ( &$record ) { 
 		// all we can really do is make sure the DataSet behind the Record is of the correct
@@ -352,8 +352,9 @@ class HarmoniRecordStructure extends RecordStructure
 	}
 
 	/**
-	 *WARNING! Not in the OSID, use at your own risk
-	 *Get the possible types for PartStructures.
+	 * Get the possible types for PartStructures.
+	 * 
+	 * WARNING: NOT IN OSID - Use at your own risk.
 	 *
 	 * @return object TypeIterator The Types supported in this implementation.
 	 */

@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.7 2005/01/26 22:43:41 adamfranco Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.8 2005/01/27 15:45:39 adamfranco Exp $ 
  */
 
 class HarmoniRecord extends Record
@@ -59,7 +59,7 @@ class HarmoniRecord extends Record
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () { 
 		$idManager =& Services::getService("Id");
@@ -92,7 +92,7 @@ class HarmoniRecord extends Record
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createPart ( &$partStructureId, &$value ) { 
 		ArgumentValidator::validate($value, new ExtendsValidatorRule("Primitive"));
@@ -150,7 +150,7 @@ class HarmoniRecord extends Record
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function deletePart ( &$partId ) { 
 		$string = $partId->getIdString();
@@ -183,7 +183,7 @@ class HarmoniRecord extends Record
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getParts () { 
 		// Get all of the PartStructures in this structure
@@ -209,8 +209,10 @@ class HarmoniRecord extends Record
 	}
 
 	/**
-	 *WARNING!! Not in the OSID, use at your own risk
 	 * Return true if this Record is multi-valued; false otherwise.	 This is determined by the implementation.
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
@@ -235,7 +237,7 @@ class HarmoniRecord extends Record
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getRecordStructure () { 
 		return $this->_recordStructure;

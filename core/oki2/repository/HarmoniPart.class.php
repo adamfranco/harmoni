@@ -19,7 +19,7 @@ require(OKI2."osid/repository/Part.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.7 2005/01/26 22:43:41 adamfranco Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.8 2005/01/27 15:45:39 adamfranco Exp $ 
  */
 class HarmoniPart 
 	extends Part
@@ -53,7 +53,7 @@ class HarmoniPart
 	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	
 	function updateDisplayName ( $displayName ) { 
@@ -77,7 +77,7 @@ class HarmoniPart
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDisplayName () { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -101,7 +101,7 @@ class HarmoniPart
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	
 	function &getPartStructure () { 
@@ -125,7 +125,7 @@ class HarmoniPart
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () { 
 		// The unique ID for the part should be the 
@@ -158,7 +158,7 @@ class HarmoniPart
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createPart ( &$partStructureId, &$value ) { 
 		throwError(
@@ -187,7 +187,7 @@ class HarmoniPart
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function deletePart ( &$partId ) { 
 		throwError(
@@ -211,7 +211,7 @@ class HarmoniPart
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getParts () { 
 		throwError(
@@ -235,7 +235,7 @@ class HarmoniPart
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getValue () { 
 		// NOTE: if no active versions exist, false will be returned here.
@@ -266,7 +266,7 @@ class HarmoniPart
 	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateValue ( &$value ) { 
 	

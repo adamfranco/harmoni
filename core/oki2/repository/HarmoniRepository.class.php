@@ -44,7 +44,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.13 2005/01/26 23:02:18 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.14 2005/01/27 15:45:39 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -98,7 +98,9 @@ class HarmoniRepository
 	 
 	/**
 	 * Returns if this Asset is valid or not. 
-	 * WARNING! Method no longer in OSID
+	 * 
+	 * WARNING: NOT IN OSID - Method no longer in OSID
+	 *
 	 * @param object assetId
 	 * @return bool
 	 */
@@ -126,7 +128,7 @@ class HarmoniRepository
    *		 org.osid.repository.RepositoryException#NULL_ARGUMENT
    *		 NULL_ARGUMENT}
    * 
-   * @public
+   * @access public
    */
   function updateDisplayName ( $displayName ) { 
 			$this->_node->updateDisplayName($displayName);
@@ -149,7 +151,7 @@ class HarmoniRepository
    *		 org.osid.repository.RepositoryException#UNIMPLEMENTED
    *		 UNIMPLEMENTED}
    * 
-   * @public
+   * @access public
    */
   function getDisplayName () { 
 		return $this->_node->getDisplayName();
@@ -171,7 +173,7 @@ class HarmoniRepository
    *		 org.osid.repository.RepositoryException#UNIMPLEMENTED
    *		 UNIMPLEMENTED}
    * 
-   * @public
+   * @access public
    */
   
 	function &getId() {
@@ -195,7 +197,7 @@ class HarmoniRepository
 	 *		 org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		 UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getType () { 
 		// If we don't have it cached, get our type.
@@ -258,7 +260,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDescription ( $description ) { 
 		$this->_node->updateDescription($description);
@@ -290,7 +292,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createAsset ( $displayName, $description, &$assetType ) { 
 		// Get our id for the parent id
@@ -329,7 +331,7 @@ class HarmoniRepository
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function deleteAsset ( &$assetId ) { 
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
@@ -375,7 +377,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAssets () { 
 		// get a list for all the nodes under this hierarchy.
@@ -450,7 +452,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAssetsByType ( &$assetType ) { 
 		ArgumentValidator::validate($assetType, new ExtendsValidatorRule("Type"));
@@ -483,7 +485,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAssetTypes () { 
 		$assets =& $this->getAssets();
@@ -533,7 +535,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getPropertiesByType ( &$propertiesType ) { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -556,7 +558,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getPropertyTypes () { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -579,7 +581,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getProperties () { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -608,7 +610,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getRecordStructuresByType ( &$recordStructureType ) { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -632,7 +634,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getSearchTypes () { 
 		return new HarmoniTypeIterator($this->_searchTypes);
@@ -656,7 +658,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getStatusTypes () { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
@@ -703,7 +705,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getRecordStructures () { 
 		$schemaMgr =& Services::getService("SchemaManager");
@@ -747,7 +749,7 @@ class HarmoniRepository
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getStatus ( &$assetId ) { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
@@ -778,7 +780,7 @@ class HarmoniRepository
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function validateAsset ( &$assetId ) { 
 		$string = $assetId->getIdString();
@@ -807,7 +809,7 @@ class HarmoniRepository
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function invalidateAsset ( &$assetId ) { 
 		$string = $assetId->getIdString();
@@ -837,7 +839,7 @@ class HarmoniRepository
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAsset ( &$assetId ) { 
 		if (!$this->_createdAssets[$assetId->getIdString()]) {
@@ -888,7 +890,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#NO_OBJECT_WITH_THIS_DATE
 	 *		   NO_OBJECT_WITH_THIS_DATE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAssetByDate ( &$assetId, $date ) { 
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
@@ -922,7 +924,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAssetDates ( &$assetId ) { 
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
@@ -967,7 +969,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAssetsBySearch ( &$searchCriteria, &$searchType, &$searchProperties ) {
 		// Check that we support the searchType
@@ -1024,7 +1026,7 @@ class HarmoniRepository
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &copyAsset ( &$asset ) { 
 		// Copy the asset to the dr root (recursivley for children)
@@ -1064,7 +1066,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function supportsVersioning () { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -1096,7 +1098,7 @@ class HarmoniRepository
 	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function supportsUpdate () { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -1121,8 +1123,8 @@ class HarmoniRepository
 
 	/**
 	 * Recursively copies an asset and its children to a new parent.
-	 * WARNING! Not in the OSID
-	 *
+	 * 
+	 * @access private
 	 */
 	function &_copyAsset(& $asset, & $newParentId) {
 		// Create the new asset
