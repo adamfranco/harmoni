@@ -4,7 +4,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: testList.php,v 1.1 2003/07/04 02:13:16 movsjani Exp $
+ * @version $Id: testList.php,v 1.2 2003/07/04 02:14:51 movsjani Exp $
  * @copyright 2003 
  **/
 
@@ -17,7 +17,7 @@
     }
        
 	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
-error_reporting(15);
+
 	if (!Services::serviceAvailable("ErrorHandler")) {
 	   	Services::registerService("ErrorHandler","ErrorHandler");
 		Services::startService("ErrorHandler");
