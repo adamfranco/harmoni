@@ -7,7 +7,7 @@ require_once HARMONI."metaData/manager/DataSetTag.class.php";
 * more detailed explanation of the role of tags.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSetTagManager.class.php,v 1.6 2004/01/07 21:20:19 gabeschine Exp $
+* @version $Id: DataSetTagManager.class.php,v 1.7 2004/01/07 22:19:39 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class DataSetTagManager extends ServiceInterface {
@@ -185,6 +185,49 @@ class DataSetTagManager extends ServiceInterface {
 		}
 		
 		return $tags;
+	}
+	
+	/**
+	 * Deletes all tags stored in the database for DataSet id $id.
+	 * @access public
+	 * @param int $id
+	 * @return void
+	 */
+	function deleteDataSetTags($id) {
+		// first get a list of DataSetTag IDs for this dataset.
+		$query =& new SelectQuery;
+		$query->addTable("dataset_tag");
+		$query->addColumn("dataset_tag_id");
+		$query->setWhere("fk_dataset=$id");
+
+		$dbHandler =& Services::getService("DBHandler");
+		$res =& $dbHandler->query($query, $this->_dbID);
+		
+		$ids = array();
+		while ($res->hasMoreRows()) {
+			$ids[] = $res->field(0);
+			$res->advanceRow();
+		}
+		
+		// now delete the datasets
+		$query =& new DeleteQuery;
+		
+		$query->setTable("dataset_tag");
+		$query->setWhere("fk_dataset=$id");
+		
+		$dbHandler->query($query, $this->_dbID);
+		
+		// and delete the mappings
+		$wheres = array();
+		foreach ($ids as $tagID) {
+			$wheres[] = "fk_dataset_tag=$tagID";
+		}
+		
+		$query->reset();
+		$query->setTable("dataset_tag_map");
+		$query->setWhere(implode(" OR ", $wheres));
+		
+		$dbHandler->query($query,$this->_dbID);
 	}
 	
 	function start() {}

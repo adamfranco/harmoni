@@ -3,6 +3,9 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.5" date="Not Released">
+		<new author='gabe'>
+			Completed the HarmoniDataManager!
+		</new>
 		<change author='gabe'>
 			HarmoniDataManager::setup($dbID) now takes optional second argument including a list of DataSetTypes to
 			preload in a single query to save time and Database overhead.
