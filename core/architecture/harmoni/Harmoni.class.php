@@ -18,7 +18,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.21 2004/07/14 21:23:56 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.22 2004/07/16 21:03:10 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -143,11 +143,16 @@ class Harmoni {
 	 */
 	function getVersionStr() {
 		include HARMONI."version.inc.php";
-		return $harmoniVersionStr;
+		$temp = sprintf("%06d",$harmoniVersion);
+		$major = substr($temp,0,2);
+		$minor = substr($temp,2,2);
+		$release = substr($temp,4,2);
+		
+		return sprintf("%d.%d.%d",$major,$minor,$release);
 	}
 	
 	/**
-	 * Returns the numeric representation of our framework version. The format is XXMMRR, two digits for each of the major, minor and release numbers.
+	 * Returns the numeric representation of our framework version. The format is XXMMRR, two digits for each of the major, minor and release numbers. NOTE: leading 0's are omitted.
 	 * @access public
 	 * @return integer
 	 */

@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.26 2004/06/22 14:34:52 nstamato Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.27 2004/07/16 21:03:10 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -58,6 +58,7 @@ class DataSetTypeManager
 		$query->addColumn("datasettype_authority");
 		$query->addColumn("datasettype_keyword");
 		$query->addColumn("datasettype_description");
+		$query->addColumn("datasettype_revision");
 		
 		$dbHandler =& Services::requireService("DBHandler");
 		$result =& $dbHandler->query($query,$this->_dbID);
@@ -73,7 +74,7 @@ class DataSetTypeManager
 					$a['datasettype_keyword'],
 					$a['datasettype_description']);
 			
-			$this->_typeDefinitions[$a['datasettype_id']] =& new DataSetTypeDefinition($this, $this->_dbID, $type, $a['datasettype_id']);
+			$this->_typeDefinitions[$a['datasettype_id']] =& new DataSetTypeDefinition($this, $this->_dbID, $type, $a['datasettype_id'], $a['datasettype_revision']);
 			$this->_types[$a['datasettype_id']] =& $type;
 			
 			$this->_typeIDs[$this->_mkHash($type)] = $a['datasettype_id'];
@@ -178,7 +179,6 @@ class DataSetTypeManager
 			$parts[] = $auth;
 			$parts[] = $key;
 		} else return "";
-		
 		return implode($this->_hashSeparator, $parts);
 	}
 	
@@ -196,11 +196,12 @@ class DataSetTypeManager
 	/**
 	 * Returns a new {@link DataSetTypeDefinition} object of $type.
 	 * @param ref object $type A {@link HarmoniType} object.
+	 * @param optional int $revision The revision of this dataset type, useful for updating data structures. (default=1)
 	 * @return ref object The new DataSetTypeDefinition object.
 	 * @access public
 	 */
-	function & newDataSetType(&$type) {
-		$newDef =& new DataSetTypeDefinition($this, $this->_dbID, $type, null);
+	function & newDataSetType(&$type, $revision=1) {
+		$newDef =& new DataSetTypeDefinition($this, $this->_dbID, $type, null, $revision);
 		return $newDef;
 	}
 	
@@ -208,10 +209,11 @@ class DataSetTypeManager
 	 * Adds a {@link DataSetTypeDefinition} to the list of registered types, and
 	 * makes sure that it is reference in the database as well.
 	 * @param ref object $type A {@link HarmoniType} object.
+	 * @param int $revision The revision number of this data set type definition.
 	 * @return ref object The new DataSetTypeDefinition object.
 	 * @access private
 	 */
-	function & _addDataSetType(&$type) {
+	function & _addDataSetType(&$type, $revision) {
 		debug::output("Adding DataSetType '".OKITypeToString($type)."' to database.",DEBUG_SYS1,"DataSetTypeManager");
 		if ($id = $this->getIDForType($type)) {
 			throwError( new Error(
@@ -227,13 +229,14 @@ class DataSetTypeManager
 		
 		$query =& new InsertQuery;
 		$query->setTable("datasettype");
-		$query->setColumns(array("datasettype_id","datasettype_domain","datasettype_authority","datasettype_keyword","datasettype_description"));
+		$query->setColumns(array("datasettype_id","datasettype_domain","datasettype_authority","datasettype_keyword","datasettype_description", "datasettype_revision"));
 		$query->addRowOfValues( array(
 			$newID->getIdString(),
 			"'".addslashes($type->getDomain())."'",
 			"'".addslashes($type->getAuthority())."'",
 			"'".addslashes($type->getKeyword())."'",
-			"'".addslashes($type->getDescription())."'"
+			"'".addslashes($type->getDescription())."'",
+			$revision
 		));
 		
 		$dbHandler =& Services::requireService("DBHandler");
@@ -242,13 +245,13 @@ class DataSetTypeManager
 			throwError( new UnknownDBError("DataSetTypeManager") );
 		}
 		
-		$newDataSetType =& new DataSetTypeDefinition($this, $this->_dbID, $type, $newID->getIdString());
+		$newDataSetType =& new DataSetTypeDefinition($this, $this->_dbID, $type, $newID->getIdString(), $revision);
 
 		// add it to our local arrays
 		$this->_typeDefinitions[$newID->getIdString()] =& $newDataSetType;
 		$this->_types[$newID->getIdString()] =& $type;
 		$this->_typeIDs[$this->_mkHash($type)] = $newID->getIdString();
-		debug::output("Created new DataSetType object for '".OKITypeToString($type)."'",DEBUG_SYS5,"DataSetTypeManager");
+		debug::output("Created new DataSetType object for '".OKITypeToString($type)."', revision $revision.",DEBUG_SYS5,"DataSetTypeManager");
 		return $newDataSetType;
 	}
 	
@@ -259,6 +262,8 @@ class DataSetTypeManager
 	 * @access public
 	 */
 	function dataSetTypeExists(&$type) {
+//		print_r(array_keys($this->_typeIDs));
+//		print "<BR>".$this->_mkHash($type);
 		return (isset($this->_typeIDs[$this->_mkHash($type)]))?true:false;
 	}
 	
@@ -337,7 +342,7 @@ class DataSetTypeManager
 		
 		// check if we already have a definition for this type. if we don't, add a new one.
 		if (!$this->dataSetTypeExists($type)) {
-			$oldDef =& $this->_addDataSetType($type);
+			$oldDef =& $this->_addDataSetType($type, $newDef->getRevision());
 			debug::output("Creating new DataSetType in the database.",DEBUG_SYS3,"DataSetTypeManager");
 		} else {
 			$oldDef =& $this->getDataSetTypeDefinition($type);
@@ -348,6 +353,8 @@ class DataSetTypeManager
 		
 		/*
 		The synchronization process is not simple. 
+		
+		compare revision numbers, and update them appropriately. do this last.
 		
 		get all labels, from both old def (from DB) and new def, store in $label[]
 		
@@ -486,6 +493,19 @@ class DataSetTypeManager
 		
 		// now that we're done syncrhonizing $newDef with $oldDef, let's commit everything to the DB
 		$oldDef->commitAllFields();
+		
+		// lastly, compare the revision numbers of the two definitions
+		if ($oldDef->getRevision() != $newDef->getRevision()) {
+			// change the database.
+			$query =& new UpdateQuery();
+			$query->setTable("datasettype");
+			$query->setWhere("datasettype_id=".$oldDef->getID());
+			$query->setColumns(array("datasettype_revision"));
+			$query->setValues(array($newDef->getRevision()));
+			
+			$dbHandler=& Services::getService("DBHandler");
+			$dbHandler->query($query,$this->_dbID);
+		}
 		
 		debug::output("... synchronization finished.",DEBUG_SYS2,"DataSetTypeManager");
 	}

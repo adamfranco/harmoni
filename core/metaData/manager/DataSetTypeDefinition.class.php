@@ -8,7 +8,7 @@ require_once(HARMONI."metaData/manager/FieldDefinition.class.php");
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link DataSetTypeManager}.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeDefinition.class.php,v 1.21 2004/06/22 18:34:19 nstamato Exp $
+ * @version $Id: DataSetTypeDefinition.class.php,v 1.22 2004/07/16 21:03:10 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -25,13 +25,16 @@ class DataSetTypeDefinition {
 	
 	var $_manager;
 	
-	function DataSetTypeDefinition(&$manager, $dbID, &$type, $id=null) {
+	var $_revision;
+	
+	function DataSetTypeDefinition(&$manager, $dbID, &$type, $id=null, $revision) {
 		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"));
 		ArgumentValidator::validate($dbID, new IntegerValidatorRule);
 		
 		$this->_manager =& $manager;
 		$this->_dbID = $dbID;
 		$this->_type =& $type;
+		$this->_revision = $revision;
 		
 		$this->_loaded = false;
 		$this->_fields = array();
@@ -61,6 +64,27 @@ class DataSetTypeDefinition {
 	function &getType() {
 		ArgumentValidator::validate($this->_type, new ExtendsValidatorRule("TypeInterface"));
 		return $this->_type;
+	}
+	
+	/**
+	 * Returns this structure's revision number.
+	 * @access public
+	 * @return int
+	 */
+	function getRevision()
+	{
+		return $this->_revision;
+	}
+	
+	/**
+	 * Sets the revision number of this data set type.
+	 * @param int $revision
+	 * @access public
+	 * @return void
+	 */
+	function setRevision($revision)
+	{
+		$this->_revision = $revision;
 	}
 	
 	/**

@@ -188,6 +188,7 @@ CREATE TABLE `datasettype` (
   `datasettype_authority` varchar(255) NOT NULL default '',
   `datasettype_keyword` varchar(255) NOT NULL default '',
   `datasettype_description` tinytext NOT NULL,
+  `datasettype_revision` int(8) unsigned NOT NULL,
   PRIMARY KEY  (`datasettype_id`),
   UNIQUE KEY `datasettype_unique_key` (`datasettype_domain`(100),`datasettype_authority`(100),`datasettype_keyword`(100))
 ) TYPE=MyISAM;

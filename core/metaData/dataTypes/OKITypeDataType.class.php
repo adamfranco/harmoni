@@ -3,7 +3,7 @@
 /**
  * A simple integer data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: OKITypeDataType.class.php,v 1.1 2004/06/03 21:27:14 gabeschine Exp $
+ * @version $Id: OKITypeDataType.class.php,v 1.2 2004/07/16 21:03:10 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -13,7 +13,7 @@ class OKITypeDataType
 	
 	var $_type;
 	
-	function OKITypeDataType(&$type) {
+	function OKITypeDataType($type=null) {
 		$this->_type =& $type;
 	}
 	
@@ -29,6 +29,7 @@ class OKITypeDataType
 	}
 	
 	function toString() {
+		if (!$this->_type) return "";
 		return "Domain: ".$this->_type->getDomain() . ", Authority: ".$this->_type->getAuthority().", Keyword: ".$this->_type->getKeyword();
 	}
 	

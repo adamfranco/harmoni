@@ -2,6 +2,11 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.2.0" date="Unreleased">
+		<new author='gabe'>
+			Added a "revision" to all DataSetTypeDefinitions for later program upgrades (can check revision number to see if the structure is up-to-date instead of comparing every field).
+		</new>
+	</version>
 	<version number="0.1.0" date="2004-06-11">
 		<new author='dobo'>
 			Added a new OKI-Hiearchy implementation (hierarchy2).
