@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.18 2004/08/06 14:23:56 gabeschine Exp $
+ * @version $Id: LoginHandler.class.php,v 1.19 2004/08/08 19:43:40 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -157,6 +157,9 @@ class LoginHandler {
 			
 			debug::output("Executing Prompt callback function",8,"LoginHandler");
 			
+			// in case we want to go back to this page after logging in
+			$_SESSION["__afterLoginURL"] = $_SERVER["REQUEST_URI"];
+			
 			$promptFunction($this->_harmoni);
 			
 			// Try grabbing the result incase the prompt function hasn't
@@ -228,13 +231,15 @@ class LoginHandler {
 		
 		
 		// If we don't have tokens at this point, it is because the user was
-		// prompted, but didn't submit any tokens.
+		// prompted, but didn't submit any tokens. it could be that they were forwarded to
+		// a login page, so we should give them a chance to enter some tokens.
 		} else {
 // 			$this->_harmoni->setCurrentAction($this->_failedLoginAction);
 // 			$this->_harmoni->ActionHandler->executePair();
- 			throwError(new Error("LoginHandler::execute() - Could not proceed. 
- 				it is probably because the user was prompted, but didn't submit 
- 				any tokens.","Login",true));
+// 			throwError(new Error("LoginHandler::execute() - Could not proceed. 
+// 				it is probably because the user was prompted, but didn't submit 
+// 				any tokens.","Login",true));
+			return new LoginState();
 		}
 	}
 	

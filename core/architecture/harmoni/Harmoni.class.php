@@ -18,7 +18,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.26 2004/08/07 03:31:50 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.27 2004/08/08 19:43:20 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -68,26 +68,18 @@ class Harmoni {
 	
 	/**
 	 * @access public
-	 * @var object $Context The {@link Context} object.
-	 */
-	var $Context;
-	
-	/**
-	 * @access public
 	 * @var object $config A {@link HarmoniConfig} {@link DataContainer} for Harmoni-specific options.
 	 **/
 	var $config;
-	
-	/**
-	 * @access public
-	 * @var object $language A {@link LanguageLocalizer} object. (NO LONGER USED -- BROKEN)
-	 **/
-	var $language;
 	
 	var $_attachedData;
 	
 	var $_preExecActions;
 	var $_postExecActions;
+	var $_postProcessAction;
+	var $_postProcessIgnoreList;
+	
+	var $result;
 	
 	/**
 	 * @access public
@@ -137,7 +129,7 @@ class Harmoni {
 	 * Adds an action, or multiple, (see the {@link ActionHandler}) to execute before executing the action requested by the end user.
 	 * @param string $action,... A number of actions (module.action) to execute.
 	 * @access public
-	 * @return return
+	 * @return void
 	 */
 	function addPreExecActions($actions)
 	{
@@ -152,7 +144,7 @@ class Harmoni {
 	 * Adds an action, or multiple, (see the {@link ActionHandler}) to execute after executing the action requested by the end user.
 	 * @param string $action,... A number of actions (module.action) to execute.
 	 * @access public
-	 * @return return
+	 * @return void
 	 */
 	function addPostExecActions($actions)
 	{
@@ -161,6 +153,49 @@ class Harmoni {
 		foreach ($args as $arg) {
 			if ($rule->check($arg)) $this->_postExecActions[] = $arg;
 		}
+	}
+	
+	/**
+	 * Sets the action to call after the browser-requested action has executed but before the output from that action is processed. The result from the previous action can be accessed as Harmoni::result.
+	 * @param string $action A dotted-pair action (module.action) to use for post processing.
+	 * @param optional array $ignore An array of dotted-pair actions for which we will NOT execute the post-process action.
+	 * @access public
+	 * @return void
+	 */
+	function setPostProcessAction($action, $ignore=null)
+	{
+		$rule1 =& new DottedPairValidatorRule();
+		$rule2 =& new ArrayValidatorRuleWithRule($rule1);
+		ArgumentValidator::validate($action, $rule1);
+		if ($ignore) ArgumentValidator::validate($ignore, $rule2);
+		
+		$this->_postProcessIgnoreList = $ignore?$ignore:array();
+		$this->_postProcessAction = $action;
+	}
+	
+	/**
+	 * Returns TRUE if $action is contained somewhere within the array of actions: $array.
+	 * @param string $action
+	 * @param array $array
+	 * @access private
+	 * @return bool
+	 */
+	function _isActionInArray($action, $array)
+	{
+		if (in_array($action, $array)) return true;
+		
+		ereg("(.+)\.(.+)",$action,$r);
+		$reqMod = $r[1];
+		$reqAct = $r[2];
+		
+		foreach ($array as $pair) {
+			ereg("(.+)\.(.+)",$pair,$r);
+			$mod = $r[1];
+			$act = $r[2];
+			
+			if ($mod == $reqMod && $act == "*") return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -359,10 +394,8 @@ class Harmoni {
 		
 		// output a content-type header with specified charset. this can be
 		// overridden at any later time.
-		header("Content-type: text/html; charset=".$this->config->get("charset"));
-		
-		// set up a context object.
-		$this->Context =& new Context($module, $action, $this->ActionHandler->getExecutedActions());
+		if ($this->config->get("outputHTML"))
+			header("Content-type: text/html; charset=".$this->config->get("charset"));
 		
 		// we want to catch all the output in case we need to go to the failedLoginAction
 		ob_start();
@@ -381,6 +414,15 @@ class Harmoni {
 		} else {
 			// looks like they're just fine
 			ob_end_flush();
+		}
+
+		$this->result =& $result;
+
+		// if we have a post-process action, let's try executing it.
+		if (isset($this->_postProcessAction) && !$this->_isActionInArray($lastExecutedAction, $this->_postProcessIgnoreList)) {
+			$newResult =& $this->ActionHandler->executePair($this->_postProcessAction);
+			$this->result =& $newResult;
+			$result =& $newResult;
 		}
 		
 		// check if we have any post-exec actions. if so, execute them
