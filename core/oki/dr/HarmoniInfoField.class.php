@@ -24,7 +24,8 @@ class HarmoniInfoField extends InfoField
 	 * @package osid.dr
 	 */
 	function & getId() {
-		return new HarmoniId($this->_valueVersions->_parent->_myLabel."::".$this->_valueVersions->myIndex);
+		$activeVersion =& $this->_valueVersions->getActiveVersion();
+		return new HarmoniId($activeVersion->getID());
 	}
 
 	/**
