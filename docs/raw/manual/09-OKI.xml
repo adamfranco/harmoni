@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE chapter SYSTEM "../dtds/chapter.dtd"> 
+<!-- this contains a chapter of the Harmoni manual -->
+
+<chapter>
+	<version>$Id: 09-OKI.xml,v 1.1 2003/08/26 14:17:38 adamfranco Exp $</version>
+	<name>OKI in PHP</name>
+	
+	<section>
+		<name>The OKI OSIDS</name>
+		<p>Text goes here</p>
+	</section>
+		
+	
+	<section>
+		<name>Calling PHP OSID Implimentations</name>
+		<p>Text goes here</p>
+	</section>
+
+	
+	<section>
+		<name>Calling Java OSID Implimentations</name>
+		<p>Text goes here</p>
+	</section>
+	
+		
+	<section>
+		<name>Robust Program Design with OKI</name>
+		<p>Text goes here</p>
+	</section>
+	
+</chapter>
