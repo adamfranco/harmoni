@@ -15,7 +15,7 @@ require_once(HARMONI."/themeHandler/themes/ImageBox/ImageBox.theme.php");
  * setting.
  *
  * @package harmoni.themes
- * @version $Id: ThemeHandler.class.php,v 1.8 2004/04/06 20:16:46 adamfranco Exp $
+ * @version $Id: ThemeHandler.class.php,v 1.9 2004/04/13 23:37:19 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -231,7 +231,6 @@ class ThemeHandler {
 	 * Stores the Theme.
 	 * @access public
 	 * @param object Id $id The id of the desired Theme.
-	 * @return object ThemeInterface The desired Theme object.
 	 **/
 	function storeTheme( & $theme) {
 		ArgumentValidator::validate($theme, new ExtendsValidatorRule("ThemeInterface"));
