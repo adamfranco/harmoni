@@ -21,7 +21,7 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.4 2003/11/25 19:56:21 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.5 2003/11/26 02:35:00 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandler extends ActionHandlerInterface {
@@ -173,9 +173,10 @@ class ActionHandler extends ActionHandlerInterface {
 			return $are_ok;
 		}
 		
-		// make sure we have a login state
-		if (!$this->_loginState)
-			throwError(new Error("ActionHandler::execute() - Could not proceed: it seems we do not yet have a LoginState object set.","ActionHandler",true));
+		// make sure we have a login state -- BAD! if people choose useAuthentication=false
+		// in config, then this will always fail
+//		if (!$this->_loginState)
+//			throwError(new Error("ActionHandler::execute() - Could not proceed: it seems we do not yet have a LoginState object set.","ActionHandler",true));
 		
 		$this->_executing = true;
 		$result =& $this->_execute($module, $action);
@@ -193,10 +194,10 @@ class ActionHandler extends ActionHandlerInterface {
 	 **/
 	function &_execute($module, $action) {
 		debug::output("executing action '$module.$action'...",DEBUG_SYS5,"ActionHandler");
-		$pair = "$module.$action";
+		$_pair = "$module.$action";
 		// if we've already executed this action, we're probably stuck
 		// in an infinite loop. no good!
-		if (in_array($pair, $this->_actionsExecuted)) {
+		if (in_array($_pair, $this->_actionsExecuted)) {
 			throwError(new Error("ActionHandler::execute($_pair) - could not proceed: 
 								it seems we have already executed this action before. 
 								Are we in an infinite loop?","ActionHandler",true));

@@ -1,14 +1,13 @@
 <?php
 require_once(HARMONI."architecture/harmoni/Harmoni.interface.php");
-require_once(HARMONI."architecture/harmoni/login/LoginHandler.class.php");
+if (LOAD_AUTHENTICATION) require_once(HARMONI."architecture/harmoni/login/LoginHandler.class.php");
 require_once(HARMONI."actionHandler/ActionHandler.class.php");
 require_once(HARMONI."utilities/FieldSetValidator/FieldSet.class.php");
-require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
+if (LOAD_AUTHENTICATION) require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
 require_once(HARMONI."languageLocalizer/LanguageLocalizer.class.php");
 require_once(HARMONI."architecture/harmoni/HarmoniConfig.class.php");
 require_once(HARMONI."architecture/harmoni/Context.class.php");
 require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
-require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
 
 /**
  * The Harmoni class combines the functionality of login, authentication, 
@@ -16,7 +15,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.4 2003/11/25 19:56:21 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.5 2003/11/26 02:35:00 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni extends HarmoniInterface {

@@ -7,7 +7,7 @@ require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
  *
  * @see {@link DebugHandlerInterface}
  * @static
- * @version $Id: debug.class.php,v 1.2 2003/11/25 19:56:21 gabeschine Exp $
+ * @version $Id: debug.class.php,v 1.3 2003/11/26 02:35:00 gabeschine Exp $
  * @package harmoni.debug
  * @copyright 2003 
  **/
@@ -20,6 +20,7 @@ class debug {
 	 **/
 	function output( $text, $level = 5, $category = "general") {
 		if (!$level) return;
+		if (!Services::serviceAvailable("Debug")) return;
 		Services::requireService("Debug");
 		
 		$debugHandler =& Services::getService("Debug");
@@ -38,6 +39,11 @@ class debug {
 	 * @return integer The current debug output level.
 	 **/
 	function level($level=null) {
+		if (!Services::serviceAvailable("Debug")) {
+			throwError ( new Error("Debug::level($level) called but Debug service isn't available.","debug wrapper",false));
+			return;
+		}
+		
 		Services::requireService("Debug");
 		
 		$debugHandler =& Services::getService("Debug");
