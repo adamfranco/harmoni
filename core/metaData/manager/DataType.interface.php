@@ -14,11 +14,19 @@ class DataTypeInterface {
 	
 	function update() { }
 	
+	function commit() { }
+	
 	function alterQuery( &$query ) { }
 	
 	function populate( &$dbRow ) { }
 	
 	function takeValue(&$fromObject) { }
+	
+	function &clone() { }
+	
+	function setup(&$idManager, $dbID) { }
+	
+	function setID() { }
 	
 }
 

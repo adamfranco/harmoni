@@ -14,6 +14,8 @@ class ValueVersions {
 		$this->_parent =& $parent;
 		$this->_numVersions = 0;
 		$this->_myIndex = $myIndex;
+		
+		$this->_versions = array();
 	}
 	
 	function populate( $arrayOfRows ) {
@@ -79,7 +81,8 @@ class ValueVersions {
 	}
 	
 	function &newVerObject($active = false) {
-		$newID = max($this->getVersionList()) + 1;
+		if (!$this->numVersions()) $newID=1;
+		else $newID = max($this->getVersionList()) + 1;
 		$this->_versions[$newID] =& new ValueVersion($this,$active);
 		$this->_numVersions++;
 		return $this->_versions[$newID];
