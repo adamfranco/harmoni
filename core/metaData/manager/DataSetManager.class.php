@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.34 2004/03/31 19:13:26 adamfranco Exp $
+ * @version $Id: DataSetManager.class.php,v 1.35 2004/05/29 13:39:37 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public

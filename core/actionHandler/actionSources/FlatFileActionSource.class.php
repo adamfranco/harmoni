@@ -13,7 +13,7 @@ require_once HARMONI."actionHandler/ActionSource.abstract.php";
  * In this example, the base path would be "basepath/", and the actions file extension would be ".act.php".
  * @package harmoni.actionhandler.sources
  * @copyright 2004
- * @version $Id: FlatFileActionSource.class.php,v 1.1 2004/05/28 19:06:12 gabeschine Exp $
+ * @version $Id: FlatFileActionSource.class.php,v 1.2 2004/05/29 13:39:37 gabeschine Exp $
  */
 class FlatFileActionSource {
 
@@ -38,7 +38,8 @@ class FlatFileActionSource {
 	 * @access public
 	 */
 	function FlatFileActionSource($basePath, $fileExtension=".php") {
-		$this->_basePath = ereg_replace(DIRECTORY_SEPARATOR."$", "", $basePath);
+//		$this->_basePath = ereg_replace(DIRECTORY_SEPARATOR."$", "", $basePath);
+		$this->_basePath = $basePath;
 		$this->_fileExtension = $fileExtension;
 	}
 	

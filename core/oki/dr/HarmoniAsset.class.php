@@ -33,9 +33,6 @@ class HarmoniAsset
 	
 	/**
 	 * Constructor
-	 * 
-	 *
-	 *
 	 */
 	function HarmoniAsset (& $hierarchy, & $dr, & $id, & $configuration) {
 	 	// Get the node coresponding to our id

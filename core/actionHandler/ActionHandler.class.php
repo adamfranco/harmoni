@@ -59,7 +59,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.9 2004/05/28 19:06:10 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.10 2004/05/29 13:39:28 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandler {
@@ -119,6 +119,8 @@ class ActionHandler {
 		$this->_actionsExecuted = array();
 		$this->_threads = array();
 		$this->_actionSources = array();
+		
+		$this->_modulesSettings["callCount"] = 0;
 	}
 	
 	/**
@@ -188,6 +190,7 @@ class ActionHandler {
 		// cycling through them (only the first action will be executed).
 		$executedAction = false;
 		$result = null;
+
 		foreach (array_keys($this->_actionSources) as $sourceID) {
 			$source =& $this->_actionSources[$sourceID];
 			if ($source->actionExists($module, $action)) {
@@ -286,6 +289,11 @@ class ActionHandler {
 		$this->_modulesSettings["location"] = $location;
 		$this->_modulesSettings["type"] = $type;
 		$this->_modulesSettings["ext"] = $ext;
+		
+		$this->_modulesSettings["callCount"]++;
+		
+		if ($this->_modulesSettings["callCount"] == 2) $this->_compatActionSource();
+		
 	}
 	
 	/**
@@ -308,18 +316,34 @@ class ActionHandler {
 			return false;
 		}
 		
+		$this->_modulesSettings["actionType"] = $type;
+		$this->_modulesSettings["actionExt"] = $fileExtension;
+		
+		$this->_modulesSettings["callCount"]++;
+		
+		if ($this->_modulesSettings["callCount"] == 2) $this->_compatActionSource();
+		
+	}
+	
+	/**
+	 * For backward compatibility with deprecated functions -- will add an action source based on settings given with old functions.
+	 * @access private
+	 * @return void
+	 */
+	function _compatActionSource()
+	{
+
 		// we have three options here.
 		// 1) modules = folders, actions = flat files
 		// 2) modules = folders, actions = classes
 		// 3) modules = classes, actions = methods
-		
-		if ($this->_modulesSettings["type"] == MODULES_FOLDERS && $type == ACTIONS_FLATFILES) {
-			$this->addActionSource( new FlatFileActionSource($this->_moduleSettings["location"], $fileExtension));
+		if ($this->_modulesSettings["type"] == MODULES_FOLDERS && $this->_modulesSettings["actionType"] == ACTIONS_FLATFILES) {
+			$this->addActionSource( new FlatFileActionSource($this->_modulesSettings["location"], $this->_modulesSettings["actionExt"]));
 		}
-		if ($this->_modulesSettings["type"] == MODULES_FOLDERS && $type == ACTIONS_CLASSSES) {
-			$this->addActionSource( new ClassesActionSource($this->_modulesSettings["location"], $fileExtension));
+		if ($this->_modulesSettings["type"] == MODULES_FOLDERS && $this->_modulesSettings["actionType"] == ACTIONS_CLASSSES) {
+			$this->addActionSource( new ClassesActionSource($this->_modulesSettings["location"], $this->_modulesSettings["actionExt"]));
 		}
-		if ($this->_modulesSettings["type"] == MODULES_CLASSES && $type == ACTIONS_CLASS_METHODS) {
+		if ($this->_modulesSettings["type"] == MODULES_CLASSES && $this->_modulesSettings["actionType"] == ACTIONS_CLASS_METHODS) {
 			$this->addActionSource( new ClassMethodsActionSource($this->_modulesSettings["location"], $this->_modulesSettings["ext"]));
 		}
 		// done.
