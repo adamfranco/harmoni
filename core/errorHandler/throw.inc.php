@@ -2,7 +2,7 @@
 
 /**
  * Defines the throw functions.
- * @version $Id: throw.inc.php,v 1.5 2004/08/04 02:18:57 gabeschine Exp $
+ * @version $Id: throw.inc.php,v 1.6 2004/08/30 20:14:16 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.errorhandler
  **/
@@ -22,6 +22,40 @@ function throwError(& $error) {
 
 	// throw the error
 	$errorHandler->addError($error);
+}
+
+/**
+ * Try a function and catch any errors. If an error has occured,
+ * the try will return FALSE. The error can then be accessed and
+ * printed from the ErrorHandler if desired.
+ *
+ * @param mixed $operation The operation to run. Of the form:
+ *  	try("$function($arg1, $arg2, etc)")
+ * 	or
+ *  	try("$object->$function($arg1, $arg2, etc)")
+ * @return boolean TRUE if successful, FALSE if an error occurred.
+ */
+function try ($operation) {
+	
+	die (UNIMPLEMENTED); 
+	
+	$errorHandler =& Services::getService("ErrorHandler");
+	
+	/* Several problems with implementing this function: 
+		- Debug mode (or equivalent without "die()" call) may allow unsafe
+		  execution to continue if the throwError() call was being used
+		  to stop exectution
+		  
+		- It seems that die() and exit() are the only functions that can 
+		  escape out of multiple functions. I can't figure out any way to
+		  get back to the try function and allow it to continue, while stopping
+		  the execution of the functions called withing try().
+		
+		- unclear how references may be handeled in the evaled string. Need
+		  to check on this.
+	*/
+	
+	eval ($operation);
 }
 
 /**
