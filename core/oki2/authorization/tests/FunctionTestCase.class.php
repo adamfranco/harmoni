@@ -7,7 +7,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunction.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FunctionTestCase.class.php,v 1.1 2005/01/11 17:40:19 adamfranco Exp $
+ * @version $Id: FunctionTestCase.class.php,v 1.2 2005/01/18 20:02:20 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -19,12 +19,12 @@ class HarmoniFunctionTestCase extends UnitTestCase {
 		$this->UnitTestCase();
 	}
 
-    /**
-     *    Sets up unit test wide variables at the start
-     *    of each test method.
-     *    @public
-     */
-    function setUp() {
+	/**
+	 *	  Sets up unit test wide variables at the start
+	 *	  of each test method.
+	 *	  @public
+	 */
+	function setUp() {
 		// Set up the database connection
 		$dbHandler=&Services::requireService("DBHandler");
 		$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
@@ -37,7 +37,7 @@ class HarmoniFunctionTestCase extends UnitTestCase {
 		$this->function =& new HarmoniFunction($this->id1, "It doesn't matter",
 				"It doesn't matter too", $this->type, $this->id4, $dbIndex, "doboHarmoniTest");
 
-    }
+	}
 
 	function test_constructor() {
 		$this->assertReference($this->id1, $this->function->getId());
@@ -57,13 +57,13 @@ class HarmoniFunctionTestCase extends UnitTestCase {
 	}
 	
 
-    /**
-     *    Clears the data set in the setUp() method call.
-     *    @public
-     */
-    function tearDown() {
+	/**
+	 *	  Clears the data set in the setUp() method call.
+	 *	  @public
+	 */
+	function tearDown() {
 		// perhaps, unset $obj here
-    }
+	}
 
 }
 

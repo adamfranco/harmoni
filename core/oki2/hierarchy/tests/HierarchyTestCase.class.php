@@ -7,22 +7,22 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.1 2005/01/11 17:40:21 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.2 2005/01/18 20:02:45 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
 
-    class HierarchyTestCase extends UnitTestCase {
+	class HierarchyTestCase extends UnitTestCase {
 
 		var $hierarchy;
 		var $manager;
 
-        /**
-         *    Sets up unit test wide variables at the start
-         *    of each test method.
-         *    @public
-         */
-        function setUp() {
+		/**
+		 *	  Sets up unit test wide variables at the start
+		 *	  of each test method.
+		 *	  @public
+		 */
+		function setUp() {
 			// Set up the database connection
 			$dbHandler=&Services::requireService("DBHandler");
 			$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
@@ -31,16 +31,16 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 			
 			$cache =& new HierarchyCache("8", true, $dbIndex, "doboHarmoniTest");
 			$this->hierarchy =& new HarmoniHierarchy(new HarmoniId('8'), "Dobo Hierarchy", "Blah", $cache);
-	       	$this->manager =& new HarmoniSharedManager($dbIndex, "doboHarmoniTest");
-        }
+			$this->manager =& new HarmoniSharedManager($dbIndex, "doboHarmoniTest");
+		}
 		
-        /**
-         *    Clears the data set in the setUp() method call.
-         *    @public
-         */
-        function tearDown() {
+		/**
+		 *	  Clears the data set in the setUp() method call.
+		 *	  @public
+		 */
+		function tearDown() {
 			// perhaps, unset $obj here
-        }
+		}
 
 		//--------------the tests ----------------------
 
@@ -122,11 +122,11 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 			$nodeF->addParent($idG);
 			
 			// this is what the final hierarchy looks like:
-			//				  B   G
+			//				  B	  G
 			//				 /|\ /|
 			//				A C E |
 			//				 \ / \|
-			//				  D   F
+			//				  D	  F
 			
 			// assert that the nodes have been cached properly
 			

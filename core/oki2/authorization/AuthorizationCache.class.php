@@ -6,7 +6,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.2 2005/01/18 16:39:57 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.3 2005/01/18 20:02:16 adamfranco Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -54,9 +54,9 @@ class AuthorizationCache {
 	
 	
 	/**
-     * Constructor
-     * @access protected
-     */
+	 * Constructor
+	 * @access protected
+	 */
 	function AuthorizationCache($dbIndex, $authzDB) {
 		// ** argument validation **
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
@@ -166,7 +166,7 @@ class AuthorizationCache {
 		// create the Function object
 		$sharedManager =& Services::requireService("Shared");
 		$function =& new HarmoniFunction($functionId, $displayName, $description, 
-									     $functionType, $qualifierHierarchyId,
+										 $functionType, $qualifierHierarchyId,
 										 $this->_dbIndex, $this->_authzDB);
 		
 		// now insert into database
@@ -247,7 +247,7 @@ class AuthorizationCache {
 
 
 	/** 
-	 * Creates a new Qualifier in the Authorization Service that has no parent.  This is different from making a new instance of a Qualifier object locally as the Qualifier will be inserted into the Authorization Service.
+	 * Creates a new Qualifier in the Authorization Service that has no parent.	 This is different from making a new instance of a Qualifier object locally as the Qualifier will be inserted into the Authorization Service.
 	 * @param ref object qualifierId is externally defined
 	 * @param string displayName the name to display for this Qualifier
 	 * @param string description the description of this Qualifier
@@ -347,12 +347,12 @@ class AuthorizationCache {
 		
 		while ($queryResult->hasMoreRows()) {
 			$row = $queryResult->getCurrentRow();
-// 			echo "<pre>";
-// 			print_r($row);
-// 			echo "</pre>";
+//			echo "<pre>";
+//			print_r($row);
+//			echo "</pre>";
 			
 			$types[] =& new HarmoniType($row['domain'], $row['authority'], 
-								     $row['keyword'], $row['type_description']);
+									 $row['keyword'], $row['type_description']);
 
 			$queryResult->advanceRow();
 		}
@@ -409,7 +409,7 @@ class AuthorizationCache {
 			}
 			else {
 				$type =& new HarmoniType($row['domain'], $row['authority'], 
-									     $row['keyword'], $row['type_description']);
+										 $row['keyword'], $row['type_description']);
 				$shared_manager =& Services::requireService("Shared");
 				$functionId =& $shared_manager->getId($row['id']);
 				$hierarchyId =& $shared_manager->getId($row['hierarchy_id']);
@@ -440,7 +440,7 @@ class AuthorizationCache {
 		// ** end of parameter validation
 		
 		if (isset($this->_functions[$idValue]))
-		    return $this->_functions[$idValue];
+			return $this->_functions[$idValue];
 
 		$dbHandler =& Services::requireService("DBHandler");
 		
@@ -464,13 +464,13 @@ class AuthorizationCache {
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() != 1) {
-		    $str = "Exactly one row must have been returned";
+			$str = "Exactly one row must have been returned";
 			throwError($str, "authorization", true);
 		}
 		
 		$row = $queryResult->getCurrentRow();
 		$type =& new HarmoniType($row['domain'], $row['authority'], 
-							     $row['keyword'], $row['type_description']);
+								 $row['keyword'], $row['type_description']);
 		
 		
 		$shared_manager =& Services::requireService("Shared");
@@ -500,7 +500,7 @@ class AuthorizationCache {
 		$idValue = $qualifierId->getIdString();
 
 		if (isset($this->_qualifiers[$idValue]))
-		    return $this->_qualifiers[$idValue];
+			return $this->_qualifiers[$idValue];
 
 		// get the node for the qualifier		
 		$hierarchyManager =& Services::requireService("Hierarchy");
@@ -576,7 +576,7 @@ class AuthorizationCache {
 			$idValue = $nodeId->getIdString();
 			
 			if (isset($this->_qualifiers[$idValue]))
-			    $qualifier =& $this->_qualifiers[$idValue];
+				$qualifier =& $this->_qualifiers[$idValue];
 			else {
 				$qualifier =& new HarmoniQualifier($hierarchy->getNode($nodeId), $this);
 				$this->_qualifiers[$idValue] =& $qualifier;
@@ -789,12 +789,12 @@ class AuthorizationCache {
 		$where = $db."az_authorization.fk_qualifier IN ($list)";
 		$query->addWhere($where);
 		// the agent criteria
- 		if (isset($aId) || count($groupIds)) {
-// 			$joinc = $db."az_authorization.fk_agent = ".$db."agent.agent_id";
-// 			$query->addTable($db."agent", INNER_JOIN, $joinc);
+		if (isset($aId) || count($groupIds)) {
+//			$joinc = $db."az_authorization.fk_agent = ".$db."agent.agent_id";
+//			$query->addTable($db."agent", INNER_JOIN, $joinc);
 			$where = $db."az_authorization.fk_agent IN ($agentList)";
 			$query->addWhere($where);
- 		}
+		}
 		// the function criteria
 		if (isset($fId)) {
 			$joinc = $db."az_authorization.fk_function = ".$db."az_function.function_id";
@@ -834,9 +834,9 @@ class AuthorizationCache {
 		
 		$query->addOrderBy("authorization_id");
 		
-// 		echo "<pre>\n";
-// 		echo MySQL_SQLGenerator::generateSQLQuery($query);
-// 		echo "</pre>\n";
+//		echo "<pre>\n";
+//		echo MySQL_SQLGenerator::generateSQLQuery($query);
+//		echo "</pre>\n";
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
@@ -846,7 +846,7 @@ class AuthorizationCache {
 		while ($queryResult->hasMoreRows()) {
 			$row =& $queryResult->getCurrentRow();
 			
-// 			printpre($row);
+//			printpre($row);
 
 			$idValue = $row['id'];
 			$id =& $sharedManager->getId($idValue);

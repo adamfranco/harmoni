@@ -9,7 +9,7 @@ require_once(HARMONI.'oki/authorization/DefaultFunctionType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AuthorizationTestCase.class.php,v 1.1 2005/01/11 17:40:19 adamfranco Exp $
+ * @version $Id: AuthorizationTestCase.class.php,v 1.2 2005/01/18 20:02:19 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -21,12 +21,12 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 		$this->UnitTestCase();
 	}
 
-    /**
-     *    Sets up unit test wide variables at the start
-     *    of each test method.
-     *    @public
-     */
-    function setUp() {
+	/**
+	 *	  Sets up unit test wide variables at the start
+	 *	  of each test method.
+	 *	  @public
+	 */
+	function setUp() {
 		// Set up the database connection
 		$dbHandler=&Services::requireService("DBHandler");
 		$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
@@ -43,7 +43,7 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 		$this->authorization =& $this->manager->createDatedAuthorization($this->agentId, 
 													$this->functionId, $this->qualifierId,
 													$this->date1, $this->date2);
-    }
+	}
 
 	function test_constructor() {
 		$this->assertReference($this->agentId, $this->authorization->getAgentId());
@@ -101,7 +101,7 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 		$this->assertIdentical($type->getKeyword(), $deftype->getKeyword());
 		$this->assertIdentical($type->getDescription(), $deftype->getDescription());
 
-		$this->assertReference($function, $this->authorization->_cache->_functions['501']);	
+		$this->assertReference($function, $this->authorization->_cache->_functions['501']); 
 	}
 
 
@@ -123,12 +123,12 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 
 
 	/**
-     *    Clears the data set in the setUp() method call.
-     *    @public
-     */
-    function tearDown() {
+	 *	  Clears the data set in the setUp() method call.
+	 *	  @public
+	 */
+	function tearDown() {
 		$this->manager->deleteAuthorization($this->authorization);
-    }
+	}
 
 
 }

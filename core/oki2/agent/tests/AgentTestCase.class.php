@@ -7,32 +7,32 @@ require_once(HARMONI.'/oki2/agent/HarmoniAgent.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AgentTestCase.class.php,v 1.2 2005/01/12 16:51:45 adamfranco Exp $
+ * @version $Id: AgentTestCase.class.php,v 1.3 2005/01/18 20:00:37 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
 
-    class AgentTestCase extends UnitTestCase {
+	class AgentTestCase extends UnitTestCase {
 	
 		var $agent;
 
-        /**
-         *    Sets up unit test wide variables at the start
-         *    of each test method.
-         *    @public
-         */
-        function setUp() {
+		/**
+		 *	  Sets up unit test wide variables at the start
+		 *	  of each test method.
+		 *	  @public
+		 */
+		function setUp() {
 			// Set up the database connection
-        }
+		}
 		
-        /**
-         *    Clears the data set in the setUp() method call.
-         *    @public
-         */
-        function tearDown() {
+		/**
+		 *	  Clears the data set in the setUp() method call.
+		 *	  @public
+		 */
+		function tearDown() {
 			// perhaps, unset $obj here
 			unset($this->agent);
-        }
+		}
 
 		//--------------the tests ----------------------
 

@@ -6,7 +6,7 @@ require_once(HARMONI."oki2/hierarchy/tree/TreeNode.interface.php");
  * This is the building piece of the Tree data structure used for the backbone of the
  * hierarchy.
  * @access public
- * @version $Id: TreeNode.class.php,v 1.2 2005/01/17 21:08:54 adamfranco Exp $
+ * @version $Id: TreeNode.class.php,v 1.3 2005/01/18 20:02:56 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -225,7 +225,7 @@ class TreeNode extends TreeNodeInterface
 		ArgumentValidator::validate($node, $extendsRule, true);
 
 		if (!isset($this->_children[$node->_id]))
-		    return false;
+			return false;
 
 		return ($this->_children[$node->_id]->_id === $node->_id);
 	}
@@ -242,7 +242,7 @@ class TreeNode extends TreeNodeInterface
 		ArgumentValidator::validate($node, $extendsRule, true);
 
 		if (!isset($this->_parents[$node->_id]))
-		    return false;
+			return false;
 
 		return ($this->_parents[$node->_id]->_id === $node->_id);
 	}

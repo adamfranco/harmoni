@@ -7,21 +7,21 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchyManager.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyManagerTestCase.class.php,v 1.1 2005/01/11 17:40:21 adamfranco Exp $
+ * @version $Id: HierarchyManagerTestCase.class.php,v 1.2 2005/01/18 20:02:43 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
 
-    class HierarchyManagerTestCase extends UnitTestCase {
+	class HierarchyManagerTestCase extends UnitTestCase {
 
 		var $manager;
 
-        /**
-         *    Sets up unit test wide variables at the start
-         *    of each test method.
-         *    @public
-         */
-        function setUp() {
+		/**
+		 *	  Sets up unit test wide variables at the start
+		 *	  of each test method.
+		 *	  @public
+		 */
+		function setUp() {
 			// Set up the database connection
 			$dbHandler=&Services::requireService("DBHandler");
 			$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
@@ -29,15 +29,15 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchyManager.class.php');
 			unset($dbHandler); // done with that for now
 			
 			$this->manager =& new HarmoniHierarchyManager($dbIndex, "doboHarmoniTest");
-        }
+		}
 		
-        /**
-         *    Clears the data set in the setUp() method call.
-         *    @public
-         */
-        function tearDown() {
+		/**
+		 *	  Clears the data set in the setUp() method call.
+		 *	  @public
+		 */
+		function tearDown() {
 			// perhaps, unset $obj here
-        }
+		}
 
 		//--------------the tests ----------------------
 

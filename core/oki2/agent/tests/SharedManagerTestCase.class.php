@@ -5,7 +5,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.1 2005/01/11 17:40:06 adamfranco Exp $
+ * @version $Id: SharedManagerTestCase.class.php,v 1.2 2005/01/18 20:00:39 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -15,29 +15,29 @@ class SharedManagerTestCase extends UnitTestCase {
 
 	var $manager;
 
-       /**
-        *    Sets up unit test wide variables at the start
-        *    of each test method.
-        *    @public
-        */
-       function setUp() {
+	   /**
+		*	 Sets up unit test wide variables at the start
+		*	 of each test method.
+		*	 @public
+		*/
+	   function setUp() {
 		// Set up the database connection
 		$dbHandler=&Services::requireService("DBHandler");
 		$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
 		$dbHandler->pConnect($dbIndex);
 		unset($dbHandler); // done with that for now
 		
-       	$this->manager =& new HarmoniSharedManager($dbIndex, "doboHarmoniTest");
-       }
+		$this->manager =& new HarmoniSharedManager($dbIndex, "doboHarmoniTest");
+	   }
 	
-       /**
-        *    Clears the data set in the setUp() method call.
-        *    @public
-        */
-       function tearDown() {
+	   /**
+		*	 Clears the data set in the setUp() method call.
+		*	 @public
+		*/
+	   function tearDown() {
 		// perhaps, unset $obj here
 		unset($this->manager);
-       }
+	   }
 
 	//--------------the tests ----------------------
 

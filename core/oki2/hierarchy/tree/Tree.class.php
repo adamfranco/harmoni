@@ -6,7 +6,7 @@ require_once(HARMONI."oki2/hierarchy/tree/TreeNode.class.php");
 /** 
  * The Tree data structure used by the Hierarchy.
  * @access public
- * @version $Id: Tree.class.php,v 1.2 2005/01/17 21:08:54 adamfranco Exp $
+ * @version $Id: Tree.class.php,v 1.3 2005/01/18 20:02:47 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -75,7 +75,7 @@ class Tree extends TreeInterface {
 		// if node has not been cached then do so
 		if (!$this->nodeExists($id)) {
 			// add the node
-		    $this->_nodes[$id] =& $node;
+			$this->_nodes[$id] =& $node;
 			$this->_size++;
 		}
 	}

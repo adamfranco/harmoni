@@ -8,7 +8,7 @@ require_once(HARMONI.'oki/authorization/DefaultQualifierType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: QualifierTestCase.class.php,v 1.1 2005/01/11 17:40:19 adamfranco Exp $
+ * @version $Id: QualifierTestCase.class.php,v 1.2 2005/01/18 20:02:20 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -20,12 +20,12 @@ class HarmoniQualifierTestCase extends UnitTestCase {
 		$this->UnitTestCase();
 	}
 
-    /**
-     *    Sets up unit test wide variables at the start
-     *    of each test method.
-     *    @public
-     */
-    function setUp() {
+	/**
+	 *	  Sets up unit test wide variables at the start
+	 *	  of each test method.
+	 *	  @public
+	 */
+	function setUp() {
 		// Set up the database connection
 		$dbHandler=&Services::requireService("DBHandler");
 		$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
@@ -35,7 +35,7 @@ class HarmoniQualifierTestCase extends UnitTestCase {
 		$this->cache =& new HierarchyCache("6794", true, $dbIndex, "doboHarmoniTest");
 		$this->node =& $this->cache->getNode("6800");
 		$this->qualifier =& new HarmoniQualifier($this->node, new AuthorizationCache($dbIndex, "doboHarmoniTest"));
-    }
+	}
 
 	function test_constructor() {
 		$this->assertReference($this->node, $this->qualifier->_node);
@@ -129,13 +129,13 @@ class HarmoniQualifierTestCase extends UnitTestCase {
 		$this->assertFalse($this->qualifier->isDescendantOf(new HarmoniId("6801")));
 	}
 
-    /**
-     *    Clears the data set in the setUp() method call.
-     *    @public
-     */
-    function tearDown() {
+	/**
+	 *	  Clears the data set in the setUp() method call.
+	 *	  @public
+	 */
+	function tearDown() {
 		// perhaps, unset $obj here
-    }
+	}
 
 
 }

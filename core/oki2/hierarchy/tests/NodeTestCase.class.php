@@ -7,23 +7,23 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: NodeTestCase.class.php,v 1.1 2005/01/11 17:40:21 adamfranco Exp $
+ * @version $Id: NodeTestCase.class.php,v 1.2 2005/01/18 20:02:45 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
 
-    class NodeTestCase extends UnitTestCase {
+	class NodeTestCase extends UnitTestCase {
 	
 		var $nodeA;
 		var $nodeF;
 		var $cache;
 		
-        /**
-         *    Sets up unit test wide variables at the start
-         *    of each test method.
-         *    @public
-         */
-        function setUp() {
+		/**
+		 *	  Sets up unit test wide variables at the start
+		 *	  of each test method.
+		 *	  @public
+		 */
+		function setUp() {
 			// Set up the database connection
 			$dbHandler=&Services::requireService("DBHandler");
 			$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
@@ -39,18 +39,18 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
 			//			  \|/
 			//			D  E
 			//			 \/ \
-			//			 F   G
+			//			 F	 G
 			//			 /\ /
 			//			H  I
-        }
+		}
 		
-        /**
-         *    Clears the data set in the setUp() method call.
-         *    @public
-         */
-        function tearDown() {
+		/**
+		 *	  Clears the data set in the setUp() method call.
+		 *	  @public
+		 */
+		function tearDown() {
 			// perhaps, unset $obj here
-        }
+		}
 
 		//--------------the tests ----------------------
 
@@ -238,7 +238,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
 			// get B (B is the parent of E, which is the child of A
 
 			$this->nodeF->addParent(new HarmoniId('2'));
-			$this->nodeF->changeParent(new HarmoniId('2'), new  HarmoniId('7'));
+			$this->nodeF->changeParent(new HarmoniId('2'), new	HarmoniId('7'));
 			$this->nodeF->removeParent(new HarmoniId('7'));
 		}
 		

@@ -7,11 +7,11 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: TreeTestCase.class.php,v 1.1 2005/01/11 17:40:22 adamfranco Exp $
+ * @version $Id: TreeTestCase.class.php,v 1.2 2005/01/18 20:03:05 adamfranco Exp $
  * @copyright 2003 
  */
 
-    class TreeTestCase extends UnitTestCase {
+	class TreeTestCase extends UnitTestCase {
 		
 		function TreeTestCase() {
 			$this->UnitTestCase();
@@ -19,23 +19,23 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 	
 		/**
 		*  Sets up unit test wide variables at the start
-		*    of each test method.
-		*    @public
+		*	 of each test method.
+		*	 @public
 		*/
 		function setUp() {
 			// perhaps, initialize $obj here
 		}
 		
 		/**
-		 *    Clears the data set in the setUp() method call.
-		 *    @public
+		 *	  Clears the data set in the setUp() method call.
+		 *	  @public
 		 */
 		function tearDown() {
 			// perhaps, unset $obj here
 		}
 	
 		/**
-		 *    Test the constructor
+		 *	  Test the constructor
 		 */ 
 		function test_everything() {
 			// initialize
@@ -84,7 +84,7 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 		
 	
 		/**
-		 *    Simple traversal in a single parent hierarchy
+		 *	  Simple traversal in a single parent hierarchy
 		 */ 
 		function test_traversal1() {
 			// initialize
@@ -146,7 +146,7 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 
 
 		/**
-		 *    Simple traversal in a single parent hierarchy
+		 *	  Simple traversal in a single parent hierarchy
 		 */ 
 		function test_traversal2() {
 			// initialize
@@ -157,7 +157,7 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 			//			  \|/
 			//			D  E
 			//			 \/ \
-			//			 F   G
+			//			 F	 G
 			//			 /\ /
 			//			H  I
 				
@@ -258,13 +258,13 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 			// now make A and C non-roots
 			// the new tree will be
 			//
-			//               J
-			//               |
+			//				 J
+			//				 |
 			//			 A B C
 			//			/ \|/
 			//			D  E
 			//			 \/ \
-			//			 F   G
+			//			 F	 G
 			//			 /\ /
 			//			H  I
 			
@@ -277,7 +277,7 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 		
 		
 		/**
-		 *    Test addNode
+		 *	  Test addNode
 		 */ 
 		function test_addNode() {
 			// initialize
@@ -298,6 +298,6 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 		}
 
 		
-    }
+	}
 
 ?>

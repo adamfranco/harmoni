@@ -7,11 +7,11 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: TreeNodeTestCase.class.php,v 1.1 2005/01/11 17:40:22 adamfranco Exp $
+ * @version $Id: TreeNodeTestCase.class.php,v 1.2 2005/01/18 20:02:57 adamfranco Exp $
  * @copyright 2003 
  */
 
-    class TreeNodeTestCase extends UnitTestCase {
+	class TreeNodeTestCase extends UnitTestCase {
 		
 		function TreeNodeTestCase() {
 			$this->UnitTestCase();
@@ -19,16 +19,16 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
 	
 		/**
 		*  Sets up unit test wide variables at the start
-		*    of each test method.
-		*    @public
+		*	 of each test method.
+		*	 @public
 		*/
 		function setUp() {
 			// perhaps, initialize $obj here
 		}
 		
 		/**
-		 *    Clears the data set in the setUp() method call.
-		 *    @public
+		 *	  Clears the data set in the setUp() method call.
+		 *	  @public
 		 */
 		function tearDown() {
 			// perhaps, unset $obj here
@@ -36,7 +36,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
 		}
 	
 		/**
-		 *    Test the constructor
+		 *	  Test the constructor
 		 */ 
 		function test_everything() {
 			// create a few root nodes
@@ -99,6 +99,6 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
 			$this->assertTrue($node1->isChild($node1_2));
 		}
 		
-    }
+	}
 
 ?>

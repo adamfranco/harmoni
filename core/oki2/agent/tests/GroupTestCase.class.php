@@ -7,45 +7,45 @@ require_once(HARMONI.'/oki2/agent/HarmoniGroup.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: GroupTestCase.class.php,v 1.2 2005/01/12 16:51:46 adamfranco Exp $
+ * @version $Id: GroupTestCase.class.php,v 1.3 2005/01/18 20:00:39 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
 
-    class GroupTestCase extends UnitTestCase {
+	class GroupTestCase extends UnitTestCase {
 	
 		var $group;
 		var $manager;
 
-        /**
-         *    Sets up unit test wide variables at the start
-         *    of each test method.
-         *    @public
-         */
-        function setUp() {
+		/**
+		 *	  Sets up unit test wide variables at the start
+		 *	  of each test method.
+		 *	  @public
+		 */
+		function setUp() {
 			// Set up the database connection
 			$dbHandler=&Services::requireService("DBHandler");
 			$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
 			$dbHandler->pConnect($dbIndex);
 			unset($dbHandler); // done with that for now
 			
-	       	$this->manager =& new HarmoniAgentManager($dbIndex, "doboHarmoniTest");
+			$this->manager =& new HarmoniAgentManager($dbIndex, "doboHarmoniTest");
 	
 			$this->type =& new HarmoniType("Look at me!", "I rock...", "I rule!", "And rise!");
 			$this->group =& $this->manager->createGroup("dobomode", $this->type, "Muhaha!");
 			$this->id =& $this->group->getId();
 
-        }
+		}
 		
-        /**
-         *    Clears the data set in the setUp() method call.
-         *    @public
-         */
-        function tearDown() {
+		/**
+		 *	  Clears the data set in the setUp() method call.
+		 *	  @public
+		 */
+		function tearDown() {
 			// perhaps, unset $obj here
 			$this->manager->deleteGroup($this->group->getId());
 			unset($this->group);
-        }
+		}
 
 		//--------------the tests ----------------------
 
@@ -317,7 +317,7 @@ require_once(HARMONI.'/oki2/agent/HarmoniGroup.class.php');
 			// create a type
 			$type =& new HarmoniType("Create", "Group", "Test", "A test for updating a group\'s description");
 	
-	 		// create one group
+			// create one group
 			$group =& $this->manager->createGroup("depeche", $type, "The greatest band.");
 	
 			$group->updateDescription("Hoho!");
