@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchy.class.php');
+require_once(HARMONI.'/oki/hierarchy/HarmoniHierarchy.class.php');
 require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
 require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 
@@ -9,7 +9,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.7 2003/10/10 17:31:32 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.8 2003/10/13 15:07:42 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -45,10 +45,12 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 			$nodeTypes = array();
 			$nodeTypes[] =& new GenericNodeType;
 			
+			$hierarchyStore =& new MemoryOnlyHierarchyStore;
+			
 			// The id for each of these will be the initial number of the last part.
-			$this->hierarchy =& new MemoryOnlyHierarchy(new HarmoniTestId, "Test Case Hierarchy",
+			$this->hierarchy =& new HarmoniHierarchy(new HarmoniTestId, "Test Case Hierarchy",
 												"A Hierarchy for the HierarchyTestCase",
-												$nodeTypes);
+												$nodeTypes, $hierarchyStore);
 			
 			// Add some nodes
 			$nodeType =& new GenericNodeType;
@@ -127,11 +129,12 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 			$id =& new HarmoniTestId;
 			$nodeTypes = array();
 			$nodeTypes[] =& new GenericNodeType;
+			$hierarchyStore =& new MemoryOnlyHierarchyStore;
 			
 			// The id for each of these will be the initial number of the last part.
-			$hierarchy =& new MemoryOnlyHierarchy($id, "Test Case Hierarchy",
+			$hierarchy =& new HarmoniHierarchy($id, "Test Case Hierarchy",
 												"A Hierarchy for the HierarchyTestCase",
-												$nodeTypes);
+												$nodeTypes, $hierarchyStore);
 //			print_r($hierarchy);
 			
 			$returnedId =& $hierarchy->getId();
@@ -153,18 +156,19 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 			$id =& new HarmoniTestId;
 			$nodeTypes = array();
 			$nodeTypes[] =& new GenericNodeType;
+			$hierarchyStore =& new MemoryOnlyHierarchyStore;
 			
 			// The id for each of these will be the initial number of the last part.
-			$hierarchy =& new MemoryOnlyHierarchy($id, "Test Case Hierarchy",
+			$hierarchy =& new HarmoniHierarchy($id, "Test Case Hierarchy",
 												"A Hierarchy for the HierarchyTestCase",
-												$nodeTypes);
+												$nodeTypes, $hierarchyStore);
 												
 			// Add a root Node
 			$nodeId =& new HarmoniTestId;
 			$nodeType =& new GenericNodeType;
 			$node =& $hierarchy->createRootNode($nodeId, $nodeType, "Collection One", "A Collection, the first root node created");
 			
-			$this->assertReference($node, $hierarchy->_tree->data[$nodeId->getIdString()]);
+			$this->assertReference($node, $hierarchy->_hierarchyStore->_tree->data[$nodeId->getIdString()]);
 			$nodeIterator =& $hierarchy->getAllNodes();
 			$returnedNode =& $nodeIterator->next();
 			$this->assertReference($node, $returnedNode);
@@ -177,7 +181,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 			$firstChildId = $nodeId;
 			$node =& $hierarchy->createNode($nodeId, $parentId, $nodeType, "Asset One", "The first asset added to Collection One");
 			
-			$this->assertReference($node, $hierarchy->_tree->data[$nodeId->getIdString()]);
+			$this->assertReference($node, $hierarchy->_hierarchyStore->_tree->data[$nodeId->getIdString()]);
 			$nodeIterator =& $hierarchy->getAllNodes();
 			$nodeIterator->next(); // the root node
 			$returnedNode =& $nodeIterator->next(); // the first child of the root
@@ -189,7 +193,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 			$nodeId =& new HarmoniTestId;
 			$node =& $hierarchy->createNode($nodeId, $parentId, $nodeType, "Asset Two", "The second asset added to Collection One");
 			
-			$this->assertReference($node, $hierarchy->_tree->data[$nodeId->getIdString()]);
+			$this->assertReference($node, $hierarchy->_hierarchyStore->_tree->data[$nodeId->getIdString()]);
 			$nodeIterator =& $hierarchy->getAllNodes();
 			$nodeIterator->next(); // pull the root node
 			$nodeIterator->next(); // the first child of the root
@@ -203,7 +207,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 			$parentId =& $firstChildId;
 			$node =& $hierarchy->createNode($nodeId, $parentId, $nodeType, "Sub-Asset One", "The first sub-asset added to Collection One");
 			
-			$this->assertReference($node, $hierarchy->_tree->data[$nodeId->getIdString()]);
+			$this->assertReference($node, $hierarchy->_hierarchyStore->_tree->data[$nodeId->getIdString()]);
 			$nodeIterator =& $hierarchy->getAllNodes();
 			$nodeIterator->next(); // pull the root node
 			$nodeIterator->next(); // the first child of the root
@@ -218,14 +222,14 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 
 			//$hierarchy->deleteNode($this->branchNodeLevel0Id); // throws a proper error
 			$hierarchy->deleteNode($this->leafNodeLevel0Id);
-			$this->assertFalse($hierarchy->_tree->nodeExists($this->leafNodeLevel0Id->getIdString()));
+			$this->assertFalse($hierarchy->_hierarchyStore->nodeExists($this->leafNodeLevel0Id->getIdString()));
 			
 			//$hierarchy->deleteNode($this->branchNodeLevel1Id); // throws a proper error
 			$hierarchy->deleteNode($this->leafNodeLevel1Id);
-			$this->assertFalse($hierarchy->_tree->nodeExists($this->leafNodeLevel1Id->getIdString()));
+			$this->assertFalse($hierarchy->_hierarchyStore->nodeExists($this->leafNodeLevel1Id->getIdString()));
 			
 			$hierarchy->deleteNode($this->leafNodeLevel2Id);
-			$this->assertFalse($hierarchy->_tree->nodeExists($this->leafNodeLevel2Id->getIdString()));
+			$this->assertFalse($hierarchy->_hierarchyStore->nodeExists($this->leafNodeLevel2Id->getIdString()));
 		}
 		
 		function test_get_node () {

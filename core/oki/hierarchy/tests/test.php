@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.6 2003/10/10 17:31:32 adamfranco Exp $
+ * @version $Id: test.php,v 1.8 2003/10/13 15:08:13 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003 
  **/

@@ -1,13 +1,13 @@
 <?php
 
-require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchy.class.php');
+require_once(HARMONI.'/oki/hierarchy/HarmoniHierarchy.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: NodeTestCase.class.php,v 1.4 2003/10/10 17:31:32 adamfranco Exp $
+ * @version $Id: NodeTestCase.class.php,v 1.8 2003/10/13 15:08:13 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -43,10 +43,12 @@ require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchy.class.php');
 			$nodeTypes = array();
 			$nodeTypes[] =& new GenericNodeType;
 			
+			$hierarchyStore =& new MemoryOnlyHierarchyStore;
+			
 			// The id for each of these will be the initial number of the last part.
-			$this->hierarchy =& new MemoryOnlyHierarchy(new HarmoniTestId, "Test Case Hierarchy",
+			$this->hierarchy =& new HarmoniHierarchy(new HarmoniTestId, "Test Case Hierarchy",
 												"A Hierarchy for the HierarchyTestCase",
-												$nodeTypes);
+												$nodeTypes, $hierarchyStore);
 			
 			// Add some nodes
 			$nodeType =& new GenericNodeType;
