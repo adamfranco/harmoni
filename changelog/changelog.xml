@@ -2,6 +2,8 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.2">
+		<change author='gabe'>FieldSetValidator and RuleSet now take optional argument on validate()/validateAll() functions specifying if errors should be thrown upon failure or not.</change>
+		<change author='gabe'>RuleSet can now accept an ErrorHandler to use via setErrorHandler().</change>
 		<new author='dobo'>DBHandler can now use a PostgreSQL server and fetching last insert ID works on all integrated DBs.</new>
 		<change author='gabe'>layoutHandler now works. Theme integration is to come.</change>
 		<new author='max'>Database file storage method.</new>

@@ -8,7 +8,7 @@ require_once(HARMONI."utilities/FieldSetValidator/RuleSet.class.php");
  * the FieldSetValidator takes a FieldSet and a RuleSet and validates values between the two
  *
  * @package harmoni.utilities.fieldsetvalidator
- * @version $Id: FieldSetValidator.class.php,v 1.6 2003/07/10 02:34:21 gabeschine Exp $
+ * @version $Id: FieldSetValidator.class.php,v 1.7 2003/07/17 04:25:23 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -70,31 +70,35 @@ class FieldSetValidator
 	 * validates the value of $key against the rules defined for it
 	 * 
 	 * @param string $key the key to validate
+	 * @param optional boolean $throwErrors Should we throw the specified errors if validation
+	 * fails or just return true/false. Default = TRUE.
 	 * @access public
 	 * @return boolean if the validation was successful or not
 	 **/
-	function validate( $key ) {
+	function validate( $key, $throwErrors=true ) {
 		// get the value from the FieldSet
 		$val = & $this->_fieldset->get($key);
 		
 		// run the rules and return
-		return $this->_ruleset->validate( $key, & $val );
+		return $this->_ruleset->validate( $key, & $val, $throwErrors );
 	}
 	
 	/**
 	 * validates all defined keys in the FieldSet against those in the RuleSet
 	 * 
+	 * @param optional boolean $throwErrors Should we throw the specified errors if validation
+	 * fails or just return true/false. Default = TRUE.
 	 * @access public
 	 * @return boolean if the validation was successful or not
 	 **/
-	function validateAll() {
+	function validateAll( $throwErrors=true ) {
 		// get all the defined keys
 		$keys = array_unique(array_merge($this->_fieldset->getKeys(),$this->_ruleset->getKeys()));
 		
 		$error = false; // assume no error
 		// go through them and validate
 		foreach ($keys as $key) {
-			if (!$this->validate( $key )) $error = true;
+			if (!$this->validate( $key, $throwErrors )) $error = true;
 		}
 		if ($error) return false;
 		return true;

@@ -4,7 +4,7 @@
  * the FieldSetValidatorInterface defines the required methods for any FieldSetValidator class
  *
  * @package harmoni.utilities.fieldsetvalidator
- * @version $Id: FieldSetValidator.interface.php,v 1.4 2003/07/10 02:34:21 gabeschine Exp $
+ * @version $Id: FieldSetValidator.interface.php,v 1.5 2003/07/17 04:25:23 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -13,18 +13,22 @@ class FieldSetValidatorInterface {
 	 * validates the value of $key against the rules defined for it
 	 * 
 	 * @param string $key the key to validate
+	 * @param optional boolean $throwErrors Should we throw the specified errors if validation
+	 * fails or just return true/false. Default = TRUE.
 	 * @access public
 	 * @return boolean if the validation was successful or not
 	 **/
-	function validate( $key ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function validate( $key, $throwErrors=true ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * validates all defined keys in the FieldSet against those in the RuleSet
 	 * 
+	 * @param optional boolean $throwErrors Should we throw the specified errors if validation
+	 * fails or just return true/false. Default = TRUE.
 	 * @access public
 	 * @return boolean if the validation was successful or not
 	 **/
-	function validateAll() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function validateAll( $throwErrors=true ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * sets the fieldset object to use to $fieldset

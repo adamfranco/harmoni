@@ -5,12 +5,20 @@
  * 
  * any RuleSet should let the user define a number of keys with associated rules (one or more) and then let the user check any value against the rules defined for a key
  *
- * @version $Id: RuleSet.interface.php,v 1.8 2003/07/10 02:34:21 gabeschine Exp $
+ * @version $Id: RuleSet.interface.php,v 1.9 2003/07/17 04:25:23 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.fieldsetvalidator
  **/
 
 class RuleSetInterface {
+	/**
+	 * Sets the {@link ErrorHandler} to use if validation fails on a certain field.
+	 * @param ref object $handler The {@link ErrorHandler}.
+	 * @access public
+	 * @return void 
+	 **/
+	function setErrorHandler(&$handler) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }	
+	
 	/**
 	 * adds a new $rule to $key, which if fails when validated throws $error
 	 * @param string $key the key to associate the rule with
@@ -25,10 +33,12 @@ class RuleSetInterface {
 	 * validates $val against the rules defined for $key. if validation fails the associated error is thrown
 	 * @param string $key the key to look at for rules
 	 * @param mixed $val the value to check against the rules
+	 * @param optional boolean $throwErrors Should we throw the specified errors if validation
+	 * fails or just return true/false. Default = TRUE.
 	 * @access public
 	 * @return boolean if the validation succeeded or failed
 	 **/
-	function validate( $key, $val ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function validate( $key, $val, $throwErrors=true ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * returns an array of keys
