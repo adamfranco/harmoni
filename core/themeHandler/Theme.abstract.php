@@ -19,7 +19,7 @@ define ("BLANK_WIDGET", "blank");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: Theme.abstract.php,v 1.13 2004/08/26 15:10:35 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.14 2004/12/22 19:40:31 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -386,9 +386,9 @@ class Theme
 // 		print $this->_getAllStyles();
 // 		print "\n\t\t</style>";
 // 		
-// 		print "\n\t\t<script type='text/JavaScript'>";
+// 		print "\n\t\t<script type='text/javascript'>\n//<![CDATA[";
 // 		print $this->_headJavascript;
-// 		print "\n\t\t</script>";
+// 		print "\n\t\t//]]>\n</script>";
 // 		
 // 		print "\n\t</head>";
 // 		print "\n\t<body>";

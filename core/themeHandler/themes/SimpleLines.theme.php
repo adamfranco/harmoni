@@ -11,7 +11,7 @@ require_once(HARMONI."/themeHandler/common_settings/BorderSetting.class.php");
  * A simple line and color-block based theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: SimpleLines.theme.php,v 1.10 2004/05/04 21:51:15 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.11 2004/12/22 19:40:31 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -85,9 +85,11 @@ class SimpleLinesTheme
 		print $this->_getAllStyles();
 		print "\n\t\t</style>";
 		
-		print "\n\t\t<script type='text/JavaScript'>";
+		print "\n\t\t<script type='text/javascript'>
+//<![CDATA[";
 		print $this->_headJavascript;
-		print "\n\t\t</script>";
+		print "\n\t\t//]]>
+</script>";
 		
 		print "\n\t</head>";
 		print "\n\t<body>";
@@ -108,7 +110,7 @@ class SimpleLinesTheme
  * The main TextBlock Widget for the SimpleLines theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: SimpleLines.theme.php,v 1.10 2004/05/04 21:51:15 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.11 2004/12/22 19:40:31 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -195,7 +197,7 @@ class SimpleLinesTextBlock1
  * A TextBlock Widget for the SimpleLines theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: SimpleLines.theme.php,v 1.10 2004/05/04 21:51:15 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.11 2004/12/22 19:40:31 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -256,7 +258,7 @@ class SimpleLinesTextBlock2
  * A TextBlock Widget for the SimpleLines theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: SimpleLines.theme.php,v 1.10 2004/05/04 21:51:15 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.11 2004/12/22 19:40:31 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -335,7 +337,7 @@ class SimpleLinesTextBlock3
  * The main Heading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: SimpleLines.theme.php,v 1.10 2004/05/04 21:51:15 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.11 2004/12/22 19:40:31 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -410,7 +412,7 @@ class SimpleLinesHeading1
  * A secondary Heading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: SimpleLines.theme.php,v 1.10 2004/05/04 21:51:15 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.11 2004/12/22 19:40:31 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -489,7 +491,7 @@ class SimpleLinesHeading2
  * The main Heading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: SimpleLines.theme.php,v 1.10 2004/05/04 21:51:15 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.11 2004/12/22 19:40:31 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -565,7 +567,7 @@ class SimpleLinesFooter1
  * A Menu Widget for the SimpleLines theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: SimpleLines.theme.php,v 1.10 2004/05/04 21:51:15 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.11 2004/12/22 19:40:31 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -644,7 +646,7 @@ class SimpleLinesMenu1
  * A MenuHeading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: SimpleLines.theme.php,v 1.10 2004/05/04 21:51:15 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.11 2004/12/22 19:40:31 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -712,7 +714,7 @@ class SimpleLinesMenuHeading1
  * A MenuItem Widget for the SimpleLines theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: SimpleLines.theme.php,v 1.10 2004/05/04 21:51:15 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.11 2004/12/22 19:40:31 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -784,7 +786,7 @@ class SimpleLinesMenuItem1
  * A MenuItem Widget for the SimpleLines theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: SimpleLines.theme.php,v 1.10 2004/05/04 21:51:15 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.11 2004/12/22 19:40:31 adamfranco Exp $
  * @copyright 2004 
  **/
 

@@ -6,7 +6,7 @@ require_once(HARMONI."utilities/HTMLcolor.class.php");
 /**
  * the NewWindowDebugHandlerPrinter prints debug items to a new HTML window.
  *
- * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.4 2004/12/13 05:06:54 dobomode Exp $
+ * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.5 2004/12/22 19:40:06 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugging
  **/
@@ -28,7 +28,8 @@ class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {
 		
 		if ($level == 0) return true;
 		if (!count($items)) return true;
-		print "<script lang='JavaScript'>\n";
+		print "<script type='text/javascript'>
+//<![CDATA[\n";
 		print "<!--\n";
 		print "debugWindow = window.open('','debug','scrollbars=yes,menubar=no,location=no,status=no,resizeable=yes,width=750,height=520');\n";
 		print "debugWindow.document.write('<body style=\"color: #fff; background-color:#222\"><div style=\"padding-left:25px; padding-top: 10px; border-bottom: solid 1px gray\">Starting debug output :: ".date("H").":".date("i").".".date("s")."</div>');\n";
@@ -61,7 +62,8 @@ class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {
 //		print "debugWindow.document.close();\n";
 		print "debugWindow.document.write('</body>');\n";
 		print "//-->\n";
-		print "</script>\n";
+		print "//]]>
+</script>\n";
 	}
 }
 
