@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy/hierarchyAPI.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.2 $ / $Date: 2003/10/03 15:43:14 $
+ * @version $Revision: 1.3 $ / $Date: 2003/10/07 18:48:02 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -123,7 +123,11 @@ class HarmoniNode
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getParents() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		$parentId = $this->_tree->getParentID($this->_id->getIdString());
+		$parentArray = array();
+		$parentArray[] =& $this->_tree->getData($parentId);
+		$parentIterator =& new HarmoniNodeIterator($parentArray);
+		return $parentIterator;
 	}
 
 	/**
@@ -141,7 +145,13 @@ class HarmoniNode
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getChildren() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		$childIds = $this->_tree->getChildren($this->_id->getIdString());
+		$childArray = array();
+		foreach ($childIds as $id) {
+			$childArray[] =& $this->_tree->getData($id);
+		}
+		$childIterator =& new HarmoniNodeIterator($childArray);
+		return $childIterator;
 	}
 
 	/**
@@ -207,7 +217,7 @@ class HarmoniNode
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function isLeaf() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		return !$this->_tree->hasChildren($this->_id->getIdString());
 	}
 
 	/**
@@ -221,7 +231,7 @@ class HarmoniNode
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function isRoot() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		return ($this->_tree->depth($this->_id->getIdString()) == 0)?TRUE:FALSE;
 	}
 
 	/**
@@ -241,7 +251,9 @@ class HarmoniNode
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function addParent(& $nodeId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		// This implimentation only allows single-parent hierarchies.
+		if (!$this->_tree->nodeExists($nodeIdString))
+			throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", 1));
 	}
 
 	/**
@@ -261,7 +273,8 @@ class HarmoniNode
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function removeParent(& $parentId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+		// This implimentation only allows single-parent hierarchies.
+		if (!$this->_tree->nodeExists($nodeIdString))
+			throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", 1));	}
 
 } // end Node
