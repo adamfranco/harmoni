@@ -31,7 +31,6 @@ class OsidManager // :: API interface
 	/**
 	 * Return owner of this OsidManager.
 	 * @return object osid.OsidOwner
-	 * @package osid
 	 */
 	function &getOwner() { /* :: interface :: */ }
 	// :: full java declaration :: osid.OsidOwner getOwner()
@@ -40,7 +39,6 @@ class OsidManager // :: API interface
 	 * Update the owner of this OsidManager.
 	 * @param object owner
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid
 	 */
 	function updateOwner(& $owner) { /* :: interface :: */ }
 	// :: full java declaration :: void updateOwner(osid.OsidOwner owner)
@@ -49,14 +47,12 @@ class OsidManager // :: API interface
 	 * Update the configuration of this OsidManager.
 	 * @param object configuration
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link OsidException#PERMISSION_DENIED PERMISSION_DENIED}, {@link OsidException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link OsidException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid
 	 */
 	function updateConfiguration(& $configuration) { /* :: interface :: */ }
 	// :: full java declaration :: void updateConfiguration(java.util.Map configuration)
 
 	/**
 	 * Verify to OsidLoader that it is loading a version 1.0 SID.
-	 * @package osid
 	 */
 	function osidVersion_1_0() { /* :: interface :: */ }
 	// :: full java declaration :: void osidVersion_1_0
@@ -74,7 +70,6 @@ class OsidTransactionManager // :: API interface
 	/**
 	 * Marks the beginning of a transaction.
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link OsidException#PERMISSION_DENIED PERMISSION_DENIED}, {@link OsidException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link OsidException#ALREADY_MARKED ALREADY_MARKED}
-	 * @package osid
 	 */
 	function mark() { /* :: interface :: */ }
 	// :: full java declaration :: public void mark()
@@ -82,7 +77,6 @@ class OsidTransactionManager // :: API interface
 	/**
 	 * Commits a transaction, persisting its operations since a call to mark().
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link OsidException#PERMISSION_DENIED PERMISSION_DENIED}, {@link OsidException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link OsidException#NOTHING_MARKED NOTHING_MARKED}
-	 * @package osid
 	 */
 	function commit() { /* :: interface :: */ }
 	// :: full java declaration :: public void commit()
@@ -90,7 +84,6 @@ class OsidTransactionManager // :: API interface
 	/**
 	 * Rolls back a transaction's operations since a call to mark().
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link OsidException#PERMISSION_DENIED PERMISSION_DENIED}, {@link OsidException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link OsidException#NOTHING_MARKED NOTHING_MARKED}
-	 * @package osid
 	 */
 	function rollback() { /* :: interface :: */ }
 	// :: full java declaration :: public void rollback()
@@ -109,7 +102,6 @@ class OsidRomiManager // :: API interface
 	 * Invokes a method remotely.
 	 * @return object java.io.Serializable
 	 * @throws osid.OsidException An exception with one of the following messages defined in osid.OsidException:  {@link OsidException#OPERATION_FAILED OPERATION_FAILED}, {@link OsidException#PERMISSION_DENIED PERMISSION_DENIED}, {@link OsidException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link OsidException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid
 	 */
 	function &invoke(& $object, $methodname, & $argTypes, & $args) { /* :: interface :: */ }
 	// :: full java declaration :: public java.io.Serializable invoke

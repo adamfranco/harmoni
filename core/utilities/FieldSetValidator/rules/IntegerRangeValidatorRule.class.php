@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IntegerRangeValidatorRule.class.php,v 1.3 2005/01/19 21:10:16 adamfranco Exp $
+ * @version $Id: IntegerRangeValidatorRule.class.php,v 1.4 2005/01/19 23:23:32 adamfranco Exp $
  */ 
 class IntegerRangeValidatorRule
 	extends ValidatorRuleInterface 
@@ -19,13 +19,15 @@ class IntegerRangeValidatorRule
 
 	/**
 	 * The range min.
-	 * @attribute private integer _mix
+	 * @var integer _mix 
+	 * @access private
 	 */
 	var $_mix;
 	
 	/**
 	 * The range max.
-	 * @attribute private integer _max
+	 * @var integer _max 
+	 * @access private
 	 */
 	var $_max;
 	

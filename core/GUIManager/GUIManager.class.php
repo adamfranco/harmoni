@@ -19,20 +19,22 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.6 2005/01/19 21:07:52 adamfranco Exp $
+ * @version $Id: GUIManager.class.php,v 1.7 2005/01/19 23:23:00 adamfranco Exp $
  */
 class GUIManager extends GUIManagerInterface {
 
 	/**
 	 * The database connection as returned by the DBHandler.
-	 * @attribute protected integer _dbIndex
+	 * @var integer _dbIndex 
+	 * @access protected
 	 */
 	var $_dbIndex;
 
 	
 	/**
 	 * The name of the GUIMAnager database.
-	 * @attribute protected string _guiDB
+	 * @var string _guiDB 
+	 * @access protected
 	 */
 	var $_guiDB;
 	

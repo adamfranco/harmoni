@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RuleSet.class.php,v 1.3 2005/01/19 21:10:16 adamfranco Exp $
+ * @version $Id: RuleSet.class.php,v 1.4 2005/01/19 23:23:32 adamfranco Exp $
  */
 class RuleSet {
 	/**
@@ -31,7 +31,8 @@ class RuleSet {
 	 *         ...
 	 * [key2]=>...
 	 * 
-	 * @attribute private hash $_rules the associative array of rules
+	 * @var array $_rules the associative array of rules 
+	 * @access private
 	 */ 
 	var $_rules;
 	

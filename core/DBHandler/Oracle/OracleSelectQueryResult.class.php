@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  *
  * The OracleSelectQueryResult interface provides the functionality common to a Oracle SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: OracleSelectQueryResult.class.php,v 1.3 2004/07/01 20:41:00 adamfranco Exp $
+ * @version $Id: OracleSelectQueryResult.class.php,v 1.4 2005/01/19 23:22:59 adamfranco Exp $
  * @package harmoni.dbc.oracle
  * @access public
  * @copyright 2003 
@@ -240,7 +240,7 @@ class OracleSelectQueryResult extends SelectQueryResultInterface {
 	 * Moves the internal row pointer to the specified position. The range of
 	 * possible values is <code>0 - (getNumberOfRows()-1)</code>.
 	 * @param integer rowNumber The number of the row to move to.
-	 * @method public moveToRow
+	 * @access public
 	 * @return boolean <code>true</code>, if operation was successful; <code>false</code>, otherwise.
 	 */
 	function moveToRow($rowNumber) {

@@ -11,14 +11,15 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.5 2005/01/19 22:28:15 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.6 2005/01/19 23:23:09 adamfranco Exp $
  */
 class AuthorizationCache {
 
 	/**
 	 * An array of the cached Qualifier objects. The index of each element is the Id
 	 * of the corresponding Qualifier.
-	 * @attribute protected array _qualifiers
+	 * @var array _qualifiers 
+	 * @access protected
 	 */
 	var $_qualifiers;
 
@@ -26,7 +27,8 @@ class AuthorizationCache {
 	/**
 	 * An array of the cached Function objects. The index of each element is the Id
 	 * of the corresponding Function.
-	 * @attribute protected array _functions
+	 * @var array _functions 
+	 * @access protected
 	 */
 	var $_functions;
 
@@ -34,21 +36,24 @@ class AuthorizationCache {
 	/**
 	 * An array of the cached Authorization objects. The index of each element is the Id
 	 * of the corresponding Authorization.
-	 * @attribute protected array _authorizations
+	 * @var array _authorizations 
+	 * @access protected
 	 */
 	var $_authorizations;
 	
 	
 	/**
 	 * The database connection as returned by the DBHandler.
-	 * @attribute protected integer _dbIndex
+	 * @var integer _dbIndex 
+	 * @access protected
 	 */
 	var $_dbIndex;
 
 	
 	/**
 	 * The name of the hierarchy database.
-	 * @attribute protected string _hierarchyDB
+	 * @var string _hierarchyDB 
+	 * @access protected
 	 */
 	var $_authzDB;
 	
@@ -288,7 +293,6 @@ class AuthorizationCache {
 	 * @param ref object parentId the parent of this Qualifier
 	 * @return Qualifier
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid_v2.authorization
 	 */
 	function &createQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $parentId) {
 		// ** parameter validation

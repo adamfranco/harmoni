@@ -15,43 +15,49 @@ require_once(HARMONI."GUIManager/Components/MenuItem.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuItemLink.class.php,v 1.4 2005/01/19 21:09:29 adamfranco Exp $
+ * @version $Id: MenuItemLink.class.php,v 1.5 2005/01/19 23:23:00 adamfranco Exp $
  */
 class MenuItemLink extends Component /* implements MenuItemInterface */ {
 
 	/**
 	 * The url of this menu item.
-	 * @attribute private string _url
+	 * @var string _url 
+	 * @access private
 	 */
 	var $_url;
 	
 	/**
 	 * The display name of this menu item.
-	 * @attribute private string _displayName
+	 * @var string _displayName 
+	 * @access private
 	 */
 	var $_displayName;
 	
 	/**
 	 * The selected state of this menu item.
-	 * @attribute private boolean _selected
+	 * @var boolean _selected 
+	 * @access private
 	 */
 	var $_selected;
 	
 	/**
 	 * The target window of this menu item.
-	 * @attribute private string _target
+	 * @var string _target 
+	 * @access private
 	 */
 	var $_target;
 	
 	/**
 	 * The access key (shortcut) for this menut item.
-	 * @attribute private string _accessKey
+	 * @var string _accessKey 
+	 * @access private
 	 */
 	var $_accessKey;
 	
 	/**
 	 * The toolTip for this menu item.
-	 * @attribute private string _toolTip
+	 * @var string _toolTip 
+	 * @access private
 	 */
 	var $_toolTip;
 	
@@ -59,7 +65,8 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 * An associative array of additional HTML attributes to be included with
 	 * the <code>a href</code> tag. The key is the attribute, and the element
 	 * is the value.
-	 * @attribute private array _attributes
+	 * @var array _attributes 
+	 * @access private
 	 */
 	var $_attributes;
 	

@@ -12,7 +12,7 @@ require_once(OKI."/hierarchy.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.23 2005/01/19 22:28:08 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.24 2005/01/19 23:23:06 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -294,7 +294,6 @@ class HarmoniNode
 	 * @param object oldParentId
 	 * @param object newParentId
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#ATTEMPTED_RECURSION ATTEMPTED_RECURSION}
-	 * @package harmoni.osid_v1.hierarchy
 	 */
 	function changeParent(& $oldParentId, & $newParentId) { 
 		// Check the arguments

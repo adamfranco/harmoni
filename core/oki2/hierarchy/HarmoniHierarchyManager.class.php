@@ -43,7 +43,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.7 2005/01/19 22:28:22 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.8 2005/01/19 23:23:10 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -51,14 +51,16 @@ class HarmoniHierarchyManager
 
 	/**
 	 * The database connection as returned by the DBHandler.
-	 * @attribute protected integer _dbIndex
+	 * @var integer _dbIndex 
+	 * @access protected
 	 */
 	var $_dbIndex;
 
 	
 	/**
 	 * The name of the hierarchy database.
-	 * @attribute protected string _hierarchyDB
+	 * @var string _hierarchyDB 
+	 * @access protected
 	 */
 	var $_hyDB;
 	
@@ -66,7 +68,8 @@ class HarmoniHierarchyManager
 	/**
 	 * An array that will store all hierarchies and fulfil the function of a
 	 * cache.
-	 * @attribute private array _hierarchies
+	 * @var array _hierarchies 
+	 * @access private
 	 */
 	var $_hierarchies;
 	

@@ -20,7 +20,7 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.6 2005/01/19 22:28:22 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.7 2005/01/19 23:23:10 adamfranco Exp $
  */
 
 class HarmoniNode 
@@ -29,14 +29,16 @@ class HarmoniNode
 
 	/**
 	 * The Id of this node.
-	 * @attribute private object _id
+	 * @var object _id 
+	 * @access private
 	 */
 	var $_id;
 	
 	
 	/**
 	 * The type of this node.
-	 * @attribute private object _type
+	 * @var object _type 
+	 * @access private
 	 */
 	var $_type;
 	
@@ -58,7 +60,8 @@ class HarmoniNode
 	/**
 	 * This is the HierarchyCache object. Must be the same
 	 * one that all other nodes in the Hierarchy are using.
-	 * @attribute private object _cache
+	 * @var object _cache 
+	 * @access private
 	 */
 	var $_cache;
 

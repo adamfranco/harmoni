@@ -11,7 +11,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.15 2005/01/03 20:49:47 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.16 2005/01/19 23:22:58 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.mysql
  * @access public
@@ -341,7 +341,7 @@ class MySQLDatabase extends DatabaseInterface {
 	
 	/**
 	 * This method selects the default database to use in queries.
-	 * @method public selectDatabase
+	 * @access public
 	 * @param string database The name of the default database.
 	 * @return boolean True, if successful; False, otherwise.
 	 */
@@ -361,7 +361,7 @@ class MySQLDatabase extends DatabaseInterface {
 	/**
 	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
 	 * for this Database.
-	 * @method public toDBDate
+	 * @access public
 	 * @param ref object dateTime The DateTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
@@ -384,7 +384,7 @@ class MySQLDatabase extends DatabaseInterface {
 	/**
 	 * Converts a database datetime/timestamp/time value (that has been fetched
 	 * from the db) to a DateTime object.
-	 * @method public fromDBDate
+	 * @access public
 	 * @param mixed A database datetime/timestamp/time value (that has been fetched
 	 * from the db).
 	 * @return ref object The DateTime object.

@@ -10,55 +10,62 @@ require_once(OKI."/authorization.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniFunction.class.php,v 1.12 2005/01/19 22:28:04 adamfranco Exp $
+ * @version $Id: HarmoniFunction.class.php,v 1.13 2005/01/19 23:23:02 adamfranco Exp $
  */
 class HarmoniFunction extends FunctionInterface {
 
 	/**
 	 * The Unique ID of this function.
-	 * @attribute private object _id
+	 * @var object _id 
+	 * @access private
 	 */
 	var $_id;
 
 	
 	/**
 	 * The display name of this function.
-	 * @attribute private string _referenceName
+	 * @var string _referenceName 
+	 * @access private
 	 */
 	var $_referenceName;
 
 	
 	/**
 	 * The description of this function.
-	 * @attribute private string _description
+	 * @var string _description 
+	 * @access private
 	 */
 	var $_description;
 
 	
 	/**
 	 * The type of this function.
-	 * @attribute private object _functionType
+	 * @var object _functionType 
+	 * @access private
 	 */
 	var $_functionType;
 	
 	
 	/**
 	 * The ID of the qualifier hierarchy that is associated with this function.
-	 * @attribute private object _qualifierHierarchyId
+	 * @var object _qualifierHierarchyId 
+	 * @access private
 	 */
 	var $_qualifierHierarchyId;	
 
 
 	/**
 	 * The index of the database connection as returned by the DBHandler.
-	 * @attribute private integer _dbIndex
+	 * @var integer _dbIndex 
+	 * @access private
 	 */
 	var $_dbIndex;
 	
 	
 	/**
 	 * The name of the Authorization database.
-	 * @attribute private string _table
+	 * @var string _table 
+	 * @access private
 	 */
 	var $_authzDB;
 
@@ -104,7 +111,6 @@ class HarmoniFunction extends FunctionInterface {
 	 * Get the Unique Id for this Function.
 	 * @return object osid.shared.Id
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid_v1.authorization
 	 */
 	function &getId() {
 		return $this->_id;
@@ -117,7 +123,6 @@ class HarmoniFunction extends FunctionInterface {
 	 * Get the name for this Function.
 	 * @return String
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid_v1.authorization
 	 */
 	function getReferenceName() {
 		return $this->_referenceName;
@@ -130,7 +135,6 @@ class HarmoniFunction extends FunctionInterface {
 	 * Get the description for this Function.
 	 * @return String
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid_v1.authorization
 	 */
 	function getDescription() {
 		return $this->_description;
@@ -143,7 +147,6 @@ class HarmoniFunction extends FunctionInterface {
 	 * Get the FunctionType for this Function.
 	 * @return object osid.shared.Type
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid_v1.authorization
 	 */
 	function &getFunctionType() {
 		return $this->_functionType;
@@ -156,7 +159,6 @@ class HarmoniFunction extends FunctionInterface {
 	 * Get the QualifierHierarchyId for this Function.
 	 * @return object osid.shared.Id
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid_v1.authorization
 	 */
 	function &getQualifierHierarchyId() {
 		return $this->_qualifierHierarchyId;	
@@ -169,7 +171,6 @@ class HarmoniFunction extends FunctionInterface {
 	 * Update the name for this Function.
 	 * @param string referenceName
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid_v1.authorization
 	 */
 	function updateReferenceName($referenceName) {
 		// ** parameter validation
@@ -210,7 +211,6 @@ class HarmoniFunction extends FunctionInterface {
 	 * Update the description for this Function.
 	 * @param string description
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid_v1.authorization
 	 */
 	function updateDescription($description) {
 		// ** parameter validation

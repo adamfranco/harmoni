@@ -32,31 +32,35 @@ require_once(HARMONI."GUIManager/StyleProperty.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleProperty.class.php,v 1.3 2005/01/19 21:07:52 adamfranco Exp $
+ * @version $Id: StyleProperty.class.php,v 1.4 2005/01/19 23:23:00 adamfranco Exp $
  */
 class StyleProperty extends StylePropertyInterface {
 
 	/**
 	 * The display name of this StyleProperty.
-	 * @attribute private string _displayName
+	 * @var string _displayName 
+	 * @access private
 	 */
 	var $_displayName;
 	
 	/**
 	 * The description of this StyleProperty.
-	 * @attribute private string _description
+	 * @var string _description 
+	 * @access private
 	 */
 	var $_description;
 	
 	/**
 	 * The name of this StyleProperty.
-	 * @attribute private string _name
+	 * @var string _name 
+	 * @access private
 	 */
 	var $_name;
 	
 	/**
 	 * An array of the StyleComponents contained by this StyleProperty.
-	 * @attribute private array _SCs
+	 * @var array _SCs 
+	 * @access private
 	 */
 	var $_SCs;
 	

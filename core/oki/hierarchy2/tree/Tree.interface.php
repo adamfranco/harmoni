@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tree.interface.php,v 1.6 2005/01/19 22:28:11 adamfranco Exp $
+ * @version $Id: Tree.interface.php,v 1.7 2005/01/19 23:23:07 adamfranco Exp $
  * @since Created: 8/30/2003
  */
 class TreeInterface {
@@ -18,7 +18,7 @@ class TreeInterface {
 	/**
 	 * Adds the specified node to the hierarchy and makes it a child of the specified
 	 * parent. If the parent is not specified, then it makes the node a root.
-	 * @method public addNode
+	 * @access public
 	 * @param ref object The node to add.
 	 * @param optional ref object parent The node that will become the parent of the added node.
 	 * @return boolean <code>true</code> on success; <code>false</code>, otherwise.
@@ -31,7 +31,7 @@ class TreeInterface {
 	
 	/**
 	 * Returns the size (number of nodes) in this hierarchy.
-	 * @method public getSize
+	 * @access public
 	 * @return integer The size (number of nodes) in this hierarchy.
 	 */
 	function getSize() {
@@ -42,7 +42,7 @@ class TreeInterface {
 
 	/**
 	 * Returns all the ancestors of the given node.
-	 * @method public getAncestors
+	 * @access public
 	 * @param ref object node The node whose ancestors are to be found.
 	 * @return array An array of all the ancestors of the given node. Each array
 	 * key corresponds to the hierarchy level of the ancestor. Each element stores
@@ -56,7 +56,7 @@ class TreeInterface {
 
 	/**
 	 * Returns the subtree rooted at the specified node (excluding the root).
-	 * @method public getSubtree
+	 * @access public
 	 * @param ref object node The node whose subtree is to be found.
 	 * @return array An array of all the nodes in the subtree rooted at the 
 	 * specified node. Each array key corresponds to a certain level
@@ -84,7 +84,7 @@ class TreeInterface {
 	
 	/**
 	 * Returns the node with the specified id. If it does not exist, return <code>null</code>.
-	 * @method public getNode
+	 * @access public
 	 * @param string id The id of the requested node.
 	 * @return ref object The requested node. <code>Null</code>, if the node
 	 * is not in the tree.
@@ -96,7 +96,7 @@ class TreeInterface {
 	
 	/**
 	 * Returns <code>true</code> if the node with the specified id (string) exists.
-	 * @method public nodeExists
+	 * @access public
 	 * @param string id The id of the node.
 	 * @return boolean <code>true</code> if the node with the specified id is in the tree; else <code>false</code>.
 	 */
@@ -108,7 +108,7 @@ class TreeInterface {
 	/**
 	 * Simply returns all nodes of this hierarchy in an array in no particular
 	 * order.
-	 * @method public getAllNodes
+	 * @access public
 	 * @return ref array An array of all nodes.
 	 */
 	function &getAllNodes() {
@@ -120,7 +120,7 @@ class TreeInterface {
 	/**
 	 * Traverses the hierarchy and returns all the nodes in an array. The traversal
 	 * is a pre-order traversal starting from the specified node.
-	 * @method public traverse
+	 * @access public
 	 * @param optional ref object node An optional node to start traversal from.
 	 * @return ref array An array of all nodes in the hierarchy visited in a pre-order
 	 * manner.

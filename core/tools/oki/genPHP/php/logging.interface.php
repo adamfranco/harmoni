@@ -120,7 +120,6 @@ class EntryIterator // :: API interface
 	 * Return <code>true</code> if there are additional  entries Description_IteratorHasNext2]
 	 * @return boolean
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}
-	 * @package osid.logging
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -129,7 +128,6 @@ class EntryIterator // :: API interface
 	 * Return the next Entry.
 	 * @return Entry.
 	 * @throws osid.logging.LoggingException An exception with one of the following messages defined in osid.logging.LoggingException:   {@link LoggingException#UNIMPLEMENTED UNIMPLEMENTED}, {@link LoggingException#OPERATION_FAILED OPERATION_FAILED}, {@link LoggingException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link LoggingException#PERMISSION_DENIED PERMISSION_DENIED}, {@link LoggingException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.logging
 	 */
 	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Entry next()

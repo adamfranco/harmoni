@@ -9,7 +9,7 @@ require_once(HARMONI."DBHandler/InsertQuery.interface.php");
  * initialization steps, etc. What is left to be implemented is the
  * generateSQLQuery() method.
  * 
- * @version $Id: InsertQuery.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: InsertQuery.class.php,v 1.2 2005/01/19 23:21:34 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -39,14 +39,16 @@ class InsertQuery extends InsertQueryInterface {
 	
 	/**
 	 * The autoincrement column.
-	 * @attribute private string _autoIncrementColumn
+	 * @var string _autoIncrementColumn 
+	 * @access private
 	 */
 	var $_autoIncrementColumn;
 	
 
 	/**
 	 * The sequence to use for generating new ids for the autoincrement column.
-	 * @attribute private string _sequence
+	 * @var string _sequence 
+	 * @access private
 	 */
 	var $_sequence;
 	

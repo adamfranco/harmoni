@@ -29,7 +29,6 @@ class DigitalRepositoryManager // :: API interface
 	 * 		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * 		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * 		{@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.dr
 	 */
 	function &createDigitalRepository($displayName, $description, & $digitalRepositoryType) { /* :: interface :: */ }
 
@@ -44,7 +43,6 @@ class DigitalRepositoryManager // :: API interface
 	 * 		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * 		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * 		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function deleteDigitalRepository(& $digitalRepositoryId) { /* :: interface :: */ }
 
@@ -63,7 +61,6 @@ class DigitalRepositoryManager // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getDigitalRepositories() { /* :: interface :: */ }
 
@@ -84,7 +81,6 @@ class DigitalRepositoryManager // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.dr
 	 */
 	function &getDigitalRepositoriesByType(& $digitalRepositoryType) { /* :: interface :: */ }
 
@@ -100,7 +96,6 @@ class DigitalRepositoryManager // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &getDigitalRepository(& $digitalRepositoryId) { /* :: interface :: */ }
 
@@ -116,7 +111,6 @@ class DigitalRepositoryManager // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &getAsset(& $assetId) { /* :: interface :: */ }
 
@@ -134,7 +128,6 @@ class DigitalRepositoryManager // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#NO_OBJECT_WITH_THIS_DATE NO_OBJECT_WITH_THIS_DATE}
-	 * @package osid.dr
 	 */
 	function &getAssetByDate(& $assetId, & $date) { /* :: interface :: */ }
 
@@ -149,7 +142,6 @@ class DigitalRepositoryManager // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.dr
 	 */
 	function &getAssetDates(& $assetId) { /* :: interface :: */ }
 
@@ -174,7 +166,6 @@ class DigitalRepositoryManager // :: API interface
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_DR UNKNOWN_DR}
-	 * @package osid.dr
 	 */
 	function &getAssets(& $digitalRepositories, & $searchCriteria, & $searchType) { /* :: interface :: */ }
 	
@@ -193,7 +184,6 @@ class DigitalRepositoryManager // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &copyAsset(& $digitalRepository, & $assetId) { /* :: interface :: */ }
 
@@ -212,7 +202,6 @@ class DigitalRepositoryManager // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getDigitalRepositoryTypes() { /* :: interface :: */ }
 }
@@ -249,7 +238,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getDisplayName() { /* :: interface :: */ }
 
@@ -263,7 +251,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.dr
 	 */
 	function updateDisplayName($displayName) { /* :: interface :: */ }
 
@@ -276,7 +263,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getDescription() { /* :: interface :: */ }
 
@@ -290,7 +276,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.dr
 	 */
 	function updateDescription($description) { /* :: interface :: */ }
 
@@ -304,7 +289,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getId() { /* :: interface :: */ }
 
@@ -317,7 +301,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getType() { /* :: interface :: */ }
 
@@ -333,7 +316,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.dr
 	 */
 	function &createAsset($displayName, $description, & $assetType) { /* :: interface :: */ }
 
@@ -348,7 +330,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function deleteAsset(& $assetId) { /* :: interface :: */ }
 
@@ -366,7 +347,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getAssets() { /* :: interface :: */ }
 
@@ -386,7 +366,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.dr
 	 */
 	function &getAssetsByType(& $assetType) { /* :: interface :: */ }
 
@@ -404,7 +383,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getAssetTypes() { /* :: interface :: */ }
 
@@ -422,7 +400,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getInfoStructures() { /* :: interface :: */ }
 
@@ -443,7 +420,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.dr
 	 */
 	function &getMandatoryInfoStructures(& $assetType) { /* :: interface :: */ }
 
@@ -460,7 +436,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getSearchTypes() { /* :: interface :: */ }
 
@@ -478,7 +453,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getStatusTypes() { /* :: interface :: */ }
 
@@ -493,7 +467,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &getStatus(& $assetId) { /* :: interface :: */ }
 
@@ -512,7 +485,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function validateAsset(& $assetId) { /* :: interface :: */ }
 
@@ -529,7 +501,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function invalidateAsset(& $assetId) { /* :: interface :: */ }
 
@@ -545,7 +516,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &getAsset(& $assetId) { /* :: interface :: */ }
 
@@ -563,7 +533,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#NO_OBJECT_WITH_THIS_DATE NO_OBJECT_WITH_THIS_DATE}
-	 * @package osid.dr
 	 */
 	function &getAssetByDate(& $assetId, & $date) { /* :: interface :: */ }
 	
@@ -578,7 +547,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.dr
 	 */
 	function &getAssetDates(& $assetId) { /* :: interface :: */ }
 
@@ -600,7 +568,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.dr
 	 */
 	function &getAssetsBySearch(& $searchCriteria, & $searchType) { /* :: interface :: */ }
 	
@@ -618,7 +585,6 @@ class DigitalRepository // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &copyAsset(& $asset) { /* :: interface :: */ }
 }
@@ -642,7 +608,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getDisplayName() { /* :: interface :: */ }
 
@@ -655,7 +620,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.dr
 	 */
 	function updateDisplayName($displayName) { /* :: interface :: */ }
 
@@ -667,7 +631,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getDescription() { /* :: interface :: */ }
 
@@ -680,7 +643,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.dr
 	 */
 	function updateDescription($description) { /* :: interface :: */ }
 
@@ -692,7 +654,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getId() { /* :: interface :: */ }
 
@@ -704,7 +665,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getDigitalRepository() { /* :: interface :: */ }
 
@@ -716,7 +676,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getContent() { /* :: interface :: */ }
 
@@ -729,7 +688,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.dr
 	 */
 	function updateContent(& $content) { /* :: interface :: */ }
 
@@ -744,7 +702,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}, 
 	 *		{@link DigitalRepositoryException#ALREADY_ADDED ALREADY_ADDED}
-	 * @package osid.dr
 	 */
 	function addAsset(& $assetId) { /* :: interface :: */ }
 
@@ -758,7 +715,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function removeAsset(& $assetId, $includeChildren) { /* :: interface :: */ }
 
@@ -770,7 +726,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getAssets() { /* :: interface :: */ }
 
@@ -784,7 +739,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.dr
 	 */
 	function &getAssetsByType(& $assetType) { /* :: interface :: */ }
 
@@ -799,7 +753,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &createInfoRecord(& $infoStructureId) { /* :: interface :: */ }
 
@@ -814,7 +767,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}, ALREADY_INHERITING_STRUCTURE
-	 * @package osid.dr
 	 */
 	function inheritInfoStructure(& $assetId, & $infoStructureId) { /* :: interface :: */ }
 
@@ -830,7 +782,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}, 
 	 *		{@link DigitalRepositoryException#CANNOT_COPY_OR_INHERIT_SELF CANNOT_COPY_OR_INHERIT_SELF}
-	 * @package osid.dr
 	 */
 	function copyInfoStructure(& $assetId, & $infoStructureId) { /* :: interface :: */ }
 
@@ -844,7 +795,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function deleteInfoRecord(& $infoRecordId) { /* :: interface :: */ }
 
@@ -856,7 +806,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getInfoRecords() { /* :: interface :: */ }
 
@@ -871,7 +820,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &getInfoRecordsByInfoStructure(& $infoStructureId) { /* :: interface :: */ }
 
@@ -883,7 +831,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getAssetType() { /* :: interface :: */ }
 
@@ -895,7 +842,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &InfoStructureIterator() { /* :: interface :: */ }
 	
@@ -907,7 +853,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &InfoStructure() { /* :: interface :: */ }
 	
@@ -921,7 +866,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &getInfoRecord(& $infoRecordId) { /* :: interface :: */ }
 
@@ -935,7 +879,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &getInfoField(& $infoFieldId) { /* :: interface :: */ }
 
@@ -949,7 +892,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &getInfoFieldValue(& $infoFieldId) { /* :: interface :: */ }
 
@@ -963,7 +905,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &getInfoFieldByPart(& $infoPartId) { /* :: interface :: */ }
 
@@ -977,7 +918,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &getInfoFieldValueByPart(& $infoPartId) { /* :: interface :: */ }
 
@@ -989,7 +929,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getEffectiveDate() { /* :: interface :: */ }
 
@@ -1003,7 +942,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#EFFECTIVE_PRECEDE_EXPIRATION}
-	 * @package osid.dr
 	 */
 	function updateEffectiveDate(& $EffectiveDate) { /* :: interface :: */ }
 
@@ -1015,7 +953,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getExpirationDate() { /* :: interface :: */ }
 
@@ -1029,7 +966,6 @@ class Asset // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#EFFECTIVE_PRECEDE_EXPIRATION}
-	 * @package osid.dr
 	 */
 	function updateExpirationDate(& $ExpirationDate) { /* :: interface :: */ }
 }
@@ -1054,7 +990,6 @@ class InfoStructure // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getDisplayName() { /* :: interface :: */ }
 
@@ -1066,7 +1001,6 @@ class InfoStructure // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getDescription() { /* :: interface :: */ }
 
@@ -1078,7 +1012,6 @@ class InfoStructure // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getId() { /* :: interface :: */ }
 
@@ -1090,7 +1023,6 @@ class InfoStructure // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getInfoParts() { /* :: interface :: */ }
 
@@ -1102,7 +1034,6 @@ class InfoStructure // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getSchema() { /* :: interface :: */ }
 
@@ -1114,7 +1045,6 @@ class InfoStructure // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getFormat() { /* :: interface :: */ }
 
@@ -1128,7 +1058,6 @@ class InfoStructure // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.dr
 	 */
 	function validateInfoRecord(& $infoRecord) { /* :: interface :: */ }
 }
@@ -1153,7 +1082,6 @@ class InfoPart // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getDisplayName() { /* :: interface :: */ }
 
@@ -1165,7 +1093,6 @@ class InfoPart // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getDescription() { /* :: interface :: */ }
 
@@ -1177,7 +1104,6 @@ class InfoPart // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getId() { /* :: interface :: */ }
 
@@ -1189,7 +1115,6 @@ class InfoPart // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getInfoParts() { /* :: interface :: */ }
 
@@ -1201,7 +1126,6 @@ class InfoPart // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getPopulatedByDR() { /* :: interface :: */ }
 
@@ -1213,7 +1137,6 @@ class InfoPart // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getMandatory() { /* :: interface :: */ }
 
@@ -1225,7 +1148,6 @@ class InfoPart // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getRepeatable() { /* :: interface :: */ }
 
@@ -1237,7 +1159,6 @@ class InfoPart // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getInfoStructure() { /* :: interface :: */ }
 
@@ -1251,7 +1172,6 @@ class InfoPart // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.dr
 	 */
 	function validateInfoField(& $infoField) { /* :: interface :: */ }
 }
@@ -1276,7 +1196,6 @@ class InfoRecord // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getId() { /* :: interface :: */ }
 
@@ -1292,7 +1211,6 @@ class InfoRecord // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &createInfoField(& $infoPartId, & $value) { /* :: interface :: */ }
 
@@ -1306,7 +1224,6 @@ class InfoRecord // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function deleteInfoField(& $infoFieldId) { /* :: interface :: */ }
 
@@ -1318,7 +1235,6 @@ class InfoRecord // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getInfoFields() { /* :: interface :: */ }
 
@@ -1330,7 +1246,6 @@ class InfoRecord // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function getMultivalued() { /* :: interface :: */ }
 
@@ -1366,7 +1281,6 @@ class InfoField // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getId() { /* :: interface :: */ }
 
@@ -1382,7 +1296,6 @@ class InfoField // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function &createInfoField(& $infoPartId, & $value) { /* :: interface :: */ }
 
@@ -1396,7 +1309,6 @@ class InfoField // :: API interface
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 *		{@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
 	 */
 	function deleteInfoField(& $infoFieldId) { /* :: interface :: */ }
 
@@ -1408,7 +1320,6 @@ class InfoField // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getInfoFields() { /* :: interface :: */ }
 
@@ -1420,7 +1331,6 @@ class InfoField // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getValue() { /* :: interface :: */ }
 
@@ -1433,7 +1343,6 @@ class InfoField // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.dr
 	 */
 	function updateValue(& $value) { /* :: interface :: */ }
 
@@ -1445,7 +1354,6 @@ class InfoField // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function &getInfoPart() { /* :: interface :: */ }
 }
@@ -1468,7 +1376,6 @@ class DigitalRepositoryIterator // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function hasNext() { /* :: interface :: */ }
 
@@ -1481,7 +1388,6 @@ class DigitalRepositoryIterator // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.dr
 	 */
 	function &next() { /* :: interface :: */ }
 }
@@ -1504,7 +1410,6 @@ class AssetIterator // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function hasNext() { /* :: interface :: */ }
 
@@ -1517,7 +1422,6 @@ class AssetIterator // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.dr
 	 */
 	function &next() { /* :: interface :: */ }
 }
@@ -1540,7 +1444,6 @@ class InfoStructureIterator // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function hasNext() { /* :: interface :: */ }
 
@@ -1553,7 +1456,6 @@ class InfoStructureIterator // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.dr
 	 */
 	function &next() { /* :: interface :: */ }
 }
@@ -1576,7 +1478,6 @@ class InfoPartIterator // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function hasNext() { /* :: interface :: */ }
 
@@ -1589,7 +1490,6 @@ class InfoPartIterator // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.dr
 	 */
 	function &next() { /* :: interface :: */ }
 }
@@ -1612,7 +1512,6 @@ class InfoRecordIterator // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function hasNext() { /* :: interface :: */ }
 
@@ -1625,7 +1524,6 @@ class InfoRecordIterator // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.dr
 	 */
 	function &next() { /* :: interface :: */ }
 }
@@ -1648,7 +1546,6 @@ class InfoFieldIterator // :: API interface
 	 *		{@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
 	 */
 	function hasNext() { /* :: interface :: */ }
 
@@ -1661,7 +1558,6 @@ class InfoFieldIterator // :: API interface
 	 *		{@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 *		{@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 *		{@link DigitalRepositoryException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.dr
 	 */
 	function &next() { /* :: interface :: */ }
 }

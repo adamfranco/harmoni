@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  *
  * The MySQLSelectQueryResult interface provides the functionality common to a MySQL SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.6 2004/12/13 05:06:54 dobomode Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.7 2005/01/19 23:22:58 adamfranco Exp $
  * @package harmoni.dbc.mysql
  * @access public
  * @copyright 2003 
@@ -51,7 +51,8 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	
 	/**
 	 * This is an array consisting of all bound variables.
-	 * @attribute private array _boundVars
+	 * @var array _boundVars 
+	 * @access private
 	 */
 	var $_boundVars;
 
@@ -258,7 +259,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 * Moves the internal row pointer to the specified position. The range of
 	 * possible values is <code>0 - (getNumberOfRows()-1)</code>.
 	 * @param integer rowNumber The number of the row to move to.
-	 * @method public moveToRow
+	 * @access public
 	 * @return boolean <code>true</code>, if operation was successful; <code>false</code>, otherwise.
 	 */
 	function moveToRow($rowNumber) {

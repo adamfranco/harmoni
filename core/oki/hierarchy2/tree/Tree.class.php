@@ -11,7 +11,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tree.class.php,v 1.8 2005/01/19 22:28:10 adamfranco Exp $
+ * @version $Id: Tree.class.php,v 1.9 2005/01/19 23:23:07 adamfranco Exp $
  */
 class Tree extends TreeInterface {
 
@@ -20,14 +20,16 @@ class Tree extends TreeInterface {
 	/**
 	 * The nodes of this tree. This is an array of node object. The indices of
 	 * the array correspond to the node id.
-	 * @attribute private array _nodes
+	 * @var array _nodes 
+	 * @access private
 	 */
 	var $_nodes;
 	
 	
 	/**
 	 * The size of this tree.
-	 * @attribute private integer _size
+	 * @var integer _size 
+	 * @access private
 	 */
 	var $_size;
 	
@@ -46,7 +48,7 @@ class Tree extends TreeInterface {
 	 * Adds the specified node to the tree and makes it a child of the specified
 	 * parent. If the parent is not specified, then it makes the node a root. Always
 	 * use this method instead of the addChild() method of the individual tree nodes.
-	 * @method public addNode
+	 * @access public
 	 * @param ref object The node to add.
 	 * @param optional ref object parent The node that will become the parent of the added node.
 	 * @return void
@@ -109,7 +111,7 @@ class Tree extends TreeInterface {
 
 	/**
 	 * Returns the size (number of nodes) in this tree.
-	 * @method public getSize
+	 * @access public
 	 * @return integer The size (number of nodes) in this tree.
 	 */
 	function getSize() {
@@ -119,7 +121,7 @@ class Tree extends TreeInterface {
 
 	/**
 	 * Returns the node with the specified id. If it does not exist, return <code>null</code>.
-	 * @method public getNode
+	 * @access public
 	 * @param string id The id of the requested node.
 	 * @return ref object The requested node. <code>Null</code>, if the node
 	 * is not in the tree.
@@ -136,7 +138,7 @@ class Tree extends TreeInterface {
 	
 	/**
 	 * Returns <code>true</code> if the node with the specified id (string) exists.
-	 * @method public nodeExists
+	 * @access public
 	 * @param string id The id of the node.
 	 * @return boolean <code>true</code> if the node with the specified id is in the tree; else <code>false</code>.
 	 */
@@ -153,7 +155,7 @@ class Tree extends TreeInterface {
 	/**
 	 * Simply returns all nodes of this tree in an array in no particular
 	 * order.
-	 * @method public getNodes
+	 * @access public
 	 * @return ref array An array of all nodes.
 	 */
 	function &getNodes() {
@@ -164,7 +166,7 @@ class Tree extends TreeInterface {
 	/**
 	 * Traverses the tree and returns all the nodes in an array. The traversal
 	 * is a depth-first pre-order traversal starting from the specified node.
-			 * @method public traverse
+			 * @access public
 	 * @param ref object node The node to start traversal from.
 	 * @param boolean down If <code>true</code>, this argument specifies that the traversal will
 	 * go down the children; if <code>false</code> then it will go up the parents.
@@ -201,7 +203,7 @@ class Tree extends TreeInterface {
 	
 	/**
 	 * A private recursive function that performs a depth-first pre-order traversal.
-	 * @method private _traverse
+	 * @access private
 	 * @param ref array The array where to store the result. Will consists of all 
 	 * nodes in the tree visited in a pre-order manner.
 	 * @param ref object node The node to be visited.

@@ -20,7 +20,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.10 2004/08/26 15:10:17 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.11 2005/01/19 23:21:34 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
@@ -50,7 +50,7 @@ class DBHandler extends DBHandlerInterface {
 	
 	/**
 	 * Adds the specified Database object to the list of databases.
-	 * @method public addDatabase
+	 * @access public
 	 * @param ref object database
 	 * @return mixed $dbIndex The index of the new database, if it was created successfully; False, otherwise.
 	 */
@@ -333,7 +333,7 @@ class DBHandler extends DBHandlerInterface {
 	/**
 	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
 	 * for the specified database object.
-	 * @method public toDBDate
+	 * @access public
 	 * @param ref object dateTime The DateTime object to convert.
 	 * @param integer dbIndex The index of the database to use (0 by default).
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
@@ -359,7 +359,7 @@ class DBHandler extends DBHandlerInterface {
 	/**
 	 * Converts a database datetime/timestamp/time value (that has been fetched
 	 * from the db) to a DateTime object.
-	 * @method public fromDBDate
+	 * @access public
 	 * @param mixed A database datetime/timestamp/time value (that has been fetched
 	 * from the db).
 	 * @param integer dbIndex The index of the database to use (0 by default).

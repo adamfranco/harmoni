@@ -16,7 +16,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.5 2005/01/19 22:28:15 adamfranco Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.6 2005/01/19 23:23:09 adamfranco Exp $
  */
 class HarmoniAuthorization 
 	extends Authorization 
@@ -24,63 +24,72 @@ class HarmoniAuthorization
 
 	/**
 	 * The date when this Authorization starts being effective.
-	 * @attribute private object _effectiveDate
+	 * @var object _effectiveDate 
+	 * @access private
 	 */
 	var $_effectiveDate;
 	
 	
 	/**
 	 * The Id of this Authorization (string).
-	 * @attribute protected string _id
+	 * @var string _id 
+	 * @access protected
 	 */
 	var $_id;
 	
 	
 	/**
 	 * The Id of the agent.
-	 * @attribute private object _agentId
+	 * @var object _agentId 
+	 * @access private
 	 */
 	var $_agentId;
 	
 	
 	/**
 	 * The Id of the function.
-	 * @attribute private object _functionId
+	 * @var object _functionId 
+	 * @access private
 	 */
 	var $_functionId;
 	
 	
 	/**
 	 * The Id of the qualifier.
-	 * @attribute private object _qualifierId
+	 * @var object _qualifierId 
+	 * @access private
 	 */
 	var $_qualifierId;
 	
 	
 	/**
 	 * The date when the authorization becomes effective.
-	 * @attribute private object _effectiveDate
+	 * @var object _effectiveDate 
+	 * @access private
 	 */
 	var $_effectiveDate;
 	
 	
 	/**
 	 * The date when the authorization expires.
-	 * @attribute private object _expirationDate
+	 * @var object _expirationDate 
+	 * @access private
 	 */
 	var $_expirationDate;
 	
 	
 	/**
 	 * Specifies whether this Authorization is explicit or not.
-	 * @attribute private boolean _explicit
+	 * @var boolean _explicit 
+	 * @access private
 	 */
 	var $_explicit;
 
 	
 	/**
 	 * The AuthorizationCache object.
-	 * @attribute private object _cache
+	 * @var object _cache 
+	 * @access private
 	 */
 	var $_cache;
 	

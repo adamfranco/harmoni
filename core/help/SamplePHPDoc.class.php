@@ -79,21 +79,23 @@ function globalFunc() {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SamplePHPDoc.class.php,v 1.4 2005/01/19 21:10:00 adamfranco Exp $
+ * @version $Id: SamplePHPDoc.class.php,v 1.5 2005/01/19 23:23:01 adamfranco Exp $
  * @since Created: June 27, 2003
  */
 class SamplePHPDoc {
 
 	/**
 	 * This is the id of a human. Humans rock!
-	 * @attribute private integer _id
+	 * @var integer _id 
+	 * @access private
 	 * @see {@link SamplePHPDoc::_name}
 	 */
 	var $_id;
 
 	/**
 	 * This is the name of a human. It is static. It is a string.
-	 * @attribute public string _name
+	 * @var string _name 
+	 * @access public
 	 * @see {@link SamplePHPDoc::_id}
 	 */
 	var $_name = "Ivan";
@@ -114,7 +116,7 @@ class SamplePHPDoc {
 	/**
 	 * Get accessor for <code>$_id</code> property.
 	 *
-	 * @method public getId
+	 * @access public
 	 * @see {@link SamplePHPDoc::_id}
 	 */
 	function getId() {
@@ -125,7 +127,7 @@ class SamplePHPDoc {
 	/**
 	 * Set accessor for <code>$_id</code> property.
 	 *
-	 * @method public setId
+	 * @access public
 	 * @see {@link SamplePHPDoc::_id}
 	 */
 	function setId($id) {
@@ -134,7 +136,8 @@ class SamplePHPDoc {
 
 	/**
 	 * Get the name. Simply returns <code>$_name</code>.
-	 * @method static public getName
+	 * @access public
+	 * @static
 	 * @use globalVar
 	 * @return string The name of the human. A nice human name.
 	 */
@@ -149,7 +152,7 @@ class SamplePHPDoc {
 	 * Be careful!
 	 * When doing "@param", with Arachne's PHPDocGen you cannot specify
 	 * the class of the object.</pre>
-	 * @method private _doComplexStuff
+	 * @access private
 	 * @param object arg1 An object.
 	 * @param ref string arg2 A funny string.
 	 * @param optional boolean arg3 A wonderful boolean.

@@ -11,7 +11,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 /**
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * @version $Id: PostGreDatabase.class.php,v 1.5 2004/10/14 05:45:43 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.6 2005/01/19 23:22:59 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.postgre
  * @access public
@@ -368,7 +368,7 @@ class PostGreDatabase extends DatabaseInterface {
 	
 	/**
 	 * This method selects the default database to use in queries.
-	 * @method public selectDatabase
+	 * @access public
 	 * @param string database The name of the default database.
 	 * @return boolean True, if successful; False, otherwise.
 	 */
@@ -405,7 +405,7 @@ class PostGreDatabase extends DatabaseInterface {
 	/**
 	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
 	 * for this Database.
-	 * @method public toDBDate
+	 * @access public
 	 * @param ref object dateTime The DateTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
@@ -428,7 +428,7 @@ class PostGreDatabase extends DatabaseInterface {
 	/**
 	 * Converts a database datetime/timestamp/time value (that has been fetched
 	 * from the db) to a DateTime object.
-	 * @method public fromDBDate
+	 * @access public
 	 * @param mixed A database datetime/timestamp/time value (that has been fetched
 	 * from the db).
 	 * @return ref object The DateTime object.

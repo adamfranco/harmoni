@@ -10,14 +10,14 @@ require_once(HARMONI.'services/Service.interface.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorHandler.interface.php,v 1.4 2005/01/19 21:10:00 adamfranco Exp $
+ * @version $Id: ErrorHandler.interface.php,v 1.5 2005/01/19 23:23:01 adamfranco Exp $
  */
 class ErrorHandlerInterface extends ServiceInterface {
     
 
 	/**
 	 * Sets the debug mode. In debug mode, fatal errors do not kill the script.
-	 * @method public setDebugMode
+	 * @access public
 	 * @param boolean debugMode Specifies whether the handler should enter in
 	 * debug mode.
 	 * @return void 

@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  *
  * The PostGreSelectQueryResult interface provides the functionality common to a PostGre SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.4 2004/10/14 05:45:43 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResult.class.php,v 1.5 2005/01/19 23:22:59 adamfranco Exp $
  * @package harmoni.dbc.postgre
  * @access public
  * @copyright 2003 
@@ -242,7 +242,7 @@ class PostGreSelectQueryResult extends SelectQueryResultInterface {
 	 * Moves the internal row pointer to the specified position. The range of
 	 * possible values is <code>0 - (getNumberOfRows()-1)</code>.
 	 * @param integer rowNumber The number of the row to move to.
-	 * @method public moveToRow
+	 * @access public
 	 * @return boolean <code>true</code>, if operation was successful; <code>false</code>, otherwise.
 	 */
 	function moveToRow($rowNumber) {

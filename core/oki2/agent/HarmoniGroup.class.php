@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.7 2005/01/19 22:28:12 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.8 2005/01/19 23:23:08 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
@@ -29,21 +29,24 @@ class HarmoniGroup
 
 	/**
 	 * The description of this Group.
-	 * @attribute private string _description
+	 * @var string _description 
+	 * @access private
 	 */
 	var $_description;
 	
 	
 	/**
 	 * An array storing groups that are members of this group.
-	 * @attribute private array _groups
+	 * @var array _groups 
+	 * @access private
 	 */
 	var $_groups;
 	
 	
 	/**
 	 * An array storing agents that are members of this group.
-	 * @attribute private array _agents
+	 * @var array _agents 
+	 * @access private
 	 */
 	var $_agents;
 	

@@ -13,13 +13,14 @@ require_once(HARMONI."GUIManager/Components/Menu.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Menu.class.php,v 1.5 2005/01/19 21:09:29 adamfranco Exp $
+ * @version $Id: Menu.class.php,v 1.6 2005/01/19 23:23:00 adamfranco Exp $
  */
 class Menu extends Container /* implements MenuInterface */ {
 
 	/**
 	 * This is the id of the menu item that is currently selected.
-	 * @attribute private integer _selectedId
+	 * @var integer _selectedId 
+	 * @access private
 	 */
 	var $_selectedId;
 

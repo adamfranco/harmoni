@@ -11,7 +11,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TreeNode.class.php,v 1.10 2005/01/19 22:28:11 adamfranco Exp $
+ * @version $Id: TreeNode.class.php,v 1.11 2005/01/19 23:23:07 adamfranco Exp $
  */
 
 class TreeNode extends TreeNodeInterface
@@ -19,7 +19,8 @@ class TreeNode extends TreeNodeInterface
 
 	/**
 	 * The id (string representation) for this node.
-	 * @attribute protected string _id 
+	 * @var string _id  
+	 * @access protected
 	 */
 	var $_id;
 	
@@ -28,7 +29,8 @@ class TreeNode extends TreeNodeInterface
 	 * The parents of this node. The index of
 	 * each element of the array is the string representation of the Id of the
 	 * corresponding Node.
-	 * @attribute protected array _parent
+	 * @var array _parent 
+	 * @access protected
 	 */
 	var $_parents;
 	
@@ -37,7 +39,8 @@ class TreeNode extends TreeNodeInterface
 	 * The children of this node. The index of
 	 * each element of the array is the string representation of the Id of the
 	 * corresponding Node.
-	 * @attribute protected array _children
+	 * @var array _children 
+	 * @access protected
 	 */
 	var $_children;
 	
@@ -83,7 +86,7 @@ class TreeNode extends TreeNodeInterface
 
 	/**
 	 * Adds a new child for this node.
-	 * @method public addChild
+	 * @access public
 	 * @param ref object child The child node to add.
 	 * @return void
 	 */
@@ -155,7 +158,7 @@ class TreeNode extends TreeNodeInterface
 
 	/**
 	 * Returns the parent node of this node.
-	 * @method public getParent
+	 * @access public
 	 * @return ref array The parent nodes of this node.
 	 */
 	function &getParents() {
@@ -165,7 +168,7 @@ class TreeNode extends TreeNodeInterface
 
 	/**
 	 * Returns the number of parents for this node.
-	 * @method public getParentsCount
+	 * @access public
 	 * @return integer The number of parents for this node.
 	 */
 	function getParentsCount() {
@@ -175,7 +178,7 @@ class TreeNode extends TreeNodeInterface
 	
 	/**
 	 * Determines if this node has any parents.
-	 * @method public hasParents
+	 * @access public
 	 * @return boolean <code>true</code> if this node has at least one parent;
 	 * <code>false</code>, otherwise.
 	 */
@@ -186,7 +189,7 @@ class TreeNode extends TreeNodeInterface
 
 	/**
 	 * Returns the children of this node in the order they were added.
-	 * @method public getChildren
+	 * @access public
 	 * @return ref array An array of the children nodes of this node.
 	 */
 	function &getChildren() {
@@ -196,7 +199,7 @@ class TreeNode extends TreeNodeInterface
 	
 	/**
 	 * Returns the number of children for this node.
-	 * @method public getChildrenCount
+	 * @access public
 	 * @return integer The number of children for this node.
 	 */
 	function getChildrenCount() {
@@ -206,7 +209,7 @@ class TreeNode extends TreeNodeInterface
 	
 	/**
 	 * Determines if this node has any children.
-	 * @method public hasChildren
+	 * @access public
 	 * @return boolean <code>true</code> if this node has at least one child;
 	 * <code>false</code>, otherwise.
 	 */
@@ -251,7 +254,7 @@ class TreeNode extends TreeNodeInterface
 	
 	/**
 	 * Returns the id of this node.
-	 * @method public getId
+	 * @access public
 	 * @return string The id of this node.
 	 */
 	function getId() {

@@ -58,7 +58,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.5 2005/01/19 22:28:14 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.6 2005/01/19 23:23:09 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -66,31 +66,36 @@ class HarmoniAuthenticationManager
 	
 	/**
 	 * The database connection as returned by the DBHandler.
-	 * @attribute private integer _dbIndex
+	 * @var integer _dbIndex 
+	 * @access private
 	 */
 	var $_dbIndex;
 
 	/**
 	 * The name of the Authentication database.
-	 * @attribute private string _authNDB
+	 * @var string _authNDB 
+	 * @access private
 	 */
 	var $_authNDB;
 	
 	/**
 	 * The Authentication Types availible.
-	 * @attribute private array _authTypes
+	 * @var array _authTypes 
+	 * @access private
 	 */
 	var $_authTypes;
 	
 	/**
 	 * The Agent Ids already looked up.
-	 * @attribute private array _agentIds
+	 * @var array _agentIds 
+	 * @access private
 	 */
 	var $_agentIds;
 	
 	/**
 	 * The Harmoni object that will handle Authentication.
-	 * @attribute private object _harmoni
+	 * @var object _harmoni 
+	 * @access private
 	 */
 	var $_harmoni;
 	

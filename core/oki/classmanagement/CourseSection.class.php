@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.4 2005/01/19 22:28:05 adamfranco Exp $
+ * @version $Id: CourseSection.class.php,v 1.5 2005/01/19 23:23:03 adamfranco Exp $
  */
 class HarmoniCourseSection // :: API interface
 //	extends java.io.Serializable
@@ -18,7 +18,6 @@ class HarmoniCourseSection // :: API interface
 	 * Get the title for this CourseSection.
 	 * @return object String the title
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
 	 */
 	function getTitle() { /* :: interface :: */ }
 
@@ -26,7 +25,6 @@ class HarmoniCourseSection // :: API interface
 	 * Update the title for this CourseSection.
 	 * @param object title
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.classmanagement
 	 */
 	function updateTitle($Title) { /* :: interface :: */ }
 
@@ -34,7 +32,6 @@ class HarmoniCourseSection // :: API interface
 	 * Get the number for this CourseSection.
 	 * @return object String the number
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
 	 */
 	function getNumber() { /* :: interface :: */ }
 
@@ -42,7 +39,6 @@ class HarmoniCourseSection // :: API interface
 	 * Update the number for this CourseSection.
 	 * @param object number
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.classmanagement
 	 */
 	function updateNumber($Number) { /* :: interface :: */ }
 
@@ -50,7 +46,6 @@ class HarmoniCourseSection // :: API interface
 	 * Get the description for this CourseSection.
 	 * @return string the name
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
 	 */
 	function getDescription() { /* :: interface :: */ }
 
@@ -58,7 +53,6 @@ class HarmoniCourseSection // :: API interface
 	 * Update the description for this CourseSection.
 	 * @param string description
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.classmanagement
 	 */
 	function updateDescription($description) { /* :: interface :: */ }
 
@@ -66,7 +60,6 @@ class HarmoniCourseSection // :: API interface
 	 * Get the Unique Id for this CourseSection.
 	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
 	 */
 	function &getId() { /* :: interface :: */ }
 
@@ -74,7 +67,6 @@ class HarmoniCourseSection // :: API interface
 	 * Get the Section Type for this CourseSection.  This Type is meaningful to the implementation and applications and is not specified by the OSID.
 	 * @return object osid.shared.Type
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
 	 */
 	function &getSectionType() { /* :: interface :: */ }
 
@@ -82,7 +74,6 @@ class HarmoniCourseSection // :: API interface
 	 * Get the CourseOffering that contains this CourseSection.
 	 * @return object CourseOffering
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
 	 */
 	function &getCourseOffering() { /* :: interface :: */ }
 	// :: full java declaration :: CourseOffering getCourseOffering()
@@ -91,7 +82,6 @@ class HarmoniCourseSection // :: API interface
 	 * Add an Asset for this CourseSection.
 	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#ALREADY_ADDED ALREADY_ADDED}
-	 * @package osid.classmanagement
 	 */
 	function addAsset(& $assetId) { /* :: interface :: */ }
 	// :: full java declaration :: void addAsset(osid.shared.Id assetId)
@@ -100,7 +90,6 @@ class HarmoniCourseSection // :: API interface
 	 * Remove an Asset for this CourseSection.
 	 * @param object assetId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.classmanagement
 	 */
 	function removeAsset(& $assetId) { /* :: interface :: */ }
 	// :: full java declaration :: void removeAsset(osid.shared.Id assetId)
@@ -109,7 +98,6 @@ class HarmoniCourseSection // :: API interface
 	 * Get the Assets associated with this CourseSection.
 	 * @return object osid.shared.IdIterator
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
 	 */
 	function &getAssets() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.IdIterator getAssets()
@@ -118,7 +106,6 @@ class HarmoniCourseSection // :: API interface
 	 * Get the Schedule for this Section.  Schedules are defined in osid.sched.  ScheduleItems are returned in chronological order by increasing start date.
 	 * @return object osid.scheduling.schedule
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
 	 */
 	function &getSchedule() { /* :: interface :: */ }
 
@@ -126,7 +113,6 @@ class HarmoniCourseSection // :: API interface
 	 * Update the Schedule for this Section.  Schedules are defined in osid.sched.
 	 * @param object scheduleItems
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.classmanagement
 	 */
 	function updateSchedule(& $scheduleItems) { /* :: interface :: */ }
 	// :: full java declaration :: void updateSchedule(osid.scheduling.ScheduleItem scheduleItems[])
@@ -135,7 +121,6 @@ class HarmoniCourseSection // :: API interface
 	 * Get the location may be a room address, a map, or any other object.
 	 * @return object java.io.Serializable
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
 	 */
 	function &getLocation() { /* :: interface :: */ }
 
@@ -143,7 +128,6 @@ class HarmoniCourseSection // :: API interface
 	 * Update the location may be a room address, a map, or any other object.
 	 * @param object location
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.classmanagement
 	 */
 	function updateLocation(& $Location) { /* :: interface :: */ }
 
@@ -152,7 +136,6 @@ class HarmoniCourseSection // :: API interface
 	 * @param object agentId
 	 * @param object enrollmentStatusType
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}, {@link CourseManagementException#ALREADY_ADDED ALREADY_ADDED}
-	 * @package osid.classmanagement
 	 */
 	function addStudent(& $agentId, & $enrollmentStatusType) { /* :: interface :: */ }
 	// :: full java declaration :: void addStudent(osid.shared.Id agentId, osid.shared.Type enrollmentStatusType)
@@ -162,7 +145,6 @@ class HarmoniCourseSection // :: API interface
 	 * @param object agentId
 	 * @param object enrollmentStatusType
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.classmanagement
 	 */
 	function changeStudent(& $agentId, & $enrollmentStatusType) { /* :: interface :: */ }
 	// :: full java declaration :: void changeStudent(osid.shared.Id agentId, osid.shared.Type enrollmentStatusType)
@@ -171,7 +153,6 @@ class HarmoniCourseSection // :: API interface
 	 * Remove a student from the roster.
 	 * @param object agentId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.classmanagement
 	 */
 	function removeStudent(& $agentId) { /* :: interface :: */ }
 	// :: full java declaration :: void removeStudent(osid.shared.Id agentId)
@@ -180,7 +161,6 @@ class HarmoniCourseSection // :: API interface
 	 * Get the student roster.
 	 * @return object EnrollmentRecordIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
 	 */
 	function &getRoster() { /* :: interface :: */ }
 	// :: full java declaration :: EnrollmentRecordIterator getRoster()
@@ -190,7 +170,6 @@ class HarmoniCourseSection // :: API interface
 	 * @param object enrollmentStatusType
 	 * @return object EnrollmentRecordIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.classmanagement
 	 */
 	function &getRosterByType(& $enrollmentStatusType) { /* :: interface :: */ }
 	// :: full java declaration :: EnrollmentRecordIterator getRosterByType(osid.shared.Type enrollmentStatusType)
@@ -199,7 +178,6 @@ class HarmoniCourseSection // :: API interface
 	 * Get the Status for this CourseSection.
 	 * @return object osid.shared.Type
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
 	 */
 	function &getStatus() { /* :: interface :: */ }
 
@@ -207,7 +185,6 @@ class HarmoniCourseSection // :: API interface
 	 * Update the Status for this CourseSection.
 	 * @param object statusType
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.classmanagement
 	 */
 	function updateStatus(& $statusType) { /* :: interface :: */ }
 	// :: full java declaration :: void updateStatus(osid.shared.Type statusType)

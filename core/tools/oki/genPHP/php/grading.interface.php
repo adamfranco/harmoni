@@ -20,14 +20,12 @@ class GradingManager // :: API interface
 	 *  GradeScale
 	 * @return GradableObject
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.grading
 	 */
 	function &createGradableObject($displayName, $description, & $courseSectionId, & $externalReferenceId, & $gradeType, & $scoringDefinition, & $gradeScale) { /* :: interface :: */ }
 	// :: full java declaration :: GradableObject createGradableObject
 	 * Delete a GradableObject.
 	 *  gradableObjectId
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.grading
 	 */
 	function deleteGradableObject(& $assignmentId) { /* :: interface :: */ }
 	// :: full java declaration :: void deleteGradableObject(osid.shared.Id assignmentId)
@@ -37,7 +35,6 @@ class GradingManager // :: API interface
 	 *   gradableObjectId
 	 * @return GradableObject
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.grading
 	 */
 	function &getGradableObject(& $gradableObjectId) { /* :: interface :: */ }
 	// :: full java declaration :: GradableObject getGradableObject(osid.shared.Id gradableObjectId)
@@ -48,7 +45,6 @@ class GradingManager // :: API interface
 	 *   ExternalReferenceId - the Unique Id of something to be graded such as an Assessment.
 	 * @return AssignmentIterator The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.grading
 	 */
 	function &getGradableObjects(& $courseSectionId, & $externalReferenceId) { /* :: interface :: */ }
 	// :: full java declaration :: GradableObjectIterator getGradableObjects
@@ -59,7 +55,6 @@ class GradingManager // :: API interface
 	 *  gradeRecordType
 	 * @return GradeRecord
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.grading
 	 */
 	function &createGradeRecord(& $gradbaleObjectId, & $agent, & $gradeValue, & $gradeRecordType) { /* :: interface :: */ }
 	// :: full java declaration :: GradeRecord createGradeRecord
@@ -68,7 +63,6 @@ class GradingManager // :: API interface
 	 * null
 	 * null
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.grading
 	 */
 	function deleteGradeRecord(& $gradableObjectId, & $agent, & $gradeRecordType) { /* :: interface :: */ }
 	// :: full java declaration :: void deleteGradeRecord(osid.shared.Id gradableObjectId, osid.shared.Agent agent, osid.shared.Type gradeRecordType)
@@ -82,14 +76,12 @@ class GradingManager // :: API interface
 	 * null
 	 * @return GradeRecordIterator The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.grading
 	 */
 	function &getGradeRecords(& $courseSectionId, & $externalReferenceId, & $gradableObjectId, & $agent, & $gradeRecordType) { /* :: interface :: */ }
 	// :: full java declaration :: GradeRecordIterator getGradeRecords
 	 * Get all GradeRecordTypes.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @return osid.shared.TypeIterator The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getGradeRecordTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getGradeRecordTypes()
@@ -98,7 +90,6 @@ class GradingManager // :: API interface
 	 * Get all GradeTypes.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @return osid.shared.TypeIterator The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getGradeTypes() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getGradeTypes()
@@ -107,7 +98,6 @@ class GradingManager // :: API interface
 	 * Get all ScoringDefinitions.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @return osid.shared.TypeIterator The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getScoringDefinitions() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getScoringDefinitions()
@@ -116,7 +106,6 @@ class GradingManager // :: API interface
 	 * Get all GradeScales.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @return osid.shared.TypeIterator The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getGradeScales() { /* :: interface :: */ }
 	// :: full java declaration :: osid.shared.TypeIterator getGradeScales()
@@ -135,7 +124,6 @@ class GradableObject // :: API interface
 	 * Get the name for this GradableObject.
 	 * @return String the name
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function getDisplayName() { /* :: interface :: */ }
 
@@ -143,7 +131,6 @@ class GradableObject // :: API interface
 	 * Update the name for this Assignment.
 	 * @param displayName
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function updateDisplayName($DisplayName) { /* :: interface :: */ }
 
@@ -151,7 +138,6 @@ class GradableObject // :: API interface
 	 * Get the description for this GradableObject.
 	 * @return String the name
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function getDescription() { /* :: interface :: */ }
 
@@ -159,7 +145,6 @@ class GradableObject // :: API interface
 	 * Update the description for this GradableObject.
 	 * @param description
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function updateDescription($Description) { /* :: interface :: */ }
 
@@ -167,7 +152,6 @@ class GradableObject // :: API interface
 	 * Get the Unique Id for this GradableObject.
 	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getId() { /* :: interface :: */ }
 
@@ -175,7 +159,6 @@ class GradableObject // :: API interface
 	 * Get the Unique Id with a CourseSection.  CourseSections are created and managed through the
 	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getCourseSection() { /* :: interface :: */ }
 
@@ -183,7 +166,6 @@ class GradableObject // :: API interface
 	 * Get the Unique Id associated with some object that is being graded such as an Assessment.
 	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getExternalReference() { /* :: interface :: */ }
 
@@ -191,7 +173,6 @@ class GradableObject // :: API interface
 	 * Get the GradeType associated with the GradableObject and Grade.  GradeType
 	 * @return osid.shared.Type
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getGradeType() { /* :: interface :: */ }
 
@@ -199,7 +180,6 @@ class GradableObject // :: API interface
 	 * Get the ScoringDefinition associated with the GradableObject and Grade.
 	 * @return osid.shared.Type
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getScoringDefinition() { /* :: interface :: */ }
 
@@ -207,7 +187,6 @@ class GradableObject // :: API interface
 	 * Get the GradeScale associated with the GradableObject and Grade.
 	 * @return osid.shared.Type
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getGradeScale() { /* :: interface :: */ }
 }
@@ -225,7 +204,6 @@ class GradeRecord // :: API interface
 	 * Get the Unique Id for this GradeRecord's GradableObject.
 	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getGradableObject() { /* :: interface :: */ }
 
@@ -233,7 +211,6 @@ class GradeRecord // :: API interface
 	 * Get the Agent associated with this GradeRecord.  The Agent in this context is not the
 	 * @return osid.shared.Agent
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getAgent() { /* :: interface :: */ }
 
@@ -241,7 +218,6 @@ class GradeRecord // :: API interface
 	 * Get the value for this Grade.
 	 * @return java.io.Serializable
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getGradeValue() { /* :: interface :: */ }
 
@@ -249,7 +225,6 @@ class GradeRecord // :: API interface
 	 * Update the value for this Grade.
 	 * null
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function updateGradeValue(& $GradeValue) { /* :: interface :: */ }
 
@@ -257,7 +232,6 @@ class GradeRecord // :: API interface
 	 * Get the Agent who modified this GradeRecord.
 	 * @return osid.shared.Agent
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getModifiedBy() { /* :: interface :: */ }
 
@@ -265,7 +239,6 @@ class GradeRecord // :: API interface
 	 * Get the date when this GradeRecord was modified.
 	 * @return java.util.Calendar
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getModifiedDate() { /* :: interface :: */ }
 
@@ -273,7 +246,6 @@ class GradeRecord // :: API interface
 	 * Get the GradeRecordType for this GradeRecord.  This is the Type of the GradeRecord, which is distinct from the Type of Grade.  A GradeRecord Type might be advisory, mid-term, final, etc, while a Grade Type might be letter, numeric, etc.
 	 * @return osid.shared.Type
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getGradeRecordType() { /* :: interface :: */ }
 
@@ -281,7 +253,6 @@ class GradeRecord // :: API interface
 	 * Get the GradeType associated with the GradableObject and Grade.
 	 * @return osid.shared.Type
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function &getGradeType() { /* :: interface :: */ }
 }
@@ -298,7 +269,6 @@ class GradableObjectIterator // :: API interface
 	 * Return <code>true</code> if there are additional  GradableObject ; <code>false</code> otherwise.
 	 * @return boolean
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -307,7 +277,6 @@ class GradableObjectIterator // :: API interface
 	 * Return the next GradableObject.
 	 * @return GradableObject
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.grading
 	 */
 	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: GradableObject next()
@@ -325,7 +294,6 @@ class GradeRecordIterator // :: API interface
 	 * Return <code>true</code> if there are additional  GradeRecords ; <code>false</code> otherwise.
 	 * @return boolean
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.grading
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -334,7 +302,6 @@ class GradeRecordIterator // :: API interface
 	 * Return the next GradeRecord.
 	 * @return GradeRecord
 	 * @throws osid.grading.GradingException An exception with one of the following messages defined in osid.grading.GradingException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.grading
 	 */
 	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: GradeRecord next()

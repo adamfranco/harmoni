@@ -16,7 +16,7 @@ require_once(OKI2."/osid/agent/Agent.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.6 2005/01/19 22:28:12 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.7 2005/01/19 23:23:07 adamfranco Exp $
  */
 class HarmoniAgent 
 	extends Agent
@@ -24,35 +24,40 @@ class HarmoniAgent
 
 	/**
 	 * The display name.
-	 * @attribute private string _displayName
+	 * @var string _displayName 
+	 * @access private
 	 */
 	var $_displayName;
 	
 	
 	/**
 	 * The Id of this Agent.
-	 * @attribute private object _Id
+	 * @var object _Id 
+	 * @access private
 	 */
 	var $_id;
 	
 	
 	/**
 	 * The type of this Agent.
-	 * @attribute private object _type
+	 * @var object _type 
+	 * @access private
 	 */
 	var $_type;
 	
 	
 	/**
 	 * The database connection as returned by the DBHandler.
-	 * @attribute private integer _dbIndex
+	 * @var integer _dbIndex 
+	 * @access private
 	 */
 	var $_dbIndex;
 
 	
 	/**
 	 * The name of the shared database.
-	 * @attribute private string _sharedDB
+	 * @var string _sharedDB 
+	 * @access private
 	 */
 	var $_sharedDB;
 	

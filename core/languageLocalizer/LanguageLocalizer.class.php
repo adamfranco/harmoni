@@ -11,7 +11,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.class.php,v 1.11 2005/01/19 22:27:48 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.12 2005/01/19 23:23:01 adamfranco Exp $
  */
 class LanguageLocalizer extends LanguageLocalizerInterface {
 	/**
@@ -281,7 +281,6 @@ if (!function_exists("gettext")) {
 	 * @access public
 	 * @since 11/17/04
 	 *
-	 * @package harmoni.languages
 	 */
 	function hasGettext () {
 		return FALSE;
@@ -296,7 +295,6 @@ if (!function_exists("gettext")) {
 	 * @access public
 	 * @since 11/16/04
 	 *
-	 * @package harmoni.languages
 	 */
 	function _ ( $string ) {
 		return $string;
@@ -311,7 +309,6 @@ if (!function_exists("gettext")) {
 	 * @access public
 	 * @since 11/16/04
 	 *
-	 * @package harmoni.languages
 	 */
 	function gettext ( $string ) {
 		return $string;
@@ -326,7 +323,6 @@ if (!function_exists("gettext")) {
 	 * @access public
 	 * @since 11/17/04
 	 *
-	 * @package harmoni.languages
 	 */
 	function hasGettext () {
 		return TRUE;

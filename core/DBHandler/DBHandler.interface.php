@@ -46,7 +46,7 @@ require_once(HARMONI.'services/Service.interface.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password.
  *
- * @version $Id: DBHandler.interface.php,v 1.6 2004/08/26 15:10:17 adamfranco Exp $
+ * @version $Id: DBHandler.interface.php,v 1.7 2005/01/19 23:21:34 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
@@ -69,7 +69,7 @@ class DBHandlerInterface extends ServiceInterface {
 	
 	/**
 	 * Adds the specified Database object to the list of databases.
-	 * @method public addDatabase
+	 * @access public
 	 * @param ref object database
 	 * @return mixed $dbIndex The index of the new database, if it was created successfully; False, otherwise.
 	 */
@@ -158,7 +158,7 @@ class DBHandlerInterface extends ServiceInterface {
 	/**
 	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
 	 * for the specified database object.
-	 * @method public toDBDate
+	 * @access public
 	 * @param ref object dateTime The DateTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
@@ -170,7 +170,7 @@ class DBHandlerInterface extends ServiceInterface {
 	/**
 	 * Converts a database datetime/timestamp/time value (that has been fetched
 	 * from the db) to a DateTime object.
-	 * @method public fromDBDate
+	 * @access public
 	 * @param mixed A database datetime/timestamp/time value (that has been fetched
 	 * from the db).
 	 * @return ref object The DateTime object.

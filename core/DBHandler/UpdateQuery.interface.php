@@ -6,7 +6,7 @@ require_once("Query.abstract.php");
 /**
  * An UpdateQuery interface provides the tools to build an SQL UPDATE query.
  *
- * @version $Id: UpdateQuery.interface.php,v 1.4 2004/05/21 20:02:48 nstamato Exp $
+ * @version $Id: UpdateQuery.interface.php,v 1.5 2005/01/19 23:21:35 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -55,7 +55,7 @@ class UpdateQueryInterface extends Query {
 	 * @param integer logicalOperation The logical operation to use to connect
 	 * this WHERE condition with the previous WHERE conditions. Allowed values:
 	 * <code>_AND</code> and <code>_OR</code>. 
-	 * @method public addWhere
+	 * @access public
 	 * @return void 
 	 */
 	function addWhere($condition, $logicalOperation = _AND) {

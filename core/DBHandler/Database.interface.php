@@ -4,7 +4,7 @@
  * A Database interface provides generic database functionality: connect(), executeQuery(), etc.
  * A Database interface provides generic database functionality: connect(), executeQuery(), etc.
  * The interface can be implemented for different types of databases: MySQL, Oracle, SQLServer, etc.
- * @version $Id: Database.interface.php,v 1.3 2004/08/26 15:10:17 adamfranco Exp $
+ * @version $Id: Database.interface.php,v 1.4 2005/01/19 23:21:34 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -82,7 +82,7 @@ class DatabaseInterface {
 	
 	/**
 	 * This method selects the default database to use in queries.
-	 * @method public selectDatabase
+	 * @access public
 	 * @param string database The name of the default database.
 	 * @return boolean True, if successful; False, otherwise.
 	 */
@@ -95,7 +95,7 @@ class DatabaseInterface {
 	/**
 	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
 	 * for this Database.
-	 * @method public toDBDate
+	 * @access public
 	 * @param ref object dateTime The DateTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
@@ -107,7 +107,7 @@ class DatabaseInterface {
 	/**
 	 * Converts a database datetime/timestamp/time value (that has been fetched
 	 * from the db) to a DateTime object.
-	 * @method public fromDBDate
+	 * @access public
 	 * @param mixed A database datetime/timestamp/time value (that has been fetched
 	 * from the db).
 	 * @return ref object The DateTime object.

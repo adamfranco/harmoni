@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.5 2005/01/19 22:28:15 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.6 2005/01/19 23:23:09 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -67,7 +67,8 @@ class HarmoniAuthorizationManager
 	
 	/**
 	 * The AuthorizationCache object.
-	 * @attribute private object _cache
+	 * @var object _cache 
+	 * @access private
 	 */
 	var $_cache;
 	

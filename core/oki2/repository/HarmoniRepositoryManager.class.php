@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.5 2005/01/19 22:28:25 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.6 2005/01/19 23:23:12 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -476,7 +476,6 @@ class HarmoniRepositoryManager
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#NO_OBJECT_WITH_THIS_DATE NO_OBJECT_WITH_THIS_DATE}
-	 * @package harmoni.osid_v2.dr
 	 */
 	function &getAssetByDate(& $assetId, & $date) {
 		// figure out which DR it is in.
@@ -585,7 +584,6 @@ class HarmoniRepositoryManager
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_DR UNKNOWN_DR}
-	 * @package harmoni.osid_v2.dr
 	 */
 	function &getAssets(& $digitalRepositories, & $searchCriteria, & $searchType) {
 		$combinedAssets = array();

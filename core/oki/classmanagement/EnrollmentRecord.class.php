@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EnrollmentRecord.class.php,v 1.4 2005/01/19 22:28:05 adamfranco Exp $
+ * @version $Id: EnrollmentRecord.class.php,v 1.5 2005/01/19 23:23:03 adamfranco Exp $
  */
 class HarmoniEnrollmentRecord // :: API interface
 //	extends java.io.Serializable
@@ -18,7 +18,6 @@ class HarmoniEnrollmentRecord // :: API interface
 	 * Get the Id of the Agent representing a student enrolled in the CourseSection.
 	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation agentId
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
 	 */
 	function &getStudent() { /* :: interface :: */ }
 
@@ -26,7 +25,6 @@ class HarmoniEnrollmentRecord // :: API interface
 	 * Get the Status Type for a student.  Students Status Type is supplied when the student is added or changed in the CourseSection.  The CourseManagementManager returns the Status Types supported by this implementation.
 	 * @return object osid.shared.Type Type
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.classmanagement
 	 */
 	function &getStatus() { /* :: interface :: */ }
 }

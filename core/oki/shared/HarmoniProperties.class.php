@@ -13,7 +13,7 @@ require_once(OKI."/shared.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniProperties.class.php,v 1.3 2005/01/19 22:28:11 adamfranco Exp $
+ * @version $Id: HarmoniProperties.class.php,v 1.4 2005/01/19 23:23:07 adamfranco Exp $
  */
 class HarmoniProperties
 	extends Properties
@@ -42,7 +42,6 @@ class HarmoniProperties
 	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getType() {
 		return $this->_type;
@@ -58,7 +57,6 @@ class HarmoniProperties
 	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link SharedException#UNKNOWN_KEY UNKNOWN_KEY}
-	 * @package osid.shared
 	 */
 	function &getProperty(& $key) {
 		return $this->_properties[serialize($key)];
@@ -73,7 +71,6 @@ class HarmoniProperties
 	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getKeys() {
 		$keys = array();

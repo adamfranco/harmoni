@@ -20,7 +20,7 @@ require_once(HARMONI.'/oki/hierarchy2/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.11 2005/01/19 22:28:10 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.12 2005/01/19 23:23:06 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -30,21 +30,24 @@ class HarmoniHierarchy extends Hierarchy {
 
 	/**
 	 * The Id of this hierarchy.
-	 * @attribute private object _id
+	 * @var object _id 
+	 * @access private
 	 */
 	var $_id;
 	
 	
 	/**
 	 * The display name of this hierarchy.
-	 * @attribute private string _displayName
+	 * @var string _displayName 
+	 * @access private
 	 */
 	var $_displayName;
 	
 	
 	/**
 	 * The description of this hierarchy.
-	 * @attribute private string _description
+	 * @var string _description 
+	 * @access private
 	 */
 	var $_description;
 	

@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.13 2005/01/19 22:28:11 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.14 2005/01/19 23:23:07 adamfranco Exp $
  */
 class HarmoniAgent extends Agent // :: API interface
 //	extends java.io.Serializable
@@ -16,35 +16,40 @@ class HarmoniAgent extends Agent // :: API interface
 
 	/**
 	 * The display name.
-	 * @attribute private string _displayName
+	 * @var string _displayName 
+	 * @access private
 	 */
 	var $_displayName;
 	
 	
 	/**
 	 * The Id of this Agent.
-	 * @attribute private object _Id
+	 * @var object _Id 
+	 * @access private
 	 */
 	var $_id;
 	
 	
 	/**
 	 * The type of this Agent.
-	 * @attribute private object _type
+	 * @var object _type 
+	 * @access private
 	 */
 	var $_type;
 	
 	
 	/**
 	 * The database connection as returned by the DBHandler.
-	 * @attribute private integer _dbIndex
+	 * @var integer _dbIndex 
+	 * @access private
 	 */
 	var $_dbIndex;
 
 	
 	/**
 	 * The name of the shared database.
-	 * @attribute private string _sharedDB
+	 * @var string _sharedDB 
+	 * @access private
 	 */
 	var $_sharedDB;
 	
@@ -87,7 +92,6 @@ class HarmoniAgent extends Agent // :: API interface
 	 * Get the name of this Agent.
 	 * @return String
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid_v1.shared
 	 */
 	function getDisplayName() {
 		return $this->_displayName;
@@ -97,7 +101,6 @@ class HarmoniAgent extends Agent // :: API interface
 	 * Get the id of this Agent.
 	 * @return id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid_v1.shared
 	 */
 	function &getId() {
 		return $this->_id;
@@ -107,7 +110,6 @@ class HarmoniAgent extends Agent // :: API interface
 	 * Get the type of this Agent.
 	 * @return Type
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid_v1.shared
 	 */
 	function &getType() {
 		return $this->_type;
@@ -117,7 +119,6 @@ class HarmoniAgent extends Agent // :: API interface
 	 * Get all the Properties associated with this Agent.
 	 * @return PropertiesIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid_v1.shared
 	 */
 	function &getProperties() {
 		$iterator =& new HarmoniIterator($this->_propertiesArray);
@@ -129,7 +130,6 @@ class HarmoniAgent extends Agent // :: API interface
 	 * Get the Properties of this Type associated with this Agent.
 	 * @return Properties
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid_v1.shared
 	 */
 	function &getPropertiesByType(& $propertiesType) {
 		$array = array();
@@ -151,7 +151,6 @@ class HarmoniAgent extends Agent // :: API interface
 	 * Get the Properties Types supported by the implementation.
 	 * @return TypeIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid_v1.shared
 	 */
 	function &getPropertiesTypes() {
 		$array = array();

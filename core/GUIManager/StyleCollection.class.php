@@ -28,38 +28,43 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollection.class.php,v 1.6 2005/01/19 21:07:52 adamfranco Exp $
+ * @version $Id: StyleCollection.class.php,v 1.7 2005/01/19 23:23:00 adamfranco Exp $
  */
 class StyleCollection extends StyleCollectionInterface {
 
 	/**
 	 * The display name of this StyleCollection.
-	 * @attribute private string _displayName
+	 * @var string _displayName 
+	 * @access private
 	 */
 	var $_displayName;
 	
 	/**
 	 * The description of this StyleCollection.
-	 * @attribute private string _description
+	 * @var string _description 
+	 * @access private
 	 */
 	var $_description;
 	
 	/**
 	 * The selector of this StyleCollection.
-	 * @attribute private string _selector
+	 * @var string _selector 
+	 * @access private
 	 */
 	var $_selector;
 	
 	/**
 	 * The class selector of this style collection. A class selector is the string
 	 * that would be included in the 'class' attribute of HTML tags. 
-	 * @attribute private string _classSelector
+	 * @var string _classSelector 
+	 * @access private
 	 */
 	var $_classSelector;
 	
 	/**
 	 * An array of the StyleProperties contained by this StyleCollection.
-	 * @attribute private array _SPs
+	 * @var array _SPs 
+	 * @access private
 	 */
 	var $_SPs;
 

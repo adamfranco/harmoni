@@ -16,26 +16,29 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.class.php,v 1.10 2005/01/19 21:07:51 adamfranco Exp $
+ * @version $Id: Component.class.php,v 1.11 2005/01/19 23:22:59 adamfranco Exp $
  */
 class Component extends ComponentInterface {
 
 	/**
 	 * The content of this component.
-	 * @attribute private string _content
+	 * @var string _content 
+	 * @access private
 	 */
 	var $_content;
 	
 	/**
 	 * This is an array of the style collections that have been applied to this
 	 * component.
-	 * @attribute private array _styleCollections
+	 * @var array _styleCollections 
+	 * @access private
 	 */
 	var $_styleCollections;
 	
 	/**
 	 * The type of this <code>Component</code>.
-	 * @attribute private integer _type
+	 * @var integer _type 
+	 * @access private
 	 */
 	var $_type;
 	
@@ -46,7 +49,8 @@ class Component extends ComponentInterface {
 	 * the same type. Most often one would use the index in conjunction with
 	 * the <code>getStylesForComponentType()</code> and 
 	 * <code>addStyleForComponentType()</code> methods.
-	 * @attribute private integer _index
+	 * @var integer _index 
+	 * @access private
 	 */
 	var $_index;
 	

@@ -43,7 +43,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.7 2005/01/19 22:28:12 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.8 2005/01/19 23:23:08 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -54,49 +54,56 @@ class HarmoniAgentManager
 
 	/**
 	 * The database connection as returned by the DBHandler.
-	 * @attribute private integer _dbIndex
+	 * @var integer _dbIndex 
+	 * @access private
 	 */
 	var $_dbIndex;
 
 	
 	/**
 	 * The name of the shared database.
-	 * @attribute private string _sharedD
+	 * @var string _sharedD 
+	 * @access private
 	 */
 	var $_sharedDB;
 	
 	
 	/**
 	 * An array that will store the cached agent objects.
-	 * @attribute private array _agentsCache
+	 * @var array _agentsCache 
+	 * @access private
 	 */
 	var $_agentsCache;
 	
 	
 	/**
 	 * An array that will store the cached group objects.
-	 * @attribute private array _groupsCache
+	 * @var array _groupsCache 
+	 * @access private
 	 */
 	var $_groupsCache;
 	
 	
 	/**
 	 * Will be set to true if all agents have been cached;
-	 * @attribute private boolean _allAgentsCached
+	 * @var boolean _allAgentsCached 
+	 * @access private
 	 */
 	var $_allAgentsCached;
 	
 	
 	/**
 	 * Will be set to true if all groups have been cached;
-	 * @attribute private boolean _allAgentsCached
+	 * @var boolean _allAgentsCached 
+	 * @access private
 	 */
 	var $_allGroupsCached;
 	
 	
 	/**
 	 * An array of all cached Id objects.
-	 * @attribute private array _ids
+	 * @var array _ids 
+	 * @access private
 	 */
 	var $_ids;
 	

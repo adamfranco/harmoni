@@ -19,7 +19,7 @@ require_once(HARMONI."oki/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.24 2005/01/19 22:27:48 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.25 2005/01/19 23:23:01 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager // :: API interface
@@ -27,31 +27,36 @@ class HarmoniAuthenticationManager
 	
 	/**
 	 * The database connection as returned by the DBHandler.
-	 * @attribute private integer _dbIndex
+	 * @var integer _dbIndex 
+	 * @access private
 	 */
 	var $_dbIndex;
 
 	/**
 	 * The name of the Authentication database.
-	 * @attribute private string _authNDB
+	 * @var string _authNDB 
+	 * @access private
 	 */
 	var $_authNDB;
 	
 	/**
 	 * The Authentication Types availible.
-	 * @attribute private array _authTypes
+	 * @var array _authTypes 
+	 * @access private
 	 */
 	var $_authTypes;
 	
 	/**
 	 * The Agent Ids already looked up.
-	 * @attribute private array _agentIds
+	 * @var array _agentIds 
+	 * @access private
 	 */
 	var $_agentIds;
 	
 	/**
 	 * The Harmoni object that will handle Authentication.
-	 * @attribute private object _harmoni
+	 * @var object _harmoni 
+	 * @access private
 	 */
 	var $_harmoni;
 	
@@ -86,7 +91,6 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid_v1.authentication
 	 */
 	function &getAuthenticationTypes() {
 		$iterator =& new HarmoniIterator($this->_authTypes);
@@ -113,7 +117,6 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid_v1.authentication
 	 */
 	function authenticateUser(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
@@ -163,7 +166,6 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid_v1.authentication
 	 */
 	function isUserAuthenticated(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
@@ -199,7 +201,6 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid_v1.authentication
 	 */
 	function &getUserId(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
@@ -235,7 +236,6 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid_v1.authentication
 	 */
 	function destroyAuthentication() {
 		$this->_harmoni->LoginHandler->logout();
@@ -252,7 +252,6 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid_v1.authentication
 	 */
 	function destroyAuthenticationForType(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
@@ -290,7 +289,6 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid_v1.authentication
 	 */
 	function &getAgentId(& $tokens, & $authenticationType) {
 		// Check that we have a valid AuthenticationType.

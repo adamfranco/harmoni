@@ -15,7 +15,6 @@ class SharedManager // :: API interface
 	 * @param agentType
 	 * @return Agent
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.shared
 	 */
 	function &createAgent($displayName, & $agentType) { /* :: interface :: */ }
 	// :: full java declaration :: public Agent createAgent(String displayName, Type agentType)
@@ -24,7 +23,6 @@ class SharedManager // :: API interface
 	 * Delete the Agent with the specified Unique Id.
 	 * @param id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.shared
 	 */
 	function deleteAgent(& $id) { /* :: interface :: */ }
 	// :: full java declaration :: public void deleteAgent(Id id)
@@ -34,7 +32,6 @@ class SharedManager // :: API interface
 	 * @param id
 	 * @return Agent
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.shared
 	 */
 	function &getAgent(& $id) { /* :: interface :: */ }
 	// :: full java declaration :: public Agent getAgent(Id id)
@@ -43,7 +40,6 @@ class SharedManager // :: API interface
 	 * Return an iterator containing all the Agents.  An iterator provides access to the Agents one at a time.  Iterators have a method hasNext() which returns <code>true</code> if there are more Agents available and a method next() which returns the next Agent.
 	 * @return AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getAgents() { /* :: interface :: */ }
 	// :: full java declaration :: public AgentIterator getAgents()
@@ -52,7 +48,6 @@ class SharedManager // :: API interface
 	 * Return an iterator containing all the Agent Types.  An iterator provides access to the Agent Types from this implementation one at a time.  Iterators have a method hasNext() which returns true if there are more Agent Types available and a method next() which returns the next Agent Type.
 	 * @return TypeIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getAgentTypes() { /* :: interface :: */ }
 	// :: full java declaration :: public TypeIterator getAgentTypes()
@@ -64,7 +59,6 @@ class SharedManager // :: API interface
 	 * @param description
 	 * @return Group
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.shared
 	 */
 	function &createGroup($displayName, & $groupType, $description) { /* :: interface :: */ }
 	// :: full java declaration :: public Group createGroup(String displayName, Type groupType, String description)
@@ -73,7 +67,6 @@ class SharedManager // :: API interface
 	 * Delete the Group with the specified Unique Id.
 	 * @param id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.shared
 	 */
 	function deleteGroup(& $id) { /* :: interface :: */ }
 	// :: full java declaration :: public void deleteGroup(Id id)
@@ -83,7 +76,6 @@ class SharedManager // :: API interface
 	 * @param id
 	 * @return Group
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.shared
 	 */
 	function &getGroup(& $id) { /* :: interface :: */ }
 	// :: full java declaration :: public Group getGroup(Id id)
@@ -92,7 +84,6 @@ class SharedManager // :: API interface
 	 * Get all the Groups.  Note since Groups subclass Agents, we are returning an AgentIterator and there is no GroupIterator. An iterator provides access to the Groups one at a time.  Iterators have a method hasNext() which returns true if there are more Groups available and a method next() which returns the next Group.
 	 * @return AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getGroups() { /* :: interface :: */ }
 	// :: full java declaration :: public AgentIterator getGroups()
@@ -101,7 +92,6 @@ class SharedManager // :: API interface
 	 * Return an iterator containing all the Group Types.  An iterator provides access to the Group Types from this implementation one at a time.  Iterators have a method hasNext() which returns true if there are more Group Types available and a method next() which returns the next Group Type.
 	 * @return TypeIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getGroupTypes() { /* :: interface :: */ }
 	// :: full java declaration :: public TypeIterator getGroupTypes()
@@ -110,7 +100,6 @@ class SharedManager // :: API interface
 	 * Create a new unique identifier.
 	 * @return Id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &createId() { /* :: interface :: */ }
 	// :: full java declaration :: public Id createId()
@@ -120,7 +109,6 @@ class SharedManager // :: API interface
 	 * @param idString
 	 * @return Id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.shared
 	 */
 	function &getId($idString) { /* :: interface :: */ }
 	// :: full java declaration :: public Id getId(String idString)
@@ -129,7 +117,6 @@ class SharedManager // :: API interface
 	 * Get all the Agents of the specified Type.
 	 * @return AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.shared
 	 */
 	function &getAgentsByType(& $agentType) { /* :: interface :: */ }
 	// :: full java declaration :: AgentIterator getAgentsByType(osid.shared.Type agentType)
@@ -138,7 +125,6 @@ class SharedManager // :: API interface
 	 * Get all the Groups of the specified Type.
 	 * @return AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.shared
 	 */
 	function &getGroupsByType(& $groupType) { /* :: interface :: */ }
 	// :: full java declaration :: AgentIterator getGroupsByType(osid.shared.Type groupType)
@@ -157,7 +143,6 @@ class Agent // :: API interface
 	 * Get the name of this Agent.
 	 * @return String
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function getDisplayName() { /* :: interface :: */ }
 	// :: full java declaration :: public String getDisplayName()
@@ -166,7 +151,6 @@ class Agent // :: API interface
 	 * Get the id of this Agent.
 	 * @return id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getId() { /* :: interface :: */ }
 	// :: full java declaration :: public osid.shared.Id getId()
@@ -175,7 +159,6 @@ class Agent // :: API interface
 	 * Get the type of this Agent.
 	 * @return Type
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getType() { /* :: interface :: */ }
 	// :: full java declaration :: public osid.shared.Type getType()
@@ -184,7 +167,6 @@ class Agent // :: API interface
 	 * Get all the Properties associated with this Agent.
 	 * @return PropertiesIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getProperties() { /* :: interface :: */ }
 	// :: full java declaration :: PropertiesIterator getProperties()
@@ -193,7 +175,6 @@ class Agent // :: API interface
 	 * Get the Properties of this Type associated with this Agent.
 	 * @return Properties
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.shared
 	 */
 	function &getPropertiesByType(& $propertiesType) { /* :: interface :: */ }
 	// :: full java declaration :: Properties getPropertiesByType(Type propertiesType)
@@ -202,7 +183,6 @@ class Agent // :: API interface
 	 * Get the Properties Types supported by the implementation.
 	 * @return TypeIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getPropertiesTypes() { /* :: interface :: */ }
 	// :: full java declaration :: TypeIterator getPropertiesTypes()
@@ -221,7 +201,6 @@ class Properties // :: API interface
 	 * Get the Type associated with these Properties. Properties
 	 * @return Type
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getType() { /* :: interface :: */ }
 	// :: full java declaration :: Type getType()
@@ -230,7 +209,6 @@ class Properties // :: API interface
 	 * Get the Property associated with this key.
 	 * @return java.io.Serializable
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#UNKNOWN_KEY UNKNOWN_KEY}
-	 * @package osid.shared
 	 */
 	function &getProperty(& $key) { /* :: interface :: */ }
 	// :: full java declaration :: java.io.Serializable getProperty(java.io.Serializable key)
@@ -239,7 +217,6 @@ class Properties // :: API interface
 	 * Get the Keys associated with these Properties.
 	 * @return ObjectIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getKeys() { /* :: interface :: */ }
 	// :: full java declaration :: SerializableObjectIterator getKeys()
@@ -258,7 +235,6 @@ class Group // :: API interface
 	 * Get the DisplayName of this Group as stored.
 	 * @return the String
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function getDisplayName() { /* :: interface :: */ }
 	// :: full java declaration :: public String getDisplayName()
@@ -267,7 +243,6 @@ class Group // :: API interface
 	 * Get the Description of this Group as stored.
 	 * @return String
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function getDescription() { /* :: interface :: */ }
 
@@ -275,7 +250,6 @@ class Group // :: API interface
 	 * Update the Description of this Group as stored.
 	 * @param description
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.shared
 	 */
 	function updateDescription($Description) { /* :: interface :: */ }
 
@@ -283,7 +257,6 @@ class Group // :: API interface
 	 * Get the Unique Id of this Group as stored.
 	 * @return Id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getId() { /* :: interface :: */ }
 
@@ -291,7 +264,6 @@ class Group // :: API interface
 	 * Update the Type of this Group as stored.
 	 * @return Type
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getType() { /* :: interface :: */ }
 	// :: full java declaration :: public osid.shared.Type getType()
@@ -300,7 +272,6 @@ class Group // :: API interface
 	 * Add an Agent member or a Group to this Group.  The Member or Group will not be added if it already exists in the group.
 	 * @param memberOrGroup
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#ALREADY_ADDED ALREADY_ADDED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.shared
 	 */
 	function add(& $memberOrGroup) { /* :: interface :: */ }
 	// :: full java declaration :: void add(Agent memberOrGroup)
@@ -309,7 +280,6 @@ class Group // :: API interface
 	 * Remove an Agent member or a Group from this Group. If the Member or Group is not in the group no action is taken and no exception is thrown.
 	 * @param memberOrGroup
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.shared
 	 */
 	function remove(& $memberOrGroup) { /* :: interface :: */ }
 	// :: full java declaration :: void remove(Agent memberOrGroup)
@@ -319,7 +289,6 @@ class Group // :: API interface
 	 * @param includeSubgroups
 	 * @return AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getMembers($includeSubgroups) { /* :: interface :: */ }
 	// :: full java declaration :: AgentIterator getMembers(boolean includeSubgroups)
@@ -329,7 +298,6 @@ class Group // :: API interface
 	 * @param includeSubgroups
 	 * @return AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function &getGroups($includeSubgroups) { /* :: interface :: */ }
 	// :: full java declaration :: AgentIterator getGroups(boolean includeSubgroups)
@@ -339,7 +307,6 @@ class Group // :: API interface
 	 * @param member
 	 * @return AgentIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.shared
 	 */
 	function &getGroupsContainingMember(& $member) { /* :: interface :: */ }
 	// :: full java declaration :: AgentIterator getGroupsContainingMember(Agent member)
@@ -350,7 +317,6 @@ class Group // :: API interface
 	 * @param searchSubgroups
 	 * @return boolean
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.shared
 	 */
 	function contains(& $memberOrGroup, $searchSubgroups) { /* :: interface :: */ }
 	// :: full java declaration :: boolean contains(Agent memberOrGroup , boolean searchSubgroups)
@@ -386,7 +352,6 @@ class Type // :: abstract
 	 * @param domain
 	 * @param authority
 	 * @param keyword
-	 * @package osid.shared
 	 */
 	function &Type($domain, $authority, $keyword) { /* :: interface :: */ }
 	// :: full java declaration :: public Type(String domain, String authority, String keyword)
@@ -408,7 +373,6 @@ class Type // :: abstract
 	 * Compare the specified Type with this Type for equality.<p>Two Types are equal if the domain, authority and keyword are equal.
 	 * @param type2
 	 * @return boolean
-	 * @package osid.shared
 	 */
 	function isEqual(& $type2) { /* :: interface :: */ }
 	// :: full java declaration :: public final boolean isEqual(Type type2)
@@ -416,7 +380,6 @@ class Type // :: abstract
 	/**
 	 * Get the domain part of this Type.  The domain is a String representing the domain which
 	 * @return String
-	 * @package osid.shared
 	 */
 	function getDomain() { /* :: interface :: */ }
 	// :: full java declaration :: public final String getDomain()
@@ -424,7 +387,6 @@ class Type // :: abstract
 	/**
 	 * Get the authority part of this Type.<p>The authority is a String representing the naming authority which gives meaning to the keyword, representing the vocabulary defining the keyword, or equivalent function.
 	 * @return String
-	 * @package osid.shared
 	 */
 	function getAuthority() { /* :: interface :: */ }
 	// :: full java declaration :: public final String getAuthority()
@@ -432,7 +394,6 @@ class Type // :: abstract
 	/**
 	 * Return the keyword part of the Type.<p>The keyword is a String uniquely defining this Type within the scope of the authority.
 	 * @return String
-	 * @package osid.shared
 	 */
 	function getKeyword() { /* :: interface :: */ }
 	// :: full java declaration :: public final String getKeyword()
@@ -440,7 +401,6 @@ class Type // :: abstract
 	/**
 	 * Get description part of the Type.<p>The description is a String which further qualifies this instance of a Type.  Two Types which differ only by description are still identical.
 	 * @return String
-	 * @package osid.shared
 	 */
 	function getDescription() { /* :: interface :: */ }
 	// :: full java declaration :: public final String getDescription()
@@ -459,7 +419,6 @@ class Id // :: API interface
 	 * Return the String representation of this Unique Id.
 	 * @return String
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function getIdString() { /* :: interface :: */ }
 	// :: full java declaration :: String getIdString()
@@ -469,7 +428,6 @@ class Id // :: API interface
 	 * @param id
 	 * @return boolean
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.shared
 	 */
 	function isEqual(& $id) { /* :: interface :: */ }
 	// :: full java declaration :: boolean isEqual(osid.shared.Id id)
@@ -489,7 +447,6 @@ class AgentIterator // :: API interface
 	 * Return <code>true</code> if there are additional Agents; <code>false</code> otherwise.
 	 * Return <code>true</code> if there are additional Agents; <code>false</code> otherwise.
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -498,7 +455,6 @@ class AgentIterator // :: API interface
 	 * Return the next Agent.
 	 * @return Agent
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.shared
 	 */
 	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Agent next()
@@ -518,7 +474,6 @@ class PropertiesIterator // :: API interface
 	 * Return <code>true</code> if there are additional Properties; <code>false</code> otherwise.
 	 * Return <code>true</code> if there are additional Properties; <code>false</code> otherwise.
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -527,7 +482,6 @@ class PropertiesIterator // :: API interface
 	 * Return the next Properties.
 	 * @return Properties
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.shared
 	 */
 	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Properties next()
@@ -547,7 +501,6 @@ class TypeIterator // :: API interface
 	 * Return <code>true</code> if there are additional Types; <code>false</code> otherwise.
 	 * Return <code>true</code> if there are additional Types; <code>false</code> otherwise.
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -556,7 +509,6 @@ class TypeIterator // :: API interface
 	 * Return the next Type
 	 * @return Type
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.shared
 	 */
 	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Type next()
@@ -576,7 +528,6 @@ class IdIterator // :: API interface
 	 * Return <code>true</code> if there are additional Ids; <code>false</code> otherwise.
 	 * Return <code>true</code> if there are additional Ids; <code>false</code> otherwise.
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -585,7 +536,6 @@ class IdIterator // :: API interface
 	 * Return the next Id
 	 * @return Id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.shared
 	 */
 	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Id next()
@@ -605,7 +555,6 @@ class StringIterator // :: API interface
 	 * Return <code>true</code> if there are additional Strings; <code>false</code> otherwise.
 	 * Return <code>true</code> if there are additional Strings; <code>false</code> otherwise.
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -614,7 +563,6 @@ class StringIterator // :: API interface
 	 * Return the next String
 	 * @return String
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.shared
 	 */
 	function next() { /* :: interface :: */ }
 	// :: full java declaration :: String next()
@@ -634,7 +582,6 @@ class IntValueIterator // :: API interface
 	 * Return <code>true</code> if there are additional ints; <code>false</code> otherwise.
 	 * Return <code>true</code> if there are additional ints; <code>false</code> otherwise.
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -643,7 +590,6 @@ class IntValueIterator // :: API interface
 	 * Return the next int
 	 * @return int
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.shared
 	 */
 	function next() { /* :: interface :: */ }
 	// :: full java declaration :: int next()
@@ -663,7 +609,6 @@ class ByteValueIterator // :: API interface
 	 * Return <code>true</code> if there are additional bytes; <code>false</code> otherwise.
 	 * Return <code>true</code> if there are additional bytes; <code>false</code> otherwise.
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -672,7 +617,6 @@ class ByteValueIterator // :: API interface
 	 * Return the next byte
 	 * @return byte
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.shared
 	 */
 	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: byte next()
@@ -692,7 +636,6 @@ class CharValueIterator // :: API interface
 	 * Return <code>true</code> if there are additional chars; <code>false</code> otherwise.
 	 * Return <code>true</code> if there are additional chars; <code>false</code> otherwise.
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -701,7 +644,6 @@ class CharValueIterator // :: API interface
 	 * Return the next char
 	 * @return char
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.shared
 	 */
 	function next() { /* :: interface :: */ }
 	// :: full java declaration :: char next()
@@ -721,7 +663,6 @@ class ObjectIterator // :: API interface
 	 * Return <code>true</code> if there are additional Objects; <code>false</code> otherwise.
 	 * Return <code>true</code> if there are additional Objects; <code>false</code> otherwise.
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -730,7 +671,6 @@ class ObjectIterator // :: API interface
 	 * Return the next Object
 	 * @return object
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.shared
 	 */
 	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: Object next()
@@ -750,7 +690,6 @@ class CalendarIterator // :: API interface
 	 * Return <code>true</code> if there are additional Calendars; <code>false</code> otherwise.
 	 * Return <code>true</code> if there are additional Calendars; <code>false</code> otherwise.
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -759,7 +698,6 @@ class CalendarIterator // :: API interface
 	 * Return the next Calendar
 	 * @return next Calendar
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.shared
 	 */
 	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: java.util.Calendar next()
@@ -779,7 +717,6 @@ class SerializableObjectIterator // :: API interface
 	 * Return <code>true</code> if there are additional Objects; <code>false</code> otherwise.
 	 * Return <code>true</code> if there are additional Object; <code>false</code> otherwise.
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
 	 */
 	function hasNext() { /* :: interface :: */ }
 	// :: full java declaration :: boolean hasNext()
@@ -788,7 +725,6 @@ class SerializableObjectIterator // :: API interface
 	 * Return the next Object
 	 * @return next Object
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NO_MORE_ITERATOR_ELEMENTS NO_MORE_ITERATOR_ELEMENTS}
-	 * @package osid.shared
 	 */
 	function &next() { /* :: interface :: */ }
 	// :: full java declaration :: java.io.Serializable next()

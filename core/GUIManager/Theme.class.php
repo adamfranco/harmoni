@@ -24,31 +24,35 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.10 2005/01/19 21:46:28 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.11 2005/01/19 23:23:00 adamfranco Exp $
  */
 class Theme extends ThemeInterface {
 
 	/**
 	 * The display name of this Theme.
-	 * @attribute private string _displayName
+	 * @var string _displayName 
+	 * @access private
 	 */
 	var $_displayName;
 	
 	/**
 	 * The description of this Theme.
-	 * @attribute private string _description
+	 * @var string _description 
+	 * @access private
 	 */
 	var $_description;
 
 	/**
 	 * The component of this Theme.
-	 * @attribute private object _component
+	 * @var object _component 
+	 * @access private
 	 */
 	var $_component;
 
 	/**
 	 * The page title.
-	 * @attribute private string _pageTitle
+	 * @var string _pageTitle 
+	 * @access private
 	 */
 	var $_pageTitle;
 	
@@ -57,7 +61,8 @@ class Theme extends ThemeInterface {
 	 * component types. The first dimension is the component type. The second
 	 * dimension is the index. The thrid dimension is the selector of the style
 	 * collection.
-	 * @attribute private array _componentStyles
+	 * @var array _componentStyles 
+	 * @access private
 	 */
 	var $_componentStyles;
 	
@@ -65,7 +70,8 @@ class Theme extends ThemeInterface {
 	 * An array storing global style collections. It is one-dimensional. The key
 	 * is the selector of the style collection. The element is the style collection
 	 * itself.
-	 * @attribute private array _globalStyles
+	 * @var array _globalStyles 
+	 * @access private
 	 */
 	var $_globalStyles;
 	
@@ -73,7 +79,8 @@ class Theme extends ThemeInterface {
 	 * This array combines <code>_componentStyles</code> and <code>_globalStyles</code>
 	 * into one. The purpose is to avoid duplication of style collection and to
 	 * provide an easy way to implement the <code>getCSS()</code> method.
-	 * @attribute private array _styles
+	 * @var array _styles 
+	 * @access private
 	 */
 	var $_styles;
 	
@@ -81,7 +88,8 @@ class Theme extends ThemeInterface {
 	 * This array will store the pre-HTML strings for the different component
 	 * types. The first dimension is the component type. The second
 	 * dimension is the index.
-	 * @attribute private array _componentPreHTML
+	 * @var array _componentPreHTML 
+	 * @access private
 	 */
 	var $_componentPreHTML;
 	
@@ -89,20 +97,23 @@ class Theme extends ThemeInterface {
 	 * This array will store the post-HTML strings for the different component
 	 * types. The first dimension is the component type. The second
 	 * dimension is the index.
-	 * @attribute private array _componentPostHTML
+	 * @var array _componentPostHTML 
+	 * @access private
 	 */
 	var $_componentPostHTML;
 	
 	/**
 	 * This array stores all registered mutable <code>StyleProperties</code>.
-	 * @attribute private array _registeredSPs
+	 * @var array _registeredSPs 
+	 * @access private
 	 */
 	var $_registeredSPs;	
 	
 	/**
 	 * This array stores the names of the methods that will be run after
 	 * importing of registered <code>StyleProperties</code>.
-	 * @attribute private array _postImportMethods	 
+	 * @var array _postImportMethods	  
+	 * @access private
 	 */
 	var $_postImportMethods;
 

@@ -16,7 +16,7 @@ require_once(HARMONI."oki/hierarchy2/DefaultNodeType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.15 2005/01/19 22:28:10 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.16 2005/01/19 23:23:06 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -25,14 +25,16 @@ class HarmoniNode extends Node {
 
 	/**
 	 * The Id of this node.
-	 * @attribute private object _id
+	 * @var object _id 
+	 * @access private
 	 */
 	var $_id;
 	
 	
 	/**
 	 * The type of this node.
-	 * @attribute private object _type
+	 * @var object _type 
+	 * @access private
 	 */
 	var $_type;
 	
@@ -54,7 +56,8 @@ class HarmoniNode extends Node {
 	/**
 	 * This is the HierarchyCache object. Must be the same
 	 * one that all other nodes in the Hierarchy are using.
-	 * @attribute private object _cache
+	 * @var object _cache 
+	 * @access private
 	 */
 	var $_cache;
 
@@ -360,7 +363,6 @@ class HarmoniNode extends Node {
 	 * @param object oldParentId
 	 * @param object newParentId
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#ATTEMPTED_RECURSION ATTEMPTED_RECURSION}
-	 * @package harmoni.osid_v1.hierarchy
 	 */
 	function changeParent(& $oldParentId, & $newParentId) { 
 		// ** parameter validation

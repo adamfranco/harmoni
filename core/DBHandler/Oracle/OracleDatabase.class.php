@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
 /**
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
- * @version $Id: OracleDatabase.class.php,v 1.4 2004/08/26 15:10:29 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.5 2005/01/19 23:22:59 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.oracle
  * @access public
@@ -366,7 +366,7 @@ class OracleDatabase extends DatabaseInterface {
 	
 	/**
 	 * This method selects the default database to use in queries.
-	 * @method public selectDatabase
+	 * @access public
 	 * @param string database The name of the default database.
 	 * @return boolean True, if successful; False, otherwise.
 	 */
@@ -403,7 +403,7 @@ class OracleDatabase extends DatabaseInterface {
 	/**
 	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
 	 * for this Database.
-	 * @method public toDBDate
+	 * @access public
 	 * @param ref object dateTime The DateTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
@@ -417,7 +417,7 @@ class OracleDatabase extends DatabaseInterface {
 	/**
 	 * Converts a database datetime/timestamp/time value (that has been fetched
 	 * from the db) to a DateTime object.
-	 * @method public fromDBDate
+	 * @access public
 	 * @param mixed A database datetime/timestamp/time value (that has been fetched
 	 * from the db).
 	 * @return ref object The DateTime object.

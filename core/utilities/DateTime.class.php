@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/Primitive.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateTime.class.php,v 1.21 2005/01/19 21:10:15 adamfranco Exp $
+ * @version $Id: DateTime.class.php,v 1.22 2005/01/19 23:23:31 adamfranco Exp $
  * @since Created: 7/20/2003
  */
 class DateTime 
@@ -26,37 +26,43 @@ class DateTime
 
 	/**
 	 * Year. 4-digit.
-	 * @attribute private integer _year
+	 * @var integer _year 
+	 * @access private
 	 */
 	var $_year;
 	
 	/**
 	 * Month. 1-12.
-	 * @attribute private integer _month
+	 * @var integer _month 
+	 * @access private
 	 */
 	var $_month;
 	
 	/**
 	 * Day. 1-31.
-	 * @attribute private integer _day
+	 * @var integer _day 
+	 * @access private
 	 */
 	var $_day;
 	
 	/**
 	 * Hours. 0-23.
-	 * @attribute private integer _hours
+	 * @var integer _hours 
+	 * @access private
 	 */
 	var $_hours;
 	
 	/**
 	 * Minutes. 0-59.
-	 * @attribute private integer _minutes
+	 * @var integer _minutes 
+	 * @access private
 	 */
 	var $_minutes;
 	
 	/**
 	 * Seconds. 0-59.
-	 * @attribute private integer _seconds
+	 * @var integer _seconds 
+	 * @access private
 	 */
 	var $_seconds;
 	
@@ -332,7 +338,7 @@ class DateTime
 	
 	/**
 	 * Returns a DateTime object corresponding to the current date and time.
-	 * @method public now
+	 * @access public
 	 * @static
 	 * @return ref object A DateTime object corresponding to the current date and time.
 	 */
@@ -348,7 +354,7 @@ class DateTime
 	
 	/**
 	 * Returns the difference in seconds between $date1 and $date2, positive if $date2 is more recent.
-	 * @method public compare
+	 * @access public
 	 * @static
 	 * @param ref object $date1
 	 * @param ref object $date2

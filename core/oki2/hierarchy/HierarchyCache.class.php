@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.4 2005/01/19 22:28:22 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.5 2005/01/19 23:23:10 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -42,7 +42,8 @@ class HierarchyCache {
 	/**
 	 * This is the <code>Tree</code> object that will store the cached portions
 	 * of the hierarchy.
-	 * @attribute protected object _tree
+	 * @var object _tree 
+	 * @access protected
 	 */
 	var $_tree;
 	
@@ -60,28 +61,32 @@ class HierarchyCache {
 	 * specifies the number of tree levels cached up the node. If any of these values is negative
 	 * then that means that the caching extends all the way down or up. If any of the two
 	 * values is zero, then nothing has been cached in the corresponding direction.<br /><br />
-	 * @attribute protected array _cache
+	 * @var array _cache 
+	 * @access protected
 	 */
 	var $_cache;
 
 
 	/**
 	 * The database connection as returned by the DBHandler.
-	 * @attribute protected integer _dbIndex
+	 * @var integer _dbIndex 
+	 * @access protected
 	 */
 	var $_dbIndex;
 
 	
 	/**
 	 * The name of the hierarchy database.
-	 * @attribute protected string _hierarchyDB
+	 * @var string _hierarchyDB 
+	 * @access protected
 	 */
 	var $_hyDB;
 	
 	
 	/**
 	 * The id of the hierarchy.
-	 * @attribute protected string _$hierarchyId
+	 * @var string _$hierarchyId 
+	 * @access protected
 	 */
 	var $_hierarchyId;
 	
@@ -89,7 +94,8 @@ class HierarchyCache {
 	/**
 	 * This is a SELECT query that we will often use to get one single
 	 * node from the database.
-	 * @attribute protected object _nodeQuery
+	 * @var object _nodeQuery 
+	 * @access protected
 	 */
 	var $_nodeQuery;
 	
@@ -97,7 +103,8 @@ class HierarchyCache {
 	/**
 	 * This is true if the hierarchy will allow
 	 * multiple parents.
-	 * @attribute private boolean _allowsMultipleParents
+	 * @var boolean _allowsMultipleParents 
+	 * @access private
 	 */
 	var $_allowsMultipleParents;
 

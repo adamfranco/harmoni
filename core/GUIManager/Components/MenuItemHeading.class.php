@@ -16,13 +16,14 @@ require_once(HARMONI."GUIManager/Components/MenuItem.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuItemHeading.class.php,v 1.4 2005/01/19 21:09:29 adamfranco Exp $
+ * @version $Id: MenuItemHeading.class.php,v 1.5 2005/01/19 23:23:00 adamfranco Exp $
  */
 class MenuItemHeading extends Component /* implements MenuItemInterface */ {
 
 	/**
 	 * The display name of this menu item.
-	 * @attribute private string _displayName
+	 * @var string _displayName 
+	 * @access private
 	 */
 	var $_displayName;
 	

@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.3 2005/01/19 22:28:24 adamfranco Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.4 2005/01/19 23:23:12 adamfranco Exp $ 
  */
 
 class HarmoniRecord extends Record
@@ -212,7 +212,6 @@ class HarmoniRecord extends Record
 	 * Return true if this InfoRecord is multi-valued; false otherwise.	 This is determined by the implementation.
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid_v2.dr
 	 */
 	function isMultivalued() {
 		return true; // we allow as many InfoRecords of any InfoStructure as people want.

@@ -16,7 +16,7 @@ require_once(OKI2."/osid/authorization/Function.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniFunction.class.php,v 1.5 2005/01/19 22:28:15 adamfranco Exp $
+ * @version $Id: HarmoniFunction.class.php,v 1.6 2005/01/19 23:23:10 adamfranco Exp $
  */
 class HarmoniFunction
 	extends FunctionInterface 
@@ -24,49 +24,56 @@ class HarmoniFunction
 
 	/**
 	 * The Unique ID of this function.
-	 * @attribute private object _id
+	 * @var object _id 
+	 * @access private
 	 */
 	var $_id;
 
 	
 	/**
 	 * The display name of this function.
-	 * @attribute private string _referenceName
+	 * @var string _referenceName 
+	 * @access private
 	 */
 	var $_referenceName;
 
 	
 	/**
 	 * The description of this function.
-	 * @attribute private string _description
+	 * @var string _description 
+	 * @access private
 	 */
 	var $_description;
 
 	
 	/**
 	 * The type of this function.
-	 * @attribute private object _functionType
+	 * @var object _functionType 
+	 * @access private
 	 */
 	var $_functionType;
 	
 	
 	/**
 	 * The ID of the qualifier hierarchy that is associated with this function.
-	 * @attribute private object _qualifierHierarchyId
+	 * @var object _qualifierHierarchyId 
+	 * @access private
 	 */
 	var $_qualifierHierarchyId; 
 
 
 	/**
 	 * The index of the database connection as returned by the DBHandler.
-	 * @attribute private integer _dbIndex
+	 * @var integer _dbIndex 
+	 * @access private
 	 */
 	var $_dbIndex;
 	
 	
 	/**
 	 * The name of the Authorization database.
-	 * @attribute private string _table
+	 * @var string _table 
+	 * @access private
 	 */
 	var $_authzDB;
 

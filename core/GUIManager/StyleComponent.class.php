@@ -33,45 +33,51 @@ require_once(HARMONI."oki/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleComponent.class.php,v 1.6 2005/01/19 21:07:52 adamfranco Exp $
+ * @version $Id: StyleComponent.class.php,v 1.7 2005/01/19 23:23:00 adamfranco Exp $
  **/
 
 class StyleComponent extends StyleComponentInterface {
 
 	/**
 	 * The display name of this SC.
-	 * @attribute private string _displayName
+	 * @var string _displayName 
+	 * @access private
 	 */
 	var $_displayName;
 	
 	/**
 	 * The description of this SC.
-	 * @attribute private string _description
+	 * @var string _description 
+	 * @access private
 	 */
 	var $_description;
 	
 	/**
 	 * This is the ValidatorRule of this SC.
-	 * @attribute private object _rule
+	 * @var object _rule 
+	 * @access private
 	 */
 	var $_rule;
 	
 	/**
 	 * The description of the Error that will be thrown whenever validation fails.
-	 * @attribute private object _error
+	 * @var object _error 
+	 * @access private
 	 */
 	var $_errorDescription;
 	
 	/**
 	 * An array of strings that will store the list of options (may or may not be
 	 * set in the constructor)
-	 * @attribute private array _options
+	 * @var array _options 
+	 * @access private
 	 */
 	var $_options;
 	
 	/**
 	 * If TRUE, then the value of this SC will be restricted to the list of options.
-	 * @attribute private boolean _limitedToOptions
+	 * @var boolean _limitedToOptions 
+	 * @access private
 	 */
 	var $_limitedToOptions;
 	

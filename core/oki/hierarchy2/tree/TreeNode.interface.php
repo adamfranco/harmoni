@@ -9,14 +9,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TreeNode.interface.php,v 1.6 2005/01/19 22:28:11 adamfranco Exp $
+ * @version $Id: TreeNode.interface.php,v 1.7 2005/01/19 23:23:07 adamfranco Exp $
  */
 class TreeNodeInterface {
 
 	
 	/**
 	 * Adds a new child for this node.
-	 * @method public addChild
+	 * @access public
 	 * @param ref object child The child node to add.
 	 * @return void
 	 */
@@ -38,7 +38,7 @@ class TreeNodeInterface {
 	
 	/**
 	 * Returns the parent node of this node.
-	 * @method public getParent
+	 * @access public
 	 * @return ref array The parent nodes of this node.
 	 */
 	function &getParents() {
@@ -48,7 +48,7 @@ class TreeNodeInterface {
 
 	/**
 	 * Returns the number of parents for this node.
-	 * @method public getParentsCount
+	 * @access public
 	 * @return integer The number of parents for this node.
 	 */
 	function getParentsCount() {
@@ -58,7 +58,7 @@ class TreeNodeInterface {
 
 	/**
 	 * Determines if this node has any parents.
-	 * @method public hasParents
+	 * @access public
 	 * @return boolean <code>true</code> if this node has at least one parent;
 	 * <code>false</code>, otherwise.
 	 */
@@ -69,7 +69,7 @@ class TreeNodeInterface {
 
 	/**
 	 * Returns the children of this node in the order they were added.
-	 * @method public getChildren
+	 * @access public
 	 * @return ref array An array of the children nodes of this node.
 	 */
 	function &getChildren() {
@@ -79,7 +79,7 @@ class TreeNodeInterface {
 	
 	/**
 	 * Returns the number of children for this node.
-	 * @method public getChildrenCount
+	 * @access public
 	 * @return integer The number of children for this node.
 	 */
 	function getChildrenCount() {
@@ -89,7 +89,7 @@ class TreeNodeInterface {
 	
 	/**
 	 * Determines if this node has any children.
-	 * @method public hasChildren
+	 * @access public
 	 * @return boolean <code>true</code> if this node has at least one child;
 	 * <code>false</code>, otherwise.
 	 */
@@ -120,7 +120,7 @@ class TreeNodeInterface {
 	
 	/**
 	 * Returns the id of this node.
-	 * @method public getId
+	 * @access public
 	 * @return string The id of this node.
 	 */
 	function getId() {
