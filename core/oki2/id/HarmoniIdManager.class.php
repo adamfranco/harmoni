@@ -40,7 +40,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniIdManager.class.php,v 1.3 2005/01/12 16:51:46 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.4 2005/01/17 17:02:02 adamfranco Exp $
  */
 
 class HarmoniIdManager
@@ -141,7 +141,7 @@ class HarmoniIdManager
 		
 		$result =& $dbHandler->query($query,$this->_dbIndex);
 		if ($result->getNumberOfRows() != 1) {
-			throwError( new UnknownDBError("IdManager"));
+			throwError( new Error(AgentException::CONFIGURATION_ERROR(), "IdManager", true));
 		}
 		
 		$newID = $result->getLastAutoIncrementValue();
@@ -193,6 +193,9 @@ class HarmoniIdManager
 	 * The start function is called when a service is created. Services may
 	 * want to do pre-processing setup before any users are allowed access to
 	 * them.
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
 	 * @access public
 	 * @return void
 	 */
@@ -203,6 +206,9 @@ class HarmoniIdManager
 	 * The stop function is called when a Harmoni service object is being destroyed.
 	 * Services may want to do post-processing such as content output or committing
 	 * changes to a database, etc.
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
 	 * @access public
 	 * @return void
 	 */

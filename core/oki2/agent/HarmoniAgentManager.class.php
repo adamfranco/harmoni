@@ -45,7 +45,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniAgentManager.class.php,v 1.3 2005/01/12 16:51:08 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.4 2005/01/17 17:00:20 adamfranco Exp $
  * 
  */
 class HarmoniAgentManager
@@ -265,9 +265,9 @@ class HarmoniAgentManager
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error("The agent with Id: ".$idValue." does not exist in the database.","AgentManager",true));
+			throwError(new Error(AgentException::UNKNOWN_ID(),"AgentManager",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error("Multiple agents with Id: ".$idValue." exist in the database." ,"AgentManager",true));
+			throwError(new Error(AgentException::OPERATION_FAILED() ,"AgentManager",true));
 		$typeIdValue = $queryResult->field("type_id");
 		
 		// 2. Delete the Properties mapping of the agent
@@ -429,7 +429,7 @@ class HarmoniAgentManager
 		$this->_loadAgents($where);
 		
 		if (!isset($this->_agentsCache[$idValue]))
-			throwError(new Error("The agent with Id: ".$idValue." does not exist in the database.","AgentManager",true));
+			throwError(new Error(AgentException::UNKNOWN_ID(),"AgentManager",true));
 		
 		return $this->_agentsCache[$idValue];
 	}
@@ -495,7 +495,7 @@ class HarmoniAgentManager
 		// get the Agent Search object
 		$agentSearch =& $this->_agentSearches[$typeString];
 		if (!is_object($agentSearch))
-			throwError(new Error("Unknown AgentSearchType, '".$typeString."'.","AgentManager",true));
+			throwError(new Error(AgentException::UNKNOWN_TYPE(),"AgentManager",true));
 		
 		return $agentSearch->getAgentsBySearch($searchCriteria); 
 	}
@@ -790,9 +790,9 @@ class HarmoniAgentManager
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error("The group with Id: ".$idValue." does not exist in the database.","AgentManager",true));
+			throwError(new Error(AgentException::UNKNOWN_ID(),"AgentManager",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error("Multiple groups with Id: ".$idValue." exist in the database." ,"AgentManager",true));
+			throwError(new Error(AgentException::OPERATION_FAILED() ,"AgentManager",true));
 		$typeIdValue = $queryResult->field("type_id");
 		
 		// 2. Delete the Properties mapping of the agent
@@ -952,7 +952,7 @@ class HarmoniAgentManager
 		$this->_loadGroups($where);
 		
 		if (!isset($this->_groupsCache[$idValue]))
-			throwError(new Error("The group with Id: ".$idValue." does not exist in the database.","AgentManager",true));
+			throwError(new Error(AgentException::UNKNOWN_ID(),"AgentManager",true));
 		
 		return $this->_groupsCache[$idValue];
 	}
@@ -1021,7 +1021,7 @@ class HarmoniAgentManager
 		// get the Group Search object
 		$groupSearch =& $this->_groupSearches[$typeString];
 		if (!is_object($groupSearch))
-			throwError(new Error("Unknown GroupSearchType, '".$typeString."'.","GroupManager",true));
+			throwError(new Error(AgentException::UNKNOWN_TYPE(),"GroupManager",true));
 		
 		return $groupSearch->getGroupsBySearch($searchCriteria); 
 	}
@@ -1174,7 +1174,8 @@ class HarmoniAgentManager
 	
 	/**
 	 * Return TRUE if the Id specified corresponds to an agent.
-	 * WARNING: This method is not part of the OSIDs as of Version 2.0
+	 * 
+	 * WARNING: NOT IN OSID - This method is not part of the OSIDs as of Version 2.0
 	 *
 	 * @param object Id agentId
 	 *
@@ -1206,7 +1207,8 @@ class HarmoniAgentManager
 	
 	/**
 	 * Return TRUE if the Id specified corresponds to an group.
-	 * WARNING: This method is not part of the OSIDs as of Version 2.0
+	 * 
+	 * WARNING: NOT IN OSID - This method is not part of the OSIDs as of Version 2.0
 	 *
 	 * @param object Id agentId
 	 *
@@ -1556,7 +1558,7 @@ class HarmoniAgentManager
 
 					$subqueryResult =& $dbHandler->query($subquery1, $this->_dbIndex);
 					if ($subqueryResult->getNumberOfRows() == 0)
-						throwError(new Error("No rows returned.","AgentManager",true));
+						throwError(new Error(AgentException::OPERATION_FAILED(),"AgentManager",true));
 					
 					// Store our parameters for the constructor of the Group
 					$type =& new HarmoniType($subqueryResult->field('gt_domain'),
@@ -1657,6 +1659,9 @@ class HarmoniAgentManager
 	 * The start function is called when a service is created. Services may
 	 * want to do pre-processing setup before any users are allowed access to
 	 * them.
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
 	 * @access public
 	 * @return void
 	 */
@@ -1667,6 +1672,9 @@ class HarmoniAgentManager
 	 * The stop function is called when a Harmoni service object is being destroyed.
 	 * Services may want to do post-processing such as content output or committing
 	 * changes to a database, etc.
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
 	 * @access public
 	 * @return void
 	 */
@@ -1676,6 +1684,9 @@ class HarmoniAgentManager
 	
 	/**
 	 * Clears the agent and groups caches.
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
 	 * @access public
 	 **/
 	function clearCache() {

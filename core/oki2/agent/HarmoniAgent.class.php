@@ -252,6 +252,9 @@ class HarmoniAgent
 	
 	/**
 	 * Gets the dbIndex of this group.
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
 	 * @access public
 	 * @return integer The dbIndex.
 	 **/
@@ -262,6 +265,9 @@ class HarmoniAgent
 	
 	/**
 	 * Gets the sharedDB of this group.
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
 	 * @access public
 	 * @return integer The sharedDB.
 	 **/
@@ -272,6 +278,9 @@ class HarmoniAgent
 
 	/**
 	 * A method checking whether the specified agent exist in the database.
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
 	 * @access public
 	 * @static
 	 * @param object memberOrGroup The group or agent to check for existence.
