@@ -1,11 +1,12 @@
 <?php
 
 require_once(HARMONI."oki/hierarchy2/tree/Tree.interface.php");
+require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
 
 /** 
  * The Tree data structure used by the Hierarchy.
  * @access public
- * @version $Id: Tree.class.php,v 1.1 2004/05/07 19:22:07 dobomode Exp $
+ * @version $Id: Tree.class.php,v 1.2 2004/05/12 22:31:48 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -24,6 +25,13 @@ class Tree extends TreeInterface {
 	
 	
 	/**
+	 * The root nodes of the tree are stored in this array.
+	 * @attribute private array _roots
+	 */
+	var $_roots;
+	
+	
+	/**
 	 * The size of this tree.
 	 * @attribute private integer _size
 	 */
@@ -36,6 +44,7 @@ class Tree extends TreeInterface {
 	 */
 	function Tree() {
 		$this->_nodes = array();
+		$this->_roots = array();
 		$this->_size = 0;
 	}
 	
@@ -56,7 +65,9 @@ class Tree extends TreeInterface {
 		ArgumentValidator::validate($parent, $optionalRule, true);
 		// ** end of parameter validation
 		
-		// if $node is to be a new child of $parent
+		$id = $node->getId();
+
+		// if $parent is not null, i.e. $node will not be a root
 		if (!is_null($parent)) {
 			// make sure $parent is in the tree
 			if (!$this->nodeExists($parent->getId())) {
@@ -66,17 +77,22 @@ class Tree extends TreeInterface {
 			
 			// now add $node as a child to $parent
 			$parent->addChild($node);
+			
+			// if the node used to be a root, then it's no more
+			if (isset($this->_roots[$id]))
+				unset($this->_roots[$id]);
 		}
 		
-		$id = $node->getId();
-
 		// if node has not been cached then do so
 		if (!$this->nodeExists($id)) {
 			// add the node
 		    $this->_nodes[$id] =& $node;
 			$this->_size++;
-		}
 
+			// if there is no parent then this is a root node
+			if (is_null($parent)) 
+				$this->_roots[$id] =& $node;
+		}
 	}
 
 
@@ -91,74 +107,6 @@ class Tree extends TreeInterface {
 	}
 
 
-	
-	/**
-	 * Returns all the ancestors of the given node.
-	 * @method public getAncestors
-	 * @param ref object node The node whose ancestors are to be found.
-	 * @return array An array of all the ancestors of the given node. Each array
-	 * key corresponds to the tree level of the ancestor. Each element stores
-	 * the system id of the ancestor.
-	 */
-	function getAncestors(& $node) {
-		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("AuthorizationContextHierarchyNodeInterface");
-		ArgumentValidator::validate($node, $extendsRule, true);
-		// ** end of parameter validation
-		
-		$result = array();
-
-		// while $node has a parent
-		while (!is_null($parent =& $node->getParent())) {
-			// add it to $result
-			$depth = $parent->getDepth();
-			$id = $parent->getSystemId();
-			$result[$depth] = $id;
-			
-			// go up the tree
-			$node =& $parent;
-		}
-		
-		return $result;
-	}
-	
-	
-	
-	/**
-	 * Returns the subtree rooted at the specified node (excluding the root).
-	 * @method public getSubtree
-	 * @param ref object node The node whose subtree is to be found.
-	 * @return array An array of all the nodes in the subtree rooted at the 
-	 * specified node. Each array key corresponds to a certain level
-	 * in the tree. For example, the first level (with array key = 0) will 
-	 * contain the root's children. The second level will have the root's 
-	 * grandchildren and so forth. The array does not consist of the actual node objects; 
-	 * instead, it only stores their system ids.
-	 */
-	function getSubtree(& $node) {
-		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("AuthorizationContextHierarchyNodeInterface");
-		ArgumentValidator::validate($node, $extendsRule, true);
-		// ** end of parameter validation
-		
-		$result = array();
-		
-		// convert the tree into an array
-		$nodes =& $this->traverse($node);
-		
-		$numNodes = count($nodes);
-		// place nodes on the same level in a separate array (exclude first node)
-		for ($i = 1; $i < $numNodes; $i++) {
-			$depth = $nodes[$i]->getDepth();
-			$id = $nodes[$i]->getSystemId();
-			$result[$depth][] = $id;
-		}
-		
-		return $result;
-	}
-	
-	
-	
 	/**
 	 * Returns the node with the specified id. If it does not exist, return <code>null</code>.
 	 * @method public getNode
@@ -192,8 +140,6 @@ class Tree extends TreeInterface {
 	}
 	
 	
-	
-	
 	/**
 	 * Returns an array of all root nodes (i.e., all nodes that don't have
 	 * parents) in no particular order.
@@ -201,19 +147,10 @@ class Tree extends TreeInterface {
 	 * @return ref array The root nodes.
 	 */
 	function & getRoots() {
-		// THIS FUNCTION COULD BE OPTIMIZED BY MAINTAINING SOMETHING LIKE $this->_roots
-	
-		$result = array();
-	
-		foreach (array_keys($this->_nodes) as $i => $key) {
-			$node =& $this->_nodes[$key];
-			if ($node->getParentsCount() == 0)
-			    $result[$node->_id] =& $node;
-		}
-
-		return $result;
+		return $this->_roots;
 	}
 	
+
 	/**
 	 * Simply returns all nodes of this tree in an array in no particular
 	 * order.
@@ -224,8 +161,7 @@ class Tree extends TreeInterface {
 		return $this->_nodes;
 	}
 	
-	
-	
+
 	/**
 	 * Traverses the tree and returns all the nodes in an array. The traversal
 	 * is a depth-first pre-order traversal starting from the specified node.
@@ -282,7 +218,7 @@ class Tree extends TreeInterface {
 		// visit the node
 		$result[$node->getId()] =& $node;
 
-		// base case 2: either there are no more nodes left
+		// base case 2: there are no more nodes left
 		if ($down) 
 			$noMoreLeft = !$node->hasChildren();
 		else 

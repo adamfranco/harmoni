@@ -38,7 +38,7 @@ class HarmoniAgent extends Agent // :: API interface
 	
 	/**
 	 * The name of the shared database.
-	 * @attribute private string _sharedD
+	 * @attribute private string _sharedDB
 	 */
 	var $_sharedDB;
 	
@@ -49,6 +49,8 @@ class HarmoniAgent extends Agent // :: API interface
 	 * @param string displayName The display name.
 	 * @param object id The id.
 	 * @param object type The type.
+	 * @param integer dbIndex The database connection as returned by the DBHandler.
+	 * @param string sharedDB The name of the shared database.
 	 * @access public
 	 */
 	function HarmoniAgent($displayName, & $id, & $type, $dbIndex, $sharedDB) {

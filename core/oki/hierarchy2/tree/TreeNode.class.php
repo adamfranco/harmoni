@@ -6,7 +6,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.interface.php");
  * This is the building piece of the Tree data structure used for the backbone of the
  * hierarchy.
  * @access public
- * @version $Id: TreeNode.class.php,v 1.1 2004/05/07 19:22:07 dobomode Exp $
+ * @version $Id: TreeNode.class.php,v 1.2 2004/05/12 22:31:48 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -89,7 +89,7 @@ class TreeNode extends TreeNodeInterface
 	function addChild(& $child) {
 		// echo "Adding {$child->_id} to {$this->_id} <br>";
 	
-		$extendsRule =& new ExtendsValidatorRule("TreeNode");
+		$extendsRule =& new ExtendsValidatorRule("TreeNodeInterface");
 		ArgumentValidator::validate($child, $extendsRule, true);
 
 		// check whether we are duplicating $child
@@ -106,6 +106,9 @@ class TreeNode extends TreeNodeInterface
 		}
 
 		// now perform cycle check
+		// **********************************************************
+		// NB: hmmm, it this check going to slow down things a lot???
+		// **********************************************************
 		if ($this->_checkForCycle($child)) {
 			$str = "Adding this node would result in a cycle!";
 			throwError(new Error($str, "Hierarchy", true));
@@ -120,6 +123,32 @@ class TreeNode extends TreeNodeInterface
 	}
 	
 	
+	/**
+	 * Detaches the child from this node. The child remains in the hierarchy.
+	 * @access public
+	 * @param ref object child The child node to detach.
+	 * @return void
+	 **/
+	function detachChild(& $child) {
+		// echo "Detaching {$child->_id} from {$this->_id} <br>";
+	
+		$extendsRule =& new ExtendsValidatorRule("TreeNodeInterface");
+		ArgumentValidator::validate($child, $extendsRule, true);
+		
+		// check if $child is really a child of $this
+		if (!$this->isChild($child)) {
+			$str = "The given node is not a child of this node.";
+			throwError(new Error($str, "Hierarchy", true));
+		}
+		
+		// remove $child from $this's list of children
+		unset($this->_children[$child->_id]);
+		unset($child->_parents[ $this->_id]);
+		
+		// !! NOTE: if child has no parents left, then it is now a root
+	}
+
+
 	/**
 	 * Returns the parent node of this node.
 	 * @method public getParent
@@ -182,6 +211,20 @@ class TreeNode extends TreeNodeInterface
 	}
 
 	
+	/**
+	 * Checks if the given node is a child of this node.
+	 * @access public
+	 * @param ref object node The child node to check.
+	 * @return boolean <code>true</code> if <code>$node</code> is a child of this node.
+	 **/
+	function isChild(& $node) {
+		if (!isset($this->_children[$node->_id]))
+		    return false;
+
+		return ($this->_children[$node->_id]->_id === $node->_id);
+	}
+
+
 	/**
 	 * Returns the id of this node.
 	 * @method public getId

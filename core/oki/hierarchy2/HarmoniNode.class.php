@@ -1,6 +1,9 @@
 <?
 
 require_once(OKI."/hierarchy.interface.php");
+require_once(HARMONI."oki/hierarchy2/HierarchyCache.class.php");
+require_once(HARMONI."oki/hierarchy2/HarmoniNodeIterator.class.php");
+require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 
 /**
  * A Node is a Hierarchy's representation of an external object that is one of
@@ -14,18 +17,17 @@ require_once(OKI."/hierarchy.interface.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.1 2004/05/07 19:22:06 dobomode Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.2 2004/05/12 22:31:42 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
 
-class HarmoniNode
-	extends Node
-{ // begin Node
+class HarmoniNode extends Node {
+
 
 	/**
-	 * The id for this node.
-	 * @var object Id $_id 
+	 * The Id of this node.
+	 * @attribute private object _id
 	 */
 	var $_id;
 	
@@ -52,55 +54,44 @@ class HarmoniNode
 	
 
 	/**
-	 * The parents of this node. This is an array of Node objects. The index of
-	 * each element of the array is the string representation of the Id of the
-	 * corresponding Node.
-	 * @attribute protected array _parent
+	 * The TreeNode object corresponding to this Node.
+	 * @attribute private object _tn
 	 */
-	var $_parents;
+	var $_tn;
 	
-
-	/**
-	 * The children of this node. This is an array of Node objects. The index of
-	 * each element of the array is the string representation of the Id of the
-	 * corresponding Node.
-	 * @attribute protected array _children
-	 */
-	var $_children;
 	
-
 	/**
-	 * The depth of this node. 0 is the absolute minimum.
-	 * @attribute private integer _depth
+	 * This is the HierarchyCache object. Must be the same
+	 * one that all other nodes in the Hierarchy are using.
+	 * @attribute private object _cache
 	 */
-	var $_depth;
-
-
+	var $_cache;
+	
+	
 	/**
 	 * Constructor.
 	 *
-	 * @param object ID   $id   The Id of this Node.
-	 * @param object Type $type The Type of the new Node.
-	 * @param string $displayName The displayName of the Node.
-	 * @param string $description The description of the Node.
-	 * @param optional integer depth The depth of this node. Default is 0.
+	 * @param ref object id The Id of this Node.
+	 * @param ref object type The Type of the new Node.
+	 * @param string displayName The displayName of the Node.
+	 * @param string description The description of the Node.
+	 * @param ref object cache This is the HierarchyCache object. Must be the same
+	 * one that all other nodes in the Hierarchy are using.
 	 */
-	function HarmoniNode(& $id, & $type, $displayName, $description, $depth = 0) {
+	function HarmoniNode(& $id, & $type, $displayName, $description, & $cache) {
  		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
 		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
  		ArgumentValidator::validate($displayName, new StringValidatorRule);
  		ArgumentValidator::validate($description, new StringValidatorRule);
+		ArgumentValidator::validate($cache, new ExtendsValidatorRule("HierarchyCache"));
 		
 		// set the private variables
-		$this->_id =& $id;
+		$this->_id = $id;
 		$this->_type =& $type;
 		$this->_displayName = $displayName;
 		$this->_description = $description;
-		$this->_parents = array();
-		$this->_children = array();
-		
-		$this->_depth = $depth;
-		
+		$this->_tn =& new TreeNode($id->getIdString());
+		$this->_cache = $cache;
 	}
 
 	/**
@@ -190,10 +181,65 @@ class HarmoniNode
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getChildren() {
-		$result =& new HarmoniNodeIterator($this->_children);
+		$idValue = $this->_id->getIdString();
+	
+		// see if the children have been cached, if yes just return them
+		if ($this->_cache->_cachedChildren->nodeExists($idValue)) {
+			$node =& $this->_cache->_cachedChildren->getNode($idValue);
+			$result =& new HarmoniNodeIterator($node->getChildren());
+		}
+		// if children have not been cached, then do it!!
+		else {
+			$this->_cache->cacheChildren($this);
+			$node =& $this->_cache->_cachedChildren->getNode($idValue);
+			$result =& new HarmoniNodeIterator($node->getChildren());
+		}
+
 		return $result;
 	}
 
+
+	/**
+	 * Update the description of this Node. The description of the new Node;
+	 * description cannot be null, but may be empty.
+	 *
+	 * @throws HierarchyException if there is a general failure.	 Throws an
+	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
+	 *		   displayName is null.
+	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function updateDescription($description) {
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($description, $stringRule, true);
+		// ** end of parameter validation
+		
+		if ($this->_description == $description)
+		    return; // nothing to update
+
+		// update the object
+		$this->_description = $description;
+
+		// update the database
+		$dbHandler =& Services::requireService("DBHandler");
+		$db = $this->_cache->_sharedDB.".";
+		
+		$query =& new UpdateQuery();
+		$query->setTable($db."node");
+		$id =& $this->getId();
+		$idValue = $id->getIdString();
+		$where = "{$db}node.node_id = '{$idValue}'";
+		$query->setWhere($where);
+		$query->setColumns(array("{$db}node.node_description"));
+		$query->setValues(array("'$description'"));
+		
+		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
+		if ($queryResult->getNumberOfRows() == 0)
+			throwError(new Error("The node with Id: ".$idValue." does not exist in the database.","Hierarchy",true));
+		if ($queryResult->getNumberOfRows() > 1)
+			throwError(new Error("Multiple nodes with Id: ".$idValue." exist in the database. Note: their descriptions have been updated." ,"Hierarchy",true));
+	}
 
 	/**
 	 * Update the name of this Node. Node name changes are permitted since the
@@ -207,54 +253,36 @@ class HarmoniNode
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function updateDescription($description) {
-		// Check the arguments
-		ArgumentValidator::validate($description, new StringValidatorRule);
-				
-		// update and save
-		$this->_description = $description;
-		
-		// *********************************************
-		// UPDATE THE DB UPDATE THE DB UPDATE THE DB
-		// *********************************************
-		
-		// *********************************************
-		// UPDATE THE DB UPDATE THE DB UPDATE THE DB
-		// *********************************************
-		
-		// *********************************************
-		// UPDATE THE DB UPDATE THE DB UPDATE THE DB
-		// *********************************************
-	}
-
-	/**
-	 * Update the name of this Node. The description of the new Node;
-	 * description cannot be null, but may be empty.
-	 *
-	 * @throws HierarchyException if there is a general failure.	 Throws an
-	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
-	 *		   displayName is null.
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
 	function updateDisplayName($displayName) {
-		// Check the arguments
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($displayName, $stringRule, true);
+		// ** end of parameter validation
 		
-		// update and save
+		if ($this->_displayName == $displayName)
+		    return; // nothing to update
+		
+		// update the object
 		$this->_displayName = $displayName;
 
-		// *********************************************
-		// UPDATE THE DB UPDATE THE DB UPDATE THE DB
-		// *********************************************
+		// update the database
+		$dbHandler =& Services::requireService("DBHandler");
+		$db = $this->_cache->_sharedDB.".";
 		
-		// *********************************************
-		// UPDATE THE DB UPDATE THE DB UPDATE THE DB
-		// *********************************************
+		$query =& new UpdateQuery();
+		$query->setTable($db."node");
+		$id =& $this->getId();
+		$idValue = $id->getIdString();
+		$where = "{$db}node.node_id = '{$idValue}'";
+		$query->setWhere($where);
+		$query->setColumns(array("{$db}node.node_display_name"));
+		$query->setValues(array("'$displayName'"));
 		
-		// *********************************************
-		// UPDATE THE DB UPDATE THE DB UPDATE THE DB
-		// *********************************************
+		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
+		if ($queryResult->getNumberOfRows() == 0)
+			throwError(new Error("The node with Id: ".$idValue." does not exist in the database.","Hierarchy",true));
+		if ($queryResult->getNumberOfRows() > 1)
+			throwError(new Error("Multiple nodes with Id: ".$idValue." exist in the database. Note: their display names have been updated." ,"Hierarchy",true));
 	}
 
 	/**
@@ -346,4 +374,4 @@ class HarmoniNode
 		// *********************************************
 	}
 
-} // end Node
+}

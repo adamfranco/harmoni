@@ -1,13 +1,11 @@
 <?php
 
-require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
-
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.10 2004/04/27 19:48:38 adamfranco Exp $
+ * @version $Id: SharedManagerTestCase.class.php,v 1.11 2004/05/12 22:31:48 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/

@@ -76,6 +76,9 @@ class HarmoniGroup // :: API interface
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
 		
+		if ($this->_description == $description)
+		    return; // nothing to update
+
 		// update the object
 		$this->_description = $description;
 
