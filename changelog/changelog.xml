@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<?xml-stylesheet type="text/xsl" href="xslt/changelog-simplehtml.xsl"?>
+
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.2">
 		<change author='gabe'>AgentInformationHandler now handles compiling of search results and returns the appropriate array format.</change>
