@@ -1,14 +1,14 @@
 <?php
 
-    require_once(HARMONI.'DBHandler/classes/SelectQuery.class.php');
-	require_once(HARMONI.'DBHandler/classes/MySQL/MySQL_SQLGenerator.class.php');
+    require_once(HARMONI.'DBHandler/SelectQuery.class.php');
+	require_once(HARMONI.'DBHandler/MySQL/MySQL_SQLGenerator.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.10 2003/06/24 18:27:46 dobomode Exp $
+ * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.11 2003/06/24 21:14:41 adamfranco Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/

@@ -1,11 +1,11 @@
 <?php
 
-require_once(HARMONI."Services/Services.abstract.php");
+require_once(HARMONI."services/Services.abstract.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.1 2003/06/24 21:03:26 gabeschine Exp $
+ * @version $Id: Services.class.php,v 1.2 2003/06/24 21:14:42 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services

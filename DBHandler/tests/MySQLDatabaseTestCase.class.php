@@ -1,13 +1,13 @@
 <?php
 
-    require_once(HARMONI.'DBHandler/classes/MySQL/MySQLDatabase.class.php');
+    require_once(HARMONI.'DBHandler/MySQL/MySQLDatabase.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLDatabaseTestCase.class.php,v 1.4 2003/06/24 18:27:46 dobomode Exp $
+ * @version $Id: MySQLDatabaseTestCase.class.php,v 1.5 2003/06/24 21:14:41 adamfranco Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/

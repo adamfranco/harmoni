@@ -4,7 +4,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.1 2003/06/24 21:03:26 gabeschine Exp $
+ * @version $Id: test.php,v 1.2 2003/06/24 21:14:42 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -15,7 +15,7 @@ if (!defined('HARMONI')) {
 	require_once("../../harmoni.inc.php");
 }
 
-require_once(HARMONI."DBHandler/classes/DBHandler.class.php");
+require_once(HARMONI."DBHandler/DBHandler.class.php");
 
     if (!defined('SIMPLE_TEST')) {
         define('SIMPLE_TEST', HARMONI.'simple_test/');
@@ -24,7 +24,7 @@ require_once(HARMONI."DBHandler/classes/DBHandler.class.php");
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
     $test =& new GroupTest('Services tests');
-    $test->addTestFile(HARMONI.'Services/tests/ServicesTestCase.class.php');
+    $test->addTestFile(HARMONI.'services/tests/ServicesTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 

@@ -1,15 +1,15 @@
 <?php
 
 require_once(HARMONI."utilities/Queue.class.php");
-require_once(HARMONI.'errorHandler/core/Error.class.php');
-require_once(HARMONI."errorHandler/core/ErrorHandler.interface.php");
+require_once(HARMONI.'errorHandler/Error.class.php');
+require_once(HARMONI."errorHandler/ErrorHandler.interface.php");
 
 
 /**
  * The ErrorHandler captures and stores errors for later
  * printout and halts execution on fatal errors.
  *
- * @version $Id: ErrorHandler.class.php,v 1.1 2003/06/24 20:53:28 gabeschine Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.2 2003/06/24 21:14:41 adamfranco Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  * @access public

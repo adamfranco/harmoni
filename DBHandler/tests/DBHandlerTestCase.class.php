@@ -1,13 +1,13 @@
 <?php
 
-    require_once(HARMONI.'DBHandler/classes/DBHandler.class.php');
+    require_once(HARMONI.'DBHandler/DBHandler.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DBHandlerTestCase.class.php,v 1.7 2003/06/24 18:27:46 dobomode Exp $
+ * @version $Id: DBHandlerTestCase.class.php,v 1.8 2003/06/24 21:14:41 adamfranco Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/

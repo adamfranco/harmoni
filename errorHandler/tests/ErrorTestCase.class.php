@@ -1,14 +1,14 @@
 <?php
 
 
-require_once(HARMONI.'errorHandler/core/Error.class.php');
+require_once(HARMONI.'errorHandler/Error.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ErrorTestCase.class.php,v 1.7 2003/06/24 20:47:42 adamfranco Exp $
+ * @version $Id: ErrorTestCase.class.php,v 1.8 2003/06/24 21:14:42 adamfranco Exp $
  * @package harmoni.errorhandler.tests
  * @copyright 2003 
  **/

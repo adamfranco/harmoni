@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI."Services/Services.interface.php");
+require_once(HARMONI."services/Services.interface.php");
 
 
 /**
@@ -13,7 +13,7 @@ $__services__ = NULL;				// above defined variable must be set to NULL
 /**
  * The ServicesAbstract class defines the public static methods used by users.
  * The ServicesAbstract class defines the public static methods used by users.
- * @version $Id: Services.abstract.php,v 1.1 2003/06/24 21:03:26 gabeschine Exp $
+ * @version $Id: Services.abstract.php,v 1.2 2003/06/24 21:14:42 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
