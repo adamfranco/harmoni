@@ -540,8 +540,40 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function inheritInfoStructure(& $infoStructureId, & $assetId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	function inheritInfoStructure(& $infoStructureId, & $assetId) {	
+	
+		// Check the arguments	
+		ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		
+		// Get our managers:
+		$dataSetMgr =& Services::getService("DataSetManager");
+		$sharedMgr =& Services::getService("Shared");
+		
+		// Get the DataSetGroup for this Asset
+		$myId = $this->_node->getId();
+		$myGroup =& $dataSetMgr->fetchDataSetGroup($myId->getIdString());
+		
+		// Get the DataSetGroup for the source Asset
+		$theirGroup =& $dataSetMgr->fetchDataSetGroup($assetId->getIdString());
+		
+		// Add all of DataSets (InfoRecords) of the specified InfoStructure and Asset
+		// to our DataSetGroup.
+		foreach ($theirGroup as $key => $dataSet) {
+			// Get the ID of the current DataSet's TypeDefinition
+			$typeDef =& $theirGroup[$key]->getDataSetTypeDefinition();
+			$typeId =& $sharedMgr->getId($typeDef->getID());
+			
+			// If the current DataSet's DataSetTypeDefinition's ID is the same as
+			// the InfoStructure ID that we are looking for, add that dataSet to our
+			// DataSetGroup.
+			if ($infoStructureId->isEqual($typeId)) {
+				$myGroup->addDataSet($theirGroup[$key]);
+			}
+		}
+		
+		// Save our DataSetGroup
+		$myGroup->commit();
 	}
 
 	/**
@@ -558,7 +590,40 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function copyInfoStructure(& $infoStructureId, & $assetId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	
+		// Check the arguments	
+		ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		
+		// Get our managers:
+		$dataSetMgr =& Services::getService("DataSetManager");
+		$sharedMgr =& Services::getService("Shared");
+		
+		// Get the DataSetGroup for this Asset
+		$myId = $this->_node->getId();
+		$myGroup =& $dataSetMgr->fetchDataSetGroup($myId->getIdString());
+		
+		// Get the DataSetGroup for the source Asset
+		$theirGroup =& $dataSetMgr->fetchDataSetGroup($assetId->getIdString());
+		
+		// Add all of DataSets (InfoRecords) of the specified InfoStructure and Asset
+		// to our DataSetGroup.
+		foreach ($theirGroup as $key => $dataSet) {
+			// Get the ID of the current DataSet's TypeDefinition
+			$typeDef =& $theirGroup[$key]->getDataSetTypeDefinition();
+			$typeId =& $sharedMgr->getId($typeDef->getID());
+			
+			// If the current DataSet's DataSetTypeDefinition's ID is the same as
+			// the InfoStructure ID that we are looking for, add clones of that dataSet
+			// to our DataSetGroup.
+			if ($infoStructureId->isEqual($typeId)) {
+				$newDataSet =& $theirGroup[$key]->clone();
+				$myGroup->addDataSet($newDataSet);
+			}
+		}
+		
+		// Save our DataSetGroup
+		$myGroup->commit();
 	}
 
 	/**
