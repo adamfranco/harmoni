@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.3 2004/06/08 18:33:11 dobomode Exp $
+ * @version $Id: test.php,v 1.4 2004/06/14 03:34:31 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003 
  **/
@@ -14,8 +14,6 @@ $timer->start();
 
 $harmonyLoadupTimer =& new Timer;
 $harmonyLoadupTimer->start();
-
-define("LOAD_HIERARCHY", false);
 
 require_once(dirname(__FILE__)."/../../../../harmoni.inc.php");
 
@@ -35,11 +33,15 @@ $harmonyLoadupTimer->end();
 	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
 	$dbHandler->pConnect($dbIndex);
 	Services::startService("Shared", $dbIndex, "doboHarmoniTest");
+	Services::startService("Hierarchy", $dbIndex, "doboHarmoniTest");
 	$errorHandler->setDebugMode(TRUE);
 	
 	
-    $test =& new GroupTest('Hierarchy Tests');
-    $test->addTestFile(HARMONI.'/oki/authorization/tests/FunctionTestCase.class.php');
+    $test =& new GroupTest('Authorization Tests');
+	$test->addTestFile(HARMONI.'/oki/authorization/tests/FunctionTestCase.class.php');
+    $test->addTestFile(HARMONI.'/oki/authorization/tests/QualifierTestCase.class.php');
+    $test->addTestFile(HARMONI.'/oki/authorization/tests/AuthorizationTestCase.class.php');
+    $test->addTestFile(HARMONI.'/oki/authorization/tests/AuthorizationManagerTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 	

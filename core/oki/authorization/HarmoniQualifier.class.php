@@ -1,6 +1,9 @@
 <?php
 
 require_once(OKI."/authorization.interface.php");
+require_once(HARMONI.'oki/hierarchy2/HarmoniNode.class.php');
+require_once(HARMONI.'oki/authorization/AuthorizationCache.class.php');
+require_once(HARMONI.'oki/authorization/HarmoniQualifierIterator.class.php');
 
 /**
  * Qualifier is the context in which an Authorization is valid and consists of an Id, a description and a QualifierType.  Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
@@ -8,35 +11,38 @@ require_once(OKI."/authorization.interface.php");
  */
 class HarmoniQualifier extends Qualifier {
 
+	
 	/**
-	 * The UNIQUE id of this qualifier.
-	 * @attribute private object _id
+	 * The associated hierarchy node object.
+	 * @attribute private object _node
 	 */
-	var $_id;
+	var $_node;
 	
 
 	/**
-	 * The display name of this qualifier.
-	 * @attribute private string _displayName
+	 * The AuthorizationCache object.
+	 * @attribute private object _cache
 	 */
-	var $_displayName;
+	var $_cache;
 	
 	
 	/**
-	 * The description of this qualifier
-	 * @attribute private string _description
+	 * The constructor.
+	 * @param ref object node The associated hierarchy node object.
+	 * @param ref object cache The AuthorizationCache object.
+	 * @access public
 	 */
-	var $_description;
+	function HarmoniQualifier(& $node, & $cache) {
+		// ** parameter validation
+		ArgumentValidator::validate($node, new ExtendsValidatorRule("Node"), true);
+		ArgumentValidator::validate($cache, new ExtendsValidatorRule("AuthorizationCache"), true);
+		// ** end of parameter validation
+		
+		$this->_node =& $node;
+		$this->_cache =& $cache;
+	}
 	
 	
-	/**
-	 * The type of this qualifier.
-	 * @attribute private object _qualifierType
-	 */
-	var $_qualifierType;
-	
-	
-
 	/**
 	 * Get the Unique Id for this Qualifier.
 	 * @return object osid.shared.Id
@@ -44,9 +50,8 @@ class HarmoniQualifier extends Qualifier {
 	 * @package harmoni.osid.authorization
 	 */
 	function & getId() {
-		return $this->_id;
+		return $this->_node->getId();
 	}
-
 
 
 	/* :: full java declaration :: osid.shared.Id getId()
@@ -57,9 +62,8 @@ class HarmoniQualifier extends Qualifier {
 	 * @package harmoni.osid.authorization
 	 */
 	function getDisplayName() {
-		return $this->_displayName;
+		return $this->_node->getDisplayName();
 	}
-
 
 
 	/* :: full java declaration :: String getDisplayName()
@@ -70,7 +74,7 @@ class HarmoniQualifier extends Qualifier {
 	 * @package harmoni.osid.authorization
 	 */
 	function getDescription() {
-		return $this->_description;
+		return $this->_node->getDescription();
 	}
 
 
@@ -82,8 +86,10 @@ class HarmoniQualifier extends Qualifier {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function isParent() { /* :: interface :: */ }
-
+	function isParent() {
+		$children =& $this->getChildren();
+		return ($children->hasNext());
+	}
 
 
 	/* :: full java declaration :: boolean isParent()
@@ -94,9 +100,8 @@ class HarmoniQualifier extends Qualifier {
 	 * @package harmoni.osid.authorization
 	 */
 	function & getQualifierType() {
-		return $this->_qualifierType;
+		return $this->_node->getType();
 	}
-
 
 
 	/* :: full java declaration :: osid.shared.Type getQualifierType()
@@ -107,14 +112,8 @@ class HarmoniQualifier extends Qualifier {
 	 * @package harmoni.osid.authorization
 	 */
 	function updateDisplayName($displayName) {
-		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
-		ArgumentValidator::validate($displayName, $stringRule, true);
-		// ** end of parameter validation
-		
-		$this->_displayName = $displayName;
+		$this->_node->updateDisplayName($displayName);
 	}
-
 
 
 	/* :: full java declaration :: void updateDisplayName(String displayName)
@@ -125,12 +124,7 @@ class HarmoniQualifier extends Qualifier {
 	 * @package harmoni.osid.authorization
 	 */
 	function updateDescription($description) {
-		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
-		ArgumentValidator::validate($description, $stringRule, true);
-		// ** end of parameter validation
-		
-		$this->_description = $description;
+		$this->_node->updateDescription($description);
 	}
 
 
@@ -142,7 +136,9 @@ class HarmoniQualifier extends Qualifier {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function addParent(& $parentQualifierId) { /* :: interface :: */ }
+	function addParent(& $parentQualifierId) {
+		$this->_node->addParent($parentQualifierId);
+	}
 
 
 
@@ -153,7 +149,9 @@ class HarmoniQualifier extends Qualifier {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function removeParent(& $parentQualifierId) { /* :: interface :: */ }
+	function removeParent(& $parentQualifierId) {
+		$this->_node->removeParent($parentQualifierId);
+	}
 
 
 
@@ -165,7 +163,9 @@ class HarmoniQualifier extends Qualifier {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function changeParent(& $oldParentId, & $newParentId) { /* :: interface :: */ }
+	function changeParent(& $oldParentId, & $newParentId) {
+		$this->_node->changeParent($oldParentId, $newParentId);
+	}
 
 
 
@@ -177,7 +177,25 @@ class HarmoniQualifier extends Qualifier {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function isChildOf(& $parentId) { /* :: interface :: */ }
+	function isChildOf(& $parentId) {
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("Id");
+		ArgumentValidator::validate($parentId, $extendsRule, true);
+		// ** end of parameter validation
+
+		// get the parents of this node
+		$parents =& $this->getParents();
+		// search for the given parent
+		while ($parents->hasNext()) {
+			$parent =& $parents->next();
+			$parentId1 =& $parent->getId();
+			
+			if ($parentId->isEqual($parentId1)) 
+				return true;
+		}
+		
+		return false;
+	}
 
 
 
@@ -189,7 +207,26 @@ class HarmoniQualifier extends Qualifier {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function isDescendantOf(& $ancestorId) { /* :: interface :: */ }
+	function isDescendantOf(& $ancestorId) {
+		// Alright, I realize this could be written much more efficiently (for
+		// example by using Hierarchy->traverse()) but it is too much pain to do so.
+		// The code below uses the methods in this class and is clearer, albeit slower.
+		// Are we going to use this method a lot anyway?
+		
+		// base case
+		if ($ancestorId->isEqual($this->getId()))
+			return true;
+		
+		// recurse up
+		$parents =& $this->getParents();
+		while ($parents->hasNext()) {
+			$parent =& $parents->next();
+			if ($parent->isDescendantOf($ancestorId))
+				return true;
+		}
+		
+		return false;
+	}
 
 
 
@@ -200,7 +237,28 @@ class HarmoniQualifier extends Qualifier {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getChildren() { /* :: interface :: */ }
+	function & getChildren() {
+		// obtain the parent nodes
+		$children =& $this->_node->getChildren();
+		
+		$result = array();
+		// for each node, cache if not cached, create a new Qualifier, 
+		// and add to result array
+		while ($children->hasNext()) {
+			$child =& $children->next();
+			$childId =& $child->getId();
+			$idValue =& $childId->getIdString();
+			
+			if (!isset($this->_cache->_qualifiers[$idValue])) {
+				$qualifier =& new HarmoniQualifier($child, $this->_cache);
+				$this->_cache->_qualifiers[$idValue] =& $qualifier;
+			}
+			
+			$result[] =& $this->_cache->_qualifiers[$idValue];
+		}
+		
+		return new HarmoniQualifierIterator($result);
+	}
 
 
 
@@ -211,7 +269,28 @@ class HarmoniQualifier extends Qualifier {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getParents() { /* :: interface :: */ }
+	function & getParents() {
+		// obtain the parent nodes
+		$parents =& $this->_node->getParents();
+		
+		$result = array();
+		// for each node, cache if not cached, create a new Qualifier, 
+		// and add to result array
+		while ($parents->hasNext()) {
+			$parent =& $parents->next();
+			$parentId =& $parent->getId();
+			$idValue =& $parentId->getIdString();
+			
+			if (!isset($this->_cache->_qualifiers[$idValue])) {
+				$qualifier =& new HarmoniQualifier($parent, $this->_cache);
+				$this->_cache->_qualifiers[$idValue] =& $qualifier;
+			}
+			
+			$result[] =& $this->_cache->_qualifiers[$idValue];
+		}
+		
+		return new HarmoniQualifierIterator($result);
+	}
 }
 
 ?>

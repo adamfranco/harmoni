@@ -23,7 +23,7 @@ class HarmoniStringId
 	 *
 	 */
 	function HarmoniStringId ( $id = NULL ) {
-		if ($id != NULL) {
+		if ($id !== NULL) {
 			// use this id
 			// SLOW-VALIDATE -- comment validation out to increase program speed.
 			ArgumentValidator::validate($id, new NonzeroLengthStringValidatorRule);

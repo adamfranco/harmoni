@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchyManager.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyManagerTestCase.class.php,v 1.1 2004/06/03 15:38:49 dobomode Exp $
+ * @version $Id: HierarchyManagerTestCase.class.php,v 1.2 2004/06/14 03:34:32 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -77,6 +77,24 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchyManager.class.php');
 			$this->assertIdentical($hierarchy->allowsRecursion(), false);
 
 			$this->manager->deleteHierarchy($hierarchy->getId());
+		}
+		
+		function test_node() {
+			$node =& $this->manager->getNode(new HarmoniId("3"));
+			$this->assertIsA($node, "Node");
+			$this->assertIdentical($node->getDisplayName(), "C");
+			$this->assertIdentical($node->getDescription(), "");
+			$deftype =& new DefaultNodeType();
+			$type =& $node->getType();
+			$this->assertIdentical($type->getAuthority(), $deftype->getAuthority());
+			$this->assertIdentical($type->getDomain(), $deftype->getDomain());
+			$this->assertIdentical($type->getKeyword(), $deftype->getKeyword());
+			$this->assertIdentical($type->getDescription(), $deftype->getDescription());
+			
+			$this->assertIdentical($node->_cache->_allowsMultipleParents, true);
+			
+			$hierarchy =& $this->manager->getHierarchy(new HarmoniId("8"));
+			$this->assertReference($hierarchy->_cache, $node->_cache);		
 		}
 
 	}

@@ -31,7 +31,7 @@ class HarmoniAuthorizationIterator
 	 */
 	function HarmoniAuthorizationIterator (& $authorizationArray) {
 		// make sure that we get an array of Authorization objects
-		ArgumentValidator::validate($authorizationArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("AuthorizationInterface")));
+		ArgumentValidator::validate($authorizationArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Authorization")));
 		
 		// load the types into our private array
 		foreach (array_keys($authorizationArray) as $i => $key) {

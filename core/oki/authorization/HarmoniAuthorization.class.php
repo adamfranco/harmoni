@@ -15,6 +15,14 @@ class HarmoniAuthorization extends Authorization {
 	 */
 	var $_effectiveDate;
 	
+	
+	/**
+	 * The Id of this Authorization.
+	 * @attribute private object _id
+	 */
+	var $_id;
+	
+	
 	/**
 	 * The Id of the agent.
 	 * @attribute private object _agentId
@@ -51,32 +59,65 @@ class HarmoniAuthorization extends Authorization {
 	
 	
 	/**
+	 * Specifies whether this Authorization is explicit or not.
+	 * @attribute private boolean _explicit
+	 */
+	var $_explicit;
+
+	
+	/**
+	 * The AuthorizationCache object.
+	 * @attribute private object _cache
+	 */
+	var $_cache;
+	
+	
+	/**
 	 * The constructor.
+	 * @param ref object id The id of this Authorization
 	 * @param ref object agentId The Id of the agent.
 	 * @param ref object functionId The Id of the function.
 	 * @param ref object qualifierId The Id of the qualifier.
 	 * @param ref object effectiveDate The date when the authorization becomes effective.
 	 * @param ref object expirationDate The date when the authorization expires.
+	 * @param boolean explicit Specifies whether this Authorization is explicit or not.
 	 * @access public
 	 */
-	function HarmoniAuthorization(& $agentId, & $functionId, & $qualifierId, 
-							      & $effectiveDate, & $expirationDate) {
+	function HarmoniAuthorization(& $id, & $agentId, & $functionId, & $qualifierId, 
+							      & $effectiveDate, & $expirationDate, $explicit,
+								    $dbIndex, $authzDB) {
+
 		// ** parameter validation
-		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Agent"), true);
-		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Function"), true);
-		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Qualifier"), true);
-		ArgumentValidator::validate($effectiveDate, new ExtendsValidatorRule("DateTime"), true);
-		ArgumentValidator::validate($expirationDate, new ExtendsValidatorRule("DateTime"), true);
+		$extendsRule =& new ExtendsValidatorRule("Id");
+		ArgumentValidator::validate($id, $extendsRule, true);
+		ArgumentValidator::validate($agentId, $extendsRule, true);
+		ArgumentValidator::validate($functionId, $extendsRule, true);
+		ArgumentValidator::validate($qualifierId, $extendsRule, true);
+		$extendsRule =& new ExtendsValidatorRule("DateTime");
+		ArgumentValidator::validate($effectiveDate, new OptionalRule($extendsRule), true);
+		ArgumentValidator::validate($expirationDate, new OptionalRule($extendsRule), true);
+		ArgumentValidator::validate($explicit, new BooleanValidatorRule(), true);
+		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($authzDB, new StringValidatorRule(), true);
+		
+		// make sure effective date is before expiration date
+		if (DateTime::compare($effectiveDate, $expirationDate) < 0) {
+			$str = "The effective date must be before the expiration date.";
+			throwError(new Error($str, "Authorization", true));
+		}
 		// ** end of parameter validation
 
-		
+		$this->_id =& $id;
 		$this->_agentId =& $agentId;
 		$this->_functionId =& $functionId;
 		$this->_qualifierId =& $qualifierId;
-		$this->_effectiveDate =& $effectiveDate;
-		$this->_expirationDate =& $expirationDate;
+		if (isset($effectiveDate))
+			$this->_effectiveDate =& $effectiveDate;
+		if (isset($expirationDate))
+			$this->_expirationDate =& $expirationDate;
+		$this->_explicit = $explicit;
+		$this->_cache =& new AuthorizationCache($dbIndex, $authzDB);
 	}	
-	
 	
 	
 	
@@ -86,7 +127,9 @@ class HarmoniAuthorization extends Authorization {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getEffectiveDate() { /* :: interface :: */ }
+	function & getEffectiveDate() {
+		return $this->_effectiveDate;
+	}
 
 
 
@@ -97,7 +140,9 @@ class HarmoniAuthorization extends Authorization {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getExpirationDate() { /* :: interface :: */ }
+	function & getExpirationDate() {
+		return $this->_expirationDate;
+	}
 
 
 
@@ -130,7 +175,12 @@ class HarmoniAuthorization extends Authorization {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getFunction() { /* :: interface :: */ }
+	function & getFunction() {
+		$idValue = $this->_functionId->getIdString();
+		$result =& $this->_cache->getFunction($idValue);
+		
+		return $result;
+	}
 
 
 
@@ -141,18 +191,24 @@ class HarmoniAuthorization extends Authorization {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getQualifier() { /* :: interface :: */ }
+	function & getQualifier() {
+		$result =& $this->_cache->getQualifier($this->_qualifierId);
+		
+		return $result;
+	}
 
 
 
 	/* :: full java declaration :: Qualifier getQualifier()
 	/**
-	 * Get the Agent associated with this Authorization.
-	 * @return object osid.shared.Agent
+	 * Get the Agent Id associated with this Authorization.
+	 * @return object osid.shared.Id
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getAgent() { /* :: interface :: */ }
+	function & getAgentId() {
+		return $this->_agentId;
+	}
 
 
 
@@ -163,7 +219,23 @@ class HarmoniAuthorization extends Authorization {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function isActiveNow() { /* :: interface :: */ }
+	function isActiveNow() {
+		if (!isset($this->_effectiveDate) || !isset($this->_expirationDate))
+			// a non-dated Authorization is always active
+			return true;
+	
+		// create a DateTime with the current time
+		$now =& DateTime::now();
+		$afterEffectiveDate = DateTime::compare($this->_effectiveDate, $now);
+		$beforeExpirationDate = DateTime::compare($this->_expirationDate, $now);
+		
+		// if current time is after the effective date and before the expiration
+		// date, then the Authorization is active.
+		if ($afterEffectiveDate >= 0 && $beforeExpirationDate < 0)
+			return true;
+		else
+			return false;
+	}
 
 
 
@@ -174,8 +246,9 @@ class HarmoniAuthorization extends Authorization {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function isExplicit() { /* :: interface :: */ }
-
+	function isExplicit() {
+		return $this->_explicit;
+	}
 
 
 	/* :: full java declaration :: boolean isExplicit()
@@ -185,10 +258,45 @@ class HarmoniAuthorization extends Authorization {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
 	 * @package harmoni.osid.authorization
 	 */
-	function updateExpirationDate(& $expirationDate) { /* :: interface :: */ }
+	function updateExpirationDate(& $expirationDate) {
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("DateTime");
+		ArgumentValidator::validate($expirationDate, $extendsRule, true);
+		// ** end of parameter validation
 
+		// make sure effective date is before expiration date
+		if (DateTime::compare($this->_effectiveDate, $expirationDate) < 0) {
+			$str = "The effective date must be before the expiration date.";
+			throwError(new Error($str, "Authorization", true));
+		}
 
+		if (DateTime::compare($this->_expirationDate, $expirationDate) == 0)
+		    return; // nothing to update
 
+		// update the object
+		$this->_expirationDate =& $expirationDate;
+
+		// update the database
+		$dbHandler =& Services::requireService("DBHandler");
+		$dbPrefix = $this->_cache->_authzDB.".az_authorization";
+		
+		$query =& new UpdateQuery();
+		$query->setTable($dbPrefix);
+		$idValue = $this->_id->getIdString();
+		$where = "{$dbPrefix}.authorization_id = '{$idValue}'";
+		$query->setWhere($where);
+		$query->setColumns(array("{$dbPrefix}.authorization_expiration_date"));
+		$timestamp = $dbHandler->toDBDate($expirationDate, $this->_cache->_dbIndex);
+		$query->setValues(array("'$timestamp'"));
+		
+		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
+		if ($queryResult->getNumberOfRows() == 0)
+			throwError(new Error("The authorization with Id: ".$idValue." does not exist in the database.","Authorization",true));
+		if ($queryResult->getNumberOfRows() > 1)
+			throwError(new Error("Multiple authorizations with Id: ".$idValue." exist in the database. Note: their descriptions have been updated." ,"Authorization",true));
+	}
+					
+					
 	/* :: full java declaration :: void updateExpirationDate(java.util.Calendar expirationDate)
 	/**
 	 * the date when this Authorization stops being effective.
@@ -196,8 +304,43 @@ class HarmoniAuthorization extends Authorization {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
 	 * @package harmoni.osid.authorization
 	 */
-	function updateEffectiveDate(& $effectiveDate) { /* :: interface :: */ }
+	function updateEffectiveDate(& $effectiveDate) {
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("DateTime");
+		ArgumentValidator::validate($effectiveDate, $extendsRule, true);
+		// ** end of parameter validation
 
+		// make sure effective date is before expiration date
+		if (DateTime::compare($effectiveDate, $this->_expirationDate) < 0) {
+			$str = "The effective date must be before the expiration date.";
+			throwError(new Error($str, "Authorization", true));
+		}
+
+		if (DateTime::compare($this->_effectiveDate, $effectiveDate) == 0)
+		    return; // nothing to update
+
+		// update the object
+		$this->_effectiveDate =& $effectiveDate;
+
+		// update the database
+		$dbHandler =& Services::requireService("DBHandler");
+		$dbPrefix = $this->_cache->_authzDB.".az_authorization";
+		
+		$query =& new UpdateQuery();
+		$query->setTable($dbPrefix);
+		$idValue = $this->_id->getIdString();
+		$where = "{$dbPrefix}.authorization_id = '{$idValue}'";
+		$query->setWhere($where);
+		$query->setColumns(array("{$dbPrefix}.authorization_effective_date"));
+		$timestamp = $dbHandler->toDBDate($effectiveDate, $this->_cache->_dbIndex);
+		$query->setValues(array("'$timestamp'"));
+		
+		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
+		if ($queryResult->getNumberOfRows() == 0)
+			throwError(new Error("The authorization with Id: ".$idValue." does not exist in the database.","Authorization",true));
+		if ($queryResult->getNumberOfRows() > 1)
+			throwError(new Error("Multiple authorizations with Id: ".$idValue." exist in the database. Note: their descriptions have been updated." ,"Authorization",true));
+	}
 
 
 }

@@ -5,7 +5,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.13 2004/02/05 23:05:05 adamfranco Exp $
+ * @version $Id: DateTime.class.php,v 1.14 2004/06/14 03:34:32 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -83,9 +83,7 @@ class DateTime {
 		ArgumentValidator::validate(intval($seconds), $rangeRule, true);*/
 		// ** end of parameter validation
 
-		// make the year 1900+
-		$year += ($year<1900)?1900:0;
-		$year += ($year<1970)?100:0; // 2000+
+		// do not assume a range for year
 		$this->_year = $year;
 		$this->_month = $month;
 		$this->_day = $day;
@@ -313,6 +311,12 @@ class DateTime {
 	 * @return int
 	 */
 	function compare(&$date1, &$date2) {
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("DateTime");
+		ArgumentValidator::validate($date1, $extendsRule, true);
+		ArgumentValidator::validate($date2, $extendsRule, true);
+		// ** end of parameter validation
+
 		$time1 = $date1->toTimestamp();
 		$time2 = $date2->toTimestamp();
 		

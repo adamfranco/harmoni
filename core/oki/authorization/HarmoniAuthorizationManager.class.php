@@ -1,18 +1,42 @@
 <?php
 
+require_once(HARMONI.'oki/authorization/AuthorizationCache.class.php');
 
 /**
  * AuthorizationManager allows an application to create Authorizations, get Authorizations given selection criterias, ask questions of Authorization such as what Agent can do a Function in a Qualifier context, etc.<p><p>The primary objects in Authorization are Authorization, Function, Agent, and Qualifier. There are also Function and Qualifier types that are understood by the implementation.<p><p>Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p><p>There are two methods to create Authorizations. One uses method uses Agent, Function, and Qualifier.  The other adds effective date and expiration date.  For the method without the dates, the effective date is today and there is no expiration date.  <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * @access public
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.4 2004/04/21 17:55:29 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.5 2004/06/14 03:34:31 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @package harmoni.osid.authorization
  */
-class HarmoniAuthorizationManager 
-	extends AuthorizationManager
+class HarmoniAuthorizationManager extends AuthorizationManager {
+	
+	/**
+	 * The AuthorizationCache object.
+	 * @attribute private object _cache
+	 */
+	var $_cache;
+	
+	
+	/**
+	 * Constructor
+	 * @param integer dbIndex The database connection as returned by the DBHandler.
+	 * @param string sharedDB The name of the shared database.
+	 * manager.
+	 * @access public
+	 */
+	function HarmoniAuthorizationManager($dbIndex, $authzDB) {
+		// ** parameter validation
+		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($authzDB, new StringValidatorRule(), true);
+		// ** end of parameter validation
+		
+		$this->_dbIndex = $dbIndex;
+		$this->_sharedDB = $sharedDB;
+		$this->_cache =& new AuthorizationCache($dbIndex, $authzDB);
+	}	
 
-{
 
 	/**
 	 * Creates a new Authorization for an Agent performing a Function with a Qualifier Id.
@@ -174,7 +198,16 @@ class HarmoniAuthorizationManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getFunction(& $functionId) { /* :: interface :: */ }
+	function & getFunction(& $functionId) {
+		// ** parameter validation
+		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
+		// ** end of parameter validation
+	
+		$idValue = $functionId->getIdString();
+		$result =& $this->_cache->getFunction($idValue);
+		
+		return $result;
+	}
 
 
 
@@ -245,7 +278,15 @@ class HarmoniAuthorizationManager
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.authorization
 	 */
-	function & getQualifier(& $qualifierId) { /* :: interface :: */ }
+	function & getQualifier(& $qualifierId) {
+		// ** parameter validation
+		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
+		// ** end of parameter validation
+	
+		$result =& $this->_cache->getQualifier($qualifierId);
+		
+		return $result;
+	}
 
 
 

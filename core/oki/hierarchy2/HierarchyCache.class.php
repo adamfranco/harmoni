@@ -1,6 +1,8 @@
 <?php
 
 require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
+require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfo.class.php");
+require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
 
 /**
  * This class provides a mechanism for caching different parts of a hierarchy and
@@ -25,7 +27,7 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
  * 
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
- * @version $Id: HierarchyCache.class.php,v 1.8 2004/06/10 18:50:09 dobomode Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.9 2004/06/14 03:34:31 dobomode Exp $
  * @package harmoni.osid.hierarchy2
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -72,7 +74,7 @@ class HierarchyCache {
 	 * The name of the hierarchy database.
 	 * @attribute protected string _hierarchyDB
 	 */
-	var $_sharedDB;
+	var $_hyDB;
 	
 	
 	/**
@@ -102,30 +104,31 @@ class HierarchyCache {
      * Constructor
 	 * @param string hierarchyId The id of the corresponding hierarchy.
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
-	 * @param string sharedDB The name of the shared database.
+	 * @param string hyDB The name of the hierarchy database.
      * @access protected
      */
-	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex, $sharedDB) {
+	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex, $hyDB) {
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, new StringValidatorRule(), true);
 		ArgumentValidator::validate($allowsMultipleParents, new BooleanValidatorRule(), true);
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($sharedDB, new StringValidatorRule(), true);
+		ArgumentValidator::validate($hyDB, new StringValidatorRule(), true);
 		// ** end of parameter validation
 
 		$this->_tree = new Tree();
 		$this->_cache = array();
 		$this->_dbIndex = $dbIndex;
-		$this->_sharedDB = $sharedDB;
+		$this->_hyDB = $hyDB;
 		$this->_hierarchyId = $hierarchyId;
 		$this->_allowsMultipleParents = $allowsMultipleParents;
 
 		// initialize a generic SELECT query to fetch one node from the DB
-		$db = $this->_sharedDB.".";
+		$db = $this->_hyDB.".";
 		$this->_nodeQuery =& new SelectQuery();
 		$this->_nodeQuery->addColumn("node_id", "id", $db."node");
 		$this->_nodeQuery->addColumn("node_display_name", "display_name", $db."node");
 		$this->_nodeQuery->addColumn("node_description", "description", $db."node");
+		$this->_nodeQuery->addColumn("fk_hierarchy", "hierarchy_id", $db."node");
 		$this->_nodeQuery->addColumn("type_domain", "domain", $db."type");
 		$this->_nodeQuery->addColumn("type_authority", "authority", $db."type");
 		$this->_nodeQuery->addColumn("type_keyword", "keyword", $db."type");
@@ -262,7 +265,7 @@ class HierarchyCache {
 		$this->_tree->addNode($childTreeNode, $parentTreeNode);
 
 		// 2) update the database
-		$db = $this->_sharedDB.".";
+		$db = $this->_hyDB.".";
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new InsertQuery();
 		$query->setTable($db."j_node_node");
@@ -317,7 +320,7 @@ class HierarchyCache {
 		$parentTreeNode->detachChild($childTreeNode);
 
 		// 2) update the database
-		$db = $this->_sharedDB.".";
+		$db = $this->_hyDB.".";
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new DeleteQuery();
 		$query->setTable($db."j_node_node");
@@ -352,7 +355,8 @@ class HierarchyCache {
 
 		$this->_nodeQuery->resetWhere();
 		$this->_nodeQuery->addWhere($where);
-		
+		$this->_nodeQuery->addWhere($db."node.fk_hierarchy = '".$this->_hierarchyId."'");
+
 		$nodeQueryResult =& $dbHandler->query($this->_nodeQuery, $this->_dbIndex);
 		
 		$result = array();
@@ -383,7 +387,7 @@ class HierarchyCache {
 	 **/
 	function & getAllNodes() {
 		$dbHandler =& Services::requireService("DBHandler");
-		$db = $this->_sharedDB.".";
+		$db = $this->_hyDB.".";
 		$query =& new SelectQuery();
 		$query->addColumn("node_id", "id", $db."node");
 		$query->addColumn("node_display_name", "display_name", $db."node");
@@ -407,6 +411,9 @@ class HierarchyCache {
 		$nodeQueryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		$result = array();
+		
+		// CLEAR THE CACHE
+		$this->clearCache();
 
 		while ($nodeQueryResult->hasMoreRows()) {
 			$nodeRow = $nodeQueryResult->getCurrentRow();
@@ -434,15 +441,12 @@ class HierarchyCache {
 			$this->_tree->addNode($tn, $parent_tn);
 
 			// 4) update cache of hierarchy nodes
-			if (!$this->_isCached($idValue)) {
-				$id =& new HarmoniId($idValue);
-				$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
-										  $nodeRow['keyword'], $nodeRow['type_description']);
-			    $node =& new HarmoniNode($id, $type, 
-										  $nodeRow['display_name'], $nodeRow['description'], $this);
-				$this->_cache[$idValue][0] =& $node;
-			}
-
+			$id =& new HarmoniId($idValue);
+			$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
+									  $nodeRow['keyword'], $nodeRow['type_description']);
+		    $node =& new HarmoniNode($id, $type, 
+									  $nodeRow['display_name'], $nodeRow['description'], $this);
+			$this->_cache[$idValue][0] =& $node;
 			$this->_cache[$idValue][1] = -1;
 			$this->_cache[$idValue][2] = -1;
 			
@@ -462,7 +466,7 @@ class HierarchyCache {
 	 **/
 	function getRootNodes() {
 		$dbHandler =& Services::requireService("DBHandler");
-		$db = $this->_sharedDB.".";
+		$db = $this->_hyDB.".";
 
 		// copy _nodeQuery into a new object
 		$query = $this->_nodeQuery;
@@ -544,7 +548,7 @@ class HierarchyCache {
 		
 		// now that all nodes are cached, just return all children
 		$result =& $this->_cache[$idValue][0];
-			
+
 		return $result;
 	}
 	
@@ -580,7 +584,7 @@ class HierarchyCache {
 			$treeNode =& $this->_tree->getNode($idValue);
 			$nodesToExclude = (isset($treeNode)) ? ($treeNode->getParents()) : array();
 	
-			$db = $this->_sharedDB.".";
+			$db = $this->_hyDB.".";
 			$dbHandler =& Services::requireService("DBHandler");
 			$query =& new SelectQuery();
 	
@@ -688,7 +692,7 @@ class HierarchyCache {
 			$treeNode =& $this->_tree->getNode($idValue);
 			$nodesToExclude = (isset($treeNode)) ? ($treeNode->getChildren()) : array();
 	
-			$db = $this->_sharedDB.".";
+			$db = $this->_hyDB.".";
 			$dbHandler =& Services::requireService("DBHandler");
 			$query =& new SelectQuery();
 	
@@ -839,7 +843,7 @@ class HierarchyCache {
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new SelectQuery();
 		
-		$db = $this->_sharedDB.".";
+		$db = $this->_hyDB.".";
 		
 		// the original value of levels
 		$originalLevels = $levels;
@@ -996,7 +1000,7 @@ class HierarchyCache {
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new SelectQuery();
 		
-		$db = $this->_sharedDB.".";
+		$db = $this->_hyDB.".";
 		
 		// the original value of levels
 		$originalLevels = $levels;
@@ -1166,7 +1170,7 @@ class HierarchyCache {
 		
 		// attempt to insert the node now
 		$dbHandler =& Services::requireService("DBHandler");
-		$db = $this->_sharedDB.".";
+		$db = $this->_hyDB.".";
 
 		// 1. Insert the type
 		
@@ -1312,7 +1316,7 @@ class HierarchyCache {
 		// 1. Get the id of the type associated with the node
 		$query =& new SelectQuery();
 		
-		$db = $this->_sharedDB.".";
+		$db = $this->_hyDB.".";
 		$query->addTable($db."node");
 		$query->addColumn("fk_type", "type_id", $db."node");
 		$query->addWhere($db."node.node_id = '".$idValue."'");
@@ -1333,7 +1337,7 @@ class HierarchyCache {
 		// 3. Now see if any other nodes have the same type
 		$query =& new SelectQuery();
 		
-		$db = $this->_sharedDB.".";
+		$db = $this->_hyDB.".";
 		$query->addTable($db."node");
 		// count the number of nodes using the same type
 		$query->addColumn("COUNT({$db}node.fk_type)", "num");
@@ -1361,7 +1365,7 @@ class HierarchyCache {
 		unset($this->_tree);
 		unset($this->_cache);
 		$this->HierarchyCache($this->_hierarchyId, $this->_allowsMultipleParents,
-							  $this->_dbIndex, $this->_sharedDB);
+							  $this->_dbIndex, $this->_hyDB);
 	}
 
 }

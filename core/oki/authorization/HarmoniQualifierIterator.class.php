@@ -32,7 +32,7 @@ class HarmoniQualifierIterator
 	 */
 	function HarmoniQualifierIterator (& $qualifierArray) {
 		// make sure that we get an array of Qualifier objects
-		ArgumentValidator::validate($qualifierArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("QualifierInterface")));
+		ArgumentValidator::validate($qualifierArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Qualifier")));
 		
 		// load the types into our private array
 		foreach (array_keys($qualifierArray) as $i => $key) {

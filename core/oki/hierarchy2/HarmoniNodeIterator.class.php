@@ -7,7 +7,7 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
 
 /**
  * An iterator of node objects
- * @package harmoni.osid.hierarchy
+ * @package harmoni.osid.hierarchy2
  */
  
 class HarmoniNodeIterator

@@ -18,7 +18,7 @@ require_once(HARMONI."oki/hierarchy2/DefaultNodeType.class.php");
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.8 2004/06/10 18:50:09 dobomode Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.9 2004/06/14 03:34:31 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -213,7 +213,7 @@ class HarmoniNode extends Node {
 
 		// update the database
 		$dbHandler =& Services::requireService("DBHandler");
-		$db = $this->_cache->_sharedDB.".";
+		$db = $this->_cache->_hyDB.".";
 		
 		$query =& new UpdateQuery();
 		$query->setTable($db."node");
@@ -257,7 +257,7 @@ class HarmoniNode extends Node {
 
 		// update the database
 		$dbHandler =& Services::requireService("DBHandler");
-		$db = $this->_cache->_sharedDB.".";
+		$db = $this->_cache->_hyDB.".";
 		
 		$query =& new UpdateQuery();
 		$query->setTable($db."node");

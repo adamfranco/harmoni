@@ -45,7 +45,7 @@ class HarmoniId
 
 	// public boolean isEqual(osid.shared.Id & $id);
 	function isEqual(& $id) {
-		return ($id->getIdString() == $this->_id)?true:false;
+		return ($id->getIdString() == $this->_id) ? true : false;
 	}
 
 } // end Id

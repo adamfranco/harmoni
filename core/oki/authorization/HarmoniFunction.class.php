@@ -3,7 +3,7 @@
 require_once(OKI."/authorization.interface.php");
 
 /**
- * Function is composed of Id, a displayName, a description, a category, and a QualifierType.  Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
+ * Function is composed of Id, a referenceName, a description, a category, and a QualifierType.  Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * 
  * @package harmoni.osid.authorization
  */
@@ -18,9 +18,9 @@ class HarmoniFunction extends FunctionInterface {
 	
 	/**
 	 * The display name of this function.
-	 * @attribute private string _displayName
+	 * @attribute private string _referenceName
 	 */
-	var $_displayName;
+	var $_referenceName;
 
 	
 	/**
@@ -61,7 +61,7 @@ class HarmoniFunction extends FunctionInterface {
 	/**
 	 * The constructor.
 	 * @param ref object id - is externally defined functionId - is externally defined
-	 * @param string displayName - is externally defined displayName - the name to display for this Function
+	 * @param string referenceName - is externally defined referenceName - the name to display for this Function
 	 * @param string  description - is externally defined description - the description of this Function
 	 * @param ref object functionType - is externally defined functionType - the Type of this Function
 	 * @param ref object qualifierHierarchyId - is externally defined qualifierHierarchyId - the Id of the Qualifier Hierarchy associated with this Function 	 
@@ -69,11 +69,11 @@ class HarmoniFunction extends FunctionInterface {
 	 * @param  authzDB string The name of the Authorization database.
 	 * @access public
 	 */
-	function HarmoniFunction(& $id, $displayName, $description, & $functionType, 
+	function HarmoniFunction(& $id, $referenceName, $description, & $functionType, 
 							 & $qualifierHierarchyId, $dbIndex, $authzDB) {
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
-		ArgumentValidator::validate($displayName, $stringRule, true);
+		ArgumentValidator::validate($referenceName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
 		$extendsRule =& new ExtendsValidatorRule("HarmoniId");
 		ArgumentValidator::validate($id, $extendsRule, true);
@@ -86,7 +86,7 @@ class HarmoniFunction extends FunctionInterface {
 		// ** end of parameter validation
 		
 		$this->_id =& $id;
-		$this->_displayName = $displayName;
+		$this->_referenceName = $referenceName;
 		$this->_description = $description;
 		$this->_functionType =& $functionType;
 		$this->_qualifierHierarchyId =& $qualifierHierarchyId;
@@ -114,13 +114,13 @@ class HarmoniFunction extends FunctionInterface {
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.authorization
 	 */
-	function getDisplayName() {
-		return $this->_displayName;
+	function getReferenceName() {
+		return $this->_referenceName;
 	}
 
 
 
-	/* :: full java declaration :: String getDisplayName()
+	/* :: full java declaration :: String getReferenceName()
 	/**
 	 * Get the description for this Function.
 	 * @return String
@@ -162,34 +162,34 @@ class HarmoniFunction extends FunctionInterface {
 	/* :: full java declaration :: osid.shared.Id getQualifierHierarchyId()
 	/**
 	 * Update the name for this Function.
-	 * @param string displayName
+	 * @param string referenceName
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package harmoni.osid.authorization
 	 */
-	function updateDisplayName($displayName) {
+	function updateReferenceName($referenceName) {
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
-		ArgumentValidator::validate($displayName, $stringRule, true);
+		ArgumentValidator::validate($referenceName, $stringRule, true);
 		// ** end of parameter validation
 
-		if ($this->_displayName == $displayName)
+		if ($this->_referenceName == $referenceName)
 		    return; // nothing to update
 		
 		// update the object
-		$this->_displayName = $displayName;
-
+		$this->_referenceName = $referenceName;
+		
 		// update the database
 		$dbHandler =& Services::requireService("DBHandler");
-		$db = $this->_authzDB.".";
+		$dbPrefix = $this->_authzDB.".az_function";
 		
 		$query =& new UpdateQuery();
-		$query->setTable($db."function");
+		$query->setTable($dbPrefix);
 		$id =& $this->getId();
 		$idValue = $id->getIdString();
-		$where = "{$db}function.function_id = '{$idValue}'";
+		$where = "{$dbPrefix}.function_id = '{$idValue}'";
 		$query->setWhere($where);
-		$query->setColumns(array("{$db}function.function_display_name"));
-		$query->setValues(array("'$displayName'"));
+		$query->setColumns(array("{$dbPrefix}.function_reference_name"));
+		$query->setValues(array("'$referenceName'"));
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -200,7 +200,7 @@ class HarmoniFunction extends FunctionInterface {
 
 
 
-	/* :: full java declaration :: void updateDisplayName(String displayName)
+	/* :: full java declaration :: void updateReferenceName(String referenceName)
 	/**
 	 * Update the description for this Function.
 	 * @param string description
@@ -221,15 +221,15 @@ class HarmoniFunction extends FunctionInterface {
 
 		// update the database
 		$dbHandler =& Services::requireService("DBHandler");
-		$db = $this->_authzDB.".";
+		$dbPrefix = $this->_authzDB.".az_function";
 		
 		$query =& new UpdateQuery();
-		$query->setTable($db."function");
+		$query->setTable($dbPrefix);
 		$id =& $this->getId();
 		$idValue = $id->getIdString();
-		$where = "{$db}function.function_id = '{$idValue}'";
+		$where = "{$dbPrefix}.function_id = '{$idValue}'";
 		$query->setWhere($where);
-		$query->setColumns(array("{$db}function.function_description"));
+		$query->setColumns(array("{$dbPrefix}.function_description"));
 		$query->setValues(array("'$description'"));
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);

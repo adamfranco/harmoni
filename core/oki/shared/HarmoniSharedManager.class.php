@@ -37,7 +37,7 @@ require_once(HARMONI."oki/shared/HarmoniStringId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.29 2004/06/03 15:39:59 dobomode Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.30 2004/06/14 03:34:32 dobomode Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -89,6 +89,13 @@ class HarmoniSharedManager
 	
 	
 	/**
+	 * An array of all cached Id objects.
+	 * @attribute private array __ids
+	 */
+	var $__ids;
+	
+	
+	/**
 	 * Constructor. Set up any database connections needed.
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 * @param string sharedDB The name of the shared database.
@@ -105,6 +112,7 @@ class HarmoniSharedManager
 		// initialize cache
 		$this->_agentsCache = array();
 		$this->_groupsCache = array();
+		$this->_ids = array();
 		
 		$this->_allAgentsCached = false;
 		$this->_allGroupsCached = false;
@@ -1016,6 +1024,9 @@ class HarmoniSharedManager
 		
 		debug::output("Successfully created new id '$newID'.",DEBUG_SYS5,"IDManager");
 		
+		// cache the id
+		$this->_ids[strval($newId)];
+		
 		return new HarmoniId($newID);
 	}
 
@@ -1035,6 +1046,8 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getId($idString) {
+		if (isset($this->_ids[$idString]))
+			return $this->_ids[$idString];
 	
 		// Make sure that we have a non-zero integer
 		if (ereg("^[1-9][0-9]*$",$idString)) {
@@ -1049,6 +1062,9 @@ class HarmoniSharedManager
 			throwError(new Error(OPERATION_FAILED.": Unknown ID type for requested id-string, '".(($idString == NULL)?"NULL":$idString)."'.","HarmoniSharedManager",true));
 		}
 		
+		// cache the id
+		$this->_ids[$idString] = $id->getIdString();
+
 		return $id;
 	}
 
