@@ -40,7 +40,6 @@ class HarmoniInfoField extends InfoField
 		throwError(
 			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
 	}
-	// :: full java declaration :: public InfoField createInfoField(osid.shared.Id infoPartId, java.io.Serializable value)
 
 	/**
 	 * Delete an InfoField and all its InfoFields.
@@ -52,7 +51,6 @@ class HarmoniInfoField extends InfoField
 		throwError(
 			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
 	}
-	// :: full java declaration :: public void deleteInfoField(osid.shared.Id infoFieldId)
 
 	/**
 	 * Get all the InfoFields in the InfoField.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
@@ -64,7 +62,6 @@ class HarmoniInfoField extends InfoField
 		throwError(
 			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
 	}
-	// :: full java declaration :: public InfoFieldIterator getInfoFields()
 
 	/**
 	 * Get the for this InfoField.
@@ -80,7 +77,6 @@ class HarmoniInfoField extends InfoField
 		
 		return null;
 	}
-	// :: full java declaration :: public java.io.Serializable getValue()
 
 	/**
 	 * Update the for this InfoField.
@@ -98,9 +94,10 @@ class HarmoniInfoField extends InfoField
 		$class = $fieldType."DataType";
 		$valueObj =& new $class($value);
 	
-		$this->_valueVersions->setValue($value);
+		$this->_valueVersions->setValue($valueObj);
+		
+		$this->_valueVersions->commit();
 	}
-	// :: full java declaration :: public void updateValue(java.io.Serializable value)
 
 	/**
 	 * Get the InfoPart associated with this InfoField.
