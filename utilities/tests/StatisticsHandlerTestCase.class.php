@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StatisticsHandlerTestCase.class.php,v 1.1 2003/07/10 23:05:26 movsjani Exp $
+ * @version $Id: StatisticsHandlerTestCase.class.php,v 1.2 2003/07/11 18:43:41 movsjani Exp $
  * @copyright 2003 
  **/
 
@@ -71,6 +71,13 @@
 			$this->assertEqual($this->testList->getSecondaryDiscrimination($test),-0.5);
 
 		}
+
+		function testMinMax() {
+			$test = array(1,0,1,0,1,1);
+			$this->assertEqual($this->testList->getMax(),184);
+			$this->assertEqual($this->testList->getMin(),0);
+		}
+
 
 
 	
