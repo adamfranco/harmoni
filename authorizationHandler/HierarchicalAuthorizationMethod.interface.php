@@ -5,7 +5,7 @@
  * method capable of authorizing an <b>agent</b> performing a <b>function</b> in a given 
  * <b>context</b>.
  * @access public
- * @version $Id: HierarchicalAuthorizationMethod.interface.php,v 1.4 2003/07/09 01:28:27 dobomode Exp $
+ * @version $Id: HierarchicalAuthorizationMethod.interface.php,v 1.5 2003/07/09 21:10:01 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -44,7 +44,7 @@ class HierarchicalAuthorizationMethodInterface {
 	 * to be granted.
 	 * @param object context An <code>HierarchicalAuthorizationContext</code> object describing
 	 * the context.
-	 * @return void 
+	 * @return boolean <code>true</code>, if successful; <code>false</code>, otherwise.
 	 */
 	function grant($agent, $function, $context) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -61,7 +61,7 @@ class HierarchicalAuthorizationMethodInterface {
 	 * to be revoked.
 	 * @param object context An <code>HierarchicalAuthorizationContext</code> object describing
 	 * the context.
-	 * @return void 
+	 * @return boolean <code>true</code>, if successful; <code>false</code>, otherwise.
 	 */
 	function revoke($agent, $function, $context) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
