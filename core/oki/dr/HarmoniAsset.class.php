@@ -15,7 +15,7 @@ require_once(HARMONI."/oki/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.51 2005/01/26 17:37:52 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.52 2005/03/28 19:26:25 adamfranco Exp $
  */
 
 class HarmoniAsset
@@ -488,7 +488,7 @@ class HarmoniAsset
 		else {
 			// Get the DataSetGroup for this Asset
 			$recordMgr =& Services::getService("RecordManager");
-			$myId = $this->_node->getId();
+			$myId =& $this->_node->getId();
 			$myGroup =& $recordMgr->fetchRecordSet($myId->getIdString());
 			
 			// Get the info Structure needed.
@@ -600,7 +600,7 @@ class HarmoniAsset
 			$sharedMgr =& Services::getService("Shared");
 		
 			// Get the DataSetGroup for this Asset
-			$myId = $this->_node->getId();
+			$myId =& $this->_node->getId();
 			$mySet =& $recordMgr->fetchRecordSet($myId->getIdString());
 			
 			// Get the DataSetGroup for the source Asset
@@ -652,7 +652,7 @@ class HarmoniAsset
 		$sharedMgr =& Services::getService("Shared");
 		
 		// Get the RecordSet for this Asset
-		$myId = $this->_node->getId();
+		$myId =& $this->_node->getId();
 		$set =& $recordMgr->fetchRecordSet($myId->getIdString());
 		
 		// Get the DataSetGroup for the source Asset
