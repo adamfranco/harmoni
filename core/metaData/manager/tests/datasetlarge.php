@@ -1,5 +1,5 @@
 <?
-
+//apd_set_pprof_trace();
 define("LOAD_HIERARCHY", false);
 include "../../../../harmoni.inc.php";
 include HARMONI."utilities/QueryCounter.class.php";

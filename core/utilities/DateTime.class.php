@@ -5,7 +5,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.11 2004/01/14 20:09:42 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.12 2004/01/15 19:37:41 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -66,7 +66,7 @@ class DateTime {
 	function DateTime($year = 1970, $month = 1, $day = 1, 
 					  $hours = 0, $minutes = 0, $seconds = 0) {
 		// ** parameter validation
-		$integerRule =& new NumericValidatorRule();
+/*		$integerRule =& new NumericValidatorRule();
 		ArgumentValidator::validate($year, $integerRule, true);
 
 		$rangeRule =& new IntegerRangeValidatorRule(1, 12);
@@ -80,7 +80,7 @@ class DateTime {
 		
 		$rangeRule =& new IntegerRangeValidatorRule(0, 59);
 		ArgumentValidator::validate(intval($minutes), $rangeRule, true);
-		ArgumentValidator::validate(intval($seconds), $rangeRule, true);
+		ArgumentValidator::validate(intval($seconds), $rangeRule, true);*/
 		// ** end of parameter validation
 
 		// make the year 1900+

@@ -10,7 +10,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.21 2004/01/14 21:09:21 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.22 2004/01/15 19:37:11 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -37,21 +37,29 @@ class ValueVersions {
 	/**
 	* Sets up a number of {@ValueVersion} objects based on an array of database rows.
 	* @return void
-	* @param array $arrayOfRows
+	* @param ref array $arrayOfRows
 	*/
-	function populate( $arrayOfRows ) {
+	function populate( &$arrayOfRows ) {
 		// we are responsible for keeping track of multiple ValueVersion objects,
 		// each corresponding to a specific version of a value of a field.
 		
-		// we are going to hand each line in turn to a ValueVersion object
-		foreach ($arrayOfRows as $line) {
-			$verID = $line['datasetfield_id'];
-			$active = ($line['datasetfield_active'])?true:false;
-			
-			$this->_versions[$verID] =& new ValueVersion($this,$active);
-			$this->_versions[$verID]->populate($line);
-			$this->_numVersions++;
+		foreach (array_keys($arrayOfRows) as $key) {
+			$this->takeRow($arrayOfRows[$key]);
 		}
+	}
+	
+	/**
+	 * Takes a single row from a database and attempts to populate local objects.
+	 * @param ref array $row
+	 * @return void
+	 */
+	function takeRow( &$row ) {
+		$verID = $row['datasetfield_id'];
+		$active = $row['datasetfield_active']?true:false;
+		
+		$this->_versions[$verID] =& new ValueVersion($this,$active);
+		$this->_versions[$verID]->populate($row);
+		$this->_numVersions++;
 	}
 	
 	/**
@@ -321,7 +329,7 @@ class ValueVersions {
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.21 2004/01/14 21:09:21 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.22 2004/01/15 19:37:11 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -398,11 +406,11 @@ class ValueVersion {
 	/**
 	 * Takes a single database row and sets local data (like the modified timestamp, etc) variables
 	 * based on that row.
-	 * @param array $row The associative database row.
+	 * @param ref array $row The associative database row.
 	 * @return void
 	 * @access public
 	 */
-	function populate( $row ) {
+	function populate( &$row ) {
 		$dbHandler =& Services::getService("DBHandler");
 		$dbID = $this->_parent->_parent->_parent->_dbID;
 		

@@ -6,7 +6,7 @@ require_once HARMONI."metaData/manager/ValueVersions.classes.php";
  * Holds a number of indexes for values within a specific field within a DataSet. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: FieldValues.class.php,v 1.14 2004/01/14 20:09:42 gabeschine Exp $
+ * @version $Id: FieldValues.class.php,v 1.15 2004/01/15 19:37:11 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -34,39 +34,61 @@ class FieldValues {
 	/**
 	* Takes a number of DB rows and sets up {@link ValueVersions} objects corresponding to the data within the rows.
 	* @return bool
-	* @param array $arrayOfRows
+	* @param ref array $arrayOfRows
 	*/
-	function populate( $arrayOfRows ) {
+	function populate( &$arrayOfRows ) {
+		foreach (array_keys($arrayOfRows) as $key) {
+			$this->takeRow($arrayOfRows[$key]);
+		}
+		
 		// ok, we are responsible for keeping track of multiple values for any given
 		// label. we'll go through the rows and group them by index
-		$packages = array();
+//		$packages = array();
 		
-		foreach ($arrayOfRows as $line) {
-			$index = $line['datasetfield_index'];
-			if (!is_numeric($index)) {
-				throwError( new Error(
-					"Serious error in FieldValues. Index '$index' given to us is not numeric!","FieldValues",true));
-				return false;
-			}
-			
-			if (!is_array($packages[$index])) $packages[$index] = array();
-			$packages[$index][] = $line;
-		}
-		
-		// no go through each index and setup the ValueVersions object.
-		$i = -1;
-		foreach (array_keys($packages) as $index) {
-			$i = $this->_parent->readOnly()?$i+1:$index; // this is to compensate for skipped indexes - see below
-			$this->_values[$i] =& new ValueVersions($this,$i);
-			$this->_values[$i]->populate($packages[$index]);
-			$this->_numValues++;
-		}
+//		foreach ($arrayOfRows as $line) {
+//			$index = $line['datasetfield_index'];
+//			if (!is_numeric($index)) {
+//				throwError( new Error(
+//					"Serious error in FieldValues. Index '$index' given to us is not numeric!","FieldValues",true));
+//				return false;
+//			}
+//			
+//			if (!is_array($packages[$index])) $packages[$index] = array();
+//			$packages[$index][] = $line;
+//		}
+//		
+//		// no go through each index and setup the ValueVersions object.
+//		$i = -1;
+//		foreach (array_keys($packages) as $index) {
+//			$i = $this->_parent->readOnly()?$i+1:$index; // this is to compensate for skipped indexes - see below
+//			$this->_values[$i] =& new ValueVersions($this,$i);
+//			$this->_values[$i]->populate($packages[$index]);
+//			$this->_numValues++;
+//		}
 		
 		// if the dataset is fetched read-only, we have to be sure that our indexes are
 		// in order, going from 0 -> numValues. if an index was deleted, there may
 		// be a gap.
 //		$tmp =& array_slice($this->_values,0);
 //		$this->_values =& $tmp;
+	}
+	
+	/**
+	 * Takes a single row from a database and attempts to populate local objects.
+	 * @param ref array $row
+	 * @return void
+	 */
+	function takeRow( &$row ) {
+		$index = $row['datasetfield_index'];
+		// the below will: if we are readOnly (compact), then only one value (one row) will be
+		// passed for each index, so we number the indexes ourselves. otherwise, the real index
+		// is used, and we number them that way.
+		$i = $this->_parent->readOnly()?count($this->_values):$index; // this is to compensate for skipped indexes
+		if (!isset($this->_values[$i])) {
+			$this->_values[$i] =& new ValueVersions($this,$i);
+			$this->_numValues++;
+		}
+		$this->_values[$i]->takeRow($row);
 	}
 	
 	/**

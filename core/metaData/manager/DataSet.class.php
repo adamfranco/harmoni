@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.24 2004/01/14 21:09:21 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.25 2004/01/15 19:37:11 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -118,57 +118,44 @@ class CompactDataSet {
 	/**
 	* Creates a number of {@link FieldValues} objects based on an array of database rows.
 	* @return bool
-	* @param array $arrayOfRows
+	* @param ref array $arrayOfRows
 	*/
-	function populate( $arrayOfRows = null ) {
+	function populate( &$arrayOfRows ) {
 		
-		// ok, we're going to passed an array of rows that corresonds to
+		// ok, we're going to be passed an array of rows that corresonds to
 		// our label[index] = valueVersion[n] setup.
 		// that means we have to separate out the rows that have to do with each
 		// label, and hand each package to a FieldValues object.
-		
-		$myID = null;
-		
-		$packages = array();
-		
-		foreach ($arrayOfRows as $line) {
-			$label = $line['datasettypedef_label'];
-			if (!is_array($packages[$label])) $packages[$label] = array();
-			
-			$packages[$label][] = $line;
-			
-			if (!$myID && $line['dataset_id']) $myID = $line['dataset_id'];
-		}
-		
-		if (!$myID) {
-			throwError ( new Error(
-				"Serious error fetching DataSet: no ID was stored in the database!","DataSet",true));
-			return false;
-		}
-		
-		$this->_myID = $myID;
 
-		// now go through each label we've found and populate the FieldValues object
-		foreach (array_keys($packages) as $label) {
-/*			if (!($fieldDefinition =& $this->_dataSetTypeDef->fieldExists($label))) {
-				throwError( new Error(
-					"Serious error with DataSetTypeDefinition mappings. DataSet contains field with label '$label'
-					but no corresponding FieldDefinition was found within the DataSetTypeDefinition.",
-					"FullDataSet",true));
-				return false;
-			}
-			
-			$newFV =& new FieldValues($fieldDefinition, $this, $label);
-			$newFV->populate($package[$label]);*/
-			// above = dumb. _fields array should have been setup by the constructor.
-			
-			if (!isset($this->_fields[$label])) {
-				throwError( new Error("Could not populate DataSet with label '$label' because it doesn't
-				seem to be defined in the DatSetTypeDefinition.","DataSet",true));
-			}
-			$this->_fields[$label]->populate($packages[$label]);
+		foreach (array_keys($arrayOfRows) as $key) {
+			$this->takeRow($arrayOfRows[$key]);
+		}		
+	}
+	
+	/**
+	 * Takes one row from a database and populates our objects with it.
+	 * @param ref array $row
+	 * @return void
+	 */
+	function takeRow( &$row ) {
+		// this is gonna be a bit different of a setup than the populate() function
+		// (which should now be deprecated)
+		
+		// see if we can't get our ID from the row
+		if (!$this->_myID && $row['dataset_id']) $this->_myID = $row['dataset_id'];
+		else if ($row['dataset_id'] != $this->_myID) {
+			throwError( new Error("Can not take database row because it does not seem to correspond with our
+			DataSet ID.", "DataSet",true));
 		}
 		
+		$label = $row['datasettypedef_label'];
+		
+		if (!isset($this->_fields[$label])) {
+			throwError( new Error("Could not populate DataSet with label '$label' because it doesn't
+				seem to be defined in the DatSetTypeDefinition.","DataSet",true));
+		}
+		
+		$this->_fields[$label]->takeRow($row);
 	}
 	
 	/**
@@ -204,7 +191,7 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.24 2004/01/14 21:09:21 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.25 2004/01/15 19:37:11 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {

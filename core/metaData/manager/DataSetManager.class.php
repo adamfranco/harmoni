@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.20 2004/01/15 02:26:01 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.21 2004/01/15 19:37:11 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -76,51 +76,29 @@ class DataSetManager extends ServiceInterface {
 		
 		// now, we need to parse things out and distribute the lines accordingly
 		$sets = array();
+		$classToMake = $editable?"FullDataSet":"CompactDataSet";
 		
 		while ($result->hasMoreRows()) {
 			$a = $result->getCurrentRow();
 			$result->advanceRow();
 			
 			$id = $a['dataset_id'];
+			$type = $a['fk_datasettype'];
+			$vcontrol =$a['dataset_ver_control'];
 			if (!$sets[$id]) {
-				$sets[$id] = array("count"=>0,"type"=>null,"vcontrol"=>false);
+				$dataSetTypeDef =& $this->_typeManager->getDataSetTypeDefinitionByID($type);
+				$dataSetTypeDef->load();
+				$sets[$id] =& new $classToMake($this->_idManager,
+							$this->_dbID,
+							$dataSetTypeDef,
+							$vcontrol?true:false);
 			}
 			
-			// let's get some basic info from the row
-			if (!$sets[$id]["type"] && $a['fk_datasettype'])
-				$sets[$id]["type"] = $a['fk_datasettype'];
-			
-			if (!$sets[$id]["vcontrol"] && $a['dataset_ver_control'])
-				$sets[$id]["vcontrol"] = ($a['dataset_ver_control'])?true:false;
-			
-			$sets[$id]["count"]++;
-			$sets[$id][] = $a;
-		}
-				
-		$objs = array();
-		foreach (array_keys($sets) as $id) {
-			$dataSetTypeDef =& $this->_typeManager->getDataSetTypeDefinitionByID($sets[$id]["type"]);
-			$dataSetTypeDef->load(); // get Definition from DB
-			
-			if ($editable) $newDataSet =& new FullDataSet($this->_idManager,
-			$this->_dbID,
-			$dataSetTypeDef,
-			$sets[$id]["vcontrol"]
-			);
-			else $newDataSet =& new CompactDataSet($this->_idManager,
-			$this->_dbID,
-			$dataSetTypeDef,
-			$sets[$id]["vcontrol"]
-			);
-			
-			// get rid of these array elements so as not to confuse the dataset.
-			unset($sets[$id]["count"], $sets[$id]["vcontrol"], $sets[$id]["type"]);
-			$newDataSet->populate($sets[$id]);
-			
-			$objs[$id] =& $newDataSet;
+			$sets[$id]->takeRow($a);
+			unset($a);
 		}
 		
-		return $objs;
+		return $sets;
 	}
 	
 	/**
