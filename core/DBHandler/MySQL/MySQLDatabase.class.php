@@ -11,7 +11,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.18 2005/03/09 21:10:37 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.19 2005/03/09 21:43:59 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.mysql
  * @access public
@@ -470,8 +470,14 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @since 3/9/05
 	 */
 	function beginTransaction () {
-		if ($this->supportsTransactions())
+		// MySQL does not support nested transactions.
+		if ($this->_inTransaction)
+			throwError(new Error("Error: MySQL does not support nested transactions.", "DBHandler", true));
+
+		if ($this->supportsTransactions()) {
 			$this->_query("START TRANSACTION");
+			$this->_inTransaction = TRUE;
+		}
 	}
 	
 	/**
@@ -483,8 +489,10 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @since 3/9/05
 	 */
 	function commitTransaction () {
-		if ($this->supportsTransactions())
+		if ($this->supportsTransactions()) {
 			$this->_query("COMMIT");
+			$this->_inTransaction = FALSE;
+		}
 	}
 	
 	/**
@@ -495,8 +503,10 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @since 3/9/05
 	 */
 	function rollbackTransaction () {
-		if ($this->supportsTransactions())
+		if ($this->supportsTransactions()) {
 			$this->_query("ROLLBACK");
+			$this->_inTransaction = TRUE;
+		}
 	}
 }
 
