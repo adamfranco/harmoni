@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.37 2004/03/26 03:18:00 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.38 2004/03/31 19:13:26 adamfranco Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -22,17 +22,16 @@ class CompactDataSet {
 	var $_myID;
 	var $_active;
 	
-	var $_idManager;
 	var $_dbID;
 	var $_dataSetTypeDef;
 	var $_versionControlled;
 	var $_fields;
 	var $_full;
 	
-	function CompactDataSet(&$idManager, $dbID, &$dataSetTypeDef, $verControl=false) {
+	function CompactDataSet($dbID, &$dataSetTypeDef, $verControl=false) {
 		ArgumentValidator::validate($verControl, new BooleanValidatorRule());
-		ArgumentValidator::validate($idManager, new ExtendsValidatorRule("IDManager"));
-		$this->_idManager =& $idManager;
+		
+
 		$this->_dbID = $dbID;
 		$this->_dataSetTypeDef =& $dataSetTypeDef;
 		$this->_fields = array();
@@ -256,7 +255,7 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.37 2004/03/26 03:18:00 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.38 2004/03/31 19:13:26 adamfranco Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {
@@ -264,8 +263,8 @@ class FullDataSet extends CompactDataSet {
 	var $_prune;
 	var $_pruneConstraint;
 	
-	function FullDataSet(&$idManager, $dbID, &$dataSetTypeDef, $verControl=false ) {
-		parent::CompactDataSet($idManager, $dbID, $dataSetTypeDef, $verControl);
+	function FullDataSet($dbID, &$dataSetTypeDef, $verControl=false ) {
+		parent::CompactDataSet($dbID, $dataSetTypeDef, $verControl);
 		
 		$this->_prune=false;
 	}
@@ -354,7 +353,9 @@ class FullDataSet extends CompactDataSet {
 			// we'll have to make a new entry
 			$dataSetTypeManager =& Services::getService("DataSetTypeManager");
 			
-			$this->_myID = $this->_idManager->newID(new HarmoniType("Harmoni","HarmoniDataManager","DataSet"));
+			$sharedManager =& Services::getService("Shared");
+			$id =& $sharedManager->createId();
+			$this->_myID = $id->getIdString();
 			
 			$query =& new InsertQuery();
 			$query->setTable("dataset");
@@ -438,7 +439,7 @@ class FullDataSet extends CompactDataSet {
 	* @return ref object A new {@link FullDataSet} object.
 	*/
 	function &clone() {
-		$newSet =& new FullDataSet($this->_idManager, $this->_dbID, $this->_dataSetTypeDef, $this->_versionControlled);
+		$newSet =& new FullDataSet($this->_dbID, $this->_dataSetTypeDef, $this->_versionControlled);
 		
 		foreach ($this->_dataSetTypeDef->getAllLabels() as $label) {
 			for($i=0;$i<$this->numValues($label); $i++) {

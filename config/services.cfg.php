@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.21 2004/03/11 16:02:44 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.22 2004/03/31 19:13:25 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -31,7 +31,6 @@ if (!defined("LOAD_THEMES")) 				define("LOAD_THEMES", true);
 
 // functionality affected: HarmoniDataManager, sub-services: DataSetTypeManager, DataTypeManager,
 // 		DataSetManager
-// requires: IDManager
 if (!defined("LOAD_DATAMANAGER")) 			define("LOAD_DATAMANAGER", true);
 
 // functionality affected: almost everything but basic services: Harmoni architecture, LoginHandler,

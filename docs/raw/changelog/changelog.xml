@@ -4,6 +4,10 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.1.0" date="Not Released">
 		<change author='adam'>
+			The DataManager/metaData now uses the OKI Shared Ids instead of its own internal
+			id system. This keeps all access to unique ids safely behind the Shared interface.
+		</change>
+		<change author='adam'>
 			Themes and layouts have been completely re-worked to support easier use and
 			more user control of the themes.
 		</change>

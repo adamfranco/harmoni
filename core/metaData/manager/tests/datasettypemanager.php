@@ -1,7 +1,6 @@
 <?
 
 include "../../../../harmoni.inc.php";
-include "../IDManager.class.php";
 include "../DataSetTypeManager.class.php";
 //include HARMONI."oki/shared/HarmoniType.class.php";
 //include HARMONI."debugHandler/NewWindowDebugHandlerPrinter.class.php";
@@ -16,9 +15,7 @@ $passwd = ereg_replace("[\n\r ]","",file_get_contents("passwd"));
 $dbid = $db->addDatabase( new MySQLDatabase("localhost","harmoni","root",$passwd));
 $db->connect($dbid);
 
-$idmanager =& new IDManager($dbid);
-
-$manager =& new DataSetTypeManager($idmanager,$dbid);
+$manager =& new DataSetTypeManager($dbid);
 
 // :: if we are adding a new one
 

@@ -4,7 +4,7 @@
  * The DataTypeInterface defines the required functions for any DataType for use within the
  * {@link HarmoniDataManager}.
  * @package harmoni.datamanager.interfaces
- * @version $Id: DataType.interface.php,v 1.8 2004/01/14 03:21:25 gabeschine Exp $
+ * @version $Id: DataType.interface.php,v 1.9 2004/03/31 19:13:26 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -99,15 +99,13 @@ class DataTypeInterface {
 	function &clone() { }
 	
 	/**
-	 * Takes an idManager and database ID and stores them within the object. The IDManager is used
-	 * upon insert() to generate a new unique ID. The dbID is stored so that upon update() the correct
-	 * row will be modified.
-	 * @param ref object A reference to the {@link IDManager} object.
+	 * Takes a database ID and stores them within the object. The dbID is stored so 
+	 * that upon update() the correct row will be modified.
 	 * @param int $dbID The DB index in the {@link DBHandler} to use.
 	 * @access public
 	 * @return void
 	 */
-	function setup(&$idManager, $dbID) { }
+	function setup($dbID) { }
 	
 	/**
 	 * Sets the database id to $id. Used upon calls to update().

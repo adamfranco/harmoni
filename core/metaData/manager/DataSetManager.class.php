@@ -5,14 +5,13 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.33 2004/02/07 19:30:12 adamfranco Exp $
+ * @version $Id: DataSetManager.class.php,v 1.34 2004/03/31 19:13:26 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
  **/
 class DataSetManager extends ServiceInterface {
 	
-	var $_idManager;
 	var $_dbID;
 	var $_typeManager;
 	
@@ -21,8 +20,7 @@ class DataSetManager extends ServiceInterface {
 	var $_dataSetCache;
 	var $_dataSetGroupCache;
 	
-	function DataSetManager( &$idManager, $dbID, &$dataSetTypeManager) {
-		$this->_idManager =& $idManager;
+	function DataSetManager($dbID, &$dataSetTypeManager) {
 		$this->_dbID = $dbID;
 		$this->_typeManager = $dataSetTypeManager;
 		
@@ -193,8 +191,7 @@ class DataSetManager extends ServiceInterface {
 				if (!$sets[$id]) {
 					$dataSetTypeDef =& $this->_typeManager->getDataSetTypeDefinitionByID($type);
 					$dataSetTypeDef->load();
-					$sets[$id] =& new $classToMake($this->_idManager,
-								$this->_dbID,
+					$sets[$id] =& new $classToMake($this->_dbID,
 								$dataSetTypeDef,
 								$vcontrol?true:false);
 				}
@@ -369,7 +366,7 @@ class DataSetManager extends ServiceInterface {
 		// load from the DB
 		$typeDef->load();
 		debug::output("Creating new DataSet of type '".OKITypeToString($type)."', which allows fields: ".implode(", ",$typeDef->getAllLabels()),DEBUG_SYS4,"DataSetManager");
-		$newDataSet =& new FullDataSet($this->_idManager, $this->_dbID, $typeDef, $verControl);
+		$newDataSet =& new FullDataSet($this->_dbID, $typeDef, $verControl);
 		return $newDataSet;
 	}
 	

@@ -6,7 +6,7 @@ require_once HARMONI."metaData/manager/DataType.interface.php";
 /**
  * The DataType abstract class sets up some default functionality for other DataType classes.
  * @package harmoni.datamanager
- * @version $Id: DataType.abstract.php,v 1.7 2004/01/14 03:21:25 gabeschine Exp $
+ * @version $Id: DataType.abstract.php,v 1.8 2004/03/31 19:13:26 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -17,11 +17,8 @@ class DataType extends DataTypeInterface {
 	var $_myID;
 	var $_dbID;
 	
-	var $_idManager;
-	
-	function setup(&$idManager, $dbID) {
+	function setup($dbID) {
 		$this->_dbID = $dbID;
-		$this->_idManager =& $idManager;
 	}
 	
 	function toString() {

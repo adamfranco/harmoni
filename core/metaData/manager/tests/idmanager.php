@@ -5,7 +5,6 @@ error_reporting(E_ALL);
 print "...";
 
 include "../../../../harmoni.inc.php";
-include "../IDManager.class.php";
 include HARMONI."oki/shared/HarmoniType.class.php";
 include HARMONI."debugHandler/NewWindowDebugHandlerPrinter.class.php";
 include HARMONI."debugHandler/PlainTextDebugHandlerPrinter.class.php";
@@ -30,8 +29,6 @@ print "...";
 $dbid = $db->addDatabase( new MySQLDatabase("localhost","harmoni","root",file_get_contents("passwd")));
 $db->connect($dbid);
 
-$idmanager =& new IDManager($dbid);
-
 print "...";
 
 print "trying to get new ID...<br />";
@@ -40,20 +37,22 @@ $type =& new HarmoniType("chunky","harmoni","testidtype");
 
 print "...";
 
-$newid = $idmanager->newID($type);
+$sharedManager =& Services::getService("Shared");
+$id =& $sharedManager->createId();
+$newid = $id->getIdString();
 
 print "got $newid from database!<br />";
 
 print "<br />Now checking if the two are equal... ";
-
-$type2 =& $idmanager->getIDType($newid);
-
-if ($type->isEqual($type2)) print "yes";
-else print "no";
-
-print "<br /><br />";
-
-print_r($type2);
+// 
+// $type2 =& $idmanager->getIDType($newid);
+// 
+// if ($type->isEqual($type2)) print "yes";
+// else print "no";
+// 
+// print "<br /><br />";
+// 
+// print_r($type2);
 
 
 print "<br /><br />";

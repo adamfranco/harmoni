@@ -7,16 +7,14 @@ require_once HARMONI."metaData/manager/DataSetTag.class.php";
 * more detailed explanation of the role of tags.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSetTagManager.class.php,v 1.14 2004/01/15 20:55:17 gabeschine Exp $
+* @version $Id: DataSetTagManager.class.php,v 1.15 2004/03/31 19:13:26 adamfranco Exp $
 * @copyright 2004, Middlebury College
 */
 class DataSetTagManager extends ServiceInterface {
 	
-	var $_idManager;
 	var $_dbID;
 	
-	function DataSetTagManager( &$idManager, $dbID) {
-		$this->_idManager =& $idManager;
+	function DataSetTagManager( $dbID) {
 		$this->_dbID = $dbID;
 	}
 	
@@ -58,14 +56,10 @@ class DataSetTagManager extends ServiceInterface {
 		$query->setTable("dataset_tag");
 		$query->setColumns(array("dataset_tag_id","fk_dataset","dataset_tag_date"));
 		
-		$idType =& new HarmoniType(
-				"Harmoni",
-				"HarmoniDataManager",
-				"DataSetTag",
-				"DataSetTags save a snapshot of a version-controlled dataset for future rollback.");
-		$newID = $this->_idManager->newID($idType);
+		$sharedManager =& Services::getService("Shared");
+		$newID =& $sharedManager->createId();
 		$query->addRowOfValues(array(
-				$newID,
+				$newID->getIdString(),
 				$dataSetID,
 				$dbHandler->toDBDate($date,$this->_dbID)));
 		
@@ -74,7 +68,7 @@ class DataSetTagManager extends ServiceInterface {
 		$query2->setColumns(array("fk_dataset_tag","fk_datasetfield"));
 		
 		foreach ($ids as $id) {
-			$query2->addRowOfValues(array($newID,$id));
+			$query2->addRowOfValues(array($newID->getIdString(),$id));
 		}
 		
 		$result =& $dbHandler->query($query, $this->_dbID);
@@ -83,7 +77,7 @@ class DataSetTagManager extends ServiceInterface {
 		if (!$result || !$result2) throwError ( new UnknownDBError("DataSetTagManager"));
 		
 		// we're done.
-		return $newID;
+		return $newID->getIdString();
 	}
 
 	/**

@@ -20,6 +20,8 @@ class HarmoniType
 
 	// public boolean isEqual(Type & $type2);
 	function isEqual(& $type2) {
+		ArgumentValidator::validate($type2, new ExtendsValidatorRule("Type"));
+		
 		// the domain, authority, and keyword need to be alike for the types to be equivallent
 		if (strtolower($this->getDomain()) == strtolower($type2->getDomain()) && 
 			strtolower($this->getAuthority()) == strtolower($type2->getAuthority()) &&
@@ -53,7 +55,7 @@ class HarmoniType
 } // end Type
 
 function OKITypeToString(&$type, $glue=", ") {
-	//ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
+	ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
 	return $type->getAuthority() . $glue . $type->getDomain() . $glue . $type->getKeyword();
 }
 

@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataType.abstract.php";
 /**
  * A simple integer data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.18 2004/03/31 19:13:25 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -32,17 +32,15 @@ class IntegerDataType
 		return false;
 	}
 	
-	function insert() {
-		$integerType = new HarmoniType("Harmoni","HarmoniDataManager","IntegerDataType",
-			"Allows for the storage of integer values (big ones too) in DataSets.");
-		
-		$newID = $this->_idManager->newID($integerType);
+	function insert() {		
+		$sharedManager =& Services::getService("Shared");
+		$newID =& $sharedManager->createId();
 		
 		$query =& new InsertQuery();
 		$query->setTable("data_integer");
 		$query->setColumns(array("data_integer_id","data_integer_data"));
 		
-		$query->addRowOfValues(array($newID,$this->_value));
+		$query->addRowOfValues(array($newID->getIdString(), $this->_value));
 		
 		$dbHandler =& Services::requireService("DBHandler");
 		$result =& $dbHandler->query($query, $this->_dbID);
@@ -51,7 +49,7 @@ class IntegerDataType
 			return false;
 		}
 		
-		$this->_setMyID($newID);
+		$this->_setMyID($newID->getIdString());
 		return true;
 	}
 	
@@ -117,7 +115,7 @@ class IntegerDataType
 /**
  * A simple float data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.18 2004/03/31 19:13:25 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -144,17 +142,15 @@ class FloatDataType
 		return false;
 	}
 	
-	function insert() {
-		$floatType = new HarmoniType("Harmoni","HarmoniDataManager","FloatDataType",
-			"Allows for the storage of integer values (big ones too) in DataSets.");
-		
-		$newID = $this->_idManager->newID($floatType);
+	function insert() {		
+		$sharedManager =& Services::getService("Shared");
+		$newID =& $sharedManager->createId();
 		
 		$query =& new InsertQuery();
 		$query->setTable("data_float");
 		$query->setColumns(array("data_float_id","data_float_data"));
 		
-		$query->addRowOfValues(array($newID,$this->_value));
+		$query->addRowOfValues(array($newID->getIdString(),$this->_value));
 		
 		$dbHandler =& Services::requireService("DBHandler");
 		$result =& $dbHandler->query($query, $this->_dbID);
@@ -163,7 +159,7 @@ class FloatDataType
 			return false;
 		}
 		
-		$this->_setMyID($newID);
+		$this->_setMyID($newID->getIdString());
 		return true;
 	}
 	
@@ -228,7 +224,7 @@ class FloatDataType
 /**
  * A simple (large) string data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.18 2004/03/31 19:13:25 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -256,16 +252,14 @@ class StringDataType
 	}
 	
 	function insert() {
-		$stringType = new HarmoniType("Harmoni","HarmoniDataManager","StringDataType",
-			"Allows for the storage of string values (large) in DataSets.");
-		
-		$newID = $this->_idManager->newID($stringType);
+		$sharedManager =& Services::getService("Shared");
+		$newID =& $sharedManager->createId();
 		
 		$query =& new InsertQuery();
 		$query->setTable("data_string");
 		$query->setColumns(array("data_string_id","data_string_data"));
 		
-		$query->addRowOfValues(array($newID,"'".addslashes($this->_value)."'"));
+		$query->addRowOfValues(array($newID->getIdString(),"'".addslashes($this->_value)."'"));
 		
 		$dbHandler =& Services::requireService("DBHandler");
 		$result =& $dbHandler->query($query, $this->_dbID);
@@ -274,7 +268,7 @@ class StringDataType
 			return false;
 		}
 		
-		$this->_setMyID($newID);
+		$this->_setMyID($newID->getIdString());
 		return true;
 	}
 	
@@ -339,7 +333,7 @@ class StringDataType
 /**
  * A simple short string (up to 255 chars) data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.18 2004/03/31 19:13:25 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -367,16 +361,14 @@ class ShortStringDataType
 	}
 	
 	function insert() {
-		$stringType = new HarmoniType("Harmoni","HarmoniDataManager","ShortStringDataType",
-			"Allows for the storage of short string values (up to 255 characters) in DataSets.");
-		
-		$newID = $this->_idManager->newID($stringType);
+		$sharedManager =& Services::getService("Shared");
+		$newID =& $sharedManager->createId();
 		
 		$query =& new InsertQuery();
 		$query->setTable("data_shortstring");
 		$query->setColumns(array("data_shortstring_id","data_shortstring_data"));
 		
-		$query->addRowOfValues(array($newID,"'".addslashes($this->_value)."'"));
+		$query->addRowOfValues(array($newID->getIdString(),"'".addslashes($this->_value)."'"));
 		
 		$dbHandler =& Services::requireService("DBHandler");
 		$result =& $dbHandler->query($query, $this->_dbID);
@@ -385,7 +377,7 @@ class ShortStringDataType
 			return false;
 		}
 		
-		$this->_setMyID($newID);
+		$this->_setMyID($newID->getIdString());
 		return true;
 	}
 	
@@ -449,7 +441,7 @@ class ShortStringDataType
 /**
  * A simple boolean data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.18 2004/03/31 19:13:25 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -481,16 +473,14 @@ class BooleanDataType
 	}
 	
 	function insert() {
-		$boolType = new HarmoniType("Harmoni","HarmoniDataManager","BooleanDataType",
-			"Allows for the storage of boolean data types (true/false) in DataSets.");
-		
-		$newID = $this->_idManager->newID($boolType);
+		$sharedManager =& Services::getService("Shared");
+		$newID =& $sharedManager->createId();
 		
 		$query =& new InsertQuery();
 		$query->setTable("data_boolean");
 		$query->setColumns(array("data_boolean_id","data_boolean_data"));
 		
-		$query->addRowOfValues(array($newID,$this->_value?1:0));
+		$query->addRowOfValues(array($newID->getIdString(),$this->_value?1:0));
 		
 		$dbHandler =& Services::requireService("DBHandler");
 		$result =& $dbHandler->query($query, $this->_dbID);
@@ -499,7 +489,7 @@ class BooleanDataType
 			return false;
 		}
 		
-		$this->_setMyID($newID);
+		$this->_setMyID($newID->getIdString());
 		return true;
 	}
 	
@@ -564,7 +554,7 @@ class BooleanDataType
 /**
  * A simple (large) blob data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.18 2004/03/31 19:13:25 adamfranco Exp $
  * @author Adam Franco
  * @copyright 2004
  * @access public
@@ -592,16 +582,14 @@ class BlobDataType
 	}
 	
 	function insert() {
-		$blobType = new HarmoniType("Harmoni","HarmoniDataManager","BlobDataType",
-			"Allows for the storage of blob values (large) in DataSets.");
-		
-		$newID = $this->_idManager->newID($blobType);
+		$sharedManager =& Services::getService("Shared");
+		$newID =& $sharedManager->createId();
 		
 		$query =& new InsertQuery();
 		$query->setTable("data_blob");
 		$query->setColumns(array("data_blob_id","data_blob_data"));
 		
-		$query->addRowOfValues(array($newID,"'".addslashes($this->_value)."'"));
+		$query->addRowOfValues(array($newID->getIdString(),"'".addslashes($this->_value)."'"));
 		
 		$dbHandler =& Services::requireService("DBHandler");
 		$result =& $dbHandler->query($query, $this->_dbID);
@@ -610,7 +598,7 @@ class BlobDataType
 			return false;
 		}
 		
-		$this->_setMyID($newID);
+		$this->_setMyID($newID->getIdString());
 		return true;
 	}
 	
@@ -676,7 +664,7 @@ class BlobDataType
 /**
  * A simple (large) date data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.18 2004/03/31 19:13:25 adamfranco Exp $
  * @author Adam Franco
  * @copyright 2004
  * @access public
@@ -704,16 +692,14 @@ class DateTimeDataType
 	}
 	
 	function insert() {
-		$dateType = new HarmoniType("Harmoni","HarmoniDataManager","DateTimeDataType",
-			"Allows for the storage of date values (large) in DataSets.");
-		
-		$newID = $this->_idManager->newID($dateType);
+		$sharedManager =& Services::getService("Shared");
+		$newID =& $sharedManager->createId();
 		
 		$query =& new InsertQuery();
 		$query->setTable("data_date");
 		$query->setColumns(array("data_date_id","data_date_data"));
 		
-		$query->addRowOfValues(array($newID,"'".addslashes($this->_value)."'"));
+		$query->addRowOfValues(array($newID->getIdString(),"'".addslashes($this->_value)."'"));
 		
 		$dbHandler =& Services::requireService("DBHandler");
 		$result =& $dbHandler->query($query, $this->_dbID);
@@ -722,7 +708,7 @@ class DateTimeDataType
 			return false;
 		}
 		
-		$this->_setMyID($newID);
+		$this->_setMyID($newID->getIdString());
 		return true;
 	}
 	

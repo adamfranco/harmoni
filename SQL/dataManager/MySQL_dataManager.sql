@@ -200,19 +200,3 @@ CREATE TABLE `datasettypedef` (
   KEY `fk_datasettype` (`fk_datasettype`),
   KEY `datasettypedef_label` (`datasettypedef_label`)
 ) TYPE=MyISAM;
-
-
-
-# Dump of table harmoni_id
-# ------------------------------------------------------------
-
-CREATE TABLE `harmoni_id` (
-  `harmoni_id_number` bigint(20) unsigned NOT NULL auto_increment,
-  `harmoni_id_domain` varchar(255) NOT NULL default '',
-  `harmoni_id_authority` varchar(255) NOT NULL default '',
-  `harmoni_id_keyword` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`harmoni_id_number`)
-) TYPE=MyISAM;
-
-
-

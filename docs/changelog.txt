@@ -3,10 +3,41 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.1.0 (Not Released)
+----------------------------------------------------
+		
+	* Change: The DataManager/metaData now uses the OKI Shared Ids instead of its own internal id system. This keeps all access to unique ids safely behind the Shared interface. (Adam Franco)
+		
+	* Change: Themes and layouts have been completely re-worked to support easier use and more user control of the themes. (Adam Franco)
+		
+	* Change: Argument Validator now dosn't fail on string representations of integers; i.e. &quot;100&quot; as well as 100 will validate. (Adam Franco)
+		
+	* New feature: Implimented the Digital Repository OSID in Harmoni. The DR uses the Hierarchy OSID, the DataManager, and the Shared OSID to provide for high-level access and browsing of Assets and their associated data/metadata. (Adam Franco)
+		
+	* Change: Services: The Harmoni Services now check for the Error Handler and use that to print out errors if it is availible. This makes for easier to read backtraces. (Adam Franco)
+		
+	* Change: DBHandler: DBHandler now throws fatal errors with an explanation when a query fails. (Adam Franco)
+		
+	* New feature: Hierarchy: Implimented the Hierarchy OSID. The Hiearchy supports the storing of multiple hierarchies and their nodes in one database. In the current implimentation, the entire hierarchy is pulled from the database each load. This needs to be re-written to optimize it for fast reads from 100,000+ node hierarchy (current Segue at Middlebury has ~50,000 nodes). (Adam Franco)
+		
+	* New feature: DataManager: added DataSet caching to the DataSetManager. Added support for required fields in DataSetTypeDefinitions. (Gabe Schine)
+		
+	* Change: Removed argument validation from DateTime constructor to speed up code by 33%. (Gabe Schine)
+		
+	* Change: DataManager: sped up fetching large numbers of DataSets at once (by a factor of two). (Gabe Schine)
+		
+	* Change: DataManager: DataSet::prune() now takes a required VersionConstraint object on which to base the pruning process. Handling of pruning Tags is very very messy, but it works. (Gabe Schine)
+		
+	* New feature: DataManager: can use DataSetManager::selectIDsBySearch() to search all/some DataSets and return a list of DataSets that match the criteria. (Gabe Schine)
+		
+	* Change: DataManager: ValueVersion::prune() now deletes itself if the DataSet it is part of is inactive. (Gabe Schine)
+		
+	* Change: DataManager: DataSet::prune() now removes all Tags associated with itself. (Gabe Schine)
+	
 v. 0.0.5 (2004-01-09)
 ----------------------------------------------------
 		
-	* Change: Implementation of the OKI SharedManager (HarmoniSharedManager) now uses the HarmoniDataManager's IDManager or ID creation.
+	* Change: Implementation of the OKI SharedManager (HarmoniSharedManager) now uses the HarmoniDataManager's IDManager for ID creation.
 		
 	* Bug Fix: DateTime::toString() now correctly displays minutes.
 		
@@ -38,7 +69,7 @@ v. 0.0.5 (2004-01-09)
 		
 	* Bug Fix: DateTime::now() now gives correct Hour value. Likewise MySQLDatabase::toDBDate() now adds 1 to hour value to give correct 1-24 value. Other DB Types haven't yet been checked. (Gabe Schine)
 		
-	* Change: Modified field in HarmoniDataManager table "datasetfield" from "datasetfield_created" to "datasetfield_modified" since it is updated on every commit(). (Gabe Schine)
+	* Change: Modified field in HarmoniDataManager table &quot;datasetfield&quot; from &quot;datasetfield_created&quot; to &quot;datasetfield_modified&quot; since it is updated on every commit(). (Gabe Schine)
 		
 	* New feature: Extensive work on DataManager. Now works for creating/retrieving datasets with version controls. (Gabe Schine)
 		
@@ -69,14 +100,14 @@ v. 0.0.4 (2003-12-06)
 		
 	* Change: LoginState::attachData() has been moved to Harmoni::attachContextData() and LoginState::getData() has been moved to Context::getData() for logical and organizational reasons. (Gabe Schine)
 		
-	* Change: LoginHandler and Harmoni: when LoginHandler is used, the action that is checked for required authentication is now the LAST action executed instead of the first. This way, the action that finally ends up being executed is the "authoritative" action. (Gabe Schine)
+	* Change: LoginHandler and Harmoni: when LoginHandler is used, the action that is checked for required authentication is now the LAST action executed instead of the first. This way, the action that finally ends up being executed is the &quot;authoritative&quot; action. (Gabe Schine)
 	
 v. 0.0.3 (2003-11-26)
 ----------------------------------------------------
 		
 	* Change: Made ActionHandler check for class and method definitions before trying to execute them. (Gabe Schine)
 		
-	* New feature: Added defines in config/services.cfg.php to allow a choice of which major "modules" of Harmoni to load, in order to save on startup time. (Gabe Schine)
+	* New feature: Added defines in config/services.cfg.php to allow a choice of which major &quot;modules&quot; of Harmoni to load, in order to save on startup time. (Gabe Schine)
 		
 	* Bug Fix: Numerous bug fixes in Harmoni, ActionHandler, LoginHandler (Gabe Schine)
 		
@@ -102,7 +133,7 @@ v. 0.0.3 (2003-11-26)
 		
 	* New feature: Harmoni Users's Guide stored locally in XML format. Wrote a gen-script in PHP using domxml to make pretty HTML interface. (Gabe Schine)
 		
-	* Change: LanguageLocalizer now uses gettext() functions instead of home-brewed. Included PO generators, "borrowed" from the Horde project (www.horde.org). (Gabe Schine)
+	* Change: LanguageLocalizer now uses gettext() functions instead of home-brewed. Included PO generators, &quot;borrowed&quot; from the Horde project (www.horde.org). (Gabe Schine)
 		
 	* Change: New OKI interfaces, OKI gen-scripts and token files added (under harmoni/oki and harmoni/core/tools/oki respectively) (Gabe Schine)
 	

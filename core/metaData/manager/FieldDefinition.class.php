@@ -4,7 +4,7 @@
  * Holds information about a specific label within a {@link DataSetTypeDefinition}. Defines
  * what type of data the field holds (string, integer, etc) and if it can have multiple values.
  * @package harmoni.datamanager
- * @version $Id: FieldDefinition.class.php,v 1.11 2004/01/16 04:43:26 gabeschine Exp $
+ * @version $Id: FieldDefinition.class.php,v 1.12 2004/03/31 19:13:26 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -17,7 +17,6 @@ class FieldDefinition {
 	var $_type;
 	var $_mult;
 	var $_required;
-	var $_idManager;
 	var $_dbID;
 	var $_associated;
 	
@@ -46,7 +45,6 @@ class FieldDefinition {
 		$this->_update = false;
 		
 		$this->_dataSetTypeDefinition = null;
-		$this->_idManager = null;
 		
 		// let's do a quick check and make sure that this type is registered
 		$typeMgr =& Services::requireService("DataTypeManager");
@@ -62,14 +60,12 @@ class FieldDefinition {
 	 * After being added to a {@link DataSetTypeDefinition}, it calls associate() to tie us
 	 * to its DataSetType. This way, we can only be added to one DataSetTypeDefinition.
 	 * @param ref object $dataSetTypeDefinition The definition to which we are being added.
-	 * @param ref object $idManager The {@link IDManager} we should use.
 	 * @param int $dbID The DB index to use with the {@link DBHandler}.
 	 * @param optional int $myID Optionally, our ID in the database.
 	 * @return void
 	 * @access public
 	 */
 	function associate( &$dataSetTypeDefinition,
-			&$idManager,
 			$dbID,
 			$myID=null ) {
 		// first check if we're already attached to a DataSetTypeDefinition.
@@ -82,7 +78,6 @@ class FieldDefinition {
 		$this->_associated = true;
 		$this->_myID = $myID;
 		$this->_dbID = $dbID;
-		$this->_idManager =& $idManager;
 		$this->_dataSetTypeDefinition =& $dataSetTypeDefinition;
 	}
 	
@@ -174,11 +169,13 @@ class FieldDefinition {
 			$query->setColumns(array("datasettypedef_id","fk_datasettype","datasettypedef_label",
 			"datasettypedef_mult","datasettypedef_fieldtype","datasettypedef_active","datasettypedef_required"));
 			
-			$newID = $this->_idManager->newID( new HarmoniFieldDefinitionType() );
+			$sharedManager =& Services::getService("Shared");
+			$newID =& $sharedManager->createId();
+			
 			$dataSetTypeID = $this->_dataSetTypeDefinition->getID();
 			
 			$query->addRowOfValues(array(
-					$newID,
+					$newID->getIdString(),
 					$dataSetTypeID,
 					"'".addslashes($this->_label)."'",
 					(($this->_mult)?1:0),
@@ -193,7 +190,7 @@ class FieldDefinition {
 				return false;
 			}
 			
-			$this->_myID = $newID;
+			$this->_myID = $newID->getIdString();
 			return true;
 		}
 		

@@ -10,7 +10,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.30 2004/02/05 23:04:55 adamfranco Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.31 2004/03/31 19:13:26 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -384,7 +384,7 @@ class ValueVersions {
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.30 2004/02/05 23:04:55 adamfranco Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.31 2004/03/31 19:13:26 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -508,8 +508,7 @@ class ValueVersion {
 		$dbID = $this->_parent->_parent->_parent->_dbID;
 		
 		// associate the valueObject with us. its master.
-		$this->_valueObj->setup($this->_parent->_parent->_parent->_idManager,
-					$this->_parent->_parent->_parent->_dbID);
+		$this->_valueObj->setup($this->_parent->_parent->_parent->_dbID);
 		
 		if ($this->_update) {
 			// first we need to commit the actual DataType value
@@ -528,8 +527,10 @@ class ValueVersion {
 				// we have to insert a new one
 				$query =& new InsertQuery();
 				
-				$this->_myID = $this->_parent->_parent->_parent->_idManager->newID(
-				new HarmoniType("Harmoni","HarmoniDataManager","DataSetField"));
+				$sharedManager =& Services::getService("Shared");
+				$newID =& $sharedManager->createId();
+				
+				$this->_myID = $newID->getIdString();
 				$query->setColumns(array(
 				"datasetfield_id",
 				"fk_dataset",

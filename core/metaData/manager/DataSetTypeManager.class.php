@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.22 2004/01/17 02:52:11 gabeschine Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.23 2004/03/31 19:13:26 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -16,7 +16,6 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
 class DataSetTypeManager
 	extends ServiceInterface {
 	
-	var $_idmanager;
 	var $_dbID;
 	
 	var $_types;
@@ -27,13 +26,11 @@ class DataSetTypeManager
 	
 	/**
 	* Constructor.
-	* @param object $idmanager The {@link IDManager} to use for ID generation.
 	* @param int $dbID The {@link DBHandler} connection ID to use for data type storage.
 	* @param ref object $preloadTypes A {@link HarmoniTypeIterator} containing a number of {@link HarmoniType}s to
 	* pre-load structure data for. This will avoid queries later on.
 	*/
-	function DataSetTypeManager( &$idmanager, $dbID, &$preloadTypes ) {
-		$this->_idmanager =& $idmanager;
+	function DataSetTypeManager($dbID, &$preloadTypes ) {
 		$this->_dbID = $dbID;
 		$this->_types = array();
 		
@@ -75,7 +72,7 @@ class DataSetTypeManager
 					$a['datasettype_keyword'],
 					$a['datasettype_description']);
 			
-			$this->_typeDefinitions[$a['datasettype_id']] =& new DataSetTypeDefinition($this, $this->_idmanager, $this->_dbID, $type, $a['datasettype_id']);
+			$this->_typeDefinitions[$a['datasettype_id']] =& new DataSetTypeDefinition($this, $this->_dbID, $type, $a['datasettype_id']);
 			$this->_types[$a['datasettype_id']] =& $type;
 			
 			$this->_typeIDs[$this->_mkHash($type)] = $a['datasettype_id'];
@@ -225,13 +222,14 @@ class DataSetTypeManager
 		}
 		
 		// add somethin' to the database
-		$newID = $this->_idmanager->newID(new HarmoniDataSetType);
+		$sharedManager =& Services::getService("Shared");
+		$newID =& $sharedManager->createId();
 		
 		$query =& new InsertQuery;
 		$query->setTable("datasettype");
 		$query->setColumns(array("datasettype_id","datasettype_domain","datasettype_authority","datasettype_keyword","datasettype_description"));
 		$query->addRowOfValues( array(
-			$newID,
+			$newID->getIdString(),
 			"'".addslashes($type->getDomain())."'",
 			"'".addslashes($type->getAuthority())."'",
 			"'".addslashes($type->getKeyword())."'",
@@ -244,12 +242,12 @@ class DataSetTypeManager
 			throwError( new UnknownDBError("DataSetTypeManager") );
 		}
 		
-		$newDataSetType =& new DataSetTypeDefinition($this, $this->_idmanager, $this->_dbID, $type, $newID);
+		$newDataSetType =& new DataSetTypeDefinition($this, $this->_dbID, $type, $newID->getIdString());
 
 		// add it to our local arrays
-		$this->_typeDefinitions[$newID] =& $newDataSetType;
-		$this->_types[$newID] =& $type;
-		$this->_typeIDs[$this->_mkHash($type)] = $newID;
+		$this->_typeDefinitions[$newID->getIdString()] =& $newDataSetType;
+		$this->_types[$newID->getIdString()] =& $type;
+		$this->_typeIDs[$this->_mkHash($type)] = $newID->getIdString();
 		debug::output("Created new DataSetType object for '".OKITypeToString($type)."'",DEBUG_SYS5,"DataSetTypeManager");
 		return $newDataSetType;
 	}

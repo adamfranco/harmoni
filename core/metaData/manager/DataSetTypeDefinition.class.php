@@ -8,15 +8,13 @@ require_once(HARMONI."metaData/manager/FieldDefinition.class.php");
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link DataSetTypeManager}.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeDefinition.class.php,v 1.17 2004/01/17 02:52:11 gabeschine Exp $
+ * @version $Id: DataSetTypeDefinition.class.php,v 1.18 2004/03/31 19:13:26 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
  **/
 class DataSetTypeDefinition {
 	
-	var $_manager;
-	var $_idmanager;
 	var $_dbID;
 	var $_type;
 	var $_id;
@@ -25,9 +23,12 @@ class DataSetTypeDefinition {
 	
 	var $_fields;
 	
-	function DataSetTypeDefinition(&$manager, &$idmanager, $dbID, &$type, $id=null) {
+	var $_manager;
+	
+	function DataSetTypeDefinition(&$manager, $dbID, &$type, $id=null) {
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
+		
 		$this->_manager =& $manager;
-		$this->_idmanager =& $idmanager;
 		$this->_dbID = $dbID;
 		$this->_type =& $type;
 		
@@ -57,6 +58,7 @@ class DataSetTypeDefinition {
 	* @return ref object
 	*/
 	function &getType() {
+		ArgumentValidator::validate($this->_type, new ExtendsValidatorRule("Type"));
 		return $this->_type;
 	}
 	
@@ -83,7 +85,7 @@ class DataSetTypeDefinition {
 			throwError( new Error("Already have a field with label '$label' defined in DataSetTypeDefinition '".OKITypeToString($this->_type)."'. If you feel this is in error, remember that previously deleted FieldDefinitions retain their label so as to avoid data fragmentation.","DataSetTypeDefinition",true));
 		
 		// associate this field definition with our DataSetTypeDefinition
-		$fieldDefinition->associate($this, $this->_idmanager, $this->_dbID, $id);
+		$fieldDefinition->associate($this, $this->_dbID, $id);
 		
 		// add it to our list of fields
 		$this->_fields[$label] =& $fieldDefinition;
