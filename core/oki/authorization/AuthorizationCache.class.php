@@ -6,7 +6,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.14 2004/11/23 19:11:45 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.15 2004/11/23 22:44:54 adamfranco Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -673,10 +673,10 @@ class AuthorizationCache {
 	 * @param boolean isActiveNow If True, only active Authorizations will be returned.
 	 * @return ref object An AuthorizationIterator.
 	 **/
-	function &getAZs($aId, $fId, $qId, $fType, $isExplicit, $isActiveNow) {
+	function &getAZs($aIds, $fId, $qId, $fType, $isExplicit, $isActiveNow) {
 		// ** parameter validation
 		$rule =& new StringValidatorRule();
-		ArgumentValidator::validate($aId, new OptionalRule($rule), true);
+		ArgumentValidator::validate($aIds, new OptionalRule(new ArrayValidatorRuleWithRule($rule)), true);
 		ArgumentValidator::validate($fId, new OptionalRule($rule), true);
 		ArgumentValidator::validate($qId, $rule, true);
 		ArgumentValidator::validate($fType, new OptionalRule(new ExtendsValidatorRule("TypeInterface")), true);
@@ -759,8 +759,8 @@ class AuthorizationCache {
 		}
 		// the function criteria
 		if (isset($fId)) {
-			$joinc = $db."az_authorization.fk_function = ".$db."az_function.function_id";
-			$query->addTable($db."az_function", INNER_JOIN, $joinc);
+// 			$joinc = $db."az_authorization.fk_function = ".$db."az_function.function_id";
+// 			$query->addTable($db."az_function", INNER_JOIN, $joinc);
 			$where = $db."az_authorization.fk_function = '".addslashes($fId)."'";
 			$query->addWhere($where);
 		}
@@ -796,9 +796,9 @@ class AuthorizationCache {
 		
 		$query->addOrderBy("authorization_id");
 		
-//		echo "<pre>\n";
-//		echo MySQL_SQLGenerator::generateSQLQuery($query);
-//		echo "</pre>\n";
+// 		echo "<pre>\n";
+// 		echo MySQL_SQLGenerator::generateSQLQuery($query);
+// 		echo "</pre>\n";
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
@@ -830,8 +830,14 @@ class AuthorizationCache {
 														   true, $this, $effectiveDate, $expirationDate);
 				$this->_authorizations[$idValue] =& $authorization;
 			}
-
-			$authorizations[] =& $authorization;
+			
+			// Explicit AZ for ancestor qualifiers and groups should have 
+			// corresponding implicit AZs
+			// in decendents, but not appear in their AZs directly.
+			// Therefore, only add the explicit AZ if it is for the requested
+			// qualifier and agent.
+			if ($row['qId'] == $qId && $row['aId'] == $aId)
+				$authorizations[] =& $authorization;
 			
 			$queryResult->advanceRow();
 
@@ -871,15 +877,15 @@ class AuthorizationCache {
 				}
 				
 				// now, for each node in $qualifiers, if it's in $set2 as well,
-				// then create an implicit authorization for it
-				foreach ($qualifiers as $idValue) {
-					if (isset($set2[$idValue])) {
-						// create an implicit
-						$implicitQualifierId =& $sharedManager->getId($idValue);
-						$implicit =& new HarmoniAuthorization(null, $agentId, $functionId, $implicitQualifierId,
-															  false, $this, $effectiveDate, $expirationDate);
-						$authorizations[] =& $implicit;
-					}
+				// then create an implicit authorization for it.
+				// Actually, we only want to create an implicit AZ for the
+				// requested node, not for its parents as well.
+				if (isset($set2[$qId])) {
+					// create an implicit
+					$implicitQualifierId =& $sharedManager->getId($qId);
+					$implicit =& new HarmoniAuthorization(null, $agentId, $functionId, $implicitQualifierId,
+														  false, $this, $effectiveDate, $expirationDate);
+					$authorizations[] =& $implicit;
 				}
 				
 			}
