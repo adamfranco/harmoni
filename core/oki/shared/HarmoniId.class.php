@@ -6,12 +6,7 @@
  * @package harmoni.osid.shared
  */
 
-class HarmoniId
-	extends Id
-
-	// extends java.io.Serializable
-
-{ // begin Id
+class HarmoniId extends Id {
 
 	/**
 	 * @var string $_id The id of this id.
@@ -23,19 +18,12 @@ class HarmoniId
 	 * @param string $id The desired id. If NULL, a new unique id is used.
 	 *
 	 */
-	function HarmoniId ( $id = NULL ) {
-		if ($id != NULL) {
-			// use this id
-			// SLOW-VALIDATE -- comment validation out to increase program speed.
-			
-			// Make sure that we have a non-zero integer
-			if (ereg("^[1-9][0-9]*$",$idString))
-				throwError(new Error(OPERATION_FAILED.": Non-integer Id String: '".(($idString == NULL)?"NULL":$idString)."'.","HarmoniId",true));
-			
-			$this->_id = strval($id);
-		} else {
-			// get a new unique id
-		}
+	function HarmoniId ( $id  ) {
+		// ** parameter validation
+		ArgumentValidator::validate($id, new StringValidatorRule("Id"), true);
+		// ** end of parameter validation
+
+		$this->_id = $id
 	}
 
 	// public String getIdString();
@@ -48,6 +36,6 @@ class HarmoniId
 		return ($id->getIdString() == $this->_id) ? true : false;
 	}
 
-} // end Id
+}
 
 ?>

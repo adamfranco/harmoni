@@ -9,7 +9,7 @@ require_once(OKI."/shared.interface.php");
  */
 
 class HarmoniType
-	extends Type
+	extends TypeInterface
 { // begin Type
 
 
@@ -26,7 +26,7 @@ class HarmoniType
 
 	// public boolean isEqual(Type & $type2);
 	function isEqual(& $type2) {
-		ArgumentValidator::validate($type2, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($type2, new ExtendsValidatorRule("TypeInterface"));
 		
 		// the domain, authority, and keyword need to be alike for the types to be equivallent
 		if (strtolower($this->getDomain()) == strtolower($type2->getDomain()) && 
@@ -61,7 +61,7 @@ class HarmoniType
 } // end Type
 
 function OKITypeToString(&$type, $glue=", ") {
-	ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
+	ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"));
 	return $type->getAuthority() . $glue . $type->getDomain() . $glue . $type->getKeyword();
 }
 

@@ -58,7 +58,7 @@ class HarmoniAgent extends Agent // :: API interface
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
 		ArgumentValidator::validate($sharedDB, $stringRule, true);
 		// ** end of parameter validation

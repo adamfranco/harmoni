@@ -45,7 +45,7 @@ class HarmoniGroup // :: API interface
 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
 		// ** end of parameter validation
 		
-		$this->HarmoniAgent($displayName, & $id, & $type, $dbIndex, $sharedDB);
+		$this->HarmoniAgent($displayName, $id, $type, $dbIndex, $sharedDB);
 		
 		$this->_description = $description;
 

@@ -9,7 +9,6 @@ require_once(HARMONI."oki/shared/HarmoniAgentIterator.class.php");
 require_once(HARMONI."oki/shared/HarmoniGroup.class.php");
 require_once(HARMONI."oki/shared/HarmoniTestId.class.php");
 require_once(HARMONI."oki/shared/HarmoniId.class.php");
-require_once(HARMONI."oki/shared/HarmoniStringId.class.php");
 
 /**
  * Properties is a mechanism for returning read-only data about an Agent.  Each
@@ -37,7 +36,7 @@ require_once(HARMONI."oki/shared/HarmoniStringId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.30 2004/06/14 03:34:32 dobomode Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.31 2004/06/21 19:02:39 dobomode Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -90,9 +89,9 @@ class HarmoniSharedManager
 	
 	/**
 	 * An array of all cached Id objects.
-	 * @attribute private array __ids
+	 * @attribute private array _ids
 	 */
-	var $__ids;
+	var $_ids;
 	
 	
 	/**
@@ -416,7 +415,7 @@ class HarmoniSharedManager
 			if (!isset($this->_agentsCache[$arr[id]])) {
 				// create agent object
 				$type =& new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
-				$agent =& new HarmoniAgent($arr['display_name'], new HarmoniId($arr['id']), $type, $this->_dbIndex, $this->_sharedDB);
+				$agent =& new HarmoniAgent($arr['display_name'], $this->getId($arr['id']), $type, $this->_dbIndex, $this->_sharedDB);
 				
 				$this->_agentsCache[$arr['id']] =& $agent;
 			}
@@ -894,7 +893,7 @@ class HarmoniSharedManager
 					
 					$subrow = $subqueryResult->getCurrentRow();
 					$type =& new HarmoniType($subrow['gt_domain'],$subrow['gt_authority'],$subrow['gt_keyword'],$subrow['gt_description']);
-					$group =& new HarmoniGroup($subrow['g_display_name'], new HarmoniId($value), $type, $subrow['g_description'], $this->_dbIndex, $this->_sharedDB);
+					$group =& new HarmoniGroup($subrow['g_display_name'], $this->getId($value), $type, $subrow['g_description'], $this->_dbIndex, $this->_sharedDB);
 					// set cache
 
 					// now fetch all agents in this subgroup
@@ -909,7 +908,7 @@ class HarmoniSharedManager
 						$aid = $subrow['a_id'];
 						if (!isset($this->_agentsCache[$aid])) {
 							$type =& new HarmoniType($subrow['at_domain'],$subrow['at_authority'],$subrow['at_keyword'],$subrow['at_description']);
-							$agent =& new HarmoniAgent($subrow['a_display_name'], new HarmoniId($aid), $type, $this->_dbIndex, $this->_sharedDB);
+							$agent =& new HarmoniAgent($subrow['a_display_name'], $this->getId($aid), $type, $this->_dbIndex, $this->_sharedDB);
 							$this->_agentsCache[$aid] =& $agent;
 						}
 						$group->attach($this->_agentsCache[$aid]);
@@ -1007,7 +1006,7 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & createId() {
-		debug::output("Attempting to generate new id.",20,"SharedManager");
+		debug::output("Attempting to generate new id.", 20, "SharedManager");
 		$dbHandler =& Services::requireService("DBHandler");
 		
 		$query =& new InsertQuery();
@@ -1021,13 +1020,16 @@ class HarmoniSharedManager
 		}
 		
 		$newID = $result->getLastAutoIncrementValue();
+		$newID = strval($newID);
 		
 		debug::output("Successfully created new id '$newID'.",DEBUG_SYS5,"IDManager");
 		
-		// cache the id
-		$this->_ids[strval($newId)];
+		$id =& new HarmoniId($newID);
 		
-		return new HarmoniId($newID);
+		// cache the id
+		$this->_ids[$newId];
+		
+		return $id;
 	}
 
 	/**
@@ -1049,21 +1051,10 @@ class HarmoniSharedManager
 		if (isset($this->_ids[$idString]))
 			return $this->_ids[$idString];
 	
-		// Make sure that we have a non-zero integer
-		if (ereg("^[1-9][0-9]*$",$idString)) {
-			$id =& new HarmoniId($idString);
+		$id =& new HarmoniId($idString);
 			
-		// We generally want to use the numeric ids as those
-		// we create uniquely, but some things need to pass around
-		// an arbitrary string Id, so we will let them.
-		} else if ((is_string($idString) || is_numeric($idString)) && $idString !== NULL && $idString !== "") {
-			$id =& new HarmoniStringId($idString);
-		} else {
-			throwError(new Error(OPERATION_FAILED.": Unknown ID type for requested id-string, '".(($idString == NULL)?"NULL":$idString)."'.","HarmoniSharedManager",true));
-		}
-		
 		// cache the id
-		$this->_ids[$idString] = $id->getIdString();
+		$this->_ids[$idString] =& $id;
 
 		return $id;
 	}
