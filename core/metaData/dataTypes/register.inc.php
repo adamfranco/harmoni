@@ -8,5 +8,6 @@ include_once(HARMONI."metaData/dataTypes/SimpleDataTypes.classes.php");
 
 $this->registerType("integer","IntegerDataType");
 $this->registerType("string","StringDataType");
+$this->registerType("boolean","BooleanDataType");
 
 ?>

@@ -4,6 +4,12 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.5" date="Not Released">
 		<new author='gabe'>
+			added BooleanDataType to DataManager.
+		</new>
+		<new author='gabe'>
+			DataSetManager::fetchArrayOfIDs() fetches an array of DataSet ids in one SQL query. 
+		</new>
+		<new author='gabe'>
 			DateTime::compare(date1, date2) returns difference in seconds between two dates.
 		</new>
 		<fix>

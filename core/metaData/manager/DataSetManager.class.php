@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, taggingß and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.8 2004/01/01 19:03:42 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.9 2004/01/01 19:35:53 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -124,6 +124,7 @@ class DataSetManager extends ServiceInterface {
 		$query->addColumn("datasetfield_index");
 		$query->addColumn("datasetfield_active");
 		$query->addColumn("datasetfield_modified");
+		$query->addColumn("fk_data");
 		
 		/* datasettypedef table */
 		$query->addColumn("datasettypedef_id");
