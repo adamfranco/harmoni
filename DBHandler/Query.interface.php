@@ -47,11 +47,26 @@
 	 * @package harmoni.dbc
 	 */
 	define("GENERIC", 5);
+	
+	/**
+	 * Defines a constant for 'AND' operations (used in WHERE and JOIN clauses)
+	 * @const integer _AND
+	 * @package harmoni.dbc
+	 */
+	define("_AND", 7);
+	
+	
+	/**
+	 * Defines a constant for 'OR' operations (used in WHERE and JOIN clauses)
+	 * @const integer _OR
+	 * @package harmoni.dbc
+	 */
+	define("_OR", 8);
 
 /**
  * A generic Query interface to be implemented by all Query objects.
  *
- * @version $Id: Query.interface.php,v 1.5 2003/08/06 22:32:39 gabeschine Exp $
+ * @version $Id: Query.interface.php,v 1.6 2003/08/11 03:12:46 gabeschine Exp $
  * @package harmoni.interfaces.dbc
  * @access public
  * @copyright 2003 

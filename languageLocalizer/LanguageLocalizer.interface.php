@@ -8,7 +8,7 @@
  * and other data for multiple languages.
  *
  * @package harmoni.interfaces.languages
- * @version $Id: LanguageLocalizer.interface.php,v 1.3 2003/08/07 22:09:04 gabeschine Exp $
+ * @version $Id: LanguageLocalizer.interface.php,v 1.4 2003/08/11 03:12:46 gabeschine Exp $
  * @copyright 2003 
  **/
 class LanguageLocalizerInterface extends ServiceInterface {
@@ -26,6 +26,7 @@ class LanguageLocalizerInterface extends ServiceInterface {
 	 * Returns a string in the language set with setLanguage() of "id" $stringName.
 	 * @param string $stringName The corresponding string name in the language strings file.
 	 * @access public
+	 * @deprecated 8/8/2003 - localization functionality now handled by gettext()
 	 * @return string The string corresponding to $stringName in the specified language.
 	 **/
 	function getString($stringName) {

@@ -7,7 +7,7 @@ require_once(HARMONI."layoutHandler/Layout.interface.php");
  * holds any number of components of different types.
  *
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.7 2003/07/25 07:27:14 gabeschine Exp $
+ * @version $Id: Layout.abstract.php,v 1.8 2003/08/11 03:12:46 gabeschine Exp $
  * @copyright 2003 
  * @abstract
  **/
@@ -115,7 +115,7 @@ class Layout extends LayoutInterface {
 	 * @return void
 	 **/
 	function output(&$theme, $orientation=HORIZONTAL) {
-		$theme->printLayout($this,$level);
+		$theme->printLayout($this);
 	}
 	
 	/**
@@ -132,14 +132,15 @@ class Layout extends LayoutInterface {
 	 * to $level+1 if $spiderDown is TRUE.
 	 * @param integer $level The level.
 	 * @param optional boolean $spiderDown Specifies if the function should spider down to children.
+	 * @param optional integer $increment If $spiderDown=true, specifies by how much we should increase childrens' levels.
 	 * @access public
 	 * @return void 
 	 **/
-	function setLevel($level, $spiderDown=true) {
+	function setLevel($level, $spiderDown=true, $increment=1) {
 		$this->_level = $level;
 		if ($spiderDown) {
 			foreach (array_keys($this->_setComponents) as $key) {
-				$this->_setComponents[$key]->setLevel($this->_level+1);
+				$this->_setComponents[$key]->setLevel($this->_level+$increment,$spiderDown,$increment);
 			}
 		}
 	}

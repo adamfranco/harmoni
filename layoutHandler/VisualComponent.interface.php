@@ -16,7 +16,7 @@ define("VERTICAL",2);
  * VisualComponent defines the interface for any component within a {@link Layout}.
  *
  * @package harmoni.interfaces.layout
- * @version $Id: VisualComponent.interface.php,v 1.4 2003/08/06 22:32:40 gabeschine Exp $
+ * @version $Id: VisualComponent.interface.php,v 1.5 2003/08/11 03:12:45 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -48,10 +48,11 @@ class VisualComponent {
 	 * to $level+1 if $spiderDown is TRUE.
 	 * @param integer $level The level.
 	 * @param optional boolean $spiderDown Specifies if the function should spider down to children.
+	 * @param optional integer $increment If $spiderDown=true, specifies by how much we should increase childrens' levels.
 	 * @access public
 	 * @return void 
 	 **/
-	function setLevel($level, $spiderDown=true) {
+	function setLevel($level, $spiderDown=true, $increment=1) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

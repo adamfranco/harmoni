@@ -8,7 +8,7 @@
  * @package harmoni.errorhandler
  * @access public
  */
-define(LOW_DETAIL, 1);
+define('LOW_DETAIL', 1);
 
 /**
  * Normal detail level of printing. Only fatal errors are printed with details.
@@ -16,7 +16,7 @@ define(LOW_DETAIL, 1);
  * @package harmoni.errorhandler
  * @access public
  */
-define(NORMAL_DETAIL, 2);
+define('NORMAL_DETAIL', 2);
 
 /**
  * High detail level of printing. All errors are printed with details.
@@ -24,13 +24,13 @@ define(NORMAL_DETAIL, 2);
  * @package harmoni.errorhandler
  * @access public
  */
-define(HIGH_DETAIL, 3);
+define('HIGH_DETAIL', 3);
 
 /**
  * An ErrorPrinter interface provides functionality to output Error objects in any way one's soul may desire.
  * For example, you can print to a browser window, to a database, to a file, etc.
  *
- * @version $Id: ErrorPrinter.interface.php,v 1.9 2003/08/06 22:32:40 gabeschine Exp $
+ * @version $Id: ErrorPrinter.interface.php,v 1.10 2003/08/11 03:12:46 gabeschine Exp $
  * @package harmoni.interfaces.errorhandler
  * @copyright 2003
  * @access public

@@ -44,10 +44,10 @@ $leftMenuLayout->setComponent(0,$leftMenu);
 $contentLayout =& new SingleContentLayout;
 //$contentLayout->setComponent(0,new Content("This theme is called: ".$theme->getName().", description: ".$theme->getDescription()));
 $content = "<b>The contents of this file:</b><br/>";
-$content .= highlight_string(file_get_contents(__FILE__),true);
+$content .= highlight_string(implode("",file(__FILE__)),true);
 $content .= "<br/><br/>";
 $content .= "<b>The contens of TestTheme's template file (is uses a template):</b><br/>";
-$content .= highlight_string(file_get_contents(HARMONI."themeHandler/TestTheme.tpl"),true);
+$content .= highlight_string(implode("",file(HARMONI."themeHandler/TestTheme.tpl")),true);
 $contentLayout->setComponent(0,new Content($content));
 // add it to the left menu
 $leftMenuLayout->setComponent(1,$contentLayout);

@@ -15,7 +15,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginHandler.interface.php");
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.4 2003/07/25 07:27:10 gabeschine Exp $
+ * @version $Id: LoginHandler.class.php,v 1.5 2003/08/11 03:12:46 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginHandler extends LoginHandlerInterface {
@@ -132,8 +132,7 @@ class LoginHandler extends LoginHandlerInterface {
 			// send them to the failed login action
 			
 			// but first throw a little error, for kicks... or not.
-			$string = $this->_harmoni->language->getString("failedLogin");
-			$error =& new Error($string,"Login",false);
+			$error =& new Error(_("Login failed. Most likely your username or password is incorrect."),"Login",false);
 			Services::requireService("UserError");
 			$errHandler =& Services::getService("UserError");
 			$errHandler->addError($error);
