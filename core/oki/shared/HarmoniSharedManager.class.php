@@ -38,7 +38,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.50 2004/11/23 17:13:16 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.51 2004/11/23 17:22:49 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -1115,13 +1115,13 @@ class HarmoniSharedManager
 		$subquery1->addColumn("type_keyword", "gt_keyword", $db."type");
 		$subquery1->addColumn("type_description", "gt_description", $db."type");
 		// Properties for the group
-		$query->addColumn("id", "properties_id", $db."shared_properties");
-		$query->addColumn("type_domain", "properties_domain", $db."properties_type");
-		$query->addColumn("type_authority", "properties_authority", $db."properties_type");
-		$query->addColumn("type_keyword", "properties_keyword", $db."properties_type");
-		$query->addColumn("type_description", "properties_description", $db."properties_type");
-		$query->addColumn("key", "property_key", $db."shared_property");
-		$query->addColumn("value", "property_value", $db."shared_property");
+		$subquery1->addColumn("id", "properties_id", $db."shared_properties");
+		$subquery1->addColumn("type_domain", "properties_domain", $db."properties_type");
+		$subquery1->addColumn("type_authority", "properties_authority", $db."properties_type");
+		$subquery1->addColumn("type_keyword", "properties_keyword", $db."properties_type");
+		$subquery1->addColumn("type_description", "properties_description", $db."properties_type");
+		$subquery1->addColumn("key", "property_key", $db."shared_property");
+		$subquery1->addColumn("value", "property_value", $db."shared_property");
 
 		// set the tables
 		$subquery1->addTable($db."groups");
@@ -1129,14 +1129,14 @@ class HarmoniSharedManager
 		$subquery1->addTable($db."type", INNER_JOIN, $joinc);
 		// Join to the properties mapping table
 		$joinc = $db."groups.groups_id = ".$db."group_properties.fk_group";
-		$query->addTable($db."group_properties", LEFT_JOIN, $joinc);
+		$subquery1->addTable($db."group_properties", LEFT_JOIN, $joinc);
 		// Join to the properties and each Property
 		$joinc = $db."group_properties.fk_properties = ".$db."shared_properties.id";
-		$query->addTable($db."shared_properties", LEFT_JOIN, $joinc);
+		$subquery1->addTable($db."shared_properties", LEFT_JOIN, $joinc);
 		$joinc = $db."shared_properties.fk_type = ".$db."properties_type.type_id";
-		$query->addTable($db."type", LEFT_JOIN, $joinc, "properties_type");
+		$subquery1->addTable($db."type", LEFT_JOIN, $joinc, "properties_type");
 		$joinc = $db."shared_properties.id = ".$db."shared_property.fk_properties";
-		$query->addTable($db."shared_property", LEFT_JOIN, $joinc);
+		$subquery1->addTable($db."shared_property", LEFT_JOIN, $joinc);
 		
 		$groups = array();
 
@@ -1194,7 +1194,7 @@ class HarmoniSharedManager
 					while ($subrow = $subqueryResult->getCurrentRow()) {
 						// Build our properties objects to add to the Agent.
 						if ($subrow['properties_id'] && $subrow['properties_id'] != "NULL") {
-						
+							
 							// Create a name for the Current Properties variable. I was 
 							// having reference problems when attempting to use one variable name
 							// that got passed off and reset.
@@ -1230,6 +1230,8 @@ class HarmoniSharedManager
 						
 						$subqueryResult->advanceRow();
 					}
+					
+//					printpre($$propertiesArrayName);
 					
 					// Instantiate the Group object
 					$group =& new HarmoniGroup($displayName,
