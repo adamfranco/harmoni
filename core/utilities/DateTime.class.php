@@ -5,7 +5,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.7 2004/01/06 14:41:41 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.8 2004/01/08 21:16:28 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -260,7 +260,7 @@ class DateTime {
 	}
 	
 	/**
-	 * @desc Returns the difference in seconds between $date1 and $date2, positive if $date2 is more recent.
+	 * Returns the difference in seconds between $date1 and $date2, positive if $date2 is more recent.
 	 * @method public compare
 	 * @static
 	 * @param ref object $date1

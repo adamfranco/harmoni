@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.14 2004/01/07 21:20:19 gabeschine Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.15 2004/01/08 21:10:01 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -156,8 +156,8 @@ class DataSetTypeManager
 	/**
 	* @return string The hash as a string.
 	* @param mixed $type Either an OKI Type object or the Domain string.
-	* @param opt string $auth The Authority.
-	* @param opt string $key The Keyword.
+	* @param optional string $auth The Authority.
+	* @param optional string $key The Keyword.
 	* @desc Creates a hash of the OKI type for keying a type to an ID in a hash array. The hashes should be unique.
 	*/
 	function _mkHash($type, $auth=null, $key=null) {

@@ -9,7 +9,7 @@
  * some html ... &lt?=$value1=&gt; ... more html ...
  *
  * @package harmoni.utilities.template
- * @version $Id: Template.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
+ * @version $Id: Template.class.php,v 1.3 2004/01/08 21:10:01 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -52,7 +52,7 @@ class Template {
 	/**
 	 * Outputs the content of the current template with $variables containing
 	 * the variable output.
-	 * @param opt mixed $variables,... Either an associative array or a {@link FieldSet} containing
+	 * @param optional mixed $variables,... Either an associative array or a {@link FieldSet} containing
 	 * a number of [key]=>content pairs.
 	 * @access public
 	 * @return void
@@ -81,7 +81,7 @@ class Template {
 	
 	/**
 	 * Calls output() but catches whatever is printed and returns the output in a string.
-	 * @param opt mixed $variables,... See description under {@link TemplateInterface::output()}
+	 * @param optional mixed $variables,... See description under {@link TemplateInterface::output()}
 	 * @access public
 	 * @return string The output from the template.
 	 **/

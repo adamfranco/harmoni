@@ -9,7 +9,7 @@
  * as email addresses, full names, etc.
  *
  * @package harmoni.authentication.agentinformation
- * @version $Id: AgentInformationHandler.class.php,v 1.5 2003/12/16 15:23:43 gabeschine Exp $
+ * @version $Id: AgentInformationHandler.class.php,v 1.6 2004/01/08 21:10:00 gabeschine Exp $
  * @copyright 2003 
  **/
 class AgentInformationHandler extends ServiceInterface {
@@ -111,7 +111,7 @@ class AgentInformationHandler extends ServiceInterface {
 	/**
 	 * Checks to see if an agent system name is present in any of the authentication methods.
 	 * @param string $agentName The agent's name to be checked.
-	 * @param opt string $method A single method to check.
+	 * @param optional string $method A single method to check.
 	 * @access public
 	 * @return void
 	 */

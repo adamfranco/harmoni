@@ -4,7 +4,7 @@
  * Holds information about a specific label within a {@link DataSetTypeDefinition}. Defines
  * what type of data the field holds (string, integer, etc) and if it can have multiple values.
  * @package harmoni.datamanager
- * @version $Id: FieldDefinition.class.php,v 1.9 2004/01/07 21:20:19 gabeschine Exp $
+ * @version $Id: FieldDefinition.class.php,v 1.10 2004/01/08 21:10:01 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -62,7 +62,7 @@ class FieldDefinition {
 	 * @param ref object $dataSetTypeDefinition The definition to which we are being added.
 	 * @param ref object $idManager The {@link IDManager} we should use.
 	 * @param int $dbID The DB index to use with the {@link DBHandler}.
-	 * @param opt int $myID Optionally, our ID in the database.
+	 * @param optional int $myID Optionally, our ID in the database.
 	 * @return void
 	 * @access public
 	 */

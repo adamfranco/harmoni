@@ -5,7 +5,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.8 2004/01/06 22:10:00 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.9 2004/01/08 21:16:28 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -37,7 +37,7 @@ class Services extends ServicesAbstract {
 	
 	/**
 	* @return array
-	* @desc Returns a backtrace string to prepend onto error messages.	
+	* Returns a backtrace string to prepend onto error messages.	
  	*/
 	function _getBacktrace() {
 		$bt = debug_backtrace();

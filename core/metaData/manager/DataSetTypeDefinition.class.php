@@ -8,7 +8,7 @@ require_once(HARMONI."metaData/manager/FieldDefinition.class.php");
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link DataSetTypeManager}.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeDefinition.class.php,v 1.12 2004/01/07 19:14:13 gabeschine Exp $
+ * @version $Id: DataSetTypeDefinition.class.php,v 1.13 2004/01/08 21:10:01 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -69,7 +69,7 @@ class DataSetTypeDefinition {
 	/**
 	* @return void
 	* @param ref object $fieldDefinition A {@link FieldDefinition} object.
-	* @param opt int $id The ID in the Database referring to this field.
+	* @param optional int $id The ID in the Database referring to this field.
 	* @desc Adds a field to the Type Definition, consisting of a label and a multiple-values flag.
 	* @access 
 	*/
@@ -175,7 +175,7 @@ class DataSetTypeDefinition {
 	
 	/**
 	* @return array
-	* @param opt bool $includeInactive If TRUE will also return fields that are inactive (deleted from the definition).
+	* @param optional bool $includeInactive If TRUE will also return fields that are inactive (deleted from the definition).
 	* @desc Returns a list of labels defined.
 	*/
 	function getAllLabels( $includeInactive = false ) {

@@ -9,13 +9,15 @@ require_once(HARMONI."architecture/harmoni/HarmoniConfig.class.php");
 require_once(HARMONI."architecture/harmoni/Context.class.php");
 require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
 
+require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
+
 /**
  * The Harmoni class combines the functionality of login, authentication, 
  * action-handling and theme-output. It makes use of the {@link LoginHandler}, {@link AuthenticationHandler} and
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.9 2003/12/27 19:55:46 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.10 2004/01/08 21:09:53 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -112,7 +114,7 @@ class Harmoni {
 		else $this->HTTPVars =& new FieldSet($_REQUEST);
 		
 		// set up the LoginHandler and the ActionHandler
-		$this->LoginHandler =& new LoginHandler($this);
+		if (LOAD_AUTHENTICATION) $this->LoginHandler =& new LoginHandler($this);
 		$this->ActionHandler =& new ActionHandler($this);
 		
 		// set up config options
@@ -277,7 +279,7 @@ class Harmoni {
 		$result =& $this->ActionHandler->execute($module, $action);
 		$lastExecutedAction = $this->ActionHandler->lastExecutedAction();
 		// ask the LoginHandler if the current user was allowed to see this action
-		if ($this->LoginHandler->loginFailed() &&
+		if ($this->LoginHandler && $this->LoginHandler->loginFailed() &&
 		$this->LoginHandler->actionRequiresAuthentication($lastExecutedAction)) {
 			$failedLoginAction = $this->LoginHandler->getFailedLoginAction();
 			// clean out our buffer.

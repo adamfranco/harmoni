@@ -7,7 +7,7 @@ require_once HARMONI."metaData/manager/DataSetTag.class.php";
 * more detailed explanation of the role of tags.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSetTagManager.class.php,v 1.8 2004/01/07 22:49:17 gabeschine Exp $
+* @version $Id: DataSetTagManager.class.php,v 1.9 2004/01/08 21:10:01 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class DataSetTagManager extends ServiceInterface {
@@ -24,7 +24,7 @@ class DataSetTagManager extends ServiceInterface {
 	 * Takes a DataSet and an optional date and creates a DataSetTag in the database based
 	 * on the current active versions of values within the DataSet.
 	 * @param ref object $dataSet Either a {@link CompactDataSet} or a {@link FullDataSet} to be tagged.
-	 * @param opt object $date An optional {@link DateTime} object to attach to the tag instead of the current date/time.
+	 * @param optional object $date An optional {@link DateTime} object to attach to the tag instead of the current date/time.
 	 * @return int The new tag's ID in the database.
 	 * @access public
 	 */

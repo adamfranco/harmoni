@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.12 2004/01/07 19:14:13 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.13 2004/01/08 21:10:01 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -25,7 +25,7 @@ class DataSetManager extends ServiceInterface {
 	/**
 	* @return ref array Indexed by DataSet ID, values are either {@link CompactDataSet}s or {@link FullDataSet}s.
 	* @param array $dataSetIDs
-	* @param opt bool $editable If TRUE will fetch the DataSets as Editable and with ALL versions. Default: FALSE (will only fetch ACTIVE values).
+	* @param optional bool $editable If TRUE will fetch the DataSets as Editable and with ALL versions. Default: FALSE (will only fetch ACTIVE values).
 	* @desc Fetches and returns an array of DataSet IDs from the database in one Query.
 	*/
 	function &fetchArrayOfIDs( $dataSetIDs, $editable=false ) {
@@ -102,7 +102,7 @@ class DataSetManager extends ServiceInterface {
 	/**
 	* @return ref object
 	* @param int $dataSetID
-	* @param opt bool $editable
+	* @param optional bool $editable
 	* @desc Fetches a single DataSet from the database, editable if $editable=true.
 	*/
 	function &fetchDataSet( $dataSetID, $editable=false ) {
@@ -154,7 +154,7 @@ class DataSetManager extends ServiceInterface {
 	/**
 	* @return ref object
 	* @param ref object $type The {@link HarmoniType} object that refers to the DataSetTypeDefinition to associated this DataSet with.
-	* @param opt bool $verControl Specifies if the DataSet should be created with Version Control. Default=no.
+	* @param optional bool $verControl Specifies if the DataSet should be created with Version Control. Default=no.
 	* @desc Returns a new {@link FullDataSet} object that can be inserted into the database.
 	*/
 	function &newDataSet( &$type, $verControl = false ) {

@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.18 2004/01/07 21:20:19 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.19 2004/01/08 21:10:01 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -81,7 +81,7 @@ class CompactDataSet {
 	/**
 	* @return ref object
 	* @param string $label
-	* @param opt int $index default=0.
+	* @param optional int $index default=0.
 	* @desc Returns the active {@link ValueVersion} object for value $index under $label.
 	*/
 	function &getActiveValue($label, $index=0) {
@@ -95,7 +95,7 @@ class CompactDataSet {
 	/**
 	* @return ref object
 	* @param string $label
-	* @param opt int $index default=0.
+	* @param optional int $index default=0.
 	* @desc Returns the {@link ValueVersions} object associated with $index under $label.
 	*/
 	function &getValueVersionsObject($label, $index=0) {
@@ -196,7 +196,7 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.18 2004/01/07 21:20:19 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.19 2004/01/08 21:10:01 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {
@@ -237,7 +237,7 @@ class FullDataSet extends CompactDataSet {
 	* @return bool
 	* @param string $label
 	* @param ref object $obj
-	* @param opt int $index default=0
+	* @param optional int $index default=0
 	* @desc Sets the value of $index under $label to $obj where $obj is a {@link DataType}.
 	*/
 	function setValue($label, &$obj, $index=0) {
@@ -252,7 +252,7 @@ class FullDataSet extends CompactDataSet {
 	/**
 	* @return bool
 	* @param string $label
-	* @param opt int $index default=0
+	* @param optional int $index default=0
 	* @desc Returns TRUE if the value $index under $label is inactive.
 	*/
 	function deleted($label, $index=0) {
@@ -316,7 +316,7 @@ class FullDataSet extends CompactDataSet {
 	
 	/**
 	* @return void
-	* @param opt object $date An optional DateTime to specify the date that should be attached to the tag instead of the current date/time.
+	* @param optional object $date An optional DateTime to specify the date that should be attached to the tag instead of the current date/time.
 	* @desc Uses the {@link DataSetTagManager} service to add a tag of the current state (in the DB) of this DataSet.
 	*/
 	function tag($date=null) {
@@ -326,7 +326,7 @@ class FullDataSet extends CompactDataSet {
 	
 	/**
 	* @return void
-	* @param opt object $date An optional {@link DateTime} object for tagging. If specified, it will use $date instead of the current date and time.
+	* @param optional object $date An optional {@link DateTime} object for tagging. If specified, it will use $date instead of the current date and time.
 	* @desc Calls both commit() and tag().
 	*/
 	function commitAndTag($date=null) {
@@ -383,7 +383,7 @@ class FullDataSet extends CompactDataSet {
 	/**
 	* @return bool
 	* @param string $label
-	* @param opt int $index default=0
+	* @param optional int $index default=0
 	* @desc Deactivates all the versions of $index under $label.
 	*/
 	function deleteValue($label, $index=0) {
@@ -395,7 +395,7 @@ class FullDataSet extends CompactDataSet {
 	/**
 	* @return bool
 	* @param string $label
-	* @param opt int $index default=0
+	* @param optional int $index default=0
 	* @desc Re-activates the newest version of $index under $label.
 	*/
 	function undeleteValue($label, $index=0) {
