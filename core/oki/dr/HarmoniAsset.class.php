@@ -171,16 +171,16 @@ class HarmoniAsset
  		
  		// Get the content DataSet.
  		$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
+ 		$myRecordSet->loadRecords();
 		$contentRecords =& $myRecordSet->getRecordsByType($contentType);
 		
-		printpre ($myRecordSet);
-		printpre ($myRecordSet->getRecords());
-		printpre ($contentRecords);
+		$contentRecord =& $contentRecords[0];
 		
  		if (!$contentRecord) {
  			return new Blob;
  		} else {
- 			return $contentRecord->getValue();
+ 			$recordFieldData =& $contentRecord->getCurrentValue("Content");
+ 			return $recordFieldData->getPrimitive();
  		}
 	}
 
@@ -206,10 +206,11 @@ class HarmoniAsset
  		
  		// Get the content DataSet.
  		$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
+ 		$myRecordSet->loadRecords();
 		$contentRecords =& $myRecordSet->getRecordsByType($contentType);
 
  		if (count($contentRecords)) {
- 			$contentRecord =& next($contentRecords);
+ 			$contentRecord =& $contentRecords[0];
  			
  			$contentRecord->setValue("Content", $content);
  		
