@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataType.abstract.php";
 /**
  * A simple integer data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.16 2004/01/30 21:33:05 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -117,7 +117,7 @@ class IntegerDataType
 /**
  * A simple float data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.16 2004/01/30 21:33:05 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -228,7 +228,7 @@ class FloatDataType
 /**
  * A simple (large) string data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.16 2004/01/30 21:33:05 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -339,7 +339,7 @@ class StringDataType
 /**
  * A simple short string (up to 255 chars) data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.16 2004/01/30 21:33:05 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -449,7 +449,7 @@ class ShortStringDataType
 /**
  * A simple boolean data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.16 2004/01/30 21:33:05 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -564,7 +564,7 @@ class BooleanDataType
 /**
  * A simple (large) blob data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.16 2004/01/30 21:33:05 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
  * @author Adam Franco
  * @copyright 2004
  * @access public
@@ -578,7 +578,7 @@ class BlobDataType
 		$this->_value = $value;
 	}
 	
-	function makeSearchBlob(& $val ) {
+	function makeSearchString(& $val ) {
 		return "data_blob.data_blob_data='".addslashes($val->toString())."'";
 	}
 	
@@ -676,7 +676,7 @@ class BlobDataType
 /**
  * A simple (large) date data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.16 2004/01/30 21:33:05 adamfranco Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.17 2004/02/07 19:30:09 adamfranco Exp $
  * @author Adam Franco
  * @copyright 2004
  * @access public
@@ -690,7 +690,7 @@ class DateTimeDataType
 		$this->_value = $value;
 	}
 	
-	function makeSearchDateTime(& $val ) {
+	function makeSearchString(& $val ) {
 		return "data_date.data_date_data='".addslashes($val->toString())."'";
 	}
 	

@@ -368,19 +368,19 @@ class Type // :: abstract
 	/**
 	 * @var string $domain private String domain
 	 */
-	var $domain;
+	var $_domain;
 	/**
 	 * @var string $authority private String authority
 	 */
-	var $authority;
+	var $_authority;
 	/**
 	 * @var string $keyword private String keyword
 	 */
-	var $keyword;
+	var $_keyword;
 	/**
 	 * @var string $description private String description
 	 */
-	var $description;
+	var $_description;
 
 	/**
 	 * Construct a Type object for this domain, authority and keyword.

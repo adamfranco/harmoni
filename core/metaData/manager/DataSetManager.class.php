@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.32 2004/01/30 18:52:36 adamfranco Exp $
+ * @version $Id: DataSetManager.class.php,v 1.33 2004/02/07 19:30:12 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -50,6 +50,30 @@ class DataSetManager extends ServiceInterface {
 			
 			return $this->_dataSetGroupCache[$groupID];
 		}
+	}
+	
+	/**
+	 * Returns the Ids of all groups a DataSet is in.
+	 *
+	 * @param integer $dataSetId The Id of the desired dataSet.
+	 * @return array An indexed array of the group ids (integers).
+	 */
+	function getGroupIdsForDataSet ($dataSetId) {
+		$query =& new SelectQuery;
+		$query->addTable("dataset_group");
+		$query->addColumn("id");
+		$query->addWhere("fk_dataset=".$dataSetId);
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$result = $dbHandler->query($query,$this->_dbID);
+		
+		$groupIds = array();
+		while ($result->hasMoreRows()) {
+			$groupIds[] = $result->field("id");
+			$result->advanceRow();
+		}
+		
+		return $groupIds;
 	}
 	
 	/**
