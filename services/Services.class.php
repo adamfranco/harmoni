@@ -1,11 +1,12 @@
 <?php
 
 require_once(HARMONI."services/Services.abstract.php");
+require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.4 2003/06/26 17:29:48 gabeschine Exp $
+ * @version $Id: Services.class.php,v 1.5 2003/06/26 18:11:46 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -50,6 +51,13 @@ class Services extends ServicesAbstract {
 			die("Services::registerService('$name') or Services::register('$name') - can not register service '$name' because it is already registered AND running.");
 			return false;
 		}
+		$rule =& new ExtendsValidatorRule("ServiceInterface");
+		$tryObj =& new $class;
+		if (!$rule->check($tryObj)) {
+			die("Services::registerService('$name') or Services::register('$name') - can not register service '$name' because the class '$class' does not implement the Service Interface. Please change your PHP class definitions to include the Service Interface.");
+			return false;
+		}
+		unset($rule,$tryObj);
 		// otherwise add to the the registered services array
 		$this->_registeredServices[$name] = $class;
 		return true;
