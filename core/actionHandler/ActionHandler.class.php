@@ -59,7 +59,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.10 2004/05/29 13:39:28 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.11 2004/06/02 20:31:40 nstamato Exp $
  * @copyright 2003 
  **/
 class ActionHandler {
@@ -126,8 +126,8 @@ class ActionHandler {
 	/**
 	 * If called within an executing action, will execute $module.$action
 	 * after calling action has stopped.
-	 * @param string $module The module.
-	 * @param string $action The action to execute.
+	 * @param string $module The module, or a "module.action" pair, in which case the second parameter can be omitted.
+	 * @param optional string $action The action to execute.
 	 * @access public
 	 * @return void
 	 */

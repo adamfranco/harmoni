@@ -1,5 +1,6 @@
 <?
 
+
 require_once HARMONI."actionHandler/ActionSource.abstract.php";
 
 /**
@@ -13,9 +14,9 @@ require_once HARMONI."actionHandler/ActionSource.abstract.php";
  * In this example, the base path would be "basepath/", and the actions file extension would be ".act.php".
  * @package harmoni.actionhandler.sources
  * @copyright 2004
- * @version $Id: FlatFileActionSource.class.php,v 1.2 2004/05/29 13:39:37 gabeschine Exp $
+ * @version $Id: FlatFileActionSource.class.php,v 1.3 2004/06/02 20:32:22 nstamato Exp $
  */
-class FlatFileActionSource {
+class FlatFileActionSource extends ActionSource{
 
 	/**
 	 * @var string $_basePath The base path on the filesystem to look for module folders.
@@ -63,6 +64,7 @@ class FlatFileActionSource {
 	 */
 	function _mkFullPath($module, $action)
 	{
+		
 		return $this->_basePath . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $action . $this->_fileExtension;
 	}
 	
@@ -75,7 +77,7 @@ class FlatFileActionSource {
 	 * @return ref mixed A {@link Layout} or TRUE/FALSE
 	 */
 	function &executeAction($module, $action, &$harmoni)
-	{
+	{ 
 		$fullPath = $this->_mkFullPath($module, $action);
 		if (!$this->actionExists($module, $action)) {
 			throwError( new Error("FlatFileActionSource::executeAction($module, $action) - could not proceed because the file to include does not exist!", "ActionHandler", true));

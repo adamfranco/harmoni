@@ -1,15 +1,15 @@
 <?
 
-require_once HARMONI."actionHandler/ActionSource.abstract.php";
+require_once (HARMONI."actionHandler/ActionSource.abstract.php");
 
 /**
  * The ClassesActionSource looks for actions as classes located within include files. The classes each have a special method
  * as defined by {@link ACTIONS_CLASSES_METHOD} which is called in order to execute the action.
  * @package harmoni.actionhandler.sources
  * @copyright 2004
- * @version $Id: ClassesActionSource.class.php,v 1.1 2004/05/28 19:06:12 gabeschine Exp $
+ * @version $Id: ClassesActionSource.class.php,v 1.2 2004/06/02 20:32:22 nstamato Exp $
  */
-class ClassesActionSource {
+class ClassesActionSource extends ActionSource{
 
 	/**
 	 * @var string $_basePath The base path on the filesystem to look for module folders.

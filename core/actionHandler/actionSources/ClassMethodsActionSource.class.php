@@ -7,9 +7,9 @@ require_once HARMONI."actionHandler/ActionSource.abstract.php";
  * of the same name within a class. The class name is the same as module name.
  * @package harmoni.actionhandler.sources
  * @copyright 2004
- * @version $Id: ClassMethodsActionSource.class.php,v 1.1 2004/05/28 19:06:12 gabeschine Exp $
+ * @version $Id: ClassMethodsActionSource.class.php,v 1.2 2004/06/02 20:32:22 nstamato Exp $
  */
-class ClassMethodsActionSource {
+class ClassMethodsActionSource extends ActionSource{
 
 	/**
 	 * @var string $_basePath The base path on the filesystem to look for module folders.
@@ -69,6 +69,7 @@ class ClassMethodsActionSource {
 	 */
 	function _mkFullPath($module, $action)
 	{
+		
 		return $this->_basePath . DIRECTORY_SEPARATOR . $module . $this->_fileExtension;
 	}
 	
