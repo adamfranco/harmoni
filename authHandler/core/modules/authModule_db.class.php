@@ -15,7 +15,7 @@ class authModule_db extends authModule {
 		$this->cfg->addAttr("host:s","username:s","password:s","database:s","table:s");
 		
 		// fields to use
-		$this->cfg->addAttr("usernameField:s","passwordField:s","otherFields:s[]");
+		$this->cfg->addAttr("usernameField:s","passwordField:s","otherFields:s:array");
 		$this->cfg->addAttr("passwordFieldEncrypted:b","passwordEncryptionType:s:md5,des,crypt");
 	}
 
@@ -70,8 +70,8 @@ class authModule_db extends authModule {
 	
 	function _connect() {
 		// set up the db connection
-		$this->_conn = ADONewConnection($this->dbtype);
-		$this->_conn->PConnect($this->host,$this->user,$this->pass,$this->db);
+		$this->_conn = ADONewConnection($this->cfg->get("databaseType"));
+		$this->_conn->PConnect($this->cfg->get("host"),$this->cfg->get("username"),$this->cfg->get("password"),$this->cfg->get("database"));
 		$this->_conn->setFetchMode(ADODB_FETCH_ASSOC);
 		if (!$this->_conn) error::fatal("authModule_db - Could not connect to DB server ".$this->cfg->get("host"));
 	}

@@ -86,6 +86,7 @@ class configNode {
 	
 	function configNode( $type, $key, $options = NULL) {
 		static $types = array('s','n','m','o','b');
+		static $defaults = array('s'=>'','n'=>0,'m'=>NULL,'o'=>NULL,'b'=>false);
 		/* s = string, n = numeric, m = mixed, o = object, b = bool */
 		
 		if (!in_array($type,$types))
@@ -95,7 +96,8 @@ class configNode {
 		if ($options == 'array') $this->isarray = true;
 		$this->type = $type;
 		$this->key = $key;
-		$this->val = NULL;
+		$this->val = $defaults[$type];
+		if ($this->isarray) $this->val = array();
 		if (is_array($options)) {
 			foreach ($options as $opt) {
 				if (!$this->_validate($opt)) error::fatal("configHandler::newAttr - can not have '$opt' as an option for '$key': it does not match the type '$type'");

@@ -78,7 +78,7 @@ class authHandler
 		$this->_lastAddedMod = $name;
 		$this->_numModules++;
 		$obj->_init();
-		$obj->_doGlobalConfig();
+		$obj->_doCommonConfig();
 		$this->modules[$name]=&$obj;
 		return true;
 	}
@@ -86,7 +86,7 @@ class authHandler
 	function modCfg( ) {
 		$n = func_num_args();
 		if ($n == 2) {
-			if (!$this->numModules) error::fatal("AuthHandler::modCfg - trying to configure a module before any have been added");
+			if (!$this->_numModules) error::fatal("AuthHandler::modCfg - trying to configure a module before any have been added");
 			$mod = $this->_lastAddedMod;
 			$key = func_get_arg(0);
 			$val = & func_get_arg(1);
@@ -117,7 +117,7 @@ class authHandler
 		$this->_userName = $username;
 		
 		foreach (array_keys($this->modules) as $mod) {
-			if ($this->modules[$mod]->_valid($username,$password)) {
+			if ($this->modules[$mod]->valid($username,$password)) {
 				$this->numValid++;
 				if (!$this->cfg->get("authAll")) break;
 			}
@@ -143,7 +143,7 @@ class authHandler
 			// if we have no arguments we can just return the number of valid modules
 			// -- this is the same as calling ::isValid("or","mod1","mod2",...) and listing
 			//    all the registered modules
-			return ($this->_numValid > 0)?true:false;
+			return ($this->numValid > 0)?true:false;
 		}
 		
 		// if the first argument is either "or" or "and", we set the method we use to that
@@ -178,6 +178,15 @@ class authHandler
 			return false;
 		}
   }
+  
+	/**
+	 * returns the agent that is authenticated/to be authenticated
+	 * @return string agent's username
+	 *    will soon return an 'agent' object
+	 */
+	 function & getAgent() {
+	 	return $this->_userName;
+	 }
   
   /**
    * goes through the modules and gets the 'extra' info pulled down from the db/whatever
