@@ -4,7 +4,7 @@
  * Holds information about a specific version of a value index of a field in a {@link Record}. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object (usually a {@link Primitive}). 
  * @package harmoni.datamanager
- * @version $Id: RecordFieldData.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.3 2004/08/04 02:18:56 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -70,6 +70,16 @@ class RecordFieldData {
 	
 	/**
 	 * Returns the current active flag.
+	 * @access public
+	 * @return bool
+	 */
+	function getActiveFlag()
+	{
+		return $this->_active;
+	}
+	
+	/**
+	 * Returns the current active flag.
 	 * @return bool
 	 * @access public
 	 */
@@ -104,6 +114,7 @@ class RecordFieldData {
 		$this->_dataID = $row['fk_data'];
 		
 		$this->_primitive =& $valueObj;
+		
 	}
 	
 	/**
@@ -161,9 +172,9 @@ class RecordFieldData {
 				$query =& new UpdateQuery();
 				
 				$query->setWhere("id=".$this->_myID);
-				$query->setColumns(array("index","active", "modified"));
+				$query->setColumns(array("value_index","active", "modified"));
 				$query->setValues(array($this->_parent->getIndex(),($this->_active)?1:0,
-										$dbHandler->toDBDate($this->_date,DATAMANAGER_DBID)));
+										"'".$dbHandler->toDBDate($this->_date,DATAMANAGER_DBID)."'"));
 			} else {
 				// we have to insert a new one
 				$query =& new InsertQuery();

@@ -8,7 +8,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link SchemaManager}.
  * @package harmoni.datamanager
- * @version $Id: Schema.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
+ * @version $Id: Schema.class.php,v 1.3 2004/08/04 02:18:56 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -202,9 +202,13 @@ class Schema {
 	
 	/**
 	* Returns true/false depending on if we've loaded our definition data.
+	* @param optional boolean $set If specified, will set the loaded flag to the passed value. USED INTERNALLY.
 	* @return bool
 	*/
-	function loaded() { return $this->_loaded; }
+	function loaded($set=null) { 
+		if ($set != null) $this->_loaded=$set;
+		return $this->_loaded; 
+	}
 	
 	/**
 	* Returns the number of fields we have defined.

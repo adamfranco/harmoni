@@ -9,6 +9,11 @@ require_once HARMONI."dataManager/record/RecordField.class.php";
 define("NEW_VALUE",-1);
 /**
  * @package harmoni.datamanager
+ * @constant int RECORD_NODATA Specifies that only the record descriptor has been fetched - no data.
+ */
+define("RECORD_NODATA",0);
+/**
+ * @package harmoni.datamanager
  * @constant int RECORD_CURRENT Specifies that all active values for fields have been fetched.
  */
 define("RECORD_CURRENT",2);
@@ -24,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
+* @version $Id: Record.class.php,v 1.3 2004/08/04 02:18:56 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -38,18 +43,21 @@ class Record {
 	var $_creationDate;
 	var $_dateFromDB = false;
 	var $_fetchMode;
+	var $_fetchedValueIDs;
 
 	var $_prune;
 	var $_pruneConstraint;
 	
 	function Record(&$schema, $verControl=false) {
 		ArgumentValidator::validate($verControl, new BooleanValidatorRule());
+		ArgumentValidator::validate($schema, new ExtendsValidatorRule("Schema"));
 
 		$this->_schema =& $schema;
 		$this->_fields = array();
 		$this->_versionControlled = $verControl;
 		$this->_active = true;
-		$this->_fetchMode = 0;
+		$this->_fetchMode = -1;
+		$this->_fetchedValueIDs = array();
 		
 		$this->_myID = null;
 		
@@ -72,13 +80,24 @@ class Record {
 	}
 	
 	/**
-	 * INTERNAL USE: Sets the fetch mode.
+	 * Returns the indices (indexes) of each value for the given field. Can then be retrieved with any getValue-type function.
+	 * @access public
+	 * @param string $label
+	 * @return array An array of integers
+	 */
+	function getIndices($label)
+	{
+		return $this->_fields[$label]->getIndices();
+	}
+	
+	/**
+	 * INTERNAL USE ONLY: Sets the fetch mode.
 	 * @access public
 	 * @return void
 	 */
 	function setFetchMode($mode)
 	{
-		$this->_fetchMode |= $mode;
+		$this->_fetchMode = $mode;
 	}
 	
 	/**
@@ -94,10 +113,7 @@ class Record {
 	* @return int
 	*/
 	function getID() { 
-		if ($this->_myID != NULL)
-			return $this->_myID; 
-		else
-			throwError( new Error("The ID for the Record is NULL, not returning.", "Record",true));
+		return $this->_myID;
 	}
 	
 	function _checkLabel($label) {
@@ -109,12 +125,12 @@ class Record {
 	}
 	
 	/**
-	* Returns the active {@link RecordFieldValue} object for value $index under $label.
+	* Returns the active {@link RecordFieldData} object for value $index under $label.
 	* @return ref object
 	* @param string $label
 	* @param optional int $index default=0.
 	*/
-	function &getActiveValue($label, $index=0) {
+	function &getCurrentValue($label, $index=0) {
 		$this->_checkLabel($label);
 		
 		$versions =& $this->getRecordFieldValue($label, $index);
@@ -128,27 +144,14 @@ class Record {
 	 * @param optional int $index default=0.
 	 */
 	function getStringValue($label, $index=0) {
-		$actVer =& $this->getActiveValue($label, $index);
+		
+		$actVer =& $this->getCurrentValue($label, $index);
 		if (!$actVer) return null;
 		
 		$val =& $actVer->getValue();
 		if (!$val) return null;
 		
 		return $val->toString();
-	}
-	
-	/**
-	* Returns if field $label, index $index has an active value.
-	* @return ref object
-	* @param string $label
-	* @param optional int $index default=0.
-	*/
-	function isFieldActive($label, $index=0) {
-		$this->_checkLabel($label);
-		
-		$numActive = $this->_fields[$label]->countActiveValues();
-		
-		return ($numActive)?TRUE:FALSE;
 	}
 	
 	/**
@@ -159,8 +162,7 @@ class Record {
 	*/
 	function &getRecordFieldValue($label, $index=0) {
 		$this->_checkLabel($label);
-		
-		return $this->_fields[$label]->getValue($index);
+		return $this->_fields[$label]->getRecordFieldValue($index);
 	}
 	
 	/**
@@ -170,12 +172,11 @@ class Record {
 	*/
 	function &getAllRecordFieldValues($label) {
 		$this->_checkLabel($label);
-		
-		return $this->_fields[$label]->getAllValues();
+		return $this->_fields[$label]->getAllRecordFieldValues();
 	}
 	
 	/**
-	* Creates a number of {@link RecordFieldValue} objects based on an array of database rows.
+	* INTERNAL USE ONLY: Creates a number of {@link RecordFieldValue} objects based on an array of database rows.
 	* @return bool
 	* @param ref array $arrayOfRows
 	*/
@@ -192,12 +193,12 @@ class Record {
 	}
 	
 	/**
-	 * Takes one row from a database and populates our objects with it.
+	 * INTERNAL USE ONLY: Takes one row from a database and populates our objects with it.
 	 * @param ref array $row
 	 * @return void
 	 */
 	function takeRow( &$row ) {
-			
+		
 		// see if we can't get our ID from the row
 		if (!$this->_myID && $row['record_id']) 
 			$this->_myID = $row['record_id'];
@@ -217,6 +218,8 @@ class Record {
 		// columns not in the "dm_record_field" table. so, let's check for that and return if it's the case.
 		if (!$row['record_field_id']) return;
 		
+		// now, we need to check if we've already accounted for this specific value from the database
+		if (in_array($row['record_field_id'], $this->_fetchedValueIDs)) return;
 		$label = $row['schema_field_label'];
 
 		if (!isset($this->_fields[$label])) {
@@ -225,6 +228,9 @@ class Record {
 		}
 		
 		$this->_fields[$label]->takeRow($row);
+		
+		$this->_fetchedValueIDs[] = $row['record_field_id'];
+		
 	}
 	
 	/**
@@ -264,6 +270,33 @@ class Record {
 		return $this->_active;
 	}
 
+	/**
+	 * De-activates the value under $label[$index].
+	 * @param string $label The field label to delete.
+	 * @param optional int $index The index (for multi-value fields) to delete.
+	 * @access public
+	 * @return void
+	 */
+	function deleteValue($label, $index=0)
+	{
+		$this->_checkLabel($label);
+		
+		$this->_fields[$label]->deleteValue($index);
+	}
+	
+	/**
+	 * Re-activates the value under $label[$index].
+	 * @param string $label The field label to un-delete.
+	 * @param optional int $index The index (for multi-value fields) to un-delete.
+	 * @access public
+	 * @return void
+	 */
+	function undeleteValue($label, $index=0)
+	{
+		$this->_checkLabel($label);
+		
+		$this->_fields[$label]->undeleteValue($index);
+	}
 	
 	/**
 	* Sets the value of $index under $label to $obj where $obj is a {@link Primitive}.
@@ -274,7 +307,6 @@ class Record {
 	*/
 	function setValue($label, &$obj, $index=0) {
 		$this->_checkLabel($label);
-		
 		if ($index == NEW_VALUE) {
 			return $this->_fields[$label]->addValueFromPrimitive($obj);
 		}
@@ -286,12 +318,6 @@ class Record {
 	* @return bool
 	*/
 	function commit() {
-		if (!($this->getFetchMode() & RECORD_FULL)) {
-			throwError ( new Error(
-					"Can not commit() because this Record is not fetched full from the DB.","Record",true));
-			return false;
-		}
-		
 		// the first thing we're gonna do is check to make sure that all our required fields
 		// have at least one value.
 		foreach ($this->_schema->getAllLabels() as $label) {
@@ -387,11 +413,22 @@ class Record {
 	}
 	
 	/**
+	 * INTERNAL USE ONLY: Returns an array of field IDs that have already been fetched & populated.
+	 * @access public
+	 * @return array
+	 */
+	function getFetchedFieldIDs()
+	{
+		return $this->_fetchedValueIDs;
+	}
+	
+	/**
 	* Uses the {@link TagManager} service to add a tag of the current state (in the DB) of this Record.
 	* @return void
 	* @param optional object $date An optional {@link DateTime} to specify the date that should be attached to the tag instead of the current date/time.
 	*/
 	function tag($date=null) {
+		$this->makeCurrent();
 		$tagMgr =& Services::getService("TagManager");
 		$tagMgr->tagRecord($this, $date);
 	}
@@ -407,7 +444,7 @@ class Record {
 	}
 	
 	/**
-	 * Returns our current fetch mode.
+	 * INTERNAL USE ONLY: Returns our current fetch mode.
 	 * @access public
 	 * @return int
 	 */
@@ -422,6 +459,8 @@ class Record {
 	* @return ref object A new {@link Record} object.
 	*/
 	function &clone() {
+		
+		$this->makeFull();
 		
 		$newSet =& new Record($this->_schema, $this->_versionControlled);
 		// @todo
@@ -441,6 +480,8 @@ class Record {
 	* @return void
 	*/
 	function prune(&$versionConstraint) {
+		
+		$this->makeFull();
 				
 		$this->_pruneConstraint =& $versionConstraint;
 		$this->_prune=true;
@@ -476,6 +517,8 @@ class Record {
 		// load the mapping data for the tag
 		$tag->load();
 		
+		$this->makeFull();
+		
 		foreach ($this->_schema->getAllLabels(true) as $label) {
 			// if the tag doesn't have any mappings for $label, skip it
 //			if (!$tag->haveMappings($label)) continue;
@@ -506,6 +549,75 @@ class Record {
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Returns an array of hashed values for all of our fields. If a field allows multiple values, we return an array of those values instead of just the string value.
+	 * @access public
+	 * @return array format: array = ("single"=>value, "multiple"=>array(value1,value2,...));
+	 */
+	function getValuesArray()
+	{
+		$this->makeCurrent();
+		$array = array();
+		
+		$labels = $this->_schema->getAllLabels();
+		foreach ($labels as $label) {
+			$field = $this->_fields[$label]->getSchemaField();
+			if ($field->getMultFlag()) {
+				$array[$label] = array();
+				foreach ($this->getIndices($label) as $i) {
+					$value =& $this->getActiveValue($label,$i);
+					$primitive =& $value->getPrimitive();
+					$array[$label][] = $primitive->toString();
+				}
+			} else {
+				$value =& $this->getActiveValue($label);
+				$primitive =& $value->getPrimitive();
+				$array[$label] = $primitive->toString();
+			}
+		}
+		
+		return $array;
+	}
+	
+	/**
+	 * INTERNAL USE ONLY: makes sure that our representation of the data includes ALL values, active and inactive.
+	 * @access public
+	 * @return void
+	 */
+	function makeFull()
+	{
+		// we will get the RecordManager and ask it to re-fetch our values. We'll also have it exclude those values
+		// that we already have fetched.
+		if ($this->getFetchMode() >= RECORD_FULL) return;
+		
+//		print "<b>makeFull()</b><br>";
+//		printDebugBacktrace(debug_backtrace());
+		
+		if (!$this->getID()) return;
+		
+		$recordManager =& Services::getService("RecordManager");
+		$recordManager->fetchRecord($this->getID(), RECORD_FULL);
+	}
+	
+	/**
+	 * INTERNAL USE ONLY: Makes sure that our representation of the data includes all current values.
+	 * @access public
+	 * @return void
+	 */
+	function makeCurrent()
+	{
+		// we will get the RecordManager to fetch our fields from the database
+		if ($this->getFetchMode() >= RECORD_CURRENT) return;
+
+//		print "<b>makeCurrent()</b><br>";
+//		printDebugBacktrace(debug_backtrace());
+		
+		if (!$this->getID()) return;
+		
+		$recordManager =& Services::getService("RecordManager");
+		$recordManager->fetchRecord($this->getID(), RECORD_CURRENT);
 	}
 
 }

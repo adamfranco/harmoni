@@ -18,21 +18,10 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.22 2004/07/16 21:03:10 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.23 2004/08/04 02:18:55 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni {
-	/**
-	 * @access private
-	 * @var object $_startWithLayout A {@link Layout} object.
-	 */ 
-	var $_startWithLayout;
-	
-	/**
-	 * @access private
-	 * @var integer $_startWithLayoutIndex The index where the layout from actions should go in $_startWithLayout
-	 */ 
-	var $_startWithLayoutIndex;
 	
 	/**
 	 * @access private
@@ -138,28 +127,49 @@ class Harmoni {
 	
 	/**
 	 * Returns a pretty version string of our running Harmoni framework version.
+	 * @param optional string $versionStr An optional harmoni version string. If it is a partial string, we will return a full three-part version string.
 	 * @access public
 	 * @return string
 	 */
-	function getVersionStr() {
-		include HARMONI."version.inc.php";
-		$temp = sprintf("%06d",$harmoniVersion);
-		$major = substr($temp,0,2);
-		$minor = substr($temp,2,2);
-		$release = substr($temp,4,2);
+	function getVersionStr($versionStr=null) {
+		if ($versionStr) $harmoniVersion = $versionStr;
+		else include HARMONI."version.inc.php";
+		$ar = $this->_getVersionParts($harmoniVersion);
 		
-		return sprintf("%d.%d.%d",$major,$minor,$release);
+		return $ar[0] . "." . $ar[1] . "." . $ar[2];
 	}
 	
 	/**
 	 * Returns the numeric representation of our framework version. The format is XXMMRR, two digits for each of the major, minor and release numbers. NOTE: leading 0's are omitted.
+	 * @param optional string $versionStr An optional harmoni version string "M[.m[.r]]" to turn into a number. Otherwise, the actual running Harmoni version number will be used.
 	 * @access public
 	 * @return integer
 	 */
-	function getVersionNumber()
+	function getVersionNumber($versionStr=null)
 	{
-		include HARMONI."version.inc.php";
-		return $harmoniVersion;
+		if ($versionStr) $harmoniVersion = $versionStr;
+		else include HARMONI."version.inc.php";
+		
+		$ar = $this->_getVersionParts($harmoniVersion);
+		
+		$num = (integer) ereg_replace("^0+","",sprintf("%02d%02d%02d",$ar[0],$ar[1], $ar[2]));
+		return $num;
+	}
+	
+	/**
+	 * Returns an array of the Harmoni version string containing the major, minor and release numbers, in that order.
+	 * @param string $string
+	 * @access public
+	 * @return array
+	 */
+	function _getVersionParts($string)
+	{
+		ereg("([0-9]+)(\.([0-9]+))?(\.([0-9]+))?", $string, $matches);
+		$major = (integer) $matches[1];
+		$minor = (integer) $matches[3]?$matches[3]:0;
+		$release = (integer) $matches[5]?$matches[5]:0;
+		
+		return array($major, $minor, $release);
 	}
 	
 	/**
@@ -321,12 +331,7 @@ class Harmoni {
 			$rule = new ExtendsValidatorRule("LayoutInterface");
 			if ($rule->check($result)) {
 				// indeed!
-				// now check if we have a "startWithLayout" layout
-				if ($this->_startWithLayout) {
-					$this->_startWithLayout->addComponent($result);
-					$this->theme->printPage($this->_startWithLayout);
-				} else
-					$this->theme->printPage($result);
+				$this->theme->printPage($result);
 			} else {
 				// we got something else back... well, let's print out an error
 				// explaining what happened.

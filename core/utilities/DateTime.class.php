@@ -5,7 +5,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.14 2004/06/14 03:34:32 dobomode Exp $
+ * @version $Id: DateTime.class.php,v 1.15 2004/08/04 02:18:58 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -249,19 +249,22 @@ class DateTime {
 	 * @return string
 	 */
 	function toMDY() {
-		return $this->getMonth()."/".$this->getDay()."/".substr($this->getYear(),2,2);
+		return intval($this->getMonth())."/".intval($this->getDay())."/".substr($this->getYear(),2,2);
 	}
 	
 	/**
 	 * Returns a string in the form of April 20, 2002 10:14 AM
+	 * @param optional boolean $short If specified, will print out a M/D/Y date instead of the full string.
 	 * @return string
 	 */
-	function toString() {
+	function toString($short=false) {
 		$months = array("January","February","March","April","May","June","July","August","September","October","November","December");
 		$hours = $this->getHours();
 		if ($hours > 12) $hours -= 12;
 		if ($hours == 0) $hours = 12;
-		return $months[$this->getMonth() - 1] . " " .
+		if ($short) return $this->toMDY() . " " . $hours . ":" . sprintf("%02d",($this->getMinutes())) . " " . $this->getHoursAMPM();
+		
+		else return $months[$this->getMonth() - 1] . " " .
 			sprintf("%d",$this->getDay()) . ", " .
 			$this->getYear() . " " .
 			$hours . ":" . sprintf("%02d",($this->getMinutes())) . " " . $this->getHoursAMPM();

@@ -14,7 +14,7 @@ require_once(HARMONI."authenticationHandler/AuthenticationResult.class.php");
  * be changed, allowing administrators or similar users to switch between Active users.
  * 
  * @package harmoni.architecture.login
- * @version $Id: LoginState.class.php,v 1.5 2003/12/16 15:23:37 gabeschine Exp $
+ * @version $Id: LoginState.class.php,v 1.6 2004/08/04 02:18:55 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginState {
@@ -50,7 +50,7 @@ class LoginState {
 		} else {
 			$this->_result =& $result;
 		}
-		$this->_activeAgent = $systemName;
+		$this->_activeAgent = $systemName?$systemName:'guest'; // if we have no system name passed, make it guest
 		$this->_authenticatedAgent = $systemName;
 	}
 

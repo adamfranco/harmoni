@@ -3,7 +3,7 @@
 /**
  * The ServicesInterface defines the functionality required by any Services class or derivative.
  * The ServicesInterface defines the functionality required by any Services class or derivative.
- * @version $Id: Services.interface.php,v 1.3 2004/04/20 19:50:00 adamfranco Exp $
+ * @version $Id: Services.interface.php,v 1.4 2004/08/04 02:18:58 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -131,6 +131,7 @@ class ServicesInterface {
 	 * @access public
 	 * @static
 	 * @return ref object The started service object.
+	 * @deprecated 2004/07/28 Use {@link startService()} and {@link getService()} instead.
 	 **/
 	function &requireService( $service, $start=true ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");

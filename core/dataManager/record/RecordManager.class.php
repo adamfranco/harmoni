@@ -1,11 +1,13 @@
 <?php
 
 require_once HARMONI."dataManager/record/Record.class.php";
+require_once HARMONI."dataManager/record/RecordSet.class.php";
+require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
 
 /**
  * The RecordManager handles the creation, tagging and fetching of {@link Record}s from the database.
  * @package harmoni.datamanager
- * @version $Id: RecordManager.class.php,v 1.3 2004/07/27 20:23:43 gabeschine Exp $
+ * @version $Id: RecordManager.class.php,v 1.4 2004/08/04 02:18:56 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -45,8 +47,9 @@ class RecordManager extends ServiceInterface {
 	 */
 	function &getCachedRecordSet($id)
 	{
-		$null = null;
-		return $this->_recordSetCache[$id]?$this->_recordSetCache[$id]:$null;
+		if (isset($this->_recordSetCache[$id]))
+			return $this->_recordSetCache[$id];
+		else return ($null=null);
 	}
 	
 	/**
@@ -132,11 +135,11 @@ class RecordManager extends ServiceInterface {
 			
 			while ($result->hasMoreRows()) {
 				$a = $result->getCurrentRow();
-
 				$result->advanceRow();
 				$id = $a["id"];
-				if (!($newSet =& $this->getCachedRecordSet($id))) {
-					$newSet =& new RecordSet($id);
+				$newSet =& $this->getCachedRecordSet($id);
+				if (!$newSet) {
+					$newSet =& new StorableRecordSet($id);
 					$this->cacheRecordSet($newSet);
 				}
 				
@@ -149,12 +152,13 @@ class RecordManager extends ServiceInterface {
 	*  Fetches and returns an array of Record IDs from the database in one Query.
 	* @return ref array Indexed by Record ID, values are {@link Record}s.
 	* @param array $IDs
-	* @param optional bool $editable If TRUE will fetch the Records as Editable and with ALL versions. Default: FALSE (will only fetch ACTIVE values).
+	* @param optional int $mode Specifies the mode the record should be fetched.
 	* @param optional object $limitResults NOT YET IMPLEMENTED
 	* criteria. If not specified, will fetch all IDs.
 	*/
-	function &fetchRecords( $IDs, $editable=false, $limitResults = null ) {
+	function &fetchRecords( $IDs, $mode = RECORD_CURRENT, $limitResults = null ) {
 		ArgumentValidator::validate($IDs, new ArrayValidatorRuleWithRule(new NumericValidatorRule()));
+		ArgumentValidator::validate($mode, new IntegerValidatorRule());
 		$IDs = array_unique($IDs);
 
 		// let's weed out those IDs that we can take from cache
@@ -163,9 +167,9 @@ class RecordManager extends ServiceInterface {
 		if (count($this->_recordCache)) {
 			foreach ($IDs as $id) {
 				// only take from the cache if we have it cached, AND
-				// either we are not fetching editable sets OR (if we are) the cached one is also editable.
+				// what is cached is fetched at a higher/equal data-mode than what's requested
 				if (isset($this->_recordCache[$id]) && 
-							(!$editable || !($this->_recordCache[$id]->getFetchMode()&RECORD_FULL))) {
+							$this->_recordCache[$id]->getFetchMode()>=$mode) {
 					$fromCacheIDs[] = $id;
 				} else {
 					$fromDBIDs[] = $id;
@@ -175,25 +179,45 @@ class RecordManager extends ServiceInterface {
 			$fromDBIDs = $IDs;
 		}
 		
+//		print_r($fromCacheIDs);
+//		print_r($fromDBIDs);
+//		printDebugBacktrace();
+		
 		$records = array();
+
+		// put all the records from the cache into the array
+		foreach ($IDs as $id) {
+			if (isset($this->_recordCache[$id])) $records[$id] =& $this->_recordCache[$id];
+		}
 		
 		if (count($fromDBIDs)) {
 			// first, make the new query
 			$query =& new SelectQuery();
 	
-			$this->_setupSelectQuery($query);
+			$this->_setupSelectQuery($query, $mode);
 	
+			// and now, go through the records we already have cached but are fetching more information for,
+			// and make sure that we don't fetch information for fields that are already fetched.
+			$alreadyFetchedFields = array();
+			
+			// and, build the WHERE clause while we're at it.
 			$t = array();
 			foreach ($fromDBIDs as $id) {
 				$t[] = "dm_record.id=".$id;
+				
+				if (isset($this->_recordCache[$id])) {
+					$alreadyFetchedFields = array_unique(array_merge($alreadyFetchedFields, $this->_recordCache[$id]->getFetchedFieldIDs()));
+				}
 			}
+
 			$query->addWhere("(".implode(" OR ", $t).")");
-//			$query->addWhere("dm_record.active=1");
-			
-			// @todo
-			// This doesn't return data for the dataset if there aren't any 
-			// fields in the dataset.
-			if (!$editable) $query->addWhere("(dm_record_field.active=1 OR dm_record_field.active IS NULL)");
+			if (count($alreadyFetchedFields)) {
+				$temp = array();
+				foreach ($alreadyFetchedFields as $id) {
+					$temp[] = "dm_record_field.id != $id";
+				}
+				$query->addWhere('(' . implode(" AND ", $temp) . ')');
+			}
 			
 			$dbHandler =& Services::getService("DBHandler");
 			
@@ -213,38 +237,29 @@ class RecordManager extends ServiceInterface {
 				$id = $a['record_id'];
 				$type = $a['fk_schema'];
 				$vcontrol =$a['record_ver_control'];
-				if (!$records[$id]) {
+				if (!isset($records[$id])) {
 					$schemaManager =& Services::getService("SchemaManager");
 					$schema =& $schemaManager->getSchemaByID($type);
 					$schema->load();
-					$records[$id] =& new Record($schema,
-								$vcontrol?true:false);
+					$records[$id] =& new Record($schema, $vcontrol?true:false);
+					$this->_recordCache[$id] =& $records[$id];
 				}
 				
 				$records[$id]->takeRow($a);
-				$records[$id]->setFetchMode($editable?RECORD_FULL:RECORD_CURRENT);
 				unset($a);
 			}
 			
-			// now, lets update the cache to hold the sets we just fetched
-			foreach (array_keys($records) as $id) {
-				$this->_recordCache[$id] =& $records[$id];
-			}
-		}
-				
-		// and add the IDs we're gonna take from cache to the array to return
-		// -- only put into cache if we're not limiting results
-		if (!$limitResults) {
-			foreach ($fromCacheIDs as $id) {
-				if (!isset($records[$id])) $records[$id] =& $this->_recordCache[$id];
-			}
-		}
+		}				
 
 		// make sure we found the data sets
 		$rule =& new ExtendsValidatorRule("Record");
 		foreach ($IDs as $id) {
 			if (!$rule->check($records[$id]))
 				throwError(new Error(UNKNOWN_ID.": Record $id was requested, but not found.", "DataManager", TRUE));
+			
+			// and set the fetch mode.
+			$records[$id]->setFetchMode($mode);
+//			print "<pre>";print_r($records[$id]);print "</pre>";
 		}
 			
 		return $records;
@@ -261,7 +276,7 @@ class RecordManager extends ServiceInterface {
 		// this should happen in one query.
 		// the WHERE clause of the SQL query will be relatively complicated.
 		$query =& new SelectQuery();
-		$this->_setupSelectQuery($query, TRUE);
+		$this->_setupSelectQuery($query, RECORD_CURRENT);
 		
 		$searchString = $criteria->returnSearchString();
 		
@@ -298,23 +313,26 @@ class RecordManager extends ServiceInterface {
 	}
 	
 	/**
-	* Fetches a single Record from the database, editable if $editable=true.
+	* Fetches a single Record from the database.
 	* @return ref object
 	* @param int $id
-	* @param optional bool $editable
+	* @param optional int $mode
 	*/
-	function &fetchRecord( $id, $editable=false ) {
-		$records =& $this->fetchRecords(array($id), $editable);
+	function &fetchRecord( $id, $mode=RECORD_CURRENT ) {
+		$records =& $this->fetchRecords(array($id), $mode);
 		return $records[$id];
 	}
 	
 	/**
 	 * Deletes the Record of the Specified Id
 	 * @param int $id
+	 * @param optional bool $prune Set to TRUE if you want the Record to actually be pruned from the database and not just deactivated.
 	 */
-	function & deleteDataSet ( $record ) {
-		$record =& $this->fetchRecord( $id, TRUE );
+	function & deleteRecord ( $id, $prune=false ) {
+		$mode = $prune?RECORD_FULL:RECORD_NODATA;
+		$record =& $this->fetchRecord( $id, $mode );
 		$record->setActiveFlag(false);
+		if ($prune) $record->prune( new PruneAllVersionConstraint() );
 		$record->commit();
 	}
 	
@@ -322,30 +340,22 @@ class RecordManager extends ServiceInterface {
 	* Initializes a SelectQuery with the complex JOIN structures of the DataManager.
 	* @return void
 	* @param ref object $query
-	* @param optional boolean $idsOnly If TRUE will only ask for the dm_record.id column from the Database. Default = FALSE;
+	* @param optional int $mode Specifies the mode we are fetching our results. Must be one of RESULT_* constants.
 	* @access private
 	*/
-	function _setupSelectQuery(&$query, $idsOnly=false) {
+	function _setupSelectQuery(&$query, $mode=RECORD_CURRENT) {
 		// this function sets up the selectquery to include all the necessary tables
-
 		$query->addTable("dm_record");
-		$query->addTable("dm_record_field",LEFT_JOIN,"dm_record_field.fk_record=dm_record.id");
-		$query->addTable("dm_schema_field",LEFT_JOIN,"dm_record_field.fk_schema_field=dm_schema_field.id");
+		if ($mode > RECORD_NODATA) {
+			$query->addTable("dm_record_field",LEFT_JOIN,"dm_record_field.fk_record=dm_record.id");
+			$query->addTable("dm_schema_field",LEFT_JOIN,"dm_record_field.fk_schema_field=dm_schema_field.id");
 		
-		$dataTypeManager =& Services::getService("DataTypeManager");
-		$list = $dataTypeManager->getRegisteredStorablePrimitives();
-		
-		foreach ($list as $type) {
-			eval("$type::alterQuery(\$query);");
-		}
-		
-		/* dm_record table */
-		$query->addColumn("id","record_id","dm_record");
-		if (!$idsOnly) {
-			$query->addColumn("created","record_created","dm_record");
-			$query->addColumn("active","record_active","dm_record");
-			$query->addColumn("ver_control");
-			$query->addColumn("fk_schema","","dm_record"); //specify table to avoid ambiguity
+			$dataTypeManager =& Services::getService("DataTypeManager");
+			$list = $dataTypeManager->getRegisteredStorablePrimitives();
+
+			foreach ($list as $type) {
+				eval("$type::alterQuery(\$query);");
+			}
 			
 			/* dm_record_field table */
 			$query->addColumn("id","record_field_id","dm_record_field");
@@ -357,7 +367,18 @@ class RecordManager extends ServiceInterface {
 			/* dm_schema_field table */
 			$query->addColumn("id","schema_field_id","dm_schema_field");
 			$query->addColumn("label","schema_field_label","dm_schema_field");
+			
+			if ($mode < RECORD_FULL) {
+				$query->addWhere("(dm_record_field.active=1 OR dm_record_field.active IS NULL)");
+			}
 		}
+		
+		/* dm_record table */
+		$query->addColumn("id","record_id","dm_record");
+		$query->addColumn("created","record_created","dm_record");
+		$query->addColumn("active","record_active","dm_record");
+		$query->addColumn("ver_control","record_ver_control","dm_record");
+		$query->addColumn("fk_schema","","dm_record"); //specify table to avoid ambiguity
 	}
 	
 	/**
@@ -387,9 +408,10 @@ class RecordManager extends ServiceInterface {
 	/**
 	* @return array
 	* @param ref object $type The {@link HarmoniType} to look for.
+	* @param optional boolean $activeOnly Will only return active Records [default=false]
 	* Returns an array of Record IDs that are of the Schema type $type.
 	*/
-	function getRecordIDsOfType(&$type) {
+	function getRecordIDsByType(&$type, $activeOnly=false) {
 		// we're going to get all the IDs that match a given type.
 		
 		$query =& new SelectQuery();
@@ -400,7 +422,8 @@ class RecordManager extends ServiceInterface {
 		
 		$query->setWhere("dm_schema.domain='".addslashes($type->getDomain())."' AND ".
 						"dm_schema.authority='".addslashes($type->getAuthority())."' AND ".
-						"dm_schema.keyword='".addslashes($type->getKeyword())."'");
+						"dm_schema.keyword='".addslashes($type->getKeyword())."'".
+						($activeOnly?" AND dm_record.active=1":""));
 		
 		$dbHandler =& Services::getService("DBHandler");
 		

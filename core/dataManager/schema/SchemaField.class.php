@@ -4,7 +4,7 @@
  * Holds information about a specific field within a {@link Schema}. Defines
  * what type of data the field holds (string, integer, etc) and if it can have multiple values.
  * @package harmoni.datamanager
- * @version $Id: SchemaField.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
+ * @version $Id: SchemaField.class.php,v 1.3 2004/08/04 02:18:56 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -182,6 +182,8 @@ class SchemaField {
 					"'".addslashes($this->_description)."'"
 			));
 			
+			$this->_addToDB = false;
+			
 			$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 			if (!$result || $result->getNumberOfRows() != 1) {
 				throwError( new UnknownDBError("DataManager") );
@@ -205,11 +207,14 @@ class SchemaField {
 					"'".addslashes($this->_description)."'"
 			));
 			
+			$this->_update = false;
+			
 			$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 			if (!$result || $result->getNumberOfRows() != 1) {
 				throwError( new UnknownDBError("DataManager") );
 				return null;
 			}
+			
 			return $id;			
 		}
 		
@@ -220,6 +225,8 @@ class SchemaField {
 			$query->setWhere("id=".$id);
 			$query->setColumns(array("active"));
 			$query->setValues(array(0));
+
+			$this->_delete = false;
 			
 			$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 			if (!$result || $result->getNumberOfRows() != 1) {

@@ -6,7 +6,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * A simple Time (and date) data type, which takes advantage of the {@link DateTime} utility class.
  * @package harmoni.datamanager.primitives
  * @copyright 2004
- * @version $Id: Time.class.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+ * @version $Id: Time.class.php,v 1.2 2004/08/04 02:18:56 gabeschine Exp $
  */
 class Time extends DateTime /* implements Primitive */ {
 	
@@ -46,6 +46,20 @@ class Time extends DateTime /* implements Primitive */ {
 		$new =& new Time();
 		$new->setDate($this->toTimestamp());
 		return $new;
+	}
+	
+	/**
+	 * This function is the same as {@link DateTime::now()} but returns a Time object instead of a DateTime.
+	 * @access public
+	 * @return ref object A new Time object representing the current date and time.
+	 * @static
+	 */
+	function &now()
+	{
+		$newTime =& new Time();
+		$newTime->setDate(time());
+		
+		return $newTime;
 	}
 	
 }

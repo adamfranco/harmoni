@@ -2,7 +2,7 @@
 
 /**
  * Defines the throw functions.
- * @version $Id: throw.inc.php,v 1.4 2004/07/14 20:56:51 dobomode Exp $
+ * @version $Id: throw.inc.php,v 1.5 2004/08/04 02:18:57 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.errorhandler
  **/
@@ -90,5 +90,37 @@ function printUserErrors() {
 		
 }
 
+/**
+ * Prints a debug_backtrace() array in a pretty HTML way...
+ * @param optional array $trace The array. If null, a current backtrace is used.
+ * @param optional boolean $return If true will return the HTML instead of printing it.
+ * @package harmoni.errorhandler
+ * @access public
+ * @return void
+ */
+ function printDebugBacktrace($trace = null, $return=false)
+ {
+ 	$traceArray = is_array($trace)?$trace:debug_backtrace();
+
+ 	$result='';
+ 	
+ 	if (is_array($traceArray)) {
+ 		foreach($traceArray as $trace){
+ 			/* each $traceArray element represents a step in the call hiearchy. Print them from bottom up. */
+ 			$file = basename($trace['file']);
+ 			$line = $trace['line'];
+ 			$function = $trace['function'];
+ 			$class = $trace['class'];
+ 			$type = $trace['type'];
+ 			$args = ArgumentRenderer::renderManyArguments($trace['args'], false, false);
+
+ 			$result .= "in <b>$file:$line</b> $class$type$function($args)<br />\n";
+ 		}
+ 	}
+ 	$result .= "<br />";
+ 	
+ 	if ($return) return $result;
+ 	print $result;
+ }
 
 ?>

@@ -6,7 +6,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * Holds a number of indexes for values within a specific field within a Record. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: RecordField.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
+ * @version $Id: RecordField.class.php,v 1.3 2004/08/04 02:18:56 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -50,17 +50,24 @@ class RecordField {
 	function takeRow( &$row ) {
 		// If we don't just have null values...
 		if ($row['record_field_index'] != NULL) {
-			$index = $row['record_field_index'];
-			// the below will: if we are readOnly (compact), then only one value (one row) will be
-			// passed for each index, so we number the indexes ourselves. otherwise, the real index
-			// is used, and we number them that way.
-			$i = !($this->_parent->getFetchMode&RECORD_FULL)?count($this->_values):$index; // this is to compensate for skipped indexes
+			$i = $row['record_field_index'];
 			if (!isset($this->_values[$i])) {
 				$this->_values[$i] =& new RecordFieldValue($this,$i);
 				$this->_numValues++;
+//				print $this->_myLabel."[$i] added.<br>";
 			}
 			$this->_values[$i]->takeRow($row);
 		}
+	}
+	
+	/**
+	 * Returns the indices for a multi-valued field.
+	 * @access public
+	 * @return array
+	 */
+	function getIndices()
+	{
+		return array_keys($this->_values);
 	}
 	
 	/**
@@ -69,28 +76,29 @@ class RecordField {
 	*/
 	function commit() {
 		// cycle through each index and commit()
-		for ($i=0; $i<$this->numValues(); $i++) {
+		foreach ($this->getIndices() as $i) {
 			$this->_values[$i]->commit();
 		}
 	}
 	
 	/**
-	* Goes through all the old versions of values and actually DELETES them from the database.
+	* Goes through all the old versions of values and actually DELETES them from the database once commit() is called.
 	* @param ref object $versionConstraint A {@link VersionConstraint) on which to base our pruning.
 	* @return void
 	*/
 	function prune($versionConstraint) {
-		if (!($this->_parent->getFetchMode()&RECORD_FULL)) return;
+		$this->_parent->makeFull();
 		// just step through each ValueVersions object and call prune()
-		for ($i=0, $j=0; $i<$this->numValues(); $i++) {
+		$j = 0;
+		foreach ($this->getIndices() as $i) {
 			$this->_values[$i]->prune($versionConstraint);
 			
 			// now, if we are pruning and we will completely remove an index within this field,
 			// we need to re-index the fields and make sure they update.
-			// so, if the field is going to have an active value, then we're going to re-index it
-			if ($this->_values[$i]->isActive()) {
-				if ($this->_values[$i]->setIndex($j++)) {
-					$ver =& $this->_values[$i]->getActiveVersion();
+			// so, if the field is going to have an active value, then we're going to re-index it (???? or always?)
+			if ($this->_values[$i]->setIndex($j++)) {
+				foreach ($this->_values[$i]->getVersionIDs() as $verID) {
+					$ver =& $this->_values[$i]->getVersion($verID);
 					$ver->update();
 				}
 			}
@@ -103,6 +111,7 @@ class RecordField {
 	* @param int $index
 	*/
 	function &getRecordFieldValue($index) {
+		$this->_parent->makeCurrent();
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
@@ -114,6 +123,7 @@ class RecordField {
 	* @return array
 	*/
 	function &getAllRecordFieldValues() {
+		$this->_parent->makeCurrent();
 		return $this->_values;
 	}
 	
@@ -141,6 +151,10 @@ class RecordField {
 	* @param ref object $value A {@link Primitive} object.
 	*/
 	function addValueFromPrimitive(&$value) {
+		// make sure that we have all our values & indices represented before trying to add a new one
+		// or we might "overwrite" an existing one that's been deactivated.
+		$this->_parent->makeFull();
+
 		// if we are one-value only and we already have a value, throw an error.
 		// allow addValue() if we don't have any values yet.
 		if (!$this->_schemaField->getMultFlag() && $this->_numValues) {
@@ -167,6 +181,7 @@ class RecordField {
 	* @param ref object $value A {@link Primitive} object.
 	*/
 	function setValueFromPrimitive($index, &$value) {
+		$this->_parent->makeFull();
 		// any field can have at least one value.. if index 0 is not yet set up, set it up
 		if ($index == 0 && !isset($this->_values[0])) {
 			$this->addValueFromPrimitive($value);
@@ -186,11 +201,13 @@ class RecordField {
 	*/
 	function deleteValue($index) {
 		
+		$this->_parent->makeCurrent();
+		
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
 		
-		return $this->_values[$index]->setActiveFlat(false);
+		return $this->_values[$index]->setActiveFlag(false);
 	}	
 	
 	/**
@@ -199,6 +216,8 @@ class RecordField {
 	* @param int $index
 	*/
 	function undeleteValue($index) {
+		
+		$this->_parent->makeFull();
 		
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
@@ -218,6 +237,7 @@ class RecordField {
 	 * @return int
 	 */
 	function numActiveValues() {
+		$this->_parent->makeCurrent();
 		$count = 0;
 		for($i=0; $i<$this->numValues(); $i++) {
 			if ($this->_values[$i]->hasActiveValue()) $count++;
@@ -231,6 +251,7 @@ class RecordField {
 	* @param optional int $index Defaults to 0.
 	*/
 	function numVersions( $index=0 ) {
+		$this->_parent->makeFull();
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
@@ -243,6 +264,7 @@ class RecordField {
 	* @param optional int $index Defaults to 0.
 	*/
 	function getVersionIDs( $index=0 ) {
+		$this->_parent->makeFull();
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
@@ -256,6 +278,7 @@ class RecordField {
 	* @param optional int $index Defaults to 0.
 	*/
 	function &getVersion( $verID, $index=0 ) {
+		$this->_parent->makeFull();
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}

@@ -22,7 +22,7 @@ class TemplateFactory {
 		return new Template($name.$this->_ext, $this->_paths);
 	}
 	
-	function catchTemplateOutput($name, $vars) {
+	function catchTemplateOutput($name, $vars=array()) {
 		$template =& $this->newTemplate($name);
 		
 		return $template->catchOutput($vars);

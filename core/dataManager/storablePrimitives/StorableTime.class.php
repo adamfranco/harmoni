@@ -4,12 +4,16 @@
  * This is the {@link StorablePrimitive} equivalent of {@link Time}.
  * @package harmoni.datamanager.storableprimitives
  * @copyright 2004
- * @version $Id: StorableTime.class.php,v 1.1 2004/07/27 18:15:26 gabeschine Exp $
+ * @version $Id: StorableTime.class.php,v 1.2 2004/08/04 02:18:56 gabeschine Exp $
  */
 class StorableTime extends Time /* implements StorablePrimitive */ {
 	
 	var $_table;
 
+	function StorableTime() {
+		$this->_table="dm_time";
+	}
+	
 	/**
 	 * Takes an existing {@link SelectQuery} and adds a table join and some columns so that
 	 * when it is executed the actual data can be retrieved from the row. The join condition must
@@ -31,9 +35,9 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 	 * @return void
 	 */
 	function populate( $dbRow ) {
-		$dbHandler=&Services::getService("DBHandler");
-		$date =& $dbHandler->fromDBDate($dbRow["data"], DATAMANAGER_DBID);
-		$this->DateTime($date->getYear(),$date->getMonth(), $date->getDay(), $date->getHours(), $date->getMinutes(), $date->getSeconds());
+		$dbHandler =& Services::getService("DBHandler");
+		$date =& $dbHandler->fromDBDate($dbRow["time_data"], DATAMANAGER_DBID);
+		$this->setDate($date->toTimestamp());
 	}
 	
 	/**

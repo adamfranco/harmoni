@@ -6,12 +6,12 @@ require_once HARMONI."dataManager/versionConstraints/VersionConstraint.interface
  * Prunes out ALL inactive values, of everything.
  * @package harmoni.datamanager.versionconstraint
  * @copyright 2004, Middlebury College
- * @version $Id: PruneAllVersionConstraint.class.php,v 1.1 2004/07/27 20:23:44 gabeschine Exp $
+ * @version $Id: PruneAllVersionConstraint.class.php,v 1.2 2004/08/04 02:18:57 gabeschine Exp $
  */
 class PruneAllVersionConstraint extends VersionConstraint {
 
 	function checkRecordFieldValue(&$value) {		
-		foreach ($value->getVersionList() as $verID) {
+		foreach ($value->getVersionIDs() as $verID) {
 			$ver =& $value->getVersion($verID);
 			
 			// these are the conditions under which we will prune the version: (OR)
@@ -21,6 +21,9 @@ class PruneAllVersionConstraint extends VersionConstraint {
 			if (!$ver->isActive() || !$ver->_parent->_parent->_schemaField->isActive()
 				|| !$ver->_parent->_parent->_parent->isActive())
 				$ver->prune();
+//			if (!$ver->isActive()) print "version";
+//			if (!$ver->_parent->_parent->_schemaField->isActive()) print "schemaField";
+//			if (!$ver->_parent->_parent->_parent->isActive()) print "record";
 		}
 	}
 	

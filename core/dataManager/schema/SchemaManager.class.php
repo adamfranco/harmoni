@@ -6,7 +6,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * Responsible for the synchronization of {@link Schema} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: SchemaManager.class.php,v 1.1 2004/07/26 04:21:17 gabeschine Exp $
+ * @version $Id: SchemaManager.class.php,v 1.2 2004/08/04 02:18:56 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -98,7 +98,7 @@ class SchemaManager
 		$ids = array();
 		while ($preloadTypes->hasNext()) {
 			$type =& $preloadTypes->next();
-			$id = $this->getIDForType($type);
+			$id = $this->getIDByType($type);
 			if (!$id) continue;
 			$obj =& $this->getSchemaByType($type);
 			if ($obj->loaded()) continue;
@@ -502,6 +502,8 @@ class SchemaManager
 			$dbHandler=& Services::getService("DBHandler");
 			$dbHandler->query($query,$this->_dbID);
 		}
+		
+		$old->loaded(true);
 		
 		debug::output("... synchronization finished.",DEBUG_SYS2,"DataManager");
 	}

@@ -3,6 +3,18 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.2.0" date="Unreleased">
+		<change author='gabe'>
+			DataManager: Records now dynamically update their fetch-mode (how much &amp; what data has been fetched) depending on the operation to be performed. Previous version required one to manually re-fetch records (annoying).
+		</change>
+		<new author='gabe'>
+			Function printDebugBacktrace([$traceArray]) will print out a debug_backtrace() in a pretty way.
+		</new>
+		<new author='gabe'>
+			DataManager: Record::getValuesArray() returns an associative array of all active values in a Record.
+		</new>
+		<new author='gabe'>
+			DateTime::toString() now has optional parameter to return a shorter M/D/Y for the date instead of Month DD, YYYY.
+		</new>
 		<fix author='adam' task='102450'>
 			AuthN queries now have slashes added to dbc query values.
 		</fix>
@@ -19,6 +31,12 @@
 		<new author='adam'>
 			A new "Sets" service provides an easy system for the creation, ordering,
 			and maintaining of persistant collections of Ids.
+		</new>
+		<new author='gabe'>
+			Added new system for storing primitive data values in objects (all classes implementing the Primitive interface - see harmoni/core/dataManager/primitives)
+		</new>
+		<new author='gabe'>
+			Re-worked the DataManager with simpler class names and more flexibility. (see harmoni/core/dataManager)
 		</new>
 		<new author='gabe'>
 			Added a "revision" to all DataSetTypeDefinitions for later program upgrades (can check revision number to see if the structure is up-to-date instead of comparing every field).

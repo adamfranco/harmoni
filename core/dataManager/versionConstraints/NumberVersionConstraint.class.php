@@ -1,13 +1,13 @@
 <?
 
-require_once HARMONI."metaData/manager/versionConstraints/VersionConstraint.interface.php";
+require_once HARMONI."dataManager/versionConstraints/VersionConstraint.interface.php";
 
 /**
  * Removes versions based on the number for a certain value stored in the database. The maximum number
  * allowed is passed to the constructor, and any extra values will be deleted based on age.
  * @package harmoni.datamanager.versionconstraint
  * @copyright 2004, Middlebury College
- * @version $Id: NumberVersionConstraint.class.php,v 1.1 2004/07/27 20:23:44 gabeschine Exp $
+ * @version $Id: NumberVersionConstraint.class.php,v 1.2 2004/08/04 02:18:57 gabeschine Exp $
  */
 class NumberVersionConstraint extends VersionConstraint {
 	
@@ -25,7 +25,7 @@ class NumberVersionConstraint extends VersionConstraint {
 		$timestamps = array();
 		$versions = array();
 		
-		foreach ($value->getVersionList() as $verID) {
+		foreach ($value->getVersionIDs() as $verID) {
 			$ver =& $value->getVersion($verID);
 			$date =& $ver->getDate();
 			$timestamp = $date->toTimestamp();

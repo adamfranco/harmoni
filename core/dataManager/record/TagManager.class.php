@@ -7,7 +7,7 @@ require_once HARMONI."metaData/manager/DataSetTag.class.php";
 * more detailed explanation of the role of tags.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: TagManager.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
+* @version $Id: TagManager.class.php,v 1.3 2004/08/04 02:18:56 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class TagManager extends ServiceInterface {
@@ -220,7 +220,7 @@ class TagManager extends ServiceInterface {
 		$query->addColumn("id","tag_id","dm_tag");
 		$query->addColumn("date","tag_date","dm_tag");
 		
-		$query->addColumn("index","record_field_index","dm_record_field");
+		$query->addColumn("value_index","record_field_index","dm_record_field");
 		$query->addColumn("id","record_field_id","dm_record_field");
 		
 		$query->addColumn("label","schema_field_label","dm_schema_field");

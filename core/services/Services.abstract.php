@@ -4,7 +4,7 @@ require_once(HARMONI."services/Services.interface.php");
 
 /**
  * The ServicesAbstract class defines the public static methods used by users.
- * @version $Id: Services.abstract.php,v 1.7 2004/03/11 16:02:47 adamfranco Exp $
+ * @version $Id: Services.abstract.php,v 1.8 2004/08/04 02:18:58 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @static
@@ -160,6 +160,7 @@ class ServicesAbstract
 	 * @access public
 	 * @static
 	 * @return ref object The started service object. (if start=true)
+	 * @deprecated 2004/07/28 Use {@link startService()} and {@link getService()} instead.
 	 **/
 	function &requireService( $service, $start=true ) {
 		$error = false;
