@@ -3,10 +3,10 @@
 /**
  * defines the methods that are required for any authenticationMethod
  *
- * @version $Id: AuthenticationMethod.interface.php,v 1.11 2003/07/12 15:52:54 gabeschine Exp $
+ * @version $Id: AuthenticationMethod.interface.php,v 1.12 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  * @access public
- * @package harmoni.authentication
+ * @package harmoni.interfaces.authentication
  **/
  
 class AuthenticationMethodInterface {

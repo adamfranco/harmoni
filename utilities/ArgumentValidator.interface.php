@@ -5,10 +5,10 @@
  * makes use of a specified ValidatorRule object. In addition, if validation
  * fails, a new fatal error is added to the default ErrorHandler.
  *
- * @version $Id: ArgumentValidator.interface.php,v 1.5 2003/07/01 17:14:13 dobomode Exp $
+ * @version $Id: ArgumentValidator.interface.php,v 1.6 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  * @access public
- * @package harmoni.utilities
+ * @package harmoni.interfaces.utilities
  **/
  
 class ArgumentValidatorInterface {

@@ -3,8 +3,8 @@
 /**
  * An interface to calculate various statistical information.
  *
- * @version $Id: StatisticsHandler.interface.php,v 1.5 2003/07/14 18:59:51 movsjani Exp $
- * @package harmoni.utilities
+ * @version $Id: StatisticsHandler.interface.php,v 1.6 2003/08/06 22:32:40 gabeschine Exp $
+ * @package harmoni.interfaces.utilities
  * @copyright 2003 
  */
 

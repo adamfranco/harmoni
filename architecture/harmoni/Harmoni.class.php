@@ -16,7 +16,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.8 2003/07/25 07:27:14 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.9 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni extends HarmoniInterface {
@@ -216,6 +216,9 @@ class Harmoni extends HarmoniInterface {
 				throwError(new Error("Harmoni::execute() - The result returned from action '$pair' was unexpected. Expecting a Layout
 						object, but got a variable of type '$type'.","Harmoni",true));
 			}
+		} else {
+			// otherwise return the result
+			return $result;
 		}
 	}
 	

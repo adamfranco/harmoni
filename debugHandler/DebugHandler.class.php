@@ -6,7 +6,7 @@ require_once(HARMONI."debugHandler/DebugHandler.interface.php");
 /**
  * The DebugHandler keeps track of multiple DebugItems.
  *
- * @version $Id: DebugHandler.class.php,v 1.6 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: DebugHandler.class.php,v 1.7 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugging
  **/
@@ -19,12 +19,19 @@ class DebugHandler extends DebugHandlerInterface {
 	var $_queue;
 	
 	/**
+	 * @access private
+	 * @var integer $_outputLevel The internal output level.
+	 **/
+	var $_outputLevel;
+	
+	/**
 	 * The constructor.
 	 * @access public
 	 * @return void
 	 **/
 	function DebugHandler() {
 		$this->_queue = array();
+		$this->_outputLevel = 9;
 	}
 	
 	/**
@@ -83,7 +90,24 @@ class DebugHandler extends DebugHandlerInterface {
 		return $array;
 	}
 
-
+	/**
+	 * Sets the internal output level to $level. This can be overridden at output time.
+	 * @param integer $level
+	 * @access public
+	 * @return void
+	 **/
+	function setOutputLevel($level) {
+		$this->_outputLevel = $level;
+	}
+	
+	/**
+	 * Returns the internal output level.
+	 * @access public
+	 * @return integer
+	 **/
+	function getOutputLevel() {
+		return $this->_outputLevel;
+	}
 
 	/**
 	 * The start function is called when a service is created. Services may

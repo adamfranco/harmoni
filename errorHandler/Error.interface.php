@@ -4,8 +4,8 @@
  * An error class interface provides functionality to create Error objects 
  * to be used by the ErrorHandler
  *
- * @version $Id: Error.interface.php,v 1.3 2003/06/27 02:59:37 gabeschine Exp $
- * @package harmoni.errorhandler
+ * @version $Id: Error.interface.php,v 1.4 2003/08/06 22:32:40 gabeschine Exp $
+ * @package harmoni.interfaces.errorhandler
  * @copyright 2003
  * @access public
  */

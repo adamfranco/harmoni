@@ -15,8 +15,8 @@ define("VERTICAL",2);
 /**
  * VisualComponent defines the interface for any component within a {@link Layout}.
  *
- * @package harmoni.layout
- * @version $Id: VisualComponent.interface.php,v 1.3 2003/07/25 07:27:14 gabeschine Exp $
+ * @package harmoni.interfaces.layout
+ * @version $Id: VisualComponent.interface.php,v 1.4 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  **/
 

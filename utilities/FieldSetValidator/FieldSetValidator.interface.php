@@ -3,8 +3,8 @@
 /**
  * the FieldSetValidatorInterface defines the required methods for any FieldSetValidator class
  *
- * @package harmoni.utilities.fieldsetvalidator
- * @version $Id: FieldSetValidator.interface.php,v 1.5 2003/07/17 04:25:23 gabeschine Exp $
+ * @package harmoni.interfaces.utilities.fieldsetvalidator
+ * @version $Id: FieldSetValidator.interface.php,v 1.6 2003/08/06 22:32:41 gabeschine Exp $
  * @copyright 2003 
  **/
 

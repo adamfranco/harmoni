@@ -5,8 +5,8 @@ require_once("Query.abstract.php");
 /**
  * An InsertQuery interface provides the tools to build an SQL INSERT query.
  *
- * @version $Id: InsertQuery.interface.php,v 1.3 2003/07/15 15:29:50 dobomode Exp $
- * @package harmoni.dbc
+ * @version $Id: InsertQuery.interface.php,v 1.4 2003/08/06 22:32:39 gabeschine Exp $
+ * @package harmoni.interfaces.dbc
  * @copyright 2003 
  */
 

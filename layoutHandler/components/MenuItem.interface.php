@@ -3,8 +3,8 @@
 /**
  * MenuItem interface defines the methods required by any MenuItem
  *
- * @package harmoni.layout.components
- * @version $Id: MenuItem.interface.php,v 1.2 2003/07/16 23:32:39 gabeschine Exp $
+ * @package harmoni.interfaces.layout.components
+ * @version $Id: MenuItem.interface.php,v 1.3 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  **/
 class MenuItemInterface {

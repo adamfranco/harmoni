@@ -4,8 +4,8 @@
  * Storable class interface provides functionality to create Storable objects 
  * to be used by the StorageMethod and StorageHandler.
  *
- * @version $Id: Storable.interface.php,v 1.4 2003/07/10 02:34:21 gabeschine Exp $
- * @package harmoni.storage.storables
+ * @version $Id: Storable.interface.php,v 1.5 2003/08/06 22:32:40 gabeschine Exp $
+ * @package harmoni.interfaces.storage.storables
  * @copyright 2003
  * @access public
  */

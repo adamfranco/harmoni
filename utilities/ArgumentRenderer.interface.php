@@ -3,10 +3,10 @@
 /**
  * An ArgumentRenderer provides functionallity to print/render/format a list of arguments.
  * An ArgumentRenderer provides functionallity to print/render/format a list of arguments.
- * @version $Id: ArgumentRenderer.interface.php,v 1.1 2003/06/26 02:03:27 dobomode Exp $
+ * @version $Id: ArgumentRenderer.interface.php,v 1.2 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  * @access public
- * @package harmoni.utilities
+ * @package harmoni.interfaces.utilities
  **/
 
 class ArgumentRendererInterface {

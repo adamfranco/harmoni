@@ -21,7 +21,7 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.5 2003/07/25 00:53:43 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.6 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandler extends ActionHandlerInterface {
@@ -343,6 +343,15 @@ class ActionHandler extends ActionHandlerInterface {
 	 **/
 	function useContext(&$context) {
 		$this->_context =& $context;
+	}
+	
+	/**
+	 * Returns an array of actions that have been executed this session.
+	 * @access public
+	 * @return array
+	 **/
+	function getExecutedActions() {
+		return $this->_actionsExecuted;
 	}
 }
 

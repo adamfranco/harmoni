@@ -56,8 +56,8 @@ require_once(HARMONI.'services/Service.interface.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password.
  *
- * @version $Id: DBHandler.interface.php,v 1.5 2003/07/20 17:43:24 dobomode Exp $
- * @package harmoni.dbc
+ * @version $Id: DBHandler.interface.php,v 1.6 2003/08/06 22:32:39 gabeschine Exp $
+ * @package harmoni.interfaces.dbc
  * @copyright 2003 
  * @access public
  */

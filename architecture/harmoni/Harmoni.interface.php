@@ -7,8 +7,8 @@
  * action-handling and theme-output. It makes use of the {@link LoginHandler}, {@link AuthenticationHandler} and
  * the {@link ActionHandler} classes.
  * 
- * @package harmoni.architecture
- * @version $Id: Harmoni.interface.php,v 1.5 2003/07/25 07:27:14 gabeschine Exp $
+ * @package harmoni.interfaces.architecture
+ * @version $Id: Harmoni.interface.php,v 1.6 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  **/
 class HarmoniInterface {

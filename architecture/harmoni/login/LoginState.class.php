@@ -8,8 +8,13 @@ require_once(HARMONI."authenticationHandler/AuthenticationResult.class.php");
  * a {@link LoginHandlerInterface}-type class and is probably stored in the session
  * so that logins can be valid across page-loads.
  * 
+ * The LoginState is also responsible for keeping track of both an Active user
+ * and a Logged-in user. The Active user is given to the program as the user for
+ * whom actions are performed. This feature is useful because the Active user can
+ * be changed, allowing administrators or similar users to switch between Active users.
+ * 
  * @package harmoni.architecture.login
- * @version $Id: LoginState.class.php,v 1.3 2003/07/25 00:53:43 gabeschine Exp $
+ * @version $Id: LoginState.class.php,v 1.4 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginState extends LoginStateInterface {
@@ -18,6 +23,12 @@ class LoginState extends LoginStateInterface {
 	 * @var object $_result An {@link AuthenticationResult} object.
 	 **/
 	var $_result;
+	
+	/**
+	 * @access private
+	 * @var string $_activeAgent The Active agent's system name.
+	 **/
+	var $_activeAgent;
 	
 	/**
 	 * The constructor.
@@ -33,6 +44,7 @@ class LoginState extends LoginStateInterface {
 		} else {
 			$this->_result =& $result;
 		}
+		$this->_activeAgent = $systemName;
 	}
 
 	/**
@@ -41,7 +53,7 @@ class LoginState extends LoginStateInterface {
 	 * @return string The Agent's name.
 	 **/
 	function getAgentName() {
-		return $this->_result->getSystemName();
+		return $this->_activeAgent;
 	}
 	
 	/**
@@ -61,6 +73,26 @@ class LoginState extends LoginStateInterface {
 	 **/
 	function isValid() {
 		return $this->_result->isValid();
+	}
+	
+	/**
+	 * Attempts to change the Active agent to $systemname.
+	 * @param string $systemname The system name.
+	 * @access public
+	 * @return boolean True on success, false on failure.
+	 **/
+	function changeActiveAgent($systemname) {
+		// we need to interface with the AuthenticationHandler for this step.
+		// if $systemname exists in any of the authentication methods, then
+		// we're going to go ahead.
+		Services::requireService("Authentication");
+		$auth =& Services::getService("Authentication");
+		
+		if ($auth->agentExists($systemname)) {
+			$this->_activeAgent = $systemname;
+			return true;
+		}
+		return false;
 	}
 }
 

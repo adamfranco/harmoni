@@ -11,8 +11,8 @@ define("CONTENT","ContentInterface");
 /**
  * The Content interface defines what methods are required by any Content {@link VisualComponent}.
  *
- * @package harmoni.layout.components
- * @version $Id: Content.interface.php,v 1.1 2003/07/15 16:12:19 gabeschine Exp $
+ * @package harmoni.interfaces.layout.components
+ * @version $Id: Content.interface.php,v 1.2 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  **/
 class ContentInterface extends VisualComponent {

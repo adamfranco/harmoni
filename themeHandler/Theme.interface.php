@@ -9,8 +9,8 @@
  * HTML page. It is tightly integrated with {@link Layout} classes and their children
  * to create a powerful yet flexible system for content output.
  *
- * @package harmoni.themes
- * @version $Id: Theme.interface.php,v 1.4 2003/07/25 07:27:15 gabeschine Exp $
+ * @package harmoni.interfaces.themes
+ * @version $Id: Theme.interface.php,v 1.5 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  **/
 

@@ -5,11 +5,11 @@
  * method capable of authorizing an <b>agent</b> performing a <b>function</b> in a given 
  * <b>context</b>.
  * @access public
- * @version $Id: HierarchicalAuthorizationMethod.interface.php,v 1.6 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: HierarchicalAuthorizationMethod.interface.php,v 1.7 2003/08/06 22:32:40 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
- * @package harmoni.authorization
+ * @package harmoni.interfaces.authorization
  * @see {@link HierarchicalAuthorizationContextInterface}
  * @see {@link AuthorizationAgentInterface}
  * @see {@link AuthorizationFunctionInterface}

@@ -10,13 +10,15 @@ require_once(HARMONI.'DBHandler/PostGre/PostGreDatabase.class.php');
 require_once(HARMONI.'DBHandler/Oracle/OracleDatabase.class.php');
 require_once(HARMONI.'utilities/Queue.class.php');
 
+require_once(HARMONI."utilities/DateTime.class.php");
+
 
 /**
  * A Database Handler. The DBHandler is to be loaded at the beginning
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.11 2003/07/20 17:43:24 dobomode Exp $
+ * @version $Id: DBHandler.class.php,v 1.12 2003/08/06 22:32:39 gabeschine Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
@@ -130,6 +132,12 @@ class DBHandler extends DBHandlerInterface {
 		ArgumentValidator::validate($dbIndex, $integerRule, true);
 		// ** end of parameter validation
 
+		// check that the index is valid
+		if (!is_object($this->_databases[$dbIndex])) {
+			throwError(new Error("Invalid database index.", "DBHandler", true));
+			return false;
+		}
+		
 		// run the query on the appropriate database.
 		$result =& $this->_databases[$dbIndex]->query($query);
 		
@@ -154,7 +162,7 @@ class DBHandler extends DBHandlerInterface {
 
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", false));
+			throwError(new Error("Invalid database index.", "DBHandler", true));
 			return false;
 		}
 
@@ -225,7 +233,7 @@ class DBHandler extends DBHandlerInterface {
 
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", false));
+			throwError(new Error("Invalid database index.", "DBHandler", true));
 			return false;
 		}
 		
@@ -252,7 +260,7 @@ class DBHandler extends DBHandlerInterface {
 
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", false));
+			throwError(new Error("Invalid database index.", "DBHandler", true));
 			return false;
 		}
 			
@@ -279,7 +287,7 @@ class DBHandler extends DBHandlerInterface {
 
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", false));
+			throwError(new Error("Invalid database index.", "DBHandler", true));
 			return false;
 		}
 			
@@ -307,7 +315,7 @@ class DBHandler extends DBHandlerInterface {
 
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", false));
+			throwError(new Error("Invalid database index.", "DBHandler", true));
 			return false;
 		}
 			
@@ -337,7 +345,7 @@ class DBHandler extends DBHandlerInterface {
 
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", false));
+			throwError(new Error("Invalid database index.", "DBHandler", true));
 			return false;
 		}
 			
@@ -358,10 +366,10 @@ class DBHandler extends DBHandlerInterface {
 		$integerRule =& new IntegerValidatorRule();
 		ArgumentValidator::validate($dbIndex, $integerRule, true);
 		// ** end of parameter validation
-
+		
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", false));
+			throwError(new Error("Invalid database index.", "DBHandler", true));
 			return false;
 		}
 		

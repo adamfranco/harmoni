@@ -3,11 +3,11 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.interface.php,v 1.3 2003/07/23 21:43:58 gabeschine Exp $
+ * @version $Id: DateTime.interface.php,v 1.4 2003/08/06 22:32:40 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
- * @package harmoni.utilities
+ * @package harmoni.interfaces.utilities
  */
 
 class DateTimeInterface {

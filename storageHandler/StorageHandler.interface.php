@@ -41,9 +41,9 @@ define("STORAGE_PRIMARY", 3);
  * your virtual filesystem. This allows primitive load balancing and mirror backups,
  * along with basic organization of data.
  * 
- * @package harmoni.storage
+ * @package harmoni.interfaces.storage
  * @author Middlebury College, ETS 
- * @version $Id: StorageHandler.interface.php,v 1.6 2003/07/10 02:34:21 gabeschine Exp $
+ * @version $Id: StorageHandler.interface.php,v 1.7 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003
  */
 class StorageHandlerInterface extends ServiceInterface {

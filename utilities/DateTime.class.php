@@ -1,17 +1,17 @@
 <?
 
-require_once(HARMONI."DateTime.interface.php");
+require_once(HARMONI."utilities/DateTime.interface.php");
 
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.4 2003/07/24 23:38:42 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.5 2003/08/06 22:32:40 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
  * @package harmoni.utilities
  */
-class DateTime implements DateTimeInterface {
+class DateTime extends DateTimeInterface {
 
 
 	/**
@@ -234,7 +234,7 @@ class DateTime implements DateTimeInterface {
 	 * @return ref object A DateTime object corresponding to the current date and time.
 	 */
 	function & now() {
-		$year = date('Y');
+		$year = intval(date('Y'));
 		$month = intval(date('m'));
 		$day = intval(date('d'));
 		$hours = intval(date('H'));

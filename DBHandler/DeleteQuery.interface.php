@@ -21,8 +21,8 @@ require_once("Query.abstract.php");
 /**
  * A DeleteQuery interface provides the tools to build an SQL DELETE query.
  *
- * @version $Id: DeleteQuery.interface.php,v 1.4 2003/07/18 21:07:07 dobomode Exp $
- * @package harmoni.dbc
+ * @version $Id: DeleteQuery.interface.php,v 1.5 2003/08/06 22:32:39 gabeschine Exp $
+ * @package harmoni.interfaces.dbc
  * @copyright 2003 
  */
 

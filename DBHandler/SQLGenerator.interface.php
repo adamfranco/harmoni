@@ -5,8 +5,8 @@
  * A SQLGeneratorInterface interface declares only one method, namely
  * generateSQLQuery(), which takes a query object as a parameter. The method
  * returns the SQL string representation of that query object - thus, a SQLGenerator.
- * @version $Id: SQLGenerator.interface.php,v 1.2 2003/07/10 02:34:19 gabeschine Exp $
- * @package harmoni.dbc
+ * @version $Id: SQLGenerator.interface.php,v 1.3 2003/08/06 22:32:39 gabeschine Exp $
+ * @package harmoni.interfaces.dbc
  * @access public
  * @copyright 2003 
  */

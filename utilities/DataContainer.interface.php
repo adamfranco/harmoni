@@ -3,9 +3,9 @@
 /**
  * The DataContainer Interface defines the required methods for any DataContainer class or child.
  *
- * @version $Id: DataContainer.interface.php,v 1.4 2003/07/01 17:14:13 dobomode Exp $
+ * @version $Id: DataContainer.interface.php,v 1.5 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003
- * @package harmoni.utilities 
+ * @package harmoni.interfaces.utilities 
  **/
 
 class DataContainerInterface {

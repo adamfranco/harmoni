@@ -8,8 +8,8 @@ require_once("Query.abstract.php");
  * query type to execute queries not available through the other Query
  * objects (for example, data-definition queries).
  *
- * @version $Id: GenericSQLQuery.interface.php,v 1.1 2003/07/18 21:07:07 dobomode Exp $
- * @package harmoni.dbc
+ * @version $Id: GenericSQLQuery.interface.php,v 1.2 2003/08/06 22:32:39 gabeschine Exp $
+ * @package harmoni.interfaces.dbc
  * @copyright 2003 
  */
 

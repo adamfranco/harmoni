@@ -8,9 +8,9 @@ require_once(HARMONI."themeHandler/Theme.interface.php");
  * A NamedTheme is a simple {@link ThemeInterface Theme} with a name, description,
  * and a preview image.
  *
- * @version $Id: NamedTheme.interface.php,v 1.2 2003/07/23 21:43:58 gabeschine Exp $
+ * @version $Id: NamedTheme.interface.php,v 1.3 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
- * @package harmoni.themes
+ * @package harmoni.interfaces.themes
  **/
 class NamedThemeInterface extends ThemeInterface {
 	/**

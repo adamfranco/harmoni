@@ -62,8 +62,8 @@ require_once("Query.abstract.php");
 /**
  * A SelectQuery interface provides the tools to build an SQL SELECT query.
  *
- * @version $Id: SelectQuery.interface.php,v 1.9 2003/07/18 21:07:07 dobomode Exp $
- * @package harmoni.dbc
+ * @version $Id: SelectQuery.interface.php,v 1.10 2003/08/06 22:32:39 gabeschine Exp $
+ * @package harmoni.interfaces.dbc
  * @copyright 2003 
  */
 

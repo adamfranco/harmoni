@@ -7,8 +7,8 @@ require_once("QueryResult.interface.php");
  *
  * The UPDATEQueryResult interface provides the functionality common to all UPDATE query results.
  * For example, you can get the primary key for the last UPDATEion, get number of UPDATEed rows, etc.
- * @version $Id: UpdateQueryResult.interface.php,v 1.2 2003/07/10 02:34:19 gabeschine Exp $
- * @package harmoni.dbc
+ * @version $Id: UpdateQueryResult.interface.php,v 1.3 2003/08/06 22:32:39 gabeschine Exp $
+ * @package harmoni.interfaces.dbc
  * @access public
  * @copyright 2003 
  */

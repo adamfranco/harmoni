@@ -5,8 +5,8 @@ require_once(HARMONI."services/Service.interface.php");
 /**
  * The AgentInformationHandler interface defines the methods required by any AgentInformationHandler class. The interface relies on an AuthenticationHandler.
  *
- * @package harmoni.authentication.agentinformation
- * @version $Id: AgentInformationHandler.interface.php,v 1.6 2003/07/12 15:19:38 gabeschine Exp $
+ * @package harmoni.interfaces.authentication.agentinformation
+ * @version $Id: AgentInformationHandler.interface.php,v 1.7 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  **/
 class AgentInformationHandlerInterface extends ServiceInterface {

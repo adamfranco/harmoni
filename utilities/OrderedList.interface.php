@@ -3,8 +3,8 @@
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: OrderedList.interface.php,v 1.2 2003/07/04 02:13:15 movsjani Exp $
- * @package harmoni.utilities
+ * @version $Id: OrderedList.interface.php,v 1.3 2003/08/06 22:32:40 gabeschine Exp $
+ * @package harmoni.interfaces.utilities
  * @copyright 2003 
  */
 

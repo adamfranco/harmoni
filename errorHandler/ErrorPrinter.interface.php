@@ -1,42 +1,42 @@
 <?php
 
-	// Define some constants for the detail level when printing
+// Define some constants for the detail level when printing
 
-	/**
-	 * Low detail level of printing. All errors are printed with no details.
-	 * @const LOW_DETAIL Low detail level of printing.
-	 * @package harmoni.errorhandler
-	 * @access public
-	 */
-	define(LOW_DETAIL, 1);
-	
-	/**
-	 * Normal detail level of printing. Only fatal errors are printed with details.
-	 * @const NORMAL_DETAIL Normal detail level of printing.
-	 * @package harmoni.errorhandler
-	 * @access public
-	 */
-	define(NORMAL_DETAIL, 2);
-	
-	/**
-	 * High detail level of printing. All errors are printed with details.
-	 * @const HIGH_DETAIL High detail level of printing.
-	 * @package harmoni.errorhandler
-	 * @access public
-	 */
-	define(HIGH_DETAIL, 3);
-	
-	/**
-	 * An ErrorPrinter interface provides functionality to output Error objects in any way one's soul may desire.
-	 * For example, you can print to a browser window, to a database, to a file, etc.
-	 *
-	 * @version $Id: ErrorPrinter.interface.php,v 1.8 2003/06/27 15:42:44 movsjani Exp $
-	 * @package harmoni.errorhandler
-	 * @copyright 2003
-	 * @access public
-	 */
+/**
+ * Low detail level of printing. All errors are printed with no details.
+ * @const LOW_DETAIL Low detail level of printing.
+ * @package harmoni.errorhandler
+ * @access public
+ */
+define(LOW_DETAIL, 1);
 
-	class ErrorPrinterInterface {
+/**
+ * Normal detail level of printing. Only fatal errors are printed with details.
+ * @const NORMAL_DETAIL Normal detail level of printing.
+ * @package harmoni.errorhandler
+ * @access public
+ */
+define(NORMAL_DETAIL, 2);
+
+/**
+ * High detail level of printing. All errors are printed with details.
+ * @const HIGH_DETAIL High detail level of printing.
+ * @package harmoni.errorhandler
+ * @access public
+ */
+define(HIGH_DETAIL, 3);
+
+/**
+ * An ErrorPrinter interface provides functionality to output Error objects in any way one's soul may desire.
+ * For example, you can print to a browser window, to a database, to a file, etc.
+ *
+ * @version $Id: ErrorPrinter.interface.php,v 1.9 2003/08/06 22:32:40 gabeschine Exp $
+ * @package harmoni.interfaces.errorhandler
+ * @copyright 2003
+ * @access public
+ */
+
+class ErrorPrinterInterface {
 
     /**
      * Outputs a queue of errors to any NORMAL. This function will call

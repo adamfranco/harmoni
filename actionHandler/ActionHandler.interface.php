@@ -54,8 +54,8 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * <li>A {@link LoginState} object.
  * <li>The {@link Harmoni} object.
  *
- * @package harmoni.actions
- * @version $Id: ActionHandler.interface.php,v 1.4 2003/07/25 00:53:43 gabeschine Exp $
+ * @package harmoni.interfaces.actions
+ * @version $Id: ActionHandler.interface.php,v 1.5 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandlerInterface {
@@ -136,6 +136,15 @@ class ActionHandlerInterface {
 	 * @return void
 	 **/
 	function useContext(&$context) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns an array of actions that have been executed this session.
+	 * @access public
+	 * @return array
+	 **/
+	function getExecutedActions() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	

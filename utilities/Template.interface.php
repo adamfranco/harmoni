@@ -3,8 +3,8 @@
 /**
  * The Template interface defines what methods are required of any Template class.
  *
- * @package harmoni.utilities.template
- * @version $Id: Template.interface.php,v 1.2 2003/07/25 07:27:14 gabeschine Exp $
+ * @package harmoni.interfaces.utilities.template
+ * @version $Id: Template.interface.php,v 1.3 2003/08/06 22:32:40 gabeschine Exp $
  * @copyright 2003 
  **/
 

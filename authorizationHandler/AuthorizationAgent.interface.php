@@ -13,11 +13,11 @@
  * types of agents.
  * 
  * @access public
- * @version $Id: AuthorizationAgent.interface.php,v 1.4 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: AuthorizationAgent.interface.php,v 1.5 2003/08/06 22:32:40 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
- * @package harmoni.authorization
+ * @package harmoni.interfaces.authorization
  */
 class AuthorizationAgentInterface {
 

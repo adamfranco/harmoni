@@ -5,8 +5,8 @@ require_once(HARMONI.'services/Service.interface.php');
 /**
  * 
  *
- * @version $Id: ErrorHandler.interface.php,v 1.11 2003/07/01 15:12:07 dobomode Exp $
- * @package harmoni.errorhandler
+ * @version $Id: ErrorHandler.interface.php,v 1.12 2003/08/06 22:32:40 gabeschine Exp $
+ * @package harmoni.interfaces.errorhandler
  * @copyright 2003 
  **/
 

@@ -11,11 +11,11 @@
  * not have to care about the way the hierarchy is stored and/or retrieved.
  * 
  * @access public
- * @version $Id: AuthorizationContextHierarchyGenerator.interface.php,v 1.2 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: AuthorizationContextHierarchyGenerator.interface.php,v 1.3 2003/08/06 22:32:40 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
- * @package harmoni.authorization.generator
+ * @package harmoni.interfaces.authorization.generator
  */
 class AuthorizationContextHierarchyGeneratorInterface {
 

@@ -3,8 +3,8 @@
 /**
  * A class designed to manipulate colors using the RGB color scheme.
  *
- * @version $Id: RGBcolor.interface.php,v 1.1 2003/07/20 14:17:17 gabeschine Exp $
- * @package harmoni.utilities
+ * @version $Id: RGBcolor.interface.php,v 1.2 2003/08/06 22:32:40 gabeschine Exp $
+ * @package harmoni.interfaces.utilities
  * @copyright 2003 
  */
 

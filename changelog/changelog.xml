@@ -2,8 +2,11 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.2">
+		<change>Harmoni->execute() now returns the result from the action if outputHTML = false.</change>
+		<change>DebugHandlers now store an internal output level which is used when none is passed to the Printer.</change>
+		<change>LoginState now keeps track of both an Active and Logged-in agent.</change>
 		<change>Layouts &amp; other VisualComponents now have setLevel() and getLevel() methods and store the level locally.</change>
-		<change>Template::output() now accepts a variable length argument list of FieldSets or hash tables.</change>
+		<change>Template->output() now accepts a variable length argument list of FieldSets or hash tables.</change>
 		<change>Actions are now passed a reference to the Harmoni object.</change>
 		<new author='gabe'>Databases now have a toDBDate() and fromDBDate() function to convert to the necessary Date format.</new>
 		<new author='gabe'>Completed ActionHandler, LoginHandler and Harmoni classes and services.</new>

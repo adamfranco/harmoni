@@ -3,8 +3,8 @@
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.interface.php,v 1.9 2003/06/27 15:42:45 movsjani Exp $
- * @package harmoni.utilities
+ * @version $Id: Queue.interface.php,v 1.10 2003/08/06 22:32:40 gabeschine Exp $
+ * @package harmoni.interfaces.utilities
  * @copyright 2003 
  */
 
