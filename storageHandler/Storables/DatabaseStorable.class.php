@@ -7,7 +7,7 @@ require_once(HARMONI.'storageHandler/Storables/DatabaseStorableDataContainer.cla
  * A DatabaseStorable is like a FileStorable, with the exception that all data
  * is stored in a database, and not on a file system.
  *
- * @version $Id: DatabaseStorable.class.php,v 1.3 2003/07/15 18:41:53 movsjani Exp $
+ * @version $Id: DatabaseStorable.class.php,v 1.4 2003/07/16 19:02:24 movsjani Exp $
  * @package harmoni.storage.storables
  * @copyright 2003
  * @access public
@@ -53,8 +53,9 @@ class DatabaseStorable extends AbstractStorable {
 
 		$query->addColumn($this->_parameters->get("dataColumn"));
 
-		$query->setWhere($this->_parameters->get("nameColumn")."=".$this->_name." AND ".
-						 $this->_parameters->get("pathColumn")."=".$this->_path);
+		$name = addslashes($this->_name); $path = addslashes($path);
+		$query->setWhere($this->_parameters->get("nameColumn")." = '$name' AND ".
+						 $this->_parameters->get("pathColumn")." = '$path'");
 
 		if(!$dbHandler->isConnected($this->_parameters->get("dbIndex")))   
 			$dbHandler->connect($this->_parameters->get("dbIndex"));
@@ -81,12 +82,13 @@ class DatabaseStorable extends AbstractStorable {
 		$sizeColumn = $this->_parameters->get("sizeColumn");
 		$dataColumn = $this->_parameters->get("dataColumn");
 		
-		$selectColumn = (isset($sizeColumn) && ($sizeColumn!=""))?$sizeColumn:$dataColumn;
+		$selectColumn = (empty($sizeColumn))?$sizeColumn:$dataColumn;
 
 		$query->addColumn($selectColumn);
 
-		$query->setWhere($this->_parameters->get("nameColumn")."=".$this->_name." AND ".
-						 $this->_parameters->get("pathColumn")."=".$this->_path);
+		$name = addslashes($this->_name); $path = addslashes($path);
+		$query->setWhere($this->_parameters->get("nameColumn")." = '$name' AND ".
+						 $this->_parameters->get("pathColumn")." = '$path'");
 
 		if(!$dbHandler->isConnected($this->_parameters->get("dbIndex")))
 			$dbHandler->connect($this->_parameters->get("dbIndex"));
