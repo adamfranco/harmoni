@@ -11,10 +11,10 @@ define("MENUITEM_UNKNOWN",-1);
  * The MenuItem lays out groundwork for sub-classes. It should not be instantiated as it has no
  * type.
  * 
- * @abstract
  * @package harmoni.layout.components
- * @version $Id: MenuItem.abstract.php,v 1.2 2003/07/16 23:32:39 gabeschine Exp $
+ * @version $Id: MenuItem.abstract.php,v 1.3 2003/07/23 21:43:58 gabeschine Exp $
  * @copyright 2003 
+ * @abstract
  **/
 class MenuItem extends MenuItemInterface {
 	/**

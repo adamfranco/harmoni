@@ -11,9 +11,8 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * <li />Index: 1, A Layout object.
  * </ul>
  *
- * @abstract
  * @package harmoni.layout.components
- * @version $Id: TopMenuLayout.class.php,v 1.2 2003/07/18 23:32:26 gabeschine Exp $
+ * @version $Id: TopMenuLayout.class.php,v 1.3 2003/07/23 21:43:58 gabeschine Exp $
  * @copyright 2003 
  **/
 

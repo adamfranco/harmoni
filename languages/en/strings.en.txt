@@ -1,1 +1,1 @@
-loginFailed:The username and password pair you entered is invalid.
+failedLogin:The username and password pair you entered is invalid.

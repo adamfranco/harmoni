@@ -11,9 +11,8 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * <br />
  * The above example essentially outputs a horizontal menu as the only cell in a table. Boring.
  *
- * @abstract
  * @package harmoni.layout.components
- * @version $Id: LayoutFromFile.class.php,v 1.2 2003/07/18 20:26:23 gabeschine Exp $
+ * @version $Id: LayoutFromFile.class.php,v 1.3 2003/07/23 21:43:58 gabeschine Exp $
  * @copyright 2003 
  **/
 

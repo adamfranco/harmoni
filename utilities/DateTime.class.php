@@ -5,11 +5,11 @@ require_once(HARMONI."DateTime.interface.php");
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.2 2003/07/20 18:25:19 dobomode Exp $
+ * @version $Id: DateTime.class.php,v 1.3 2003/07/23 21:43:58 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
- * @package harmoni.utilities;
+ * @package harmoni.utilities
  */
 class DateTime implements DateTimeInterface {
 
@@ -46,7 +46,7 @@ class DateTime implements DateTimeInterface {
 	
 	/**
 	 * Seconds. 0-59.
-	 * @attribute private itneger _seconds
+	 * @attribute private integer _seconds
 	 */
 	var $_seconds;
 	

@@ -7,10 +7,10 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * and other data for multiple languages.
  *
  * @package harmoni.languages
- * @version $Id: LanguageLocalizer.class.php,v 1.1 2003/07/22 22:05:47 gabeschine Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.2 2003/07/23 21:43:58 gabeschine Exp $
  * @copyright 2003 
  **/
-class LanguageLocalizerInterface {
+class LanguageLocalizer extends LanguageLocalizerInterface {
 	/**
 	 * @access private
 	 * @var string $_lang The current language.
@@ -86,9 +86,8 @@ class LanguageLocalizerInterface {
 		
 		$contents = file($file);
 		foreach ($contents as $line) {
-			ereg("^([[:alnum:]_-]+):(.+)$",$line,$regs);
-			$key = $regs[0];
-			$data = $regs[1];
+			$key = $regs[1];
+			$data = $regs[2];
 			$this->_strings[$key] = $data;
 		}
 	}

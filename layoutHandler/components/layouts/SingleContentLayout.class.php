@@ -10,9 +10,8 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * Content: <br />
  * <ul><li />Index: 0, A Content object.</ul>
  *
- * @abstract
  * @package harmoni.layout.components
- * @version $Id: SingleContentLayout.class.php,v 1.5 2003/07/22 22:05:47 gabeschine Exp $
+ * @version $Id: SingleContentLayout.class.php,v 1.6 2003/07/23 21:43:58 gabeschine Exp $
  * @copyright 2003 
  **/
 

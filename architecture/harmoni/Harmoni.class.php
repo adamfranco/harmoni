@@ -1,10 +1,14 @@
 <?php
-require_once(HARMONI."architecture/Harmoni.interface.php");
-require_once(HARMONI."architecture/login/LoginHandler.class.php");
+require_once(HARMONI."architecture/harmoni/Harmoni.interface.php");
+require_once(HARMONI."architecture/harmoni/login/LoginHandler.class.php");
 require_once(HARMONI."actionHandler/ActionHandler.class.php");
 require_once(HARMONI."utilities/FieldSetValidator/FieldSet.class.php");
-require_once(HARMONI."architecture/login/LoginState.class.php");
+require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
 require_once(HARMONI."languageLocalizer/LanguageLocalizer.class.php");
+require_once(HARMONI."architecture/harmoni/HarmoniConfig.class.php");
+require_once(HARMONI."architecture/harmoni/Context.class.php");
+require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
+require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
 
 /**
  * The Harmoni class combines the functionality of login, authentication, 
@@ -12,7 +16,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.4 2003/07/22 22:05:46 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.5 2003/07/23 21:43:58 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni extends HarmoniInterface {
@@ -127,15 +131,6 @@ class Harmoni extends HarmoniInterface {
 		if (!$this->_theme) throwError(new Error("Harmoni::execute() - You must 
 							specify a theme to use before calling execute()!","Harmoni",true));
 		
-		// let's start the session
-		session_name($this->config->get("sessionName"));
-		if (!$_COOKIE[$this->config->get("sessionName")] && !$_REQUEST[$this->config->get("sessionName")])
-			session_id(uniqid(str_replace(".","",$_SERVER['REMOTE_ADDR']))); // make new session id.
-		$path = $this->config->get("sessionCookiePath");
-		if ($path[strlen($path) - 1] != '/') $path .= '/';
-		session_set_cookie_params(0,$path,$this->config->get("sessionCookieDomain"));
-		session_start(); // yay!
-		
 		// find what action we are trying to execute
 		$callback = $this->_actionCallbackFunction;
 		$pair = $callback();
@@ -168,18 +163,22 @@ class Harmoni extends HarmoniInterface {
 			$loginState =& $this->LoginHandler->execute();
 		} else $loginState =& new LoginState; // "blank" loginState
 		
+		// check if we've still got the same action
+		$pair = $this->getCurrentAction();
+		list($module,$action) = explode(".",$pair);
+		
 		// ok, now we execute the action
 		// 1) call the action, get the return result
 		// 2) Take whatever it returns (true, false, or Layout)
 		// 3) Pass that on to the theme (which should be set by now)
 		// 4) and that's it! program finished!
-		// @todo -cHarmoni Implement Harmoni.execute
 		
 		// output a content-type header with specified charset. this can be
 		// overridden at any later time.
-		header("Content-type: text/html; charset="$this->config->get("charset"));
+		header("Content-type: text/html; charset=".$this->config->get("charset"));
 		
 		// set up a context object.
+		$context =& new Context($module, $action);
 		
 		// ok, call the action handler
 		$this->ActionHandler->useLoginState(&$loginState);
@@ -195,13 +194,13 @@ class Harmoni extends HarmoniInterface {
 			// we got something else back... well, let's print out an error
 			// explaining what happened.
 			$type = gettype($result);
-			throwError("Harmoni::execute() - The result returned from action '$pair' was unexpected. Expecting a Layout
-					object, but got a variable of type '$type'.","Harmoni",true);
+			throwError(new Error("Harmoni::execute() - The result returned from action '$pair' was unexpected. Expecting a Layout
+					object, but got a variable of type '$type'.","Harmoni",true));
 		}
 	}
 	
 	/**
-	 * Sets the {@link Theme} to use for output to the browser. $themeObject can
+	 * Sets the {@link ThemeInterface Theme} to use for output to the browser. $themeObject can
 	 * be any Theme object that follows the {@link ThemeInterface}.
 	 * @access public
 	 * @return void
@@ -214,7 +213,7 @@ class Harmoni extends HarmoniInterface {
 	/**
 	 * Returns the current theme object.
 	 * @access public
-	 * @return ref object A {@link Theme} object.
+	 * @return ref object A {@link ThemeInterface Theme} object.
 	 **/
 	function &getTheme() {
 		return $this->_theme;
@@ -240,6 +239,25 @@ class Harmoni extends HarmoniInterface {
 		$this->_currentAction = $action;
 	}
 	
+	/**
+	 * Starts the session.
+	 * @access public
+	 * @return void
+	 **/
+	function startSession() {
+		// let's start the session
+		session_name($this->config->get("sessionName"));
+//		if (!$_COOKIE[$this->config->get("sessionName")] && !$_REQUEST[$this->config->get("sessionName")])
+//			session_id(uniqid(str_replace(".","",$_SERVER['REMOTE_ADDR']))); // make new session id.
+		$path = $this->config->get("sessionCookiePath");
+		if ($path[strlen($path) - 1] != '/') $path .= '/';
+		ini_set("session.cookie_path",$path);
+		ini_set("session.cookie_domain",$this->config->get("sessionCookieDomain"));
+		//session_set_cookie_params(0,$path,$this->config->get("sessionCookieDomain"));
+		session_start(); // yay!
+	}
+	
+
 }
 
 /**

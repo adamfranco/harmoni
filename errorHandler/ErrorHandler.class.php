@@ -7,7 +7,7 @@ require_once(HARMONI."errorHandler/ErrorPrinterBasic.class.php");
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.19 2003/07/08 03:33:47 dobomode Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.20 2003/07/23 21:43:58 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */
@@ -172,7 +172,7 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 * LOW_LEVEL, MEDIUM_LEVEL or HIGH_LEVEL.
 	 * @access public
 	 */
-	function printErrorsWithErrorPrinter($errorPriner, $detailLevel = MEDIUM_LEVEL) { 
+	function printErrorsWithErrorPrinter($errorPrinter, $detailLevel = MEDIUM_LEVEL) { 
 		$errorPrinter->printErrors($this->_errorQueue, $detailLevel);
 	}
 

@@ -5,8 +5,8 @@
  *
  * @see {@link DebugHandlerInterface}
  * @static
- * @abstract
- * @version $Id: debug.class.php,v 1.2 2003/06/27 13:51:38 gabeschine Exp $
+ * @version $Id: debug.class.php,v 1.3 2003/07/23 21:43:58 gabeschine Exp $
+ * @package harmoni.debug
  * @copyright 2003 
  **/
 class debug {

@@ -3,10 +3,10 @@
 require_once(HARMONI . "utilities/DataContainer.abstract.php");
 
 /**
- * The LDAPMethodOptions is a {@link DataContainer} for the {@link LDAPAuthenticationMethod}.
+ * The HamoniConfig is a {@link DataContainer} for the {@link Harmoni} object.
  * 
  * @package harmoni.authentication.ldap
- * @version $Id: HarmoniConfig.class.php,v 1.1 2003/07/22 22:05:47 gabeschine Exp $
+ * @version $Id: HarmoniConfig.class.php,v 1.2 2003/07/23 21:43:58 gabeschine Exp $
  * @copyright 2003
  */
 
@@ -14,12 +14,11 @@ class HarmoniConfig extends DataContainer {
     /**
      * Constructor -- sets up the allowed fields for this kind of {@link DataContainer}
      * 
-     * @see {@link LDAPAuthenticationMethod}
      * @see {@link DataContainer}
-     * @access protected 
+     * @access public 
      * @return void 
      */
-    function LDAPMethodOptions()
+    function HarmoniConfig()
     { 
         // initialize the data container
         $this -> init(); 
@@ -39,7 +38,7 @@ class HarmoniConfig extends DataContainer {
 		$this -> set("sessionName","Harmoni");
 		$this -> add("sessionCookiePath", new FieldRequiredValidatorRule);
 		$this -> set("sessionCookiePath","/");
-		$this -> add("sessionDomain", new FieldRequiredValidatorRule, new Error("HarmoniConfig - You must set a 'sessionDomain' to the DNS domain you would like your session cookie sent to! (eg, '.mydomain.com')","Harmoni",true));
+		$this -> add("sessionCookieDomain", new FieldRequiredValidatorRule, new Error("HarmoniConfig - You must set a 'sessionDomain' to the DNS domain you would like your session cookie sent to! (eg, '.mydomain.com')","Harmoni",true));
 	} 
 } 
 

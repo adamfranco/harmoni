@@ -20,10 +20,10 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * <li>A {@link LoginState} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.2 2003/07/22 22:05:46 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.3 2003/07/23 21:43:58 gabeschine Exp $
  * @copyright 2003 
  **/
-class ActionHandlerInterface {
+class ActionHandler extends ActionHandlerInterface {
 	/**
 	 * @access private
 	 * @var array $_threads A hashed-array of subsequent actions for any given action.
@@ -135,7 +135,7 @@ class ActionHandlerInterface {
 		if (!$this->_loginState)
 			throwError(new Error("ActionHandler::execute() - Could not proceed: it seems we do not yet have a LoginState object set.","ActionHandler",true));
 		
-		$this->_execute($module, $action);
+		return $this->_execute($module, $action);
 	}
 	
 	/**
@@ -170,9 +170,10 @@ class ActionHandlerInterface {
 		}
 		
 		// include the file
-        $incResult =& @include($_includeFile) or throwError(new Error("ActionHandler::execute($_pair) - could not proceed:
-							The file '$_includeFile' produced the following error: ".$php_errormsg,"ActionHandler",true));
-
+		if (!file_exists($_includeFile)) throwError(new Error("ActionHandler::execute($_pair) - 
+							could not proceed: The file '$_includeFile' does not exist!","ActionHandler",true));
+        $incResult = include($_includeFile);
+		
 		$result = false; // default
 
 		$class = $method = false;
@@ -194,7 +195,7 @@ class ActionHandlerInterface {
 		
 		// create the class, execute the method.
 		if ($class) {
-			$object =& @new $class;
+			$object = @new $class;
 			if (!$object) throwError(new Error("ActionHandler::execute($_pair) - 
 							could not proceed: The class '$class' could not be created:
 							$php_errormsg","ActionHandler",true));
@@ -224,6 +225,7 @@ class ActionHandlerInterface {
 		
 		// otherwise, just return the darned result
 		return $result;
+
 		// phew!
 	}
 	

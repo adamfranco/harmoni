@@ -6,10 +6,10 @@ require_once(HARMONI."layoutHandler/Layout.interface.php");
  * The Layout class lays (hah!) out ground work for any layout-type children. It
  * holds any number of components of different types.
  *
- * @abstract
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.4 2003/07/20 14:17:18 gabeschine Exp $
+ * @version $Id: Layout.abstract.php,v 1.5 2003/07/23 21:43:58 gabeschine Exp $
  * @copyright 2003 
+ * @abstract
  **/
 
 class Layout extends LayoutInterface {

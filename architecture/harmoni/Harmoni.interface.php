@@ -8,7 +8,7 @@
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.interface.php,v 1.2 2003/07/22 22:05:46 gabeschine Exp $
+ * @version $Id: Harmoni.interface.php,v 1.3 2003/07/23 21:43:58 gabeschine Exp $
  * @copyright 2003 
  **/
 class HarmoniInterface {
@@ -38,7 +38,7 @@ class HarmoniInterface {
 	}
 	
 	/**
-	 * Sets the {@link Theme} to use for output to the browser. $themeObject can
+	 * Sets the {@link ThemeInterface Theme} to use for output to the browser. $themeObject can
 	 * be any Theme object that follows the {@link ThemeInterface}.
 	 * @access public
 	 * @return void
@@ -50,7 +50,7 @@ class HarmoniInterface {
 	/**
 	 * Returns the current theme object.
 	 * @access public
-	 * @return ref object A {@link Theme} object.
+	 * @return ref object A {@link ThemeInterface Theme} object.
 	 **/
 	function &getTheme() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -75,6 +75,16 @@ class HarmoniInterface {
 	function setCurrentAction($action) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
+	
+	/**
+	 * Starts the session.
+	 * @access public
+	 * @return void
+	 **/
+	function startSession() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
 	
 }
 

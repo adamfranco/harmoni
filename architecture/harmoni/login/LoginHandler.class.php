@@ -1,8 +1,6 @@
 <?php
 
-require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
 require_once(HARMONI."architecture/harmoni/login/LoginHandler.interface.php");
-require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
 
 /**
  * The LoginHandler essentially creates an interface between the web browser and
@@ -17,7 +15,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.1 2003/07/22 22:05:47 gabeschine Exp $
+ * @version $Id: LoginHandler.class.php,v 1.2 2003/07/23 21:43:58 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginHandler extends LoginHandlerInterface {
@@ -70,17 +68,22 @@ class LoginHandler extends LoginHandlerInterface {
 	function & execute() {
 		// do we have a failedLoginAction?
 		if (!$this->_failedLoginAction) {
-			throwError(new Error("LoginHandler::execute() - could not proceed because no failedLoginAction has been set!","Login",true));
+			throwError(new Error("LoginHandler::execute() - could not proceed 
+					because no failedLoginAction has been set!","Login",true));
 			return false;
 		}
 		
 		// first let's check if a LoginState has been saved in the session
-		if ($_SESSION['__LoginState']) $state =& $_SESSION['__LoginState'];
-		else // create one
-			$_SESSION['__LoginState'] =& $state =& new LoginState;
+		if ($_SESSION['__LoginState']) {
+			$state =& $_SESSION['__LoginState'];
+		}
+		else {// create one
+			$state =& new LoginState;
+			$_SESSION['__LoginState'] =& $state;
+		}
 			
 		// if they are logged in and valid, just return
-		if ($state->isValid()) return $state;
+		if ($state->isValid()) {return $state;}
 		
 		// otherwise, check if they need to be authenticated or not
 		
@@ -100,6 +103,7 @@ class LoginHandler extends LoginHandlerInterface {
 			if (!$result) {
 				// the user didn't enter any info yet -- execute the failed login action
 				// first save the current URL in the session
+				// @todo -cLoginHandler Implement LoginHandler.execute replace old ID with a new one.
 				$_SESSION['__afterLoginURL'] = $_SERVER['REQUEST_URI'];
 				$this->_harmoni->setCurrentAction($this->_failedLoginAction);
 				return $state;
@@ -113,7 +117,8 @@ class LoginHandler extends LoginHandlerInterface {
 			$authResult =& $authHandler->authenticateAllMethods($username,$password);
 			
 			// save the new LoginState in the session
-			$_SESSION['__LoginState'] =& $state =& new LoginState($username,&$authResult);
+			$state =& new LoginState($username,&$authResult);
+			$_SESSION['__LoginState'] =& $state;
 			
 			// now, if they were valid, everything is honky-dory
 			// -- send them to the saved url if its defined
@@ -131,8 +136,8 @@ class LoginHandler extends LoginHandlerInterface {
 			// but first throw a little error, for kicks... or not.
 			$string = $this->_harmoni->language->getString("failedLogin");
 			$error =& new Error($string,"Login",false);
-			Services::requireService("UserErrors");
-			$errHandler =& Services::getService("UserErrors");
+			Services::requireService("UserError");
+			$errHandler =& Services::getService("UserError");
 			$errHandler->addError($error);
 
 			$this->_harmoni->setCurrentAction($this->_failedLoginAction);
@@ -140,7 +145,8 @@ class LoginHandler extends LoginHandlerInterface {
 		}
 		
 		// if we're here, something's very very wrong
-		throwError(new Error("LoginHandler::execute() - Could not proceed. There is a configuration problem. No callback function is defined.","Login",true));
+		throwError(new Error("LoginHandler::execute() - Could not proceed. 
+				There is a configuration problem. No callback function is defined.","Login",true));
 	}
 	
 	/**
@@ -153,10 +159,13 @@ class LoginHandler extends LoginHandlerInterface {
 		// essentially, unset the session vars
 		unset($_SESSION['__LoginState'],$_SESSION['__afterLoginURL']);
 		
+		// in case register_globals is on... this is a hack
+		if (ini_get("register_globals")) { session_unregister("__LoginState"); session_unregister("__afterLoginURL");}
+		
 		// if the callback function used HTTP Authentication, we need to
 		// tell the browser to clear its username/password cache!
 		if ($this->_usernamePasswordCallbackFunction == 'basicHTTPAuthenticationCallback') {
-			header("HTTP/1.0 401 Unauthorized");
+	//		header("HTTP/1.0 401");
 		}
 		// done;
 	}
