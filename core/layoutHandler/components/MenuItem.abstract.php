@@ -12,7 +12,7 @@ define("MENUITEM_UNKNOWN",-1);
  * type.
  * 
  * @package harmoni.layout.components
- * @version $Id: MenuItem.abstract.php,v 1.2 2004/03/10 00:10:29 adamfranco Exp $
+ * @version $Id: MenuItem.abstract.php,v 1.3 2004/03/11 16:02:46 adamfranco Exp $
  * @copyright 2003 
  * @abstract
  **/
@@ -168,7 +168,7 @@ class MenuItem extends MenuItemInterface {
 	 */
 	function setVerticalAlignment ( $valign ) {
 		ArgumentValidator::validate($valign, new StringValidatorRule);
-		if ($valign != TOP && $valign != CENTER && $valign != BOTTOM)
+		if ($valign != TOP && $valign != MIDDLE && $valign != BOTTOM)
  			throwError(new Error("Could not set vertical alignment, parameter out of range.","Layout",true));
  		
 		$this->_verticalAlignment = $valign;

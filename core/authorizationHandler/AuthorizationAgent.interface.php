@@ -4,16 +4,16 @@
  * Defines the functionallity of an authorization agent, one of the three
  * authorization components. An authorization agent specifies the agent to be
  * authorized. It stores several properties:
- * <br><br>
+ * <br /><br />
  * The <b>system id</b> is a system-specific unique numeric id of the agent.
- * <br><br>
+ * <br /><br />
  * The <b>system name</b> is a system-specific unique name of the agent.
- * <br><br>
+ * <br /><br />
  * The <b>type</b> is a system-specific type used to differentiate between verious
  * types of agents.
  * 
  * @access public
- * @version $Id: AuthorizationAgent.interface.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: AuthorizationAgent.interface.php,v 1.2 2004/03/11 16:02:44 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -23,7 +23,7 @@ class AuthorizationAgentInterface {
 
 	/**
 	 * Returns the system id of this agent.
-	 * <br><br>
+	 * <br /><br />
 	 * The <b>system id</b> is a system-specific unique numeric id of the agent.
 	 * @method public getSystemId
 	 * @return integer The system id of this agent.
@@ -34,7 +34,7 @@ class AuthorizationAgentInterface {
 
 	/**
 	 * Returns the system name of this agent.
-	 * <br><br>
+	 * <br /><br />
 	 * The <b>system name</b> is a system-specific unique name of the agent.
 	 * @method public getSystemName
 	 * @return string The system name of this agent.
@@ -45,7 +45,7 @@ class AuthorizationAgentInterface {
 
 	/**
 	 * Returns the type of this agent.
-	 * <br><br>
+	 * <br /><br />
 	 * The <b>type</b> is a system-specific type used to differentiate between various
 	 * types of agents.
 	 * @method public getType

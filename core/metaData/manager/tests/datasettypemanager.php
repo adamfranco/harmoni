@@ -40,7 +40,7 @@ print "<p>Manager returned <b>".$manager->numberOfTypes()."</b> registered DataS
 
 if ($manager->numberOfTypes()) {
 	$allTypes =& $manager->getAllDataSetTypes();
-	print "<br><br>\n";
+	print "<br /><br />\n";
 	while($allTypes->hasNext() && $type =& $allTypes->next()) {
 		print "<div><li />".OKITypeToString($type)."</div>\n";
 		print "<div style='padding-left: 20px; font-size: smaller;'>".$type->getDescription()."</div>\n";
@@ -51,10 +51,10 @@ if ($manager->numberOfTypes()) {
 
 <p>
 <form method="POST">
-Domain: <input type="text" name="domain" size=40> <br>
-Authority: <input type="text" name="authority" size=40> <br>
-Keyword: <input type="text" name="keyword" size=40> <br>
-Description: <input type="text" name="description" size=80> <br>
+Domain: <input type="text" name="domain" size=40> <br />
+Authority: <input type="text" name="authority" size=40> <br />
+Keyword: <input type="text" name="keyword" size=40> <br />
+Description: <input type="text" name="description" size=80> <br />
 <input type="hidden" name="action" value="addnew">
 <input type="submit" value="Add New">
 </form>

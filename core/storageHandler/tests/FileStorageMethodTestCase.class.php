@@ -7,7 +7,7 @@ require_once(HARMONI.'storageHandler/StorageMethods/FileStorageMethod.class.php'
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FileStorageMethodTestCase.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: FileStorageMethodTestCase.class.php,v 1.2 2004/03/11 16:02:49 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -55,14 +55,14 @@ require_once(HARMONI.'storageHandler/StorageMethods/FileStorageMethod.class.php'
 
 			$storables = $method->listInPath("",true);
 			foreach ($storables as $storable){
-				print "<br>";
+				print "<br />";
 				print $storable->getPath()." "; 
 				print $storable->getName()." "; 
-				print "<br>";
+				print "<br />";
 			}
 
 			print $method->getSizeOf("");
-			print "<br>";
+			print "<br />";
 			print $method->getSizeOf("","maxold.txt");
 		}
 		

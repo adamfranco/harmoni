@@ -42,13 +42,13 @@ function globalFunc() {
  * This sentence is still part of the detailed description.
  * 
  * Description can include HTML tags:
- * <br>
+ * <br />
  * <i>Italics</i>
- * <br>
+ * <br />
  * <a href = "http:\\www.dobomode.com">Link</a>
- * <br>
+ * <br />
  * <b>Bold</b>
- * <br>
+ * <br />
  * <pre>
  * P
  *  R
@@ -62,7 +62,7 @@ function globalFunc() {
  *          T
  *           E
  *            D</pre>
- * <br>
+ * <br />
  * Sample code:
  * <pre>
  * <code>
@@ -74,7 +74,7 @@ function globalFunc() {
  * </pre>
  * End of detailed description.
  *
- * @version $Id: SamplePHPDoc.class.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: SamplePHPDoc.class.php,v 1.2 2004/03/11 16:02:46 adamfranco Exp $
  * @author Middlebury College, ETS Department
  * @copyright 2003 Middlebury College, ETS Department
  * @package harmoni.help

@@ -5,9 +5,9 @@ require_once(HARMONI."authorizationHandler/DatabaseHierarchicalAuthorizationMeth
 
 /**
  * This is a database implementation of the HierarchicalAuthorizationMethodInterface.
- * <br><br>
+ * <br /><br />
  * The class is capable of authorizing an <b>agent</b> performing a <b>function</b> in a given 
- * <b>context</b>.<br>
+ * <b>context</b>.<br />
  * <pre>
  * This authorization method is cached and makes use of three caches:
  * 
@@ -34,7 +34,7 @@ require_once(HARMONI."authorizationHandler/DatabaseHierarchicalAuthorizationMeth
  * </pre>
  * 
  * @access public
- * @version $Id: DatabaseHierarchicalAuthorizationMethod.class.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: DatabaseHierarchicalAuthorizationMethod.class.php,v 1.2 2004/03/11 16:02:44 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -198,7 +198,7 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 	 * to be authorized.
 	 * @param object context An <code>HierarchicalAuthorizationContext</code> object describing
 	 * the context in which to perform authorization.
-	 * @return boolean <code>true</code>, if the agent was successfully authorized;<br>
+	 * @return boolean <code>true</code>, if the agent was successfully authorized;<br />
 	 * <code>false</code>, otherwise.
 	 */
 	function authorize($agent, $function, $context) {

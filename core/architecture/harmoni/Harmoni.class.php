@@ -17,7 +17,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.12 2004/03/04 22:59:07 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.13 2004/03/11 16:02:44 adamfranco Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -300,7 +300,7 @@ class Harmoni {
 				// indeed!
 				// now check if we have a "startWithLayout" layout
 				if ($this->_startWithLayout) {
-					$this->_startWithLayout->setComponent($this->_startWithLayoutIndex,$result);
+					$this->_startWithLayout->addComponent($result);
 					$this->theme->printPage($this->_startWithLayout);
 				} else
 					$this->theme->printPage($result);
@@ -336,6 +336,18 @@ class Harmoni {
 	 **/
 	function &getTheme() {
 		return $this->theme;
+	}
+	
+	/**
+	 * Returns true if there is a current theme.
+	 * @access public
+	 * @return boolean TRUE if there is a theme.
+	 **/
+	function hasTheme() {
+		if (is_object($this->theme))
+			return TRUE;
+		else
+			return FALSE;
 	}
 	
 	
@@ -385,10 +397,9 @@ class Harmoni {
 	 * @access public
 	 * @return void 
 	 **/
-	function startWithLayout(&$layoutObject, $index) {
+	function startWithLayout(&$layoutObject) {
 		ArgumentValidator::validate($layoutObject, new ExtendsValidatorRule("LayoutInterface"));
 		$this->_startWithLayout =& $layoutObject;
-		$this->_startWithLayoutIndex = $index;
 	}
 }
 

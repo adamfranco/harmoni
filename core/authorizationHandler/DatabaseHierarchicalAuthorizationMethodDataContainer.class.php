@@ -7,7 +7,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * to the constructor of a DatabaseHierarchicalAuthorizationMethod object.
  * 
  * @package harmoni.authorization
- * @version $Id: DatabaseHierarchicalAuthorizationMethodDataContainer.class.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: DatabaseHierarchicalAuthorizationMethodDataContainer.class.php,v 1.2 2004/03/11 16:02:44 adamfranco Exp $
  * @copyright 2003
  */
 
@@ -15,30 +15,30 @@ class DatabaseHierarchicalAuthorizationMethodDataContainer extends DataContainer
 
     /**
      * Constructor -- sets up the allowed fields for this kind of {@link DataContainer}
-     * <br><br>
+     * <br /><br />
 	 * This container includes the following fields:
-	 * <br>
+	 * <br />
 	 * <code>dbIndex</code> - the index of the database connection that the
 	 * authorization method will use as returned by the DBHandler service.
-	 * <br>
+	 * <br />
 	 * <code>primaryKeyColumn</code> - the name of the database table column that stores
 	 * the primary key. The column must be set up to store integers.
-	 * <br>
+	 * <br />
 	 * <code>agentIdColumn</code> - the name of the database table column that stores
 	 * the agent id. The column must be set up to store integers.
-	 * <br>
+	 * <br />
 	 * <code>agentTypeColumn</code> - the name of the database table column that stores
 	 * the agent type. The column must be set up to store integers.
-	 * <br>
+	 * <br />
 	 * <code>functionIdColumn</code> - the name of the database table column that stores
 	 * the function id. The column must be set up to store integers.
-	 * <br>
+	 * <br />
 	 * <code>contextIdColumn</code> - the name of the database table column that stores
 	 * the context id. The column must be set up to store integers.
-	 * <br>
+	 * <br />
 	 * <code>contextDepthColumn</code> - the name of the database table column that stores
 	 * the context hierarchy level. The column must be set up to store integers.
-	 * <br>
+	 * <br />
 	 * 
      * @see {@link DatabaseHierarchicalAuthorizationMethod}
      * @see {@link DataContainer}

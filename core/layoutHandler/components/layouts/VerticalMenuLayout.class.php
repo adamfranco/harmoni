@@ -12,7 +12,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * </ul>
  *
  * @package harmoni.layout.components
- * @version $Id: VerticalMenuLayout.class.php,v 1.2 2004/03/10 00:10:29 adamfranco Exp $
+ * @version $Id: VerticalMenuLayout.class.php,v 1.3 2004/03/11 16:02:47 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -81,7 +81,7 @@ class VerticalMenuLayout extends Layout {
 		$childLayouts =& $this->getAllComponents();
 		
 		// output the table;
-		print "\n".$this->_getTabs()."<table border=0 cellpadding=0 cellspacing=0 width=100%>";
+		print "\n".$this->_getTabs()."<table border='0' cellpadding='0' cellspacing='0' width='100%'>";
 		foreach (array_keys($childLayouts) as $i => $key) {
 			print "\n".$this->_getTabs()."\t<tr><td valign='".$childLayouts[$key]->getVerticalAlignment()."' align='".$childLayouts[$key]->getHorizontalAlignment()."'>";
 			$themeWidget =& $theme->getWidget( $childLayouts[$key]->getThemeWidgetType(), 

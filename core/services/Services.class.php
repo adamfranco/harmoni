@@ -5,7 +5,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.11 2004/01/22 20:47:45 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.12 2004/03/11 16:02:47 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -41,8 +41,8 @@ class Services extends ServicesAbstract {
  	*/
 	function _getBacktrace() {
 		$bt = debug_backtrace();
-		$str = "<pre>".print_r($bt,true) . "</pre><BR><BR>";
-//		$str = $bt[2]['file'].":".$bt[2]['line']."<BR><BR>";
+		$str = "<pre>".print_r($bt,true) . "</pre><br /><br />";
+//		$str = $bt[2]['file'].":".$bt[2]['line']."<br /><br />";
 		return $str;
 	}
 	
@@ -203,7 +203,7 @@ class Services extends ServicesAbstract {
 			return true;
 		
 		$classname = $this->_registeredServices[$name];
-//		print "<pre>".print_r($this->_registeredServices, TRUE)."</pre><br>$classname<br>";
+//		print "<pre>".print_r($this->_registeredServices, TRUE)."</pre><br />$classname<br />";
 		
 		$argList=array();
 		if (func_num_args() > 1) {
@@ -214,7 +214,7 @@ class Services extends ServicesAbstract {
 			}
 		}
 		$str = '$this->_services[$name] =& new '.$classname.'('.implode(', ', $argList).');';
-//		print "<br>$str";
+//		print "<br />$str";
 		eval($str);
 		
 //		$this->_services[$name] =& new $classname;

@@ -13,7 +13,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * hierarchical information.
  * 
  * @access public
- * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.2 2004/02/27 21:22:39 dobomode Exp $
+ * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.3 2004/03/11 16:02:45 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
@@ -89,7 +89,7 @@ class DatabaseAuthorizationContextHierarchyGenerator
 	 * Adds a new hierarchy level at the bottom of the context hierarchy. This method
 	 * is passed a table, and two column names. One of the columns is the foreign
 	 * key to the table that was specified with the previous call to
-	 * <code>addContextDepth()</code>.<br><br>
+	 * <code>addContextDepth()</code>.<br /><br />
 	 * <b>The first time this method is called, only <code>$table</code> should be specified.</b>
 	 * @method public addContextDepth
 	 * @param string table The name of the database table that contains the

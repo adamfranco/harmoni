@@ -8,7 +8,7 @@ require_once(HARMONI . "storageHandler/StorageMethods/DummyStorageMethod.class.p
 * class. Replace 'testedclass.php' below with the class you would like to
 * test.
 * 
-* @version $Id: StorageHandlerTestCase.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+* @version $Id: StorageHandlerTestCase.class.php,v 1.2 2004/03/11 16:02:49 adamfranco Exp $
 * @copyright 2003
 */
 
@@ -72,7 +72,7 @@ class StorageHandlerTestCase extends UnitTestCase {
 	function test_check_methods()
 	{
 		$this->er->clearErrors();
-		print "<BR><b>*** THERE SHOULD BE A FATAL ERROR BELOW ***</b><BR>";
+		print "<br /><b>*** THERE SHOULD BE A FATAL ERROR BELOW ***</b><br />";
 		$this->m->_checkMethods();
 	}
 
@@ -155,7 +155,7 @@ class StorageHandlerTestCase extends UnitTestCase {
 		$this->m->addMethod(new DummyStorageMethod, "/test/crap/stuff");// id=2
 		
 		$this->er->clearErrors();
-		print "<BR><B>THERE SHOULD BE A FATAL ERROR BELOW</b><BR>";
+		print "<br /><B>THERE SHOULD BE A FATAL ERROR BELOW</b><br />";
 		$this->m->addBackupMethod(new DummyStorageMethod, "/no_primary", MIRROR_SHALLOW);
 		$this->er->clearErrors();
 		

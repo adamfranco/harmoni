@@ -5,7 +5,7 @@ require_once(HARMONI."layoutHandler/components/Content.interface.php");
  * The Content interface defines what methods are required by any Content {@link VisualComponent}.
  *
  * @package harmoni.layout.components
- * @version $Id: Content.class.php,v 1.3 2004/03/08 22:28:38 adamfranco Exp $
+ * @version $Id: Content.class.php,v 1.4 2004/03/11 16:02:46 adamfranco Exp $
  * @copyright 2003 
  **/
 class Content extends ContentInterface {
@@ -138,7 +138,7 @@ class Content extends ContentInterface {
 	 */
 	function setVerticalAlignment ( $valign ) {
 		ArgumentValidator::validate($valign, new StringValidatorRule);
-		if ($valign != TOP && $valign != CENTER && $valign != BOTTOM)
+		if ($valign != TOP && $valign != MIDDLE && $valign != BOTTOM)
  			throwError(new Error("Could not set vertical alignment, parameter out of range.","Layout",true));
  		
 		$this->_verticalAlignment = $valign;

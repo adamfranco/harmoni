@@ -227,12 +227,12 @@ class Cabinet // :: API interface
 	   * Return properties of this cabinet.  The property map is
 	   * specified using keys of osid.shared.Type, and values of
 	   * e.g. Boolean, Long, or Double.  The application prepares a map of
-	   * desired qualities, e.g.<br>
+	   * desired qualities, e.g.<br />
 	   <code>
 	   * key = new Type("Filing", "MIT", "supportsQuota"),
-	   *    value = new Boolean(true)<br>
+	   *    value = new Boolean(true)<br />
 	   * key = new Type("Filing", "MIT", "supportsReplication"),
-	   *    value = new Boolean(true)<br>
+	   *    value = new Boolean(true)<br />
 	   * key = new Type("Filing", "MIT", "minimumReplications"),
 	   * value = new Integer(2)
 	   </code>

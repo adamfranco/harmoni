@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: OrderedListTestCase.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: OrderedListTestCase.class.php,v 1.2 2004/03/11 16:02:50 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -98,7 +98,7 @@
 			$this->assertReference($testQueue3,$tretij);
 
 			foreach ($this->testList->_list as $key=>$value){
-				echo "<br> $key <br>";
+				echo "<br /> $key <br />";
 			}
 
 			$this->testList->moveUp("vtoroj");
@@ -112,7 +112,7 @@
 			$this->assertReference($testQueue3,$tretij);
 
 			foreach ($this->testList->_list as $key=>$value){
-				echo "<br> $key <br>";
+				echo "<br /> $key <br />";
 			}
 
 			$this->assertFalse($this->testList->moveUp("vtoroj"));
@@ -128,7 +128,7 @@
 			$this->assertReference($testQueue3,$tretij);
 
 			foreach ($this->testList->_list as $key=>$value){
-				echo "<br> $key <br>";
+				echo "<br /> $key <br />";
 			}
 			$this->assertTrue($this->testList->moveDown("vtoroj"));
 
@@ -141,7 +141,7 @@
 			$this->assertReference($testQueue3,$tretij);
 
 			foreach ($this->testList->_list as $key=>$value){
-				echo "<br> $key <br>";
+				echo "<br /> $key <br />";
 			}
 			
 			$this->testList->putBefore("tretij","list_end");
@@ -155,7 +155,7 @@
 			$this->assertReference($testQueue3,$tretij);
 
 			foreach ($this->testList->_list as $key=>$value){
-				echo "<br> $key <br>";
+				echo "<br /> $key <br />";
 			}
 
 			$this->testList->putBefore("vtoroj","pervyj");
@@ -169,7 +169,7 @@
 			$this->assertReference($testQueue3,$tretij);
 
 			foreach ($this->testList->_list as $key=>$value){
-				echo "<br> $key <br>";
+				echo "<br /> $key <br />";
 			}
 
 			$this->testList->putBefore("tretij","vtoroj");
@@ -183,7 +183,7 @@
 			$this->assertReference($testQueue3,$tretij);
 
 			foreach ($this->testList->_list as $key=>$value){
-				echo "<br> $key <br>";
+				echo "<br /> $key <br />";
 			}
 		}
 

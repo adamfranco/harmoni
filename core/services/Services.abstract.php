@@ -4,7 +4,7 @@ require_once(HARMONI."services/Services.interface.php");
 
 /**
  * The ServicesAbstract class defines the public static methods used by users.
- * @version $Id: Services.abstract.php,v 1.6 2004/01/22 20:47:43 adamfranco Exp $
+ * @version $Id: Services.abstract.php,v 1.7 2004/03/11 16:02:47 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @static
@@ -175,10 +175,10 @@ class ServicesAbstract
 				throwError(new Error("A required Service <b>\"$service\"</b> ".(($start)? "could not be started":"is not available"), "Services", 1));
 			} else {
 				$debug = debug_backtrace();
-				$str = "<B>FATAL ERROR</b><BR><BR>";
+				$str = "<B>FATAL ERROR</b><br /><br />";
 				$str .= "A required Service <b>\"$service\"</b> ";
 				$str .= ($start)? "could not be started":"is not available";
-				$str .= ".<br><br>\n";
+				$str .= ".<br /><br />\n";
 				$str .= "<b>Debug backtrace:</b>\n";
 				$str .= "<pre>\n";
 				$str .= print_r($debug, true);

@@ -5,20 +5,20 @@
  * authorization components. An authorization context describes the 
  * context in which the authorization function will be authorized. It stores
  * several properties:
- * <br><br>
+ * <br /><br />
  * The <b>system</b> narrows the location on a high level. For example,
  * this could be the application name, i.e. 'segue'.
- * <br><br>
+ * <br /><br />
  * The <b>subsystem</b> narrows the location within the specific system. For
  * example, in the 'segue' system, we could have two subsystems: 'siteunit' subsystem
  * dealing with user permissions of site, section, page, and story objects, and a
  * 'discussion' subsystem dealing with discussion permissions of users within a specific
  * story.
- * <br><br>
+ * <br /><br />
  * The <b>system id</b> narrows the location to a specific unit in the subsystem, which we are trying
  * to authorize. For example, this could be a primary key in a database table.
  * @access public
- * @version $Id: AuthorizationContext.interface.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: AuthorizationContext.interface.php,v 1.2 2004/03/11 16:02:44 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -39,7 +39,7 @@ class AuthorizationContextInterface {
 	
 	/**
 	 * Returns the subsystem of this authorization context.
-	 * <br><br>
+	 * <br /><br />
 	 * The <b>subsystem</b> narrows the location within the specific system. For
 	 * example, in the 'segue' system, we could have two subsystems: 'siteunit' subsystem
 	 * dealing with user permissions of site, section, page, and story objects, and a
@@ -53,7 +53,7 @@ class AuthorizationContextInterface {
 	}
 	
 	/**
-	 * <br><br>
+	 * <br /><br />
 	 * The <b>system id</b> narrows the location to a specific unit in the subsystem, which we are trying
 	 * to authorize. For example, this could be a primary key in a database table.
 	 * Returns the system id of this authorization context.

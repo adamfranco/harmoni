@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_test.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+    // $Id: simple_test.php,v 1.2 2004/03/11 16:02:48 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -273,7 +273,7 @@
         function paintEnd($test_name, $size) {
             if ($size > 0) {
                 $this->_progress++;
-				echo "<br>";
+				echo "<br />";
             }
             array_pop($this->_test_stack);
             if (count($this->_test_stack) == 0) {

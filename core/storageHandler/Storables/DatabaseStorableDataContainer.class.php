@@ -7,7 +7,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * to the constructor of a DatabaseStorable object.
  * 
  * @package harmoni.storage.storables
- * @version $Id: DatabaseStorableDataContainer.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: DatabaseStorableDataContainer.class.php,v 1.2 2004/03/11 16:02:48 adamfranco Exp $
  * @copyright 2003
  */
 
@@ -15,9 +15,9 @@ class DatabaseStorableDataContainer extends DataContainer {
 
 	/**
 	 * Constructor -- sets up the allowed fields for this kind of {@link DataContainer}
-	 * <br><br>
+	 * <br /><br />
 	 * This container includes the following fields:
-	 * <br>
+	 * <br />
 	 * *******add more********
 	 * 
 	 * @see {@link DatabaseStorable}

@@ -5,7 +5,7 @@
  * method capable of authorizing an <b>agent</b> performing a <b>function</b> in a given 
  * <b>context</b>.
  * @access public
- * @version $Id: HierarchicalAuthorizationMethod.interface.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: HierarchicalAuthorizationMethod.interface.php,v 1.2 2004/03/11 16:02:44 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -27,7 +27,7 @@ class HierarchicalAuthorizationMethodInterface {
 	 * to be authorized.
 	 * @param object context An <code>HierarchicalAuthorizationContext</code> object describing
 	 * the context in which to perform authorization.
-	 * @return boolean <code>true</code>, if the agent was successfully authorized;<br>
+	 * @return boolean <code>true</code>, if the agent was successfully authorized;<br />
 	 * <code>false</code>, otherwise.
 	 */
 	function authorize($agent, $function, $context) {

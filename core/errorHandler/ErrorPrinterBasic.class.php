@@ -6,7 +6,7 @@ require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
 * An ErrorPrinter provides functionality to output Error objects in any way one's soul may desire.
 * to be used by the ErrorHandler
 *
-* @version $Id: ErrorPrinterBasic.class.php,v 1.3 2003/11/16 00:18:07 gabeschine Exp $
+* @version $Id: ErrorPrinterBasic.class.php,v 1.4 2004/03/11 16:02:46 adamfranco Exp $
 * @package harmoni.errorhandler
 * @copyright 2003
 * @access public
@@ -61,7 +61,7 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 	* @access public
 	*/
 	function printHeader($errors) {
-		$result = "\n<br>\n<b>ERRORS:</b><br><br>\n";
+		$result = "\n<br />\n<b>ERRORS:</b><br /><br />\n";
 		$result .= "<ul>";
 		
 		echo $result;
@@ -79,7 +79,7 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 		
 		$result .= "\nTotal: ";
 		$result .= $errors->getSize();
-		$result .= " errors.<br>\n";
+		$result .= " errors.<br />\n";
 		
 		echo $result;
 		
@@ -106,8 +106,8 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 		$result .= "<li>\n";
 		
 		
-		$result .= "<b>Type</b>: ".$type." $isFatal<br>\n";
-		$result .= "<b>Description</b>: ".$description."<br><br>\n";
+		$result .= "<b>Type</b>: ".$type." $isFatal<br />\n";
+		$result .= "<b>Description</b>: ".$description."<br /><br />\n";
 		
 		if ($isDetailed) {
 			/* get the call sequence information */
@@ -123,10 +123,10 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 					$type = $trace['type'];
 					$args = ArgumentRenderer::renderManyArguments($trace['args'], false, false);
 					
-					$result .= "in <b>$file:$line</b> $class$type$function($args)<br>\n";
+					$result .= "in <b>$file:$line</b> $class$type$function($args)<br />\n";
 				}
 			}
-			$result .= "<br>";
+			$result .= "<br />";
 		}
 		
 		return $result;

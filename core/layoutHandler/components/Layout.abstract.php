@@ -3,9 +3,10 @@
 require_once(HARMONI."layoutHandler/Layout.interface.php");
 
 define ("TOP", "top");
-define ("CENTER", "center");
+define ("MIDDLE", "middle");
 define ("BOTTOM", "bottom");
 define ("LEFT", "left");
+define ("CENTER", "center");
 define ("RIGHT", "right");
 
 /**
@@ -13,7 +14,7 @@ define ("RIGHT", "right");
  * holds any number of components of different types.
  *
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.6 2004/03/05 21:40:05 adamfranco Exp $
+ * @version $Id: Layout.abstract.php,v 1.7 2004/03/11 16:02:46 adamfranco Exp $
  * @copyright 2003 
  * @abstract
  **/
@@ -244,7 +245,7 @@ class Layout extends LayoutInterface {
 	 */
 	function setVerticalAlignment ( $valign ) {
 		ArgumentValidator::validate($valign, new StringValidatorRule);
-		if ($valign != TOP && $valign != CENTER && $valign != BOTTOM)
+		if ($valign != TOP && $valign != MIDDLE && $valign != BOTTOM)
  			throwError(new Error("Could not set vertical alignment, parameter out of range.","Layout",true));
  		
 		$this->_verticalAlignment = $valign;

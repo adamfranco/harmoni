@@ -76,7 +76,7 @@ $superTimer->start();
 
 $sets =& $manager->fetchArrayOfIDs(array_slice($idsToFetch,0,98), false);
 
-print "fetched ".count($sets)." datasets.<br>";
+print "fetched ".count($sets)." datasets.<br />";
 //foreach ($toClone as $id) {
 //	$newSet =& $sets[$id]->clone();
 //	$newSet->commit();
@@ -86,7 +86,7 @@ print "fetched ".count($sets)." datasets.<br>";
 
 $superTimer->end();
 
-print "first operation, ".$superTimer->getTime()." and ".$superTimer->getQueries()." queries.<br>";
+print "first operation, ".$superTimer->getTime()." and ".$superTimer->getQueries()." queries.<br />";
 exit;
 $agent =& new HarmoniType("middlebury.edu","Harmoni","SimpleAgent");
 $comp =& new HarmoniType("middlebury.edu","Harmoni","Computer");
@@ -103,7 +103,7 @@ $ids = $manager->selectIDsBySearch(
 		);
 $timer->end();
 
-print "second operation, ".$timer->getTime()." and ".$timer->getQueries()." queries.<br>";
+print "second operation, ".$timer->getTime()." and ".$timer->getQueries()." queries.<br />";
 
 print_r($ids);
 

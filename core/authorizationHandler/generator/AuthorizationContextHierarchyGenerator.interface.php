@@ -11,7 +11,7 @@
  * not have to care about the way the hierarchy is stored and/or retrieved.
  * 
  * @access public
- * @version $Id: AuthorizationContextHierarchyGenerator.interface.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: AuthorizationContextHierarchyGenerator.interface.php,v 1.2 2004/03/11 16:02:45 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
@@ -27,7 +27,7 @@ class AuthorizationContextHierarchyGeneratorInterface {
 	 * Adds a new hierarchy level at the bottom of the context hierarchy. This method
 	 * is passed a table, and two column names. One of the columns is the foreign
 	 * key to the table that was specified with the previous call to
-	 * <code>addContextDepth()</code>.<br><br>
+	 * <code>addContextDepth()</code>.<br /><br />
 	 * <b>The first time this method is called, only <code>$table</code> should be specified.</b>
 	 * @method public addContextDepth
 	 * @param string table The name of the database table that contains the

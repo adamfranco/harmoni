@@ -15,7 +15,7 @@ require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
  * PropertiesType, there are Properties which are Serializable values
  * identified by a key.
  * 
- * <P>
+ * <p>
  * SharedManager creates, deletes, and gets Agents and Groups and creates and
  * gets Ids.  Group subclasses Agent and Groups may contains other Groups as
  * well as Agents.  All implementors of OsidManager provide create, delete,
@@ -35,7 +35,7 @@ require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.15 $ / $Date: 2004/03/04 22:59:07 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.16 $ / $Date: 2004/03/11 16:02:47 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */

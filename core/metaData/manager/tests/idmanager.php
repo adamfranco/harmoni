@@ -34,7 +34,7 @@ $idmanager =& new IDManager($dbid);
 
 print "...";
 
-print "trying to get new ID...<BR>";
+print "trying to get new ID...<br />";
 
 $type =& new HarmoniType("chunky","harmoni","testidtype");
 
@@ -42,21 +42,21 @@ print "...";
 
 $newid = $idmanager->newID($type);
 
-print "got $newid from database!<br>";
+print "got $newid from database!<br />";
 
-print "<BR>Now checking if the two are equal... ";
+print "<br />Now checking if the two are equal... ";
 
 $type2 =& $idmanager->getIDType($newid);
 
 if ($type->isEqual($type2)) print "yes";
 else print "no";
 
-print "<BR><BR>";
+print "<br /><br />";
 
 print_r($type2);
 
 
-print "<BR><BR>";
+print "<br /><br />";
 
 $errorHandler =& Services::requireService("ErrorHandler");
 

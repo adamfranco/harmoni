@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.20 2004/02/28 00:00:52 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.21 2004/03/11 16:02:44 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -123,7 +123,7 @@ if (LOAD_DEBUG) {
 if (LOAD_THEMES) {
 	require_once(HARMONI."layoutHandler/LayoutHandler.class.php");
 //	Services::registerService("Layout","LayoutHandler");
-//	require_once(HARMONI."themeHandler/ThemeHandler.class.php");
+	require_once(HARMONI."themeHandler/ThemeHandler.class.php");
 //	Services::registerService("Theme","ThemeHandler");
 }
 

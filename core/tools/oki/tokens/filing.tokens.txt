@@ -175,12 +175,12 @@
      [java] 840 COMMENT 0    * Return properties of this cabinet.  The property map is
      [java] 840 COMMENT 0    * specified using keys of osid.shared.Type, and values of
      [java] 840 COMMENT 0    * e.g. Boolean, Long, or Double.  The application prepares a map of
-     [java] 840 COMMENT 0    * desired qualities, e.g.<br>
+     [java] 840 COMMENT 0    * desired qualities, e.g.<br />
      [java] 840 COMMENT 0    <code>
      [java] 840 COMMENT 0    * key = new Type("Filing", "MIT", "supportsQuota"),
-     [java] 840 COMMENT 0    *    value = new Boolean(true)<br>
+     [java] 840 COMMENT 0    *    value = new Boolean(true)<br />
      [java] 840 COMMENT 0    * key = new Type("Filing", "MIT", "supportsReplication"),
-     [java] 840 COMMENT 0    *    value = new Boolean(true)<br>
+     [java] 840 COMMENT 0    *    value = new Boolean(true)<br />
      [java] 840 COMMENT 0    * key = new Type("Filing", "MIT", "minimumReplications"),
      [java] 840 COMMENT 0    * value = new Integer(2)
      [java] 840 COMMENT 0    </code>
