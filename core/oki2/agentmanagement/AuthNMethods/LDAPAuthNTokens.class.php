@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNTokens.class.php,v 1.1 2005/03/04 22:22:45 adamfranco Exp $
+ * @version $Id: LDAPAuthNTokens.class.php,v 1.2 2005/03/04 23:06:01 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNTokens.class.php,v 1.1 2005/03/04 22:22:45 adamfranco Exp $
+ * @version $Id: LDAPAuthNTokens.class.php,v 1.2 2005/03/04 23:06:01 adamfranco Exp $
  */
 class LDAPAuthNTokens
 	extends UsernamePasswordAuthNTokens
@@ -58,24 +58,25 @@ class LDAPAuthNTokens
 		$this->_tokens = $tokens;
 		$this->_tokens['password'] = $tokens['password'];
 		
-		//---------------------------------------
-		// Make sure that the username is the DN.
+		// See if we were passed a system name instead of a full DN as this
+		// is probably the case. First try the 'main system name' in case 
+		// a broader search returns more results.
+		$primaryLoginFields = $this->_configuration->getProperty('login_fields');
 		
-		// If the username passed matches a DN, use that.
-		if ($this->_connector->dnExists($tokens['username']))
-			$this->_identifier = $tokens['username'];
-		
-		// If we weren't passed a valid CN, see if we were passed another
-		// system name instead
-		else if ($dn = $this->_connector->_getDN($tokens['username'])) {
-			$this->_identifier = $dn;
-			$this->_tokens['username'] = $dn;
-		
-		// If we haven't found it, just leave it alone.
-		} else {
-			$this->_identifier = $tokens['username'];
-			print "\nWe didn't find a DN.\n";
+		foreach($primaryLoginFields as $loginField) {
+			$dns = $this->_connector->getDNsBySearch($loginField."=".$tokens['username']);
+			
+			if (count($dns) == 1) {
+				$this->_identifier = $dns[0];
+				$this->_tokens['username'] = $dns[0];
+				return;
+			}
 		}
+		
+		// If we haven't found it, just leave it alone as it might be the DN 
+		// itself.
+		$this->_identifier = $tokens['username'];
+		print "\nWe didn't find a DN.\n";
 	}
 }
 
