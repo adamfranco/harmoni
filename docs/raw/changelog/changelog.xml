@@ -2,7 +2,7 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.1.0" date="2004-06-11">
+	<version number="0.1.0" date="Not Released">
 		<new author='dobo'>
 			Added a new OKI-Hiearchy implementation (hierarchy2).
 		</new>
