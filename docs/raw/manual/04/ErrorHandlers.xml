@@ -5,6 +5,23 @@
 	<name>Error Handlers</name>
 	<section>
 		<name>Introduction</name>
-		
+		<p>Included in Harmoni is the <i>ErrorHandler</i> class. Like the <i>DebugHandler</i>, it stores messages in a queue and outputs them when you tell it to. However, some errors are fatal, and some are not. Fatal errors are printed immediately, along with any other errors in the queue.</p>
+		<p>Two services are registered using the <i>ErrorHandler</i>: <b>ErrorHandler</b> and <b>UserError</b>. The former acts as a "system" error manager, handling mostly fatal errors or warnings that are produced by your program and must be fixed by either an administrator or the programmer. The latter is meant to keep track of errors created by an end user, such as entering a malformatted email in a form field. Like the <i>Debug</i> service, there are wrapper functions for both of the error services. They will be eplained at the end of this subchapter.</p>
+	</section>
+	<section>
+		<name>Throwing a new error</name>
+		<p>There are two ways, using the <i>ErrorHandler</i> object, to add new errors. Both are outlined in the example:</p>
+		<example>
+$errHandler =&amp; Services::getService("ErrorHandler"); // or, "UserError"
+
+// now, throw a new error
+$errHandler->addNewError("This is my error string!","category",false);
+// or, make an Error object (you could use your own custom object)
+$errHandler->addError(
+	new Error("This is my error string!","category",false)
+		);
+		</example>
+		<p>Both of the above methods do exactly the same thing. The advantage of using the second would be to create your own custom Error classes, for example to output common text with only one changing parameter (like, new EmptyFieldError("myFieldName") would print "You forgot to enter required information for myFieldName.").</p>
+		<p>The arguments: 1 = the error string, 2 = a category (whatever you want), 3 = is the error fatal? (fatal errors stop program execution)</p>
 	</section>
 </subchapter>
