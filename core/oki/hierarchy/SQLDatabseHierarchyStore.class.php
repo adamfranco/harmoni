@@ -1,6 +1,7 @@
 <?php
 
 require_once(HARMONI.'/oki/hierarchy/HierarchyStore.interface.php');
+require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
 Services::requireService("DBHandler","DBHandler");
 Services::requireService("Shared","HarmoniSharedManager");
 
