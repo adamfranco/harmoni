@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.16 2004/07/08 17:09:47 adamfranco Exp $
+ * @version $Id: LoginHandler.class.php,v 1.17 2004/07/29 17:28:52 adamfranco Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -267,7 +267,7 @@ class LoginHandler {
 		
 		// if the callback function used HTTP Authentication, we need to
 		// tell the browser to clear its username/password cache!
-		if ($this->_promptPasswordCallbackFunction == 'basicHTTPAuthPromptCallback') {
+		if ($this->_promptCallbackFunction == 'basicHTTPAuthPromptCallback') {
 			header("HTTP/1.0 401");		
 		}
 		// done;
@@ -311,7 +311,7 @@ class LoginHandler {
 	 * @return void
 	 **/
 	function setPromptCallbackFunction($functionName) {
-		$this->_PromptCallbackFunction = $functionName;
+		$this->_promptCallbackFunction = $functionName;
 	}
 	
 	/**
@@ -324,7 +324,7 @@ class LoginHandler {
 	 * @return void
 	 **/
 	function setCollectionCallbackFunction($functionName) {
-		$this->_PromptCallbackFunction = $functionName;
+		$this->_collectionCallbackFunction = $functionName;
 	}
 }
 
