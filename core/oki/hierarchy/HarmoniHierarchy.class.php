@@ -92,41 +92,33 @@ class HarmoniHierarchy
 		
 		$node =& new HaromoniNode($this->_tree, $type, $displayName, $description);
 		$treeNodeId = $this->_tree->addNode($node, $parentIdString);
-	}
-	
-	// public osid.shared.Id & nodeId();
-	function & nodeId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Type & nodeType();
-	function & nodeType() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public String displayName();
-	function displayName() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public String description();
-	function description() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Id & parentId();
-	function & parentId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Type & type();
-	function & type() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		
+		// Store the updated tree
+		$this->save();
+		
+		return $node;
 	}
 
 	// public void deleteNode(osid.shared.Id & $nodeId);
 	function deleteNode(& $nodeId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		// Check the arguments
+		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"));
+		
+		$nodeIdString = $nodeId->getIdString();
+		
+		// Throw an error if the node doesn't exist
+		if ($this->_tree->nodeExists($nodeIdString))
+			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
+		
+		// If the node is not a leaf, trow a HIERARCHY_NOT_EMPTY error
+		if ($this->_tree->hasChildren($nodeIdString))
+			throwError(new Error(HIERARCHY_NOT_EMPTY, "Hierarchy", 1));
+		
+		// Remove the node
+		$this->_tree->removeNode($nodeIdString);
+		
+		// Store the updated tree
+		$this->save();
 	}
 
 	// public void addNodeType(osid.shared.Type & $type);
@@ -141,17 +133,63 @@ class HarmoniHierarchy
 
 	// public NodeIterator & getAllNodes();
 	function & getAllNodes() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		
+		// Throw an error if we have no nodes
+		if ($this->_tree->totalNodes() < 1)
+			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
+	
+		// array of the node IDs from top to bottom, left to right.
+		$treeNodes =& $this->_tree->getFlatList();
+		
+		// Object array of HarmoniNode objects to pass to the iterator
+		$nodeArray = array();
+		
+		// put the HarmoniNode objects into the nodeArray
+		foreach ($treeNodes as $treeNodeId) {
+			$nodeArray[] =& $this->_tree->getData($treeNodeId);
+		}
+		
+		// pass off the array to the iterator and return it.
+		$nodeIterator =& new HarmoniNodeIterator($nodeArray);
+		return $nodeIterator;
 	}
 
 	// public NodeIterator & getRootNodes();
 	function & getRootNodes() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		
+		// Throw an error if we have no nodes
+		if ($this->_tree->totalNodes() < 1)
+			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
+		
+		$treeNodes =& $this->_tree->getChildren(0);
+		
+		// Object array of HarmoniNode objects to pass to the iterator
+		$nodeArray = array();
+
+		// put the HarmoniNode objects into the nodeArray
+		foreach ($treeNodes as $treeNodeId) {
+			$nodeArray[] =& $this->_tree->getData($treeNodeId);
+		}
+		
+		// pass off the array to the iterator and return it.
+		$nodeIterator =& new HarmoniNodeIterator($nodeArray);
+		return $nodeIterator;
 	}
 
 	// public Node & getNode(osid.shared.Id & $nodeId);
 	function & getNode(& $nodeId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		// Check the arguments
+		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"));
+		
+		$nodeIdString = $nodeId->getIdString();
+		
+		// Make sure the node exists
+		if (!$this->_tree->nodeExists($nodeIdString))
+			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
+		
+		$node =& $this->_tree->getData($nodeIdString);
+		
+		return $node;
 	}
 
 	// public osid.shared.TypeIterator & getNodeTypes();
@@ -161,37 +199,51 @@ class HarmoniHierarchy
 
 	// public boolean allowsMultipleParents();
 	function allowsMultipleParents() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		return false;
 	}
 
 	// public boolean allowsRecursion();
 	function allowsRecursion() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		return false;
 	}
 
 	// public TraversalInfoIterator & traverse();
-	function & traverse() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function & traverse(& $startId, $mode, $direction, $levels) {
+		// Check the arguments
+		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($mode, new IntegerValidatorRule);
+		ArgumentValidator::validate($direction, new IntegerValidatorRule);
+		ArgumentValidator::validate($levels, new IntegerValidatorRule);
 
-	// public osid.shared.Id & startId();
-	function & startId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+		// check that the modes and directions are supported
+		if (($mode != TRAVERSE_MODE_DEPTH_FIRST) &&
+				($mode != TRAVERSE_MODE_BREADTH_FIRST)) {
+			throwError(new Error(UNKNOWN_TRAVERSAL_MODE, "Hierarchy", 1));
+		}
+		
+		if (($direction != TRAVERSE_DIRECTION_UP) &&
+				($direction != TRAVERSE_DIRECTION_DOWN)) {
+			throwError(new Error(UNKNOWN_TRAVERSAL_DIRECTION, "Hierarchy", 1));
+		}
 
-	// public int mode();
-	function mode() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+		// Throw an error if we have no nodes
+		if ($this->_tree->totalNodes() < 1)
+			throwError(new Error(UNKNOWN_NODE, "Hierarchy", 1));
 
-	// public int direction();
-	function direction() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+		// Object array of TraversalInfo objects to pass to the iterator
+		$traversalInfoArray = array();
 
-	// public int levels();
-	function levels() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		// --- Do the traversal ---
+
+		if ($direction == TRAVERSE_DIRECTION_DOWN) {	// Direction: down
+			// @todo
+		} else {	// Direction: up
+			// @todo
+		}
+		
+		// pass off the array to the iterator and return it.
+		$traversalInfoIterator =& new HarmoniTraversalInfoIterator($traversalInfoArray);
+		return $traversalInfoIterator;
 	}
 
 } // end Hierarchy
