@@ -5,7 +5,7 @@ require_once(HARMONI."dataManager/Primitive.interface.php");
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.19 2004/12/16 05:48:06 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.20 2005/01/08 01:12:52 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -364,7 +364,38 @@ class DateTime
 		
 		return $time2 - $time1;
 	}
+	
+	/**
+	 * Returns an array indexed 0-11 of the months.
+	 * @return array
+	 * @static
+	 */
+	function getMonthsArray() {
+		return array(
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"August",
+			"September",
+			"October",
+			"November",
+			"December"
+		);
+	}
 
+	/**
+	 * Returns an array indexed 0-11 of the months shortened to three letters.
+	 * @return array
+	 * @static
+	 */
+	function getShortMonthsArray() {
+		return array(
+			"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+	}
 
 }
 
