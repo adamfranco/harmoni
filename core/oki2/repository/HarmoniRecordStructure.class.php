@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.14 2005/03/29 19:44:27 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.15 2005/03/31 22:10:23 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -331,7 +331,7 @@ class HarmoniRecordStructure
 	 *
 	 * @return object PartStructure The newly created PartStructure.
 	 */
-	function createPartStructure($displayName, $description, & $partType, $isMandatory, $isRepeatable, $isPopulatedByRepository) {
+	function createPartStructure($displayName, $description, &$partType, $isMandatory, $isRepeatable, $isPopulatedByRepository) {
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 		ArgumentValidator::validate($partType, ExtendsValidatorRule::getRule("Type"));
@@ -358,7 +358,7 @@ class HarmoniRecordStructure
 	 *
 	 * @return object TypeIterator The Types supported in this implementation.
 	 */
-	function getPartTypes() {
+	function getPartStructureTypes() {
 		$types = array();
 		
 		$typeMgr =& Services::getService("DataTypeManager");

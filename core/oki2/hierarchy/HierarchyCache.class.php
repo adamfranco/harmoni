@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.9 2005/03/29 19:44:25 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.10 2005/03/31 22:10:14 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -1326,7 +1326,7 @@ class HierarchyCache {
 		// if not a leaf, cannot delete
 		if (!$node->isLeaf()) {
 				// "Can not delete non-leaf nodes.";
-				throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
+				throwError(new Error(HierarchyException::OPERATION_FAILED(). " - Cannont delete non-leaf nodes", "HierarchyCache", true));
 		}
 		
 		// clear the cache and update the _tree structure
