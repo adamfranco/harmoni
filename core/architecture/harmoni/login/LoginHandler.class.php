@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.10 2004/06/09 19:52:16 adamfranco Exp $
+ * @version $Id: LoginHandler.class.php,v 1.11 2004/06/13 04:47:55 nstamato Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -137,18 +137,48 @@ class LoginHandler {
 		// first, we need to somehow get the username/passwd pair from the browser,
 		// and we're also going to store the URL they were trying to access
 		// in the session so we can send them there later.
-		
+		if ($function = $this->_usernamePasswordCallbackFunction) {
+			$result = $function($this->_harmoni);
+		}
 		// If we don't require authentication for this action, don't try
 		// to authenticate. Just return the stored state if availible.
 		// Without this provision, we try to authenticate always.
-		if (!$forceAuthCheck && !$this->actionRequiresAuthentication($this->_harmoni->getCurrentAction())) {
-			if ($_SESSION['__LoginState'])
-				return $_SESSION['__LoginState'];
-			else {
-				$_SESSION['__LoginState'] =& new LoginState;
-				return $_SESSION['__LoginState'];
+		if (!$forceAuthCheck && !$this->actionRequiresAuthentication($this->_harmoni->getCurrentAction()) && !is_array($result)) {
+			return $state;
+		// Continue with authenticating
+		} else {
+			//$result = $function($this->_harmoni); <-- no longer needed -- handled above.
+			if (!$result) {
+				// the user didn't enter any info yet -- execute the failed login action
+				// first save the current URL in the session
+				// @todo -cLoginHandler Implement LoginHandler.execute replace old ID with a new one.
+				$_SESSION['__afterLoginURL'] = $_SERVER['REQUEST_URI'];
+				$this->_failedLogin = true;
+				debug::output("LoginHandler failed! Callback function returned false.",DEBUG_SYS5,"LoginHandler");
+				$this->_harmoni->setCurrentAction($this->_failedLoginAction);
+				return $state;
 			}
+			$username = $result[0];
+			$password = $result[1];
+
+			// pass these values to the AuthenticationHandler
+			$authHandler =& Services::requireService("Authentication");
+			$authResult =& $authHandler->authenticateAllMethods($username,$password);
+
+			// save the new LoginState in the session
+			$state =& new LoginState($username,$authResult);
+			$_SESSION['__LoginState'] =& $state;
 			
+<<<<<<< LoginHandler.class.php
+			// now, if they were valid, everything is honky-dory
+			// -- send them to the saved url if its defined
+			if ($authResult->isValid()) {
+				if ($url = $_SESSION['__afterLoginURL']) {
+					//print "sending user to $url.";exit;
+					unset($_SESSION['__afterLoginURL']);
+					if (!$this->_harmoni->config->get("sessionUseCookies")) $url .= (ereg("\?",$url)?"&":"?").SID;
+					header("Location: $url");
+=======
 		// Continue with authenticating
 		} else {
 			// first try getting the username/pass from a callback function first.
@@ -184,7 +214,10 @@ class LoginHandler {
 					}
 					debug::output("LoginHandler succeeded!",DEBUG_SYS5,"LoginHandler");
 					return $state;
+>>>>>>> 1.10
 				}
+				debug::output("LoginHandler succeeded!",DEBUG_SYS5,"LoginHandler");
+				return $state;
 			}
 			
 			// hmm, they're still not valid. too bad.
@@ -197,9 +230,10 @@ class LoginHandler {
 				$errHandler->addError($error);
 			}
 			
-			debug::output("LoginHandler failed!",DEBUG_SYS5,"LoginHandler");
+			debug::output("LoginHandler failed! Tokens not valid.",DEBUG_SYS5,"LoginHandler");
+			
 			$this->_failedLogin = true;
-//			$this->_harmoni->setCurrentAction($this->_failedLoginAction);
+			$this->_harmoni->setCurrentAction($this->_failedLoginAction);
 			return $state;
 		}
 		
@@ -237,8 +271,7 @@ class LoginHandler {
 		// if the callback function used HTTP Authentication, we need to
 		// tell the browser to clear its username/password cache!
 		if ($this->_usernamePasswordCallbackFunction == 'basicHTTPAuthenticationCallback') {
-			header("HTTP/1.0 401");
-		}
+			header("HTTP/1.0 401");		}
 		// done;
 	}
 	
@@ -291,11 +324,15 @@ class LoginHandler {
  * to see if a user has entered HTTP authentication data and returns it if set, 
  * otherwise sends headers to the browser to tell it we need authentication.
  * @package harmoni.architecture.login
+ * @param ref object $harmoni A reference to the governing {@link Harmoni} object.
  * @access public
  * @return array|false An array containing 0=>username, 1=>password, or false if the user
  * hasn't entered anything yet.
  **/
-function basicHTTPAuthenticationCallback() {
+function basicHTTPAuthenticationCallback(&$harmoni) {
+	if (!$harmoni->LoginHandler->actionRequiresAuthentication($harmoni->getCurrentAction()) && !isset($_SERVER['PHP_AUTH_USER'])) {
+	    return false;
+	}
 	if (!isset($_SERVER['PHP_AUTH_USER'])) {
 		debug::output("Asking for user credentials.",DEBUG_SYS5,"basicHTTPAuthenticationCallback");
 		header("WWW-Authenticate: Basic realm=\"Harmoni-protected Realm\"");
