@@ -4,7 +4,7 @@
 #
 # Host: localhost (MySQL 4.0.15)
 # Database: harmoni
-# Generation Time: 2003-12-26 22:52:37 -0500
+# Generation Time: 2003-12-29 08:42:43 -0500
 # ************************************************************
 
 # Dump of table data_boolean
@@ -138,7 +138,7 @@ CREATE TABLE `datasettypedef` (
 # ------------------------------------------------------------
 
 CREATE TABLE `harmoni_id` (
-  `harmoni_id_number` bigint(20) unsigned NOT NULL default '0',
+  `harmoni_id_number` bigint(20) unsigned NOT NULL auto_increment,
   `harmoni_id_domain` varchar(255) NOT NULL default '',
   `harmoni_id_authority` varchar(255) NOT NULL default '',
   `harmoni_id_keyword` varchar(255) NOT NULL default '',
