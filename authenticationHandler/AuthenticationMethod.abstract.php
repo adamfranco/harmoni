@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/AuthenticationMethod.interface.php")
  * the DB Authentication Method will contact an SQL database and check a username/password pair
  * against fields in a specified table.
  *
- * @version $Id: AuthenticationMethod.abstract.php,v 1.6 2003/06/27 02:59:37 gabeschine Exp $
+ * @version $Id: AuthenticationMethod.abstract.php,v 1.7 2003/06/27 13:51:38 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -23,7 +23,7 @@ class AuthenticationMethod
 
 	/**
 	 * The method's priority setting.
-	 * @see setPriority()
+	 * @see {@link AuthenticationMethod::setPriority()}
 	 * @access private
 	 * @var integer $_priority
 	 **/
@@ -31,7 +31,7 @@ class AuthenticationMethod
 	
 	/**
 	 * A boolean defining if this method is an authoritative method.
-	 * @see setAuthoritative()
+	 * @see {@link AuthenticationMethod::setAuthoritative()}
 	 * @access private
 	 * @var boolean $_authoritative
 	 **/
@@ -59,7 +59,7 @@ class AuthenticationMethod
 	/**
 	 * Returns the priority of this method.
 	 * @access public
-	 * @see setPriority()
+	 * @see {@link AuthenticationMethod::setPriority()}
 	 * @return integer The priority.
 	 **/
 	function getPriority() {
@@ -79,7 +79,7 @@ class AuthenticationMethod
 	/**
 	 * Returns if this method is authoritative or not.
 	 * @access public
-	 * @see setAuthoritative()
+	 * @see {@link AuthenticationMethod::setAuthoritative()}
 	 * @return boolean If the method is authoritative.
 	 **/
 	function getAuthoritative() {

@@ -3,7 +3,7 @@
 /**
  * defines the methods that are required for any authenticationMethod
  *
- * @version $Id: AuthenticationMethod.interface.php,v 1.7 2003/06/25 21:46:54 gabeschine Exp $
+ * @version $Id: AuthenticationMethod.interface.php,v 1.8 2003/06/27 13:51:38 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -40,7 +40,7 @@ class AuthenticationMethodInterface {
 	/**
 	 * Returns the priority of this method.
 	 * @access public
-	 * @see setPriority()
+	 * @see {@link AuthenticationMethodInterface::setPriority()}
 	 * @return integer The priority.
 	 **/
 	function getPriority() {
@@ -60,7 +60,7 @@ class AuthenticationMethodInterface {
 	/**
 	 * Returns if this method is authoritative or not.
 	 * @access public
-	 * @see setAuthoritative()
+	 * @see {@link AuthenticationMethodInterface::setAuthoritative()}
 	 * @return boolean If the method is authoritative.
 	 **/
 	function getAuthoritative() {

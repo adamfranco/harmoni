@@ -8,7 +8,7 @@ require_once(HARMONI."authenticationHandler/methods/inc.php");
  * The AuthenticationHandler keeps track of multiple AuthenticationMethods for 
  * authenticating agents.
  * 
- * @version $Id: AuthenticationHandler.class.php,v 1.5 2003/06/27 02:59:37 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.6 2003/06/27 13:51:38 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -34,7 +34,7 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	 * @param string $password The password.
 	 * @param string $method The method with which to try authentication.
 	 * @access public
-	 * @see AuthenticationMethodInterface
+	 * @see {@link AuthenticationMethodInterface}
 	 * @return boolean True if authentication succeeds, false otherwise.
 	 **/
 	function authenticate($systemName, $password, $method ) { 
@@ -124,9 +124,9 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	 * @param boolean $authoritative (optional) Sets if this method is 
 	 * authoritative. At least ONE authoritative method MUST authenticate successfully 
 	 * or the entire authentication process will return false.
-	 * @see AuthenticationMethodInterface
-	 * @see AuthenticationMethodInterface::setPriority()
-	 * @see AuthenticationMethodInterface::setAuthoritative()
+	 * @see {@link AuthenticationMethodInterface}
+	 * @see {@link AuthenticationMethodInterface::setPriority()}
+	 * @see {@link AuthenticationMethodInterface::setAuthoritative()}
 	 * @access public
 	 * @return void 
 	 **/

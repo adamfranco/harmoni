@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQuery.interface.php");
  * 
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * @version $Id: SelectQuery.class.php,v 1.8 2003/06/26 23:36:50 gabeschine Exp $
+ * @version $Id: SelectQuery.class.php,v 1.9 2003/06/27 13:51:37 gabeschine Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -21,7 +21,7 @@ class SelectQuery extends SelectQueryInterface {
 	 * This array stores the tables in the FROM clause of the SELECT query along
 	 * with the join types and join conditions.
 	 * @var string $_tables The tables in the FROM clause of the SELECT query.
-	 * @see addTable()
+	 * @see {@link SelectQuery::addTable()}
 	 * @access private
 	 */
 	var $_tables;
@@ -129,7 +129,10 @@ class SelectQuery extends SelectQueryInterface {
 	 * the following: NO_JOIN, LEFT_JOIN, INNER_JOIN, RIGHT_JOIN.
 	 * @param string $joinCondition If a join is to be performed, then this
 	 * will indicate the join condition.
-	 * @see NO_JOIN, LEFT_JOIN, INNER_JOIN, RIGHT_JOIN
+	 * @use NO_JOIN
+	 * @use LEFT_JOIN
+	 * @use INNER_JOIN
+	 * @use RIGHT_JOIN
 	 * @access public
 	 */
 	function addTable($table, $joinType = NO_JOIN, $joinCondition = "") {
@@ -157,7 +160,7 @@ class SelectQuery extends SelectQueryInterface {
 	 * For a better approach, see addColumn().
 	 * @access public
 	 * @deprecated June 24, 2003 - Use addColumn() instead.
-	 * @see addColumn()
+	 * @see {@link SelectQuery::addColumn()}
 	 */
 	function setColumns($columns) {
 		// ** parameter validation
@@ -188,7 +191,7 @@ class SelectQuery extends SelectQueryInterface {
 	 * @param string $column The name of the column.
 	 * @param string $alias The alias of the column.
 	 * @access public
-	 * @see setColumns()
+	 * @see {@link SelectQuery::setColumns()}
 	 */ 
 	function addColumn($column, $alias = null) {
 		// ** parameter validation
@@ -259,7 +262,8 @@ class SelectQuery extends SelectQueryInterface {
 	 * @param string $column A column to order by.
 	 * @param integer $direction An optional parameter specifying ascending or descending
 	 * sorting order. Allowed values are: ASCENDING, DESCENDING.
-	 * @see ASCENDING, DESCENDING
+	 * @use ASCENDING
+	 * @use DESCENDING
 	 * @access public
 	 */
 	function addOrderBy($column, $direction = ASCENDING) {

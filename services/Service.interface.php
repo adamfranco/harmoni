@@ -7,8 +7,8 @@
  * access to any services they need.
  * Services should extend this class somewhere in their inheritance tree. (probably the top)
  * 
- * @see ServicesInterface
- * @version $Id: Service.interface.php,v 1.2 2003/06/27 02:59:37 gabeschine Exp $
+ * @see {@link ServicesInterface}
+ * @version $Id: Service.interface.php,v 1.3 2003/06/27 13:51:38 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.services
  **/

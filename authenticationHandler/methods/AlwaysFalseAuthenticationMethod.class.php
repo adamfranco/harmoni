@@ -3,13 +3,13 @@
 require_once(HARMONI."authenticationHandler/AuthenticationMethod.abstract.php");
 
 /**
- * This AuthenticationMethod is an "always false" wrapper for another method.
+ * This {@link AuthenticationMethod} is an "always false" wrapper for another method.
  * Upon instantiation, the method is passed another authentication method. All
- * method calls *except* authenticate() are passed through to that method. 
+ * method calls *except* {@link AlwaysFalseAuthenticationMethod::authenticate()} are passed through to that method. 
  * authenticate() will always return false. This is useful if you want to use
  * a method for only fetching agent information and not authentication.
  *
- * @version $Id: AlwaysFalseAuthenticationMethod.class.php,v 1.3 2003/06/27 02:59:36 gabeschine Exp $
+ * @version $Id: AlwaysFalseAuthenticationMethod.class.php,v 1.4 2003/06/27 13:51:38 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -69,7 +69,7 @@ class AlwaysFalseAuthenticationMethod extends AuthenticationMethod {
 	/**
 	 * Returns the priority of this method.
 	 * @access public
-	 * @see setPriority()
+	 * @see {@link AlwaysFalseAuthenticationMethod::setPriority()}
 	 * @return integer The priority.
 	 **/
 	function getPriority() {
@@ -89,7 +89,7 @@ class AlwaysFalseAuthenticationMethod extends AuthenticationMethod {
 	/**
 	 * Returns if this method is authoritative or not.
 	 * @access public
-	 * @see setAuthoritative()
+	 * @see {@link AlwaysFalseAuthenticationMethod::setAuthoritative()}
 	 * @return boolean If the method is authoritative.
 	 **/
 	function getAuthoritative() {
@@ -102,7 +102,7 @@ class AlwaysFalseAuthenticationMethod extends AuthenticationMethod {
 	 * @param string $systemName The system name to get info for.
 	 * @access public
 	 * @return array An associative array of [key]=>value pairs.  
-	 * @see AgentInformationHandlerInterface
+	 * @see {@link AgentInformationHandlerInterface}
 	 **/
 	function getAgentInformation( $systemName ) {
 		return $this->_methodObject->getAgentInformation($systemName);

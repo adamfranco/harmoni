@@ -35,18 +35,16 @@ require_once("Query.abstract.php");
 	define("RIGHT_JOIN", 4);
 
 	/**
-	 * Used with the setOrderBy() method to indicate that the order will be ascending.
+	 * Used with the setOrderBy() method to indicate that the order will be ascending. Used by {@link SelectQueryInterface::setOrderBy()}.
 	 * @const ASCENDING The order will be ascending.
-	 * @see setOrderBy()
 	 * @access public
 	 * @package harmoni.dbhandler
 	 */
 	define("ASCENDING", 5);
 
 	/**
-	 * Used with the setOrderBy() method to indicate that the order will be descending.
+	 * Used with the setOrderBy() method to indicate that the order will be descending. Used by {@link SelectQueryInterface::setOrderBy()}.
 	 * @const DESCENDING The order will be descending.
-	 * @see setOrderBy()
 	 * @access public
 	 * @package harmoni.dbhandler
 	 */
@@ -56,7 +54,7 @@ require_once("Query.abstract.php");
 /**
  * A SelectQuery interface provides the tools to build an SQL SELECT query.
  *
- * @version $Id: SelectQuery.interface.php,v 1.3 2003/06/27 13:20:39 gabeschine Exp $
+ * @version $Id: SelectQuery.interface.php,v 1.4 2003/06/27 13:51:37 gabeschine Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -75,7 +73,10 @@ class SelectQueryInterface extends Query {
 	 * the following: NO_JOIN, LEFT_JOIN, INNER_JOIN, RIGHT_JOIN.
 	 * @param string $joinCondition If a join is to be performed, then this
 	 * will indicate the join condition.
-	 * @see NO_JOIN, LEFT_JOIN, INNER_JOIN, RIGHT_JOIN
+	 * @use NO_JOIN
+	 * @use LEFT_JOIN
+	 * @use INNER_JOIN
+	 * @use RIGHT_JOIN
 	 * @access public
 	 */
 	function addTable($table, $joinType = NO_JOIN, $joinCondition = "") { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
@@ -91,7 +92,7 @@ class SelectQueryInterface extends Query {
 	 * For a better approach, see addColumn().
 	 * @access public
 	 * @deprecated June 24, 2003 - Use addColumn() instead.
-	 * @see addColumn()
+	 * @see {@link SelectQueryInterface::addColumn()}
 	 */
 	function setColumns($columns) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
@@ -107,7 +108,7 @@ class SelectQueryInterface extends Query {
 	 * @param string $column The name of the column.
 	 * @param string $alias The alias of the column.
 	 * @access public
-	 * @see setColumns()
+	 * @see {@link SelectQueryInterface::setColumns()}
 	 */ 
 	function addColumn($column, $alias = null) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");	
@@ -149,7 +150,8 @@ class SelectQueryInterface extends Query {
 	 * @param string $column A column to order by.
 	 * @param integer $direction An optional parameter specifying ascending or descending
 	 * sorting order. Allowed values are: ASCENDING, DESCENDING.
-	 * @see ASCENDING, DESCENDING
+	 * @use ASCENDING
+	 * @use DESCENDING
 	 * @access public
 	 */
 	function addOrderBy($column, $direction) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
