@@ -7,7 +7,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AuthorizationContextHierarchyTestCase.class.php,v 1.3 2003/07/07 02:27:48 dobomode Exp $
+ * @version $Id: AuthorizationContextHierarchyTestCase.class.php,v 1.4 2003/07/07 04:39:15 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -117,7 +117,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
 			$this->assertIdentical($hierarchy->getSize(), 11);
 			$this->assertIdentical($hierarchy->getHeight(), 4);
 
-			$resultFromObject =& $hierarchy->traverse(false);
+			$resultFromObject =& $hierarchy->traverse();
 			
 			$this->assertIdentical(count($resultFromObject), 11);
 			$this->assertReference($resultFromObject[0], $node1);
@@ -132,12 +132,26 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
 			$this->assertReference($resultFromObject[9], $node2_3_3);
 			$this->assertReference($resultFromObject[10], $node2_3_4);
 
-			$resultFromObject =& $hierarchy->traverse(false, $node2_3);
+			$resultFromObject =& $hierarchy->traverse($node2_3);
 			
 			$this->assertIdentical(count($resultFromObject), 3);
 			$this->assertReference($resultFromObject[0], $node2_3);
 			$this->assertReference($resultFromObject[1], $node2_3_3);
 			$this->assertReference($resultFromObject[2], $node2_3_4);
+			
+			$nodes =& $hierarchy->getAllNodes();
+			$this->assertIdentical(count($nodes), 11);
+			$this->assertReference($nodes[0], $node1);
+			$this->assertReference($nodes[1], $node2);
+			$this->assertReference($nodes[2], $node1_1);
+			$this->assertReference($nodes[3], $node1_2);
+			$this->assertReference($nodes[4], $node2_3);
+			$this->assertReference($nodes[5], $node1_2_1);
+			$this->assertReference($nodes[6], $node1_2_2);
+			$this->assertReference($nodes[7], $node2_3_3);
+			$this->assertReference($nodes[8], $node2_3_4);
+			$this->assertReference($nodes[9], $node1_2_2_1);
+			$this->assertReference($nodes[10], $node1_2_2_2);
 		}
 		
 		/**

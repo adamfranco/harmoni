@@ -14,7 +14,7 @@ require_once(HARMONI . "storageHandler/Storables/VirtualStorable.class.php");
 * 
 * @package harmoni.StorageHandler
 * @author Middlebury College, ETS 
-* @version $Id: StorageHandler.class.php,v 1.7 2003/07/04 01:38:13 gabeschine Exp $
+* @version $Id: StorageHandler.class.php,v 1.8 2003/07/07 04:39:15 dobomode Exp $
 * @copyright 2003
 */
 class StorageHandler extends StorageHandlerInterface {
@@ -783,6 +783,30 @@ class StorageHandler extends StorageHandlerInterface {
 		}
 		return $totalCount;
 	}
+
+
+
+	/**
+	 * The start function is called when a service is created. Services may
+	 * want to do pre-processing setup before any users are allowed access to
+	 * them.
+	 * @access public
+	 * @return void
+	 **/
+	function start() {
+	}
+	
+	/**
+	 * The stop function is called when a Harmoni service object is being destroyed.
+	 * Services may want to do post-processing such as content output or committing
+	 * changes to a database, etc.
+	 * @access public
+	 * @return void
+	 **/
+	function stop() {
+	}
+	
+
 }
 
 ?>

@@ -6,7 +6,7 @@ require_once(HARMONI."errorHandler/Error.interface.php");
  * An error class interface provides functionality to create Error objects 
  * to be used by the ErrorHandler
  *
- * @version $Id: Error.class.php,v 1.6 2003/07/03 01:34:14 dobomode Exp $
+ * @version $Id: Error.class.php,v 1.7 2003/07/07 04:39:15 dobomode Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  **/
@@ -33,7 +33,7 @@ class Error extends ErrorInterface {
 		$this->_type = $type;
 		$this->_isFatal = $isFatal;
 		$this->_debugBacktrace = debug_backtrace();
-		array_shift($this->_debugBacktrace);
+//		array_shift($this->_debugBacktrace);
     }
     
     /**

@@ -4,7 +4,7 @@
  * The interface for an AuthorizationContextHierarchy, a tree-like datastructure used by
  * the AuthorizationContextHierarchyGenerator objects.
  * @access public
- * @version $Id: AuthorizationContextHierarchy.interface.php,v 1.4 2003/07/07 02:27:48 dobomode Exp $
+ * @version $Id: AuthorizationContextHierarchy.interface.php,v 1.5 2003/07/07 04:39:14 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -115,16 +115,43 @@ class AuthorizationContextHierarchyInterface {
 	
 	
 	/**
+	 * Returns <code>true</code> if the node with the specified depth and system
+	 * id is in the hierarchy.
+	 * @method public nodeExists
+	 * @param integer depth The depth of the node.
+	 * @oaram integer systemId The system id of the node.
+	 * @return boolean <code>true</code> if the node with the specified depth and system
+	 * id is in the hierarchy.
+	 */
+	function nodeExists($depth, $systemId) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
+
+	/**
+	 * Simply returns all nodes of this hierarchy in an array in no particular
+	 * order.
+	 * @method public getAllNodes
+	 * @return ref array An array of all nodes.
+	 */
+	function & getAllNodes() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Traverses the hierarchy and returns all the nodes in an array. The traversal
 	 * is a pre-order traversal starting from the specified node.
 	 * @method public traverse
-	 * @param optional boolean onlyCached If <code>true</code>, will return only
-	 * nodes whose subtres have been cached.
 	 * @param optional ref object node An optional node to start traversal from.
 	 * @return ref array An array of all nodes in the hierarchy visited in a pre-order
 	 * manner.
 	 */
-	function & traverse($onlyCached = false, & $node) {
+	function & traverse(& $node) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

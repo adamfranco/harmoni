@@ -7,7 +7,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * An AuthorizationContextHierarchy is a tree-like datastructure used by
  * the AuthorizationContextHierarchyGenerator objects.
  * @access public
- * @version $Id: AuthorizationContextHierarchy.class.php,v 1.4 2003/07/07 02:27:48 dobomode Exp $
+ * @version $Id: AuthorizationContextHierarchy.class.php,v 1.5 2003/07/07 04:39:14 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -168,7 +168,7 @@ class AuthorizationContextHierarchy
 		$result = array();
 		
 		// convert the tree into an array
-		$nodes =& $this->traverse(false, $node);
+		$nodes =& $this->traverse($node);
 		
 		$numNodes = count($nodes);
 		// place nodes on the same level in a separate array (exclude first node)
@@ -218,29 +218,68 @@ class AuthorizationContextHierarchy
 		// ** end of parameter validation
 	
 		if (!isset($this->_nodes[$level][$systemId]))
-			return null;
-				
+		    return null;
+	
 		return $this->_nodes[$level][$systemId];
 	}
 	
+	
+	/**
+	 * Returns <code>true</code> if the node with the specified depth and system
+	 * id is in the hierarchy.
+	 * @method public nodeExists
+	 * @param integer depth The depth of the node.
+	 * @oaram integer systemId The system id of the node.
+	 * @return boolean <code>true</code> if the node with the specified depth and system
+	 * id is in the hierarchy.
+	 */
+	function nodeExists($depth, $systemId) {
+		// ** parameter validation
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($depth, $integerRule, true);
+		ArgumentValidator::validate($systemId, $integerRule, true);
+		// ** end of parameter validation
+	
+		$node =& $this->getNodeAtLevel($depth, $systemId);
 
+		return isset($node);
+	}
+	
+	
+	
+	
+
+	/**
+	 * Simply returns all nodes of this hierarchy in an array in no particular
+	 * order.
+	 * @method public getAllNodes
+	 * @return ref array An array of all nodes.
+	 */
+	function & getAllNodes() {
+		$result = array();		
+	
+		foreach (array_keys($this->_nodes) as $i1 => $key1)
+			foreach (array_keys($this->_nodes[$key1]) as $i2 => $key2)
+				$result[] =& $this->_nodes[$key1][$key2];
+				
+		
+		return $result;
+	}
+	
+	
 	
 	/**
 	 * Traverses the hierarchy and returns all the nodes in an array. The traversal
 	 * is a pre-order traversal starting from the specified node.
 	 * @method public traverse
-	 * @param optional boolean onlyCached If <code>true</code>, will return only
-	 * nodes whose subtres have been cached.
 	 * @param optional ref object node An optional node to start traversal from.
 	 * @return ref array An array of all nodes in the hierarchy visited in a pre-order
 	 * manner.
 	 */
-	function & traverse($onlyCached, & $node) {
+	function & traverse(& $node) {
 		// ** parameter validation
-		$booleanRule =& new BooleanValidatorRule();
 		$extendsRule =& new ExtendsValidatorRule("AuthorizationContextHierarchyNodeInterface");
 		$optionalRule =& new OptionalRule($extendsRule);
-		ArgumentValidator::validate($onlyCached, $booleanRule, true);
 		ArgumentValidator::validate($node, $optionalRule, true);
 		// ** end of parameter validation
 
@@ -251,11 +290,10 @@ class AuthorizationContextHierarchy
 		else
 			$roots =& $this->getRoots(); // visit each root
 
-
 		$result = array();
 		
 		foreach (array_keys($roots) as $i => $key)
-			$this->_traverse($result, $onlyCached, $roots[$key]);
+			$this->_traverse($result, $roots[$key]);
 			
 		return $result;
 	}
@@ -266,30 +304,20 @@ class AuthorizationContextHierarchy
 	 * @method private _traverse
 	 * @param ref array The array where to store the result. Will consists of all 
 	 * nodes in the hierarchy visited in a pre-order manner.
-	 * @param optional boolean onlyCached If <code>true</code>, will return only
-	 * nodes whose subtres have been cached.
 	 * @param ref object node The node to be visited.
 	 * @return ref array An array of all nodes in the hierarchy visited in a pre-order
 	 * manner.
 	 */
-	function _traverse(& $result, $onlyCached = false, & $node) {
-
-		if ($onlyCached === true && $node->cachedSubtree() === true) {
-				// stop the traversal if the subtree is cached
-				$result[] =& $node;
-				return;
-		}
-
-		if ($onlyCached === false)
-			// visit the node
-			$result[] =& $node;
+	function _traverse(& $result, & $node) {
+		// visit the node
+		$result[] =& $node;
 
 		// visit children, if any
 		if ($node->hasChildren()) {
 			// visit the children in the order they were added.
 			$children =& $node->getChildren();
 			foreach (array_keys($children) as $i => $key)
-				$this->_traverse($result, $onlyCached, $children[$key]);
+				$this->_traverse($result, $children[$key]);
 		}
 		// no children: base case - do nothing
 		else 

@@ -6,7 +6,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * This is the building piece of the tree-like AuthorizationContextHierarchy
  * data structure used in AuthorizationContextHierarchyGenerator obejcts.
  * @access public
- * @version $Id: AuthorizationContextHierarchyNode.class.php,v 1.5 2003/07/07 02:27:48 dobomode Exp $
+ * @version $Id: AuthorizationContextHierarchyNode.class.php,v 1.6 2003/07/07 04:39:14 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -40,23 +40,8 @@ class AuthorizationContextHierarchyNode
 	 * @attribute private integer _depth
 	 */
 	var $_depth;
-	
-	
-	/**
-	 * Indicates whether the ancestors of this node has been cached.
-	 * @attribute private boolean _cachedAncestors
-	 */
-	var $_cachedAncestors;
 
 
-	
-	/**
-	 * Indicates whether the subtree of this node has been cached.
-	 * @attribute private boolean _cachedSubtree
-	 */
-	var $_cachedSubtree;
-	
-	
 							
 	/**
      * Constructor.
@@ -74,8 +59,6 @@ class AuthorizationContextHierarchyNode
 		$this->_systemId = $systemId;
 		$this->_parent = null;
 		$this->_children = array();
-		$this->_cachedAncestors = false;
-		$this->_cachedSubtree = false;
 		
 		$this->_depth = $depth;
 	}
@@ -189,31 +172,6 @@ class AuthorizationContextHierarchyNode
 	 */
 	function getSystemId() {
 		return $this->_systemId;
-	}
-	
-
-	/**
-	 * Indicates whether the ancestors of this node have been cached. In other words,
-	 * it will return <code>true</code> if the ancestors of this node go all the
-	 * way to level 0.
-	 * @method public cachedAncestors
-	 * @return boolean <code>true</code> if the ancestors of this node go all the
-	 * way to level 0; <code>false</code>, otherwise.
-	 */
-	function cachedAncestors() {
-		return $this->_cachedAncestors;
-	}
-	
-	/**
-	 * Indicates whether the subtree of this node has been cached. In other words,
-	 * it will returns <code>true</code> if every single child node in the subtree
-	 * has been added.
-	 * @method public cachedSubtree
-	 * @return boolean <code>true</code> if every single child node in the subtree
-	 * has been added; <code>false</code>, otherwise.
-	 */
-	function cachedSubtree() {
-		return $this->_cachedSubtree;
 	}
 	
 

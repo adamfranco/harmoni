@@ -4,7 +4,7 @@
  * This is the building piece of the tree-like AuthorizationContextHierarchy
  * data structure used in AuthorizationContextGenerator obejcts.
  * @access public
- * @version $Id: AuthorizationContextHierarchyNode.interface.php,v 1.3 2003/07/07 02:27:48 dobomode Exp $
+ * @version $Id: AuthorizationContextHierarchyNode.interface.php,v 1.4 2003/07/07 04:39:14 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -96,36 +96,6 @@ class AuthorizationContextHierarchyNodeInterface {
 	function getSystemId() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
-	
-	
-	
-	/**
-	 * Indicates whether the ancestors of this node have been cached. In other words,
-	 * it will return <code>true</code> if the ancestors of this node go all the
-	 * way to level 0.
-	 * @method public cachedAncestors
-	 * @return boolean <code>true</code> if the ancestors of this node go all the
-	 * way to level 0; <code>false</code>, otherwise.
-	 */
-	function cachedAncestors() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-	
-	/**
-	 * Indicates whether the subtree of this node has been cached. In other words,
-	 * it will returns <code>true</code> if every single child node in the subtree
-	 * has been added.
-	 * @method public cachedSubtree
-	 * @return boolean <code>true</code> if every single child node in the subtree
-	 * has been added; <code>false</code>, otherwise.
-	 */
-	function cachedSubtree() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-	
-	
-	
-	
 	
 }
 
