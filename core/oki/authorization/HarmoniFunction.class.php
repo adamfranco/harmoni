@@ -65,8 +65,8 @@ class HarmoniFunction extends FunctionInterface {
 	 * @param string  description - is externally defined description - the description of this Function
 	 * @param ref object functionType - is externally defined functionType - the Type of this Function
 	 * @param ref object qualifierHierarchyId - is externally defined qualifierHierarchyId - the Id of the Qualifier Hierarchy associated with this Function 	 
-	 * @param  dbIndex integer The index of the database connection as returned by the DBHandler.
-	 * @param  authzDB string The name of the Authorization database.
+	 * @param  integer dbIndex The index of the database connection as returned by the DBHandler.
+	 * @param  string authzDB The name of the Authorization database.
 	 * @access public
 	 */
 	function HarmoniFunction(& $id, $referenceName, $description, & $functionType, 
