@@ -3,7 +3,54 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.2.0</h2><h3>Unreleased</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.2.0</h2><h3>2004-10-26</h3><ul>
+		<li/> New feature:  
+			Added a &quot;MIME&quot; service for sniffing mime types from file extensions.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Added an ImageProcessor service for the resizing of images, generation
+			of thumbnails, and other common image processing functions. This service
+			can be configured to use multiple modules to handle different file types,
+			as availible. An example would be using PHP's GD libraries for handling
+			jpegs and pngs, while using ImageMagick (via shell_exec()) for tiff,
+			psd, pdf, etc. files.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			DBHandler: PostgreSQL now functions without throwing invalid errors.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Digital Repository: Now has a &quot;File&quot; Info structure system for storing
+			binary files.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Digital Repository: Now stores Asset dates outside of the
+			the data manager.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Harmoni::addPreExecActions($action,...) adds a number of actions to execute before executing the action requested by the end user.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Harmoni::addPostExecActions($action,...) adds a number of actions to execute after executing the action requested by the end user.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Harmoni::executeLogin() executes the LoginHandler and stores the result to avoid discrepancies.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Migrated OKI DR implementation to use new DataManager.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			DataManager: Records now dynamically update their fetch-mode (how much &amp; what data has been fetched) depending on the operation to be performed. Previous version required one to manually re-fetch records (annoying).
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Function printDebugBacktrace([$traceArray]) will print out a debug_backtrace() in a pretty way.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			DataManager: Record::getValuesArray() returns an associative array of all active values in a Record.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			DateTime::toString() now has optional parameter to return a shorter M/D/Y for the date instead of Month DD, YYYY.
+		 (<i>Gabe Schine</i>)
 		<li/> Bug Fix:
 	 
 			AuthN queries now have slashes added to dbc query values.
@@ -24,6 +71,12 @@
 			A new &quot;Sets&quot; service provides an easy system for the creation, ordering,
 			and maintaining of persistant collections of Ids.
 		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Added new system for storing primitive data values in objects (all classes implementing the Primitive interface - see harmoni/core/dataManager/primitives)
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Re-worked the DataManager with simpler class names and more flexibility. (see harmoni/core/dataManager)
+		 (<i>Gabe Schine</i>)
 		<li/> New feature:  
 			Added a &quot;revision&quot; to all DataSetTypeDefinitions for later program upgrades (can check revision number to see if the structure is up-to-date instead of comparing every field).
 		 (<i>Gabe Schine</i>)

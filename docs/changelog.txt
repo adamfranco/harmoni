@@ -3,8 +3,34 @@
 Name: Harmoni ChangeLog
 
 
-v. 0.2.0 (Unreleased)
+v. 0.2.0 (2004-10-26)
 ----------------------------------------------------
+		
+	* New feature: Added a &quot;MIME&quot; service for sniffing mime types from file extensions. (Adam Franco)
+		
+	* New feature: Added an ImageProcessor service for the resizing of images, generation of thumbnails, and other common image processing functions. This service can be configured to use multiple modules to handle different file types, as availible. An example would be using PHP's GD libraries for handling jpegs and pngs, while using ImageMagick (via shell_exec()) for tiff, psd, pdf, etc. files. (Adam Franco)
+		
+	* Bug Fix: DBHandler: PostgreSQL now functions without throwing invalid errors. (Adam Franco)
+		
+	* New feature: Digital Repository: Now has a &quot;File&quot; Info structure system for storing binary files. (Adam Franco)
+		
+	* Change: Digital Repository: Now stores Asset dates outside of the the data manager. (Adam Franco)
+		
+	* New feature: Harmoni::addPreExecActions($action,...) adds a number of actions to execute before executing the action requested by the end user. (Gabe Schine)
+		
+	* New feature: Harmoni::addPostExecActions($action,...) adds a number of actions to execute after executing the action requested by the end user. (Gabe Schine)
+		
+	* New feature: Harmoni::executeLogin() executes the LoginHandler and stores the result to avoid discrepancies. (Gabe Schine)
+		
+	* Change: Migrated OKI DR implementation to use new DataManager. (Gabe Schine)
+		
+	* Change: DataManager: Records now dynamically update their fetch-mode (how much &amp; what data has been fetched) depending on the operation to be performed. Previous version required one to manually re-fetch records (annoying). (Gabe Schine)
+		
+	* New feature: Function printDebugBacktrace([$traceArray]) will print out a debug_backtrace() in a pretty way. (Gabe Schine)
+		
+	* New feature: DataManager: Record::getValuesArray() returns an associative array of all active values in a Record. (Gabe Schine)
+		
+	* New feature: DateTime::toString() now has optional parameter to return a shorter M/D/Y for the date instead of Month DD, YYYY. (Gabe Schine)
 		
 	* Bug Fix: AuthN queries now have slashes added to dbc query values. (Adam Franco)
 		
@@ -15,6 +41,10 @@ v. 0.2.0 (Unreleased)
 	* Change: Fixed LoginHandler problem which was preventing the use of custom callback functions. (Adam Franco)
 		
 	* New feature: A new &quot;Sets&quot; service provides an easy system for the creation, ordering, and maintaining of persistant collections of Ids. (Adam Franco)
+		
+	* New feature: Added new system for storing primitive data values in objects (all classes implementing the Primitive interface - see harmoni/core/dataManager/primitives) (Gabe Schine)
+		
+	* New feature: Re-worked the DataManager with simpler class names and more flexibility. (see harmoni/core/dataManager) (Gabe Schine)
 		
 	* New feature: Added a &quot;revision&quot; to all DataSetTypeDefinitions for later program upgrades (can check revision number to see if the structure is up-to-date instead of comparing every field). (Gabe Schine)
 		

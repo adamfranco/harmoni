@@ -2,7 +2,29 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.2.0" date="Unreleased">
+	<version number="0.2.0" date="2004-10-26">
+		<new author='adam'>
+			Added a "MIME" service for sniffing mime types from file extensions.
+		</new>
+		<new author='adam'>
+			Added an ImageProcessor service for the resizing of images, generation
+			of thumbnails, and other common image processing functions. This service
+			can be configured to use multiple modules to handle different file types,
+			as availible. An example would be using PHP's GD libraries for handling
+			jpegs and pngs, while using ImageMagick (via shell_exec()) for tiff,
+			psd, pdf, etc. files.
+		</new>
+		<fix author='adam'>
+			DBHandler: PostgreSQL now functions without throwing invalid errors.
+		</fix>
+		<new author='adam'>
+			Digital Repository: Now has a "File" Info structure system for storing
+			binary files.
+		</new>
+		<change author='adam'>
+			Digital Repository: Now stores Asset dates outside of the
+			the data manager.
+		</change>
 		<new author='gabe'>
 			Harmoni::addPreExecActions($action,...) adds a number of actions to execute before executing the action requested by the end user.
 		</new>
