@@ -363,7 +363,6 @@ class TypeInterface // :: abstract
 	 * @param object authority
 	 * @param object keyword
 	 * @param string description
-	 * @package osid.shared
 	 */
 //	 :: this function hidden due to previous declaration
 //	function &Type($domain, $authority, $keyword, $description) { /* :: interface :: */ }

@@ -16,7 +16,7 @@ require_once(HARMONI.'oki/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.26 2005/01/19 23:23:02 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.27 2005/01/20 14:44:54 adamfranco Exp $
  */
 class HarmoniAuthorizationManager extends AuthorizationManager {
 	
@@ -298,7 +298,6 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @param object qualifierId
 	 * @return object QualifierIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid_v1.authorization
 	  */
 	function &getQualifierChildren(& $qualifierId) {
 		// get the qualifier
@@ -314,7 +313,6 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @param object qualifierId
 	 * @return object QualifierIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid_v1.authorization
 	  */
 	function &getQualifierDescendants(& $qualifierId) {
 		// ** parameter validation
@@ -355,7 +353,6 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 	 * @param boolean isActiveNow
 	 * @return object osid.shared.AgentIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid_v1.authorization
 	  */
 	function &getWhoCanDo(& $functionId, & $qualifierId, $isActiveNow) {
 		// ** parameter validation

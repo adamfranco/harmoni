@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.19 2005/01/19 23:23:07 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.20 2005/01/20 14:45:02 adamfranco Exp $
  */
 class HarmoniGroup // :: API interface
 	extends HarmoniAgent // implements Group OSID interface
@@ -124,7 +124,6 @@ class HarmoniGroup // :: API interface
 	 * @access public
 	 * @param object memberOrGroup
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#ALREADY_ADDED ALREADY_ADDED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid_v1.shared
 	 **/
 	function attach(& $memberOrGroup) {
 		// ** parameter validation
