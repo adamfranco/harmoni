@@ -1,0 +1,66 @@
+<?php
+/**
+ * @package harmoni.architecture
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: BasicOutputHandler.class.php,v 1.1 2005/04/05 18:53:18 adamfranco Exp $
+ */ 
+
+require_once(HARMONI."/architecture/output/OutputHandler.abstract.php");
+
+/**
+ * The OutputHander abstract class defines methods for the interaction between
+ * the Harmoni framework object and output handling classes.
+ *
+ * 
+ * @package harmoni.architecture
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: BasicOutputHandler.class.php,v 1.1 2005/04/05 18:53:18 adamfranco Exp $
+ */
+class BasicOutputHandler
+	extends OutputHandler 
+{
+	
+	/**
+	 * Output the content that was returned from an action. This content should
+	 * have been created such that it is a type that this OutputHandler can deal
+	 * with.
+	 * 
+	 * @param mixed $content
+	 * @return void
+	 * @access public
+	 * @since 4/4/05
+	 */
+	function output ( &$content ) {
+		ArguementValidator::validate($content, StringValidatorRule::getRule());
+		
+		$osidContext =& $this->getOsidContext();
+		$harmoni =& $osidContext->getContext('harmoni');
+		
+		$doctypeDef = $harmoni->config->get('doctype_definition');
+		$doctype = $harmoni->config->get('doctype');
+		$characterSet = $harmoni->config->get('charset');
+		$head = $this->getHead();
+		
+		header("Content-type: $doctype; charset=$characterSet");
+		print<<<END
+$doctypeDef
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="$doctype; charset=$characterSet" />
+		$head
+	</head>
+	<body>
+		$content
+	</body>
+</html>
+END;
+	}
+}
+
+?>

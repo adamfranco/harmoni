@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI."GUIManager/GUIManager.interface.php");
+require_once(HARMONI."GUIManager/GUIManager.abstract.php");
 require_once(HARMONI."GUIManager/Theme.class.php");
 require_once(HARMONI."GUIManager/StyleComponent.class.php");
 require_once(HARMONI."GUIManager/StyleProperty.class.php");
@@ -19,9 +19,11 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.18 2005/04/04 18:23:22 adamfranco Exp $
+ * @version $Id: GUIManager.class.php,v 1.19 2005/04/05 18:53:16 adamfranco Exp $
  */
-class GUIManager extends GUIManagerInterface {
+class GUIManager 
+	extends GUIManagerAbstract 
+{
 
 	/**
 	 * The database connection as returned by the DBHandler.
@@ -48,7 +50,7 @@ class GUIManager extends GUIManagerInterface {
 	function GUIManager() {
 	}
 	
-		/**
+	/**
 	 * Assign the configuration of this Manager. Valid configuration options are as
 	 * follows:
 	 *	database_index			integer
@@ -84,8 +86,7 @@ class GUIManager extends GUIManagerInterface {
 		$this->_guiDB = $dbName;
 		
 		if ($theme =& $configuration->getProperty('default_theme')) {
-			$harmoni =& $this->_osidContext->getContext('harmoni');
-			$harmoni->setTheme($theme);
+			$this->setTheme($theme);
 		}
 	}
 
@@ -114,7 +115,12 @@ class GUIManager extends GUIManagerInterface {
 	 * @access public
 	 */
 	function assignOsidContext ( &$context ) { 
+		ArgumentValidator::validate($context->getContext('harmoni'),
+			ExtendsValidatorRule::getRule('Harmoni'));
+		
 		$this->_osidContext =& $context;
+		
+		$this->attachToHarmoni();
 	}
 
 	/**
@@ -123,29 +129,29 @@ class GUIManager extends GUIManagerInterface {
 	 * @return array An array of strings; each element is the class name of a theme.
 	 **/
 	function getSupportedThemes() {
-	$themesDir = dirname(__FILE__).$this->getThemePath();
-	
-	//the array of supported themes
-	$themes = array();
-	
-	//make sure the specified name is indeed a directory
-	if(is_dir($themesDir)){
+		$themesDir = dirname(__FILE__).$this->getThemePath();
 		
-	$dh = opendir($themesDir);
-		while (($file = readdir($dh)) !== false) {
-			//ignore other files or directories
-			if (ereg(".class.php", $file)){ 
-				
-				//strip the ".class.php" from the end of the file
-				$file = rtrim($file,".class.php");
-				$themes[] = $file;
+		//the array of supported themes
+		$themes = array();
+		
+		//make sure the specified name is indeed a directory
+		if(is_dir($themesDir)){
+			
+		$dh = opendir($themesDir);
+			while (($file = readdir($dh)) !== false) {
+				//ignore other files or directories
+				if (ereg(".class.php", $file)){ 
+					
+					//strip the ".class.php" from the end of the file
+					$file = rtrim($file,".class.php");
+					$themes[] = $file;
+				}
 			}
+		unset($file,$dh);
 		}
-	unset($file,$dh);
+		//print_r ($themes);
+		return $themes;
 	}
-	//print_r ($themes);
-	return $themes;
-}
 	
 	/**
 	 * Returns the path that contains all the supported themes.

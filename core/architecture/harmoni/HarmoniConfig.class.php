@@ -12,7 +12,7 @@ require_once(HARMONI . "errorHandler/Error.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniConfig.class.php,v 1.8 2005/04/04 19:57:41 adamfranco Exp $
+ * @version $Id: HarmoniConfig.class.php,v 1.9 2005/04/05 18:53:18 adamfranco Exp $
  */
 
 class HarmoniConfig extends DataContainer {
@@ -28,8 +28,6 @@ class HarmoniConfig extends DataContainer {
         // initialize the data container
         $this -> init(); 
         // add the fields we want to allow
-		$this -> add("useAuthentication",BooleanValidatorRule::getRule(),new Error("HarmoniConfig - the option 'useAuthentication' must be set to either TRUE or FALSE!","DataContainer",true));
-		$this -> set("useAuthentication",false);
     	$e =& new Error("HarmoniConfig - the option 'defaultAction' must be set to a string value!","Harmoni",true);
 		$this -> add("defaultAction", StringValidatorRule::getRule(),$e);
 		$this -> add("defaultAction", FieldRequiredValidatorRule::getRule(),$e);
@@ -40,8 +38,11 @@ class HarmoniConfig extends DataContainer {
 		
 		$this -> add("charset", FieldRequiredValidatorRule::getRule());
 		
-		$this -> add("useThemingSystem", BooleanValidatorRule::getRule());
-		$this -> set("useThemingSystem", true);
+		$this -> add("doctype", StringValidatorRule::getRule());
+		$this -> set("doctype", "text/html");
+		
+		$this -> add("doctype_definition", StringValidatorRule::getRule());
+		$this -> set("doctype_definition", '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">');
 		
 		$this -> add("sessionName", FieldRequiredValidatorRule::getRule());
 		$this -> set("sessionName","Harmoni");

@@ -7,6 +7,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.class.php");
 require_once(HARMONI."architecture/harmoni/HarmoniConfig.class.php");
 require_once(HARMONI."architecture/harmoni/Context.class.php");
 require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
+require_once(HARMONI."/architecture/output/BasicOutputHandler.class.php");
 
 /**
  * The Harmoni class combines the functionality of login, authentication, 
@@ -18,7 +19,7 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.34 2005/04/01 19:59:36 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.35 2005/04/05 18:53:18 adamfranco Exp $
  **/
 class Harmoni {
 	
@@ -42,10 +43,10 @@ class Harmoni {
 	var $_currentAction;
 	
 	/**
-	 * @access public
-	 * @var object $theme The theme we are using for output.
+	 * @access private
+	 * @var object OutputHandler $_outputHandler The handler we are using for output.
 	 **/
-	var $theme;
+	var $_outputHandler;
 	
 	/**
 	 * @access public
@@ -102,8 +103,8 @@ class Harmoni {
 		$pathInfo = $_SERVER['PATH_INFO'];
 		$this->pathInfoParts = explode("/",ereg_replace("^/|/$","",$pathInfo));
 		
-		// set up the language localizer :: BROKEN?
-//		$this->language =& new LanguageLocalizer(HARMONI."languages");
+		// Set up a default OutputHandler
+		$this->attachOutputHandler(new BasicOutputHandler);
 	}
 	
 	/**
@@ -331,10 +332,6 @@ class Harmoni {
 	function execute() {
 		$this->config->checkAll();
 		
-		// check to make sure we have a theme object set!
-		if ($this->config->get("useThemingSystem") && !$this->theme) throwError(new Error("Harmoni::execute() - You must 
-							specify a theme to use before calling execute()!","Harmoni",true));
-		
 		// detect the current action
 		$this->_detectCurrentAction();
 		
@@ -352,13 +349,8 @@ class Harmoni {
 		// ok, now we execute the action
 		// 1) call the action, get the return result
 		// 2) Take whatever it returns (true, false, or Layout)
-		// 3) Pass that on to the theme (which should be set by now)
-		// 4) and that's it! program finished!
-		
-		// output a content-type header with specified charset. this can be
-		// overridden at any later time.
-		if ($this->config->get("useThemingSystem"))
-			header("Content-type: text/html; charset=".$this->config->get("charset"));
+		// 3) Pass that on to the theme/OutputHandler
+		// That's it! program finished!
 		
 		$result =& $this->ActionHandler->execute($module, $action);
 		$lastExecutedAction = $this->ActionHandler->lastExecutedAction();
@@ -378,63 +370,32 @@ class Harmoni {
 				$this->ActionHandler->executePair($pair);
 			}
 		}
-		
-		// we only need to print anything out if config->useThemingSystem is set.
-		if ($this->config->get("useThemingSystem")) {
-			// alright, if what we got back was a layout, let's print it out!
-			$rule = ExtendsValidatorRule::getRule("ComponentInterface");
-			
-			if ($rule->check($result)){
-				$this->theme->setComponent($result);
-				$this->theme->printPage();
-			}
-			
-			else{
-				// we got something else back... well, let's print out an error
-				// explaining what happened.
-				$type = gettype($result);
-				throwError(new Error("Harmoni::execute() - The result returned from action '$pair' was unexpected. Expecting a Layout
-						object, but got a variable of type '$type'.","Harmoni",true));
-			}
-		} else {
-			// otherwise return the result
-			return $result;
-		}
+
+		$this->_outputHandler->output($result);
 	}
 	
 	/**
-	 * Sets the {@link ThemeInterface Theme} to use for output to the browser. $themeObject can
-	 * be any Theme object that follows the {@link ThemeInterface}.
-	 * @param ref object A {@link ThemeInterface Theme} object.
-	 * @access public
+	 * Set the OutputHandler to use for theming the output.
+	 * 
+	 * @param object $outputHandler
 	 * @return void
-	 **/
-	function setTheme(&$themeObject) {
-		ArgumentValidator::validate($themeObject, ExtendsValidatorRule::getRule("ThemeInterface"));
-		$this->theme =& $themeObject;
+	 * @access public
+	 * @since 4/5/05
+	 */
+	function attachOutputHandler ( &$outputHandler ) {
+		$this->_outputHandler =& $outputHandler;
 	}
 	
 	/**
-	 * Returns the current theme object.
+	 * Get the OutputHandler used for theming the output.
+	 * 
+	 * @return object $outputHandler
 	 * @access public
-	 * @return ref object A {@link ThemeInterface Theme} object.
-	 **/
-	function &getTheme() {
-		return $this->theme;
+	 * @since 4/5/05
+	 */
+	function &getOutputHandler ( &$outputHandler ) {
+		return $this->_outputHandler;
 	}
-	
-	/**
-	 * Returns true if there is a current theme.
-	 * @access public
-	 * @return boolean TRUE if there is a theme.
-	 **/
-	function hasTheme() {
-		if (is_object($this->theme))
-			return TRUE;
-		else
-			return FALSE;
-	}
-	
 	
 	/**
 	 * Returns the current action.
