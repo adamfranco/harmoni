@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ServicesTestCase.class.php,v 1.3 2003/06/25 19:23:12 dobomode Exp $
+ * @version $Id: ServicesTestCase.class.php,v 1.4 2003/06/26 02:27:19 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -27,6 +27,8 @@
 		*/
 		function setUp() {
 			$GLOBALS['__services__'] = & new Services;
+		   	Services::registerService("ErrorHandler","ErrorHandler");
+			Services::startService("ErrorHandler");
 //			print_r($GLOBALS['__services__']);
 		}
 
@@ -35,8 +37,8 @@
 		 *    @public
 		 */
 		function tearDown() {
-			global $__services__;
-			$__services__ = NULL;
+//			global $__services__;
+//			$__services__ = NULL;
 		}
 	
 		/**

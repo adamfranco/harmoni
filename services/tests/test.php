@@ -4,12 +4,9 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.2 2003/06/24 21:14:42 adamfranco Exp $
+ * @version $Id: test.php,v 1.3 2003/06/26 02:27:19 dobomode Exp $
  * @copyright 2003 
  **/
-
-$__services__ = NULL;
-define("SERVICES_OBJECT","__services__");
 
 if (!defined('HARMONI')) {
 	require_once("../../harmoni.inc.php");
