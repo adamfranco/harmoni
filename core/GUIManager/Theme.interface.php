@@ -14,7 +14,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * <br /><br />
  * Each <code>Theme</code> has a single component (could be container) that will
  * be printed when <code>printPage()</code> is called.
- * @version $Id: Theme.interface.php,v 1.6 2005/01/03 20:50:07 adamfranco Exp $
+ * @version $Id: Theme.interface.php,v 1.7 2005/01/17 05:02:49 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -236,6 +236,104 @@ class ThemeInterface {
 	function printPage() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
+	
+
+	/**
+	 * Adds the given StyleProperty to the internally maintained list of mutable
+	 * (updateable) style properties and assigns it an id. This method and
+	 * the <code>getRegisteredSP</code> method enable the user to quickly change
+	 * the values of key Theme settings. For example,
+	 * let us assume that Bob has created his own theme and he has added a global 
+	 * style collection for the main content block. Bob would like to allow the
+	 * user to change the width property of that collection. In order to do so,
+	 * Bob needs to call <code>registerSP()</code> and pass the WidthSP 
+	 * object accordingly. This WidthSP object must be the same object that had 
+	 * been added to the aforementioned global style collection. The user now can
+	 * call <code>getRegisteredSP</code> with the id that was returned by 
+	 * <code>registerSP</code> and access/modify the <code>WidthSP</code> object.
+	 * @access public
+	 * @param ref object sp The StyleProperty object that will be registered as 
+	 * mutable within this Theme.
+	 * @param string postImportMethod This is the name of the method that will
+	 * be called after this SP is imported. This can be useful in case other
+	 * properties depend on the content of this property, but the user does not
+	 * to export all of them.
+	 * @return integer An integer id assigned to the given style property. The id 
+	 * only meaningful within the context of this Theme (i.e. this is not a system wide unique id).
+	 **/
+	function registerSP(& $sp, $postImportMethod) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
+	 * This methods exports the content of a registered style property object. The
+	 * output is implementation specific. The only requirement is that if the output
+	 * of this method is passed as an input to <code>importRegisteredSP()</code>,
+	 * then the contents of the <code>StyleProperty</code> should not change.
+	 * @access public
+	 * @param integer id The id of the <code>StyleProperty</code> as returned
+	 * by <code>registerSP()</code>.
+	 * @return mixed The contens of the <code>StyleProperty</code>. The output
+	 * representation is implementation specific.
+	 **/
+	function exportRegisteredSP($id) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
+	/**
+	 * This method is like <code>exportRegisteredSP</code> but exports all
+	 * registered stlye properties at the same time. The output is an array
+	 * whose elements are the inividual export data as returned by <code>exportRegisteredSP</code>.
+	 * @access public
+	 * @return array An array containing the export data for each registered
+	 * <code>StylePorperty</code>. The indexes of the array are the ids of the 
+	 * style properties.
+	 **/
+	function exportAllRegisteredSPs() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
+	/**
+	 * Imports the contents of a registered mutable <code>StyleProperty</code>.
+	 * The input to this method should be an output obtained from calling
+	 * <code>exportRegisteredSP</code> on the same <code>StyleProperty</code>.
+	 * @access public
+	 * @param integer id The id of the <code>StyleProperty</code> as returned
+	 * by <code>registerSP()</code>.
+	 * @param mixed importData The contens of the <code>StyleProperty</code> as exported by
+	 * <code>exportRegisteredSP()</code>.
+	 * @return ref object The updated <code>StyleProperty</code> object.
+	 **/
+	function &importRegisteredSP($id, $importData) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
+	 * Returns a <code> </code>previously registered by <code>registerSP()</code>
+	 * for the given id.
+	 * @access public
+	 * @param integer id The id identifying which StyleProperty to return; as returned
+	 * by <code>registerSP()</code>.
+	 * @return ref object A <code>StylePorperty</code> object.
+	 **/
+	function &getRegisteredSP($id) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
+	 * Returns all registered mutable style properties in an array whose indexes are the
+	 * ids of the style properties (as returned by <code>registerSP()</code>).
+	 * @access public
+	 * @param 
+	 * @return ref array An array containing all registered mutable 
+	 * <code>StyleProperty</code> objects.
+	 **/
+	function &getAllRegisteredSPs() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
 	
 }
 

@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * <br /><br />
  * Each <code>Theme</code> has a single component (could be container) that will
  * be printed when <code>printPage()</code> is called.
- * @version $Id: Theme.class.php,v 1.7 2005/01/03 20:50:07 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.8 2005/01/17 05:02:49 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -90,6 +90,19 @@ class Theme extends ThemeInterface {
 	 * @attribute private array _componentPostHTML
 	 */
 	var $_componentPostHTML;
+	
+	/**
+	 * This array stores all registered mutable <code>StyleProperties</code>.
+	 * @attribute private array _registeredSPs
+	 */
+	var $_registeredSPs;	
+	
+	/**
+	 * This array stores the names of the methods that will be run after
+	 * importing of registered <code>StyleProperties</code>.
+	 * @attribute private array _postImportMethods	 
+	 */
+	var $_postImportMethods;
 
 	/**
 	 * The constructor.
@@ -108,6 +121,8 @@ class Theme extends ThemeInterface {
 		$this->_pageTitle = "";
 		$this->_componentStyles = array();
 		$this->_globalStyles = array();
+		$this->_registeredSPs = array();
+		$this->_postImportMethods = array();
 		$this->_displayName = $displayName;
 		$this->_description = $description;
 	}
@@ -537,6 +552,168 @@ class Theme extends ThemeInterface {
 	 		$this->_component->render($this, "\t\t");
  		echo "\t</body>\n";
  		echo "</html>";
+	}
+	
+
+	/**
+	 * Adds the given StyleProperty to the internally maintained list of mutable
+	 * (updateable) style properties and assigns it an id. This method and
+	 * the <code>getRegisteredSP</code> method enable the user to quickly change
+	 * the values of key Theme settings. For example,
+	 * let us assume that Bob has created his own theme and he has added a global 
+	 * style collection for the main content block. Bob would like to allow the
+	 * user to change the width property of that collection. In order to do so,
+	 * Bob needs to call <code>registerSP()</code> and pass the WidthSP 
+	 * object accordingly. This WidthSP object must be the same object that had 
+	 * been added to the aforementioned global style collection. The user now can
+	 * call <code>getRegisteredSP</code> with the id that was returned by 
+	 * <code>registerSP</code> and access/modify the <code>WidthSP</code> object.
+	 * @access public
+	 * @param ref object sp The StyleProperty object that will be registered as 
+	 * mutable within this Theme.
+	 * @param optional string postImportMethod This is the name of the method that will
+	 * be called after this SP is imported (an optional argument). This can be useful in case other
+	 * properties depend on the content of this property, but the user does not
+	 * to export all of them.
+	 * @return integer An integer id assigned to the given style property. The id 
+	 * only meaningful within the context of this Theme (i.e. this is not a system wide unique id).
+	 **/
+	function registerSP(& $sp, $postImportMethod) {
+		// ** parameter validation
+		$rule =& new ExtendsValidatorRule("StylePropertyInterface");
+		ArgumentValidator::validate($sp, $rule, true);
+		$rule =& new OptionalRule(new StringValidatorRule());
+		ArgumentValidator::validate($postImportMethod, $rule, true);
+		// ** end of parameter validation
+		
+		$this->_registeredSPs[] =& $sp;
+		$id = count($this->_registeredSPs) - 1;
+		
+		if (isset($postImportMethod))
+			$this->_postImportMethods[$id] = $postImportMethod;
+		
+		return $id;
+	}
+	
+	/**
+	 * Returns a <code> </code>previously registered by <code>registerSP()</code>
+	 * for the given id.
+	 * @access public
+	 * @param integer id The id identifying which StyleProperty to return; as returned
+	 * by <code>registerSP()</code>.
+	 * @return ref object A <code>StylePorperty</code> object.
+	 **/
+	function &getRegisteredSP($id) {
+		// ** parameter validation
+		$rule =& new IntegerRangeValidatorRule(0, count($this->_registeredSPs) - 1);
+		ArgumentValidator::validate($sp, $rule, true);
+		// ** end of parameter validation
+			
+		return $this->_registeredSPs[$id];
+	}
+
+	
+	/**
+	 * This methods exports the content of a registered style property object. The
+	 * output is implementation specific. The only requirement is that if the output
+	 * of this method is passed as an input to <code>importRegisteredSP()</code>,
+	 * then the contents of the <code>StyleProperty</code> should not change.
+	 * @access public
+	 * @param integer id The id of the <code>StyleProperty</code> as returned
+	 * by <code>registerSP()</code>.
+	 * @return mixed The contens of the <code>StyleProperty</code>. The output
+	 * representation is implementation specific.
+	 **/
+	function exportRegisteredSP($id) {
+		// get the StylePorperty
+		$sp =& $this->getRegisteredSP($id);
+		
+		// now get its StyleComponents
+		$scs =& $sp->getSCs();
+		
+		// this is the export data - simply an array storing the values
+		// of each style component
+		$exportData = array();
+		foreach (array_keys($scs) as $i => $key)
+			$exportData[] = $scs[$key]->getValue();
+			
+		return $exportData;
+	}
+	
+	
+	/**
+	 * This method is like <code>exportRegisteredSP</code> but exports all
+	 * registered stlye properties at the same time. The output is an array
+	 * whose elements are the inividual export data as returned by <code>exportRegisteredSP</code>.
+	 * @access public
+	 * @return array An array containing the export data for each registered
+	 * <code>StylePorperty</code>. The indexes of the array are the ids of the 
+	 * style properties.
+	 **/
+	function exportAllRegisteredSPs() {
+		// the export data array
+		$exportData = array();
+		
+		// export each registered style property and put in the array
+		foreach (array_keys($this->_registeredSPs) as $i => $key)
+			$exportData[$key] = $this->exportRegisteredSP($key);
+			
+		return $exportData;
+	}
+
+
+	/**
+	 * Imports the contents of a registered mutable <code>StyleProperty</code>.
+	 * The input to this method should be an output obtained from calling
+	 * <code>exportRegisteredSP</code> on the same <code>StyleProperty</code>.
+	 * @access public
+	 * @param integer id The id of the <code>StyleProperty</code> as returned
+	 * by <code>registerSP()</code>.
+	 * @param mixed importData The contens of the <code>StyleProperty</code> as exported by
+	 * <code>exportRegisteredSP()</code>.
+	 * @return ref object The updated <code>StyleProperty</code> object.
+	 **/
+	function &importRegisteredSP($id, $importData) {
+		// ** parameter validation
+		$rule =& new ArrayValidatorRule();
+		ArgumentValidator::validate($importData, $rule, true);
+		// ** end of parameter validation
+		
+		// first, get the style property and its style components
+		$sp =& $this->getRegisteredSP($id);
+		$scs =& $sp->getSCs();
+		
+		// if the number of style components is different from the number
+		// of elements in the importData array, then it's no good!
+		if (count($importData) != count($scs)) {
+		    $err = "Invalid import data or invalid style property id!";
+			throwError(new Error($err, "GUIManager", true));
+			return;
+		}
+		
+		// now set the value of each style component
+		foreach (array_keys($importData) as $i => $key)
+			$scs[$key]->setValue($importData[$key]);
+			
+		// now see if there is a post import method set for this style property
+		// if yes, run it
+		if (isset($this->_postImportMethods[$id]))
+			$this->{$this->_postImportMethods[$id]}();
+			
+		return $sp;	
+	}
+	
+	
+	/**
+	 * Returns all registered mutable style properties in an array whose indexes are the
+	 * ids of the style properties (as returned by <code>registerSP()</code>).
+	 * @access public
+	 * @param 
+	 * @return ref array An array containing all registered mutable 
+	 * <code>StyleProperty</code> objects.
+	 **/
+	function &getAllRegisteredSPs() {
+		return $this->_registeredSPs;
 	}
 	
 }

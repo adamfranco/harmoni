@@ -2,13 +2,17 @@
 
 require_once(HARMONI."GUIManager/Theme.class.php");
 require_once(HARMONI."GUIManager/StyleCollection.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/ColorSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/BackgroundColorSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ThemesTestCase.class.php,v 1.2 2004/07/26 23:23:31 dobomode Exp $
+ * @version $Id: ThemesTestCase.class.php,v 1.3 2005/01/17 05:03:36 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -80,6 +84,40 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
 			$this->assertIdentical($theme->getPostHTMLForComponentType(BLOCK, 1), "");
 
 //			$theme->printPage();
+		}
+		
+		// test registering and exporting sps
+		function test_register_sps() {
+			$theme =& new Theme("Master", "And Servant");
+
+			$sp1 =& new BackgroundColorSP("#FFFCF0");
+			$id1 = $theme->registerSP($sp1);
+			$sp2 =& new ColorSP("#2E2B33");
+			$id2 = $theme->registerSP($sp2);
+			$sp3 =& new FontSP("Verdana", "10pt");
+			$id3 = $theme->registerSP($sp3, "getAllRegisteredSPs");
+			
+			$this->assertReference($sp1, $theme->getRegisteredSP($id1));
+			$this->assertReference($sp2, $theme->getRegisteredSP($id2));
+			$this->assertReference($sp3, $theme->getRegisteredSP($id3));
+			
+			$exportData1 = $theme->exportRegisteredSP($id1);
+			$this->assertIdentical($exportData1, array("#FFFCF0"));
+			$exportData2 = $theme->exportRegisteredSP($id2);
+			$this->assertIdentical($exportData2, array("#2E2B33"));
+			$exportData3 = $theme->exportRegisteredSP($id3);
+			$this->assertIdentical($exportData3, array("10pt", "Verdana"));
+		
+			$exportData4 = $theme->exportAllRegisteredSPs();
+			$this->assertIdentical($exportData4, array($id1 => $exportData1, 
+													   $id2 => $exportData2, 
+													   $id3 => $exportData3));
+													   
+			$sp3_copy = $sp3;
+			$theme->importRegisteredSP($id3, $exportData3);
+			$this->assertIdentical($sp3, $sp3_copy);
+
+
 		}
 	
 		
