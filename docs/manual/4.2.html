@@ -36,6 +36,12 @@
 <div class='toc'>
 4.2.2 <a href='4.2.html#Throwinganewerror'>Throwing a new error</a><br/>
 </div>
+<div class='toc'>
+4.2.3 <a href='4.2.html#WrapperfunctionsthrowErroranduserError'>Wrapper functions throwError and userError</a><br/>
+</div>
+<div class='toc'>
+4.2.4 <a href='4.2.html#PrintingErrors'>Printing Errors</a><br/>
+</div>
 </div>
 		</td>
 		<td>&nbsp;</td>
@@ -56,6 +62,17 @@
 </code></div></div>
 <p><p>Both of the above methods do exactly the same thing. The advantage of using the second would be to create your own custom Error classes, for example to output common text with only one changing parameter (like, new EmptyFieldError(&quot;myFieldName&quot;) would print &quot;You forgot to enter required information for myFieldName.&quot;).</p></p>
 <p><p>The arguments: 1 = the error string, 2 = a category (whatever you want), 3 = is the error fatal? (fatal errors stop program execution)</p></p>
+</div>
+<div class='inlinetitle'>4.2.3 <a name='WrapperfunctionsthrowErroranduserError'>Wrapper functions throwError and userError</a></div>
+<div class='section'>
+<p><p>Provided are two error handler wrapper functions. Both work identically but on different services, mentioned above. throwError() will throw an error to the <b>ErrorHandler</b> Serivce, whereas userError() will throw to <b>UserError</b>.</p></p>
+<div class='padding'><div class='notetitle'>Example</div><div class='example'><code><font color="#000000">
+<font color="#0000BB"></font><font color="#FF8000">// throw an error to ErrorHandler<br /></font><font color="#0000BB">throwError</font><font color="#007700">( new </font><font color="#0000BB">Error</font><font color="#007700">(</font><font color="#DD0000">"AAAAAAH! Something went very wrong! Aborting..."</font><font color="#007700">,</font><font color="#DD0000">"DB-API"</font><font color="#007700">,</font><font color="#0000BB">true</font><font color="#007700">) );<br /><br /></font><font color="#FF8000">// or to UserError<br /></font><font color="#0000BB">userError</font><font color="#007700">( new </font><font color="#0000BB">Error</font><font color="#007700">(</font><font color="#DD0000">"You didn't enter your name in the form!"</font><font color="#007700">,</font><font color="#DD0000">"user"</font><font color="#007700">,</font><font color="#0000BB">false</font><font color="#007700">) );<br /></font>
+</font>
+</code></div></div>
+</div>
+<div class='inlinetitle'>4.2.4 <a name='PrintingErrors'>Printing Errors</a></div>
+<div class='section'>
 </div>
 </div>		
 		<!-- bottom nav bar -->

@@ -5,7 +5,7 @@
 	<name>Database Handler</name>
 	<section>
 		<name>Introduction</name>
-		<title>Background</title>
+		<heading>Background</heading>
 		<p>The Database Handler is probably the most complex classes/Services offered by Harmoni. The Harmoni DB Handler offers a way to interface with databases of different kinds using <b>identical</b> PHP code. This is something that is not found any <b>any other</b> database wrapper out there.
 		Many other wrappers claim to be database-independent, but the reality is that every database has its little quirks. While most claim to conform to ANSI SQL, this is only the truth on a very basic level. Any database will support the statement:</p>
 		
@@ -15,7 +15,7 @@
 		
 		<p>The Harmoni DB Handler solves this problem with but one minor setback: You can't use data-base specific functions (ie, a function only offered by one DB type). But, you can promise your clients a high level of interoperability and ease of integration. Why limit your target audience to only those that use MySQL when you could target MySQL, Oracle, Microsoft SQL Server and others?</p>
 		
-		<title>How we do it</title>
+		<heading>How we do it</heading>
 		<p>The DB Handler employs the use of "query objects" instead of having the programmer actually write SQL statements like every other wrapper we've come accross.</p>
 		
 		<p>For any query to the database, you instantiate an object and set up your query through class functions. All the query information is stored in a universal format in the query object until told to send to a specific database, at which point database-specific SQL is generated. This allows you to write your program even before you have decided what back-end to use. Cool.</p>
