@@ -5,7 +5,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
 /**
  * A OracleQueryGenerator class provides the tools to build a Oracle query from a Query object.
  *
- * @version $Id: Oracle_SQLGenerator.class.php,v 1.2 2004/04/21 17:55:27 adamfranco Exp $
+ * @version $Id: Oracle_SQLGenerator.class.php,v 1.3 2004/05/20 20:45:58 nstamato Exp $
  * @package harmoni.dbc.oracle
  * @copyright 2003 
  */
@@ -203,6 +203,9 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 						case _OR :
 							$sql .= "\n\t\tOR";
 							break;
+						case _XOR :
+							$sql .= "\n\t\tXOR";
+							break;	
 						default:
 							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
 					} // switch
@@ -257,6 +260,9 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 						case _OR :
 							$sql .= "\n\t\tOR";
 							break;
+						case _XOR :
+							$sql .= "\n\t\tXOR";
+							break;	
 						default:
 							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
 					} // switch
@@ -383,6 +389,9 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 						case _OR :
 							$sql .= "\n\t\tOR";
 							break;
+						case _XOR :
+							$sql .= "\n\t\tXOR";
+							break;	
 						default:
 							throwError(new Error("Unsupported logical operator!", "DBHandler", true));				;
 					} // switch

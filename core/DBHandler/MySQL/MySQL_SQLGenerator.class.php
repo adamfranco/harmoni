@@ -6,7 +6,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  *
- * @version $Id: MySQL_SQLGenerator.class.php,v 1.5 2004/05/07 19:22:06 dobomode Exp $
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.6 2004/05/20 20:45:58 nstamato Exp $
  * @package harmoni.dbc.mysql
  * @copyright 2003 
  */
@@ -196,6 +196,9 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 						case _OR :
 							$sql .= "\n\t\tOR";
 							break;
+						case _XOR :
+							$sql .= "\n\t\tXOR";
+							break;	
 						default:
 							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
 					} // switch
@@ -250,6 +253,9 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 						case _OR :
 							$sql .= "\n\t\tOR";
 							break;
+						case _XOR :
+							$sql .= "\n\t\tXOR";
+							break;	
 						default:
 							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
 					} // switch
@@ -375,6 +381,9 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 						case _OR :
 							$sql .= "\n\t\tOR";
 							break;
+						case _XOR :
+							$sql .= "\n\t\tXOR";
+							break;	
 						default:
 							throwError(new Error("Unsupported logical operator!", "DBHandler", true));				;
 					} // switch
