@@ -189,7 +189,7 @@ class HarmoniFunction extends FunctionInterface {
 		$where = "{$dbPrefix}.function_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$dbPrefix}.function_reference_name"));
-		$query->setValues(array("'$referenceName'"));
+		$query->setValues(array("'".addslashes($referenceName)."'"));
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -230,7 +230,7 @@ class HarmoniFunction extends FunctionInterface {
 		$where = "{$dbPrefix}.function_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$dbPrefix}.function_description"));
-		$query->setValues(array("'$description'"));
+		$query->setValues(array("'".addslashes($description)."'"));
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)

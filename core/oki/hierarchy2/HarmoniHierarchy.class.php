@@ -20,7 +20,7 @@ require_once(HARMONI.'/oki/hierarchy2/DefaultNodeType.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchy.class.php,v 1.6 2004/06/22 15:23:08 dobomode Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.7 2004/07/29 16:00:48 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -149,7 +149,7 @@ class HarmoniHierarchy extends Hierarchy {
 		$where = "{$db}hierarchy.hierarchy_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$db}hierarchy.hierarchy_description"));
-		$query->setValues(array("'$description'"));
+		$query->setValues(array("'".addslashes($description)."'"));
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -194,7 +194,7 @@ class HarmoniHierarchy extends Hierarchy {
 		$where = "{$db}hierarchy.hierarchy_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$db}hierarchy.hierarchy_display_name"));
-		$query->setValues(array("'$displayName'"));
+		$query->setValues(array("'".addslashes($displayName)."'"));
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)

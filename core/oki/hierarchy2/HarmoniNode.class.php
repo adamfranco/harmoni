@@ -18,7 +18,7 @@ require_once(HARMONI."oki/hierarchy2/DefaultNodeType.class.php");
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.11 2004/07/07 15:09:12 dobomode Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.12 2004/07/29 16:00:48 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -222,7 +222,7 @@ class HarmoniNode extends Node {
 		$where = "{$db}node.node_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$db}node.node_description"));
-		$query->setValues(array("'$description'"));
+		$query->setValues(array("'".addslashes($description)."'"));
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -266,7 +266,7 @@ class HarmoniNode extends Node {
 		$where = "{$db}node.node_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$db}node.node_display_name"));
-		$query->setValues(array("'$displayName'"));
+		$query->setValues(array("'".addslashes($displayName)."'"));
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)

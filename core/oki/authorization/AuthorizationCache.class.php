@@ -6,7 +6,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.7 2004/07/29 15:39:40 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.8 2004/07/29 16:00:46 adamfranco Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -416,7 +416,7 @@ class AuthorizationCache {
 		$query->addTable($dbt);
 		$joinc = $dbt.".fk_type = ".$db.".type.type_id";
 		$query->addTable($db.".type", INNER_JOIN, $joinc);
-		$where = $dbt.".function_id = '$idValue'";
+		$where = $dbt.".function_id = '".addslashes($idValue."'";
 		$query->addWhere($where);
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -712,14 +712,14 @@ class AuthorizationCache {
 		if (isset($aId)) {
 			$joinc = $db."az_authorization.fk_agent = ".$db."agent.agent_id";
 			$query->addTable($db."agent", INNER_JOIN, $joinc);
-			$where = $db."az_authorization.fk_agent = '$aId'";
+			$where = $db."az_authorization.fk_agent = '".addslashes($aId)."'";
 			$query->addWhere($where);
 		}
 		// the function criteria
 		if (isset($fId)) {
 			$joinc = $db."az_authorization.fk_function = ".$db."az_function.function_id";
 			$query->addTable($db."az_function", INNER_JOIN, $joinc);
-			$where = $db."az_authorization.fk_function = '$fId'";
+			$where = $db."az_authorization.fk_function = '".addslashes($fId)."'";
 			$query->addWhere($where);
 		}
 		// the function type criteria
@@ -737,11 +737,11 @@ class AuthorizationCache {
 			$authority = $fType->getAuthority();
 			$keyword = $fType->getKeyword();
 			
-			$where = $db."type.type_domain = '$domain'";
+			$where = $db."type.type_domain = '".addslashes($domain)."'";
 			$query->addWhere($where);
-			$where = $db."type.type_authority = '$authority'";
+			$where = $db."type.type_authority = '".addslashes($authority)."'";
 			$query->addWhere($where);
-			$where = $db."type.type_keyword = '$keyword'";
+			$where = $db."type.type_keyword = '".addslashes($keyword)."'";
 			$query->addWhere($where);
 		}
 		// the isActiveNow criteria

@@ -93,7 +93,7 @@ class HarmoniGroup // :: API interface
 		$where = "{$db}groups.groups_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$db}groups.groups_description"));
-		$query->setValues(array("'$description'"));
+		$query->setValues(array("'".addslashes($description)."'"));
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
