@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.3 2005/03/04 22:22:45 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.4 2005/03/04 23:17:45 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/LDAPConnector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.3 2005/03/04 22:22:45 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.4 2005/03/04 23:17:45 adamfranco Exp $
  */
 class LDAPAuthNMethod
 	extends AuthNMethod
@@ -101,33 +101,19 @@ class LDAPAuthNMethod
 	function _populateProperties ( &$authNTokens, &$properties ) {
 		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
 		
-		if ($propertiesFields === NULL)
-			return;
-		
-		$propertiesFieldsKeys =& $propertiesFields->getKeys();
-		
-		// if we aren't looking for any properties from the database, don't 
-		// bother running a query.
-		if (!$propertiesFieldsKeys->hasNextObject())
+		if (!is_array($propertiesFields) || !count($propertiesFields))
 			return;
 		
 		$fieldsToFetch = array();
-		
-		while ($propertiesFieldsKeys->hasNextObject()) {
-			$propertyKey = $propertiesFieldsKeys->nextObject();
-			$propertyFieldName = $propertiesFields->getProperty($propertyKey);
-			$fieldsToFetch[] = $propertyFieldName;
+		foreach ($propertiesFields as $propertyName => $fieldName) {
+			$fieldsToFetch[] = $fieldName;
 		}
 		
 		$info = $this->_connector->getInfo($authNTokens->getUsername(), $fieldsToFetch);
 		
 		if ($info) {
-			$propertiesFieldsKeys =& $propertiesFields->getKeys();
-			while ($propertiesFieldsKeys->hasNextObject()) {
-				$propertyKey = $propertiesFieldsKeys->nextObject();
-				$propertyFieldName = $propertiesFields->getProperty($propertyKey);
-
-				$properties->addProperty($propertyKey, $info[$propertyFieldName]);
+			foreach ($propertiesFields as $propertyName => $fieldName) {
+				$properties->addProperty($propertyName, $info[$fieldName]);
 			}	
 		} else
 			return;
@@ -152,21 +138,18 @@ class LDAPAuthNMethod
 	function &getTokensBySearch ( $searchString ) {
 		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
 				
-		if ($propertiesFields !== NULL) {
-			$propertiesFieldsKeys =& $propertiesFields->getKeys();
-			
+		if (is_array($propertiesFields) && count($propertiesFields)) {
+					
 			$filter = "(|";
-			while ($propertiesFieldsKeys->hasNextObject()) {
-				$propertyKey = $propertiesFieldsKeys->nextObject();
-				$propertyFieldName = $propertiesFields->getProperty($propertyKey);
-				
-				$filter .= " (".$propertyFieldName."=".$searchString.")";
+			foreach ($propertiesFields as $propertyName => $fieldName) {
+				$filter .= " (".$fieldName."=".$searchString.")";
 			}
-			
 			$filter .= ")";
-		}
+			
+			$dns = $this->_connector->getDNsBySearch($filter);
+		} else 
+			$dns = array();
 
-		$dns = $this->_connector->getDNsBySearch($filter);
 		$tokens = array();
 		foreach ($dns as $dn) {
 			$tokens[] =& $this->createTokensForIdentifier($dn);
