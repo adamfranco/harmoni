@@ -19,7 +19,7 @@ require_once(HARMONI."oki/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.25 2005/01/19 23:23:01 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.26 2005/01/20 18:26:42 gabeschine Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager // :: API interface
@@ -377,6 +377,7 @@ class HarmoniAuthenticationManager
 				$properties =& new HarmoniProperties($propertiesType);
 				
 				// Populate its properties if we can find any.
+				if (!Services::serviceRunning("AgentInformation")) Services::startService("AgentInformation");
 				$agentInfoHandler =& Services::getService("AgentInformation");
 				$info =& $agentInfoHandler->getAgentInformation($tokens, FALSE);
 				
