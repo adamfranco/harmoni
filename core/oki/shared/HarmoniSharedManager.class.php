@@ -39,7 +39,7 @@ require_once(HARMONI."oki/shared/AgentSearches/AncestorGroupSearch.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.53 2004/12/01 22:00:40 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.54 2004/12/02 17:16:07 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -678,6 +678,68 @@ class HarmoniSharedManager
 		
 		$result =& new HarmoniTypeIterator($types);
 		return $result;
+	}
+	
+	/**
+	 * Return TRUE if the Id specified corresponds to an agent.
+	 * WARNING: This method is not part of the OSIDs as of Version 2.0
+	 *
+	 * @param object osid.shared.Id agentId
+	 *
+	 * @return boolean
+	 */
+	function isAgent(& $id) {
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("Id");
+		ArgumentValidator::validate($id, $extendsRule, true);
+		// ** end of parameter validation
+
+		// get the id
+		$idValue = $id->getIdString();
+		
+		// check the cache
+		if (isset($this->_agentsCache[$idValue]))
+			return TRUE;
+			
+		$where = $db."agent.agent_id = '".addslashes($idValue)."'";
+
+		$this->_loadAgents($where);
+		
+		if (isset($this->_agentsCache[$idValue]))
+			return TRUE;
+		
+		return FALSE;
+	}
+	
+	/**
+	 * Return TRUE if the Id specified corresponds to an group.
+	 * WARNING: This method is not part of the OSIDs as of Version 2.0
+	 *
+	 * @param object osid.shared.Id agentId
+	 *
+	 * @return boolean
+	 */
+	function isGroup(& $id) {
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("Id");
+		ArgumentValidator::validate($id, $extendsRule, true);
+		// ** end of parameter validation
+
+		// get the id
+		$idValue = $id->getIdString();
+		
+		// check the cache
+		if (isset($this->_groupsCache[$idValue]))
+			return TRUE;
+			
+		$where = $db."groups.groups_id = '".addslashes($idValue)."'";
+
+		$this->_loadGroups($where);
+		
+		if (isset($this->_groupsCache[$idValue]))
+			return TRUE;
+		
+		return FALSE;
 	}
 
 	/**
