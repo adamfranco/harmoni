@@ -44,7 +44,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.14 2005/01/27 15:45:39 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.15 2005/01/27 15:58:55 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -303,7 +303,7 @@ class HarmoniRepository
 		$newId =& $IDManager->createId();
 		
 		// Add this DR's root node to the hierarchy.
-		$node =& $this->_hierarchy->createNode($newId, $respositoryId, $assetType, $displayName, $description);
+		$node =& $this->_hierarchy->createNode($newId, $repositoryId, $assetType, $displayName, $description);
 		
 		// Create the asset with its new ID and cache it.
 		$this->_createdAssets[$newId->getIdString()] =& new HarmoniAsset($this->_hierarchy, $this, $newId, $this->_configuration);

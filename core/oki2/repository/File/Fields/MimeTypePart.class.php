@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: MimeTypePart.class.php,v 1.2 2005/01/26 16:10:56 thebravecowboy Exp $
+ * @version $Id: MimeTypePart.class.php,v 1.3 2005/01/27 15:58:58 adamfranco Exp $
  */
 class MimeTypePart extends Part
 //	extends java.io.Serializable
@@ -145,7 +145,7 @@ class MimeTypePart extends Part
 	 */
 	function &getParts() {
 		throwError(
-			new Error(RespositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**

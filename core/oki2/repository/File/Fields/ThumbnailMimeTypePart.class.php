@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailMimeTypePart.class.php,v 1.3 2005/01/26 22:44:11 adamfranco Exp $
+ * @version $Id: ThumbnailMimeTypePart.class.php,v 1.4 2005/01/27 15:58:58 adamfranco Exp $
  */
 class ThumbnailMimeTypePart extends Part
 //	extends java.io.Serializable
@@ -145,7 +145,7 @@ class ThumbnailMimeTypePart extends Part
 	 */
 	function &getParts() {
 		throwError(
-			new Error(RespositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	

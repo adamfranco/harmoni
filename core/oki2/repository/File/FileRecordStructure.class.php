@@ -272,7 +272,7 @@ class HarmoniFileRecordStructure extends RecordStructure
 	 * @return object PartStructure The newly created PartStructure.
 	 */
 	function createPartStructure($displayName, $description, & $partStructureType, $isMandatory, $isRepeatable, $isPopulatedByRepository) {
-		throwError(new Error(RespositoryException::UNIMPLEMENTED(), "Repository :: FileRecordStructure", TRUE));
+		throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Repository :: FileRecordStructure", TRUE));
 	}
 
 	/**
