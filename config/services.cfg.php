@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.31 2004/08/12 20:21:15 gabeschine Exp $
+* @version $Id: services.cfg.php,v 1.32 2004/10/22 21:58:45 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -57,6 +57,9 @@ if (!defined("LOAD_LANG")) 			define("LOAD_LANG", true);
 
 // functionality affected: Sets
 if (!defined("LOAD_SETS")) 			define("LOAD_SETS", true);
+
+// functionality affected: ImageProcessing
+if (!defined("LOAD_IMAGEPROCESSOR")) 		define("LOAD_IMAGEPROCESSOR", true);
 
 /**
 * USER DEFINED SERVICES
@@ -188,6 +191,12 @@ if (LOAD_LANG) {
 if (LOAD_SETS) {
 	require_once(HARMONI."sets/SetManager.class.php");
 	Services::registerService("Sets","SetManager");
+}
+
+// load the Sets service
+if (LOAD_IMAGEPROCESSOR) {
+	require_once(HARMONI."ImageProcessor/ImageProcessor.class.php");
+	Services::registerService("ImageProcessor", "ImageProcessor");
 }
 
 ?>
