@@ -13,7 +13,7 @@ define ("RIGHT", "right");
  * holds any number of components of different types.
  *
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.3 2004/03/01 15:48:36 adamfranco Exp $
+ * @version $Id: Layout.abstract.php,v 1.4 2004/03/01 19:32:26 adamfranco Exp $
  * @copyright 2003 
  * @abstract
  **/
@@ -30,6 +30,18 @@ class Layout extends LayoutInterface {
 	 * @var array $_setComponents Holds a list of components that have values (objects) assigned to them.
 	 **/
 	var $_setComponents;
+	
+	/**
+	 * @access private
+	 * @var array $_verticalAlignments Holds an array of what alignments pertain to each index.
+	 **/
+	var $_verticalAlignments;
+	
+	/**
+	 * @access private
+	 * @var array $_horizontalAlignments Holds an array of what alignments pertain to each index.
+	 **/
+	var $_horizontalAlignments;
 	
 	/**
 	 * @access private
@@ -97,8 +109,8 @@ class Layout extends LayoutInterface {
  		if ($halign != LEFT && $halign != CENTER && $halign != RIGHT)
  			throwError(new Error(get_class($this)."::setComponent($index $object, $valign, $halign) - Could not set horizontal alignment, parameter out of range.","layout",true));
 			
-		$this->_valign = $valign;
-		$this->_halign = $halign;
+		$this->_verticalAlignments[$index] = $valign;
+		$this->_horizontalAlignments[$index] = $halign;
 	}
 	
 	/**
