@@ -8,7 +8,7 @@
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.3 2003/06/18 20:33:18 adamfranco Exp $
+ * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.4 2003/06/18 22:27:46 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -93,7 +93,7 @@
 			$this->query->setTable($table);
 			$this->query->setColumns($columns);
 			$this->query->setValues($values);
-			$this->query->setCondition($condition);
+			$this->query->setWhere($condition);
 			
 
 			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk',\n\tuser_fname = 'Dobo',\n\tuser_id = 5\nWHERE\n\tuser_id = 3\n";
@@ -117,7 +117,7 @@
 			$this->query->setTable($table);
 			$this->query->setColumns($columns);
 			$this->query->setValues($values);
-			$this->query->setCondition($condition);
+			$this->query->setWhere($condition);
 			$this->query->reset();
 
 			$sqlFromObject = $this->query->generateSQLQuery();
@@ -133,7 +133,7 @@
 			$this->query->setTable($table);
 			$this->query->setColumns($columns);
 			$this->query->setValues($values);
-			$this->query->setCondition($condition);
+			$this->query->setWhere($condition);
 
 			$sqlFromObject = $this->query->generateSQLQuery();
 			$this->assertEqual("Exception", $sqlFromObject);

@@ -8,14 +8,15 @@
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.2 2003/06/18 20:33:18 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.3 2003/06/18 22:27:46 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
 
     class MySQLSelectQueryTestCase extends UnitTestCase {
 	
-
+		var $query;
+	
 		function MySQLSelectQueryTestCase() {
 			$this->UnitTestCase();
 		}
@@ -27,6 +28,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
+			$this->query =& new MySQLSelectQuery();
         }
 		
         /**
@@ -35,13 +37,87 @@
          */
         function tearDown() {
 			// perhaps, unset $obj here
+			unset($this->query);
         }
 
 		/**
-		 *    
+		 * Tests a simple SELECT with one column and table. No WHERE, ORDER BY, GROUP BY, etc.
 		 */ 
-        function test() {
+        function test_One_Table_And_One_Column_No_Other_Clauses_No_Joins() {
+			$table = "person";
+			$columns = array("user_id");
+
+			$this->query->reset();
+			$this->query->addTable($table, NO_JOIN);
+			$this->query->setColumns($columns);
+
+			$sql = "SELECT\n\tuser_id\nFROM\n\tperson\n";
+	
+			$sqlFromObject = $this->query->generateSQLQuery();
+			$this->assertEqual($sql, $sqlFromObject);
+		}
+		
+		/**
+		 * Tests a simple SELECT with multiple columns and tables. No WHERE, ORDER BY, GROUP BY, etc.
+		 */ 
+        function test_Many_Tables_And_Many_Columns_No_Other_Clauses_No_Joins() {
+			$columns = array("user_id", "user_uname as username", "COUNT(*)");
+
+			$this->query->reset();
+			$this->query->setColumns($columns);
+			$this->query->addTable("user", NO_JOIN);
+			$this->query->addTable("class", NO_JOIN);
+			$this->query->addTable("person", NO_JOIN);
+
+			$sql = "SELECT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM\n\tuser,\n\tclass,\n\tperson\n";
+	
+			$sqlFromObject = $this->query->generateSQLQuery();
+			$this->assertEqual($sql, $sqlFromObject);
+		}
+		
+		/**
+		 * Tests a simple SELECT with multiple columns and tables including WHERE, ORDER BY, and GROUP BY clauses.
+		 */ 
+        function test_Many_Tables_And_Many_Columns_All_Clauses_No_Joins() {
+			$this->query->reset();
+			$this->query->setColumns(array("user_id", "user_uname as username", "COUNT(*)"));
+			$this->query->addTable("user", NO_JOIN);
+			$this->query->addTable("class", NO_JOIN);
+			$this->query->addTable("person", NO_JOIN);
+			$this->query->setWhere("user_id = 5");
+			$this->query->setGroupBy(array("user_id", "user_sex"), "user_age = 38");
+			$this->query->setOrderBy(array("user_lname", "user_fname"), ASCENDING);
 			
+			$sql = "SELECT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM\n\tuser,\n\tclass,\n\tperson\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname,\n\tuser_fname\n\tASC\n";
+	
+			$sqlFromObject = $this->query->generateSQLQuery();
+			$this->assertEqual($sql, $sqlFromObject);
+		}
+		
+		/**
+		 * Tests a SELECT with joins, and multiple columns and tables including WHERE, ORDER BY, and GROUP BY clauses.
+		 */ 
+        function test_Many_Tables_And_Many_Columns_All_Clauses_All_Joins() {
+			$this->query->reset();
+			$this->query->setColumns(array("user_id", "user_uname as username", "COUNT(*)"));
+			$this->query->addTable("user", NO_JOIN);
+			$this->query->addTable("class", INNER_JOIN, "user.user_weight = class.class_id");
+			$this->query->addTable("person", NO_JOIN);
+			$this->query->addTable("tree", LEFT_JOIN, "person.person_id = tree.tree_height - 10");
+			$this->query->addTable("bush", RIGHT_JOIN, "tree.tree_leaves = 3000");
+			$this->query->addTable("sand", NO_JOIN);
+			$this->query->setWhere("user_id = 5");
+			$this->query->setGroupBy(array("user_id", "user_sex"), "user_age = 38");
+			$this->query->setOrderBy(array("user_lname", "user_fname"), ASCENDING);
+			$this->query->setDistinct(true);
+			//$this->query->limitNumberOfRows(100);
+			//$this->query->displayStartingFromRow(10);
+			
+			$tables = "\n\tuser\n\t\tINNER JOIN\n\tclass\n\t\tON user.user_weight = class.class_id,\n\tperson\n\t\tLEFT JOIN\n\ttree\n\t\tON person.person_id = tree.tree_height - 10\n\t\tRIGHT JOIN\n\tbush\n\t\tON tree.tree_leaves = 3000,\n\tsand";
+			$sql = "SELECT DISTINCT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM{$tables}\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname,\n\tuser_fname\n\tASC\n";
+	
+			$sqlFromObject = $this->query->generateSQLQuery();
+			$this->assertEqual($sql, $sqlFromObject);
 		}
 		
     }

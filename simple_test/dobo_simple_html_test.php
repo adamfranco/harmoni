@@ -37,7 +37,7 @@
             $breadcrumb = $this->getTestList();
             array_shift($breadcrumb);
             print implode("-&gt;", $breadcrumb);
-            print "-&gt;<span class=\"message\">$message</span></div>\n";
+            print "-&gt;<span class=\"message\"><pre>$message</pre></span></div>\n";
         }
         
         /**

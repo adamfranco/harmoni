@@ -8,7 +8,7 @@
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: MySQLDeleteQueryTestCase.class.php,v 1.2 2003/06/18 20:33:18 adamfranco Exp $
+ * @version $Id: MySQLDeleteQueryTestCase.class.php,v 1.3 2003/06/18 22:27:46 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -65,7 +65,7 @@
 
 			$this->query->reset();
 			$this->query->setTable($table);
-			$this->query->setCondition($condition);
+			$this->query->setWhere($condition);
 
 			$sql = "DELETE\nFROM\n\tperson\nWHERE\n\tuser_uname = 'dradichk'\n";
 	
@@ -84,7 +84,7 @@
 
 			$this->query->reset();
 			$this->query->setTable($table);
-			$this->query->setCondition($condition);
+			$this->query->setWhere($condition);
 			$this->query->reset();
 
 			$sqlFromObject = $this->query->generateSQLQuery();
