@@ -285,6 +285,33 @@ class GUIManager {
 		}
 		
 		
+		
+		/**
+		 *Create a theme with a displayname and a description
+		 * @param string $displayName The displayName of the new theme
+		 * @param string $description The description of the new theme
+		 * @return integer $themeId The id of the new theme created
+		 * @access public
+		 */
+		
+		function createTheme($displayName, $description)
+		{
+			
+			$query =& new InsertQuery;
+			$query->setTable("Themes");
+			$query->setColumns(array("displayname","description"));
+			$query->addRowOfValues(array("'$displayName'","'$description'"));
+			$result =& $this->_dbHandler->query($query, $this->_dbIndex);
+			
+			$themeId= $result->getLastAutoIncrementValue();
+			return $themeId;
+			
+			
+		}
+		
+		
+		
+		
 			
 	/**
 	 * Creates a new styleComponent
@@ -350,6 +377,7 @@ class GUIManager {
 	 * @param integer $themeId The id of the theme that the styleProperty will belong to.
 	 * @param string $selector The selector of the StyleCollection that will contain the styleProperty.
 	 * @param string $styleProperty The styleProperty created.
+	 * @return integer $stylePropertyId The id of the new styleProperty created
 	 * @access public
 	 */
 		function createStyleProperty($themeId, $selector, $styleProperty){
@@ -405,6 +433,7 @@ class GUIManager {
 	 * @param string $displayName The displayName of the styleCollection
 	 * @param string $componentType The component Type of the styleCollection if applicable. NULL otherwise.
 	 * @param string $componentIndex The component Index if applicable. NULL otherwise.
+	 * @return integer $styleCollectionId The id of the new styleCollection created
 	 * @access public
 	 */
 		function createStyleCollection($themeId, $selector, $classSelector, $displayName, $description, $componentType="null", $componentIndex="null"){
