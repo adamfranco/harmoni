@@ -113,6 +113,7 @@ class HarmoniAuthenticationManager
 	function authenticateUser(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
+
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
@@ -125,7 +126,7 @@ class HarmoniAuthenticationManager
 		
 		// Assuming that we only have the LoginHandler as our authentication type,
 		// just use that to authenticate.
-		debug::output("AuthN->authenticateUser()");
+		debug::output("AuthN->authenticateUser(LoginHandler)", 8, "AuthN");
 		$loginState =& $this->_harmoni->LoginHandler->execute(TRUE);
 	}
 
