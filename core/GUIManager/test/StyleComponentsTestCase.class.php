@@ -27,13 +27,16 @@ require_once(HARMONI."GUIManager/StyleComponents/VerticalAlignSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/OverflowSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/MaxDimensionSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/TextSpacingSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/UrlSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/BackgroundRepeatSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/BackgroundAttachmentSC.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StyleComponentsTestCase.class.php,v 1.3 2004/07/16 15:16:12 tjigmes Exp $
+ * @version $Id: StyleComponentsTestCase.class.php,v 1.4 2004/08/09 02:58:36 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -253,6 +256,21 @@ require_once(HARMONI."GUIManager/StyleComponents/TextSpacingSC.class.php");
 
 			$sc =& new TextSpacingSC("12in");
 			$sc =& new TextSpacingSC("normal");
+
+			// ---------------------------------------------------
+
+			$sc =& new UrlSC("url(\"dads\"   )");
+
+			// ---------------------------------------------------
+
+			$sc =& new BackgroundRepeatSC("repeat");
+			$sc =& new BackgroundRepeatSC("repeat-x");
+			$sc =& new BackgroundRepeatSC("repeat-y");
+
+			// ---------------------------------------------------
+
+			$sc =& new BackgroundAttachmentSC("scroll");
+			$sc =& new BackgroundAttachmentSC("fixed");
 		}
 		
 		

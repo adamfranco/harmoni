@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * <br><br>
  * Each <code>Theme</code> has a single component (could be container) that will
  * be printed when <code>printPage()</code> is called.
- * @version $Id: Theme.class.php,v 1.3 2004/07/26 23:23:30 dobomode Exp $
+ * @version $Id: Theme.class.php,v 1.4 2004/08/09 02:58:30 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -158,9 +158,7 @@ class Theme extends ThemeInterface {
 	/**
 	 * Attaches to the Theme a style collection that will have a global effect
 	 * on the page look and feel. For example, this could be a style collection
-	 * affecting the <code>body</code> HTML element. IMPORTANT: The style collection
-	 * must not be applicable, i.e. its <code>canBeApplied()</code> method should
-	 * return <code>false</code>.
+	 * affecting the <code>body</code> HTML element.
 	 * @access public
 	 * @param ref object styleCollection The style collection to attach.
 	 **/
@@ -170,13 +168,6 @@ class Theme extends ThemeInterface {
 		ArgumentValidator::validate($styleCollection, $rule, true);
 		// ** end of parameter validation
 		
-		// the style collection must not be applicable
-		if ($styleCollection->canBeApplied()) {
-			$err = "Cannot add a global style collection that is applicable.";
-			throwError(new Error($err, "GUIManager", false));
-			return;
-		}
-
 		// check that this styleCollection hasn't been added already
 		if (!isset($this->_globalStyles[$styleCollection->getSelector()]))
 			$this->_globalStyles[$styleCollection->getSelector()] =& $styleCollection;
@@ -464,7 +455,9 @@ class Theme extends ThemeInterface {
 
 	/**
 	 * Returns all CSS code: The CSS code for the Theme, the various component types,
-	 * the theme component and all sub-components (if any).
+	 * the theme component and all sub-components (if any). Theme styles should come
+	 * first, followed by individual component's styles to allow the latter to take
+	 * precedence.
 	 * @access public
 	 * @param string tabs This is a string (normally a bunch of tabs) that will be
 	 * prepended to each text line. This argument is optional but its usage is highly 

@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * The <code>StyleComponent</code> (SC) is the most basic of the three building pieces
  * of CSS styles. It combines a CSS property value with a ValidatorRule to ensure that
  * the value follows a certain format.<br><br>
- * @version $Id: ColorSC.class.php,v 1.2 2004/07/19 23:59:51 dobomode Exp $
+ * @version $Id: ColorSC.class.php,v 1.3 2004/08/09 02:58:36 dobomode Exp $
  * @package harmoni.gui.scs
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS

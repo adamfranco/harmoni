@@ -50,13 +50,14 @@ require_once(HARMONI."GUIManager/StyleProperties/OverflowSP.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/FontSizeSP.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/FontFamilySP.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/FontWeightSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/BackgroundSP.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StylePropertiesTestCase.class.php,v 1.6 2004/07/26 23:23:31 dobomode Exp $
+ * @version $Id: StylePropertiesTestCase.class.php,v 1.7 2004/08/09 02:58:36 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -275,6 +276,11 @@ require_once(HARMONI."GUIManager/StyleProperties/FontWeightSP.class.php");
 		function test_font_weight_sp() {
 			$sp =& new FontWeightSP("bolder");
 			$this->assertIdentical($sp->getCSS(), "font-weight: bolder;");
+		}
+		
+		function test_background_sp() {
+			$sp =& new BackgroundSP("#231", "url('http://nowhere.gif')", "repeat-x", "scroll");
+			$this->assertIdentical($sp->getCSS(), "background: #231 url('http://nowhere.gif') repeat-x scroll;");
 		}
 	}
 

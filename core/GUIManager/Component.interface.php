@@ -67,7 +67,7 @@ define("OTHER", 13);
  * <code>Components</code> are the basic units that can be displayed on
  * the screen. The main method <code>render()</code> which renders the component 
  * on the screen.
- * @version $Id: Component.interface.php,v 1.4 2004/07/28 21:35:35 adamfranco Exp $
+ * @version $Id: Component.interface.php,v 1.5 2004/08/09 02:58:30 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -81,12 +81,14 @@ class ComponentInterface {
 	 * can have 0 or more style collections attached; each of the latter will
 	 * affect the appearance of the component. The uniqueness of the collections
 	 * is enforce by their selector  (i.e., you can't have two collections
-	 * with the same selector).
+	 * with the same selector). If a style collection has been registered with
+	 * the Theme for this Component's type and level, then the new style collection
 	 * @access public
 	 * @param ref object styleCollection The <code>StyleCollection</code> to add
 	 * to this component. 
+	 * @return ref object The style collection that was just added.
 	 **/
-	function addStyle($styleCollection) {
+	function & addStyle($styleCollection) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
