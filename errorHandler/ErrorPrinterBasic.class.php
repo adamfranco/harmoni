@@ -6,7 +6,7 @@ require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
  * An ErrorPrinter provides functionality to output Error objects in any way one's soul may desire.
  * to be used by the ErrorHandler
  *
- * @version $Id: ErrorPrinterBasic.class.php,v 1.3 2003/06/27 01:19:59 dobomode Exp $
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.4 2003/06/27 02:00:02 dobomode Exp $
  * @package harmoni.errorhandler
  * @copyright 2003
  * @access public
@@ -16,8 +16,9 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 
     /**
      * Outputs a queue of errors to any medium.
-     * Outputs a queue of errors to any medium.
-     * @param object Queue The queue of the errors to be printed
+     * Outputs a queue of errors to any medium. This function will call
+	 * printHeader() at the beginning and printFooter() at the end.
+     * @param object Queue $errors The queue of the errors to be printed
      * @param constant $detailLevel The level of detail when printing. Could be
 	 * LOW_LEVEL, MEDIUM_LEVEL or HIGH_LEVEL.
      * @access public
@@ -26,7 +27,10 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 		$result = "";
 		
 		// get header
-		$header = $this->printHeader();
+		$header = $this->printHeader($errors);
+
+		// be nice and rewind the error queue.
+		$errors->rewind();
 
 		/* We are assuming that only the last Error (first in the reversed queue) can be Fatal.*/
 		while($errors->hasNext()) {
@@ -42,11 +46,14 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 			$result .= $this->_printError(& $error, $printWithDetails);
 		}
 		
+		// be nice and rewind the error queue.
+		$errors->rewind();
+		
 		// print result
 		echo $result;
 		
 		// get footer
-		$footer = $this->printFooter();
+		$footer = $this->printFooter($errors);
 
 		// return everything that was printed
 		return $header.$result.$footer;
@@ -55,9 +62,10 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
     /**
      * Prints the header of the Error output.
      * Prints the header of the Error output. This function will be invoked before Errors  are printed.
+     * @param object Queue $errors The queue of the errors to be printed
      * @access public
      */
-    function printHeader() { 
+    function printHeader(& $errors) { 
 		$result = "\n<br>\n<b>ERRORS:</b><br><br>\n";
 		$result .= "<ul>";
 
@@ -69,10 +77,15 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
     /**
      * Prints the footer of the Error output.
      * Prints the footer of the Error output. This function will be invoked after Errors have been printed.
+     * @param object Queue $errors The queue of the errors to be printed
      * @access public
      */
-    function printFooter() {
+    function printFooter(& $errors) {
 		$result .= "</ul>";
+
+		$result .= "\nTotal: ";
+		$result .= $errors->getSize();
+		$result .= " errors.<br>\n";
 		
 		echo $result;
 		

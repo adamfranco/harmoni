@@ -3,7 +3,7 @@
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.interface.php,v 1.7 2003/06/26 23:36:50 gabeschine Exp $
+ * @version $Id: Queue.interface.php,v 1.8 2003/06/27 02:00:04 dobomode Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -11,6 +11,8 @@
 class QueueInterface {
 
 	/**
+	 * Add an object to the queue.
+	 * Add an object to the queue. The queue is automatically rewound at the end.
 	 * @param object $object The object to add to the queue.
 	 * @access public
 	 */

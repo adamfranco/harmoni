@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: QueueTestCase.class.php,v 1.10 2003/06/25 15:13:48 movsjani Exp $
+ * @version $Id: QueueTestCase.class.php,v 1.11 2003/06/27 02:00:04 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -65,11 +65,11 @@
 		}
 		
 		function testNext(){
-			$this->assertEqual($this->testQueue->_position,0);
+			$this->assertEqual($this->testQueue->_nextPosition,0);
 		
 			$object =& $this->testQueue->next();
 
-			$this->assertEqual($this->testQueue->_position,1);
+			$this->assertEqual($this->testQueue->_nextPosition,1);
 
 			
 			$this->assertReference($this->testObject,$object);
@@ -78,7 +78,7 @@
 			
 			$object =& $this->testQueue->next();
 			
-			$this->assertEqual($this->testQueue->_position,2);
+			$this->assertEqual($this->testQueue->_nextPosition,2);
 
 			
 			$this->assertFalse($this->testQueue->hasNext());
