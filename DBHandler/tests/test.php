@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.6 2003/07/15 15:29:51 dobomode Exp $
+ * @version $Id: test.php,v 1.7 2003/07/16 02:55:58 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -34,12 +34,18 @@
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLDatabaseTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLSelectQueryResultTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLInsertQueryResultTestCase.class.php');
+
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleDeleteQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleUpdateQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleInsertQueryTestCase.class.php');
+
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreDeleteQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreUpdateQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreInsertQueryTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreSelectQueryTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreDatabaseTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreInsertQueryResultTestCase.class.php');
+
     $test->addTestFile(HARMONI.'DBHandler/tests/DBHandlerTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
