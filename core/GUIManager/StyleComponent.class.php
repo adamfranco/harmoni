@@ -28,7 +28,7 @@ require_once(HARMONI."oki/shared/HarmoniIterator.class.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: StyleComponent.class.php,v 1.4 2005/01/03 20:50:07 adamfranco Exp $
+ * @version $Id: StyleComponent.class.php,v 1.5 2005/01/10 06:17:00 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -103,7 +103,7 @@ class StyleComponent extends StyleComponentInterface {
 	 **/
 	function StyleComponent($value, $rule, $options, $limitedToOptions, $errorDescription, $displayName, $description) {
 		if (isset($rule))
-			$this->_rule = $rule;
+			$this->_rule =& $rule;
 		else
 			$this->_rule =& new AlwaysTrueValidatorRule();
 
