@@ -6,7 +6,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.interface.php");
  * This is the building piece of the Tree data structure used for the backbone of the
  * hierarchy.
  * @access public
- * @version $Id: TreeNode.class.php,v 1.2 2004/05/12 22:31:48 dobomode Exp $
+ * @version $Id: TreeNode.class.php,v 1.3 2004/05/20 19:50:20 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -62,7 +62,7 @@ class TreeNode extends TreeNodeInterface
 	/**
 	 * Returns true if this TreeNode is among the children of the given node.
 	 * @access public
-	 * @param objcet node The node to start recursing from.
+	 * @param object node The node to start recursing from.
 	 * @return boolean True, if this TreeNode is among the children of <code>$node</code>.
 	 **/
 	function _checkForCycle(& $node) {
