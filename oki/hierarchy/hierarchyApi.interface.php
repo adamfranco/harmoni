@@ -1,5 +1,7 @@
 <?php
 
+require_once (OKI."/root/rootAPI.interface.php");
+
 class HierarchyManager
 	extends OsidManager
 { // begin HierarchyManager
@@ -27,19 +29,19 @@ class HierarchyManager
 
 
 // public static final int TRAVERSE_MODE_DEPTH_FIRST = 0xdf;
-define("TRAVERSE_MODE_DEPTH_FIRST",0xdf;);
+define("TRAVERSE_MODE_DEPTH_FIRST",0xdf);
 
 // public static final int TRAVERSE_MODE_BREADTH_FIRST = 0xbf;
-define("TRAVERSE_MODE_BREADTH_FIRST",0xbf;);
+define("TRAVERSE_MODE_BREADTH_FIRST",0xbf);
 
 // public static final int TRAVERSE_DIRECTION_UP = 0x01;
-define("TRAVERSE_DIRECTION_UP",0x01;);
+define("TRAVERSE_DIRECTION_UP",0x01);
 
 // public static final int TRAVERSE_DIRECTION_DOWN = 0x02;
-define("TRAVERSE_DIRECTION_DOWN",0x02;);
+define("TRAVERSE_DIRECTION_DOWN",0x02);
 
 // public static final int TRAVERSE_LEVELS_INFINITE = -1;
-define("TRAVERSE_LEVELS_INFINITE",-1;);
+define("TRAVERSE_LEVELS_INFINITE",-1);
 
 class Hierarchy
 	// extends java.io.Serializable    
@@ -76,16 +78,6 @@ class Hierarchy
 
 	// public osid.shared.Type & nodeType();
 	function & nodeType() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public String displayName();
-	function displayName() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public String description();
-	function description() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -151,26 +143,6 @@ class Hierarchy
 
 	// public TraversalInfoIterator & traverse();
 	function & traverse() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Id & startId();
-	function & startId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public int mode();
-	function mode() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public int direction();
-	function direction() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public int levels();
-	function levels() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 

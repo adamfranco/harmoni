@@ -8,7 +8,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.2 2003/10/08 21:14:48 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.3 2003/10/08 22:04:39 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -26,12 +26,13 @@ require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
 			// perhaps, initialize $obj here
 			print "<pre>";
 			
+			$nodeTypes = array();
+			$nodeTypes[] =& new GenericNodeType;
+			
 			// The id for each of these will be the initial number of the last part.
 			$this->hierarchy =& new HarmoniHierarchy(new HarmoniTestId, "Test Case Hierarchy",
 												"A Hierarchy for the HierarchyTestCase",
-												array(
-													new GenericNodeType
-												));
+												$nodeTypes);
         }
 		
         /**
@@ -46,16 +47,34 @@ require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
 
 		//--------------the tests ----------------------
 
-		function test_setdata_object_consistancy() {
-			$hierarchy =& $this->hierarchy;
+		function test_constructor() {
+			$id =& new HarmoniTestId;
+			$nodeTypes = array();
+			$nodeTypes[] =& new GenericNodeType;
+			
+			// The id for each of these will be the initial number of the last part.
+			$hierarchy =& new HarmoniHierarchy($id, "Test Case Hierarchy",
+												"A Hierarchy for the HierarchyTestCase",
+												$nodeTypes);
 			print_r($hierarchy);
 			
-			// make sure the object in the tree's data store is the actual one.
-/* 			$this->assertReference($tree2, $tree->data[2]); */
-/* 			 */
-/* 			// get the object back and check that it is referencing the origional. */
-/* 			$result =& $tree->getData(2); */
-/* 			$this->assertReference($tree2, $result); */
+			$returnedId =& $hierarchy->getId();
+			$this->assertReference($id,	$returnedId);
+			$this->assertTrue($id->isEqual($returnedId));
+			
+			$nodeTypesIterator =& $hierarchy->getNodeTypes();
+			$returnedNodeType =& $nodeTypesIterator->next();
+			$this->assertReference($nodeTypes[0], $returnedNodeType);
+			$this->assertTrue($nodeTypes[0]->isEqual($returnedNodeType));
+			
+			$this->assertEqual("Test Case Hierarchy",$hierarchy->getDisplayName());
+			$this->assertEqual("A Hierarchy for the HierarchyTestCase",$hierarchy->getDescription());
+			$hierarchy->updateDescription("My new Description");
+			$this->assertEqual("My new Description",$hierarchy->getDescription());
 		}
+
+		function test_node_creation () {
+			$this->assertEqual("Node creation","tested.");
+		}		
 
 	}

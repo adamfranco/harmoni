@@ -4,6 +4,7 @@ require_once(OKI."/hierarchy/hierarchyApi.interface.php");
 require_once(HARMONI.'/oki/hierarchy/HarmoniNode.class.php');
 require_once(HARMONI.'/oki/hierarchy/GenericNodeType.class.php');
 require_once(HARMONI.'/oki/hierarchy/Tree.php');
+require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
 
 
 /**
@@ -19,7 +20,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.9 $ / $Date: 2003/10/08 21:14:40 $
+ * @version $Revision: 1.10 $ / $Date: 2003/10/08 22:04:26 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -46,7 +47,7 @@ class HarmoniHierarchy
 	/**
 	 * @var object Tree $_tree A tree object.
 	 */
-	var $_tree = new Tree();
+	var $_tree = NULL;
 
 	/**
 	 * @var array $_nodeTypes Node types in this hierarchy.
@@ -72,6 +73,7 @@ class HarmoniHierarchy
 		$this->_id =& $id;
 		$this->_displayName = $displayName;
 		$this->_description = $description;
+		$this->_tree =& new Tree();
 		
 		foreach ($nodeTypes as $key => $val) {
 			$this->addNodeType($nodeTypes[$key]);
@@ -143,7 +145,7 @@ class HarmoniHierarchy
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function updateDescription(& $description) {
+	function updateDescription($description) {
 		// Check the arguments
 		ArgumentValidator::validate($description, new StringValidatorRule);
 				
@@ -564,5 +566,21 @@ class HarmoniHierarchy
 		$traversalInfoIterator =& new HarmoniTraversalInfoIterator($traversalInfoArray);
 		return $traversalInfoIterator;
 	}
+	
+	/**
+	 * Saves this object to persistable storage.
+	 * @access protected
+	 */
+	function save () {
+		
+	}
+	 
+	/**
+	 * Loads this object from persistable storage.
+	 * @access protected
+	 */
+	function load () {
+	
+	}	
 
 } // end Hierarchy
