@@ -120,9 +120,9 @@ CREATE TABLE shared_properties (
 
 CREATE TABLE shared_property (
   fk_properties int(10) unsigned NOT NULL auto_increment,
-  key varchar(255) NOT NULL default '',
-  value text NOT NULL,
-  PRIMARY KEY  (fk_properties,key)
+  property_key varchar(255) NOT NULL default '',
+  property_value text NOT NULL,
+  PRIMARY KEY  (fk_properties,property_key)
 ) TYPE=MyISAM;
 
 -- --------------------------------------------------------
