@@ -33,7 +33,7 @@ require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.2 $ / $Date: 2003/10/23 20:29:34 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.3 $ / $Date: 2003/10/24 17:57:09 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -238,7 +238,8 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & createId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		$id =& new HarmoniDatabaseId();
+		return $id;
 	}
 
 	/**

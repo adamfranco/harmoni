@@ -101,6 +101,8 @@ class DigitalRepositoryManager // :: API interface
 	 */
 	function & getAssets(& $digitalRepositories, & $searchCriteria, & $searchType) { /* :: interface :: */ }
 	// :: full java declaration :: public AssetIterator getAssets
+	
+	/**
 	 * Create in a DigitalRepository a copy of an Asset.  The Id, AssetType, and DigitalRepository for the new Asset is set by the implementation.  All InfoRecords are similarly copied.
 	 * @param digitalRepository
 	 * @param assetId
@@ -332,6 +334,8 @@ class DigitalRepository // :: API interface
 	 */
 	function & getAssetsBySearch(& $searchCriteria, & $searchType) { /* :: interface :: */ }
 	// :: full java declaration :: public AssetIterator getAssetsBySearch
+	
+	/**
 	 * Create in a copy of an Asset.  The Id, AssetType, and DigitalRepository for the new Asset is set by the implementation.  All InfoRecords are similarly copied.
 	 * @param asset
 	 * @return osid.shared.Id
@@ -531,6 +535,8 @@ class Asset // :: API interface
 	 */
 	function & InfoStructureIterator() { /* :: interface :: */ }
 	// :: full java declaration :: public InfoStructureIterator
+	
+	/**
 	 * Get the InfoStructure associated with this Asset's content.
 	 * @return InfoStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
@@ -538,6 +544,8 @@ class Asset // :: API interface
 	 */
 	function & InfoStructure() { /* :: interface :: */ }
 	// :: full java declaration :: public InfoStructure
+	
+	/**
 	 * Get the InfoRecord for this Asset that matches this InfoRecord Unique Id.
 	 * @param infoRecordId
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
