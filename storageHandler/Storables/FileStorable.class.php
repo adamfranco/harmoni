@@ -1,13 +1,13 @@
 <?php
 
-require_once(HARMONI.'StorageHandler/Storable.abstract.php');
+require_once(HARMONI.'storageHandler/Storable.abstract.php');
 
 /**
  * File Storable class provides functionality to create Storables
  * that are files (file uploads), images and such. To be used 
  * by the StorageMethod and StorageHandler.
  *
- * @version $Id: FileStorable.class.php,v 1.1 2003/06/30 14:17:27 adamfranco Exp $
+ * @version $Id: FileStorable.class.php,v 1.2 2003/06/30 15:41:56 adamfranco Exp $
  * @package harmoni.Storagehandler
  * @copyright 2003
  * @access public

@@ -1,19 +1,19 @@
 <?php
 
-require_once(HARMONI.'examlePackageDir/ExampleClass.class.php');
+require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StorableTestCase.class.php,v 1.1 2003/06/30 14:50:37 adamfranco Exp $
+ * @version $Id: FileStorableTestCase.class.php,v 1.1 2003/06/30 15:38:22 adamfranco Exp $
  * @copyright 2003 
  **/
 
-    class ExampleClassTestCase extends UnitTestCase {
+    class FileStorableTestCase extends UnitTestCase {
 	
-		function ExampleClassTestCase() {
+		function FileStorableTestCase() {
 			$this->UnitTestCase();
 		}
 	
