@@ -37,15 +37,16 @@ class HarmoniHierarchy
 		return $this->_displayName;
 	}
 
-	// public void updateDisplayName(String $displayName);
-	function updateDisplayName($displayName) {
-		// Check the arguments
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
-		
-		// update and save
-		$this->_displayName = $displayName;
-		$this->save();
-	}
+// no updateDisplayName in the Hierarchy OSID
+/* 	// public void updateDisplayName(String $displayName); */
+/* 	function updateDisplayName($displayName) { */
+/* 		// Check the arguments */
+/* 		ArgumentValidator::validate($displayName, new StringValidatorRule); */
+/* 		 */
+/* 		// update and save */
+/* 		$this->_displayName = $displayName; */
+/* 		$this->save(); */
+/* 	} */
 
 	// public String getDescription();
 	function getDescription() {
