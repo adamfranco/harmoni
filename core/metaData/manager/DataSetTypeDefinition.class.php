@@ -1,5 +1,7 @@
 <?php
 
+require_once(HARMONI."metaData/manager/FieldDefinition.class.php");
+
 class DataSetTypeDefinition {
 	
 	var $_manager;
@@ -61,7 +63,7 @@ class DataSetTypeDefinition {
 		// load our fields from the database
 		if ($this->_loaded) {
 //			throwError( new Error("Already loaded from the database for type ".OKITypeToString($this->_type).".","DataSetTypeDefinition",true));
-			return false;
+			return true;
 		}
 		
 		// if we were not initialized with an ID, that means that we're not meant to interface with the DB

@@ -4,7 +4,8 @@ include HARMONI."oki/shared/HarmoniType.class.php";
 include HARMONI."oki/shared/HarmoniTypeIterator.class.php";
 include HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
 
-class DataSetTypeManager {
+class DataSetTypeManager
+	extends ServiceInterface {
 	
 	var $_idmanager;
 	var $_dbID;
@@ -104,6 +105,12 @@ class DataSetTypeManager {
 	}
 	
 	function & newDataSetType(&$type) {
+		$null = null;
+		$newDef =& new DataSetTypeDefinition($this, $null, null, $type);
+		return $newDef;
+	}
+	
+	function & _addDataSetType(&$type) {
 		if ($id = $this->getIDForType($type)) {
 			throwError( new Error(
 				"DataSetTypeManager::newDataSetType(".OKITypeToString($type).") - a DataSetType for this Type already exists, so the existing one has been returned.",
@@ -142,7 +149,7 @@ class DataSetTypeManager {
 	}
 	
 	function dataSetTypeExists(&$type) {
-		return ($this->_typeIDs[$this->_mkHash($type)])?true:false;
+		return (isset($this->_typeIDs[$this->_mkHash($type)]))?true:false;
 	}
 	
 	function & getDataSetTypeDefinition(&$type) {
@@ -164,7 +171,7 @@ class DataSetTypeManager {
 		
 		// check if we already have a definition for this type. if we don't, add a new one.
 		if (!$this->dataSetTypeExists($type)) {
-			$oldDef =& $this->newDataSetType($type);
+			$oldDef =& $this->_addDataSetType($type);
 		} else {
 			$oldDef =& $this->getDataSetTypeDefinition($type);
 		}
@@ -277,11 +284,14 @@ class DataSetTypeManager {
 		// now that we're done syncrhonizing $newDef with $oldDef, let's commit everything to the DB
 		$oldDef->commitAllFields();
 	}
+	
+	function start() {}
+	function stop() {}
 }
 
 class HarmoniDataSetType extends HarmoniType {
 	function HarmoniDataSetType() {
-		parent::HarmoniType("Harmoni","DataSetTypeManager","DataSetType",
+		parent::HarmoniType("Harmoni","HarmoniDataManager","DataSetType",
 				"Defines a DataSet definition within Harmoni's MetaData Manager system.");
 	}
 }

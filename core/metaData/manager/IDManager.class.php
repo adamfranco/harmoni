@@ -2,7 +2,8 @@
 
 
 
-class IDManager {
+class IDManager
+	extends ServiceInterface {
 	
 	var $_db;
 	var $_dbID;
@@ -74,6 +75,9 @@ class IDManager {
 	function getAllIDsofType(&$type) {
 		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
 	}
+	
+	function start() {}
+	function stop() {}
 }
 
 ?>
