@@ -47,13 +47,16 @@ require_once(HARMONI."GUIManager/StyleProperties/RightSP.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/BottomSP.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/VerticalAlignSP.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/OverflowSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/FontSizeSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/FontFamilySP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/FontWeightSP.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StylePropertiesTestCase.class.php,v 1.5 2004/07/22 17:10:40 tjigmes Exp $
+ * @version $Id: StylePropertiesTestCase.class.php,v 1.6 2004/07/26 23:23:31 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -257,6 +260,21 @@ require_once(HARMONI."GUIManager/StyleProperties/OverflowSP.class.php");
 		function test_overflow_sp() {
 			$sp =& new OverflowSP("scroll");
 			$this->assertIdentical($sp->getCSS(), "overflow: scroll;");
+		}
+		
+		function test_font_size_sp() {
+			$sp =& new FontSizeSP("200%");
+			$this->assertIdentical($sp->getCSS(), "font-size: 200%;");
+		}
+		
+		function test_font_family_sp() {
+			$sp =& new FontFamilySP("arial");
+			$this->assertIdentical($sp->getCSS(), "font-family: arial;");
+		}
+		
+		function test_font_weight_sp() {
+			$sp =& new FontWeightSP("bolder");
+			$this->assertIdentical($sp->getCSS(), "font-weight: bolder;");
 		}
 	}
 

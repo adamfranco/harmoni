@@ -10,7 +10,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * <code>Components</code> are the basic units that can be displayed on
  * the screen. The main method <code>render()</code> which renders the component 
  * on the screen.
- * @version $Id: Component.class.php,v 1.3 2004/07/23 02:44:16 dobomode Exp $
+ * @version $Id: Component.class.php,v 1.4 2004/07/26 23:23:30 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -106,10 +106,11 @@ class Component extends ComponentInterface {
 		ArgumentValidator::validate($styleCollection, $rule, true);
 		// ** end of parameter validation
 
+		// make sure we can apply it
 		if (!$styleCollection->canBeApplied()) {
 			$err = "This style collection cannot be applied to components.";
 			throwError(new Error($err, "GUIManager", false));
-			return; // this style collection cannot be applied to components
+			return;
 		}
 		
 		if (isset($this->_styleCollections[$styleCollection->getSelector()])) {
@@ -181,7 +182,7 @@ class Component extends ComponentInterface {
 		else {
 			// get the class selectors of all style collections
 			$classSelectors = "";
-			foreach (array_keys($this->_styleCollections) as $key)
+			foreach (array_keys($styleCollections) as $key)
 				$classSelectors .= $styleCollections[$key]->getClassSelector()." ";
 
 			return $tabs."<div class=\"$classSelectors\">\n";
@@ -200,7 +201,10 @@ class Component extends ComponentInterface {
 	 * @return string The HTML string.
 	 **/
 	function getPostHTML(& $theme, $tabs = "") {
-		if (count($this->_styleCollections) == 0)
+		$styleCollections = array_merge($this->_styleCollections, 
+										$theme->getStylesForComponentType($this->_type, $this->_index));
+
+		if (count($styleCollections) == 0)
 			return "";
 		else
 			return $tabs."</div>\n";

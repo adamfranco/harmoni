@@ -9,7 +9,7 @@ require_once(HARMONI."GUIManager/Components/MenuItem.interface.php");
  * <br><br>
  * <code>MenuItem</code> is an extension of <code>Component</code>; <code>MenuItems</code>
  * have display names and the ability to be added to <code>Menu</code> objects.
- * @version $Id: MenuItemLink.class.php,v 1.1 2004/07/23 02:44:17 dobomode Exp $
+ * @version $Id: MenuItemLink.class.php,v 1.2 2004/07/26 23:23:30 dobomode Exp $
  * @package harmoni.gui.components
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -78,7 +78,7 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 * @param string toolTip The toolTip of this menu item.
 	 * @access public
 	 **/
-	function MenuItemLink($index, $displayName, $url, $selected, $target = "", $accessKey = "", $toolTip = "") {
+	function MenuItemLink($displayName, $url, $selected, $index, $target = null, $accessKey = null, $toolTip = null) {
 		// ** parameter validation
 		$rule =& new StringValidatorRule();
 		$optionalRule =& new OptionalRule($rule);

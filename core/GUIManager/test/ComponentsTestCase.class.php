@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ComponentsTestCase.class.php,v 1.3 2004/07/23 02:44:17 dobomode Exp $
+ * @version $Id: ComponentsTestCase.class.php,v 1.4 2004/07/26 23:23:31 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -135,7 +135,7 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 			$this->assertIdentical($heading->getDisplayName(), "hoho");
 //			$comp->render($theme);
 		
-			$comp =& new MenuItemLink(1, "Google", "http://www.google.com", true, 
+			$comp =& new MenuItemLink("Google", "http://www.google.com", true, 1,
 								  "_BLANK", "g", "Go to the Google search page");
 			$this->assertIdentical($comp->getDisplayName(), "Google");
 			$this->assertIdentical($comp->getURL(), "http://www.google.com");
@@ -159,7 +159,7 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 			$this->assertIdentical($comp->getToolTip(), "6");
 			$this->assertIdentical($comp->getType(), MENU_ITEM_LINK_UNSELECTED);
 			
-			$comp =& new MenuItemLink(1, "Google", "http://www.google.com", true, 
+			$comp =& new MenuItemLink("Google", "http://www.google.com", true, 1,
 								  "_BLANK", "g", "Go to the Google search page");
 								  
 			$comp->addAttribute("name", "haha");

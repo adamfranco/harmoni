@@ -8,7 +8,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ThemesTestCase.class.php,v 1.1 2004/07/22 16:32:27 dobomode Exp $
+ * @version $Id: ThemesTestCase.class.php,v 1.2 2004/07/26 23:23:31 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -36,7 +36,13 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
 		}
 	
 		function test_generic_theme() {
-			$theme =& new Theme();
+			$theme =& new Theme("Master", "And Servant");
+			$this->assertIdentical($theme->getDisplayName(), "Master");
+			$this->assertIdentical($theme->getDescription(), "And Servant");
+			$theme->setDisplayName("Enjoy");
+			$theme->setDescription("The Silence");
+			$this->assertIdentical($theme->getDisplayName(), "Enjoy");
+			$this->assertIdentical($theme->getDescription(), "The Silence");
 			
 			$bodyStyle =& new StyleCollection("body", "hey", "Body Style", "Global style settings.");
 			$bodyStyle->addSP(new BackgroundColorSP("#FFFCF0"));

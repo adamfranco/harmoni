@@ -14,7 +14,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * <br><br>
  * Each <code>Theme</code> has a single component (could be container) that will
  * be printed when <code>printPage()</code> is called.
- * @version $Id: Theme.interface.php,v 1.2 2004/07/23 02:44:16 dobomode Exp $
+ * @version $Id: Theme.interface.php,v 1.3 2004/07/26 23:23:30 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -22,6 +22,54 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  **/
 class ThemeInterface {
 
+	/**
+	 * Returns the display name of this Theme.
+	 * @access public
+	 * @return string The display name of this Theme.
+	 **/
+	function getDisplayName() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+	/**
+	 * Sets the display name of this Theme.
+	 * @access public
+	 * @param string displayName The new display name of this Theme.
+	 **/
+	function setDisplayName($displayName) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+	/**
+	 * Returns the description of this Theme.
+	 * @access public
+	 * @return string The description of this Theme.
+	 **/
+	function getDescription() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+	/**
+	 * Sets the description of this Theme.
+	 * @access public
+	 * @param string description The new description of this Theme.
+	 **/
+	function setDescription($description) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
+	 * Attaches to the Theme a style collection that will have a global effect
+	 * on the page look and feel. For example, this could be a style collection
+	 * affecting the <code>body</code> HTML element. IMPORTANT: The style collection
+	 * must not be applicable, i.e. its <code>canBeApplied()</code> method should
+	 * return <code>false</code>.
+	 * @access public
+	 * @param ref object styleCollection The style collection to attach.
+	 **/
+	function addGlobalStyle(& $styleCollection) {
+	}
+	
 	/**
 	 * This method returns all style collections for the given component type and
 	 * the given numeric index.
@@ -155,8 +203,6 @@ class ThemeInterface {
 	function setComponent(& $component) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
-	
-	
 	
 	/**
 	 * Sets the page title of this <code>Theme</code>.

@@ -18,13 +18,25 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * <br><br>
  * Each <code>Theme</code> has a single component (could be container) that will
  * be printed when <code>printPage()</code> is called.
- * @version $Id: Theme.class.php,v 1.2 2004/07/23 02:44:16 dobomode Exp $
+ * @version $Id: Theme.class.php,v 1.3 2004/07/26 23:23:30 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
  * @access public
  **/
 class Theme extends ThemeInterface {
+
+	/**
+	 * The display name of this Theme.
+	 * @attribute private string _displayName
+	 */
+	var $_displayName;
+	
+	/**
+	 * The description of this Theme.
+	 * @attribute private string _description
+	 */
+	var $_description;
 
 	/**
 	 * The component of this Theme.
@@ -48,13 +60,17 @@ class Theme extends ThemeInterface {
 	var $_componentStyles;
 	
 	/**
-	 * An array of style collections. This array will store the style collections
-	 * for the Theme and its component. This variable is needed in addition
-	 * to the <code>componentStyles</code> variable, because the latter need not
-	 * contain unique style collections, while the former does. In addition, this
-	 * array stores any style collections registered with the <code>addStyle</code>
-	 * method. You can think of this array as combining <code>componentStyles</code>
-	 * and <code>themeStyles</code>.
+	 * An array storing global style collections. It is one-dimensional. The key
+	 * is the selector of the style collection. The element is the style collection
+	 * itself.
+	 * @attribute private array _globalStyles
+	 */
+	var $_globalStyles;
+	
+	/**
+	 * This array combines <code>_componentStyles</code> and <code>_globalStyles</code>
+	 * into one. The purpose is to avoid duplication of style collection and to
+	 * provide an easy way to implement the <code>getCSS()</code> method.
 	 * @attribute private array _styles
 	 */
 	var $_styles;
@@ -80,10 +96,93 @@ class Theme extends ThemeInterface {
 	 * @access public
 	 * @param 
 	 **/
-	function Theme() {
+	function Theme($displayName, $description) {
+		// ** parameter validation
+		$rule =& new OptionalRule(new StringValidatorRule());
+		ArgumentValidator::validate($displayName, $rule, true);
+		ArgumentValidator::validate($description, $rule, true);
+		// ** end of parameter validation
+	
 		$this->_component = null;
 		$this->_pageTitle = "";
 		$this->_componentStyles = array();
+		$this->_globalStyles = array();
+		$this->_displayName = $displayName;
+		$this->_description = $description;
+	}
+
+	/**
+	 * Returns the display name of this Theme.
+	 * @access public
+	 * @return string The display name of this Theme.
+	 **/
+	function getDisplayName() {
+		return $this->_displayName;
+	}
+
+	/**
+	 * Sets the display name of this Theme.
+	 * @access public
+	 * @param string displayName The new display name of this Theme.
+	 **/
+	function setDisplayName($displayName) {
+		// ** parameter validation
+		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
+		// ** end of parameter validation
+
+		$this->_displayName = $displayName;
+	}
+
+	/**
+	 * Returns the description of this Theme.
+	 * @access public
+	 * @return string The description of this Theme.
+	 **/
+	function getDescription() {
+		return $this->_description;
+	}
+
+	/**
+	 * Sets the description of this Theme.
+	 * @access public
+	 * @param string description The new description of this Theme.
+	 **/
+	function setDescription($description) {
+		// ** parameter validation
+		ArgumentValidator::validate($description, new StringValidatorRule(), true);
+		// ** end of parameter validation
+
+		$this->_description = $description;
+	}
+	
+	/**
+	 * Attaches to the Theme a style collection that will have a global effect
+	 * on the page look and feel. For example, this could be a style collection
+	 * affecting the <code>body</code> HTML element. IMPORTANT: The style collection
+	 * must not be applicable, i.e. its <code>canBeApplied()</code> method should
+	 * return <code>false</code>.
+	 * @access public
+	 * @param ref object styleCollection The style collection to attach.
+	 **/
+	function addGlobalStyle(& $styleCollection) {
+		// ** parameter validation
+		$rule =& new ExtendsValidatorRule("StyleCollectionInterface");
+		ArgumentValidator::validate($styleCollection, $rule, true);
+		// ** end of parameter validation
+		
+		// the style collection must not be applicable
+		if ($styleCollection->canBeApplied()) {
+			$err = "Cannot add a global style collection that is applicable.";
+			throwError(new Error($err, "GUIManager", false));
+			return;
+		}
+
+		// check that this styleCollection hasn't been added already
+		if (!isset($this->_globalStyles[$styleCollection->getSelector()]))
+			$this->_globalStyles[$styleCollection->getSelector()] =& $styleCollection;
+			
+		if (!isset($this->_styles[$styleCollection->getSelector()]))
+			$this->_styles[$styleCollection->getSelector()] =& $styleCollection;
 	}
 
 	/**
@@ -168,6 +267,13 @@ class Theme extends ThemeInterface {
 		ArgumentValidator::validate($type, $rule, true);
 		ArgumentValidator::validate($index, new IntegerValidatorRule(), true);
 		// ** end of parameter validation
+		
+		// make sure we can apply it
+		if (!$styleCollection->canBeApplied()) {
+			$err = "This style collection cannot be applied to components.";
+			throwError(new Error($err, "GUIManager", false));
+			return;
+		}
 		
 		// check that this styleCollection hasn't been added already
 		if (!isset($this->_componentStyles[$type][$index][$styleCollection->getSelector()]))
