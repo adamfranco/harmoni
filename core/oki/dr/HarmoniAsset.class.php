@@ -1005,18 +1005,6 @@ class HarmoniAsset
 		
 		if ($group) $group->commit();
 	}
-	 
-	/**
-	 * Loads this object from persistable storage.
-	 * @access protected
-	 */
-	function load () {
-		// Load the Hierarchy
-		$this->_node->load();
-		
-		// Load the dataManager
-		// nothing needed.
-	}
 
 } // end Asset
 

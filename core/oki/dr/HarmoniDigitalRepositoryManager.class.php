@@ -37,7 +37,6 @@ class HarmoniDigitalRepositoryManager
 		$sharedManager =& Services::getService("Shared");
 		$hierarchyId =& $sharedManager->getId($configuration['hierarchyId']);
 		$this->_hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
-		$this->_hierarchy->load();
 		
 		// Cache any created DRs so that we can pass out references to them.
 		$this->_createdDRs = array();

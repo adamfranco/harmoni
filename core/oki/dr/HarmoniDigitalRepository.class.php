@@ -515,18 +515,6 @@ class HarmoniDigitalRepository
 		// Save the dataManager
 		//@todo
 	}
-	 
-	/**
-	 * Loads this object from persistable storage.
-	 * @access protected
-	 */
-	function load () {
-		// Load the Hierarchy
-		$this->_node->load();
-		
-		// Load the dataManager
-		//@todo
-	}
 
 	/**
 	 * Recursively copies an asset and its children to a new parent.
