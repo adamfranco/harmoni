@@ -12,7 +12,7 @@ require_once(dirname(__FILE__)."/OrderedSet.interface.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: OrderedSet.class.php,v 1.5 2004/09/21 17:40:47 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.6 2004/10/18 15:18:48 adamfranco Exp $
  */
  
 class OrderedSet 
@@ -153,7 +153,7 @@ class OrderedSet
 		$query =& new InsertQuery;
 		$query->setTable("sets");
 		$columns = array("sets.id", "sets.item_id", "sets.item_order");
-		$values = array($this->_setId->getIdString(), $id->getIdString(), $position);
+		$values = array("'".$this->_setId->getIdString()."'", "'".$id->getIdString()."'", "'".$position."'");
 		$query->setColumns($columns);
 		$query->setValues($values);
 		
