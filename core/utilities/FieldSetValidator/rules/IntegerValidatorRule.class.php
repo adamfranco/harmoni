@@ -5,7 +5,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
 /**
  * the IntegerValidatorRule checks a given value to make sure it's integer
  *
- * @version $Id: IntegerValidatorRule.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: IntegerValidatorRule.class.php,v 1.2 2004/03/05 21:40:06 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.utilities.fieldsetvalidator.rules
  **/
@@ -21,7 +21,7 @@ class IntegerValidatorRule
 	 * @return boolean TRUE, if the value is an integer; FALSE if it is not.
 	 **/
 	function check( & $val ) {
-		return (is_integer($val) || $val === 0);
+		return (is_integer($val) || $val === 0 || ereg("^[1-9][0-9]*$",$val));
 	}
 }
 

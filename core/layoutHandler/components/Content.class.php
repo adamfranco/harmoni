@@ -5,7 +5,7 @@ require_once(HARMONI."layoutHandler/components/Content.interface.php");
  * The Content interface defines what methods are required by any Content {@link VisualComponent}.
  *
  * @package harmoni.layout.components
- * @version $Id: Content.class.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: Content.class.php,v 1.2 2004/03/05 21:40:05 adamfranco Exp $
  * @copyright 2003 
  **/
 class Content extends ContentInterface {
@@ -29,6 +29,8 @@ class Content extends ContentInterface {
 	 **/
 	function Content( $content="" ) {
 		$this->_content = $content;
+		$this->_themeWidgetType = BLANK_WIDGET;
+		$this->_themeWidgetIndex = 1;
 	}
 	
 	
@@ -60,8 +62,9 @@ class Content extends ContentInterface {
 	 * @access public
 	 * @return void
 	 **/
-	function output(&$theme, $orientation=HORIZONTAL) {
-		$theme->printContent($this);
+	function output(&$themeWidget, $orientation=HORIZONTAL) {
+		print "\n\t\t".$this->getContent();
+		//$themeWidget->output($this);
 	}
 	
 	/**
@@ -83,6 +86,86 @@ class Content extends ContentInterface {
 	 **/
 	function setLevel($level, $spiderDown=true) {
 		$this->_level = $level;
+	}
+	
+	/**
+	 * Gets the ThemeWidget type for this element.
+	 * return string The type of the theme widget.
+	 */
+	function getThemeWidgetType() {
+		return $this->_themeWidgetType;
+	}
+	
+	/**
+	 * Sets the ThemeWidget type for this element.
+	 * @param string $type The type of the theme widget.
+	 * @return void
+	 */
+	function setThemeWidgetType( $type ) {
+		ArgumentValidator::validate($type, new StringValidatorRule);
+		
+		$this->_themeWidgetType = $type;
+	}
+	
+	/**
+	 * Gets the ThemeWidget index for this element.
+	 * return integer The index of the theme widget.
+	 */
+	function getThemeWidgetIndex() {
+		return $this->_themeWidgetIndex;
+	}
+	
+	/**
+	 * Sets the ThemeWidget index for this element.
+	 * @param string $index The index of the theme widget.
+	 * @return void
+	 */
+	function setThemeWidgetIndex( $index ) {
+		ArgumentValidator::validate($index, new IntegerValidatorRule);
+		
+		$this->_themeWidgetIndex = $index;
+	}
+	
+	/**
+	 * gets the Vertical Alignment for this element in its parent.
+	 * @return string The alignment of the element; TOP, CENTER, BOTTOM.
+	 */
+	function getVerticalAlignment () {
+		return $this->_verticalAlignment;
+	}
+	
+	/**
+	 * Sets the Vertical Alignment for this element in its parent.
+	 * @param string $valign The alignment of the element; TOP, CENTER, BOTTOM.
+	 * @return void
+	 */
+	function setVerticalAlignment ( $valign ) {
+		ArgumentValidator::validate($valign, new StringValidatorRule);
+		if ($valign != TOP && $valign != CENTER && $valign != BOTTOM)
+ 			throwError(new Error("Could not set vertical alignment, parameter out of range.","Layout",true));
+ 		
+		$this->_verticalAlignment = $valign;
+	}
+	
+	/**
+	 * Gets the Horizontal Alignment for this element in its parent.
+	 * @return string The alignment of the element; LEFT, CENTER, RIGHT.
+	 */
+	function getHorizontalAlignment () {
+		return $this->_horizontalAlignment;
+	}
+	
+	/**
+	 * Sets the Horizontal Alignment for this element in its parent.
+	 * @param string $hvalign The alignment of the element; LEFT, CENTER, RIGHT.
+	 * @return void
+	 */
+	function setHorizontalAlignment ( $halign ) {
+		ArgumentValidator::validate($halign, new StringValidatorRule);
+		if ($halign != LEFT && $halign != CENTER && $halign != RIGHT)
+ 			throwError(new Error("Could not set horizontal alignment, parameter out of range.","Layout",true));
+		
+		$this->_horizontalAlignment = $halign;
 	}
 }
 

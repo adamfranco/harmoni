@@ -3,6 +3,14 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.1.0" date="Not Released">
+		<change author='adam'>
+			Themes and layouts have been completely re-worked to support easier use and
+			more user control of the themes.
+		</change>
+		<change author='adam'>
+			Argument Validator now dosn't fail on string representations of integers;
+			i.e. "100" as well as 100 will validate.
+		</change>
 		<new author='adam'>
 			Implimented the Digital Repository OSID in Harmoni. The DR uses the Hierarchy OSID,
 			the DataManager, and the Shared OSID to provide for high-level access and browsing

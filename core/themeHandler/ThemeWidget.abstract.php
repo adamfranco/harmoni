@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/ThemeWidget.interface.php");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: ThemeWidget.abstract.php,v 1.2 2004/03/04 22:59:07 adamfranco Exp $
+ * @version $Id: ThemeWidget.abstract.php,v 1.3 2004/03/05 21:40:06 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -142,8 +142,10 @@ class ThemeWidget
 			$setting->setDisplayName($displayName);
 		if ($description !== NULL)
 			$setting->setDescription($description);
-		if ($defaultValue !== NULL)
+		if ($defaultValue !== NULL) {
 			$setting->setDefaultValue($defaultValue);
+			$setting->setValue($defaultValue);
+		}
 		
 		$this->_settings[$id->getIdString()] =& $setting;
 		return $id;
@@ -198,7 +200,7 @@ class ThemeWidget
 	 *		are to be inserted into the page's <head><style> section.
 	 **/
 	function getStyles () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 		
 //		// Sample implimentation (for a "MenuItem" Widget)
 // 
@@ -238,15 +240,15 @@ class ThemeWidget
 	 * @access public
 	 * @return void
 	 **/
-	function output (& $layoutOrContent) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	function output (& $layoutOrContent, & $currentTheme) {
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 		
 //		// Sample implimentation (for a "Menu" Widget)
 // 
 // 		$depth = $layoutOrContent->getDepth();
 // 		print "\n".$this->_getTabs($depth)."<div class='menuitem1'>";
 // 		
-// 		$layoutOrContent->output();
+// 		$layoutOrContent->output($currentTheme);
 // 		
 // 		print "\n".$this->_getTabs($depth)."</div>";
 	}
@@ -260,7 +262,7 @@ class ThemeWidget
 	function _getTabs($depth=0) {
 		// Set up tabs for nice html output.
 		$tabs = "\t\t";
-		for ($i = 0; $i < $this->_level; $i++) {
+		for ($i = 0; $i < $depth; $i++) {
 			$tabs .= "\t";
 		}
 		

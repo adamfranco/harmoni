@@ -11,7 +11,7 @@ define("MENU","MenuInterface");
  * The Menu interface defines the methods required by any {@link Menu} class.
  *
  * @package harmoni.interfaces.layout.components
- * @version $Id: Menu.interface.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: Menu.interface.php,v 1.2 2004/03/05 21:40:05 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -23,7 +23,7 @@ class MenuInterface extends VisualComponent {
 	 * @return integer The index of the new menu item.
 	 **/
 	function addItem($menuItemObject) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
 	/**
@@ -33,7 +33,7 @@ class MenuInterface extends VisualComponent {
 	 * @return object The MenuItem object.
 	 **/
 	function &getItem($index) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
 	/**
@@ -42,7 +42,7 @@ class MenuInterface extends VisualComponent {
 	 * @return integer The number of {@link MenuItem}s in the Menu.
 	 **/
 	function getCount() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
 }

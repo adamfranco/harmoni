@@ -11,7 +11,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * <ul><li />Index: 0, A Content object.</ul>
  *
  * @package harmoni.layout.components
- * @version $Id: SingleContentLayout.class.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: SingleContentLayout.class.php,v 1.2 2004/03/05 21:40:05 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -21,8 +21,10 @@ class SingleContentLayout extends Layout {
 	 * @access public
 	 * @return void
 	 **/
-	function SingleContentLayout() {
-		$this->addComponent(0,CONTENT);
+	function SingleContentLayout($themeWidgetType, $themeWidgetIndex) {
+		$this->addComponentRequirement(0,CONTENT);
+		$this->setThemeWidgetType($themeWidgetType);
+		$this->setThemeWidgetIndex($themeWidgetIndex);
 	}
 	
 	/**
@@ -31,11 +33,15 @@ class SingleContentLayout extends Layout {
 	 * @access public
 	 * @return void
 	 **/
-	function outputLayout(&$theme) {
+	function output(& $theme) {
 		$this->verifyComponents();
 
-		$c =& $this->getComponent(0);
-		$c->output($theme);
+		$component =& $this->getComponent(0);
+		
+		$themeWidget =& $theme->getWidget( $component->getThemeWidgetType(), 
+											$component->getThemeWidgetIndex());
+		
+		$themeWidget->output($component);
 	}
 }
 

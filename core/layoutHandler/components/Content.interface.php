@@ -12,7 +12,7 @@ define("CONTENT","ContentInterface");
  * The Content interface defines what methods are required by any Content {@link VisualComponent}.
  *
  * @package harmoni.interfaces.layout.components
- * @version $Id: Content.interface.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: Content.interface.php,v 1.2 2004/03/05 21:40:05 adamfranco Exp $
  * @copyright 2003 
  **/
 class ContentInterface extends VisualComponent {
@@ -23,7 +23,7 @@ class ContentInterface extends VisualComponent {
 	 * @return void
 	 **/
 	function setContent($contentString) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
 	/**
@@ -32,7 +32,7 @@ class ContentInterface extends VisualComponent {
 	 * @return string The content.
 	 **/
 	function getContent() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
 }

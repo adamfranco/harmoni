@@ -13,7 +13,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * </ul>
  *
  * @package harmoni.layout.components
- * @version $Id: RowLayout.class.php,v 1.3 2004/03/01 19:32:34 adamfranco Exp $
+ * @version $Id: RowLayout.class.php,v 1.4 2004/03/05 21:40:05 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -23,10 +23,9 @@ class RowLayout extends Layout {
 	 * @access public
 	 * @return void
 	 **/
-	function RowLayout($numRows = 1) {
-		for ($i = 0; $i < $numRows; $i++) {
-			$this->addComponent($i,LAYOUT);
-		}
+	function RowLayout($themeWidgetType, $themeWidgetIndex) {
+		$this->setThemeWidgetType($themeWidgetType);
+		$this->setThemeWidgetIndex($themeWidgetIndex);
 	}
 	
 	/**
@@ -35,7 +34,7 @@ class RowLayout extends Layout {
 	 * @access public
 	 * @return void
 	 **/
-	function outputLayout(&$theme) {
+	function output(&$theme) {
 		$this->verifyComponents();
 		
 		$childLayouts =& $this->getAllComponents();
@@ -43,8 +42,10 @@ class RowLayout extends Layout {
 		// output the table;
 		print "\n".$this->_getTabs()."<table border=0 cellpadding=0 cellspacing=0 width=100%>";
 		foreach (array_keys($childLayouts) as $i => $key) {
-			print "\n".$this->_getTabs()."\t<tr><td valign='".$this->_verticalAlignments[$key]."' align='".$this->_horizontalAlignments[$key]."'>";
-			$childLayouts[$key]->output($theme);
+			print "\n".$this->_getTabs()."\t<tr><td valign='".$childLayouts[$key]->getVerticalAlignment()."' align='".$childLayouts[$key]->getHorizontalAlignment()."'>";
+			$themeWidget =& $theme->getWidget( $childLayouts[$key]->getThemeWidgetType(), 
+											$childLayouts[$key]->getThemeWidgetIndex());
+			$themeWidget->output($childLayouts[$key], $theme);
 			print "\n".$this->_getTabs()."\t</td></tr>";
 		}
 		print "\n".$this->_getTabs()."</table>\n";

@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/ThemeSetting.interface.php");
  * abstract class. As well, the setValue() method should check for valid inputs.
  *
  * @package harmoni.themes
- * @version $Id: ThemeSetting.abstract.php,v 1.1 2004/03/04 22:59:07 adamfranco Exp $
+ * @version $Id: ThemeSetting.abstract.php,v 1.2 2004/03/05 21:40:05 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -172,7 +172,7 @@ class ThemeSetting
 		
 		// This method is an outline only, please overload it to do proper checking
 		// of inputs to the setting.
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 		
 		$this->_value = $value;
 	}
@@ -197,7 +197,7 @@ class ThemeSetting
 		
 		// This method is an outline only, please overload it to do proper checking
 		// of inputs to the setting.
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 		
 		$this->_defaultValue = $defaultValue;
 	}
