@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.8 2004/04/22 20:45:29 dobomode Exp $
+ * @version $Id: SharedManagerTestCase.class.php,v 1.9 2004/04/23 19:29:26 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -190,18 +190,18 @@ class SharedManagerTestCase extends UnitTestCase {
 			$group =& $groups->next();
 			$this->assertIsA($group, "HarmoniGroup");
 			
-			echo "<pre>\n";
+//			echo "<pre>\n";
 			$id =& $group->getId();
-			echo $id->getIdString();
-			echo " : ".$group->getDisplayName();
-			echo "\n";
-			echo "subgroups:";
-			print_r(array_keys($group->_groups));
-			echo "members:";
-			print_r(array_keys($group->_agents));
-
-			echo "</pre>\n";
-			
+//			echo $id->getIdString();
+//			echo " : ".$group->getDisplayName();
+//			echo "\n";
+//			echo "subgroups:";
+//			print_r(array_keys($group->_groups));
+//			echo "members:";
+//			print_r(array_keys($group->_agents));
+//
+//			echo "</pre>\n";
+//	
 		}
 	}
 
@@ -217,4 +217,20 @@ class SharedManagerTestCase extends UnitTestCase {
 		$this->assertIsA($group1, "HarmoniGroup");
 
 		$this->manager->deleteGroup($group1->getId());
-	}}
+	}
+	
+	
+	/**
+	 * Testing getAgentTypes
+	 **/
+	function test_get_group_types() {
+		$types =& $this->manager->getGroupTypes();
+		$this->assertIsA($types, "HarmoniTypeIterator");
+		while ($types->hasNext()) {
+			$type =& $types->next();
+			$this->assertIsA($type, "Type");
+		}
+	}
+	
+	
+}

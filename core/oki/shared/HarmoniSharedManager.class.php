@@ -37,7 +37,7 @@ require_once(HARMONI."oki/shared/HarmoniStringId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.27 2004/04/22 20:45:29 dobomode Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.28 2004/04/23 19:29:21 dobomode Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -75,6 +75,20 @@ class HarmoniSharedManager
 	
 	
 	/**
+	 * Will be set to true if all agents have been cached;
+	 * @attribute private boolean _allAgentsCached
+	 */
+	var $_allAgentsCached;
+	
+	
+	/**
+	 * Will be set to true if all groups have been cached;
+	 * @attribute private boolean _allAgentsCached
+	 */
+	var $_allGroupsCached;
+	
+	
+	/**
 	 * Constructor. Set up any database connections needed.
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 * @param string sharedDB The name of the shared database.
@@ -91,6 +105,9 @@ class HarmoniSharedManager
 		// initialize cache
 		$this->_agentsCache = array();
 		$this->_groupsCache = array();
+		
+		$this->_allAgentsCached = false;
+		$this->_allGroupsCached = false;
 	}
 
     /**
@@ -314,7 +331,8 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getAgents() {
-		$this->_loadAgents();
+		if (!$this->_allAgentsCached)
+			$this->_loadAgents();
 		
 		$result =& new HarmoniAgentIterator($this->_agentsCache);
 		return $result;
@@ -366,6 +384,7 @@ class HarmoniSharedManager
 			$queryResult->advanceRow();
 		}
 		
+		$this->_allAgentsCached = true;
 	}
 	
 
@@ -647,7 +666,8 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getGroups() {
-		$this->_loadGroups();
+		if (!$this->_allGroupsCached)
+			$this->_loadGroups();
 		
 		$result =& new HarmoniAgentIterator($this->_groupsCache);
 		return $result;
@@ -840,6 +860,8 @@ class HarmoniSharedManager
 //		print_r($this->_groupsCache);
 //		print_r($this->_agentsCache);
 //		echo "</pre>\n";
+
+		$this->_allGroupsCached = true;
 	}
 	
 	
@@ -861,7 +883,41 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getGroupTypes() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		$dbHandler =& Services::requireService("DBHandler");
+		$query =& new SelectQuery();
+		
+		$db = $this->_sharedDB.".";
+		
+		// set the tables
+		$query->addTable($db."groups");
+		$joinc = $db."groups.fk_type = ".$db."type.type_id";
+		$query->addTable($db."type", INNER_JOIN, $joinc);
+		
+		// set the columns to select
+		$query->setDistinct(true);
+		$query->addColumn("type_id", "id", $db."type");
+		$query->addColumn("type_domain", "domain", $db."type");
+		$query->addColumn("type_authority", "authority", $db."type");
+		$query->addColumn("type_keyword", "keyword", $db."type");
+		$query->addColumn("type_description", "description", $db."type");
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+
+		$types = array();
+		while ($queryResult->hasMoreRows()) {
+			// fetch current row
+			$arr = $queryResult->getCurrentRow();
+			
+			// create agent object
+			$type =& new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
+			
+			// add it to array
+			$types[] =& $type;
+
+			$queryResult->advanceRow();
+		}
+		
+		$result =& new HarmoniTypeIterator($types);
+		return $result;
 	}
 
 	/**
@@ -958,6 +1014,8 @@ class HarmoniSharedManager
 	function clearCache() {
 		unset($this->_agentsCache);
 		unset($this->_groupsCache);
+		$this->_allAgentsCached = false;
+		$this->_allGroupsCached = false;
 	}
 	
 
