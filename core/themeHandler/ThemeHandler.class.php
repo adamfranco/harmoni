@@ -3,6 +3,9 @@
 require_once(HARMONI."/oki/shared/HarmoniIterator.class.php");
 require_once(HARMONI."/themeHandler/Theme.abstract.php");
 
+// Built-in Themes
+require_once(HARMONI."/themeHandler/themes/SimpleLines.theme.php");
+
 /**
  * ThemeSetting interface defines what methods are required of any theme widget.
  * 
@@ -11,7 +14,7 @@ require_once(HARMONI."/themeHandler/Theme.abstract.php");
  * setting.
  *
  * @package harmoni.themes
- * @version $Id: ThemeHandler.class.php,v 1.6 2004/04/02 19:57:07 adamfranco Exp $
+ * @version $Id: ThemeHandler.class.php,v 1.7 2004/04/02 22:06:27 adamfranco Exp $
  * @copyright 2004 
  **/
 
