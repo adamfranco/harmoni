@@ -9,7 +9,7 @@ require_once(HARMONI."authenticationHandler/AuthenticationMethod.abstract.php");
  * {@link AlwaysTrueAuthenticationMethod::authenticate()} will return true if the Agent exists on the targeted system.
  * This method is useful almost SOLELY for demo site purposes. BE CAREFUL USING IT!!!
  *
- * @version $Id: AlwaysTrueAuthenticationMethod.class.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: AlwaysTrueAuthenticationMethod.class.php,v 1.2 2003/11/25 19:56:21 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication.methodwrappers
@@ -17,23 +17,13 @@ require_once(HARMONI."authenticationHandler/AuthenticationMethod.abstract.php");
  
 class AlwaysTrueAuthenticationMethod extends AuthenticationMethod {
 	/**
-	 * @access private
-	 * @var object AuthenticationMethod $_methodObject The method being wrapped.
-	 **/
-	var $_methodObject;
-	
-	/**
 	 * The constructor.
 	 * @param object AuthenticationMethod The AuthenticationMethod to wrap.
 	 * @access public
 	 * @return void
 	 **/
-	function AlwaysFalseAuthenticationMethod( & $methodObject ) {
-		$rule =& new ExtendsValidatorRule("AuthenticationMethodInterface");
-		if (!$rule->check($methodObject))
-			throwError(new Error("AlwaysFalseAuthenticationMethod - could not initialize - the object to be wrapped does not appear to be an AuthenticationMethod.","system",true));
-		
-		$this->_methodObject =& $methodObject;
+	function AlwaysTrueAuthenticationMethod() {
+		return;
 	}
 	
 	
@@ -46,7 +36,7 @@ class AlwaysTrueAuthenticationMethod extends AuthenticationMethod {
 	 * @return boolean true if authentication succeeded with the method, false if not 
 	 **/
 	function authenticate( $systemName, $password ) { 
-		return $this->_methodObject->agentExists($systemName);
+		return true;
 	}
 	
 	/**
@@ -63,7 +53,7 @@ class AlwaysTrueAuthenticationMethod extends AuthenticationMethod {
 	 * @return void 
 	 **/
 	function setPriority( $priority ) {
-		$this->_methodObject->setPriority($priority);
+		return;
 	}
 	
 	/**
@@ -73,7 +63,7 @@ class AlwaysTrueAuthenticationMethod extends AuthenticationMethod {
 	 * @return integer The priority.
 	 **/
 	function getPriority() {
-		return $this->_methodObject->getPriority();
+		return 100;
 	}
 	
 	/**
@@ -83,7 +73,7 @@ class AlwaysTrueAuthenticationMethod extends AuthenticationMethod {
 	 * @return void 
 	 **/
 	function setAuthoritative( $authoritative ) {
-		$this->_methodObject->setAuthoritative($authoritative);
+		return;
 	}
 	
 	/**
@@ -93,7 +83,7 @@ class AlwaysTrueAuthenticationMethod extends AuthenticationMethod {
 	 * @return boolean If the method is authoritative.
 	 **/
 	function getAuthoritative() {
-		return $this->_methodObject->getAuthoritative();
+		return false;
 	}
 	
 	/**
@@ -104,7 +94,7 @@ class AlwaysTrueAuthenticationMethod extends AuthenticationMethod {
 	 * @return array An associative array of [key]=>value pairs.  
 	 **/
 	function getAgentInformation( $systemName ) {
-		return $this->_methodObject->getAgentInformation($systemName);
+		return array();
 	}
 	
 	/**
@@ -115,7 +105,7 @@ class AlwaysTrueAuthenticationMethod extends AuthenticationMethod {
 	 * @return boolean If the agent exists or not. 
 	 **/
 	function agentExists( $systemName ) {
-		return $this->_methodObject->agentExists($systemName);
+		return true;
 	}
 	
 }

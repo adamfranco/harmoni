@@ -21,7 +21,7 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.3 2003/08/25 17:02:46 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.4 2003/11/25 19:56:21 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandler extends ActionHandlerInterface {
@@ -130,6 +130,7 @@ class ActionHandler extends ActionHandlerInterface {
 	 * @return void
 	 */
 	function forward( $module, $action=null ) {
+		debug::output("attempting to forward to action: $module.$action",DEBUG_SYS5,"ActionHandler");
 		$test =& new DottedPairValidatorRule;
 		if ($this->_executing) {
 			if ($test->check($module) && !$action) {
@@ -191,9 +192,10 @@ class ActionHandler extends ActionHandlerInterface {
 	 * @return mixed
 	 **/
 	function &_execute($module, $action) {
-		$_pair = "$module.$action";
+		debug::output("executing action '$module.$action'...",DEBUG_SYS5,"ActionHandler");
+		$pair = "$module.$action";
 		// if we've already executed this action, we're probably stuck
-		// in an infinied loop. no good!
+		// in an infinite loop. no good!
 		if (in_array($pair, $this->_actionsExecuted)) {
 			throwError(new Error("ActionHandler::execute($_pair) - could not proceed: 
 								it seems we have already executed this action before. 
@@ -218,7 +220,8 @@ class ActionHandler extends ActionHandlerInterface {
 		// include the file
 		if (!file_exists($_includeFile)) throwError(new Error("ActionHandler::execute($_pair) - 
 							could not proceed: The file '$_includeFile' does not exist!","ActionHandler",true));
-        $incResult = include($_includeFile);
+        if ($this->_actionsType == ACTIONS_FLATFILES)
+        	$incResult = include($_includeFile);
 		
 		$result = false; // default
 
@@ -241,8 +244,10 @@ class ActionHandler extends ActionHandlerInterface {
 		
 		// create the class, execute the method.
 		if ($class) {
+//			ini_set("track_errors",1);
 			$object = @new $class;
-			if (!$object) throwError(new Error("ActionHandler::execute($_pair) - 
+
+			if (!is_object($object)) throwError(new Error("ActionHandler::execute($_pair) - 
 							could not proceed: The class '$class' could not be created:
 							$php_errormsg","ActionHandler",true));
 			
@@ -308,7 +313,7 @@ class ActionHandler extends ActionHandlerInterface {
 	 **/
 	function setModulesLocation($location, $type, $fileExtension=null) {
 		// if $type=MODULES_CLASSES and $fileExtension is not set, throw an error
-		if ($type==MODULES_CLASSES && !$fileExtensions) {
+		if ($type==MODULES_CLASSES && !$fileExtension) {
 			throwError(new Error("ActionHandler::setModulesLocation($location) - could not proceed: with \$type = MODULES_CLASSES you must specify the 3rd argument 'fileExtension'!","ActionHandler",true));
 			return false;
 		}
@@ -360,8 +365,14 @@ class ActionHandler extends ActionHandlerInterface {
 		ArgumentValidator::validate($action,$dp);
 		ArgumentValidator::validate($actionOnFail,$dp);
 		if ($actionOnSuccess)
-			AgumentValidator::validate($actionOnSuccess,$dp);
-			
+			ArgumentValidator::validate($actionOnSuccess,$dp);
+		
+		// lets make sure they're not creating a circular loop
+		if (($action == $actionOnFail) || ($action == $actionOnSuccess)) {
+			throwError ( new Error("ActionHandler::setActionThread($action) - you may not
+			specify an action on fail or succeed to forward to the same action.","ActionHandler",true));
+		}
+		
 		// ok, now check if we've already defined a thread for $action.
 		// if so, throw a WARNING
 		if (isset($this->_threads[$action]))

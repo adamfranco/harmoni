@@ -15,7 +15,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginHandler.interface.php");
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: LoginHandler.class.php,v 1.2 2003/11/25 19:56:21 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginHandler extends LoginHandlerInterface {
@@ -37,6 +37,12 @@ class LoginHandler extends LoginHandlerInterface {
 	 * @var object $_harmoni The {@Harmoni} object using this LoginHandler.
 	 **/
 	var $_harmoni;
+
+	/**
+	 * @access private
+	 * @var boolean $_executed Specifies if we've already executed this session.
+	 **/
+	var $_executed;
 	
 	/**
 	 * @access private
@@ -81,10 +87,12 @@ class LoginHandler extends LoginHandlerInterface {
 			$state =& new LoginState;
 			$_SESSION['__LoginState'] =& $state;
 		}
-			
-		// if they are logged in and valid, just return
-		if ($state->isValid()) {return $state;}
+		
+		// if they are logged in and valid, or we've already executed, just return
+		if ($this->_executed || $state->isValid()) {return $state;}
 					
+		$this->_executed = true;
+		
 		// first, we need to somehow get the username/passwd pair from the browser,
 		// and we're also going to store the URL they were trying to access
 		// in the session so we can send them there later.
@@ -132,7 +140,7 @@ class LoginHandler extends LoginHandlerInterface {
 			// send them to the failed login action
 			
 			// but first throw a little error, for kicks... or not.
-			$error =& new Error(_("Login failed. Most likely your username or password is incorrect."),"Login",false);
+			$error =& new Error("Login failed. Most likely your username or password is incorrect.","Login",false);
 			Services::requireService("UserError");
 			$errHandler =& Services::getService("UserError");
 			$errHandler->addError($error);

@@ -5,7 +5,7 @@ require_once(HARMONI."utilities/Template.class.php");
 class TemplateFactory {
 	var $_paths;
 	var $_ext="";
-	function TemplateFactory() {
+	function TemplateFactory($searchPath1) {
 		if (!func_num_args()) {
 			throwError(new Error("TemplateFactory - you must specify at least one search path.","TemplateFactory",true));
 		}
@@ -15,7 +15,7 @@ class TemplateFactory {
 	}
 	
 	function setExtension($ext) {
-		$this->_ext = "." . $ext;
+		$this->_ext = "." . ereg_replace("^\.","",$ext);
 	}
 	
 	function &newTemplate($name) {

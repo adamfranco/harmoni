@@ -16,7 +16,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.3 2003/11/12 02:50:35 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.4 2003/11/25 19:56:21 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni extends HarmoniInterface {
@@ -104,8 +104,8 @@ class Harmoni extends HarmoniInterface {
 		// set up the default action callback function
 		$this->setActionCallbackFunction("httpTwoVarsActionCallback");
 		
-		// set up the language localizer
-		$this->language =& new LanguageLocalizer(HARMONI."languages");
+		// set up the language localizer :: BROKEN?
+//		$this->language =& new LanguageLocalizer(HARMONI."languages");
 	}
 	
 	function getVersionStr() {
@@ -144,7 +144,7 @@ class Harmoni extends HarmoniInterface {
 		$this->config->checkAll();
 		
 		// check to make sure we have a theme object set!
-		if (!$this->theme) throwError(new Error("Harmoni::execute() - You must 
+		if ($this->config->get("outputHTML") && !$this->theme) throwError(new Error("Harmoni::execute() - You must 
 							specify a theme to use before calling execute()!","Harmoni",true));
 		
 		// find what action we are trying to execute

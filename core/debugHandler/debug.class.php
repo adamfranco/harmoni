@@ -1,11 +1,13 @@
 <?php
 
+require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
+
 /**
  * The debug class is a static abstract class that holds wrapper functions for the DebugHandler service in Harmoni.
  *
  * @see {@link DebugHandlerInterface}
  * @static
- * @version $Id: debug.class.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: debug.class.php,v 1.2 2003/11/25 19:56:21 gabeschine Exp $
  * @package harmoni.debug
  * @copyright 2003 
  **/
@@ -42,6 +44,15 @@ class debug {
 		if (is_int($level))
 			$debugHandler->setOutputLevel($level);
 		return $debugHandler->getOutputLevel();
+	}
+	
+	/**
+	 * Prints current debug output using NewWindowDebugHandlerPrinter
+	 * @access public
+	 * @return void
+	 */
+	function printAll() {
+		NewWindowDebugHandlerPrinter::printDebugHandler(Services::requireService("Debug"));
 	}
 	
 }

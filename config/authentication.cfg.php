@@ -1,11 +1,11 @@
-<?php
+<?
 
 /**
  * The Authentication config file.
  * 
  * Here, set up your various AuthenticationMethods and their options and add them to the AuthenticationHandler.
  *
- * @version $Id: authentication.cfg.php,v 1.4 2003/08/23 23:56:20 gabeschine Exp $
+ * @version $Id: authentication.cfg.php,v 1.5 2003/11/25 19:56:21 gabeschine Exp $
  * @package harmoni.authentication
  * @copyright 2003 
  **/
