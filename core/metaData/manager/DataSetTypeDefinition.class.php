@@ -128,6 +128,12 @@ class DataSetTypeDefinition {
 	function fieldExists($label) {
 		return (isset($this->_fields[$label]))?true:false;
 	}
+	
+	function getFieldType($label) {
+		if (!$this->fieldExists($label)) return false;
+		
+		return $this->_fields[$label]->getType();
+	}
 }
 
 

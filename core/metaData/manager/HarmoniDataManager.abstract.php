@@ -25,12 +25,12 @@ class HarmoniDataManager {
 		$idManager =& new IDManager( $dbID );
 		$dataSetTypeManager =& new DataSetTypeManager($idManager, $dbID);
 		$dataTypeManager =& new DataTypeManager();
-//		$dataSetManager =& new DataSetManager( ... );
+		$dataSetManager =& new DataSetManager( $idManager, $dbID, $dataSetTypeManager );
 
 		Services::registerObjectAsService("IDManager",$idManager);
 		Services::registerObjectAsService("DataSetTypeManager",$dataSetTypeManager);
 		Services::registerObjectAsService("DataTypeManager",$dataTypeManager);
-//		Services::registerObjectAsService("DataSetManager",$dataSetManager);
+		Services::registerObjectAsService("DataSetManager",$dataSetManager);
 
 		debug::output("Activated Harmoni Data Manager.",DEBUG_SYS1,"HarmoniDataManager");
 	}

@@ -14,6 +14,10 @@ class DataTypeInterface {
 	
 	function update() { }
 	
+	function alterQuery( &$query ) { }
+	
+	function populate( &$dbRow ) { }
+	
 }
 
 ?>
