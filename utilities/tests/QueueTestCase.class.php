@@ -8,7 +8,7 @@
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: QueueTestCase.class.php,v 1.2 2003/06/16 22:07:30 adamfranco Exp $
+ * @version $Id: QueueTestCase.class.php,v 1.3 2003/06/16 22:24:33 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -27,9 +27,10 @@
 		*    @public
 		*/
 		function setUp() {
-			$this->testQueue = new Queue();
+			$this->testQueue =& new Queue();
 			
 			$this->testObject =& new Queue();
+
 			$this->testQueue->add($this->testObject);
 			$this->testQueue->add(new Queue());
 			
@@ -59,7 +60,9 @@
 			
 			$this->testQueue->clear();
 			
-			$this->assertEqual($this->testQueue->getSize(), 0);				
+			$this->assertEqual($this->testQueue->getSize(), 0);
+			
+			$this->assertFalse($this->testQueue->hasNext());
 		}
 		
 		function testNext(){
@@ -79,7 +82,7 @@
 			$this->assertEqual($this->testQueue->_position,2);
 
 			
-			$this->assertTrue(!($this->testQueue->hasNext()));
+			$this->assertFalse($this->testQueue->hasNext());
 		}
 		
     }

@@ -4,7 +4,7 @@ require_once("Queue.interface.php");
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.class.php,v 1.2 2003/06/16 22:07:29 adamfranco Exp $
+ * @version $Id: Queue.class.php,v 1.3 2003/06/16 22:24:33 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -50,7 +50,7 @@ class Queue extends QueueInterface {
 	 * @access public
 	 */
 	function hasNext() {
-		return ($this->_queue[$this->_position])?true:false;
+		return ($this->_queue[$this->_position]) ? true : false;
 	}
 	
 	/**
