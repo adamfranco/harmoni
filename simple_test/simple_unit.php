@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_unit.php,v 1.1 2003/06/16 20:01:08 dobomode Exp $
+    // $Id: simple_unit.php,v 1.2 2003/06/25 18:51:11 dobomode Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -245,7 +245,7 @@
             } elseif (is_integer($var)) {
                 return "Integer: $var";
             } elseif (is_float($var)) {
-                return "Float: $arg";
+                return "Float: $var";
             } elseif (is_array($var)) {
                 return "Array: " . count($var) . " items";
             } elseif (is_resource($var)) {

@@ -1,13 +1,12 @@
 <?php
 
-require_once("../utilities/Queue.class.php");
-require_once("Error.class.php");
-require_once("ErrorHandler.interface.php");
-
+require_once(HARMONI."utilities/Queue.class.php");
+require_once(HARMONI."errorHandler/Error.class.php");
+require_once(HARMONI."errorHandler/ErrorHandler.interface.php");
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.4 2003/06/25 15:16:43 movsjani Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.5 2003/06/25 18:51:11 dobomode Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */
@@ -29,9 +28,9 @@ class ErrorHandler extends ErrorHandlerInterface{
 
 	function addError(& $error){
 		if($error->isFatal())
-			$this->_outputFatal(& $error);
+			$this->_outputFatal($error);
 		else
-			$this->_errorQueue->add(& $error);
+			$this->_errorQueue->add($error);
 	}
 
 	/**
@@ -47,9 +46,9 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 * @access public
 	 */
 
-	function addNewError($description,$type,$isFatal = false){
-		$newError = new Error($description,$type,$isFatal);
-		$this->addError(& $newError);
+	function & addNewError($description,$type,$isFatal = false){
+		$newError =& new Error($description,$type,$isFatal);
+		$this->addError($newError);
 
 		return $newError;
 	}
@@ -64,8 +63,15 @@ class ErrorHandler extends ErrorHandlerInterface{
 
 		while($this->_errorQueue->hasNext()){
 			$error =& $this->_errorQueue->next();
-			$errorArray[] = (($error->getType())?"[".$error->getType()."] ":"").$error->getDescription();
+			
+			$str = "";
+			if ($error->getType())
+				$str .= "[".$error->getType()."] ";
+			$str .= $error->getDescription();
+			
+			$errorArray[] = $str;
 		}
+		
 		return $errorArray;
 	}
 
@@ -88,20 +94,47 @@ class ErrorHandler extends ErrorHandlerInterface{
 		$this->_errorQueue->clear();
 	}
 
+	/**
+	 *    Renders a variable in a shorter form than print_r(). Borrowed from
+	 *    the SimpleTest PHP unit test framework.
+	 *    @param $var        Variable to render as a string.
+	 *    @protected
+	 */
+	function _renderVariable($var) {
+	    if (!isset($var)) {
+	        return "NULL";
+	    } elseif (is_bool($var)) {
+	        return "Boolean: " . ($var ? "true" : "false");
+	    } elseif (is_string($var)) {
+	        return "String: \"$var\"";
+	    } elseif (is_integer($var)) {
+	        return "Integer: $var";
+	    } elseif (is_float($var)) {
+	        return "Float: $var";
+	    } elseif (is_array($var)) {
+	        return "Array: " . count($var) . " items";
+	    } elseif (is_resource($var)) {
+	        return "Resource: $var";
+	    } elseif (is_object($var)) {
+	        return "Object: " . get_class($var);
+	    }
+	    return "Unknown";
+	}
+	
+	
     /**
      * Output formatted messages about error history in the case of a fatal error. Terminate the execution of the script afterwards.
 	 * @access private
      */
-
 	function _outputFatal(& $error){
 		/* Print the information about the last Error and the sequence of commands that caused it */
   	
-		print "<h3>Fatal error:</h3>";
+		print "<b>FATAL ERROR:</b><br><br>\n";
 
 		if($error->getType())
-			print "Type: ".$error->getType()."<br>";
+			print "<b>Type</b>: ".$error->getType()."<br>";
 		
-		print "Description: ".$error->getDescription()."<br><br>";
+		print "<b>Description</b>: ".$error->getDescription()."<br><br>\n";
 
 		/* get the call sequence information */
 		$traceArray = debug_backtrace();
@@ -116,10 +149,12 @@ class ErrorHandler extends ErrorHandlerInterface{
 			$args = "";
 
 			/* Get comma delimited arguements of the calls.  Arrays and Objects are not expanded */
-			foreach($trace['args'] as $argument)
-				$args.= $argument.",";
-
-			$args = substr($args,0,-1);
+			$argsArray = array();
+			
+			foreach ($trace["args"] as $arg)
+				$argsArray[] = $this->_renderVariable($arg);
+						
+			$args = implode(", ", $argsArray);
 				
 			print "in <b>$file:$line</b> $class$type$function($args)<br>\n";
 		}
@@ -128,15 +163,15 @@ class ErrorHandler extends ErrorHandlerInterface{
 
 		$errors = $this->generateErrorStringArray();
 		
-		print "<h4>Previous Errors:</h4>";
+		print "<br>----------------<br><br><b>PREVIOUS ERRORS:</b><br>\n";
 
-		print "<ul>";
+		print "<ul>\n";
 
 	    foreach($errors as $error){
-			print "<li>$error</li>";
+			print "<li>$error</li>\n";
 		}
 
-		print "</ul>";
+		print "</ul>\n";
 	   
 		exit();
 	}
