@@ -47,7 +47,7 @@
 	 * @access public
 	 * @package harmoni.dbc
 	 */
-	define("OKI", 5);
+//	define("OKI", 5);
 	
 require_once(HARMONI.'services/Service.interface.php');
 
@@ -56,7 +56,7 @@ require_once(HARMONI.'services/Service.interface.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password.
  *
- * @version $Id: DBHandler.interface.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: DBHandler.interface.php,v 1.2 2003/09/08 16:03:02 gabeschine Exp $
  * @package harmoni.interfaces.dbc
  * @copyright 2003 
  * @access public

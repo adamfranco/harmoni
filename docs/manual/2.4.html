@@ -83,7 +83,7 @@
 </font>
 </code></div></div>
 <p><p>The above might output something like:</p></p>
-<div class='block'><code>Our&nbsp;query&nbsp;has&nbsp;3&nbsp;rows!<br />Result&nbsp;row:&nbsp;column1&nbsp;=&nbsp;jones,&nbsp;column2&nbsp;AS&nbsp;anAlias&nbsp;=&nbsp;fred<br />Result&nbsp;row:&nbsp;column1&nbsp;=&nbsp;jones,&nbsp;column2&nbsp;AS&nbsp;anAlias&nbsp;=&nbsp;george<br />Result&nbsp;row:&nbsp;column1&nbsp;=&nbsp;jones,&nbsp;column2&nbsp;AS&nbsp;anAlias&nbsp;=&nbsp;franky</code></div>
+<div class='block'><code>Our&nbsp;query&nbsp;has&nbsp;3&nbsp;rows!<br />Result&nbsp;row:&nbsp;column1&nbsp;=&nbsp;jones,&nbsp;anAlias&nbsp;=&nbsp;fred<br />Result&nbsp;row:&nbsp;column1&nbsp;=&nbsp;jones,&nbsp;anAlias&nbsp;=&nbsp;george<br />Result&nbsp;row:&nbsp;column1&nbsp;=&nbsp;jones,&nbsp;anAlias&nbsp;=&nbsp;franky</code></div>
 <p><p>The SQL query could look something like:</p></p>
 <div class='block'><code>SELECT&nbsp;column1,&nbsp;column2&nbsp;AS&nbsp;anAlias<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;table1<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;column1&nbsp;=&nbsp;'jones'</code></div>
 <p><p>This is a very simple example. The SelectQuery can do a whole lot more. Take a look at the PHPDoc or later chapters for more information.</p></p>

@@ -37,7 +37,7 @@ function emptyDir($dir) {
 	$d =@opendir($dir);
 	if (!$d) doError("Can't open '$dir' for reading.");
 	while ($f = @readdir($d)) {
-		if (!ereg("\.{1,2}",$f)) {
+		if (!ereg("\.{1,2}",$f) && $f != "CVS") {
 			if (is_file($dir.DIRECTORY_SEPARATOR.$f)) {
 				unlink($dir.DIRECTORY_SEPARATOR.$f);
 				continue;

@@ -24,8 +24,10 @@ exit(1);
 }
 
 define("MYDIR", dirname(__FILE__));
-include("../../../harmoni.inc.php");
+include(MYDIR."/../../../harmoni.inc.php");
 include(MYDIR."/core/functions.inc.php");
+
+error_reporting(0);
 
 $myProg = shift($argv);
 $cfg =& new FieldSet;
