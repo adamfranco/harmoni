@@ -4,7 +4,7 @@
  * Agents are an abstraction for a principal or group.  The Agent may be granted authorization to perform specific functions.  Agents are created through implementations of osid.shared.SharedManager and have an immutable name, Type, and Unique Id. <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
  * @package osid.shared
  */
-class HarmoniAgent // :: API interface
+class HarmoniAgent extends Agent // :: API interface
 //	extends java.io.Serializable
 {
 
@@ -33,7 +33,7 @@ class HarmoniAgent // :: API interface
 	 * The constructor.
 	 * @param string displayName The display name.
 	 * @param object id The id.
-	 * @@param object type The type.
+	 * @param object type The type.
 	 * @access public
 	 */
 	function HarmoniAgent($displayName, & $id, & $type) {

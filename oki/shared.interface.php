@@ -278,7 +278,7 @@ class Group // :: API interface
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.shared
 	 */
-	function updateDescription($Description) { /* :: interface :: */ }
+	function updateDescription($description) { /* :: interface :: */ }
 
 	/**
 	 * Get the Unique Id of this Group as stored.

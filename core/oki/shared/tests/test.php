@@ -3,12 +3,22 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.3 2004/04/01 22:44:14 dobomode Exp $
+ * @version $Id: test.php,v 1.4 2004/04/08 21:21:51 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003 
  **/
  
-	require_once(dirname(__FILE__)."/../../../../harmoni.inc.php");
+require_once dirname(__FILE__)."/../../../../core/utilities/Timer.class.php";
+$timer =& new Timer;
+$timer->start();
+
+$harmonyLoadupTimer =& new Timer;
+$harmonyLoadupTimer->start();
+
+require_once(dirname(__FILE__)."/../../../../harmoni.inc.php");
+
+$harmonyLoadupTimer->end();
+
         
     require_once(SIMPLE_TEST . 'simple_unit.php');
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
@@ -26,10 +36,23 @@
     $test->addTestFile(HARMONI.'/oki/shared/tests/DatabaseIdTestCase.class.php');
     $test->addTestFile(HARMONI.'/oki/shared/tests/SharedManagerTestCase.class.php');
     $test->addTestFile(HARMONI.'/oki/shared/tests/AgentTestCase.class.php');
+    $test->addTestFile(HARMONI.'/oki/shared/tests/GroupTestCase.class.php');
 
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 	
+$timer->end();
+
+print "\n<br />Harmoni Load Time: ".$harmonyLoadupTimer->printTime();
+print "\n<br />Overall Time: ".$timer->printTime();
+print "\n</p>";
+
+$dbHandler =& Services::getService("DBHandler");
+$num = $dbHandler->getTotalNumberOfQueries();
+debug::output("Total # of queries: ".$num,1,"DBHandler");
+debug::printAll();
+unset($dbHandler,$errorHandler, $userError);
+unset($num);
 //	$errorHandler->printErrors(HIGH_DETAIL);
 //	print "<pre>";
 //	print_r($errorHandler);

@@ -4,6 +4,9 @@ require_once(OKI."/shared.interface.php");
 
 require_once(HARMONI."oki/shared/HarmoniType.class.php");
 require_once(HARMONI."oki/shared/HarmoniTypeIterator.class.php");
+require_once(HARMONI."oki/shared/HarmoniAgent.class.php");
+require_once(HARMONI."oki/shared/HarmoniAgentIterator.class.php");
+require_once(HARMONI."oki/shared/HarmoniGroup.class.php");
 require_once(HARMONI."oki/shared/HarmoniTestId.class.php");
 require_once(HARMONI."oki/shared/HarmoniId.class.php");
 require_once(HARMONI."oki/shared/HarmoniStringId.class.php");
@@ -36,7 +39,7 @@ require_once(HARMONI."oki/shared/HarmoniSharedManagerDataContainer.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.18 $ / $Date: 2004/04/01 22:44:14 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.19 $ / $Date: 2004/04/08 21:21:37 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -99,7 +102,8 @@ class HarmoniSharedManager
 
     /**
      * Create an Agent with the display name and Type specified.  Both are
-     * immutable.
+     * immutable. Implemented with 1 SELECT and 1 INSERT queries for a total of
+	 * 2 SQL queries.
      *
      * @param String displayName
      * @param osid.shared.Type agentType
@@ -113,27 +117,85 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & createAgent(& $agentType, $name) {
+	function & createAgent($displayName, & $agentType) { 
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("HarmoniType");
 		ArgumentValidator::validate($agentType, $extendsRule, true);
-		ArgumentValidator::validate($name, new StringValidatorRule(), true);
+		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
 		// ** end of parameter validation
 		
 		// create a new unique id for the agent
-		$id =& $this->createId();
+		$agentId =& $this->createId();
 		// get the actual id
-		$idValue = $id->getIdString();
+		$agentIdValue = $agentId->getIdString();
 		
 		// now insert the agent in the database
-		// first - insert the type
-		$query =& new InsertQuery();
-		$db = $this->_sharedDB.".";
-		$query->setTable($db.$this->_typeTable);
-		$query->setColumns(array());
-		
 
+		$dbHandler =& Services::requireService("DBHandler");
+		$db = $this->_sharedDB.".";
+
+		// 1. Insert the type
 		
+		$domain = $agentType->getDomain();
+		$authority = $agentType->getAuthority();
+		$keyword = $agentType->getKeyword();
+		$description = $agentType->getDescription();
+
+		// check whether the type is already in the DB, if not insert it
+		$query =& new SelectQuery();
+		$query->addTable($db.$this->_typeTable);
+		$query->addColumn($this->_typeTable_idColumn, "id", $db.$this->_typeTable);
+		$where = $db.$this->_typeTable.".".$this->_typeTable_domainColumn." = '".$domain."'";
+		$where .= " AND ".$db.$this->_typeTable.".".$this->_typeTable_authorityColumn." = '".$authority."'";
+		$where .= " AND ".$db.$this->_typeTable.".".$this->_typeTable_keywordColumn." = '".$keyword."'";
+		$where .= " AND ".$db.$this->_typeTable.".".$this->_typeTable_descriptionColumn." = '".$description."'";
+		$query->addWhere($where);
+
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		if ($queryResult->getNumberOfRows() > 0) // if the type is already in the database
+			$typeIdValue = $queryResult->field("id"); // get the id
+		else { // if not, insert it
+			$query =& new InsertQuery();
+			$query->setTable($db.$this->_typeTable);
+			$columns = array();
+			$columns[] = $this->_typeTable_domainColumn;
+			$columns[] = $this->_typeTable_authorityColumn;
+			$columns[] = $this->_typeTable_keywordColumn;
+			$columns[] = $this->_typeTable_descriptionColumn;
+			$query->setColumns($columns);
+			$values = array();
+			$values[] = "'".$domain."'";
+			$values[] = "'".$authority."'";
+			$values[] = "'".$keyword."'";
+			$values[] = "'".$description."'";
+			$query->setValues($values);
+
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			$typeIdValue = $queryResult->getLastAutoIncrementValue();
+		}
+		
+		// 2. Now that we know the id of the type, insert the agent itself
+		$query =& new InsertQuery();
+		$query->setTable($db.$this->_agentTable);
+		$columns = array();
+		$columns[] = $this->_agentTable_idColumn;
+		$columns[] = $this->_agentTable_displayNameColumn;
+		$columns[] = $this->_agentTable_fkTypeColumn;
+		$query->setColumns($columns);
+		$values = array();
+		$values[] = "'".$agentIdValue."'";
+		$values[] = "'".$displayName."'";
+		$values[] = "'".$typeIdValue."'";
+		$query->setValues($values);
+
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// create the agent object to return
+		$agent =& new HarmoniAgent($displayName, $agentId, $agentType);
+		// then cache it
+		$this->_agentsCache[$agentIdValue] =& $agent;
+		
+		return $agent;
 	}
 
 	/**
@@ -149,11 +211,63 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function deleteAgent(& $id) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("Id");
+		ArgumentValidator::validate($id, $extendsRule, true);
+		// ** end of parameter validation
+
+		// get the id
+		$idValue = $id->getIdString();
+		
+		$dbHandler =& Services::requireService("DBHandler");
+
+		// 1. Get the id of the type associated with the agent
+		$query =& new SelectQuery();
+		
+		$db = $this->_sharedDB.".";
+		$query->addTable($db.$this->_agentTable);
+		$query->addColumn($this->_agentTable_fkTypeColumn, "type_id", $db.$this->_agentTable);
+		$query->addWhere($db.$this->_agentTable.".".$this->_agentTable_idColumn." = '".$idValue."'");
+
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		if ($queryResult->getNumberOfRows() == 0)
+			throwError(new Error("The agent with Id: ".$idValue." does not exist in the database.","SharedManager",true));
+		if ($queryResult->getNumberOfRows() > 1)
+			throwError(new Error("Multiple agents with Id: ".$idValue." exist in the database." ,"SharedManager",true));
+		$typeIdValue = $queryResult->field("type_id");
+		
+		// 2. Now delete the agent
+		$query =& new DeleteQuery();
+		$query->setTable($db.$this->_agentTable);
+		$query->addWhere($db.$this->_agentTable.".".$this->_agentTable_idColumn." = '".$idValue."'");
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		
+		// 3. Now see if any other agents have the same type
+		$query =& new SelectQuery();
+		
+		$db = $this->_sharedDB.".";
+		$query->addTable($db.$this->_agentTable);
+		// count the number of agents using the same type
+		$query->addColumn("COUNT(".$db.$this->_agentTable.".".$this->_agentTable_fkTypeColumn.")", "num");
+		$query->addWhere($db.$this->_agentTable.".".$this->_agentTable_fkTypeColumn." = '".$typeIdValue."'");
+
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$num = $queryResult->field("num");
+		if ($num == 0) { // if no other agents use this type, then delete the type
+			$query =& new DeleteQuery();
+			$query->setTable($db.$this->_typeTable);
+			$query->addWhere($db.$this->_typeTable.".".$this->_typeTable_idColumn." = '".$typeIdValue."'");
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		}
+
+		// clear the cache
+		if (isset($this->_agentsCache[$idValue]))
+			unset ($this->_agentsCache[$idValue]);
 	}
 
 	/**
-	 * Get the Agent with the specified unique Id.
+	 * Get the Agent with the specified unique Id. Implemented with 1 SELECT query.
 	 *
 	 * @param osid.shared.Id agentId
 	 *
@@ -194,14 +308,13 @@ class HarmoniSharedManager
 		
 		// set the columns to select
 		$query->addColumn($this->_agentTable_displayNameColumn, "display_name", $db.$this->_agentTable);
-		$query->addColumn($this->_typeTable_idColumn, "id", $db.$this->_typeTable);
 		$query->addColumn($this->_typeTable_domainColumn, "domain", $db.$this->_typeTable);
 		$query->addColumn($this->_typeTable_authorityColumn, "authority", $db.$this->_typeTable);
 		$query->addColumn($this->_typeTable_keywordColumn, "keyword", $db.$this->_typeTable);
 		$query->addColumn($this->_typeTable_descriptionColumn, "description", $db.$this->_typeTable);
 
 		// set the where clause
-		$query->setWhere($db.$this->_agentTable.".".$this->_agentTable_idColumn." = '".$idValue."'");
+		$query->addWhere($db.$this->_agentTable.".".$this->_agentTable_idColumn." = '".$idValue."'");
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -234,7 +347,45 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getAgents() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		$dbHandler =& Services::requireService("DBHandler");
+		$query =& new SelectQuery();
+		
+		$db = $this->_sharedDB.".";
+		
+		// set the tables
+		$query->addTable($db.$this->_agentTable);
+		$joinc = $db.$this->_agentTable.".".$this->_agentTable_fkTypeColumn." = ".$db.$this->_typeTable.".".$this->_typeTable_idColumn;
+		$query->addTable($db.$this->_typeTable, INNER_JOIN, $joinc);
+		
+		// set the columns to select
+		$query->addColumn($this->_agentTable_idColumn, "id", $db.$this->_agentTable);
+		$query->addColumn($this->_agentTable_displayNameColumn, "display_name", $db.$this->_agentTable);
+		$query->addColumn($this->_typeTable_domainColumn, "domain", $db.$this->_typeTable);
+		$query->addColumn($this->_typeTable_authorityColumn, "authority", $db.$this->_typeTable);
+		$query->addColumn($this->_typeTable_keywordColumn, "keyword", $db.$this->_typeTable);
+		$query->addColumn($this->_typeTable_descriptionColumn, "description", $db.$this->_typeTable);
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+
+		$agents = array();
+		while ($queryResult->hasMoreRows()) {
+			// fetch current row
+			$arr = $queryResult->getCurrentRow();
+			
+			// create agent object
+			$type =& new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
+			$agent =& new HarmoniAgent($arr['display_name'], new HarmoniId($arr['id']), $type);
+			
+			// add it to array
+			$agents[] =& $agent;
+
+			// cache it
+			$this->_agentsCache[$idValue] =& $agent;
+
+			$queryResult->advanceRow();
+		}
+		
+		$result =& new HarmoniAgentIterator($agents);
+		return $result;
 	}
 
 	/**
