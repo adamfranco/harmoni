@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.8 2005/01/19 23:23:08 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.9 2005/01/26 17:29:44 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
@@ -65,7 +65,7 @@ class HarmoniGroup
 		// ** parameter validation
 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($propertiesArray, new ArrayValidatorRuleWithRule(
 					new OptionalRule(
 						new ExtendsValidatorRule("Properties")

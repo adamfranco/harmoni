@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.6 2005/01/19 23:23:09 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.7 2005/01/26 17:29:46 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -879,7 +879,7 @@ class HarmoniAuthorizationManager
 	 */
 	function &getExplicitUserAZsByFuncType ( &$functionType, &$qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
-		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($isActiveNowOnly, new BooleanValidatorRule(), true);
 		// ** end of parameter validation
@@ -988,7 +988,7 @@ class HarmoniAuthorizationManager
 	 */
 	function &getAllUserAZsByFuncType ( &$functionType, &$qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
-		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($isActiveNowOnly, new BooleanValidatorRule(), true);
 		// ** end of parameter validation
@@ -1095,7 +1095,7 @@ class HarmoniAuthorizationManager
 	function &getExplicitAZsByFuncType ( &$agentId, &$functionType, &$qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($isActiveNowOnly, new BooleanValidatorRule(), true);
 		// ** end of parameter validation
@@ -1205,7 +1205,7 @@ class HarmoniAuthorizationManager
 	function &getAllAZsByFuncType ( &$agentId, &$functionType, &$qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($agentId, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($isActiveNowOnly, new BooleanValidatorRule(), true);
 		// ** end of parameter validation

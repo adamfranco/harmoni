@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.6 2005/01/19 23:23:09 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.7 2005/01/26 17:29:46 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -164,7 +164,7 @@ class AuthorizationCache {
 		ArgumentValidator::validate($functionId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
-		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($qualifierHierarchyId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
 		
@@ -265,7 +265,7 @@ class AuthorizationCache {
 		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
-		ArgumentValidator::validate($qualifierType, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($qualifierType, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($qualifierHierarchyId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
 
@@ -299,7 +299,7 @@ class AuthorizationCache {
 		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
-		ArgumentValidator::validate($qualifierType, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($qualifierType, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($parentId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
 
@@ -371,7 +371,7 @@ class AuthorizationCache {
 	 */
 	function &getFunctions(& $functionType) {
 		// ** parameter validation
-		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($functionType, new ExtendsValidatorRule("Type"), true);
 		// ** end of parameter validation
 		
 		$dbHandler =& Services::requireService("DBHandler");
@@ -714,7 +714,7 @@ class AuthorizationCache {
 		ArgumentValidator::validate($aId, new OptionalRule($rule), true);
 		ArgumentValidator::validate($fId, new OptionalRule($rule), true);
 		ArgumentValidator::validate($qId, $rule, true);
-		ArgumentValidator::validate($fType, new OptionalRule(new ExtendsValidatorRule("TypeInterface")), true);
+		ArgumentValidator::validate($fType, new OptionalRule(new ExtendsValidatorRule("Type")), true);
 		ArgumentValidator::validate($isExplicit, new BooleanValidatorRule(), true);
 		ArgumentValidator::validate($isActiveNow,new BooleanValidatorRule(), true);
 		// ** end of parameter validation

@@ -20,7 +20,7 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.7 2005/01/19 23:23:10 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.8 2005/01/26 17:29:47 adamfranco Exp $
  */
 
 class HarmoniNode 
@@ -79,7 +79,7 @@ class HarmoniNode
 	function HarmoniNode(& $id, & $type, $displayName, $description, & $cache) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
 		ArgumentValidator::validate($cache, new ExtendsValidatorRule("HierarchyCache"), true);

@@ -13,7 +13,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schema.class.php,v 1.7 2005/01/19 21:09:42 adamfranco Exp $
+ * @version $Id: Schema.class.php,v 1.8 2005/01/26 17:28:37 adamfranco Exp $
  * @author Gabe Schine
  */
 class Schema {
@@ -34,7 +34,7 @@ class Schema {
 	 * @param int $revision The internal revision number. Useful for keeping track if the Schema definition in the database matches that which you need.
 	 */
 	function Schema(&$type, $revision=1) {
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
 
 		$this->_type =& $type;
 		$this->_revision = $revision;

@@ -44,7 +44,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.10 2005/01/26 16:57:45 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.11 2005/01/26 17:29:47 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -453,7 +453,7 @@ class HarmoniRepository
 	 * @public
 	 */
 	function &getAssetsByType ( &$assetType ) { 
-		ArgumentValidator::validate($assetType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($assetType, new ExtendsValidatorRule("Type"));
 		$assets = array();
 		$allAssets =& $this->getAssets();
 		while ($allAssets->hasNext()) {

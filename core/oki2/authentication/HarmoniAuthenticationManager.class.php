@@ -58,7 +58,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.6 2005/01/19 23:23:09 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.7 2005/01/26 17:29:45 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -181,7 +181,7 @@ class HarmoniAuthenticationManager
 	 */
 	function authenticateUser ( &$authenticationType ) {
 		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
 
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
@@ -244,7 +244,7 @@ class HarmoniAuthenticationManager
 	 */
 	function isUserAuthenticated ( &$authenticationType ) { 
 		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
@@ -292,7 +292,7 @@ class HarmoniAuthenticationManager
 	 */
 	function &getUserId ( &$authenticationType ) { 
 		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
@@ -364,7 +364,7 @@ class HarmoniAuthenticationManager
 	 */
 	function destroyAuthenticationForType ( &$authenticationType ) { 
 		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->authTypes[$key]->isEqual($authenticationType)) {
@@ -414,7 +414,7 @@ class HarmoniAuthenticationManager
 	 */
 	function &getAgentId ( &$tokens, &$authenticationType ) {
 		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
@@ -463,7 +463,7 @@ class HarmoniAuthenticationManager
 	 * @since 11/18/04
 	 */
 	function _getAgentId ($tokens, & $authenticationType) {
-		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
 		
 		// If we have cached this mapping, use that
 		if ($this->_agentIds[$tokens]) {

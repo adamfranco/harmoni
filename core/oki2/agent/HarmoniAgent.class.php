@@ -16,7 +16,7 @@ require_once(OKI2."/osid/agent/Agent.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.7 2005/01/19 23:23:07 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.8 2005/01/26 17:29:44 adamfranco Exp $
  */
 class HarmoniAgent 
 	extends Agent
@@ -77,7 +77,7 @@ class HarmoniAgent
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($propertiesArray, new ArrayValidatorRuleWithRule(
 					new OptionalRule(
 						new ExtendsValidatorRule("Properties")

@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.6 2005/01/19 23:23:12 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.7 2005/01/26 17:29:47 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -153,7 +153,7 @@ class HarmoniRepositoryManager
 		// Argument Validation
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate(repositoryType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate(repositoryType, new ExtendsValidatorRule("Type"));
 		
 		// Create an Id for the digital Repository Node
 		$sharedManager =& Services::getService("Shared");
@@ -344,7 +344,7 @@ class HarmoniRepositoryManager
  */
 
   function &getRepositoriesByType ( &$repositoryType ) { 
-		ArgumentValidator::validate($repositoryType, new ExtendsValidatorRule("TypeInterface"));
+		ArgumentValidator::validate($repositoryType, new ExtendsValidatorRule("Type"));
 		
 		// Select the Ids of corresponding repositories
 		$query =& new SelectQuery;
