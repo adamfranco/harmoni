@@ -5,7 +5,7 @@ require_once(HARMONI."DateTime.interface.php");
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.1 2003/07/20 17:43:26 dobomode Exp $
+ * @version $Id: DateTime.class.php,v 1.2 2003/07/20 18:25:19 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -100,6 +100,9 @@ class DateTime implements DateTimeInterface {
 	 * @access public
 	 */
 	function setYear($year) {
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($year, $integerRule, true);
+
 		$this->_year = $year;
 	}
 	
@@ -120,6 +123,9 @@ class DateTime implements DateTimeInterface {
 	 * @access public
 	 */
 	function setMonth($month) {
+		$rangeRule =& new IntegerRangeValidatorRule(1, 12);
+		ArgumentValidator::validate($month, $rangeRule, true);
+
 		$this->_month = $month;
 	}
 	
@@ -140,6 +146,9 @@ class DateTime implements DateTimeInterface {
 	 * @access public
 	 */
 	function setDay($day) {
+		$rangeRule =& new IntegerRangeValidatorRule(1, 31);
+		ArgumentValidator::validate($day, $rangeRule, true);
+
 		$this->_day = $day;
 	}
 	
@@ -160,6 +169,9 @@ class DateTime implements DateTimeInterface {
 	 * @access public
 	 */
 	function setHours($hours) {
+		$rangeRule =& new IntegerRangeValidatorRule(0, 23);
+		ArgumentValidator::validate($hours, $rangeRule, true);
+
 		$this->_hours = $hours;
 	}
 	
@@ -180,6 +192,9 @@ class DateTime implements DateTimeInterface {
 	 * @access public
 	 */
 	function setMinutes($minutes) {
+		$rangeRule =& new IntegerRangeValidatorRule(0, 59);
+		ArgumentValidator::validate($minutes, $rangeRule, true);
+
 		$this->_minutes = $minutes;
 	}
 	
@@ -200,10 +215,25 @@ class DateTime implements DateTimeInterface {
 	 * @access public
 	 */
 	function setSeconds($seconds) {
+		$rangeRule =& new IntegerRangeValidatorRule(0, 59);
+		ArgumentValidator::validate($seconds, $rangeRule, true);
+
 		$this->_seconds = $seconds;
 	}
 	
 		
+	
+	
+	/**
+	 * Returns a DateTime object corresponding to the current date and time.
+	 * @method public now
+	 * @return ref object A DateTime object corresponding to the current date and time.
+	 */
+	function & now() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+
 }
 
 

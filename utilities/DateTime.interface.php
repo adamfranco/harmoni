@@ -3,7 +3,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.interface.php,v 1.1 2003/07/20 17:43:26 dobomode Exp $
+ * @version $Id: DateTime.interface.php,v 1.2 2003/07/20 18:25:19 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -133,7 +133,17 @@ class DateTimeInterface {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
-		
+	
+	/**
+	 * Returns a DateTime object corresponding to the current date and time.
+	 * @method public now
+	 * @return ref object A DateTime object corresponding to the current date and time.
+	 */
+	function & now() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
 }
 
 

@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
 /**
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
- * @version $Id: OracleDatabase.class.php,v 1.3 2003/07/20 17:43:25 dobomode Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.4 2003/07/20 18:25:19 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -223,7 +223,7 @@ class OracleDatabase extends DatabaseInterface {
 				// object with the setAutoIncrementColumn() method.
 				$lastId = null;
 				if ($query->_sequence) {
-					$lastIdQuery = "SELECT CURRVAL('".$query->_sequence."')";
+					$lastIdQuery = "SELECT ".$query->_sequence.".CURRVAL";
 					$lastIdResourceId = $this->_query($lastIdQuery);
 					$this->_query("COMMIT");
 					$arr = pg_fetch_row($lastIdResourceId, 0);
