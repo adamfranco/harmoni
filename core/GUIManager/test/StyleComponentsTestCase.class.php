@@ -11,13 +11,29 @@ require_once(HARMONI."GUIManager/StyleComponents/FontWeightSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/FontVariantSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/LineHeightSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/TextDecorationSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/CursorSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/DirectionSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/DisplaySC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/PositionSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/TextAlignSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/TextTransformSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/VisibilitySC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/ZIndexSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/WhiteSpaceSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/ClearSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/FloatSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/AutoLengthSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/VerticalAlignSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/OverflowSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/MaxDimensionSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/TextSpacingSC.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StyleComponentsTestCase.class.php,v 1.2 2004/07/16 04:17:23 dobomode Exp $
+ * @version $Id: StyleComponentsTestCase.class.php,v 1.3 2004/07/16 15:16:12 tjigmes Exp $
  * @copyright 2003 
  */
 
@@ -146,6 +162,97 @@ require_once(HARMONI."GUIManager/StyleComponents/TextDecorationSC.class.php");
 			$sc =& new TextDecorationSC("blink");
 			$sc =& new TextDecorationSC("underline");
 
+			// ---------------------------------------------------
+
+			$sc =& new CursorSC("auto");
+			$sc =& new CursorSC("sw-resize");
+			$sc =& new CursorSC("text");
+
+			// ---------------------------------------------------
+
+			$sc =& new DirectionSC("ltr");
+			$sc =& new DirectionSC("rtl");
+			
+			// ---------------------------------------------------
+
+			$sc =& new DisplaySC("none");
+			$sc =& new DisplaySC("block");
+			$sc =& new DisplaySC("inline");
+			
+			// ---------------------------------------------------
+
+			$sc =& new PositionSC("static");
+			$sc =& new PositionSC("absolute");
+			
+			// ---------------------------------------------------
+
+			$sc =& new TextAlignSC("right");
+			$sc =& new TextAlignSC("justify");
+			
+			// ---------------------------------------------------
+
+			$sc =& new TextTransformSC("none");
+			$sc =& new TextTransformSC("uppercase");
+			$sc =& new TextTransformSC("capitalize");
+									
+			// ---------------------------------------------------
+
+			$sc =& new VisibilitySC("hidden");
+			$sc =& new VisibilitySC("collapse");
+			
+									
+			// ---------------------------------------------------
+
+			$sc =& new ZIndexSC("auto");
+			$sc =& new ZIndexSC("11");
+			
+			
+			// ---------------------------------------------------
+
+			$sc =& new WhiteSpaceSC("normal");
+			$sc =& new WhiteSpaceSC("pre");
+			
+						
+			// ---------------------------------------------------
+
+			$sc =& new ClearSC("none");
+			$sc =& new ClearSC("right");
+			$sc =& new ClearSC("both");
+									
+			// ---------------------------------------------------
+
+			$sc =& new FloatSC("none");
+			$sc =& new FloatSC("right");
+			
+			// ---------------------------------------------------
+
+			$sc =& new AutoLengthSC("auto");
+			$sc =& new AutoLengthSC("10in");			
+			
+						
+			// ---------------------------------------------------
+
+			$sc =& new VerticalAlignSC("middle");
+			$sc =& new VerticalAlignSC("text-top");
+			$sc =& new VerticalAlignSC("10in");			
+			
+						
+			// ---------------------------------------------------
+
+			$sc =& new OverflowSC("visible");
+			$sc =& new OverflowSC("hidden");
+			$sc =& new OverflowSC("auto");			
+			
+						
+			// ---------------------------------------------------
+
+			$sc =& new MaxDimensionSC("none");
+			$sc =& new MaxDimensionSC("12in");
+									
+			// ---------------------------------------------------
+
+			$sc =& new TextSpacingSC("12in");
+			$sc =& new TextSpacingSC("normal");
 		}
 		
 		
