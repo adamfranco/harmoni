@@ -7,7 +7,7 @@ require_once('Storable.interface.php');
  * to be used by the StorageMethod and StorageHandler. Must be further extended
  * to implement getData and getSize
  *
- * @version $Id: Storable.abstract.php,v 1.1 2003/06/30 03:55:38 movsjani Exp $
+ * @version $Id: Storable.abstract.php,v 1.1 2003/06/30 14:17:27 adamfranco Exp $
  * @package harmoni.Storagehandler
  * @copyright 2003
  * @access public
