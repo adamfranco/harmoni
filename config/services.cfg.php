@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.36 2005/01/26 17:37:50 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.37 2005/01/26 17:50:25 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -228,7 +228,7 @@ if (LOAD_IMAGEPROCESSOR) {
 // OKI OSID implementations:
 
 // Version 1 implementations
-if (OKI_VERSION === 1) {
+if (OKI_VERSION === 1 || OKI_VERSION === NULL) {
 	
 	// load the AuthNManager
 	if (LOAD_AUTHN) {
