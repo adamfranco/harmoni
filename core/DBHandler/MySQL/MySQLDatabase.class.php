@@ -10,8 +10,14 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.19 2005/03/09 21:43:59 adamfranco Exp $
+ * MySQL (at least as of 4.0.17) does not support nested
+ * transations. Begining a transaction after one is started will commit the
+ * previous transaction. This is pretty stupid behavior, so this class maintains
+ * a count of begin and commit calls and only runs the outer begin/commit/rollback
+ * statements. This allows applications coded for PostgreSQL/Oracle-style nested
+ * transactions to operate in MySQL. 
+ *
+ * @version $Id: MySQLDatabase.class.php,v 1.20 2005/03/09 22:44:13 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.mysql
  * @access public
@@ -105,6 +111,7 @@ class MySQLDatabase extends DatabaseInterface {
 	    $this->_linkId = false;
 	    $this->_successfulQueries = 0;
 	    $this->_failedQueries = 0;
+	    $this->_startedTransactions = 0;
 	}
 
 
@@ -463,21 +470,23 @@ class MySQLDatabase extends DatabaseInterface {
 	}
 	
 	/**
-	 * Begin a transaction.
+	 * Begin a transaction. 
 	 * 
 	 * @return void
 	 * @access public
 	 * @since 3/9/05
 	 */
 	function beginTransaction () {
-		// MySQL does not support nested transactions.
-		if ($this->_inTransaction)
-			throwError(new Error("Error: MySQL does not support nested transactions.", "DBHandler", true));
+		if ($this->_startedTransactions < 0 )
+			throwError(new Error("Error: Negative number of BEGIN statements.", "DBHandler", true));
 
-		if ($this->supportsTransactions()) {
+		if ($this->supportsTransactions()
+			&& $this->_startedTransactions == 0) 
+		{
 			$this->_query("START TRANSACTION");
-			$this->_inTransaction = TRUE;
 		}
+		
+		$this->_startedTransactions++;
 	}
 	
 	/**
@@ -489,10 +498,16 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @since 3/9/05
 	 */
 	function commitTransaction () {
-		if ($this->supportsTransactions()) {
+		if ($this->_startedTransactions < 1 )
+			throwError(new Error("Error: More COMMIT/ROLLBACK statements than BEGIN statements.", "DBHandler", true));
+		
+		if ($this->supportsTransactions()
+			&& $this->_startedTransactions == 1) 
+		{
 			$this->_query("COMMIT");
-			$this->_inTransaction = FALSE;
 		}
+		
+		$this->_startedTransactions--;
 	}
 	
 	/**
@@ -503,10 +518,22 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @since 3/9/05
 	 */
 	function rollbackTransaction () {
+		if ($this->_startedTransactions < 1 )
+			throwError(new Error("Error: More COMMIT/ROLLBACK statements than BEGIN statements.", "DBHandler", true));
+		
 		if ($this->supportsTransactions()) {
+		
+			// Roll-back first, to undo changes.
 			$this->_query("ROLLBACK");
-			$this->_inTransaction = TRUE;
+						
+			// If rollback is called inside a nested set of transactions, then the
+			// resulting state of the the database is undefined. 
+			if ($this->_startedTransactions > 1) {
+				throwError(new Error("Error: Unsuported attempt to roll-back a nested transaction. Nested transaction support for MySQL removes all but the outside begin/commit/rollback statements. Rolling-back from an interior transaction would leave the database in an undefined state.", "DBHandler", true));
+			}
 		}
+		
+		$this->_startedTransactions--;
 	}
 }
 
