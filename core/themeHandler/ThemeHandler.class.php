@@ -11,17 +11,35 @@ require_once(HARMONI."/themeHandler/Theme.abstract.php");
  * setting.
  *
  * @package harmoni.themes
- * @version $Id: ThemeHandler.class.php,v 1.4 2004/03/17 17:51:06 adamfranco Exp $
+ * @version $Id: ThemeHandler.class.php,v 1.5 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 
 class ThemeHandler {
+
 	/**
 	 * @access private
-	 * @var array $_themes The Themes known to this ThemeHandler.
-	 **/
-	var $_themes;
+	 * @var string $_storageMethod The method used to store themes.
+	 */
+	var $_storageMethod;
 	
+	/**
+	 * @access private
+	 * @var string $_storageLocation The location used to store themes.
+	 */
+	var $_storageLocation;
+	
+	/**
+	 * @access private
+	 * @var array $_registeredThemes The Themes registered this ThemeHandler.
+	 **/
+	var $_registeredThemes;
+	
+	/**
+	 * @access private
+	 * @var array $_storedThemes The stored Themes known to this ThemeHandler.
+	 **/
+	var $_storedThemes;
 	
 	/**
 	 * Constructor.
@@ -40,12 +58,12 @@ class ThemeHandler {
 			}
 		}
 		
-		$this->_themes = array();
+		$this->_registeredThemes = array();
 		
 		$this->_storedThemes = array();
 		
 		// Add any built-in themes
-//		$this->addTheme(new SimpleTheme);
+		$this->registerThemeClass("SimpleLinesTheme");
 	}
 
 	/**
@@ -54,8 +72,8 @@ class ThemeHandler {
 	 * @param string $class The class of the Theme to add.
 	 * @return void
 	 **/
-	function addTheme ( $class ) {
-		$this->_themes[$class] =& new $class;
+	function registerThemeClass ( $class ) {
+		$this->_registeredThemes[$class] =& new $class;
 	}
 	
 	/**
@@ -64,8 +82,8 @@ class ThemeHandler {
 	 * @param string $class The class of the desired Theme.
 	 * @return object ThemeInterface The desired Theme object.
 	 **/
-	function & getThemeByClass ( $class ) {
-		return $this->_themes[$class];
+	function & getRegisteredThemeByClass ( $class ) {
+		return $this->_registeredThemes[$class];
 	}
 	
 	/**
@@ -73,8 +91,18 @@ class ThemeHandler {
 	 * @access public
 	 * @return object HarmoniIterator The an iterator of the Themes.
 	 **/
-	function & getThemes () {
-		return new HarmoniIterator($this->_themes);
+	function & getRegisteredThemes () {
+		return new HarmoniIterator($this->_registeredThemes);
+	}
+	
+	/**
+	 * Returns the stored Themes.
+	 * @access public
+	 * @return object HarmoniIterator The an iterator of the Themes.
+	 **/
+	function & getStoredThemes () {
+//		$this->_loadThemes();
+		return new HarmoniIterator($this->_storedThemes);
 	}
 	
 	/**
@@ -102,14 +130,118 @@ class ThemeHandler {
 	}
 	
 	/**
+	 * Stores the Theme.
+	 * @access public
+	 * @param object Id $id The id of the desired Theme.
+	 * @return object ThemeInterface The desired Theme object.
+	 **/
+	function storeTheme( & $theme) {
+		ArgumentValidator::validate($theme, new ExtendsValidatorRule("ThemeInterface"));
+		
+		if ($theme->hasId()) {
+			$id =& $theme->getId();
+		} else {
+			$sharedManager =& Services::getService("Shared");
+			$id =& $sharedManager->createId();
+			$theme->setId($id);
+		}
+		
+		$dbhandler =& Services::getService("DBHandler");
+		
+		// Remove the old version of the theme from the DB if it exists:		
+		$query =& new DeleteQuery;
+		$query->addTable("setting");
+		$query->addWhere("fk_theme='".$id->getIdString()."'");
+		$dbhandler->query($query, $this->_storageLocation);
+		$query =& new DeleteQuery;
+		$query->addTable("theme");
+		$query->addWhere("id='".$id->getIdString()."'");
+		$dbhandler->query($query, $this->_storageLocation);
+		
+		// Store the theme
+		$query =& new InsertQuery;
+		$query->addTable("theme");
+		$query->setColumns(array("id","class_name"));
+		$query->addRowOfValues(array($id->getIdString(), get_class($theme)));
+		$dbhandler->query($query, $this->_storageLocation);		
+		
+		// Store all of the settings
+		$query =& new InsertQuery;
+		$query->addTable("theme");
+		$query->setColumns(array("fk_theme","fk_widget_type","widget_index","key","value"));
+		
+		$widgetTypes = array();
+		
+		// Store the theme settings
+		$settings =& $theme->getSettings();
+		while ($settings->hasNext()) {
+			$setting =& $settings->next();
+			$query->addRowOfValues(array("'".$id->getIdString()."'",
+										 "'0'", 
+										 "'".$widget->getIndex()."'", 
+										 "'".$setting->getKey()."'", 
+										 "'".$setting->getValue()."'"));
+		}
+		
+		// Store the widget settings
+		$allWidgets =& $theme->getAllWidgets();
+		while ($allWidgets->hasNext()) {
+			$widget =& $allWidgets->next();
+			
+			if ($widget->hasSettings()) {
+			
+				// we need to find the keys for our widget types, so lets
+				// cache them as we find/create them.
+				if (in_array($widget->getType(), $widgetTypes)) {
+					$widgetKey = array_keys($widgetTypes, $widget->getType());
+				} else {
+					// It seems we don't know the key, so lets select for it
+					$widgetTypeQuery =& new SelectQuery();
+					$widgetTypeQuery->addTable("widget_type");
+					$widgetTypeQuery->addColumn("id");
+					$widgetTypeQuery->addWhere("type='".$widget->getType()."'");
+					$result =& $dbhandler->query($widgetTypeQuery, $this->_storageLocation);
+	
+					if ($result->getNumberOfRows()) {
+						// if we got a result, use its key
+						$widgetKey = $result->field("id");
+						$widgetTypes[$widgetKey] = $widget->getType();
+					} else {
+						// otherwise, insert into the widget table.
+						$widgetTypeQuery =& new SelectQuery();
+						$widgetTypeQuery->addTable("widget_type");
+						$widgetTypeQuery->setColumns(array("type"));
+						$widgetTypeQuery->addRowOfValues(array($widget->getType()));
+						$result =& $dbhandler->query($widgetTypeQuery, $this->_storageLocation);
+						$widgetKey = $result->getLastAutoIncrementValue();
+						$widgetTypes[$widgetKey] = $widget->getType();
+					}
+				}
+
+
+				$settings =& $widget->getSettings();
+				while ($settings->hasNext()) {
+					$setting =& $settings->next();
+					$query->addRowOfValues(array("'".$id->getIdString()."'",
+												 "'".$widgetKey."'", 
+												 "'".$widget->getIndex()."'", 
+												 "'".$setting->getKey()."'", 
+												 "'".$setting->getValue()."'"));
+				}
+			}
+		}
+		$dbhandler->query($query, $this->_storageLocation);
+	}
+	
+	/**
 	 * Loads a stored theme from the database.
 	 * @access private
 	 * @param object Id $id The id of the theme to load.
 	 * @return void.
 	 */
 	function _loadThemeFromDB ( & $id ) {
-		if ($this->_dbid === NULL)
-			throwError(new Error("Cannont get stored theme from non-existant database id, ' ".$this->_dbid."'.", "ThemeHandler", TRUE));
+		if ($this->_storageLocation === NULL)
+			throwError(new Error("Cannont get stored theme from non-existant database id, ' ".$this->_storageLocation."'.", "ThemeHandler", TRUE));
 		
 		$query =& new SelectQuery;
 		$query->addColumn("theme.class_name", "theme_class");
@@ -123,12 +255,13 @@ class ThemeHandler {
 		$query->addTable("widget", LEFT_JOIN, "widget.id = setting.fk_widget");
 		
 		$dbhandler =& Services::getService("DBHandler");
-		$result =& $dbhandler->query($query, $this->_dbid);
+		$result =& $dbhandler->query($query, $this->_storageLocation);
 		
 		// Create our theme object
-		if (class_exists($result->field("theme_class"))) 
+		if (class_exists($result->field("theme_class"))) {
 			$theme =& new $result->field("theme_class");
-		else
+			$theme->setId($id);
+		} else
 			throwError(new Error("Cannont load theme, ' ".$result->field("theme_class")."'. Class does not exist.", "ThemeHandler", TRUE));
 		
 		// Load each of our settings
@@ -142,10 +275,37 @@ class ThemeHandler {
 			} else {
 				$widget =& $theme->getWidget($result->field("widget_type"), 
 												$result->field("widget_index"));
+				$setting =& $widget->getSetting($result->field("setting_key"));
 			}
+			
+			// Set the value of the setting
+			$setting->setValue($result->field("setting_key"));
 			
 			$result->advanceRow();
 		}
+	
+		// put the theme in our storedThemes array
+		$this->_storedThemes[$id->getIdString()] =& $theme;
+	}
+	
+	/**
+	 * The start function is called when a service is created. Services may
+	 * want to do pre-processing setup before any users are allowed access to
+	 * them.
+	 * @access public
+	 * @return void
+	 **/
+	function start() {
+	}
+	
+	/**
+	 * The stop function is called when a Harmoni service object is being destroyed.
+	 * Services may want to do post-processing such as content output or committing
+	 * changes to a database, etc.
+	 * @access public
+	 * @return void
+	 **/
+	function stop() {
 	}
 }
 

@@ -10,7 +10,7 @@
  * to create a powerful yet flexible system for content output.
  *
  * @package harmoni.themes
- * @version $Id: Theme.interface.php,v 1.4 2004/03/05 21:40:05 adamfranco Exp $
+ * @version $Id: Theme.interface.php,v 1.5 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -35,11 +35,30 @@ class ThemeInterface {
 	}
 	
 	/**
+	 * Returns TRUE if this theme has an Id set.
+	 * @access public
+	 * @return boolean TRUE if this theme has an Id.
+	 **/
+	function hasId () {
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
+	}
+
+	/**
 	 * Returns the ID of this theme.
 	 * @access public
 	 * @return object Id The ID of this theme.
 	 **/
 	function & getId () {
+		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
+	}
+
+	/**
+	 * Sets the ID of this theme.
+	 * @access public
+	 * @param object Id The new ID of this theme.
+	 * @return void
+	 **/
+	function setId ( & $id ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 

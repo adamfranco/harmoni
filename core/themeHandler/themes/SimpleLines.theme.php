@@ -11,7 +11,7 @@ require_once(HARMONI."/themeHandler/common_settings/BorderSetting.class.php");
  * A simple line and color-block based theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -108,7 +108,7 @@ class SimpleLinesTheme
  * The main TextBlock Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -163,6 +163,9 @@ class SimpleLinesTextBlock1
 		$margin =& $this->getSetting($this->_marginId);
 		$styles .= "\n\t\t\t\tmargin: ".$margin->getValue().";";
 		
+		$styles .= "\n\t\t\t\tmin-width: 800px;";
+//		$styles .= "\n\t\t\t\toverflow: visible;";
+		
 		$styles .= "\n\t\t\t}";
 		
 		return $styles;
@@ -192,7 +195,7 @@ class SimpleLinesTextBlock1
  * A TextBlock Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -253,7 +256,7 @@ class SimpleLinesTextBlock2
  * A TextBlock Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -332,7 +335,7 @@ class SimpleLinesTextBlock3
  * The main Heading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -407,7 +410,7 @@ class SimpleLinesHeading1
  * A secondary Heading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -486,7 +489,7 @@ class SimpleLinesHeading2
  * The main Heading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -562,7 +565,7 @@ class SimpleLinesFooter1
  * A Menu Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -641,7 +644,7 @@ class SimpleLinesMenu1
  * A MenuHeading Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -709,7 +712,7 @@ class SimpleLinesMenuHeading1
  * A MenuItem Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -781,7 +784,7 @@ class SimpleLinesMenuItem1
  * A MenuItem Widget for the SimpleLines theme.
  *
  * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.7 2004/03/12 23:35:33 adamfranco Exp $
+ * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 

@@ -19,7 +19,7 @@ define ("BLANK_WIDGET", "blank");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: Theme.abstract.php,v 1.9 2004/03/31 23:03:06 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.10 2004/04/01 22:46:26 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -172,6 +172,15 @@ class Theme
 	function getDescription () {
 		return $this->_description;
 	}
+
+	/**
+	 * Returns TRUE if this theme has an Id set.
+	 * @access public
+	 * @return boolean TRUE if this theme has an Id.
+	 **/
+	function hasId () {
+		return ((is_object($this->_id))?TRUE:FALSE);
+	}
 	
 	/**
 	 * Returns the ID of this theme.
@@ -179,8 +188,18 @@ class Theme
 	 * @return object Id The ID of this theme.
 	 **/
 	function & getId () {
-		$sharedManager =& Services::getService("Shared");
-		return $sharedManager->getId(get_class($this));
+		return $this->_id;
+	}
+	
+	/**
+	 * Sets the ID of this theme.
+	 * @access public
+	 * @param object Id The new ID of this theme.
+	 * @return void
+	 **/
+	function setId ( & $id ) {
+		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
+		$this->_id =& $id;
 	}
 
 	/**
