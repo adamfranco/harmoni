@@ -4,7 +4,7 @@
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.23 2003/11/26 02:34:55 gabeschine Exp $
+ * @version $Id: harmoni.inc.php,v 1.24 2004/07/07 15:10:48 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
@@ -60,5 +60,12 @@ if (LOAD_ARCHITECTURE) require_once(HARMONI."architecture/harmoni/Harmoni.class.
 
 /* :: include other useful things :: */
 require_once(HARMONI."utilities/TemplateFactory.class.php");
+
+
+
+/******************************************************************************
+ * Create the Harmoni object - required
+ ******************************************************************************/
+$harmoni =& new Harmoni();
 
 ?>
