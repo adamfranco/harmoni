@@ -7,7 +7,7 @@ require_once(HARMONI."authenticationHandler/methods/DBMethodOptions.class.php");
  * the DB Authentication Method will contact an SQL database and check a username/password pair
  * against fields in a specified table.
  *
- * @version $Id: DBAuthenticationMethod.class.php,v 1.4 2004/07/30 14:14:12 adamfranco Exp $
+ * @version $Id: DBAuthenticationMethod.class.php,v 1.5 2004/11/17 19:11:17 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication.methods
@@ -279,7 +279,8 @@ class DBAuthenticationMethod
 	 **/
 	function agentExists( $systemName ) {
 		$id = $this->_connect();
-		if (!isset($id)) return false;
+		if (!isset($id)) 
+			throwError( new Error("Could not connect.","DBAuthenticationMethod",true));
 
 		// get the options
 		$o = & $this->_opt;
@@ -297,6 +298,73 @@ class DBAuthenticationMethod
 		
 		$result = & $DBHandler->query($query,$this->_id);
 		$this->_disconnect();
+		if ($result->getNumberOfRows()) // yep
+			return true;
+		return false;
+	}
+	
+	/**
+	 * Searches for agent system names in any of the authentication methods.
+	 * @param mixed $searchCriteria The criteria to search for.
+	 * @param optional string $method A single method to check.
+	 * @access public
+	 * @return void
+	 */
+	function getAgentNamesBySearch($searchCriteria) {
+		$id = $this->_connect();
+		if (!isset($id)) 
+			throwError( new Error("Could not connect.","DBAuthenticationMethod",true));
+
+		// get the options
+		$o = & $this->_opt;
+		
+		// get the DBHandler
+		$DBHandler = & $this->_DBHandler;
+		
+		$query = & new SelectQuery;
+		$query->addTable($o->get("tableName"));
+		
+		$query->addColumn($o->get("usernameField"));
+		
+		// ---------- Build the where clause ------------
+		
+		// get the terms
+		$searchCriteria = trim($searchCriteria);
+		$terms = explode(" ", $searchCriteria);
+		
+		// put wildcards around the terms
+		for ($i=0; $i<count($terms); $i++) {
+			$terms[$i] = "%".$terms[$i]."%";
+		}
+		
+		// make an array of all of the fields to check.
+		$fields = array();
+		$fields[] =  $o->get("usernameField");
+		$fields = array_merge($fields,  $o->get("agentInformationFields"));
+		
+		// create the clause
+		$fieldClauses = array();
+		
+		foreach ($fields as $fieldname) {
+			
+			$fieldTerms = array();
+			foreach ($terms as $term) {
+				$fieldTerms[] =  $fieldname." LIKE ".$term;
+			}
+			
+			$fieldClauses[$fieldname] = "(";
+			$fieldClauses[$fieldname] .= implode(" AND ", $fieldTerms);
+			$fieldClauses[$fieldname] .= ")";
+		}
+		
+		$query->setWhere(implode(" OR ", $fieldClauses));
+		
+		printpre($query->getWhere());
+		
+		$result = & $DBHandler->query($query,$this->_id);
+		$this->_disconnect();
+		
+		
 		if ($result->getNumberOfRows()) // yep
 			return true;
 		return false;

@@ -37,7 +37,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.38 2004/11/10 21:45:57 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.39 2004/11/17 19:11:19 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -400,7 +400,8 @@ class HarmoniSharedManager
 						."::".$agentSearchType->getKeyword();
 		
 		// get the Agent Search object
-		if (!$agentSearch =& $this->_agentSearches[$typeString])
+		$agentSearch =& $this->_agentSearches[$typeString];
+		if (!is_object($agentSearch))
 			throwError(new Error("Unknown AgentSearchType, '".$typeString."'.","AgentManager",true));
 		
 		return $agentSearch->getAgentsBySearch($searchCriteria); 

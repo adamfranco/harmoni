@@ -9,7 +9,7 @@
  * as email addresses, full names, etc.
  *
  * @package harmoni.authentication
- * @version $Id: AgentInformationHandler.class.php,v 1.7 2004/04/21 17:55:27 adamfranco Exp $
+ * @version $Id: AgentInformationHandler.class.php,v 1.8 2004/11/17 19:10:00 adamfranco Exp $
  * @copyright 2003 
  **/
 class AgentInformationHandler extends ServiceInterface {
@@ -136,6 +136,41 @@ class AgentInformationHandler extends ServiceInterface {
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Searches for agent system names in any of the authentication methods.
+	 * @param mixed $searchCriteria The criteria to search for.
+	 * @param optional string $method A single method to check.
+	 * @access public
+	 * @return void
+	 */
+	function getAgentNamesBySearch($searchCriteria, $method = null) {
+		// get an array of available methods
+		$methods = $this->_authHandler->getMethodNames();
+		
+		if ($method) {
+			if (!in_array($method, $methods)) {
+				throwError( new Error("Could not execute AgentInformationHandler::getAgentNamesBySearch($searchCriteria, $method) because the method does not seem to be available in the AuthenticationHandler.","AgentInformationHandler",true));
+			}
+			
+			$methodObj =& $this->_authHandler->getMethod($method);
+			return $methodObj->getAgentNamesBySearch($searchCriteria);
+		} else {
+		
+			// otherwise, step through them each... and combine the results
+			$agentNames = array();
+			foreach ($methods as $method) {
+				$methodObj =& $this->_authHandler->getMethod($method);
+				$agentNames = array_merge(
+								$agentNames,
+								$methodObj->getAgentNamesBySearch($searchCriteria)
+							);
+				
+			}
+			
+			return $agentNames;
+		}
 	}
 	
 	/**

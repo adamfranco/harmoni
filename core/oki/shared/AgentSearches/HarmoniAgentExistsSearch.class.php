@@ -7,8 +7,8 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * used by the AgentManager for searching for agents.
  * 
  * @package harmoni.osid.shared
- * @version $Id: HarmoniAgentExistsSearch.class.php,v 1.1 2004/11/10 21:46:08 adamfranco Exp $
- * @date $Date: 2004/11/10 21:46:08 $
+ * @version $Id: HarmoniAgentExistsSearch.class.php,v 1.2 2004/11/17 19:11:20 adamfranco Exp $
+ * @date $Date: 2004/11/17 19:11:20 $
  * @copyright 2004 Middlebury College
  */
 
@@ -33,8 +33,12 @@ class HarmoniAgentExistsSearch
 		$agentInfo =& Services::getService("AgentInformation");
 		if ($agentInfo->agentExists($searchCriteria)) {
 			// if the agent exists, make sure that we have a populated agent
-			// in the agent manager which we can return.
+			// in the agent manager which we can return.			
+			$authN =& Services::getService("AuthN");
+			$agentId =& $authN->getAgentId($searchCriteria, new HarmoniAuthenticationType);
 			
+			$shared =& Services::getService("Shared");
+			$agents[] =& $shared->getAgent($agentId);
 		}
 		
 		return new HarmoniIterator($agents);
