@@ -9,7 +9,7 @@
  * as email addresses, full names, etc.
  *
  * @package harmoni.authentication.agentinformation
- * @version $Id: AgentInformationHandler.class.php,v 1.3 2003/11/27 04:55:41 gabeschine Exp $
+ * @version $Id: AgentInformationHandler.class.php,v 1.4 2003/12/09 05:39:03 gabeschine Exp $
  * @copyright 2003 
  **/
 class AgentInformationHandler extends ServiceInterface {
@@ -56,7 +56,7 @@ class AgentInformationHandler extends ServiceInterface {
 		if ($method != "") {
 			// we only need to fetch the info from one method -- easy enough
 			$unames = $this->_getInformation($systemName, $searchMode, $method);
-			return $unames[$systemName];
+			return ($searchMode)?$unames:$unames[$systemName];
 		}
 		// otherwise, we're gonna have to go through ALL the methods in
 		// priority order
