@@ -6,7 +6,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * Responsible for the synchronization of {@link Schema} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: SchemaManager.class.php,v 1.5 2004/08/10 20:35:10 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.6 2004/08/11 14:40:55 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -167,9 +167,10 @@ class SchemaManager
 		if (!$this->_hashSeparator)
 			$this->_hashSeparator = time();
 		
-		$parts = array();	
+		$parts = array();
 		
 		if (is_object($type)) {
+			ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"));
 			$parts[] = $type->getDomain();
 			$parts[] = $type->getAuthority();
 			$parts[] = $type->getKeyword();

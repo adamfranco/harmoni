@@ -471,7 +471,7 @@ class HarmoniAsset
 		
 		// 	get the type for the new data set.
 		$schemaMgr =& Services::getService("SchemaManager");
-		$type =& $schemaMgr->getSchemaByID($infoStructureId->getIdString());
+		$type =& $schemaMgr->getSchemaTypeByID($infoStructureId->getIdString());
 		
 		// Set up and create our new dataset
 		// Decide if we want to version-control this field.
@@ -487,7 +487,10 @@ class HarmoniAsset
 			
 			$newRecord =& $recordMgr->createRecord($type, $versionControl);
 		
-		$newRecord->commit();
+		// The ignoreMandatory Allows this record to be created without checking for
+		// values on mandatory fields. These constraints should be checked when
+		// validateAsset() is called.
+		$newRecord->commit(TRUE);
 		
 		// Add the DataSet to our group
 		$myGroup->add($newRecord);
