@@ -38,7 +38,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.47 2004/11/22 16:14:54 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.48 2004/11/22 19:13:01 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -1040,7 +1040,7 @@ class HarmoniSharedManager
 		// prepare a query object that we will use in the loop
 		// we do so in order to avoid continuous initialization of the objects
 		// (the only thing that will change is the WHERE clause)
-		// --- 1st QUERY
+		// --- subgroup QUERY
 		$subquery1 =& new SelectQuery();
 		$subquery1->addColumn("groups_display_name", "g_display_name", $db."groups");
 		$subquery1->addColumn("groups_description", "g_description", $db."groups");
@@ -1111,22 +1111,71 @@ class HarmoniSharedManager
 					if ($subqueryResult->getNumberOfRows() == 0)
 						throwError(new Error("No rows returned.","SharedManager",true));
 					
-					$subrow = $subqueryResult->getCurrentRow();
-					$type =& new HarmoniType($subrow['gt_domain'],
-											$subrow['gt_authority'],
-											$subrow['gt_keyword'],
-											$subrow['gt_description']);
-											
-					// Replace this when we implement group properties.
-					$propertiesArray = array();
+					// Store our parameters for the constructor of the Group
+					$type =& new HarmoniType($subqueryResult->field('gt_domain'),
+											$subqueryResult->field('gt_authority'),
+											$subqueryResult->field('gt_keyword'),
+											$subqueryResult->field('gt_description'));
+					$displayName = $subqueryResult->field('g_display_name');
+					$description = $subqueryResult->field('g_description');
 					
-					$group =& new HarmoniGroup($subrow['g_display_name'], 
+					// Go through the rows and build the Properties array
+					// Create an array for this agent's properties if it doesn't exist
+					// I was having reference problems when attempting to use one array
+					// that got passed off and reset.
+					$propertiesArrayName = "propertiesArray".$value;
+					$$propertiesArrayName = array();
+					while ($subrow = $subqueryResult->getCurrentRow()) {
+						// Build our properties objects to add to the Agent.
+						if ($subrow['properties_id'] && $subrow['properties_id'] != "NULL") {
+						
+							// Create a name for the Current Properties variable. I was 
+							// having reference problems when attempting to use one variable name
+							// that got passed off and reset.
+							$currentPropertiesName = "currentProperties".$subrow['properties_id'];
+								
+								
+							// If we are starting on a new properties object, create a new object and add it to our array.
+							if (!is_object($$currentPropertiesName) || $subrow['properties_id'] != $currentPropertiesId) 
+							{
+								$propertiesType =& new HarmoniType(
+													$subrow['properties_domain'],
+													$subrow['properties_authority'],
+													$subrow['properties_keyword'],
+													$subrow['properties_description']);
+								
+								// Create the new Properties object
+								$$currentPropertiesName =& new HarmoniProperties($propertiesType);
+								$currentPropertiesId = $subrow['properties_id'];
+								
+								// add the new Properties object to the Properties array for the
+								// current Asset.
+								$myArray =& $$propertiesArrayName;
+								$myArray[] =& $$currentPropertiesName;
+							}
+							
+							// Add the current Property row to the current Properties
+							if ($subrow['property_key']) {
+								$$currentPropertiesName->addProperty(
+											unserialize(base64_decode($subrow['property_key'])), 
+											unserialize(base64_decode($subrow['property_value'])));
+							}
+						}
+						
+						$subqueryResult->advanceRow();
+					}
+					
+					// Instantiate the Group object
+					$group =& new HarmoniGroup($displayName,
 													$this->getId($value), 
 													$type, 
-													$propertiesArray,
-													$subrow['g_description'], 
+													$$propertiesArrayName,
+													$description,
 													$this->_dbIndex, 
 													$this->_sharedDB);
+					
+					// cache the group
+					$this->_groupsCache[$value] =& $group;
 
 					//**************************************
 					// now fetch all agents in this subgroup
@@ -1135,9 +1184,6 @@ class HarmoniSharedManager
 					foreach($agentIdsInSubgroup as $agentIdString) {
 						$group->attach($this->_agentsCache[$agentIdString]);
 					}
-
-					// finally, cache the group
-					$this->_groupsCache[$value] =& $group;
 				}
 
 				// add the previous subgroup to this subgroup, if necessary
