@@ -11,7 +11,7 @@ require_once(HARMONI."dataManager/storablePrimitives/inc.php");
  * creation of the appropriate classes when those data types are required. Is also responsible for mapping {@link Primitive}s with
  * their respective {@link StorablePrimitive}s so that we can store them in the database.
  * @package harmoni.datamanager
- * @version $Id: DataTypeManager.class.php,v 1.5 2004/08/17 02:22:57 gabeschine Exp $
+ * @version $Id: DataTypeManager.class.php,v 1.6 2004/08/26 20:39:52 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -88,6 +88,7 @@ class DataTypeManager
 	 */
 	function &newStorablePrimitive($type)
 	{
+		$type = strtolower($type);
 		if (!$this->typeRegistered($type)) {
 			throwError( new Error("Could not create new DataType object for '$type' because it doesn't seem to be registered.",
 			"DataTypeManager",true));
@@ -108,6 +109,7 @@ class DataTypeManager
 	 */
 	function &recastAsStorablePrimitive(&$primitive, $type)
 	{
+		$type = strtolower($type);
 		$class = strtolower(get_class($primitive));
 		if (!isset($this->_registeredTypes[$type]) || strtolower($this->_registeredTypes[$type]["primitive"]) != $class) {
 			// this means that either we can't do anything with this primitive (we dont' know it) or
@@ -141,12 +143,13 @@ class DataTypeManager
 	 * @access public
 	 */
 	function isObjectOfDataType(&$object, $type) {
+		$type = strtolower($type);
 		if (!$this->typeRegistered($type)) {
 			throwError ( new Error("AAAH! Trying to check the data type of an object... but '$type' isn't defined!","DataTypeManager",true));
 			return false;
 		}
 		
-		$rule =& new ExtendsValidatorRule($this->_registeredTypes[$type]["primitive"]);
+		$rule =& new ExtendsValidatorRule($this->_registeredTypes[strtolower($type)]["primitive"]);
 		return $rule->check($object);
 	}
 	

@@ -171,8 +171,12 @@ class HarmoniAsset
  		
  		// Get the content DataSet.
  		$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
-		$contentRecord =& $myRecordSet->getRecordsByType($contentType);
-
+		$contentRecords =& $myRecordSet->getRecordsByType($contentType);
+		
+		printpre ($myRecordSet);
+		printpre ($myRecordSet->getRecords());
+		printpre ($contentRecords);
+		
  		if (!$contentRecord) {
  			return new Blob;
  		} else {
@@ -202,12 +206,19 @@ class HarmoniAsset
  		
  		// Get the content DataSet.
  		$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
-		$contentRecord =& $myRecordSet->getRecordsByType($contentType);
+		$contentRecords =& $myRecordSet->getRecordsByType($contentType);
 
- 		if (!$contentRecord) {		
+ 		if (count($contentRecords)) {
+ 			$contentRecord =& next($contentRecords);
+ 			
+ 			$contentRecord->setValue("Content", $content);
+ 		
+			$contentRecord->commit(TRUE);
+ 		} else {
 			// Set up and create our new record
 			$schemaMgr =& Services::getService("SchemaManager");
 			$contentSchema =& $schemaMgr->getSchemaByType($contentType);
+			$contentSchema->load();
 			
 			// Decide if we want to version-control this field.
 			$versionControl = $this->_versionControlAll;
@@ -220,16 +231,16 @@ class HarmoniAsset
 				}
 			}
 			
-			$contentRecord =& new Record($contentSchema, $versionControl);
+			$contentRecord =& $recordMgr->createRecord($contentType, $versionControl);
+			
+			$contentRecord->setValue("Content", $content);
+ 		
+			$contentRecord->commit(TRUE);
 	
 			// Add the record to our group
 			$myRecordSet->add($contentRecord);
 			$myRecordSet->commit(TRUE);
 		}
-		
-		$contentRecord->setValue("Content", $content);
- 		
-		$contentRecord->commit(TRUE);
 	}
 
 	/**
@@ -925,7 +936,9 @@ class HarmoniAsset
 		}
 		
 		$columns = array("asset_id", "effective_date", "expiration_date");
-		$values = array($id->getIdString(), $this->_effectiveDate->toTimestamp(), $this->_expirationDate->toTimestamp());
+		$values = array($id->getIdString(), 
+						$dbHandler->toDBDate($this->_effectiveDate, $this->_configuration["dbId"]), 
+						$dbHandler->toDBDate($this->_expirationDate, $this->_configuration["dbId"]));
 		$query->setColumns($columns);
 		$query->setValues($values);
 		$query->setTable("dr_asset_info");
@@ -955,8 +968,8 @@ class HarmoniAsset
 		
 		// If we have stored dates for this asset set them
 		if ($result->getNumberOfRows()) {
-			$this->_effectiveDate =& new Time ($result->field("effective_date"));
-			$this->_expirationDate =& new Time ($result->field("expiration_date"));
+			$this->_effectiveDate =& new Time($dbHandler->fromDBDate($result->field("effective_date"), $this->_configuration["dbId"]));
+			$this->_expirationDate =& new Time($dbHandler->fromDBDate($result->field("expiration_date"), $this->_configuration["dbId"]));
 			$this->_datesInDB = TRUE;
 		} 
 		
