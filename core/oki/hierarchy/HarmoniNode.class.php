@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.8 $ / $Date: 2003/10/29 15:09:14 $
+ * @version $Revision: 1.9 $ / $Date: 2003/10/30 22:39:34 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -53,11 +53,12 @@ class HarmoniNode
 	 * @param string $displayName The displayName of the Node.
 	 * @param string $description The description of the Node.
 	 */
-	function HarmoniNode(& $id, & $hierarchyStore, & $type, $displayName, $description) {
+	function HarmoniNode(& $id, & $hierarchyStore, $type, $displayName, $description) {
 		// Check the arguments
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
 		ArgumentValidator::validate($hierarchyStore, new ExtendsValidatorRule("HierarchyStore"));
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
+		if ($type !== NULL)
+			ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
 		
