@@ -10,7 +10,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.24 2004/01/17 02:52:11 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.25 2004/01/26 16:17:26 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -54,12 +54,15 @@ class ValueVersions {
 	 * @return void
 	 */
 	function takeRow( &$row ) {
-		$verID = $row['datasetfield_id'];
-		$active = $row['datasetfield_active']?true:false;
-		
-		$this->_versions[$verID] =& new ValueVersion($this,$active);
-		$this->_versions[$verID]->populate($row);
-		$this->_numVersions++;
+		// If we don't just have null values...
+		if ($row['datasetfield_id']) {
+			$verID = $row['datasetfield_id'];
+			$active = $row['datasetfield_active']?true:false;
+			
+			$this->_versions[$verID] =& new ValueVersion($this,$active);
+			$this->_versions[$verID]->populate($row);
+			$this->_numVersions++;
+		}
 	}
 	
 	/**
@@ -339,7 +342,7 @@ class ValueVersions {
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.24 2004/01/17 02:52:11 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.25 2004/01/26 16:17:26 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public

@@ -6,7 +6,7 @@ require_once HARMONI."metaData/manager/ValueVersions.classes.php";
  * Holds a number of indexes for values within a specific field within a DataSet. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: FieldValues.class.php,v 1.16 2004/01/16 04:43:26 gabeschine Exp $
+ * @version $Id: FieldValues.class.php,v 1.17 2004/01/26 16:17:26 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -79,16 +79,20 @@ class FieldValues {
 	 * @return void
 	 */
 	function takeRow( &$row ) {
-		$index = $row['datasetfield_index'];
-		// the below will: if we are readOnly (compact), then only one value (one row) will be
-		// passed for each index, so we number the indexes ourselves. otherwise, the real index
-		// is used, and we number them that way.
-		$i = $this->_parent->readOnly()?count($this->_values):$index; // this is to compensate for skipped indexes
-		if (!isset($this->_values[$i])) {
-			$this->_values[$i] =& new ValueVersions($this,$i);
-			$this->_numValues++;
+		// If we don't just have null values...
+		if ($row['datasetfield_index'] != NULL) {
+			printpre($row);
+			$index = $row['datasetfield_index'];
+			// the below will: if we are readOnly (compact), then only one value (one row) will be
+			// passed for each index, so we number the indexes ourselves. otherwise, the real index
+			// is used, and we number them that way.
+			$i = $this->_parent->readOnly()?count($this->_values):$index; // this is to compensate for skipped indexes
+			if (!isset($this->_values[$i])) {
+				$this->_values[$i] =& new ValueVersions($this,$i);
+				$this->_numValues++;
+			}
+			$this->_values[$i]->takeRow($row);
 		}
-		$this->_values[$i]->takeRow($row);
 	}
 	
 	/**
@@ -142,11 +146,7 @@ class FieldValues {
 	* @return array
 	*/
 	function &getAllValues() {
-		$values = array();
-		for ($i=0; $i< $this->_numValues; $i++) {
-			$values[] =& $this->_values[$i]->getValue();
-		}
-		return $values;
+		return $this->_values;
 	}
 	
 	/**
