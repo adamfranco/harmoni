@@ -1,11 +1,11 @@
 <?
 
-require_once HARMONI."metaData/manager/search/SearchCriteria.interface.php";
+require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
 
 /**
  * Limits a search to exclude all other {@link Schema}s except the one specified.
  * @package harmoni.datamanager.search
- * @version $Id: SchemaSearch.class.php,v 1.1 2004/07/27 20:23:43 gabeschine Exp $
+ * @version $Id: SchemaSearch.class.php,v 1.2 2004/08/10 16:29:27 gabeschine Exp $
  * @copyright 2004, Middlebury College
  */
 class SchemaSearch extends SearchCriteria {

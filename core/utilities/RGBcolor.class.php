@@ -5,7 +5,7 @@
 /**
  * A class designed to manipulate colors using the RGB color scheme.
  *
- * @version $Id: RGBcolor.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
+ * @version $Id: RGBcolor.class.php,v 1.3 2004/08/10 16:29:27 gabeschine Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -199,6 +199,10 @@ class RGBColor {
 	function shiftBlue($amount) {
 		$this->_blue += $amount;
 		$this->_checkColors();
+	}
+	
+	function &clone() {
+		return new RGBColor($this->getRed(), $this->getGreen(), $this->getBlue());
 	}
 }
 

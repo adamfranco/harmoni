@@ -5,7 +5,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.15 2004/08/04 02:18:58 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.16 2004/08/10 16:29:27 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -258,16 +258,34 @@ class DateTime {
 	 * @return string
 	 */
 	function toString($short=false) {
-		$months = array("January","February","March","April","May","June","July","August","September","October","November","December");
+
+		return ($short?$this->toMDY():$this->toDateString()) . " " . $this->toTimeString();
+	}
+
+	/**
+	 * Returns a time string in the form of 11:14 AM.
+	 * @access public
+	 * @return string
+	 */
+	function toTimeString()
+	{
 		$hours = $this->getHours();
 		if ($hours > 12) $hours -= 12;
 		if ($hours == 0) $hours = 12;
-		if ($short) return $this->toMDY() . " " . $hours . ":" . sprintf("%02d",($this->getMinutes())) . " " . $this->getHoursAMPM();
-		
-		else return $months[$this->getMonth() - 1] . " " .
+		return $hours . ":" . sprintf("%02d",($this->getMinutes())) . " " . $this->getHoursAMPM();
+	}
+	
+	/**
+	 * Returns a date string in the form of April 20, 2002.
+	 * @access public
+	 * @return string
+	 */
+	function toDateString()
+	{
+		$months = array("January","February","March","April","May","June","July","August","September","October","November","December");
+		return $months[$this->getMonth() - 1] . " " .
 			sprintf("%d",$this->getDay()) . ", " .
-			$this->getYear() . " " .
-			$hours . ":" . sprintf("%02d",($this->getMinutes())) . " " . $this->getHoursAMPM();
+			$this->getYear();
 	}
 	
 	/** 
@@ -278,6 +296,18 @@ class DateTime {
 		$hour = $this->getHours();
 		if (($hour >= 0 && $hour < 12)) return "AM";
 		return "PM";
+	}
+	
+	/**
+	 * Modifies the stored date/time based on a string you pass.
+	 * @param string $string A string of the form "+2 days" or "-3 months", etc.
+	 * @access public
+	 * @return void
+	 */
+	function modify($string)
+	{
+		$newTime = strtotime($string, $this->toTimestamp());
+		if ($newTime) $this->setDate($newTime);
 	}
 	
 	/**

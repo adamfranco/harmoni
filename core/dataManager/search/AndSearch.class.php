@@ -1,11 +1,11 @@
 <?
 
-require_once HARMONI."metaData/manager/search/MultipleCriteriaSearch.abstract.php";
+require_once HARMONI."dataManager/search/MultipleCriteriaSearch.abstract.php";
 
 /**
  * Takes multiple other criteria and AND's them together in the SQL query.
  * @package harmoni.datamanager.search
- * @version $Id: AndSearch.class.php,v 1.1 2004/07/27 20:23:43 gabeschine Exp $
+ * @version $Id: AndSearch.class.php,v 1.2 2004/08/10 16:29:27 gabeschine Exp $
  * @copyright 2004, Middlebury College
  */
 class AndSearch extends MultipleCriteriaSearch {

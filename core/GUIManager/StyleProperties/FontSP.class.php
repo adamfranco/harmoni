@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/StyleComponents/FontFamilySC.class.php");
  * 
  * The other two CSS styles building pieces are <code>StyleComponents</code> and
  * <code>StyleCollections</code>. 
- * @version $Id: FontSP.class.php,v 1.2 2004/07/19 23:59:51 dobomode Exp $
+ * @version $Id: FontSP.class.php,v 1.3 2004/08/10 16:28:57 gabeschine Exp $
  * @package harmoni.gui.sps
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -31,18 +31,18 @@ class FontSP extends StyleProperty {
 	 * @access public
 	 * @param string family The font family.
 	 * @param string size The font size.
-	 * @param string style The font style.
-	 * @param string weight The font weight.
-	 * @param string variant The font variant.
+	 * @param optional string style The font style.
+	 * @param optional string weight The font weight.
+	 * @param optional string variant The font variant.
 	 **/
-	function FontSP($family, $size, $style, $weight, $variant) {
+	function FontSP($family, $size, $style=null, $weight=null, $variant=null) {
 		$this->StyleProperty("font", "Font", "This property sets the current 
 											  font family, size, style, weight,
 											  variant.");
 
-		if (isset($style)) $this->addSC(new FontStyleSC($style));
-		if (isset($variant)) $this->addSC(new FontVariantSC($variant));
-		if (isset($weight)) $this->addSC(new FontWeightSC($weight));
+		if ($style) $this->addSC(new FontStyleSC($style));
+		if ($variant) $this->addSC(new FontVariantSC($variant));
+		if ($weight) $this->addSC(new FontWeightSC($weight));
 		$this->addSC(new FontSizeSC($size));
 		$this->addSC(new FontFamilySC($family));
 	}

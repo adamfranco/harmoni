@@ -4,7 +4,7 @@
  * Holds information about a specific field within a {@link Schema}. Defines
  * what type of data the field holds (string, integer, etc) and if it can have multiple values.
  * @package harmoni.datamanager
- * @version $Id: SchemaField.class.php,v 1.3 2004/08/04 02:18:56 gabeschine Exp $
+ * @version $Id: SchemaField.class.php,v 1.4 2004/08/10 16:29:26 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -130,6 +130,17 @@ class SchemaField {
 	}
 	
 	/**
+	 * Sets the text-label.
+	 * @param string $label
+	 * @access public
+	 * @return void
+	 */
+	function setLabel($label)
+	{
+		$this->_label = $label;
+	}
+	
+	/**
 	 * Returns the {@link DataType} registered with the {@link DataTypeManager} that we are tied to.
 	 * @return string
 	 * @access public
@@ -197,10 +208,11 @@ class SchemaField {
 			// do some updating
 			$query = new UpdateQuery();
 			$query->setTable("dm_schema_field");
-			$query->setColumns(array("mult","active","required","description"));
+			$query->setColumns(array("label","mult","active","required","description"));
 			$query->setWhere("id=".$id);
 			
 			$query->setValues(array(
+					"'".addslashes($this->_label)."'",
 					(($this->_mult)?1:0),
 					(($this->_active)?1:0),
 					($this->_required?1:0),

@@ -14,7 +14,7 @@ require_once(HARMONI."dataManager/record/RecordSet.class.php");
  * The HarmoniDataManager class is used purely to setup the services required to use the
  * other DataManager classes such as the {@link DataSetTypeManager} or the {@link DataSetManager}.
  * @package harmoni.datamanager
- * @version $Id: DataManager.abstract.php,v 1.5 2004/08/04 02:18:55 gabeschine Exp $
+ * @version $Id: DataManager.abstract.php,v 1.6 2004/08/10 16:29:26 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -32,7 +32,7 @@ class DataManager {
 	 * @param optional array An array of {@link HarmoniType} objects corresponding to Schemas that should be pre-loaded in one DB query.
 	 * @abstract
 	 */
-	function setup( $dbID, $preloadTypes ) {
+	function setup( $dbID, $preloadTypes=null ) {
 		
 		// check config options
 		if (ini_get("magic_quotes_gpc")) {
@@ -66,6 +66,10 @@ class DataManager {
 		Services::registerObjectAsService("RecordManager",$recordManager);
 		Services::registerObjectAsService("TagManager",$tagManager);
 
+		if (!Services::serviceRunning("Shared")) {
+			Services::startService("Shared", DBID);
+		}
+		
 		debug::output("Activated Harmoni Data Manager.",DEBUG_SYS1,"DataManager");
 	}
 	

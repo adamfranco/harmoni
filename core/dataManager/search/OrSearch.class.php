@@ -1,10 +1,10 @@
 <?
 
-require_once HARMONI."metaData/manager/search/MultipleCriteriaSearch.abstract.php";
+require_once HARMONI."dataManager/search/MultipleCriteriaSearch.abstract.php";
 /**
  * The OrSearch criteria takes a list of other search criteria and OR's them together in the SQL query.
  * @package harmoni.datamanager.search
- * @version $Id: OrSearch.class.php,v 1.1 2004/07/27 20:23:43 gabeschine Exp $
+ * @version $Id: OrSearch.class.php,v 1.2 2004/08/10 16:29:27 gabeschine Exp $
  * @copyright 2004, Middlebury College
  */
 class OrSearch extends MultipleCriteriaSearch {

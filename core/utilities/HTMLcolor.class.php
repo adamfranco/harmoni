@@ -6,7 +6,7 @@ require_once(HARMONI."utilities/RGBcolor.class.php");
  * The HTMLcolor class is used to manipulate 6 or 3-digix hexadecimal HTML colors.
  *
  * @package harmoni.utilities
- * @version $Id: HTMLcolor.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: HTMLcolor.class.php,v 1.2 2004/08/10 16:29:27 gabeschine Exp $
  * @copyright 2003 
  **/
 class HTMLcolor extends RGBcolor {
@@ -38,8 +38,12 @@ class HTMLcolor extends RGBcolor {
 	 * @return string The color in hex.
 	 **/
 	function getHTMLcolor() {
-		$color = sprintf("%02X%02X%02X",$this->_red, $this->_green, $this->_blue);
+		$color = sprintf("#%02X%02X%02X",$this->_red, $this->_green, $this->_blue);
 		return $color;
+	}
+	
+	function &clone() {
+		return new HTMLColor($this->getHTMLColor());
 	}
 }
 

@@ -18,7 +18,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.27 2004/08/08 19:43:20 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.28 2004/08/10 16:29:26 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -246,19 +246,20 @@ class Harmoni {
 	}
 	
 	/**
-	* @return void
+	* @return ref mixed
 	* @param string $key
 	* @param mixed $value
 	* Attaches some arbitrary data to the Harmoni object so that actions or later
 	* functions can make use of it.
 	*/
-	function attachData($key, & $value) {
+	function &attachData($key, & $value) {
 		$this->_attachedData->set($key,$value);
+		return $value;
 	}
 	
 	/**
-	* *Deprecated* 
-	* @return mixed
+	* Same as {@link Harmoni::getAttachedData getAttachedData()}.
+	* @return ref mixed
 	* @param string $key
 	* Returns the data attached by {@link Harmoni::attachData} referenced by $key.
 	* @deprecated 12/27/03 See getAttachedData()
@@ -268,7 +269,7 @@ class Harmoni {
 	}
 	
 	/**
-	* @return mixed
+	* @return ref mixed
 	* @param string $key
 	* Returns the data attached by {@link Harmoni::attachData} referenced by $key.
 	*/
