@@ -1,11 +1,10 @@
-
 <?PHP
 
 /**
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.28 2005/01/11 03:14:53 nstamato Exp $
+ * @version $Id: harmoni.inc.php,v 1.29 2005/01/11 03:28:11 nstamato Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
@@ -61,6 +60,8 @@ if (LOAD_ARCHITECTURE) require_once(HARMONI."architecture/harmoni/Harmoni.class.
 
 /* :: include other useful things :: */
 require_once(HARMONI."utilities/TemplateFactory.class.php");
+require_once(HARMONI."utilities/StringFunctions.class.php");
+require_once(HARMONI."utilities/MIMETypes.class.php");
 
 
 
@@ -68,11 +69,5 @@ require_once(HARMONI."utilities/TemplateFactory.class.php");
  * Create the Harmoni object - required
  ******************************************************************************/
 $harmoni =& new Harmoni();
-
-//require_once(HARMONI."GUIManager/Themes/SimpleTheme.class.php");
-//require_once(HARMONI."GUIManager/StyleProperties/FloatSP.class.php");
-//$theme =& new SimpleTheme();
-//$harmoni->setTheme(&$theme);
-
 
 ?>
