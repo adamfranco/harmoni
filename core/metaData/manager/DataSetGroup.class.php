@@ -11,6 +11,7 @@ class DataSetGroup {
 	var $_dataSetIDs;
 	var $_dataSets;
 	var $_newDataSets;
+	var $_deletedDataSetIDs;
 	var $_fetchedFull;
 	var $_mgr;
 	var $_myID;
@@ -21,6 +22,7 @@ class DataSetGroup {
 		$this->_dataSetIDs = array();
 		$this->_dataSets = array();
 		$this->_newDataSets = array();
+		$this->_deletedDataSets = array();
 		$this->_mgr =& $dataSetMgr;
 		
 		$this->_myID = $id;
@@ -30,13 +32,23 @@ class DataSetGroup {
 	}
 	
 	function takeRow(&$row) {
-		$this->_dataSetIDs[] = $row["fk_dataset"];
+		// If the asset is valid and active:
+		if ($row["dataset_active"] == "1") {
+			// This has to be in here, otherwise we don't get a reference to the dataSet
+			// and when we try to do things to all of our dataSets, we have problems.
+			// This problem comes up when commit is called as it only looks at 
+			// _dataSets, not DataSetIds.
+			$this->_dataSets[] =& $this->_mgr->fetchDataSet( $row["fk_dataset"] );
+			
+			$this->_dataSetIDs[] = $row["fk_dataset"];
+			
+		// If the dataset exists, but is inactive:
+		} else if ($row["dataset_active"] == "0"){
+			$this->_deletedDataSetIDs[] = $row["fk_dataset"];
+		}
 		
-		// This has to be in here, otherwise we don't get a reference to the dataSet
-		// and when we try to do things to all of our dataSets, we have problems.
-		// This problem comes up when commit is called as it only looks at 
-		// _dataSets, not DataSetIds.
-		$this->_dataSets[] =& $this->_mgr->fetchDataSet( $row["fk_dataset"] );
+		// if we get NULL for the dataset_active field, then the dataSet has been pruned.
+		// We'll just let it be deleted when we update.
 	}
 	
 	function &fetchDataSets($editable = false, $limitResults = null) {
@@ -116,6 +128,13 @@ class DataSetGroup {
 				foreach ($ids as $id) {
 					$query->addRowOfValues(array($this->_myID, $id));
 				}
+				
+				// Add back in the deleted DataSetIds so that we dont' loose
+				// our reference to them.
+				foreach ($this->_deletedDataSetIds as $id) {
+					$query->addRowOfValues(array($this->_myID, $id));
+				}
+				
 //				printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 				$dbHandler->query($query,$this->_mgr->_dbID);
 				// done!

@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.32 2004/01/30 15:40:09 adamfranco Exp $
+* @version $Id: DataSet.class.php,v 1.33 2004/01/30 18:52:36 adamfranco Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -221,7 +221,7 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.32 2004/01/30 15:40:09 adamfranco Exp $
+* @version $Id: DataSet.class.php,v 1.33 2004/01/30 18:52:36 adamfranco Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {
@@ -297,6 +297,9 @@ class FullDataSet extends CompactDataSet {
 			}
 		}
 		
+		// Get the DBHandler
+		$dbHandler =& Services::getService("DBHandler");
+		
 		if ($this->_myID) {
 			// we're already in the database
 			$query =& new UpdateQuery();
@@ -308,6 +311,10 @@ class FullDataSet extends CompactDataSet {
 				($this->_versionControlled)?1:0
 				));
 			$query->setWhere("dataset_id=".$this->_myID);
+
+			// execute the query;
+			$result =& $dbHandler->query($query,$this->_dbID);
+			
 		} else {
 			// we'll have to make a new entry
 			$dataSetTypeManager =& Services::getService("DataSetTypeManager");
@@ -326,9 +333,7 @@ class FullDataSet extends CompactDataSet {
 				));
 		}
 		
-		// execute the query;
-		$dbHandler =& Services::getService("DBHandler");
-		
+		// execute the query;		
 		$result =& $dbHandler->query($query,$this->_dbID);
 		
 		if (!$result) {

@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.31 2004/01/28 21:57:36 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.32 2004/01/30 18:52:36 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -73,8 +73,10 @@ class DataSetManager extends ServiceInterface {
 			
 			$query =& new SelectQuery;
 			$query->addTable("dataset_group");
+			$query->addTable("dataset", LEFT_JOIN, "fk_dataset=dataset_id");
 			$query->addColumn("id");
 			$query->addColumn("fk_dataset");
+			$query->addColumn("dataset_active");
 			$query->setWhere(implode(" OR ",$wheres));
 			
 			$dbHandler =& Services::getService("DBHandler");
@@ -137,6 +139,7 @@ class DataSetManager extends ServiceInterface {
 				$t[] = "dataset_id=".$dataSetID;
 			}
 			$query->addWhere("(".implode(" OR ", $t).")");
+			$query->addWhere("dataset_active=1");
 			
 			// @todo
 			// This doesn't return data for the dataset if there aren't any 
@@ -145,7 +148,7 @@ class DataSetManager extends ServiceInterface {
 			
 			$dbHandler =& Services::getService("DBHandler");
 			
-//			print "<PRE>" . MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
+			//print "<PRE>" . MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
 			
 			$result =& $dbHandler->query($query,$this->_dbID);
 			
@@ -264,6 +267,16 @@ class DataSetManager extends ServiceInterface {
 	function &fetchDataSet( $dataSetID, $editable=false ) {
 		$sets =& $this->fetchArrayOfIDs(array($dataSetID), $editable);
 		return $sets[$dataSetID];
+	}
+	
+	/**
+	 * Deletes the DataSet of the SpecifiedId
+	 * @param int $dataSetID
+	 */
+	function & deleteDataSet ( $dataSetID ) {
+		$dataSet =& $this->fetchDataSet( $dataSetID, TRUE );
+		$dataSet->delete();
+		$dataSet->commit();
 	}
 	
 	/**
