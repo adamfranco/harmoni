@@ -6,7 +6,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.15 2004/11/23 22:44:54 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.16 2004/11/23 23:14:34 adamfranco Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -673,10 +673,11 @@ class AuthorizationCache {
 	 * @param boolean isActiveNow If True, only active Authorizations will be returned.
 	 * @return ref object An AuthorizationIterator.
 	 **/
-	function &getAZs($aIds, $fId, $qId, $fType, $isExplicit, $isActiveNow) {
+	function &getAZs($aId, $fId, $qId, $fType, $isExplicit, $isActiveNow, $groupIds = array()) {
 		// ** parameter validation
 		$rule =& new StringValidatorRule();
-		ArgumentValidator::validate($aIds, new OptionalRule(new ArrayValidatorRuleWithRule($rule)), true);
+		ArgumentValidator::validate($groupIds, new ArrayValidatorRuleWithRule(new OptionalRule($rule)), true);
+		ArgumentValidator::validate($aId, new OptionalRule($rule), true);
 		ArgumentValidator::validate($fId, new OptionalRule($rule), true);
 		ArgumentValidator::validate($qId, $rule, true);
 		ArgumentValidator::validate($fType, new OptionalRule(new ExtendsValidatorRule("TypeInterface")), true);
@@ -748,15 +749,18 @@ class AuthorizationCache {
 		$list = implode("','", $qualifiers);
 		$list = "'".$list."'";
 		
+		$agentList = implode("','", $groupIds);
+		$agentList = "'".$aId."','".$agentList."'";
+		
 		$where = $db."az_authorization.fk_qualifier IN ($list)";
 		$query->addWhere($where);
 		// the agent criteria
-		if (isset($aId)) {
+// 		if (isset($aId)) {
 // 			$joinc = $db."az_authorization.fk_agent = ".$db."agent.agent_id";
 // 			$query->addTable($db."agent", INNER_JOIN, $joinc);
-			$where = $db."az_authorization.fk_agent = '".addslashes($aId)."'";
+			$where = $db."az_authorization.fk_agent IN ($agentList)";
 			$query->addWhere($where);
-		}
+// 		}
 		// the function criteria
 		if (isset($fId)) {
 // 			$joinc = $db."az_authorization.fk_function = ".$db."az_function.function_id";

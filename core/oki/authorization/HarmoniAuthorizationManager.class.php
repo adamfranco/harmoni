@@ -11,7 +11,7 @@ require_once(HARMONI.'oki/shared/HarmoniIdIterator.class.php');
 /**
  * AuthorizationManager allows an application to create Authorizations, get Authorizations given selection criterias, ask questions of Authorization such as what Agent can do a Function in a Qualifier context, etc.<p><p>The primary objects in Authorization are Authorization, Function, Agent, and Qualifier. There are also Function and Qualifier types that are understood by the implementation.<p><p>Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p><p>There are two methods to create Authorizations. One uses method uses Agent, Function, and Qualifier.  The other adds effective date and expiration date.  For the method without the dates, the effective date is today and there is no expiration date.  <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * @access public
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.15 2004/11/23 22:45:05 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.16 2004/11/23 23:14:35 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @package harmoni.osid.authorization
@@ -595,16 +595,15 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 		
 		// We need to check all of the groups that may contain $aId as well as
 		// aId itsself.
-		$agentOrGroupId =& $sharedManager->getId($aId);
-		$agentsOrGroups = array($aId);
-		$containingGroups =& $sharedManager->getGroupsContainingMember($agentOrGroupId);
-		while ($containingGroups->hasNext()) {
-			$group =& $containingGroups->next();
-			$groupId =& $group->getId();
-			$agentsOrGroups[] = $groupId->getIdString();
-		}
+//		$sharedManager =& Services::getService("Shared");
+//		$containingGroups =& $sharedManager->getGroupsContainingMember($agentOrGroupId);
+// 		while ($containingGroups->hasNext()) {
+// 			$group =& $containingGroups->next();
+// 			$groupId =& $group->getId();
+// 			$agentsOrGroups[] = $groupId->getIdString();
+// 		}
 		
-		$authorizations =& $this->_cache->getAZs($agentsOrGroups,
+		$authorizations =& $this->_cache->getAZs($agentId->getIdString(),
 												 $functionId->getIdString(),
 												 $qualifierId->getIdString(),
 												 null, 
