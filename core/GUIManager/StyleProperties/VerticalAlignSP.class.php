@@ -1,10 +1,10 @@
 <?php
 
 require_once(HARMONI."GUIManager/StyleProperty.class.php");
-require_once(HARMONI."GUIManager/StyleComponents/AutoLengthSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/VerticalAlignSC.class.php");
 
 /**
- * The WidthSP represents the 'width' StyleProperty.
+ * The VerticalAlignSP represents the 'vertical-align' StyleProperty.
  * 
  * A StyleProperty (SP) is one of the tree building pieces of CSS styles. It stores 
  * information about a single CSS style property by storing one or more 
@@ -13,23 +13,23 @@ require_once(HARMONI."GUIManager/StyleComponents/AutoLengthSC.class.php");
  * The other two CSS styles building pieces are <code>StyleComponents</code> and
  * <code>StyleCollections</code>. 
  
- * @version $Id: WidthSP.class.php,v 1.2 2004/07/21 17:09:51 tjigmes Exp $
+ * @version $Id: VerticalAlignSP.class.php,v 1.1 2004/07/21 17:09:51 tjigmes Exp $
  * @package harmoni.gui.sps
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
  * @access public
  **/
 
-class WidthSP extends StyleProperty {
+class VerticalAlignSP extends StyleProperty {
 
 	/**
 	 * The constructor.
 	 * @access public
-	 * @param string length The length of margin.
+	 * @param string value The value of vertical-align.
 	 **/
-	function WidthSP($length) {
-		$this->StyleProperty("width", "Width", "This property specifies the width.");
-		$this->addSC(new AutoLengthSC($length));
+	function VerticalAlignSP($value) {
+		$this->StyleProperty("vertical-align", "Vertical Align", "This property specifies the vertical-line property.");
+		$this->addSC(new VerticalAlignSC($value));
 	}
 
 }
