@@ -6,7 +6,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.19 2004/12/02 20:04:43 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.20 2004/12/02 20:55:05 adamfranco Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -839,8 +839,8 @@ class AuthorizationCache {
 			// corresponding implicit AZs
 			// in decendents, but not appear in their AZs directly.
 			// Therefore, only add the explicit AZ if it is for the requested
-			// qualifier and agent.
-			if ($row['qId'] == $qId && $row['aId'] == $aId)
+			// qualifier and agent if we are fetching more than just the explicitAZs.
+			if (($row['qId'] == $qId && $row['aId'] == $aId) || $isExplicit)
 				$authorizations[] =& $authorization;
 
 			// now create the implicit authorizations
