@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.2 2005/03/03 22:15:27 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.3 2005/03/05 00:25:59 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -18,11 +18,63 @@ require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.2 2005/03/03 22:15:27 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.3 2005/03/05 00:25:59 adamfranco Exp $
  */
 class SQLDatabaseAuthNMethod
 	extends AuthNMethod
 {
+	/**
+	 * Constructor. Stores the configuration. Calls the parent constructor first,
+	 * then doe additional operations.
+	 * 
+	 * @param object Properties $configuration
+	 * @return object
+	 * @access public
+	 * @since 3/4/05
+	 */
+	function LDAPAuthNMethod ( &$configuration ) {
+		$par = get_parent_class($this);
+		parent::$par($configuration);
+		
+		// Validate the configuration options we use:
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('properties_fields'), 
+			new ArrayValidatorRuleWithRule(new StringValidatorRule));
+			
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('database_id'), 
+			new IntegerValidatorRule);
+			
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('authentication_table'), 
+			new StringValidatorRule);
+		
+			
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('username_field'), 
+			new StringValidatorRule);
+		
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('password_field'), 
+			new StringValidatorRule);
+			
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('allow_token_addition'), 
+			new OptionalRule(new BooleanValidatorRule));
+			
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('allow_token_deletion'), 
+			new OptionalRule(new BooleanValidatorRule));
+			
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('allow_token_updates'), 
+			new OptionalRule(new BooleanValidatorRule));
+			
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('allow_property_updates'), 
+			new OptionalRule(new BooleanValidatorRule));
+			
+	}
 		
 	/**
 	 * Create a Tokens Object
@@ -130,23 +182,16 @@ class SQLDatabaseAuthNMethod
 		$usernameField = $this->_configuration->getProperty('username_field');
 		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
 		
-		if ($propertiesFields === NULL)
-			return;
-		
-		$propertiesFieldsKeys =& $propertiesFields->getKeys();
-		
 		// if we aren't looking for any properties from the database, don't 
 		// bother running a query.
-		if (!$propertiesFieldsKeys->hasNextObject())
+		if (!is_array($propertiesFields) || !count($propertiesFields))
 			return;
 		
 		$query = & new SelectQuery;
 		$query->addTable($authenticationTable);
 		
-		while ($propertiesFieldsKeys->hasNextObject()) {
-			$propertyKey = $propertiesFieldsKeys->nextObject();
-			$propertyFieldName = $propertiesFields->getProperty($propertyKey);
-			$query->addColumn($propertyFieldName);
+		foreach ($propertiesFields as $propertyKey => $fieldName) {
+			$query->addColumn($fieldName);
 		}
 		
 		$query->addWhere(
@@ -154,14 +199,11 @@ class SQLDatabaseAuthNMethod
 		$result =& $dbc->query($query, $dbId);
 		
 		if ($result->getNumberOfRows() == 1) {
-			$propertiesFieldsKeys =& $propertiesFields->getKeys();
-			while ($propertiesFieldsKeys->hasNextObject()) {
-				$propertyKey = $propertiesFieldsKeys->nextObject();
-				$propertyFieldName = $propertiesFields->getProperty($propertyKey);
+			foreach ($propertiesFields as $propertyKey => $fieldName) {
 				
 				// Properties take values by reference, so we have to work around
 				// that by creating/unsetting variables.
-				$value = $result->field($propertyFieldName);
+				$value = $result->field($fieldName);
 				$properties->addProperty($propertyKey, $value);
 				unset($value);
 			}	
@@ -206,15 +248,10 @@ class SQLDatabaseAuthNMethod
 		$query->addWhere(
 			$usernameField." LIKE ('".addslashes($searchString)."')", _OR);
 		
-		if ($propertiesFields !== NULL) {
-			$propertiesFieldsKeys =& $propertiesFields->getKeys();
-		
-			while ($propertiesFieldsKeys->hasNextObject()) {
-				$propertyKey = $propertiesFieldsKeys->nextObject();
-				$propertyFieldName = $propertiesFields->getProperty($propertyKey);
-				
+		if (is_array($propertiesFields) && count($propertiesFields)) {
+			foreach ($propertiesFields as $propertyKey => $fieldName) {
 				$query->addWhere(
-					$propertyFieldName." LIKE ('".addslashes($searchString)."')", _OR);
+					$fieldName." LIKE ('".addslashes($searchString)."')", _OR);
 			}
 		}
 		
@@ -406,11 +443,7 @@ class SQLDatabaseAuthNMethod
 			$passwordField = $this->_configuration->getProperty('password_field');
 			$propertiesFields =& $this->_configuration->getProperty('properties_fields');
 			
-			$propertiesFieldsKeys =& $propertiesFields->getKeys();
-			
-			// if we aren't looking for any properties from the database, don't 
-			// bother running a query.
-			if (!$propertiesFieldsKeys->hasNextObject())
+			if (!is_array($propertiesFields) || !count($propertiesFields))
 				return;
 			
 			$query = & new UpdateQuery;
@@ -418,16 +451,14 @@ class SQLDatabaseAuthNMethod
 			$columns = array();
 			$values = array();
 			
-			while ($propertiesFieldsKeys->hasNextObject()) {
-				$propertyKey = $propertiesFieldsKeys->nextObject();
-				$propertyFieldName = $propertiesFields->getProperty($propertyKey);
+			foreach ($propertiesFields as $propertyKey => $fieldName) {
 				
 				// Don't allow overwriting of tokens even if they are listed in the
 				// properties array.
-				if ($propertyFieldName != $usernameField 
-					&& $propertyFieldName != $passwordField)
+				if ($fieldName != $usernameField 
+					&& $fieldName != $passwordField)
 				{
-					$columns[] = $propertyFieldName;
+					$columns[] = $fieldName;
 					$values[] = "'"
 						.addslashes($newProperties->getProperty($propertyKey))."'";
 				}

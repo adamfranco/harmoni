@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.5 2005/03/04 23:49:47 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.6 2005/03/05 00:25:59 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/LDAPConnector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.5 2005/03/04 23:49:47 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.6 2005/03/05 00:25:59 adamfranco Exp $
  */
 class LDAPAuthNMethod
 	extends AuthNMethod
@@ -114,15 +114,15 @@ class LDAPAuthNMethod
 			return;
 		
 		$fieldsToFetch = array();
-		foreach ($propertiesFields as $propertyName => $fieldName) {
+		foreach ($propertiesFields as $propertyKey => $fieldName) {
 			$fieldsToFetch[] = $fieldName;
 		}
 		
 		$info = $this->_connector->getInfo($authNTokens->getUsername(), $fieldsToFetch);
 		
 		if ($info) {
-			foreach ($propertiesFields as $propertyName => $fieldName) {
-				$properties->addProperty($propertyName, $info[$fieldName]);
+			foreach ($propertiesFields as $propertyKey => $fieldName) {
+				$properties->addProperty($propertyKey, $info[$fieldName]);
 			}	
 		} else
 			return;
@@ -151,7 +151,7 @@ class LDAPAuthNMethod
 		if (is_array($propertiesFields) && count($propertiesFields)) {
 					
 			$filter = "(|";
-			foreach ($propertiesFields as $propertyName => $fieldName) {
+			foreach ($propertiesFields as $propertyKey => $fieldName) {
 				$filter .= " (".$fieldName."=".$searchString.")";
 			}
 			$filter .= ")";
