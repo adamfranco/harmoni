@@ -1,15 +1,15 @@
 <?
 
-require_once(HARMONI."/oki/dr/HarmoniDigitalRepository.interface.php");
-require_once(HARMONI."/oki/dr/HarmoniAsset.class.php");
-require_once(HARMONI."/oki/dr/HarmoniAssetIterator.class.php");
-require_once(HARMONI."/oki/dr/HarmoniDigitalRepositoryIterator.class.php");
-require_once(HARMONI."/oki/dr/HarmoniInfoStructure.class.php");
-require_once(HARMONI."/oki/dr/File/FileInfoStructure.class.php");
-require_once(HARMONI."/oki/dr/File/FileInfoRecord.class.php");
-require_once(HARMONI."/oki/dr/HarmoniInfoStructureIterator.class.php");
-require_once(HARMONI."/oki/shared/HarmoniTypeIterator.class.php");
-require_once(HARMONI."/oki/shared/HarmoniCalendarIterator.class.php");
+require_once(HARMONI."/oki2/repository/HarmoniRepository.interface.php");
+require_once(HARMONI."/oki2/repository/HarmoniAsset.class.php");
+require_once(HARMONI."/oki2/repository/HarmoniAssetIterator.class.php");
+require_once(HARMONI."/oki2/repository/HarmoniRepositoryIterator.class.php");
+require_once(HARMONI."/oki2/repository/HarmoniInfoStructure.class.php");
+require_once(HARMONI."/oki2/repository/File/FileInfoStructure.class.php");
+require_once(HARMONI."/oki2/repository/File/FileInfoRecord.class.php");
+require_once(HARMONI."/oki2/repository/HarmoniInfoStructureIterator.class.php");//where is this now?
+require_once(HARMONI."/oki2/shared/HarmoniTypeIterator.class.php");
+require_once(HARMONI."/oki2/shared/HarmoniCalendarIterator.class.php");
 
 // Search Modules
 require_once(dirname(__FILE__)."/SearchModules/AssetTypeSearch.class.php");
@@ -20,12 +20,33 @@ require_once(dirname(__FILE__)."/SearchModules/RootAssetSearch.class.php");
 require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php");
 
 /**
- * DigitialRepository manages Assets of various Types and information about the Assets.  Assets are created, persisted, and validated by the Digital Repository.  When initially created, an Asset has an immutable Type and Unique Id and its validation status is false.  In this state, all methods can be called, but integrity checks are not enforced.  When the Asset and its InfoRecords are ready to be validated, the validateAsset method checks the Asset and sets the validation status.  When working with a valid Asset, all methods include integrity checks and an exception is thrown if the activity would result in an inappropriate state.  Optionally, the invalidateAsset method can be called to release the requirement for integrity checks, but the Asset will not become valid again, until validateAsset is called and the entire Asset is checked.    <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
- * @package harmoni.osid.dr
+ * Repository manages Assets of various Types and information about the Assets.
+ * Assets are created, persisted, and validated by the Repository.	When
+ * initially created, an Asset has an immutable Type and unique Id and its
+ * validation status is false.	In this state, all methods can be called, but
+ * integrity checks are not enforced.  When the Asset and its Records are
+ * ready to be validated, the validateAsset method checks the Asset and sets
+ * the validation status.  When working with a valid Asset, all methods
+ * include integrity checks and an exception is thrown if the activity would
+ * result in an inappropriate state.  Optionally, the invalidateAsset method
+ * can be called to release the requirement for integrity checks, but the
+ * Asset will not become valid again, until validateAsset is called and the
+ * entire Asset is checked.
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
+ * <p>
+ * Licensed under the {@link org.osid.SidImplementationLicenseMIT MIT
+ * O.K.I&#46; OSID Definition License}.
+ * </p>
+ * 
+ * @package org.osid.repository
  */
-class HarmoniDigitalRepository
-	extends HarmoniDigitalRepositoryInterface
+
+class HarmoniRepository
+	extends HarmoniRepositoryInterface
 {
 	
 	var $_configuration;
@@ -40,7 +61,7 @@ class HarmoniDigitalRepository
 	/**
 	 * Constructor
 	 */
-	function HarmoniDigitalRepository (& $hierarchy, & $id, & $configuration) {
+	function HarmoniRepository (& $hierarchy, & $id, & $configuration) {
 		// Get the node coresponding to our id
 		$this->_hierarchy =& $hierarchy;
 		$this->_node =& $this->_hierarchy->getNode($id);
@@ -84,62 +105,96 @@ class HarmoniDigitalRepository
 	}
 
 	/**
-	 * Get the name for this DigitalRepository.
-	 * @return String the name
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
-	 */
-	function getDisplayName() { 
+   * Update the display name for this Repository.
+   * 
+   * @param string $displayName
+   * 
+   * @throws object RepositoryException An exception with one of
+   *		 the following messages defined in
+   *		 org.osid.repository.RepositoryException may be thrown: {@link
+   *		 org.osid.repository.RepositoryException#OPERATION_FAILED
+   *		 OPERATION_FAILED}, {@link
+   *		 org.osid.repository.RepositoryException#PERMISSION_DENIED
+   *		 PERMISSION_DENIED}, {@link
+   *		 org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+   *		 CONFIGURATION_ERROR}, {@link
+   *		 org.osid.repository.RepositoryException#UNIMPLEMENTED
+   *		 UNIMPLEMENTED}, {@link
+   *		 org.osid.repository.RepositoryException#NULL_ARGUMENT
+   *		 NULL_ARGUMENT}
+   * 
+   * @public
+   */
+  function updateDisplayName ( $displayName ) { 
+			$this->_node->updateDisplayName($displayName);
+	}
+	
+	 /**
+   * Get the display name for this Repository.
+   *  
+   * @return string
+   * 
+   * @throws object RepositoryException An exception with one of
+   *		 the following messages defined in
+   *		 org.osid.repository.RepositoryException may be thrown: {@link
+   *		 org.osid.repository.RepositoryException#OPERATION_FAILED
+   *		 OPERATION_FAILED}, {@link
+   *		 org.osid.repository.RepositoryException#PERMISSION_DENIED
+   *		 PERMISSION_DENIED}, {@link
+   *		 org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+   *		 CONFIGURATION_ERROR}, {@link
+   *		 org.osid.repository.RepositoryException#UNIMPLEMENTED
+   *		 UNIMPLEMENTED}
+   * 
+   * @public
+   */
+  function getDisplayName () { 
 		return $this->_node->getDisplayName();
 	}
-
 	/**
-	 * Update the name for this DigitalRepository.
-	 * @param string displayName
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid.dr
-	 */
-	function updateDisplayName($displayName) { 
-		$this->_node->updateDisplayName($displayName);
-	}
-
-	/**
-	 * Get the description for this DigitalRepository.
-	 * @return String the name
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
-	 */
-	function getDescription() {
-		return $this->_node->getDescription();
-	}
-
-	/**
-	 * Update the description for this DigitalRepository.
-	 * @param string description
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid.dr
-	 */
-	function updateDescription($description) { 
-		$this->_node->updateDescription($description);
-	}
-
-	/**
-	 * Get the Unique Id for this DigitalRepository.
-	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
-	 */
+   * Get the unique Id for this Repository.
+   *  
+   * @return object Id
+   * 
+   * @throws object RepositoryException An exception with one of
+   *		 the following messages defined in
+   *		 org.osid.repository.RepositoryException may be thrown: {@link
+   *		 org.osid.repository.RepositoryException#OPERATION_FAILED
+   *		 OPERATION_FAILED}, {@link
+   *		 org.osid.repository.RepositoryException#PERMISSION_DENIED
+   *		 PERMISSION_DENIED}, {@link
+   *		 org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+   *		 CONFIGURATION_ERROR}, {@link
+   *		 org.osid.repository.RepositoryException#UNIMPLEMENTED
+   *		 UNIMPLEMENTED}
+   * 
+   * @public
+   */
+  
 	function &getId() {
 		return $this->_node->getId();
 	}
 
 	/**
-	 * Get the the DigitalRepositoryType of this DigitalRepository.
-	 * @return object osid.shared.Type
-	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * Get the RepositoryType of this Repository.
+	 *  
+	 * @return object Type
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		 the following messages defined in
+	 *		 org.osid.repository.RepositoryException may be thrown: {@link
+	 *		 org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		 OPERATION_FAILED}, {@link
+	 *		 org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		 PERMISSION_DENIED}, {@link
+	 *		 org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		 CONFIGURATION_ERROR}, {@link
+	 *		 org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		 UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getType() {
+	function &getType () { 
 		// If we don't have it cached, get our type.
 		if (!$this->_type) {
 			$myId =& $this->getId();
@@ -165,15 +220,40 @@ class HarmoniDigitalRepository
 			} 
 			// Otherwise, throw an error
 			else {
-				throwError(new Error(OPERATION_FAILED, "Digital Repository", 1));
+				throwError(new Error(RepositoryException::OPERATION_FAILED(), "Repository", 1));
 			}
 		}
 		
 		return $this->_type;
 	}
 
+//editting of this file stopped here on 01-14-2004 -- bgore
+
 	/**
-	 * Create a new Asset of this AssetType to this DigitalRepository.  The implementation of this method sets the Id for the new object.
+	 * Get the description for this DigitalRepository.
+	 * @return String the name
+	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * @package harmoni.osid.dr
+	 */
+	function getDescription() {
+		return $this->_node->getDescription();
+	}
+
+	/**
+	 * Update the description for this DigitalRepository.
+	 * @param string description
+	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * @package harmoni.osid.dr
+	 */
+	function updateDescription($description) { 
+		$this->_node->updateDescription($description);
+	}
+
+	
+
+	
+	/**
+	 * Create a new Asset of this AssetType to this DigitalRepository.	The implementation of this method sets the Id for the new object.
 	 * @return object Asset
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.dr
@@ -228,8 +308,8 @@ class HarmoniDigitalRepository
 	}
 
 	/**
-	 * Get all the Assets in this DigitalRepository.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return object AssetIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * Get all the Assets in this DigitalRepository.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.	The Iterator's next method returns the next object.
+	 * @return object AssetIterator	 The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
@@ -283,8 +363,8 @@ class HarmoniDigitalRepository
 	}
 
 	/**
-	 * Get all the Assets of the specified AssetType in this Asset.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return object AssetIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * Get all the Assets of the specified AssetType in this Asset.	 Iterators return a group of items, one item at a time.	 The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object AssetIterator	 The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.dr
 	 */
@@ -302,8 +382,8 @@ class HarmoniDigitalRepository
 	}
 
 	/**
-	 * Get all the AssetTypes in this DigitalRepository.  AssetTypes are used to categorize Assets.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return object osid.shared.TypeIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * Get all the AssetTypes in this DigitalRepository.  AssetTypes are used to categorize Assets.	 Iterators return a group of items, one item at a time.	 The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object osid.shared.TypeIterator	The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
@@ -337,7 +417,7 @@ class HarmoniDigitalRepository
 	 * Note: This method is a Harmoni addition to the OSID and at the time of this writing,
 	 * was not a part of the DR OSID.
 	 * @param object $infoStructureId
-	 * @return object InfoStructure  The InfoStructure of the requested Id.
+	 * @return object InfoStructure	 The InfoStructure of the requested Id.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
@@ -356,8 +436,8 @@ class HarmoniDigitalRepository
 	}
 	
 	/**
-	 * Get all the InfoStructures in this DigitalRepository.  InfoStructures are used to categorize information about Assets.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return object InfoStructureIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * Get all the InfoStructures in this DigitalRepository.  InfoStructures are used to categorize information about Assets.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.	 The Iterator's next method returns the next object.
+	 * @return object InfoStructureIterator	 The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
@@ -382,8 +462,8 @@ class HarmoniDigitalRepository
 	}
 
 	/**
-	 * Get the InfoStructures that this AssetType must support.  InfoStructures are used to categorize information about Assets.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return object InfoStructureIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * Get the InfoStructures that this AssetType must support.	 InfoStructures are used to categorize information about Assets.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.	The Iterator's next method returns the next object.
+	 * @return object InfoStructureIterator	 The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.dr
 	 */
@@ -392,8 +472,8 @@ class HarmoniDigitalRepository
 	}
 
 	/**
-	 * Get all the SearchTypes supported by this DigitalRepository.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return object osid.shared.TypeIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * Get all the SearchTypes supported by this DigitalRepository.	 Iterators return a group of items, one item at a time.	 The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object osid.shared.TypeIterator	The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
@@ -402,8 +482,8 @@ class HarmoniDigitalRepository
 	}
 
 	/**
-	 * Get all the StatusTypes supported by this DigitalRepository.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
-	 * @return object osid.shared.TypeIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * Get all the StatusTypes supported by this DigitalRepository.	 Iterators return a group of items, one item at a time.	 The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * @return object osid.shared.TypeIterator	The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package harmoni.osid.dr
 	 */
@@ -422,7 +502,7 @@ class HarmoniDigitalRepository
 	}
 
 	/**
-	 * Validate all the InfoRecords for an Asset and set its status Type accordingly.  If the Asset is valid, return true; otherwise return false.  The implementation may throw an Exception for any validation failures and use the Exception's message to identify specific causes.
+	 * Validate all the InfoRecords for an Asset and set its status Type accordingly.  If the Asset is valid, return true; otherwise return false.	The implementation may throw an Exception for any validation failures and use the Exception's message to identify specific causes.
 	 * null
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
@@ -449,7 +529,7 @@ class HarmoniDigitalRepository
 
 	/**
 	 * Get the Asset with the specified Unique Id.
-	 *  assetId
+	 *	assetId
 	 * @return object Asset
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package harmoni.osid.dr
@@ -519,10 +599,10 @@ class HarmoniDigitalRepository
 	}
 
 	/**
-	 * Perform a search of the specified Type and get all the Assets that satisfy the SearchCriteria.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
+	 * Perform a search of the specified Type and get all the Assets that satisfy the SearchCriteria.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.	 The Iterator's next method returns the next object.
 	 * @param mixed searchCriteria
 	 * @param object searchType
-	 * @return object AssetIterator  The order of the objects returned by the Iterator is not guaranteed.
+	 * @return object AssetIterator	 The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * @package harmoni.osid.dr
 	 */
@@ -558,7 +638,7 @@ class HarmoniDigitalRepository
 	}
 
 	/**
-	 * Create in a copy of an Asset.  The Id, AssetType, and DigitalRepository for the new Asset is set by the implementation.  All InfoRecords are similarly copied.
+	 * Create in a copy of an Asset.  The Id, AssetType, and DigitalRepository for the new Asset is set by the implementation.	All InfoRecords are similarly copied.
 	 * @param object asset
 	 * @return object osid.shared.Id
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
@@ -576,10 +656,10 @@ class HarmoniDigitalRepository
 	 * the time of this writing, but is needed for dynamically created 
 	 * InfoStructures.
 	 *
-	 * @param string $displayName 	The DisplayName of the new InfoStructure.
-	 * @param string $description 	The Description of the new InfoStructure.
-	 * @param string $format 		The Format of the new InfoStructure.
-	 * @param string $schema 		The schema of the new InfoStructure.
+	 * @param string $displayName	The DisplayName of the new InfoStructure.
+	 * @param string $description	The Description of the new InfoStructure.
+	 * @param string $format		The Format of the new InfoStructure.
+	 * @param string $schema		The schema of the new InfoStructure.
 	 *
 	 * @return object InfoStructure The newly created InfoStructure.
 	 */
@@ -639,8 +719,8 @@ class HarmoniDigitalRepository
  * registerSearchTypes().
  * Search functions are named _searchBy_TypeAuthority_TypeDomain_TypeKeyword().
  ******************************************************************************/
- 	
- 	/**
+	
+	/**
 	 * Sets up an array of supported searchTypes for the DR.
 	 *
 	 * @access private

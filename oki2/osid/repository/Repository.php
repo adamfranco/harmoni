@@ -26,7 +26,7 @@
  * @package org.osid.repository
  */
 class Repository
-{
+{ 
     /**
      * Update the display name for this Repository.
      * 
