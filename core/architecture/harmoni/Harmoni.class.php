@@ -17,7 +17,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.13 2004/03/11 16:02:44 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.14 2004/04/30 19:17:24 adamfranco Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -247,19 +247,20 @@ class Harmoni {
 		if ($this->config->get("outputHTML") && !$this->theme) throwError(new Error("Harmoni::execute() - You must 
 							specify a theme to use before calling execute()!","Harmoni",true));
 		
-		// process the login information
-		if ($this->config->get("useAuthentication")) {
-			$loginState =& $this->LoginHandler->execute();
-		} else $loginState =& new LoginState; // "blank" loginState
-		
-		$this->LoginState =& $loginState;
-		
 		// detect the current action
 		$this->_detectCurrentAction();
 		
 		// check if we've still got the same action
 		$pair = $this->getCurrentAction();
 		list($module,$action) = explode(".",$pair);
+		
+		// process the login information
+		if ($this->config->get("useAuthentication") && $this->LoginHandler->actionRequiresAuthentication($this->getCurrentAction())) {
+			$loginState =& $this->LoginHandler->execute();
+		} else $loginState =& new LoginState; // "blank" loginState
+		
+		$this->LoginState =& $loginState;
+		
 		
 		// ok, now we execute the action
 		// 1) call the action, get the return result

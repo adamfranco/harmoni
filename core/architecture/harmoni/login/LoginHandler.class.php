@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.5 2003/12/03 02:38:44 gabeschine Exp $
+ * @version $Id: LoginHandler.class.php,v 1.6 2004/04/30 19:17:39 adamfranco Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -285,12 +285,14 @@ class LoginHandler {
  **/
 function basicHTTPAuthenticationCallback() {
 	if (!isset($_SERVER['PHP_AUTH_USER'])) {
+		debug::output("Asking for user credentials.",DEBUG_SYS5,"basicHTTPAuthenticationCallback");
 		header("WWW-Authenticate: Basic realm=\"Harmoni-protected Realm\"");
-		header('HTTP/1.0 401 Unauthorized');
+		header('HTTP/1.0 401 Unauthorized');		
 		return false;
-	} else {
-		return array($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW']);
-	}
+ 	} else {
+ 		debug::output("Using stored user credentials.",DEBUG_SYS5,"basicHTTPAuthenticationCallback");
+ 		return array($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW']);
+ 	}
 }
 
 
