@@ -150,19 +150,19 @@ class HarmoniInfoStructure extends InfoStructure
 // 		print "<p>Creating part with displayname: ".$displayname;
 // 		printpre($fieldDef);
 		$this->_schema->addField($fieldDef);
-// 		$fieldDef->addToDB();		// handled in synchronize() call.
-// 		$fieldDef->setMultFlag($isRepeatable); // done above in constructor.
-// 		$fieldDef->update();
-// 		$this->_typeDef->commitAllFields();
-		$schemaManager =& Services::getService("SchemaManager");
-		$schemaManager->synchronize($this->_typeDef);
+		$fieldDef->addToDB();
+//		$fieldDef->commit();
+ 		$this->_schema->commitAllFields();
+// 		$schemaManager =& Services::getService("SchemaManager");
+// 		$schemaManager->synchronize($this->_schema);
 		
-		$fieldDef =& $this->_schema->getField($displayName);
+//		$fieldDef =& $this->_schema->getField($displayName);
 // 		print "<br>Saving infoPart:"; printpre ($fieldDef);
+		$idString =& $this->_schema->getFieldId($displayName);
 		
-		$this->_createdInfoParts[$fieldDef->getID()] =& new HarmoniInfoPart($this,
+		$this->_createdInfoParts[$idString] =& new HarmoniInfoPart($this,
 																$fieldDef);
-		return $this->_createdInfoParts[$fieldDef->getID()];
+		return $this->_createdInfoParts[$idString];
 	}
 
 	/**

@@ -56,7 +56,32 @@ class HarmoniDigitalRepositoryManager
 //			$definition->addNewField( new FieldDefinition("ExpirationDate", "datetime"));
 //			$dataSetTypeManager->synchronize($definition);
 //		}
-		/* The above functionality will be changed... */
+
+		$schemaMgr =& Services::getService("SchemaManager");
+		$recordType = new HarmoniType("DR", "Harmoni", "AssetContent", "An InfoStructure for the generic content of an asset.");
+		
+		if (!$schemaMgr->schemaExists($type)) {
+			// Create the Schema
+			$schema =& new Schema($recordType);
+			$schemaMgr->synchronize($schema);
+			
+			// The SchemaManager only allows you to use Schemas created by it for use with Records.
+			$schema =& $schemaMgr->getSchemaByType($recordType);
+			debug::output("InfoStructure is being created from Schema with Id: '".$schema->getID()."'");
+			
+			$this->_createdInfoStructures[$schema->getID()] =& new HarmoniInfoStructure(
+																	$schema);
+			// Add the parts to the schema
+			$partType = new HarmoniType("DR", "Harmoni", "Blob", "");
+			$this->_createdInfoStructures[$schema->getID()]->createInfoPart(
+																"Content",
+																"The binary content of the Asset",
+																$partType,
+																FALSE,
+																FALSE,
+																FALSE
+																);
+		}
 	}
 
 	/**

@@ -6,7 +6,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * Responsible for the synchronization of {@link Schema} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: SchemaManager.class.php,v 1.2 2004/08/04 02:18:56 gabeschine Exp $
+ * @version $Id: SchemaManager.class.php,v 1.3 2004/08/10 19:15:56 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -333,6 +333,8 @@ class SchemaManager
 	 * @access public
 	 */
 	function synchronize(&$new) {
+		ArgumentValidator::validate($new, new ExtendsValidatorRule("Schema"));
+		
 		$type =& $new->getType();
 		
 		debug::output("Attempting to synchronize Schema type '".OKITypeToString($type)."' with
