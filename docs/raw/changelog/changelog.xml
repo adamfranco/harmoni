@@ -2,6 +2,9 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.0.3" date="Not Released">
+		<change author='gabe'>New OKI interfaces, OKI gen-scripts and token files added (under harmoni/oki and harmoni/core/tools/oki respectively)</change>
+	</version>
 	<version number="0.0.2" date="2003-09-28">
 		<new author='gabe'>ActionHandler::forward($action) can now be called from within an action to continue execution.</new>
 		<new author='gabe'>Services::registerObjectAsService() allows you to register an already-instantiated object as a service.</new>
