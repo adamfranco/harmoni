@@ -7,7 +7,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * to the constructor of a DatabaseHierarchicalAuthorizationMethod object.
  * 
  * @package harmoni.authorization
- * @version $Id: DatabaseHierarchicalAuthorizationMethodDataContainer.class.php,v 1.2 2004/03/11 16:02:44 adamfranco Exp $
+ * @version $Id: DatabaseHierarchicalAuthorizationMethodDataContainer.class.php,v 1.3 2004/03/30 23:37:16 dobomode Exp $
  * @copyright 2003
  */
 
@@ -53,13 +53,13 @@ class DatabaseHierarchicalAuthorizationMethodDataContainer extends DataContainer
 		$integerValidatorRule =& new IntegerValidatorRule();
 		$stringValidatorRule =& new StringValidatorRule();
 
-		$this->add("dbIndex", new IntegerValidatorRule());
-		$this->add("primaryKeyColumn", new StringValidatorRule());
-		$this->add("agentIdColumn", new StringValidatorRule());
-		$this->add("agentTypeColumn", new StringValidatorRule());
-		$this->add("functionIdColumn", new StringValidatorRule());
-		$this->add("contextIdColumn", new StringValidatorRule());
-		$this->add("contextDepthColumn", new StringValidatorRule());
+		$this->add("dbIndex", $integerValidatorRule);
+		$this->add("primaryKeyColumn", $stringValidatorRule);
+		$this->add("agentIdColumn", $stringValidatorRule);
+		$this->add("agentTypeColumn", $stringValidatorRule);
+		$this->add("functionIdColumn", $stringValidatorRule);
+		$this->add("contextIdColumn", $stringValidatorRule);
+		$this->add("contextDepthColumn", $stringValidatorRule);
     } 
 } 
 

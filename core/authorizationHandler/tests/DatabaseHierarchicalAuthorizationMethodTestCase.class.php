@@ -7,7 +7,7 @@ require_once(HARMONI.'authorizationHandler/DatabaseHierarchicalAuthorizationMeth
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseHierarchicalAuthorizationMethodTestCase.class.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: DatabaseHierarchicalAuthorizationMethodTestCase.class.php,v 1.2 2004/03/30 23:37:16 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -28,7 +28,7 @@ require_once(HARMONI.'authorizationHandler/DatabaseHierarchicalAuthorizationMeth
 			// get DBHandler
 			Services::requireService("DBHandler", true);
 			$dbHandler =& Services::getService("DBHandler");
-			$dbIndex = $dbHandler->createDatabase(MYSQL, "devo.middlebury.edu", "harmoniTest", "test", "test");
+			$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","harmoniTest","test","test") );
 			$dbHandler->connect($dbIndex);
 
 			// setup generator
@@ -39,6 +39,8 @@ require_once(HARMONI.'authorizationHandler/DatabaseHierarchicalAuthorizationMeth
 			$generator->addContextHierarchyLevel("page", "page_id", "FK_section");
 			$generator->addContextHierarchyLevel("story", "story_id", "FK_page");
 
+
+			
 			// setup data container
 			$dataContainer =& new DatabaseHierarchicalAuthorizationMethodDataContainer();
 			$dataContainer->set("dbIndex", $dbIndex);
