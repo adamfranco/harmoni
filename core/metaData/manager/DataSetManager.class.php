@@ -24,7 +24,7 @@ class DataSetManager {
 		
 	}
 	
-	function &newDataSet( &$type ) {
+	function &newDataSet( &$type, $verControl = false ) {
 		
 	}
 	

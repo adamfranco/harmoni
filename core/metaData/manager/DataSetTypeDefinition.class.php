@@ -48,7 +48,7 @@ class DataSetTypeDefinition {
 		
 		// if we already have a field labeled $label we die
 		if (isset($this->_fields[$label]))
-			throwError( new Error("Already have a field with label '$label' defined in DataSetTypeDefinition '".OKITypeToString($this->_type)."'","DataSetTypeDefinition",true));
+			throwError( new Error("Already have a field with label '$label' defined in DataSetTypeDefinition '".OKITypeToString($this->_type)."'. If you feel this is in error, remember that previously deleted FieldDefinitions retain their label so as to avoid data fragmentation.","DataSetTypeDefinition",true));
 		
 		// associate this field definition with our DataSetTypeDefinition
 		$fieldDefinition->associate($this, $this->_idmanager, $this->_dbID, $id);
@@ -59,7 +59,7 @@ class DataSetTypeDefinition {
 	
 	function load() {
 		// load our fields from the database
-		if ($this->_loaded) {
+		if ($this->loaded()) {
 //			throwError( new Error("Already loaded from the database for type ".OKITypeToString($this->_type).".","DataSetTypeDefinition",true));
 			return true;
 		}
@@ -76,7 +76,7 @@ class DataSetTypeDefinition {
 		$query->addColumn("datasettypedef_id");
 		$query->addColumn("datasettypedef_label");
 		$query->addColumn("datasettypedef_mult");
-		$query->addColumn("datasettypedef_vercontrol");
+		$query->addColumn("datasettypedef_active");
 		$query->addColumn("datasettypedef_fieldtype");
 		$query->setWhere("fk_datasettype=".$this->_id);
 		
@@ -92,7 +92,7 @@ class DataSetTypeDefinition {
 			
 			$newField =& new FieldDefinition($a['datasettypedef_label'],$a['datasettypedef_fieldtype'],
 					(($a['datasettypedef_mult'])?true:false),
-					(($a['datasettypedef_vercontrol'])?true:false)
+					(($a['datasettypedef_active'])?true:false)
 					);
 			$this->_addField($newField, $a['datasettypedef_id']);
 			unset($newField);
@@ -105,8 +105,11 @@ class DataSetTypeDefinition {
 		return count($this->_fields);
 	}
 	
-	function getAllLabels() {
-		return array_keys($this->_fields);
+	function getAllLabels( $includeInactive = false ) {
+		$array = array();
+		foreach (array_keys($this->_fields) as $label) {
+			if ($includeInactive || $this->_fields[$label]->isActive()) $array[] = $label;
+		}
 	}
 	
 	function &getFieldDefinition($label) {

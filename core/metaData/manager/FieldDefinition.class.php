@@ -8,7 +8,6 @@ class FieldDefinition {
 	var $_label;
 	var $_type;
 	var $_mult;
-	var $_versionControlled;
 	var $_idManager;
 	var $_dbID;
 	var $_associated;
@@ -17,7 +16,9 @@ class FieldDefinition {
 	var $_delete;
 	var $_update;
 	
-	function FieldDefinition( $label, $type, $mult=false, $verControl = false ) {
+	var $_active;
+	
+	function FieldDefinition( $label, $type, $mult=false, $active=true ) {
 		ArgumentValidator::validate($mult, new BooleanValidatorRule());
 		ArgumentValidator::validate($type, new StringValidatorRule());
 		ArgumentValidator::validate($label, new StringValidatorRule());
@@ -28,7 +29,7 @@ class FieldDefinition {
 		$this->_mult = $mult;
 		$this->_type = $type;
 		$this->_label = $label;
-		$this->_versionControlled = $verControl;
+		$this->_active = $active;
 		
 		$this->_addToDB = false;
 		$this->_delete = false;
@@ -71,12 +72,6 @@ class FieldDefinition {
 		$this->_mult = $mult;
 	}
 	
-	function getVersionControlFlag() { return $this->_versionControlled; }
-	function setVersionControlFlag( $vctl ) {
-		ArgumentValidator::validate($vctl, new BooleanValidatorRule());
-		$this->_versionControlled = $vctl;
-	}
-	
 	function getID() { return $this->_myID; }
 	
 	function getLabel() {
@@ -108,7 +103,7 @@ class FieldDefinition {
 			$query = new InsertQuery();
 			$query->setTable("datasettypedef");
 			$query->setColumns(array("datasettypedef_id","fk_datasettype","datasettypedef_label",
-			"datasettypedef_mult","datasettypedef_fieldtype","datasettypedef_vercontrol"));
+			"datasettypedef_mult","datasettypedef_fieldtype","datasettypedef_active"));
 			
 			$newID = $this->_idManager->newID( new HarmoniFieldDefinitionType() );
 			$dataSetTypeID = $this->_dataSetTypeDefinition->getID();
@@ -119,7 +114,7 @@ class FieldDefinition {
 					"'".addslashes($this->_label)."'",
 					(($this->_mult)?1:0),
 					"'".addslashes($this->_type)."'",
-					(($this->_versionControlled)?1:0)
+					1
 			));
 			
 			$result =& $dbHandler->query($query,$this->_dbID);
@@ -136,12 +131,11 @@ class FieldDefinition {
 			// do some updating
 			$query = new UpdateQuery();
 			$query->setTable("datasettypedef");
-			$query->setColumns(array("datasettypedef_mult","datasettypedef_vercontrol"));
+			$query->setColumns(array("datasettypedef_mult"));
 			$query->setWhere("datasettypedef_id=".$this->getID());
 			
 			$query->setValues(array(
-					(($this->_mult)?1:0),
-					(($this->_versionControlled)?1:0)
+					(($this->_mult)?1:0)
 			));
 			
 			$result =& $dbHandler->query($query,$this->_dbID);
@@ -154,9 +148,11 @@ class FieldDefinition {
 		
 		if ($this->_delete) {
 			// let's get rid of this bad-boy
-			$query =& new DeleteQuery();
+			$query =& new UpdateQuery();
 			$query->setTable("datasettypedef");
 			$query->setWhere("datasettypedef_id=".$this->getID());
+			$query->setColumns(array("datasettypedef_active"));
+			$query->setValues(array(0));
 			
 			$result =& $dbHandler->query($query,$this->_dbID);
 			if (!$result || $result->getNumberOfRows() != 1) {
@@ -189,9 +185,11 @@ class FieldDefinition {
 	}
 	
 	function &clone() {
-		$newField =& new FieldDefinition($this->_label, $this->_type, $this->_mult, $this->_versionControlled);
+		$newField =& new FieldDefinition($this->_label, $this->_type, $this->_mult );
 		return $newField;
 	}
+	
+	function isActive() { return $this->_active; }
 }
 
 class HarmoniFieldDefinitionType extends HarmoniType {

@@ -1,34 +1,42 @@
 <?php
 
+define("NEW_VALUE",-1);
+
 class DataSet {
 
 	var $_idManager;
 	var $_dbID;
 	var $_dataSetTypeDef;
+	var $_versionControlled;
+	var $_fields;
+	var $_full;
 	
-	function DataSet(&$idManager, $dbID, &$dataSetTypeDef) {
+	function DataSet(&$idManager, $dbID, &$dataSetTypeDef, $verControl ) {
+		ArgumentValidator::validate($verControl, new BooleanValidatorRule());
 		$this->_idManager = $idManager;
 		$this->_dbID = $dbID;
 		$this->_dataSetTypeDef = $dataSetTypeDef;
+		$this->_fields = array();
+		
+		$this->_full = false;
+		
+		// set up the individual fields
+		foreach ($dataSetTypeDef->getAllLabels() as $label) {
+			$def =& $dataSetTypeDef->getFieldDefinition($label);
+			$this->_fields[$label] =& new FieldValues($def, $this, $label );
+			unset($def);
+		}
 	}
 	
-	function getFieldType($label) {
-		return $this->_dataSetTypeDef->getFieldType($label);
-	}
-	
-	function setValue($label, $valueStr, $index=0) {
+	function setValue($label, &$obj, $index=0) {
 		
 	}
 	
-	function addValue($label, $valueStr) {
+	function &getValue($label, $index=0) {
 		
 	}
 	
-	function setValueObject($label, &$obj, $index=0) {
-		
-	}
-	
-	function addValueObject($label, &$obj) {
+	function getAllValues($label) {
 		
 	}
 	
@@ -36,7 +44,7 @@ class DataSet {
 		
 	}
 	
-	function populate() {
+	function populate( $arrayOfRows = null, $full = false ) {
 		
 	}
 	
@@ -44,59 +52,95 @@ class DataSet {
 		
 	}
 	
+	function isVersionControlled() {
+		return $this->_versionControlled;
+	}
+	
+	function clone() {
+		
+	}
+	
+	function deleteAllValues($label) {
+		
+	}
+	
+	function deleteValue($label, $index=0) {
+		
+	}
+	
 }
 
-class DataFieldArray {
+class FieldValues {
 	
 	var $_numValues;
 	var $_values;
 	
 	var $_parent;
+	var $_fieldDefinition;
 	var $_myLabel;
 	
-	var $_mult;
-	var $_verControl;
-	
-	function DataField( $label, &$parent, &$values, $mult=false, $verControl=false ) {
+	function DataField( &$fieldDefinition, &$parent, $label ) {
 		ArgumentValidator::validate($values, new ArrayValidatorRule());
-		$this->_values =& $values;
-		$this->_numValues = count($values);
+		$this->_numValues = 0;
 		
-		$this->_mult = $mult;
-		$this->_verControl = $verControl;
+		$this->_myLabel = $label;
 		
 		$this->_parent =& $parent;
-		$this->_label = $label;
+		$this->_fieldDefinition =& $fieldDefinition;
+	}
+	
+	function populate( $arrayOfRows ) {
+		
 	}
 	
 	function &getValue($index) {
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
+		return $this->_values[$index];
 	}
 	
 	function setValue($index, &$value) {
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
-		if ($this->_verControl) {
-			// ...
-		}
-	}
-	
-	function addValue(&$value) {
-		if (!$this->_mult) {
-			// we don't do multiple values... die.
-			throwError( new Error("This field, '".$this->_myLabel."', does not support multiple values. Can not addValue().","DataSet",true));
-			return false;
-		}
-		
-		$this->_values[] =& $value;
-		$this->_numValues++;
-		return true;
+		$this->_values[$index]->setValue($value);
 	}
 	
 	function numValues() { return $this->_numValues; }
+	
+	function numVersions( $index=0 ) {
+		return $this->_values[$index]->numVersions();
+	}
+	
+	function getVersionList( $index=0 ) {
+		
+	}
+	
+	function &getVersion( $verID, $index=0 ) {
+		
+	}
+	
+}
+
+// holds multiple values for a given label + index
+class ValueVersions {
+	
+	function numVersions() {
+		
+	}
+	
+	function setValue(&$value) {
+		
+	}
+	
+	function getVersionList() {
+		
+	}
+	
+	function &getVersion( $verID ) {
+		
+	}
 	
 }
 
