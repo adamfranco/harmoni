@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/Components/MenuItem.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuItemHeading.class.php,v 1.7 2005/03/29 19:44:10 adamfranco Exp $
+ * @version $Id: MenuItemHeading.class.php,v 1.8 2005/03/29 21:53:13 adamfranco Exp $
  */
 class MenuItemHeading extends Component /* implements MenuItemInterface */ {
 
@@ -44,8 +44,7 @@ class MenuItemHeading extends Component /* implements MenuItemInterface */ {
 	 **/
 	function MenuItemHeading($displayName, $index) {
 		// ** parameter validation
-		$rule =& StringValidatorRule::getRule()($content);
-		ArgumentValidator::validate($displayName, $rule, true);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
 		$this->_displayName = $displayName;

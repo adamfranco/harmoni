@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ChoiceValidatorRule.class.php,v 1.3 2005/03/29 18:04:57 adamfranco Exp $
+ * @version $Id: ChoiceValidatorRule.class.php,v 1.4 2005/03/29 21:52:44 adamfranco Exp $
  */ 
 class ChoiceValidatorRule 
 	extends ValidatorRuleInterface
@@ -78,7 +78,15 @@ class ChoiceValidatorRule
 		$class = __CLASS__;
 		$ruleKey = $class."(".implode(", ",$a).")";
 		if (!$GLOBALS['validator_rules'][$ruleKey]) {
-			$evalString = '$GLOBALS[\'validator_rules\'][$ruleKey] =& new '.$class.'('. implode(", ", $a) .');';
+			$evalString = '$GLOBALS[\'validator_rules\'][$ruleKey] =& new '.$class.'(';
+			$i = 0;
+			foreach (array_keys($a) as $key) {
+				if ($i > 0)
+					$evalString .= ", ";
+				$evalString .= '$a[$key]';
+				$i++;
+			}
+			$evalString .= ');';
 			eval($evalString);
 		}
 		

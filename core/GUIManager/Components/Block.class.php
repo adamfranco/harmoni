@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Block.class.php,v 1.6 2005/03/29 19:44:09 adamfranco Exp $
+ * @version $Id: Block.class.php,v 1.7 2005/03/29 21:53:13 adamfranco Exp $
  */
 class Block extends Component {
 
@@ -41,8 +41,7 @@ class Block extends Component {
 	 **/
 	function Block($content, $index) {
 		// ** parameter validation
-		$rule =& StringValidatorRule::getRule()($content);
-		ArgumentValidator::validate($content, $rule, true);
+		ArgumentValidator::validate($content, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
 		$this->Component($content, BLOCK, $index);
