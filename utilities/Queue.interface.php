@@ -3,7 +3,7 @@
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.interface.php,v 1.5 2003/06/23 20:42:35 adamfranco Exp $
+ * @version $Id: Queue.interface.php,v 1.6 2003/06/25 15:13:48 movsjani Exp $
  * @copyright 2003 
  */
 
@@ -39,6 +39,13 @@ class QueueInterface {
 	 * @access public
 	 */
 	function getSize() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+
+	/**
+     * Rewind the queue if it is not reversed
+	 * @return boolean True on sucess, false on failure (queue is reversed).
+	 * @access public
+	 */
+	function rewind() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 }
 

@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: QueueTestCase.class.php,v 1.9 2003/06/23 22:02:03 adamfranco Exp $
+ * @version $Id: QueueTestCase.class.php,v 1.10 2003/06/25 15:13:48 movsjani Exp $
  * @copyright 2003 
  **/
 
@@ -115,6 +115,28 @@
 			// next() will return the same element regardless of whether
 			// we have called add() or not. Please, fix this.
 		} 
+
+		function testRewind(){
+
+			$testReversedQueue =& new Queue();
+			$test1 = & new Queue();
+			$test2 = & new Queue();
+			$test3 = & new Queue();
+			$test4 = & new Queue();
+			$test5 = & new Queue();
+			
+			$testReversedQueue->add(& $test1);
+			$testReversedQueue->add(& $test2);
+			$testReversedQueue->add(& $test3);
+
+			$this->assertReference($test1,$testReversedQueue->next());
+			$this->assertReference($test2,$testReversedQueue->next());
+			$testReversedQueue->rewind();
+			$this->assertReference($test1,$testReversedQueue->next());
+
+			
+			
+		}
 		
     }
 

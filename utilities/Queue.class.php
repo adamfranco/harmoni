@@ -4,7 +4,7 @@ require_once(HARMONI."utilities/Queue.interface.php");
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.class.php,v 1.9 2003/06/23 19:14:26 gabeschine Exp $
+ * @version $Id: Queue.class.php,v 1.10 2003/06/25 15:13:48 movsjani Exp $
  * @copyright 2003 
  */
 
@@ -85,7 +85,20 @@ class Queue extends QueueInterface {
 	function getSize() {
 		return count($this->_queue);
 	}
-	
+
+	/**
+	 * Rewind the queue if it is not reversed
+	 * @return boolean True on sucess, false on failure (queue is reversed).
+	 * @access public
+	 */
+	function rewind() { 
+		if($this->_reversed)
+			return false;
+		else{
+			$this->_position=0;
+			return true;
+		}
+	}
 }
 
 
