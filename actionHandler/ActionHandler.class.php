@@ -18,12 +18,19 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * <li>A {@link FieldSet} object of post/get variables from the web browser.
  * <li>A {@link Context} object.
  * <li>A {@link LoginState} object.
+ * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.3 2003/07/23 21:43:58 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.4 2003/07/24 23:38:42 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandler extends ActionHandlerInterface {
+	/**
+	 * @access private
+	 * @var object $_harmoni A reference to the {@link Harmoni} object.
+	 **/
+	var $_harmoni;
+	
 	/**
 	 * @access private
 	 * @var array $_threads A hashed-array of subsequent actions for any given action.
@@ -95,10 +102,9 @@ class ActionHandler extends ActionHandlerInterface {
 	 * @access public
 	 * @return void
 	 **/
-	function ActionHandler($httpVars, $context=null, $loginState=null) {
+	function ActionHandler($httpVars, &$harmoni) {
 		$this->_httpVars =& $httpVars;
-		$this->_context =& $context;
-		$this->_loginState =& $loginState;
+		$this->_harmoni =& $harmoni;
 		$this->_actionsExecuted = array();
 		$this->_threads = array();
 	}
@@ -167,6 +173,7 @@ class ActionHandler extends ActionHandlerInterface {
 			$httpVars =& $this->_httpVars;
 			$context =& $this->_context;
 			$loginState =& $this->_loginState;
+			$harmoni =& $this->_harmoni;
 		}
 		
 		// include the file
@@ -202,7 +209,7 @@ class ActionHandler extends ActionHandlerInterface {
 			
 			// execute the $method and get the result.
 			$result =& $object->$method(&$this->_httpVars, &$this->_context,
-									&$this->_loginState);
+									&$this->_loginState,&$this->_harmoni);
 		}
 		
 		// we've now executed this action -- add it to the array

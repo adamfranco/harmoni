@@ -52,9 +52,10 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * <li>A {@link FieldSet} object of post/get variables from the web browser.
  * <li>A {@link Context} object.
  * <li>A {@link LoginState} object.
+ * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.interface.php,v 1.2 2003/07/22 22:05:46 gabeschine Exp $
+ * @version $Id: ActionHandler.interface.php,v 1.3 2003/07/24 23:38:42 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandlerInterface {

@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FieldSetValidatorTestCase.class.php,v 1.5 2003/07/04 03:32:35 dobomode Exp $
+ * @version $Id: FieldSetValidatorTestCase.class.php,v 1.6 2003/07/24 23:38:42 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -90,7 +90,7 @@
 			$this->testFieldSet->set("mystring","this is a string");
 			
 			$keys=$this->testFieldSet->getKeys();
-			$this->assertEqual($keys,array("mystring","mynumber"));
+			$this->assertEqual(count($keys),2);
 		}
 		
 		function test_field_set_clear() {

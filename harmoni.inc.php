@@ -1,15 +1,18 @@
-<?
+<?PHP
 
 /**
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.11 2003/07/23 21:43:57 gabeschine Exp $
+ * @version $Id: harmoni.inc.php,v 1.12 2003/07/24 23:38:40 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
  **/
 
+/* :: start the output buffer :: */
+ob_start();
+ 
 /**
  * Defines the global harmoni directory.
  * @const HARMONI The harmoni directory.
@@ -22,7 +25,7 @@ define("HARMONI",dirname(__FILE__)."/");
  **/
 define("SERVICES_OBJECT","__services__");
 
-// load the services
+/* :: load the services :: */
 require_once(HARMONI."services/Services.class.php");
 
 /**
@@ -31,8 +34,10 @@ require_once(HARMONI."services/Services.class.php");
  **/
 $__services__ =& new Services();
 
-// load the Services registration config file
+/* :: load the Services registration config file :: */
 require_once(HARMONI."config/services.cfg.php");
 
-// :: load the harmoni class ::
+/* :: load the harmoni class :: */
 require_once(HARMONI."architecture/harmoni/Harmoni.class.php");
+
+?>

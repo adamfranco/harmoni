@@ -16,7 +16,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.5 2003/07/23 21:43:58 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.6 2003/07/24 23:38:42 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni extends HarmoniInterface {
@@ -82,7 +82,7 @@ class Harmoni extends HarmoniInterface {
 		
 		// set up the LoginHandler and the ActionHandler
 		$this->LoginHandler =& new LoginHandler($this);
-		$this->ActionHandler =& new ActionHandler(&$this->_httpVars);
+		$this->ActionHandler =& new ActionHandler(&$this->_httpVars,$this);
 		
 		// set up config options
 		$this->config =& new HarmoniConfig;
@@ -185,17 +185,20 @@ class Harmoni extends HarmoniInterface {
 		$this->ActionHandler->useContext(&$context);
 		$result =& $this->ActionHandler->execute($module, $action);
 		
-		// alright, if what we got back was a layout, let's print it out!
-		$rule = new ExtendsValidatorRule("LayoutInterface");
-		if ($rule->check($result)) {
-			// indeed!
-			$this->_theme->printPageWithLayout(&$result);
-		} else {
-			// we got something else back... well, let's print out an error
-			// explaining what happened.
-			$type = gettype($result);
-			throwError(new Error("Harmoni::execute() - The result returned from action '$pair' was unexpected. Expecting a Layout
-					object, but got a variable of type '$type'.","Harmoni",true));
+		// we only need to print anything out if config->outputHTML is set.
+		if ($this->config->get("outputHTML")) {
+			// alright, if what we got back was a layout, let's print it out!
+			$rule = new ExtendsValidatorRule("LayoutInterface");
+			if ($rule->check($result)) {
+				// indeed!
+				$this->_theme->printPageWithLayout(&$result);
+			} else {
+				// we got something else back... well, let's print out an error
+				// explaining what happened.
+				$type = gettype($result);
+				throwError(new Error("Harmoni::execute() - The result returned from action '$pair' was unexpected. Expecting a Layout
+						object, but got a variable of type '$type'.","Harmoni",true));
+			}
 		}
 	}
 	
@@ -236,6 +239,7 @@ class Harmoni extends HarmoniInterface {
 	 * @return void
 	 **/
 	function setCurrentAction($action) {
+		ArgumentValidator::validate($action, new DottedPairValidatorRule);
 		$this->_currentAction = $action;
 	}
 	
@@ -247,13 +251,12 @@ class Harmoni extends HarmoniInterface {
 	function startSession() {
 		// let's start the session
 		session_name($this->config->get("sessionName"));
-//		if (!$_COOKIE[$this->config->get("sessionName")] && !$_REQUEST[$this->config->get("sessionName")])
-//			session_id(uniqid(str_replace(".","",$_SERVER['REMOTE_ADDR']))); // make new session id.
+		if (!$_COOKIE[$this->config->get("sessionName")] && !$_REQUEST[$this->config->get("sessionName")])
+			session_id(uniqid(str_replace(".","",$_SERVER['REMOTE_ADDR']))); // make new session id.
 		$path = $this->config->get("sessionCookiePath");
 		if ($path[strlen($path) - 1] != '/') $path .= '/';
-		ini_set("session.cookie_path",$path);
-		ini_set("session.cookie_domain",$this->config->get("sessionCookieDomain"));
-		//session_set_cookie_params(0,$path,$this->config->get("sessionCookieDomain"));
+		session_set_cookie_params(0,$path,$this->config->get("sessionCookieDomain"));
+		ini_set("session.use_cookies",($this->config->get("sessionUseCookies")?1:0));
 		session_start(); // yay!
 	}
 	

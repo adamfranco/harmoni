@@ -5,7 +5,7 @@ require_once(HARMONI."DateTime.interface.php");
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.3 2003/07/23 21:43:58 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.4 2003/07/24 23:38:42 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -15,7 +15,7 @@ class DateTime implements DateTimeInterface {
 
 
 	/**
-	 * Year. Any.
+	 * Year. 4-digit.
 	 * @attribute private integer _year
 	 */
 	var $_year;
@@ -65,8 +65,8 @@ class DateTime implements DateTimeInterface {
 	 * Creates a new date.
 	 * @access public
 	 */
-	function DateTime($year = 1981, $month = 10, $day = 24, 
-					  $hours = 8, $minutes = 30, $seconds = 0) {
+	function DateTime($year = 1970, $month = 1, $day = 1, 
+					  $hours = 0, $minutes = 0, $seconds = 0) {
 		// ** parameter validation
 		$integerRule =& new IntegerValidatorRule();
 		ArgumentValidator::validate($year, $integerRule, true);
@@ -85,6 +85,9 @@ class DateTime implements DateTimeInterface {
 		ArgumentValidator::validate($seconds, $rangeRule, true);
 		// ** end of parameter validation
 
+		// make the year 1900+
+		$year += ($year<1900)?1900:0;
+		$year += ($year<1970)?100:0; // 2000+
 		$this->_year = $year;
 		$this->_month = $month;
 		$this->_day = $day;
@@ -227,10 +230,17 @@ class DateTime implements DateTimeInterface {
 	/**
 	 * Returns a DateTime object corresponding to the current date and time.
 	 * @method public now
+	 * @static
 	 * @return ref object A DateTime object corresponding to the current date and time.
 	 */
 	function & now() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		$year = date('Y');
+		$month = intval(date('m'));
+		$day = intval(date('d'));
+		$hours = intval(date('H'));
+		$minutes = intval(date('i'));
+		$seconds = intval(date('s'));
+		return new DateTime($year, $month, $day, $hours, $minutes, $seconds);
 	}
 
 

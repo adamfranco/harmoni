@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 /**
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * @version $Id: PostGreDatabase.class.php,v 1.5 2003/07/20 17:43:25 dobomode Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.6 2003/07/24 23:38:42 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -412,7 +412,11 @@ class PostGreDatabase extends DatabaseInterface {
 		 * You can pass this to a PostGre date or timestamp column types
 		 * and it gets parsed automatically by PostGre.
 		 */
-		
+		$string = sprintf("%s-%02d-%02d %02d:%02d:%02d",$dateTime->getYear(),
+							$dateTime->getMonth(), $dateTime->getDay(),
+							$dateTime->getHours(), $dateTime->getMinutes(),
+							$dateTime->getSeconds());
+		return $string;
 	}
 	
 	
@@ -440,6 +444,17 @@ class PostGreDatabase extends DatabaseInterface {
 		 * Parse with regular expressions, create and return the appropriate
 		 * DateTime object.
 		 */
+		if (ereg("([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})-([0-9]{2})",$value,$r))
+		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5],$r[6]); // ISO
+		if (ereg("([0-9]{2})/([0-9]{2})/([0-9]{4}) ([0-9]{2}):([0-9]{2}):([0-9]{2}).([0-9]{2}) ...",$value,$r))
+		 	return new DateTime($r[3],$r[1],$r[2],$r[4],$r[5],$r[6]); // SQL
+		if (ereg("(...) (...) ([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2}) ([0-9]{4})",$value,$r)) {
+		 	$months = array("Jan"=>1,"Feb"=>2,"Mar"=>3,"Apr"=>4,"May"=>5,"Jun"=>6,"Jul"=>7,
+							"Aug"=>8,"Sep"=>9,"Oct"=>10,"Nov"=>11,"Dec"=>12);
+			return new DateTime($r[7],$months[$r[2]],$r[3],$r[4],$r[5],$r[6]); // Postgre
+		}
+		if (ereg("([0-9]{2})\.([0-9]{2})\.([0-9]{4}) ([0-9]{2}):([0-9]{2}):([0-9]{2}).([0-9]{2}) ...",$value,$r))
+		 	return new DateTime($r[3],$r[2],$r[1],$r[4],$r[5],$r[6]); // German
 	}
 	
 	

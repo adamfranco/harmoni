@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.12 2003/07/20 17:43:25 dobomode Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.13 2003/07/24 23:38:42 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -359,6 +359,11 @@ class MySQLDatabase extends DatabaseInterface {
 		 * You can pass this to a MySQL datetime or timestamp column types
 		 * and it gets parsed automatically by MySQL.
 		 */
+		$string = sprintf("%s%02d%02d%02d%02d%02d",$dateTime->getYear(),
+							$dateTime->getMonth(), $dateTime->getDay(),
+							$dateTime->getHours(), $dateTime->getMinutes(),
+							$dateTime->getSeconds());
+		return $string;
 	}
 	
 	
@@ -392,6 +397,24 @@ class MySQLDatabase extends DatabaseInterface {
 		 * Parse with regular expressions, create and return the appropriate
 		 * DateTime object.
 		 */
+		if (ereg("([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})",$value,$r))
+		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5],$r[6]);
+		if (ereg("([0-9]{4})-([0-9]{2})-([0-9]{2})",$value,$r))
+		 	return new DateTime($r[1],$r[2],$r[3]);
+		if (ereg("([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
+		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5],$r[6]);
+		if (ereg("([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
+		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5],$r[6]);
+		if (ereg("([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
+		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5]);
+		if (ereg("([0-9]{4})([0-9]{2})([0-9]{2})",$value,$r))
+		 	return new DateTime($r[1],$r[2],$r[3]);
+		if (ereg("([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
+		 	return new DateTime($r[1],$r[2],$r[3]);
+		if (ereg("([0-9]{2})([0-9]{2})",$value,$r))
+		 	return new DateTime($r[1],$r[2]);
+		if (ereg("([0-9]{2})",$value,$r))
+		 	return new DateTime($r[1]);
 	}
 	
 
