@@ -8,7 +8,7 @@ require_once(HARMONI."utilities/FieldSetValidator/RuleSet.class.php");
  * the FieldSetValidator takes a FieldSet and a RuleSet and validates values between the two
  *
  * @package harmoni.utilities.fieldsetvalidator
- * @version $Id: FieldSetValidator.class.php,v 1.2 2003/11/27 04:55:42 gabeschine Exp $
+ * @version $Id: FieldSetValidator.class.php,v 1.3 2003/12/05 15:29:40 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -78,7 +78,7 @@ class FieldSetValidator {
 		$val = & $this->_fieldset->get($key);
 		
 		// run the rules and return
-		return $this->_ruleset->validate( $key, & $val, $throwErrors );
+		return $this->_ruleset->validate( $key, $val, $throwErrors );
 	}
 	
 	/**
