@@ -6,7 +6,7 @@ require_once(HARMONI.'/oki/hierarchy2/HierarchyCache.class.php');
 require_once(HARMONI.'/oki/hierarchy2/HarmoniNodeIterator.class.php');
 require_once(HARMONI.'/oki/hierarchy2/HarmoniTraversalInfo.class.php');
 require_once(HARMONI.'/oki/hierarchy2/HarmoniTraversalInfoIterator.class.php');
-require_once(HARMONI.'/oki/hierarchy2/GenericNodeType.class.php');
+require_once(HARMONI.'/oki/hierarchy2/DefaultNodeType.class.php');
 
 /**
  * A Hierarchy is a structure comprised of nodes arranged in root, parent, and
@@ -17,10 +17,10 @@ require_once(HARMONI.'/oki/hierarchy2/GenericNodeType.class.php');
  * 
  * 
  * @package harmoni.osid.hierarchy2
- * @author Adam Franco
+ * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchy.class.php,v 1.3 2004/06/02 22:57:33 dobomode Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.4 2004/06/10 18:50:09 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -214,8 +214,7 @@ class HarmoniHierarchy extends Hierarchy {
 	 * @param object osid.shared.Id nodeId nodeId The unique Id to be associated with
 	 *		  the new Node; unique Id cannot be null.
 	 * @param object osid.shared.Type nodeType type The Type of the new Node; type may
-	 *		  be null if the node has no type. NOTE: The value of this argument does
-	 *        matter since Harmoni assigns a generic node type to all nodes.
+	 *		  be null if the node has no type.
 	 * @param String displayName name The displayName of the new Node;
 	 *		  displayName cannot be null, but may be empty.
 	 * @param String description The description of the new Node; description
@@ -231,11 +230,12 @@ class HarmoniHierarchy extends Hierarchy {
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
 		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
 
-		return $this->_cache->createRootNode($nodeId, new GenericNodeType(), $displayName, $description);
+		return $this->_cache->createRootNode($nodeId, $type, $displayName, $description);
 	}
 
 	/**
@@ -266,11 +266,12 @@ class HarmoniHierarchy extends Hierarchy {
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($parentId, new ExtendsValidatorRule("Id"), true);
 		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
 
-		return $this->_cache->createNode($nodeId, $parentId, new GenericNodeType(), $displayName, $description);
+		return $this->_cache->createNode($nodeId, $parentId, $type, $displayName, $description);
 	}
 
 	/**

@@ -25,7 +25,7 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
  * 
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
- * @version $Id: HierarchyCache.class.php,v 1.7 2004/06/09 19:26:27 dobomode Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.8 2004/06/10 18:50:09 dobomode Exp $
  * @package harmoni.osid.hierarchy2
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -220,6 +220,17 @@ class HierarchyCache {
 		$child->getParents();
 		$this->traverse($child->getId(), true, -1); // traverse fully down in order to detect cycles
 		
+		// get the tree nodes
+		$parentTreeNode =& $this->_tree->getNode($parentIdValue);
+		$childTreeNode =& $this->_tree->getNode($childIdValue);
+
+		// make sure that we are not adding a second parent in a single-parent hierarchy
+		if (!$this->_allowsMultipleParents)
+			if ($childTreeNode->getParentsCount() > 1)
+				throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", true));
+
+
+
 		// IMPORTANT SPECIAL CASES:
 
 		// A = the number of levels that the parent is cached down
@@ -248,8 +259,6 @@ class HierarchyCache {
 		// now add the new node as a parent
 		
 		// 1) update the cache
-		$parentTreeNode =& $this->_tree->getNode($parentIdValue);
-		$childTreeNode =& $this->_tree->getNode($childIdValue);
 		$this->_tree->addNode($childTreeNode, $parentTreeNode);
 
 		// 2) update the database
@@ -375,29 +384,67 @@ class HierarchyCache {
 	function & getAllNodes() {
 		$dbHandler =& Services::requireService("DBHandler");
 		$db = $this->_sharedDB.".";
-		$this->_nodeQuery->resetWhere();
-		$this->_nodeQuery->addWhere($db."node.fk_hierarchy = '{$this->_hierarchyId}'");
-		$nodeQueryResult =& $dbHandler->query($this->_nodeQuery, $this->_dbIndex);
+		$query =& new SelectQuery();
+		$query->addColumn("node_id", "id", $db."node");
+		$query->addColumn("node_display_name", "display_name", $db."node");
+		$query->addColumn("node_description", "description", $db."node");
+		$query->addColumn("type_domain", "domain", $db."type");
+		$query->addColumn("type_authority", "authority", $db."type");
+		$query->addColumn("type_keyword", "keyword", $db."type");
+		$query->addColumn("type_description", "type_description", $db."type");
+		$query->addColumn("fk_parent", "parent_id", $db."j_node_node");
+
+		$query->addTable($db."node");
+		$joinc = $db."node.fk_type = ".$db."type.type_id";
+		$query->addTable($db."type", INNER_JOIN, $joinc);
+		$joinc = $db."node.node_id = ".$db."j_node_node.fk_child";
+		$query->addTable($db."j_node_node", LEFT_JOIN, $joinc);
+
+		$query->addWhere($db."node.fk_hierarchy = '{$this->_hierarchyId}'");
+
+		$query->addOrderBy($db."node.node_id");
+		
+		$nodeQueryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		$result = array();
 
 		while ($nodeQueryResult->hasMoreRows()) {
 			$nodeRow = $nodeQueryResult->getCurrentRow();
-			$idValue =& $nodeRow['id'];
+			$idValue = $nodeRow['id'];
+			$parentIdValue = $nodeRow['parent_id'];
 			
+			// update cache
+			// 1) update the tree structure
+			// create a TreeNode for the current node, if necessary
+			if ($this->_tree->nodeExists($idValue))
+				$tn =& $this->_tree->getNode($idValue);
+			else
+				$tn =& new TreeNode($idValue);
+			
+			// 2) create a TreeNode for the parent node, if necessary
+			if (is_null($parentIdValue))
+				$parent_tn = null;
+			else if ($this->_tree->nodeExists($parentIdValue))
+				$parent_tn =& $this->_tree->getNode($parentIdValue);
+			else {
+				$parent_tn =& new TreeNode($parentIdValue);
+				$this->_tree->addNode($parent_tn);
+			}
+			// 3) insert child-parent relationship into the tree
+			$this->_tree->addNode($tn, $parent_tn);
+
+			// 4) update cache of hierarchy nodes
 			if (!$this->_isCached($idValue)) {
 				$id =& new HarmoniId($idValue);
 				$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
 										  $nodeRow['keyword'], $nodeRow['type_description']);
 			    $node =& new HarmoniNode($id, $type, 
 										  $nodeRow['display_name'], $nodeRow['description'], $this);
-
-				// insert node into cache
-				$this->_tree->addNode(new TreeNode($idValue));
 				$this->_cache[$idValue][0] =& $node;
-				$this->_cache[$idValue][1] = 0;
-				$this->_cache[$idValue][2] = 0;
 			}
+
+			$this->_cache[$idValue][1] = -1;
+			$this->_cache[$idValue][2] = -1;
 			
 			$result[] =& $this->_cache[$idValue][0];
 		

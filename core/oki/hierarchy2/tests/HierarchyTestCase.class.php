@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.4 2004/06/02 22:57:43 dobomode Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.5 2004/06/10 18:50:20 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -50,6 +50,9 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 			$val = md5(uniqid(rand(), true));
 			$this->hierarchy->updateDisplayName($val);
 			$this->assertIdentical($this->hierarchy->getDisplayName(), $val);
+
+			$this->hierarchy->updateDisplayName("test");
+			$this->hierarchy->updateDescription("Test Hierarchy");
 		}
 		
 		function test_creating_and_deleting_nodes() {
@@ -83,28 +86,28 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 		function test_building_a_hierarchy_from_scratch_and_traversal() {
 			// build the hierarchy, one node at a time
 			$idA =& $this->manager->createId();
-			$nodeA =& $this->hierarchy->createRootNode($idA, new GenericNodeType(), "A", "A");
+			$nodeA =& $this->hierarchy->createRootNode($idA, new DefaultNodeType(), "A", "A");
 
 			$idB =& $this->manager->createId();
-			$nodeB =& $this->hierarchy->createRootNode($idB, new GenericNodeType(), "B", "B");
+			$nodeB =& $this->hierarchy->createRootNode($idB, new DefaultNodeType(), "B", "B");
 			
 			$nodeA->addParent($idB);
 	
 			$idC =& $this->manager->createId();
-			$nodeC =& $this->hierarchy->createRootNode($idC, new GenericNodeType(), "C", "C");
+			$nodeC =& $this->hierarchy->createRootNode($idC, new DefaultNodeType(), "C", "C");
 
 			$nodeC->addParent($idB);
 
 			$idD =& $this->manager->createId();
-			$nodeD =& $this->hierarchy->createRootNode($idD, new GenericNodeType(), "D", "D");
+			$nodeD =& $this->hierarchy->createRootNode($idD, new DefaultNodeType(), "D", "D");
 
 			$idE =& $this->manager->createId();
-			$nodeE =& $this->hierarchy->createRootNode($idE, new GenericNodeType(), "E", "E");
+			$nodeE =& $this->hierarchy->createRootNode($idE, new DefaultNodeType(), "E", "E");
 			
 			$nodeD->addParent($idE);
 	
 			$idF =& $this->manager->createId();
-			$nodeF =& $this->hierarchy->createRootNode($idF, new GenericNodeType(), "F", "F");
+			$nodeF =& $this->hierarchy->createRootNode($idF, new DefaultNodeType(), "F", "F");
 
 			$nodeF->addParent($idE);
 
@@ -112,7 +115,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 			$nodeD->addParent($idA);
 			
 			$idG =& $this->manager->createId();
-			$nodeG =& $this->hierarchy->createRootNode($idG, new GenericNodeType(), "G", "G");
+			$nodeG =& $this->hierarchy->createRootNode($idG, new DefaultNodeType(), "G", "G");
 
 			$nodeE->addParent($idG);
 			$nodeF->addParent($idG);
@@ -335,6 +338,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 			
 			// test getAllNodes
 			$iterator =& $this->hierarchy->getAllNodes();
+			$this->assertIdentical(count($this->hierarchy->_cache->_cache), 9);
 			while ($iterator->hasNext()) {
 				$node =& $iterator->next();
 				$this->assertIsA($node, "HarmoniNode");

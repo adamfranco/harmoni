@@ -22,10 +22,10 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * 
  * 
  * @package harmoni.osid.hierarchy
- * @author Adam Franco
+ * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.2 2004/06/03 15:51:56 dobomode Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.3 2004/06/10 18:50:09 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

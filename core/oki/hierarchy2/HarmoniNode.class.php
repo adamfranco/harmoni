@@ -4,7 +4,7 @@ require_once(OKI."/hierarchy.interface.php");
 require_once(HARMONI."oki/hierarchy2/HierarchyCache.class.php");
 require_once(HARMONI."oki/hierarchy2/HarmoniNodeIterator.class.php");
 require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
-require_once(HARMONI."oki/hierarchy2/GenericNodeType.class.php");
+require_once(HARMONI."oki/hierarchy2/DefaultNodeType.class.php");
 
 /**
  * A Node is a Hierarchy's representation of an external object that is one of
@@ -15,10 +15,10 @@ require_once(HARMONI."oki/hierarchy2/GenericNodeType.class.php");
  * <p></p>
  *
  * @package harmoni.osid.hierarchy2
- * @author Adam Franco
+ * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.7 2004/06/09 19:26:27 dobomode Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.8 2004/06/10 18:50:09 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -305,8 +305,8 @@ class HarmoniNode extends Node {
 	function isRoot() {
 		// leaf-check is done through getChildren(). A leaf would not have any children.
 		
-		$children =& $this->getParents();
-		return (!$children->hasNext());
+		$parents =& $this->getParents();
+		return (!$parents->hasNext());
 	}
 
 	/**
@@ -329,9 +329,6 @@ class HarmoniNode extends Node {
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
-		
-		if (!$this->_cache->_allowsMultipleParents)
-			throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", true));
 		
 		$this->_cache->addParent($nodeId->getIdString(), $this->_id->getIdString());
 	}
@@ -357,9 +354,6 @@ class HarmoniNode extends Node {
 		ArgumentValidator::validate($parentId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
 
-		if (!$this->_cache->_allowsMultipleParents)
-			throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", true));
-
 		$this->_cache->removeParent($parentId->getIdString(), $this->_id->getIdString());
 	}
 
@@ -379,8 +373,8 @@ class HarmoniNode extends Node {
 		if ($oldParentId->getIdString() === $newParentId->getIdString())
 			return;
 		
-		$this->_cache->addParent($newParentId->getIdString(), $this->_id->getIdString());
 		$this->_cache->removeParent($oldParentId->getIdString(), $this->_id->getIdString());
+		$this->_cache->addParent($newParentId->getIdString(), $this->_id->getIdString());
 	}
 
 }
