@@ -4,7 +4,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.3 2003/06/29 20:40:20 movsjani Exp $
+ * @version $Id: test.php,v 1.4 2003/06/30 03:55:38 movsjani Exp $
  * @package harmoni.errorhandler.tests
  * @copyright 2003 
  **/
@@ -19,10 +19,10 @@
     require_once(SIMPLE_TEST . 'simple_unit.php');
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
-    $test =& new GroupTest('ErrorHandler tests');
+    $test =& new GroupTest('StorageHandler tests');
 
-    $test->addTestFile(HARMONI.'storageHandler/tests/StorableTestCase.class.php');
-    $test->addTestFile(HARMONI.'storageHandler/tests/StorageMethodTestCase.class.php');
+    $test->addTestFile(HARMONI.'StorageHandler/tests/StorableTestCase.class.php');
+    $test->addTestFile(HARMONI.'StorageHandler/tests/StorageMethodTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 ?>

@@ -4,7 +4,7 @@
  * Storable class interface provides functionality to create Storable objects 
  * to be used by the StorageMethod and StorageHandler.
  *
- * @version $Id: Storable.interface.php,v 1.1 2003/06/29 20:40:19 movsjani Exp $
+ * @version $Id: Storable.interface.php,v 1.2 2003/06/30 03:55:38 movsjani Exp $
  * @package harmoni.Storagehandler
  * @copyright 2003
  * @access public
@@ -51,7 +51,7 @@ class StorableInterface {
 
     /**
      * Gets the data content of the storable.
-     * @return mixed Data content of the storable.
+     * @return string Data content of the storable.
      * @access public
      */
     function getData() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
