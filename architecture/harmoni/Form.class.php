@@ -8,8 +8,9 @@ class Form {
 
 	// Constructor
 	// $HTTP_VARS   Should be sent by reference to avoid copying
-	function Form($HTTP_VARS) {
-		$this->http_vars = $HTTP_VARS;
+	function Form() {
+		//$this->http_vars = $HTTP_VARS;
+		$this->http_vars = $_REQUEST;
 	}
 
 

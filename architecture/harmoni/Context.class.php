@@ -10,8 +10,8 @@
 	
 		var $vars;
 	
-		function Context ($vars) {
-			$this->vars = $vars;
+		function Context () {
+			$vars = $_REQUEST;
 		}
 		
 		function getURL ($params) {

@@ -62,15 +62,22 @@ class Harmoni {
 	}
 	
 	function execute () {
+		// grab the module and action from the Context object
 		$module = $this->context->getValue('module');
 		$action = $this->context->getValue('action');
+		
+		// if no module specified, get default from application configuration
 		if (empty ($module)) {
 			$module = $this->config->get('DefaultModule');
 		}
 		require_once ("modules/$module.mod.php");
+		
+		// if no action specified, get default from module
 		if (empty ($action)) {
 			eval ("\$action = $module::getDefaultAction();");
 		}
+		
+		// get the layout return from the action, passing & $this and render
 		eval ("\$layout = $module::$action(& \$this);");
 		print $layout->render();
 	}
