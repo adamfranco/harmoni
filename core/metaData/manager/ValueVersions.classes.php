@@ -11,6 +11,7 @@ class ValueVersions {
 	var $_myIndex;
 	
 	var $_versions;
+	var $_oldVersion;
 	
 	function ValueVersions (&$parent, $myIndex) {
 		$this->_parent =& $parent;
@@ -18,6 +19,7 @@ class ValueVersions {
 		$this->_myIndex = $myIndex;
 		
 		$this->_versions = array();
+		$this->_oldVersion = null;
 	}
 	
 	function populate( $arrayOfRows ) {
@@ -36,6 +38,21 @@ class ValueVersions {
 	}
 	
 	function commit() {
+		// before we commit, if we have a newVersion and an oldVersion,
+		// let's check to see if their values are equal. if they are, 
+		// we can scrap the new version to save on DB space.
+		if ($this->_versions[NEW_VERSION] && $this->_oldVersion) {
+			$oldVal =& $this->_oldVersion->getValue();
+			$newVal =& $this->_versions[NEW_VERSION]->getValue();
+			
+			if ($oldVal->isEqual($newVal)) {
+				// let's kill the new version
+				unset($this->_versions[NEW_VERSION]);
+				$this->_numVersions--;
+				$this->_oldVersion->setActiveFlag(true);
+			}
+		}
+		
 		foreach ($this->getVersionList() as $ver) {
 			$this->_versions[$ver]->commit();
 		}
@@ -112,6 +129,7 @@ class ValueVersions {
 				if ($old) {
 					$old->setActiveFlag(false);
 					$old->update();
+					$this->_oldVersion =& $old;
 				}
 			}
 			
