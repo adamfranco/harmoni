@@ -15,7 +15,7 @@ require_once(OKI."/hierarchy/hierarchyAPI.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.7 $ / $Date: 2003/10/07 19:58:31 $
+ * @version $Revision: 1.8 $ / $Date: 2003/10/07 20:14:28 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -48,6 +48,34 @@ class HarmoniHierarchy
 	 * @var array $_nodeTypes Node types in this hierarchy.
 	 */
 	var $_nodeTypes = array();
+
+	/**
+	 * Constructor.
+	 *
+	 * @param object ID   $id   The Id of this Node.
+	 * @param string $displayName The displayName of the Node.
+	 * @param string $description The description of the Node.
+	 * @param array	 $nodeType  An array of Types of the supported nodes.
+	 */
+	function HarmoniHierarchy(& $id, $displayName, $description, & $nodeTypes) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
+		ArgumentValidator::validate($displayName, new StringValidatorRule);
+		ArgumentValidator::validate($description, new StringValidatorRule);
+		
+		// set the private variables
+		$this->_id =& $id;
+		$this->_displayName = $displayName;
+		$this->_description = $description;
+		
+		foreach ($nodeTypes as $key => $val) {
+			$this->addNodeType($nodeTypes[$key]);
+		}
+		
+		// save the Hierarchy
+		$this->save();
+	}
 
     /**
      * Get the unique Id for this Hierarchy.
