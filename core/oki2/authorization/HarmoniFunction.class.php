@@ -16,7 +16,7 @@ require_once(OKI2."/osid/authorization/Function.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniFunction.class.php,v 1.7 2005/02/07 21:38:24 adamfranco Exp $
+ * @version $Id: HarmoniFunction.class.php,v 1.8 2005/02/15 20:28:47 adamfranco Exp $
  */
 class HarmoniFunction
 	extends FunctionInterface 
@@ -105,7 +105,7 @@ class HarmoniFunction
 		$extendsRule =& new ExtendsValidatorRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
 		ArgumentValidator::validate($qualifierHierarchyId, $extendsRule, true);
-		$extendsRule =& new ExtendsValidatorRule("HarmoniType");
+		$extendsRule =& new ExtendsValidatorRule("Type");
 		ArgumentValidator::validate($functionType, $extendsRule, true);
 		$integerRule =& new IntegerValidatorRule();
 		ArgumentValidator::validate($dbIndex, $integerRule, true);

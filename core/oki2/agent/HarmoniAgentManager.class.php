@@ -45,7 +45,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.11 2005/02/08 17:19:40 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.12 2005/02/15 20:26:55 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -176,7 +176,7 @@ class HarmoniAgentManager
 	 */
 	function &createAgent ( $displayName, &$agentType, &$properties ) { 
 		// ** parameter validation
-		ArgumentValidator::validate($agentType, new ExtendsValidatorRule("HarmoniType"), true);
+		ArgumentValidator::validate($agentType, new ExtendsValidatorRule("Type"), true);
 		ArgumentValidator::validate($properties, new ExtendsValidatorRule("Properties"), true);
 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
 		// ** end of parameter validation
@@ -662,7 +662,7 @@ class HarmoniAgentManager
 	 */
 	function &createGroup ( $displayName, &$groupType, $description, &$properties ) { 
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("HarmoniType");
+		$extendsRule =& new ExtendsValidatorRule("Type");
 		ArgumentValidator::validate($groupType, $extendsRule, true);
 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
@@ -1029,7 +1029,7 @@ class HarmoniAgentManager
 	 * @access public
 	 */
 	function &getGroupsBySearch ( &$searchCriteria, &$groupSearchType ) { 
-		ArgumentValidator::validate($groupSearchType, new ExtendsValidatorRule("HarmoniType"));
+		ArgumentValidator::validate($groupSearchType, new ExtendsValidatorRule("Type"));
 		$typeString = $groupSearchType->getDomain()
 						."::".$groupSearchType->getAuthority()
 						."::".$groupSearchType->getKeyword();
