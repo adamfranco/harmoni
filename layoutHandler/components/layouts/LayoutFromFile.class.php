@@ -13,7 +13,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  *
  * @abstract
  * @package harmoni.layout.components
- * @version $Id: LayoutFromFile.class.php,v 1.1 2003/07/17 04:25:23 gabeschine Exp $
+ * @version $Id: LayoutFromFile.class.php,v 1.2 2003/07/18 20:26:23 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -79,13 +79,10 @@ class LayoutFromFile extends Layout {
 	 * Prints the component out using the given theme.
 	 * @param object $theme The theme object to use.
 	 * @param optional integer $level The current level in the output hierarchy. Default=0.
-	 * @param optional integer $orientation The orientation in which we should print. Should be one of either HORIZONTAL or VERTICAL.
-	 * @use HORIZONTAL
-	 * @use VERTICAL
 	 * @access public
 	 * @return void
 	 **/
-	function output($theme, $level=0, $orientation=HORIZONTAL) {
+	function outputLayout($theme, $level) {
 		$this->verifyComponents();
 		
 		$this->_theme =& $theme;
@@ -107,11 +104,11 @@ class LayoutFromFile extends Layout {
 	 * @access public
 	 * @return void 
 	 **/
-	function printComponent($index, $type, $orientation) {
+	function printComponent($index, $type, $orientation=HORIZONTAL) {
 		if ($this->_printing) {
 			// we're supposed to output this component
 			$component =& $this->getComponent($index);
-			$component->output($this->_theme, $this->level++, $orientation);
+			$component->output(&$this->_theme, $this->_level+1, $orientation);
 		} else {
 			// otherwise, just check if it's been added already, and if not, add it.
 			if (isset($this->_registeredComponents[$index])) {

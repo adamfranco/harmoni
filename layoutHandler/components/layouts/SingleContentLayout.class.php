@@ -12,7 +12,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  *
  * @abstract
  * @package harmoni.layout.components
- * @version $Id: SingleContentLayout.class.php,v 1.3 2003/07/17 04:25:23 gabeschine Exp $
+ * @version $Id: SingleContentLayout.class.php,v 1.4 2003/07/18 20:26:23 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -30,18 +30,14 @@ class SingleContentLayout extends Layout {
 	 * Prints the component out using the given theme.
 	 * @param object $theme The theme object to use.
 	 * @param optional integer $level The current level in the output hierarchy. Default=0.
-	 * @param optional integer $orientation The orientation in which we should print. Should be one of either HORIZONTAL or VERTICAL.
-	 * @use HORIZONTAL
-	 * @use VERTICAL
 	 * @access public
 	 * @return void
 	 **/
-	function output($theme, $level=0, $orientation=HORIZONTAL) {
+	function outputLayout($theme, $level) {
 		$this->verifyComponents();
 		// @todo -cSingleContentLayout Implement SingleContentLayout.print
-		print "THIS IS THE CONTENT FROM SingleContentLayout:<br/><br/>";
 		$c =& $this->getComponent(0);
-		$c->output();
+		$c->output(&$theme,$level+1);
 	}
 }
 

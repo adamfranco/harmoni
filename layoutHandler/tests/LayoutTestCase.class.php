@@ -7,6 +7,8 @@ require_once(HARMONI.'layoutHandler/components/Menu.class.php');
 require_once(HARMONI.'layoutHandler/components/layouts/SingleContentLayout.class.php');
 //require_once(HARMONI.'layoutHandler/components/layouts/LeftMenuLayout.class.php');
 //require_once(HARMONI.'layoutHandler/components/layouts/TopMenuLayout.class.php');
+require_once(HARMONI."utilities/Template.class.php");
+require_once(HARMONI."themeHandler/TestTheme.class.php");
 
 
 /**
@@ -14,7 +16,7 @@ require_once(HARMONI.'layoutHandler/components/layouts/SingleContentLayout.class
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: LayoutTestCase.class.php,v 1.1 2003/07/16 23:32:39 gabeschine Exp $
+ * @version $Id: LayoutTestCase.class.php,v 1.2 2003/07/18 20:26:23 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -88,7 +90,7 @@ require_once(HARMONI.'layoutHandler/components/layouts/SingleContentLayout.class
 			// uncomment this and it throws a fatal error:
 			//$l->setComponent(0,new Menu);
 			$this->assertTrue($l->verifyComponents());
-			$l->output(null);
+			//$l->output(null);
 		}
 		
 		function test_menu() {
@@ -102,9 +104,28 @@ require_once(HARMONI.'layoutHandler/components/layouts/SingleContentLayout.class
 			$m->addItem(new LinkMenuItem("Link1","http://www.middlebury.edu"));
 			$m->addItem(new LinkMenuItem("New window","http://google.com",false,"_blank"));
 			$m->addItem(new LinkMenuItem("JavaScript Alert","#",false,null,"onClick='alert(\"testing\")'","style='text-decoration:none' "));
-			$m->output(null,3,HORIZONTAL);
+			//$m->output(null,3,HORIZONTAL);
 			
-			$m->output(null,0,VERTICAL);
+			//$m->output(null,0,VERTICAL);
+		}
+		
+		function test_template() {
+			$tpl =& new Template("TestTheme.tpl",HARMONI."themeHandler");
+			$this->assertTrue(is_object($tpl));
+			$this->assertEqual($tpl->_fullPath,HARMONI."themeHandler/TestTheme.tpl");
+			$f =& new FieldSet;
+			$f->set("content","bla bla");
+			$tpl->output($f);
+		}
+		
+		function test_theme() {
+			$t =& new TestTheme;
+			$this->assertTrue(is_object($t));
+			$this->assertEqual($t->getName(),"Test Theme");
+			
+            $layout =& new SingleContentLayout;
+            $layout->setComponent(0,new Content("this is some content!"));
+			$t->outputPageWithLayout($layout);
 		}
     }
 

@@ -7,7 +7,7 @@ require_once(HARMONI."themeHandler/NamedTheme.interface.php");
  * {@link NamedThemeInterface}.
  *
  * @package harmoni.themes
- * @version $Id: NamedTheme.abstract.php,v 1.1 2003/07/18 03:23:14 gabeschine Exp $
+ * @version $Id: NamedTheme.abstract.php,v 1.2 2003/07/18 20:26:24 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -176,6 +176,17 @@ class NamedTheme extends NamedThemeInterface {
 	function printContent($contentObj, $level) {
 		print "<br/>Printing Content with level=$level.<br/><br/>";
 		print $contentObj->getContent();
+	}
+	
+	/**
+	 * Prints a {@link Layout} object.
+	 * @param object $layoutObj The Layout object.
+	 * @param integer $level The current depth in the layout.
+	 * @access public
+	 * @return void
+	 **/
+	function printLayout($layoutObj, $level) {
+		$layoutObj->outputLayout($this,$level);
 	}
 }
 

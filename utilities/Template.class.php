@@ -1,5 +1,7 @@
 <?php
 
+require_once(HARMONI."utilities/Template.interface.php");
+
 /**
  * A Template allows you to choose a template file and print the contents of that template
  * with certain values filled in. The format of a template file is:<br/>
@@ -7,11 +9,11 @@
  * some html ... &lt?=$value1=&gt; ... more html ...
  *
  * @package harmoni.utilities.template
- * @version $Id: Template.class.php,v 1.1 2003/07/18 03:23:14 gabeschine Exp $
+ * @version $Id: Template.class.php,v 1.2 2003/07/18 20:26:24 gabeschine Exp $
  * @copyright 2003 
  **/
 
-class TemplateInterface {
+class Template extends TemplateInterface {
 	/**
 	 * @access private
 	 * @var string $_fullPath The template's full path.

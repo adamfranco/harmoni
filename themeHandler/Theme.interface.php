@@ -10,7 +10,7 @@
  * to create a powerful yet flexible system for content output.
  *
  * @package harmoni.themes
- * @version $Id: Theme.interface.php,v 1.1 2003/07/18 03:23:14 gabeschine Exp $
+ * @version $Id: Theme.interface.php,v 1.2 2003/07/18 20:26:24 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -60,12 +60,23 @@ class ThemeInterface {
 	}
 	
 	/**
+	 * Prints a {@link Layout} object.
+	 * @param object $layoutObj The Layout object.
+	 * @param integer $level The current depth in the layout.
+	 * @access public
+	 * @return void
+	 **/
+	function printLayout($layoutObj, $level) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
 	 * Takes a {@link Layout} object and outputs a full HTML page with the layout's contents in the body section.
 	 * @param object $layoutObj The {@link Layout} object.
 	 * @access public
 	 * @return void
 	 **/
-	function outputPageWithLayout($layoutObj) {
+	function printPageWithLayout($layoutObj) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	

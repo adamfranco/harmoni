@@ -8,7 +8,7 @@ require_once(HARMONI."layoutHandler/Layout.interface.php");
  *
  * @abstract
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.2 2003/07/16 23:32:39 gabeschine Exp $
+ * @version $Id: Layout.abstract.php,v 1.3 2003/07/18 20:26:23 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -91,6 +91,20 @@ class Layout extends LayoutInterface {
 	 **/
 	function &getComponent($index) {
 		return $this->_setComponents[$index];
+	}
+	
+	/**
+	 * Prints the component out using the given theme.
+	 * @param object $theme The theme object to use.
+	 * @param optional integer $level The current level in the output hierarchy. Default=0.
+	 * @param optional integer $orientation The orientation in which we should print. Should be one of either HORIZONTAL or VERTICAL.
+	 * @use HORIZONTAL
+	 * @use VERTICAL
+	 * @access public
+	 * @return void
+	 **/
+	function output($theme, $level=0, $orientation=HORIZONTAL) {
+		$theme->printLayout($this,$level);
 	}
 }
 
