@@ -8,7 +8,7 @@ require_once(HARMONI."authenticationHandler/methods/inc.php");
  * The AuthenticationHandler keeps track of multiple AuthenticationMethods for 
  * authenticating agents.
  * 
- * @version $Id: AuthenticationHandler.class.php,v 1.12 2003/07/11 00:20:23 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.13 2003/07/15 16:12:18 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication
@@ -106,7 +106,7 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 			}
 		}
 		
-		$results = & new AuthenticationResult($validList);
+		$results = & new AuthenticationResult($systemName, $validList);
 		return $results;
 	}
 	

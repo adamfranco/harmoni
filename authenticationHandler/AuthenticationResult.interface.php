@@ -6,7 +6,7 @@
  * The AuthenticationResult is passed a list of valid AuthenticationMethod names
  * and stores it for user retreival.
  * @package harmoni.authentication
- * @version $Id: AuthenticationResult.interface.php,v 1.4 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: AuthenticationResult.interface.php,v 1.5 2003/07/15 16:12:18 gabeschine Exp $
  * @copyright 2003 
  **/
 class AuthenticationResultInterface {
@@ -45,6 +45,15 @@ class AuthenticationResultInterface {
 	 * @return array An array of valid methods.
 	 **/
 	function getValidMethods() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns the system name of the agent for whom this result applies.
+	 * @access public
+	 * @return string The system name (eg, user name).
+	 **/
+	function getSystemName() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	

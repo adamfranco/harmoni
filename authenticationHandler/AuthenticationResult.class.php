@@ -8,7 +8,7 @@ require_once(HARMONI.'authenticationHandler/AuthenticationResult.interface.php')
  * The AuthenticationResult is passed a list of valid AuthenticationMethod names
  * and stores it for user retreival.
  * @package harmoni.authentication
- * @version $Id: AuthenticationResult.class.php,v 1.5 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: AuthenticationResult.class.php,v 1.6 2003/07/15 16:12:18 gabeschine Exp $
  * @copyright 2003 
  **/
 class AuthenticationResult extends AuthenticationResultInterface {
@@ -23,6 +23,12 @@ class AuthenticationResult extends AuthenticationResultInterface {
 	 * @var boolean $_isValid If we have at least one valid method.
 	 **/
 	var $_isValid;
+
+	/**
+	 * @access private
+	 * @var string $_systemName The system name to whom this result applies.
+	 **/
+	var $_systemName;
 		
 	/**
 	 * Returns if this result holds any valid AuthenticationMethods.
@@ -41,7 +47,8 @@ class AuthenticationResult extends AuthenticationResultInterface {
 	 * @see {@link AuthenticationHandlerInterface}
 	 * @return void
 	 **/
-	function AuthenticationResult( $validMethods ) {
+	function AuthenticationResult( $systemName, $validMethods ) {
+		$this->_systemName = $systemName;
 		if (!is_array($validMethods)) $validMethods = array();
 		$this->_validMethods = $validMethods;
 		$this->_isValid = (count($validMethods))? true : false ;
@@ -75,6 +82,14 @@ class AuthenticationResult extends AuthenticationResultInterface {
 		return $this->_validMethods;
 	}
 	
+	/**
+	 * Returns the system name of the agent for whom this result applies.
+	 * @access public
+	 * @return string The system name (eg, user name).
+	 **/
+	function getSystemName() {
+		return $this->_systemName;
+	}
 }
 
 ?>
