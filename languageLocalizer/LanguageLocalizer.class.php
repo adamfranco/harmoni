@@ -7,7 +7,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * and other data for multiple languages.
  *
  * @package harmoni.languages
- * @version $Id: LanguageLocalizer.class.php,v 1.3 2003/07/25 07:27:15 gabeschine Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.4 2003/08/07 22:09:04 gabeschine Exp $
  * @copyright 2003 
  **/
 class LanguageLocalizer extends LanguageLocalizerInterface {
@@ -39,7 +39,6 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 		$this->_langDir = $langDir;
 	}
 	
-	
 	/**
 	 * Sets the language to use for getting data to $language.
 	 * @param string $language The language code (eg, "en") to use.
@@ -65,6 +64,8 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 	 **/
 	function getString($stringName) {
 		$this->_readStrings();
+		if (!defined($this->_strings[$stringName]))
+			throwError(new Error("The string key '$stringName' is being used but has not yet been defined!","LanguageLocalizer",true));
 		return $this->_strings[$stringName];
 	}
 	
@@ -86,13 +87,40 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 		
 		$contents = file($file);
 		foreach ($contents as $line) {
+			// ignore comments
+			if (ereg("^[:blank:]*#.*$",$line)) continue;
+			
+			// ignore blank lines
+			if (ereg("^[:blank:]*$",$line)) continue;
+			
 			ereg("([^:]+):(.*)",$line,$regs);
-			$key = $regs[1];
-			$data = $regs[2];
+			$key = trim($regs[1]);
+			$data = trim($regs[2]);
 			$this->_strings[$key] = $data;
 		}
 	}
 	
+	/**
+	 * The start function is called when a service is created. Services may
+	 * want to do pre-processing setup before any users are allowed access to
+	 * them.
+	 * @access public
+	 * @return void
+	 **/
+	function start() {
+		// do nothing
+	}
+	
+	/**
+	 * The stop function is called when a Harmoni service object is being destroyed.
+	 * Services may want to do post-processing such as content output or committing
+	 * changes to a database, etc.
+	 * @access public
+	 * @return void
+	 **/
+	function stop() {
+		// do nothing
+	}
 }
 
 ?>

@@ -5,7 +5,7 @@
  * used from http forms instead of configuration options in a script.
  * 
  * @package harmoni.utilities
- * @version $Id: UserDataContainer.abstract.php,v 1.1 2003/08/06 22:32:40 gabeschine Exp $
+ * @version $Id: UserDataContainer.abstract.php,v 1.2 2003/08/07 22:09:04 gabeschine Exp $
  * @copyright 2003 
  **/
 class UserDataContainer extends DataContainer {
@@ -75,8 +75,8 @@ class UserDataContainer extends DataContainer {
 	 * @return void
 	 **/
 	function populate($data) {
-		foreach($data as $key=>$val) {
-			$this->_fieldSet->set($key,$val);
+		foreach($this->_ruleSet->getKeys() as $key) {
+			$this->_fieldSet->set($key,$data[$key]);
 		}
 	}
 	

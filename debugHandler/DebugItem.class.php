@@ -5,7 +5,7 @@ require_once(HARMONI."debugHandler/DebugItem.interface.php");
 /**
  * the DebugItem class holds debug text, a detail level and a category.
  *
- * @version $Id: DebugItem.class.php,v 1.2 2003/07/10 02:34:21 gabeschine Exp $
+ * @version $Id: DebugItem.class.php,v 1.3 2003/08/07 22:09:04 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugging
  **/
@@ -29,6 +29,12 @@ class DebugItem extends DebugItemInterface {
 	 * @access private
 	 **/
 	var $_text;
+	
+	/**
+	 * @access private
+	 * @var array $_backtrace
+	 **/
+	var $_backtrace;
 	
 	/**
 	 * The constructor.
@@ -69,6 +75,26 @@ class DebugItem extends DebugItemInterface {
 	 **/
 	function getText() {
 		return $this->_text;
+	}
+	
+	
+	/**
+	 * Sets this Item's debug backtrace array.
+	 * @param array $backtrace
+	 * @access public
+	 * @return void
+	 **/
+	function setBacktrace($backtrace) {
+		$this->_backtrace = $backtrace;
+	}
+	
+	/**
+	 * Returns the backtrace array.
+	 * @access public
+	 * @return array
+	 **/
+	function getBacktrace() {
+		return $this->_backtrace;
 	}
 }
 

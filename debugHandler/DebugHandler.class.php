@@ -6,7 +6,7 @@ require_once(HARMONI."debugHandler/DebugHandler.interface.php");
 /**
  * The DebugHandler keeps track of multiple DebugItems.
  *
- * @version $Id: DebugHandler.class.php,v 1.7 2003/08/06 22:32:40 gabeschine Exp $
+ * @version $Id: DebugHandler.class.php,v 1.8 2003/08/07 22:09:04 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugging
  **/
@@ -45,9 +45,9 @@ class DebugHandler extends DebugHandlerInterface {
 	 **/
 	function add( $debug, $level=5, $category="general") {
 		if (is_object($debug))
-			$this->_add($debug);
+			$this->_add($debug, debug_backtrace());
 		else if (is_string($debug)) {
-			$this->_add( new DebugItem($debug, $level, $category));
+			$this->_add( new DebugItem($debug, $level, $category), debug_backtrace());
 		}
 		else
 			return "Exception";
@@ -57,10 +57,12 @@ class DebugHandler extends DebugHandlerInterface {
 	 * Adds a DebugItem to the queue.
 	 *
 	 * @param object DebugItem $debugItem The DebugItem to add to the queue.
+	 * @param optional array $debugBacktrace A DebugBacktrace array.
 	 * @access private
 	 * @return void
 	 **/
-	function _add( & $debugItem ) {
+	function _add( & $debugItem, $debugBacktrace ) {
+		$debugItem->setBacktrace($debugBacktrace);
 		$this->_queue[] = & $debugItem;
 	}
 	

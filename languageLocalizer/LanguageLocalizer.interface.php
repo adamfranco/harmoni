@@ -8,10 +8,10 @@
  * and other data for multiple languages.
  *
  * @package harmoni.interfaces.languages
- * @version $Id: LanguageLocalizer.interface.php,v 1.2 2003/08/06 22:32:40 gabeschine Exp $
+ * @version $Id: LanguageLocalizer.interface.php,v 1.3 2003/08/07 22:09:04 gabeschine Exp $
  * @copyright 2003 
  **/
-class LanguageLocalizerInterface {
+class LanguageLocalizerInterface extends ServiceInterface {
 	/**
 	 * Sets the language to use for getting data to $language.
 	 * @param string $language The language code (eg, "en") to use.

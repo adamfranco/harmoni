@@ -4,7 +4,7 @@ require_once(HARMONI."services/Services.interface.php");
 
 /**
  * The ServicesAbstract class defines the public static methods used by users.
- * @version $Id: Services.abstract.php,v 1.7 2003/06/27 02:59:37 gabeschine Exp $
+ * @version $Id: Services.abstract.php,v 1.8 2003/08/07 22:09:04 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @static
@@ -25,6 +25,17 @@ class ServicesAbstract
 	 **/
 	function registerService( $name, $class ) {
 		return $GLOBALS[SERVICES_OBJECT]->register( $name, $class );
+	}
+	
+	/**
+	 * Register's an object as a service. 
+	 * @param string $name The name of the new service.
+	 * @param ref object $object The object.
+	 * @access public
+	 * @return void
+	 **/
+	function registerObjectAsService($name, &$object) {
+		$GLOBALS[SERVICES_OBJECT]->registerObject($name,$object);
 	}
 	
 	/**
@@ -82,6 +93,15 @@ class ServicesAbstract
 	}
 	
 	/**
+	 * Attempts to stop all running services.
+	 * @access public
+	 * @return void
+	 **/
+	function stopAllServices() {
+		return $GLOBALS[SERVICES_OBJECT]->stopAll();
+	}
+	
+	/**
 	 * Attempts to restart the service reference by $name.
 	 * @param string $name The service name.
 	 * @access public
@@ -125,9 +145,9 @@ class ServicesAbstract
 	 * @param boolean $start If we should attempt to start the service or not.
 	 * @access public
 	 * @static
-	 * @return void
+	 * @return ref object The started service object. (if start=true)
 	 **/
-	function requireService( $service, $start=true ) {
+	function &requireService( $service, $start=true ) {
 		$error = false;
 		if (!Services::serviceAvailable($service)) {
 			$error = true;
@@ -147,5 +167,6 @@ class ServicesAbstract
 			$str .= "\n</pre>\n";
 			die($str);
 		}
+		if ($start) return Services::getService($service);
 	}
 }

@@ -3,7 +3,7 @@
 /**
  * the DebugItem interface defines the required methods for a DebugItem class
  *
- * @version $Id: DebugItem.interface.php,v 1.3 2003/08/06 22:32:40 gabeschine Exp $
+ * @version $Id: DebugItem.interface.php,v 1.4 2003/08/07 22:09:04 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.interfaces.utilities.debugging
  **/
@@ -32,6 +32,26 @@ class DebugItemInterface {
 	 * @return string The text.
 	 **/
 	function getText() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	
+	/**
+	 * Sets this Item's debug backtrace array.
+	 * @param array $backtrace
+	 * @access public
+	 * @return void
+	 **/
+	function setBacktrace($backtrace) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns the backtrace array.
+	 * @access public
+	 * @return array
+	 **/
+	function getBacktrace() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
 }
 
 ?>

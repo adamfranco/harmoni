@@ -5,7 +5,7 @@
  *
  * @see {@link DebugHandlerInterface}
  * @static
- * @version $Id: debug.class.php,v 1.4 2003/08/06 22:32:40 gabeschine Exp $
+ * @version $Id: debug.class.php,v 1.5 2003/08/07 22:09:04 gabeschine Exp $
  * @package harmoni.debug
  * @copyright 2003 
  **/
@@ -18,10 +18,11 @@ class debug {
 	 **/
 	function output( $text, $level = 5, $category = "general") {
 		if (!$level) return;
-		Services::requireService("DebugHandler");
+		Services::requireService("Debug");
 		
-		$debugHandler =& Services::getService("DebugHandler");
+		$debugHandler =& Services::getService("Debug");
 		$outputLevel = $debugHandler->getOutputLevel();
+
 		if ($level <= $outputLevel)
 			$debugHandler->add($text,$level,$category);
 	}
@@ -35,12 +36,12 @@ class debug {
 	 * @return integer The current debug output level.
 	 **/
 	function level($level=null) {
-		Services::requireService("DebugHandler");
+		Services::requireService("Debug");
 		
-		$debugHandler =& Services::getService("DebugHandler");
-		if ($level)
+		$debugHandler =& Services::getService("Debug");
+		if (is_int($level))
 			$debugHandler->setOutputLevel($level);
-		$debugHandler->getOutputLevel();
+		return $debugHandler->getOutputLevel();
 	}
 	
 }
