@@ -6,14 +6,13 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * Holds a number of indexes for values within a specific field within a Record. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: RecordField.class.php,v 1.7 2004/08/27 18:19:04 adamfranco Exp $
+ * @version $Id: RecordField.class.php,v 1.8 2004/12/18 05:14:32 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
  **/
 class RecordField {
 	
-	var $_numValues;
 	var $_values;
 	
 	var $_parent;
@@ -21,8 +20,6 @@ class RecordField {
 	var $_myLabel;
 	
 	function RecordField( &$schemaField, &$parent ) {
-		$this->_numValues = 0;
-		
 		$this->_myLabel = $schemaField->getLabel();
 		
 		$this->_parent =& $parent;
@@ -53,7 +50,6 @@ class RecordField {
 			$i = $row['record_field_index'];
 			if (!isset($this->_values[$i])) {
 				$this->_values[$i] =& new RecordFieldValue($this,$i);
-				$this->_numValues++;
 			}
 			$this->_values[$i]->takeRow($row);
 		}
@@ -190,7 +186,7 @@ class RecordField {
 
 		// if we are one-value only and we already have a value, throw an error.
 		// allow addValue() if we don't have any values yet.
-		if (!$this->_schemaField->getMultFlag() && $this->_numValues) {
+		if (!$this->_schemaField->getMultFlag() && $this->numValues()) {
 			$label = $this->_myLabel;
 			throwError ( new Error(
 			"Field label '$label' can not add a new value because it does not allow multiple
@@ -204,7 +200,6 @@ class RecordField {
 		
 		$this->_values[$newIndex] =& new RecordFieldValue($this, $newIndex);
 		$this->_values[$newIndex]->setValueFromPrimitive($value);
-		$this->_numValues++;
 		return true;
 	}
 	
@@ -234,7 +229,6 @@ class RecordField {
 			// if we allow multiple values, just create a new value at $index
 			if ($this->_schemaField->getMultFlag()) {
 				$this->_values[$index] =& new RecordFieldValue($this, $index);
-				$this->_numValues++;
 			} else
 				throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
@@ -295,7 +289,7 @@ class RecordField {
 	* Returns the number of values for this label we have set.
 	* @return int
 	*/
-	function numValues() { return $this->_numValues; }
+	function numValues() { return count($this->_values); }
 	
 	/**
 	 * Returns the number of ACTIVE values for this label.
