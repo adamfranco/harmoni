@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMapping.class.php,v 1.1 2005/03/14 21:37:47 adamfranco Exp $
+ * @version $Id: AgentTokenMapping.class.php,v 1.2 2005/03/14 22:20:39 adamfranco Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMapping.class.php,v 1.1 2005/03/14 21:37:47 adamfranco Exp $
+ * @version $Id: AgentTokenMapping.class.php,v 1.2 2005/03/14 22:20:39 adamfranco Exp $
  */
 class AgentTokenMapping {
 		
@@ -55,7 +55,7 @@ class AgentTokenMapping {
 	/**
 	 * Return our AuthNTokens
 	 * 
-	 * @return string
+	 * @return object AuthNTokens
 	 * @access public
 	 * @since 3/9/05
 	 */

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.1 2005/03/14 21:37:47 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.2 2005/03/14 22:20:39 adamfranco Exp $
  */ 
 
 /**
@@ -34,7 +34,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.1 2005/03/14 21:37:47 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.2 2005/03/14 22:20:39 adamfranco Exp $
  */
 class AgentTokenMappingManager
 	extends OsidManager
@@ -131,7 +131,16 @@ class AgentTokenMappingManager
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
 		
 		if ($this->mappingExists($agentId, $authNTokens, $authenticationType))
-			throwError( new Error("Mapping Already Exists: ('"
+			throwError( new Error("Cannot create Mapping. Mapping already exists: ('"
+				.$agentId->getIdString()."', '"
+				.$authNTokens->getIdentifier()."', '"
+				.$authenticationType->getDomain()."::"
+				.$authenticationType->getAuthority()."::"
+				.$authenticationType->getKeyword()."')",
+				"AgentTokenMappingManager", true));
+		
+		if ($this->_mappingExistsForTokens($authNTokens, $authenticationType))
+			throwError( new Error("Cannot create Mapping. Mapping already exists for these tokens: ('"
 				.$agentId->getIdString()."', '"
 				.$authNTokens->getIdentifier()."', '"
 				.$authenticationType->getDomain()."::"
@@ -181,19 +190,21 @@ class AgentTokenMappingManager
 		
 		$dbc =& Services::getService("DBHandler");
 		$dbc->beginTransaction($this->_dbId);
-				
+		
+		$agentId =& $mapping->getAgentId();
+		$authNTokens =& $mapping->getTokens();
 		$typeKey = $this->_getTypeKey($mapping->getAuthenticationType());
 		
 		// Delete the mapping.
 		$query =& new DeleteQuery;
-		$query->addTable($this->_mappingTable);
+		$query->setTable($this->_mappingTable);
 		$query->addWhere(
 			"agent_id='".addslashes($agentId->getIdString())."'");
 		$query->addWhere(
 			"token_identifier='".addslashes($authNTokens->getIdentifier())."'",
 			_AND);
 		$query->addWhere(
-			"fktype='".addslashes($typeKey)."'",
+			"fk_type='".addslashes($typeKey)."'",
 			_AND);
 		
 		$result =& $dbc->query($query, $this->_dbId);
@@ -202,7 +213,7 @@ class AgentTokenMappingManager
 		$query =& new SelectQuery;
 		$query->addTable($this->_mappingTable);
 		$query->addColumn("COUNT(*)", "count");
-		$query->addWhere("fktype='".addslashes($typeKey)."'");
+		$query->addWhere("fk_type='".addslashes($typeKey)."'");
 		$result =& $dbc->query($query, $this->_dbId);
 		
 		if ($result->getNumberOfRows() == 0) {
@@ -381,6 +392,55 @@ class AgentTokenMappingManager
 	}
 	
 	/**
+	 * Return true if a mapping between AuthNTokens and an AgentId exists for this auth
+	 * Type.
+	 * 
+	 * @param object AuthNTokens $authNTokens
+	 * @param object Type $authenticationType
+	 * @return boolean
+	 * @access private
+	 * @since 3/1/05
+	 */
+	function _mappingExistsForTokens (&$authNTokens, &$authenticationType ) {
+		$this->_checkConfig();
+		
+		ArgumentValidator::validate($authNTokens, new ExtendsValidatorRule("AuthNTokens"));
+		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+		
+		$dbc =& Services::getService("DBHandler");
+		
+		$query =& new SelectQuery;
+		$query->addTable($this->_mappingTable);
+		$query->addTable($this->_typeTable, 
+			LEFT_JOIN, 
+			$this->_mappingTable.'.fk_type='.$this->_typeTable.'.id');
+		$query->addColumn('agent_id');
+		$query->addColumn('token_identifier');
+		$query->addWhere(
+			"token_identifier='".addslashes($authNTokens->getIdentifier())."'",
+			_AND);
+		$query->addWhere(
+			"domain='".addslashes($authenticationType->getDomain())."'",
+			_AND);
+		$query->addWhere(
+			"authority='".addslashes($authenticationType->getAuthority())."'",
+			_AND);
+		$query->addWhere(
+			"keyword='".addslashes($authenticationType->getKeyword())."'",
+			_AND);
+		
+		$result =& $dbc->query($query, $this->_dbId);
+		
+		if ($result->getNumberOfRows() == 1)
+			return TRUE;
+		if ($result->getNumberOfRows() == 0)
+			return FALSE;
+		else
+			throwError( new Error("Invalid number of results: ".$result->getNumberOfRows(),
+									 "AgentTokenMappingManager", true));
+	}
+	
+	/**
 	 * Check that we are configured
 	 * 
 	 * @return void
@@ -402,6 +462,8 @@ class AgentTokenMappingManager
 	 * @since 3/9/05
 	 */
 	function _getTypeKey ( &$type ) {
+		$dbc =& Services::getService("DBHandler");
+		
 		// Check if the type exists and return its key if found.
 		$query =& new SelectQuery;
 		$query->addTable($this->_typeTable);
@@ -505,6 +567,8 @@ class AgentTokenMappingManager
 		
 		return $query;
 	}
+	
+	
 }
 
 ?>
