@@ -4,7 +4,7 @@
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.15 2003/08/14 19:45:38 gabeschine Exp $
+ * @version $Id: harmoni.inc.php,v 1.16 2003/08/20 21:20:03 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
@@ -44,7 +44,7 @@ require_once(HARMONI."services/Services.class.php");
 $__services__ =& new Services();
 
 /* :: load the Services registration config file :: */
-require_once(HARMONI."config/services.cfg.php");
+require_once(HARMONI_BASE."config/services.cfg.php");
 
 /* :: load the harmoni class :: */
 require_once(HARMONI."architecture/harmoni/Harmoni.class.php");
