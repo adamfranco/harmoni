@@ -29,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.9 2004/08/11 14:57:48 adamfranco Exp $
+* @version $Id: Record.class.php,v 1.10 2004/08/11 15:49:43 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -648,6 +648,18 @@ class Record {
 		
 		$recordManager =& Services::getService("RecordManager");
 		$recordManager->fetchRecord($this->getID(), RECORD_CURRENT);
+	}
+	
+	/**
+	 * Deletes this record (de-activeates it). If $prune=true, it will also be removed from the database upon commit().
+	 * @param optional bool $prune If set to TRUE will remove all records from the database upon commit().
+	 * @access public
+	 * @return void
+	 */
+	function delete($prune=false)
+	{
+		$this->setActiveFlag(false);
+		if ($prune) $this->prune(new PruneAllVersionConstraint());
 	}
 
 }
