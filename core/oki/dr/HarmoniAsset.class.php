@@ -853,7 +853,19 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function &getInfoField(& $infoFieldId) {
-		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
+	
+		$infoRecords =& $this->getInfoRecords();
+		while ($infoRecords->hasNext()) {
+			$record =& $infoRecords->next();
+			$fields =& $record->getInfoFields();
+			while ($fields->hasNext()) {
+				$field =& $fields->next();
+				if ($infoFieldId->isEqual($field->getId()))
+					return $field;
+			}
+		}
+		// Throw an error if we didn't find the field.
+		throwError(new Error(UNKNOWN_ID, "Digital Repository :: Asset", TRUE));
 	}
 	
 	/**
@@ -890,7 +902,7 @@ class HarmoniAsset
  	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function &getInfoFieldByPart(& $infoPartId) {
+	function &getInfoFieldsByPart(& $infoPartId) {
 		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: Asset", TRUE));
 	}
 	
