@@ -43,7 +43,7 @@ define("STORAGE_PRIMARY", 3);
  * 
  * @package harmoni.StorageHandler
  * @author Middlebury College, ETS 
- * @version $Id: StorageHandler.interface.php,v 1.3 2003/06/30 22:49:50 gabeschine Exp $
+ * @version $Id: StorageHandler.interface.php,v 1.4 2003/07/03 18:03:20 gabeschine Exp $
  * @copyright 2003
  */
 class StorageHandlerInterface extends ServiceInterface {
@@ -53,9 +53,9 @@ class StorageHandlerInterface extends ServiceInterface {
      * stored within $path use this method. At least <b>one</b> method must specify
      * "/" as its path. Any path must have ONE primary method, added here.
      * 
-     * @param ref $object $method The instantiated {@link StorageMethodInterface StorageMethod}
+     * @param ref object $method The instantiated {@link StorageMethodInterface StorageMethod}
      * object to add.
-     * @param optional $string $path The base path for the method. Default = '/'.
+     * @param optional string $path The base path for the method. Default = '/'.
      * @access public 
      * @return void 
      */
@@ -72,10 +72,10 @@ class StorageHandlerInterface extends ServiceInterface {
 	 * the path to be backed up.
 	 * @use MIRROR_DEEP
 	 * @use MIRROR_SHALLOW
-     * @param ref $object $method The instantiated {@link StorageMethodInterface StorageMethod}
+     * @param ref object $method The instantiated {@link StorageMethodInterface StorageMethod}
      * object to add.
-     * @param optional $string $path The base path for the method. Default = '/'.
-	 * @param optional $bakcupType The type of mirrored backup to use. Options: MIRROR_SHALLOW, MIRROR_DEEP.
+     * @param optional string $path The base path for the method. Default = '/'.
+	 * @param optional integer $bakcupType The type of mirrored backup to use. Options: MIRROR_SHALLOW, MIRROR_DEEP.
      * @access public 
      * @return void 
      */
@@ -198,10 +198,11 @@ class StorageHandlerInterface extends ServiceInterface {
 	/**
 	 * Gets the total number of Storables under $path.
 	 * @param string $path The path to check under.
+	 * @param optional boolean $recursive Should we recurse into directories?
 	 * @access public
 	 * @return integer The number of Storables.
 	 **/
-	function getCount( $path ) {
+	function getCount( $path, $recursive = false ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 } 

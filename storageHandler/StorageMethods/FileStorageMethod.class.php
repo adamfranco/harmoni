@@ -7,7 +7,7 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
  * File Storage Method interface provides functionality to store and handle
  * Storables on a file system. To be used by StorageHandler
  *
- * @version $Id: FileStorageMethod.class.php,v 1.6 2003/07/03 03:09:08 gabeschine Exp $
+ * @version $Id: FileStorageMethod.class.php,v 1.7 2003/07/03 18:03:20 gabeschine Exp $
  * @package harmoni.Storagehandler
  * @copyright 2003
  * @access public
@@ -126,7 +126,7 @@ class FileStorageMethod extends StorageMethodInterface {
      * @return boolean True if storable exists, false otherwise.
      * @access public
      */
-    function exists($path,$name="") { 
+    function exists($path,$name=null) { 
 		$path = $this->_convertPath($path);
 		return file_exists($this->_basePath.$path.$name);
 	}

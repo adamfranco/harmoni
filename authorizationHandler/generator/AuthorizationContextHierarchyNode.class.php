@@ -6,7 +6,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * This is the building piece of the tree-like AuthorizationContextHierarchy
  * data structure used in AuthorizationContextHierarchyGenerator obejcts.
  * @access public
- * @version $Id: AuthorizationContextHierarchyNode.class.php,v 1.2 2003/07/01 15:12:07 dobomode Exp $
+ * @version $Id: AuthorizationContextHierarchyNode.class.php,v 1.3 2003/07/03 18:03:19 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -82,7 +82,7 @@ class AuthorizationContextHierarchyNode
 	/**
 	 * Recursively updates the depth of all children of the specified node.
 	 * @method private _updateDepth
-	 * @param ref node The node to start updating the children's depth from.
+	 * @param ref object $node The node to start updating the children's depth from.
 	 * @return void 
 	 */
 	function _updateDepth(& $node) {

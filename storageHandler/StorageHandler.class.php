@@ -14,7 +14,7 @@ require_once(HARMONI . "storageHandler/Storables/VirtualStorable.class.php");
 * 
 * @package harmoni.StorageHandler
 * @author Middlebury College, ETS 
-* @version $Id: StorageHandler.class.php,v 1.5 2003/07/03 14:18:51 gabeschine Exp $
+* @version $Id: StorageHandler.class.php,v 1.6 2003/07/03 18:03:20 gabeschine Exp $
 * @copyright 2003
 */
 class StorageHandler extends StorageHandlerInterface {
@@ -66,7 +66,7 @@ class StorageHandler extends StorageHandlerInterface {
 		$this->_paths = array();
 		$this->_methods = array();
 		$this->_types = array();
-	} 
+	}
 
 	/**
 	* Adds a {@link StorageMethodInterface StorageMethod} to the StorageHandler.
@@ -74,9 +74,9 @@ class StorageHandler extends StorageHandlerInterface {
 	* stored within $path use this method. At least <b>one</b> method must specify
 	* "/" as its path. Any path must have ONE primary method, added here.
 	* 
-	* @param ref $object $method The instantiated {@link StorageMethodInterface StorageMethod}
+	* @param ref object $method The instantiated {@link StorageMethodInterface StorageMethod}
 	* object to add.
-	* @param optional $string $path The base path for the method. Default = '/'.
+	* @param optional string $path The base path for the method. Default = '/'.
 	* @access public 
 	* @return void 
 	*/
@@ -93,9 +93,9 @@ class StorageHandler extends StorageHandlerInterface {
 		if (!$this->_pathDefined($path)) {
 			// ok, this path hasn't been defined before
 			$this->_addMethod($method, $path, STORAGE_PRIMARY);
-		} else
+		}else
 			throw(new Error("StorageHandler::addMethod - can not add another primary storage method for '$path'. One already exists.", "StorageHandler", true));
-	} 
+	}
 
 	/**
 	* Any path can have as many backup methods defined for it as desirable. 
@@ -106,10 +106,10 @@ class StorageHandler extends StorageHandlerInterface {
 	* 
 	* @use MIRROR_DEEP
 	* @use MIRROR_SHALLOW
-	* @param ref $object $method The instantiated {@link StorageMethodInterface StorageMethod}
+	* @param ref object $method The instantiated {@link StorageMethodInterface StorageMethod}
 	* object to add.
-	* @param optional $string $path The base path for the method. Default = '/'.
-	* @param optional $bakcupType The type of mirrored backup to use. Options: MIRROR_SHALLOW, MIRROR_DEEP.
+	* @param optional string $path The base path for the method. Default = '/'.
+	* @param optional integer $bakcupType The type of mirrored backup to use. Options: MIRROR_SHALLOW, MIRROR_DEEP.
 	* @access public 
 	* @return void 
 	*/
@@ -121,37 +121,38 @@ class StorageHandler extends StorageHandlerInterface {
 			throw(new Error("StorageHandler::addBackupMethod - can not add a backup method for '$path' because it does not have a primary method defined yet!", "StorageHandler", true)); 
 		// ok, let's add this bugger
 		$this->_addMethod($method, $path, $backupType);
-	} 
+	}
 
 	/**
-	* Makes sure paths have a trailing /.
+	* Makes sure paths have a trailing and leading /.
 	* 
-	* @param ref $ string $path The pathname.
+	* @param ref string $path The pathname.
 	* @access private 
 	* @return string The new pathname.
 	*/
 	function _checkPath(& $path)
 	{
 		if ($path[strlen($path) - 1] != '/') $path .= '/';
-	} 
+		if ($path[0] != '/') $path = '/' . $path;
+	}
 
 	/**
 	* Chops the trailing / off a path.
 	* 
-	* @param ref $ string $path The pathname.
+	* @param ref string $path The pathname.
 	* @access private 
 	* @return string The new path.
 	*/
 	function _chopPath (& $path)
 	{
-		$newpath = ereg_replace("/$", "", $path);
-		$path = & $newpath;
-	} 
+		if (ereg(".+/$", $path))
+			$path = substr($path, 0, strlen($path)-1);
+	}
 
 	/**
 	* Adds a method. See notes for addMethod() and addBackupMethod() for more info.
 	* 
-	* @param ref $method The method object.
+	* @param ref object $method The method object.
 	* @param string $path The pathname.
 	* @param integer $type The method type.
 	* @access private 
@@ -159,7 +160,7 @@ class StorageHandler extends StorageHandlerInterface {
 	*/
 	function _addMethod(& $method, $path, $type)
 	{
-		ArgumentValidator::validate($method, new ExtendsValidatorRule("StorageMethodAbstract"), true);
+		ArgumentValidator::validate($method, new ExtendsValidatorRule("StorageMethodInterface"), true);
 		ArgumentValidator::validate($path, new StringValidatorRule, true); 
 		// make sure it's a valid path
 		ArgumentValidator::validate($path, new RegexValidatorRule("^/(([A-Za-z0-9_.-]+)/?)*$"));
@@ -173,7 +174,7 @@ class StorageHandler extends StorageHandlerInterface {
 		if (!$this->_pathDefined($path)) $this->_pathsRegistered[] = $path; 
 		// done
 		$this->_num++;
-	} 
+	}
 
 	/**
 	* Check if $path has been defined before.
@@ -185,7 +186,7 @@ class StorageHandler extends StorageHandlerInterface {
 	function _pathDefined($path)
 	{
 		return in_array($path, $this->_pathsRegistered);
-	} 
+	}
 
 	/**
 	* Checks to see if $path has a primary storage type.
@@ -201,7 +202,7 @@ class StorageHandler extends StorageHandlerInterface {
 		foreach ($ids as $id)
 		if ($this->_types[$id] == STORAGE_PRIMARY) return true;
 		return false;
-	} 
+	}
 
 	/**
 	* Returns an array of indexes for methods that use $path.
@@ -215,9 +216,9 @@ class StorageHandler extends StorageHandlerInterface {
 		$ids = array();
 		for($i = 0; $i < $this->_num; $i++) {
 			if ($this->_paths[$i] == $path) $ids[] = $i;
-		} 
+		}
 		return $ids;
-	} 
+	}
 
 	/**
 	* Gets the primary method for $path.
@@ -238,7 +239,7 @@ class StorageHandler extends StorageHandlerInterface {
 		// it means that we don't have a primary method defined that handles
 		// this path... bad.
 		throw(new Error("StorageHandler::_getPimaryForPath('$path') - Could not find a method to handle the path '$path'. This is bad -- maybe there are not methods defined.", "StorageHandler", true));
-	} 
+	}
 
 	/**
 	* Returns how deep $path is in the hierarchy.
@@ -255,7 +256,7 @@ class StorageHandler extends StorageHandlerInterface {
 		$array = explode("/", ereg_replace("^/", "", $path));
 		$count = count($array);
 		return $count;
-	} 
+	}
 
 	/**
 	* Finds the deepest (most sub-dirs) path defined that overlaps with $path.
@@ -267,28 +268,28 @@ class StorageHandler extends StorageHandlerInterface {
 	function _findDeepestDefinedFor($path)
 	{
 		$deepestPath = '';
-		$level = 0;
+		$level = -1;
 		foreach ($this->_paths as $id => $definedPath) {
 			if (ereg("^$definedPath", $path)) { // looks like we have a match-up
 				// now let's see how deep this bad-boy is
-				$methodLevel = $this->_getLevel($methodPath); 
+				$methodLevel = $this->_getLevel($definedPath); 
 				// if we're deeper than the last one, use it
 				if ($methodLevel > $level) {
 					$level = $methodLevel;
 					$deepestPath = $definedPath;
-				} 
-			} 
-		} 
+				}
+			}
+		}
 		if ($deepestPath == '') // something is very wrong (again)
 			throw(new Error("StorageHandler::_findDeepestDefinedFor('$path') - Could not find a defined path for '$path'. Storage not possible! Fix this!", "StorageHandler", true));
 		return $deepestPath;
-	} 
+	}
 
 	/**
 	* Finds any methods that are defined as subdirs of $path.
 	* 
 	* @param string $path The path.
-	* @param optional $ integer $type The type of method to return.
+	* @param optional integer $type The type of method to return.
 	* @access public 
 	* @return array An array of $ids.
 	*/
@@ -296,10 +297,10 @@ class StorageHandler extends StorageHandlerInterface {
 	{
 		$ids = array();
 		foreach ($this->_paths as $id => $definedPath) {
-			if (ereg("^$path/.+", $definedPath) && ($type == null || ($this->_types[$id] == $type))) $ids[] = $id;
-		} 
+			if (ereg("^$path.+", $definedPath) && ($type == null || ($this->_types[$id] == $type))) $ids[] = $id;
+		}
 		return $ids;
-	} 
+	}
 
 	/**
 	* 
@@ -309,11 +310,11 @@ class StorageHandler extends StorageHandlerInterface {
 	function _findDefinedPathsBelow($path)
 	{
 		$paths = array();
-		foreach ($this->_definedPaths as $definedPath) {
-			if (ereg("^$path/.+", $definedPath)) $paths[] = $definedPath;
-		} 
+		foreach ($this->_pathsRegistered as $definedPath) {
+			if (ereg("^$path.+", $definedPath)) $paths[] = $definedPath;
+		}
 		return $paths;
-	} 
+	}
 
 	/**
 	* Makes sure that we have at least one valid StorageMethod defined before we
@@ -325,8 +326,8 @@ class StorageHandler extends StorageHandlerInterface {
 	function _checkMethods()
 	{
 		if (!$this->_pathDefined('/')) // sure enough, things are not good
-			throw (new Error("StorageHandler::_checkMethods() - Could not procede because no path for '/' (root) has been defined! Before you do any operations using the StorageHandler, you must defined at least one method.", "StorageHandler", true));
-	} 
+			throw (new Error("StorageHandler::_checkMethods() - Could not procede because no path for '/' (root) has been defined! Before you do any operations using the StorageHandler, you must define at least one method.", "StorageHandler", true));
+	}
 
 	/**
 	* Gets all the methods that serve as backups for $path.
@@ -352,11 +353,11 @@ class StorageHandler extends StorageHandlerInterface {
 			if ($type == MIRROR_DEEP) {
 				$thePath = $this->_paths[$id];
 				if (ereg("^$thePath", $path)) $backups[] = $id;
-			} 
+			}
 		} 
 		// just in case we have any duplcates, remove them
 		return array_unique($backups);
-	} 
+	}
 
 	/**
 	* Translates an absolute StorageHandler path into a relative one for
@@ -379,17 +380,18 @@ class StorageHandler extends StorageHandlerInterface {
 		// remove them $methodPath from the beginning
 		$this->_chopPath($methodPath);
 
-		$translatedPath = ereg_replace("^$methodPath", "", $path); 
+		$translatedPath = (ereg("^$methodPath/",$path))?
+							ereg_replace("^$methodPath", "", $path):$path;
 		// now we should have relative path like "/path/to/something/"
 		// we're done
 		return $translatedPath;
-	} 
+	}
 
 	/**
 	* Store a file. Takes a {@link StorableInterface Storable}, name, and path
 	* and stores the file under $path/$name in the handler.
 	* 
-	* @param ref $ object $storable The Storable object to store.
+	* @param ref object $storable The Storable object to store.
 	* @param string $path The path under which to store the file.
 	* @param string $name The name to store under.
 	* @see {@link StorableInterface}
@@ -402,7 +404,7 @@ class StorageHandler extends StorageHandlerInterface {
 		$this->_checkPath($path); 
 		// validate all the parameters
 		$s = & new StringValidatorRule;
-		ArgumentValidator::validate($storable, new ExtendsValidatorRule("StorableAbstract"));
+		ArgumentValidator::validate($storable, new ExtendsValidatorRule("AbstractStorable"));
 		ArgumentValidator::validate($path, $s);
 		ArgumentValidator::validate($name, $s); 
 		// done
@@ -410,7 +412,7 @@ class StorageHandler extends StorageHandlerInterface {
 		$backupIDs = $this->_getBackupsForPath($path); 
 		// store on the primary, and then the backups
 		$primaryError = $this->_methods[$id]->store(& $storable,
-			$this->_translateAbsolutePathForMethod($id, $path),
+			$this->_translatePathForMethod($id, $path),
 			$name);
 
 		$backupError = true; // assume we're good
@@ -421,7 +423,7 @@ class StorageHandler extends StorageHandlerInterface {
 		} 
 		// return false if both are not TRUE (no error)
 		return $backupError & $primaryError;
-	} 
+	}
 
 	/**
 	* Retrieves a file from the appropriate {@link StorageMethodInterface StorageMethod}.
@@ -445,7 +447,7 @@ class StorageHandler extends StorageHandlerInterface {
 		$id = $this->_getPrimaryForPath($path);
 		$storable = & $this->_methods[$id]->retrieve($this->_translatePathForMethod($id, $path), $name);
 		if ($storable)
-		return $this->_createVirtual($storable, $id);
+			return $this->_createVirtual($storable, $id);
 		unset($storable); 
 		// hmm, that didn't work... let's try a backup server, or two, or more
 		$ids = $this->_getBackupsForPath($path);
@@ -455,14 +457,14 @@ class StorageHandler extends StorageHandlerInterface {
 				return $this->_createVirtual($storable, $id); 
 			// ugh...
 			unset($storable);
-		} 
+		}
 		return false;
-	} 
+	}
 
 	/**
 	* Creates a virtual Storable wrapper for $storable for method defined by $id.
 	* 
-	* @param ref $ object Storable $storable The storable object.
+	* @param ref object Storable $storable The storable object.
 	* @param integer $id The Method ID.
 	* @access public 
 	* @return object VirtualStorable
@@ -471,12 +473,12 @@ class StorageHandler extends StorageHandlerInterface {
 	{
 		$virtual = & new VirtualStorable($this->_paths[$id], $storable);
 		return $virtual;
-	} 
+	}
 
 	/**
 	* Creates an array of VirtualStorables from an array of Storables
 	* 
-	* @param ref $ array $array
+	* @param ref array $array
 	* @param integer $id 
 	* @access public 
 	* @return array 
@@ -486,9 +488,9 @@ class StorageHandler extends StorageHandlerInterface {
 		$newArray = array();
 		for ($i = 0; $i < count($array); $i++) {
 			$newArray[] = & $this->_createVirtual($array[$i], $id);
-		} 
+		}
 		return $newArray;
-	} 
+	}
 
 	/**
 	* Removes the file specified by $name and $path from all applicable StorageMethods.
@@ -513,8 +515,8 @@ class StorageHandler extends StorageHandlerInterface {
 		$ids = $this->_getBackupsForPath($path);
 		foreach ($ids as $id) {
 			$this->_methods[$id]->delete($this->_translatePathForMethod($id, $path), $name);
-		} 
-	} 
+		}
+	}
 
 	/**
 	* Moves a file from one location to another, across StorageMethods if required.
@@ -548,9 +550,9 @@ class StorageHandler extends StorageHandlerInterface {
 				// only if we successfully stored the new one do we delete
 				// the old one -- could be trouble otherwise!
 				$this->delete($sourcePath, $sourceName);
-			} 
-		} 
-	} 
+			}
+		}
+	}
 
 	/**
 	* Copies a file from one location to another, across StorageMethods if required.
@@ -581,8 +583,8 @@ class StorageHandler extends StorageHandlerInterface {
 		$storable = & $this->retrieve($sourcePath, $sourceName);
 		if ($storable) { // we found it, good
 			$this->store($storable, $destinationPath, $destinationName);
-		} 
-	} 
+		}
+	}
 
 	/**
 	* Recursively deletes any files under $path.
@@ -607,8 +609,8 @@ class StorageHandler extends StorageHandlerInterface {
 		// go through them ALL and do a recursive delete
 		foreach ($ids as $id) {
 			$this->_methods[$id]->deleteRecursive($this->_translatePathForMethod($id, $path));
-		} 
-	} 
+		}
+	}
 
 	/**
 	* Gets the size of either a path or a file. If $name is specified, the size
@@ -616,7 +618,7 @@ class StorageHandler extends StorageHandlerInterface {
 	* retrieved.
 	* 
 	* @param string $path The path to use.
-	* @param optional $ string $name The name of the virtual file.
+	* @param optional string $name The name of the virtual file.
 	* @access public 
 	* @return integer The size of the Storable(s).
 	*/
@@ -640,10 +642,10 @@ class StorageHandler extends StorageHandlerInterface {
 		$paths = $this->_findDefinedPathsBelow($path);
 		foreach ($paths as $path) {
 			$totalSize += $this->_getSizeOf($path);
-		} 
+		}
 
 		return $totalSize;
-	} 
+	}
 
 	/**
 	* A private _getSizeOf() method -- used by the public method
@@ -653,7 +655,7 @@ class StorageHandler extends StorageHandlerInterface {
 	* of the given.
 	* 
 	* @param string $path 
-	* @param optional $ string $name
+	* @param optional string $name
 	* @access private 
 	* @return integer 
 	*/
@@ -671,16 +673,16 @@ class StorageHandler extends StorageHandlerInterface {
 			$size = & $this->_methods[$id]->getSizeOf($this->_translatePathForMethod($id, $path), $name);
 			if ($size) // yay!
 				return $size;
-		} 
+		}
 		return 0;
-	} 
+	}
 
 	/**
 	* Lists all the Storables in $path. If $recursive is TRUE, will recurse
 	* through the entire tree.
 	* 
 	* @param string $path The path to list.
-	* @param optional $ boolean $recursive Should we recurse the tree?
+	* @param optional boolean $recursive Should we recurse the tree?
 	* @access public 
 	* @return array An array of Storables in $path.
 	*/
@@ -692,20 +694,20 @@ class StorageHandler extends StorageHandlerInterface {
 		$ids[] = $this->_getPrimaryForPath($path);
 		if ($recursive) {
 			$ids = array_merge($ids, $this->_getDefinedMethodsUnder($path));
-		} 
+		}
 
 		$storables = array();
 		foreach ($ids as $id) {
-			$tempArray &= $this->_methods[$id]->listInPath($this->_translatePathForMethod($id, $path), $recursive);
+			$tempArray =& $this->_methods[$id]->listInPath($this->_translatePathForMethod($id, $path), $recursive);
 			$storables = array_merge($storables, $this->_createVirtualsArray($tempArray, $id));
-		} 
+		}
 		return $this->_removeDuplicateStorables($storables);
-	} 
+	}
 
 	/**
 	* Removes duplicate Storable entries from an array.
 	* 
-	* @param ref $ array $array
+	* @param ref array $array
 	* @access public 
 	* @return void 
 	*/
@@ -718,17 +720,17 @@ class StorageHandler extends StorageHandlerInterface {
 			if (!in_array($file, $files)) {
 				$files[] = $file;
 				$newArray[] = & $array[$i];
-			} 
+			}
 		} // for
 		return $newArray;
-	} 
+	}
 
 	/**
 	* Checks if $path or $path/$name exists. If only $path is specified, will
 	* check if at least one file is stored within it.
 	* 
 	* @param string $path The path to check.
-	* @param optional $ string $name The name of the Storable to check for.
+	* @param optional string $name The name of the Storable to check for.
 	* @access public 
 	* @return boolean TRUE if found, FALSE otherwise.
 	*/
@@ -739,48 +741,46 @@ class StorageHandler extends StorageHandlerInterface {
 		// validate all arguments
 		$s = & new StringValidatorRule;
 		ArgumentValidator::validate($path, $s); 
-		
 		// first check the primary, then the backups
 		$id = $this->_getPrimaryForPath($path);
 		if ($this->_methods[$id]->exists($this->_translatePathForMethod($id, $path), $name))
 			return true;
-			
+
 		$ids = $this->_getBackupsForPath($path);
 		foreach ($ids as $id) {
-			if ($this->_methods[$id]->exists($this->_translatePathForMethod($id,$path),$name))
+			if ($this->_methods[$id]->exists($this->_translatePathForMethod($id, $path), $name))
 				return true;
 		}
 		return false;
-	} 
+	}
 
 	/**
 	* Gets the total number of Storables under $path.
 	* 
 	* @param string $path The path to check under.
+	* @param optional boolean $recursive Should we recurse into directories?
 	* @access public 
 	* @return integer The number of Storables.
 	*/
-	function getCount($path)
+	function getCount($path, $recursive = false)
 	{
 		$this->_checkMethods();
 		$this->_checkPath($path); 
 		// validate all arguments
 		$s = & new StringValidatorRule;
 		ArgumentValidator::validate($path, $s); 
-		
 		// we can only use primaries for this
 		// an alternative is to do a listInPath with recursive = true and then count the array
 		// but that's a VERY slow process. this is better.
 		$totalCount = 0;
-		$ids = $this->_getDefinedMethodUnder($path,STORAGE_PRIMARY);
-		$ids[] = $this->_getPrimaryFor($path);
-		
+		$ids = ($recursive)?$this->_findDefinedMethodsBelow($path, STORAGE_PRIMARY):array();
+		$ids[] = $this->_getPrimaryForPath($path);
+
 		foreach ($ids as $id) {
-			$totalCount +=
-					$this->_methods[$id]->getCount($this->_translatePathForMethod($id,$path));
+			$totalCount += $this->_methods[$id]->getCount($this->_translatePathForMethod($id, $path));
 		}
 		return $totalCount;
 	}
-} 
+}
 
 ?>

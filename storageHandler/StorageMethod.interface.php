@@ -4,7 +4,7 @@
  * Storage Method interface provides functionality to create StorageMethods
  * to handle Storables. A collection of StorageMethods can be used by StorageHandler. 
  *
- * @version $Id: StorageMethod.interface.php,v 1.4 2003/07/03 03:09:06 gabeschine Exp $
+ * @version $Id: StorageMethod.interface.php,v 1.5 2003/07/03 18:03:20 gabeschine Exp $
  * @package harmoni.Storagehandler
  * @copyright 2003
  * @access public
@@ -76,7 +76,7 @@ class StorageMethodInterface {
      * @return boolean True if storable exists, false otherwise.
      * @access public
      */
-    function exists($path,$name="") { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function exists($path,$name=null) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Get the size of either one Storable or the whole tree within a certain path.
