@@ -24,4 +24,21 @@ $errHandler->addError(
 		<p>Both of the above methods do exactly the same thing. The advantage of using the second would be to create your own custom Error classes, for example to output common text with only one changing parameter (like, new EmptyFieldError("myFieldName") would print "You forgot to enter required information for myFieldName.").</p>
 		<p>The arguments: 1 = the error string, 2 = a category (whatever you want), 3 = is the error fatal? (fatal errors stop program execution)</p>
 	</section>
+	
+	<section>
+		<name>Wrapper functions <i>throwError</i> and <i>userError</i></name>
+		<p>Provided are two error handler wrapper functions. Both work identically but on different services, mentioned above. throwError() will throw an error to the <b>ErrorHandler</b> Serivce, whereas userError() will throw to <b>UserError</b>.</p>
+		<example>
+// throw an error to ErrorHandler
+throwError( new Error("AAAAAAH! Something went very wrong! Aborting...","DB-API",true) );
+
+// or to UserError
+userError( new Error("You didn't enter your name in the form!","user",false) );
+		</example>
+	</section>
+	
+	<section>
+		<name>Printing Errors</name>
+
+	</section>
 </subchapter>
