@@ -6,7 +6,7 @@ require_once(HARMONI."layoutHandler/components/Menu.interface.php");
  * are useful in page layouts for navigation. 
  *
  * @package harmoni.layout.components
- * @version $Id: Menu.class.php,v 1.3 2003/07/18 03:23:14 gabeschine Exp $
+ * @version $Id: Menu.class.php,v 1.4 2003/07/25 00:53:43 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -33,7 +33,7 @@ class Menu extends MenuInterface {
 	 * @access public
 	 * @return integer The index of the new menu item.
 	 **/
-	function addItem($menuItemObject) {
+	function addItem(&$menuItemObject) {
 		ArgumentValidator::validate($menuItemObject, new ExtendsValidatorRule("MenuItemInterface"));
 		
 		$this->_items[] =& $menuItemObject;
@@ -71,7 +71,7 @@ class Menu extends MenuInterface {
 	 * @access public
 	 * @return void
 	 **/
-	function output($theme, $level=0, $orientation=HORIZONTAL) {
+	function output(&$theme, $level=0, $orientation=HORIZONTAL) {
 		$theme->printMenu($this,$level,$orientation);
 	}
 }

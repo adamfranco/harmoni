@@ -6,7 +6,7 @@ require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
  * An ErrorPrinter provides functionality to output Error objects in any way one's soul may desire.
  * to be used by the ErrorHandler
  *
- * @version $Id: ErrorPrinterBasic.class.php,v 1.7 2003/07/04 01:37:50 gabeschine Exp $
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.8 2003/07/25 00:53:43 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003
  * @access public
@@ -42,7 +42,7 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 			elseif ($detailLevel == NORMAL_DETAIL && $error->isFatal())
 				$printWithDetails = true;
 
-			$result .= $this->_printError(& $error, $printWithDetails);
+			$result .= $this->_printError( $error, $printWithDetails);
 		}
 		
 		// print result

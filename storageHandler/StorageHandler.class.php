@@ -14,7 +14,7 @@ require_once(HARMONI . "storageHandler/Storables/VirtualStorable.class.php");
 * 
 * @package harmoni.storage
 * @author Middlebury College, ETS 
-* @version $Id: StorageHandler.class.php,v 1.10 2003/07/11 00:20:25 gabeschine Exp $
+* @version $Id: StorageHandler.class.php,v 1.11 2003/07/25 00:53:43 gabeschine Exp $
 * @copyright 2003
 */
 class StorageHandler extends StorageHandlerInterface {
@@ -413,13 +413,13 @@ class StorageHandler extends StorageHandlerInterface {
 		$id = $this->_getPrimaryForPath($path);
 		$backupIDs = $this->_getBackupsForPath($path); 
 		// store on the primary, and then the backups
-		$primaryError = $this->_methods[$id]->store(& $storable,
+		$primaryError = $this->_methods[$id]->store( $storable,
 			$this->_translatePathForMethod($id, $path),
 			$name);
 
 		$backupError = true; // assume we're good
 		foreach ($backupIDs as $backupID) {
-			$backupError &= $this->_methods[$backupID]->store(& $storable,
+			$backupError &= $this->_methods[$backupID]->store( $storable,
 				$this->_translatePathForMethod($backupID, $path),
 				$name);
 		} 

@@ -12,7 +12,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * The above example essentially outputs a horizontal menu as the only cell in a table. Boring.
  *
  * @package harmoni.layout.components
- * @version $Id: LayoutFromFile.class.php,v 1.3 2003/07/23 21:43:58 gabeschine Exp $
+ * @version $Id: LayoutFromFile.class.php,v 1.4 2003/07/25 00:53:43 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -81,7 +81,7 @@ class LayoutFromFile extends Layout {
 	 * @access public
 	 * @return void
 	 **/
-	function outputLayout($theme, $level) {
+	function outputLayout(&$theme, $level) {
 		$this->verifyComponents();
 		
 		$this->_theme =& $theme;
@@ -107,7 +107,7 @@ class LayoutFromFile extends Layout {
 		if ($this->_printing) {
 			// we're supposed to output this component
 			$component =& $this->getComponent($index);
-			$component->output(&$this->_theme, $this->_level+1, $orientation);
+			$component->output($this->_theme, $this->_level+1, $orientation);
 		} else {
 			// otherwise, just check if it's been added already, and if not, add it.
 			if (isset($this->_registeredComponents[$index])) {

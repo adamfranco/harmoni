@@ -12,7 +12,7 @@ define("LAYOUT","LayoutInterface");
  * LayoutInterface defines the methods required of any {@link Layout}.
  *
  * @package harmoni.layout
- * @version $Id: Layout.interface.php,v 1.4 2003/07/18 20:26:23 gabeschine Exp $
+ * @version $Id: Layout.interface.php,v 1.5 2003/07/25 00:53:43 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -61,12 +61,12 @@ class LayoutInterface extends VisualComponent {
 	
 	/**
 	 * Output this layout's HTML & components.
-	 * @param object $theme The theme to use.
+	 * @param ref object $theme The theme to use.
 	 * @param integer $level The current layout depth.
 	 * @access public
 	 * @return void
 	 **/
-	function outputLayout($theme, $level) {
+	function outputLayout(&$theme, $level) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	

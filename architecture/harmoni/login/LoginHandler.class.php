@@ -15,7 +15,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginHandler.interface.php");
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.2 2003/07/23 21:43:58 gabeschine Exp $
+ * @version $Id: LoginHandler.class.php,v 1.3 2003/07/25 00:53:43 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginHandler extends LoginHandlerInterface {
@@ -117,7 +117,7 @@ class LoginHandler extends LoginHandlerInterface {
 			$authResult =& $authHandler->authenticateAllMethods($username,$password);
 			
 			// save the new LoginState in the session
-			$state =& new LoginState($username,&$authResult);
+			$state =& new LoginState($username,$authResult);
 			$_SESSION['__LoginState'] =& $state;
 			
 			// now, if they were valid, everything is honky-dory

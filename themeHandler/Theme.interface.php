@@ -10,7 +10,7 @@
  * to create a powerful yet flexible system for content output.
  *
  * @package harmoni.themes
- * @version $Id: Theme.interface.php,v 1.2 2003/07/18 20:26:24 gabeschine Exp $
+ * @version $Id: Theme.interface.php,v 1.3 2003/07/25 00:53:43 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -37,46 +37,46 @@ class ThemeInterface {
 	
 	/**
 	 * Prints a {@link Menu}, with specified orientation.
-	 * @param object $menuObj The {@link Menu} object to print.
+	 * @param ref object $menuObj The {@link Menu} object to print.
 	 * @param integer $level The current level within a {@link Layout} we are.
 	 * @param integer $otientation The orientation. Either HORIZONTAL or VERTICAL.
 	 * @access public
 	 * @return void
 	 **/
-	function printMenu($menuObj, $level, $orientation) {
+	function printMenu(&$menuObj, $level, $orientation) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
 	/**
 	 * Prints a {@link Content} object out using the theme. $level can be used to specify
 	 * changing look the deeper into a layout you go.
-	 * @param object $contentObj The {@link Content} object to use.
+	 * @param ref object $contentObj The {@link Content} object to use.
 	 * @param integer $level The current level within a {@link Layout} we are.
 	 * @access public
 	 * @return void
 	 **/
-	function printContent($contentObj, $level) {
+	function printContent(&$contentObj, $level) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
 	/**
 	 * Prints a {@link Layout} object.
-	 * @param object $layoutObj The Layout object.
+	 * @param ref object $layoutObj The Layout object.
 	 * @param integer $level The current depth in the layout.
 	 * @access public
 	 * @return void
 	 **/
-	function printLayout($layoutObj, $level) {
+	function printLayout(&$layoutObj, $level) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
 	/**
 	 * Takes a {@link Layout} object and outputs a full HTML page with the layout's contents in the body section.
-	 * @param object $layoutObj The {@link Layout} object.
+	 * @param ref object $layoutObj The {@link Layout} object.
 	 * @access public
 	 * @return void
 	 **/
-	function printPageWithLayout($layoutObj) {
+	function printPageWithLayout(&$layoutObj) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	

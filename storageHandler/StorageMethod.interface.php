@@ -4,7 +4,7 @@
  * Storage Method interface provides functionality to create StorageMethods
  * to handle Storables. A collection of StorageMethods can be used by StorageHandler. 
  *
- * @version $Id: StorageMethod.interface.php,v 1.8 2003/07/10 02:34:21 gabeschine Exp $
+ * @version $Id: StorageMethod.interface.php,v 1.9 2003/07/25 00:53:43 gabeschine Exp $
  * @package harmoni.storage.methods
  * @copyright 2003
  * @access public
@@ -15,14 +15,14 @@ class StorageMethodInterface {
     /**
      * Store a given storable in a given location. This is the basic function that should 
      * be used to put a storable in the location of choice. 
-     * @param object Storable $storable The Storable to be stored.
+     * @param ref object Storable $storable The Storable to be stored.
 	 * @param string $path The path (descriptor) under which the storable is to be stored.
      * @param string $name The name (primary key) under which the storable is to be stored.
 	 * @return boolean True on success False on falure.
      * @access public
      */
 
-    function store($storable,$path,$name) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function store(&$storable,$path,$name) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Returns a storable with a given name and path.

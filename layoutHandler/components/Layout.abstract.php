@@ -7,7 +7,7 @@ require_once(HARMONI."layoutHandler/Layout.interface.php");
  * holds any number of components of different types.
  *
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.5 2003/07/23 21:43:58 gabeschine Exp $
+ * @version $Id: Layout.abstract.php,v 1.6 2003/07/25 00:53:43 gabeschine Exp $
  * @copyright 2003 
  * @abstract
  **/
@@ -54,7 +54,7 @@ class Layout extends LayoutInterface {
 	 * @access public
 	 * @return void
 	 **/
-	function setComponent($index, $object) {
+	function setComponent($index, &$object) {
 		ArgumentValidator::validate($index, new IntegerValidatorRule);
 		
 		// first make sure they handed us the correct object type
@@ -104,7 +104,7 @@ class Layout extends LayoutInterface {
 	 * @final
 	 * @return void
 	 **/
-	function output($theme, $level=0, $orientation=HORIZONTAL) {
+	function output(&$theme, $level=0, $orientation=HORIZONTAL) {
 		$theme->printLayout($this,$level);
 	}
 }

@@ -9,7 +9,7 @@ require_once(HARMONI."authenticationHandler/AuthenticationResult.class.php");
  * so that logins can be valid across page-loads.
  * 
  * @package harmoni.architecture.login
- * @version $Id: LoginState.class.php,v 1.2 2003/07/23 21:43:58 gabeschine Exp $
+ * @version $Id: LoginState.class.php,v 1.3 2003/07/25 00:53:43 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginState extends LoginStateInterface {

@@ -8,13 +8,14 @@ require_once(HARMONI."authenticationHandler/methods/DBAuthenticationMethod.class
 require_once(HARMONI."authenticationHandler/methods/LDAPAuthenticationMethod.class.php");
 require_once(HARMONI."authenticationHandler/methods/AlwaysTrueAuthenticationMethod.class.php");
 require_once(HARMONI."authenticationHandler/methods/AlwaysFalseAuthenticationMethod.class.php");
+require_once(HARMONI."authenticationHandler/methods/DummyAuthenticationMethod.class.php");
 
 
 /**
  * The AuthenticationHandler keeps track of multiple AuthenticationMethods for 
  * authenticating agents.
  * 
- * @version $Id: AuthenticationHandler.class.php,v 1.14 2003/07/18 03:23:14 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.15 2003/07/25 00:53:43 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication

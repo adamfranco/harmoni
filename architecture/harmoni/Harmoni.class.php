@@ -16,7 +16,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.6 2003/07/24 23:38:42 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.7 2003/07/25 00:53:43 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni extends HarmoniInterface {
@@ -82,7 +82,7 @@ class Harmoni extends HarmoniInterface {
 		
 		// set up the LoginHandler and the ActionHandler
 		$this->LoginHandler =& new LoginHandler($this);
-		$this->ActionHandler =& new ActionHandler(&$this->_httpVars,$this);
+		$this->ActionHandler =& new ActionHandler($this->_httpVars,$this);
 		
 		// set up config options
 		$this->config =& new HarmoniConfig;
@@ -181,8 +181,8 @@ class Harmoni extends HarmoniInterface {
 		$context =& new Context($module, $action);
 		
 		// ok, call the action handler
-		$this->ActionHandler->useLoginState(&$loginState);
-		$this->ActionHandler->useContext(&$context);
+		$this->ActionHandler->useLoginState($loginState);
+		$this->ActionHandler->useContext($context);
 		$result =& $this->ActionHandler->execute($module, $action);
 		
 		// we only need to print anything out if config->outputHTML is set.
@@ -191,7 +191,7 @@ class Harmoni extends HarmoniInterface {
 			$rule = new ExtendsValidatorRule("LayoutInterface");
 			if ($rule->check($result)) {
 				// indeed!
-				$this->_theme->printPageWithLayout(&$result);
+				$this->_theme->printPageWithLayout($result);
 			} else {
 				// we got something else back... well, let's print out an error
 				// explaining what happened.
@@ -205,10 +205,11 @@ class Harmoni extends HarmoniInterface {
 	/**
 	 * Sets the {@link ThemeInterface Theme} to use for output to the browser. $themeObject can
 	 * be any Theme object that follows the {@link ThemeInterface}.
+	 * @param ref object A {@link ThemeInterface Theme} object.
 	 * @access public
 	 * @return void
 	 **/
-	function setTheme($themeObject) {
+	function setTheme(&$themeObject) {
 		ArgumentValidator::validate($themeObject, new ExtendsValidatorRule("ThemeInterface"));
 		$this->_theme =& $themeObject;
 	}

@@ -5,7 +5,7 @@ require_once(HARMONI."layoutHandler/components/Content.interface.php");
  * The Content interface defines what methods are required by any Content {@link VisualComponent}.
  *
  * @package harmoni.layout.components
- * @version $Id: Content.class.php,v 1.5 2003/07/18 20:26:23 gabeschine Exp $
+ * @version $Id: Content.class.php,v 1.6 2003/07/25 00:53:43 gabeschine Exp $
  * @copyright 2003 
  **/
 class Content extends ContentInterface {
@@ -55,7 +55,7 @@ class Content extends ContentInterface {
 	 * @access public
 	 * @return void
 	 **/
-	function output($theme, $level=0, $orientation=HORIZONTAL) {
+	function output(&$theme, $level=0, $orientation=HORIZONTAL) {
 		$theme->printContent($this,$level);
 	}
 }

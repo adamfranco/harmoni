@@ -55,7 +55,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.interface.php,v 1.3 2003/07/24 23:38:42 gabeschine Exp $
+ * @version $Id: ActionHandler.interface.php,v 1.4 2003/07/25 00:53:43 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandlerInterface {
@@ -121,21 +121,21 @@ class ActionHandlerInterface {
 	
 	/**
 	 * Tells the ActionHandler to use the specified {@link LoginState} object.
-	 * @param object $loginState the {@link LoginState} object.
+	 * @param ref object $loginState the {@link LoginState} object.
 	 * @access public
 	 * @return void
 	 **/
-	function useLoginState($loginState) {
+	function useLoginState(&$loginState) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
 	/**
 	 * Tells the ActionHandler to use the specified {@link Context} object.
-	 * @param object $context The {@link Context} object.
+	 * @param ref object $context The {@link Context} object.
 	 * @access public
 	 * @return void
 	 **/
-	function useContext($context) {
+	function useContext(&$context) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	

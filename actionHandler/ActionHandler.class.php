@@ -21,7 +21,7 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.4 2003/07/24 23:38:42 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.5 2003/07/25 00:53:43 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandler extends ActionHandlerInterface {
@@ -102,7 +102,7 @@ class ActionHandler extends ActionHandlerInterface {
 	 * @access public
 	 * @return void
 	 **/
-	function ActionHandler($httpVars, &$harmoni) {
+	function ActionHandler(&$httpVars, &$harmoni) {
 		$this->_httpVars =& $httpVars;
 		$this->_harmoni =& $harmoni;
 		$this->_actionsExecuted = array();
@@ -208,8 +208,8 @@ class ActionHandler extends ActionHandlerInterface {
 							$php_errormsg","ActionHandler",true));
 			
 			// execute the $method and get the result.
-			$result =& $object->$method(&$this->_httpVars, &$this->_context,
-									&$this->_loginState,&$this->_harmoni);
+			$result =& $object->$method($this->_httpVars, $this->_context,
+									$this->_loginState,$this->_harmoni);
 		}
 		
 		// we've now executed this action -- add it to the array
@@ -327,21 +327,21 @@ class ActionHandler extends ActionHandlerInterface {
 	
 	/**
 	 * Tells the ActionHandler to use the specified {@link LoginState} object.
-	 * @param object $loginState the {@link LoginState} object.
+	 * @param ref object $loginState the {@link LoginState} object.
 	 * @access public
 	 * @return void
 	 **/
-	function useLoginState($loginState) {
+	function useLoginState(&$loginState) {
 		$this->_loginState =& $loginState;
 	}
 	
 	/**
 	 * Tells the ActionHandler to use the specified {@link Context} object.
-	 * @param object $context The {@link Context} object.
+	 * @param ref object $context The {@link Context} object.
 	 * @access public
 	 * @return void
 	 **/
-	function useContext($context) {
+	function useContext(&$context) {
 		$this->_context =& $context;
 	}
 }

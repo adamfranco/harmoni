@@ -12,7 +12,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * </ul>
  *
  * @package harmoni.layout.components
- * @version $Id: TopMenuLayout.class.php,v 1.3 2003/07/23 21:43:58 gabeschine Exp $
+ * @version $Id: TopMenuLayout.class.php,v 1.4 2003/07/25 00:53:43 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -34,7 +34,7 @@ class TopMenuLayout extends Layout {
 	 * @access public
 	 * @return void
 	 **/
-	function outputLayout($theme, $level) {
+	function outputLayout(&$theme, $level) {
 		$this->verifyComponents();
 		
 		$menu =& $this->getComponent(0);
@@ -43,9 +43,9 @@ class TopMenuLayout extends Layout {
 		// output the table;
 		print "<table border=0 cellpadding=0 cellspacing=0 width=100%>\n";
 		print "<tr><td align=center>\n";
-		$menu->output(&$theme, $level+1, HORIZONTAL);
+		$menu->output($theme, $level+1, HORIZONTAL);
 		print "</td></tr>\n<tr><td>\n";
-		$layout->output(&$theme, $level+1);
+		$layout->output($theme, $level+1);
 		print "</td></tr>\n";
 		print "</table>\n";
 	}

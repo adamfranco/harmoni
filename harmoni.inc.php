@@ -4,14 +4,14 @@
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.12 2003/07/24 23:38:40 gabeschine Exp $
+ * @version $Id: harmoni.inc.php,v 1.13 2003/07/25 00:53:35 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
  **/
 
-/* :: start the output buffer :: */
-ob_start();
+/* :: start the output buffer, if it's not already :: */
+if (!ob_get_level()) ob_start();
  
 /**
  * Defines the global harmoni directory.

@@ -10,7 +10,7 @@ require_once(HARMONI.'storageHandler/Storables/DatabaseStorable.class.php');
  * Note: All methods assume the path parameter has a trailing slash ('/'). Otherwise
  * all recursive functions may get hold of paths that are unrelated.
  *
- * @version $Id: DatabaseStorageMethod.class.php,v 1.5 2003/07/23 21:43:58 gabeschine Exp $
+ * @version $Id: DatabaseStorageMethod.class.php,v 1.6 2003/07/25 00:53:43 gabeschine Exp $
  * @package harmoni.storage.methods
  * @copyright 2003
  * @access public
@@ -55,13 +55,13 @@ class DatabaseStorageMethod extends StorageMethodInterface {
     /**
      * Store a given storable in a given location. This is the basic function that should 
      * be used to put a storable in the location of choice. 
-     * @param object Storable $storable The Storable to be stored.
+     * @param ref object Storable $storable The Storable to be stored.
      * @param string $name The name (primary key) under which the storable is to be stored.
 	 * @param string $path The path (descriptor) under which the storable is to be stored.
      * @access public
      */
 
-    function store($storable,$path,$name) { 
+    function store(&$storable,$path,$name) { 
 		$path = addslashes($path); $name = addslashes($name);
 
         $extendsRule =& new ExtendsValidatorRule("FileStorable");

@@ -9,7 +9,7 @@ require_once(HARMONI."utilities/Template.interface.php");
  * some html ... &lt?=$value1=&gt; ... more html ...
  *
  * @package harmoni.utilities.template
- * @version $Id: Template.class.php,v 1.2 2003/07/18 20:26:24 gabeschine Exp $
+ * @version $Id: Template.class.php,v 1.3 2003/07/25 00:53:44 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -90,7 +90,7 @@ class Template extends TemplateInterface {
 		ob_start();
 		
 		// output
-		$this->output(&$variables);
+		$this->output($variables);
 		
 		// catch the output
 		$output = ob_get_contents();
