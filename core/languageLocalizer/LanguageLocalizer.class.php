@@ -7,7 +7,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * and other data for multiple languages.
  *
  * @package harmoni.languages
- * @version $Id: LanguageLocalizer.class.php,v 1.4 2004/05/11 15:03:30 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.5 2004/05/12 19:28:04 adamfranco Exp $
  * @copyright 2003 
  **/
 class LanguageLocalizer extends LanguageLocalizerInterface {
@@ -51,15 +51,16 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 				
 		$this->_langDir = $langDir;
 		$this->_application = $application;
-		bindtextdomain($application, $langDir);
+		bindtextdomain($this->_application, $this->_langDir);
+		textdomain($this->_application);
+		
+		debug::output("Starting LanguageLocalizer($langDir, $application), Lang=".$this->_lang."");
 		
 		// Get the current Language settings from the session if they exist.
 		if (isset($_SESSION['__CurrentLanguage'])) {
 			$this->setLanguage( $_SESSION['__CurrentLanguage'] );
-			debug::output( "Setting Lang to ".$_SESSION['__CurrentLanguage']);
 		} else {
 			$this->setLanguage( "en_US" );
-			debug::output( "Setting Lang to ".$_SESSION['__CurrentLanguage']);
 		}
 		
 		// Get the current Language encoding from the session if it exists.
@@ -70,7 +71,7 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 			$this->_codeset = "UTF-8";
 		}
 		
-		bind_textdomain_codeset ($application, $this->_codeset);
+		bind_textdomain_codeset ($this->_application, $this->_codeset);
 	}
 	
 	/**
@@ -98,7 +99,9 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 		
 		$this->_lang = $language;
 		$_SESSION['__CurrentLanguage'] = $this->_lang;
-		setlocale(LC_MESSAGES, $language);
+		
+		$result = setlocale(LC_MESSAGES, $this->_lang);
+		debug::output( "Setting Lang to ".$this->_lang." => '$result', langdir=".$this->_langDir." app=".$this->_application."",DEBUG_SYS5,"LanguageLocalizer");
 	}
 	
 	/**
