@@ -246,7 +246,30 @@ class HarmoniDigitalRepository
 		
 		return $typeIterator;
 	}
-
+	
+	/**
+	 * Get the InfoStructure in this DigitalRepository with the specified Id.  InfoStructures are used to categorize information about Assets.
+	 * Note: This method is a Harmoni addition to the OSID and at the time of this writing,
+	 * was not a part of the DR OSID.
+	 * @param object $infoStructureId
+	 * @return object InfoStructure  The InfoStructure of the requested Id.
+	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * @package harmoni.osid.dr
+	 */
+	function & getInfoStructure( & $infoStructureId ) {
+		// Check that we have created an infoStructure with the ID
+		if (!$this->_createdInfoStructures[$infoStructureId->getIdString()]) {
+			// If not, create the infoStructure
+			$dataSetTypeMgr =& Services::getService("DataSetTypeManager");
+			$dataSetTypeDefinition =& $dataSetTypeMgr->getDataSetTypeDefinitionById($infoStructureId->getIdString());
+			$this->_createdInfoStructures[$infoStructureId->getIdString()] =& new HarmoniInfoStructure(
+															$dataSetTypeDefinition);
+		}
+		
+		return $this->_createdInfoStructures[$infoStructureId->getIdString()];
+		
+	}
+	
 	/**
 	 * Get all the InfoStructures in this DigitalRepository.  InfoStructures are used to categorize information about Assets.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @return object InfoStructureIterator  The order of the objects returned by the Iterator is not guaranteed.
