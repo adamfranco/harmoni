@@ -6,7 +6,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * Responsible for the synchronization of {@link Schema} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: SchemaManager.class.php,v 1.9 2004/10/29 15:46:05 gabeschine Exp $
+ * @version $Id: SchemaManager.class.php,v 1.10 2005/01/08 01:17:10 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -509,6 +509,46 @@ class SchemaManager
 		$old->loaded(true);
 		
 		debug::output("... synchronization finished.",DEBUG_SYS2,"DataManager");
+	}
+
+	/**
+	 * Will return a string containing valid PHP code to generate the schema passed.
+	 * @param ref object $schema The {@link Schema} from which to generate code.
+	 * @param string $varName The name of the variable in the PHP code that will end up containing the {@link Schema} object.
+	 * @return string
+	 * @access public 
+	 * @static
+	 */
+	function generatePHPCode(&$schema, $varName) {
+		$v = $varName;
+		$t =& $schema->getType();
+		$c = '';
+		$c .= "\$$v =& new Schema(";
+		$c .= "\n\tnew HarmoniType(";
+		$c .= "\n\t\t\"".addslashes($t->getDomain())."\",";
+		$c .= "\n\t\t\"".addslashes($t->getAuthority())."\",";
+		$c .= "\n\t\t\"".addslashes($t->getKeyword())."\",";
+		$c .= "\n\t\t\"".addslashes($t->getDescription())."\"\n\t),";
+		$c .= "\n\t".$schema->getRevision()."\n);";
+
+		$c .= "\n\n";
+
+		// now add the fields
+		$labels = $schema->getAllLabels(true);
+		foreach ($labels as $label) {
+			$f =& $schema->getField($label);
+			$c .= "\$".$v."->addField(\n";
+			$c .= "\tnew SchemaField(\n";
+			$c .= "\t\t\"$label\",\n";
+			$c .= "\t\t\"".$f->getType()."\",\n";
+			$c .= "\t\t\"".addslashes($f->getDescription())."\",\n";
+			$c .= "\t\t".($f->getMultFlag()?"true":"false").",\n";
+			$c .= "\t\t".($f->isRequired()?"true":"false").",\n";
+			$c .= "\t\t".($f->isActive()?"true":"false")."\n";
+			$c .= "\t)\n";
+			$c .= ");\n";
+		}
+		return $c;
 	}
 	
 	function start() {}
