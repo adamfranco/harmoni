@@ -25,7 +25,7 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.1 2004/06/03 15:38:19 dobomode Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.2 2004/06/03 15:51:56 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -302,5 +302,25 @@ class HarmoniHierarchyManager extends HierarchyManager {
 		unset($this->_hierarchies[$idValue]);
 	}
 
+
+	/**
+	 * The start function is called when a service is created. Services may
+	 * want to do pre-processing setup before any users are allowed access to
+	 * them.
+	 * @access public
+	 * @return void
+	 **/
+	function start() {
+	}
+	
+	/**
+	 * The stop function is called when a Harmoni service object is being destroyed.
+	 * Services may want to do post-processing such as content output or committing
+	 * changes to a database, etc.
+	 * @access public
+	 * @return void
+	 **/
+	function stop() {
+	}
 
 }
