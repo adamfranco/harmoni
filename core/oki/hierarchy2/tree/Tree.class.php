@@ -6,7 +6,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
 /** 
  * The Tree data structure used by the Hierarchy.
  * @access public
- * @version $Id: Tree.class.php,v 1.3 2004/06/01 00:05:58 dobomode Exp $
+ * @version $Id: Tree.class.php,v 1.4 2004/06/01 18:28:44 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -51,7 +51,8 @@ class Tree extends TreeInterface {
 	
 	/**
 	 * Adds the specified node to the tree and makes it a child of the specified
-	 * parent. If the parent is not specified, then it makes the node a root.
+	 * parent. If the parent is not specified, then it makes the node a root. Always
+	 * use this method instead of the addChild() method of the individual tree nodes.
 	 * @method public addNode
 	 * @param ref object The node to add.
 	 * @param optional ref object parent The node that will become the parent of the added node.

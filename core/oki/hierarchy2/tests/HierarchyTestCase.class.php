@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.1 2004/06/01 00:05:58 dobomode Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.2 2004/06/01 18:28:44 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -80,9 +80,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 		}
 		
 		
-		
-		
-		function test_building_a_hierarchy_from_scratch() {
+		function test_building_a_hierarchy_from_scratch_and_traversal() {
 			// build the hierarchy, one node at a time
 			$idA =& $this->manager->createId();
 			$nodeA =& $this->hierarchy->createRootNode($idA, new GenericNodeType(), "A", "A");
@@ -119,6 +117,13 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 			$nodeE->addParent($idG);
 			$nodeF->addParent($idG);
 			
+			// this is what the final hierarchy looks like:
+			//				  B   G
+			//				 /|\ /|
+			//				A C E |
+			//				 \ / \|
+			//				  D   F
+			
 			// assert that the nodes have been cached properly
 			
 			$this->assertReference($this->hierarchy->_cache->_cache[$idA->getIdString()][0], $nodeA);
@@ -130,6 +135,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 			$this->assertReference($this->hierarchy->_cache->_cache[$idG->getIdString()][0], $nodeG);
 			
 			// check parents and children of all nodes
+			// parents
 			$nodes =& $nodeB->getParents();
 			$this->assertFalse($nodes->hasNext());
 			
@@ -167,6 +173,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 			$this->assertReference($node, $nodeG);
 			$this->assertFalse($nodes->hasNext());
 
+			// children
 			$nodes =& $nodeB->getChildren();
 			$node =& $nodes->next();
 			$this->assertReference($node, $nodeA);
@@ -203,10 +210,24 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 
 			$nodes =& $nodeF->getChildren();
 			$this->assertFalse($nodes->hasNext());
-
-			// clear, delete nodes
+			
+			// clear cache
 			$this->hierarchy->clearCache();
 
+			// test traversal now
+			$this->hierarchy->_cache->_traverseDown($idA->getIdString(), 2);
+			$this->hierarchy->_cache->_traverseDown($idG->getIdString(), 5);
+			$nodeA->addParent($idG);
+
+			// clear cache
+			$this->hierarchy->clearCache();
+
+			// test traversal now
+			$this->hierarchy->_cache->_traverseUp($idD->getIdString(), 2);
+			$this->hierarchy->_cache->_traverseUp($idC->getIdString(), 1);
+			$nodeA->addParent($idC);
+
+			// delete nodes
 			$this->hierarchy->deleteNode($idD);
 			$this->hierarchy->deleteNode($idF);
 
@@ -219,7 +240,9 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 		}
 		
 		function test_traverse() {
-			$this->hierarchy->_cache->_traverseDown("1", 7);
+//			$this->hierarchy->_cache->_traverseDown("1", 7);
+
+//			$this->hierarchy->_cache->_traverseUp("9", 7);
 		}
 		
 	}

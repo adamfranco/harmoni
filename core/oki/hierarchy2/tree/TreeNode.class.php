@@ -6,7 +6,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.interface.php");
  * This is the building piece of the Tree data structure used for the backbone of the
  * hierarchy.
  * @access public
- * @version $Id: TreeNode.class.php,v 1.4 2004/06/01 00:05:58 dobomode Exp $
+ * @version $Id: TreeNode.class.php,v 1.5 2004/06/01 18:28:44 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -134,6 +134,8 @@ class TreeNode extends TreeNodeInterface
 	
 		$extendsRule =& new ExtendsValidatorRule("TreeNodeInterface");
 		ArgumentValidator::validate($child, $extendsRule, true);
+		
+//		echo "Removing child ".$child->_id." from parent ".$this->_id."<br>";
 		
 		// check if $child is really a child of $this
 		if (!$this->isChild($child)) {

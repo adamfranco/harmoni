@@ -25,7 +25,7 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
  * 
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
- * @version $Id: HierarchyCache.class.php,v 1.2 2004/06/01 00:05:26 dobomode Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.3 2004/06/01 18:28:10 dobomode Exp $
  * @package harmoni.osid.hierarchy2
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -179,28 +179,37 @@ class HierarchyCache {
 		$parent->getChildren();
 		$child->getParents();
 		
-		// IMPORTANT CHECK:
-		// suppose the parent is cached down A levels
-		// and the child is cached down B levels
-		// if B < A-1 then we cannot add safely the child because
-		// the parent would no longer be cached A levels down
-		// SOLUTION:
-		// if B < A-1 then cache down the child A-1 levels and then add it
-		
+		// IMPORTANT SPECIAL CASES:
+
 		// A = the number of levels that the parent is cached down
 		$A = $this->_cache[$parentIdValue][1];
 		// B = the number of levels that the child is cached down
 		$B = $this->_cache[$childIdValue][1];
-		// if B < A-1 then cache down the child A-1 levels
-		if ($B < ($A-1))
-			$this->traverse($child, true, $A-1);
+		// if B < A-1 AND B >= 0 then cache down the child A-1 levels
+		if (($B < ($A-1)) && ($B >= 0))
+			$this->_traverseDown($childIdValue, $A-1);
+		// if A < 0 AND B >= 0 then cache down the child fully
+		if (($A < 0) && ($B >= 0))
+			$this->_traverseDown($childIdValue, -1);
 
+		// the special cases are symmetric when going up
+		// A = the number of levels that the child is cached up
+		$A = $this->_cache[$childIdValue][2];
+		// B = the number of levels that the parent is cached up
+		$B = $this->_cache[$parentIdValue][2];
+		// if B < A-1 AND B >= 0 then cache up the parent A-1 levels
+		if (($B < ($A-1)) && ($B >= 0))
+			$this->_traverseUp($parentIdValue, $A-1);
+		// if A < 0 AND B >= 0 then cache up the parent fully
+		if (($A < 0) && ($B >= 0))
+			$this->_traverseUp($parentIdValue, -1);
+			
 		// now add the new node as a parent
 		
 		// 1) update the cache
 		$parentTreeNode =& $this->_tree->getNode($parentIdValue);
 		$childTreeNode =& $this->_tree->getNode($childIdValue); 
-		$parentTreeNode->addChild($childTreeNode);
+		$this->_tree->addNode($childTreeNode, $parentTreeNode);
 
 		// 2) update the database
 		$db = $this->_sharedDB.".";
@@ -601,22 +610,21 @@ class HierarchyCache {
 			if (!$this->_isCachedDown($idValue, $levels))
 				$this->_traverseDown($idValue, $levels);
 		}
-		
 		// 2) GOING UP
 		else {
 			// if not cached, fetch from DB and cache!
 			if (!$this->_isCachedUp($idValue, $levels))
-				$this->_traverseDown($idValue, $levels);
+				$this->_traverseUp($idValue, $levels);
 		}
 
 		// now that all nodes are cached, return them
-		$treeNode =& $this->_tree->getNode($idValue);
-		$result = array();
-		$treeNodes =& $this->_tree->traverse($treeNode, $down, $levels);
-		foreach (array_keys($treeNodes) as $i => $key)
-			$result[] =& $this->_cache[$key][0];
-			
-		return $result;
+//		$treeNode =& $this->_tree->getNode($idValue);
+//		$result = array();
+//		$treeNodes =& $this->_tree->traverse($treeNode, $down, $levels);
+//		foreach (array_keys($treeNodes) as $i => $key)
+//			$result[] =& $this->_cache[$key][0];
+//			
+//		return $result;
 
 	}
 	
@@ -637,6 +645,8 @@ class HierarchyCache {
 		
 		// the original value of levels
 		$originalLevels = $levels;
+		
+		echo "<br><br><br><b>=== Caching node # $idValue, $levels levels down</b><br>";
 		
 		// MySQL has a limit of 31 tables in a select query, thus essentially
 		// there is a limit to the max value of $levels.
@@ -662,9 +672,9 @@ class HierarchyCache {
 		$where = "level0.fk_parent = '".$idValue."'";
 		$query->addWhere($where);
 		
-		echo "<pre>\n";
-		echo MySQL_SQLGenerator::generateSQLQuery($query);
-		echo "</pre>\n";
+//		echo "<pre>\n";
+//		echo MySQL_SQLGenerator::generateSQLQuery($query);
+//		echo "</pre>\n";
 		
 		// execute the query
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -689,10 +699,6 @@ class HierarchyCache {
 		$joinc = $db."node.fk_type = ".$db."type.type_id";
 		$nodeQuery->addTable($db."type", INNER_JOIN, $joinc);
 		
-		echo "<pre>\n";
-		echo MySQL_SQLGenerator::generateSQLQuery($nodeQuery);
-		echo "</pre>\n";
-
 		// for all rows returned by the query
 		while($queryResult->hasMoreRows()) {
 			$row = $queryResult->getCurrentRow();
@@ -713,7 +719,6 @@ class HierarchyCache {
 				// if the node has not been cached, then we must create it
 				echo "<br>--- CACHE UPDATE: ";
 				if (!$this->_isCached($nodeId)) {
-					echo "Creating node #$nodeId, ";
 					$nodeQuery->resetWhere();
 					$nodeQuery->addWhere($db."node.node_id = '".$nodeId."'");
 					
@@ -725,6 +730,7 @@ class HierarchyCache {
 					}
 					
 					$nodeRow = $nodeQueryResult->getCurrentRow();
+					echo "Creating node # <b>$nodeId - '{$nodeRow['display_name']}'</b>, ";
 					$id =& new HarmoniId($nodeId);
 					$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
 											  $nodeRow['keyword'], $nodeRow['type_description']);
@@ -743,6 +749,7 @@ class HierarchyCache {
 				// update the levels fetched down, if necessary
 				if (($this->_cache[$nodeId][1] >= 0) && 
 				    ($this->_cache[$nodeId][1] < ($levels - $level))) {
+					$old = $this->_cache[$nodeId][1];
 					if ($originalLevels < 0)
 						// if fully, then the node is fetched fully as well
 						$this->_cache[$nodeId][1] = -1;
@@ -750,7 +757,7 @@ class HierarchyCache {
 						// if not fully, then set the value appropriately
 						$this->_cache[$nodeId][1] = $levels - $level;
 
-					echo "setting level of caching to ".$this->_cache[$nodeId][1];
+					echo "changing level of caching from <b>$old</b> to <b>".$this->_cache[$nodeId][1]."</b>";
 				}
 				else
 					echo "no need to set level of caching";
@@ -762,7 +769,7 @@ class HierarchyCache {
 				if ($this->_tree->nodeExists($nodeId))
 					$node =& $this->_tree->getNode($nodeId);
 				else {
-					echo "Creating new tree node #$nodeId, ";
+					echo "Creating new tree node # <b>$nodeId</b>, ";
 					$node =& new TreeNode($nodeId);
 					$this->_tree->addNode($node);
 				}
@@ -782,11 +789,186 @@ class HierarchyCache {
 						
 					// has the parent been added? if no, add it!
 					if (!$node->isParent($parent)) {
-						echo "adding node #$nodeId as a child of node #$parentId";
+						echo "adding node # <b>$nodeId</b> as a child of node # <b>$parentId</b>";
 						$this->_tree->addNode($node, $parent);
 					}
 					else
 						echo "already parent";
+				}
+			}
+
+			$queryResult->advanceRow();
+		}
+	}
+	
+	
+	
+	
+	/**
+	 * Traverses up and caches whatever needs to be cached.
+	 * @access public
+	 * @param string idValue The string id of the node to start traversal from.
+	 * @param integer levels Specifies how many levels of nodes to traverse. If this is negative
+	 * then the traversal will go on until the last level is processed.
+	 * @return void
+	 **/
+	function _traverseUp($idValue, $levels) {
+		$dbHandler =& Services::requireService("DBHandler");
+		$query =& new SelectQuery();
+		
+		$db = $this->_sharedDB.".";
+		
+		// the original value of levels
+		$originalLevels = $levels;
+		
+		echo "<br><br><br><b>=== Caching node # $idValue, $levels levels up</b><br>";
+
+		// MySQL has a limit of 31 tables in a select query, thus essentially
+		// there is a limit to the max value of $levels.
+		// if levels > 31 or levels is negative (full traversal)
+		// then set it to 31
+		if (($levels > 31) || ($levels < 0))
+			$levels = 31;
+			
+		// generate query
+		$query->addColumn("fk_child", "level0_id", "level0");
+		$query->addColumn("fk_parent",  "level1_id", "level0");
+		$query->addTable($db."j_node_node", NO_JOIN, "", "level0");
+		
+		// now left join with itself.
+		// maximum number of joins is 31, we've used 1 already, so there are 30 left
+		for ($level = 1; $level <= $levels-1; $level++) {
+			$joinc = "level".($level-1).".fk_parent = level".($level).".fk_child";
+			$query->addTable($db."j_node_node", LEFT_JOIN, $joinc, "level".($level));
+			$query->addColumn("fk_parent", "level".($level+1)."_id", "level".($level));
+		}
+		
+		// this is the where clause
+		$where = "level0.fk_child = '".$idValue."'";
+		$query->addWhere($where);
+		
+//		echo "<pre>\n";
+//		echo MySQL_SQLGenerator::generateSQLQuery($query);
+//		echo "</pre>\n";
+		
+		// execute the query
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		if ($queryResult->getNumberOfRows() == 0)
+			return;
+			
+		// note that the query only returns ids of nodes; thus, for each id,
+		// we would need to fetch the actual node information from the node table.
+		// to do so, we prepare a generic node select query which we would use
+		// in the main loop below
+		
+		$nodeQuery =& new SelectQuery();
+		$nodeQuery->addColumn("node_id", "id", $db."node");
+		$nodeQuery->addColumn("node_display_name", "display_name", $db."node");
+		$nodeQuery->addColumn("node_description", "description", $db."node");
+		$nodeQuery->addColumn("type_domain", "domain", $db."type");
+		$nodeQuery->addColumn("type_authority", "authority", $db."type");
+		$nodeQuery->addColumn("type_keyword", "keyword", $db."type");
+		$nodeQuery->addColumn("type_description", "type_description", $db."type");
+		$nodeQuery->addTable($db."node");
+		$joinc = $db."node.fk_type = ".$db."type.type_id";
+		$nodeQuery->addTable($db."type", INNER_JOIN, $joinc);
+		
+		// for all rows returned by the query
+		while($queryResult->hasMoreRows()) {
+			$row = $queryResult->getCurrentRow();
+			// check all non-null values in current row
+			// see if it is cached, if not create a group object and cache it
+				
+			for ($level = 0; $level <= $levels; $level++) {
+				$nodeId = $row["level{$level}_id"];
+
+				// ignore null values
+				if (is_null($nodeId)) {
+					echo "<br>--- skipping to next row (null value encountered)<br>";
+				    break;
+				}
+				
+				echo "<br><b>Level: $level - Node # $nodeId</b>";
+
+				// if the node has not been cached, then we must create it
+				echo "<br>--- CACHE UPDATE: ";
+				if (!$this->_isCached($nodeId)) {
+					$nodeQuery->resetWhere();
+					$nodeQuery->addWhere($db."node.node_id = '".$nodeId."'");
+					
+					$nodeQueryResult =& $dbHandler->query($nodeQuery, $this->_dbIndex);
+					// must be only one row
+					if ($nodeQueryResult->getNumberOfRows() != 1) {
+						$str = "Exactly one node must have been returned!";
+						throwError(new Error($str, "Hierarchy", true));
+					}
+					
+					$nodeRow = $nodeQueryResult->getCurrentRow();
+					echo "Creating node # <b>$nodeId - '{$nodeRow['display_name']}'</b>, ";
+					$id =& new HarmoniId($nodeId);
+					$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
+											  $nodeRow['keyword'], $nodeRow['type_description']);
+				    $node =& new HarmoniNode($id, $type, 
+											  $nodeRow['display_name'], $nodeRow['description'], $this);
+
+					// insert node into cache
+					$this->_cache[$nodeId][0] =& $node;
+					$this->_cache[$nodeId][1] = 0;
+					$this->_cache[$nodeId][2] = 0;
+				}
+				else
+					echo "Node already in cache, ";
+				
+				
+				// update the levels fetched up, if necessary
+				if (($this->_cache[$nodeId][2] >= 0) && 
+				    ($this->_cache[$nodeId][2] < ($levels - $level))) {
+					$old = $this->_cache[$nodeId][2];
+					if ($originalLevels < 0)
+						// if fully, then the node is fetched fully as well
+						$this->_cache[$nodeId][2] = -1;
+					else
+						// if not fully, then set the value appropriately
+						$this->_cache[$nodeId][2] = $levels - $level;
+
+					echo "changing level of caching from <b>$old</b> to <b>".$this->_cache[$nodeId][2]."</b>";
+				}
+				else
+					echo "no need to set level of caching";
+				
+				// now, update tree structure
+				echo "<br>--- TREE STRUCTURE UPDATE: ";
+
+				// get the current node (create it, if necessary)
+				if ($this->_tree->nodeExists($nodeId))
+					$node =& $this->_tree->getNode($nodeId);
+				else {
+					echo "Creating new tree node # <b>$nodeId</b>, ";
+					$node =& new TreeNode($nodeId);
+					$this->_tree->addNode($node);
+				}
+				
+				// does the current node have a child?
+				// if no, there is nothing to update
+				if ($level == 0) {
+					echo "Skipping leaf node, continuing with parent";
+					continue;
+				}
+				// if there is a child, check if it has already been added
+				else {
+					// get the child id
+					$childId = $row["level".($level-1)."_id"];
+					// get the child node
+					$child =& $this->_tree->getNode($childId);
+						
+					// has the child been added? if no, add it!
+					if (!$node->isChild($child)) {
+						echo "adding node # <b>$nodeId</b> as a parent of node # <b>$childId</b>";
+						$this->_tree->addNode($child, $node);
+					}
+					else
+						echo "already child";
 				}
 			}
 
@@ -944,6 +1126,32 @@ class HierarchyCache {
 				throwError(new Error($str, "Hierarchy", true));
 		}
 		
+		// clear the cache and update the _tree structure
+
+		// detach the node from each of its parents and update the join table
+		$parents =& $node->getParents();
+		while ($parents->hasNext()) {
+			$parent =& $parents->next();
+			$node->removeParent($parent->getId());
+		}
+		// also, detach the node from each of its children and update the join table
+		// unnecessary: the node is a leaf
+//		$children =& $node->getChildren();
+//		while ($children->hasNext()) {
+//			$child =& $children->next();
+//			$child->removeParent($node->getId());
+//		}
+			
+		// now delete the tree node
+		$treeNode =& $this->_tree->getNode($idValue);
+		$this->_tree->deleteNode($treeNode);
+
+		// -----------------		
+
+		// remove from cache
+		unset($this->_cache[$idValue]);
+		$node = null;
+
 		// now remove from database
 		$dbHandler =& Services::requireService("DBHandler");
 
@@ -986,28 +1194,6 @@ class HierarchyCache {
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		}
 
-		// clear the cache and update the _tree structure
-
-		// detach the node from each of its parents and update the join table
-		$parents =& $node->getParents();
-		while ($parents->hasNext()) {
-			$parent =& $parents->next();
-			$node->removeParent($parent->getId());
-		}
-		// also, detach the node from each of its children and update the join table
-		$children =& $node->getChildren();
-		while ($children->hasNext()) {
-			$child =& $children->next();
-			$child->removeParent($node->getId());
-		}
-			
-		// now delete the tree node
-		$treeNode =& $this->_tree->getNode($idValue);
-		$this->_tree->deleteNode($treeNode);
-		
-		// remove from cache
-		unset($this->_cache[$idValue]);
-		$node = null;
 	}
 	
 	
