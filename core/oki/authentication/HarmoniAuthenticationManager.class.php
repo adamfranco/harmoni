@@ -127,6 +127,11 @@ class HarmoniAuthenticationManager
 		// just use that to authenticate.
 		debug::output("AuthN->authenticateUser(LoginHandler)", 8, "AuthN");
 		$loginState =& $this->_harmoni->LoginHandler->execute(TRUE);
+		
+		// Run our _getAgentId function to store a mapping of this user
+		// to an Agent if it doesn't exist.
+		if ($this->isUserAuthenticated($authenticationType))
+			$this->getUserId($authenticationType);
 	}
 
 	/**
