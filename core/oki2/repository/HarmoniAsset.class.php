@@ -16,7 +16,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.2 2005/01/19 21:39:18 thebravecowboy Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.3 2005/01/19 22:28:24 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -1390,7 +1390,7 @@ class HarmoniAsset
 	 * 
 	 * @return void
 	 * @access public
-	 * @date 8/10/04
+	 * @since 8/10/04
 	 */
 	function _storeDates () {
 		$dbHandler =& Services::getService("DBHandler");
@@ -1423,7 +1423,7 @@ class HarmoniAsset
 	 * 
 	 * @return void
 	 * @access public
-	 * @date 8/10/04
+	 * @since 8/10/04
 	 */
 	function _loadDates () {
 		$dbHandler =& Services::getService("DBHandler");

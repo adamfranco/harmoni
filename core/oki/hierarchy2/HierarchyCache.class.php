@@ -28,12 +28,12 @@ require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
  *
- * @package harmoni.osid.hierarchy2
+ * @package harmoni.osid_v1.hierarchy2
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.17 2005/01/19 21:10:09 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.18 2005/01/19 22:28:10 adamfranco Exp $
  **/
 
 class HierarchyCache {

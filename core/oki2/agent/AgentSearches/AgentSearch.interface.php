@@ -4,12 +4,12 @@
  * The AgentSearch interface defines methods for searching for agents. This is 
  * used by the AgentManager for searching for agents.
  *
- * @package harmoni.osid.agent.search
+ * @package harmoni.osid_v2.agent.search
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentSearch.interface.php,v 1.3 2005/01/19 17:38:52 adamfranco Exp $
+ * @version $Id: AgentSearch.interface.php,v 1.4 2005/01/19 22:28:13 adamfranco Exp $
  */
 
 class AgentSearchInterface {
@@ -23,7 +23,7 @@ class AgentSearchInterface {
 	 * @param object Type $agentSearchType
 	 * @return object AgentIterator
 	 * @access public
-	 * @date 11/10/04
+	 * @since 11/10/04
 	 */
 	function &getAgentsBySearch ( & $searchCriteria, & $agentSearchType ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -38,7 +38,7 @@ class AgentSearchInterface {
 	 * @param object Type $groupSearchType
 	 * @return object AgentIterator
 	 * @access public
-	 * @date 11/10/04
+	 * @since 11/10/04
 	 */
 	function &getGroupsBySearch ( & $searchCriteria, & $groupSearchType ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");

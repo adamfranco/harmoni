@@ -3,12 +3,12 @@
 /**
  * A storage wrapper for the Tree class
  *
- * @package harmoni.osid.hierarchy
+ * @package harmoni.osid_v1.hierarchy
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyStore.interface.php,v 1.10 2005/01/19 21:10:08 adamfranco Exp $
+ * @version $Id: HierarchyStore.interface.php,v 1.11 2005/01/19 22:28:09 adamfranco Exp $
  */
 
 class HierarchyStore

@@ -38,12 +38,12 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * implementation of this interface.
  * </p>
  *
- * @package harmoni.osid.agent
+ * @package harmoni.osid_v2.agent
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.6 2005/01/19 17:37:12 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.7 2005/01/19 22:28:12 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -1703,7 +1703,7 @@ class HarmoniAgentManager
 	 * @param object Type $type
 	 * @return integer
 	 * @access private
-	 * @date 11/18/04
+	 * @since 11/18/04
 	 */
 	function _getTypeId ( & $type ) {
 		$dbc =& Services::getService("DBHandler");
@@ -1750,7 +1750,7 @@ class HarmoniAgentManager
 	 * @param object Properties $properties
 	 * @return integer
 	 * @access public
-	 * @date 11/18/04
+	 * @since 11/18/04
 	 */
 	function _storeProperties (& $properties ) {
 		$dbc =& Services::getService("DBHandler");

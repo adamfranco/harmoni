@@ -37,12 +37,12 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * OSID Version: 2.0
  * </p>
  * 
- * @package harmoni.osid.repository
+ * @package harmoni.osid_v2.repository
  * 
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.6 2005/01/19 21:40:28 thebravecowboy Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.7 2005/01/19 22:28:24 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -232,7 +232,7 @@ class HarmoniRepository
 	 * Get the description for this Repository.
 	 * @return String the name
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * @package harmoni.osid_v2.dr
 	 */
 	function getDescription() {
 		return $this->_node->getDescription();
@@ -668,7 +668,7 @@ class HarmoniRepository
 	 * @param object $infoStructureId
 	 * @return object InfoStructure	 The InfoStructure of the requested Id.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * @package harmoni.osid_v2.dr
 	 */
 	function &getInfoStructure( & $infoStructureId ) {
 		// Check that we have created an infoStructure with the ID

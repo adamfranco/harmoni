@@ -11,12 +11,12 @@ require_once(OKI2."/osid/authorization/Function.php");
  * OSID Version: 2.0
  * </p>
  *
- * @package harmoni.osid.authorization
+ * @package harmoni.osid_v2.authorization
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniFunction.class.php,v 1.4 2005/01/19 17:39:07 adamfranco Exp $
+ * @version $Id: HarmoniFunction.class.php,v 1.5 2005/01/19 22:28:15 adamfranco Exp $
  */
 class HarmoniFunction
 	extends FunctionInterface 

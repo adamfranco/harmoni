@@ -5,8 +5,8 @@
  * SQL strings and files.
  * 
  * @package harmoni.dbc
- * @version $Id: SQLUtils.static.php,v 1.2 2004/07/06 18:03:07 adamfranco Exp $
- * @date $Date: 2004/07/06 18:03:07 $
+ * @version $Id: SQLUtils.static.php,v 1.3 2005/01/19 22:26:52 adamfranco Exp $
+ * @since $Date: 2005/01/19 22:26:52 $
  * @copyright 2004 Middlebury College
  * @static
  */
@@ -19,7 +19,7 @@ class SQLUtils {
 	 * @param string $file The file to be parsed
 	 * @return string The parsed SQL string.
 	 * @access public
-	 * @date 7/2/04
+	 * @since 7/2/04
 	 * @static
 	 */
 	function parseSQLFile ( $file ) {
@@ -36,7 +36,7 @@ class SQLUtils {
 	 * @param string $queryString The string to be parsed
 	 * @return string The parsed SQL string.
 	 * @access public
-	 * @date 7/2/04
+	 * @since 7/2/04
 	 * @static
 	 */
 	function parseSQLString ( $queryString ) {
@@ -62,7 +62,7 @@ class SQLUtils {
 	 * @param integer $dbIndex The database index to run the queries on.
 	 * @return void
 	 * @access public
-	 * @date 7/2/04
+	 * @since 7/2/04
 	 * @static
 	 */
 	function multiQuery ( $queryString, $dbIndex ) {
@@ -90,7 +90,7 @@ class SQLUtils {
 	 * @param integer $dbIndex The index of the database to run the queries on.
 	 * @return void
 	 * @access public
-	 * @date 7/2/04
+	 * @since 7/2/04
 	 * @static
 	 */
 	function runSQLfile ($file, $dbIndex) {

@@ -11,12 +11,12 @@ require_once(OKI2."/osid/agent/Agent.php");
  * OSID Version: 2.0
  * </p>
  *
- * @package harmoni.osid.agent
+ * @package harmoni.osid_v2.agent
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.5 2005/01/19 17:37:05 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.6 2005/01/19 22:28:12 adamfranco Exp $
  */
 class HarmoniAgent 
 	extends Agent

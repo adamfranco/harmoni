@@ -15,12 +15,12 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * OSID Version: 2.0
  * </p>
  *
- * @package harmoni.osid.hierarchy
+ * @package harmoni.osid_v2.hierarchy
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.5 2005/01/19 17:39:11 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.6 2005/01/19 22:28:22 adamfranco Exp $
  */
 
 class HarmoniNode 

@@ -6,12 +6,12 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  *
- * @package harmoni.osid.authorization
+ * @package harmoni.osid_v2.authorization
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.4 2005/01/19 17:39:05 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.5 2005/01/19 22:28:15 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -288,7 +288,7 @@ class AuthorizationCache {
 	 * @param ref object parentId the parent of this Qualifier
 	 * @return Qualifier
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.authorization
+	 * @package harmoni.osid_v2.authorization
 	 */
 	function &createQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $parentId) {
 		// ** parameter validation

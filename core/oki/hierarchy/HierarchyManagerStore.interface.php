@@ -4,12 +4,12 @@
  * A storage class for HierarchyManager[s]. This class provides saving and loading
  * of the HierarchyManager from persistable storage.
  *
- * @package harmoni.osid.hierarchy
+ * @package harmoni.osid_v1.hierarchy
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyManagerStore.interface.php,v 1.5 2005/01/19 21:10:08 adamfranco Exp $
+ * @version $Id: HierarchyManagerStore.interface.php,v 1.6 2005/01/19 22:28:09 adamfranco Exp $
  */
 
 

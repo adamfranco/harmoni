@@ -15,15 +15,15 @@
  * OSID Version: 2.0
  * </p>
  *
- * @package harmoni.osid.agent
+ * @package harmoni.osid_v2.agent
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.6 2005/01/19 17:37:13 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.7 2005/01/19 22:28:12 adamfranco Exp $
  */
-class HarmoniGroup // :: API interface
-	extends HarmoniAgent // implements Group OSID interface
+class HarmoniGroup
+	extends HarmoniAgent
 {
 
 

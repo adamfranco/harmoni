@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SetManager.class.php,v 1.6 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: SetManager.class.php,v 1.7 2005/01/19 22:28:26 adamfranco Exp $
  */
 class SetManager {
 	
@@ -32,7 +32,7 @@ class SetManager {
 	 * 
 	 * @param integer $dbIndex The database index to use
 	 * @access public
-	 * @date 6/28/04
+	 * @since 6/28/04
 	 */
 	function SetManager ($dbIndex) {
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule, true);
@@ -49,7 +49,7 @@ class SetManager {
 	 * @param object Id $id The Id of the set to get.
 	 * @return object SetInterface
 	 * @access public
-	 * @date 6/28/04
+	 * @since 6/28/04
 	 */
 	function &getSet ( & $id ) {
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
@@ -67,7 +67,7 @@ class SetManager {
 	 * @param object Id $id The Id of the Set to delete.
 	 * @return void
 	 * @access public
-	 * @date 6/28/04
+	 * @since 6/28/04
 	 */
 	function deleteSet ( & $id ) {
 		$set =& $this->getSet($id);
@@ -79,7 +79,7 @@ class SetManager {
 	 * 
 	 * @return void
 	 * @access public
-	 * @date 6/28/04
+	 * @since 6/28/04
 	 */
 	function start () {
 		
@@ -90,7 +90,7 @@ class SetManager {
 	 * 
 	 * @return void
 	 * @access public
-	 * @date 6/28/04
+	 * @since 6/28/04
 	 */
 	function stop () {
 		

@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringFunctions.class.php,v 1.2 2005/01/19 21:10:15 adamfranco Exp $
+ * @version $Id: StringFunctions.class.php,v 1.3 2005/01/19 22:28:27 adamfranco Exp $
  */
 class StringFunctions {
 		
@@ -18,7 +18,7 @@ class StringFunctions {
 	 * @param integer $bytes
 	 * @return string
 	 * @access public
-	 * @date 10/13/04
+	 * @since 10/13/04
 	 */
 	function getSizeString ($bytes) {
 		if ($bytes < 1024)

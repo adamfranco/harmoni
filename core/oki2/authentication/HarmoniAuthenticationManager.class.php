@@ -53,12 +53,12 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * OSID Version: 2.0
  * </p>
  *
- * @package harmoni.osid.authentication
+ * @package harmoni.osid_v2.authentication
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.4 2005/01/19 17:38:53 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.5 2005/01/19 22:28:14 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -434,7 +434,7 @@ class HarmoniAuthenticationManager
 	 * @param object Id $agentId
 	 * @return void
 	 * @access public
-	 * @date 11/22/04
+	 * @since 11/22/04
 	 */
 	function deleteMapping ( &$id ) {
 		$dbHandler =& Services::getService("DBHandler");
@@ -455,7 +455,7 @@ class HarmoniAuthenticationManager
 	 * @param object $authori
 	 * @return object Id
 	 * @access private
-	 * @date 11/18/04
+	 * @since 11/18/04
 	 */
 	function _getAgentId ($tokens, & $authenticationType) {
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));

@@ -6,12 +6,12 @@ require_once(HARMONI."oki2/hierarchy/tree/TreeNode.interface.php");
  * This is the building piece of the Tree data structure used for the backbone of the
  * hierarchy.
  *
- * @package harmoni.osid.hierarchy.tree
+ * @package harmoni.osid_v2.hierarchy.tree
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TreeNode.class.php,v 1.4 2005/01/19 17:39:13 adamfranco Exp $
+ * @version $Id: TreeNode.class.php,v 1.5 2005/01/19 22:28:23 adamfranco Exp $
  */
 
 class TreeNode extends TreeNodeInterface

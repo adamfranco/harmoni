@@ -15,12 +15,12 @@ require_once(HARMONI.'/oki/hierarchy2/DefaultNodeType.class.php');
  * Hierarchy can allow recursion.  The implementation is responsible for
  * ensuring that the integrity of the Hierarchy is always maintained.
  *
- * @package harmoni.osid.hierarchy2
+ * @package harmoni.osid_v1.hierarchy2
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.10 2005/01/19 21:10:09 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.11 2005/01/19 22:28:10 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

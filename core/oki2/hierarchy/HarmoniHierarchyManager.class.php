@@ -38,12 +38,12 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * </p>
  * 
  *
- * @package harmoni.osid.hierarchy
+ * @package harmoni.osid_v2.hierarchy
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.6 2005/01/19 17:39:11 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.7 2005/01/19 22:28:22 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {

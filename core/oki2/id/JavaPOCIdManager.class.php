@@ -34,12 +34,12 @@ require_once(OKI2."/osid/id/IdManager.php");
  * OSID Version: 2.0
  * </p>
  *
- * @package harmoni.osid.id
+ * @package harmoni.osid_v2.id
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: JavaPOCIdManager.class.php,v 1.4 2005/01/19 17:39:24 adamfranco Exp $
+ * @version $Id: JavaPOCIdManager.class.php,v 1.5 2005/01/19 22:28:24 adamfranco Exp $
  */
 
 class JavaPOCIdManager

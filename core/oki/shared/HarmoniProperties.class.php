@@ -8,12 +8,12 @@ require_once(OKI."/shared.interface.php");
  * PropertiesType, there are Properties which are Serializable values identified 
  * by a key.  
  *
- * @package harmoni.osid.shared
+ * @package harmoni.osid_v1.shared
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniProperties.class.php,v 1.2 2005/01/19 21:10:12 adamfranco Exp $
+ * @version $Id: HarmoniProperties.class.php,v 1.3 2005/01/19 22:28:11 adamfranco Exp $
  */
 class HarmoniProperties
 	extends Properties
@@ -25,7 +25,7 @@ class HarmoniProperties
 	 * @param object Type $type
 	 * @return object
 	 * @access public
-	 * @date 11/18/04
+	 * @since 11/18/04
 	 */
 	function HarmoniProperties (& $type) {
 		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
@@ -93,7 +93,7 @@ class HarmoniProperties
 	 * @param mixed $value
 	 * @return void
 	 * @access public
-	 * @date 11/18/04
+	 * @since 11/18/04
 	 */
 	function addProperty (& $key, & $value) {
 		$this->_properties[serialize($key)] =& $value;

@@ -3,12 +3,12 @@
 /**
  * A {@link HarmoniType} for DR Assets that will define CanonicalCourses.
  *
- * @package harmoni.osid.coursemanagement
+ * @package harmoni.osid_v1.coursemanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseManagementManager.class.php,v 1.5 2005/01/19 21:10:03 adamfranco Exp $
+ * @version $Id: CourseManagementManager.class.php,v 1.6 2005/01/19 22:28:05 adamfranco Exp $
  */
 class CanonicalCourseAssetType extends HarmoniType {
 
@@ -20,7 +20,7 @@ class CanonicalCourseAssetType extends HarmoniType {
 
 	/**
 	 * All implementors of OsidManager provide create, delete, and get methods for the various objects defined in the package.  Most managers also include methods for returning Types.  We use create methods in place of the new operator.  Create method implementations should both instantiate and persist objects.  The reason we avoid the new operator is that it makes the name of the implementing package explicit and requires a source code change in order to use a different package name. In combination with OsidLoader, applications developed using managers permit implementation substitution without source code changes. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package harmoni.osid.classmanagement
+	 * @package harmoni.osid_v1.coursemanagement
 	 */
 class HarmoniCourseManagementManager
 //	extends OsidManager
@@ -51,7 +51,7 @@ class HarmoniCourseManagementManager
 	 * @param object credits
 	 * @return object CanonicalCourse with its name, description, and Unique Id set
 	 * @throws osid.coursemanagement.CourseManagementException An exception with one of the following messages defined in osid.coursemanagement.CourseManagementException:  {@link CourseManagementException#OPERATION_FAILED OPERATION_FAILED}, {@link CourseManagementException#PERMISSION_DENIED PERMISSION_DENIED}, {@link CourseManagementException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link CourseManagementException#UNIMPLEMENTED UNIMPLEMENTED}, {@link CourseManagementException#NULL_ARGUMENT NULL_ARGUMENT}, {@link CourseManagementException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.classmanagement
+	 * @package harmoni.osid_v1.coursemanagement
 	 */
 	function &createCanonicalCourse($title, $number, $description, & $courseType, & $courseStatusType, $credits) {
 		$asset =& $this->_dr->createAsset($title . " " . $number, $description, new CanonicalCourseAssetType());

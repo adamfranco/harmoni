@@ -5,8 +5,8 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.14 2005/01/19 16:33:01 adamfranco Exp $
- * @package concerto.tests.api.metadata
+ * @version $Id: SharedManagerTestCase.class.php,v 1.15 2005/01/19 22:28:12 adamfranco Exp $
+ * @package harmoni.tests.metadata
  * @copyright 2003
  **/
 

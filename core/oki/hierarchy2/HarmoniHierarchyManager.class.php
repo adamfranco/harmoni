@@ -20,12 +20,12 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * OsidLoader, applications developed using managers permit implementation
  * substitution without source code changes.
  *
- * @package harmoni.osid.hierarchy2
+ * @package harmoni.osid_v1.hierarchy2
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.10 2005/01/19 21:10:09 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.11 2005/01/19 22:28:10 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

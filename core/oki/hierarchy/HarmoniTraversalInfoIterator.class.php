@@ -12,12 +12,12 @@ require_once(OKI."/hierarchy.interface.php");
  * through the sequence unless you place the values in a data structure, such
  * as an array, that allows for access by index.
  *
- * @package harmoni.osid.hierarchy
+ * @package harmoni.osid_v1.hierarchy
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.9 2005/01/19 21:10:08 adamfranco Exp $
+ * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.10 2005/01/19 22:28:09 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

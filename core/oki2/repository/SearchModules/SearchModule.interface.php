@@ -3,9 +3,9 @@
 /**
  * Search Modules implement the functionality of searching the digital repository
  * 
- * @package harmoni.osid.dr.search
- * @version $Id: SearchModule.interface.php,v 1.1 2005/01/11 17:40:25 adamfranco Exp $
- * @date $Date: 2005/01/11 17:40:25 $
+ * @package harmoni.osid_v2.dr.search
+ * @version $Id: SearchModule.interface.php,v 1.2 2005/01/19 22:28:26 adamfranco Exp $
+ * @since $Date: 2005/01/19 22:28:26 $
  * @copyright 2004 Middlebury College
  */
 
@@ -17,7 +17,7 @@ class SearchModuleInterface {
 	 * @param mixed $searchCriteria
 	 * @return array
 	 * @access public
-	 * @date 11/2/04
+	 * @since 11/2/04
 	 */
 	function searchAssets ( $searchCriteria ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");

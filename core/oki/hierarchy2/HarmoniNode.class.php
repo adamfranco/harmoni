@@ -11,12 +11,12 @@ require_once(HARMONI."oki/hierarchy2/DefaultNodeType.class.php");
  * a number of similar objects to be organized. Nodes must be connected to a
  * Hierarchy.
  *
- * @package harmoni.osid.hierarchy2
+ * @package harmoni.osid_v1.hierarchy2
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.14 2005/01/19 21:10:09 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.15 2005/01/19 22:28:10 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -360,7 +360,7 @@ class HarmoniNode extends Node {
 	 * @param object oldParentId
 	 * @param object newParentId
 	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#ATTEMPTED_RECURSION ATTEMPTED_RECURSION}
-	 * @package harmoni.osid.hierarchy
+	 * @package harmoni.osid_v1.hierarchy
 	 */
 	function changeParent(& $oldParentId, & $newParentId) { 
 		// ** parameter validation

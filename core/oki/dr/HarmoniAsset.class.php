@@ -10,12 +10,12 @@ require_once(HARMONI."/oki/shared/HarmoniIterator.class.php");
  * appropriate to the AssetType and InfoStructures for the Asset.  Assets may
  * also contain other Assets.
  *
- * @package harmoni.osid.dr
+ * @package harmoni.osid_v1.dr
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.48 2005/01/19 21:10:05 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.49 2005/01/19 22:28:05 adamfranco Exp $
  */
 
 class HarmoniAsset
@@ -1087,7 +1087,7 @@ class HarmoniAsset
 	 * 
 	 * @return void
 	 * @access public
-	 * @date 8/10/04
+	 * @since 8/10/04
 	 */
 	function _storeDates () {
 		$dbHandler =& Services::getService("DBHandler");
@@ -1120,7 +1120,7 @@ class HarmoniAsset
 	 * 
 	 * @return void
 	 * @access public
-	 * @date 8/10/04
+	 * @since 8/10/04
 	 */
 	function _loadDates () {
 		$dbHandler =& Services::getService("DBHandler");

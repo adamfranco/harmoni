@@ -6,8 +6,8 @@
  * You may fine it more useful to include_once any given interface directly
  * from classes extending it.
  * 
- * @version $Id: include_all.php,v 1.1 2005/01/11 16:46:47 adamfranco Exp $
- * @date $Date: 2005/01/11 16:46:47 $
+ * @version $Id: include_all.php,v 1.2 2005/01/19 22:28:27 adamfranco Exp $
+ * @since $Date: 2005/01/19 22:28:27 $
  * @copyright 2004 Middlebury College
  * @author Adam Franco <afranco AT middlebury DOT edu>
  */
@@ -24,7 +24,7 @@ includePHPFiles ($osidDir);
  * @param string $dir The target directory
  * @return void
  * @access public
- * @date 1/7/05
+ * @since 1/7/05
  */
 function includePHPFiles ( $dir ) {
 	if ($handle = opendir($dir)) {

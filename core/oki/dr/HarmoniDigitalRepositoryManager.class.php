@@ -8,12 +8,12 @@ require_once(HARMONI."/oki/dr/HarmoniDigitalRepository.class.php");
  * <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition 
  * License}.
  *
- * @package harmoni.osid.dr
+ * @package harmoni.osid_v1.dr
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniDigitalRepositoryManager.class.php,v 1.22 2005/01/19 21:10:07 adamfranco Exp $ */
+ * @version $Id: HarmoniDigitalRepositoryManager.class.php,v 1.23 2005/01/19 22:28:07 adamfranco Exp $ */
 
 class HarmoniDigitalRepositoryManager
 	extends DigitalRepositoryManager
@@ -113,7 +113,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.dr
+	 * @package harmoni.osid_v1.dr
 	 */
 	function &createDigitalRepository ($displayName, $description, & $digitalRepositoryType) {
 		// Argument Validation
@@ -206,7 +206,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid.dr
+	 * @package harmoni.osid_v1.dr
 	 */
 	function deleteDigitalRepository(& $digitalRepositoryId) {
 		$dr =& $this->getDigitalRepository($digitalRepositoryId);
@@ -250,7 +250,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * @package harmoni.osid_v1.dr
 	 */
 	function &getDigitalRepositories() {
 		$nodes =& $this->_hierarchy->getNodesByType($this->_repositoryKeyType);
@@ -286,7 +286,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.dr
+	 * @package harmoni.osid_v1.dr
 	 */
 	function &getDigitalRepositoriesByType(& $digitalRepositoryType) {
 		ArgumentValidator::validate($digitalRepositoryType, new ExtendsValidatorRule("TypeInterface"));
@@ -334,7 +334,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid.dr
+	 * @package harmoni.osid_v1.dr
 	 */
 	function &getDigitalRepository(& $digitalRepositoryId) {
 		ArgumentValidator::validate($digitalRepositoryId, new ExtendsValidatorRule("Id"));
@@ -368,7 +368,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid.dr
+	 * @package harmoni.osid_v1.dr
 	 */
 	function &getAsset(& $assetId) {
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
@@ -402,7 +402,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#NO_OBJECT_WITH_THIS_DATE NO_OBJECT_WITH_THIS_DATE}
-	 * @package harmoni.osid.dr
+	 * @package harmoni.osid_v1.dr
 	 */
 	function &getAssetByDate(& $assetId, & $date) {
 		// figure out which DR it is in.
@@ -428,7 +428,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid.dr
+	 * @package harmoni.osid_v1.dr
 	 */
 	function &getAssetDates(& $assetId) {
 		// figure out which DR it is in.
@@ -463,7 +463,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_DR UNKNOWN_DR}
-	 * @package harmoni.osid.dr
+	 * @package harmoni.osid_v1.dr
 	 */
 	function &getAssets(& $digitalRepositories, & $searchCriteria, & $searchType) {
 		$combinedAssets = array();
@@ -500,7 +500,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid.dr
+	 * @package harmoni.osid_v1.dr
 	 */
 	function &copyAsset(& $digitalRepository, & $assetId) {
 		$asset =& $digitalRepository->getAsset($assetId);
@@ -524,7 +524,7 @@ class HarmoniDigitalRepositoryManager
 	 * {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 * {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.dr
+	 * @package harmoni.osid_v1.dr
 	 */
 	function &getDigitalRepositoryTypes() {
 		$types = array();

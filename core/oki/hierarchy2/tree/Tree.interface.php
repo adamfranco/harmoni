@@ -3,13 +3,13 @@
 /** 
  * The interface for the Tree data structure used by the Hierarchy.
  *
- * @package harmoni.osid.hierarchy2.tree
+ * @package harmoni.osid_v1.hierarchy2.tree
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tree.interface.php,v 1.5 2005/01/19 21:10:10 adamfranco Exp $
- * @date Created: 8/30/2003
+ * @version $Id: Tree.interface.php,v 1.6 2005/01/19 22:28:11 adamfranco Exp $
+ * @since Created: 8/30/2003
  */
 class TreeInterface {
 

@@ -3,12 +3,12 @@
 	/**
 	 * Term includes an Unique Id set by the implementation, a TermType, and an osid.sched.Schedule. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 	 *
-	 * @package harmoni.osid.coursemanagement
+	 * @package harmoni.osid_v1.coursemanagement
 	 * 
 	 * @copyright Copyright &copy; 2005, Middlebury College
 	 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 	 *
-	 * @version $Id: Term.class.php,v 1.3 2005/01/19 21:10:04 adamfranco Exp $
+	 * @version $Id: Term.class.php,v 1.4 2005/01/19 22:28:05 adamfranco Exp $
 	 */
 class HarmoniTerm // :: API interface
 //	extends java.io.Serializable

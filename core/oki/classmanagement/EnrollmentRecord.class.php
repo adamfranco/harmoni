@@ -3,12 +3,12 @@
 /**
  * EnrollmentRecord stores a student (Agent) and an Enrollment Status Type.  The EnrollmentRecord is the result of adding or changing a student in a CourseSection.  If the student is removed from the CourseSection, there will no longer be an EnrollmentRecord for the student.  The joining of a status type to a student allows for the characterization of the student.  For example, students might be added as regular students or auditing.  Students might be on the enrollment list, but their status might be withdrawn passing or withdrawn failing, etc.   <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  *
- * @package harmoni.osid.coursemanagement
+ * @package harmoni.osid_v1.coursemanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EnrollmentRecord.class.php,v 1.3 2005/01/19 21:10:04 adamfranco Exp $
+ * @version $Id: EnrollmentRecord.class.php,v 1.4 2005/01/19 22:28:05 adamfranco Exp $
  */
 class HarmoniEnrollmentRecord // :: API interface
 //	extends java.io.Serializable

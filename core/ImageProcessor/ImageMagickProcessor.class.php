@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageMagickProcessor.class.php,v 1.4 2005/01/19 21:09:38 adamfranco Exp $
+ * @version $Id: ImageMagickProcessor.class.php,v 1.5 2005/01/19 22:27:47 adamfranco Exp $
  */
 
 class ImageMagickProcessor {
@@ -24,7 +24,7 @@ class ImageMagickProcessor {
 	 *			processing.
 	 * @return object
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function ImageMagickProcessor ($thumbnailFormat, $ImageMagickPath = "/usr/bin", 
 			$ImageMagickTempDir = "/tmp") 
@@ -171,7 +171,7 @@ class ImageMagickProcessor {
 	 * @param string $format
 	 * @return boolean
 	 * @access public
-	 * @date 11/5/04
+	 * @since 11/5/04
 	 */
 	function isSupported ($format) {
 		// Get the extension coresponding to the format.
@@ -193,7 +193,7 @@ class ImageMagickProcessor {
 	 * @param string $data	The data of the source image
 	 * @return string The thumbnail data of $thumbnailFormat mime type.
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function generateThumbnailData ($format, $data) {
 		// Get the extension coresponding to the format.
@@ -211,7 +211,7 @@ class ImageMagickProcessor {
 	 * @param string $format The format of the source image
 	 * @return string The mime type.
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function getResizedFormat ($format) {
 		$mime =& Services::getService("MIME");
@@ -232,7 +232,7 @@ class ImageMagickProcessor {
 	 * @return string The thumbnail data of a mime type that can be obtained with
 	 *		getResizedFormat.
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function getResizedData ($format, $size, $data) {
 		// get the original extension and our new one.
@@ -251,7 +251,7 @@ class ImageMagickProcessor {
 	 * @param string $format The format of the source image
 	 * @return string The mime type.
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function getWebsafeFormat ($format) {
 		$mime =& Services::getService("MIME");
@@ -276,7 +276,7 @@ class ImageMagickProcessor {
 	 * @return string The thumbnail data of a mime type that can be obtained with
 	 *		getResizedFormat.
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function getWebsafeData ($format, $size, $data) {
 		// get the original extension and our new one.
@@ -298,7 +298,7 @@ class ImageMagickProcessor {
 	 * @param string $inputData	The input data.
 	 * @return string
 	 * @access public
-	 * @date 11/5/04
+	 * @since 11/5/04
 	 */
 	function _generateData ($inputExtension, $ouputExtension, $size, $inputData) {
 		if ($inputExtension == $ouputExtension && !$size) {

@@ -9,7 +9,7 @@ require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
  * query types, or the resource links can be returned and accessed directly.
  *
  * 
- * @version $Id: PostGreGenericQueryResult.class.php,v 1.3 2004/08/26 15:10:30 adamfranco Exp $
+ * @version $Id: PostGreGenericQueryResult.class.php,v 1.4 2005/01/19 22:27:47 adamfranco Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
@@ -40,7 +40,7 @@ class PostGreGenericQueryResult extends GenericQueryResultInterface {
 	 * @param integer $resourceId The resource id for this SELECT query.
 	 * @param integer $linkId The link identifier for the database connection.
 	 * @access public
-	 * @date 7/2/04
+	 * @since 7/2/04
 	 */
 	function PostGreGenericQueryResult ($resourceId, $linkId) {
 		// ** parameter validation
@@ -73,7 +73,7 @@ class PostGreGenericQueryResult extends GenericQueryResultInterface {
 	 * 
 	 * @return object SelectQueryResult
 	 * @access public
-	 * @date 7/1/04
+	 * @since 7/1/04
 	 */
 	function &returnAsSelectQueryResult () {
 		return new PostGreSelectQueryResult($this->_resourceId, $this->_linkId);
@@ -84,7 +84,7 @@ class PostGreGenericQueryResult extends GenericQueryResultInterface {
 	 * 
 	 * @return object InsertQueryResult
 	 * @access public
-	 * @date 7/1/04
+	 * @since 7/1/04
 	 */
 	function &returnAsInsertQueryResult () {
 		return new PostGreInsertQueryResult($this->_linkId);
@@ -95,7 +95,7 @@ class PostGreGenericQueryResult extends GenericQueryResultInterface {
 	 * 
 	 * @return object UpdateQueryResult
 	 * @access public
-	 * @date 7/1/04
+	 * @since 7/1/04
 	 */
 	function &returnAsUpdateQueryResult () {
 		return new PostGreUpdateQueryResult($this->_linkId);
@@ -106,7 +106,7 @@ class PostGreGenericQueryResult extends GenericQueryResultInterface {
 	 * 
 	 * @return object DeleteQueryResult
 	 * @access public
-	 * @date 7/1/04
+	 * @since 7/1/04
 	 */
 	function &returnAsDeleteQueryResult () {
 		return new PostGreDeleteQueryResult($this->_linkId);

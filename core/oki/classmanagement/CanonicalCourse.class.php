@@ -3,12 +3,12 @@
 /**
  * CanonicalCourse is designed to capture general information about a course.  This is in contrast to the CourseOffering which is designed to capture information about a concrete offering of this course in a specific term and with identified people and roles.  The CourseSection is the third and most specific course-related object.  The section includes information about the location of the class as well as the roster of students.  CanonicalCourses can contain other CanonicalCourses and may be organized hierarchically, in schools, departments, for majors, and so on.  For each CanonicalCourse, there are zero or more offerings and for each offering, zero or more sections.  All three levels have separate data for Title, Number, Description, and Id.  This information can be the same or different as implementations choose and applications require. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  *
- * @package harmoni.osid.coursemanagement
+ * @package harmoni.osid_v1.coursemanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.5 2005/01/19 21:10:03 adamfranco Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.6 2005/01/19 22:28:05 adamfranco Exp $
  */
 class HarmoniCanonicalCourse // :: API interface
 //	extends java.io.Serializable

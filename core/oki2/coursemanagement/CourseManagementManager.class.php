@@ -85,12 +85,12 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
  * OSID Version: 2.0
  * </p>
  *
- * @package harmoni.osid.coursemanagement
+ * @package harmoni.osid_v2.coursemanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseManagementManager.class.php,v 1.3 2005/01/19 17:39:09 adamfranco Exp $
+ * @version $Id: CourseManagementManager.class.php,v 1.4 2005/01/19 22:28:21 adamfranco Exp $
  */
 class HarmoniCourseManagementManager
 	extends CourseManagementManager

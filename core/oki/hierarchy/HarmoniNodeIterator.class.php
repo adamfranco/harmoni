@@ -8,12 +8,12 @@ define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
 /**
  * An iterator of node objects
  *
- * @package harmoni.osid.hierarchy
+ * @package harmoni.osid_v1.hierarchy
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNodeIterator.class.php,v 1.6 2005/01/19 21:10:08 adamfranco Exp $
+ * @version $Id: HarmoniNodeIterator.class.php,v 1.7 2005/01/19 22:28:08 adamfranco Exp $
  */
  
 class HarmoniNodeIterator

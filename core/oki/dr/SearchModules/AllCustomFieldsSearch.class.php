@@ -5,12 +5,12 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
 /**
  * Return assets of the specified type
  *
- * @package harmoni.osid.dr.search
+ * @package harmoni.osid_v1.dr.search
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AllCustomFieldsSearch.class.php,v 1.3 2005/01/19 21:10:07 adamfranco Exp $
+ * @version $Id: AllCustomFieldsSearch.class.php,v 1.4 2005/01/19 22:28:08 adamfranco Exp $
  */
 
 class AllCustomFieldsSearch
@@ -22,7 +22,7 @@ class AllCustomFieldsSearch
 	 * @param object $dr
 	 * @return object
 	 * @access public
-	 * @date 11/2/04
+	 * @since 11/2/04
 	 */
 	function AllCustomFieldsSearch ( $dr ) {
 		$this->_dr =& $dr;
@@ -36,7 +36,7 @@ class AllCustomFieldsSearch
 	 * @param mixed $searchCriteria
 	 * @return array
 	 * @access public
-	 * @date 11/2/04
+	 * @since 11/2/04
 	 */
 	function searchAssets ( $searchCriteria ) {
 		$matchingIds = array();

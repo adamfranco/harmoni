@@ -14,12 +14,12 @@ require_once(HARMONI."oki/shared/HarmoniProperties.class.php");
  * that represents the user. <p>SID Version: 1.0 rc6 <p>Licensed under the 
  * {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  *
- * @package harmoni.osid.authentication
+ * @package harmoni.osid_v1.authentication
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.23 2005/01/19 21:10:01 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.24 2005/01/19 22:27:48 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager // :: API interface
@@ -86,7 +86,7 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.authentication
+	 * @package harmoni.osid_v1.authentication
 	 */
 	function &getAuthenticationTypes() {
 		$iterator =& new HarmoniIterator($this->_authTypes);
@@ -113,7 +113,7 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.authentication
+	 * @package harmoni.osid_v1.authentication
 	 */
 	function authenticateUser(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
@@ -163,7 +163,7 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.authentication
+	 * @package harmoni.osid_v1.authentication
 	 */
 	function isUserAuthenticated(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
@@ -199,7 +199,7 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.authentication
+	 * @package harmoni.osid_v1.authentication
 	 */
 	function &getUserId(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
@@ -235,7 +235,7 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
 	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.authentication
+	 * @package harmoni.osid_v1.authentication
 	 */
 	function destroyAuthentication() {
 		$this->_harmoni->LoginHandler->logout();
@@ -252,7 +252,7 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.authentication
+	 * @package harmoni.osid_v1.authentication
 	 */
 	function destroyAuthenticationForType(& $authenticationType) {
 		// Check that we have a valid AuthenticationType.
@@ -290,7 +290,7 @@ class HarmoniAuthenticationManager
 	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.authentication
+	 * @package harmoni.osid_v1.authentication
 	 */
 	function &getAgentId(& $tokens, & $authenticationType) {
 		// Check that we have a valid AuthenticationType.
@@ -319,7 +319,7 @@ class HarmoniAuthenticationManager
 	 * @param object Id $agentId
 	 * @return void
 	 * @access public
-	 * @date 11/22/04
+	 * @since 11/22/04
 	 */
 	function deleteMapping (& $id) {
 		$dbHandler =& Services::getService("DBHandler");
@@ -340,7 +340,7 @@ class HarmoniAuthenticationManager
 	 * @param object $authori
 	 * @return object Id
 	 * @access public
-	 * @date 11/18/04
+	 * @since 11/18/04
 	 */
 	function _getAgentId ($tokens, & $authenticationType) {
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));

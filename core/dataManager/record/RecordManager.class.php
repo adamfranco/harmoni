@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.15 2005/01/19 21:09:42 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.16 2005/01/19 22:27:48 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -422,7 +422,7 @@ class RecordManager extends ServiceInterface {
 	 * @param int $id The Id of the set to delete.
 	 * @return void
 	 * @access public
-	 * @date 10/6/04
+	 * @since 10/6/04
 	 */
 	function deleteRecordSet ($id, $prune = false) {
 		ArgumentValidator::validate($id, new IntegerValidatorRule);

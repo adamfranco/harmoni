@@ -26,12 +26,12 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * <p>
  * OSID Version: 2.0
  *
- * @package harmoni.osid.shared
+ * @package harmoni.osid_v2.shared
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIntValueIterator.class.php,v 1.5 2005/01/19 17:39:39 adamfranco Exp $
+ * @version $Id: HarmoniIntValueIterator.class.php,v 1.6 2005/01/19 22:28:26 adamfranco Exp $
  */
 class HarmoniIntValueIterator
 	extends HarmoniIterator

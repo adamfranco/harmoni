@@ -5,9 +5,9 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
 /**
  * Return assets of the specified type
  * 
- * @package harmoni.osid.dr.search
- * @version $Id: DisplayNameSearch.class.php,v 1.1 2005/01/11 17:40:25 adamfranco Exp $
- * @date $Date: 2005/01/11 17:40:25 $
+ * @package harmoni.osid_v2.dr.search
+ * @version $Id: DisplayNameSearch.class.php,v 1.2 2005/01/19 22:28:26 adamfranco Exp $
+ * @since $Date: 2005/01/19 22:28:26 $
  * @copyright 2004 Middlebury College
  */
 
@@ -20,7 +20,7 @@ class DisplayNameSearch
 	 * @param object $dr
 	 * @return object
 	 * @access public
-	 * @date 11/2/04
+	 * @since 11/2/04
 	 */
 	function DisplayNameSearch ( $dr ) {
 		$this->_dr =& $dr;
@@ -34,7 +34,7 @@ class DisplayNameSearch
 	 * @param mixed $searchCriteria
 	 * @return array
 	 * @access public
-	 * @date 11/2/04
+	 * @since 11/2/04
 	 */
 	function searchAssets ( $searchCriteria ) {
 		$matchingIds = array();

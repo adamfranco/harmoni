@@ -26,12 +26,12 @@ define("MEMORY_ONLY", 1001);
  * OsidLoader, applications developed using managers permit implementation
  * substitution without source code changes.
  *
- * @package harmoni.osid.hierarchy
+ * @package harmoni.osid_v1.hierarchy
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.25 2005/01/19 21:10:08 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.26 2005/01/19 22:28:08 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

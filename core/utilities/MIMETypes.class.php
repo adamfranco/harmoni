@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MIMETypes.class.php,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
+ * @version $Id: MIMETypes.class.php,v 1.4 2005/01/19 22:28:27 adamfranco Exp $
  */
 class MIMETypes {
 
@@ -17,7 +17,7 @@ class MIMETypes {
 	 * 
 	 * @return obj
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function MIMETypes () {
 
@@ -210,7 +210,7 @@ class MIMETypes {
 	 * @param string $filename
 	 * @return string
 	 * @access public
-	 * @date 10/20/04
+	 * @since 10/20/04
 	 */
 	function getMIMETypeForFileName ( $filename ) {
 		// If we have an extension, sniff for it.
@@ -228,7 +228,7 @@ class MIMETypes {
 	 * @param string $extension
 	 * @return string
 	 * @access public
-	 * @date 10/20/04
+	 * @since 10/20/04
 	 */
 	function getMIMETypeForExtension ( $extension ) {
 		trim($extension, ".");
@@ -259,7 +259,7 @@ class MIMETypes {
 	 * @param string $type
 	 * @return string
 	 * @access public
-	 * @date 10/20/04
+	 * @since 10/20/04
 	 */
 	function getExtensionForMIMEType ( $type ) {
 		$parts = explode("/", $type);
@@ -330,7 +330,7 @@ class MIMETypes {
 	 * 
 	 * @return void
 	 * @access public
-	 * @date 6/28/04
+	 * @since 6/28/04
 	 */
 	function start () {
 		
@@ -341,7 +341,7 @@ class MIMETypes {
 	 * 
 	 * @return void
 	 * @access public
-	 * @date 6/28/04
+	 * @since 6/28/04
 	 */
 	function stop () {
 		

@@ -4,13 +4,13 @@
  * This is the building piece of the Tree data structure used for the backbone of the
  * hierarchy.
  *
- * @package harmoni.osid.hierarchy.tree
+ * @package harmoni.osid_v2.hierarchy.tree
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TreeNode.interface.php,v 1.3 2005/01/19 17:39:14 adamfranco Exp $
- * @date Created: 8/30/2003
+ * @version $Id: TreeNode.interface.php,v 1.4 2005/01/19 22:28:23 adamfranco Exp $
+ * @since Created: 8/30/2003
  */
 class TreeNodeInterface {
 

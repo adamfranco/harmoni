@@ -6,12 +6,12 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * The AgentSearch interface defines methods for searching for agents. This is 
  * used by the AgentManager for searching for agents.
  *
- * @package harmoni.osid.shared.search
+ * @package harmoni.osid_v1.shared.search
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.5 2005/01/19 21:10:12 adamfranco Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.6 2005/01/19 22:28:12 adamfranco Exp $
  */
 
 class AncestorGroupSearch
@@ -23,7 +23,7 @@ class AncestorGroupSearch
 	 * @param integer $dbIndex The database index to use
 	 * @return object
 	 * @access public
-	 * @date 12/1/04
+	 * @since 12/1/04
 	 */
 	function AncestorGroupSearch ($dbIndex) {
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule);
@@ -41,7 +41,7 @@ class AncestorGroupSearch
 	 * @param object Type $agentSearchType
 	 * @return object AgentIterator
 	 * @access public
-	 * @date 11/10/04
+	 * @since 11/10/04
 	 */
 	function &getAgentsBySearch ( & $searchCriteria, & $agentSearchType ) {
 		$agents = array();
@@ -58,7 +58,7 @@ class AncestorGroupSearch
 	 * @param object Type $groupSearchType
 	 * @return object AgentIterator
 	 * @access public
-	 * @date 11/10/04
+	 * @since 11/10/04
 	 */
 	function &getGroupsBySearch ( & $searchCriteria, & $groupSearchType ) {
 		ArgumentValidator::validate($searchCriteria, new ExtendsValidatorRule("Id"));

@@ -33,12 +33,12 @@ require_once(HARMONI."oki/shared/AgentSearches/AncestorGroupSearch.class.php");
  * implementation substitution without source code changes.
  * </p>
  *
- * @package harmoni.osid.shared
+ * @package harmoni.osid_v1.shared
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniSharedManager.class.php,v 1.58 2005/01/19 21:10:12 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.59 2005/01/19 22:28:11 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -435,7 +435,7 @@ class HarmoniSharedManager
 	 * @param object Type $agentSearchType
 	 * @return object AgentIterator
 	 * @access public
-	 * @date 11/10/04
+	 * @since 11/10/04
 	 */
 	function &getAgentsBySearch ( & $searchCriteria, & $agentSearchType ) {
 		$typeString = $agentSearchType->getDomain()
@@ -457,7 +457,7 @@ class HarmoniSharedManager
 	 * 
 	 * @return object TypeIterator
 	 * @access public
-	 * @date 11/10/04
+	 * @since 11/10/04
 	 */
 	function &getAgentSearchTypes () {
 		$types = array();
@@ -1088,7 +1088,7 @@ class HarmoniSharedManager
 	 * @param object Type $groupSearchType
 	 * @return object GroupIterator
 	 * @access public
-	 * @date 11/10/04
+	 * @since 11/10/04
 	 */
 	function &getGroupsBySearch ( & $searchCriteria, & $groupSearchType ) {
 		ArgumentValidator::validate($groupSearchType, new ExtendsValidatorRule("HarmoniType"));
@@ -1111,7 +1111,7 @@ class HarmoniSharedManager
 	 * 
 	 * @return object TypeIterator
 	 * @access public
-	 * @date 11/10/04
+	 * @since 11/10/04
 	 */
 	function &getGroupSearchTypes () {
 		$types = array();
@@ -1548,7 +1548,7 @@ class HarmoniSharedManager
 	 * @param object Type $type
 	 * @return integer
 	 * @access private
-	 * @date 11/18/04
+	 * @since 11/18/04
 	 */
 	function _getTypeId ( & $type ) {
 		$dbc =& Services::getService("DBHandler");
@@ -1595,7 +1595,7 @@ class HarmoniSharedManager
 	 * @param object Properties $properties
 	 * @return integer
 	 * @access public
-	 * @date 11/18/04
+	 * @since 11/18/04
 	 */
 	function _storeProperties (& $properties ) {
 		$dbc =& Services::getService("DBHandler");

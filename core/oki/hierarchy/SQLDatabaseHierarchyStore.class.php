@@ -8,12 +8,12 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
 /**
  * A storage wrapper for the Tree class
  *
- * @package harmoni.osid.hierarchy
+ * @package harmoni.osid_v1.hierarchy
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseHierarchyStore.class.php,v 1.18 2005/01/19 21:10:08 adamfranco Exp $
+ * @version $Id: SQLDatabaseHierarchyStore.class.php,v 1.19 2005/01/19 22:28:09 adamfranco Exp $
  */
 
 

@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/ImageMagickProcessor.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageProcessor.class.php,v 1.3 2005/01/19 21:09:39 adamfranco Exp $
+ * @version $Id: ImageProcessor.class.php,v 1.4 2005/01/19 22:27:47 adamfranco Exp $
  */
 
 class ImageProcessor {
@@ -33,7 +33,7 @@ class ImageProcessor {
 	 * @param array $ImageMagickFormats An array of mime-types to handle with ImageMagick.
 	 * @return obj
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function ImageProcessor ($thumbnailFormat, $useGD, $gdFormats, 
 		$useImageMagick = FALSE, $ImageMagickPath = "/usr/bin", 
@@ -69,7 +69,7 @@ class ImageProcessor {
 	 * @param string $format The mime type of the format in question.
 	 * @return boolean
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function isFormatSupported ( $format ) {
 		ArgumentValidator::validate($format, new StringValidatorRule);
@@ -92,7 +92,7 @@ class ImageProcessor {
 	 * @param string $data	The data of the source image
 	 * @return string The thumbnail data of $thumbnailFormat mime type.
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function generateThumbnailData ($format, $data) {
 		if (in_array($format, $this->_gdFormats))
@@ -111,7 +111,7 @@ class ImageProcessor {
 	 * 
 	 * @return string
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function getThumbnailFormat () {
 		return $this->_thumbnailFormat;
@@ -123,7 +123,7 @@ class ImageProcessor {
 	 * @param string $format The format of the source image
 	 * @return string The mime type.
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function getResizedFormat ($format) {
 		if (in_array($format, $this->_gdFormats))
@@ -145,7 +145,7 @@ class ImageProcessor {
 	 * @return string The thumbnail data of a mime type that can be obtained with
 	 *		getResizedFormat.
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function getResizedData ($format, $size, $data) {
 		if (in_array($format, $this->_gdFormats))
@@ -165,7 +165,7 @@ class ImageProcessor {
 	 * @param string $format The format of the source image
 	 * @return string The mime type.
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function getWebsafeFormat ($format) {
 		if (in_array($format, $this->_gdFormats))
@@ -187,7 +187,7 @@ class ImageProcessor {
 	 * @return string The thumbnail data of a mime type that can be obtained with
 	 *		getResizedFormat.
 	 * @access public
-	 * @date 10/22/04
+	 * @since 10/22/04
 	 */
 	function getWebsafeData ($format, $size, $data) {
 		if (in_array($format, $this->_gdFormats))
@@ -206,7 +206,7 @@ class ImageProcessor {
 	 * 
 	 * @return void
 	 * @access public
-	 * @date 6/28/04
+	 * @since 6/28/04
 	 */
 	function start () {
 		
@@ -217,7 +217,7 @@ class ImageProcessor {
 	 * 
 	 * @return void
 	 * @access public
-	 * @date 6/28/04
+	 * @since 6/28/04
 	 */
 	function stop () {
 		

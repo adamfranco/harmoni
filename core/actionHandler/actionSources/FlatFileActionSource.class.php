@@ -13,12 +13,12 @@ require_once HARMONI."actionHandler/ActionSource.abstract.php";
  * <p>
  * In this example, the base path would be "basepath/", and the actions file extension would be ".act.php".
  *
- * @package harmoni.actionHandler.sources
+ * @package harmoni.actions.sources
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FlatFileActionSource.class.php,v 1.4 2005/01/19 21:09:39 adamfranco Exp $
+ * @version $Id: FlatFileActionSource.class.php,v 1.5 2005/01/19 22:27:48 adamfranco Exp $
  */
 class FlatFileActionSource extends ActionSource{
 
