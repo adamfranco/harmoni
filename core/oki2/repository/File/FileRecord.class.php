@@ -27,7 +27,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.8 2005/02/16 22:48:11 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.9 2005/02/17 17:34:35 adamfranco Exp $ 
  */
 class FileRecord 
 	extends Record
@@ -334,5 +334,54 @@ class FileRecord
 			return FALSE;
 	}
 	
+// 	/**
+// 	 * Used with storeFromRecord to convert from one file storage 
+// 	 * system to another.
+// 	 *
+// 	 * WARNING: NOT IN OSID
+// 	 * 
+// 	 * @param object FileRecord $fileRecord
+// 	 * @return void
+// 	 * @access public
+// 	 * @since 2/17/05
+// 	 */
+// 	function storeToRecord (& $fileRecord ) {
+// 		$fileRecord->storeFromFileRecord($this);
+// 	}
+// 	
+// 	/**
+// 	 * Used with storeToRecord to convert from one
+// 	 * file storage system to another.
+// 	 *
+// 	 * WARNING: NOT IN OSID
+// 	 * 
+// 	 * @param object FileRecord $fileRecord
+// 	 * @return void
+// 	 * @access public
+// 	 * @since 2/17/05
+// 	 */
+// 	function storeFromeRecord (& $fileRecord) {
+// 		$this->_copyPartsValues($fileRecord);
+// 	}
+// 	
+// 	/**
+// 	 * Used by the storeToRecord methods to copy the necessary data.
+// 	 * 
+// 	 * @param object FileRecord $fileRecord
+// 	 * @return void
+// 	 * @access private
+// 	 * @since 2/17/05
+// 	 */
+// 	function _copyPartsValues ( &$fileRecord ) {
+// 		$origParts =& $fileRecord->getParts();
+// 		while ($origParts->hasNextPart()) {
+// 			$origPart =& $origParts->nextParts();
+// 			$origPartStructure =& $origPart->getPartStructure();
+// 			$origPartStructureId =& $origPartStructure->getId();
+// 			
+// 			$this->_parts[$origPartStructureId->getIdString()]
+// 								->updateValue($origPart->getValue());
+// 		}
+// 	}	
 	
 }

@@ -24,13 +24,12 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAssetIterator.class.php,v 1.7 2005/02/04 15:59:09 adamfranco Exp $ 
+ * @version $Id: HarmoniAssetIterator.class.php,v 1.8 2005/02/17 17:34:08 adamfranco Exp $ 
  */
 class HarmoniAssetIterator
 	extends HarmoniIterator
-	//implements AssIterator
-{ // begin AssetIterator
-
+	//implements AssetIterator
+{
 	
 	/**
 	 * Return true if there is an additional  Asset ; false otherwise.
@@ -80,6 +79,6 @@ class HarmoniAssetIterator
 		return $this->next();
 	}
 
-} // end AssetIterator
+}
 
 ?>

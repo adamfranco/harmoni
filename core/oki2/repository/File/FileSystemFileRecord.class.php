@@ -25,7 +25,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSystemFileRecord.class.php,v 1.1 2005/02/16 22:48:11 adamfranco Exp $ 
+ * @version $Id: FileSystemFileRecord.class.php,v 1.2 2005/02/17 17:34:35 adamfranco Exp $ 
  */
 class FileSystemFileRecord 
 	extends FileRecord
@@ -108,6 +108,13 @@ class FileSystemFileRecord
 				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
 				$dbHandler->query($query, $this->_configuration["dbId"]);
 				
+				// Delete the data row in case we were switching from another type
+				// that used it.
+				$query =& new DeleteQuery();
+				$query->setTable("dr_file_data");
+				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
+				$dbHandler->query($query, $this->_configuration["dbId"]);
+				
 				// delete the file row.
 				$query =& new DeleteQuery();
 				$query->setTable("dr_file");
@@ -156,7 +163,7 @@ class FileSystemFileRecord
 			return TRUE;
 		}
 		
-		$fields = array('filename', 'size', 'file_type', 'file_data', 'thumbnail_type', 'thumbnail_data');
+		$fields = array('filename', 'size', 'file_type', 'thumbnail_type', 'thumbnail_data');
 		
 		$countValues = 0;
 		foreach ($fields as $field) {

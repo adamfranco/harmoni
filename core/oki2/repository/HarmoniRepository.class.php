@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.17 2005/02/16 22:47:03 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.18 2005/02/17 17:34:08 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -1077,7 +1077,7 @@ class HarmoniRepository
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	} 
 	
-		/**
+	/**
 	 * This method indicates whether this implementation supports Repository
 	 * methods: copyAsset, deleteAsset, invalidateAsset, updateDescription,
 	 * updateDisplayName. Asset methods: addAsset, copyRecordStructure,
@@ -1109,7 +1109,20 @@ class HarmoniRepository
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	 
-	function createRecordStructure($displayName, $description, $format, $schema) {
+	/**
+	 * Create a new RecordStructure
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @param string $displayName
+	 * @param string $description
+	 * @param string $format
+	 * @param string $schema
+	 * @return object RecordStructure
+	 * @access public
+	 * @since 2/17/05
+	 */
+	function &createRecordStructure($displayName, $description, $format, $schema) {
 		$recordType = new HarmoniType($format, $schema, $displayName, $description);
 		$schemaMgr =& Services::getService("SchemaManager");
 		
@@ -1155,6 +1168,45 @@ class HarmoniRepository
 		// Return its Id
 		return $newAsset->getId();
 	}
+	
+// 	/**
+// 	 * Convert Records from one storage method (Class) to another.
+// 	 * 
+// 	 * @param object Id $recordStructureId The Id of the RecordStructure of both
+// 	 *		Record classes. They must share the same RecordStructure
+// 	 * @param string $destinationClass
+// 	 * @return void
+// 	 * @access public
+// 	 * @since 2/17/05
+// 	 */
+// 	function convertRecords ( &$recordStructureId, $destinationClass ) {
+// 		$recordStructure =& $this->getRecordStructure($recordStructureId);
+// 		
+// 		$allAssets =& $this->getAssets();
+// 		while ($allAssets->hasNextAsset()) {
+// 			$asset =& $allAssets->nextAsset();
+// 			
+// 			$assetId =& $asset->getId();
+// 			print "\n<br/>\t - Converting Asset: ".$assetId->getIdString();
+// 			
+// 			$origRecords =& $asset->getRecordsByRecordStructure($recordStructureId);
+// 			while ($origRecords->hasNextRecord()) {
+// 				$origRecord =& $origRecords->nextRecord();
+// 				
+// 				$recordId =& $origRecord->getId();
+// 				print "\n<br/>\t - \t - Converting Record: ".$recordId->getIdString();
+// 				
+// 				$newRecord =& new $destinationClass (
+// 									$recordStructure,
+// 									$origRecord->getId(),
+// 									$this->_configuration()
+// 								);
+// 				$newRecord->copyFromRecord($origRecord);
+// 			}
+// 		}
+// 	}
+	
+	
 	
 /******************************************************************************
  * Search Types
