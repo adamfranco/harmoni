@@ -2,6 +2,13 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.3.0" date="The nebulous future">
+		<change author='adam'>
+			The LanguageLocalizer now defines functions for _() and gettext() that
+			simply return the passed string, so that localized apps can fail
+			gracefully to their native language if gettext is not installed.
+		</change>
+	</version>
 	<version number="0.2.0" date="2004-10-26">
 		<new author='adam'>
 			Added a "MIME" service for sniffing mime types from file extensions.

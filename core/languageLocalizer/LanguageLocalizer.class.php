@@ -7,7 +7,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * and other data for multiple languages.
  *
  * @package harmoni.languages
- * @version $Id: LanguageLocalizer.class.php,v 1.8 2004/06/01 21:43:45 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.9 2004/11/17 17:28:14 adamfranco Exp $
  * @copyright 2003 
  **/
 class LanguageLocalizer extends LanguageLocalizerInterface {
@@ -107,12 +107,15 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 		
 		$this->_applications[$application] = $langDir;
 		
-		bindtextdomain($application, $langDir);
-		bind_textdomain_codeset ($application, $this->_codeset);
-	
-		// The first application added will be the default textdomain.		
-		if (count($this->_applications) == 1)
-			textdomain($application);
+		// If gettext support is availible, use it.
+		if (hasGettext()) {
+			bindtextdomain($application, $langDir);
+			bind_textdomain_codeset ($application, $this->_codeset);
+		
+			// The first application added will be the default textdomain.		
+			if (count($this->_applications) == 1)
+				textdomain($application);
+		}
 	}
 	
 	/**
@@ -140,11 +143,15 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 // 			}
 // 		}
 		
+		
 		$this->_lang = $language;
 		$_SESSION['__CurrentLanguage'] = $this->_lang;
 		
-		$result = setlocale(LC_MESSAGES, $this->_lang);
-		debug::output( "Setting Lang to ".$this->_lang." => '$result'.",DEBUG_SYS5,"LanguageLocalizer");
+		// If gettext support is availible, use it.
+		if (hasGettext()) {
+			$result = setlocale(LC_MESSAGES, $this->_lang);
+			debug::output( "Setting Lang to ".$this->_lang." => '$result'.",DEBUG_SYS5,"LanguageLocalizer");
+		}
 	}
 	
 	/**
@@ -164,8 +171,11 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 	function setCodeset($codeset) {
 		$this->_codeset = $codeset;
 		$_SESSION['__CurrentLanguageCodeset'] = $this->_codeset;
-		foreach ($this->_applications as $application => $langDir) {
-			bind_textdomain_codeset ($application, $codeset);
+		// If gettext support is availible, use it.
+		if (hasGettext()) {
+			foreach ($this->_applications as $application => $langDir) {
+				bind_textdomain_codeset ($application, $codeset);
+			}
 		}
 	}
 	
@@ -205,17 +215,27 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 			}
 			
 			$_SESSION['__AvailibleLanguages'] = array();
-			foreach ($this->_applications as $application => $langDir) {
-				$handle = opendir($langDir);
-				while (($file = readdir($handle)) !== FALSE) {
-					if (ereg("([a-z]{2})_([A-Z]{2})", $file, $parts)) {
-						if ($includeCountries)
-							$_SESSION['__AvailibleLanguages'][$file] = $languages[$parts[1]].
-																" - ".$countries[$parts[2]];
-						else
-							$_SESSION['__AvailibleLanguages'][$file] = $languages[$parts[1]];
+			
+			// If gettext is availible, return all of the languages availble
+			if (hasGettext()) {
+				foreach ($this->_applications as $application => $langDir) {
+					$handle = opendir($langDir);
+					while (($file = readdir($handle)) !== FALSE) {
+						if (ereg("([a-z]{2})_([A-Z]{2})", $file, $parts)) {
+							if ($includeCountries)
+								$_SESSION['__AvailibleLanguages'][$file] = $languages[$parts[1]].
+															" - ".$countries[$parts[2]];
+							else
+								$_SESSION['__AvailibleLanguages'][$file] = $languages[$parts[1]];
+						}
 					}
 				}
+			} 
+			// if we don't have gettext support, just show the default language
+			else {
+				ereg("([a-z]{2})_([A-Z]{2})", $this->_lang, $parts);
+				$_SESSION['__AvailibleLanguages'][$this->_lang] = $languages[$parts[1]].
+															" - ".$countries[$parts[2]];
 			}
 		}
 		
@@ -242,6 +262,63 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 	 **/
 	function stop() {
 		// do nothing
+	}
+}
+
+/**
+ * For systems that don't have gettext installed, we want to define a "_" function
+ * so that harmoni will still operate, if only in English
+ */
+if (!function_exists("gettext")) {
+	
+	/**
+	 * Return The status of REAL gettext support
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @date 11/17/04
+	 */
+	function hasGettext () {
+		return FALSE;
+	}
+	
+	/**
+	 * Returns the passed string to emulate untranslated language support for
+	 * systems on which gettext isn't availible
+	 * 
+	 * @param string $string
+	 * @return string
+	 * @access public
+	 * @date 11/16/04
+	 */
+	function _ ( $string ) {
+		return $string;
+	}
+
+	/**
+	 * Returns the passed string to emulate untranslated language support for
+	 * systems on which gettext isn't availible
+	 * 
+	 * @param string $string
+	 * @return string
+	 * @access public
+	 * @date 11/16/04
+	 */
+	function gettext ( $string ) {
+		return $string;
+	}
+	
+} else {
+
+	/**
+	 * Return The status of REAL gettext support
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @date 11/17/04
+	 */
+	function hasGettext () {
+		return TRUE;
 	}
 }
 
