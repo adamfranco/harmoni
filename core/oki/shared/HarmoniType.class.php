@@ -53,6 +53,7 @@ class HarmoniType
 } // end Type
 
 function OKITypeToString(&$type, $glue=", ") {
+	//ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
 	return $type->getAuthority() . $glue . $type->getDomain() . $glue . $type->getKeyword();
 }
 

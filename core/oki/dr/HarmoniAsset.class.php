@@ -43,7 +43,7 @@ class HarmoniAsset
 		
 		// Store our configuration
 		$this->_configuration =& $configuration;
-		$this->_versionControlAll = $configuration['versionControlAll'];
+		$this->_versionControlAll = ($configuration['versionControlAll'])?TRUE:FALSE;
 		if (is_array($configuration['versionControlTypes'])) {
 			ArgumentValidator::validate($configuration['versionControlTypes'], new ArrayValidatorRuleWithRule( new ExtendsValidatorRule("Type")));
 			$this->_versionControlTypes =& $configuration['versionControlTypes'];
@@ -568,7 +568,7 @@ class HarmoniAsset
 				}
 			}
 			
-			$newDataSet =& $dataSetMgr->newDataSet($contentType, $versionControl);
+			$newDataSet =& $dataSetMgr->newDataSet($type, $versionControl);
 		
 		$newDataSet->commit();
 		
