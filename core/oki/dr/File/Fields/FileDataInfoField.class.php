@@ -84,7 +84,7 @@ class FileDataInfoField extends InfoField
 			// Get the data from the database,
 			$query =& new SelectQuery;
 			$query->addTable("dr_file");
-			$query->addTable("dr_file_data", LEFT_JOIN, "dr_file.FK_data = dr_file_data.id");
+			$query->addTable("dr_file_data", LEFT_JOIN, "dr_file.id = dr_file_data.FK_file");
 			$query->addColumn("data");
 			$query->addWhere("dr_file.id = '".$this->_recordId->getIdString()."'");
 			
@@ -139,6 +139,8 @@ class FileDataInfoField extends InfoField
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
 									"'".base64_encode($this->_data)."'"));
 		}
+		
+		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		
 		// run the query
 		$dbHandler->query($query, $this->_configuration["dbId"]);

@@ -102,7 +102,7 @@ class HarmoniFileInfoStructure extends InfoStructure
 	 * @package harmoni.osid.dr
 	 */
 	function getFormat() {
-		return "MIME Type is specified for each record via mandatory part";
+		return "Harmoni File";
 	}
 
 	/**

@@ -130,7 +130,7 @@ class MimeTypeInfoField extends InfoField
 			$query->setValues(array("'".addslashes($this->_type)."'"));
 			
 			$result2 =& $dbHandler->query($query, $this->_configuration["dbId"]);
-			$mimeId = $result->getLastAutoIncrementValue();
+			$mimeId = $result2->getLastAutoIncrementValue();
 		} else {
 			$mimeId = $result->field("id");
 		}

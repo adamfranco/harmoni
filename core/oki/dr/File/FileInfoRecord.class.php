@@ -39,8 +39,8 @@ class FileInfoRecord extends InfoRecord
 									$infoStructure->getInfoPart($sharedManager->getId('FILE_SIZE')),
 									$this->_id,
 									$this->_configuration);
-		$this->_infoFields['FILE_SIZE'] =& new MimeTypeInfoField(
-									$infoStructure->getInfoPart($sharedManager->getId('FILE_SIZE')),
+		$this->_infoFields['MIME_TYPE'] =& new MimeTypeInfoField(
+									$infoStructure->getInfoPart($sharedManager->getId('MIME_TYPE')),
 									$this->_id,
 									$this->_configuration);
 	}
