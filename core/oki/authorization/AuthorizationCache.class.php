@@ -6,7 +6,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.17 2004/12/01 21:59:27 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.18 2004/12/02 15:35:08 adamfranco Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -749,8 +749,12 @@ class AuthorizationCache {
 		$list = implode("','", $qualifiers);
 		$list = "'".$list."'";
 		
-		$agentList = implode("','", $groupIds);
-		$agentList = "'".$aId."','".$agentList."'";
+		if (count($groupIds)) {
+			$agentList = implode("','", $groupIds);
+			$agentList = "'".$aId."','".$agentList."'";
+		} else {
+			$agentList = "'".$aId."'";
+		}
 		
 		$where = $db."az_authorization.fk_qualifier IN ($list)";
 		$query->addWhere($where);
@@ -811,10 +815,6 @@ class AuthorizationCache {
 		// process all rows and create the explicit authorizations
 		while ($queryResult->hasMoreRows()) {
 			$row =& $queryResult->getCurrentRow();
-			
-//			echo "<pre>";
-//			print_r($row);
-//			echo "</pre>";
 
 			$idValue = $row['id'];
 			$id =& $sharedManager->getId($idValue);
@@ -842,56 +842,80 @@ class AuthorizationCache {
 			// qualifier and agent.
 			if ($row['qId'] == $qId && $row['aId'] == $aId)
 				$authorizations[] =& $authorization;
-			
-			$queryResult->advanceRow();
 
 			// now create the implicit authorizations
 			// the implicit authorizations will be created for all nodes
 			// on the hierarchy path(s) between the node with the explicit authorization
 			// and the node on which getAZs() was called.
 			if (!$isExplicit) {
-				// how to get the nodes in question?
-				// answer: get the intersection of the following two sets of nodes:
-				// set 1: the nodes resulted when traversing up from node $qId (we
-				// already have those in $qualifiers)
-				// set 2: the nodes resulted when traversing down from the qualifier with 
-				// explicit authorization minus the latter itself
-
-				$explicitQualifier =& $authorization->getQualifier();
-				$explicitQualifierId =& $explicitQualifier->getId();
-
-				$agentId =& $authorization->getAgentId();
-				$function =& $authorization->getFunction();
-				$functionId =& $function->getId();
-				$effectiveDate =& $authorization->getEffectiveDate();
-				$expirationDate =& $authorization->getExpirationDate();
-
-				// this is set 2
-				$nodes =& $hierarchy->traverse($explicitQualifierId, TRAVERSE_MODE_DEPTH_FIRST,
-						TRAVERSE_DIRECTION_DOWN, TRAVERSE_LEVELS_INFINITE);
-						
-				// now get the id of each node and store in array
-				$set2 = array();
-				// skip the first node
-				$nodes->next();
-				while($nodes->hasNext()){
-					$info =& $nodes->next();
-					$id =& $info->getNodeId();
-					$set2[$id->getIdString()] = $id->getIdString();
-				}
-				
-				// now, for each node in $qualifiers, if it's in $set2 as well,
-				// then create an implicit authorization for it.
-				// Actually, we only want to create an implicit AZ for the
-				// requested node, not for its parents as well.
-				if (isset($set2[$qId])) {
-					// create an implicit
-					$implicitQualifierId =& $sharedManager->getId($qId);
-					$implicit =& new HarmoniAuthorization(null, $agentId, $functionId, $implicitQualifierId,
-														  false, $this, $effectiveDate, $expirationDate);
+			
+				// if this is an AZ that is implicit because of a group instead
+				// of because of the hierarchy, create it.
+				if ($row['qId'] == $qId && $row['aId'] != $aId) {
+					$qualifierId =& $sharedManager->getId($qId);
+					$agentId =& $authorization->getAgentId();
+					$function =& $authorization->getFunction();
+					$functionId =& $function->getId();
+					$effectiveDate =& $authorization->getEffectiveDate();
+					$expirationDate =& $authorization->getExpirationDate();
+					$implicit =& new HarmoniAuthorization(null, 
+														$agentId, 
+														$functionId, 
+														$qualifierId,
+														false, 
+														$this, 
+														$effectiveDate, 
+														$expirationDate);
 					$authorizations[] =& $implicit;
 				}
 				
+				// Otherwise, do what is necessary to create the implicit qualifier
+				// based on the hierarchy
+				else {
+					// how to get the nodes in question?
+					// answer: get the intersection of the following two sets of nodes:
+					// set 1: the nodes resulted when traversing up from node $qId (we
+					// already have those in $qualifiers)
+					// set 2: the nodes resulted when traversing down from the qualifier with 
+					// explicit authorization minus the latter itself
+	
+					$explicitQualifier =& $authorization->getQualifier();
+					$explicitQualifierId =& $explicitQualifier->getId();
+	
+					$agentId =& $authorization->getAgentId();
+					$function =& $authorization->getFunction();
+					$functionId =& $function->getId();
+					$effectiveDate =& $authorization->getEffectiveDate();
+					$expirationDate =& $authorization->getExpirationDate();
+	
+					// this is set 2
+					$nodes =& $hierarchy->traverse($explicitQualifierId, TRAVERSE_MODE_DEPTH_FIRST,
+							TRAVERSE_DIRECTION_DOWN, TRAVERSE_LEVELS_INFINITE);
+							
+					// now get the id of each node and store in array
+					$set2 = array();
+					// skip the first node
+					$nodes->next();
+					while($nodes->hasNext()){
+						$info =& $nodes->next();
+						$id =& $info->getNodeId();
+						$set2[$id->getIdString()] = $id->getIdString();
+					}
+					
+					// now, for each node in $qualifiers, if it's in $set2 as well,
+					// then create an implicit authorization for it.
+					// Actually, we only want to create an implicit AZ for the
+					// requested node, not for its parents as well.
+					if (isset($set2[$qId])) {
+						// create an implicit
+						$implicitQualifierId =& $sharedManager->getId($qId);
+						$implicit =& new HarmoniAuthorization(null, $agentId, $functionId, $implicitQualifierId,
+															  false, $this, $effectiveDate, $expirationDate);
+						$authorizations[] =& $implicit;
+					}
+				}
+				
+				$queryResult->advanceRow();
 			}
 		}
 		
