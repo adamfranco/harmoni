@@ -5,8 +5,8 @@
  * SQL strings and files.
  * 
  * @package harmoni.dbc
- * @version $Id: SQLUtils.static.php,v 1.3 2005/01/19 22:26:52 adamfranco Exp $
- * @since $Date: 2005/01/19 22:26:52 $
+ * @version $Id: SQLUtils.static.php,v 1.4 2005/03/31 23:10:00 adamfranco Exp $
+ * @since $Date: 2005/03/31 23:10:00 $
  * @copyright 2004 Middlebury College
  * @static
  */
@@ -41,7 +41,7 @@ class SQLUtils {
 	 */
 	function parseSQLString ( $queryString ) {
 		// Remove the comments
-		$queryString = ereg_replace("#[^\n\r]*(\n|\r|\n\r)", "", $queryString);
+		$queryString = ereg_replace("(#|--)[^\n\r]*(\n|\r|\n\r)", "", $queryString);
 		
 		// Remove the line returns
 		$queryString = ereg_replace("\n|\r", " ", $queryString);
