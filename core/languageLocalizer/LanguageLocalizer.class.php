@@ -7,7 +7,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * and other data for multiple languages.
  *
  * @package harmoni.languages
- * @version $Id: LanguageLocalizer.class.php,v 1.3 2004/05/11 14:33:30 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.4 2004/05/11 15:03:30 adamfranco Exp $
  * @copyright 2003 
  **/
 class LanguageLocalizer extends LanguageLocalizerInterface {
@@ -56,6 +56,9 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 		// Get the current Language settings from the session if they exist.
 		if (isset($_SESSION['__CurrentLanguage'])) {
 			$this->setLanguage( $_SESSION['__CurrentLanguage'] );
+			debug::output( "Setting Lang to ".$_SESSION['__CurrentLanguage']);
+		} else {
+			$this->setLanguage( "en_US" );
 			debug::output( "Setting Lang to ".$_SESSION['__CurrentLanguage']);
 		}
 		

@@ -92,7 +92,7 @@ dan;dan;da;Danish;Germanic
 day;day;;Dayak;
 del;del;;Delaware;
 den;den;;Slave (Athapascan);
-deu;ger;de;German;Germanic
+deu;ger;de;Deutsch;Germanic
 dgr;dgr;;Dogrib;
 din;din;;Dinka;
 div;div;;Divehi;
@@ -122,7 +122,7 @@ fij;fij;fj;Fijian;Oceanic/indonesian
 fin;fin;fi;Finnish;Finno-ugric
 fiu;fiu;;Finno-Ugrian (Other);
 fon;fon;;Fon;
-fra;fre;fr;French;Romance
+fra;fre;fr;Française;Romance
 frm;frm;;French, Middle (ca. 1400-1600);
 fro;fro;;French, Old (842-ca. 1400);
 fry;fry;fy;Frisian;Germanic
