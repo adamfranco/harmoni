@@ -5,8 +5,8 @@ require_once(HARMONI."/themeHandler/ThemeSetting.abstract.php");
 /**
  * A simple border setting that takes a positive integer border.
  *
- * @package harmoni.themes
- * @version $Id: ImageBoxImageSetting.class.php,v 1.1 2004/04/06 20:16:47 adamfranco Exp $
+ * @package harmoni.themes.included_themes
+ * @version $Id: ImageBoxImageSetting.class.php,v 1.2 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 

@@ -8,8 +8,8 @@
  * from it are used, based on priority settings, in order to fetch information such
  * as email addresses, full names, etc.
  *
- * @package harmoni.authentication.agentinformation
- * @version $Id: AgentInformationHandler.class.php,v 1.6 2004/01/08 21:10:00 gabeschine Exp $
+ * @package harmoni.authentication
+ * @version $Id: AgentInformationHandler.class.php,v 1.7 2004/04/21 17:55:27 adamfranco Exp $
  * @copyright 2003 
  **/
 class AgentInformationHandler extends ServiceInterface {

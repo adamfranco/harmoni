@@ -4,12 +4,13 @@
 /**
  * AuthorizationManager allows an application to create Authorizations, get Authorizations given selection criterias, ask questions of Authorization such as what Agent can do a Function in a Qualifier context, etc.<p><p>The primary objects in Authorization are Authorization, Function, Agent, and Qualifier. There are also Function and Qualifier types that are understood by the implementation.<p><p>Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p><p>There are two methods to create Authorizations. One uses method uses Agent, Function, and Qualifier.  The other adds effective date and expiration date.  For the method without the dates, the effective date is today and there is no expiration date.  <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * @access public
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.3 2004/04/21 13:43:13 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.4 2004/04/21 17:55:29 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
- * @package harmoni.authorization
+ * @package harmoni.osid.authorization
  */
-class HarmoniAuthorizationManager extends OsidManager
+class HarmoniAuthorizationManager 
+	extends AuthorizationManager
 
 {
 
@@ -22,7 +23,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object expirationDate when the Authorization stops being effective
 	 * @return object Authorization
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & createDatedAuthorization(& $agentId, & $functionId, & $qualifierId, & $effectiveDate, & $expirationDate) { /* :: interface :: */ }
 
@@ -35,7 +36,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object qualifierId the Id of the Qualifier for this Authorization
 	 * @return object Authorization
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & createAuthorization(& $agentId, & $functionId, & $qualifierId) { /* :: interface :: */ }
 
@@ -50,7 +51,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object qualifierHierarchyId the Id of the Qualifier Hierarchy associated with this Function
 	 * @return object Function
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & createFunction(& $functionId, $displayName, $description, & $functionType, & $qualifierHierarchyId) { /* :: interface :: */ }
 
@@ -65,7 +66,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object qualifierHierarchyId the Id of the Qualifier Hierarchy associated with this Qualifier
 	 * @return object Qualifier
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & createRootQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $qualifierHierarchyId) { /* :: interface :: */ }
 
@@ -80,7 +81,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object parentId the parent of this Qualifier
 	 * @return Qualifier
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & createQualifier(& $qualifierId, $displayName, $description, & $qualifierType, & $parentId) { /* :: interface :: */ }
 
@@ -90,7 +91,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * Deletes an existing Authorization.
 	 * @param object authorizationId the Id of an Authorization
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function deleteAuthorization(& $authorizationId) { /* :: interface :: */ }
 
@@ -100,7 +101,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * Delete a Function by Id.
 	 * @param object functionId the Id of a Function
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function deleteFunction(& $functionId) { /* :: interface :: */ }
 
@@ -111,7 +112,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * Delete a Qualifier by Id.  The last root Qualifier cannot be deleted.
 	 * @param object qualifierId the Id of a Qualifer
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#CANNOT_DELETE_LAST_ROOT_QUALIFIER CANNOT_DELETE_LAST_ROOT_QUALIFIER}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function deleteQualifier(& $qualifierId) { /* :: interface :: */ }
 
@@ -125,7 +126,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object qualifierId the Id of the Qualifer
 	 * @return boolean
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function isAuthorized(& $agentId, & $functionId, & $qualifierId) { /* :: interface :: */ }
 
@@ -137,7 +138,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object qualifierId the Id of the Qualifer
 	 * @return boolean
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function isUserAuthorized(& $functionId, & $qualifierId) { /* :: interface :: */ }
 
@@ -147,7 +148,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * Get all the FunctionTypes supported by the Authorization implementation.
 	 * @return object osid.shared.TypeIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getFunctionTypes() { /* :: interface :: */ }
 
@@ -159,7 +160,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object functionType the Type of the Functions to return
 	 * @return object FunctionIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getFunctions(& $functionType) { /* :: interface :: */ }
 
@@ -171,7 +172,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object functionId the Id of the Function to return
 	 * @return object Function
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getFunction(& $functionId) { /* :: interface :: */ }
 
@@ -183,7 +184,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object agentId the Id of an Agent that may be known to the implementation
 	 * @return boolean
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function agentExists(& $agentId) { /* :: interface :: */ }
 
@@ -194,7 +195,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * Get all the QualifierTypes supported by the Authorization implementation.
 	 * @return object osid.shared.TypeIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getQualifierTypes() { /* :: interface :: */ }
 
@@ -206,7 +207,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object qualifierHierarchyId
 	 * @return object QualifierIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getRootQualifiers(& $qualifierHierarchyId) { /* :: interface :: */ }
 
@@ -218,7 +219,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object qualifierId
 	 * @return object QualifierIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	  */
 	function & getQualifierChildren(& $qualifierId) { /* :: interface :: */ }
 
@@ -230,7 +231,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object qualifierId
 	 * @return object QualifierIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	  */
 	function & getQualifierDescendants(& $qualifierId) { /* :: interface :: */ }
 
@@ -242,7 +243,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param object qualifierId
 	 * @return object Qualifier or null
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getQualifier(& $qualifierId) { /* :: interface :: */ }
 
@@ -256,7 +257,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param boolean isActiveNow
 	 * @return object osid.shared.AgentIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	  */
 	function & getWhoCanDo(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
@@ -269,7 +270,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param boolean isActiveNow
 	 * @return object AuthorizationIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getExplicitUserAZs(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
@@ -282,7 +283,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param boolean isActiveNow
 	 * @return object Authorizations
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getExplicitUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
@@ -295,7 +296,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param boolean isActiveNow
 	 * @return object Authorizations
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getAllUserAZs(& $functionId, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
@@ -308,7 +309,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param boolean isActiveNow
 	 * @return object Authorizations
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getAllUserAZsByFuncType(& $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
@@ -322,7 +323,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param boolean isActiveNow
 	 * @return object AuthorizationIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getExplicitAZs(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
@@ -336,7 +337,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param boolean isActiveNow
 	 * @return object AuthorizationIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getExplicitAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
@@ -350,7 +351,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param boolean isActiveNow
 	 * @return object AuthorizationIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getAllAZs(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
@@ -364,7 +365,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * @param boolean isActiveNow
 	 * @return object AuthorizationIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}, {@link AuthorizationException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getAllAZsByFuncType(& $agentId, & $functionType, & $qualifierId, $isActiveNow) { /* :: interface :: */ }
 
@@ -374,7 +375,7 @@ class HarmoniAuthorizationManager extends OsidManager
 	 * Returns the Qualifier Hierarchies supported by the Authorization implementation.  Qualifier Hierarchies are referenced by Id and may be known and managed through the Hierarchy OSID.
 	 * @return object osid.shared.IdIterator
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getQualifierHierarchies() { /* :: interface :: */ }
 

@@ -4,8 +4,8 @@ require_once(HARMONI."/utilities/DBE.interface.php");
 
 /**
  * HarmoniFunctionDBE allows for updating Function fields in a database.
- * @version $Id: HarmoniFunctionDBE.class.php,v 1.1 2004/03/11 22:43:28 dobomode Exp $
- * @package oki.authorization
+ * @version $Id: HarmoniFunctionDBE.class.php,v 1.2 2004/04/21 17:55:30 adamfranco Exp $
+ * @package harmoni.osid.authorization
  * @author Dobo Radichkov
  * @copyright 2004 Dobo Radichkov
  * @access public

@@ -4,13 +4,13 @@
  * ThemeWidget interface defines what methods are required of any theme widget.
  * 
  * A ThemeWidget is responsible for the look & feel of a given class and index 
- * of objects on a page. MenuThemeWidgets are indexed analogus to the HTML <h1>,
- * <h2>, <h3>, etc headings where the lower the index, the more "prominent" the
+ * of objects on a page. MenuThemeWidgets are indexed analogus to the HTML &lt;h1&gt;,
+ * &lt;h2&gt;, &lt;h3&gt;, etc headings where the lower the index, the more "prominent" the
  * look of the widget. Indices start at 1 and go as high 
  * (in the sequence; 1, 2, 3, etc) as the theme developer desires.
  *
  * @package harmoni.themes
- * @version $Id: ThemeWidget.interface.php,v 1.5 2004/03/17 17:51:07 adamfranco Exp $
+ * @version $Id: ThemeWidget.interface.php,v 1.6 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -99,14 +99,14 @@ class ThemeWidgetInterface {
 	 * Returns a SettingsIterator object with this ThemeWidget's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this widget's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 **/
 	function getStyles() {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
 	/**
-	 * Takes a {@link Layout} or {@link Content} object and prints a <div ...> ... </div>
+	 * Takes a {@link Layout} or {@link Content} object and prints a &lt;div ...&gt; ... &lt;/div&gt;
 	 * block with the layout's contents or content inside.
 	 * @param ref object $layoutOrContent The {@link Layout} object or {@link Content} object.
 	 * @access public

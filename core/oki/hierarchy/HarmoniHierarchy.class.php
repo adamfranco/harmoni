@@ -23,9 +23,11 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * Licensed under the {@link osid.SidLicense MIT O.K.I SID Definition License}.
  * </p>
  * 
- * <p></p>
- *
- * @version $Revision: 1.25 $ / $Date: 2004/04/21 13:45:24 $
+ * @package harmoni.osid.hierarchy
+ * @author Adam Franco
+ * @copyright 2004 Middlebury College
+ * @access public
+ * @version $Id: HarmoniHierarchy.class.php,v 1.26 2004/04/21 17:55:33 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

@@ -6,10 +6,10 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Does authentication procedures with an LDAP server.
  *
- * @version $Id: LDAPAuthenticationMethod.class.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: LDAPAuthenticationMethod.class.php,v 1.2 2004/04/21 17:55:27 adamfranco Exp $
  * @copyright 2003 
  * @access public
- * @package harmoni.authentication.ldap
+ * @package harmoni.authentication.methods
  **/
  
 class LDAPAuthenticationMethod extends AuthenticationMethod {

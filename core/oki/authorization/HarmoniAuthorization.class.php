@@ -3,7 +3,7 @@
 
 /**
  * Authorization indicates what an Agent can do a Function in a Qualifier context. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
- * @package osid.authorization
+ * @package harmoni.osid.authorization
  */
 class HarmoniAuthorization /* :: API interface */
 {
@@ -18,7 +18,7 @@ class HarmoniAuthorization /* :: API interface */
 	 * Get the date when this Authorization starts being effective.
 	 * @return java.util.Calendar
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getEffectiveDate() { /* :: interface :: */ }
 
@@ -29,7 +29,7 @@ class HarmoniAuthorization /* :: API interface */
 	 * Get the date when this Authorization stops being effective.
 	 * @return java.util.Calendar
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getExpirationDate() { /* :: interface :: */ }
 
@@ -40,7 +40,7 @@ class HarmoniAuthorization /* :: API interface */
 	 * Get the Id of the Agent that modified this Authorization.
 	 * @return object osid.shared.Agent
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getModifiedBy() { /* :: interface :: */ }
 
@@ -51,7 +51,7 @@ class HarmoniAuthorization /* :: API interface */
 	 * Get the date when this Authorization was modified.
 	 * @return java.util.Calendar
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getModifiedDate() { /* :: interface :: */ }
 
@@ -62,7 +62,7 @@ class HarmoniAuthorization /* :: API interface */
 	 * It may or may not exist.
 	 * @return Function
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getFunction() { /* :: interface :: */ }
 
@@ -73,7 +73,7 @@ class HarmoniAuthorization /* :: API interface */
 	 * The instance may or may not exist.
 	 * @return Qualifier
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getQualifier() { /* :: interface :: */ }
 
@@ -84,7 +84,7 @@ class HarmoniAuthorization /* :: API interface */
 	 * Get the Agent associated with this Authorization.
 	 * @return object osid.shared.Agent
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function & getAgent() { /* :: interface :: */ }
 
@@ -95,7 +95,7 @@ class HarmoniAuthorization /* :: API interface */
 	 * Return true if this Authorization is effective; false otherise;
 	 * @return boolean
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function isActiveNow() { /* :: interface :: */ }
 
@@ -106,7 +106,7 @@ class HarmoniAuthorization /* :: API interface */
 	 * Some Authorizations are explicitly stored and others are implied, so use this method to determine if the Authorization is explicit and can be modified or deleted.
 	 * @return boolean
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function isExplicit() { /* :: interface :: */ }
 
@@ -117,7 +117,7 @@ class HarmoniAuthorization /* :: API interface */
 	 * Modify the date when this Authorization starts being effective.
 	 * @param expirationDate the date when this Authorization stops being effective
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function updateExpirationDate(& $expirationDate) { /* :: interface :: */ }
 
@@ -128,7 +128,7 @@ class HarmoniAuthorization /* :: API interface */
 	 * the date when this Authorization stops being effective.
 	 * @param effectiveDate the date when this Authorization becomes effective
 	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
-	 * @package osid.authorization
+	 * @package harmoni.osid.authorization
 	 */
 	function updateEffectiveDate(& $effectiveDate) { /* :: interface :: */ }
 

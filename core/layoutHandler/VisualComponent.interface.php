@@ -4,7 +4,7 @@
  * VisualComponent defines the interface for any component within a {@link Layout}.
  *
  * @package harmoni.layout
- * @version $Id: VisualComponent.interface.php,v 1.5 2004/04/20 19:49:47 adamfranco Exp $
+ * @version $Id: VisualComponent.interface.php,v 1.6 2004/04/21 17:55:27 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -102,7 +102,7 @@ class VisualComponent {
 	
 	/**
 	 * Sets the Horizontal Alignment for this element in its parent.
-	 * @param string $hvalign The alignment of the element; LEFT, CENTER, RIGHT.
+	 * @param string $halign The alignment of the element; LEFT, CENTER, RIGHT.
 	 * @return void
 	 */
 	function setHorizontalAlignment ( $halign ) {

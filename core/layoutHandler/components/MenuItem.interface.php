@@ -4,8 +4,8 @@
  * MenuItem interface defines the methods required by any MenuItem
  *
  * @package harmoni.layout.components
- * @version $Id: MenuItem.interface.php,v 1.3 2004/04/20 19:49:58 adamfranco Exp $
- * @copyright 2003 
+ * @version $Id: MenuItem.interface.php,v 1.4 2004/04/21 17:55:28 adamfranco Exp $
+ * @copyright 2004 
  **/
 class MenuItemInterface {
 	/**

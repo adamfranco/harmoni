@@ -10,7 +10,7 @@
  * to create a powerful yet flexible system for content output.
  *
  * @package harmoni.themes
- * @version $Id: Theme.interface.php,v 1.5 2004/04/01 22:46:26 adamfranco Exp $
+ * @version $Id: Theme.interface.php,v 1.6 2004/04/21 17:55:43 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -73,7 +73,7 @@ class ThemeInterface {
 	}
 	
 	/**
-	 * Adds $contentString to the <pre><head>...</head></pre> (head) section of the page.
+	 * Adds $contentString to the &lt;pre&gt;&lt;head&gt;...&lt;/head&gt;&lt;/pre&gt; (head) section of the page.
 	 * @param string $content The content to add to the head section.
 	 * @access public
 	 * @return void
@@ -83,7 +83,7 @@ class ThemeInterface {
 	}
 	
 	/**
-	 * Adds $styleString to the <pre><style>....</style></pre> (style) section of the head section of the page.
+	 * Adds $styleString to the &lt;pre&gt;&lt;style&gt;....&lt;/style&gt;&lt;/pre&gt; (style) section of the head section of the page.
 	 * @param string $styleString The style to add to the style section.
 	 * @access public
 	 * @return void
@@ -93,7 +93,7 @@ class ThemeInterface {
 	}
 	
 	/**
-	 * Adds $javascriptString to the <pre><script ...>....</script></pre> (script) section of the head section of the page.
+	 * Adds $javascriptString to the &lt;pre&gt;&lt;script ...&gt;....&lt;/script&gt;&lt;/pre&gt; (script) section of the head section of the page.
 	 * @param string $javascriptString The javascript to add to the script section.
 	 * @access public
 	 * @return void
@@ -208,7 +208,7 @@ class ThemeInterface {
 	 * Returns a ThemeWidget object with of the MenuItemThemeWidget class.
 	 * @access public
 	 * @param integer $index Which MenuItemThemeWidget to get. MenuItemThemeWidgets are 
-	 *		indexed analogus to the HTML <h1>, <h2>, <h3>, etc headings where the
+	 *		indexed analogus to the HTML &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, etc headings where the
 	 *		lower the index, the more "prominent" the look of the widget. Indices
 	 *		start at one and go as high (in sequence; 1, 2, 3, etc) as the theme 
 	 *		developer desires.
@@ -245,7 +245,7 @@ class ThemeInterface {
 	 * Returns a ThemeWidget object with of the MenuHeadingThemeWidget class.
 	 * @access public
 	 * @param integer $index Which MenuHeadingThemeWidget to get. MenuHeadingThemeWidgets are 
-	 *		indexed analogus to the HTML <h1>, <h2>, <h3>, etc headings where the
+	 *		indexed analogus to the HTML &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, etc headings where the
 	 *		lower the index, the more "prominent" the look of the widget. Indices
 	 *		start at one and go as high (in sequence; 1, 2, 3, etc) as the theme 
 	 *		developer desires.
@@ -282,7 +282,7 @@ class ThemeInterface {
 	 * Returns a ThemeWidget object with of the HeadingThemeWidget class.
 	 * @access public
 	 * @param integer $index Which HeadingThemeWidget to get. HeadingThemeWidgets are 
-	 *		indexed analogus to the HTML <h1>, <h2>, <h3>, etc headings where the
+	 *		indexed analogus to the HTML &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, etc headings where the
 	 *		lower the index, the more "prominent" the look of the widget. Indices
 	 *		start at one and go as high (in sequence; 1, 2, 3, etc) as the theme 
 	 *		developer desires.
@@ -319,7 +319,7 @@ class ThemeInterface {
 	 * Returns a ThemeWidget object with of the FooterThemeWidget class.
 	 * @access public
 	 * @param integer $index Which FooterThemeWidget to get. FooterThemeWidgets are 
-	 *		indexed analogus to the HTML <h1>, <h2>, <h3>, etc headings where the
+	 *		indexed analogus to the HTML &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, etc headings where the
 	 *		lower the index, the more "prominent" the look of the widget. Indices
 	 *		start at one and go as high (in sequence; 1, 2, 3, etc) as the theme 
 	 *		developer desires.
@@ -356,7 +356,7 @@ class ThemeInterface {
 	 * Returns a ThemeWidget object with of the TextBlockThemeWidget class.
 	 * @access public
 	 * @param integer $index Which TextBlockThemeWidget to get. TextBlockThemeWidgets are 
-	 *		indexed analogus to the HTML <h1>, <h2>, <h3>, etc headings where the
+	 *		indexed analogus to the HTML &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, etc headings where the
 	 *		lower the index, the more "prominent" the look of the widget. Indices
 	 *		start at one and go as high (in sequence; 1, 2, 3, etc) as the theme 
 	 *		developer desires.

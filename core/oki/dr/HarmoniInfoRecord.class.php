@@ -6,7 +6,7 @@ require_once(HARMONI."/oki/dr/HarmoniInfoFieldIterator.class.php");
 	/**
 	 * Each Asset has one of the AssetType supported by the DigitalRepository.  There are also zero or more InfoStructures required by the DigitalRepository for each AssetType. InfoStructures provide structural information.  The values for a given Asset's InfoStructure are stored in an InfoRecord.  InfoStructures can contain sub-elements which are referred to as InfoParts.  The structure defined in the InfoStructure and its InfoParts is used in for any InfoRecords for the Asset.  InfoRecords have InfoFields which parallel InfoParts.  <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 class HarmoniInfoRecord extends InfoRecord
 //	extends java.io.Serializable
@@ -28,7 +28,7 @@ class HarmoniInfoRecord extends InfoRecord
 	 * Get the Unique Id for this InfoRecord.
 	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 	function & getId() {
 		$sharedManager =& Services::getService("Shared");
@@ -42,7 +42,7 @@ class HarmoniInfoRecord extends InfoRecord
 	 * @param mixed value
 	 * @return object InfoField
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 	function & createInfoField(& $infoPartId, & $value) {
 		$fieldID = $infoPartId->getIdString();
@@ -92,7 +92,7 @@ class HarmoniInfoRecord extends InfoRecord
 	 * {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, 
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 	function deleteInfoField(& $infoFieldId) {
 		$string = $infoFieldId->getIdString();
@@ -112,7 +112,7 @@ class HarmoniInfoRecord extends InfoRecord
 	 * Get all the InfoFields in the InfoRecord.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @return object InfoFieldIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 	function & getInfoFields() {
 		// Get all of the InfoParts in this structure
@@ -141,7 +141,7 @@ class HarmoniInfoRecord extends InfoRecord
 	 * Return true if this InfoRecord is multi-valued; false otherwise.  This is determined by the implementation.
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 	function isMultivalued() {
 		return true; // we allow as many InfoRecords of any InfoStructure as people want.
@@ -151,7 +151,7 @@ class HarmoniInfoRecord extends InfoRecord
 	 * Get the InfoStructure associated with this InfoRecord.
 	 * @return object InfoStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 	function &getInfoStructure() {
 		return $this->_infoStructure;

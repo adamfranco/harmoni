@@ -2,7 +2,7 @@
 
 /**
  * Agents are an abstraction for a principal or group.  The Agent may be granted authorization to perform specific functions.  Agents are created through implementations of osid.shared.SharedManager and have an immutable name, Type, and Unique Id. <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
- * @package osid.shared
+ * @package harmoni.osid.shared
  */
 class HarmoniAgent extends Agent // :: API interface
 //	extends java.io.Serializable
@@ -73,7 +73,7 @@ class HarmoniAgent extends Agent // :: API interface
 	 * Get the name of this Agent.
 	 * @return String
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
+	 * @package harmoni.osid.shared
 	 */
 	function getDisplayName() {
 		return $this->_displayName;
@@ -83,7 +83,7 @@ class HarmoniAgent extends Agent // :: API interface
 	 * Get the id of this Agent.
 	 * @return id
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
+	 * @package harmoni.osid.shared
 	 */
 	function & getId() {
 		return $this->_id;
@@ -93,7 +93,7 @@ class HarmoniAgent extends Agent // :: API interface
 	 * Get the type of this Agent.
 	 * @return Type
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
+	 * @package harmoni.osid.shared
 	 */
 	function & getType() {
 		return $this->_type;
@@ -103,7 +103,7 @@ class HarmoniAgent extends Agent // :: API interface
 	 * Get all the Properties associated with this Agent.
 	 * @return PropertiesIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
+	 * @package harmoni.osid.shared
 	 */
 	function & getProperties() { /* :: interface :: */ }
 	// :: full java declaration :: PropertiesIterator getProperties()
@@ -112,7 +112,7 @@ class HarmoniAgent extends Agent // :: API interface
 	 * Get the Properties of this Type associated with this Agent.
 	 * @return Properties
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package osid.shared
+	 * @package harmoni.osid.shared
 	 */
 	function & getPropertiesByType(& $propertiesType) { /* :: interface :: */ }
 	// :: full java declaration :: Properties getPropertiesByType(Type propertiesType)
@@ -121,7 +121,7 @@ class HarmoniAgent extends Agent // :: API interface
 	 * Get the Properties Types supported by the implementation.
 	 * @return TypeIterator
 	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
+	 * @package harmoni.osid.shared
 	 */
 	function & getPropertiesTypes() { /* :: interface :: */ }
 	// :: full java declaration :: TypeIterator getPropertiesTypes()

@@ -5,11 +5,15 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
 require_once(HARMONI.'/oki/hierarchy/HarmoniHierarchy.class.php');
 require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
 
-/******************************************************************************
+/**
  * A storage wrapper for the Tree class
  *
- * 
- ******************************************************************************/
+ * @package harmoni.osid.hierarchy
+ * @author Adam Franco
+ * @copyright 2004 Middlebury College
+ * @access public
+ * @version $Id: SQLDatabaseHierarchyStore.class.php,v 1.14 2004/04/21 17:55:33 adamfranco Exp $
+ */
 
 
 class SQLDatabaseHierarchyStore

@@ -10,9 +10,9 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 /**
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * @version $Id: PostGreDatabase.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.2 2004/04/21 17:55:27 adamfranco Exp $
  * @copyright 2003 
- * @package harmoni.dbc
+ * @package harmoni.dbc.postgre
  * @access public
  **/
  

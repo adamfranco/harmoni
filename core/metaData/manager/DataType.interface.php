@@ -3,8 +3,8 @@
 /**
  * The DataTypeInterface defines the required functions for any DataType for use within the
  * {@link HarmoniDataManager}.
- * @package harmoni.datamanager.interfaces
- * @version $Id: DataType.interface.php,v 1.9 2004/03/31 19:13:26 adamfranco Exp $
+ * @package harmoni.datamanager
+ * @version $Id: DataType.interface.php,v 1.10 2004/04/21 17:55:28 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public

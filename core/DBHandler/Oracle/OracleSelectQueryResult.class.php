@@ -7,8 +7,8 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  *
  * The OracleSelectQueryResult interface provides the functionality common to a Oracle SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: OracleSelectQueryResult.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
- * @package harmoni.dbc
+ * @version $Id: OracleSelectQueryResult.class.php,v 1.2 2004/04/21 17:55:27 adamfranco Exp $
+ * @package harmoni.dbc.oracle
  * @access public
  * @copyright 2003 
  */

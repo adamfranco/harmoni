@@ -1,5 +1,10 @@
 <?
 
+/**
+ * An Id class that allows for the passing of an arbitrary string as an Id object.
+ * @package harmoni.osid.shared
+ */
+
 class HarmoniStringId
 	extends Id
 

@@ -9,6 +9,11 @@ require_once(HARMONI."/oki/shared/HarmoniIterator.class.php");
  * Asset manages the Asset itself.  Assets have content as well as InfoRecords
  * appropriate to the AssetType and InfoStructures for the Asset.  Assets may
  * also contain other Assets.
+ *
+ * @package harmoni.osid.dr
+ * @author Adam Franco
+ * @copyright 2004 Middlebury College
+ * @access public
  */
 
 class HarmoniAsset

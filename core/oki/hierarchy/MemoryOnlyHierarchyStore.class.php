@@ -2,11 +2,15 @@
 
 require_once(HARMONI.'/oki/hierarchy/HierarchyStore.interface.php');
 
-/******************************************************************************
+/**
  * A storage wrapper for the Tree class
  *
- * 
- ******************************************************************************/
+ * @package harmoni.osid.hierarchy
+ * @author Adam Franco
+ * @copyright 2004 Middlebury College
+ * @access public
+ * @version $Id: MemoryOnlyHierarchyStore.class.php,v 1.6 2004/04/21 17:55:33 adamfranco Exp $
+ */
 
 
 class MemoryOnlyHierarchyStore

@@ -5,6 +5,11 @@ require_once(OKI."/authorization.interface.php");
 // public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
 define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
 
+/**
+ *
+ * @package harmoni.osid.authorization
+ */
+
 class HarmoniAuthorizationIterator
 	extends AuthorizationIterator
 { // begin AuthorizationIterator

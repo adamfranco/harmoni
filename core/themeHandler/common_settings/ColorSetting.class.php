@@ -5,8 +5,8 @@ require_once(HARMONI."/themeHandler/ThemeSetting.abstract.php");
 /**
  * A simple color setting that takes RGB Hexadecimal colors.
  *
- * @package harmoni.themes
- * @version $Id: ColorSetting.class.php,v 1.1 2004/03/04 22:59:07 adamfranco Exp $
+ * @package harmoni.themes.included_settings
+ * @version $Id: ColorSetting.class.php,v 1.2 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 

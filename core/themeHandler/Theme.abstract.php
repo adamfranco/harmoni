@@ -19,7 +19,7 @@ define ("BLANK_WIDGET", "blank");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: Theme.abstract.php,v 1.10 2004/04/01 22:46:26 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.11 2004/04/21 17:55:43 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -46,21 +46,21 @@ class Theme
 	
 	/**
 	 * @access private
-	 * @var string $_headContent The string to print in the <head> section.
+	 * @var string $_headContent The string to print in the &lt;head&gt; section.
 	 **/
 	var $_headContent = "";
 	
 	/**
 	 * @access private
-	 * @var string $_headStyles The CSS styles to put between <style> tags 
-	 * 		in the <head> section.
+	 * @var string $_headStyles The CSS styles to put between &lt;style&gt; tags 
+	 * 		in the &lt;head&gt; section.
 	 **/
 	var $_headStyles = "";
 	
 	/**
 	 * @access private
-	 * @var string $_headJavascript The javascript functions to put between <script> tags 
-	 * 		in the <head> section.
+	 * @var string $_headJavascript The javascript functions to put between &lt;script&gt; tags 
+	 * 		in the &lt;head&gt; section.
 	 **/
 	var $_headJavascript = "";
 	
@@ -215,7 +215,7 @@ class Theme
 	}
 	
 	/**
-	 * Adds $contentString to the <pre><head>...</head></pre> (head) section of the page.
+	 * Adds $contentString to the &lt;pre&gt;&lt;head&gt;...&lt;/head&gt;&lt;/pre&gt; (head) section of the page.
 	 * @param string $content The content to add to the head section.
 	 * @access public
 	 * @return void
@@ -223,11 +223,11 @@ class Theme
 	function addHeadContent ( $contentString ) {
 		ArgumentValidator::validate($contentString, new StringValidatorRule);
 		
-		$this->_headContent .= "\n".$contentString;
+		$this-&gt;_headContent .= "\n".$contentString;
 	}
 	
 	/**
-	 * Adds $styleString to the <pre><style>....</style></pre> (style) section of the head section of the page.
+	 * Adds $styleString to the &lt;pre&gt;&lt;style&gt;....&lt;/style&gt;&lt;/pre&gt; (style) section of the head section of the page.
 	 * @param string $styleString The style to add to the style section.
 	 * @access public
 	 * @return void
@@ -235,11 +235,11 @@ class Theme
 	function addHeadStyle ( $styleString ) {
 		ArgumentValidator::validate($styleString, new StringValidatorRule);
 		
-		$this->_headStyles .= "\n".$styleString;
+		$this-&gt;_headStyles .= "\n".$styleString;
 	}
 	
 	/**
-	 * Adds $javascriptString to the <pre><script ...>....</script></pre> (script) section of the head section of the page.
+	 * Adds $javascriptString to the &lt;pre&gt;&lt;script ...&gt;....&lt;/script&gt;&lt;/pre&gt; (script) section of the head section of the page.
 	 * @param string $javascriptString The javascript to add to the script section.
 	 * @access public
 	 * @return void
@@ -247,7 +247,7 @@ class Theme
 	function addHeadJavascript ( $javascriptString ) {
 		ArgumentValidator::validate($javascriptString, new StringValidatorRule);
 		
-		$this->_headJavascript .= "\n".$javascriptString;
+		$this-&gt;_headJavascript .= "\n".$javascriptString;
 	}
 	
 	/**
@@ -326,7 +326,7 @@ class Theme
 	 * Returns a SettingsIterator object with this Theme's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this theme's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 *		Note: these styles do not include those of the theme's child widgets.
 	 *		Those must be accessed otherwise.
 	 **/
@@ -453,7 +453,7 @@ class Theme
 	 * Returns a ThemeWidget object with of the $type class.
 	 * @access public
 	 * @param integer $index Which MenuThemeWidget to get. MenuThemeWidgets are 
-	 *		indexed analogus to the HTML <h1>, <h2>, <h3>, etc headings where the
+	 *		indexed analogus to the HTML &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, etc headings where the
 	 *		lower the index, the more "prominent" the look of the widget. Indices
 	 *		start at 1 and go as high (in sequence; 1, 2, 3, etc) as the theme 
 	 *		developer desires.

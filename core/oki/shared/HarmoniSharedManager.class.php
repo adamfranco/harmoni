@@ -36,8 +36,11 @@ require_once(HARMONI."oki/shared/HarmoniStringId.class.php");
  * </p>
  * 
  * <p></p>
- *
- * @version $Revision: 1.24 $ / $Date: 2004/04/21 13:46:01 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @package harmoni.osid.shared
+ * @author Adam Franco, Dobromir Radichkov
+ * @copyright 2004 Middlebury College
+ * @access public
+ * @version $Id: HarmoniSharedManager.class.php,v 1.25 2004/04/21 17:55:34 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */

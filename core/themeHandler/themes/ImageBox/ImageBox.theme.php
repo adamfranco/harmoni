@@ -20,8 +20,8 @@ require_once(dirname(__FILE__)."/ImageBoxTextBlock3.widget.php");
 /**
  * A simple line and color-block based theme.
  *
- * @package harmoni.themes
- * @version $Id: ImageBox.theme.php,v 1.1 2004/04/06 20:16:47 adamfranco Exp $
+ * @package harmoni.themes.included_themes
+ * @version $Id: ImageBox.theme.php,v 1.2 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -63,7 +63,7 @@ class ImageBoxTheme
 	 * Returns a SettingsIterator object with this Theme's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this theme's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 *		Note: these styles do not include those of the theme's child widgets.
 	 *		Those must be accessed otherwise.
 	 **/

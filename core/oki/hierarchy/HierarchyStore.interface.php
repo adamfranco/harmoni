@@ -1,11 +1,14 @@
 <?php
 
-/******************************************************************************
+/**
  * A storage wrapper for the Tree class
  *
- * 
- ******************************************************************************/
-
+ * @package harmoni.osid.hierarchy
+ * @author Adam Franco
+ * @copyright 2004 Middlebury College
+ * @access public
+ * @version $Id: HierarchyStore.interface.php,v 1.7 2004/04/21 17:55:33 adamfranco Exp $
+ */
 
 class HierarchyStore
 {

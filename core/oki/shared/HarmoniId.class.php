@@ -1,5 +1,11 @@
 <?
 
+/**
+ * A class for passing an integer or a string representation of an integer as an
+ * id.
+ * @package harmoni.osid.shared
+ */
+
 class HarmoniId
 	extends Id
 

@@ -3,12 +3,15 @@
 require_once(HARMONI.'/oki/hierarchy/HierarchyManagerStore.interface.php');
 require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchyStore.class.php');
 
-/******************************************************************************
+/**
  * A storage class for HierarchyManager[s]. This class provides saving and loading
  * of the HierarchyManager from persistable storage.
+  * @package harmoni.osid.hierarchy
  * @author Adam Franco
- * @version $$
- ******************************************************************************/
+ * @copyright 2004 Middlebury College
+ * @access public
+ * @version $Id: MemoryOnlyHierarchyManagerStore.class.php,v 1.3 2004/04/21 17:55:33 adamfranco Exp $
+ */
 
 
 class MemoryOnlyHierarchyManagerStore

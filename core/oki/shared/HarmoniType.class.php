@@ -2,6 +2,12 @@
 
 require_once(OKI."/shared.interface.php");
 
+/**
+ * A generic type for Harmoni. Constructor takes the desired authority, domain, keyword,
+ * and description.
+ * @package harmoni.osid.shared
+ */
+
 class HarmoniType
 	extends Type
 { // begin Type

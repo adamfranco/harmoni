@@ -10,8 +10,8 @@ require_once(HARMONI."/themeHandler/common_settings/BorderSetting.class.php");
 /**
  * A simple line and color-block based theme.
  *
- * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
+ * @package harmoni.themes.included_themes
+ * @version $Id: SimpleLines.theme.php,v 1.9 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -53,7 +53,7 @@ class SimpleLinesTheme
 	 * Returns a SettingsIterator object with this Theme's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this theme's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 *		Note: these styles do not include those of the theme's child widgets.
 	 *		Those must be accessed otherwise.
 	 **/
@@ -107,8 +107,8 @@ class SimpleLinesTheme
 /**
  * The main TextBlock Widget for the SimpleLines theme.
  *
- * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
+ * @package harmoni.themes.included_themes
+ * @version $Id: SimpleLines.theme.php,v 1.9 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -139,7 +139,7 @@ class SimpleLinesTextBlock1
 	 * Returns a SettingsIterator object with this ThemeWidget's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this widget's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 **/
 	function getStyles () {	 
 		$styles = "\n\n\t\t\t.textblock1 {";
@@ -172,7 +172,7 @@ class SimpleLinesTextBlock1
 	}
 	
 	/**
-	 * Takes a {@link Layout} or {@link Content} object and prints a <div ...> ... </div>
+	 * Takes a {@link Layout} or {@link Content} object and prints a &lt;div ...&gt; ... &lt;/div&gt;
 	 * block with the layout's contents or content inside.
 	 * @param ref object $layoutOrContent The {@link Layout} object or {@link Content} object.
 	 * @access public
@@ -194,8 +194,8 @@ class SimpleLinesTextBlock1
 /**
  * A TextBlock Widget for the SimpleLines theme.
  *
- * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
+ * @package harmoni.themes.included_themes
+ * @version $Id: SimpleLines.theme.php,v 1.9 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -220,7 +220,7 @@ class SimpleLinesTextBlock2
 	 * Returns a SettingsIterator object with this ThemeWidget's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this widget's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 **/
 	function getStyles () {	 
 		$styles = "\n\n\t\t\t.textblock2 {";
@@ -234,7 +234,7 @@ class SimpleLinesTextBlock2
 	}
 	
 	/**
-	 * Takes a {@link Layout} or {@link Content} object and prints a <div ...> ... </div>
+	 * Takes a {@link Layout} or {@link Content} object and prints a &lt;div ...&gt; ... &lt;/div&gt;
 	 * block with the layout's contents or content inside.
 	 * @param ref object $layoutOrContent The {@link Layout} object or {@link Content} object.
 	 * @access public
@@ -255,8 +255,8 @@ class SimpleLinesTextBlock2
 /**
  * A TextBlock Widget for the SimpleLines theme.
  *
- * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
+ * @package harmoni.themes.included_themes
+ * @version $Id: SimpleLines.theme.php,v 1.9 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -286,7 +286,7 @@ class SimpleLinesTextBlock3
 	 * Returns a SettingsIterator object with this ThemeWidget's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this widget's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 **/
 	function getStyles () {	 
 		$styles = "\n\n\t\t\t.textblock3 {";
@@ -312,7 +312,7 @@ class SimpleLinesTextBlock3
 	}
 	
 	/**
-	 * Takes a {@link Layout} or {@link Content} object and prints a <div ...> ... </div>
+	 * Takes a {@link Layout} or {@link Content} object and prints a &lt;div ...&gt; ... &lt;/div&gt;
 	 * block with the layout's contents or content inside.
 	 * @param ref object $layoutOrContent The {@link Layout} object or {@link Content} object.
 	 * @access public
@@ -334,8 +334,8 @@ class SimpleLinesTextBlock3
 /**
  * The main Heading Widget for the SimpleLines theme.
  *
- * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
+ * @package harmoni.themes.included_themes
+ * @version $Id: SimpleLines.theme.php,v 1.9 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -365,7 +365,7 @@ class SimpleLinesHeading1
 	 * Returns a SettingsIterator object with this ThemeWidget's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this widget's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 **/
 	function getStyles () {	 
 		$styles = "\n\n\t\t\t.heading1 {";
@@ -388,7 +388,7 @@ class SimpleLinesHeading1
 	}
 	
 	/**
-	 * Takes a {@link Layout} or {@link Content} object and prints a <div ...> ... </div>
+	 * Takes a {@link Layout} or {@link Content} object and prints a &lt;div ...&gt; ... &lt;div&gt;
 	 * block with the layout's contents or content inside.
 	 * @param ref object $layoutOrContent The {@link Layout} object or {@link Content} object.
 	 * @access public
@@ -409,8 +409,8 @@ class SimpleLinesHeading1
 /**
  * A secondary Heading Widget for the SimpleLines theme.
  *
- * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
+ * @package harmoni.themes.included_themes
+ * @version $Id: SimpleLines.theme.php,v 1.9 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -439,7 +439,7 @@ class SimpleLinesHeading2
 	 * Returns a SettingsIterator object with this ThemeWidget's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this widget's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 **/
 	function getStyles () {	 
 		$styles = "\n\n\t\t\t.heading2 {";
@@ -466,7 +466,7 @@ class SimpleLinesHeading2
 	}
 	
 	/**
-	 * Takes a {@link Layout} or {@link Content} object and prints a <div ...> ... </div>
+	 * Takes a {@link Layout} or {@link Content} object and prints a &lt;div ...&gt; ... &lt;div&gt;
 	 * block with the layout's contents or content inside.
 	 * @param ref object $layoutOrContent The {@link Layout} object or {@link Content} object.
 	 * @access public
@@ -488,8 +488,8 @@ class SimpleLinesHeading2
 /**
  * The main Heading Widget for the SimpleLines theme.
  *
- * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
+ * @package harmoni.themes.included_themes
+ * @version $Id: SimpleLines.theme.php,v 1.9 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -519,7 +519,7 @@ class SimpleLinesFooter1
 	 * Returns a SettingsIterator object with this ThemeWidget's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this widget's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 **/
 	function getStyles () {	 
 		$styles = "\n\n\t\t\t.footer1 {";
@@ -542,7 +542,7 @@ class SimpleLinesFooter1
 	}
 	
 	/**
-	 * Takes a {@link Layout} or {@link Content} object and prints a <div ...> ... </div>
+	 * Takes a {@link Layout} or {@link Content} object and prints a &lt;div ...&gt; ... &lt;div&gt;
 	 * block with the layout's contents or content inside.
 	 * @param ref object $layoutOrContent The {@link Layout} object or {@link Content} object.
 	 * @access public
@@ -564,8 +564,8 @@ class SimpleLinesFooter1
 /**
  * A Menu Widget for the SimpleLines theme.
  *
- * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
+ * @package harmoni.themes.included_themes
+ * @version $Id: SimpleLines.theme.php,v 1.9 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -595,7 +595,7 @@ class SimpleLinesMenu1
 	 * Returns a SettingsIterator object with this ThemeWidget's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this widget's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 **/
 	function getStyles () {	 
 		$styles = "\n\n\t\t\t.menu1 {";
@@ -621,7 +621,7 @@ class SimpleLinesMenu1
 	}
 	
 	/**
-	 * Takes a {@link Layout} or {@link Content} object and prints a <div ...> ... </div>
+	 * Takes a {@link Layout} or {@link Content} object and prints a &lt;div ...&gt; ... &lt;div&gt;
 	 * block with the layout's contents or content inside.
 	 * @param ref object $layoutOrContent The {@link Layout} object or {@link Content} object.
 	 * @access public
@@ -643,8 +643,8 @@ class SimpleLinesMenu1
 /**
  * A MenuHeading Widget for the SimpleLines theme.
  *
- * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
+ * @package harmoni.themes.included_themes
+ * @version $Id: SimpleLines.theme.php,v 1.9 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -670,7 +670,7 @@ class SimpleLinesMenuHeading1
 	 * Returns a SettingsIterator object with this ThemeWidget's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this widget's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 **/
 	function getStyles () {	 
 		$styles = "\n\n\t\t\t.menuheading1 {";
@@ -689,7 +689,7 @@ class SimpleLinesMenuHeading1
 	}
 	
 	/**
-	 * Takes a {@link Layout} or {@link Content} object and prints a <div ...> ... </div>
+	 * Takes a {@link Layout} or {@link Content} object and prints a &lt;div ...&gt; ... &lt;div&gt;
 	 * block with the layout's contents or content inside.
 	 * @param ref object $layoutOrContent The {@link Layout} object or {@link Content} object.
 	 * @access public
@@ -711,8 +711,8 @@ class SimpleLinesMenuHeading1
 /**
  * A MenuItem Widget for the SimpleLines theme.
  *
- * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
+ * @package harmoni.themes.included_themes
+ * @version $Id: SimpleLines.theme.php,v 1.9 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -739,7 +739,7 @@ class SimpleLinesMenuItem1
 	 * Returns a SettingsIterator object with this ThemeWidget's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this widget's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 **/
 	function getStyles () {	 
 		$styles = "\n\n\t\t\t.menuitem1 {";
@@ -763,7 +763,7 @@ class SimpleLinesMenuItem1
 	}
 	
 	/**
-	 * Takes a {@link Layout} or {@link Content} object and prints a <div ...> ... </div>
+	 * Takes a {@link Layout} or {@link Content} object and prints a &lt;div ...&gt; ... &lt;div&gt;
 	 * block with the layout's contents or content inside.
 	 * @param ref object $layoutOrContent The {@link Layout} object or {@link Content} object.
 	 * @access public
@@ -783,8 +783,8 @@ class SimpleLinesMenuItem1
 /**
  * A MenuItem Widget for the SimpleLines theme.
  *
- * @package harmoni.themes
- * @version $Id: SimpleLines.theme.php,v 1.8 2004/04/01 22:46:26 adamfranco Exp $
+ * @package harmoni.themes.included_themes
+ * @version $Id: SimpleLines.theme.php,v 1.9 2004/04/21 17:55:44 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -810,7 +810,7 @@ class SimpleLinesSelectedMenuItem1
 	 * Returns a SettingsIterator object with this ThemeWidget's ThemeSetting objects.
 	 * @access public
 	 * @return string A set of CSS styles corresponding to this widget's settings. These
-	 *		are to be inserted into the page's <head><style> section.
+	 *		are to be inserted into the page's &lt;head&gt;&lt;style&gt; section.
 	 **/
 	function getStyles () {	 
 		$styles = "\n\n\t\t\t.selectedmenuitem1 {";
@@ -827,7 +827,7 @@ class SimpleLinesSelectedMenuItem1
 	}
 	
 	/**
-	 * Takes a {@link Layout} or {@link Content} object and prints a <div ...> ... </div>
+	 * Takes a {@link Layout} or {@link Content} object and prints a &lt;div ...&gt; ... &lt;div&gt;
 	 * block with the layout's contents or content inside.
 	 * @param ref object $layoutOrContent The {@link Layout} object or {@link Content} object.
 	 * @access public

@@ -10,9 +10,9 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
 /**
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
- * @version $Id: OracleDatabase.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.2 2004/04/21 17:55:27 adamfranco Exp $
  * @copyright 2003 
- * @package harmoni.dbc
+ * @package harmoni.dbc.oracle
  * @access public
  **/
  

@@ -18,7 +18,11 @@ require_once(OKI."/hierarchy.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.3 $ / $Date: 2004/04/21 13:45:49 $
+ * @package harmoni.osid.hierarchy
+ * @author Adam Franco
+ * @copyright 2004 Middlebury College
+ * @access public
+ * @version $Id: HarmoniTraversalInfo.class.php,v 1.4 2004/04/21 17:55:33 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

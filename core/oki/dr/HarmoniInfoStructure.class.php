@@ -6,7 +6,7 @@ require_once(HARMONI."/oki/dr/HarmoniInfoPartIterator.class.php");
 	/**
 	 * Each Asset has one of the AssetType supported by the DigitalRepository.  There are also zero or more InfoStructures required by the DigitalRepository for each AssetType. InfoStructures provide structural information.  The values for a given Asset's InfoStructure are stored in an InfoRecord.  InfoStructures can contain sub-elements which are referred to as InfoParts.  The structure defined in the InfoStructure and its InfoParts is used in for any InfoRecords for the Asset.  InfoRecords have InfoFields which parallel InfoParts.  <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 class HarmoniInfoStructure extends InfoStructure
 //	extends java.io.Serializable
@@ -27,7 +27,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * Get the name for this InfoStructure.
 	 * @return String the name
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 	function getDisplayName() {
 		$type =& $this->_typeDef->getType();
@@ -39,7 +39,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * Get the description for this InfoStructure.
 	 * @return String the name
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 	function getDescription() {
 		$type =& $this->_typeDef->getType();
@@ -51,7 +51,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * Get the Unique Id for this InfoStructure.
 	 * @return object osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 	function & getId() {
 		$sharedManager =& Services::getService("Shared");
@@ -62,7 +62,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * Get all the InfoParts in the InfoStructure.  Iterators return a group of items, one item at a time.  The Iterator's hasNext method returns <code>true</code> if there are additional objects available; <code>false</code> otherwise.  The Iterator's next method returns the next object.
 	 * @return object InfoPartIterator  The order of the objects returned by the Iterator is not guaranteed.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 	function & getInfoParts() {
 		$this->_typeDef->load();
@@ -79,7 +79,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * Get the schema for this InfoStructure.  The schema is defined by the implementation, e.g. Dublin Core.
 	 * @return String
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 	function getSchema() {
 		return "Harmoni DataManager User-defined Schema";
@@ -89,7 +89,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * Get the format for this InfoStructure.  The format is defined by the implementation, e.g. XML.
 	 * @return String
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 	function getFormat() {
 		return "Harmoni DataManager DataSetTypeDefinition";
@@ -100,7 +100,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @param object infoRecord
 	 * @return boolean
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package osid.dr
+	 * @package harmoni.osid.dr
 	 */
 	function validateInfoRecord(& $infoRecord) {
 		// all we can really do is make sure the DataSet behind the infoRecord is of the correct

@@ -9,10 +9,10 @@ require_once(HARMONI."authenticationHandler/AuthenticationMethod.abstract.php");
  * {@link AlwaysTrueAuthenticationMethod::authenticate()} will return true if the Agent exists on the targeted system.
  * This method is useful almost SOLELY for demo site purposes. BE CAREFUL USING IT!!!
  *
- * @version $Id: AlwaysTrueAuthenticationMethod.class.php,v 1.2 2003/11/25 19:56:21 gabeschine Exp $
+ * @version $Id: AlwaysTrueAuthenticationMethod.class.php,v 1.3 2004/04/21 17:55:27 adamfranco Exp $
  * @copyright 2003 
  * @access public
- * @package harmoni.authentication.methodwrappers
+ * @package harmoni.authentication.methods
  **/
  
 class AlwaysTrueAuthenticationMethod extends AuthenticationMethod {

@@ -100,13 +100,17 @@
 *   getFlatList([integer node_id])                           Retrieves an indexed array of the node ids from top to bottom, left to right, optionally starting at the given node id
 *   traverse(callback function)                              Traverses the tree suppling each node id (and tree object) to the callback function
 *   search(mixed searchData [, bool strict])                 Basic search function for searching the nodes' data
+*
+*
+*------------------------------------------------
+* Changes by Adam Franco:
+* - Added nodeExists function
+* - '=' changed to '=&' $data containing objects
+*
+* @package harmoni.osid.hierarchy
+* @access public
+* @version $Id: Tree.php,v 1.9 2004/04/21 17:55:33 adamfranco Exp $
 */
-
-/******************************************************************************
- * Changes by Adam Franco:
- * - Added nodeExists function
- * - '=' changed to '=&' $data containing objects
- ******************************************************************************/
 
 
 class Tree
