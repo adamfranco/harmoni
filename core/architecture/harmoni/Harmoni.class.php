@@ -8,6 +8,7 @@ require_once(HARMONI."architecture/harmoni/HarmoniConfig.class.php");
 require_once(HARMONI."architecture/harmoni/Context.class.php");
 require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
 require_once(HARMONI."/architecture/output/BasicOutputHandler.class.php");
+require_once(OKI2."/osid/OsidContext.php");
 
 /**
  * The Harmoni class combines the functionality of login, authentication, 
@@ -19,7 +20,7 @@ require_once(HARMONI."/architecture/output/BasicOutputHandler.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.35 2005/04/05 18:53:18 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.36 2005/04/05 20:42:48 adamfranco Exp $
  **/
 class Harmoni {
 	
@@ -104,7 +105,11 @@ class Harmoni {
 		$this->pathInfoParts = explode("/",ereg_replace("^/|/$","",$pathInfo));
 		
 		// Set up a default OutputHandler
-		$this->attachOutputHandler(new BasicOutputHandler);
+		$osidContext =& new OsidContext;
+		$osidContext->assignContext('harmoni', $this);
+		$outputHandler =& new BasicOutputHandler;
+		$outputHandler->assignOsidContext($osidContext);
+		$this->attachOutputHandler($outputHandler);
 	}
 	
 	/**
@@ -351,8 +356,12 @@ class Harmoni {
 		// 2) Take whatever it returns (true, false, or Layout)
 		// 3) Pass that on to the theme/OutputHandler
 		// That's it! program finished!
-		
+
+		ob_start();
 		$result =& $this->ActionHandler->execute($module, $action);
+		$printedContents = ob_get_contents();
+		ob_end_clean();
+
 		$lastExecutedAction = $this->ActionHandler->lastExecutedAction();
 
 		$this->result =& $result;
@@ -371,7 +380,7 @@ class Harmoni {
 			}
 		}
 
-		$this->_outputHandler->output($result);
+		$this->_outputHandler->output($result, $printedContents);
 	}
 	
 	/**
