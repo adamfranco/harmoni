@@ -4,7 +4,7 @@ require_once(HARMONI."utilities/Queue.interface.php");
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.class.php,v 1.10 2003/06/25 15:13:48 movsjani Exp $
+ * @version $Id: Queue.class.php,v 1.11 2003/06/26 16:05:45 movsjani Exp $
  * @copyright 2003 
  */
 
@@ -75,7 +75,7 @@ class Queue extends QueueInterface {
 	 * @access public
 	 */
 	function hasNext() {
-		return ($this->_queue[$this->_position]) ? true : false;
+		return (isset($this->_queue[$this->_position])) ? true : false;
 	}
 	
 	/**

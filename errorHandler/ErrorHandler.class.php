@@ -6,34 +6,55 @@ require_once(HARMONI."errorHandler/ErrorHandler.interface.php");
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.5 2003/06/25 18:51:11 dobomode Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.6 2003/06/26 16:05:44 movsjani Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */
 
 class ErrorHandler extends ErrorHandlerInterface{
 	
-
+	/**
+	 * @var object QueueInterface $_errorQueue A Queue of the errors.
+	 * @access private
+	 */
 	var $_errorQueue;
 
-	function ErrorHandler(){
-		$this->_errorQueue = new Queue(true);
-	}
+	/**
+	 * @var object QueueInterface $_errorQueue A Queue of the Error Printers.
+	 * @access private
+	 */
+	var $_printerQueue;
+   
 
 	/**
-	 * @param object Error An error object to be added to the queue.
-	 * If the error passed is fatal, then all the errors in the queue are outputed and the execution of the script is halted.
+	 * The Constructor.
+	 * The Constructor. It creates a new ErrorHandler.
+	 *
 	 * @access public
 	 */
+	function ErrorHandler(){
+		$this->_errorQueue = new Queue(true);
+		$this->_printerQueue = new Queue();
+	}
 
+    /**
+     * Adds an Error object to the queue.
+     * Adds an Error object to the queue. If the error passed is fatal, then all the 
+     * errors in the queue are outputed and the execution of the script is halted.
+     *
+     * @param object Error An error object to be added to the queue.
+     * @access public
+     */
 	function addError(& $error){
-		if($error->isFatal())
-			$this->_outputFatal($error);
-		else
-			$this->_errorQueue->add($error);
+		$this->_errorQueue->add($error);
+		if($error->isFatal()){
+			$this->printErrors();
+			exit();
+		}
 	}
 
 	/**
+	 * Create a new Error object based on input and add it to the queue.
 	 * Create a new Error object based on input and add it to the queue.
 	 * Same as addError(new Error($description,$type,$isFatal))
 	 * if isFatal is true then all the errors in the queue should be 
@@ -41,7 +62,7 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 *
 	 * @param string $description Description of the error.
 	 * @param string $type Type of the error.
-	 * @param boolean $isFatal Whether the scipt should be halted after this error occured.
+	 * @param boolean $isFatal The scipt should be halted if this is True.
 	 * @return object Error Reference to the error object that was created.
 	 * @access public
 	 */
@@ -54,6 +75,8 @@ class ErrorHandler extends ErrorHandlerInterface{
 	}
 
 	/**
+     * Generate an array os strings that describe the errors.
+     * Generate an array os strings that describe the errors.
 	 * @return array An array of strings that describe all the errors in the queue.
 	 * @access public
 	 */
@@ -76,6 +99,8 @@ class ErrorHandler extends ErrorHandlerInterface{
 	}
 
 	/**
+     * Count the number of errors currently in the queue.
+     * Count the number of errors currently in the queue.
 	 * @return integer The number of errors that are currently in the queue.
 	 * @access public
 	 */
@@ -95,85 +120,27 @@ class ErrorHandler extends ErrorHandlerInterface{
 	}
 
 	/**
-	 *    Renders a variable in a shorter form than print_r(). Borrowed from
-	 *    the SimpleTest PHP unit test framework.
-	 *    @param $var        Variable to render as a string.
-	 *    @protected
+     * Add an ErrorPrinter to the printer Queue, which will be used by the PrintErrors method.
+     * Add an ErrorPrinter to the printer Queue, which will be used by the PrintErrors method.
+     * @param class ErrorPrinter The Error printer to be added to the queue.
+	 * @access public
 	 */
-	function _renderVariable($var) {
-	    if (!isset($var)) {
-	        return "NULL";
-	    } elseif (is_bool($var)) {
-	        return "Boolean: " . ($var ? "true" : "false");
-	    } elseif (is_string($var)) {
-	        return "String: \"$var\"";
-	    } elseif (is_integer($var)) {
-	        return "Integer: $var";
-	    } elseif (is_float($var)) {
-	        return "Float: $var";
-	    } elseif (is_array($var)) {
-	        return "Array: " . count($var) . " items";
-	    } elseif (is_resource($var)) {
-	        return "Resource: $var";
-	    } elseif (is_object($var)) {
-	        return "Object: " . get_class($var);
-	    }
-	    return "Unknown";
+
+	function addErrorPrinter(& $printer){
+		$this->_printerQueue->add(& $printer);
 	}
-	
-	
-    /**
-     * Output formatted messages about error history in the case of a fatal error. Terminate the execution of the script afterwards.
-	 * @access private
-     */
-	function _outputFatal(& $error){
-		/* Print the information about the last Error and the sequence of commands that caused it */
-  	
-		print "<b>FATAL ERROR:</b><br><br>\n";
 
-		if($error->getType())
-			print "<b>Type</b>: ".$error->getType()."<br>";
-		
-		print "<b>Description</b>: ".$error->getDescription()."<br><br>\n";
+	/**
+     * Fetch the Error queue as it is to each ErrorPrinter in the Error Printer queue.
+     * Fetch the Error queue as it is to each ErrorPrinter in the Error Printer queue.
+	 * @access public
+	 */
 
-		/* get the call sequence information */
-		$traceArray = debug_backtrace();
-		
-		foreach($traceArray as $trace){
-			/* each $traceArray element represents a step in the call hiearchy. Print them from bottom up. */
-			$file = substr(strrchr($trace['file'],'/'),1);
-			$line = $trace['line'];
-			$function = $trace['function'];
-			$class = $trace['class'];
-			$type = $trace['type'];
-			$args = "";
-
-			/* Get comma delimited arguements of the calls.  Arrays and Objects are not expanded */
-			$argsArray = array();
-			
-			foreach ($trace["args"] as $arg)
-				$argsArray[] = $this->_renderVariable($arg);
-						
-			$args = implode(", ", $argsArray);
-				
-			print "in <b>$file:$line</b> $class$type$function($args)<br>\n";
+	function printErrors(){
+		while($this->_printerQueue->hasNext()){
+			$printer =& $this->_printerQueue->next();
+			$printer->printErrors($this->_errorQueue);
 		}
-
-		/* Now output all the errors in the queue as a bulleted indented list */
-
-		$errors = $this->generateErrorStringArray();
-		
-		print "<br>----------------<br><br><b>PREVIOUS ERRORS:</b><br>\n";
-
-		print "<ul>\n";
-
-	    foreach($errors as $error){
-			print "<li>$error</li>\n";
-		}
-
-		print "</ul>\n";
-	   
-		exit();
 	}
 }
 ?>

@@ -2,13 +2,14 @@
 
 
 require_once(HARMONI.'errorHandler/ErrorHandler.class.php');
+require_once(HARMONI.'errorHandler/ErrorPrinterBasic.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ErrorHandlerTestCase.class.php,v 1.6 2003/06/25 15:11:29 movsjani Exp $
+ * @version $Id: ErrorHandlerTestCase.class.php,v 1.7 2003/06/26 16:05:45 movsjani Exp $
  * @package harmoni.errorhandler.tests
  * @copyright 2003 
  **/
@@ -41,6 +42,8 @@ require_once(HARMONI.'errorHandler/ErrorHandler.class.php');
 
 	function testTwoParameters(){
 	    $this->_testHandler = new ErrorHandler();
+		$printer = new ErrorPrinterBasic();
+		$this->_testHandler->addErrorPrinter(& $printer);
 		$this->_testHandler->addNewError("first Error","user");
 		$this->_testHandler->addNewError("second Error","prof");
 		$testError = new Error("third error","system",true);

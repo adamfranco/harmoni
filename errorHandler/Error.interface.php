@@ -4,7 +4,7 @@
  * An error class interface provides functionality to create Error objects 
  * to be used by the ErrorHandler
  *
- * @version $Id: Error.interface.php,v 1.1 2003/06/24 20:53:28 gabeschine Exp $
+ * @version $Id: Error.interface.php,v 1.2 2003/06/26 16:05:44 movsjani Exp $
  * @package harmoni.errorhandler
  * @copyright 2003
  * @access public
@@ -35,6 +35,15 @@ class ErrorInterface {
      * @access public
      */
     function isFatal() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+
+    /**
+     * Gets the debug backtrace information for the error.
+     * Gets the debug backtrace information for the error.
+     * @return The debug backtrace information the way it is stored by the debug_backtrace() function.
+     * @access public
+     */
+    function getDebugBacktrace() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+
 }
 
 
