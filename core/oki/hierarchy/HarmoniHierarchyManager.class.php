@@ -1,0 +1,119 @@
+<?
+
+require_once(OKI."/hierarchy/hierarchyAPI.interface.php");
+
+// public static final int TRAVERSE_MODE_DEPTH_FIRST = 0xdf;
+define("TRAVERSE_MODE_DEPTH_FIRST",0xdf;);
+
+// public static final int TRAVERSE_MODE_BREADTH_FIRST = 0xbf;
+define("TRAVERSE_MODE_BREADTH_FIRST",0xbf;);
+
+// public static final int TRAVERSE_DIRECTION_UP = 0x01;
+define("TRAVERSE_DIRECTION_UP",0x01;);
+
+// public static final int TRAVERSE_DIRECTION_DOWN = 0x02;
+define("TRAVERSE_DIRECTION_DOWN",0x02;);
+
+// public static final int TRAVERSE_LEVELS_INFINITE = -1;
+define("TRAVERSE_LEVELS_INFINITE",-1;);
+
+
+class HarmoniHierarchyManager
+	extends HierarchyManager
+{ // begin HierarchyManager
+
+
+	/**
+	 * @var array $_hierarchies An array of Hierarchies.
+	 */
+	var $_hierachies = array ();
+	
+	/**
+	 * @var array $_hierarchyTypes An array of the supported Types
+	 */
+	var $_hierarchyTypes = array();
+	
+	
+	/**
+	 * Constructor
+	 * @param array $hierarchies An array of the hierarchies to add to the
+	 * manager.
+	 * @access public
+	 */
+	function HarmoniHierarchyManager ($hierarchies = NULL) {
+	 	$this->_hierarchyTypes[] =& new HarmoniHierarchyType();
+	 
+	 	if ($hierarchies != NULL) {
+		 	if (count($hierarchies)) {
+				ArgumentValidator::validate($hierarchies, ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Hierarchy")));
+				
+				foreach ($hierarchies as $key => $val) {
+					$this->_addHierarchy($hierarchies[$key]);
+				}
+			}
+	 	}
+	 }
+
+	/**
+	 * Add a hierarchy by id
+	 * @param object Id $id The id of this dr.
+	 * @access private
+	 */
+	function & _addHierarchy(& $hierarchy) {
+		// Check the arguments
+		ArgumentValidator::validate($hierarchy, new ExtendsValidatorRule("Hierarchy"));
+		
+		// Make sure the hierarchy is loaded
+		$hierarchy->load();
+				
+		// Add it to our array
+		$this->hierarchies[$hierarchy->getId()] =& $hierarchy;
+		
+		// Save this Manager to persistable storage
+		$this->save();
+	}
+
+	// public Hierarchy & createHierarchy(boolean $allowsMultipleParents, String $description, String $name, osid.shared.Type[] & $nodeTypes, boolean $allowsRecursion);
+	function & createHierarchy($allowsMultipleParents, $description, $name, & $nodeTypes, $allowsRecursion) {
+		// Check the arguments
+		ArgumentValidator::validate($allowsMultipleParents, new BooleanValidatorRule);
+		ArgumentValidator::validate($description, new StringValidatorRule);
+		ArgumentValidator::validate($name, new StringValidatorRule);
+		ArgumentValidator::validate($nodeTypes, ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
+		ArgumentValidator::validate($allowsRecursion, new BooleanValidatorRule);
+		
+		// if allowsMultipleParents is false and allowsRecursion is true
+		if ($allowsMultipleParents && !$allowsRecursion)
+			throwError(new Error(ILLEGAL_HIERARCHY, "Hierarchy", 1));
+		
+		// if allowsMultipleParents is false and allowsRecursion is true
+		if ($allowsMultipleParents || $allowsRecursion)
+			throwError(new Error(UNSUPPORTED_HIERARCHY, "Hierarchy", 1));
+
+		// Create a new hierarchy and add it to the manager array;
+		$hierarchy =& new HarmoniHierarchy($description, $name, $nodeTypes);
+		$hierarchy->save();
+		$this->_hierarchies[] =& $hierarchy;
+		
+		// Save this Manager to persistable storage
+		$this->save();
+		
+		return $hierarchy;
+	}
+
+	// public Hierarchy & getHierarchy(osid.shared.Id & $hierarchyId);
+	function & getHierarchy(& $hierarchyId) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+	// public HierarchyIterator & getHierarchies();
+	function & getHierarchies() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+	// public void deleteHierarchy(osid.shared.Id & $hierarchyId);
+	function deleteHierarchy(& $hierarchyId) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+} // end HierarchyManager
