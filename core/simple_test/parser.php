@@ -1,5 +1,5 @@
 <?php
-    // $Id: parser.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+    // $Id: parser.php,v 1.2 2005/01/19 16:33:26 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -30,7 +30,7 @@
          *                         lose the usual meaning.
          *    @param $label        Label of regex to be returned
          *                         on a match.
-         *    @public
+         *    @access public
          */
         function addPattern($pattern, $label = true) {
             $count = count($this->_patterns);
@@ -46,7 +46,7 @@
          *    @param $match        First matched portion of
          *                         subject.
          *    @return              True on success.
-         *    @public
+         *    @access public
          */
         function match($subject, &$match) {
             if (count($this->_patterns) == 0) {
@@ -70,7 +70,7 @@
          *    regular expression separated with the
          *    "or" operator. Caches the regex.
          *    @param $patterns    List of patterns in order.
-         *    @private
+         *    @access private
          */
         function _getCompoundedRegex() {
             if ($this->_regex != null) {
@@ -95,7 +95,7 @@
         /**
          *    Constructor. Starts in named state.
          *    @param $start        Starting state name.
-         *    @public
+         *    @access public
          */
         function StateStack($start) {
             $this->_stack = array($start);
@@ -104,7 +104,7 @@
         /**
          *    Accessor for current state.
          *    @return        State as string.
-         *    @public
+         *    @access public
          */
         function getCurrent() {
             return $this->_stack[count($this->_stack) - 1];
@@ -114,7 +114,7 @@
          *    Adds a state to the stack and sets it
          *    to be the current state.
          *    @param $state        New state.
-         *    @public
+         *    @access public
          */
         function enter($state) {
             array_push($this->_stack, $state);
@@ -125,7 +125,7 @@
          *    to the previous one.
          *    @return     False if we drop off
          *                the bottom of the list.
-         *    @public
+         *    @access public
          */
         function leave() {
             if (count($this->_stack) == 1) {
@@ -152,7 +152,7 @@
          *    @param $handler    Handling strategy by
          *                       reference.
          *    @param $start      Starting mode.
-         *    @public
+         *    @access public
          */
         function SimpleLexer(&$handler, $start = "_default") {
             $this->_regexes = array();
@@ -169,7 +169,7 @@
          *    @param $mode         Should only apply this
          *                         pattern when dealing with
          *                         this type of input.
-         *    @public
+         *    @access public
          */
         function addPattern($pattern, $mode = "_default") {
             if (!isset($this->_regexes[$mode])) {
@@ -189,7 +189,7 @@
          *                         this type of input.
          *    @param $new_mode     Change parsing to this new
          *                         nested mode.
-         *    @public
+         *    @access public
          */
         function addEntryPattern($pattern, $mode, $new_mode) {
             if (!isset($this->_regexes[$mode])) {
@@ -204,7 +204,7 @@
          *    @param $pattern      Perl style regex, but ( and )
          *                         lose the usual meaning.
          *    @param $mode         Mode to leave.
-         *    @public
+         *    @access public
          */
         function addExitPattern($pattern, $mode) {
             if (!isset($this->_regexes[$mode])) {
@@ -219,7 +219,7 @@
          *    content is consumed.
          *    @param $raw        Raw HTML text.
          *    @return            Array of tokens.
-         *    @public
+         *    @access public
          */
         function parse($raw) {
             if (!isset($this->_handler)) {
@@ -255,7 +255,7 @@
          *                        recognised token. True
          *                        if no match, false if there
          *                        is an parsing error.
-         *    @private
+         *    @access private
          */
         function _reduce(&$raw) {
             if (!isset($this->_regexes[$this->_mode->getCurrent()])) {
@@ -296,7 +296,7 @@
          *    @param $unparsed    Unparsed content.
          *    @return             False if bad input, true
          *                        if successfully handled.
-         *    @public
+         *    @access public
          */
         function acceptUnparsed($unparsed) {
         }
@@ -306,7 +306,7 @@
          *    @param $token       Matched content.
          *    @return             False if bad input, true
          *                        if successfully handled.
-         *    @public
+         *    @access public
          */
         function acceptToken($token) {
         }
@@ -320,7 +320,7 @@
         
         /**
          *    Sets up the parser to receive the input.
-         *    @public
+         *    @access public
          */
         function HtmlParser() {
         }
@@ -332,7 +332,7 @@
          *    @param $page       Page to set information in.
          *    @return            True if page was parsed
          *                       successfully.
-         *    @public
+         *    @access public
          */
         function parse($raw, &$page) {
             return true;

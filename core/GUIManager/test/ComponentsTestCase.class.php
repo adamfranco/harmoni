@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ComponentsTestCase.class.php,v 1.5 2004/08/09 03:54:35 dobomode Exp $
+ * @version $Id: ComponentsTestCase.class.php,v 1.6 2005/01/19 16:32:55 adamfranco Exp $
  * @copyright 2003 
  */
 
@@ -33,7 +33,7 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 		/**
 		*  Sets up unit test wide variables at the start
 		*    of each test method.
-		*    @public
+		*    @access public
 		*/
 		function setUp() {
 			// perhaps, initialize $obj here
@@ -41,7 +41,7 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 		
 		/**
 		 *    Clears the data set in the setUp() method call.
-		 *    @public
+		 *    @access public
 		 */
 		function tearDown() {
 			// perhaps, unset $obj here

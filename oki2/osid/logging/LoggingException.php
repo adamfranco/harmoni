@@ -32,7 +32,7 @@ class LoggingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNKNOWN_NAME () {
@@ -44,7 +44,7 @@ class LoggingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function DUPLICATE_NAME () {
@@ -56,7 +56,7 @@ class LoggingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function PRIORITY_TYPE_NOT_SET () {
@@ -68,7 +68,7 @@ class LoggingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function FORMAT_TYPE_NOT_SET () {

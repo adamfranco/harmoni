@@ -47,7 +47,7 @@ class HarmoniCourseSectionIterator
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function hasNextCourseSection () { 
 		return $this->hasNext();
@@ -73,7 +73,7 @@ class HarmoniCourseSectionIterator
 	 *		   org.osid.coursemanagement.CourseManagementException#NO_MORE_ITERATOR_ELEMENTS
 	 *		   NO_MORE_ITERATOR_ELEMENTS}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &nextCourseSection () { 
 		return $this->next();

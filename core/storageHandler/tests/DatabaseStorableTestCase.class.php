@@ -10,7 +10,7 @@ require_once(HARMONI.'services/Services.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseStorableTestCase.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: DatabaseStorableTestCase.class.php,v 1.2 2005/01/19 16:33:28 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -23,7 +23,7 @@ require_once(HARMONI.'services/Services.class.php');
 		/**
 		*  Sets up unit test wide variables at the start
 		*    of each test method.
-		*    @public
+		*    @access public
 		*/
 		function setUp() {
 			// perhaps, initialize $obj here
@@ -31,7 +31,7 @@ require_once(HARMONI.'services/Services.class.php');
 		
 		/**
 		 *    Clears the data set in the setUp() method call.
-		 *    @public
+		 *    @access public
 		 */
 		function tearDown() {
 			// perhaps, unset $obj here

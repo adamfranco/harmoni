@@ -23,7 +23,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchy.class.php,v 1.3 2005/01/17 21:07:05 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.4 2005/01/19 16:33:21 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
@@ -94,7 +94,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () { 
 		return $this->_id;
@@ -117,7 +117,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDisplayName () { 
 		return $this->_displayName;
@@ -140,7 +140,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
 		// ** parameter validation
@@ -191,7 +191,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDescription () { 
 		return $this->_description;
@@ -216,7 +216,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDescription ( $description ) { 
 		// ** parameter validation
@@ -277,7 +277,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#SINGLE_PARENT_HIERARCHY
 	 *		   SINGLE_PARENT_HIERARCHY}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createRootNode ( &$nodeId, &$nodeType, $displayName, $description ) { 
 		// ** parameter validation
@@ -321,7 +321,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#ATTEMPTED_RECURSION
 	 *		   ATTEMPTED_RECURSION}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createNode ( &$nodeId, &$parentId, &$type, $displayName, $description ) { 
 		// ** parameter validation
@@ -359,7 +359,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#INCONSISTENT_STATE
 	 *		   INCONSISTENT_STATE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function deleteNode ( &$nodeId ) { 
 		// ** parameter validation
@@ -390,7 +390,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#ALREADY_ADDED
 	 *		   ALREADY_ADDED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function addNodeType ( &$type ) { 
 		throwError(new Error(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
@@ -420,7 +420,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND
 	 *		   NODE_TYPE_NOT_FOUND}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function removeNodeType ( &$type ) { 
 		throwError(new Error(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
@@ -443,7 +443,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAllNodes () { 
 		// if all the nodes haven't been cached then do it
@@ -470,7 +470,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getRootNodes () { 
 		// if all the nodes haven't been cached then do it
@@ -503,7 +503,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND
 	 *		   NODE_TYPE_NOT_FOUND}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getNode ( &$nodeId ) { 
 		// ** parameter validation
@@ -533,7 +533,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getNodeTypes () { 
 		$dbHandler =& Services::requireService("DBHandler");
@@ -618,7 +618,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function allowsMultipleParents () { 
 		return $this->_cache->_allowsMultipleParents;
@@ -641,7 +641,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function allowsRecursion () { 
 		return false;
@@ -675,7 +675,7 @@ class HarmoniHierarchy
 	 *		   org.osid.hierarchy.HierarchyException#UNKNOWN_TRAVERSAL_DIRECTION
 	 *		   UNKNOWN_TRAVERSAL_DIRECTION}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &traverse ( &$startId, $mode, $direction, $levels ) { 
 		// Check the arguments

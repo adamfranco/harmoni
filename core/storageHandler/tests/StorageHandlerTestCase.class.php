@@ -8,7 +8,7 @@ require_once(HARMONI . "storageHandler/StorageMethods/DummyStorageMethod.class.p
 * class. Replace 'testedclass.php' below with the class you would like to
 * test.
 * 
-* @version $Id: StorageHandlerTestCase.class.php,v 1.2 2004/03/11 16:02:49 adamfranco Exp $
+* @version $Id: StorageHandlerTestCase.class.php,v 1.3 2005/01/19 16:33:29 adamfranco Exp $
 * @copyright 2003
 */
 
@@ -22,7 +22,7 @@ class StorageHandlerTestCase extends UnitTestCase {
 	* Sets up unit test wide variables at the start
 	*     of each test method.
 	* 
-	* @public 
+	* @access public 
 	*/
 	var $m,$er;
 	function setUp()
@@ -37,7 +37,7 @@ class StorageHandlerTestCase extends UnitTestCase {
 	/**
 	* Clears the data set in the setUp() method call.
 	* 
-	* @public 
+	* @access public 
 	*/
 	function tearDown()
 	{ 

@@ -40,7 +40,7 @@ class ProcessIterator
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function hasNextProcess () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -65,7 +65,7 @@ class ProcessIterator
      *         org.osid.workflow.WorkflowException#NO_MORE_ITERATOR_ELEMENTS
      *         NO_MORE_ITERATOR_ELEMENTS}
      * 
-     * @public
+     * @access public
      */
     function &nextProcess () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

@@ -36,7 +36,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDisplayName ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -61,7 +61,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDescription ( $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -86,7 +86,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateStart ( $start ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -111,7 +111,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateEnd ( $end ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -138,7 +138,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function updateStatus ( &$status ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -162,7 +162,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -185,7 +185,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDisplayName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -208,7 +208,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDescription () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -231,7 +231,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getCreator () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -254,7 +254,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getStart () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -277,7 +277,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getEnd () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -300,7 +300,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getStatus () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -326,7 +326,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getMasterIdentifier () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -349,7 +349,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getPropertyTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -372,7 +372,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getAgentCommitments () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -399,7 +399,7 @@ class ScheduleItem
      *         {@link org.osid.scheduling.SchedulingException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function changeAgentCommitment ( &$agentId, &$agentStatus ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -427,7 +427,7 @@ class ScheduleItem
      *         UNKNOWN_TYPE}, {@link
      *         org.osid.shared.SharedException#ALREADY_ADDED ALREADY_ADDED}
      * 
-     * @public
+     * @access public
      */
     function addAgentCommitment ( &$agentId, &$agentStatus ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -456,7 +456,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getPropertiesByType ( &$propertiesType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -479,7 +479,7 @@ class ScheduleItem
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getProperties () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

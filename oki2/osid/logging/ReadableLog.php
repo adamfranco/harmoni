@@ -32,7 +32,7 @@ class ReadableLog
      *         org.osid.logging.LoggingException#PERMISSION_DENIED
      *         PERMISSION_DENIED}
      * 
-     * @public
+     * @access public
      */
     function getDisplayName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -60,7 +60,7 @@ class ReadableLog
      *         {@link org.osid.logging.LoggingException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getEntries ( &$formatType, &$priorityType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

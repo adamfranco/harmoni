@@ -32,7 +32,7 @@ class WorkflowException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNKNOWN_EXPRESSION () {
@@ -44,7 +44,7 @@ class WorkflowException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNKNOWN_OUTPUT_STATE () {
@@ -56,7 +56,7 @@ class WorkflowException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function INVALID_NETWORK () {
@@ -68,7 +68,7 @@ class WorkflowException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function NOT_HALTED () {

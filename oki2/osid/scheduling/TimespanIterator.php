@@ -40,7 +40,7 @@ class TimespanIterator
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function hasNextTimespan () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -65,7 +65,7 @@ class TimespanIterator
      *         org.osid.scheduling.SchedulingException#NO_MORE_ITERATOR_ELEMENTS
      *         NO_MORE_ITERATOR_ELEMENTS}
      * 
-     * @public
+     * @access public
      */
     function &nextTimespan () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

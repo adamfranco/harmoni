@@ -7,7 +7,7 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPMethodOptions.class.php'
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: LDAPMethodOptionsTestCase.class.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: LDAPMethodOptionsTestCase.class.php,v 1.2 2005/01/19 16:32:56 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -20,7 +20,7 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPMethodOptions.class.php'
 		/**
 		*  Sets up unit test wide variables at the start
 		*    of each test method.
-		*    @public
+		*    @access public
 		*/
 		var $opt;
 		function setUp() {
@@ -29,7 +29,7 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPMethodOptions.class.php'
 		
 		/**
 		 *    Clears the data set in the setUp() method call.
-		 *    @public
+		 *    @access public
 		 */
 		function tearDown() {
 			unset($this->opt);

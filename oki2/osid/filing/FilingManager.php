@@ -63,7 +63,7 @@ class FilingManager
      *         PERMISSION_DENIED}, {@link
      *         org.osid.filing.FilingException#IO_ERROR IO_ERROR}
      * 
-     * @public
+     * @access public
      */
     function &getRoots () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -85,7 +85,7 @@ class FilingManager
      *         org.osid.filing.FilingException#ITEM_DOES_NOT_EXIST
      *         ITEM_DOES_NOT_EXIST}
      * 
-     * @public
+     * @access public
      */
     function &getCabinetEntry ( &$id ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -110,7 +110,7 @@ class FilingManager
      *         org.osid.filing.FilingException#NAME_CONTAINS_ILLEGAL_CHARS
      *         NAME_CONTAINS_ILLEGAL_CHARS}
      * 
-     * @public
+     * @access public
      */
     function &createRootCabinet ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -135,7 +135,7 @@ class FilingManager
      *         org.osid.filing.FilingException#ITEM_DOES_NOT_EXIST
      *         ITEM_DOES_NOT_EXIST}
      * 
-     * @public
+     * @access public
      */
     function delete ( &$cabinetEntryId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

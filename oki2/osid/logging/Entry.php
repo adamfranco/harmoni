@@ -33,7 +33,7 @@ class Entry
      *         org.osid.logging.LoggingException#PERMISSION_DENIED
      *         PERMISSION_DENIED}
      * 
-     * @public
+     * @access public
      */
     function &getItem () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -55,7 +55,7 @@ class Entry
      *         org.osid.logging.LoggingException#PERMISSION_DENIED
      *         PERMISSION_DENIED}
      * 
-     * @public
+     * @access public
      */
     function &getFormatType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -77,7 +77,7 @@ class Entry
      *         org.osid.logging.LoggingException#PERMISSION_DENIED
      *         PERMISSION_DENIED}
      * 
-     * @public
+     * @access public
      */
     function &getPriorityType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -99,7 +99,7 @@ class Entry
      *         org.osid.logging.LoggingException#PERMISSION_DENIED
      *         PERMISSION_DENIED}
      * 
-     * @public
+     * @access public
      */
     function getTimestamp () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

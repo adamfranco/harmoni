@@ -30,7 +30,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function OPERATION_FAILED () {
@@ -42,7 +42,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function NULL_ARGUMENT () {
@@ -54,7 +54,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNIMPLEMENTED () {
@@ -66,7 +66,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function VERSION_ERROR () {
@@ -78,7 +78,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function ALREADY_MARKED () {
@@ -90,7 +90,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function NOTHING_MARKED () {
@@ -102,7 +102,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function INTERFACE_NOT_FOUND () {
@@ -114,7 +114,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function MANAGER_NOT_OSID_IMPLEMENTATION () {
@@ -126,7 +126,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function MANAGER_NOT_FOUND () {
@@ -138,7 +138,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function MANAGER_INSTANTIATION_ERROR () {
@@ -150,7 +150,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function ERROR_ASSIGNING_CONTEXT () {
@@ -162,7 +162,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function ERROR_ASSIGNING_CONFIGURATION () {
@@ -174,7 +174,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function PERMISSION_DENIED () {
@@ -186,7 +186,7 @@ class OsidException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function CONFIGURATION_ERROR () {

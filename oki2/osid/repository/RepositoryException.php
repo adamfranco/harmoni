@@ -32,7 +32,7 @@ class RepositoryException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNKNOWN_REPOSITORY () {
@@ -44,7 +44,7 @@ class RepositoryException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function NO_OBJECT_WITH_THIS_DATE () {
@@ -56,7 +56,7 @@ class RepositoryException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function CANNOT_COPY_OR_INHERIT_SELF () {
@@ -68,7 +68,7 @@ class RepositoryException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function ALREADY_INHERITING_STRUCTURE () {
@@ -80,7 +80,7 @@ class RepositoryException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function EFFECTIVE_PRECEDE_EXPIRATION () {

@@ -75,7 +75,7 @@ class SchedulingManager
      *         {@link org.osid.scheduling.SchedulingException#END_BEFORE_START
      *         END_BEFORE_START}
      * 
-     * @public
+     * @access public
      */
     function &createScheduleItem ( $displayName, $description, &$agents, $start, $end, $masterIdentifier ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -101,7 +101,7 @@ class SchedulingManager
      *         NULL_ARGUMENT}, {@link
      *         org.osid.scheduling.SchedulingException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteScheduleItem ( &$scheduleItemId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -133,7 +133,7 @@ class SchedulingManager
      *         {@link org.osid.scheduling.SchedulingException#END_BEFORE_START
      *         END_BEFORE_START}
      * 
-     * @public
+     * @access public
      */
     function &getAvailableTimes ( &$agents, $start, $end ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -161,7 +161,7 @@ class SchedulingManager
      *         NULL_ARGUMENT}, {@link
      *         org.osid.scheduling.SchedulingException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getScheduleItem ( &$scheduleItemId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -195,7 +195,7 @@ class SchedulingManager
      *         org.osid.scheduling.SchedulingException#END_BEFORE_START
      *         END_BEFORE_START}
      * 
-     * @public
+     * @access public
      */
     function &getScheduleItems ( $start, $end, &$status ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -232,7 +232,7 @@ class SchedulingManager
      *         END_BEFORE_START}, {@link
      *         org.osid.scheduling.SchedulingException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getScheduleItemsForAgents ( $start, $end, &$status, &$agents ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -263,7 +263,7 @@ class SchedulingManager
      *         org.osid.scheduling.SchedulingException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function &getScheduleItemsByMasterId ( $masterIdentifier ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -286,7 +286,7 @@ class SchedulingManager
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getItemStatusTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -310,7 +310,7 @@ class SchedulingManager
      *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getCommitmentStatusTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

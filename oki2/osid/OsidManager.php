@@ -67,7 +67,7 @@ class OsidManager
      * 
      * @throws object OsidException 
      * 
-     * @public
+     * @access public
      */
     function &getOsidContext () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -82,7 +82,7 @@ class OsidManager
      *         messages defined in org.osid.OsidException:  {@link
      *         org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function assignOsidContext ( &$context ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -103,7 +103,7 @@ class OsidManager
      *         org.osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
      *         org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function assignConfiguration ( $configuration ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -119,7 +119,7 @@ class OsidManager
      * 
      * @throws object OsidException 
      * 
-     * @public
+     * @access public
      */
     function osidVersion_2_0 () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

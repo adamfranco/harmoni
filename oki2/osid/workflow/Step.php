@@ -37,7 +37,7 @@ class Step
      *         org.osid.workflow.WorkflowException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDisplayName ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -62,7 +62,7 @@ class Step
      *         org.osid.workflow.WorkflowException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDescription ( $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -86,7 +86,7 @@ class Step
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -109,7 +109,7 @@ class Step
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDescription () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -132,7 +132,7 @@ class Step
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getRoleId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -155,7 +155,7 @@ class Step
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDisplayName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -181,7 +181,7 @@ class Step
      *         NULL_ARGUMENT}, {@link
      *         org.osid.workflow.WorkflowException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function updateRoleId ( &$roleId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -205,7 +205,7 @@ class Step
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function isTerminal () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -229,7 +229,7 @@ class Step
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function isInitial () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -252,7 +252,7 @@ class Step
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getPredecessors () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -276,7 +276,7 @@ class Step
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getSuccessors () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -299,7 +299,7 @@ class Step
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getInputConditions () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -326,7 +326,7 @@ class Step
      *         org.osid.workflow.WorkflowException#UNKNOWN_EXPRESSION
      *         UNKNOWN_EXPRESSION}
      * 
-     * @public
+     * @access public
      */
     function updateInputConditions ( &$inputConditions ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -354,7 +354,7 @@ class Step
      *         org.osid.workflow.WorkflowException#UNKNOWN_OUTPUT_STATE
      *         UNKNOWN_OUTPUT_STATE}
      * 
-     * @public
+     * @access public
      */
     function updateOutputStates ( $outputStates ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -377,7 +377,7 @@ class Step
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getOutputStates () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -406,7 +406,7 @@ class Step
      *         {@link org.osid.workflow.WorkflowException#INVALID_NETWORK
      *         INVALID_NETWORK}
      * 
-     * @public
+     * @access public
      */
     function addPredecessor ( &$stepId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -434,7 +434,7 @@ class Step
      *         {@link org.osid.workflow.WorkflowException#INVALID_NETWORK
      *         INVALID_NETWORK}
      * 
-     * @public
+     * @access public
      */
     function removePredecessor ( &$stepId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

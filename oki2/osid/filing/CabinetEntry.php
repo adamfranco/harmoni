@@ -33,7 +33,7 @@ class CabinetEntry
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.filing.FilingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getPropertyTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -52,7 +52,7 @@ class CabinetEntry
      *         PERMISSION_DENIED}, {@link
      *         org.osid.filing.FilingException#IO_ERROR IO_ERROR}
      * 
-     * @public
+     * @access public
      */
     function exists () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -71,7 +71,7 @@ class CabinetEntry
      *         PERMISSION_DENIED}, {@link
      *         org.osid.filing.FilingException#IO_ERROR IO_ERROR}
      * 
-     * @public
+     * @access public
      */
     function &getParent () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -98,7 +98,7 @@ class CabinetEntry
      *         NULL_ARGUMENT}, {@link
      *         org.osid.filing.FilingException#UNKNOWN_TYPE UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getPropertiesByType ( &$propertiesType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -120,7 +120,7 @@ class CabinetEntry
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.filing.FilingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getProperties () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -133,7 +133,7 @@ class CabinetEntry
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function getDisplayName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -146,7 +146,7 @@ class CabinetEntry
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function &getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -163,7 +163,7 @@ class CabinetEntry
      *         IO_ERROR}, {@link org.osid.filing.FilingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getLastModifiedTime () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -180,7 +180,7 @@ class CabinetEntry
      *         IO_ERROR}, {@link org.osid.filing.FilingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getAllModifiedTimes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -197,7 +197,7 @@ class CabinetEntry
      *         org.osid.filing.FilingException#IO_ERROR IO_ERROR}, {@link
      *         org.osid.filing.FilingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function touch () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -217,7 +217,7 @@ class CabinetEntry
      *         IO_ERROR}, {@link org.osid.filing.FilingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getLastAccessedTime () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -236,7 +236,7 @@ class CabinetEntry
      *         IO_ERROR}, {@link org.osid.filing.FilingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getCreatedTime () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -255,7 +255,7 @@ class CabinetEntry
      *         org.osid.filing.FilingException#IO_ERROR IO_ERROR}, {@link
      *         org.osid.filing.FilingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getCabinetEntryAgentId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -268,7 +268,7 @@ class CabinetEntry
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function updateDisplayName ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

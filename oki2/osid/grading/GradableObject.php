@@ -33,7 +33,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function updateDisplayName ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -55,7 +55,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function updateDescription ( $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -77,7 +77,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDisplayName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -99,7 +99,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDescription () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -121,7 +121,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -144,7 +144,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getCourseSection () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -167,7 +167,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getExternalReference () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -189,7 +189,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getGradeType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -211,7 +211,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getScoringDefinition () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -233,7 +233,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getGradeScale () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -255,7 +255,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getGradeWeight () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -282,7 +282,7 @@ class GradableObject
      *         NULL_ARGUMENT}, {@link
      *         org.osid.grading.GradingException#UNKNOWN_TYPE UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getPropertiesByType ( &$propertiesType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -304,7 +304,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getPropertyTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -326,7 +326,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getProperties () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -348,7 +348,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getModifiedBy () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -370,7 +370,7 @@ class GradableObject
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getModifiedDate () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: GroupTestCase.class.php,v 1.4 2004/06/03 15:39:59 dobomode Exp $
+ * @version $Id: GroupTestCase.class.php,v 1.5 2005/01/19 16:33:01 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -20,7 +20,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
         /**
          *    Sets up unit test wide variables at the start
          *    of each test method.
-         *    @public
+         *    @access public
          */
         function setUp() {
 			// Set up the database connection
@@ -39,7 +39,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 		
         /**
          *    Clears the data set in the setUp() method call.
-         *    @public
+         *    @access public
          */
         function tearDown() {
 			// perhaps, unset $obj here

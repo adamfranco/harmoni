@@ -109,7 +109,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &createCanonicalCourse ( $title, $number, $description, &$courseType, &$courseStatusType, $credits ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -137,7 +137,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteCanonicalCourse ( &$canonicalCourseId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -161,7 +161,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getCanonicalCourses () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -191,7 +191,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getCanonicalCourse ( &$canonicalCourseId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -221,7 +221,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getCanonicalCoursesByType ( &$courseType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -251,7 +251,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getCourseOffering ( &$courseOfferingId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -281,7 +281,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getCourseSection ( &$courseSectionId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -311,7 +311,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getCourseSections ( &$agentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -341,7 +341,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getCourseOfferings ( &$agentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -373,7 +373,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &createTerm ( &$termType, &$schedule ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -401,7 +401,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteTerm ( &$termId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -431,7 +431,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getTerm ( &$termId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -455,7 +455,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getTerms () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -481,7 +481,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getTermsByDate ( $date ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -506,7 +506,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getCourseTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -532,7 +532,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getCourseStatusTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -558,7 +558,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getOfferingStatusTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -584,7 +584,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getSectionStatusTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -609,7 +609,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getOfferingTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -634,7 +634,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getSectionTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -660,7 +660,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getEnrollmentStatusTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -686,7 +686,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getCourseGradeTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -710,7 +710,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getTermTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -747,7 +747,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &createCourseGradeRecord ( &$agentId, &$courseOfferingId, &$courseGradeType, &$courseGrade ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -775,7 +775,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteCourseGradeRecord ( &$courseGradeRecordId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -810,7 +810,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getCourseGradeRecords ( &$agentId, &$courseOfferingId, &$courseGradeType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -842,7 +842,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &createCourseGroup ( &$courseGroupType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -870,7 +870,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteCourseGroup ( &$courseGroupId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -900,7 +900,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getCourseGroup ( &$courseGroupId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -930,7 +930,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getCourseGroupsByType ( &$courseGroupType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -960,7 +960,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getCourseGroups ( &$canonicalCourseId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -984,7 +984,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getCourseGroupTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -1018,7 +1018,7 @@ class CourseManagementManager
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function supportsUpdate () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

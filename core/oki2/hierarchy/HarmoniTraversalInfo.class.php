@@ -20,7 +20,7 @@ require_once(OKI2."/osid/hierarchy/TraversalInfo.php");
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniTraversalInfo.class.php,v 1.2 2005/01/17 21:07:06 adamfranco Exp $
+ * @version $Id: HarmoniTraversalInfo.class.php,v 1.3 2005/01/19 16:33:21 adamfranco Exp $
  *
  */
 
@@ -79,7 +79,7 @@ class HarmoniTraversalInfo
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getNodeId () { 
 		return $this->_id;
@@ -102,7 +102,7 @@ class HarmoniTraversalInfo
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDisplayName () {
 		return $this->_displayName;
@@ -127,7 +127,7 @@ class HarmoniTraversalInfo
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getLevel () { 
 		return $this->_depth;

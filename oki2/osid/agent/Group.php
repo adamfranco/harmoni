@@ -44,7 +44,7 @@ class Group
      *         {@link org.osid.agent.AgentException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDescription ( $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -66,7 +66,7 @@ class Group
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDescription () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -88,7 +88,7 @@ class Group
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -110,7 +110,7 @@ class Group
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDisplayName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -132,7 +132,7 @@ class Group
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -158,7 +158,7 @@ class Group
      *         ALREADY_ADDED}, {@link
      *         org.osid.agent.AgentException#NULL_ARGUMENT NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function add ( &$memberOrGroup ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -184,7 +184,7 @@ class Group
      *         {@link org.osid.agent.AgentException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function remove ( &$memberOrGroup ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -209,7 +209,7 @@ class Group
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getMembers ( $includeSubgroups ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -235,7 +235,7 @@ class Group
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getGroups ( $includeSubgroups ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -263,7 +263,7 @@ class Group
      *         {@link org.osid.agent.AgentException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function contains ( &$memberOrGroup, $searchSubgroups ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -290,7 +290,7 @@ class Group
      *         NULL_ARGUMENT}, {@link
      *         org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getPropertiesByType ( &$propertiesType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -316,7 +316,7 @@ class Group
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getPropertyTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -338,7 +338,7 @@ class Group
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getProperties () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

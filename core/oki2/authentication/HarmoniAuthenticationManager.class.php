@@ -129,7 +129,7 @@ class HarmoniAuthenticationManager
 	 *		   org.osid.authentication.AuthenticationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAuthenticationTypes () {
 		$iterator =& new HarmoniIterator($this->_authTypes);
@@ -167,7 +167,7 @@ class HarmoniAuthenticationManager
 	 *		   org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function authenticateUser ( &$authenticationType ) {
 		// Check that we have a valid AuthenticationType.
@@ -230,7 +230,7 @@ class HarmoniAuthenticationManager
 	 *		   org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isUserAuthenticated ( &$authenticationType ) { 
 		// Check that we have a valid AuthenticationType.
@@ -278,7 +278,7 @@ class HarmoniAuthenticationManager
 	 *		   org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getUserId ( &$authenticationType ) { 
 		// Check that we have a valid AuthenticationType.
@@ -322,7 +322,7 @@ class HarmoniAuthenticationManager
 	 *		   org.osid.authentication.AuthenticationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function destroyAuthentication () { 
 		$this->_harmoni->LoginHandler->logout();
@@ -350,7 +350,7 @@ class HarmoniAuthenticationManager
 	 *		   org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function destroyAuthenticationForType ( &$authenticationType ) { 
 		// Check that we have a valid AuthenticationType.
@@ -400,7 +400,7 @@ class HarmoniAuthenticationManager
 	 *		   org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgentId ( &$tokens, &$authenticationType ) {
 		// Check that we have a valid AuthenticationType.

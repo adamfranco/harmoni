@@ -36,7 +36,7 @@ class SectionTaken
      *         org.osid.assessment.AssessmentException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDisplayName ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -62,7 +62,7 @@ class SectionTaken
      *         org.osid.assessment.AssessmentException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateData ( &$data ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -85,7 +85,7 @@ class SectionTaken
      *         org.osid.assessment.AssessmentException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDisplayName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -108,7 +108,7 @@ class SectionTaken
      *         org.osid.assessment.AssessmentException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -131,7 +131,7 @@ class SectionTaken
      *         org.osid.assessment.AssessmentException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getSection () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -155,7 +155,7 @@ class SectionTaken
      *         org.osid.assessment.AssessmentException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getData () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -184,7 +184,7 @@ class SectionTaken
      *         org.osid.assessment.AssessmentException#UNKNOWN_ITEM
      *         UNKNOWN_ITEM}
      * 
-     * @public
+     * @access public
      */
     function &createItemTaken ( &$item ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -210,7 +210,7 @@ class SectionTaken
      *         NULL_ARGUMENT}, {@link
      *         org.osid.assessment.AssessmentException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteItemTaken ( &$itemTakenId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -235,7 +235,7 @@ class SectionTaken
      *         org.osid.assessment.AssessmentException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getItemsTaken () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -264,7 +264,7 @@ class SectionTaken
      *         org.osid.assessment.AssessmentException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &createEvaluation ( &$evaluationType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -290,7 +290,7 @@ class SectionTaken
      *         NULL_ARGUMENT}, {@link
      *         org.osid.assessment.AssessmentException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteEvaluation ( &$evaluationId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -319,7 +319,7 @@ class SectionTaken
      *         org.osid.assessment.AssessmentException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getEvaluationsByType ( &$evaluationType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -342,7 +342,7 @@ class SectionTaken
      *         org.osid.assessment.AssessmentException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getEvaluations () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -365,7 +365,7 @@ class SectionTaken
      *         org.osid.assessment.AssessmentException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getAssessmentTaken () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

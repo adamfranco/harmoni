@@ -39,7 +39,7 @@ class AgentIterator
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function hasNextAgent () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -63,7 +63,7 @@ class AgentIterator
      *         {@link org.osid.agent.AgentException#NO_MORE_ITERATOR_ELEMENTS
      *         NO_MORE_ITERATOR_ELEMENTS}
      * 
-     * @public
+     * @access public
      */
     function &nextAgent () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

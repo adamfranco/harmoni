@@ -144,7 +144,7 @@ class HarmoniAuthorization
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getEffectiveDate () { 
 		return $this->_effectiveDate;
@@ -168,7 +168,7 @@ class HarmoniAuthorization
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getExpirationDate () { 
 		return $this->_expirationDate;
@@ -192,7 +192,7 @@ class HarmoniAuthorization
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getModifiedBy () { 
 		throwError(new Error(AuthorizationExeption::UNIMPLEMENTED(), "Authorization", true));
@@ -216,7 +216,7 @@ class HarmoniAuthorization
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getModifiedDate () { 
 		throwError(new Error(AuthorizationExeption::UNIMPLEMENTED(), "Authorization", true));
@@ -240,7 +240,7 @@ class HarmoniAuthorization
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getFunction () { 
 		$idValue = $this->_functionId->getIdString();
@@ -267,7 +267,7 @@ class HarmoniAuthorization
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getQualifier () { 
 		$result =& $this->_cache->getQualifier($this->_qualifierId);
@@ -293,7 +293,7 @@ class HarmoniAuthorization
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgentId () { 
 		return $this->_agentId;
@@ -317,7 +317,7 @@ class HarmoniAuthorization
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isActiveNow () { 
 		if (!isset($this->_effectiveDate) || !isset($this->_expirationDate))
@@ -357,7 +357,7 @@ class HarmoniAuthorization
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isExplicit () { 
 		return $this->_explicit;
@@ -384,7 +384,7 @@ class HarmoniAuthorization
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.authorization.AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateExpirationDate ( $expirationDate ) { 
 		if (!$this->isExplicit()) {
@@ -449,7 +449,7 @@ class HarmoniAuthorization
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.authorization.AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateEffectiveDate ( $effectiveDate ) { 
 		if (!$this->isExplicit()) {

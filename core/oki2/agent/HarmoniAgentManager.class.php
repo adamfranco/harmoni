@@ -45,7 +45,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniAgentManager.class.php,v 1.4 2005/01/17 17:00:20 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.5 2005/01/19 16:33:01 adamfranco Exp $
  * 
  */
 class HarmoniAgentManager
@@ -158,7 +158,7 @@ class HarmoniAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createAgent ( $displayName, &$agentType, &$properties ) { 
 		// ** parameter validation
@@ -242,7 +242,7 @@ class HarmoniAgentManager
 	 *		   NULL_ARGUMENT}, {@link org.osid.agent.AgentException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function deleteAgent ( &$id ) { 
 		// ** parameter validation
@@ -409,7 +409,7 @@ class HarmoniAgentManager
 	 *		   NULL_ARGUMENT}, {@link org.osid.agent.AgentException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgent ( &$id ) { 
 		// ** parameter validation
@@ -453,7 +453,7 @@ class HarmoniAgentManager
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgents () { 
 		if (!$this->_allAgentsCached)
@@ -485,7 +485,7 @@ class HarmoniAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgentsBySearch ( &$searchCriteria, &$agentSearchType ) { 
 		$typeString = $agentSearchType->getDomain()
@@ -519,7 +519,7 @@ class HarmoniAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgentSearchTypes () { 
 		$types = array();
@@ -552,7 +552,7 @@ class HarmoniAgentManager
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgentTypes () { 
 		$dbHandler =& Services::requireService("DBHandler");
@@ -612,7 +612,7 @@ class HarmoniAgentManager
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getPropertyTypes () { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -643,7 +643,7 @@ class HarmoniAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createGroup ( $displayName, &$groupType, $description, &$properties ) { 
 		// ** parameter validation
@@ -767,7 +767,7 @@ class HarmoniAgentManager
 	 *		   NULL_ARGUMENT}, {@link org.osid.agent.AgentException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function deleteGroup ( &$id ) { 
 		// ** parameter validation
@@ -932,7 +932,7 @@ class HarmoniAgentManager
 	 *		   NULL_ARGUMENT}, {@link org.osid.agent.AgentException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getGroup ( &$id ) { 
 		// ** parameter validation
@@ -978,7 +978,7 @@ class HarmoniAgentManager
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getGroups () { 
 		if (!$this->_allGroupsCached)
@@ -1010,7 +1010,7 @@ class HarmoniAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getGroupsBySearch ( &$searchCriteria, &$groupSearchType ) { 
 		ArgumentValidator::validate($groupSearchType, new ExtendsValidatorRule("HarmoniType"));
@@ -1045,7 +1045,7 @@ class HarmoniAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getGroupSearchTypes () { 
 		$types = array();
@@ -1078,7 +1078,7 @@ class HarmoniAgentManager
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getGroupTypes () { 
 		$dbHandler =& Services::requireService("DBHandler");
@@ -1139,7 +1139,7 @@ class HarmoniAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgentsByType ( &$agentType ) { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -1166,7 +1166,7 @@ class HarmoniAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getGroupsByType ( &$groupType ) { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

@@ -36,7 +36,7 @@ require_once(HARMONI."GUIManager/StyleComponents/BackgroundAttachmentSC.class.ph
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StyleComponentsTestCase.class.php,v 1.4 2004/08/09 02:58:36 dobomode Exp $
+ * @version $Id: StyleComponentsTestCase.class.php,v 1.5 2005/01/19 16:32:55 adamfranco Exp $
  * @copyright 2003 
  */
 
@@ -49,7 +49,7 @@ require_once(HARMONI."GUIManager/StyleComponents/BackgroundAttachmentSC.class.ph
 		/**
 		*  Sets up unit test wide variables at the start
 		*    of each test method.
-		*    @public
+		*    @access public
 		*/
 		function setUp() {
 			// perhaps, initialize $obj here
@@ -57,7 +57,7 @@ require_once(HARMONI."GUIManager/StyleComponents/BackgroundAttachmentSC.class.ph
 		
 		/**
 		 *    Clears the data set in the setUp() method call.
-		 *    @public
+		 *    @access public
 		 */
 		function tearDown() {
 			// perhaps, unset $obj here

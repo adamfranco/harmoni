@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_mock.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+    // $Id: simple_mock.php,v 1.2 2005/01/19 16:33:26 adamfranco Exp $
     
     define('MOCK_WILDCARD', '*');
     
@@ -20,7 +20,7 @@
          *                              then it is considered to match any.
          *    @param $wildcard          Any parameter matching this
          *                              will always match.
-         *    @public
+         *    @access public
          */
         function ParameterList($parameters, $wildcard = MOCK_WILDCARD) {
             $this->_parameters = $parameters;
@@ -32,7 +32,7 @@
          *    the test list of parameters.
          *    @param $parameters        Parameter list to test against.
          *    @return                   False if a parameter fails to match.
-         *    @public
+         *    @access public
          */
         function isMatch($parameters) {
             if (!is_array($this->_parameters)) {
@@ -67,7 +67,7 @@
         /**
          *    Creates an empty call map.
          *    @param $wildcard        Wildcard value for matching.
-         *    @public
+         *    @access public
          */
         function CallMap($wildcard) {
             $this->_map = array();
@@ -78,7 +78,7 @@
          *    Stashes a value against a method call.
          *    @param $parameters    Array of arguments (including wildcards).
          *    @param $value         Value copied into the map.
-         *    @public
+         *    @access public
          */
         function addValue($parameters, $value) {
             $this->addReference($parameters, $value);
@@ -88,7 +88,7 @@
          *    Stashes a reference against a method call.
          *    @param $parameters    Array of arguments (including wildcards).
          *    @param $reference     Array reference placed in the map.
-         *    @public
+         *    @access public
          */
         function addReference($parameters, &$reference) {
             $place = count($this->_map);
@@ -106,7 +106,7 @@
          *                          without wildcards.
          *    @return               Object held in the first matching
          *                          slot, otherwise null.
-         *    @public
+         *    @access public
          */
         function &findFirstMatch($parameters) {
             $slot = $this->_findFirstSlot($parameters);
@@ -122,7 +122,7 @@
          *    @param $parameters    Array of parameters to search by
          *                          without wildcards.
          *    @return               True if a match is present.
-         *    @public
+         *    @access public
          */
         function isMatch($parameters) {
             return ($this->_findFirstSlot($parameters) != null);
@@ -133,7 +133,7 @@
          *    @param $parameters    Array of parameters to search by
          *                          without wildcards.
          *    @return               Reference to slot or null.
-         *    @private
+         *    @access private
          */
         function &_findFirstSlot($parameters) {
             for ($i = 0; $i < count($this->_map); $i++) {
@@ -167,7 +167,7 @@
          *    All call counts are set to zero.
          *    @param $wildcard    Parameter matching wildcard.
          *    @param $test        Test case to test expectations in.
-         *    @public
+         *    @access public
          */
         function SimpleMock(&$test, $wildcard) {
             $this->_test = &$test;
@@ -184,7 +184,7 @@
         /**
          *    Resets the call history for the mock. The tally
          *    will be counted from this point onwards.
-         *    @public
+         *    @access public
          */
         function clearHistory() {
             $this->_call_counts = array();
@@ -197,7 +197,7 @@
          *    @param $value         Result of call passed by value.
          *    @param $args          List of parameters to match
          *                          including wildcards.
-         *    @public
+         *    @access public
          */
         function setReturnValue($method, $value, $args = "") {
             $this->_dieOnNoMethod($method, "set return value");
@@ -220,7 +220,7 @@
          *    @param $value         Result of call passed by value.
          *    @param $args          List of parameters to match
          *                          including wildcards.
-         *    @public
+         *    @access public
          */
         function setReturnValueSequence($timing, $method, $value, $args = "") {
             $this->_dieOnNoMethod($method, "set return value sequence");
@@ -241,7 +241,7 @@
          *    @param $reference     Result of the call will be this object.
          *    @param $args          List of parameters to match
          *                          including wildcards.
-         *    @public
+         *    @access public
          */
         function setReturnReference($method, &$reference, $args = "") {
             $this->_dieOnNoMethod($method, "set return reference");
@@ -264,7 +264,7 @@
          *    @param $reference     Result of the call will be this object.
          *    @param $args          List of parameters to match
          *                          including wildcards.
-         *    @public
+         *    @access public
          */
         function setReturnReferenceSequence($timing, $method, &$reference, $args = "") {
             $this->_dieOnNoMethod($method, "set return reference sequence");
@@ -286,7 +286,7 @@
          *    @param $method        Method call to test.
          *    @param $args          Expected parameters for the call
          *                          including wildcards.
-         *    @public
+         *    @access public
          */
         function expectArguments($method, $args = "") {
             $this->_dieOnNoMethod($method, "set expected arguments");
@@ -313,7 +313,7 @@
          *    @param $method        Method call to test.
          *    @param $args          Expected parameters for the call
          *                          including wildcards.
-         *    @public
+         *    @access public
          */
         function expectArgumentsSequence($timing, $method, $args = "") {
             $this->_dieOnNoMethod($method, "set expected arguments sequence");
@@ -341,7 +341,7 @@
          *    @param $method        Method call to test.
          *    @param $count         Number of times it should
          *                          have been called at tally.
-         *    @public
+         *    @access public
          */
         function expectCallCount($method, $count) {
             $this->_dieOnNoMethod($method, "set expected call count");
@@ -361,7 +361,7 @@
          *    @param $method        Method call to test.
          *    @param $count         Most number of times it should
          *                          have been called.
-         *    @public
+         *    @access public
          */
         function expectMaximumCallCount($method, $count) {
             $this->_dieOnNoMethod($method, "set maximum call count");
@@ -379,7 +379,7 @@
          *    Fetches the call count of a method so far.
          *    @param $method        Method name called.
          *    @return               Number of calls so far.
-         *    @public
+         *    @access public
          */
         function getCallCount($method) {
             $this->_dieOnNoMethod($method, "get call count");
@@ -397,7 +397,7 @@
          *    This method must be called explicitely for the call
          *    count assertions to be triggered.
          *    @return                True if tallies are correct.
-         *    @public
+         *    @access public
          */
         function tally() {
             $all_correct = true;
@@ -420,7 +420,7 @@
          *    @param $method        Name of method to simulate.
          *    @param $args          Arguments as an array.
          *    @return               Stored return.
-         *    @private
+         *    @access private
          */
         function &_mockMethod($method, $args) {
             $method = strtolower($method);
@@ -434,7 +434,7 @@
          *    Adds one to the call count of a method.
          *    @param $method        Method called.
          *    @param $args          Arguments as an array.
-         *    @private
+         *    @access private
          */
         function _addCall($method, $args) {
             if (!isset($this->_call_counts[$method])) {
@@ -449,7 +449,7 @@
          *    @param $args              Argument list to match.
          *    @param $timing            The position of this call
          *                              in the call history.
-         *    @private
+         *    @access private
          */
         function _checkExpectations($method, $args, $timing) {
             if (isset($this->_max_counts[$method])) {
@@ -481,7 +481,7 @@
          *    @param $step        Current position in the
          *                        call history.
          *    @returns            Stored return.
-         *    @private
+         *    @access private
          */
         function &_getReturn($method, $args, $step) {
             if (isset($this->_return_sequence[$method][$step])) {
@@ -505,7 +505,7 @@
          *                           the test event.
          *    @param $test           Unit test case to send
          *                           assertion to.
-         *    @protected
+         *    @access protected
          */
         function _assertTrue($assertion, $message , &$test) {
             $test->assertTrue($assertion, $message);
@@ -516,7 +516,7 @@
          *    of this object.
          *    @param $method        Name of method.
          *    @param $task          Description of task attempt.
-         *    @protected
+         *    @access protected
          */
         function _dieOnNoMethod($method, $task) {
             if (!method_exists($this, $method)) {
@@ -530,7 +530,7 @@
          *    Renders the argument list as a string for
          *    messages.
          *    @param $args            Array of arguments.
-         *    @private
+         *    @access private
          */
         function _renderArguments($args) {
             $arg_strings = array();
@@ -595,7 +595,7 @@
          *    @param $class            Class to clone.
          *    @param $mock_class       New class name.
          *    @static
-         *    @private
+         *    @access private
          */
         function _createClassCode($class, $mock_class) {
             $mock_base = Mock::setMockBaseClass();

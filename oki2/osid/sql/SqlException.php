@@ -32,7 +32,7 @@ class SqlException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function BLOB_GETBYTES_FAILED () {
@@ -44,7 +44,7 @@ class SqlException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function CLOB_GETCHARS_FAILED () {
@@ -56,7 +56,7 @@ class SqlException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function CONNECTION_FAILED () {
@@ -68,7 +68,7 @@ class SqlException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function INVALID_ARGUMENTS () {
@@ -81,7 +81,7 @@ class SqlException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function INVALID_COLUMN_INDEX () {
@@ -93,7 +93,7 @@ class SqlException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function DATA_RETRIEVAL_ERROR () {

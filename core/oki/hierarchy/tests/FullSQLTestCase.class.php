@@ -9,7 +9,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/FoodNodeType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FullSQLTestCase.class.php,v 1.2 2003/11/06 22:52:53 adamfranco Exp $
+ * @version $Id: FullSQLTestCase.class.php,v 1.3 2005/01/19 16:32:59 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -19,7 +19,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/FoodNodeType.class.php');
         /**
          *    Sets up unit test wide variables at the start
          *    of each test method.
-         *    @public
+         *    @access public
          */
         function setUp() {
         	print "<pre>";
@@ -27,7 +27,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/FoodNodeType.class.php');
 		
         /**
          *    Clears the data set in the setUp() method call.
-         *    @public
+         *    @access public
          */
         function tearDown() {
 			// perhaps, unset $obj here

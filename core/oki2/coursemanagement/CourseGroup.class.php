@@ -37,7 +37,7 @@ class HarmoniCourseGroup
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 
@@ -61,7 +61,7 @@ class HarmoniCourseGroup
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDisplayName () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 
@@ -85,7 +85,7 @@ class HarmoniCourseGroup
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 
@@ -109,7 +109,7 @@ class HarmoniCourseGroup
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getType () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 
@@ -140,7 +140,7 @@ class HarmoniCourseGroup
 	 *		   org.osid.coursemanagement.CourseManagementException#ALREADY_ADDED
 	 *		   ALREADY_ADDED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function addCourse ( &$canonicalCourseId ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 
@@ -168,7 +168,7 @@ class HarmoniCourseGroup
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function removeCourse ( &$canonicalCourseId ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 
@@ -195,7 +195,7 @@ class HarmoniCourseGroup
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getCourses () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 

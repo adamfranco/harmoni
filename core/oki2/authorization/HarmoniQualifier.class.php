@@ -70,7 +70,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () { 
 		$id =& $this->_node->getId();
@@ -95,7 +95,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getReferenceName () { 
 		return $this->_node->getDisplayName();
@@ -119,7 +119,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDescription () { 
 		return $this->_node->getDescription();
@@ -143,7 +143,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isParent () { 
 		$children =& $this->getChildren();
@@ -168,7 +168,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getQualifierType () { 
 		return $this->_node->getType();
@@ -196,7 +196,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateReferenceName ( $referenceName ) { 
 		$this->_node->updateDisplayName($displayName);
@@ -222,7 +222,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDescription ( $description ) { 
 		$this->_node->updateDescription($description);
@@ -251,7 +251,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function addParent ( &$parentQualifierId ) { 
 		$this->_node->addParent($parentQualifierId);
@@ -281,7 +281,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function removeParent ( &$parentQualifierId ) { 
 		$this->_node->removeParent($parentQualifierId);
@@ -311,7 +311,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function changeParent ( &$oldParentId, &$newParentId ) { 
 		$this->_node->changeParent($oldParentId, $newParentId);
@@ -341,7 +341,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isChildOf ( &$parentId ) { 
 		// ** parameter validation
@@ -387,7 +387,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isDescendantOf ( &$ancestorId ) { 
 		// Alright, I realize this could be written much more efficiently (for
@@ -428,7 +428,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getChildren () { 
 		// obtain the parent nodes
@@ -471,7 +471,7 @@ class HarmoniQualifier
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getParents () { 
 		// obtain the parent nodes

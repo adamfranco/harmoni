@@ -1,5 +1,5 @@
 <?php
-    // $Id: browser.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+    // $Id: browser.php,v 1.2 2005/01/19 16:33:26 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -17,7 +17,7 @@
         
         /**
          *    Constructor. Jar starts empty.
-         *    @public
+         *    @access public
          */
         function CookieJar() {
             $this->_cookies = array();
@@ -27,7 +27,7 @@
          *    Adds a cookie to the jar. This will overwrite
          *    cookies with matching paths and keys.
          *    @param $cookie        New cookie.
-         *    @public
+         *    @access public
          */
         function setCookie($cookie) {
             for ($i = 0; $i < count($this->_cookies); $i++) {
@@ -59,7 +59,7 @@
          *                        cookie formatted date string.
          *    @return             Hash of valid cookie objects keyed
          *                        on the cookie name.
-         *    @public
+         *    @access public
          */
         function getValidCookies($host = false, $path = "/", $date = false) {
             $valid_cookies = array();
@@ -82,7 +82,7 @@
          *    @param $date          Cookie must not have expired at
          *                          this time.
          *    @return               True if matched.
-         *    @private
+         *    @access private
          */
         function _isMatch($cookie, $host, $path, $name, $date) {
             if ($cookie->getName() != $name) {
@@ -116,7 +116,7 @@
         /**
          *    Starts the browser empty.
          *    @param $test     Test case with assertTrue().
-         *    @public
+         *    @access public
          */
         function TestBrowser(&$test) {
             $this->_test = &$test;
@@ -127,7 +127,7 @@
         
         /**
          *    Resets all expectations.
-         *    @protected
+         *    @access protected
          */
         function _clearExpectations() {
             $this->_expect_connection = null;
@@ -141,7 +141,7 @@
          *    @param $url        Target to fetch as string.
          *    @param $request    Test version of SimpleHttpRequest.
          *    @return            Content of page.
-         *    @public
+         *    @access public
          */
         function fetchUrl($url, $request = false) {
             if (!is_object($request)) {
@@ -166,7 +166,7 @@
          *    Set the next fetch to expect a connection
          *    failure.
          *    @param $is_expected        True if failure wanted.
-         *    @public
+         *    @access public
          */
         function expectConnection($is_expected = true) {
             $this->_expect_connection = $is_expected;
@@ -175,7 +175,7 @@
         /**
          *    Sets the allowed response codes.
          *    @param $codes        Array of allowed codes.
-         *    @public
+         *    @access public
          */
         function expectResponseCodes($codes) {
             $this->_expected_response_codes = $codes;
@@ -185,7 +185,7 @@
          *    Sets the allowed mime types and adds the
          *    necessary request headers.
          *    @param $types        Array of allowed types.
-         *    @public
+         *    @access public
          */
         function expectMimeTypes($types) {
             $this->_expected_mime_types = $types;
@@ -199,7 +199,7 @@
          *    @param $host            Host upon which the cookie is valid.
          *    @param $path            Cookie path if not host wide.
          *    @param $expiry          Expiry date as string.
-         *    @public
+         *    @access public
          */
         function setCookie($name, $value, $host = false, $path = "/", $expiry = false) {
             $cookie = new SimpleCookie($name, $value, $path, $expiry);
@@ -213,7 +213,7 @@
          *    Sets an expectation for a cookie.
          *    @param $name        Cookie key.
          *    @param $value       Expected value of incoming cookie.
-         *    @public
+         *    @access public
          */
         function expectCookie($name, $value = false) {
             $this->_expected_cookies[] = array("name" => $name, "value" => $value);
@@ -227,7 +227,7 @@
          *    @param $date        Time when cookie is to be tested.
          *    @return             Null if not present, else the
          *                        value as a string.
-         *    @public
+         *    @access public
          */
         function getCookieValues($host, $path, $name, $date = false) {
             $values = array();
@@ -244,7 +244,7 @@
          *    Each expectation sends a test event.
          *    @param $url         Target URL.
          *    @param $reponse     HTTP response from the fetch.
-         *    @private
+         *    @access private
          */
         function _checkExpectations($url, &$response) {
             if (isset($this->_expect_connection)) {
@@ -275,7 +275,7 @@
          *    @param $expected    Expected cookie.
          *    @param $cookies     Incoming.
          *    @return             True if expectation met.
-         *    @private
+         *    @access private
          */
         function _checkExpectedCookie($expected, $cookies) {
             $is_match = false;
@@ -295,7 +295,7 @@
          *    Sends an assertion to the held test case.
          *    @param $result        True on success.
          *    @param $message       Message to send to test.
-         *    @protected
+         *    @access protected
          */
         function _assertTrue($result, $message) {
             $this->_test->assertTrue($result, $message);

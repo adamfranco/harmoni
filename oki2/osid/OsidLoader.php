@@ -120,7 +120,7 @@ class OsidLoader
      *         org.osid.OsidException#ERROR_ASSIGNING_CONFIGURATION
      *         ERROR_ASSIGNING_CONFIGURATION}
      * 
-     * @public
+     * @access public
      * @static 
      */
     function &getManager ( $osidPackageManagerName, $implPackageName, &$context, $additionalConfiguration )

@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_unit.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+    // $Id: simple_unit.php,v 1.2 2005/01/19 16:33:26 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -18,7 +18,7 @@
          *    with test methods for a functional test case.
          *    @param $label            Name of test case. Will use
          *                             the class name if none specified.
-         *    @public
+         *    @access public
          */
         function UnitTestCase($label = "") {
             if ($label == "") {
@@ -31,7 +31,7 @@
          *    Will be true on false and vice versa.
          *    @param $boolean        Supposedly false value.
          *    @param $message        Message to display.
-         *    @public
+         *    @access public
          */
         function assertFalse($boolean, $message = "False assertion") {
             $this->assertTrue(!$boolean, $message);
@@ -41,7 +41,7 @@
          *    Will be true if the value is null.
          *    @param $value          Supposedly null value.
          *    @param $message        Message to display.
-         *    @public
+         *    @access public
          */
         function assertNull($value, $message = "") {
             if ($message == "") {
@@ -54,7 +54,7 @@
          *    Will be true if the value is set.
          *    @param $value          Supposedly set value.
          *    @param $message        Message to display.
-         *    @public
+         *    @access public
          */
         function assertNotNull($value, $message = "") {
             if ($message == "") {
@@ -69,7 +69,7 @@
          *    is not an object, but the type is corect.
          *    @param $object        Object to test.
          *    @param $type          Type name as string.
-         *    @public
+         *    @access public
          */
         function assertIsA($object, $type, $message = "") {
             if ($message == "") {
@@ -88,7 +88,7 @@
          *    @param $first          Value to compare.
          *    @param $second         Value to compare.
          *    @param $message        Message to display.
-         *    @public
+         *    @access public
          */
         function assertEqual($first, $second, $message = "") {
             if ($message == "") {
@@ -106,7 +106,7 @@
          *    @param $first          Value to compare.
          *    @param $second         Value to compare.
          *    @param $message        Message to display.
-         *    @public
+         *    @access public
          */
         function assertNotEqual($first, $second, $message = "") {
             if ($message == "") {
@@ -124,7 +124,7 @@
          *    @param $first          Value to compare.
          *    @param $second         Value to compare.
          *    @param $message        Message to display.
-         *    @public
+         *    @access public
          */
         function assertIdentical($first, $second, $message = "") {
             if ($message == "") {
@@ -142,7 +142,7 @@
          *    @param $first          Value to compare.
          *    @param $second         Value to compare.
          *    @param $message        Message to display.
-         *    @public
+         *    @access public
          */
         function assertNotIdentical($first, $second, $message = "") {
             if ($message == "") {
@@ -160,7 +160,7 @@
          *    @param $first          Object reference to check.
          *    @param $second         Hopefully the same object.
          *    @param $message        Message to display.
-         *    @public
+         *    @access public
          */
         function assertReference(&$first, &$second, $message = "") {
             if ($message == "") {
@@ -182,7 +182,7 @@
          *    @param $first          Object reference to check.
          *    @param $second         Hopefully not the same object.
          *    @param $message        Message to display.
-         *    @public
+         *    @access public
          */
         function assertCopy(&$first, &$second, $message = "") {
             if ($message == "") {
@@ -205,7 +205,7 @@
          *                           the regex delimiters.
          *    @param $subject        String to search in.
          *    @param $message        Message to display.
-         *    @public
+         *    @access public
          */
         function assertWantedPattern($pattern, $subject, $message = "") {
             if ($message == "") {
@@ -221,7 +221,7 @@
          *                           the regex delimiters.
          *    @param $subject        String to search in.
          *    @param $message        Message to display.
-         *    @public
+         *    @access public
          */
         function assertNoUnwantedPattern($pattern, $subject, $message = "") {
             if ($message == "") {
@@ -233,7 +233,7 @@
         /**
          *    Renders a variable in a shorter for than print_r().
          *    @param $var        Variable to render as a string.
-         *    @protected
+         *    @access protected
          */
         function _renderVariable($var) {
             if (!isset($var)) {

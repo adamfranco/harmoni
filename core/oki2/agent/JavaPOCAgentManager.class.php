@@ -35,7 +35,7 @@ require_once(OKI2."/osid/agent/AgentManager.php");
  * @package harmoni.osid.agent
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: JavaPOCAgentManager.class.php,v 1.2 2005/01/11 23:36:45 adamfranco Exp $
+ * @version $Id: JavaPOCAgentManager.class.php,v 1.3 2005/01/19 16:33:02 adamfranco Exp $
  * 
  */
 class JavaPOCAgentManager
@@ -77,7 +77,7 @@ class JavaPOCAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createAgent ( $displayName, &$agentType, &$properties ) { 
 		$result = $this->_javaClass->createAgent($displayName, $agentType, $properties);
@@ -106,7 +106,7 @@ class JavaPOCAgentManager
 	 *		   NULL_ARGUMENT}, {@link org.osid.agent.AgentException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function deleteAgent ( &$id ) { 
 		$this->_javaClass->deleteAgent($id);
@@ -137,7 +137,7 @@ class JavaPOCAgentManager
 	 *		   NULL_ARGUMENT}, {@link org.osid.agent.AgentException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgent ( &$id ) { 
 		$result = $this->_javaClass->getAgent($id);
@@ -166,7 +166,7 @@ class JavaPOCAgentManager
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgents () { 
 		$result = $this->_javaClass->getAgents();
@@ -195,7 +195,7 @@ class JavaPOCAgentManager
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgentTypes () { 
 		$result = $this->_javaClass->getAgentTypes();
@@ -225,7 +225,7 @@ class JavaPOCAgentManager
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getPropertyTypes () { 
 	   $result = $this->_javaClass->getPropertyTypes();
@@ -260,7 +260,7 @@ class JavaPOCAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createGroup ( $displayName, &$groupType, $description, &$properties ) { 
 		$result = $this->_javaClass->createGroup( $displayName, $groupType, $description, $properties );
@@ -289,7 +289,7 @@ class JavaPOCAgentManager
 	 *		   NULL_ARGUMENT}, {@link org.osid.agent.AgentException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function deleteGroup ( &$id ) { 
 		$this->_javaClass->deleteGroup($id);
@@ -320,7 +320,7 @@ class JavaPOCAgentManager
 	 *		   NULL_ARGUMENT}, {@link org.osid.agent.AgentException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getGroup ( &$id ) { 
 		$result = $this->_javaClass->getGroup($id);
@@ -350,7 +350,7 @@ class JavaPOCAgentManager
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getGroups () { 
 		$result = $this->_javaClass->getGroups();
@@ -379,7 +379,7 @@ class JavaPOCAgentManager
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getGroupTypes () { 
 		$result = $this->_javaClass->getGroupTypes();
@@ -410,7 +410,7 @@ class JavaPOCAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgentsByType ( &$agentType ) { 
 		$result = $this->_javaClass->getAgentsByType($agentType);
@@ -441,7 +441,7 @@ class JavaPOCAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getGroupsByType ( &$groupType ) { 
 		$result = $this->_javaClass->getGroupsByType($groupType);
@@ -470,7 +470,7 @@ class JavaPOCAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgentSearchTypes () { 
 		$result = $this->_javaClass->getAgentSearchTypes();
@@ -502,7 +502,7 @@ class JavaPOCAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAgentsBySearch ( &$searchCriteria, &$agentSearchType ) { 
 		$result = $this->_javaClass->getAgentsBySearch($searchCriteria, $agentSearchType);
@@ -531,7 +531,7 @@ class JavaPOCAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getGroupSearchTypes () { 
 		$result = $this->_javaClass->getGroupSearchTypes();
@@ -563,7 +563,7 @@ class JavaPOCAgentManager
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getGroupsBySearch ( &$searchCriteria, &$groupSearchType ) { 
 		$result = $this->_javaClass->getGroupsBySearch($searchCriteria, $groupSearchType);

@@ -28,7 +28,7 @@ class AuthorizationException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function EFFECTIVE_PRECEDE_EXPIRATION () {
@@ -40,7 +40,7 @@ class AuthorizationException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function CANNOT_DELETE_LAST_ROOT_QUALIFIER () {

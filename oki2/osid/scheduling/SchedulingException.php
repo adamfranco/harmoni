@@ -32,7 +32,7 @@ class SchedulingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function END_BEFORE_START () {

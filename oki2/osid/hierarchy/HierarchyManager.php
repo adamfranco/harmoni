@@ -66,7 +66,7 @@ class HierarchyManager
      *         org.osid.hierarchy.HierarchyException#UNSUPPORTED_CREATION
      *         UNSUPPORTED_CREATION}
      * 
-     * @public
+     * @access public
      */
     function &createHierarchy ( $displayName, &$nodeTypes, $description, $allowsMultipleParents, $allowsRecursion ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -95,7 +95,7 @@ class HierarchyManager
      *         org.osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND
      *         NODE_TYPE_NOT_FOUND}
      * 
-     * @public
+     * @access public
      */
     function &getHierarchy ( &$hierarchyId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -118,7 +118,7 @@ class HierarchyManager
      *         org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getHierarchies () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -148,7 +148,7 @@ class HierarchyManager
      *         org.osid.hierarchy.HierarchyException#HIERARCHY_NOT_EMPTY
      *         HIERARCHY_NOT_EMPTY}
      * 
-     * @public
+     * @access public
      */
     function deleteHierarchy ( &$hierarchyId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -175,7 +175,7 @@ class HierarchyManager
      *         org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function supportsMaintenance () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

@@ -25,7 +25,7 @@ class Hierarchy
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return int
-     * @public 
+     * @access public 
      * @static 
      */
     function TRAVERSE_MODE_DEPTH_FIRST () {
@@ -37,7 +37,7 @@ class Hierarchy
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return int
-     * @public 
+     * @access public 
      * @static 
      */
     function TRAVERSE_MODE_BREADTH_FIRST () {
@@ -49,7 +49,7 @@ class Hierarchy
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return int
-     * @public 
+     * @access public 
      * @static 
      */
     function TRAVERSE_DIRECTION_UP () {
@@ -62,7 +62,7 @@ class Hierarchy
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return int
-     * @public 
+     * @access public 
      * @static 
      */
     function TRAVERSE_DIRECTION_DOWN () {
@@ -74,7 +74,7 @@ class Hierarchy
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return int
-     * @public 
+     * @access public 
      * @static 
      */
     function TRAVERSE_LEVELS_ALL () {
@@ -98,7 +98,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -121,7 +121,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDisplayName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -144,7 +144,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function updateDisplayName ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -167,7 +167,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDescription () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -192,7 +192,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDescription ( $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -226,7 +226,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#SINGLE_PARENT_HIERARCHY
      *         SINGLE_PARENT_HIERARCHY}
      * 
-     * @public
+     * @access public
      */
     function &createRootNode ( &$nodeId, &$nodeType, $displayName, $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -262,7 +262,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#ATTEMPTED_RECURSION
      *         ATTEMPTED_RECURSION}
      * 
-     * @public
+     * @access public
      */
     function &createNode ( &$nodeId, &$parentId, &$type, $displayName, $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -291,7 +291,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#INCONSISTENT_STATE
      *         INCONSISTENT_STATE}
      * 
-     * @public
+     * @access public
      */
     function deleteNode ( &$nodeId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -318,7 +318,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#ALREADY_ADDED
      *         ALREADY_ADDED}
      * 
-     * @public
+     * @access public
      */
     function addNodeType ( &$type ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -348,7 +348,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND
      *         NODE_TYPE_NOT_FOUND}
      * 
-     * @public
+     * @access public
      */
     function removeNodeType ( &$type ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -371,7 +371,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getAllNodes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -394,7 +394,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getRootNodes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -423,7 +423,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND
      *         NODE_TYPE_NOT_FOUND}
      * 
-     * @public
+     * @access public
      */
     function &getNode ( &$nodeId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -446,7 +446,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getNodeTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -469,7 +469,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function allowsMultipleParents () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -492,7 +492,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function allowsRecursion () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -526,7 +526,7 @@ class Hierarchy
      *         org.osid.hierarchy.HierarchyException#UNKNOWN_TRAVERSAL_DIRECTION
      *         UNKNOWN_TRAVERSAL_DIRECTION}
      * 
-     * @public
+     * @access public
      */
     function &traverse ( &$startId, $mode, $direction, $levels ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

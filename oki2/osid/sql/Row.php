@@ -36,7 +36,7 @@ class Row
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getColumnByIndex ( $columnIndex ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -59,7 +59,7 @@ class Row
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getColumnByName ( $columnName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -80,7 +80,7 @@ class Row
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getColumns () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

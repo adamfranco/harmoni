@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: TreeTestCase.class.php,v 1.8 2003/10/13 15:08:13 adamfranco Exp $
+ * @version $Id: TreeTestCase.class.php,v 1.9 2005/01/19 16:32:59 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -19,7 +19,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
         /**
          *    Sets up unit test wide variables at the start
          *    of each test method.
-         *    @public
+         *    @access public
          */
         function setUp() {
 			// perhaps, initialize $obj here
@@ -45,7 +45,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
 		
         /**
          *    Clears the data set in the setUp() method call.
-         *    @public
+         *    @access public
          */
         function tearDown() {
 			// perhaps, unset $obj here

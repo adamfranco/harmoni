@@ -37,7 +37,7 @@ class ResultMetaDataIterator
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function hasNextResultMetaData () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -57,7 +57,7 @@ class ResultMetaDataIterator
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &nextResultMetaData () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: OrderedListTestCase.class.php,v 1.2 2004/03/11 16:02:50 adamfranco Exp $
+ * @version $Id: OrderedListTestCase.class.php,v 1.3 2005/01/19 16:33:31 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -25,7 +25,7 @@
 		/**
 		*  Sets up unit test wide variables at the start
 		*    of each test method.
-		*    @public
+		*    @access public
 		*/
 		function setUp() {
 			$this->testList = new OrderedList();
@@ -40,7 +40,7 @@
 		
 		/**
 		 *    Clears the data set in the setUp() method call.
-		 *    @public
+		 *    @access public
 		 */
 		function tearDown() {
 			// perhaps, unset $obj here

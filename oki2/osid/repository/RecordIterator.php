@@ -40,7 +40,7 @@ class RecordIterator
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function hasNextRecord () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -65,7 +65,7 @@ class RecordIterator
      *         org.osid.repository.RepositoryException#NO_MORE_ITERATOR_ELEMENTS
      *         NO_MORE_ITERATOR_ELEMENTS}
      * 
-     * @public
+     * @access public
      */
     function &nextRecord () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

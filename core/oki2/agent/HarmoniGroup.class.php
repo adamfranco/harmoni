@@ -89,7 +89,7 @@ class HarmoniGroup // :: API interface
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDescription () { 
 		return $this->_description;
@@ -113,7 +113,7 @@ class HarmoniGroup // :: API interface
 	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDescription ( $description ) {
 		// ** parameter validation
@@ -167,7 +167,7 @@ class HarmoniGroup // :: API interface
 	 *		   ALREADY_ADDED}, {@link
 	 *		   org.osid.agent.AgentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function add ( &$memberOrGroup ) { 
 		// ** parameter validation
@@ -308,7 +308,7 @@ class HarmoniGroup // :: API interface
 	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function remove ( &$memberOrGroup ) {
 		// ** parameter validation
@@ -380,7 +380,7 @@ class HarmoniGroup // :: API interface
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getMembers ( $includeSubgroups ) { 
 		// ** parameter validation
@@ -442,7 +442,7 @@ class HarmoniGroup // :: API interface
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getGroups ( $includeSubgroups ) { 
 		// ** parameter validation
@@ -497,7 +497,7 @@ class HarmoniGroup // :: API interface
 	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function contains ( &$memberOrGroup, $searchSubgroups ) { 
 		// ** parameter validation

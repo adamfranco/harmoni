@@ -36,7 +36,7 @@ class Qualifier
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -60,7 +60,7 @@ class Qualifier
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getReferenceName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -84,7 +84,7 @@ class Qualifier
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDescription () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -108,7 +108,7 @@ class Qualifier
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function isParent () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -132,7 +132,7 @@ class Qualifier
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getQualifierType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -158,7 +158,7 @@ class Qualifier
      *         org.osid.authorization.AuthorizationException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDescription ( $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -187,7 +187,7 @@ class Qualifier
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function addParent ( &$parentQualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -217,7 +217,7 @@ class Qualifier
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function removeParent ( &$parentQualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -247,7 +247,7 @@ class Qualifier
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function changeParent ( &$oldParentId, &$newParentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -277,7 +277,7 @@ class Qualifier
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function isChildOf ( &$parentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -307,7 +307,7 @@ class Qualifier
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function isDescendantOf ( &$ancestorId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -331,7 +331,7 @@ class Qualifier
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getChildren () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -355,7 +355,7 @@ class Qualifier
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getParents () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

@@ -40,7 +40,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniIdManager.class.php,v 1.5 2005/01/17 21:31:52 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.6 2005/01/19 16:33:23 adamfranco Exp $
  */
 
 class HarmoniIdManager
@@ -128,7 +128,7 @@ class HarmoniIdManager
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.id.IdException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createId () { 
 		debug::output("Attempting to generate new id.", 20, "IdManager");
@@ -175,7 +175,7 @@ class HarmoniIdManager
 	 *		   org.osid.id.IdException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
 	 *		   org.osid.id.IdException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId ( $idString ) { 
 		if (isset($this->_ids[$idString]))

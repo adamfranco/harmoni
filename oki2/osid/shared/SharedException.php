@@ -32,7 +32,7 @@ class SharedException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNKNOWN_ID () {
@@ -44,7 +44,7 @@ class SharedException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNKNOWN_TYPE () {
@@ -56,7 +56,7 @@ class SharedException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function NO_MORE_ITERATOR_ELEMENTS () {
@@ -68,7 +68,7 @@ class SharedException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function ALREADY_ADDED () {
@@ -80,7 +80,7 @@ class SharedException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function CIRCULAR_OPERATION () {
@@ -92,7 +92,7 @@ class SharedException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNKNOWN_KEY () {

@@ -62,7 +62,7 @@ class DictionaryManager
      *         org.osid.dictionary.DictionaryException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function &createDictionary ( $displayName, $description, &$domain ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -88,7 +88,7 @@ class DictionaryManager
      *         {@link org.osid.dictionary.DictionaryException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function deleteDictionary ( &$dictionaryId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -115,7 +115,7 @@ class DictionaryManager
      *         org.osid.dictionary.DictionaryException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function &getDictionary ( &$dictionaryId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -138,7 +138,7 @@ class DictionaryManager
      *         org.osid.dictionary.DictionaryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getDictionaries () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

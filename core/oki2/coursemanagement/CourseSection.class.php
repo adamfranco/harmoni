@@ -47,7 +47,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateTitle ( $title ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -73,7 +73,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateNumber ( $number ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -99,7 +99,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDescription ( $description ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -125,7 +125,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -151,7 +151,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateLocation ( &$location ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -175,7 +175,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getTitle () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -199,7 +199,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getNumber () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -223,7 +223,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDescription () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -247,7 +247,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDisplayName () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -271,7 +271,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -296,7 +296,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getSectionType () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -322,7 +322,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getSchedule () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -346,7 +346,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getLocation () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -370,7 +370,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getStatus () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -394,7 +394,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getPropertyTypes () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -418,7 +418,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getProperties () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -442,7 +442,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getCourseOffering () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -468,7 +468,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#ALREADY_ADDED
 	 *		   ALREADY_ADDED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function addAsset ( &$assetId ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -496,7 +496,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function removeAsset ( &$assetId ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -520,7 +520,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAssets () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -547,7 +547,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateSchedule ( &$scheduleItems ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -579,7 +579,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#ALREADY_ADDED
 	 *		   ALREADY_ADDED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function addStudent ( &$agentId, &$enrollmentStatusType ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -608,7 +608,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function changeStudent ( &$agentId, &$enrollmentStatusType ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -636,7 +636,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function removeStudent ( &$agentId ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -660,7 +660,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getRoster () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -691,7 +691,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getRosterByType ( &$enrollmentStatusType ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -719,7 +719,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateStatus ( &$statusType ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
@@ -749,7 +749,7 @@ class HarmoniCourseSection
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getPropertiesByType ( &$propertiesType ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 

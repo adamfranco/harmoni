@@ -35,7 +35,7 @@ class HarmoniFunctionIterator
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function hasNextFunction () { 
 		return $this->hasNext();
@@ -59,7 +59,7 @@ class HarmoniFunctionIterator
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &nextFunction () { 
 		return $this->next();

@@ -9,7 +9,7 @@ require_once(HARMONI.'errorHandler/ErrorPrinterBasic.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ErrorHandlerTestCase.class.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: ErrorHandlerTestCase.class.php,v 1.2 2005/01/19 16:32:57 adamfranco Exp $
  * @package harmoni.errorhandler.tests
  * @copyright 2003 
  **/
@@ -25,7 +25,7 @@ require_once(HARMONI.'errorHandler/ErrorPrinterBasic.class.php');
         /**
          *    Sets up unit test wide variables at the start
          *    of each test method.
-         *    @public
+         *    @access public
          */
 	function setUp() {
 		// perhaps, initialize $obj here
@@ -33,7 +33,7 @@ require_once(HARMONI.'errorHandler/ErrorPrinterBasic.class.php');
 		
 	/**
 	 *    Clears the data set in the setUp() method call.
-	 *    @public
+	 *    @access public
 	 */
 	function tearDown() {
 	    unset($this->_testHandler);

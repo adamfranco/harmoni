@@ -39,7 +39,7 @@ class HarmoniQualifierIterator
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function hasNextQualifier () { 
 		return $this->hasNext();
@@ -63,7 +63,7 @@ class HarmoniQualifierIterator
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &nextQualifier () { 
 		return $this->next();

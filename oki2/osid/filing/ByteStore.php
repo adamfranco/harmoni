@@ -31,7 +31,7 @@ class ByteStore
      * @throws org.osid.filing.FilingException if an IO error occurs reading
      *         Object
      * 
-     * @public
+     * @access public
      */
     function length () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -44,7 +44,7 @@ class ByteStore
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function canAppend () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -61,7 +61,7 @@ class ByteStore
      *         org.osid.filing.FilingException#IO_ERROR IO_ERROR}, {@link
      *         org.osid.filing.FilingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function updateAppendOnly () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -74,7 +74,7 @@ class ByteStore
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function getMimeType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -102,7 +102,7 @@ class ByteStore
      *         org.osid.filing.FilingException#IO_ERROR IO_ERROR}, {@link
      *         org.osid.filing.FilingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function updateMimeType ( $mimeType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -115,7 +115,7 @@ class ByteStore
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function isReadable () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -128,7 +128,7 @@ class ByteStore
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function isWritable () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -149,7 +149,7 @@ class ByteStore
      *         org.osid.filing.FilingException#IO_ERROR IO_ERROR}, {@link
      *         org.osid.filing.FilingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function updateReadOnly () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -166,7 +166,7 @@ class ByteStore
      *         org.osid.filing.FilingException#IO_ERROR IO_ERROR}, {@link
      *         org.osid.filing.FilingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function updateWritable () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -182,7 +182,7 @@ class ByteStore
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function getDigest ( &$algorithmType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -196,7 +196,7 @@ class ByteStore
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function &getDigestAlgorithmTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -211,7 +211,7 @@ class ByteStore
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function &read ( $version ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -224,7 +224,7 @@ class ByteStore
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function write ( $b ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -239,7 +239,7 @@ class ByteStore
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function writeBytesAtOffset ( $b, $offset ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -252,7 +252,7 @@ class ByteStore
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function writeByte ( $b ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -264,7 +264,7 @@ class ByteStore
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function commit () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

@@ -127,7 +127,7 @@ class HarmoniFunction
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () { 
 		return $this->_id;
@@ -151,7 +151,7 @@ class HarmoniFunction
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getReferenceName () { 
 		return $this->_referenceName;
@@ -175,7 +175,7 @@ class HarmoniFunction
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDescription () { 
 		return $this->_description;
@@ -199,7 +199,7 @@ class HarmoniFunction
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getFunctionType () { 
 		return $this->_functionType;
@@ -223,7 +223,7 @@ class HarmoniFunction
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getQualifierHierarchyId () { 
 		return $this->_qualifierHierarchyId;	
@@ -249,7 +249,7 @@ class HarmoniFunction
 	 *		   org.osid.authorization.AuthorizationException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDescription ( $description ) { 
 		// ** parameter validation
@@ -305,7 +305,7 @@ class HarmoniFunction
 	 *		   org.osid.authorization.AuthorizationException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateReferenceName ( $referenceName ) {
 		// ** parameter validation

@@ -60,7 +60,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getTitle () { 
 		return $this->_dataSet->getStringValue("title");
@@ -86,7 +86,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateTitle ( $title ) { 
 		$this->_asset->updateDisplayName($title . " " . $this->_dataSet->getStringValue("number"));
@@ -111,7 +111,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getNumber () { 
 		return $this->_dataSet->getStringValue("number");
@@ -137,7 +137,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateNumber ( $number ) { 
 		$this->_asset->updateDisplayName($this->_dataSet->getStringValue("title") . " " . $number);
@@ -162,7 +162,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDescription () { 
 		return $this->_asset->getDescription();
@@ -188,7 +188,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDescription ( $description ) { 
 		$this->_asset->updateDescription($description);
@@ -212,7 +212,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDisplayName () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -238,7 +238,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -262,7 +262,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () { 
 		return $this->_asset->getId();
@@ -288,7 +288,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getCourseType () { 
 		$valObj =& $this->_dataSet->getValue("type");
@@ -324,7 +324,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createCanonicalCourse ( $title, $number, $description, &$courseType, &$courseStatusType, $credits ) { 
 		$newCourse =& $this->_mgr->createCanonicalCourse($title, $number, $description, $courseType, $courseStatusType, $credits);
@@ -349,7 +349,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getCanonicalCourses () { 
 		$assets =& $this->_asset->getAssetsByType( new CanonicalCourseAssetType() );
@@ -396,7 +396,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getCanonicalCoursesByType ( &$courseType ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -432,7 +432,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createCourseOffering ( $title, $number, $description, &$termId, &$offeringType, &$offeringStatusType, &$courseGradeType ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -460,7 +460,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function deleteCourseOffering ( &$courseOfferingId ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -484,7 +484,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getCourseOfferings () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -514,7 +514,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getCourseOfferingsByType ( &$offeringType ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -547,7 +547,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#ALREADY_ADDED
 	 *		   ALREADY_ADDED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function addEquivalentCourse ( &$canonicalCourseId ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -575,7 +575,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function removeEquivalentCourse ( &$canonicalCourseId ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -599,7 +599,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getEquivalentCourses () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -627,7 +627,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#ALREADY_ADDED
 	 *		   ALREADY_ADDED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function addTopic ( $topic ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -653,7 +653,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function removeTopic ( $topic ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -677,7 +677,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getTopics () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -701,7 +701,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getCredits () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -727,7 +727,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateCredits ( $credits ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -751,7 +751,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getStatus () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -779,7 +779,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateStatus ( &$statusType ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -803,7 +803,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getPropertyTypes () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
@@ -827,7 +827,7 @@ class HarmoniCanonicalCourse
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getProperties () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 

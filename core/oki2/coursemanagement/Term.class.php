@@ -36,7 +36,7 @@ class HarmoniTerm
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 
@@ -60,7 +60,7 @@ class HarmoniTerm
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDisplayName () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 
@@ -84,7 +84,7 @@ class HarmoniTerm
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 
@@ -109,7 +109,7 @@ class HarmoniTerm
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getType () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 
@@ -135,7 +135,7 @@ class HarmoniTerm
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getSchedule () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 

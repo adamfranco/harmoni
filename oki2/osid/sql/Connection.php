@@ -36,7 +36,7 @@ class Connection
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &executeQuery ( $sql ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -59,7 +59,7 @@ class Connection
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &executeQueryWithArgs ( $sql, $args ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -81,7 +81,7 @@ class Connection
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function executeUpdate ( $sql ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -105,7 +105,7 @@ class Connection
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function executeUpdateWithArgs ( $sql, $args ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -125,7 +125,7 @@ class Connection
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getSqlTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

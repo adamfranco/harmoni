@@ -104,7 +104,7 @@
  * obtain such a     license before exporting this Work.
  * </p>
  *
- * @version $Revision: 1.1 $ / $Date: 2005/01/11 16:46:47 $
+ * @version $Revision: 1.2 $ / $Date: 2005/01/19 16:33:32 $
  * 
  * @package org.osid
  */
@@ -115,7 +115,7 @@ class SidLicense
      *  
      * @return string
      * 
-     * @public
+     * @access public
      */
     function toString ()
     {

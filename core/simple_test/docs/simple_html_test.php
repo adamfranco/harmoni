@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_html_test.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+    // $Id: simple_html_test.php,v 1.2 2005/01/19 16:33:27 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -36,7 +36,7 @@
         
         /**
          *    Paints the CSS. Add additional styles here.
-         *    @protected
+         *    @access protected
          */
         function _getCss() {
             return ".fail { color: red; }";

@@ -35,7 +35,7 @@ class Authorization
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getEffectiveDate () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -59,7 +59,7 @@ class Authorization
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getExpirationDate () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -83,7 +83,7 @@ class Authorization
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getModifiedBy () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -107,7 +107,7 @@ class Authorization
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getModifiedDate () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -131,7 +131,7 @@ class Authorization
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getFunction () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -155,7 +155,7 @@ class Authorization
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getQualifier () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -179,7 +179,7 @@ class Authorization
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getAgentId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -203,7 +203,7 @@ class Authorization
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function isActiveNow () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -229,7 +229,7 @@ class Authorization
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function isExplicit () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -256,7 +256,7 @@ class Authorization
      *         NULL_ARGUMENT}, {@link
      *         org.osid.authorization.AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
      * 
-     * @public
+     * @access public
      */
     function updateExpirationDate ( $expirationDate ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -283,7 +283,7 @@ class Authorization
      *         NULL_ARGUMENT}, {@link
      *         org.osid.authorization.AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
      * 
-     * @public
+     * @access public
      */
     function updateEffectiveDate ( $effectiveDate ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

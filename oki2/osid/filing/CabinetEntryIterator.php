@@ -39,7 +39,7 @@ class CabinetEntryIterator
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function hasNextCabinetEntry () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -52,7 +52,7 @@ class CabinetEntryIterator
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function &nextCabinetEntry () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

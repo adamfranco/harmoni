@@ -32,7 +32,7 @@ class CourseManagementException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNKNOWN_TOPIC () {
@@ -44,7 +44,7 @@ class CourseManagementException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function INVALID_CREDITS_VALUE () {

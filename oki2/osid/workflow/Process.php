@@ -37,7 +37,7 @@ class Process
      *         org.osid.workflow.WorkflowException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDisplayName ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -62,7 +62,7 @@ class Process
      *         org.osid.workflow.WorkflowException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDescription ( $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -86,7 +86,7 @@ class Process
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function updateEnabled ( $enabled ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -110,7 +110,7 @@ class Process
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -133,7 +133,7 @@ class Process
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDescription () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -156,7 +156,7 @@ class Process
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -179,7 +179,7 @@ class Process
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function isEnabled () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -202,7 +202,7 @@ class Process
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDisplayName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -235,7 +235,7 @@ class Process
      *         {@link org.osid.workflow.WorkflowException#INVALID_NETWORK
      *         INVALID_NETWORK}
      * 
-     * @public
+     * @access public
      */
     function &createInitialStep ( $displayName, $description, &$roleId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -270,7 +270,7 @@ class Process
      *         {@link org.osid.workflow.WorkflowException#INVALID_NETWORK
      *         INVALID_NETWORK}
      * 
-     * @public
+     * @access public
      */
     function &createStep ( &$predecessorStepId, $displayName, $description, &$roleId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -298,7 +298,7 @@ class Process
      *         NULL_ARGUMENT}, {@link
      *         org.osid.workflow.WorkflowException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getStep ( &$stepId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -321,7 +321,7 @@ class Process
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getSteps () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -347,7 +347,7 @@ class Process
      *         NULL_ARGUMENT}, {@link
      *         org.osid.workflow.WorkflowException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteStep ( &$stepId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -378,7 +378,7 @@ class Process
      *         NULL_ARGUMENT}, {@link
      *         org.osid.workflow.WorkflowException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &createWork ( $displayName, $description, &$qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -405,7 +405,7 @@ class Process
      *         NULL_ARGUMENT}, {@link
      *         org.osid.workflow.WorkflowException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteWork ( &$workId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -430,7 +430,7 @@ class Process
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getWork ( &$workId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -453,7 +453,7 @@ class Process
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getAllWork () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -476,7 +476,7 @@ class Process
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getAvailableWork () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -505,7 +505,7 @@ class Process
      *         NULL_ARGUMENT}, {@link
      *         org.osid.workflow.WorkflowException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getAvailableWorkForRole ( &$roleId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -533,7 +533,7 @@ class Process
      *         NULL_ARGUMENT}, {@link
      *         org.osid.workflow.WorkflowException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getAvailableWorkForStep ( &$stepId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -556,7 +556,7 @@ class Process
      *         org.osid.workflow.WorkflowException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getUnfinishedWork () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -585,7 +585,7 @@ class Process
      *         NULL_ARGUMENT}, {@link
      *         org.osid.workflow.WorkflowException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getUnfinishedWorkForRole ( &$roleId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -613,7 +613,7 @@ class Process
      *         NULL_ARGUMENT}, {@link
      *         org.osid.workflow.WorkflowException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getUnfinishedWorkForStep ( &$stepId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -639,7 +639,7 @@ class Process
      *         NULL_ARGUMENT}, {@link
      *         org.osid.workflow.WorkflowException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function haltWork ( &$workId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -667,7 +667,7 @@ class Process
      *         {@link org.osid.workflow.WorkflowException#NOT_HALTED
      *         NOT_HALTED}
      * 
-     * @public
+     * @access public
      */
     function resumeWork ( &$workId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

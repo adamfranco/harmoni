@@ -32,7 +32,7 @@ class AssessmentException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNKNOWN_SECTION () {
@@ -44,7 +44,7 @@ class AssessmentException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNKNOWN_ITEM () {

@@ -57,7 +57,7 @@ class LoggingManager
      *         org.osid.logging.LoggingException#PERMISSION_DENIED
      *         PERMISSION_DENIED}
      * 
-     * @public
+     * @access public
      */
     function &getFormatTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -79,7 +79,7 @@ class LoggingManager
      *         org.osid.logging.LoggingException#PERMISSION_DENIED
      *         PERMISSION_DENIED}
      * 
-     * @public
+     * @access public
      */
     function &getPriorityTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -101,7 +101,7 @@ class LoggingManager
      *         org.osid.logging.LoggingException#PERMISSION_DENIED
      *         PERMISSION_DENIED}
      * 
-     * @public
+     * @access public
      */
     function &getLogNamesForWriting () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -126,7 +126,7 @@ class LoggingManager
      *         PERMISSION_DENIED}, {@link
      *         org.osid.logging.LoggingException#UNKNOWN_NAME UNKNOWN_NAME}
      * 
-     * @public
+     * @access public
      */
     function &getLogForWriting ( $logName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -148,7 +148,7 @@ class LoggingManager
      *         org.osid.logging.LoggingException#PERMISSION_DENIED
      *         PERMISSION_DENIED}
      * 
-     * @public
+     * @access public
      */
     function &getLogNamesForReading () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -173,7 +173,7 @@ class LoggingManager
      *         PERMISSION_DENIED}, {@link
      *         org.osid.logging.LoggingException#UNKNOWN_NAME UNKNOWN_NAME}
      * 
-     * @public
+     * @access public
      */
     function &getLogForReading ( $logName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -199,7 +199,7 @@ class LoggingManager
      *         org.osid.logging.LoggingException#DUPLICATE_NAME
      *         DUPLICATE_NAME}
      * 
-     * @public
+     * @access public
      */
     function &createLog ( $logName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -222,7 +222,7 @@ class LoggingManager
      *         PERMISSION_DENIED}, {@link
      *         org.osid.logging.LoggingException#UNKNOWN_NAME UNKNOWN_NAME}
      * 
-     * @public
+     * @access public
      */
     function deleteLog ( $logName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -246,7 +246,7 @@ class LoggingManager
      *         org.osid.logging.LoggingException#PERMISSION_DENIED
      *         PERMISSION_DENIED}
      * 
-     * @public
+     * @access public
      */
     function supportsReading () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

@@ -56,7 +56,7 @@ class OsidTransactionManager
      *         org.osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
      *         org.osid.OsidException#ALREADY_MARKED ALREADY_MARKED}
      * 
-     * @public
+     * @access public
      */
     function mark () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -75,7 +75,7 @@ class OsidTransactionManager
      *         org.osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
      *         org.osid.OsidException#NOTHING_MARKED NOTHING_MARKED}
      * 
-     * @public
+     * @access public
      */
     function commit () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -94,7 +94,7 @@ class OsidTransactionManager
      *         org.osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
      *         org.osid.OsidException#NOTHING_MARKED NOTHING_MARKED}
      * 
-     * @public
+     * @access public
      */
     function rollback () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

@@ -102,7 +102,7 @@ class HarmoniAgent
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDisplayName () { 
 		return $this->_displayName;
@@ -124,7 +124,7 @@ class HarmoniAgent
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () { 
 		return $this->_id;
@@ -146,7 +146,7 @@ class HarmoniAgent
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getType () { 
 		return $this->_type;
@@ -168,7 +168,7 @@ class HarmoniAgent
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getProperties () { 
 		$iterator =& new HarmoniIterator($this->_propertiesArray);
@@ -197,7 +197,7 @@ class HarmoniAgent
 	 *		   NULL_ARGUMENT}, {@link
 	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getPropertiesByType ( &$propertiesType ) { 
 		$array = array();
@@ -231,7 +231,7 @@ class HarmoniAgent
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getPropertyTypes () { 
 		$array = array();

@@ -52,7 +52,7 @@ class HarmoniId
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getIdString () { 
 		return $this->_id;
@@ -77,7 +77,7 @@ class HarmoniId
 	 *		   {@link org.osid.shared.SharedException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isEqual ( &$id ) {
 		// Validate the arguments

@@ -47,7 +47,7 @@ class HarmoniProperties
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getType () { 
 		return $this->_type;
@@ -71,7 +71,7 @@ class HarmoniProperties
 	 *		   org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED},
 	 *		   {@link org.osid.shared.SharedException#UNKNOWN_KEY UNKNOWN_KEY}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getProperty ( &$key ) { 
 		return $this->_properties[serialize($key)];
@@ -92,7 +92,7 @@ class HarmoniProperties
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getKeys () { 
 		$keys = array();

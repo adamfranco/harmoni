@@ -32,7 +32,7 @@ class ResultMetaData
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getColumnIndex () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -52,7 +52,7 @@ class ResultMetaData
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getColumnName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -73,7 +73,7 @@ class ResultMetaData
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getColumnType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -93,7 +93,7 @@ class ResultMetaData
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.sql.SqlException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function areNullsAllowed () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

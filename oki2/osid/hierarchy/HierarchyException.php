@@ -32,7 +32,7 @@ class HierarchyException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNKNOWN_PARENT_NODE () {
@@ -44,7 +44,7 @@ class HierarchyException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function HIERARCHY_NOT_EMPTY () {
@@ -57,7 +57,7 @@ class HierarchyException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNSUPPORTED_CREATION () {
@@ -69,7 +69,7 @@ class HierarchyException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function ATTEMPTED_RECURSION () {
@@ -81,7 +81,7 @@ class HierarchyException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function SINGLE_PARENT_HIERARCHY () {
@@ -93,7 +93,7 @@ class HierarchyException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function INCONSISTENT_STATE () {
@@ -105,7 +105,7 @@ class HierarchyException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNKNOWN_TRAVERSAL_MODE () {
@@ -117,7 +117,7 @@ class HierarchyException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNKNOWN_TRAVERSAL_DIRECTION () {
@@ -129,7 +129,7 @@ class HierarchyException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function NODE_TYPE_NOT_FOUND () {
@@ -141,7 +141,7 @@ class HierarchyException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function NODE_TYPE_IN_USE () {

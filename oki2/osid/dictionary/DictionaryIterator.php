@@ -33,7 +33,7 @@ class DictionaryIterator
      *         org.osid.dictionary.DiictionaryException may be thrown:
      *         OPERATION_FAILED, PERMISSION_DENIED
      * 
-     * @public
+     * @access public
      */
     function hasNextDictionary () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -49,7 +49,7 @@ class DictionaryIterator
      *         org.osid.dictionary.DiictionaryException may be thrown:
      *         OPERATION_FAILED, PERMISSION_DENIED, NO_MORE_ITERATOR_ELEMENTS
      * 
-     * @public
+     * @access public
      */
     function &nextDictionary () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

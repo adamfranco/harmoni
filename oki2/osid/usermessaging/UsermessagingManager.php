@@ -61,7 +61,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getDeliveryTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -86,7 +86,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getMessageTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -113,7 +113,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getTopics () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -137,7 +137,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getSubscribers () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -163,7 +163,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getSubscribersByTopic ( $topic ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -190,7 +190,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#UNKNOWN_TOPIC
      *         UNKNOWN_TOPIC}
      * 
-     * @public
+     * @access public
      */
     function subscribe ( &$agentId, $topic ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -217,7 +217,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#UNKNOWN_TOPIC
      *         UNKNOWN_TOPIC}
      * 
-     * @public
+     * @access public
      */
     function unsubscribe ( &$agentId, $topic ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -243,7 +243,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#NOT_SUBSCRIBED
      *         NOT_SUBSCRIBED}
      * 
-     * @public
+     * @access public
      */
     function unsubscribeAll ( &$agentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -280,7 +280,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function send ( &$agents, &$content, &$messageType, &$deliveryType, $topic ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -316,7 +316,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function sendToAll ( &$content, &$messageType, &$deliveryType, $topic ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -342,7 +342,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &receiveForTopic ( $topic ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -368,7 +368,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &receiveForMessageType ( &$messageType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -392,7 +392,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &receive () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -418,7 +418,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function deleteMessage ( &$message ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -444,7 +444,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function purgeMessage ( &$message ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -473,7 +473,7 @@ class UsermessagingManager
      *         org.osid.usermessaging.UsermessagingException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function deleteMessages ( $before, &$messageType, $topic ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

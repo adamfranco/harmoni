@@ -147,7 +147,7 @@ class HarmoniRepositoryManager
    *         org.osid.repository.RepositoryException#UNKNOWN_TYPE
    *         UNKNOWN_TYPE}
    * 
-   * @public
+   * @access public
    */
   function &createRepository ( $displayName, $description, &$repositoryType ){
 		// Argument Validation
@@ -248,7 +248,7 @@ class HarmoniRepositoryManager
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
      
 	function deleteRepository(& $repositoryId) {
@@ -298,7 +298,7 @@ class HarmoniRepositoryManager
  *         org.osid.repository.RepositoryException#UNIMPLEMENTED
  *         UNIMPLEMENTED}
  * 
- * @public
+ * @access public
  */
   function &getRepositories () { 
 		$nodes =& $this->_hierarchy->getNodesByType($this->_repositoryKeyType);
@@ -340,7 +340,7 @@ class HarmoniRepositoryManager
  *         org.osid.repository.RepositoryException#UNKNOWN_TYPE
  *         UNKNOWN_TYPE}
  * 
- * @public
+ * @access public
  */
 
   function &getRepositoriesByType ( &$repositoryType ) { 
@@ -398,7 +398,7 @@ class HarmoniRepositoryManager
    *         NULL_ARGUMENT}, {@link
    *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
    * 
-   * @public
+   * @access public
    */
    
 	function &getRepository ( &$repositoryId ) { 
@@ -442,7 +442,7 @@ class HarmoniRepositoryManager
  *         NULL_ARGUMENT}, {@link
  *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
  * 
- * @public
+ * @access public
  */
 	function &getAsset ( &$assetId ) { 
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
@@ -512,7 +512,7 @@ class HarmoniRepositoryManager
    *         org.osid.repository.RepositoryException#NULL_ARGUMENT
    *         NULL_ARGUMENT}
    * 
-   * @public
+   * @access public
    */
 
   function &getAssetDates ( &$assetId ) { 
@@ -556,7 +556,7 @@ class HarmoniRepositoryManager
    *         org.osid.repository.RepositoryException#UNKNOWN_REPOSITORY
    *         UNKNOWN_REPOSITORY}
    * 
-   * @public
+   * @access public
    */
   function &getAssetsBySearch ( &$repositories, &$searchCriteria, &$searchType, &$searchProperties ) { 
       die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -631,7 +631,7 @@ class HarmoniRepositoryManager
    *         NULL_ARGUMENT}, {@link
    *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
    * 
-   * @public
+   * @access public
    */
   function &copyAsset ( &$repository, &$assetId ) { 
 		$asset =& $repository->getAsset($assetId);
@@ -658,7 +658,7 @@ class HarmoniRepositoryManager
    *         org.osid.repository.RepositoryException#UNIMPLEMENTED
    *         UNIMPLEMENTED}
    * 
-   * @public
+   * @access public
    */
    
    function &getRepositoryTypes () { 

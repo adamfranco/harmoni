@@ -41,7 +41,7 @@ class HarmoniHierarchyIterator
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function hasNextHierarchy () { 
 		return $this->hasNext();
@@ -66,7 +66,7 @@ class HarmoniHierarchyIterator
 	 *		   org.osid.hierarchy.HierarchyException#NO_MORE_ITERATOR_ELEMENTS
 	 *		   NO_MORE_ITERATOR_ELEMENTS}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &nextHierarchy () { 
 		return $this->next();

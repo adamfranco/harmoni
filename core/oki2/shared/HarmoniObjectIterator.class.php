@@ -48,7 +48,7 @@ class HarmoniObjectIterator
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function hasNextObject () { 
 		return $this->hasNext();
@@ -72,7 +72,7 @@ class HarmoniObjectIterator
 	 *		   org.osid.shared.SharedException#NO_MORE_ITERATOR_ELEMENTS
 	 *		   NO_MORE_ITERATOR_ELEMENTS}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &nextObject () { 
 		return $this->next();

@@ -34,7 +34,7 @@ class Properties
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -58,7 +58,7 @@ class Properties
      *         org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED},
      *         {@link org.osid.shared.SharedException#UNKNOWN_KEY UNKNOWN_KEY}
      * 
-     * @public
+     * @access public
      */
     function &getProperty ( &$key ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -79,7 +79,7 @@ class Properties
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getKeys () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

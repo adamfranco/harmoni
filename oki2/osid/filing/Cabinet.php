@@ -53,7 +53,7 @@ class Cabinet
      *         org.osid.filing.FilingException#ITEM_ALREADY_EXISTS
      *         ITEM_ALREADY_EXISTS}
      * 
-     * @public
+     * @access public
      */
     function &createByteStore ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -78,7 +78,7 @@ class Cabinet
      *         org.osid.filing.FilingException#NAME_CONTAINS_ILLEGAL_CHARS
      *         NAME_CONTAINS_ILLEGAL_CHARS}
      * 
-     * @public
+     * @access public
      */
     function &createCabinet ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -103,7 +103,7 @@ class Cabinet
      *         ITEM_ALREADY_EXISTS}, {@link
      *         org.osid.filing.FilingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &copyByteStore ( $displayName, &$oldByteStore ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -127,7 +127,7 @@ class Cabinet
      *         ITEM_ALREADY_EXISTS}, {@link
      *         org.osid.filing.FilingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function add ( &$entry, $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -146,7 +146,7 @@ class Cabinet
      *         org.osid.filing.FilingException#IO_ERROR IO_ERROR}, {@link
      *         org.osid.filing.FilingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function remove ( &$entry ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -168,7 +168,7 @@ class Cabinet
      *         org.osid.filing.FilingException#ITEM_DOES_NOT_EXIST
      *         ITEM_DOES_NOT_EXIST}
      * 
-     * @public
+     * @access public
      */
     function &getCabinetEntryById ( &$id ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -193,7 +193,7 @@ class Cabinet
      *         ITEM_DOES_NOT_EXIST}, {@link
      *         org.osid.filing.FilingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getCabinetEntryByName ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -206,7 +206,7 @@ class Cabinet
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function &entries () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -225,7 +225,7 @@ class Cabinet
      *         org.osid.filing.FilingException#IO_ERROR IO_ERROR}, {@link
      *         org.osid.filing.FilingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getRootCabinet () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -238,7 +238,7 @@ class Cabinet
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function isRootCabinet () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -251,7 +251,7 @@ class Cabinet
      * 
      * @throws object FilingException 
      * 
-     * @public
+     * @access public
      */
     function isManageable () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -268,7 +268,7 @@ class Cabinet
      *         IO_ERROR}, {@link org.osid.filing.FilingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getAvailableBytes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -285,7 +285,7 @@ class Cabinet
      *         IO_ERROR}, {@link org.osid.filing.FilingException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getUsedBytes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

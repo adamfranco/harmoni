@@ -76,7 +76,7 @@ class AuthenticationManager
      *         org.osid.authentication.AuthenticationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getAuthenticationTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -113,7 +113,7 @@ class AuthenticationManager
      *         org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function authenticateUser ( &$authenticationType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -155,7 +155,7 @@ class AuthenticationManager
      *         org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function isUserAuthenticated ( &$authenticationType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -186,7 +186,7 @@ class AuthenticationManager
      *         org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getUserId ( &$authenticationType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -208,7 +208,7 @@ class AuthenticationManager
      *         org.osid.authentication.AuthenticationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function destroyAuthentication () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -236,7 +236,7 @@ class AuthenticationManager
      *         org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function destroyAuthenticationForType ( &$authenticationType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

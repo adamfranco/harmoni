@@ -36,7 +36,7 @@ class HarmoniCourseGradeRecord
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateCourseGrade ( &$courseGrade ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
@@ -62,7 +62,7 @@ class HarmoniCourseGradeRecord
 	 *		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
@@ -86,7 +86,7 @@ class HarmoniCourseGradeRecord
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getCourseGrade () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
@@ -110,7 +110,7 @@ class HarmoniCourseGradeRecord
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDisplayName () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
@@ -134,7 +134,7 @@ class HarmoniCourseGradeRecord
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
@@ -158,7 +158,7 @@ class HarmoniCourseGradeRecord
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getStudent () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
@@ -184,7 +184,7 @@ class HarmoniCourseGradeRecord
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getCourseGradeType () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
@@ -208,7 +208,7 @@ class HarmoniCourseGradeRecord
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getCourseOffering () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 

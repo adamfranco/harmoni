@@ -34,7 +34,7 @@ class Agent
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDisplayName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -56,7 +56,7 @@ class Agent
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -78,7 +78,7 @@ class Agent
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -105,7 +105,7 @@ class Agent
      *         NULL_ARGUMENT}, {@link
      *         org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getPropertiesByType ( &$propertiesType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -127,7 +127,7 @@ class Agent
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getPropertyTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -149,7 +149,7 @@ class Agent
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getProperties () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

@@ -8,7 +8,7 @@ require_once(HARMONI.'oki/authorization/DefaultQualifierType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: QualifierTestCase.class.php,v 1.2 2005/01/18 20:02:20 adamfranco Exp $
+ * @version $Id: QualifierTestCase.class.php,v 1.3 2005/01/19 16:33:06 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -23,7 +23,7 @@ class HarmoniQualifierTestCase extends UnitTestCase {
 	/**
 	 *	  Sets up unit test wide variables at the start
 	 *	  of each test method.
-	 *	  @public
+	 *	  @access public
 	 */
 	function setUp() {
 		// Set up the database connection
@@ -131,7 +131,7 @@ class HarmoniQualifierTestCase extends UnitTestCase {
 
 	/**
 	 *	  Clears the data set in the setUp() method call.
-	 *	  @public
+	 *	  @access public
 	 */
 	function tearDown() {
 		// perhaps, unset $obj here

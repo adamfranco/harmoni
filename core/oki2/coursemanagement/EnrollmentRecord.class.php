@@ -41,7 +41,7 @@ class HarmoniEnrollmentRecord
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getStudent () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "EnrollmentRecord", true)); 
@@ -68,7 +68,7 @@ class HarmoniEnrollmentRecord
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getStatus () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "EnrollmentRecord", true)); 

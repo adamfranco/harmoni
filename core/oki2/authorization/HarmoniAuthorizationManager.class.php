@@ -54,7 +54,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * OSID Version: 2.0
  * </p>
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.2 2005/01/18 16:39:59 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.3 2005/01/19 16:33:04 adamfranco Exp $
  * @copyright 2005 Middlebury College, ETS
  * @package harmoni.osid.authorization
  */
@@ -118,7 +118,7 @@ class HarmoniAuthorizationManager
 	 *		   UNKNOWN_ID}, {@link
 	 *		   org.osid.authorization.AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createDatedAuthorization ( &$agentId, &$functionId, &$qualifierId, $effectiveDate, $expirationDate ) { 
 		$authorization =& $this->_cache->createAuthorization($agentId, $functionId, $qualifierId, $effectiveDate, $expirationDate);
@@ -153,7 +153,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createAuthorization ( &$agentId, &$functionId, &$qualifierId ) { 
 		$authorization =& $this->_cache->createAuthorization($agentId, $functionId, $qualifierId);
@@ -189,7 +189,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createFunction ( &$functionId, $displayName, $description, &$functionType, &$qualifierHierarchyId ) { 
 		$function =& $this->_cache->createFunction($functionId, $displayName, $description, $functionType, $qualifierHierarchyId);
@@ -229,7 +229,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createRootQualifier ( &$qualifierId, $displayName, $description, &$qualifierType, &$qualifierHierarchyId ) { 
 		$qualifier =& $this->_cache->createRootQualifier($qualifierId, $displayName, 
@@ -271,7 +271,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createQualifier ( &$qualifierId, $displayName, $description, &$qualifierType, &$parentId ) { 
 		$qualifier =& $this->_cache->createQualifier($qualifierId, $displayName, $description, $qualifierType, $parentId);
@@ -300,7 +300,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function deleteAuthorization ( &$authorization ) { 
 		$this->_cache->deleteAuthorization($authorization);
@@ -328,7 +328,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function deleteFunction ( &$functionId ) { 
 		$this->_cache->deleteFunction($functionId);
@@ -358,7 +358,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#CANNOT_DELETE_LAST_ROOT_QUALIFIER
 	 *		   CANNOT_DELETE_LAST_ROOT_QUALIFIER}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function deleteQualifier ( &$qualifierId ) { 
 		$this->_cache->deleteQualifier($qualifierId);
@@ -391,7 +391,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isAuthorized ( &$agentId, &$functionId, &$qualifierId ) { 
 		$authorizations =& $this->getAllAZs($agentId, $functionId, $qualifierId, true);
@@ -425,7 +425,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isUserAuthorized ( &$functionId, &$qualifierId ) { 
 		$authorizations =& $this->getAllUserAZs($functionId, $qualifierId, true);
@@ -451,7 +451,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getFunctionTypes () { 
 		return $this->_cache->getFunctionTypes();
@@ -481,7 +481,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getFunctions ( &$functionType ) { 
 		return $this->_cache->getFunctions($functionType);
@@ -511,7 +511,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getFunction ( &$functionId ) { 
 		// ** parameter validation
@@ -551,7 +551,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function agentExists ( &$agentId ) { 
 		die(UNIMPLEMENTED);
@@ -576,7 +576,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getQualifierTypes () { 
 		$hierarchyManager =& Services::getService("Hierarchy");
@@ -624,7 +624,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getRootQualifiers ( &$qualifierHierarchyId ) { 
 		return $this->_cache->getRootQualifiers($qualifierHierarchyId);
@@ -654,7 +654,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getQualifierChildren ( &$qualifierId ) { 
 		// get the qualifier
@@ -687,7 +687,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getQualifierDescendants ( &$qualifierId ) { 
 		// ** parameter validation
@@ -723,7 +723,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getQualifier ( &$qualifierId ) { 
 		// ** parameter validation
@@ -762,7 +762,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getWhoCanDo ( &$functionId, &$qualifierId ) { 
 		// ** parameter validation
@@ -818,7 +818,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getExplicitUserAZs ( &$functionId, &$qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
@@ -871,7 +871,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getExplicitUserAZsByFuncType ( &$functionType, &$qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
@@ -924,7 +924,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAllUserAZs ( &$functionId, &$qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
@@ -980,7 +980,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAllUserAZsByFuncType ( &$functionType, &$qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
@@ -1033,7 +1033,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getExplicitAZs ( &$agentId, &$functionId, &$qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
@@ -1086,7 +1086,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getExplicitAZsByFuncType ( &$agentId, &$functionType, &$qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
@@ -1138,7 +1138,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
 	 *		   UNKNOWN_ID}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAllAZs ( &$agentId, &$functionId, &$qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
@@ -1196,7 +1196,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getAllAZsByFuncType ( &$agentId, &$functionType, &$qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
@@ -1245,7 +1245,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
 	 *		   UNKNOWN_TYPE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getExplicitUserAZsForImplicitAZ ( &$implicitAuthorization ) { 
 		// ** parameter validation
@@ -1293,7 +1293,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getQualifierHierarchies () { 
 		$hierarchyManager =& Services::requireService("Hierarchy", true);
@@ -1326,7 +1326,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function supportsDesign () { 
 		return TRUE;
@@ -1360,7 +1360,7 @@ class HarmoniAuthorizationManager
 	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function supportsMaintenance () { 
 		return TRUE;

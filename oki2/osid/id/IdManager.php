@@ -56,7 +56,7 @@ class IdManager
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.id.IdException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &createId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -80,7 +80,7 @@ class IdManager
      *         org.osid.id.IdException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
      *         org.osid.id.IdException#NULL_ARGUMENT NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function &getId ( $idString ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

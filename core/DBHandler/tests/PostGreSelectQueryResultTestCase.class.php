@@ -8,7 +8,7 @@ require_once(HARMONI . 'DBHandler/PostGre/PostGreDatabase.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  * 
- * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.2 2005/01/19 16:31:31 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003
  */
@@ -30,7 +30,7 @@ class PostGreSelectQueryResultTestCase extends UnitTestCase {
 	 * Sets up unit test wide variables at the start
 	 *       of each test method.
 	 * 
-	 * @public 
+	 * @access public 
 	 */
 	function setUp()
 	{ 
@@ -46,7 +46,7 @@ class PostGreSelectQueryResultTestCase extends UnitTestCase {
 	/**
 	 * Clears the data set in the setUp() method call.
 	 * 
-	 * @public 
+	 * @access public 
 	 */
 	function tearDown()
 	{ 

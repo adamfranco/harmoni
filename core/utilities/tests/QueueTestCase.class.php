@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: QueueTestCase.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: QueueTestCase.class.php,v 1.2 2005/01/19 16:33:31 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -23,7 +23,7 @@
 		/**
 		*  Sets up unit test wide variables at the start
 		*    of each test method.
-		*    @public
+		*    @access public
 		*/
 		function setUp() {
 			$this->testQueue =& new Queue();
@@ -38,7 +38,7 @@
 		
 		/**
 		 *    Clears the data set in the setUp() method call.
-		 *    @public
+		 *    @access public
 		 */
 		function tearDown() {
 			// perhaps, unset $obj here

@@ -37,7 +37,7 @@ class Asset
      *         org.osid.repository.RepositoryException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDisplayName ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -63,7 +63,7 @@ class Asset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#EFFECTIVE_PRECEDE_EXPIRATION}
      * 
-     * @public
+     * @access public
      */
     function updateEffectiveDate ( $effectiveDate ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -89,7 +89,7 @@ class Asset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#EFFECTIVE_PRECEDE_EXPIRATION}
      * 
-     * @public
+     * @access public
      */
     function updateExpirationDate ( $expirationDate ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -112,7 +112,7 @@ class Asset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDisplayName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -135,7 +135,7 @@ class Asset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDescription () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -158,7 +158,7 @@ class Asset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -182,7 +182,7 @@ class Asset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getAssetType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -205,7 +205,7 @@ class Asset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getEffectiveDate () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -228,7 +228,7 @@ class Asset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getExpirationDate () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -253,7 +253,7 @@ class Asset
      *         org.osid.repository.RepositoryException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDescription ( $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -277,7 +277,7 @@ class Asset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getRepository () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -301,7 +301,7 @@ class Asset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getContent () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -326,7 +326,7 @@ class Asset
      *         org.osid.repository.RepositoryException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateContent ( &$content ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -354,7 +354,7 @@ class Asset
      *         {@link org.osid.repository.RepositoryException#ALREADY_ADDED
      *         ALREADY_ADDED}
      * 
-     * @public
+     * @access public
      */
     function addAsset ( &$assetId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -382,7 +382,7 @@ class Asset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function removeAsset ( &$assetId, $includeChildren ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -406,7 +406,7 @@ class Asset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getAssets () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -436,7 +436,7 @@ class Asset
      *         org.osid.repository.RepositoryException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getAssetsByType ( &$assetType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -465,7 +465,7 @@ class Asset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &createRecord ( &$recordStructureId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -497,7 +497,7 @@ class Asset
      *         org.osid.repository.RepositoryException#ALREADY_INHERITING_STRUCTURE
      *         ALREADY_INHERITING_STRUCTURE}
      * 
-     * @public
+     * @access public
      */
     function inheritRecordStructure ( &$assetId, &$recordStructureId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -528,7 +528,7 @@ class Asset
      *         org.osid.repository.RepositoryException#CANNOT_COPY_OR_INHERIT_SELF
      *         CANNOT_COPY_OR_INHERIT_SELF}
      * 
-     * @public
+     * @access public
      */
     function copyRecordStructure ( &$assetId, &$recordStructureId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -556,7 +556,7 @@ class Asset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteRecord ( &$recordId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -580,7 +580,7 @@ class Asset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getRecords () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -609,7 +609,7 @@ class Asset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getRecordsByRecordStructure ( &$recordStructureId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -638,7 +638,7 @@ class Asset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getRecordsByRecordStructureType ( &$recordStructureType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -663,7 +663,7 @@ class Asset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getRecordStructures () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -686,7 +686,7 @@ class Asset
      *         org.osid.repository.RepositoryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getContentRecordStructure () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -714,7 +714,7 @@ class Asset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getRecord ( &$recordId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -743,7 +743,7 @@ class Asset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getPart ( &$partId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -772,7 +772,7 @@ class Asset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getPartValue ( &$partId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -801,7 +801,7 @@ class Asset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getPartsByPartStructure ( &$partStructureId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -830,7 +830,7 @@ class Asset
      *         NULL_ARGUMENT}, {@link
      *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getPartValuesByPartStructure ( &$partStructureId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

@@ -42,7 +42,7 @@ class Dictionary
      *         org.osid.dictionary.DictionaryException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDisplayName ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -67,7 +67,7 @@ class Dictionary
      *         org.osid.dictionary.DictionaryException#NULL_ARGUMENT
      *         NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function updateDescription ( $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -90,7 +90,7 @@ class Dictionary
      *         org.osid.dictionary.DictionaryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDisplayName () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -113,7 +113,7 @@ class Dictionary
      *         org.osid.dictionary.DictionaryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function getDescription () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -136,7 +136,7 @@ class Dictionary
      *         org.osid.dictionary.DictionaryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -161,7 +161,7 @@ class Dictionary
      *         org.osid.dictionary.DictionaryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getDomain () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -191,7 +191,7 @@ class Dictionary
      *         org.osid.dictionary.DictionaryException#ALREADY_ADDED
      *         ALREADY_ADDED}
      * 
-     * @public
+     * @access public
      */
     function addEntry ( $tag, &$value ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -219,7 +219,7 @@ class Dictionary
      *         org.osid.dictionary.DictionaryException#UNKNOWN_TAG
      *         UNKNOWN_TAG}
      * 
-     * @public
+     * @access public
      */
     function removeEntry ( $tag ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -248,7 +248,7 @@ class Dictionary
      *         org.osid.dictionary.DictionaryException#UNKNOWN_TAG
      *         UNKNOWN_TAG}
      * 
-     * @public
+     * @access public
      */
     function &getEntry ( $tag ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -272,7 +272,7 @@ class Dictionary
      *         org.osid.dictionary.DictionaryException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getTags () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

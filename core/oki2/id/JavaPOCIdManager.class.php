@@ -37,7 +37,7 @@ require_once(OKI2."/osid/id/IdManager.php");
  * @package harmoni.osid.id
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: JavaPOCIdManager.class.php,v 1.2 2005/01/11 23:36:46 adamfranco Exp $
+ * @version $Id: JavaPOCIdManager.class.php,v 1.3 2005/01/19 16:33:23 adamfranco Exp $
  */
 
 class JavaPOCIdManager
@@ -73,7 +73,7 @@ class JavaPOCIdManager
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.id.IdException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createId () { 
 		$result = $this->_javaClass->createId();
@@ -101,7 +101,7 @@ class JavaPOCIdManager
 	 *		   org.osid.id.IdException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
 	 *		   org.osid.id.IdException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId ( $idString ) { 
 		$result = $this->_javaClass->getId($idString);

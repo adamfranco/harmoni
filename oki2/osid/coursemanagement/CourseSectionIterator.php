@@ -42,7 +42,7 @@ class CourseSectionIterator
      *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function hasNextCourseSection () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -68,7 +68,7 @@ class CourseSectionIterator
      *         org.osid.coursemanagement.CourseManagementException#NO_MORE_ITERATOR_ELEMENTS
      *         NO_MORE_ITERATOR_ELEMENTS}
      * 
-     * @public
+     * @access public
      */
     function &nextCourseSection () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

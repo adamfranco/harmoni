@@ -44,7 +44,7 @@ class HarmoniCourseGradeRecordIterator
 	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function hasNextCourseGradeRecord () { 
 		return $this->hasNext();
@@ -70,7 +70,7 @@ class HarmoniCourseGradeRecordIterator
 	 *		   org.osid.coursemanagement.CourseManagementException#NO_MORE_ITERATOR_ELEMENTS
 	 *		   NO_MORE_ITERATOR_ELEMENTS}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &nextCourseGradeRecord () { 
 		return $this->next();

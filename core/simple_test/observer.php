@@ -1,5 +1,5 @@
 <?php
-    // $Id: observer.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+    // $Id: observer.php,v 1.2 2005/01/19 16:33:26 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -16,7 +16,7 @@
         /**
          *    Sets the event label.
          *    @param $label     Message to be carried by the event.
-         *    @public
+         *    @access public
          */
         function TestEvent($label) {
             $this->_label = $label;
@@ -25,7 +25,7 @@
         /**
          *    Accessor for the event message.
          *    @return     Event message.
-         *    @public
+         *    @access public
          */
         function getLabel() {
             return $this->_label;
@@ -53,7 +53,7 @@
          *    label.
          *    @param $result    True if passed.
          *    @param $label     Message to be carried by the event.
-         *    @public
+         *    @access public
          */
         function TestResult($result, $label = "") {
             $this->TestEvent($label);
@@ -64,7 +64,7 @@
          *    Paints the approppriate result to the visting
          *    TestReporter.
          *    @param $painter    TestReporter class to write to.
-         *    @public
+         *    @access public
          */
         function paint(&$painter) {
             if ($this->_result) {
@@ -88,7 +88,7 @@
          *    Stashes the starting message, usually a test name.
          *    @param $label     Message to be carried by the event.
          *    @param $size      The number of test cases in this test.
-         *    @public
+         *    @access public
          */
         function TestStart($label, $size = 0) {
             $this->TestEvent($label);
@@ -98,7 +98,7 @@
         /**
          *    Paints itself into the visiting painter.
          *    @param $painter    TestReporter class to write to.
-         *    @public
+         *    @access public
          */
         function paint(&$painter) {
             $painter->paintStart($this->getLabel(), $this->_size);
@@ -117,7 +117,7 @@
          *    Stashes the ending message, usually a test name.
          *    @param $label     Message to be carried by the event.
          *    @param $size      The number of test cases in this test.
-         *    @public
+         *    @access public
          */
         function TestEnd($label, $size = 0) {
             $this->TestEvent($label);
@@ -128,7 +128,7 @@
          *    Paints itself into the visiting painter.
          *    @param $painter    TestReporter class to write to.
          *    @param $type       Type of object sending the event.
-         *    @public
+         *    @access public
          */
         function paint(&$painter) {
             $painter->paintEnd($this->getLabel(), $this->_size);
@@ -144,7 +144,7 @@
         
         /**
          *    Starts with an empty list of observers.
-         *    @public
+         *    @access public
          */
         function TestObservable() {
             $this->_observers = array();
@@ -153,7 +153,7 @@
         /**
          *    Adds an object with a notify() method.
          *    @param $observer    Observer added to the internal list.
-         *    @public
+         *    @access public
          */
         function attachObserver(&$observer) {
             $this->_observers[] = &$observer;
@@ -163,7 +163,7 @@
          *    Passes the event object down to the notify()
          *    method of all of it's observers.
          *    @param $event        Event to pass on.
-         *    @public
+         *    @access public
          */
         function notify(&$event) {
             for ($i = 0; $i < count($this->_observers); $i++) {
@@ -188,7 +188,7 @@
         /**
          *    Does nothing with the incoming event. Abstract.
          *    @param $event    Event to acted upon.
-         *    @public
+         *    @access public
          */
         function notify(&$event) {
         }
@@ -203,7 +203,7 @@
         
         /**
          *    Does nothing.
-         *    @public
+         *    @access public
          */
         function TestReporter() {
             $this->TestObserver();
@@ -216,7 +216,7 @@
          *    interface is more natural from the display
          *    point of view.
          *    @param $event        Event to show.
-         *    @public
+         *    @access public
          */
         function notify(&$event) {
             $event->paint(&$this);
@@ -226,7 +226,7 @@
          *    Paints the start of a test.
          *    @param $test_name        Name of test or other label.
          *    @param $size             Number of test cases starting.
-         *    @public
+         *    @access public
          */
         function paintStart($test_name, $size) {
         }
@@ -235,7 +235,7 @@
          *    Paints the end of a test.
          *    @param $test_name        Name of test or other label.
          *    @param $size             Number of cases just finished.
-         *    @public
+         *    @access public
          */
         function paintEnd($test_name, $size) {
         }
@@ -243,7 +243,7 @@
         /**
          *    Paints a pass. This will often output nothing.
          *    @param $message        Passing message.
-         *    @public
+         *    @access public
          */
         function paintPass($message) {
         }
@@ -251,7 +251,7 @@
         /**
          *    Paints a failure.
          *    @param $message        Failure message from test.
-         *    @public
+         *    @access public
          */
         function paintFail($message) {
         }

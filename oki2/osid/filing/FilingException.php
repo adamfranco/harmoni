@@ -27,7 +27,7 @@ class FilingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function ITEM_ALREADY_EXISTS () {
@@ -39,7 +39,7 @@ class FilingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function ITEM_DOES_NOT_EXIST () {
@@ -51,7 +51,7 @@ class FilingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNSUPPORTED_OPERATION () {
@@ -63,7 +63,7 @@ class FilingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function IO_ERROR () {
@@ -75,7 +75,7 @@ class FilingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function UNSUPPORTED_TYPE () {
@@ -87,7 +87,7 @@ class FilingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function CABINET_NOT_EMPTY () {
@@ -99,7 +99,7 @@ class FilingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function NOT_A_CABINET () {
@@ -111,7 +111,7 @@ class FilingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function NOT_A_BYTESTORE () {
@@ -123,7 +123,7 @@ class FilingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function NAME_CONTAINS_ILLEGAL_CHARS () {
@@ -135,7 +135,7 @@ class FilingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function NULL_OWNER () {
@@ -147,7 +147,7 @@ class FilingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function DELETE_FAILED () {
@@ -159,7 +159,7 @@ class FilingException
      * Note: This method is PHP's equivalent of a static field.
      * 
      * @return string
-     * @public 
+     * @access public 
      * @static 
      */
     function CANNOT_DELETE_ROOT_CABINET () {

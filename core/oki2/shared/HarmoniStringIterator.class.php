@@ -48,7 +48,7 @@ class HarmoniStringIterator
 	 *		   CONFIGURATION_ERROR}, {@link
 	 *		   org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function hasNextString () { 
 		return $this->hasNext();
@@ -72,7 +72,7 @@ class HarmoniStringIterator
 	 *		   org.osid.shared.SharedException#NO_MORE_ITERATOR_ELEMENTS
 	 *		   NO_MORE_ITERATOR_ELEMENTS}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function nextString () { 
 		return $this->next();

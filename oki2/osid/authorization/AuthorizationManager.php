@@ -87,7 +87,7 @@ class AuthorizationManager
      *         UNKNOWN_ID}, {@link
      *         org.osid.authorization.AuthorizationException#EFFECTIVE_PRECEDE_EXPIRATION}
      * 
-     * @public
+     * @access public
      */
     function &createDatedAuthorization ( &$agentId, &$functionId, &$qualifierId, $effectiveDate, $expirationDate ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -121,7 +121,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &createAuthorization ( &$agentId, &$functionId, &$qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -156,7 +156,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &createFunction ( &$functionId, $displayName, $description, &$functionType, &$qualifierHierarchyId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -195,7 +195,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &createRootQualifier ( &$qualifierId, $displayName, $description, &$qualifierType, &$qualifierHierarchyId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -235,7 +235,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &createQualifier ( &$qualifierId, $displayName, $description, &$qualifierType, &$parentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -263,7 +263,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteAuthorization ( &$authorization ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -291,7 +291,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteFunction ( &$functionId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -321,7 +321,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#CANNOT_DELETE_LAST_ROOT_QUALIFIER
      *         CANNOT_DELETE_LAST_ROOT_QUALIFIER}
      * 
-     * @public
+     * @access public
      */
     function deleteQualifier ( &$qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -354,7 +354,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function isAuthorized ( &$agentId, &$functionId, &$qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -386,7 +386,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function isUserAuthorized ( &$functionId, &$qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -410,7 +410,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getFunctionTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -440,7 +440,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getFunctions ( &$functionType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -470,7 +470,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getFunction ( &$functionId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -503,7 +503,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function agentExists ( &$agentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -528,7 +528,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getQualifierTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -559,7 +559,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getRootQualifiers ( &$qualifierHierarchyId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -589,7 +589,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getQualifierChildren ( &$qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -620,7 +620,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getQualifierDescendants ( &$qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -650,7 +650,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getQualifier ( &$qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -683,7 +683,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getWhoCanDo ( &$functionId, &$qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -717,7 +717,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getExplicitUserAZs ( &$functionId, &$qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -754,7 +754,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getExplicitUserAZsByFuncType ( &$functionType, &$qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -788,7 +788,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getExplicitUserAZsForImplicitAZ ( &$implicitAuthorization ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -825,7 +825,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getAllUserAZs ( &$functionId, &$qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -864,7 +864,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getAllUserAZsByFuncType ( &$functionType, &$qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -900,7 +900,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getExplicitAZs ( &$agentId, &$functionId, &$qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -939,7 +939,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getExplicitAZsByFuncType ( &$agentId, &$functionType, &$qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -977,7 +977,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_ID
      *         UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getAllAZs ( &$agentId, &$functionId, &$qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -1017,7 +1017,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getAllAZsByFuncType ( &$agentId, &$functionType, &$qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -1043,7 +1043,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getQualifierHierarchies () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -1069,7 +1069,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function supportsDesign () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -1103,7 +1103,7 @@ class AuthorizationManager
      *         org.osid.authorization.AuthorizationException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function supportsMaintenance () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

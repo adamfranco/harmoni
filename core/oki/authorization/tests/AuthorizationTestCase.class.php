@@ -9,7 +9,7 @@ require_once(HARMONI.'oki/authorization/DefaultFunctionType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AuthorizationTestCase.class.php,v 1.4 2004/07/01 20:41:37 dobomode Exp $
+ * @version $Id: AuthorizationTestCase.class.php,v 1.5 2005/01/19 16:32:58 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -24,7 +24,7 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
     /**
      *    Sets up unit test wide variables at the start
      *    of each test method.
-     *    @public
+     *    @access public
      */
     function setUp() {
 		// Set up the database connection
@@ -124,7 +124,7 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 
 	/**
      *    Clears the data set in the setUp() method call.
-     *    @public
+     *    @access public
      */
     function tearDown() {
 		$this->manager->deleteAuthorization($this->authorization);

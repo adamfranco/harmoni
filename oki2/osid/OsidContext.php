@@ -82,7 +82,7 @@ class OsidContext
      *         messages defined in org.osid.OsidException:  {@link
      *         org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function assignContext ( $key, &$context )
     {
@@ -113,7 +113,7 @@ class OsidContext
      *         messages defined in org.osid.OsidException:  {@link
      *         org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function &getContext ( $key )
     {

@@ -59,7 +59,7 @@ class Type
      *  
      * @return boolean
      * 
-     * @public
+     * @access public
      */
     function isEqual ( &$type2 )
     {
@@ -80,7 +80,7 @@ class Type
      *  
      * @return string
      * 
-     * @public
+     * @access public
      */
     function getAuthority ()
     {
@@ -91,7 +91,7 @@ class Type
      *  
      * @return string
      * 
-     * @public
+     * @access public
      */
     function getDomain ()
     {
@@ -102,7 +102,7 @@ class Type
      *  
      * @return string
      * 
-     * @public
+     * @access public
      */
     function getKeyword ()
     {
@@ -113,7 +113,7 @@ class Type
      *  
      * @return string
      * 
-     * @public
+     * @access public
      */
     function getDescription ()
     {

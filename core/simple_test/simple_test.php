@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_test.php,v 1.2 2004/03/11 16:02:48 adamfranco Exp $
+    // $Id: simple_test.php,v 1.3 2005/01/19 16:33:26 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -16,7 +16,7 @@
          *    Sets up the test name and starts with no attached
          *    displays.
          *    @param $label        Name of test.
-         *    @public
+         *    @access public
          */
         function RunnableTest($label) {
             $this->TestObservable();
@@ -26,7 +26,7 @@
         /**
          *    Accessor for the test name for subclasses.
          *    @return            Name of the test.
-         *    @public
+         *    @access public
          */
         function getLabel() {
             return $this->_label;
@@ -42,7 +42,7 @@
         /**
          *    Accessor for the number of subtests.
          *    @return            Number of test cases.
-         *    @public
+         *    @access public
          */
         function getSize() {
             return 1;
@@ -61,7 +61,7 @@
          *    Sets up the test with no display.
          *    @param $label        If no test name is given then
          *                         the class name is used.
-         *    @public
+         *    @access public
          */
         function TestCase($label = "") {
             if ($label == "") {
@@ -73,7 +73,7 @@
         /**
          *    Uses reflection to run every method within itself
          *    starting with the string "test".
-         *    @public
+         *    @access public
          */
         function run() {
             $this->notify(new TestStart($this->getLabel(), $this->getSize()));
@@ -101,7 +101,7 @@
          *    @param $result            Boolean, true on pass.
          *    @param $message           Message to display describing
          *                              the test state.
-         *    @public
+         *    @access public
          */
         function assertTrue($result, $message = "True assertion failed.") {
             $this->notify(new TestResult($result, $message));
@@ -111,14 +111,14 @@
          *    Sets up unit test wide variables at the start
          *    of each test method. To be overridden in
          *    actual test cases.
-         *    @public
+         *    @access public
          */
         function setUp() {
         }
         
         /**
          *    Clears the data set in the setUp() method call.
-         *    @public
+         *    @access public
          */
         function tearDown() {
         }
@@ -136,7 +136,7 @@
          *    Sets the name of the test suite.
          *    @param $label       Name sent at the start and end
          *                        of the test.
-         *    @public
+         *    @access public
          */
         function GroupTest($label) {
             $this->RunnableTest($label);
@@ -147,7 +147,7 @@
          *    @param $test_case        Suite or individual test
          *                             case implementing the
          *                             runnable test interface.
-         *    @public
+         *    @access public
          */
         function addTestCase(&$test_case) {
             $test_case->attachObserver($this);
@@ -159,7 +159,7 @@
          *    The new group is composed into this one.
          *    @param $test_file        File name of library with
          *                             test case classes.
-         *    @public
+         *    @access public
          */
         function addTestFile($test_file) {
             $existing_classes = get_declared_classes();
@@ -181,7 +181,7 @@
          *    Test to see if a class is derived from the
          *    TestCase class.
          *    @param $class            Class name.
-         *    @private
+         *    @access private
          */
         function _is_test_case($class) {
             while ($class = get_parent_class($class)) {
@@ -194,7 +194,7 @@
         
         /**
          *    Invokes run() on all of the held tests.
-         *    @public
+         *    @access public
          */
         function run() {
             $this->notify(new TestStart($this->getLabel(), $this->getSize()));
@@ -207,7 +207,7 @@
         /**
          *    Number of contained test cases including itself.
          *    @return         Total count of cases in the group.
-         *    @public
+         *    @access public
          */
         function getSize() {
             $count = 1;
@@ -233,7 +233,7 @@
         
         /**
          *    Starts the display with no results in.
-         *    @public
+         *    @access public
          */
         function TestDisplay() {
             $this->TestReporter();
@@ -251,7 +251,7 @@
          *    start.
          *    @param $test_name   Name of test that is starting.
          *    @param $size        Number of test cases starting.
-         *    @public
+         *    @access public
          */
         function paintStart($test_name, $size) {
             if (!isset($this->_size)) {
@@ -268,7 +268,7 @@
          *    footer if the stack of tests has unwound.
          *    @param $test_name   Name of test that is ending.
          *    @param $size        Number of test cases ending.
-         *    @public
+         *    @access public
          */
         function paintEnd($test_name, $size) {
             if ($size > 0) {
@@ -284,7 +284,7 @@
         /**
          *    Increments the pass count.
          *    @param $message        Message is ignored.
-         *    @public
+         *    @access public
          */
         function paintPass($message) {
             $this->_passes++;
@@ -293,7 +293,7 @@
         /**
          *    Increments the fail count.
          *    @param $message        Message is ignored.
-         *    @public
+         *    @access public
          */
         function paintFail($message) {
             $this->_fails++;
@@ -303,7 +303,7 @@
          *    Paints the test document header.
          *    @param $test_name        First test top level
          *                             to start.
-         *    @public
+         *    @access public
          *    @abstract
          */
         function paintHeader($test_name) {
@@ -312,7 +312,7 @@
         /**
          *    Paints the test document footer.
          *    @param $test_name        The top level test.
-         *    @public
+         *    @access public
          *    @abstract
          */
         function paintFooter($test_name) {
@@ -323,7 +323,7 @@
          *    subclasses that need to see the whole test
          *    history for display purposes.
          *    @return      List of methods in nesting order.
-         *    @public
+         *    @access public
          */
         function getTestList() {
             return $this->_test_stack;
@@ -332,7 +332,7 @@
         /**
          *    Accessor for the number of passes so far.
          *    @return        Number of passes.
-         *    @public
+         *    @access public
          */
         function getPassCount() {
             return $this->_passes;
@@ -341,7 +341,7 @@
         /**
          *    Accessor for the number of fails so far.
          *    @return        Number of fails.
-         *    @public
+         *    @access public
          */
         function getFailCount() {
             return $this->_fails;
@@ -352,7 +352,7 @@
          *    of test cases. Null until the first
          *    test is started.
          *    @return    Total number of cases at start.
-         *    @public
+         *    @access public
          */
         function getTestCaseCount() {
             return $this->_size;
@@ -362,7 +362,7 @@
          *    Accessor for the number of test cases
          *    completed so far.
          *    @return    Number of ended cases.
-         *    @public
+         *    @access public
          */
         function getTestCaseProgress() {
             return $this->_progress;

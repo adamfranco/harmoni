@@ -21,7 +21,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.2 2005/01/17 21:07:06 adamfranco Exp $
+ * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.3 2005/01/19 16:33:21 adamfranco Exp $
  */
 class HarmoniTraversalInfoIterator
 	extends HarmoniIterator
@@ -45,7 +45,7 @@ class HarmoniTraversalInfoIterator
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function hasNextTraversalInfo () { 
 		return $this->hasNext();
@@ -70,7 +70,7 @@ class HarmoniTraversalInfoIterator
 	 *		   org.osid.hierarchy.HierarchyException#NO_MORE_ITERATOR_ELEMENTS
 	 *		   NO_MORE_ITERATOR_ELEMENTS}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &nextTraversalInfo () { 
 		return $this->next();

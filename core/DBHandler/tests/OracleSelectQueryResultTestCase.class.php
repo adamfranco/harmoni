@@ -7,7 +7,7 @@ require_once(HARMONI . 'DBHandler/Oracle/OracleDatabase.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  * 
- * @version $Id: OracleSelectQueryResultTestCase.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: OracleSelectQueryResultTestCase.class.php,v 1.2 2005/01/19 16:31:31 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003
  */
@@ -29,7 +29,7 @@ class OracleSelectQueryResultTestCase extends UnitTestCase {
 	 * Sets up unit test wide variables at the start
 	 *       of each test method.
 	 * 
-	 * @public 
+	 * @access public 
 	 */
 	function setUp()
 	{ 
@@ -45,7 +45,7 @@ class OracleSelectQueryResultTestCase extends UnitTestCase {
 	/**
 	 * Clears the data set in the setUp() method call.
 	 * 
-	 * @public 
+	 * @access public 
 	 */
 	function tearDown()
 	{ 

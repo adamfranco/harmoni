@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.2 2005/01/18 20:02:45 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.3 2005/01/19 16:33:22 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -20,7 +20,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 		/**
 		 *	  Sets up unit test wide variables at the start
 		 *	  of each test method.
-		 *	  @public
+		 *	  @access public
 		 */
 		function setUp() {
 			// Set up the database connection
@@ -36,7 +36,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchy.class.php');
 		
 		/**
 		 *	  Clears the data set in the setUp() method call.
-		 *	  @public
+		 *	  @access public
 		 */
 		function tearDown() {
 			// perhaps, unset $obj here

@@ -20,7 +20,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @package harmoni.osid.hierarchy
  * @copyright 2005 Middlebury College
  * @access public
- * @version $Id: HarmoniNodeIterator.class.php,v 1.2 2005/01/17 21:07:06 adamfranco Exp $
+ * @version $Id: HarmoniNodeIterator.class.php,v 1.3 2005/01/19 16:33:21 adamfranco Exp $
  */
 class HarmoniNodeIterator
 	extends HarmoniIterator
@@ -43,7 +43,7 @@ class HarmoniNodeIterator
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function hasNextNode () { 
 		return $this->hasNext();
@@ -68,7 +68,7 @@ class HarmoniNodeIterator
 	 *		   org.osid.hierarchy.HierarchyException#NO_MORE_ITERATOR_ELEMENTS
 	 *		   NO_MORE_ITERATOR_ELEMENTS}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &nextNode () { 
 		return $this->next();

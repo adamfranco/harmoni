@@ -51,7 +51,7 @@ class OsidRomiManager
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
      * 
-     * @public
+     * @access public
      */
     function &invoke ( &$object, $methodname, $argTypes, $args ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

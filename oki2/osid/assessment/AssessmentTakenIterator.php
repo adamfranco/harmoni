@@ -41,7 +41,7 @@ class AssessmentTakenIterator
      *         org.osid.assessment.AssessmentException#UNIMPLEMENTED
      *         UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function hasNextAssessmentTaken () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -66,7 +66,7 @@ class AssessmentTakenIterator
      *         org.osid.OsidException.NO_MORE_ELEMENTS if all objects have
      *         already been returned.
      * 
-     * @public
+     * @access public
      */
     function &nextAssessmentTaken () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

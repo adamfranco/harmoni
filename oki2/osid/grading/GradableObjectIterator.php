@@ -39,7 +39,7 @@ class GradableObjectIterator
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function hasNextGradableObject () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -64,7 +64,7 @@ class GradableObjectIterator
      *         org.osid.grading.GradingException#NO_MORE_ITERATOR_ELEMENTS
      *         NO_MORE_ITERATOR_ELEMENTS}
      * 
-     * @public
+     * @access public
      */
     function &nextGradableObject () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

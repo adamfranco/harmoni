@@ -41,7 +41,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.4 2005/01/17 21:34:48 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.5 2005/01/19 16:33:21 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -114,7 +114,7 @@ class HarmoniHierarchyManager
 	 *		   org.osid.hierarchy.HierarchyException#UNSUPPORTED_CREATION
 	 *		   UNSUPPORTED_CREATION}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &createHierarchy ( $displayName, &$nodeTypes, $description, $allowsMultipleParents, $allowsRecursion ) { 
 		// ** parameter validation
@@ -189,7 +189,7 @@ class HarmoniHierarchyManager
 	 *		   org.osid.hierarchy.HierarchyException#NODE_TYPE_NOT_FOUND
 	 *		   NODE_TYPE_NOT_FOUND}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getHierarchy ( &$hierarchyId ) { 
 		// ** parameter validation
@@ -253,7 +253,7 @@ class HarmoniHierarchyManager
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getHierarchies () { 
 
@@ -323,7 +323,7 @@ class HarmoniHierarchyManager
 	 *		   org.osid.hierarchy.HierarchyException#HIERARCHY_NOT_EMPTY
 	 *		   HIERARCHY_NOT_EMPTY}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function deleteHierarchy ( &$hierarchyId ) { 
 		// ** parameter validation
@@ -384,7 +384,7 @@ class HarmoniHierarchyManager
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function supportsMaintenance () { 
 		return TRUE;

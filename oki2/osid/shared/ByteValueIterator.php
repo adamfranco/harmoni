@@ -48,7 +48,7 @@ class ByteValueIterator
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function hasNextByteValue () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -72,7 +72,7 @@ class ByteValueIterator
      *         org.osid.shared.SharedException#NO_MORE_ITERATOR_ELEMENTS
      *         NO_MORE_ITERATOR_ELEMENTS}
      * 
-     * @public
+     * @access public
      */
     function nextByteValue () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

@@ -19,7 +19,7 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.3 2005/01/17 21:07:06 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.4 2005/01/19 16:33:21 adamfranco Exp $
  */
 
 class HarmoniNode 
@@ -106,7 +106,7 @@ class HarmoniNode
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getId () {
 		return $this->_id;
@@ -129,7 +129,7 @@ class HarmoniNode
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDisplayName () { 
 		return $this->_displayName;
@@ -152,7 +152,7 @@ class HarmoniNode
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function getDescription () { 
 		return $this->_description;
@@ -175,7 +175,7 @@ class HarmoniNode
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getType () { 
 		return $this->_type;
@@ -199,7 +199,7 @@ class HarmoniNode
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getParents () { 
 		$idValue = $this->_id->getIdString();
@@ -229,7 +229,7 @@ class HarmoniNode
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function &getChildren () { 
 		$idValue = $this->_id->getIdString();
@@ -260,7 +260,7 @@ class HarmoniNode
 	 *		   org.osid.hierarchy.HierarchyException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDescription ( $description ) { 
 		// ** parameter validation
@@ -314,7 +314,7 @@ class HarmoniNode
 	 *		   org.osid.hierarchy.HierarchyException#NULL_ARGUMENT
 	 *		   NULL_ARGUMENT}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
 		// ** parameter validation
@@ -366,7 +366,7 @@ class HarmoniNode
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isLeaf () { 
 		// leaf-check is done through getChildren(). A leaf would not have any children.
@@ -392,7 +392,7 @@ class HarmoniNode
 	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
 	 *		   UNIMPLEMENTED}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function isRoot () { 
 		// leaf-check is done through getChildren(). A leaf would not have any children.
@@ -428,7 +428,7 @@ class HarmoniNode
 	 *		   org.osid.hierarchy.HierarchyException#ATTEMPTED_RECURSION
 	 *		   ATTEMPTED_RECURSION}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function addParent ( &$nodeId ) { 
 		// ** parameter validation
@@ -463,7 +463,7 @@ class HarmoniNode
 	 *		   org.osid.hierarchy.HierarchyException#INCONSISTENT_STATE
 	 *		   INCONSISTENT_STATE}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function removeParent ( &$parentId ) { 
 		// ** parameter validation
@@ -498,7 +498,7 @@ class HarmoniNode
 	 *		   org.osid.hierarchy.HierarchyException#ATTEMPTED_RECURSION
 	 *		   ATTEMPTED_RECURSION}
 	 * 
-	 * @public
+	 * @access public
 	 */
 	function changeParent ( &$oldParentId, &$newParentId ) { 
 		// ** parameter validation

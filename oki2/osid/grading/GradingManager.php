@@ -92,7 +92,7 @@ class GradingManager
      *         NULL_ARGUMENT}, {@link
      *         org.osid.grading.GradingException#UNKNOWN_TYPE UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &createGradableObject ( $displayName, $description, &$courseSectionId, &$externalReferenceId, &$gradeType, &$scoringDefinition, &$gradeScale, $gradeWeight ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -117,7 +117,7 @@ class GradingManager
      *         NULL_ARGUMENT}, {@link
      *         org.osid.grading.GradingException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteGradableObject ( &$gradableObjectId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -144,7 +144,7 @@ class GradingManager
      *         NULL_ARGUMENT}, {@link
      *         org.osid.grading.GradingException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getGradableObject ( &$gradableObjectId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -175,7 +175,7 @@ class GradingManager
      *         NULL_ARGUMENT}, {@link
      *         org.osid.grading.GradingException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function &getGradableObjects ( &$courseSectionId, &$externalReferenceId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -213,7 +213,7 @@ class GradingManager
      *         {@link org.osid.grading.GradingException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &createGradeRecord ( &$gradableObjectId, &$agentId, &$gradeValue, &$GradeRecordType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -240,7 +240,7 @@ class GradingManager
      *         NULL_ARGUMENT}, {@link
      *         org.osid.grading.GradingException#UNKNOWN_ID UNKNOWN_ID}
      * 
-     * @public
+     * @access public
      */
     function deleteGradeRecord ( &$gradableObjectId, &$agentId, &$GradeRecordType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -281,7 +281,7 @@ class GradingManager
      *         {@link org.osid.grading.GradingException#UNKNOWN_TYPE
      *         UNKNOWN_TYPE}
      * 
-     * @public
+     * @access public
      */
     function &getGradeRecords ( &$courseSectionId, &$externalReferenceId, &$gradableObjectId, &$agentId, &$GradeRecordType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -303,7 +303,7 @@ class GradingManager
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getGradeRecordTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -325,7 +325,7 @@ class GradingManager
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getGradeTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -347,7 +347,7 @@ class GradingManager
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getScoringDefinitions () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
@@ -369,7 +369,7 @@ class GradingManager
      *         CONFIGURATION_ERROR}, {@link
      *         org.osid.grading.GradingException#UNIMPLEMENTED UNIMPLEMENTED}
      * 
-     * @public
+     * @access public
      */
     function &getGradeScales () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

@@ -14,7 +14,7 @@
 	
         /**
          *    Paints the CSS. Add additional styles here.
-         *    @protected
+         *    @access protected
          */
         function _getCss() {
 			$css = "body { background-color: #222; color: white; font-size: 14px; font-family: monospace;}\n";
