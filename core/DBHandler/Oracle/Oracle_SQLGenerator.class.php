@@ -5,7 +5,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
 /**
  * A OracleQueryGenerator class provides the tools to build a Oracle query from a Query object.
  *
- * @version $Id: Oracle_SQLGenerator.class.php,v 1.4 2004/05/21 20:02:59 nstamato Exp $
+ * @version $Id: Oracle_SQLGenerator.class.php,v 1.5 2004/07/13 17:42:15 dobomode Exp $
  * @package harmoni.dbc.oracle
  * @copyright 2003 
  */
@@ -422,7 +422,7 @@ class Oracle_SQLGenerator extends SQLGeneratorInterface {
 		
 		// ORACLE does not support the LIMIT clause
 		// need to do some complicated nested queries to implement
-		// LIMIT functionallity (this could not be tested for at the time
+		// LIMIT functionallity (this could not be tested at the time
 		// it was written, we had no ORACLE server available to test it on).
 		if (!$query->_numberOfRows && !$query->_startFromRow)
 		    return $sql;
