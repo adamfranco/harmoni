@@ -7,7 +7,7 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
  * File Storage Method interface provides functionality to store and handle
  * Storables on a file system. To be used by StorageHandler
  *
- * @version $Id: FileStorageMethod.class.php,v 1.2 2004/05/20 17:24:36 adamfranco Exp $
+ * @version $Id: FileStorageMethod.class.php,v 1.3 2004/05/24 17:40:53 nstamato Exp $
  * @package harmoni.storage.methods
  * @copyright 2003
  * @access public
@@ -28,6 +28,9 @@ class FileStorageMethod extends StorageMethodInterface {
 
 	function FileStorageMethod($basePath="") {
 		$this->_basePath = $this->_convertPath($basePath);
+		if ($this->_basePath == "") {
+			$this->_basePath = "/";
+		}
 	}
 
     /**
@@ -42,9 +45,8 @@ class FileStorageMethod extends StorageMethodInterface {
 
     function store(&$storable,$path,$name) { 
 		$path = $this->_convertPath($path);
-
 		$filename = $this->_basePath.$path.$name;
-		
+	//	print "\n<br>".$filename."\n<br>";
 		$handle = fopen($filename,'w');
 		$contents = $storable->getData();
 		$size = fwrite($handle,$contents);
@@ -221,7 +223,10 @@ class FileStorageMethod extends StorageMethodInterface {
      * @acess private
      */
 	function _convertPath($path){
-		if ($path!="" && $path[strlen($path)-1]!='/') $path.="/";
+		if ($path!="" && $path[strlen($path)-1]!='/') 
+			$path.="/";
+		else if ($path == "/")
+			$path = "";
 		return $path;
 	}
 }
