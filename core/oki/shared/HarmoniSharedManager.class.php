@@ -33,7 +33,7 @@ require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.4 $ / $Date: 2003/10/30 22:39:44 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.5 $ / $Date: 2003/10/31 22:59:18 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -47,6 +47,16 @@ class HarmoniSharedManager
 	 * @var integer $_idDBIndex The index of the database from which to pull the ids.
 	 */
 	var $_idDBIndex = 0;
+
+	/**
+	 * Constructor. Set up any database connections needed.
+	 *
+	 */
+	function HarmoniSharedManager() {
+			$this->dbc =& Services::requireService("DBHandler","DBHandler");
+			$this->_idDBIndex = $this->dbc->createDatabase(MYSQL,"devo.middlebury.edu", "harmoniTest", "test", "test");
+			$this->dbc->connect($this->_idDBIndex);
+	}
 
     /**
      * Create an Agent with the display name and Type specified.  Both are

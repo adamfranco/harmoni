@@ -70,6 +70,11 @@ class SQLDatabaseHierarchyStore
 	 * @var string $_nodeDescriptionColumn The name of the description column in the table.
 	 */
 	var $_nodeDescriptionColumn = "description";
+
+	/**
+	 * @var integer $_maxDepth The maximum depth of this hierarchy.
+	 */
+	var $_maxDepth = 10;
 	
 	/**
 	 * @var object Id $_id The id for this hierarchy.
@@ -168,7 +173,9 @@ class SQLDatabaseHierarchyStore
 		
 		$this->_tree =& new Tree;
 		
-		$this->load();
+		// Load without a nodeId will load the entire hirearchy. Instead of doing this, we will fetch data
+		// as it is needed.
+//		$this->load();
 	}
 	
 	/**
@@ -180,39 +187,7 @@ class SQLDatabaseHierarchyStore
 	 * @param string	$hierarchyDescription	The description, will be loaded from storage
 	 *											if NULL.
 	 */
-	function initialize(& $hierarchyId, $hierarchyDisplayName, $hierarchyDescription) {
-		// Check the arguments
-		ArgumentValidator::validate($hierarchyId, new ExtendsValidatorRule("Id"));
-		if ($hierarchyDisplayName)
-			ArgumentValidator::validate($hierarchyDisplayName, new StringValidatorRule);
-		if ($hierarchyDescription)
-			ArgumentValidator::validate($hierarchyDescription, new StringValidatorRule);
-		
-		// set the private variables
-		$this->_id =& $hierarchyId;
-		$this->_displayName = $hierarchyDisplayName;
-		$this->_description = $hierarchyDescription;
-		$this->_tree =& new Tree;
-		print_r ($this->_tree);
-	}
-	
-	/**
-	 * Loads this object from persistable storage.
-	 * @param string $nodeId	The id of the node that needs to be updated. If 0 or NULL,
-	 * 							then load() will load the entire hierarchy as needed. Currently ignored.
-	 * @access protected
-	 */
-	function load ($nodeId=NULL) {
-		
-		if ($nodeId !== NULL) {
-			// Check the arguments
-			ArgumentValidator::validate($nodeId, new NumericValidatorRule);
-		}
-		
-		// reload the tree
-		unset($this->_tree);
-		$this->_tree =& new Tree;
-		
+	function initialize() {
 		$dbc =& Services::requireService("DBHandler");
 		$sharedManager =& Services::requireService("Shared");
 		
@@ -229,28 +204,133 @@ class SQLDatabaseHierarchyStore
 			throwError(new Error("Loss of data integrity, multiple hierarchies of id, ".$this->_id.", found!", "Hierarchy", 1));
 			
 		} else if ($result->getNumberOfRows() == 1) { // The hierarchy exists
+			$this->_exists = TRUE;
+			$this->_displayName = $result->field("displayName");
+			$this->_description = $result->field("description");
+		} else {	// the hierarchy doesn't exist yet
+			$this->_exists = FALSE;
+		}
+	}
+	
+	/**
+	 * Loads this object from persistable storage.
+	 * Existing nodes will not be overwritten.
+	 *
+	 * @param string $nodeId	The id of the node that needs to be updated. If 0 or NULL,
+	 * 							then load() will load the entire hierarchy as needed.
+	 * @access protected
+	 */
+	function load ($nodeId=0) {
+		
+		if ($nodeId !== NULL) {
+			// Check the arguments
+			ArgumentValidator::validate($nodeId, new NumericValidatorRule);
+		}
+		
+		$dbc =& Services::requireService("DBHandler");
+		$sharedManager =& Services::requireService("Shared");
+		
+		// This may be able to be droped if the hierarchy has been initialized, but it makes for a nice check
+		// of data integrity.
+		// Pull the info for this hierarchy
+		$query =& new SelectQuery;
+		$query->addColumn($this->_hierarchyDisplayNameColumn,"displayName");
+		$query->addColumn($this->_hierarchyDescriptionColumn,"description");
+		$query->addTable($this->_hierarchyTableName);
+		$query->addWhere($this->_hierarchyIdColumn."=".$this->_id);
+		
+		$result =& $dbc->query($query, $this->_dbIndex);
+		
+		if ($result->getNumberOfRows() > 1) { // we have problems.
+			throwError(new Error("Loss of data integrity, multiple hierarchies of id, ".$this->_id.", found!", "Hierarchy", 1));
+			
+		} else if ($result->getNumberOfRows() == 1) { // The hierarchy exists
+			$this->_exists = TRUE;
 			$this->_displayName = $result->field("displayName");
 			$this->_description = $result->field("description");
 		
-		
-			// pull the hierarchy info for the nodes
-			$query =& new SelectQuery;
 			
-			// build the query. To get sub trees, this could be broken into
+			// build the query. To get trees, this could be broken into
 			// two queries; one that fetched the parents, and one that fetched
 			// the children rooted at this node with joins.
-			// For now we will just fetch the whole schebang for proof of concept
-			// purposes.
-			$query->addColumn($this->_nodeIdColumn,"id");
-			$query->addColumn($this->_nodeParentKeyColumn,"parent_id");
-			$query->addColumn($this->_nodeDisplayNameColumn,"displayName");
-			$query->addColumn($this->_nodeDescriptionColumn,"description");
+
+			// pull the parents of $nodeId if $nodeId is not a root node.
+			if ($nodeId) {
+				$query =& new SelectQuery;
+				
+				$query->addColumn($this->_nodeTableName."0.".$this->_nodeIdColumn,"id0");
+				$query->addColumn($this->_nodeTableName."0.".$this->_nodeParentKeyColumn,"parent_id0");
+				$query->addColumn($this->_nodeTableName."0.".$this->_nodeDisplayNameColumn,"displayName0");
+				$query->addColumn($this->_nodeTableName."0.".$this->_nodeDescriptionColumn,"description0");
+				
+				$query->addTable($this->_nodeTableName, NO_JOIN, "", $this->_nodeTableName."0");
 			
-			$query->addTable($this->_nodeTableName);
+				$query->addWhere($this->_nodeTableName."0.".$this->_nodeHierarchyKeyColumn."=".$this->_id);
+				$query->addWhere($this->_nodeTableName."0.".$this->_nodeIdColumn."=".$nodeId, _AND);
+
+//				$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeParentKeyColumn, ASCENDING);
+//				$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeIdColumn, ASCENDING);
+				
+				for ($i = 1; $i <= $this->_maxDepth; $i++) {
+					$query->addTable($this->_nodeTableName, LEFT_JOIN, $this->_nodeTableName.($i-1).".".$this->_nodeParentKeyColumn."=".$this->_nodeTableName.($i).".".$this->_nodeIdColumn, $this->_nodeTableName.($i));
+					$query->addColumn($this->_nodeTableName.$i.".".$this->_nodeIdColumn,"id".$i);
+					$query->addColumn($this->_nodeTableName.$i.".".$this->_nodeParentKeyColumn,"parent_id".$i);
+					$query->addColumn($this->_nodeTableName.$i.".".$this->_nodeDisplayNameColumn,"displayName".$i);
+					$query->addColumn($this->_nodeTableName.$i.".".$this->_nodeDescriptionColumn,"description".$i);
+				}
+				
+				$result =& $dbc->query($query, $this->_dbIndex);
+				
+//				print MySQL_SQLGenerator::generateSQLQuery($query);
+				
+				for ($i = $this->_maxDepth; $i > 0; $i--) {
+					if ($result->field("id".$i)) { // this is a node and not a null join
+						$id = $result->field("id".$i);
+						$parent_id = $result->field("parent_id".$i);
+						$displayName = $result->field("displayName".$i);
+						$description = $result->field("description".$i);
+				
+						// If this node is not in the hierarchy, add it.
+						if (!$this->_tree->nodeExists($id)) {
+							// create the Id for the HarmoniNode object
+							$nodeIdObj =& $sharedManager->getId($id);
+				
+							// create the HarmoniNode object
+							$harmoniNode =& new HarmoniNode($nodeIdObj, $this, NULL, $displayName, $description);
+							
+							// the parentKey should be 0 if this is a root node, so addNode should work
+							// always.
+							// Add the node to the tree with HarmoniNode object as data
+							$this->_tree->addNode($harmoniNode, $parent_id, $id);
+//							print "Adding parent $id\n";
+				//			$this->_tree->setData($harmoniNode, $id);
+						}
+					}
+				}
+			}
+
+			// pull the sub-tree rooted at $nodeId
+			$query =& new SelectQuery;
 			
-			$query->addWhere($this->_nodeHierarchyKeyColumn."=".$this->_id);
-			$query->addOrderBy($this->_nodeParentKeyColumn, ASCENDING);
-			$query->addOrderBy($this->_nodeIdColumn, ASCENDING);
+			$query->addColumn($this->_nodeTableName."0.".$this->_nodeIdColumn,"id");
+			$query->addColumn($this->_nodeTableName."0.".$this->_nodeParentKeyColumn,"parent_id");
+			$query->addColumn($this->_nodeTableName."0.".$this->_nodeDisplayNameColumn,"displayName");
+			$query->addColumn($this->_nodeTableName."0.".$this->_nodeDescriptionColumn,"description");
+			
+			$query->addTable($this->_nodeTableName, NO_JOIN, "", $this->_nodeTableName."0");
+			
+			$query->addWhere($this->_nodeTableName."0.".$this->_nodeHierarchyKeyColumn."=".$this->_id);
+			$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeParentKeyColumn, ASCENDING);
+			$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeIdColumn, ASCENDING);
+			
+			$additionalWhere = array();
+			for ($i = 0; $i <= $this->_maxDepth; $i++) {
+				$query->addTable($this->_nodeTableName, LEFT_JOIN, $this->_nodeTableName.$i.".".$this->_nodeParentKeyColumn."=".$this->_nodeTableName.($i+1).".".$this->_nodeIdColumn, $this->_nodeTableName.($i+1));
+				$additionalWhere[] = $this->_nodeTableName.$i.".".$this->_nodeIdColumn."=".$nodeId;
+//				$additionalWhere[] = $this->_nodeTableName.$i.".".$this->_nodeParentKeyColumn."=".$nodeId;
+			}
+			if ($nodeId)
+				$query->addWhere("(".implode(" OR ", $additionalWhere).")", _AND);
 			
 			$result =& $dbc->query($query, $this->_dbIndex);
 	
@@ -264,26 +344,30 @@ class SQLDatabaseHierarchyStore
 				$displayName = $result->field("displayName");
 				$description = $result->field("description");
 				
-				// create the Id for the HarmoniNode object
-				$nodeIdObj =& $sharedManager->getId($id);
-	
-				// create the HarmoniNode object
-				$harmoniNode =& new HarmoniNode($nodeIdObj, $this, NULL, $displayName, $description);
-				
-				// the parentKey should be 0 if this is a root node, so addNode should work
-				// always.
-				// Add the node to the tree with HarmoniNode object as data
-				$this->_tree->addNode($harmoniNode, $parent_id, $id);
-	//			$this->_tree->setData($harmoniNode, $id);
+				// If this node is not in the hierarchy, add it.
+				if (!$this->_tree->nodeExists($id)) {
+					// create the Id for the HarmoniNode object
+					$nodeIdObj =& $sharedManager->getId($id);
+		
+					// create the HarmoniNode object
+					$harmoniNode =& new HarmoniNode($nodeIdObj, $this, NULL, $displayName, $description);
+					
+					// the parentKey should be 0 if this is a root node, so addNode should work
+					// always.
+					// Add the node to the tree with HarmoniNode object as data
+					$this->_tree->addNode($harmoniNode, $parent_id, $id);
+//					print "Adding $id\n";
+		//			$this->_tree->setData($harmoniNode, $id);
+				}
 				
 				$result->advanceRow();
 			}
 		
 			// Since we've just loaded everything from the hierarchy, clear out the changed flags
-			$this->_added = array();
-			$this->_changed = array();
-			$this->_deleted = array();
-			$this->_isChanged = FALSE;
+/* 			$this->_added = array(); */
+/* 			$this->_changed = array(); */
+/* 			$this->_deleted = array(); */
+/* 			$this->_isChanged = FALSE; */
 			
 		} else {	// the hierarchy doesn't exist yet
 			$this->_exists = FALSE;
@@ -339,8 +423,8 @@ class SQLDatabaseHierarchyStore
 					$id,
 					$this->_id,
 					$parentId,
-					$displayName,
-					$description					
+					"'".$displayName."'",
+					"'".$description."'"					
 				);
 				$query->addRowOfValues($values);
 			}
@@ -352,15 +436,46 @@ class SQLDatabaseHierarchyStore
 		if (count($this->_changed)) {
 			foreach ($this->_changed as $key => $id) {
 				if (!in_array($id, $this->_added) && !in_array($id, $this->_deleted)) {
-					$query =& new UpdateQuery
+					$query =& new UpdateQuery;
+					$query->setTable($this->_nodeTableName);
+					$columns = array(
+						$this->_nodeHierarchyKeyColumn,
+						$this->_nodeParentKeyColumn,
+						$this->_nodeDisplayNameColumn,
+						$this->_nodeDescriptionColumn
+					);
+					$query->setColumns($columns);
+					$values = array(
+						$this->_id,
+						$parentId,
+						"'".$displayName."'",
+						"'".$description."'"					
+					);
+					$query->setValues($values);
+					$query->setWhere($this->_nodeIdColumn."=".$id);
 				}
+				
+				$queryQueue->add($query);
 			}
 		}
 		
 		// Remove any deleted nodes
-		foreach ($this->_deleted as $key => $id) {	
-			
+		if (count($this->_deleted)) {
+			foreach ($this->_deleted as $key => $id) {
+				$query =& new DeleteQuery;
+				$query->setTable($this->_nodeTableName);
+				$query->setWhere($this->_nodeIdColumn."=".$id);
+				
+				$queryQueue->add($query);
+			}
 		}
+		
+		// Run all of the queries
+		$queryQueue->rewind();
+		while ($queryQueue->hasNext()) {
+			print MySQL_SQLGenerator::generateSQLQuery($queryQueue->next());
+		}
+		$queryQueue->rewind();
 		
 		// Since we've just saved everything in the hierarchy, clear out the changed flags
 		$this->_added = array();
@@ -454,9 +569,16 @@ class SQLDatabaseHierarchyStore
 	* @param integer $id Node ID
     */
 	function removeNode($id) {
-		$this->_tree->removeNode($id);
-		if (!in_array($id,$this->_changed))
+		if (!in_array($id,$this->_deleted))
 			$this->_deleted[] = $id;
+				
+		$toDelete = $this->_tree->getFlatList($id);
+		foreach ($toDelete as $deleteId) {
+			if (!in_array($deleteId,$this->_deleted))
+				$this->_deleted[] = $deleteId;
+		}
+		
+		$this->_tree->removeNode($deleteId);
 	}
 	
 	/**
