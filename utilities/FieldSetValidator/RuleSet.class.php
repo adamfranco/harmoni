@@ -5,7 +5,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * a RuleSet allows a user to define a number of keys each with associated rules and errors
- * @version $Id: RuleSet.class.php,v 1.10 2003/07/01 17:14:13 dobomode Exp $
+ * @version $Id: RuleSet.class.php,v 1.11 2003/07/01 21:50:21 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/
@@ -76,31 +76,6 @@ class RuleSet
 				// throw an error
 				if ($rule[1] !== null) {
     				throw($rule[1]);
-				}
-				// throw default error
-				else {
-					$description = "";
-					$description .= "Argument validation failed in ";
-		
-					// get information abour the function that called the ArgumentValidator
-					$debugBacktrace = debug_backtrace();
-					$class = $debugBacktrace[0]["class"];
-					$function = $debugBacktrace[0]["function"];
-					$arguments = $debugBacktrace[0]["args"];
-								
-					$description .= $class."::".$function;
-					// print the arguments using the ArgumentRenderer
-					$description .= "(";
-					$description .= ArgumentRenderer::renderManyArguments($arguments, false, false);
-					$description .= ")";
-					$description .= ". Argument '";
-					$description .= ArgumentRenderer::renderOneArgument($val, false, false);
-					$description .= "' could not be validated using a/an ";
-					$description .= get_class($rule[0]);
-					$description .= ".";
-		
-					// now create the error
-					throw(new Error($description, "System", true));
 				}
 				
 				// set $error to true;
