@@ -6,7 +6,7 @@ require_once HARMONI."metaData/manager/ValueVersions.classes.php";
  * Holds a number of indexes for values within a specific field within a DataSet. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: FieldValues.class.php,v 1.8 2004/01/06 17:08:07 gabeschine Exp $
+ * @version $Id: FieldValues.class.php,v 1.9 2004/01/06 22:21:32 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -30,6 +30,11 @@ class FieldValues {
 		$this->_fieldDefinition =& $fieldDefinition;
 	}
 	
+	/**
+	* @return bool
+	* @param array $arrayOfRows
+	* @desc Takes a number of DB rows and sets up {@link ValueVersions} objects corresponding to the data within the rows.
+	*/
 	function populate( $arrayOfRows ) {
 		// ok, we are responsible for keeping track of multiple values for any given
 		// label. we'll go through the rows and group them by index
@@ -63,6 +68,10 @@ class FieldValues {
 //		$this->_values =& $tmp;
 	}
 	
+	/**
+	* @return void
+	* @desc Spiders through each index and calls commit() on it.
+	*/
 	function commit() {
 		// cycle through each index and commit()
 		for ($i=0; $i<$this->numValues(); $i++) {
@@ -70,6 +79,11 @@ class FieldValues {
 		}
 	}
 	
+	/**
+	* @return ref object
+	* @param int $index
+	* @desc Returns the {@link ValueVersions} object associated with $index.
+	*/
 	function &getValue($index) {
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
@@ -77,6 +91,10 @@ class FieldValues {
 		return $this->_values[$index];
 	}
 	
+	/**
+	* @return array
+	* @desc Returns an array of {@link ValueVersions} objects set for each index.
+	*/
 	function &getAllValues() {
 		$values = array();
 		for ($i=0; $i< $this->_numValues; $i++) {
@@ -85,6 +103,11 @@ class FieldValues {
 		return $values;
 	}
 	
+	/**
+	* @return bool
+	* @param ref object $object The {@link DataType} object.
+	* @desc Checks to make sure that the {@link DataType} object is of the appropriate type for this label.
+	*/
 	function _checkObjectType(&$object) {
 		$dataTypeManager =& Services::requireService("DataTypeManager");
 		$type = $this->_fieldDefinition->getType();
@@ -98,6 +121,11 @@ class FieldValues {
 		return false;
 	}
 	
+	/**
+	* @return bool
+	* @param ref object $value A {@link DataType} object.
+	* @desc Adds $value to a new index within this label, assuming it allows multiple values.
+	*/
 	function addValue(&$value) {
 		if ($this->_parent->readOnly()) {
 			throwError( new Error("Can not add value to DataSet because it was fetched
@@ -122,6 +150,13 @@ class FieldValues {
 		return true;
 	}
 	
+	/**
+	* @return bool
+	* @param int $index
+	* @param ref object $value A {@link DataType} object.
+	* @desc Attempts to set the value of $index to $value. If the DataSet is version controlled, this will 
+	* add a new version rather than set the existing value.
+	*/
 	function setValue($index, &$value) {
 		if ($this->_parent->readOnly()) {
 			throwError( new Error("Can not set value in DataSet because it was fetched
@@ -141,6 +176,11 @@ class FieldValues {
 		return $this->_values[$index]->setValue($value);
 	}
 	
+	/**
+	* @return bool
+	* @param int $index
+	* @desc Deactivates all versions under index $index.
+	*/
 	function deleteValue($index) {
 		if ($this->_parent->readOnly()) {
 			throwError( new Error("Can not set value in DataSet because it was fetched
@@ -154,6 +194,11 @@ class FieldValues {
 		return $this->_values[$index]->delete();
 	}	
 	
+	/**
+	* @return bool
+	* @param int $index
+	* @desc Re-activates the newest version of $index.
+	*/
 	function undeleteValue($index) {
 		if ($this->_parent->readOnly()) {
 			throwError( new Error("Can not set value in DataSet because it was fetched
@@ -167,8 +212,17 @@ class FieldValues {
 		return $this->_values[$index]->undelete();
 	}
 	
+	/**
+	* @return int
+	* @desc Returns the number of values for this label we have set.
+	*/
 	function numValues() { return $this->_numValues; }
 	
+	/**
+	* @return int
+	* @param opt int $index Defaults to 0.
+	* @desc Returns the number of versions we have set for specific $index.
+	*/
 	function numVersions( $index=0 ) {
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
@@ -176,6 +230,11 @@ class FieldValues {
 		return $this->_values[$index]->numVersions();
 	}
 	
+	/**
+	* @return array
+	* @param opt int $index Defaults to 0.
+	* @desc Returns an array of version IDs associated with $index.
+	*/
 	function getVersionList( $index=0 ) {
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
@@ -183,6 +242,12 @@ class FieldValues {
 		return $this->_values[$index]->getVersionList();
 	}
 	
+	/**
+	* @return ref object
+	* @param int $verID
+	* @param opt int $index Defaults to 0.
+	* @desc Returns the {@link ValueVersion} object associated with $verID under $index.
+	*/
 	function &getVersion( $verID, $index=0 ) {
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));

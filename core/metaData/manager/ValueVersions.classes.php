@@ -6,7 +6,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.11 2004/01/06 17:08:07 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.12 2004/01/06 22:21:32 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -30,6 +30,11 @@ class ValueVersions {
 		$this->_oldVersion = null;
 	}
 	
+	/**
+	* @return void
+	* @param array $arrayOfRows
+	* @desc Sets up a number of {@ValueVersion} objects based on an array of database rows.
+	*/
 	function populate( $arrayOfRows ) {
 		// we are responsible for keeping track of multiple ValueVersion objects,
 		// each corresponding to a specific version of a value of a field.
@@ -45,6 +50,11 @@ class ValueVersions {
 		}
 	}
 	
+	/**
+	* @return void
+	* @desc Commits the existing (and new, if applicable) versions of this value to the database. If the DataSet
+	* is version controlled and the new value is the same as the old value, it is ignored.
+	*/
 	function commit() {
 		// before we commit, if we have a newVersion and an oldVersion,
 		// let's check to see if their values are equal. if they are, 
@@ -78,10 +88,20 @@ class ValueVersions {
 		}
 	}
 	
+	/**
+	* @return int
+	* @desc Returns the number of versions we have set for this value.
+	*/
 	function numVersions() {
 		return $this->_numVersions;
 	}
 	
+	/**
+	* @return bool
+	* @param ref object $value A {@link DataType} object.
+	* @desc "Sets" the value of this specific index to $value. If the DataSet is version controlled, a new
+	* version is added. Otherwise, the current active version is modified.
+	*/
 	function setValue(&$value) {
 		// if we're version controlled, we're adding a new version
 		// otherwise, we're just setting the existing (or only active) one.
@@ -120,6 +140,10 @@ class ValueVersions {
 		return true;
 	}
 	
+	/**
+	* @return ref object
+	* @desc Returns a reference to a new {@link ValueVersion} object and adds it to the list of versions for this value.
+	*/
 	function &newVerObject() {
 /*		if (!$this->numVersions()) $newID=1;
 		else $newID = max($this->getVersionList()) + 1;
@@ -150,6 +174,11 @@ class ValueVersions {
 		return $this->_versions[NEW_VERSION];
 	}
 	
+	/**
+	* @return ref object or false
+	* @desc Returns the active {@link ValueVersion} object or FALSE if none exists. If no versions have yet been
+	* set, a new {@link ValueVersion} object is created.
+	*/
 	function &getActiveVersion() {
 		if ($this->_numVersions == 0) {
 			return $this->newVerObject();
@@ -165,10 +194,19 @@ class ValueVersions {
 		return $false;
 	}
 	
+	/**
+	* @return array
+	* @desc Returns an array of version IDs set for this value.
+	*/
 	function getVersionList() {
 		return array_keys($this->_versions);
 	}
 	
+	/**
+	* @return ref object
+	* @param int $verID
+	* @desc Returns the {@link ValueVersion} object associated with version ID $verID.
+	*/
 	function &getVersion( $verID ) {
 		if (!isset($this->_versions[$verID])) {
 			throwError( new Error("Could not find version ID $verID.","ValueVersions",true));
@@ -176,6 +214,10 @@ class ValueVersions {
 		return $this->_versions[$verID];
 	}
 	
+	/**
+	* @return void
+	* @desc Deactivates all existing versions for this value.
+	*/
 	function delete() {
 		// go through all the versions and deactivate them.
 		foreach ($this->getVersionList() as $ver) {
@@ -184,6 +226,10 @@ class ValueVersions {
 		}
 	}
 	
+	/**
+	* @return void|true if we're already active.
+	* @desc Re-activates the newest version value for this index.
+	*/
 	function undelete() {
 		// if we're not active, go through and find the newest ver, then activate it.
 		if ($this->isActive()) return true;
@@ -192,6 +238,10 @@ class ValueVersions {
 		$ver->setActiveFlag(true);
 	}
 	
+	/**
+	* @return ref object The newest {@link ValueVersion} object.
+	* @desc Returns the most recently created version for this value.
+	*/
 	function & getNewestVersion() {
 		$newest = null;
 		if ($this->numVersions()) {
@@ -206,6 +256,10 @@ class ValueVersions {
 		return $newest;
 	}
 	
+	/**
+	* @return bool
+	* @desc Returns TRUE if a version is active, or if we have no versions defined yet. FALSE otherwise.
+	*/
 	function isActive() {
 		if ($this->_numVersions == 0) return true; // if we don't have any values yet, assume we are active
 		
@@ -220,7 +274,7 @@ class ValueVersions {
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.11 2004/01/06 17:08:07 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.12 2004/01/06 22:21:32 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public

@@ -35,12 +35,24 @@ class CompactDataSet {
 		}
 	}
 	
+	/**
+	* @return int
+	* @desc Returns this DataSet's ID.
+	*/
 	function getID() { return $this->_myID; }
 	
+	/**
+	* @return bool
+	* @desc Returns TRUE if this DataSet is read only (cannot be edited).
+	*/
 	function readOnly() {
 		return true;
 	}
 	
+	/**
+	* @return bool
+	* @desc Returns TRUE if this is a {@link CompactDataSet}.
+	*/
 	function isCompact() {
 		return true;
 	}
@@ -53,6 +65,12 @@ class CompactDataSet {
 		return true;
 	}
 	
+	/**
+	* @return ref object
+	* @param string $label
+	* @param opt int $index default=0.
+	* @desc Returns the active {@link ValueVersion} object for value $index under $label.
+	*/
 	function &getActiveValue($label, $index=0) {
 		$this->_checkLabel($label, __FUNCTION__);
 		
@@ -61,18 +79,34 @@ class CompactDataSet {
 		return $valueVersions->getActiveValue();
 	}
 	
+	/**
+	* @return ref object
+	* @param string $label
+	* @param opt int $index default=0.
+	* @desc Returns the {@link ValueVersions} object associated with $index under $label.
+	*/
 	function &getValueVersionsObject($label, $index=0) {
 		$this->_checkLabel($label, __FUNCTION__);
 		
 		return $this->_fields[$label]->getValue($index);
 	}
 	
+	/**
+	* @return ref array
+	* @param string $label
+	* @desc Returns an array of {@link ValueVersions} objects for all indexes under $label.
+	*/
 	function &getAllValueVersionsObjects($label) {
 		$this->_checkLabel($label, __FUNCTION__);
 		
 		return $this->_fields[$label]->getAllValues();
 	}
 	
+	/**
+	* @return bool
+	* @param array $arrayOfRows
+	* @desc Creates a number of {@link FieldValues} objects based on an array of database rows.
+	*/
 	function populate( $arrayOfRows = null ) {
 		
 		// ok, we're going to passed an array of rows that corresonds to
@@ -124,12 +158,21 @@ class CompactDataSet {
 		
 	}
 	
+	/**
+	* @return int
+	* @param string $label
+	* @desc Returns the number of values we have set for $label.
+	*/
 	function numValues($label) {
 		$this->_checkLabel($label, __FUNCTION__);
 		
 		return $this->_fields[$label]->numValues();
 	}
 	
+	/**
+	* @return bool
+	* @desc Returns TRUE if this DataSet was created with Version Control.
+	*/
 	function isVersionControlled() {
 		return $this->_versionControlled;
 	}
@@ -153,14 +196,29 @@ class FullDataSet extends CompactDataSet {
 		}
 */	}
 	
+	/**
+	* @return bool
+	* @desc Returns false since this DataSet is editable.
+	*/
 	function readOnly() {
 		return false;
 	}
 
+	/**
+	* @return bool
+	* @desc Returns FALSE since this is a Full dataset.
+	*/
 	function isCompact() {
 		return false;
 	}
 
+	/**
+	* @return bool
+	* @param string $label
+	* @param ref object $obj
+	* @param opt int $index default=0
+	* @desc Sets the value of $index under $label to $obj where $obj is a {@link DataType}.
+	*/
 	function setValue($label, &$obj, $index=0) {
 		$this->_checkLabel($label, __FUNCTION__);
 		
@@ -170,6 +228,12 @@ class FullDataSet extends CompactDataSet {
 		return $this->_fields[$label]->setValue($index, $obj);
 	}
 	
+	/**
+	* @return bool
+	* @param string $label
+	* @param opt int $index default=0
+	* @desc Returns TRUE if the value $index under $label is inactive.
+	*/
 	function deleted($label, $index=0) {
 		$this->_checkLabel($label, __FUNCTION__);
 		
@@ -177,6 +241,10 @@ class FullDataSet extends CompactDataSet {
 		return !($vers->isActive());
 	}
 		
+	/**
+	* @return bool
+	* @desc Commits (either inserts or updates) the data for this DataSet into the database.
+	*/
 	function commit() {
 		if ($this->_myID) {
 			// we're already in the database
@@ -225,24 +293,48 @@ class FullDataSet extends CompactDataSet {
 		return true;
 	}
 	
+	/**
+	* @return void
+	* @param opt object $date An optional DateTime to specify the date that should be attached to the tag instead of the current date/time.
+	* @desc Uses the {@link DataSetTagManager} service to add a tag of the current state (in the DB) of this DataSet.
+	*/
 	function tag($date=null) {
 		$tagMgr =& Services::getService("DataSetTagManager");
 		$tagMgr->tagToDB($this, $date);
 	}
 	
+	/**
+	* @return void
+	* @param opt object $date An optional {@link DateTime} object for tagging. If specified, it will use $date instead of the current date and time.
+	* @desc Calls both commit() and tag().
+	*/
 	function commitAndTag($date=null) {
 		$this->commit();
 		$this->tag($date);
 	}
 	
-	function clone() {
+	/**
+	* @return ref object A new {@link FullDataSet} object.
+	* @desc Creates an exact (specific to the data) copy of the DataSet, that can then be inserted into
+	* the DB as a new set with the same data.
+	*/
+	function &clone() {
 		
 	}
 	
+	/**
+	* @return void
+	* @desc Goes through all the old versions of values and actually DELETES them from the database.
+	*/
 	function prune() {
 		
 	}
 	
+	/**
+	* @return bool
+	* @param string $label
+	* @desc Spiders through all of the values under $label and deactivates them.
+	*/
 	function deleteAllValues($label) {
 		$this->_checkLabel($label, __FUNCTION__);
 		
@@ -255,22 +347,43 @@ class FullDataSet extends CompactDataSet {
 		return $good;
 	}
 	
+	/**
+	* @return bool
+	* @param string $label
+	* @param opt int $index default=0
+	* @desc Deactivates all the versions of $index under $label.
+	*/
 	function deleteValue($label, $index=0) {
 		$this->_checkLabel($label, __FUNCTION__);
 		
 		return $this->_fields[$label]->deleteValue($index);
 	}
 	
+	/**
+	* @return bool
+	* @param string $label
+	* @param opt int $index default=0
+	* @desc Re-activates the newest version of $index under $label.
+	*/
 	function undeleteValue($label, $index=0) {
 		$this->_checkLabel($label, __FUNCTION__);
 		
 		return $this->_fields[$label]->undeleteValue($index);
 	}
 	
+	/**
+	* @return void
+	* @desc Deactivates the DataSet upon commit().
+	*/
 	function delete() {
 		$this->_active = false;
 	}
 	
+	/**
+	* @return bool
+	* @param ref object $tag A {@link DataSetTag} object.
+	* @desc Takes a tag object and activates the appropriate versions of values based on the tag mappings.
+	*/
 	function activateTag(&$tag) {
 		// check to make sure the tag is affiliated with us
 		if ($this->getID() != $tag->getDataSetID()) {
@@ -310,6 +423,7 @@ class FullDataSet extends CompactDataSet {
 				}
 			}
 		}
+		return true;
 	}
 }
 

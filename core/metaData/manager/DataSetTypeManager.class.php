@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.11 2004/01/06 20:55:32 gabeschine Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.12 2004/01/06 22:21:32 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -26,7 +26,6 @@ class DataSetTypeManager
 	var $_hashSeparator;
 	
 	/**
-	* @return DataSetTypeManager
 	* @param object $idmanager The {@link IDManager} to use for ID generation.
 	* @param int $dbID The {@link DBHandler} connection ID to use for data type storage.
 	* @desc Constructor.
@@ -82,6 +81,10 @@ class DataSetTypeManager
 		}
 	}
 	
+	/**
+	* @return integer
+	* @desc Returns the number of registered dataset types.
+	*/
 	function numberOfTypes() {
 		return count($this->_types);
 	}
