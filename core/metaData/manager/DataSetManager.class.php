@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.14 2004/01/08 21:16:28 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.15 2004/01/09 04:21:21 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -23,10 +23,10 @@ class DataSetManager extends ServiceInterface {
 	}
 	
 	/**
+	*  Fetches and returns an array of DataSet IDs from the database in one Query.
 	* @return ref array Indexed by DataSet ID, values are either {@link CompactDataSet}s or {@link FullDataSet}s.
 	* @param array $dataSetIDs
 	* @param optional bool $editable If TRUE will fetch the DataSets as Editable and with ALL versions. Default: FALSE (will only fetch ACTIVE values).
-	*  Fetches and returns an array of DataSet IDs from the database in one Query.
 	*/
 	function &fetchArrayOfIDs( $dataSetIDs, $editable=false ) {
 		ArgumentValidator::validate($dataSetIDs, new ArrayValidatorRuleWithRule(new NumericValidatorRule()));
@@ -100,10 +100,10 @@ class DataSetManager extends ServiceInterface {
 	}
 	
 	/**
+	*  Fetches a single DataSet from the database, editable if $editable=true.
 	* @return ref object
 	* @param int $dataSetID
 	* @param optional bool $editable
-	*  Fetches a single DataSet from the database, editable if $editable=true.
 	*/
 	function &fetchDataSet( $dataSetID, $editable=false ) {
 		$sets =& $this->fetchArrayOfIDs(array($dataSetID), $editable);
@@ -111,9 +111,9 @@ class DataSetManager extends ServiceInterface {
 	}
 	
 	/**
+	*  Initializes a SelectQuery with the complex JOIN structures of the HarmoniDataManager.
 	* @return void
 	* @param ref object $query
-	*  Initializes a SelectQuery with the complex JOIN structures of the HarmoniDataManager.
 	* @access private
 	*/
 	function _setupSelectQuery(&$query) {
@@ -152,10 +152,10 @@ class DataSetManager extends ServiceInterface {
 	}
 	
 	/**
+	*  Returns a new {@link FullDataSet} object that can be inserted into the database.
 	* @return ref object
 	* @param ref object $type The {@link HarmoniType} object that refers to the DataSetTypeDefinition to associated this DataSet with.
 	* @param optional bool $verControl Specifies if the DataSet should be created with Version Control. Default=no.
-	*  Returns a new {@link FullDataSet} object that can be inserted into the database.
 	*/
 	function &newDataSet( &$type, $verControl = false ) {
 		if (!$this->_typeManager->dataSetTypeExists($type)) {

@@ -8,7 +8,7 @@ require_once(HARMONI."metaData/manager/FieldDefinition.class.php");
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link DataSetTypeManager}.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeDefinition.class.php,v 1.14 2004/01/08 21:16:28 gabeschine Exp $
+ * @version $Id: DataSetTypeDefinition.class.php,v 1.15 2004/01/09 04:21:21 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -53,25 +53,25 @@ class DataSetTypeDefinition {
 	}
 	
 	/**
-	* @return ref object
 	* Returns the {@link HarmoniType} object associated with this definition.
+	* @return ref object
 	*/
 	function &getType() {
 		return $this->_type;
 	}
 	
 	/**
-	* @return int
 	* Returns the unique ID of this definition.
+	* @return int
 	*/
 	function getID() { return $this->_id; }
 	
 	/**
+	* Adds a field to the Type Definition, consisting of a label and a multiple-values flag.
 	* @return void
 	* @param ref object $fieldDefinition A {@link FieldDefinition} object.
 	* @param optional int $id The ID in the Database referring to this field.
-	* Adds a field to the Type Definition, consisting of a label and a multiple-values flag.
-	* @access 
+	* @access private
 	*/
 	function _addField(&$fieldDefinition, $id=null) {
 		ArgumentValidator::validate($fieldDefinition, new ExtendsValidatorRule("FieldDefinition"));
@@ -90,8 +90,8 @@ class DataSetTypeDefinition {
 	}
 	
 	/**
-	* @return bool FALSE on error.
 	* Loads the definition data from the database, if not already done.
+	* @return bool FALSE on error.
 	*/
 	function load() {
 		// load our fields from the database
@@ -135,9 +135,9 @@ class DataSetTypeDefinition {
 	}
 	
 	/**
+	* Populates the object with {@link FieldDefinition} objects based on a number of rows from the database.
 	* @return void
 	* @param array $arrayOfRows
-	* Populates the object with {@link FieldDefinition} objects based on a number of rows from the database.
 	*/
 	function populate($arrayOfRows) {
 		foreach ($arrayOfRows as $a) {
@@ -151,32 +151,32 @@ class DataSetTypeDefinition {
 	}
 	
 	/**
-	* @return bool
 	* Returns true/false depending on if we've loaded our definition data.
+	* @return bool
 	*/
 	function loaded() { return $this->_loaded; }
 	
 	/**
-	* @return int
 	* Returns the number of fields we have defined.
+	* @return int
 	*/
 	function fieldCount() {
 		return count($this->_fields);
 	}
 	
 	/**
+	* Removes the definition for $label from the TypeDefinition.
 	* @return void
 	* @param string $label The string label of the field to delete.
-	* Removes the definition for $label from the TypeDefinition.
 	*/
 	function deleteField($label) {
 		unset($this->_fields[$label]);
 	}
 	
 	/**
+	* Returns a list of labels defined.
 	* @return array
 	* @param optional bool $includeInactive If TRUE will also return fields that are inactive (deleted from the definition).
-	* Returns a list of labels defined.
 	*/
 	function getAllLabels( $includeInactive = false ) {
 		$array = array();
@@ -187,9 +187,9 @@ class DataSetTypeDefinition {
 	}
 	
 	/**
+	* Returns the {@link FieldDefinition} object for $label.
 	* @return ref object
 	* @param string $label
-	* Returns the {@link FieldDefinition} object for $label.
 	*/
 	function &getFieldDefinition($label) {
 		if (!isset($this->_fields[$label])) {
@@ -201,8 +201,8 @@ class DataSetTypeDefinition {
 	}
 	
 	/**
-	* @return void
 	* Spiders through all the fields and commits them to the database. Is called from {@link DataSetTypeManager::synchronize()}.
+	* @return void
 	* @access public
 	*/
 	function commitAllFields() {
@@ -213,18 +213,18 @@ class DataSetTypeDefinition {
 	}
 	
 	/**
+	* Returns if the field $label is defined.
 	* @return boolean
 	* @param string $label
-	* Returns if the field $label is defined.
 	*/
 	function fieldExists($label) {
 		return (isset($this->_fields[$label]))?true:false;
 	}
 	
 	/**
+	* Returns the DataType for field referenced by $label.
 	* @return string
 	* @param string $label
-	* Returns the DataType for field referenced by $label.
 	*/
 	function getFieldType($label) {
 		if (!$this->fieldExists($label)) return false;
