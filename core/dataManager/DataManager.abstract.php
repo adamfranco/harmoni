@@ -6,7 +6,7 @@ require_once(HARMONI."dataManager/record/RecordManager.class.php");
 require_once(HARMONI."dataManager/record/TagManager.class.php");
 require_once(HARMONI."dataManager/record/RecordSet.class.php");
 
-//require_once(HARMONI."dataManager/manager/search/include.php");
+require_once(HARMONI."dataManager/search/include.php");
 
 require_once(HARMONI."dataManager/versionConstraints/include.php");
 
@@ -14,7 +14,7 @@ require_once(HARMONI."dataManager/versionConstraints/include.php");
  * The HarmoniDataManager class is used purely to setup the services required to use the
  * other DataManager classes such as the {@link DataSetTypeManager} or the {@link DataSetManager}.
  * @package harmoni.datamanager
- * @version $Id: DataManager.abstract.php,v 1.7 2004/08/11 20:16:03 adamfranco Exp $
+ * @version $Id: DataManager.abstract.php,v 1.8 2004/10/29 20:50:51 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public

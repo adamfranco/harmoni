@@ -5,7 +5,7 @@ require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
 /**
  * Searches for only {@link Record}s that contain a certain field=value pair.
  * @package harmoni.datamanager.search
- * @version $Id: FieldValueSearch.class.php,v 1.2 2004/08/08 19:43:40 gabeschine Exp $
+ * @version $Id: FieldValueSearch.class.php,v 1.3 2004/10/29 20:50:55 adamfranco Exp $
  * @copyright 2004, Middlebury College
  */
 class FieldValueSearch extends SearchCriteria {
@@ -41,8 +41,8 @@ class FieldValueSearch extends SearchCriteria {
 		
 		// first check if the $value we have is of the correct data type
 		if (!$typeMgr->isObjectOfDataType($this->_value, $field->getType())) {
-			throwError( new Error("Cannot take ".get_class($this->_value)." object as search criteria
-			for field $this->_label!","FieldValueSearch",true));
+			throwError( new Error("Cannot take a '".get_class($this->_value)."' object as search criteria
+			for field '$this->_label'; a '".$field->getType()."' is required.","FieldValueSearch",true));
 		}
 		
 		// ok, looks good.

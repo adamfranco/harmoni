@@ -695,7 +695,7 @@ class HarmoniDigitalRepository
 		// Get All the assets
 		$criteria =& new AndSearch();
 		$criteria->addCriteria(new ActiveRecordsSearch());
-		$criteria->addCriteria(new FieldValueSearch(new HarmoniType("DR", "Harmoni", "AssetContent", ""),"Content", new String($searchCriteria), SEARCH_TYPE_CONTAINS));
+		$criteria->addCriteria(new FieldValueSearch(new HarmoniType("DR", "Harmoni", "AssetContent", ""),"Content", new Blob($searchCriteria), SEARCH_TYPE_CONTAINS));
 		
 		$recordMgr =& Services::getService("RecordManager");
 		$recordIDs = $recordMgr->getRecordIDsBySearch($criteria);
