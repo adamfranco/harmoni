@@ -4,7 +4,7 @@ require_once(HARMONI."utilities/Queue.interface.php");
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.class.php,v 1.13 2003/06/27 02:00:04 dobomode Exp $
+ * @version $Id: Queue.class.php,v 1.14 2003/06/27 02:09:53 dobomode Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -84,10 +84,7 @@ class Queue extends QueueInterface {
 		// if we just inserted the first element in the queue, then reset the position indices
 		if ($this->getSize() == 1) {
 			$this->_startPosition = 0;
-			if ($this->_reversed)
-				$this->_nextPosition = 0;
-			else
-				$this->_nextPosition = 0;
+			$this->_nextPosition = 0;
 		}
 		// if the inserted element is not the first, then just adjust _startPosition if
 		// the queue is reversed
@@ -107,6 +104,7 @@ class Queue extends QueueInterface {
 		// get next element
 		$object =& $this->_queue[$this->_nextPosition];
 
+		// adjust _nextPosition depending on the queue type
 		if($this->_reversed)
 			$this->_nextPosition--; 
 		else

@@ -7,7 +7,7 @@ require_once(HARMONI."errorHandler/ErrorPrinterBasic.class.php");
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.11 2003/06/27 01:19:59 dobomode Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.12 2003/06/27 02:09:52 dobomode Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */
@@ -132,10 +132,10 @@ class ErrorHandler extends ErrorHandlerInterface{
      * Fetch the Error queue as it is to each ErrorPrinter in the Error Printer queue.
      * Fetch the Error queue as it is to each ErrorPrinter in the Error Printer queue.
      * @param constant $detailLevel The level of detail when printing. Could be
-	 * LOW_LEVEL, MEDIUM_LEVEL or HIGH_LEVEL.
+	 * LOW_DETAIL, NORMAL_DETAIL or HIGH_DETAIL.
 	 * @access public
 	 */
-	function printErrors($detailLevel = MEDIUM_LEVEL) {
+	function printErrors($detailLevel = NORMAL_DETAIL) {
 		while($this->_printerQueue->hasNext()){
 			$printer =& $this->_printerQueue->next();
 			$printer->printErrors($this->_errorQueue, $detailLevel);

@@ -4,7 +4,7 @@
 
 	/**
 	 * Low detail level of printing.
-	 * Low detail level of printing.
+	 * Low detail level of printing. All errors are printed with no details.
 	 * @const LOW_DETAIL Low detail level of printing.
 	 * @access public
 	 */
@@ -12,7 +12,7 @@
 	
 	/**
 	 * Normal detail level of printing.
-	 * Normal detail level of printing.
+	 * Normal detail level of printing. Only fatal errors are printed with details.
 	 * @const NORMAL_DETAIL Normal detail level of printing.
 	 * @access public
 	 */
@@ -20,7 +20,7 @@
 	
 	/**
 	 * High detail level of printing.
-	 * High detail level of printing.
+	 * High detail level of printing. All errors are printed with details.
 	 * @const HIGH_DETAIL High detail level of printing.
 	 * @access public
 	 */
@@ -31,7 +31,7 @@
  * An ErrorPrinter interface provides functionality to output Error objects in any way one's soul may desire.
  * For example, you can print to a browser window, to a database, to a file, etc.
  *
- * @version $Id: ErrorPrinter.interface.php,v 1.3 2003/06/27 02:00:02 dobomode Exp $
+ * @version $Id: ErrorPrinter.interface.php,v 1.4 2003/06/27 02:09:52 dobomode Exp $
  * @package harmoni.errorhandler
  * @copyright 2003
  * @access public
@@ -40,16 +40,16 @@
 class ErrorPrinterInterface {
 
     /**
-     * Outputs a queue of errors to any medium.
-     * Outputs a queue of errors to any medium. This function will call
+     * Outputs a queue of errors to any NORMAL.
+     * Outputs a queue of errors to any NORMAL. This function will call
 	 * printHeader() at the beginning and printFooter() at the end.
      * @param object Queue $errors The queue of the errors to be printed
      * @param constant $detailLevel The level of detail when printing. Could be
-	 * LOW_LEVEL, MEDIUM_LEVEL or HIGH_LEVEL.
+	 * LOW_DETAIL, NORMAL_DETAIL or HIGH_DETAIL.
 	 * @return string A string representation of what was printed.
      * @access public
      */
-    function printErrors(& $errors, $detailLevel = MEDIUM_LEVEL) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function printErrors($errors, $detailLevel = NORMAL_DETAIL) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Prints the header of the Error output.
@@ -58,7 +58,7 @@ class ErrorPrinterInterface {
      * @access public
 	 * @return string A string representation of what was printed.
      */
-    function printHeader(& $errors) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function printHeader($errors) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Prints the footer of the Error output.
@@ -67,7 +67,7 @@ class ErrorPrinterInterface {
      * @access public
 	 * @return string A string representation of what was printed.
      */
-    function printFooter(& $errors) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function printFooter($errors) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 }
 
 
