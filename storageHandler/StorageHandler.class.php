@@ -14,7 +14,7 @@ require_once(HARMONI . "storageHandler/Storables/VirtualStorable.class.php");
 * 
 * @package harmoni.StorageHandler
 * @author Middlebury College, ETS 
-* @version $Id: StorageHandler.class.php,v 1.4 2003/07/03 03:09:06 gabeschine Exp $
+* @version $Id: StorageHandler.class.php,v 1.5 2003/07/03 14:18:51 gabeschine Exp $
 * @copyright 2003
 */
 class StorageHandler extends StorageHandlerInterface {
@@ -606,7 +606,7 @@ class StorageHandler extends StorageHandlerInterface {
 		$ids = array_unique(array_merge($ids, $subDirs)); 
 		// go through them ALL and do a recursive delete
 		foreach ($ids as $id) {
-			$this->_methods[$id]->deleteRecursive($this->_translatePathForMethod($id $path));
+			$this->_methods[$id]->deleteRecursive($this->_translatePathForMethod($id, $path));
 		} 
 	} 
 
@@ -668,7 +668,7 @@ class StorageHandler extends StorageHandlerInterface {
 		// hmm, that didn't work... let's try a backup server, or two, or more
 		$ids = $this->_getBackupsForPath($path);
 		foreach ($ids as $id) {
-			$size = & $this->_methods[$id]->getSizeOf($this->_translatePathForMethod($id $path), $name);
+			$size = & $this->_methods[$id]->getSizeOf($this->_translatePathForMethod($id, $path), $name);
 			if ($size) // yay!
 				return $size;
 		} 
@@ -747,7 +747,7 @@ class StorageHandler extends StorageHandlerInterface {
 			
 		$ids = $this->_getBackupsForPath($path);
 		foreach ($ids as $id) {
-			if ($this->_methods[$id]->exists{$this->_translatePathForMethod($id,$path),$name})
+			if ($this->_methods[$id]->exists($this->_translatePathForMethod($id,$path),$name))
 				return true;
 		}
 		return false;
