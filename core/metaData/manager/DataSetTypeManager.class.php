@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.28 2004/07/22 19:36:04 gabeschine Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.29 2004/08/03 18:08:02 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -251,7 +251,7 @@ class DataSetTypeManager
 		$this->_typeDefinitions[$newID->getIdString()] =& $newDataSetType;
 		$this->_types[$newID->getIdString()] =& $type;
 		$this->_typeIDs[$this->_mkHash($type)] = $newID->getIdString();
-		debug::output("Created new DataSetType object for '".OKITypeToString($type)."', revision $revision.",DEBUG_SYS5,"DataSetTypeManager");
+		debug::output("Created new DataSetType object for '".OKITypeToString($type)."', revision $revision; with Id, '".$newID->getIdString()."'.",DEBUG_SYS5,"DataSetTypeManager");
 		return $newDataSetType;
 	}
 	

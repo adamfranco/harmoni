@@ -129,8 +129,8 @@ class HarmoniInfoStructure extends InfoStructure
 		ArgumentValidator::validate($infoPartType, new ExtendsValidatorRule("TypeInterface"));
 				
 		$fieldDef =& new FieldDefinition($displayName, $infoPartType->getKeyword(), $isRepeatable);
-		print "<p>Creating part with displayname: ".$displayname;
-		printpre($fieldDef);
+// 		print "<p>Creating part with displayname: ".$displayname;
+// 		printpre($fieldDef);
 		$this->_typeDef->addNewField($fieldDef);
  		$fieldDef->addToDB();
  		$fieldDef->setMultFlag($isRepeatable);
@@ -140,7 +140,7 @@ class HarmoniInfoStructure extends InfoStructure
 		$dataSetTypeManager->synchronize($this->_typeDef);
 		
 		$fieldDef =& $this->_typeDef->getFieldDefinition($displayName);
-		print "<br>Saving infoPart:"; printpre ($fieldDef);
+// 		print "<br>Saving infoPart:"; printpre ($fieldDef);
 		
 		$this->_createdInfoParts[$fieldDef->getID()] =& new HarmoniInfoPart($this,
 																$fieldDef);

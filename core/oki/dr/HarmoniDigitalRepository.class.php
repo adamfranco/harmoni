@@ -494,8 +494,12 @@ class HarmoniDigitalRepository
 		
 		// Create the TypeDefinition
 		$dataSetTypeDef =& $dataSetTypeManager->newDataSetType($dataSetType);
-		
 		$dataSetTypeManager->synchronize($dataSetTypeDef);
+		
+		// The DataSetType manager is kinda funky, so to be sure that we have a
+		// god dataSetTypeDef, lets ask the manager for it again.
+		$dataSetTypeDef =& $dataSetTypeManager->getDataSetTypeDefinition($dataSetType);
+		debug::output("InfoStructure is being created from dataSetTypeDef with Id: '".$dataSetTypeDef->getID()."'");
 		
 		$this->_createdInfoStructures[$dataSetTypeDef->getID()] =& new HarmoniInfoStructure(
 																$dataSetTypeDef);
