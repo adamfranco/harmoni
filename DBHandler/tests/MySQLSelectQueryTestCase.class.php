@@ -8,7 +8,7 @@
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.3 2003/06/18 22:27:46 dobomode Exp $
+ * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.4 2003/06/19 15:05:19 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -110,11 +110,11 @@
 			$this->query->setGroupBy(array("user_id", "user_sex"), "user_age = 38");
 			$this->query->setOrderBy(array("user_lname", "user_fname"), ASCENDING);
 			$this->query->setDistinct(true);
-			//$this->query->limitNumberOfRows(100);
-			//$this->query->displayStartingFromRow(10);
+			$this->query->limitNumberOfRows(100);
+			$this->query->startFromRow(10);
 			
 			$tables = "\n\tuser\n\t\tINNER JOIN\n\tclass\n\t\tON user.user_weight = class.class_id,\n\tperson\n\t\tLEFT JOIN\n\ttree\n\t\tON person.person_id = tree.tree_height - 10\n\t\tRIGHT JOIN\n\tbush\n\t\tON tree.tree_leaves = 3000,\n\tsand";
-			$sql = "SELECT DISTINCT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM{$tables}\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname,\n\tuser_fname\n\tASC\n";
+			$sql = "SELECT DISTINCT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM{$tables}\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname,\n\tuser_fname\n\tASC\nLIMIT\n\t9, 100\n";
 	
 			$sqlFromObject = $this->query->generateSQLQuery();
 			$this->assertEqual($sql, $sqlFromObject);
