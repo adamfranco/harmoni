@@ -16,7 +16,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.8 2005/01/27 16:10:50 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.9 2005/01/27 16:49:12 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -1071,11 +1071,11 @@ class HarmoniAsset
 		if ($recordSet =& $recordMgr->fetchRecordSet($id->getIdString())) {
 			// fetching as editable since we don't know if it will be edited.
 			$recordSet->loadRecords();
-			$records =& $recordSet->getRecords();
+			$dmRecords =& $recordSet->getRecords();
 	
 			// create  records for each dataSet as needed.
-			foreach (array_keys($records) as $key) {
-				$recordIdString = $records[$key]->getID();
+			foreach (array_keys($dmRecords) as $key) {
+				$recordIdString = $dmRecords[$key]->getID();
 				$recordId =& $idManager->getId($recordIdString);
 				$record =& $this->getRecord($recordId);
 				$structure =& $record->getRecordStructure();
