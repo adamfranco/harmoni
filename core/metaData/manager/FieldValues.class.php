@@ -22,13 +22,34 @@ class FieldValues {
 	}
 	
 	function populate( $arrayOfRows ) {
+		// ok, we are responsible for keeping track of multiple values for any given
+		// label. we'll go through the rows and group them by index
+		$packages = array();
 		
+		foreach ($arrayOfRows as $line) {
+			$index = $line['datasetfield_index'];
+			if (!is_numeric($index)) {
+				throwError( new Error(
+					"Serious error in FieldValues. Index '$index' given to us is not numeric!","FieldValues",true));
+				return false;
+			}
+			
+			if (!is_array($packages[$index])) $packages[$index] = array();
+			$packages[$index][] = $line;
+		}
+		
+		// no go through each index and setup the ValueVersions object.
+		foreach (array_keys($packages) as $index) {
+			$this->_values[$index] =& new ValueVersions($this,$index);
+			$this->_values[$index]->populate($packages[$index]);
+			$this->_numValues++;
+		}
 	}
 	
 	function commit() {
 		// cycle through each index and commit()
 		for ($i=0; $i<$this->numValues(); $i++) {
-			
+			$this->_values[$i]->commit();
 		}
 	}
 	

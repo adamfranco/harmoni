@@ -19,6 +19,111 @@ class DataSetManager extends ServiceInterface {
 	}
 	
 	function &fetchDataSet( $dataSetID, $editable=false ) {
+		// this is gonna be *huge*
+		
+		// first, make the new query
+		$query =& new SelectQuery();
+
+		$this->_setupSelectQuery($query);
+		
+		$query->addWhere("dataset_id=".$dataSetID);
+		if (!$editable) $query->addWhere("datasetfield_active=1");
+		
+		$dbHandler =& Services::getService("DBHandler");
+		
+		$result =& $dbHandler->query($query,$this->_dbID);
+		
+		if (!$result) {
+			throwError(new UnknownDBError("DataSetManager"));
+		}
+		
+/*		$array = array();
+		while ($result->hasMoreRows()) {
+			$array[] = $result->getCurrentRow();
+			$result->advanceRow();
+		}*/
+		
+/*		foreach ($array as $line) {
+			foreach ($line as $key=>$val)
+				if (!is_numeric($key)) print "$key=$val, ";
+			print "\n<br>";
+		}*/
+		
+		// now, we need to parse things out and distribute the lines accordingly
+		$dataSetTypeID = null;
+		$verControl = false;
+		
+		$lines = array();
+		
+		while ($result->hasMoreRows()) {
+			$lines[] = $a = $result->getCurrentRow();
+			$result->advanceRow();
+			
+			// let's get some basic info from the row
+			if (!$dataSetTypeID && $a['fk_datasettype'])
+				$dataSetTypeID = $a['fk_datasettype'];
+			
+			if (!$verControl && $a['dataset_ver_control'])
+				$verControl = ($a['dataset_ver_control'])?true:false;
+		}
+		
+		if ($dataSetTypeID == null) {
+			throwError( new Error(
+				"Serious error: could not find a datasettype to associate with DataSet ID '$dataSetID'!",
+				"DataSetManager",true));
+			return false;
+		}
+		
+		$dataSetTypeDef =& $this->_typeManager->getDataSetTypeDefinitionByID($dataSetTypeID);
+		$dataSetTypeDef->load(); // get Definition from DB
+		
+		if ($editable) $newDataSet =& new FullDataSet($this->_idManager,
+					$this->_dbID,
+					$dataSetTypeDef,
+					$verControl
+					);
+		else $newDataSet =& new CompactDataSet($this->_idManager,
+					$this->_dbID,
+					$dataSetTypeDef,
+					$verControl
+					);
+		
+		$newDataSet->populate($lines);
+		
+		return $newDataSet;
+	}
+	
+	function _setupSelectQuery(&$query) {
+		// this function sets up the selectquery to include all the necessary tables
+		
+		$query->addTable("datasetfield");
+		$query->addTable("dataset",INNER_JOIN,"fk_dataset=dataset_id");
+		$query->addTable("datasettypedef",INNER_JOIN,"fk_datasettypedef=datasettypedef_id");
+//		$query->addTable("datasettype",INNER_JOIN,"dataset.fk_datasettype=datasettype_id");
+		
+		$dataTypeManager =& Services::getService("DataTypeManager");
+		$list = $dataTypeManager->getRegisteredTypeClasses();
+		
+		foreach ($list as $type) {
+			eval("$type::alterQuery(\$query);");
+		}
+		
+		/* dataset table */
+		$query->addColumn("dataset_id");
+		$query->addColumn("dataset_created");
+		$query->addColumn("dataset_active");
+		$query->addColumn("dataset_ver_control");
+		$query->addColumn("fk_datasettype","","dataset"); //specify table to avoid ambiguity
+		
+		/* datasetfield table */
+		$query->addColumn("datasetfield_id");
+		$query->addColumn("datasetfield_index");
+		$query->addColumn("datasetfield_active");
+		$query->addColumn("datasetfield_created");
+		
+		/* datasettypedef table */
+		$query->addColumn("datasettypedef_id");
+		$query->addColumn("datasettypedef_label");
 		
 	}
 	
@@ -43,7 +148,34 @@ class DataSetManager extends ServiceInterface {
 	}
 	
 	function getDataSetIDsOfType(&$type) {
+		// we're going to get all the IDs that match a given type.
 		
+		$query =& new SelectQuery();
+		$query->addTable("dataset");
+		$query->addTable("datasettype",INNER_JOIN,"datasettype_id=fk_datasettype");
+		
+		$query->addColumn("dataset_id");
+		
+		$query->setWhere("datasettype_domain='".addslashes($type->getDomain())."' AND ".
+						"datasettype_authority='".addslashes($type->getAuthority())."' AND ".
+						"datasettype_keyword='".addslashes($type->getKeyword())."'");
+		
+		$dbHandler =& Services::getService("DBHandler");
+		
+		$result =& $dbHandler->query($query,$this->_dbID);
+		
+		if (!$result) {
+			throwError( new UnknownDBError("DataSetManager") );
+			return false;
+		}
+		
+		$array = array();
+		while ($result->hasMoreRows()) {
+			$array[] = $result->field(0);
+			$result->advanceRow();
+		}
+		
+		return $array;
 	}
 	
 	function getTags( $dataSetID ) {

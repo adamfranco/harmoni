@@ -11,6 +11,14 @@ class DataTypeManager
 		include HARMONI."metaData/dataTypes/register.inc.php";
 	}
 	
+	function getRegisteredTypes() {
+		return array_keys($this->_registeredTypes);
+	}
+	
+	function getRegisteredTypeClasses() {
+		return array_values($this->_registeredTypes);
+	}
+	
 	function registerType( $name, $class ) {
 		ArgumentValidator::validate($name, new StringValidatorRule());
 		ArgumentValidator::validate($class, new StringValidatorRule());

@@ -67,6 +67,37 @@ class CompactDataSet {
 	
 	function populate( $arrayOfRows = null ) {
 		
+		// ok, we're going to passed an array of rows that corresonds to
+		// our label[index] = valueVersion[n] setup.
+		// that means we have to separate out the rows that have to do with each
+		// label, and hand each package to a FieldValues object.
+		
+		$packages = array();
+		
+		foreach ($arrayOfRows as $line) {
+			$label = $line['datasettypedef_label'];
+			if (!is_array($packages[$label])) $packages[$label] = array();
+			
+			$packages[$label][] = $line;
+		}
+
+		// now go through each label we've found and populate the FieldValues object
+		foreach (array_keys($packages) as $label) {
+/*			if (!($fieldDefinition =& $this->_dataSetTypeDef->fieldExists($label))) {
+				throwError( new Error(
+					"Serious error with DataSetTypeDefinition mappings. DataSet contains field with label '$label'
+					but no corresponding FieldDefinition was found within the DataSetTypeDefinition.",
+					"FullDataSet",true));
+				return false;
+			}
+			
+			$newFV =& new FieldValues($fieldDefinition, $this, $label);
+			$newFV->populate($package[$label]);*/
+			// above = dumb. _fields array should have been setup by the constructor.
+			
+			$this->_fields[$label]->populate($packages[$label]);
+		}
+		
 	}
 	
 	function numValues($label) {
@@ -131,7 +162,7 @@ class FullDataSet extends CompactDataSet {
 			// we'll have to make a new entry
 			$dataSetTypeManager =& Services::getService("DataSetTypeManager");
 			
-			$this->_myID = $this->_idManager->newID(new HarmoniDataType("Harmoni","HarmoniDataManager","DataSet"));
+			$this->_myID = $this->_idManager->newID(new HarmoniType("Harmoni","HarmoniDataManager","DataSet"));
 			
 			$query =& new InsertQuery();
 			$query->setTable("dataset");
@@ -151,7 +182,7 @@ class FullDataSet extends CompactDataSet {
 		$result =& $dbHandler->query($query,$this->_dbID);
 		
 		if (!$result) {
-			throwError( new UnknownDBError() );
+			throwError( new UnknownDBError("FullDataSet") );
 			return false;
 		}
 		

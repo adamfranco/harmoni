@@ -17,7 +17,18 @@ class ValueVersions {
 	}
 	
 	function populate( $arrayOfRows ) {
+		// we are responsible for keeping track of multiple ValueVersion objects,
+		// each corresponding to a specific version of a value of a field.
 		
+		// we are going to hand each line in turn to a ValueVersion object
+		foreach ($arrayOfRows as $line) {
+			$verID = $line['datasetfield_id'];
+			$active = ($line['datasetfield_active'])?true:false;
+			
+			$this->_versions[$verID] =& new ValueVersion($this,$active);
+			$this->_versions[$verID]->populate($line);
+			$this->_numVersions++;
+		}
 	}
 	
 	function commit() {
@@ -141,22 +152,84 @@ class ValueVersion {
 	
 	function isActive() { return $this->_active; }
 	
-	function populate( $arrayOfRows ) {
+	function populate( $row ) {
+		$dbHandler =& Services::getService("DBHandler");
+		$dbID = $this->_parent->_parent->_parent->_dbID;
 		
+		$this->_myID = $row['datasetfield_id'];
+		$this->_date =& $dbHandler->fromDBDate($row['datasetfield_created'],$dbID);
+		// $this->_active was set by parent on construction
+		
+		// now we need to create the valueObj
+		$valueType =& $this->_parent->_parent->_fieldDefinition->getType();
+		
+		$dataTypeManager =& Services::getService("DataTypeManager");
+		$valueObj =& $dataTypeManager->newDataObject($valueType);
+		
+		$valueObj->populate($row);
+		$valueObj->setID($row['fk_data']);
+		
+		$this->_valueObj =& $valueObj;
 	}
 	
 	function commit() {
+		if (!$this->_update) return false; // if we weren't flagged to update, git out
+		
 		// first we need to commit the actual DataType value
 		// so that we can get its ID
+		$this->_valueObj->setup($this->_parent->_parent->_parent->_idManager,
+								$this->_parent->_parent->_parent->_dbID);
 		$this->_valueObj->commit();
-		$valueID = $this->_valueObj->getID();
+		
+		$this->_date =& DateTime::now();
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$dbID = $this->_parent->_parent->_parent->_dbID;
 		
 		if ($this->_myID) {
+			// we're already in the DB. just update the entry
+			$query =& new UpdateQuery();
 			
+			$query->setWhere("datasetfield_id=".$this->_myID);
+			$query->setColumns(array("datasetfield_active", "datasetfield_modified"));
+			$query->setValues(array(($this->_active)?1:0,$dbHandler->toDBDate($this->_date,$dbID)));
 		} else {
+			// we have to insert a new one
+			$query =& new InsertQuery();
 			
+			$this->_myID = $this->_parent->_parent->_parent->_idManager->newID(
+					new HarmoniType("Harmoni","HarmoniDataManager","DataSetField"));
+			$query->setColumns(array(
+				"datasetfield_id",
+				"fk_dataset",
+				"fk_datasettypedef",
+				"datasetfield_index",
+				"fk_data",
+				"datasetfield_active",
+				"datasetfield_modified"
+				));
+			
+			$query->addRowOfValues(array(
+				$this->_myID,
+				$this->_parent->_parent->_parent->getID(),
+				$this->_parent->_parent->_fieldDefinition->getID(),
+				$this->_parent->_myIndex,
+				$this->_valueObj->getID(),
+				($this->_active)?1:0,
+				$dbHandler->toDBDate($this->_date,$dbID)
+				));
 		}
 		
+		$query->setTable("datasetfield");
+		
+		$result =& $dbHandler->query($query, $dbID);
+		
+		if (!$result) {
+			throwError( new UnknownDBError("ValueVersion") );
+			return false;
+		}
+		
+		return true;
 		
 	}
 	

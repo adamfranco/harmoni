@@ -168,6 +168,16 @@ class DataSetTypeManager
 		return $this->_typeDefinitions[$id];
 	}
 	
+	function & getDataSetTypeDefinitionByID($id) {
+		if (!isset($this->_typeDefinitions[$id])) {
+			throwError ( new Error(
+				"Could not find DataSetTypeDefinition with ID '$id'!","DataSetTypeManager",true));
+			return false;
+		}
+		
+		return $this->_typeDefinitions[$id];
+	}
+	
 	function & getAllDataSetTypes() {
 		return new HarmoniTypeIterator($this->_types);
 	}

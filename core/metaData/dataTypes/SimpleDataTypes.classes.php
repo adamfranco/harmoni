@@ -58,6 +58,14 @@ class IntegerDataType
 		$query->setWhere("data_integer_id=".$this->getID());
 		
 		$query->setValues(array($this->_value));
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$result =& $dbHandler->query($query, $this->_dbID);
+		
+		if (!$result) {
+			throwError( new UnknownDBError("IntegerDataType") );
+			return false;
+		}
 	}
 	
 	function commit() {
@@ -69,11 +77,11 @@ class IntegerDataType
 	function alterQuery( &$query ) {
 		$query->addTable("data_integer",LEFT_JOIN,"data_integer_id = fk_data");
 		$query->addColumn("data_integer_id");
-		$query->addColumn("data_integer_value");
+		$query->addColumn("data_integer_data");
 	}
 	
 	function populate( &$dbRow ) {
-		$this->_value = intval($dbRow['data_integer_value']);
+		$this->_value = intval($dbRow['data_integer_data']);
 	}
 	
 	function takeValue(&$fromObject) {

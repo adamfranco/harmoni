@@ -14,10 +14,10 @@ class DataType extends DataTypeInterface {
 		$this->_dbID=null;
 	}*/
 	
-	function setup(&$idManager, $dbID, $myID) {
+	function setup(&$idManager, $dbID/*, $myID*/) {
 		$this->_dbID = $dbID;
 		$this->_idManager =& $idManager;
-		$this->_setMyID($myID);
+//		$this->_setMyID($myID);
 	}
 	
 	function toString() {
@@ -26,6 +26,10 @@ class DataType extends DataTypeInterface {
 	
 	function getID() {
 		return $this->_myID;
+	}
+	
+	function setID($id) {
+		$this->_setMyID($id);
 	}
 	
 	function _setMyID($id) {
