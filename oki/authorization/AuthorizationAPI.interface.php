@@ -263,61 +263,6 @@ class AuthorizationManager
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Authorization & createAuthorization();
-	function & createAuthorization() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Agent & agent();
-	function & agent() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Function & function();
-	function & function() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Qualifier & qualifier();
-	function & qualifier() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Authorization & createAuthorization();
-	function & createAuthorization() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Id & agentId();
-	function & agentId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Id & functionId();
-	function & functionId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Id & qualifierId();
-	function & qualifierId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.util.Calendar & effectiveDate();
-	function & effectiveDate() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.util.Calendar & expirationDate();
-	function & expirationDate() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Authorization & createAuthorization();
-	function & createAuthorization() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public osid.shared.Id & agentId();
 	function & agentId() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -335,11 +280,6 @@ class AuthorizationManager
 
 	// public Function & createFunction();
 	function & createFunction() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Id & functionId();
-	function & functionId() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -368,48 +308,8 @@ class AuthorizationManager
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public osid.shared.Id & qualifierId();
-	function & qualifierId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public String displayName();
-	function displayName() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public String description();
-	function description() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Type & qualifierType();
-	function & qualifierType() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public Qualifier & createQualifier();
 	function & createQualifier() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Id & qualifierId();
-	function & qualifierId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public String displayName();
-	function displayName() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public String description();
-	function description() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Type & qualifierType();
-	function & qualifierType() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -435,41 +335,6 @@ class AuthorizationManager
 
 	// public boolean isAuthorized();
 	function isAuthorized() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Agent & agent();
-	function & agent() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Function & function();
-	function & function() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Qualifier & qualifier();
-	function & qualifier() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public boolean isAuthorized();
-	function isAuthorized() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Id & agentId();
-	function & agentId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Id & functionId();
-	function & functionId() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Id & qualifierId();
-	function & qualifierId() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -523,71 +388,6 @@ class AuthorizationManager
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Function & function();
-	function & function() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Qualifier & qualifier();
-	function & qualifier() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public boolean isActiveNow();
-	function isActiveNow() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.AgentIterator & getWhoCanDo(boolean $isActiveNow, Function & $function);
-	function & getWhoCanDo($isActiveNow, & $function) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.AgentIterator & getWhoCanDo(boolean $isActiveNow, osid.shared.Type & $functionType);
-	function & getWhoCanDo($isActiveNow, & $functionType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.AgentIterator & getWhoCanDo();
-	function & getWhoCanDo() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Type & functionType();
-	function & functionType() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Qualifier & qualifier();
-	function & qualifier() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public boolean isActiveNow();
-	function isActiveNow() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.AgentIterator & getWhoCanDo(boolean $isActiveNow, Qualifier & $qualifier);
-	function & getWhoCanDo($isActiveNow, & $qualifier) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public AuthorizationIterator & getAuthorizations();
-	function & getAuthorizations() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Function & function();
-	function & function() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Qualifier & qualifier();
-	function & qualifier() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public boolean isActiveNow();
 	function isActiveNow() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -598,68 +398,8 @@ class AuthorizationManager
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public osid.shared.Type & functionType();
-	function & functionType() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Qualifier & qualifier();
-	function & qualifier() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public boolean isActiveNow();
-	function isActiveNow() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public AuthorizationIterator & getExplicitAuthorizations();
 	function & getExplicitAuthorizations() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Agent & agent();
-	function & agent() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Function & function();
-	function & function() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Qualifier & qualifier();
-	function & qualifier() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public boolean isActiveNow();
-	function isActiveNow() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public AuthorizationIterator & getExplicitAuthorizations();
-	function & getExplicitAuthorizations() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Agent & agent();
-	function & agent() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.Type & functionType();
-	function & functionType() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Qualifier & qualifier();
-	function & qualifier() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public boolean isActiveNow();
-	function isActiveNow() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 

@@ -186,38 +186,8 @@ class Connection
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Table & executeQuery(String $sql, Object[] & $objs);
-	function & executeQuery($sql, & $objs) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Table & executeQuery(String $sql, int[] & $targetSqlTypes, Object[] & $objs);
-	function & executeQuery($sql, & $targetSqlTypes, & $objs) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Table & executeQuery(String $sql, int[] & $scales, int[] & $targetSqlTypes, Object[] & $objs);
-	function & executeQuery($sql, & $scales, & $targetSqlTypes, & $objs) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public int executeUpdate(String $sql);
 	function executeUpdate($sql) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public int executeUpdate(String $sql, Object[] & $objs);
-	function executeUpdate($sql, & $objs) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public int executeUpdate(String $sql, int[] & $targetSqlTypes, Object[] & $objs);
-	function executeUpdate($sql, & $targetSqlTypes, & $objs) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public int executeUpdate(String $sql, int[] & $scales, int[] & $targetSqlTypes, Object[] & $objs);
-	function executeUpdate($sql, & $scales, & $targetSqlTypes, & $objs) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -226,18 +196,8 @@ class Connection
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Table & getTables(String $schemaPattern, String $catalog, String[] & $tableTypes, String $tableNamePattern);
-	function & getTables($schemaPattern, $catalog, & $tableTypes, $tableNamePattern) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public Table & callProcedure(Object[] & $args, int[] & $columnTypes, int[] & $datatypes, String $procedureName);
 	function & callProcedure(& $args, & $columnTypes, & $datatypes, $procedureName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Table & callProcedure(String $schemaPattern, Object[] & $args, String $columnNamePattern, int[] & $columnTypes, String $catalog, int[] & $datatypes, String $procedureName);
-	function & callProcedure($schemaPattern, & $args, $columnNamePattern, & $columnTypes, $catalog, & $datatypes, $procedureName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -273,16 +233,6 @@ class RowIterator
 class RowIterator
 	// extends java.io.Serializable 
 { // begin RowIterator
-	// public boolean hasNext();
-	function hasNext() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public ObjectIterator & next();
-	function & next() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 } // end RowIterator
 
 
@@ -323,16 +273,6 @@ class SqlManager
 { // begin SqlManager
 	// public Connection & newConnection(String $password, String $databaseURL, String $driverName, String $username);
 	function & newConnection($password, $databaseURL, $driverName, $username) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Connection & newConnection(String $database, String $password, String $username);
-	function & newConnection($database, $password, $username) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Connection & newConnection(java.util.Map & $props);
-	function & newConnection(& $props) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 

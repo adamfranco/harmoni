@@ -38,11 +38,6 @@ class LoggingManager
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public String logName();
-	function logName() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 } // end LoggingManager
 
 
@@ -130,11 +125,6 @@ class WritableLog
 
 	// public void appendLog(java.io.Serializable & $entryItem);
 	function appendLog(& $entryItem) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void appendLog(java.io.Serializable & $entryItem, osid.shared.Type & $priorityType, osid.shared.Type & $formatType);
-	function appendLog(& $entryItem, & $priorityType, & $formatType) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 

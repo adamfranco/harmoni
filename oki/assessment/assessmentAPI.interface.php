@@ -23,11 +23,6 @@ class AssessmentManager
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public AssessmentIterator & getAssessments();
-	function & getAssessments() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public Section & createSection(osid.shared.Type & $sectionType, String $description, String $name);
 	function & createSection(& $sectionType, $description, $name) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -48,11 +43,6 @@ class AssessmentManager
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public SectionIterator & getSections();
-	function & getSections() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public Item & createItem(String $description, String $name, osid.shared.Type & $itemType);
 	function & createItem($description, $name, & $itemType) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -70,11 +60,6 @@ class AssessmentManager
 
 	// public ItemIterator & getItems(osid.shared.Type & $itemType);
 	function & getItems(& $itemType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public ItemIterator & getItems();
-	function & getItems() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -417,11 +402,6 @@ class AssessmentPublished
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public EvaluationIterator & getEvaluations(osid.shared.Type & $evaluationType);
-	function & getEvaluations(& $evaluationType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 } // end AssessmentPublished
 
 
@@ -470,11 +450,6 @@ class AssessmentTaken
 
 	// public EvaluationIterator & getEvaluations(osid.shared.Type & $evaluationType);
 	function & getEvaluations(& $evaluationType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public EvaluationIterator & getEvaluations();
-	function & getEvaluations() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -539,11 +514,6 @@ class SectionTaken
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public EvaluationIterator & getEvaluations();
-	function & getEvaluations() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public java.io.Serializable & getData();
 	function & getData() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -587,11 +557,6 @@ class ItemTaken
 
 	// public EvaluationIterator & getEvaluations(osid.shared.Type & $evaluationType);
 	function & getEvaluations(& $evaluationType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public EvaluationIterator & getEvaluations();
-	function & getEvaluations() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 

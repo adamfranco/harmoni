@@ -18,11 +18,6 @@ class DigitalRepositoryManager
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public DigitalRepositoryIterator & getDigitalRepositories(osid.shared.Type & $digitalRepositoryType);
-	function & getDigitalRepositories(& $digitalRepositoryType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public DigitalRepository & getDigitalRepository(osid.shared.Id & $digitalRepositoryId);
 	function & getDigitalRepository(& $digitalRepositoryId) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -30,11 +25,6 @@ class DigitalRepositoryManager
 
 	// public Asset & getAsset(osid.shared.Id & $assetId);
 	function & getAsset(& $assetId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Asset & getAsset(osid.shared.Id & $assetId, java.util.Calendar & $date);
-	function & getAsset(& $assetId, & $date) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -119,11 +109,6 @@ class DigitalRepository
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public AssetIterator & getAssets(osid.shared.Type & $assetType);
-	function & getAssets(& $assetType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public osid.shared.TypeIterator & getAssetTypes();
 	function & getAssetTypes() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -169,18 +154,8 @@ class DigitalRepository
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Asset & getAsset(osid.shared.Id & $assetId, java.util.Calendar & $date);
-	function & getAsset(& $assetId, & $date) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public osid.shared.CalendarIterator & getAssetDates(osid.shared.Id & $assetId);
 	function & getAssetDates(& $assetId) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public AssetIterator & getAssets();
-	function & getAssets() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -260,11 +235,6 @@ class Asset
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public AssetIterator & getAssets(osid.shared.Type & $assetType);
-	function & getAssets(& $assetType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public InfoRecord & createInfoRecord(osid.shared.Id & $infoStructureId);
 	function & createInfoRecord(& $infoStructureId) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -287,11 +257,6 @@ class Asset
 
 	// public InfoRecordIterator & getInfoRecords();
 	function & getInfoRecords() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public InfoRecordIterator & getInfoRecords(osid.shared.Id & $infoStructureId);
-	function & getInfoRecords(& $infoStructureId) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 

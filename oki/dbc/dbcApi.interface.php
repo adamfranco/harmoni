@@ -8,21 +8,6 @@ class Array
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Object & getArray(int $count, long $index);
-	function & getArray($count, $index) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Object & getArray(java.util.Map & $map, int $count, long $index);
-	function & getArray(& $map, $count, $index) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Object & getArray(java.util.Map & $map);
-	function & getArray(& $map) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public int getBaseType();
 	function getBaseType() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -35,21 +20,6 @@ class Array
 
 	// public osid.dbc.ResultSet & getResultSet();
 	function & getResultSet() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.dbc.ResultSet & getResultSet(int $count, long $index);
-	function & getResultSet($count, $index) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.dbc.ResultSet & getResultSet(java.util.Map & $map, int $count, long $index);
-	function & getResultSet(& $map, $count, $index) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.dbc.ResultSet & getResultSet(java.util.Map & $map);
-	function & getResultSet(& $map) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -74,18 +44,8 @@ class Blob
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public long position(byte[] & $pattern, long $start);
-	function position(& $pattern, $start) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public int setBytes(byte[] & $bytes, long $pos);
 	function setBytes(& $bytes, $pos) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public int setBytes(int $offset, byte[] & $bytes, long $pos, int $len);
-	function setBytes($offset, & $bytes, $pos, $len) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -105,18 +65,8 @@ class CallableStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Array & getArray(String $parameterName);
-	function & getArray($parameterName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public java.math.BigDecimal & getBigDecimal(int $parameterIndex);
 	function & getBigDecimal($parameterIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.math.BigDecimal & getBigDecimal(String $parameterName);
-	function & getBigDecimal($parameterName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -125,18 +75,8 @@ class CallableStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Blob & getBlob(String $parameterName);
-	function & getBlob($parameterName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public boolean getBoolean(int $parameterIndex);
 	function getBoolean($parameterIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public boolean getBoolean(String $parameterName);
-	function getBoolean($parameterName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -145,18 +85,8 @@ class CallableStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public byte & getByte(String $parameterName);
-	function & getByte($parameterName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public osid.shared.ByteValueIterator & getBytes(int $parameterIndex);
 	function & getBytes($parameterIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public osid.shared.ByteValueIterator & getBytes(String $parameterName);
-	function & getBytes($parameterName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -165,28 +95,8 @@ class CallableStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Clob & getClob(String $parameterName);
-	function & getClob($parameterName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public java.sql.Date & getDate(int $parameterIndex);
 	function & getDate($parameterIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Date & getDate(int $parameterIndex, java.util.Calendar & $cal);
-	function & getDate($parameterIndex, & $cal) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Date & getDate(String $parameterName);
-	function & getDate($parameterName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Date & getDate(String $parameterName, java.util.Calendar & $cal);
-	function & getDate($parameterName, & $cal) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -195,18 +105,8 @@ class CallableStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public double getDouble(String $parameterName);
-	function getDouble($parameterName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public float getFloat(int $parameterIndex);
 	function getFloat($parameterIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public float getFloat(String $parameterName);
-	function getFloat($parameterName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -215,18 +115,8 @@ class CallableStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public int getInt(String $parameterName);
-	function getInt($parameterName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public long getLong(int $parameterIndex);
 	function getLong($parameterIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public long getLong(String $parameterName);
-	function getLong($parameterName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -235,28 +125,8 @@ class CallableStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Object & getObject(java.util.Map & $map, int $parameterIndex);
-	function & getObject(& $map, $parameterIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Object & getObject(String $parameterName);
-	function & getObject($parameterName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Object & getObject(java.util.Map & $map, String $parameterName);
-	function & getObject(& $map, $parameterName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public java.sql.Ref & getRef(int $parameterIndex);
 	function & getRef($parameterIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Ref & getRef(String $parameterName);
-	function & getRef($parameterName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -265,18 +135,8 @@ class CallableStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public short getShort(String $parameterName);
-	function getShort($parameterName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public String getString(int $parameterIndex);
 	function getString($parameterIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public String getString(String $parameterName);
-	function getString($parameterName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -285,38 +145,8 @@ class CallableStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public java.sql.Time & getTime(int $parameterIndex, java.util.Calendar & $cal);
-	function & getTime($parameterIndex, & $cal) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Time & getTime(String $parameterName);
-	function & getTime($parameterName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Time & getTime(String $parameterName, java.util.Calendar & $cal);
-	function & getTime($parameterName, & $cal) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public java.sql.Timestamp & getTimestamp(int $parameterIndex);
 	function & getTimestamp($parameterIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Timestamp & getTimestamp(int $parameterIndex, java.util.Calendar & $cal);
-	function & getTimestamp($parameterIndex, & $cal) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Timestamp & getTimestamp(String $parameterName);
-	function & getTimestamp($parameterName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Timestamp & getTimestamp(String $parameterName, java.util.Calendar & $cal);
-	function & getTimestamp($parameterName, & $cal) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -325,38 +155,8 @@ class CallableStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public java.net.URL & getURL(String $parameterName);
-	function & getURL($parameterName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void registerOutParameter(int $parameterIndex, int $sqlType);
 	function registerOutParameter($parameterIndex, $sqlType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void registerOutParameter(int $parameterIndex, int $scale, int $sqlType);
-	function registerOutParameter($parameterIndex, $scale, $sqlType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void registerOutParameter(String $typeName, int $parameterIndex, int $sqlType);
-	function registerOutParameter($typeName, $parameterIndex, $sqlType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void registerOutParameter(String $parameterName, int $sqlType);
-	function registerOutParameter($parameterName, $sqlType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void registerOutParameter(String $parameterName, int $scale, int $sqlType);
-	function registerOutParameter($parameterName, $scale, $sqlType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void registerOutParameter(String $typeName, String $parameterName, int $sqlType);
-	function registerOutParameter($typeName, $parameterName, $sqlType) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -385,11 +185,6 @@ class CallableStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void setDate(String $parameterName, java.sql.Date & $param, java.util.Calendar & $cal);
-	function setDate($parameterName, & $param, & $cal) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void setDouble(double $param, String $parameterName);
 	function setDouble($param, $parameterName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -415,23 +210,8 @@ class CallableStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void setNull(String $typeName, String $parameterName, int $sqlType);
-	function setNull($typeName, $parameterName, $sqlType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void setObject(String $parameterName, Object & $param);
 	function setObject($parameterName, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void setObject(String $parameterName, int $targetSqlType, Object & $param);
-	function setObject($parameterName, $targetSqlType, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void setObject(String $parameterName, int $targetSqlType, int $scale, Object & $param);
-	function setObject($parameterName, $targetSqlType, $scale, & $param) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -450,18 +230,8 @@ class CallableStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void setTime(String $parameterName, java.sql.Time & $param, java.util.Calendar & $cal);
-	function setTime($parameterName, & $param, & $cal) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void setTimestamp(String $parameterName, java.sql.Timestamp & $param);
 	function setTimestamp($parameterName, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void setTimestamp(String $parameterName, java.sql.Timestamp & $param, java.util.Calendar & $cal);
-	function setTimestamp($parameterName, & $param, & $cal) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -491,18 +261,8 @@ class Clob
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public long position(long $start, String $searchstr);
-	function position($start, $searchstr) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public int setString(long $pos, String $str);
 	function setString($pos, $str) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public int setString(int $offset, long $pos, String $str, int $len);
-	function setString($offset, $pos, $str, $len) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -534,16 +294,6 @@ class Connection
 
 	// public Statement & createStatement();
 	function & createStatement() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Statement & createStatement(int $resultSetType, int $resultSetConcurrency);
-	function & createStatement($resultSetType, $resultSetConcurrency) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Statement & createStatement(int $resultSetType, int $resultSetConcurrency, int $resultSetHoldability);
-	function & createStatement($resultSetType, $resultSetConcurrency, $resultSetHoldability) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -602,43 +352,8 @@ class Connection
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public CallableStatement & prepareCall(int $resultSetType, String $sql, int $resultSetConcurrency);
-	function & prepareCall($resultSetType, $sql, $resultSetConcurrency) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public CallableStatement & prepareCall(int $resultSetType, String $sql, int $resultSetConcurrency, int $resultSetHoldability);
-	function & prepareCall($resultSetType, $sql, $resultSetConcurrency, $resultSetHoldability) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public PreparedStatement & prepareStatement(String $sql);
 	function & prepareStatement($sql) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public PreparedStatement & prepareStatement(int $autoGeneratedKeys, String $sql);
-	function & prepareStatement($autoGeneratedKeys, $sql) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public PreparedStatement & prepareStatement(String $sql, int[] & $columnIndexes);
-	function & prepareStatement($sql, & $columnIndexes) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public PreparedStatement & prepareStatement(int $resultSetType, String $sql, int $resultSetConcurrency);
-	function & prepareStatement($resultSetType, $sql, $resultSetConcurrency) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public PreparedStatement & prepareStatement(int $resultSetType, String $sql, int $resultSetConcurrency, int $resultSetHoldability);
-	function & prepareStatement($resultSetType, $sql, $resultSetConcurrency, $resultSetHoldability) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public PreparedStatement & prepareStatement(String $sql, String[] & $columnNames);
-	function & prepareStatement($sql, & $columnNames) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -649,11 +364,6 @@ class Connection
 
 	// public void rollback();
 	function rollback() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void rollback(Object & $savepoint);
-	function rollback(& $savepoint) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -679,11 +389,6 @@ class Connection
 
 	// public Object & setSavepoint();
 	function & setSavepoint() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Object & setSavepoint(String $name);
-	function & setSavepoint($name) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -1248,11 +953,6 @@ class DatabaseMetaData
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public boolean supportsConvert(int $fromType, int $toType);
-	function supportsConvert($fromType, $toType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public boolean supportsCoreSQLGrammar();
 	function supportsCoreSQLGrammar() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -1539,21 +1239,6 @@ class DbcManager
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Connection & getConnection(String $database, String $password, String $username);
-	function & getConnection($database, $password, $username) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Connection & getConnection(String $password, String $databaseURL, String $driverName, String $username);
-	function & getConnection($password, $databaseURL, $driverName, $username) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Connection & getConnection();
-	function & getConnection() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 } // end DbcManager
 
 
@@ -1686,11 +1371,6 @@ class PreparedStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void setDate(int $parameterIndex, java.sql.Date & $param, java.util.Calendar & $cal);
-	function setDate($parameterIndex, & $param, & $cal) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void setDouble(double $param, int $parameterIndex);
 	function setDouble($param, $parameterIndex) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -1716,23 +1396,8 @@ class PreparedStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void setNull(String $typeName, int $paramIndex, int $sqlType);
-	function setNull($typeName, $paramIndex, $sqlType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void setObject(int $parameterIndex, Object & $param);
 	function setObject($parameterIndex, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void setObject(int $targetSqlType, int $parameterIndex, Object & $param);
-	function setObject($targetSqlType, $parameterIndex, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void setObject(int $targetSqlType, int $parameterIndex, int $scale, Object & $param);
-	function setObject($targetSqlType, $parameterIndex, $scale, & $param) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -1756,18 +1421,8 @@ class PreparedStatement
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void setTime(int $parameterIndex, java.sql.Time & $param, java.util.Calendar & $cal);
-	function setTime($parameterIndex, & $param, & $cal) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void setTimestamp(int $parameterIndex, java.sql.Timestamp & $param);
 	function setTimestamp($parameterIndex, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void setTimestamp(int $parameterIndex, java.sql.Timestamp & $param, java.util.Calendar & $cal);
-	function setTimestamp($parameterIndex, & $param, & $cal) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -1832,18 +1487,8 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Array & getArray(String $columnName);
-	function & getArray($columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public java.math.BigDecimal & getBigDecimal(int $columnIndex);
 	function & getBigDecimal($columnIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.math.BigDecimal & getBigDecimal(String $columnName);
-	function & getBigDecimal($columnName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -1852,18 +1497,8 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Blob & getBlob(String $columnName);
-	function & getBlob($columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public boolean getBoolean(int $columnIndex);
 	function getBoolean($columnIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public boolean getBoolean(String $columnName);
-	function getBoolean($columnName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -1872,28 +1507,13 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public byte & getByte(String $columnName);
-	function & getByte($columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public osid.shared.ByteValueIterator & getBytes(int $columnIndex);
 	function & getBytes($columnIndex) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public osid.shared.ByteValueIterator & getBytes(String $columnName);
-	function & getBytes($columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public Clob & getClob(int $columnIndex);
 	function & getClob($columnIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Clob & getClob(String $columnName);
-	function & getClob($columnName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -1912,28 +1532,8 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public java.sql.Date & getDate(int $columnIndex, java.util.Calendar & $calendar);
-	function & getDate($columnIndex, & $calendar) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Date & getDate(String $columnName);
-	function & getDate($columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Date & getDate(java.util.Calendar & $calendar, String $columnName);
-	function & getDate(& $calendar, $columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public double getDouble(int $columnIndex);
 	function getDouble($columnIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public double getDouble(String $columnName);
-	function getDouble($columnName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -1952,28 +1552,13 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public float getFloat(String $columnName);
-	function getFloat($columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public int getInt(int $columnIndex);
 	function getInt($columnIndex) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public int getInt(String $columnName);
-	function getInt($columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public long getLong(int $columnIndex);
 	function getLong($columnIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public long getLong(String $columnName);
-	function getLong($columnName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -1987,28 +1572,8 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public Object & getObject(java.util.Map & $map, int $columnIndex);
-	function & getObject(& $map, $columnIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Object & getObject(String $columnName);
-	function & getObject($columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Object & getObject(java.util.Map & $map, String $colName);
-	function & getObject(& $map, $colName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public java.sql.Ref & getRef(int $columnIndex);
 	function & getRef($columnIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Ref & getRef(String $colName);
-	function & getRef($colName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2022,11 +1587,6 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public short getShort(String $columnName);
-	function getShort($columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public Statement & getStatement();
 	function & getStatement() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -2037,48 +1597,13 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public String getString(String $columnName);
-	function getString($columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public java.sql.Time & getTime(int $columnIndex);
 	function & getTime($columnIndex) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public java.sql.Time & getTime(int $columnIndex, java.util.Calendar & $calendar);
-	function & getTime($columnIndex, & $calendar) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Time & getTime(String $columnName);
-	function & getTime($columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Time & getTime(java.util.Calendar & $calendar, String $columnName);
-	function & getTime(& $calendar, $columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public java.sql.Timestamp & getTimestamp(int $columnIndex);
 	function & getTimestamp($columnIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Timestamp & getTimestamp(int $columnIndex, java.util.Calendar & $calendar);
-	function & getTimestamp($columnIndex, & $calendar) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Timestamp & getTimestamp(String $columnName);
-	function & getTimestamp($columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.sql.Timestamp & getTimestamp(java.util.Calendar & $calendar, String $columnName);
-	function & getTimestamp(& $calendar, $columnName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2089,11 +1614,6 @@ class ResultSet
 
 	// public java.net.URL & getURL(int $columnIndex);
 	function & getURL($columnIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public java.net.URL & getURL(String $columnName);
-	function & getURL($columnName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2192,18 +1712,8 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void updateArray(String $columnName, Array & $param);
-	function updateArray($columnName, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void updateBigDecimal(int $columnIndex, java.math.BigDecimal & $param);
 	function updateBigDecimal($columnIndex, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void updateBigDecimal(String $columnName, java.math.BigDecimal & $param);
-	function updateBigDecimal($columnName, & $param) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2212,18 +1722,8 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void updateBlob(String $columnName, Blob & $param);
-	function updateBlob($columnName, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void updateBoolean(boolean $param, int $columnIndex);
 	function updateBoolean($param, $columnIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void updateBoolean(boolean $param, String $columnName);
-	function updateBoolean($param, $columnName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2232,18 +1732,8 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void updateByte(String $columnName, byte & $param);
-	function updateByte($columnName, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void updateBytes(int $columnIndex, byte[] & $param);
 	function updateBytes($columnIndex, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void updateBytes(String $columnName, byte[] & $param);
-	function updateBytes($columnName, & $param) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2252,18 +1742,8 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void updateClob(String $columnName, Clob & $param);
-	function updateClob($columnName, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void updateDate(int $columnIndex, java.sql.Date & $param);
 	function updateDate($columnIndex, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void updateDate(String $columnName, java.sql.Date & $param);
-	function updateDate($columnName, & $param) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2272,18 +1752,8 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void updateDouble(double $param, String $columnName);
-	function updateDouble($param, $columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void updateFloat(float $param, int $columnIndex);
 	function updateFloat($param, $columnIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void updateFloat(float $param, String $columnName);
-	function updateFloat($param, $columnName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2292,18 +1762,8 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void updateInt(int $param, String $columnName);
-	function updateInt($param, $columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void updateLong(long $param, int $columnIndex);
 	function updateLong($param, $columnIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void updateLong(long $param, String $columnName);
-	function updateLong($param, $columnName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2312,38 +1772,13 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void updateNull(String $columnName);
-	function updateNull($columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void updateObject(int $columnIndex, Object & $param);
 	function updateObject($columnIndex, & $param) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void updateObject(int $columnIndex, int $scale, Object & $param);
-	function updateObject($columnIndex, $scale, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void updateObject(String $columnName, Object & $param);
-	function updateObject($columnName, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void updateObject(String $columnName, int $scale, Object & $param);
-	function updateObject($columnName, $scale, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void updateRef(int $columnIndex, java.sql.Ref & $param);
 	function updateRef($columnIndex, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void updateRef(String $columnName, java.sql.Ref & $param);
-	function updateRef($columnName, & $param) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2357,18 +1792,8 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void updateShort(short $param, String $columnName);
-	function updateShort($param, $columnName) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void updateString(String $param, int $columnIndex);
 	function updateString($param, $columnIndex) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void updateString(String $param, String $columnName);
-	function updateString($param, $columnName) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2377,18 +1802,8 @@ class ResultSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void updateTime(String $columnName, java.sql.Time & $param);
-	function updateTime($columnName, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void updateTimestamp(int $columnIndex, java.sql.Timestamp & $param);
 	function updateTimestamp($columnIndex, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void updateTimestamp(String $columnName, java.sql.Timestamp & $param);
-	function updateTimestamp($columnName, & $param) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2639,11 +2054,6 @@ class RowSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void setDate(int $parameterIndex, java.sql.Date & $param, java.util.Calendar & $cal);
-	function setDate($parameterIndex, & $param, & $cal) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void setDouble(double $param, int $parameterIndex);
 	function setDouble($param, $parameterIndex) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -2684,23 +2094,8 @@ class RowSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void setNull(String $typeName, int $paramIndex, int $sqlType);
-	function setNull($typeName, $paramIndex, $sqlType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void setObject(int $parameterIndex, Object & $param);
 	function setObject($parameterIndex, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void setObject(int $targetSqlType, int $parameterIndex, Object & $param);
-	function setObject($targetSqlType, $parameterIndex, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void setObject(int $targetSqlType, int $parameterIndex, int $scale, Object & $param);
-	function setObject($targetSqlType, $parameterIndex, $scale, & $param) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2739,18 +2134,8 @@ class RowSet
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void setTime(int $parameterIndex, java.sql.Time & $param, java.util.Calendar & $cal);
-	function setTime($parameterIndex, & $param, & $cal) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void setTimestamp(int $parameterIndex, java.sql.Timestamp & $param);
 	function setTimestamp($parameterIndex, & $param) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void setTimestamp(int $parameterIndex, java.sql.Timestamp & $param, java.util.Calendar & $cal);
-	function setTimestamp($parameterIndex, & $param, & $cal) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -2878,11 +2263,6 @@ class Statement
 
 	// public boolean getMoreResults();
 	function getMoreResults() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public boolean getMoreResults(int $current);
-	function getMoreResults($current) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 

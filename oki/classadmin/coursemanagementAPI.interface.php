@@ -43,11 +43,6 @@ class CourseManagementManager
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public CanonicalCourseIterator & getCanonicalCourses(osid.shared.Type & $courseType);
-	function & getCanonicalCourses(& $courseType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public CourseOffering & getCourseOffering(osid.shared.Id & $courseOfferingId);
 	function & getCourseOffering(& $courseOfferingId) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -145,11 +140,6 @@ class CourseManagementManager
 
 	// public CourseGroupIterator & getCourseGroups(osid.shared.Type & $courseGroupType);
 	function & getCourseGroups(& $courseGroupType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public CourseGroupIterator & getCourseGroups(osid.shared.Id & $canonicalCourseId);
-	function & getCourseGroups(& $canonicalCourseId) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -270,28 +260,8 @@ class CanonicalCourse
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public CanonicalCourseIterator & getCanonicalCourses(osid.shared.Type & $courseType);
-	function & getCanonicalCourses(& $courseType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public CourseOffering & createCourseOffering();
 	function & createCourseOffering() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public String title();
-	function title() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public String number();
-	function number() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public String description();
-	function description() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -312,11 +282,6 @@ class CanonicalCourse
 
 	// public CourseOfferingIterator & getCourseOfferings();
 	function & getCourseOfferings() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public CourseOfferingIterator & getCourseOfferings(osid.shared.Type & $offeringType);
-	function & getCourseOfferings(& $offeringType) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -443,11 +408,6 @@ class CourseOffering
 
 	// public CourseOfferingIterator & getCoursesSections();
 	function & getCoursesSections() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public CourseOfferingIterator & getCoursesSections(osid.shared.Type & $sectionType);
-	function & getCoursesSections(& $sectionType) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 

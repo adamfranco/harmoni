@@ -23,11 +23,6 @@ class AuthenticationManager
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void destroyAuthentication(osid.shared.Type & $authenticationType);
-	function destroyAuthentication(& $authenticationType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 } // end AuthenticationManager
 
 

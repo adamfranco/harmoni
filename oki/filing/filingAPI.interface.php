@@ -68,16 +68,6 @@ class ByteStore
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public void write(byte[] & $b, int $off, int $len);
-	function write(& $b, $off, $len) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public void write(int $b);
-	function write($b) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 	// public void commit();
 	function commit() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
@@ -121,11 +111,6 @@ class Cabinet
 
 	// public CabinetEntry & getCabinetEntry(osid.shared.Id & $id);
 	function & getCabinetEntry(& $id) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public CabinetEntry & getCabinetEntry(String $name);
-	function & getCabinetEntry($name) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 

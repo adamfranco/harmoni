@@ -63,16 +63,6 @@ class SharedManager
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-	// public AgentIterator & getAgents(osid.shared.Type & $agentType);
-	function & getAgents(& $agentType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public AgentIterator & getGroups(osid.shared.Type & $groupType);
-	function & getGroups(& $groupType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
 } // end SharedManager
 
 
@@ -96,11 +86,6 @@ class Agent
 
 	// public PropertiesIterator & getProperties();
 	function & getProperties() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public Properties & getProperties(Type & $propertiesType);
-	function & getProperties(& $propertiesType) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -178,11 +163,6 @@ class Group
 
 	// public AgentIterator & getGroups(boolean $includeSubgroups);
 	function & getGroups($includeSubgroups) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	// public AgentIterator & getGroups(Agent & $member);
-	function & getGroups(& $member) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
