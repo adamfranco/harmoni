@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * makes use of a specified ValidatorRule object. In addition, if validation
  * fails, a new fatal error is added to the default ErrorHandler.
  *
- * @version $Id: ArgumentValidator.class.php,v 1.7 2003/08/11 22:11:02 ehjansson Exp $
+ * @version $Id: ArgumentValidator.class.php,v 1.8 2003/08/11 22:13:29 ehjansson Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.utilities
@@ -48,7 +48,7 @@ class ArgumentValidator extends ArgumentValidatorInterface {
 			$description .= "Argument validation failed in ";
 
 			// get information abour the function that called the ArgumentValidator
-			//$debugBacktrace = debug_backtrace();
+			$debugBacktrace = debug_backtrace();
 			$class = $debugBacktrace[1]["class"];
 			$function = $debugBacktrace[1]["function"];
 			$arguments = $debugBacktrace[1]["args"];
