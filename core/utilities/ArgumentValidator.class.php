@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI."utilities/ArgumentValidator.interface.php");
+//require_once(HARMONI."utilities/ArgumentValidator.interface.php");
 require_once(HARMONI."utilities/ArgumentRenderer.class.php");
 require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
@@ -10,13 +10,13 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * makes use of a specified ValidatorRule object. In addition, if validation
  * fails, a new fatal error is added to the default ErrorHandler.
  *
- * @version $Id: ArgumentValidator.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: ArgumentValidator.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.utilities
  **/
  
-class ArgumentValidator extends ArgumentValidatorInterface {
+class ArgumentValidator {
 
 	/**
 	 * Validates a single argument.

@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI."utilities/Template.interface.php");
+//require_once(HARMONI."utilities/Template.interface.php");
 
 /**
  * A Template allows you to choose a template file and print the contents of that template
@@ -9,11 +9,11 @@ require_once(HARMONI."utilities/Template.interface.php");
  * some html ... &lt?=$value1=&gt; ... more html ...
  *
  * @package harmoni.utilities.template
- * @version $Id: Template.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: Template.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
  * @copyright 2003 
  **/
 
-class Template extends TemplateInterface {
+class Template {
 	/**
 	 * @access private
 	 * @var string $_fullPath The template's full path.
@@ -52,7 +52,7 @@ class Template extends TemplateInterface {
 	/**
 	 * Outputs the content of the current template with $variables containing
 	 * the variable output.
-	 * @param mixed $variables,... Either an associative array or a {@link FieldSet} containing
+	 * @param opt mixed $variables,... Either an associative array or a {@link FieldSet} containing
 	 * a number of [key]=>content pairs.
 	 * @access public
 	 * @return void
@@ -65,7 +65,7 @@ class Template extends TemplateInterface {
 				// ok, register them all as local variables
 				foreach(array_keys($__v) as $__k)
 					$$__k = $__v[$__k];
-			} else if (is_a($__v,"FieldSetInterface")) {
+			} else if (is_a($__v,"FieldSet")) {
 				$__keys = $__v->getKeys();
 				foreach ($__keys as $__k)
 					$$__k = $__v->get($__k);
@@ -81,11 +81,11 @@ class Template extends TemplateInterface {
 	
 	/**
 	 * Calls output() but catches whatever is printed and returns the output in a string.
-	 * @param mixed $variables,... See description under {@link TemplateInterface::output()}
+	 * @param opt mixed $variables,... See description under {@link TemplateInterface::output()}
 	 * @access public
 	 * @return string The output from the template.
 	 **/
-	function catchOutput( $variables ) {
+	function catchOutput( /* variable length parameter list */ ) {
 		// build a string for the eval command (this is because we're passed multiple arguments
 		$argArray = array();
 		for($i = 0; $i < func_num_args(); $i++){
@@ -106,7 +106,7 @@ class Template extends TemplateInterface {
 		
 		// end
 		ob_end_clean();
-		
+
 		return $output;
 	}
 }

@@ -1,15 +1,15 @@
 <?php
 
-require_once(HARMONI."utilities/Queue.interface.php");
+//require_once(HARMONI."utilities/Queue.interface.php");
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: Queue.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
 
-class Queue extends QueueInterface {
+class Queue {
 
 	/**
 	 * An array used to store the elements of the queue.

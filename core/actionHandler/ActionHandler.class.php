@@ -1,7 +1,44 @@
 <?php
 
-require_once(HARMONI."actionHandler/ActionHandler.interface.php");
+//require_once(HARMONI."actionHandler/ActionHandler.interface.php");
 require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
+
+/**
+ * @const integer MODULES_FOLDERS Specifies that modules are stored in folders. 
+ * @package harmoni.actions
+ **/
+define("MODULES_FOLDERS",1);
+
+/**
+ * @const integer MODULES_CLASSES Specifies that modules are stored in classes. 
+ * @package harmoni.actions
+ **/
+define("MODULES_CLASSES",2);
+
+/**
+ * @const integer ACTIONS_CLASSES Specifies that actions are stored as classes.
+ * @package harmoni.actions
+ **/
+define("ACTIONS_CLASSES",1);
+
+/**
+ * @const integer ACTIONS_CLASS_METHODS Specifies that actions are stored as class-methods.
+ * @package harmoni.actions
+ **/
+define("ACTIONS_CLASS_METHODS",2);
+
+/**
+ * @const integer ACTIONS_FLATFILES Specifies that actions are stored as flat files to be included.
+ * @package harmoni.actions
+ **/
+define("ACTIONS_FLATFILES",3);
+
+/**
+ * @const string ACTIONS_CLASSES_METHOD The method name to call when executing actions
+ * that are classes. (value = 'execute')
+ * @package harmoni.actions
+ **/
+define("ACTIONS_CLASSES_METHOD","execute");
 
 /**
  * The ActionHandler interface defines the required methods for an ActionHandler class.
@@ -21,10 +58,10 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.5 2003/11/26 02:35:00 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.6 2003/11/27 04:55:41 gabeschine Exp $
  * @copyright 2003 
  **/
-class ActionHandler extends ActionHandlerInterface {
+class ActionHandler {
 	/**
 	 * @access private
 	 * @var object $_harmoni A reference to the {@link Harmoni} object.
@@ -245,9 +282,16 @@ class ActionHandler extends ActionHandlerInterface {
 		
 		// create the class, execute the method.
 		if ($class) {
-//			ini_set("track_errors",1);
+			if (!class_exists($class)) throwError( new Error(
+			"ActionHandler::execute($module,$action) - could not proceed because the class '$class'
+			does not exist. Make sure you've included the necessary files before execute() is called.",
+			"ActionHandler",true));
 			$object = @new $class;
 
+			if (!method_exists($object,$method)) throwError ( new Error(
+			"ActionHandler::execute($module,$action) - could not proceed because the method '$method'
+			is not defined in the class '$class'.","ActionHandler",true));
+			
 			if (!is_object($object)) throwError(new Error("ActionHandler::execute($_pair) - 
 							could not proceed: The class '$class' could not be created:
 							$php_errormsg","ActionHandler",true));
@@ -295,11 +339,29 @@ class ActionHandler extends ActionHandlerInterface {
 	 * @access private
 	 * @return mixed
 	 **/
-	function _executePair($pair) {
+	function &_executePair($pair) {
 		list($module, $action) = explode(".",$pair);
 		return $this->_execute($module, $action);
 	}
 	
+	/**
+	 * Executes a module.action pair.
+	 * @param string $pair
+	 * @access public
+	 * @return mixed
+	 **/
+	function &executePair($pair) {
+		ArgumentValidator::validate($pair, new DottedPairValidatorRule());
+		return $this->_executePair($pair);
+	}
+	
+	/**
+	* Returns the last executed action.
+	* @return string
+	*/
+	function lastExecutedAction() {
+		return $this->_actionsExecuted[count($this->_actionsExecuted)-1];
+	}
 	
 	/**
 	 * Sets the location of the modules to use.

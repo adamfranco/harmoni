@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI."architecture/harmoni/login/LoginHandler.interface.php");
+//require_once(HARMONI."architecture/harmoni/login/LoginHandler.interface.php");
 
 /**
  * The LoginHandler essentially creates an interface between the web browser and
@@ -15,15 +15,21 @@ require_once(HARMONI."architecture/harmoni/login/LoginHandler.interface.php");
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.2 2003/11/25 19:56:21 gabeschine Exp $
+ * @version $Id: LoginHandler.class.php,v 1.3 2003/11/27 04:55:41 gabeschine Exp $
  * @copyright 2003 
  **/
-class LoginHandler extends LoginHandlerInterface {
+class LoginHandler {
 	/**
 	 * @access private
 	 * @var string $_failedLoginAction The action to execute if login fails.
 	 **/
 	var $_failedLoginAction;
+	
+	/**
+	 * @access private
+	 * @var object $_failedLoginError The to throw if login fails.
+	 **/
+	var $_failedLoginError;
 
 	/**
 	 * @access private
@@ -52,6 +58,12 @@ class LoginHandler extends LoginHandlerInterface {
 	var $_usernamePasswordCallbackFunction;
 	
 	/**
+	 * @access private
+	 * @var boolean $_failedLogin specifies if the login process failed or not
+	 */
+	var $_failedLogin;
+	
+	/**
 	 * The constructor.
 	 * @param ref object $harmoniObject
 	 * @access public
@@ -60,8 +72,37 @@ class LoginHandler extends LoginHandlerInterface {
 	function LoginHandler(&$harmoniObject) {
 		$this->_harmoni =& $harmoniObject;
 		$this->_usernamePasswordCallbackFunction = "basicHTTPAuthenticationCallback";
+		$this->_failedLogin = false;
+		$this->_failedLoginError = null;
 	}
 	
+	/**
+	 * Checks the action passed to see if it requires authentication or not.
+	 * @return boolean
+	 * @access public
+	 */
+	function actionRequiresAuthentication($pair) {
+		if (in_array($pair, $this->_noAuthActions)) return false;
+		// this checks if we have a noAuthAction set to "module.*", meaning any action
+		// within it is a-OK.
+		if (in_array(ereg_replace("\..*$","\.\*",$pair), $this->_noAuthActions)) return false;
+		return true;
+	}
+	
+	/**
+	 * Returns the failedLoginAction.
+	 * @return string
+	 */
+	function getFailedLoginAction() { return $this->_failedLoginAction; }
+	
+	/**
+	 * Sets the error to throw on login failure. If none is specified, none will be thrown.
+	 * @return void
+	 */
+	function setFailedLoginError(&$error) {
+		ArgumentValidator::validate($error, new ExtendsValidatorRule("ErrorInterface"));
+		$this->_failedLoginError =& $error;
+	}
 	
 	/**
 	 * Executes the LoginHandler. The process followed goes: Check the session
@@ -92,33 +133,36 @@ class LoginHandler extends LoginHandlerInterface {
 		if ($this->_executed || $state->isValid()) {return $state;}
 					
 		$this->_executed = true;
+//		$this->_harmoni->_detectCurrentAction();
+		
+		debug::output("LoginHandler executing...",DEBUG_SYS5,"LoginHandler");
 		
 		// first, we need to somehow get the username/passwd pair from the browser,
 		// and we're also going to store the URL they were trying to access
 		// in the session so we can send them there later.
 		
 		// first try getting the username/pass from a callback function first.
-		if ($this->_usernamePasswordCallbackFunction) {
-			$function = $this->_usernamePasswordCallbackFunction;
+		if ($function = $this->_usernamePasswordCallbackFunction) {
 			$result = $function();
 			if (!$result) {
 				// if the current action is in the noAuthActions array, return as well.
-				if (in_array($this->_harmoni->getCurrentAction(),$this->_noAuthActions))
-					return $state;
+//				if (in_array($this->_harmoni->getCurrentAction(),$this->_noAuthActions))
+//					return $state;
 
 				// the user didn't enter any info yet -- execute the failed login action
 				// first save the current URL in the session
 				// @todo -cLoginHandler Implement LoginHandler.execute replace old ID with a new one.
-				$_SESSION['__afterLoginURL'] = $_SERVER['REQUEST_URI'];
-				$this->_harmoni->setCurrentAction($this->_failedLoginAction);
+//				$_SESSION['__afterLoginURL'] = $_SERVER['REQUEST_URI'];
+//				$this->_harmoni->setCurrentAction($this->_failedLoginAction);
+				$this->_failedLogin = true;
+				debug::output("LoginHandler failed!",DEBUG_SYS5,"LoginHandler");
 				return $state;
 			}
 			$username = $result[0];
 			$password = $result[1];
 
 			// pass these values to the AuthenticationHandler
-			Services::requireService("Authentication");
-			$authHandler =& Services::getService("Authentication");
+			$authHandler =& Services::requireService("Authentication");
 			$authResult =& $authHandler->authenticateAllMethods($username,$password);
 
 			// save the new LoginState in the session
@@ -133,6 +177,7 @@ class LoginHandler extends LoginHandlerInterface {
 					$url .= ereg("\?",$url)?"":"?".SID;
 					header("Location: $url");
 				}
+				debug::output("LoginHandler succeeded!",DEBUG_SYS5,"LoginHandler");
 				return $state;
 			}
 			
@@ -140,12 +185,15 @@ class LoginHandler extends LoginHandlerInterface {
 			// send them to the failed login action
 			
 			// but first throw a little error, for kicks... or not.
-			$error =& new Error("Login failed. Most likely your username or password is incorrect.","Login",false);
-			Services::requireService("UserError");
-			$errHandler =& Services::getService("UserError");
-			$errHandler->addError($error);
-
-			$this->_harmoni->setCurrentAction($this->_failedLoginAction);
+//			$error =& new Error("Login failed. Most likely your username or password is incorrect.","Login",false);
+			if ($error =& $this->_failedLoginError) {
+				$errHandler =& Services::requireService("UserError");
+				$errHandler->addError($error);
+			}
+			
+			debug::output("LoginHandler failed!",DEBUG_SYS5,"LoginHandler");
+			$this->_failedLogin = true;
+//			$this->_harmoni->setCurrentAction($this->_failedLoginAction);
 			return $state;
 		}
 		
@@ -153,6 +201,13 @@ class LoginHandler extends LoginHandlerInterface {
 		throwError(new Error("LoginHandler::execute() - Could not proceed. 
 				There is a configuration problem. No callback function is defined.","Login",true));
 	}
+	
+	/**
+	 * Returns TRUE if the login process failed. FALSE otherwise.
+	 * @return boolean
+	 * @access public
+	 */
+	function loginFailed() { return $this->_failedLogin; }
 	
 	/**
 	 * Clears all the required session variables so that no login information is

@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI."authenticationHandler/AuthenticationHandler.interface.php");
+//require_once(HARMONI."authenticationHandler/AuthenticationHandler.interface.php");
 require_once(HARMONI."authenticationHandler/AuthenticationResult.class.php");
 
 // include the authentication methods
@@ -15,13 +15,13 @@ require_once(HARMONI."authenticationHandler/methods/DummyAuthenticationMethod.cl
  * The AuthenticationHandler keeps track of multiple AuthenticationMethods for 
  * authenticating agents.
  * 
- * @version $Id: AuthenticationHandler.class.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication
  **/
 
-class AuthenticationHandler extends AuthenticationHandlerInterface {
+class AuthenticationHandler extends ServiceInterface {
 	/**
 	 * @access private
 	 * @var boolean $_used If the handler has been used for authentication yet.

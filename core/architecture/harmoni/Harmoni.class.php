@@ -1,5 +1,5 @@
 <?php
-require_once(HARMONI."architecture/harmoni/Harmoni.interface.php");
+//require_once(HARMONI."architecture/harmoni/Harmoni.interface.php");
 if (LOAD_AUTHENTICATION) require_once(HARMONI."architecture/harmoni/login/LoginHandler.class.php");
 require_once(HARMONI."actionHandler/ActionHandler.class.php");
 require_once(HARMONI."utilities/FieldSetValidator/FieldSet.class.php");
@@ -15,10 +15,10 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.5 2003/11/26 02:35:00 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.6 2003/11/27 04:55:41 gabeschine Exp $
  * @copyright 2003 
  **/
-class Harmoni extends HarmoniInterface {
+class Harmoni {
 	/**
 	 * @access private
 	 * @var object $_startWithLayout A {@link Layout} object.
@@ -80,6 +80,8 @@ class Harmoni extends HarmoniInterface {
 	 **/
 	var $language;
 	
+	var $_attachedData;
+	
 	/**
 	 * The constructor.
 	 * @param optional array A hash table of http variables. Default = $_REQUEST (combination of GET and POST vars).
@@ -103,6 +105,8 @@ class Harmoni extends HarmoniInterface {
 		// set up the default action callback function
 		$this->setActionCallbackFunction("httpTwoVarsActionCallback");
 		
+		$this->_attachedData =& new FieldSet;
+		
 		// set up the language localizer :: BROKEN?
 //		$this->language =& new LanguageLocalizer(HARMONI."languages");
 	}
@@ -110,6 +114,17 @@ class Harmoni extends HarmoniInterface {
 	function getVersionStr() {
 		include HARMONI."version.inc.php";
 		return $harmoniVersionStr;
+	}
+	
+	/**
+	* @return void
+	* @param string $key
+	* @param mixed $value
+	* @desc Attaches some arbitrary data to the LoginState so that actions or later
+	* functions can make use of it.
+	*/
+	function attachContextData($key, &$value) {
+		$this->_attachedData->set($key,$value);
 	}
 	
 	/**
@@ -132,19 +147,9 @@ class Harmoni extends HarmoniInterface {
 		$this->_actionCallbackFunction = $functionName;
 	}
 	
-	/**
-	 * Executes the Harmoni procedures: login handling and authenticating, action
-	 * processing and themed output to the browser. Certain options must be 
-	 * set before execute() can be called.
-	 * @access public
-	 * @return void
-	 **/
-	function execute() {
-		$this->config->checkAll();
-		
-		// check to make sure we have a theme object set!
-		if ($this->config->get("outputHTML") && !$this->theme) throwError(new Error("Harmoni::execute() - You must 
-							specify a theme to use before calling execute()!","Harmoni",true));
+	function _detectCurrentAction() {
+		// if we've already run, get out
+		if ($this->_currentAction) return;
 		
 		// find what action we are trying to execute
 		$callback = $this->_actionCallbackFunction;
@@ -172,11 +177,29 @@ class Harmoni extends HarmoniInterface {
 		// that should cover it -- we now have a module and action to work with!
 		$pair = "$module.$action";
 		$this->setCurrentAction($pair);
+	}
+	
+	/**
+	 * Executes the Harmoni procedures: login handling and authenticating, action
+	 * processing and themed output to the browser. Certain options must be 
+	 * set before execute() can be called.
+	 * @access public
+	 * @return void
+	 **/
+	function execute() {
+		$this->config->checkAll();
+		
+		// check to make sure we have a theme object set!
+		if ($this->config->get("outputHTML") && !$this->theme) throwError(new Error("Harmoni::execute() - You must 
+							specify a theme to use before calling execute()!","Harmoni",true));
 		
 		// process the login information
 		if ($this->config->get("useAuthentication")) {
 			$loginState =& $this->LoginHandler->execute();
 		} else $loginState =& new LoginState; // "blank" loginState
+		
+		// detect the current action
+		$this->_detectCurrentAction();
 		
 		// check if we've still got the same action
 		$pair = $this->getCurrentAction();
@@ -193,12 +216,29 @@ class Harmoni extends HarmoniInterface {
 		header("Content-type: text/html; charset=".$this->config->get("charset"));
 		
 		// set up a context object.
-		$context =& new Context($module, $action);
+		$context =& new Context($module, $action, $this->_attachedData);
 		
 		// ok, call the action handler
 		$this->ActionHandler->useLoginState($loginState);
 		$this->ActionHandler->useContext($context);
+
+		// we want to catch all the output in case we need to go to the failedLoginAction
+		ob_start();
 		$result =& $this->ActionHandler->execute($module, $action);
+		$lastExecutedAction = $this->ActionHandler->lastExecutedAction();
+		// ask the LoginHandler if the current user was allowed to see this action
+		if ($this->LoginHandler->loginFailed() &&
+		$this->LoginHandler->actionRequiresAuthentication($lastExecutedAction)) {
+			$failedLoginAction = $this->LoginHandler->getFailedLoginAction();
+			// clean out our buffer.
+			debug::output("cleaning ".ob_get_length()." bytes before executing failedLoginAction.",DEBUG_SYS5,"Harmoni");
+			ob_end_clean();
+			// execute the failed login action.
+			$result =& $this->ActionHandler->executePair($failedLoginAction);
+		} else {
+			// looks like they're just fine
+			ob_end_flush();
+		}
 		
 		// we only need to print anything out if config->outputHTML is set.
 		if ($this->config->get("outputHTML")) {

@@ -1,17 +1,17 @@
 <?php
 
-require_once(HARMONI."utilities/ArgumentRenderer.interface.php");
+//require_once(HARMONI."utilities/ArgumentRenderer.interface.php");
 
 /**
  * An ArgumentRenderer provides functionallity to print/render/format a list of arguments.
  * An ArgumentRenderer provides functionallity to print/render/format a list of arguments.
- * @version $Id: ArgumentRenderer.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: ArgumentRenderer.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.utilities
  **/
 
-class ArgumentRenderer extends ArgumentRendererInterface {
+class ArgumentRenderer {
 
 	/**
 	 * Renders one argument.

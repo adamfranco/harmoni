@@ -1,17 +1,17 @@
 <?
 
-require_once(HARMONI."utilities/DateTime.interface.php");
+//require_once(HARMONI."utilities/DateTime.interface.php");
 
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
  * @package harmoni.utilities
  */
-class DateTime extends DateTimeInterface {
+class DateTime {
 
 
 	/**

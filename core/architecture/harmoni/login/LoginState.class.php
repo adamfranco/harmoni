@@ -14,7 +14,7 @@ require_once(HARMONI."authenticationHandler/AuthenticationResult.class.php");
  * be changed, allowing administrators or similar users to switch between Active users.
  * 
  * @package harmoni.architecture.login
- * @version $Id: LoginState.class.php,v 1.2 2003/11/25 19:56:21 gabeschine Exp $
+ * @version $Id: LoginState.class.php,v 1.3 2003/11/27 04:55:41 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginState extends LoginStateInterface {
@@ -29,8 +29,6 @@ class LoginState extends LoginStateInterface {
 	 * @var string $_activeAgent The Active agent's system name.
 	 **/
 	var $_activeAgent;
-	
-	var $_attachedData;
 	
 	/**
 	 * The constructor.
@@ -48,27 +46,6 @@ class LoginState extends LoginStateInterface {
 		}
 		$this->_activeAgent = $systemName;
 		
-		$this->_attachedData =& new FieldSet();
-	}
-	
-	/**
-	* @return void
-	* @param key $key
-	* @param mixed $value
-	* @desc Attaches some arbitrary data to the LoginState so that actions or later
-	* functions can make use of it.
-	*/
-	function attachData($key, &$value) {
-		$this->_attachedData->set($key,$value);
-	}
-	
-	/**
-	* @return mixed
-	* @param string $key
-	* @desc Returns the data attached by {@link LoginState::attachData attachData()} referenced by $key.
-	*/
-	function &getData($key) {
-		return $this->_attachedData->get($key);
 	}
 
 	/**

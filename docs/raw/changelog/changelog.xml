@@ -2,6 +2,26 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.0.4" date="Not Yet Release">
+		<change author='gabe'>
+			Removed many .interface.php files to save on load times and unnecessary flexibility.
+		</change>
+		<change author='gabe'>
+			LoginHandler no longer throws a default error on login failure. LoginHandler::setFailedLoginError()
+			can be used to specify an error to be thrown to the UserError service.
+			This change is primarily so that people using different languages won't be locked
+			into using English for this error message (a pretty important one).
+		</change>
+		<change author='gabe'>
+			LoginState::attachData() has been moved to Harmoni::attachContextData() and
+			LoginState::getData() has been moved to Context::getData() for logical and
+			organizational reasons.
+		</change>
+		<change author='gabe'>LoginHandler and Harmoni: when LoginHandler is used, 
+		the action that is checked for required authentication is now the LAST action
+		executed instead of the first. This way, the action that finally ends up being
+		executed is the "authoritative" action.</change>
+	</version>
 	<version number="0.0.3" date="2003-11-26">
 		<change author='gabe'>Made ActionHandler check for class and method definitions before trying to execute them.</change>
 		<new author='gabe'>Added defines in config/services.cfg.php to allow a choice of which major "modules" of Harmoni to load, in order to save on startup time.</new>

@@ -7,35 +7,35 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.12 2003/11/26 02:35:00 gabeschine Exp $
+* @version $Id: services.cfg.php,v 1.13 2003/11/27 04:55:35 gabeschine Exp $
 * @copyright 2003
 **/
 
 /* :: what services should we load? you can disable some to save on startup time :: */
 
 // functionality affected: Authentication, LoginHandler
-define("LOAD_AUTHENTICATION", true);
+if (!defined("LOAD_AUTHENTICATION")) 		define("LOAD_AUTHENTICATION", true);
 
 // functionality affected: StorageHandler
-define("LOAD_STORAGE", true);
+if (!defined("LOAD_STORAGE")) 				define("LOAD_STORAGE", true);
 
 // functionality affected: AgentInformationHandler
 // requires: authentication
-define("LOAD_AGENTINFORMATION", true);
+if (!defined("LOAD_AGENTINFORMATION")) 		define("LOAD_AGENTINFORMATION", true);
 
 // functionality affected: Debug output
-define("LOAD_DEBUG", true);
+if (!defined("LOAD_DEBUG")) 				define("LOAD_DEBUG", true);
 
 // functionality affected: HarmoniDataManager, sub-services: DataSetTypeManager, DataTypeManager,
 // 		DataSetManager
-define("LOAD_DATAMANAGER", true);
+if (!defined("LOAD_DATAMANAGER")) 			define("LOAD_DATAMANAGER", true);
 
 // functionality affected: almost everything but basic services: Harmoni architecture, LoginHandler,
 //      ActionHandler
-define("LOAD_ARCHITECTURE", true);
+if (!defined("LOAD_ARCHITECTURE")) 			define("LOAD_ARCHITECTURE", true);
 
 // functionality affected: Database connectivity, and anything that depends on it.
-define("LOAD_DBC", true);
+if (!defined("LOAD_DBC")) 					define("LOAD_DBC", true);
 
 /**
 * USER DEFINED SERVICES

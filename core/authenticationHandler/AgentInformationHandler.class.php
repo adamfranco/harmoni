@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI."authenticationHandler/AgentInformationHandler.interface.php");
+//require_once(HARMONI."authenticationHandler/AgentInformationHandler.interface.php");
 
 /**
  * The AgentInformationHandler is responsible for fetching Agent Information. The
@@ -9,10 +9,10 @@ require_once(HARMONI."authenticationHandler/AgentInformationHandler.interface.ph
  * as email addresses, full names, etc.
  *
  * @package harmoni.authentication.agentinformation
- * @version $Id: AgentInformationHandler.class.php,v 1.2 2003/11/25 19:56:21 gabeschine Exp $
+ * @version $Id: AgentInformationHandler.class.php,v 1.3 2003/11/27 04:55:41 gabeschine Exp $
  * @copyright 2003 
  **/
-class AgentInformationHandler extends AgentInformationHandlerInterface {
+class AgentInformationHandler extends ServiceInterface {
 	/**
 	 * @access private
 	 * @var object $_authHandler The AuthenticationHandler service object.

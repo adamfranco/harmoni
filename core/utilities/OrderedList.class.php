@@ -1,15 +1,15 @@
 <?php
 
-require_once('OrderedList.interface.php');
+//require_once('OrderedList.interface.php');
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: OrderedList.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: OrderedList.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
 
-class OrderedList extends OrderedListInterface {
+class OrderedList {
 
 	/* @var the array, that represents the ordered list itself. */
 	var $_list;

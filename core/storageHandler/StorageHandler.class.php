@@ -1,6 +1,35 @@
 <?php
-require_once(HARMONI . "storageHandler/StorageHandler.interface.php");
+//require_once(HARMONI . "storageHandler/StorageHandler.interface.php");
 require_once(HARMONI . "storageHandler/Storables/VirtualStorable.class.php");
+
+/**
+ * A regular mirror defines that only files that would be stored on the primary
+ * server for the mirrored path will also be stored on the mirror.
+ * 
+ * @package harmoni.storage
+ * @const integer MIRROR_SHALLOW
+ */
+define("MIRROR_SHALLOW", 1);
+
+/**
+ * A deep mirror is like a regular mirror, but it will save ALL files stored
+ * under its path, no matter if other methods control sub-paths or not. One can
+ * look at it like a "master backup" for a certain path.
+ * 
+ * @package harmoni.storage
+ * @const integer MIRROR_DEEP
+ */
+define("MIRROR_DEEP", 2);
+
+/**
+ * A primary storage method defines the primary method to be used under any given
+ * path. Any path must have ONE defined primary server and as many backups as is
+ * desired.
+ * 
+ * @package harmoni.storage
+ * @const integer STORAGE_PRIMARY
+ */
+define("STORAGE_PRIMARY", 3);
 
 /**
 * The StorageHandler is responsible for handling the storage and retrieval of
@@ -14,10 +43,10 @@ require_once(HARMONI . "storageHandler/Storables/VirtualStorable.class.php");
 * 
 * @package harmoni.storage
 * @author Middlebury College, ETS 
-* @version $Id: StorageHandler.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+* @version $Id: StorageHandler.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
 * @copyright 2003
 */
-class StorageHandler extends StorageHandlerInterface {
+class StorageHandler {
 	/**
 	* 
 	* @access private 

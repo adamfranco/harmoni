@@ -1,16 +1,16 @@
 <?php
 
-require_once(HARMONI."utilities/RGBcolor.interface.php");
+//require_once(HARMONI."utilities/RGBcolor.interface.php");
 
 /**
  * A class designed to manipulate colors using the RGB color scheme.
  *
- * @version $Id: RGBcolor.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: RGBcolor.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
 
-class RGBColor extends RGBColorInterface {
+class RGBColor {
 	var $_red,$_green,$_blue;
 
  	/**

@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI."utilities/FieldSetValidator/FieldSetValidator.interface.php");
+//require_once(HARMONI."utilities/FieldSetValidator/FieldSetValidator.interface.php");
 require_once(HARMONI."utilities/FieldSetValidator/FieldSet.class.php");
 require_once(HARMONI."utilities/FieldSetValidator/RuleSet.class.php");
 
@@ -8,13 +8,11 @@ require_once(HARMONI."utilities/FieldSetValidator/RuleSet.class.php");
  * the FieldSetValidator takes a FieldSet and a RuleSet and validates values between the two
  *
  * @package harmoni.utilities.fieldsetvalidator
- * @version $Id: FieldSetValidator.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: FieldSetValidator.class.php,v 1.2 2003/11/27 04:55:42 gabeschine Exp $
  * @copyright 2003 
  **/
 
-class FieldSetValidator
-	extends FieldSetValidatorInterface
-{
+class FieldSetValidator {
 	/**
 	 * the FieldSet object
 	 * 
