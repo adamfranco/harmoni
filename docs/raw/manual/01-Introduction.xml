@@ -3,7 +3,7 @@
 <!-- this contains a chapter of the Harmoni manual -->
 
 <chapter>
-	<version>$Id: 01-Introduction.xml,v 1.1 2003/08/23 23:56:21 gabeschine Exp $</version>
+	<version>$Id: 01-Introduction.xml,v 1.2 2003/09/01 00:07:41 gabeschine Exp $</version>
 	<name>Introduction</name>
 	<p>This chapter provides information about our license, credits and general information about our goals in producing the Harmoni Framework/Architecture.</p>
 	<section>
@@ -29,7 +29,7 @@ developers: one from the Associated Colleges of the South Technology Center and
 one from Middlebury College.  The combined team includes the following
 developers:</p>
 
-<p>
+<p class="text-indent: 0px">
 Alex Chapin<br/>
 Adam Franco<br/>
 Eric Jansson<br/>
