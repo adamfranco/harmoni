@@ -477,6 +477,8 @@ class HarmoniDigitalRepository
 	function & copyAsset(& $asset) {
 		// Copy the asset to the dr root (recursivley for children)
 		$id =& $this->_copyAsset($asset, $this->getId());
+		
+		return $id;
 	}
 	
 	/**
