@@ -7,7 +7,7 @@ require_once(HARMONI.'authorizationHandler/HierarchicalAuthorizationContext.clas
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchicalAuthorizationContextTestCase.class.php,v 1.1 2003/07/01 23:51:50 dobomode Exp $
+ * @version $Id: HierarchicalAuthorizationContextTestCase.class.php,v 1.2 2003/07/02 01:14:00 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -44,8 +44,7 @@ require_once(HARMONI.'authorizationHandler/HierarchicalAuthorizationContext.clas
 		function test_constructor() {
 			$this->assertEqual($this->context->getSystem(), "segue");
 			$this->assertEqual($this->context->getSubsystem(), "siteunit");
-			$this->assertEqual($this->context->getHierarchyDepth(), 2);
-			$this->assertEqual($this->context->getAncestorSystemIds(), array(3, 5, 6));
+			$this->assertEqual($this->context->getHierarchyLevel(), 2);
 			$this->assertEqual($this->context->getSystemId(), 15);
 		}
 		
