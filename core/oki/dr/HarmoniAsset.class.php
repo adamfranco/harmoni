@@ -27,7 +27,7 @@ class HarmoniAsset
 	var $_node;
 	var $_dr;
 	
-	var $_dataSetsIDs;
+	var $_recordIDs;
 	var $_createdInfoRecords;
 	var $_createdInfoStructures;
 	
@@ -40,7 +40,7 @@ class HarmoniAsset
 		$this->_node =& $this->_hierarchy->getNode($id);
 		$this->_dr =& $dr;
 		
-		$this->_dataSetsIDs = array();
+		$this->_recordIDs = array();
 		$this->_createdInfoRecords = array();
 		$this->_createdInfoStructures = array();
 		
@@ -163,14 +163,14 @@ class HarmoniAsset
 	 */
 	function & getContent() {
 		$sharedManager =& Services::getService("Shared");
-		$dataSetMgr =& Services::getService("DataSetManager");
+		$recordMgr =& Services::getService("RecordManager");
 		
 		// Ready our type for comparisson
 		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
 		
 		// Get the content DataSet.
 		$id =& $this->_node->getId();
-		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
+		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
 		// fetching as editable since we don't know if it will be edited.
 		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
 		foreach ($dataSets as $key => $dataSet) {
@@ -201,14 +201,14 @@ class HarmoniAsset
 	function updateContent(& $content) {
 		ArgumentValidator::validate($content, new ExtendsValidatorRule("BlobDataType"));
 		$sharedManager =& Services::getService("Shared");
-		$dataSetMgr =& Services::getService("DataSetManager");
+		$recordMgr =& Services::getService("RecordManager");
 		
 		// Ready our type for comparisson
 		$contentType =& new HarmoniType("DR", "Harmoni",  "AssetContent");
 		$id =& $this->_node->getId();
 		
 		// Get the content DataSet.
-		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
+		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
 		// fetching as editable since we don't know if it will be edited.
 		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
 		foreach ($dataSets as $key => $dataSet) {
@@ -232,7 +232,7 @@ class HarmoniAsset
 				}
 			}
 			
-			$contentDataSet =& $dataSetMgr->newDataSet($contentType, $versionControl);
+			$contentDataSet =& $recordMgr->newDataSet($contentType, $versionControl);
 			
 			// Add the DataSet to our group
 			$dataSetGroup->addDataSet($contentDataSet);
@@ -256,14 +256,14 @@ class HarmoniAsset
 	 */
 	function & getEffectiveDate() {
 		$sharedManager =& Services::getService("Shared");
-		$dataSetMgr =& Services::getService("DataSetManager");
+		$recordMgr =& Services::getService("RecordManager");
 		
 		// Ready our type for comparisson
 		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
 		
 		// Get the content DataSet.
 		$id =& $this->_node->getId();
-		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
+		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
 		// fetching as editable since we don't know if it will be edited.
 		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
 		foreach ($dataSets as $key => $dataSet) {
@@ -294,14 +294,14 @@ class HarmoniAsset
 	function updateEffectiveDate(& $effectiveDate) {
 		ArgumentValidator::validate($effectiveDate, new ExtendsValidatorRule("DateTimeDataType"));
 		$sharedManager =& Services::getService("Shared");
-		$dataSetMgr =& Services::getService("DataSetManager");
+		$recordMgr =& Services::getService("RecordManager");
 		
 		// Ready our type for comparisson
 		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
 		$id =& $this->_node->getId();
 		
 		// Get the content DataSet.
-		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
+		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
 		// fetching as editable since we don't know if it will be edited.
 		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
 		foreach ($dataSets as $key => $dataSet) {
@@ -325,7 +325,7 @@ class HarmoniAsset
 				}
 			}
 			
-			$contentDataSet =& $dataSetMgr->newDataSet($contentType, $versionControl);
+			$contentDataSet =& $recordMgr->newDataSet($contentType, $versionControl);
 			
 			// Add the DataSet to our group
 			$dataSetGroup->addDataSet($contentDataSet);
@@ -349,14 +349,14 @@ class HarmoniAsset
 	 */
 	function & getExpirationDate() {
 		$sharedManager =& Services::getService("Shared");
-		$dataSetMgr =& Services::getService("DataSetManager");
+		$recordMgr =& Services::getService("RecordManager");
 		
 		// Ready our type for comparisson
 		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
 		
 		// Get the content DataSet.
 		$id =& $this->_node->getId();
-		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
+		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
 		// fetching as editable since we don't know if it will be edited.
 		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
 		foreach ($dataSets as $key => $dataSet) {
@@ -385,26 +385,22 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function updateExpirationDate(& $expirationDate) {
-		ArgumentValidator::validate($expirationDate, new ExtendsValidatorRule("DateTimeDataType"));
+		ArgumentValidator::validate($expirationDate, new ExtendsValidatorRule("Time"));
 		$sharedManager =& Services::getService("Shared");
-		$dataSetMgr =& Services::getService("DataSetManager");
+		$recordMgr =& Services::getService("RecordManager");
 		
 		// Ready our type for comparisson
 		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
 		$id =& $this->_node->getId();
 		
 		// Get the content DataSet.
-		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
+		$recordSet =& $recordMgr->fetchRecordSet($id->getIdString());
 		// fetching as editable since we don't know if it will be edited.
-		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
-		foreach ($dataSets as $key => $dataSet) {
-			if($contentType->isEqual($dataSets[$key]->getType())) {
-				$contentDataSet =& $dataSets[$key];
-				break;
-			}
-		}
+		$recordSet->loadRecords(RECORD_FULL);
+		$tempArray =& $recordSet->getRecordsByType( $contentType );
+		if (count($tempArray)) $contentRecord =& $tempArray[0];
 		
-		if (!$contentDataSet) {		
+		if (!$contentRecord) {		
 			// Set up and create our new dataset
 			
 			// Decide if we want to version-control this field.
@@ -418,15 +414,15 @@ class HarmoniAsset
 				}
 			}
 			
-			$contentDataSet =& $dataSetMgr->newDataSet($contentType, $versionControl);
+			$contentRecord =& $recordMgr->createRecord($contentType, $versionControl);
 			
 			// Add the DataSet to our group
-			$dataSetGroup->addDataSet($contentDataSet);
+			$recordSet->add($contentRecord);
 		}
 		
-		$contentDataSet->setValue("ExpirationDate", $expirationDate);
+		$contentRecord->setValue("ExpirationDate", $expirationDate);
 		
-		$contentDataSet->commit();
+		$contentRecord->commit();
 	}
 
 	/**
@@ -561,9 +557,9 @@ class HarmoniAsset
 		ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
 		
 		// Get the DataSetGroup for this Asset
-		$dataSetMgr =& Services::getService("DataSetManager");
+		$recordMgr =& Services::getService("RecordManager");
 		$myId = $this->_node->getId();
-		$myGroup =& $dataSetMgr->fetchDataSetGroup($myId->getIdString());
+		$myGroup =& $recordMgr->fetchRecordSet($myId->getIdString());
 		
 		// Get the info Structure needed.
 		$infoStructures =& $this->_dr->getInfoStructures();
@@ -574,8 +570,8 @@ class HarmoniAsset
 		}
 		
 		// 	get the type for the new data set.
-		$dataSetTypeMgr =& Services::getService("DataSetTypeManager");
-		$type =& $dataSetTypeMgr->getDataSetTypeByID($infoStructureId->getIdString());
+		$schemaMgr =& Services::getService("SchemaManager");
+		$type =& $schemaMgr->getSchemaByID($infoStructureId->getIdString());
 		
 		// Set up and create our new dataset
 		// Decide if we want to version-control this field.
@@ -589,15 +585,15 @@ class HarmoniAsset
 				}
 			}
 			
-			$newDataSet =& $dataSetMgr->newDataSet($type, $versionControl);
+			$newRecord =& $recordMgr->createRecord($type, $versionControl);
 		
-		$newDataSet->commit();
+		$newRecord->commit();
 		
 		// Add the DataSet to our group
-		$myGroup->addDataSet($newDataSet);
+		$myGroup->add($newRecord);
 		
 		// us the InfoStructure and the dataSet to create a new InfoRecord
-		$record =& new HarmoniInfoRecord($structure, $newDataSet);
+		$record =& new HarmoniInfoRecord($structure, $newRecord);
 		
 		// Add the record to our createdRecords array, so we can pass out references to it.
 		$recordId =& $record->getId();
@@ -624,39 +620,40 @@ class HarmoniAsset
 	 */
 	function inheritInfoStructure(& $infoStructureId, & $assetId) {	
 	
-		// Check the arguments	
+		// Check the arguments
 		ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
 		
 		// Get our managers:
-		$dataSetMgr =& Services::getService("DataSetManager");
+		$recordMgr =& Services::getService("RecordManager");
 		$sharedMgr =& Services::getService("Shared");
 		
 		// Get the DataSetGroup for this Asset
 		$myId = $this->_node->getId();
-		$myGroup =& $dataSetMgr->fetchDataSetGroup($myId->getIdString());
+		$mySet =& $recordMgr->fetchRecordSet($myId->getIdString());
 		
 		// Get the DataSetGroup for the source Asset
-		$theirGroup =& $dataSetMgr->fetchDataSetGroup($assetId->getIdString());
-		$dataSets =& $theirGroup->fetchDataSets(TRUE);
+		$otherSet =& $recordMgr->fetchRecordSet($assetId->getIdString());
+		$otherSet->loadRecords(RECORD_FULL);
+		$records =& $otherSet->getRecords();
 		
 		// Add all of DataSets (InfoRecords) of the specified InfoStructure and Asset
 		// to our DataSetGroup.
-		foreach ($dataSets as $key => $dataSet) {
+		foreach (array_keys($records) as $key) {
 			// Get the ID of the current DataSet's TypeDefinition
-			$typeDef =& $dataSets[$key]->getDataSetTypeDefinition();
-			$typeId =& $sharedMgr->getId($typeDef->getID());
+			$schema =& $records[$key]->getSchema();
+			$schemaId =& $sharedMgr->getId($schema->getID());
 			
 			// If the current DataSet's DataSetTypeDefinition's ID is the same as
 			// the InfoStructure ID that we are looking for, add that dataSet to our
 			// DataSetGroup.
 			if ($infoStructureId->isEqual($typeId)) {
-				$myGroup->addDataSet($dataSets[$key]);
+				$mySet->add($records[$key]);
 			}
 		}
 		
 		// Save our DataSetGroup
-		$myGroup->commit();
+		$mySet->commit();
 	}
 
 	/**
@@ -679,35 +676,36 @@ class HarmoniAsset
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
 		
 		// Get our managers:
-		$dataSetMgr =& Services::getService("DataSetManager");
+		$recordMgr =& Services::getService("RecordManager");
 		$sharedMgr =& Services::getService("Shared");
 		
-		// Get the DataSetGroup for this Asset
+		// Get the RecordSet for this Asset
 		$myId = $this->_node->getId();
-		$myGroup =& $dataSetMgr->fetchDataSetGroup($myId->getIdString());
+		$set =& $recordMgr->fetchRecordSet($myId->getIdString());
 		
 		// Get the DataSetGroup for the source Asset
-		$theirGroup =& $dataSetMgr->fetchDataSetGroup($assetId->getIdString());
-		$dataSets =& $theirGroup->fetchDataSets(TRUE);
+		$otherSet =& $recordMgr->fetchRecordSet($assetId->getIdString());
+		$otherSet->loadRecords(RECORD_FULL);
+		$records =& $otherSet->getRecords();
 		
-		// Add all of DataSets (InfoRecords) of the specified InfoStructure and Asset
-		// to our DataSetGroup.
-		foreach ($dataSets as $key => $dataSet) {
+		// Add all of Records (InfoRecords) of the specified InfoStructure and Asset
+		// to our RecordSet.
+		foreach (array_keys($records) as $key) {
 			// Get the ID of the current DataSet's TypeDefinition
-			$typeDef =& $dataSets[$key]->getDataSetTypeDefinition();
-			$typeId =& $sharedMgr->getId($typeDef->getID());
+			$schema =& $records[$key]->getSchema();
+			$schemaId =& $sharedMgr->getId($schema->getID());
 			
-			// If the current DataSet's DataSetTypeDefinition's ID is the same as
-			// the InfoStructure ID that we are looking for, add clones of that dataSet
-			// to our DataSetGroup.
+			// If the current Record's Schema ID is the same as
+			// the InfoStructure ID that we are looking for, add clones of that Record
+			// to our RecordSet.
 			if ($infoStructureId->isEqual($typeId)) {
-				$newDataSet =& $dataSets[$key]->clone();
-				$myGroup->addDataSet($newDataSet);
+				$newRecord =& $records[$key]->clone();
+				$set->add($newRecord);
 			}
 		}
 		
-		// Save our DataSetGroup
-		$myGroup->commit();
+		// Save our RecordSet
+		$set->commit();
 	}
 
 	/**
@@ -725,12 +723,11 @@ class HarmoniAsset
 	function deleteInfoRecord(& $infoRecordId) {
 		ArgumentValidator::validate($infoRecordId, new ExtendsValidatorRule("Id"));
 		
-		$dataSetMgr =& Services::getService("DataSetManager");
-		$dataSet =& $dataSetMgr->fetchDataSet($infoRecordId->getIdString(),true);
-		$dataSet->delete();
-		$dataSet->prune(new PruneAllVersionConstraint());
-		$dataSet->commit();
-//		$dataSetMgr->deleteDataSet( $infoRecordId->getIdString() );
+		$recordMgr =& Services::getService("RecordManager");
+		$record =& $recordMgr->fetchRecord($infoRecordId->getIdString(),RECORD_FULL);
+		$record->delete();
+		$record->prune(new PruneAllVersionConstraint());
+		$record->commit();
 	}
 
 	/**
@@ -751,26 +748,26 @@ class HarmoniAsset
 		if (!$this->_createdInfoRecords[$infoRecordId->getIdString()]) {
 			
 			// Get the DataSet.
-			$dataSetMgr =& Services::getService("DataSetManager");
+			$recordMgr =& Services::getService("RecordManager");
 			// Specifying TRUE for editable because it is unknown whether or not editing will
 			// be needed. @todo Change this if we wish to re-fetch the $dataSet when doing 
 			// editing functions.
-			$dataSet =& $dataSetMgr->fetchDataSet($infoRecordId->getIdString(), TRUE);
+			$record =& $recordMgr->fetchRecord($infoRecordId->getIdString());
 
 			// Make sure that we have a valid dataSet
-			$rule =& new ExtendsValidatorRule("CompactDataSet");
-			if (!$rule->check($dataSet))
+			$rule =& new ExtendsValidatorRule("Record");
+			if (!$rule->check($record))
 				throwError(new Error(UNKNOWN_ID, "Digital Repository :: Asset", TRUE));
 			
 			// Get the info structure.
-			$dataSetTypeDef =& $dataSet->getDataSetTypeDefinition();
-			if (!$this->_createdInfoStructures[$dataSetTypeDef->getID()]) {
-				$this->_createdInfoStructures[$dataSetTypeDef->getID()] =& new HarmoniInfoStructure($dataSetTypeDef);
+			$schema =& $record->getSchema();
+			if (!$this->_createdInfoStructures[$schema->getID()]) {
+				$this->_createdInfoStructures[$schema->getID()] =& new HarmoniInfoStructure($schema);
 			}
 			
 			// Create the InfoRecord in our cache.
 			$this->_createdInfoRecords[$infoRecordId->getIdString()] =& new HarmoniInfoRecord (
-							$this->_createdInfoStructures[$dataSetTypeDef->getID()], $dataSet);
+							$this->_createdInfoStructures[$schema->getID()], $record);
 		}
 		
 		return $this->_createdInfoRecords[$infoRecordId->getIdString()];
@@ -813,19 +810,20 @@ class HarmoniAsset
 			ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
 		
 		$id =& $this->getId();
-		$dataSetMgr =& Services::getService("DataSetManager");
+		$recordMgr =& Services::getService("RecordManager");
 		$sharedManager =& Services::getService("Shared");		
 		
-		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($id->getIdString());
+		$recordSet =& $recordMgr->fetchRecordSet($id->getIdString());
 		// fetching as editable since we don't know if it will be edited.
-		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
+		$recordSet->loadRecords();
+		$records =& $recordSet->getRecords();
 
 		// create info records for each dataSet as needed.
 		$infoRecords = array();
-		foreach ($dataSets as $key => $dataSet) {
-			$dataSetIdString = $dataSets[$key]->getID();
-			$dataSetId =& $sharedManager->getId($dataSetIdString);
-			$infoRecord =& $this->getInfoRecord($dataSetId);
+		foreach (array_keys($records) as $key) {
+			$recordIdString = $records[$key]->getID();
+			$recordId =& $sharedManager->getId($recordIdString);
+			$infoRecord =& $this->getInfoRecord($recordId);
 			$structure =& $infoRecord->getInfoStructure();
 			
 			// Add the record to our array
@@ -901,13 +899,13 @@ class HarmoniAsset
 	 */
 	function & getContentInfoStructure() {
 		$sharedManager =& Services::getService("Shared");
-		$dataSetTypeMgr =& Services::getService("DataSetTypeManager");
+		$schemaMgr =& Services::getService("SchemaManager");
 		
 		$infoStructures =& $this->_dr->getInfoStructures();
 
 		// Get the id of the Content DataSetTypeDef
 		$contentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
-		$contentTypeId =& $sharedManager->getId($dataSetTypeMgr->getIDForType($contentType));
+		$contentTypeId =& $sharedManager->getId($schemaMgr->getIDByType($contentType));
 		
 		while ($infoStructures->hasNext()) {
 			$structure =& $infoStructures->next();
@@ -999,9 +997,9 @@ class HarmoniAsset
 	 */
 	function save () {		
 		// Save the dataManager
-		$dataSetMgr =& Services::getService("DataSetManager");
+		$recordMgr =& Services::getService("RecordManager");
 		$nodeId =& $this->_node->getId();
-		$group =& $dataSetMgr->fetchDataSetGroup($nodeId->getIdString(), true);
+		$group =& $recordMgr->fetchRecordSet($nodeId->getIdString(), true);
 		
 		if ($group) $group->commit();
 	}

@@ -9,11 +9,11 @@ class HarmoniInfoPart extends InfoPart
 //	extends java.io.Serializable
 {
 
-	var $_fieldDef;
+	var $_schemaField;
 	var $_infoStructure;
 	
-	function HarmoniInfoPart(&$infoStructure, &$fieldDef) {
-		$this->_fieldDef =& $fieldDef;
+	function HarmoniInfoPart(&$infoStructure, &$schemaField) {
+		$this->_schemaField =& $schemaField;
 		$this->_infoStructure =& $infoStructure;
 	}
 	
@@ -24,7 +24,7 @@ class HarmoniInfoPart extends InfoPart
 	 * @package harmoni.osid.dr
 	 */
 	function getDisplayName() {
-		return $this->_fieldDef->getLabel();
+		return $this->_schemaField->getLabel();
 	}
 
 	/**
@@ -34,7 +34,8 @@ class HarmoniInfoPart extends InfoPart
 	 * @package harmoni.osid.dr
 	 */
 	function getDescription() {
-		return "A HarmoniDataManager field of type '".$this->_fieldDef->getType()."'.";
+		if ($desc = $this->_schemaField->getDescription()) return $desc;
+		return "A HarmoniDataManager field of type '".$this->_schemaField->getType()."'.";
 	}
 	
 	/**
@@ -50,7 +51,7 @@ class HarmoniInfoPart extends InfoPart
 	 */
 	function & getType() {
 		if (!isset($this->_type)) {
-			$type = $this->_fieldDef->getType();
+			$type = $this->_schemaField->getType();
 			$this->_type =& new HarmoniType("DR", "Harmoni", $type);
 		}
 		
@@ -65,7 +66,7 @@ class HarmoniInfoPart extends InfoPart
 	 */
 	function & getId() {
 		$sharedManager =& Services::getService("Shared");
-		return $sharedManager->getId($this->_fieldDef->getID());
+		return $sharedManager->getId($this->_schemaField->getID());
 	}
 
 	/**
@@ -96,7 +97,7 @@ class HarmoniInfoPart extends InfoPart
 	 * @package harmoni.osid.dr
 	 */
 	function isManditory() {
-		return $this->_fieldDef->isRequired();
+		return $this->_schemaField->isRequired();
 	}
 
 	/**
@@ -106,7 +107,7 @@ class HarmoniInfoPart extends InfoPart
 	 * @package harmoni.osid.dr
 	 */
 	function isRepeatable() {
-		return $this->_fieldDef->getMultFlag();
+		return $this->_schemaField->getMultFlag();
 	}
 
 	/**

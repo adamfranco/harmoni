@@ -38,7 +38,7 @@ class HarmoniDigitalRepository
 		// Cache any created Assets so that we can pass out references to them.
 		$this->_createdAssets = array();
 		$this->_assetValidFlags = array();
-		$this->_assetDataSets = array();
+//		$this->_assetDataSets = array();
 		
 		// Set up an array of searchTypes that this DR supports
 		$this->_registerSearchTypes();
@@ -260,10 +260,10 @@ class HarmoniDigitalRepository
 		// Check that we have created an infoStructure with the ID
 		if (!$this->_createdInfoStructures[$infoStructureId->getIdString()]) {
 			// If not, create the infoStructure
-			$dataSetTypeMgr =& Services::getService("DataSetTypeManager");
-			$dataSetTypeDefinition =& $dataSetTypeMgr->getDataSetTypeDefinitionById($infoStructureId->getIdString());
+			$schemaMgr =& Services::getService("SchemaManager");
+			$schema =& $schemaMgr->getSchemaByID($infoStructureId->getIdString());
 			$this->_createdInfoStructures[$infoStructureId->getIdString()] =& new HarmoniInfoStructure(
-															$dataSetTypeDefinition);
+															$schema);
 		}
 		
 		return $this->_createdInfoStructures[$infoStructureId->getIdString()];
@@ -277,15 +277,15 @@ class HarmoniDigitalRepository
 	 * @package harmoni.osid.dr
 	 */
 	function & getInfoStructures() {
-		$dataSetTypeMgr =& Services::getService("DataSetTypeManager");
-		$dataSetTypeIds =& $dataSetTypeMgr->getAllDataSetTypeIDs();
-		foreach ($dataSetTypeIds as $key => $id) {
+		$schemaMgr =& Services::getService("SchemaManager");
+		$schemaIDs =& $schemaMgr->getAllSchemaIDs();
+		foreach ($schemaIDs as $id) {
 			// Check that we have created an infoStructure with the ID
 			if (!$this->_createdInfoStructures[$id]) {
 				// If not, create the infoStructure
-				$dataSetTypeDefinition =& $dataSetTypeMgr->getDataSetTypeDefinitionByID($id);
+				$schema =& $schemaMgr->getSchemaByID($id);
 				$this->_createdInfoStructures[$id] =& new HarmoniInfoStructure(
-																$dataSetTypeDefinition);
+																$schema);
 			}
 		}
 		
@@ -411,38 +411,14 @@ class HarmoniDigitalRepository
 	function & getAssetDates(& $assetId) {
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
 		
-		$dataSetMgr =& Services::getService("DataSetManager");
+		$recordMgr =& Services::getService("RecordManager");
 		
 		// Get the DataSets in the Asset's DataSetGroup
-		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($assetId->getIdString());
-		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
+		$recordSet =& $recordMgr->fetchRecordSet($assetId->getIdString());
+//		$recordSet->loadRecords(RECORD_FULL);
+//		$records =& $dataSetGroup->fetchDataSets(TRUE);
 		
-		// Get the dates for all Fields of all DataSets and
-		// put them into an array.
-		$dates = array();
-		$dateStrings = array();
-		foreach ($dataSets as $key => $set) {
-			if ($dataSets[$key]->isVersionControlled()) {
-				$typeDef =& $dataSets[$key]->getDataSetTypeDefinition();
-				$labels =& $typeDef->getAllLabels(TRUE);
-				foreach ($labels as $labelKey => $label) {
-					$versionsObjs =& $dataSets[$key]->getAllValueVersionsObjects($label);
-					foreach ($versionsObjs as $versionObjsKey => $versionObj) {
-						$versionIDs =& $versionsObjs[$versionObjsKey]->getVersionList();
-						foreach ($versionIDs as $id) {
-							$version =& $versionsObjs[$versionObjsKey]->getVersion($id);
-							$date =& $version->getDate();
-				
-							// Add Date to the array if it doesn't exist already.
-							if (!in_array($date->toTimeStamp(), $dateStrings)) {
-								$dateStrings[] = $date->toTimeStamp();
-								$dates[] =& $date;
-							}
-						}
-					}
-				}
-			}
-		}
+		$dates = $recordSet->getMergedTagDates();
 
 		// Create and return an iterator.
 		$dateIterator =& new HarmoniCalendarIterator($dates);
@@ -512,21 +488,20 @@ class HarmoniDigitalRepository
 	 * @return object InfoStructure The newly created InfoStructure.
 	 */
 	function createInfoStructure($displayName, $description, $format, $schema) {
-		$dataSetType = new HarmoniType($format, $schema, $displayName, $description);
-		$dataSetTypeManager =& Services::getService("DataSetTypeManager");
+		$recordType = new HarmoniType($format, $schema, $displayName, $description);
+		$schemaMgr =& Services::getService("SchemaManager");
 		
-		// Create the TypeDefinition
-		$dataSetTypeDef =& $dataSetTypeManager->newDataSetType($dataSetType);
-		$dataSetTypeManager->synchronize($dataSetTypeDef);
+		// Create the Schema
+		$schema =& new Schema($recordType);
+		$schemaMgr->synchronize($schema);
 		
-		// The DataSetType manager is kinda funky, so to be sure that we have a
-		// god dataSetTypeDef, lets ask the manager for it again.
-		$dataSetTypeDef =& $dataSetTypeManager->getDataSetTypeDefinition($dataSetType);
-		debug::output("InfoStructure is being created from dataSetTypeDef with Id: '".$dataSetTypeDef->getID()."'");
+		// The SchemaManager only allows you to use Schemas created by it for use with Records.
+		$schema =& $schemaMgr->getSchemaByType($recordType);
+		debug::output("InfoStructure is being created from Schema with Id: '".$schema->getID()."'");
 		
-		$this->_createdInfoStructures[$dataSetTypeDef->getID()] =& new HarmoniInfoStructure(
-																$dataSetTypeDef);
-		return $this->_createdInfoStructures[$dataSetTypeDef->getID()];
+		$this->_createdInfoStructures[$schema->getID()] =& new HarmoniInfoStructure(
+																$schema);
+		return $this->_createdInfoStructures[$schema->getID()];
 	}
 
 	/**
@@ -701,19 +676,19 @@ class HarmoniDigitalRepository
 		
 		// Get All the assets
 		$criteria =& new AndSearch();
-		$criteria->addCriteria(new ActiveDataSetsSearch);
-		$criteria->addCriteria(new FieldValueSearch(new HarmoniType("DR", "Harmoni", "AssetContent", ""),"Content", new BlobDataType($searchCriteria)));
+		$criteria->addCriteria(new ActiveRecordsSearch());
+		$criteria->addCriteria(new FieldValueSearch(new HarmoniType("DR", "Harmoni", "AssetContent", ""),"Content", new String($searchCriteria), SEARCH_TYPE_CONTAINS));
 		
-		$dataSetMgr =& Services::getService("DataSetManager");
-		$dataSetIds = $dataSetMgr->selectIDsBySearch($criteria);
-		
+		$recordMgr =& Services::getService("RecordManager");
+		$recordIDs = $recordMgr->getRecordIDsBySearch($criteria);
+
 		$groupIds = array();
-		foreach  ($dataSetIds as $key => $id) {
-			$dataSetGroupIds =& $dataSetMgr->getGroupIdsForDataSet($id);
-			$groupIds = array_merge($groupIds, $dataSetGroupIds);
+		foreach  ($recordIDs as $id) {
+			$recordSetIds =& $recordMgr->getRecordSetIDsContainingID($id);
+			$groupIds = array_merge($groupIds, $recordSetIds);
 		}
 				
-		array_unique($groupIds);
+		$groupIds = array_unique($groupIds);
 				
 		$sharedManager =& Services::getService("Shared");
 		

@@ -9,11 +9,11 @@ class HarmoniInfoField extends InfoField
 //	extends java.io.Serializable
 {
 
-	var $_valueVersions;
+	var $_recordFieldValue;
 	var $_infoPart;
 	
-	function HarmoniInfoField( &$infoPart, &$valueVersions ) {
-		$this->_valueVersions =& $valueVersions;
+	function HarmoniInfoField( &$infoPart, &$recordFieldValue ) {
+		$this->_recordFieldValue =& $recordFieldValue;
 		$this->_infoPart =& $infoPart;
 	}
 	
@@ -25,8 +25,8 @@ class HarmoniInfoField extends InfoField
 	 */
 	function & getId() {
 		// The unique ID for the info field should be the 
-		// DataSetID::FieldValuesLabel::ValueVersionsIndex
-		return $this->_valueVersions->getId();
+		// RecordID::RecordFieldLabel::RecordFieldIndex
+		return $this->_recordFieldValue->getId();
 	}
 
 	/**
@@ -72,9 +72,9 @@ class HarmoniInfoField extends InfoField
 	 */
 	function & getValue() {
 		// NOTE: if no active versions exist, false will be returned here.
-		$actValue =& $this->_valueVersions->getActiveVersion();
+		$actValue =& $this->_recordFieldValue->getActiveVersion();
 		
-		if ($actValue) return $actValue->getValue();
+		if ($actValue) return $actValue->getPrimitive();
 		
 		return null;
 	}
@@ -86,18 +86,10 @@ class HarmoniInfoField extends InfoField
 	 * @package harmoni.osid.dr
 	 */
 	function updateValue(& $value) {
+		ArgumentValidator::validate($value, new ExtendsValidatorRule("Primitive"));
 		// Get the type for the field.
-		$fieldValuesObj =& $this->_valueVersions->getFieldValues();
-		$fieldDef =& $fieldValuesObj->getFieldDefinition();
-		$fieldType =& $fieldDef->getType();
-		
-		// Create a valueObj for this value
-		$class = $fieldType."DataType";
-		$valueObj =& new $class($value);
-	
-		$fieldValuesObj->setValue($this->_valueVersions->getIndex(), $valueObj);
-		
-		$fieldValuesObj->commit();
+		$this->_recordFieldValue->setValueFromPrimitive($value);
+		$this->_recordFieldValue->commit();
 	}
 
 	/**

@@ -4,6 +4,9 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.2.0" date="Unreleased">
 		<change author='gabe'>
+			Migrated OKI DR implementation to use new DataManager.
+		</change>
+		<change author='gabe'>
 			DataManager: Records now dynamically update their fetch-mode (how much &amp; what data has been fetched) depending on the operation to be performed. Previous version required one to manually re-fetch records (annoying).
 		</change>
 		<new author='gabe'>

@@ -12,13 +12,13 @@ class HarmoniInfoRecord extends InfoRecord
 //	extends java.io.Serializable
 {
 	
-	var $_dataSet;
+	var $_record;
 	var $_infoStructure;
 	
 	var $_createdInfoFields;
 	
-	function HarmoniInfoRecord( &$infoStructure, & $dataSet ) {
-		$this->_dataSet=& $dataSet;
+	function HarmoniInfoRecord( &$infoStructure, & $record ) {
+		$this->_record=& $record;
 		$this->_infoStructure =& $infoStructure;
 		
 		$this->_createdInfoFields = array();
@@ -32,7 +32,7 @@ class HarmoniInfoRecord extends InfoRecord
 	 */
 	function & getId() {
 		$sharedManager =& Services::getService("Shared");
-		$id = $this->_dataSet->getID();
+		$id = $this->_record->getID();
 		return $sharedManager->getId($id);
 	}
 
@@ -45,40 +45,36 @@ class HarmoniInfoRecord extends InfoRecord
 	 * @package harmoni.osid.dr
 	 */
 	function & createInfoField(& $infoPartId, & $value) {
+		ArgumentValidator::validate($value, new ExtendsValidatorRule("Primitive"));
 		$fieldID = $infoPartId->getIdString();
 		
 		// we need to find the label associated with this ID
-		$typeDef =& $this->_dataSet->getDataSetTypeDefinition();
-		foreach ($typeDef->getAllLabels() as $label) {
-			$fieldDef =& $typeDef->getFieldDefinition($label);
-			if ($fieldID == $fieldDef->getID()) break;
+		$schema =& $this->_record->getSchema();
+		foreach ($schema->getAllLabels() as $label) {
+			$field =& $schema->getSchemaField($label);
+			if ($fieldID == $field->getID()) break;
 		}
-		
-		$fieldType =& $fieldDef->getType();
-		$class = $fieldType."DataType";
-		$valueObj =& new $class($value);
-		
-		
+		$this->_record->makeFull(); // make sure we have a full data representation.
 		// If the value is deleted, add a new version to it.
-		if ($this->_dataSet->numValues($label) && $this->_dataSet->deleted($label)) {
-			$this->_dataSet->undeleteValue($label);
-			$this->_dataSet->setValue($label, $valueObj);
+		if ($this->_record->numValues($label) && $this->_record->deleted($label)) {
+			$this->_record->undeleteValue($label);
+			$this->_record->setValue($label, $value);
 		
 		// If the field is not multi-valued AND has a value AND that value is not deleted, 
 		// throw an error.
-		} else if (!$fieldDef->getMultFlag() && $this->_dataSet->numValues($label) && $this->_dataSet->getActiveValue($label)) {
+		} else if (!$field->getMultFlag() && $this->_record->numValues($label) && $this->_record->getActiveValue($label)) {
 			throwError(new Error(PERMISSION_DENIED.": Can't add another field to a
 			non-multi-valued part.", "HarmoniInfoRecord", true));
 		
 		// If we dont' have an existing, deleted field to add to, create a new index.
 		} else {
-			$this->_dataSet->setValue($label, $valueObj, NEW_VALUE);
+			$this->_record->setValue($label, $value, NEW_VALUE);
 		}
 			
-		$this->_dataSet->commit();
+		$this->_record->commit();
 		
-		return new HarmoniInfoField(new HarmoniInfoPart($this->_infoStructure, $fieldDef),
-			$this->_dataSet->getValueVersionsObject($label, $this->_dataSet->numValues($label)-1));
+		return new HarmoniInfoField(new HarmoniInfoPart($this->_infoStructure, $field),
+			$this->_record->getRecordFieldValue($label, $this->_record->numValues($label)-1));
 	}
 
 	/**
@@ -97,12 +93,12 @@ class HarmoniInfoRecord extends InfoRecord
 	function deleteInfoField(& $infoFieldId) {
 		$string = $infoFieldId->getIdString();
 		if (ereg("([0-9]+)::(.+)::([0-9]+)",$string,$r)) {
-			$dataSetId = $r[1];
+			$recordId = $r[1];
 			$label = $r[2];
 			$index = $r[3];
 			
-			$this->_dataSet->deleteValue($label, $index);
-			$this->_dataSet->commit();
+			$this->_record->deleteValue($label, $index);
+			$this->_record->commit();
 		} else {
 			throwError(new Error(UNKNOWN_ID.": $string", "HarmoniInfoField", true));
 		}
@@ -119,14 +115,14 @@ class HarmoniInfoRecord extends InfoRecord
 		$infoParts =& $this->_infoStructure->getInfoParts();
 		while ($infoParts->hasNext()) {
 			$infoPart =& $infoParts->next();
-			$allValueVersions =& $this->_dataSet->getAllValueVersionsObjects($infoPart->getDisplayName());
+			$allRecordFieldValues =& $this->_record->getAllRecordFieldValues($infoPart->getDisplayName());
 			// Create an InfoField for each valueVersionObj
-			if (count($allValueVersions)) {
-				foreach ($allValueVersions as $key => $valueVersion) {
-					if ($activeValue =& $allValueVersions[$key]->getActiveVersion()
+			if (count($allRecordFieldValues)) {
+				foreach (array_keys($allRecordFieldValues) as $key) {
+					if ($activeValue =& $allRecordFieldValues[$key]->getActiveVersion()
 						&& !$this->_createdInfoFields[$activeValue->getId()])
 						$this->_createdInfoFields[$activeValue->getId()] =& new HarmoniInfoField(
-													$infoPart, $allValueVersions[$key]);
+													$infoPart, $allRecordFieldValues[$key]);
 				}
 			}
 		}

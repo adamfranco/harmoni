@@ -12,11 +12,11 @@ class HarmoniInfoStructure extends InfoStructure
 //	extends java.io.Serializable
 {
 	
-	var $_typeDef;
+	var $_schema;
 	var $_createdInfoParts;
 	
-	function HarmoniInfoStructure( &$dataSetTypeDef ) {
-		$this->_typeDef =& $dataSetTypeDef;
+	function HarmoniInfoStructure( &$schema ) {
+		$this->_schema =& $schema;
 		
 		// create an array of created InfoParts so we can return references to
 		// them instead of always making new ones.
@@ -30,7 +30,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @package harmoni.osid.dr
 	 */
 	function getDisplayName() {
-		$type =& $this->_typeDef->getType();
+		$type =& $this->_schema->getType();
 		
 		return $type->getKeyword();
 	}
@@ -42,7 +42,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @package harmoni.osid.dr
 	 */
 	function getDescription() {
-		$type =& $this->_typeDef->getType();
+		$type =& $this->_schema->getType();
 		
 		return $type->getDescription();
 	}
@@ -55,7 +55,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 */
 	function & getId() {
 		$sharedManager =& Services::getService("Shared");
-		return $sharedManager->getId($this->_typeDef->getID());
+		return $sharedManager->getId($this->_schema->getID());
 	}
 
 	/**
@@ -67,8 +67,8 @@ class HarmoniInfoStructure extends InfoStructure
 	 */
 	function & getInfoPart(& $infoPartId) {
 		if (!$this->_createdInfoParts[$infoPartId->getIdString()]) {
-			$this->_typeDef->load();
-			$this->_createdInfoParts[$infoPartId->getIdString()] =& new HarmoniInfoPart($this, $this->_typeDef->getFieldDefinitionById($infoPartId->getIdString()));
+			$this->_schema->load();
+			$this->_createdInfoParts[$infoPartId->getIdString()] =& new HarmoniInfoPart($this, $this->_schema->getFieldById($infoPartId->getIdString()));
 		}
 		
 		return $this->_createdInfoParts[$infoPartId->getIdString()];
@@ -81,10 +81,10 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @package harmoni.osid.dr
 	 */
 	function & getInfoParts() {
-		$this->_typeDef->load();
+		$this->_schema->load();
 		$array = array();
-		foreach ($this->_typeDef->getAllLabels() as $label) {
-			$fieldDef =& $this->_typeDef->getFieldDefinition($label);
+		foreach ($this->_schema->getAllLabels() as $label) {
+			$fieldDef =& $this->_schema->getField($label);
 			if (!$this->_createdInfoParts[$fieldDef->getID()])
 				 $this->_createdInfoParts[$fieldDef->getID()] =& new HarmoniInfoPart($this, $fieldDef);
 		}
@@ -110,7 +110,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @package harmoni.osid.dr
 	 */
 	function getFormat() {
-		return "Harmoni DataManager DataSetTypeDefinition";
+		return "Harmoni DataManager Schema";
 	}
 
 	/**
@@ -146,18 +146,18 @@ class HarmoniInfoStructure extends InfoStructure
 	function createInfoPart($displayName, $description, & $infoPartType, $isMandatory, $isRepeatable, $isPopulatedByDR) {
 		ArgumentValidator::validate($infoPartType, new ExtendsValidatorRule("TypeInterface"));
 				
-		$fieldDef =& new FieldDefinition($displayName, $infoPartType->getKeyword(), $isRepeatable);
+		$fieldDef =& new SchemaField($displayName, $infoPartType->getKeyword(),"", $isRepeatable);
 // 		print "<p>Creating part with displayname: ".$displayname;
 // 		printpre($fieldDef);
-		$this->_typeDef->addNewField($fieldDef);
- 		$fieldDef->addToDB();
- 		$fieldDef->setMultFlag($isRepeatable);
+		$this->_schema->addField($fieldDef);
+// 		$fieldDef->addToDB();		// handled in synchronize() call.
+// 		$fieldDef->setMultFlag($isRepeatable); // done above in constructor.
 // 		$fieldDef->update();
 // 		$this->_typeDef->commitAllFields();
-		$dataSetTypeManager =& Services::getService("DataSetTypeManager");
-		$dataSetTypeManager->synchronize($this->_typeDef);
+		$schemaManager =& Services::getService("SchemaManager");
+		$schemaManager->synchronize($this->_typeDef);
 		
-		$fieldDef =& $this->_typeDef->getFieldDefinition($displayName);
+		$fieldDef =& $this->_schema->getField($displayName);
 // 		print "<br>Saving infoPart:"; printpre ($fieldDef);
 		
 		$this->_createdInfoParts[$fieldDef->getID()] =& new HarmoniInfoPart($this,

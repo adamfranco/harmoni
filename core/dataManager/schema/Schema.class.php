@@ -8,7 +8,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link SchemaManager}.
  * @package harmoni.datamanager
- * @version $Id: Schema.class.php,v 1.3 2004/08/04 02:18:56 gabeschine Exp $
+ * @version $Id: Schema.class.php,v 1.4 2004/08/04 19:22:34 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -295,6 +295,22 @@ class Schema {
 		if (!$this->fieldExists($label)) return false;
 		
 		return $this->_fields[$label]->getType();
+	}
+	
+	/**
+	 * Returns the {@link SchemaField} associated with the ID passed.
+	 * @param int $id
+	 * @access public
+	 * @return ref object
+	 */
+	function getFieldByID($id)
+	{
+		// find the label
+		foreach (array_keys($this->_fields) as $label) {
+			if ($this->_fields[$label]->getID() == $id) return $this->_fields[$label];
+		}
+		
+		return null;
 	}
 	
 	/**

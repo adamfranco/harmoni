@@ -29,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.3 2004/08/04 02:18:56 gabeschine Exp $
+* @version $Id: Record.class.php,v 1.4 2004/08/04 19:22:33 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -296,6 +296,20 @@ class Record {
 		$this->_checkLabel($label);
 		
 		$this->_fields[$label]->undeleteValue($index);
+	}
+	
+	/**
+	 * Returns true if the given value has been deleted.
+	 * @param string $label the field label to check.
+	 * @param optional int $index The index (defaults to 0) to check.
+	 * @access public
+	 * @return bool
+	 */
+	function deleted($label, $index = 0)
+	{
+		$this->_checkLabel($label);
+		
+		return $this->_fields[$label]->deleted($index);
 	}
 	
 	/**

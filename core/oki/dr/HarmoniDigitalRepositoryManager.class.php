@@ -47,15 +47,16 @@ class HarmoniDigitalRepositoryManager
 		
 		// Make sure that we have a 'harmoni.dr.assetcontent' type InfoStructure for
 		// assets to put their generic content into.
-		$type = new HarmoniType("DR", "Harmoni", "AssetContent", "An InfoStructure for the generic content of an asset.");
-		$dataSetTypeManager =& Services::getService("DataSetTypeManager");
-		if (!$dataSetTypeManager->dataSetTypeExists($type)) {
-			$definition =& $dataSetTypeManager->newDataSetType($type);
-			$definition->addNewField( new FieldDefinition("Content", "blob"));
-			$definition->addNewField( new FieldDefinition("EffectiveDate", "datetime"));
-			$definition->addNewField( new FieldDefinition("ExpirationDate", "datetime"));
-			$dataSetTypeManager->synchronize($definition);
-		}
+//		$type = new HarmoniType("DR", "Harmoni", "AssetContent", "An InfoStructure for the generic content of an asset.");
+//		$dataSetTypeManager =& Services::getService("DataSetTypeManager");
+//		if (!$dataSetTypeManager->dataSetTypeExists($type)) {
+//			$definition =& $dataSetTypeManager->newDataSetType($type);
+//			$definition->addNewField( new FieldDefinition("Content", "blob"));
+//			$definition->addNewField( new FieldDefinition("EffectiveDate", "datetime"));
+//			$definition->addNewField( new FieldDefinition("ExpirationDate", "datetime"));
+//			$dataSetTypeManager->synchronize($definition);
+//		}
+		/* The above functionality will be changed... */
 	}
 
 	/**
