@@ -13,6 +13,6 @@ $this->registerType("float","FloatDataType");
 $this->registerType("shortstring","ShortStringDataType");
 //$this->registerType("datetime","DateTimeDataType");
 //$this->registerType("fuzzydate","FuzzyDateDataType");
-//$this->registerType("blob","BlobDataType");
+$this->registerType("blob","BlobDataType");
 
 ?>

@@ -31,6 +31,16 @@ class HarmoniDigitalRepositoryManager // :: API interface
 		
 		// Cache any created DRs so that we can pass out references to them.
 		$this->_createdDRs = array();
+		
+		// Make sure that we have a 'harmoni.dr.assetcontent' type InfoStructure for
+		// assets to put their generic content into.
+		$type = new HarmoniType("Harmoni", "DR", "AssetContent", "An InfoStructure for the generic content of an asset.");
+		$dataSetTypeManager =& Services::getService("DataSetTypeManager");
+		if (!$dataSetTypeManager->dataSetTypeExists($type)) {
+			$definition =& $dataSetTypeManager->newDataSetType($type);
+			$definition->addNewField( new FieldDefinition("Content", "blob"));
+			$dataSetTypeManager->synchronize($definition);
+		}
 	}
 
 	/**

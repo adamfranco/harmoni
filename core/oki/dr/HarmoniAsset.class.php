@@ -145,6 +145,8 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getContent() {
+		throwError( new Error("This Has not been implemented yet.","HarmoniAsset",true));
+		
 		$dataSetMgr =& Services::getService("DataSetManager");
 		$myId = $this->_node->getId();
 		$myGroup =& $dataSetMgr->fetchDataSetGroup($myId->getIdString());
