@@ -4,7 +4,7 @@
  * Storage Method interface provides functionality to create StorageMethods
  * to handle Storables. A collection of StorageMethods can be used by StorageHandler. 
  *
- * @version $Id: StorageMethod.interface.php,v 1.1 2003/06/30 14:17:27 adamfranco Exp $
+ * @version $Id: StorageMethod.interface.php,v 1.2 2003/06/30 18:04:19 gabeschine Exp $
  * @package harmoni.Storagehandler
  * @copyright 2003
  * @access public
@@ -31,7 +31,7 @@ class StorageMethodInterface {
 	 * @return object Storable The storable, which can be used to retreive the data. False if no such storable exists.
      * @access public
      */
-    function retrieve($name,$path) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function &retrieve($name,$path) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Deletes the storable with a given name and path.
@@ -103,7 +103,7 @@ class StorageMethodInterface {
 
     /**
      * Count all the storables within a certain path.
-     * @param string $path The path within which the storables should be counted
+     * @param string $path The path within which the storables should be counted.
      * @return integer The number of storables found within the path.
      * @access public
      */
