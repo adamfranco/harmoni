@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.7 $ / $Date: 2003/10/23 20:29:28 $
+ * @version $Revision: 1.8 $ / $Date: 2003/10/29 15:09:14 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -187,7 +187,8 @@ class HarmoniNode
 				
 		// update and save
 		$this->_description = $description;
-		$this->save();	}
+		$this->save();	
+	}
 
 	/**
 	 * Update the name of this Node. The description of the new Node;
