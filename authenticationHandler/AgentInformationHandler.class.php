@@ -9,7 +9,7 @@ require_once(HARMONI."authenticationHandler/AgentInformationHandler.interface.ph
  * as email addresses, full names, etc.
  *
  * @package harmoni.authentication.agentinformation
- * @version $Id: AgentInformationHandler.class.php,v 1.5 2003/07/12 15:19:38 gabeschine Exp $
+ * @version $Id: AgentInformationHandler.class.php,v 1.6 2003/07/12 15:52:54 gabeschine Exp $
  * @copyright 2003 
  **/
 class AgentInformationHandler extends AgentInformationHandlerInterface {
@@ -78,27 +78,32 @@ class AgentInformationHandler extends AgentInformationHandlerInterface {
 		$info = array();
 
 		foreach (array_keys($priorities) as $method) {
-			$array = $this->_getInformation($systemName, $method);
-			foreach ($array as $field=>$value) {
-				if ($value)
-					$info[$field] = $value;
+			$users = $this->_getInformation($systemName, $searchMode, $method);
+			foreach ($users as $uname=>$array) {
+    			foreach ($array as $field=>$value) {
+    				if ($value)
+    					$info[$uname][$field] = $value;
+    			}
 			}
 		}
 		
 		// all done
-		return $info;
+		if ($searchMode)
+			return $info;
+		return $info[$systemName];
 	}
 
 	/**
 	 * Gets the agent information from one method.
 	 * @param string $systemName The system name.
+	 * @param boolean $searchMode If we are searching using wildcards or just looking for one name.
 	 * @param string $method The method to use.
 	 * @access private
 	 * @return array An associative array of agent information.
 	 **/
-	function _getInformation( $systemName, $method ) {
+	function _getInformation( $systemName, $searchMode, $method ) {
 		$methodObj =& $this->_authHandler->getMethod($method);
-		$array = $methodObj->getAgentInformation($systemName);
+		$array = $methodObj->getAgentInformation($systemName,$searchMode);
 		return $array;
 	}
 	

@@ -3,7 +3,7 @@
 /**
  * defines the methods that are required for any authenticationMethod
  *
- * @version $Id: AuthenticationMethod.interface.php,v 1.10 2003/07/12 15:19:38 gabeschine Exp $
+ * @version $Id: AuthenticationMethod.interface.php,v 1.11 2003/07/12 15:52:54 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication
@@ -74,8 +74,7 @@ class AuthenticationMethodInterface {
 	 * @param boolean $searchMode Specifies if we are searching for users
 	 * or just trying to get info for one user.
 	 * @access public
-	 * @return array An associative array of [key]=>value pairs. If in search mode,
-	 * an array of said associative arrays corresponding to all the users found
+	 * @return array An array of associative arrays corresponding to all the users found
 	 * that match systemName. The format is [systemName]=>array([key1]=>value1,...),...
 	 **/
 	function getAgentInformation( $systemName, $searchMode=false ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }

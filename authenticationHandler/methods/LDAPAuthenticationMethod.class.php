@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Does authentication procedures with an LDAP server.
  *
- * @version $Id: LDAPAuthenticationMethod.class.php,v 1.14 2003/07/12 15:19:38 gabeschine Exp $
+ * @version $Id: LDAPAuthenticationMethod.class.php,v 1.15 2003/07/12 15:52:54 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication.ldap
@@ -186,8 +186,7 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	 * @param boolean $searchMode Specifies if we are searching for users
 	 * or just trying to get info for one user.
 	 * @access public
-	 * @return array An associative array of [key]=>value pairs. If in search mode,
-	 * an array of said associative arrays corresponding to all the users found
+	 * @return array An array of associative arrays corresponding to all the users found
 	 * that match systemName. The format is [systemName]=>array([key1]=>value1,...),...
 	 **/
 	function getAgentInformation( $systemName, $searchMode=false ) {
@@ -244,8 +243,7 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
     		}
 		}
 		$this->_disconnect();
-		if ($searchMode) return $info;
-		return $info[$systemName];
+		return $info;
 	}
 	
 	/**
