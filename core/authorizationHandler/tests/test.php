@@ -4,12 +4,12 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: test.php,v 1.2 2004/02/27 21:22:39 dobomode Exp $
  * @copyright 2003 
  **/
 
     if (!defined('HARMONI')) {
-        require_once("../../harmoni.inc.php");
+        require_once("../../../harmoni.inc.php");
     }
 
     if (!defined('SIMPLE_TEST')) {
@@ -30,4 +30,7 @@
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 
+	debug::output("Total # of queries: ".$num,1,"DBHandler");
+	debug::printAll();
+	
 ?>

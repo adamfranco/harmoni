@@ -7,7 +7,7 @@ require_once(HARMONI.'authorizationHandler/generator/DatabaseAuthorizationContex
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseAuthorizationContextHierarchyGeneratorTestCase.class.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: DatabaseAuthorizationContextHierarchyGeneratorTestCase.class.php,v 1.2 2004/02/27 21:22:39 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -177,10 +177,13 @@ require_once(HARMONI.'authorizationHandler/generator/DatabaseAuthorizationContex
 			$resultFromDobo = array();
 			$resultFromGenerator = $this->generator->generateSubtree(2, 811);
 			$resultFromDobo[3] = array(675, 679);
+			$this->assertEqual($resultFromGenerator, $resultFromDobo);
 
 			$resultFromDobo = array();
 			$resultFromGenerator = $this->generator->generateSubtree(2, 812);
 			$resultFromDobo[3] = array(676);
+
+			$this->assertEqual($resultFromGenerator, $resultFromDobo);
 
 			$resultFromDobo = array();
 			$resultFromGenerator = $this->generator->generateSubtree(2, 813);

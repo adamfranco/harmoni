@@ -1,5 +1,6 @@
 <?php
 
+require_once(HARMONI.'authorizationHandler/generator/AuthorizationContextHierarchy.class.php');
 require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarchyGenerator.interface.php");
 
 /** 
@@ -12,7 +13,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * hierarchical information.
  * 
  * @access public
- * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.2 2004/02/27 21:22:39 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
