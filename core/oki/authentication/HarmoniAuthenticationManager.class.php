@@ -219,10 +219,10 @@ class HarmoniAuthenticationManager
 				$query =& new SelectQuery;
 				$query->addColumn($this->_authNDB.".authn_mapping.agent_id", "agent_id");
 				$query->addTable($this->_authNDB.".authn_mapping");
-				$query->addWhere($this->_authNDB.".authn_mapping.system_name='".$name."'");
-				$query->addWhere($this->_authNDB.".authn_mapping.type_domain='".$authenticationType->getDomain()."'");
-				$query->addWhere($this->_authNDB.".authn_mapping.type_authority='".$authenticationType->getAuthority()."'");
-				$query->addWhere($this->_authNDB.".authn_mapping.type_keyword='".$authenticationType->getKeyword()."'");
+				$query->addWhere($this->_authNDB.".authn_mapping.system_name='".addslashes($name)."'");
+				$query->addWhere($this->_authNDB.".authn_mapping.type_domain='".addslashes($authenticationType->getDomain())."'");
+				$query->addWhere($this->_authNDB.".authn_mapping.type_authority='".addslashes($authenticationType->getAuthority())."'");
+				$query->addWhere($this->_authNDB.".authn_mapping.type_keyword='".addslashes($authenticationType->getKeyword())."'");
 				$result =& $dbHandler->query($query, $this->_dbIndex);
 				
 				$sharedManager =& Services::getService('Shared');
@@ -247,10 +247,10 @@ class HarmoniAuthenticationManager
 									$this->_authNDB.".authn_mapping.type_authority",
 									$this->_authNDB.".authn_mapping.type_keyword");
 					$query->setColumns($columns);
-					$values = array("'".$id->getIdString()."'", "'".$name."'",
-									"'".$authenticationType->getDomain()."'", 
-									"'".$authenticationType->getAuthority()."'", 
-									"'".$authenticationType->getKeyword()."'");
+					$values = array("'".addslashes($id->getIdString())."'", "'".addslashes($name)."'",
+									"'".addslashes($authenticationType->getDomain())."'", 
+									"'".addslashes($authenticationType->getAuthority())."'", 
+									"'".addslashes($authenticationType->getKeyword())."'");
 					$query->setValues($values);
 					$query->setTable($this->_authNDB.".authn_mapping");
 					$result =& $dbHandler->query($query, $this->_dbIndex);

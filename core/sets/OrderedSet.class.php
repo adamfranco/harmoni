@@ -12,7 +12,7 @@ require_once(dirname(__FILE__)."/OrderedSet.interface.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: OrderedSet.class.php,v 1.2 2004/06/28 21:18:36 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.3 2004/07/28 21:37:42 adamfranco Exp $
  */
  
 class OrderedSet 
@@ -64,7 +64,7 @@ class OrderedSet
 		$query->addColumn("sets.order", "item_order");
 		$query->addColumn("sets.item_id", "item_id");
 		$query->addTable("sets");
-		$query->addWhere("sets.id = '".$this->_setId->getIdString()."'");
+		$query->addWhere("sets.id = '".addslashes($this->_setId->getIdString())."'");
 		$query->addOrderBy("sets.order");
 		
 		$dbHandler =& Services::getService("DBHandler");
@@ -185,8 +185,8 @@ class OrderedSet
 		// Remove the item from the database
 		$query =& new DeleteQuery;
 		$query->setTable("sets");
-		$query->addWhere("sets.id='".$this->_setId->getIdString()."'");
-		$query->addWhere("sets.item_id='".$id->getIdString()."'");
+		$query->addWhere("sets.id='".addslashes($this->_setId->getIdString())."'");
+		$query->addWhere("sets.item_id='".addslashes($id->getIdString())."'");
 		
 		$dbHandler =& Services::getService("DBHandler");
 		$dbHandler->query($query, $this->_dbIndex);
@@ -201,7 +201,7 @@ class OrderedSet
 		// Remove the item from the database
 		$query =& new DeleteQuery;
 		$query->setTable("sets");
-		$query->addWhere("sets.id='".$this->_setId->getIdString()."'");
+		$query->addWhere("sets.id='".addslashes($this->_setId->getIdString())."'");
 				
 		$dbHandler =& Services::getService("DBHandler");
 		$dbHandler->query($query, $this->_dbIndex);
@@ -327,8 +327,8 @@ class OrderedSet
 				$query->setColumns($columns);
 				$values = array($key);
 				$query->setValues($values);
-				$query->addWhere("sets.id = '".$this->_setId->getIdString()."'");
-				$query->addWhere("sets.item_id = '".$val."'");
+				$query->addWhere("sets.id = '".addslashes($this->_setId->getIdString())."'");
+				$query->addWhere("sets.item_id = '".addslashes($val)."'");
 				
 				$dbHandler->query($query);
 			}

@@ -12,7 +12,7 @@ require_once(dirname(__FILE__)."/Set.interface.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: Set.class.php,v 1.2 2004/06/28 21:18:36 adamfranco Exp $
+ * @version $Id: Set.class.php,v 1.3 2004/07/28 21:37:42 adamfranco Exp $
  */
  
 class Set 
@@ -66,7 +66,7 @@ class Set
 		$query =& new SelectQuery;
 		$query->addColumn("sets.item_id", "id");
 		$query->addTable("sets");
-		$query->addWhere("sets.id = '".$this->_setId->getIdString()."'");
+		$query->addWhere("sets.id = '".addslashes($this->_setId->getIdString())."'");
 		
 		$dbHandler =& Services::getService("DBHandler");
 		$result =& $dbHandler->query($query, $this->_dbIndex);
@@ -156,8 +156,8 @@ class Set
 		// Remove the item from the database
 		$query =& new DeleteQuery;
 		$query->setTable("sets");
-		$query->addWhere("sets.id='".$this->_setId->getIdString()."'");
-		$query->addWhere("sets.item_id='".$id->getIdString()."'");
+		$query->addWhere("sets.id='".addslashes($this->_setId->getIdString())."'");
+		$query->addWhere("sets.item_id='".addslashes($id->getIdString())."'");
 		
 		$dbHandler =& Services::getService("DBHandler");
 		$dbHandler->query($query, $this->_dbIndex);

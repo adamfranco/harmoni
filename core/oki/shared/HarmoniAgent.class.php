@@ -196,8 +196,8 @@ class HarmoniAgent extends Agent // :: API interface
 		// set the columns to select
 		$query->addColumn("agent_id", "id");
 		// set where
-		$where = "agent_id = '".$idValue."' AND ";
-		$where .= "agent_display_name = '".$agent->getDisplayName()."'";
+		$where = "agent_id = '".addslashes($idValue)."' AND ";
+		$where .= "agent_display_name = '".addslashes($agent->getDisplayName())."'";
 		$query->setWhere($where);
 
 		$queryResult =& $dbHandler->query($query, $agent->getDBIndex());

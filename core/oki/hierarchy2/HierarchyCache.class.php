@@ -27,7 +27,7 @@ require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
  * 
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
- * @version $Id: HierarchyCache.class.php,v 1.11 2004/06/24 17:51:38 dobomode Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.12 2004/07/28 21:37:42 adamfranco Exp $
  * @package harmoni.osid.hierarchy2
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -324,8 +324,8 @@ class HierarchyCache {
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new DeleteQuery();
 		$query->setTable($db."j_node_node");
-		$query->addWhere($db."j_node_node.fk_parent = '".$parentIdValue."'");
-		$query->addWhere($db."j_node_node.fk_child = '".$childIdValue."'");
+		$query->addWhere($db."j_node_node.fk_parent = '".addslashes($parentIdValue)."'");
+		$query->addWhere($db."j_node_node.fk_child = '".addslashes($childIdValue)."'");
 		
 //		echo "<pre>\n";
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
@@ -355,7 +355,7 @@ class HierarchyCache {
 
 		$this->_nodeQuery->resetWhere();
 		$this->_nodeQuery->addWhere($where);
-		$this->_nodeQuery->addWhere($db."node.fk_hierarchy = '".$this->_hierarchyId."'");
+		$this->_nodeQuery->addWhere($db."node.fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
 
 		$nodeQueryResult =& $dbHandler->query($this->_nodeQuery, $this->_dbIndex);
 		
@@ -537,7 +537,7 @@ class HierarchyCache {
 		// if the node has not been already cached, do it
 		if (!$this->_isCached($idValue)) {
 			// now fetch the node from the database
-			$nodes =& $this->getNodesFromDB($db."node.node_id = '".$idValue."'");
+			$nodes =& $this->getNodesFromDB($db."node.node_id = '".addslashes($idValue)."'");
 			
 			// must be only one node
 			if (count($nodes) != 1) {
@@ -614,7 +614,7 @@ class HierarchyCache {
 			$joinc = $db."parents.fk_type = ".$db."type.type_id";
 			$query->addTable($db."type", INNER_JOIN, $joinc);
 			
-			$where = $db."child.fk_child = '".$idValue."'";
+			$where = $db."child.fk_child = '".addslashes($idValue)."'";
 			$query->addWhere($where);
 			$query->addOrderBy("node_id");
 			
@@ -724,7 +724,7 @@ class HierarchyCache {
 			$joinc = $db."children.fk_type = ".$db."type.type_id";
 			$query->addTable($db."type", INNER_JOIN, $joinc);
 			
-			$where = $db."parent.fk_parent = '".$idValue."'";
+			$where = $db."parent.fk_parent = '".addslashes($idValue)."'";
 			$query->addWhere($where);
 			$query->addOrderBy("node_id");
 			
@@ -887,7 +887,7 @@ class HierarchyCache {
 		}
 		
 		// this is the where clause
-		$where = "level0.fk_parent = '".$idValue."'";
+		$where = "level0.fk_parent = '".addslashes($idValue)."'";
 		$query->addWhere($where);
 		
 //		echo "<pre>\n";
@@ -923,7 +923,7 @@ class HierarchyCache {
 				// if the node has not been cached, then we must create it
 //				echo "<br>--- CACHE UPDATE: ";
 				if (!$this->_isCached($nodeId)) {
-					$nodes =& $this->getNodesFromDB($db."node.node_id = '".$nodeId."'");
+					$nodes =& $this->getNodesFromDB($db."node.node_id = '".addslashes($nodeId)."'");
 					
 					// must be only one node
 					if (count($nodes) != 1) {
@@ -1044,7 +1044,7 @@ class HierarchyCache {
 		}
 		
 		// this is the where clause
-		$where = "level0.fk_child = '".$idValue."'";
+		$where = "level0.fk_child = '".addslashes($idValue)."'";
 		$query->addWhere($where);
 		
 //		echo "<pre>\n";
@@ -1080,7 +1080,7 @@ class HierarchyCache {
 				// if the node has not been cached, then we must create it
 //				echo "<br>--- CACHE UPDATE: ";
 				if (!$this->_isCached($nodeId)) {
-					$nodes =& $this->getNodesFromDB($db."node.node_id = '".$nodeId."'");
+					$nodes =& $this->getNodesFromDB($db."node.node_id = '".addslashes($nodeId)."'");
 					
 					// must be only one node
 					if (count($nodes) != 1) {
@@ -1198,10 +1198,10 @@ class HierarchyCache {
 		$query =& new SelectQuery();
 		$query->addTable($db."type");
 		$query->addColumn("type_id", "id", $db."type");
-		$where = $db."type.type_domain = '".$domain."'";
-		$where .= " AND {$db}type.type_authority = '".$authority."'";
-		$where .= " AND {$db}type.type_keyword = '".$keyword."'";
-		$where .= " AND {$db}type.type_description = '".$typeDescription."'";
+		$where = $db."type.type_domain = '".addslashes($domain)."'";
+		$where .= " AND {$db}type.type_authority = '".addslashes($authority)."'";
+		$where .= " AND {$db}type.type_keyword = '".addslashes($keyword)."'";
+		$where .= " AND {$db}type.type_description = '".addslashes($typeDescription)."'";
 											  
 		$query->addWhere($where);
 
@@ -1334,7 +1334,7 @@ class HierarchyCache {
 		$db = $this->_hyDB.".";
 		$query->addTable($db."node");
 		$query->addColumn("fk_type", "type_id", $db."node");
-		$query->addWhere($db."node.node_id = '".$idValue."'");
+		$query->addWhere($db."node.node_id = '".addslashes($idValue)."'");
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -1346,7 +1346,7 @@ class HierarchyCache {
 		// 2. Now delete the node
 		$query =& new DeleteQuery();
 		$query->setTable($db."node");
-		$query->addWhere($db."node.node_id = '".$idValue."'");
+		$query->addWhere($db."node.node_id = '".addslashes($idValue)."'");
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		// 3. Now see if any other nodes have the same type
@@ -1356,14 +1356,14 @@ class HierarchyCache {
 		$query->addTable($db."node");
 		// count the number of nodes using the same type
 		$query->addColumn("COUNT({$db}node.fk_type)", "num");
-		$query->addWhere($db."node.fk_type = '".$typeIdValue."'");
+		$query->addWhere($db."node.fk_type = '".addslashes($typeIdValue)."'");
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		$num = $queryResult->field("num");
 		if ($num == 0) { // if no other nodes use this type, then delete the type
 			$query =& new DeleteQuery();
 			$query->setTable($db."type");
-			$query->addWhere($db."type.type_id = '".$typeIdValue."'");
+			$query->addWhere($db."type.type_id = '".addslashes($typeIdValue)."'");
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		}
 

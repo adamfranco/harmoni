@@ -25,7 +25,7 @@ require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
  * @author Middlebury College
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.6 2004/07/07 15:09:12 dobomode Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.7 2004/07/28 21:37:42 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -333,7 +333,7 @@ class HarmoniHierarchyManager extends HierarchyManager {
 		$query->addTable($db."node");
 		$joinc = $db."node.fk_hierarchy = ".$db."hierarchy.hierarchy_id";
 		$query->addTable($db."hierarchy", INNER_JOIN, $joinc);
-		$where = $db."node.node_id = '".$idValue."'";
+		$where = $db."node.node_id = '".addslashes($idValue)."'";
 		$query->addWhere($where);
 		
 		$nodeQueryResult =& $dbHandler->query($query, $this->_dbIndex);

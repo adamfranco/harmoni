@@ -15,7 +15,7 @@ require_once(HARMONI."/themeHandler/themes/ImageBox/ImageBox.theme.php");
  * setting.
  *
  * @package harmoni.themes
- * @version $Id: ThemeHandler.class.php,v 1.9 2004/04/13 23:37:19 adamfranco Exp $
+ * @version $Id: ThemeHandler.class.php,v 1.10 2004/07/28 21:37:42 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -187,7 +187,7 @@ class ThemeHandler {
 			$query->addTable("setting", INNER_JOIN, "theme.id = setting.fk_theme");
 			$query->addTable("widget_type", LEFT_JOIN, "widget_type.id = setting.fk_widget_type");
 			
-			$query->addWhere("theme.id='".$id->getIdString()."'");
+			$query->addWhere("theme.id='".addslashes($id->getIdString())."'");
 			
 			$dbhandler =& Services::getService("DBHandler");
 			$result =& $dbhandler->query($query, $this->_storageLocation);
@@ -248,11 +248,11 @@ class ThemeHandler {
 		// Remove the old version of the theme from the DB if it exists:		
 		$query =& new DeleteQuery;
 		$query->setTable("setting");
-		$query->addWhere("fk_theme='".$id->getIdString()."'");
+		$query->addWhere("fk_theme='".addslashes($id->getIdString())."'");
 		$dbhandler->query($query, $this->_storageLocation);
 		$query =& new DeleteQuery;
 		$query->setTable("theme");
-		$query->addWhere("id='".$id->getIdString()."'");
+		$query->addWhere("id='".addslashes($id->getIdString())."'");
 		$dbhandler->query($query, $this->_storageLocation);
 		
 		// Store the theme
@@ -297,7 +297,7 @@ class ThemeHandler {
 					$widgetTypeQuery =& new SelectQuery();
 					$widgetTypeQuery->addTable("widget_type");
 					$widgetTypeQuery->addColumn("id");
-					$widgetTypeQuery->addWhere("type='".$widget->getType()."'");
+					$widgetTypeQuery->addWhere("type='".addslashes($widget->getType())."'");
 					$result =& $dbhandler->query($widgetTypeQuery, $this->_storageLocation);
 	
 					if ($result->getNumberOfRows()) {

@@ -36,7 +36,7 @@ require_once(HARMONI."oki/shared/HarmoniId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.34 2004/07/07 15:09:12 dobomode Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.35 2004/07/28 21:37:42 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -162,10 +162,10 @@ class HarmoniSharedManager
 		$query =& new SelectQuery();
 		$query->addTable($db."type");
 		$query->addColumn("type_id", "id", $db."type");
-		$where = $db."type.type_domain = '".$domain."'";
-		$where .= " AND {$db}type.type_authority = '".$authority."'";
-		$where .= " AND {$db}type.type_keyword = '".$keyword."'";
-		$where .= " AND {$db}type.type_description = '".$description."'";
+		$where = $db."type.type_domain = '".addslashes($domain)."'";
+		$where .= " AND {$db}type.type_authority = '".addslashes($authority)."'";
+		$where .= " AND {$db}type.type_keyword = '".addslashes($keyword)."'";
+		$where .= " AND {$db}type.type_description = '".addslashes($description)."'";
 		$query->addWhere($where);
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -181,10 +181,10 @@ class HarmoniSharedManager
 			$columns[] = "type_description";
 			$query->setColumns($columns);
 			$values = array();
-			$values[] = "'".$domain."'";
-			$values[] = "'".$authority."'";
-			$values[] = "'".$keyword."'";
-			$values[] = "'".$description."'";
+			$values[] = "'".addslashes($domain)."'";
+			$values[] = "'".addslashes($authority)."'";
+			$values[] = "'".addslashes($keyword)."'";
+			$values[] = "'".addslashes($description)."'";
 			$query->setValues($values);
 
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -200,9 +200,9 @@ class HarmoniSharedManager
 		$columns[] = "fk_type";
 		$query->setColumns($columns);
 		$values = array();
-		$values[] = "'".$agentIdValue."'";
-		$values[] = "'".$displayName."'";
-		$values[] = "'".$typeIdValue."'";
+		$values[] = "'".addslashes($agentIdValue)."'";
+		$values[] = "'".addslashes($displayName)."'";
+		$values[] = "'".addslashes($typeIdValue)."'";
 		$query->setValues($values);
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -244,7 +244,7 @@ class HarmoniSharedManager
 		$db = $this->_sharedDB.".";
 		$query->addTable($db."agent");
 		$query->addColumn("fk_type", "type_id", $db."agent");
-		$query->addWhere($db."agent.agent_id = '".$idValue."'");
+		$query->addWhere($db."agent.agent_id = '".addslashes($idValue)."'");
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -256,7 +256,7 @@ class HarmoniSharedManager
 		// 2. Now delete the agent
 		$query =& new DeleteQuery();
 		$query->setTable($db."agent");
-		$query->addWhere($db."agent.agent_id = '".$idValue."'");
+		$query->addWhere($db."agent.agent_id = '".addslashes($idValue)."'");
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		
@@ -267,14 +267,14 @@ class HarmoniSharedManager
 		$query->addTable($db."agent");
 		// count the number of agents using the same type
 		$query->addColumn("COUNT({$db}agent.fk_type)", "num");
-		$query->addWhere($db."agent.fk_type = '".$typeIdValue."'");
+		$query->addWhere($db."agent.fk_type = '".addslashes($typeIdValue)."'");
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		$num = $queryResult->field("num");
 		if ($num == 0) { // if no other agents use this type, then delete the type
 			$query =& new DeleteQuery();
 			$query->setTable($db."type");
-			$query->addWhere($db."type.type_id = '".$typeIdValue."'");
+			$query->addWhere($db."type.type_id = '".addslashes($typeIdValue)."'");
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		}
 
@@ -283,7 +283,7 @@ class HarmoniSharedManager
 		$query =& new SelectQuery();
 		$query->addColumn("fk_groups", "group_id", $db."j_groups_agent");
 		$query->addTable($db."j_groups_agent");
-		$query->addWhere($db."j_groups_agent.fk_agent = '".$idValue."'");
+		$query->addWhere($db."j_groups_agent.fk_agent = '".addslashes($idValue)."'");
 //		echo "<pre>\n";
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
 //		echo "</pre>\n";
@@ -291,7 +291,7 @@ class HarmoniSharedManager
 		// now delete the entries in the database
 		$query =& new DeleteQuery();
 		$query->setTable($db."j_groups_agent");
-		$query->addWhere($db."j_groups_agent.fk_agent = '".$idValue."'");
+		$query->addWhere($db."j_groups_agent.fk_agent = '".addslashes($idValue)."'");
 //		echo "<pre>\n";
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
 //		echo "</pre>\n";
@@ -345,7 +345,7 @@ class HarmoniSharedManager
 		if (isset($this->_agentsCache[$idValue]))
 			return $this->_agentsCache[$idValue];
 			
-		$where = $db."agent.agent_id = '".$idValue."'";
+		$where = $db."agent.agent_id = '".addslashes($idValue)."'";
 
 		$this->_loadAgents($where);
 		
@@ -525,10 +525,10 @@ class HarmoniSharedManager
 		$query =& new SelectQuery();
 		$query->addTable($db."type");
 		$query->addColumn("type_id", "id", $db."type");
-		$where = $db."type.type_domain = '".$domain."'";
-		$where .= " AND ".$db."type.type_authority = '".$authority."'";
-		$where .= " AND ".$db."type.type_keyword = '".$keyword."'";
-		$where .= " AND ".$db."type.type_description = '".$desc."'";
+		$where = $db."type.type_domain = '".addslashes($domain)."'";
+		$where .= " AND ".$db."type.type_authority = '".addslashes($authority)."'";
+		$where .= " AND ".$db."type.type_keyword = '".addslashes($keyword)."'";
+		$where .= " AND ".$db."type.type_description = '".addslashes($desc)."'";
 		$query->addWhere($where);
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -609,7 +609,7 @@ class HarmoniSharedManager
 		$db = $this->_sharedDB.".";
 		$query->addTable($db."groups");
 		$query->addColumn("fk_type", "type_id", $db."groups");
-		$query->addWhere($db."groups.groups_id = '".$idValue."'");
+		$query->addWhere($db."groups.groups_id = '".addslashes($idValue)."'");
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -621,7 +621,7 @@ class HarmoniSharedManager
 		// 2. Now delete the group
 		$query =& new DeleteQuery();
 		$query->setTable($db."groups");
-		$query->addWhere($db."groups.groups_id = '".$idValue."'");
+		$query->addWhere($db."groups.groups_id = '".addslashes($idValue)."'");
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		
@@ -632,14 +632,14 @@ class HarmoniSharedManager
 		$query->addTable($db."groups");
 		// count the number of groups using the same type
 		$query->addColumn("COUNT({$db}groups.fk_type)", "num");
-		$query->addWhere($db."groups.fk_type = '".$typeIdValue."'");
+		$query->addWhere($db."groups.fk_type = '".addslashes($typeIdValue)."'");
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		$num = $queryResult->field("num");
 		if ($num == 0) { // if no other groups use this type, then delete the type
 			$query =& new DeleteQuery();
 			$query->setTable($db."type");
-			$query->addWhere($db."type.type_id = '".$typeIdValue."'");
+			$query->addWhere($db."type.type_id = '".addslashes($typeIdValue)."'");
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		}
 
@@ -649,7 +649,7 @@ class HarmoniSharedManager
 		$query =& new SelectQuery();
 		$query->addColumn("fk_parent", "group_id", $db."j_groups_groups");
 		$query->addTable($db."j_groups_groups");
-		$query->addWhere($db."j_groups_groups.fk_child = '".$idValue."'");
+		$query->addWhere($db."j_groups_groups.fk_child = '".addslashes($idValue)."'");
 //		echo "<pre>\n";
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
 //		echo "</pre>\n";
@@ -657,8 +657,8 @@ class HarmoniSharedManager
 		// now delete the entries in the database
 		$query =& new DeleteQuery();
 		$query->setTable($db."j_groups_groups");
-		$query->addWhere($db."j_groups_groups.fk_parent = '".$idValue."'");
-		$query->addWhere($db."j_groups_groups.fk_child = '".$idValue."'", _OR);
+		$query->addWhere($db."j_groups_groups.fk_parent = '".addslashes($idValue)."'");
+		$query->addWhere($db."j_groups_groups.fk_child = '".addslashes($idValue)."'", _OR);
 //		echo "<pre>\n";
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
 //		echo "</pre>\n";
@@ -712,7 +712,7 @@ class HarmoniSharedManager
 		if (isset($this->_groupsCache[$idValue]))
 			return $this->_groupsCache[$idValue];
 
-		$where = $db."subgroup0.groups_id = '".$idValue."'";
+		$where = $db."subgroup0.groups_id = '".addslashes($idValue)."'";
 
 		$this->_loadGroups($where);
 		
@@ -885,7 +885,7 @@ class HarmoniSharedManager
 					// now fetch the info and all agents for this group
 					// set the columns to select
 					$subquery1->resetWhere();
-					$subquery1->addWhere($db."groups.groups_id = '".$value."'");
+					$subquery1->addWhere($db."groups.groups_id = '".addslashes($value)."'");
 
 					$subqueryResult =& $dbHandler->query($subquery1, $this->_dbIndex);
 					if ($subqueryResult->getNumberOfRows() == 0)
@@ -898,7 +898,7 @@ class HarmoniSharedManager
 
 					// now fetch all agents in this subgroup
 					$subquery2->resetWhere();
-					$subquery2->addWhere($db."groups.groups_id = '".$value."'");
+					$subquery2->addWhere($db."groups.groups_id = '".addslashes($value)."'");
 					
 					$subqueryResult =& $dbHandler->query($subquery2, $this->_dbIndex);
 

@@ -250,8 +250,8 @@ class HarmoniGroup // :: API interface
 				$childId =& $memberOrGroup->getId();
 				$query =& new DeleteQuery();
 				$query->setTable($db."j_groups_groups");
-				$query->addWhere($db."j_groups_groups.fk_parent = '".$parentId->getIdString()."'");
-				$query->addWhere($db."j_groups_groups.fk_child = '".$childId->getIdString()."'");
+				$query->addWhere($db."j_groups_groups.fk_parent = '".addslashes($parentId->getIdString())."'");
+				$query->addWhere($db."j_groups_groups.fk_child = '".addslashes($childId->getIdString())."'");
 				$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 				if ($queryResult->getNumberOfRows() != 1)
 					throwError(new Error("Delete failed.","SharedManager",true));
@@ -268,8 +268,8 @@ class HarmoniGroup // :: API interface
 				$childId =& $memberOrGroup->getId();
 				$query =& new DeleteQuery();
 				$query->setTable($db."j_groups_agent");
-				$query->addWhere($db."j_groups_agent.fk_groups = '".$parentId->getIdString()."'");
-				$query->addWhere($db."j_groups_agent.fk_agent = '".$childId->getIdString()."'");
+				$query->addWhere($db."j_groups_agent.fk_groups = '".addslashes($parentId->getIdString())."'");
+				$query->addWhere($db."j_groups_agent.fk_agent = '".addslashes($childId->getIdString())."'");
 				$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 				if ($queryResult->getNumberOfRows() != 1)
 					throwError(new Error("Delete failed.","SharedManager",true));
@@ -402,9 +402,9 @@ class HarmoniGroup // :: API interface
 		// set the columns to select
 		$query->addColumn("groups_id", "id");
 		// set where
-		$where = "groups_id = '".$idValue."' AND ";
-		$where .= "groups_display_name = '".$group->getDisplayName()."' AND ";
-	    $where .= "groups_description = '".$group->getDescription()."'";
+		$where = "groups_id = '".addslashes($idValue)."' AND ";
+		$where .= "groups_display_name = '".addslashes($group->getDisplayName())."' AND ";
+	    $where .= "groups_description = '".addslashes($group->getDescription())."'";
 		$query->addWhere($where);
 
 		echo "<pre>\n";

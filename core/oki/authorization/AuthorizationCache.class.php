@@ -6,7 +6,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.5 2004/07/07 15:09:11 dobomode Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.6 2004/07/28 21:37:42 adamfranco Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -186,10 +186,10 @@ class AuthorizationCache {
 		$query =& new SelectQuery();
 		$query->addTable($db."type");
 		$query->addColumn("type_id", "id", $db."type");
-		$where = $db."type.type_domain = '".$domain."'";
-		$where .= " AND {$db}type.type_authority = '".$authority."'";
-		$where .= " AND {$db}type.type_keyword = '".$keyword."'";
-		$where .= " AND {$db}type.type_description = '".$functionTypeDescription."'";
+		$where = $db."type.type_domain = '".addslashes($domain)."'";
+		$where .= " AND {$db}type.type_authority = '".addslashes($authority)."'";
+		$where .= " AND {$db}type.type_keyword = '".addslashes($keyword)."'";
+		$where .= " AND {$db}type.type_description = '".addslashes($functionTypeDescription)."'";
 											  
 		$query->addWhere($where);
 
@@ -344,11 +344,11 @@ class AuthorizationCache {
 		$query->addTable($dbt);
 		$joinc = $dbt.".fk_type = ".$db.".type.type_id";
 		$query->addTable($db.".type", INNER_JOIN, $joinc);
-		$where = $db.".type.type_domain = '".$functionType->getDomain()."'";
+		$where = $db.".type.type_domain = '".addslashes($functionType->getDomain())."'";
 		$query->addWhere($where);
-		$where = $db.".type.type_authority = '".$functionType->getAuthority()."'";
+		$where = $db.".type.type_authority = '".addslashes($functionType->getAuthority())."'";
 		$query->addWhere($where);
-		$where = $db.".type.type_keyword = '".$functionType->getKeyword()."'";
+		$where = $db.".type.type_keyword = '".addslashes($functionType->getKeyword())."'";
 		$query->addWhere($where);
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -541,7 +541,7 @@ class AuthorizationCache {
 
 		$query =& new DeleteQuery();
 		$query->setTable($dbt);
-		$query->addWhere($dbt.".authorization_id = '".$idValue."'");
+		$query->addWhere($dbt.".authorization_id = '".addslashes($idValue)."'");
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
@@ -602,7 +602,7 @@ class AuthorizationCache {
 
 		$query =& new DeleteQuery();
 		$query->setTable($dbt);
-		$query->addWhere($dbt.".function_id = '".$idValue."'");
+		$query->addWhere($dbt.".function_id = '".addslashes($idValue)."'");
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		

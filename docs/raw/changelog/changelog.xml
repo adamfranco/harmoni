@@ -3,6 +3,15 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.2.0" date="Unreleased">
+		<change author='adam' task='102450'>
+			AuthN queries now have slashes added to dbc query values.
+		</change>
+		<change author='adam' task='102449'>
+			Shared queries now have slashes added to query values.
+		</change>
+		<change author='adam' task='102455'>
+			Globally added addslashes() calls to quoted values in query strings.
+		</change>
 		<new author='gabe'>
 			Added a "revision" to all DataSetTypeDefinitions for later program upgrades (can check revision number to see if the structure is up-to-date instead of comparing every field).
 		</new>
@@ -364,6 +373,9 @@
 		<name short="gabe">Gabe Schine</name>
 		<name short="adam">Adam Franco</name>
 		<name short="dobo">Dobo Radichkov</name>
+		<name short="nik">Nikitas Stamatopoulos</name>
+		<name short="niraj">Niraj Dhungel</name>
+		<name short="alex">Alex Chapin</name>
 		<name short="max">Max Ovsjanikovs</name>
 		<name short="eric">Eric Janssen</name>
 		<name short="zach">Zach Toups</name>
@@ -373,5 +385,6 @@
 	<reftypes>
 		<reftype name="bug">567473</reftype>
 		<reftype name="fr">567476</reftype>
+		<reftype name="task"></reftype>
 	</reftypes>
 </changelog>
