@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.8 2004/05/04 21:51:15 adamfranco Exp $
+ * @version $Id: LoginHandler.class.php,v 1.9 2004/06/09 19:51:16 adamfranco Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -152,7 +152,7 @@ class LoginHandler {
 		// Continue with authenticating
 		} else {
 			// first try getting the username/pass from a callback function first.
-			if ($function = $this->_usernamePasswordCallbackFunction) {
+			if ($function = $this->_usernamePasswordCallbackFunction($this->_harmoni)) {
 				$result = $function();
 				if (!$result) {
 					// the user didn't enter any info yet -- execute the failed login action
