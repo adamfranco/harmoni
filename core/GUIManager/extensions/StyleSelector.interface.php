@@ -22,7 +22,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleSelector.interface.php,v 1.2 2005/01/19 21:09:38 adamfranco Exp $
+ * @version $Id: StyleSelector.interface.php,v 1.3 2005/01/19 21:46:29 adamfranco Exp $
  */
 class StyleSelectorInterface {
 
@@ -39,7 +39,6 @@ class StyleSelectorInterface {
 	 * Determines whether the implementation of this <code>StyleSelector</code>
 	 * allows <code>StyleCollections</code> to be applied to <code>Components</code>.
 	 * @access public
-	 * @param 
 	 * @return 
 	 **/
 	function canBeApplied() {

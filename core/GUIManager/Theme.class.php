@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.9 2005/01/19 21:07:52 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.10 2005/01/19 21:46:28 adamfranco Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -710,7 +710,6 @@ class Theme extends ThemeInterface {
 	 * Returns all registered mutable style properties in an array whose indexes are the
 	 * ids of the style properties (as returned by <code>registerSP()</code>).
 	 * @access public
-	 * @param 
 	 * @return ref array An array containing all registered mutable 
 	 * <code>StyleProperty</code> objects.
 	 **/
