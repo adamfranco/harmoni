@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.42 2005/03/25 22:44:55 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.43 2005/03/28 23:32:36 nstamato Exp $
 * @copyright 2003
 **/
 
@@ -38,6 +38,11 @@ if (!defined("LOAD_DEBUG")) 				define("LOAD_DEBUG", true);
  * functionality affected: Layout/Themes
  */
 if (!defined("LOAD_THEMES")) 				define("LOAD_THEMES", true);
+
+/**
+ * functionality affected: Themes/Layouts through the GUIManager
+ */
+if(!defined("LOAD_GUI"))			define("LOAD_GUI",false);
 
 /**
  * functionality affected: HarmoniDataManager, sub-services: DataSetTypeManager, DataTypeManager, DataSetManager
@@ -253,6 +258,16 @@ if (LOAD_THEMES) {
 	require_once(HARMONI."themeHandler/ThemeHandler.class.php");
 	Services::registerService("ThemeManager", "ThemeHandler");
 	Services::createServiceAlias("ThemeManager", "Themes");
+}
+
+/**
+ * load the GuiManager
+ */
+if(LOAD_GUI) {
+
+	require_once(HARMONI."GUIManager/GUIManager.class.php");
+	Services::registerService("GUI","GUIManager");
+
 }
 
 /**

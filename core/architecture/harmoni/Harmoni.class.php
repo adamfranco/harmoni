@@ -22,7 +22,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.30 2005/01/19 21:09:39 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.31 2005/03/28 23:32:37 nstamato Exp $
  **/
 class Harmoni {
 	
@@ -440,10 +440,16 @@ class Harmoni {
 		if ($this->config->get("outputHTML")) {
 			// alright, if what we got back was a layout, let's print it out!
 			$rule = new ExtendsValidatorRule("LayoutInterface");
+			$rule2 = new ExtendsValidatorRule("ComponentInterface");
 			if ($rule->check($result)) {
 				// indeed!
 				$this->theme->printPage($result);
-			} else {
+			} else if($rule2->check($result)){
+				$this->theme->setComponent($result);
+				$this->theme->printPage();
+			}
+			
+			else{
 				// we got something else back... well, let's print out an error
 				// explaining what happened.
 				$type = gettype($result);

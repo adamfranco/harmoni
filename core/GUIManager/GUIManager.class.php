@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.11 2005/02/07 21:38:13 adamfranco Exp $
+ * @version $Id: GUIManager.class.php,v 1.12 2005/03/28 23:32:37 nstamato Exp $
  */
 class GUIManager extends GUIManagerInterface {
 
@@ -447,7 +447,27 @@ class GUIManager extends GUIManagerInterface {
 		}
 		
 	}
-
+	
+	
+	/**
+	 * The start function is called when a service is created. Services may
+	 * want to do pre-processing setup before any users are allowed access to
+	 * them.
+	 * @access public
+	 * @return void
+	 **/
+	function start() {
+	}
+	
+	/**
+	 * The stop function is called when a Harmoni service object is being destroyed.
+	 * Services may want to do post-processing such as content output or committing
+	 * changes to a database, etc.
+	 * @access public
+	 * @return void
+	 **/
+	function stop() {
+	}
 }
 
 ?>

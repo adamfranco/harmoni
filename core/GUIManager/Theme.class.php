@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.13 2005/03/10 03:18:18 dobomode Exp $
+ * @version $Id: Theme.class.php,v 1.14 2005/03/28 23:32:37 nstamato Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -55,6 +55,13 @@ class Theme extends ThemeInterface {
 	 * @access private
 	 */
 	var $_pageTitle;
+	
+	/**
+	 * @var string $_headJavascript The javascript functions to put between &lt;script&gt; tags 
+	 * 		in the &lt;head&gt; section.
+	 * @access private
+	 **/
+	var $_headJavascript = "";
 	
 	/**
 	 * An array storing style collections for the different
@@ -481,6 +488,18 @@ class Theme extends ThemeInterface {
 		
 		$this->_pageTitle = $title;
 	}
+	
+	/**
+	 * Adds $javascriptString to the &lt;pre&gt;&lt;script ...&gt;....&lt;/script&gt;&lt;/pre&gt; (script) section of the head section of the page.
+	 * @param string $javascriptString The javascript to add to the script section.
+	 * @access public
+	 * @return void
+	 **/
+	function addHeadJavascript ( $javascriptString ) {
+		ArgumentValidator::validate($javascriptString, new StringValidatorRule);
+		
+		$this->_headJavascript .= "\n".$javascriptString;
+	}
 
 	/**
 	 * Returns all CSS code: The CSS code for the Theme, the various component types,
@@ -559,6 +578,12 @@ class Theme extends ThemeInterface {
 		echo "\n\t\t<style type=\"text/css\">\n";
 		echo $this->getCSS("\t\t\t");
  		echo "\t\t</style>\n";
+ 		print "\n\t\t<script type='text/javascript'>
+//<![CDATA[";
+		print $this->_headJavascript;
+		print "\n\t\t//]]>
+</script>";
+ 		
  		echo "\t</head>\n";
 
  		echo "\t<body>\n";
@@ -730,5 +755,4 @@ class Theme extends ThemeInterface {
 	}
 	
 }
-
 ?>
