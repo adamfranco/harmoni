@@ -3,7 +3,7 @@
 <!-- this contains a chapter of the Harmoni manual -->
 
 <chapter>
-	<version>$Id: 02-Getting\040Started.xml,v 1.1 2003/08/23 23:56:21 gabeschine Exp $</version>
+	<version>$Id: 02-Getting\040Started.xml,v 1.2 2003/08/25 20:22:19 adamfranco Exp $</version>
 	<name>Getting Started</name>
 	<p>This chapter gives you a quick-start guide to Harmoni. It will concentrate on the most common required services: Authentication and Database Connectivity, as well as usage of the architecture.</p>
 	<section>
@@ -97,9 +97,9 @@
 			
 			<block>
 Our query has 3 rows!
-Result row: column1 = jones, column2 AS anAlias = fred
-Result row: column1 = jones, column2 AS anAlias = george
-Result row: column1 = jones, column2 AS anAlias = franky
+Result row: column1 = jones, anAlias = fred
+Result row: column1 = jones, anAlias = george
+Result row: column1 = jones, anAlias = franky
 			</block>
 			
 			<p>The SQL query could look something like:</p>

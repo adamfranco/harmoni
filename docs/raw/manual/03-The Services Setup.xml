@@ -3,7 +3,7 @@
 <!-- this contains a chapter of the Harmoni manual -->
 
 <chapter>
-	<version>$Id: 03-The\040Services\040Setup.xml,v 1.1 2003/08/23 23:56:21 gabeschine Exp $</version>
+	<version>$Id: 03-The\040Services\040Setup.xml,v 1.2 2003/08/25 20:22:19 adamfranco Exp $</version>
 	<name>The Services Setup</name>
 	
 	<section>
@@ -47,6 +47,8 @@ function storeMyFile(&amp;$file, $path, $filename) {
 	<section>
 		<name>Creating New Services</name>
 		<p>Creating new services is easy: <b>Service::registerService("myService","className")</b>. You can name your service anything, as long as another service doesn't have that name. The <i>className</i> argument is the class that should be instantiated. Any class you register must extend the "Service" interface. Then, anywhere you want, you can get the service named "MyService", and it will hand you an object of the class "className".</p>
+
+		<note>PHP4 does not have a notion of object interfaces built in. All objects in PHP4 are simply classes. When we write interfaces in Harmoni, we simply write class and name it "interface" and impliment it with a <i>die</i> function that must be over-ridden by child classes. Generally this works fine, but sometimes a class needs to inherit functions from multiple "interfaces". Since classes can only <i>extend</i> a single implimented class, there is no way to have any sort of multiple inheritance in PHP4. To get around this limitation, the current (PHP4) HarmoniServices class does not check specifically that a service <i>extends</i> the "Service" interface, but instead checks that the service provides the <i>start</i> and <i>stop</i> methods defined in the interface. Please note that this is a hack. Future versions of Harmoni written in PHP5 may require that services actually <i>impliment</i> the "Services" interface. But all will be well then with the better object support promised for PHP5.</note>
 
 		<heading>Already Instantiated Objects</heading>
 		<p>Sometimes it's useful to register a class that's already been instantiated as a service. This is especially useful if the class' constructor takes arguments. Here's the code:</p>
