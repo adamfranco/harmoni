@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.12 $ / $Date: 2004/01/13 23:03:46 $
+ * @version $Revision: 1.13 $ / $Date: 2004/01/14 21:17:05 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -308,6 +308,15 @@ class HarmoniNode
 		// Make sure that we are not moving a node to itsself
 		if ($newParentId->isEqual($this->getId()))
 			throwError(new Error(OPERATION_FAILED, "Hierarchy", 1));
+			
+		// Make sure that we are not moving a node to one of its children
+		$depth = $this->_hierarchyStore->depth($this->_id->getIdString());
+		$newParentDepth = $this->_hierarchyStore->depth($newParentId->getIdString());
+		if ($newParentDepth > $depth) {
+			$descendentIds = $this->_hierarchyStore->depthFirstEnumeration($this->_id->getIdString());
+			if (in_array($newParentId->getIdString(), $descendentIds))
+				throwError(new Error(OPERATION_FAILED, "Hierarchy", 1));
+		}
 		
 		// move the node
 		$idString = $this->_id->getIdString();
