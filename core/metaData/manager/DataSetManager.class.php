@@ -15,7 +15,78 @@ class DataSetManager extends ServiceInterface {
 	}
 	
 	function &fetchArrayOfIDs( $dataSetIDs, $editable=false ) {
+		// first, make the new query
+		$query =& new SelectQuery();
+
+		$this->_setupSelectQuery($query);
+
+		$t = array();
+		foreach ($dataSetIDs as $dataSetID) {
+			$t[] = "dataset_id=".$dataSetID;
+		}
+		$query->addWhere("(".implode(" OR ", $t).")");
+		if (!$editable) $query->addWhere("datasetfield_active=1");
 		
+		$dbHandler =& Services::getService("DBHandler");
+		
+		$result =& $dbHandler->query($query,$this->_dbID);
+		
+		if (!$result) {
+			throwError(new UnknownDBError("DataSetManager"));
+		}
+		
+		// now, we need to parse things out and distribute the lines accordingly
+		$sets = array();
+		
+		while ($result->hasMoreRows()) {
+			$a = $result->getCurrentRow();
+			$result->advanceRow();
+			
+			$id = $a['dataset_id'];
+			if (!$sets[$id]) {
+				$sets[$id] = array("count"=>0,"type"=>null,"vcontrol"=>false);
+			}
+			
+			// let's get some basic info from the row
+			if (!$sets[$id]["type"] && $a['fk_datasettype'])
+				$sets[$id]["type"] = $a['fk_datasettype'];
+			
+			if (!$sets[$id]["vcontrol"] && $a['dataset_ver_control'])
+				$sets[$id]["vcontrol"] = ($a['dataset_ver_control'])?true:false;
+			
+			$sets[$id]["count"]++;
+			$sets[$id][] = $a;
+		}
+		
+/*		if ($dataSetTypeID == null) {
+			throwError( new Error(
+				"Serious error: could not find a datasettype to associate with DataSet ID '$dataSetID'!",
+				"DataSetManager",true));
+			return false;
+		} */		
+		
+		$objs = array();
+		foreach (array_keys($sets) as $id) {
+			$dataSetTypeDef =& $this->_typeManager->getDataSetTypeDefinitionByID($sets[$id]["type"]);
+			$dataSetTypeDef->load(); // get Definition from DB
+			
+			if ($editable) $newDataSet =& new FullDataSet($this->_idManager,
+			$this->_dbID,
+			$dataSetTypeDef,
+			$sets[$id]["vcontrol"]
+			);
+			else $newDataSet =& new CompactDataSet($this->_idManager,
+			$this->_dbID,
+			$dataSetTypeDef,
+			$sets[$id]["vcontrol"]
+			);
+			
+			$newDataSet->populate(array_slice($sets[$id],0,$sets[$id]["count"]));
+			
+			$objs[$id] =& $newDataSet;
+		}
+		
+		return $objs;
 	}
 	
 	function &fetchDataSet( $dataSetID, $editable=false ) {
@@ -36,18 +107,6 @@ class DataSetManager extends ServiceInterface {
 		if (!$result) {
 			throwError(new UnknownDBError("DataSetManager"));
 		}
-		
-/*		$array = array();
-		while ($result->hasMoreRows()) {
-			$array[] = $result->getCurrentRow();
-			$result->advanceRow();
-		}*/
-		
-/*		foreach ($array as $line) {
-			foreach ($line as $key=>$val)
-				if (!is_numeric($key)) print "$key=$val, ";
-			print "\n<br>";
-		}*/
 		
 		// now, we need to parse things out and distribute the lines accordingly
 		$dataSetTypeID = null;
