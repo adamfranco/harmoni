@@ -1,15 +1,23 @@
 <?php
 
 /**
- * defines the methods that are required for any authenticationMethod
+ * the DB Authentication Method will contact an SQL database and check a username/password pair
+ * against fields in a specified table.
  *
- * @version $Id: AuthenticationMethod.interface.php,v 1.2 2003/06/23 13:22:53 gabeschine Exp $
+ * @version $Id: AuthenticationMethod.abstract.php,v 1.1 2003/06/23 13:22:53 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
  **/
  
-class AuthenticationMethodInterface {
+class AuthenticationMethod
+	extends AuthenticationMethodInterface 
+{
+	/**
+	 * @var string $_name the AuthenticationMethod's unique identifyer string
+	 */
+	var $_name;
+
 	/**
 	 * authenticate will check a systemName/password pair against the defined method
 	 * 
@@ -24,7 +32,9 @@ class AuthenticationMethodInterface {
 	 * @access public
 	 * @return string/int returns the user-defined name or ID of the module
 	 **/
-	function getName () {}
+	function getName () {
+		return $this->_name;
+	}
 	
 }
 

@@ -5,7 +5,7 @@
  * 
  * any RuleSet should let the user define a number of keys with associated rules (one or more) and then let the user check any value against the rules defined for a key
  *
- * @version $Id: RuleSet.interface.php,v 1.2 2003/06/23 00:58:44 gabeschine Exp $
+ * @version $Id: RuleSet.interface.php,v 1.3 2003/06/23 13:22:52 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FIeldSetValidator
  **/
@@ -44,7 +44,7 @@ class RuleSetInterface {
 	 * @access public
 	 * @return int the number of keys
 	 **/
-	function size() {}
+	function count() {}
 }
 
 ?>

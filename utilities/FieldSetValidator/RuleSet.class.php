@@ -7,7 +7,7 @@ require_once("RuleSet.interface.php");
  * 
  * a RuleSet allows a user to define a number of keys each with associated rules and errors. any one of these keys can be used to validate values and throw errors if a validation fails
  * 
- * @version $Id: RuleSet.class.php,v 1.2 2003/06/23 00:58:44 gabeschine Exp $
+ * @version $Id: RuleSet.class.php,v 1.3 2003/06/23 13:22:52 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FIeldSetValidator
  **/
@@ -91,7 +91,7 @@ class RuleSet
 	 * @return array an array of keys that are set
 	 **/
 	function getKeys() {
-		if ($this->size())return array_keys($this->_rules);
+		if ($this->count()) return array_keys($this->_rules);
 		return array();
 	}
 	
@@ -101,7 +101,7 @@ class RuleSet
 	 * @access public
 	 * @return int the number of keys
 	 **/
-	function size() {
+	function count() {
 		return count($this->_rules);
 	}
 }
