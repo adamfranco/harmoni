@@ -199,48 +199,48 @@ class HarmoniAsset
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function updateContent(& $content) {
-		ArgumentValidator::validate($content, new ExtendsValidatorRule("BlobDataType"));
-		$sharedManager =& Services::getService("Shared");
-		$recordMgr =& Services::getService("RecordManager");
-		
-		// Ready our type for comparisson
-		$contentType =& new HarmoniType("DR", "Harmoni",  "AssetContent");
-		$id =& $this->_node->getId();
-		
-		// Get the content DataSet.
-		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
-		// fetching as editable since we don't know if it will be edited.
-		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
-		foreach ($dataSets as $key => $dataSet) {
-			if($contentType->isEqual($dataSets[$key]->getType())) {
-				$contentDataSet =& $dataSets[$key];
-				break;
-			}
-		}
-		
-		if (!$contentDataSet) {		
-			// Set up and create our new dataset
-			
-			// Decide if we want to version-control this field.
-			$versionControl = $this->_versionControlAll;
-			if (!$versionControl) {
-				foreach ($this->_versionControlTypes as $key => $val) {
-					if ($contentType->isEqual($this->_versionControlTypes[$key])) {
-						$versionControl = TRUE;
-						break;
-					}
-				}
-			}
-			
-			$contentDataSet =& $recordMgr->newDataSet($contentType, $versionControl);
-			
-			// Add the DataSet to our group
-			$dataSetGroup->addDataSet($contentDataSet);
-		}
-		
-		$contentDataSet->setValue("Content", $content);
-		
-		$contentDataSet->commit();
+// 		ArgumentValidator::validate($content, new ExtendsValidatorRule("BlobDataType"));
+// 		$sharedManager =& Services::getService("Shared");
+// 		$recordMgr =& Services::getService("RecordManager");
+// 		
+// 		// Ready our type for comparisson
+// 		$contentType =& new HarmoniType("DR", "Harmoni",  "AssetContent");
+// 		$id =& $this->_node->getId();
+// 		
+// 		// Get the content DataSet.
+// 		$dataSetGroup =& $recordMgr->fetchDataSetGroup($id->getIdString());
+// 		// fetching as editable since we don't know if it will be edited.
+// 		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
+// 		foreach ($dataSets as $key => $dataSet) {
+// 			if($contentType->isEqual($dataSets[$key]->getType())) {
+// 				$contentDataSet =& $dataSets[$key];
+// 				break;
+// 			}
+// 		}
+// 		
+// 		if (!$contentDataSet) {		
+// 			// Set up and create our new dataset
+// 			
+// 			// Decide if we want to version-control this field.
+// 			$versionControl = $this->_versionControlAll;
+// 			if (!$versionControl) {
+// 				foreach ($this->_versionControlTypes as $key => $val) {
+// 					if ($contentType->isEqual($this->_versionControlTypes[$key])) {
+// 						$versionControl = TRUE;
+// 						break;
+// 					}
+// 				}
+// 			}
+// 			
+// 			$contentDataSet =& $recordMgr->newDataSet($contentType, $versionControl);
+// 			
+// 			// Add the DataSet to our group
+// 			$dataSetGroup->addDataSet($contentDataSet);
+// 		}
+// 		
+// 		$contentDataSet->setValue("Content", $content);
+// 		
+// 		$contentDataSet->commit();
 	}
 
 	/**
@@ -277,7 +277,7 @@ class HarmoniAsset
 		ArgumentValidator::validate($effectiveDate, new ExtendsValidatorRule("Time"));
 		
 		// Make sure that we have dates from the DB if they exist.
-		$this->getEffectiveDate();
+		$this->_loadDates();
 		// Update our date in preparation for DB updating
 		$this->_effectiveDate->adoptValue($effectiveDate);
 		// Store the dates
@@ -318,7 +318,7 @@ class HarmoniAsset
 		ArgumentValidator::validate($expirationDate, new ExtendsValidatorRule("Time"));
 		
 		// Make sure that we have dates from the DB if they exist.
-		$this->getExpirationDate();
+		$this->_loadDates();
 		// Update our date in preparation for DB updating
 		$this->_expirationDate->adoptValue($expirationDate);
 		// Store the dates
@@ -550,13 +550,13 @@ class HarmoniAsset
 			// If the current DataSet's DataSetTypeDefinition's ID is the same as
 			// the InfoStructure ID that we are looking for, add that dataSet to our
 			// DataSetGroup.
-			if ($infoStructureId->isEqual($typeId)) {
+			if ($infoStructureId->isEqual($schemaId)) {
 				$mySet->add($records[$key]);
 			}
 		}
 		
 		// Save our DataSetGroup
-		$mySet->commit();
+		$mySet->commit(TRUE);
 	}
 
 	/**
@@ -601,14 +601,14 @@ class HarmoniAsset
 			// If the current Record's Schema ID is the same as
 			// the InfoStructure ID that we are looking for, add clones of that Record
 			// to our RecordSet.
-			if ($infoStructureId->isEqual($typeId)) {
+			if ($infoStructureId->isEqual($schemaId)) {
 				$newRecord =& $records[$key]->clone();
 				$set->add($newRecord);
 			}
 		}
 		
 		// Save our RecordSet
-		$set->commit();
+		$set->commit(TRUE);
 	}
 
 	/**
@@ -919,9 +919,10 @@ class HarmoniAsset
 		}
 		
 		$columns = array("asset_id", "effective_date", "expiration_date");
-		$values = array($id->getIdString(), $this->_effectiveDate, $this->_expirationDate);
+		$values = array($id->getIdString(), $this->_effectiveDate->toTimestamp(), $this->_expirationDate->toTimestamp());
 		$query->setColumns($columns);
 		$query->setValues($values);
+		$query->setTable("dr_asset_info");
 		
 		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 	}
