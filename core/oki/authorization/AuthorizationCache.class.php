@@ -6,7 +6,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.22 2004/12/07 20:56:12 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.23 2004/12/07 23:15:10 adamfranco Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -514,6 +514,36 @@ class AuthorizationCache {
 
 	}
 	
+	/**
+	 * Given a QualifierHierarchy Id, returns the Qualifier that is the root of 
+	 * the tree of Qualifiers of this Type.
+	 *
+	 * @param object qualifierHierarchyId
+	 * @return object QualifierIterator
+	 */
+	function &getRootQualifiers(& $qualifierHierarchyId) {
+		$hierarchyManager =& Services::requireService("Hierarchy", true);
+		$hierarchy =& $hierarchyManager->getHierarchy($qualifierHierarchyId);
+		
+		// create an array for our qualifiers
+		$qualifiers = array();
+		
+		// Get the qualifier for each node
+		$nodes =& $hierarchy->getRootNodes();
+		while ($nodes->hasNext()) {
+			$node =& $nodes->next();
+			$nodeId =& $node->getId();
+			
+			// Make sure that we have a qualifier for this node.
+			if (!$this->_qualifiers[$nodeId->getIdString()]) {
+				$this->_qualifiers[$nodeId->getIdString()] =& new HarmoniQualifier($node, $this);
+			}
+			
+			$qualifiers[] =& $this->_qualifiers[$nodeId->getIdString()];
+		}
+		
+		return new HarmoniQualifierIterator($qualifiers);
+	}
 
 	
 	/**
