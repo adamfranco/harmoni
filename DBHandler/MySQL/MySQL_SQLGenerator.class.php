@@ -6,7 +6,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL SELECT query from a SelectQuery object.
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL SELECT query from a SelectQuery object.
  *
- * @version $Id: MySQL_SQLGenerator.class.php,v 1.2 2003/06/24 21:08:45 adamfranco Exp $
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.3 2003/06/26 15:24:20 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -21,6 +21,11 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @access public
 	 */
 	function generateSQLQuery(& $query) {
+		// ** parameter validation
+		$queryRule =& new ExtendsValidatorRule("QueryInterface");
+		ArgumentValidator::validate($query, $queryRule, true);
+		// ** end of parameter validation
+
 		switch($query->getType()) {
 			case INSERT : 
 				return MySQL_SQLGenerator::generateInsertSQLQuery($query);
@@ -47,6 +52,11 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @static
 	 */
 	function generateInsertSQLQuery(& $query) {
+		// ** parameter validation
+		$queryRule =& new ExtendsValidatorRule("InsertQueryInterface");
+		ArgumentValidator::validate($query, $queryRule, true);
+		// ** end of parameter validation
+
 		$sql = "";
 	
 		if (!$query->_table || count($query->_columns) == 0 || count($query->_values) == 0)
@@ -82,6 +92,11 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @access public
 	 */
 	function generateUpdateSQLQuery(& $query) {
+		// ** parameter validation
+		$queryRule =& new ExtendsValidatorRule("UpdateQueryInterface");
+		ArgumentValidator::validate($query, $queryRule, true);
+		// ** end of parameter validation
+
 		$sql = "";
 	
 		if (!$query->_table || count($query->_columns) == 0 || count($query->_values) == 0)
@@ -122,6 +137,11 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @access public
 	 */
 	function generateDeleteSQLQuery(& $query) {
+		// ** parameter validation
+		$queryRule =& new ExtendsValidatorRule("DeleteQueryInterface");
+		ArgumentValidator::validate($query, $queryRule, true);
+		// ** end of parameter validation
+
 		$sql = "";
 	
 		if (!$query->_table)
@@ -149,6 +169,11 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @access public
 	 */
 	function generateSelectSQLQuery(& $query) {
+		// ** parameter validation
+		$queryRule =& new ExtendsValidatorRule("SelectQueryInterface");
+		ArgumentValidator::validate($query, $queryRule, true);
+		// ** end of parameter validation
+
 		$sql = "";
 		
 		if (count($query->_columns) == 0)
