@@ -39,7 +39,7 @@ require_once(HARMONI."oki/shared/AgentSearches/AncestorGroupSearch.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.52 2004/12/01 16:06:42 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.53 2004/12/01 22:00:40 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -127,7 +127,7 @@ class HarmoniSharedManager
 		// initialize our Group Search Types
 		$this->_groupSearches = array ();
 		$this->_groupSearches["Agent & Group Search::Middlebury::AncestorGroups"] =&
-			new AncestorGroupSearch;
+			new AncestorGroupSearch ($this->_dbIndex);
 	}
 
     /**
