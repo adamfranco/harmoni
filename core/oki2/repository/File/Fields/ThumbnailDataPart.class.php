@@ -5,23 +5,23 @@
 	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 	 * @package harmoni.osid_v2.dr
 	 */
-class FileNamePart extends Part
+class ThumbnailDataPart extends Part
 //	extends java.io.Serializable
 {
 
 	var $_recordId;
 	var $_partStructure;
-	var $_name;
+	var $_data;
 	
-	function FileNameInfoField( &$partStructure, &$recordId, $configuration ) {
+	function ThumbnailDataPart( &$partStructure, &$recordId, $configuration ) {
 		$this->_recordId =& $recordId;
 		$this->_partStructure =& $partStructure;
 		$this->_configuration = $configuration;
 		
-		// Set our name to NULL, so that we can know if it has not been checked
-		// for yet. If we search for name, but don't have any, or the name is
+		// Set our data to NULL, so that we can know if it has not been checked
+		// for yet. If we search for data, but don't have any, or the data is
 		// an empty string, it will have value "" instead of NULL
-		$this->_name = NULL;
+		$this->_data = NULL;
 	}
 	
 	/**
@@ -31,7 +31,7 @@ class FileNamePart extends Part
 	 */
 	function &getId() {
 		$idManager =& Services::getService("Id");
-		return $idManager->getId($this->_recordId->getIdString()."-FILE_NAME");
+		return $idManager->getId($this->_recordId->getIdString()."-THUMBNAIL_DATA");
 	}
 
 	/**
@@ -41,7 +41,7 @@ class FileNamePart extends Part
 	 * @return object InfoField
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 */
-	function &createPart(& $partStructureId, & $value) {
+	function &createPart(& $partStructuretId, & $value) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -63,7 +63,7 @@ class FileNamePart extends Part
 	 */
 	function &getParts() {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniField", true));
+			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -72,26 +72,26 @@ class FileNamePart extends Part
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
 	function getValue() {
-		// If we don't have the name, load it from the database.
-		if ($this->_name === NULL) {
+		// If we don't have the data, load it from the database.
+		if ($this->_data === NULL) {
 			$dbHandler =& Services::getService("DBHandler");
 			
-			// Get the name from the database,
+			// Get the data from the database,
 			$query =& new SelectQuery;
-			$query->addTable("dr_file");
-			$query->addColumn("filename");
-			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+			$query->addTable("dr_thumbnail");
+			$query->addColumn("data");
+			$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
 			
 			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 			
-			// If no name was found, return an empty string.
+			// If no data was found, return an empty string.
 			if ($result->getNumberOfRows() == 0)
-				$this->_name = "";
+				$this->_data = "";
 			else
-				$this->_name = $result->field("filename");
+				$this->_data = base64_decode($result->field("data"));
 		}
 		
-		return $this->_name;
+		return $this->_data;
 	}
 
 	/**
@@ -100,37 +100,41 @@ class FileNamePart extends Part
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 */
 	function updateValue($value) {
-		ArgumentValidator::validate($value, new StringValidatorRule);
+//		ArgumentValidator::validate($value, new StringValidatorRule);
 		
-		// Store the name in the object in case its asked for again.
-		$this->_name = $value;
+		// Store the data in the object in case its asked for again.
+//		$this->_data = $value;
 		
+	// Base64 encode the data to preserve it,
 	// then write it to the database.
 		$dbHandler =& Services::getService("DBHandler");
 	
-		// Check to see if the name is in the database
+		// Check to see if the data is in the database
 		$query =& new SelectQuery;
-		$query->addTable("dr_file");
+		$query->addTable("dr_thumbnail");
 		$query->addColumn("COUNT(*) as count");
-		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+		$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
 		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 		
 		// If it already exists, use an update query.
 		if ($result->field("count") > 0) {
 			$query =& new UpdateQuery;
-			$query->setTable("dr_file");
-			$query->setColumns(array("filename"));
-			$query->setValues(array("'".addslashes($this->_name)."'"));
-			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+			$query->setTable("dr_thumbnail");
+			$query->setColumns(array("data"));
+			$query->setValues(array("'".base64_encode($value)."'"));
+			$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
 		}
 		// If it doesn't exist, use an insert query.
 		else {
 			$query =& new InsertQuery;
-			$query->setTable("dr_file");
-			$query->setColumns(array("id","filename"));
+			$query->setTable("dr_thumbnail");
+			$query->setColumns(array("FK_file","data"));
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
-									"'".addslashes($this->_name)."'"));
+									"'".base64_encode($value)."'"));
 		}
+		
+// 		printpre($query);
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		
 		// run the query
 		$dbHandler->query($query, $this->_configuration["dbId"]);
