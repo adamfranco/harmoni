@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.5 2005/03/24 15:43:21 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.6 2005/03/24 15:49:38 adamfranco Exp $
  */ 
 
 /**
@@ -32,21 +32,19 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.5 2005/03/24 15:43:21 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.6 2005/03/24 15:49:38 adamfranco Exp $
  */
 class AuthNMethod {
 	
 	/**
-	 * Constructor. Stores the configuration.
+	 * Constructor. Does not take any configuration. assignConfiguration() Should be
+	 * used for this purpose.
 	 * 
-	 * @param object Properties $configuration
 	 * @return object
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function AuthNMethod ( &$configuration ) {
-		$this->assignConfiguration($configuration);
-	}
+	function AuthNMethod () {}
 	
 	/**
 	 * Store the configuration.
