@@ -1,28 +1,24 @@
 <?php
 //require_once(HARMONI."architecture/harmoni/Harmoni.interface.php");
-if (LOAD_AUTHENTICATION) require_once(HARMONI."architecture/harmoni/login/LoginHandler.class.php");
 require_once(HARMONI."actionHandler/ActionHandler.class.php");
 require_once(HARMONI."utilities/FieldSetValidator/ReferencedFieldSet.class.php");
 require_once(HARMONI."utilities/FieldSetValidator/FieldSet.class.php");
-if (LOAD_AUTHENTICATION) require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
 require_once(HARMONI."languageLocalizer/LanguageLocalizer.class.php");
 require_once(HARMONI."architecture/harmoni/HarmoniConfig.class.php");
 require_once(HARMONI."architecture/harmoni/Context.class.php");
 require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
 
-require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
-
 /**
  * The Harmoni class combines the functionality of login, authentication, 
- * action-handling and theme-output. It makes use of the {@link LoginHandler}, {@link AuthenticationHandler} and
- * the {@link ActionHandler} classes.
+ * action-handling and theme-output. It makes use of the the 
+ * {@link ActionHandler} classes.
  *
  * @package harmoni.architecture
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.32 2005/03/29 19:44:12 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.33 2005/04/01 18:46:12 adamfranco Exp $
  **/
 class Harmoni {
 	
@@ -50,18 +46,6 @@ class Harmoni {
 	 * @var object $theme The theme we are using for output.
 	 **/
 	var $theme;
-	
-	/**
-	 * @access public
-	 * @var object $LoginHandler The {@link LoginHandler} object.
-	 **/
-	var $LoginHandler;
-
-	/**
-	 * @access public
-	 * @var object $LoginState A {@link LoginState} object, representing current login state.
-	 **/
-	var $LoginState;
 	
 	/**
 	 * @access public
@@ -100,17 +84,11 @@ class Harmoni {
 		// set up the variables we are going to pass to actions
 		if ($httpVars) $this->HTTPVars =& new FieldSet($httpVars);
 		else $this->HTTPVars =& new ReferencedFieldSet($_REQUEST);
-		
-		// set up the LoginHandler and the ActionHandler
-		if (LOAD_AUTHENTICATION) {
-			$this->LoginHandler =& new LoginHandler($this);
-			$this->LoginState =& new LoginState();
-		}
+
 		$this->ActionHandler =& new ActionHandler($this);
 		
 		// set up config options
 		$this->config =& new HarmoniConfig;
-		$this->config->set("useAuthentication",true); // default
 		$this->config->set("charset","utf-8"); // default
 		
 		// set up the default action callback function
@@ -344,23 +322,7 @@ class Harmoni {
 	}
 	
 	/**
-	 * Executes the {@link LoginHandler} functionality and stores the result.
-	 * @access public
-	 * @return ref object
-	 */
-	function &executeLogin()
-	{
-		if ($this->config->get("useAuthentication")) {
-			$loginState =& $this->LoginHandler->execute();
-		} else $loginState =& new LoginState; // "blank" loginState
-		
-		$this->LoginState =& $loginState;
-		
-		return $loginState;
-	}
-	
-	/**
-	 * Executes the Harmoni procedures: login handling and authenticating, action
+	 * Executes the Harmoni procedures: action
 	 * processing and themed output to the browser. Certain options must be 
 	 * set before execute() can be called.
 	 * @access public
@@ -375,9 +337,6 @@ class Harmoni {
 		
 		// detect the current action
 		$this->_detectCurrentAction();
-		
-		// process the login information
-		$loginState =& $this->executeLogin();
 		
 		// check if we have any pre-exec actions. if so, execute them
 		if (count($this->_preExecActions)) {
@@ -401,24 +360,8 @@ class Harmoni {
 		if ($this->config->get("outputHTML"))
 			header("Content-type: text/html; charset=".$this->config->get("charset"));
 		
-		// we want to catch all the output in case we need to go to the failedLoginAction
-		ob_start();
-		
 		$result =& $this->ActionHandler->execute($module, $action);
 		$lastExecutedAction = $this->ActionHandler->lastExecutedAction();
-		// ask the LoginHandler if the current user was allowed to see this action
-		if ($this->LoginHandler && $this->LoginHandler->loginFailed() &&
-		$this->LoginHandler->actionRequiresAuthentication($lastExecutedAction)) {
-			$failedLoginAction = $this->LoginHandler->getFailedLoginAction();
-			// clean out our buffer.
-			debug::output("cleaning ".ob_get_length()." bytes before executing failedLoginAction.",DEBUG_SYS5,"Harmoni");
-			ob_end_clean();
-			// execute the failed login action.
-			$result =& $this->ActionHandler->executePair($failedLoginAction);
-		} else {
-			// looks like they're just fine
-			ob_end_flush();
-		}
 
 		$this->result =& $result;
 

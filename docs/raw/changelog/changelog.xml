@@ -30,6 +30,7 @@
 		<change author='adam'>
 			Authentication is completely handled by the AuthenticationManager
 			OSID implementation instead of the LoginHandler/AuthenticationHandler.
+			The LoginHandler and AuthenticationHandler have been removed.
 		</change>
 		<new author='adam'>
 			New back-end for managing authentication tokens, agents, and the mappings
