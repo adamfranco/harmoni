@@ -318,7 +318,7 @@ define("TRAVERSE_DIRECTION_DOWN", 0x02);
  * @const int TRAVERSE_LEVELS_ALL public static final int TRAVERSE_LEVELS_ALL = -1;
  * @package osid.hierarchy
  */
-define("TRAVERSE_LEVELS_ALL", -1);
+define("TRAVERSE_LEVELS_INFINITE", -1);
 
 
 	/**
