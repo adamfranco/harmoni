@@ -12,7 +12,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * </ul>
  *
  * @package harmoni.layout.components
- * @version $Id: VerticalMenuLayout.class.php,v 1.6 2004/07/16 21:03:10 gabeschine Exp $
+ * @version $Id: VerticalMenuLayout.class.php,v 1.7 2004/12/22 17:02:52 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -85,11 +85,11 @@ class VerticalMenuLayout extends Layout {
 		// output the table;
 		print "\n".$this->_getTabs()."<table border='0' cellpadding='0' cellspacing='0' width='100%'>";
 		foreach (array_keys($childLayouts) as $i => $key) {
-			print "\n".$this->_getTabs()."\t<tr><td valign='".$childLayouts[$key]->getVerticalAlignment()."' align='".$childLayouts[$key]->getHorizontalAlignment()."'><nobr>";
+			print "\n".$this->_getTabs()."\t<tr><td valign='".$childLayouts[$key]->getVerticalAlignment()."' align='".$childLayouts[$key]->getHorizontalAlignment()."' style='white-space:nowrap'>";
 			$themeWidget =& $theme->getWidget( $childLayouts[$key]->getThemeWidgetType(), 
 											$childLayouts[$key]->getThemeWidgetIndex());
 			$themeWidget->output($childLayouts[$key], $theme);
-			print "\n".$this->_getTabs()."\t</nobr></td></tr>";
+			print "\n".$this->_getTabs()."\t</td></tr>";
 		}
 		print "\n".$this->_getTabs()."</table>\n";
 		
