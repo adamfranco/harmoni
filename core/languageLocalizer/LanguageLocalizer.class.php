@@ -7,7 +7,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * and other data for multiple languages.
  *
  * @package harmoni.languages
- * @version $Id: LanguageLocalizer.class.php,v 1.7 2004/05/26 22:58:16 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.8 2004/06/01 21:43:45 adamfranco Exp $
  * @copyright 2003 
  **/
 class LanguageLocalizer extends LanguageLocalizerInterface {
@@ -39,11 +39,12 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 	 * The constructor.
 	 * @param optional string $langDir The directory in which language files reside.
 	 * @param optional string $application The name of the application to use (for *.mo files)
+	 * @param optional string $defaultLanguage The default language to use.
 	 * @access public
 	 * @return void
 	 * @todo -cLanguageLocalizer Implement LanguageLocalizer.constructor - use gettext functionality.
 	 **/
-	function LanguageLocalizer($application=NULL, $langDir=NULL) {
+	function LanguageLocalizer($defaultLanguage="en_US", $application=NULL, $langDir=NULL) {
 	
 		// Get the current Language encoding from the session if it exists.
 		if (isset($_SESSION['__CurrentLanguageCodeset'])) {
@@ -57,7 +58,7 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 		if (isset($_SESSION['__CurrentLanguage'])) {
 			$this->setLanguage( $_SESSION['__CurrentLanguage'] );
 		} else {
-			$this->setLanguage( "en_US" );
+			$this->setLanguage( $defaultLanguage );
 		}
 		
 		// Add our first application if passed
