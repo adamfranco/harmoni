@@ -8,7 +8,7 @@ require_once(HARMONI."layoutHandler/Layout.interface.php");
  *
  * @abstract
  * @package harmoni.layout.components
- * @version $Id: Layout.abstract.php,v 1.1 2003/07/15 18:56:19 gabeschine Exp $
+ * @version $Id: Layout.abstract.php,v 1.2 2003/07/16 23:32:39 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -37,7 +37,7 @@ class Layout extends LayoutInterface {
 	 **/
 	function addComponent($index, $type) {
 		ArgumentValidator::validate($index, new IntegerValidatorRule);
-		ArguemtnValidator::validate($type, new StringValidatorRule);
+		ArgumentValidator::validate($type, new StringValidatorRule);
 		
 		if (isset($this->_registeredComponents[$index])) {
 			throwError(new Error("Layout::addComponent($index) - A component for index $index is already defined!","layout",true));
@@ -55,17 +55,42 @@ class Layout extends LayoutInterface {
 	 * @return void
 	 **/
 	function setComponent($index, $object) {
-		ArgumentValidator($index, new IntegerValidatorRule);
+		ArgumentValidator::validate($index, new IntegerValidatorRule);
 		
 		// first make sure they handed us the correct object type
 		$rule = new ExtendsValidatorRule($this->_registeredComponents[$index]);
 		if (!$rule->check($object)) {
-			throwError(new Error("Layout::setComponent($index) - Could not set component for index $index because it is not of the required type: ".$this->_registeredComponents[$index],"layout",true));
+			throwError(new Error(get_class($this)."::setComponent($index) - Could not set component for index $index because it is not of the required type: ".$this->_registeredComponents[$index],"layout",true));
 			return false;
 		}
 		
 		// looks like it's good
 		$this->_setComponents[$index] =& $object;
+	}
+	
+	/**
+	 * Verifies that all the required components have been added.
+	 * @access protected
+	 * @return boolean TRUE if everything verified OK, FALSE otherwise.
+	 **/
+	function verifyComponents() {
+		foreach (array_keys($this->_registeredComponents) as $index) {
+			if (!is_object($this->_setComponents[$index])) {
+				// throw an error and return false;
+				throwError(new Error(get_class($this)."::verifyComponents() - required component index $index was not set!","Layout",true));
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Gets the component object for index $index.
+	 * @access protected
+	 * @return object The component object.
+	 **/
+	function &getComponent($index) {
+		return $this->_setComponents[$index];
 	}
 }
 

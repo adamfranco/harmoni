@@ -2,6 +2,9 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.2">
+		<new author='dobo'>DBHandler can now use a PostgreSQL server and fetching last insert ID works on all integrated DBs.</new>
+		<change author='gabe'>layoutHandler now works. Theme integration is to come.</change>
+		<new author='max'>Database file storage method.</new>
 		<new author='gabe'>Added interfaces for: VisualComponent, Layout, Menu, Content -- all part of the LayoutHandler.</new>
 		<change author='gabe'>AuthenticationResult now holds authenticated agent's system name as well as valid methods.</change>
 		<change author='gabe'>AgentInformationHandler now handles compiling of search results and returns the appropriate array format.</change>
@@ -24,4 +27,9 @@
 		<name short="zach">Zach Toups</name>
 		<name short="karlie">Karlie Verkest</name>
 	</authors>
+	<groupid>82873</groupid>
+	<reftypes>
+		<reftype name="bug">567473</reftype>
+		<reftype name="fr">567476</reftype>
+	</reftypes>
 </changelog>

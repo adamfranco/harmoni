@@ -16,7 +16,7 @@ define("VERTICAL",2);
  * VisualComponent defines the interface for any component within a {@link Layout}.
  *
  * @package harmoni.layout
- * @version $Id: VisualComponent.interface.php,v 1.1 2003/07/15 16:12:18 gabeschine Exp $
+ * @version $Id: VisualComponent.interface.php,v 1.2 2003/07/16 23:32:39 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -31,7 +31,7 @@ class VisualComponent {
 	 * @access public
 	 * @return void
 	 **/
-	function print($theme, $level=0, $orientation=HORIZONTAL) {
+	function output($theme, $level=0, $orientation=HORIZONTAL) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	

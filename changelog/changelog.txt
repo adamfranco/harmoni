@@ -6,9 +6,19 @@ Name: Harmoni ChangeLog
 v. 0.0.2
 ----------------------------------------------------
 		
+	* New feature: DBHandler can now use a PostgreSQL server and fetching last insert ID works on all integrated DBs. (Dobo Radichkov)
+		
+	* Change: layoutHandler now works. Theme integration is to come. (Gabe Schine)
+		
+	* New feature: Database file storage method. (Max Ovsjanikov)
+		
+	* New feature: Added interfaces for: VisualComponent, Layout, Menu, Content -- all part of the LayoutHandler. (Gabe Schine)
+		
+	* Change: AuthenticationResult now holds authenticated agent's system name as well as valid methods. (Gabe Schine)
+		
 	* Change: AgentInformationHandler now handles compiling of search results and returns the appropriate array format. (Gabe Schine)
 		
-	* Change: AuthenticationMethod::getAgentInformation now returns an associative array of [username]=&gt;array([key1]=&gt;value1,...),...1 (Gabe Schine)
+	* Change: AuthenticationMethod::getAgentInformation now returns an associative array of [username]=&gt;array([key1]=&gt;value1,...),... (Gabe Schine)
 		
 	* New feature: ChangeLog now held in an XML file and translated by XSL! (Gabe Schine)
 	

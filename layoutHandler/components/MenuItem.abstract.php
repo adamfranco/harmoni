@@ -13,7 +13,7 @@ define("MENUITEM_UNKNOWN",-1);
  * 
  * @abstract
  * @package harmoni.layout.components
- * @version $Id: MenuItem.abstract.php,v 1.1 2003/07/15 18:56:19 gabeschine Exp $
+ * @version $Id: MenuItem.abstract.php,v 1.2 2003/07/16 23:32:39 gabeschine Exp $
  * @copyright 2003 
  **/
 class MenuItem extends MenuItemInterface {
@@ -28,6 +28,12 @@ class MenuItem extends MenuItemInterface {
 	 * @var string $_label The MenuItem's label.
 	 **/
 	var $_label;
+	
+	/**
+	 * @access private
+	 * @var string $_extra The extra text to be displayed along with the label.
+	 **/
+	var $_extra;
 	
 	/**
 	 * Returns the type of this menu item. (eg, header, spacer, link, ...)
@@ -55,6 +61,37 @@ class MenuItem extends MenuItemInterface {
 	 **/
 	function setLabel($label) {
 		$this->_label = $label;
+	}
+	
+	/**
+	 * Sets this menu item's "extra text" to $text. Extra text is useful for displaying
+	 * administrative links for this menu item or other useful extra information. 
+	 * @param string $text The text.
+	 * @access public
+	 * @return void
+	 **/
+	function setExtraText($text) {
+		$this->_extra = $text;
+	}
+
+	/**
+	 * Returns the "extra text".
+	 * @see {@link MenuItem::setExtraText setExtraText()}
+	 * @access public
+	 * @return string The text.
+	 **/
+	function getExtraText() {
+		return $this->_extra;
+	}
+	
+	/**
+	 * Returns the "formatted" menu item text. What is returned really depends
+	 * on the menu item type.
+	 * @access public
+	 * @return string The formatted text.
+	 **/
+	function getFormattedText() {
+		return $this->getLabel();
 	}
 }
 
