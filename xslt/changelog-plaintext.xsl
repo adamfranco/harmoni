@@ -2,6 +2,9 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+<xsl:output format="text" />
+<xsl:strip-space elements="fix change new important" />
+
 <!--
 ///////////////////////////////////////////////////////////////////////
 // changelog
@@ -61,7 +64,7 @@ v. <xsl:value-of select="@number" /><xsl:if test="@date!=''"> (<xsl:value-of sel
 ///////////////////////////////////////////////////////////////////////
 -->
 <xsl:template name="entry">
-	<xsl:value-of select="." />
+	<xsl:value-of select="normalize-space(translate(.,'&#10;',''))" />
 	<xsl:if test="@author">
 		<xsl:variable name="short" select="@author"/>
 		<xsl:text> (</xsl:text>

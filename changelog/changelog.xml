@@ -3,7 +3,7 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.2">
 		<change author='gabe'>AgentInformationHandler now handles compiling of search results and returns the appropriate array format.</change>
-		<change author='gabe'>AuthenticationMethod::getAgentInformation now returns an associative array of [username]=>array([key1]=>value1,...),...1</change>
+		<change author='gabe'>AuthenticationMethod::getAgentInformation now returns an associative array of [username]=>array([key1]=>value1,...),...</change>
 		<new author='gabe'>ChangeLog now held in an XML file and translated by XSL!</new>
 	</version>
 	<version number="0.0.1" date="2003-07-10">
