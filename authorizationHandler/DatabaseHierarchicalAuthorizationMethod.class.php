@@ -1,11 +1,14 @@
 <?php
 
-/** 
- * This interface defines the functionallity of a hierarchical authorization
- * method capable of authorizing an <b>agent</b> performing a <b>function</b> in a given 
+require_once(HARMONI."authorizationHandler/HierarchicalAuthorizationMethod.interface.php");
+
+/**
+ * This is a database implementation of the HierarchicalAuthorizationMethodInterface.
+ * <br><br>
+ * The class is capable of authorizing an <b>agent</b> performing a <b>function</b> in a given 
  * <b>context</b>.
  * @access public
- * @version $Id: HierarchicalAuthorizationMethod.interface.php,v 1.2 2003/06/30 20:41:44 dobomode Exp $
+ * @version $Id: DatabaseHierarchicalAuthorizationMethod.class.php,v 1.1 2003/06/30 20:41:44 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -14,8 +17,17 @@
  * @see {@link AuthorizationAgentInterface}
  * @see {@link AuthorizationFunctionInterface}
  */
-class HierarchicalAuthorizationMethodInterface {
+class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationMethodInterface {
 
+
+	/**
+	 * The constructor takes a DatabaseHierarchicalAuthorizationMethodDataContainer
+	 * object and returns a new DatabaseHierarchicalAuthorizationMethod object.
+	 * @access public
+	 */
+	function DatabaseHierarchicalAuthorizationMethod() {
+		
+	}
 
 	/**
 	 * Attempts to authorize an <b>agent</b> performing a <b>function</b> in a given 
