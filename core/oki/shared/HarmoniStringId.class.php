@@ -1,6 +1,6 @@
 <?
 
-class HarmoniId
+class HarmoniStringId
 	extends Id
 
 	// extends java.io.Serializable
@@ -17,11 +17,11 @@ class HarmoniId
 	 * @param string $id The desired id. If NULL, a new unique id is used.
 	 *
 	 */
-	function HarmoniId ( $id = NULL ) {
+	function HarmoniStringId ( $id = NULL ) {
 		if ($id != NULL) {
 			// use this id
 			// SLOW-VALIDATE -- comment validation out to increase program speed.
-			ArgumentValidator::validate($id, new NumericValidatorRule);
+			ArgumentValidator::validate($id, new NonzeroLengthStringValidatorRule);
 			$this->_id = $id;
 		} else {
 			// get a new unique id
