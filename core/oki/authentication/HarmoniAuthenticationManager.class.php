@@ -319,7 +319,7 @@ class HarmoniAuthenticationManager
 	function deleteMapping (& $id) {
 		$dbHandler =& Services::getService("DBHandler");
 		$query =& new DeleteQuery;
-		$query->addTable($this->_authNDB.".authn_mapping");
+		$query->setTable($this->_authNDB.".authn_mapping");
 		$query->addWhere($this->_authNDB.".authn_mapping.agent_id='".addslashes($id->getIdString())."'");
 // 		$query->addWhere($this->_authNDB.".authn_mapping.type_domain='".addslashes($authenticationType->getDomain())."'");
 // 		$query->addWhere($this->_authNDB.".authn_mapping.type_authority='".addslashes($authenticationType->getAuthority())."'");

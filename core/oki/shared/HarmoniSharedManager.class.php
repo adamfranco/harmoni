@@ -38,7 +38,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.49 2004/11/22 22:02:17 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.50 2004/11/23 17:13:16 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -787,6 +787,8 @@ class HarmoniSharedManager
 		$result =& $dbHandler->query($query, $this->_dbIndex);
 		
 		// create the group object to return
+		$propertiesArray = array();
+		$propertiesArray[] =& $properties;
 		$group =& new HarmoniGroup($displayName, $groupId, $groupType, $propertiesArray, $description, $this->_dbIndex, $this->_sharedDB);
 		// then cache it
 		$this->_groupsCache[$groupIdValue] =& $group;
