@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.30 2004/01/27 21:47:54 adamfranco Exp $
+* @version $Id: DataSet.class.php,v 1.31 2004/01/28 21:57:36 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -165,6 +165,10 @@ class CompactDataSet {
 			DataSet ID.", "DataSet",true));
 		}
 		
+		// if this is an empty dataset, we're going to get a row with NULL values for all
+		// columns not in the "dataset" table. so, let's check for that and return if it's the case.
+		if (!$row['datasetfield_id']) return;
+		
 		$label = $row['datasettypedef_label'];
 		
 		if (!isset($this->_fields[$label])) {
@@ -217,7 +221,7 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.30 2004/01/27 21:47:54 adamfranco Exp $
+* @version $Id: DataSet.class.php,v 1.31 2004/01/28 21:57:36 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {
