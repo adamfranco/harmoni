@@ -16,7 +16,19 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager // :: API interface
 {
+	
+	/**
+	 * The database connection as returned by the DBHandler.
+	 * @attribute private integer _dbIndex
+	 */
+	var $_dbIndex;
 
+	/**
+	 * The name of the Authentication database.
+	 * @attribute private string _authNDB
+	 */
+	var $_authNDB;
+	
 	/**
 	 * The Authentication Types availible.
 	 * @attribute private array _authTypes
@@ -39,8 +51,16 @@ class HarmoniAuthenticationManager
 	 * Constructor. Ititializes the availible AuthenticationTypes and results.
 	 * @return void
 	 */
-	function HarmoniAuthenticationManager (& $harmoniObj) {
+	function HarmoniAuthenticationManager (& $harmoniObj, $dbIndex, $databaseName) {
+		// ** parameter validation
+		ArgumentValidator::validate($harmoniObj, new ExtendsValidatorRule('Harmoni'), true);
+		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($databaseName, new StringValidatorRule(), true);
+		// ** end of parameter validation
+		
 		$this->_harmoni =& $harmoniObj;
+		$this->_dbIndex = $dbIndex;
+		$this->_authNDB = $databaseName;
 		
 		$this->_agentIds = array();
 		
@@ -191,17 +211,52 @@ class HarmoniAuthenticationManager
 			$name =& $this->_harmoni->LoginState->getAgentName();
 			
 			// If we have cached this mapping, use that
-			if ($this->_agentIds[$name])
+			if ($this->_agentIds[$name]) {
 				return $this->_agentIds[$name];
-			else {
+			
 			// otherwise, look up the id in the database.
-			throwError(new Error(UNIMPLEMENTED, "AuthenticationManager", 1));
+			} else {
+				$dbHandler =& Services::getService("DBHandler");
+				$query =& new SelectQuery;
+				$query->addColumn($this->_authNDB.".authn_mapping.agent_id", "agent_id");
+				$query->addTable($this->_authNDB.".authn_mapping");
+				$query->addWhere($this->_authNDB.".authn_mapping.system_name='".$name."'");
+				$result =& $dbHandler->query($query, $this->_dbIndex);
+				
+				$sharedManager =& Services::getService('Shared');
 				
 				// If an agent Id can be mapped to the name, return the id.
+				if ($result->getNumberOfRows() == 1) {
+					$id =& sharedManager->getId($result->field('agent_id'));
 				
 				// If no AgentId can be mapped to the Id, create a new Agent
 				// then populate its properties.
+				} else if ($result->getNumberOfRows() == 0) {
+					$type =& new HarmoniType ('Authentication', 'Harmoni', 'User',
+												'A generic user agent created
+												during login.');
+					$agent =& $sharedManager->createAgent($name, $type);
+					$id =& $agent->getId();
+					
+					// Store a mapping in our table.
+					$query =& new InsertQuery;
+					$columns = array($this->_authNDB.".authn_mapping.agent_id", 
+									$this->_authNDB.".authn_mapping.system_name");
+					$query->setColumns($columns);
+					$values = array($id->getIdString(), $name);
+					$query->setValues($values);
+					$query->setTable($this->_authNDB.".authn_mapping");
+					$result =& $dbHandler->query($query, $this->_dbIndex);
+					
 				
+				// If we have more than one row, we have problems.
+				} else {
+					throwError(new Error(OPERATION_FAILED, "AuthenticationManager", 1));
+				}
+				
+				// Cache the id, then return it.
+				$this->_agentIds[$name] =& $id;
+				return $id;
 			}
 			
 		} else {
