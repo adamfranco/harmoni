@@ -62,7 +62,10 @@ class HarmoniInfoRecord extends InfoRecord
 		
 		// If the field is not multi-valued AND has a value AND that value is not deleted, 
 		// throw an error.
-		} else if (!$field->getMultFlag() && $this->_record->numValues($label) && $this->_record->getActiveValue($label)) {
+		} else if (!$field->getMultFlag() 
+			&& $this->_record->numValues($label) 
+			&& $this->_record->getActiveValue($label)) {
+			
 			throwError(new Error(PERMISSION_DENIED.": Can't add another field to a
 			non-multi-valued part.", "HarmoniInfoRecord", true));
 		
