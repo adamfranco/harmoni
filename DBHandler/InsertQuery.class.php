@@ -9,7 +9,7 @@ require_once(HARMONI."DBHandler/InsertQuery.interface.php");
  * initialization steps, etc. What is left to be implemented is the
  * generateSQLQuery() method.
  * 
- * @version $Id: InsertQuery.class.php,v 1.4 2003/07/10 02:34:19 gabeschine Exp $
+ * @version $Id: InsertQuery.class.php,v 1.5 2003/07/15 15:29:50 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -35,7 +35,21 @@ class InsertQuery extends InsertQueryInterface {
 	 * @access private
 	 */
 	var $_values;
+	
+	
+	/**
+	 * The autoincrement column.
+	 * @attribute private string _autoIncrementColumn
+	 */
+	var $_autoIncrementColumn;
+	
 
+	/**
+	 * The sequence to use for generating new ids for the autoincrement column.
+	 * @attribute private string _sequence
+	 */
+	var $_sequence;
+	
 	
 	/**
 	 * This is the constructor for a MySQL INSERT query.
@@ -96,21 +110,25 @@ class InsertQuery extends InsertQueryInterface {
 
 	
 
-
 	/**
 	 * Sets the autoincrement column.
 	 * Sets the autoincrement column. This could be useful with Oracle, for example.
 	 * @param string $column The autoincrement column.
+	 * @param string $sequence The sequence to use for generating new ids.
 	 * @access public
 	 */ 
-	function setAutoIncrementColumn($column) {
+	function setAutoIncrementColumn($column, $sequence) {
 		// In MySQL, this is irrelevant. Auto_Increment columns should
 		// be defined as such in the table definition.
 		
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($column, $stringRule, true);
+		ArgumentValidator::validate($sequence, $stringRule, true);
 		// ** end of parameter validation
+		
+		$this->_autoIncrementColumn = $column;
+		$this->_sequence = $sequence;
 	}
 
 
@@ -134,6 +152,9 @@ class InsertQuery extends InsertQueryInterface {
 
 		// no rows of values to add
 		$this->_values = array();
+
+		$this->_column = "";
+		$this->_sequence = "";
 	}
 
 }

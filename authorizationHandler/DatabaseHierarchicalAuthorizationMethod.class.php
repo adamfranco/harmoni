@@ -34,7 +34,7 @@ require_once(HARMONI."authorizationHandler/DatabaseHierarchicalAuthorizationMeth
  * </pre>
  * 
  * @access public
- * @version $Id: DatabaseHierarchicalAuthorizationMethod.class.php,v 1.8 2003/07/11 00:20:24 gabeschine Exp $
+ * @version $Id: DatabaseHierarchicalAuthorizationMethod.class.php,v 1.9 2003/07/15 15:29:51 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -117,7 +117,6 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 	  * @attribute private array _cacheACF
 	  */
 	 var $_cacheACF;
-	 
 	
 	/**
      * One of the authorization method caches.

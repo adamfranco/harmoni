@@ -5,7 +5,7 @@ require_once("Query.abstract.php");
 /**
  * An InsertQuery interface provides the tools to build an SQL INSERT query.
  *
- * @version $Id: InsertQuery.interface.php,v 1.2 2003/07/10 02:34:19 gabeschine Exp $
+ * @version $Id: InsertQuery.interface.php,v 1.3 2003/07/15 15:29:50 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -48,10 +48,13 @@ class InsertQueryInterface extends Query {
 	/**
 	 * Sets the autoincrement column.
 	 * Sets the autoincrement column. This could be useful with Oracle, for example.
+	 * Do not include this column with the setColumns() method - it will be added
+	 * automatically.
 	 * @param string $column The autoincrement column.
+	 * @param string $sequence The sequence to use for generating new ids.
 	 * @access public
 	 */ 
-	function setAutoIncrementColumn($column) {
+	function setAutoIncrementColumn($column, $sequence) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 

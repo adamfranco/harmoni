@@ -6,7 +6,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  *
- * @version $Id: MySQL_SQLGenerator.class.php,v 1.10 2003/07/11 00:20:22 gabeschine Exp $
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.11 2003/07/15 15:29:51 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -59,7 +59,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 
 		$sql = "";
 	
-		if (!$query->_table || count($query->_columns) == 0 || count($query->_values) == 0) {
+		if (!$query->_table || count($query->_values) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
 			throwError(new Error($description, "DBHandler", false));
 			return null;
@@ -67,9 +67,13 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	
 		$sql .= "INSERT INTO ";
 		$sql .= $query->_table;
-		$sql .= "\n\t(";
-		$sql .= implode(", ", $query->_columns);
-		$sql .= ")\n\tVALUES";
+		if ($query->_columns) {
+			$sql .= "\n\t(";
+			$sql .= implode(", ", $query->_columns);
+			$sql .= ")";
+		}
+		
+		$sql .= "\n\tVALUES";
 
 		// process all rows in the $query->_values array
 		$allRows = array();

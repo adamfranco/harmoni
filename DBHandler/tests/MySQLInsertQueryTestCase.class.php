@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLInsertQueryTestCase.class.php,v 1.11 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: MySQLInsertQueryTestCase.class.php,v 1.12 2003/07/15 15:29:51 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -48,7 +48,7 @@
 		function test_getType(){
 			$this->assertEqual($this->query->getType(), INSERT);
 			
-			$this->query->setAutoIncrementColumn("id");
+			$this->query->setAutoIncrementColumn("id", "seq");
 			
 		}
 
