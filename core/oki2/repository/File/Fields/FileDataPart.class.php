@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPart.class.php,v 1.5 2005/03/29 19:44:28 adamfranco Exp $
+ * @version $Id: FileDataPart.class.php,v 1.6 2005/03/30 18:46:31 adamfranco Exp $
  */
  
 class FileDataPart 
@@ -30,10 +30,10 @@ class FileDataPart
 	var $_partStructure;
 	var $_data;
 	
-	function FileDataPart( &$partStructure, &$recordId, $configuration ) {
+	function FileDataPart( &$partStructure, &$recordId, &$configuration ) {
 		$this->_recordId =& $recordId;
 		$this->_partStructure =& $partStructure;
-		$this->_configuration = $configuration;
+		$this->_configuration =& $configuration;
 		
 		// Set our data to NULL, so that we can know if it has not been checked
 		// for yet. If we search for data, but don't have any, or the data is
@@ -179,7 +179,7 @@ class FileDataPart
 			$query->addColumn("data");
 			$query->addWhere("dr_file.id = '".$this->_recordId->getIdString()."'");
 			
-			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			// If no data was found, return an empty string.
 			if ($result->getNumberOfRows() == 0)
@@ -226,7 +226,7 @@ class FileDataPart
 		$query->addTable("dr_file_data");
 		$query->addColumn("COUNT(*) as count");
 		$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
 		if ($result->field("count") > 0) {
@@ -249,14 +249,14 @@ class FileDataPart
 //		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		
 		// run the query
-		$dbHandler->query($query, $this->_configuration["dbId"]);
+		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// Check to see if the size is in the database
 		$query =& new SelectQuery;
 		$query->addTable("dr_file");
 		$query->addColumn("COUNT(*) as count");
 		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
 		if ($result->field("count") > 0) {
@@ -276,7 +276,7 @@ class FileDataPart
 		}
 		
 		// run the query
-		$dbHandler->query($query, $this->_configuration["dbId"]);
+		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 	}
 
 	/**

@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDataPart.class.php,v 1.3 2005/03/29 19:44:28 adamfranco Exp $
+ * @version $Id: ThumbnailDataPart.class.php,v 1.4 2005/03/30 18:46:33 adamfranco Exp $
  */
 class ThumbnailDataPart extends Part
 //	extends java.io.Serializable
@@ -178,7 +178,7 @@ class ThumbnailDataPart extends Part
 			$query->addColumn("data");
 			$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
 			
-			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			// If no data was found, return an empty string.
 			if ($result->getNumberOfRows() == 0)
@@ -226,7 +226,7 @@ class ThumbnailDataPart extends Part
 		$query->addTable("dr_thumbnail");
 		$query->addColumn("COUNT(*) as count");
 		$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
 		if ($result->field("count") > 0) {
@@ -249,7 +249,7 @@ class ThumbnailDataPart extends Part
 //		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		
 		// run the query
-		$dbHandler->query($query, $this->_configuration["dbId"]);
+		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 	}
 
 	/**

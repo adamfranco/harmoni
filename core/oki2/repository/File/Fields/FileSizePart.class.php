@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePart.class.php,v 1.3 2005/01/26 16:58:19 adamfranco Exp $
+ * @version $Id: FileSizePart.class.php,v 1.4 2005/03/30 18:46:32 adamfranco Exp $
  */
 class FileSizePart 
 	extends Part
@@ -177,7 +177,7 @@ class FileSizePart
 			$query->addColumn("size");
 			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
 			
-			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			// If no name was found, return an empty string.
 			if ($result->getNumberOfRows() == 0)

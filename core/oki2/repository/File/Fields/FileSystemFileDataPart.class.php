@@ -17,7 +17,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSystemFileDataPart.class.php,v 1.1 2005/02/16 22:48:11 adamfranco Exp $
+ * @version $Id: FileSystemFileDataPart.class.php,v 1.2 2005/03/30 18:46:32 adamfranco Exp $
  */
  
 class FileSystemFileDataPart 
@@ -101,7 +101,7 @@ class FileSystemFileDataPart
 		$query->addTable("dr_file");
 		$query->addColumn("COUNT(*) as count");
 		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
 		if ($result->field("count") > 0) {
@@ -121,7 +121,7 @@ class FileSystemFileDataPart
 		}
 		
 		// run the query
-		$dbHandler->query($query, $this->_configuration["dbId"]);
+		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 	}
 	
 	/**
@@ -132,11 +132,11 @@ class FileSystemFileDataPart
 	 * @since 2/16/05
 	 */
 	function _getFilePath () {
-		if (!$this->_configuration['file_data_path'])
+		if (!$this->_configuration->getProperty('file_data_path'))
 			throwError(new Error(RepositoryException::CONFIGURATION_ERROR()
 				.": 'file_data_path' was not specified.", "FileSystemFileDataPart", true));
 		
-		$path = $this->_configuration['file_data_path'];
+		$path = $this->_configuration->getProperty('file_data_path');
 		
 		if (!file_exists($path))
 			throwError(new Error(RepositoryException::CONFIGURATION_ERROR()
@@ -150,7 +150,7 @@ class FileSystemFileDataPart
 			throwError(new Error(RepositoryException::CONFIGURATION_ERROR()
 				.": The 'file_data_path' specified, '$path', is not writable.", "FileSystemFileDataPart", true));
 				
-		return $this->_configuration['file_data_path']."/".$this->_recordId->getIdString();
+		return $this->_configuration->getProperty('file_data_path')."/".$this->_recordId->getIdString();
 	}
 	
 	

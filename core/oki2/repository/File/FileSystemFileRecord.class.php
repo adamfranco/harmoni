@@ -25,7 +25,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSystemFileRecord.class.php,v 1.2 2005/02/17 17:34:35 adamfranco Exp $ 
+ * @version $Id: FileSystemFileRecord.class.php,v 1.3 2005/03/30 18:44:33 adamfranco Exp $ 
  */
 class FileSystemFileRecord 
 	extends FileRecord
@@ -106,20 +106,20 @@ class FileSystemFileRecord
 				$query =& new DeleteQuery();
 				$query->setTable("dr_thumbnail");
 				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
-				$dbHandler->query($query, $this->_configuration["dbId"]);
+				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 				
 				// Delete the data row in case we were switching from another type
 				// that used it.
 				$query =& new DeleteQuery();
 				$query->setTable("dr_file_data");
 				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
-				$dbHandler->query($query, $this->_configuration["dbId"]);
+				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 				
 				// delete the file row.
 				$query =& new DeleteQuery();
 				$query->setTable("dr_file");
 				$query->setWhere("id = '".$this->_id->getIdString()."'");
-				$dbHandler->query($query, $this->_configuration["dbId"]);
+				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			} else if ($field != "FILE_SIZE") {
 				$this->_parts[$field]->updateValue("NULL");
 			}
@@ -155,7 +155,7 @@ class FileSystemFileRecord
 		$query->addColumn("thumbnail_mime_type.type", "thumbnail_type");
 		$query->addColumn("dr_thumbnail.data", "thumbnail_data");
 		$query->addWhere("dr_file.id = '".$this->_id->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		$file = $this->_parts['FILE_DATA']->_getFilePath();
 		

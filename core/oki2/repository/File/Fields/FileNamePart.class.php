@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileNamePart.class.php,v 1.4 2005/03/29 19:44:28 adamfranco Exp $
+ * @version $Id: FileNamePart.class.php,v 1.5 2005/03/30 18:46:32 adamfranco Exp $
  */
 class FileNamePart extends Part
 //	extends java.io.Serializable
@@ -177,7 +177,7 @@ class FileNamePart extends Part
 			$query->addColumn("filename");
 			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
 			
-			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			// If no name was found, return an empty string.
 			if ($result->getNumberOfRows() == 0)
@@ -224,7 +224,7 @@ class FileNamePart extends Part
 		$query->addTable("dr_file");
 		$query->addColumn("COUNT(*) as count");
 		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
 		if ($result->field("count") > 0) {
@@ -244,7 +244,7 @@ class FileNamePart extends Part
 		}
 		
 		// run the query
-		$dbHandler->query($query, $this->_configuration["dbId"]);
+		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 	}
 
 	/**

@@ -27,7 +27,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.9 2005/02/17 17:34:35 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.10 2005/03/30 18:44:32 adamfranco Exp $ 
  */
 class FileRecord 
 	extends Record
@@ -38,10 +38,10 @@ class FileRecord
 	
 	var $_parts;
 	
-	function FileRecord( &$recordStructure, & $id, $configuration ) {
+	function FileRecord( &$recordStructure, & $id, &$configuration ) {
 		$this->_id =& $id;
 		$this->_recordStructure =& $recordStructure;
-		$this->_configuration = $configuration;
+		$this->_configuration =& $configuration;
 		
 		$idManager =& Services::getService("Id");	
 		$this->_parts = array();
@@ -204,19 +204,19 @@ class FileRecord
 				$query =& new DeleteQuery();
 				$query->setTable("dr_file_data");
 				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
-				$dbHandler->query($query, $this->_configuration["dbId"]);
+				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 				
 				// Delete the thumbnail
 				$query =& new DeleteQuery();
 				$query->setTable("dr_thumbnail");
 				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
-				$dbHandler->query($query, $this->_configuration["dbId"]);
+				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 				
 				// delete the file row.
 				$query =& new DeleteQuery();
 				$query->setTable("dr_file");
 				$query->setWhere("id = '".$this->_id->getIdString()."'");
-				$dbHandler->query($query, $this->_configuration["dbId"]);
+				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			} else if ($field != "FILE_SIZE") {
 				$this->_parts[$field]->updateValue("NULL");
 			}
@@ -314,7 +314,7 @@ class FileRecord
 		$query->addColumn("thumbnail_mime_type.type", "thumbnail_type");
 		$query->addColumn("dr_thumbnail.data", "thumbnail_data");
 		$query->addWhere("dr_file.id = '".$this->_id->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		if (!$result->getNumberOfRows()) {
 			return TRUE;

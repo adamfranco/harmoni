@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: MimeTypePart.class.php,v 1.4 2005/03/29 19:44:28 adamfranco Exp $
+ * @version $Id: MimeTypePart.class.php,v 1.5 2005/03/30 18:46:32 adamfranco Exp $
  */
 class MimeTypePart extends Part
 //	extends java.io.Serializable
@@ -179,7 +179,7 @@ class MimeTypePart extends Part
 			$query->addTable("dr_mime_type", INNER_JOIN, "fk_mime_type = dr_mime_type.id");
 			$query->addWhere("dr_file.id = '".$this->_recordId->getIdString()."'");
 			
-			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			// If no name was found, return an empty string.
 			if ($result->getNumberOfRows() == 0)
@@ -228,7 +228,7 @@ class MimeTypePart extends Part
 			$query->addTable("dr_mime_type");
 			$query->addColumn("id");
 			$query->addWhere("type = '".$this->_type."'");
-			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			// If it doesn't exist, insert it.
 			if (!$result->getNumberOfRows()) {
@@ -237,7 +237,7 @@ class MimeTypePart extends Part
 				$query->setColumns(array("type"));
 				$query->setValues(array("'".addslashes($this->_type)."'"));
 				
-				$result2 =& $dbHandler->query($query, $this->_configuration["dbId"]);
+				$result2 =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 				$mimeId = "'".$result2->getLastAutoIncrementValue()."'";
 			} else {
 				$mimeId = "'".$result->field("id")."'";
@@ -256,7 +256,7 @@ class MimeTypePart extends Part
 		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
 		
 		// run the query
-		$dbHandler->query($query, $this->_configuration["dbId"]);
+		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 	}
 
 	/**
