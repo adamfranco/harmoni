@@ -2,13 +2,14 @@
 
 require_once(HARMONI.'/oki/hierarchy/HarmoniHierarchy.class.php');
 require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
+require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.4 2003/10/10 13:56:34 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.5 2003/10/10 14:31:50 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -337,15 +338,70 @@ require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
 		}
 		
 		function test_add_node_type () {
-		
+			$hierarchy =& $this->hierarchy;
+			
+//			$hierarchy->addNodeType(new GenericNodeType); //Fails properly
+			$testNodeType =& new TestNodeType();
+			$hierarchy->addNodeType($testNodeType);
+			
+			$testNodeTypeExists = FALSE;
+			foreach ($hierarchy->_nodeTypes as $key => $val) {
+				if ($testNodeType->isEqual($hierarchy->_nodeTypes[$key]))
+					$testNodeTypeExists = TRUE;
+			}
+			$this->assertTrue($testNodeTypeExists);
 		}
 		
 		function test_remove_node_type () {
-		
+			$hierarchy =& $this->hierarchy;
+			
+//			$hierarchy->removeNodeType(new GenericNodeType); //Fails properly
+			
+			// add a nodetype and make sure its in there
+			$testNodeType =& new TestNodeType();
+			$hierarchy->addNodeType($testNodeType);
+	
+			$testNodeTypeExists = FALSE;
+			foreach ($hierarchy->_nodeTypes as $key => $val) {
+				if ($testNodeType->isEqual($hierarchy->_nodeTypes[$key]))
+					$testNodeTypeExists = TRUE;
+			}
+			$this->assertTrue($testNodeTypeExists);
+			
+			// remove the node type and make sure its gone.
+			$testNodeType =& new TestNodeType();
+			$hierarchy->removeNodeType($testNodeType);
+			
+			$testNodeTypeExists = FALSE;
+			foreach ($hierarchy->_nodeTypes as $key => $val) {
+				if ($testNodeType->isEqual($hierarchy->_nodeTypes[$key]))
+					$testNodeTypeExists = TRUE;
+			}
+			$this->assertFalse($testNodeTypeExists);
 		}
 		
 		function test_get_node_types () {
-		
+			$hierarchy =& $this->hierarchy;
+			
+			$nodeTypeIterator =& $hierarchy->getNodeTypes();
+			$count = 0;
+			while ($nodeTypeIterator->hasNext()) {
+				$count++;
+				$nodeType =& $nodeTypeIterator->next();
+				$this->assertTrue($nodeType->isEqual(new GenericNodeType));
+			}
+			$this->assertEqual(1, $count);
+			
+			$testNodeType =& new TestNodeType();
+			$hierarchy->addNodeType($testNodeType);
+			
+			$nodeTypeIterator =& $hierarchy->getNodeTypes();
+			$count = 0;
+			while ($nodeTypeIterator->hasNext()) {
+				$count++;
+				$nodeType =& $nodeTypeIterator->next();
+			}
+			$this->assertEqual(2, $count);
 		}
 
 	}

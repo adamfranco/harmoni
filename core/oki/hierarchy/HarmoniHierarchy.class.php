@@ -23,7 +23,7 @@ require_once(HARMONI.'/oki/hierarchy/Tree.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.11 $ / $Date: 2003/10/10 13:56:26 $
+ * @version $Revision: 1.12 $ / $Date: 2003/10/10 14:31:47 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -287,7 +287,7 @@ class HarmoniHierarchy
 		ArgumentValidator::validate($nodeType, new ExtendsValidatorRule("Type"));
 		
 		// Throw an error if the nodeType has already been added.
-		foreach ($this->_nodeTypes as $key => $nodeType) {
+		foreach ($this->_nodeTypes as $key => $val) {
 			if ($nodeType->isEqual($this->_nodeTypes[$key]))
 				throwError(new Error(ALREADY_ADDED, "Hierarchy", 1));
 		}
@@ -332,7 +332,7 @@ class HarmoniHierarchy
 		foreach ($this->_nodeTypes as $key => $val) {
 			// if it isn't the type we are removing, add it to the new array
 			if (!$nodeType->isEqual($this->_nodeTypes[$key]))
-				$newNodeTypes =& $this->_nodeTypes[$key];
+				$newNodeTypes[] =& $this->_nodeTypes[$key];
 		}
 		$this->_nodeTypes =& $newNodeTypes;
 		
