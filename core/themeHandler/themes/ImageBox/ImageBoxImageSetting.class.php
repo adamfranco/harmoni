@@ -6,7 +6,7 @@ require_once(HARMONI."/themeHandler/ThemeSetting.abstract.php");
  * A simple border setting that takes a positive integer border.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: ImageBoxImageSetting.class.php,v 1.3 2004/08/26 15:10:36 adamfranco Exp $
+ * @version $Id: ImageBoxImageSetting.class.php,v 1.4 2004/10/14 05:45:43 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -62,7 +62,7 @@ class ImageBoxImageSetting
 	function &setDefaultValue ($defaultValue) {
 		ArgumentValidator::validate($defaultValue, new StringValidatorRule);
 		
-		if($defaultValue != "solid" && $defaultValue != "dotted" && $defaultValue != "dashed")
+		if(!in_array($defaultValue, $this->_options))
 			throwError(new Error("Invalid border value, '".$defaultValue."'.","BorderSetting", FALSE));
 		
 		$this->_defaultValue = $defaultValue;

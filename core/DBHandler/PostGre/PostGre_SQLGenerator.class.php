@@ -5,7 +5,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
 /**
  * A PostGreQueryGenerator class provides the tools to build a PostGre query from a Query object.
  *
- * @version $Id: PostGre_SQLGenerator.class.php,v 1.4 2004/05/21 20:02:59 nstamato Exp $
+ * @version $Id: PostGre_SQLGenerator.class.php,v 1.5 2004/10/14 05:45:43 adamfranco Exp $
  * @package harmoni.dbc.postgre
  * @copyright 2003 
  */
@@ -288,7 +288,7 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 		$sql = "";
 		
 		if (count($query->_columns) == 0) {
-			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
+			$description = "Cannot generate SQL string for this Query object due to invalid query setup; No columns added";
 			throwError(new Error($description, "DBHandler", false));
 			return null;
 		}

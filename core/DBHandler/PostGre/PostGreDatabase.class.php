@@ -5,12 +5,13 @@ require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreInsertQueryResult.class.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreUpdateQueryResult.class.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreDeleteQueryResult.class.php");
+require_once(HARMONI."DBHandler/PostGre/PostGreGenericQueryResult.class.php");
 require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 
 /**
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * @version $Id: PostGreDatabase.class.php,v 1.4 2004/08/26 15:10:30 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.5 2004/10/14 05:45:43 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.postgre
  * @access public
@@ -157,7 +158,8 @@ class PostGreDatabase extends DatabaseInterface {
 			
 		// attempt to connect
 		$conStr = "";
-		$conStr .= " host = ".$this->_dbHost;
+		if ($this->_dbHost != "localhost")
+			$conStr .= " host = ".$this->_dbHost;
 		$conStr .= " user = ".$this->_dbUser;
 		$conStr .= " password = ".$this->_dbPass;
 		$conStr .= " dbname = ".$this->_dbName;
@@ -174,7 +176,7 @@ class PostGreDatabase extends DatabaseInterface {
 			return $linkId;
 		}
 		else {
-			throwError(new Error("Cannot connect to database.", "DBHandler", false));
+			throwError(new Error("Cannot connect to database. pg_pconnect($conStr)", "DBHandler", false));
 		    $this->_linkId = false;
 			return false;						
 		}
