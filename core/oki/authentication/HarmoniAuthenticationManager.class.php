@@ -337,10 +337,18 @@ class HarmoniAuthenticationManager
 			} else if ($result->getNumberOfRows() == 0) {
 				$type =& new HarmoniType ('Authentication', 'Harmoni', 'User',
 											'A generic user agent created during login.');
+				// Create the Agent
 				$agent =& $sharedManager->createAgent($tokens, $type);
-				$id =& $agent->getId();
+				
+				// Populate its properties if we can find any.
+				$agentInfoHandler =& Services::getService("AgentInformation");
+				$info =& $agentInfoHandler->getAgentInformation($tokens, FALSE);
+				
+				printpre($info);
 				
 				// Store a mapping in our table.
+				$id =& $agent->getId();
+				
 				$query =& new InsertQuery;
 				$columns = array($this->_authNDB.".authn_mapping.agent_id", 
 								$this->_authNDB.".authn_mapping.system_name",

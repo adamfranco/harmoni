@@ -53,12 +53,17 @@ class HarmoniAgent extends Agent // :: API interface
 	 * @param string sharedDB The name of the shared database.
 	 * @access public
 	 */
-	function HarmoniAgent($displayName, & $id, & $type, $dbIndex, $sharedDB) {
+	function HarmoniAgent($displayName, & $id, & $type, & $propertiesArray, $dbIndex, $sharedDB) {
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
 		ArgumentValidator::validate($type, new ExtendsValidatorRule("TypeInterface"), true);
+		ArgumentValidator::validate($propertiesArray, new ArrayValidatorRuleWithRule(
+					new OptionalRule(
+						new ExtendsValidatorRule("Properties")
+					)
+				), true);
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
 		ArgumentValidator::validate($sharedDB, $stringRule, true);
 		// ** end of parameter validation
@@ -66,6 +71,7 @@ class HarmoniAgent extends Agent // :: API interface
 		$this->_displayName = $displayName;
 		$this->_id =& $id;
 		$this->_type =& $type;
+		$this->_propertiesArray =& $propertiesArray;
 		$this->_dbIndex = $dbIndex;
 		$this->_sharedDB = $sharedDB;
 	}	
@@ -150,8 +156,7 @@ class HarmoniAgent extends Agent // :: API interface
 		$iterator =& new HarmoniIterator($array);
 		return $iterator;
 	
-	}
-
+	}	
 	
 	/**
 	 * Gets the dbIndex of this group.
@@ -205,8 +210,7 @@ class HarmoniAgent extends Agent // :: API interface
 			return true;
 		else
 			return false;
-	}
-	
+	}	
 }
 
 

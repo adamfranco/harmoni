@@ -37,7 +37,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.41 2004/11/18 02:33:17 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.42 2004/11/19 22:27:53 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -128,8 +128,11 @@ class HarmoniSharedManager
      * immutable. Implemented with 1 SELECT and 1 INSERT queries for a total of
 	 * 2 SQL queries.
      *
-     * @param String displayName
-     * @param object osid.shared.Type agentType
+     * @param string $displayName
+     * @param object osid.shared.Type $agentType
+     * @param object Properties $properties This parameter was added as of version 2
+     *		of the osids and is required for being able to manage properties of
+     *		the agents
      *
      * @return object osid.shared.Agent with its unique Id set
      *
@@ -140,10 +143,10 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function &createAgent($displayName, & $agentType) { 
+	function &createAgent($displayName, & $agentType, & $properties) { 
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("HarmoniType");
-		ArgumentValidator::validate($agentType, $extendsRule, true);
+		ArgumentValidator::validate($agentType, new ExtendsValidatorRule("HarmoniType"), true);
+		ArgumentValidator::validate($properties, new ExtendsValidatorRule("Properties"), true);
 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
 		// ** end of parameter validation
 		
@@ -158,44 +161,7 @@ class HarmoniSharedManager
 		$db = $this->_sharedDB.".";
 
 		// 1. Insert the type
-		
-		$domain = $agentType->getDomain();
-		$authority = $agentType->getAuthority();
-		$keyword = $agentType->getKeyword();
-		$description = $agentType->getDescription();
-
-		// check whether the type is already in the DB, if not insert it
-		$query =& new SelectQuery();
-		$query->addTable($db."type");
-		$query->addColumn("type_id", "id", $db."type");
-		$where = $db."type.type_domain = '".addslashes($domain)."'";
-		$where .= " AND {$db}type.type_authority = '".addslashes($authority)."'";
-		$where .= " AND {$db}type.type_keyword = '".addslashes($keyword)."'";
-		$where .= " AND {$db}type.type_description = '".addslashes($description)."'";
-		$query->addWhere($where);
-
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		if ($queryResult->getNumberOfRows() > 0) // if the type is already in the database
-			$typeIdValue = $queryResult->field("id"); // get the id
-		else { // if not, insert it
-			$query =& new InsertQuery();
-			$query->setTable($db."type");
-			$columns = array();
-			$columns[] = "type_domain";
-			$columns[] = "type_authority";
-			$columns[] = "type_keyword";
-			$columns[] = "type_description";
-			$query->setColumns($columns);
-			$values = array();
-			$values[] = "'".addslashes($domain)."'";
-			$values[] = "'".addslashes($authority)."'";
-			$values[] = "'".addslashes($keyword)."'";
-			$values[] = "'".addslashes($description)."'";
-			$query->setValues($values);
-
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-			$typeIdValue = $queryResult->getLastAutoIncrementValue();
-		}
+		$typeIdValue = $this->_getTypeId($agentType);
 		
 		// 2. Now that we know the id of the type, insert the agent itself
 		$query =& new InsertQuery();
@@ -213,8 +179,27 @@ class HarmoniSharedManager
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
+		// 3. Store the properties of the agent.
+		$propertiesId = $this->_storeProperties($properties);
+		
+		// 4. Store the Mapping of the Properties to the Agent
+		$query =& new InsertQuery;
+		$query->setTable("agent_properties");
+		$query->setColumns(array(
+			"fk_agent",
+			"fk_properties"
+		));
+		$query->setValues(array(
+			"'".$this->_id->getIdString()."'",
+			"'".$propertiesId."'"
+		));
+		$result =& $dbc->query($query, $this->_dbIndex);
+		
+		
 		// create the agent object to return
-		$agent =& new HarmoniAgent($displayName, $agentId, $agentType, $this->_dbIndex, $this->_sharedDB);
+		$propertiesArray = array();
+		$propertiesArray[] =& $properties;
+		$agent =& new HarmoniAgent($displayName, $agentId, $agentType, $propertiesArray, $this->_dbIndex, $this->_sharedDB);
 		// then cache it
 		$this->_agentsCache[$agentIdValue] =& $agent;
 		
@@ -259,14 +244,53 @@ class HarmoniSharedManager
 			throwError(new Error("Multiple agents with Id: ".$idValue." exist in the database." ,"SharedManager",true));
 		$typeIdValue = $queryResult->field("type_id");
 		
-		// 2. Now delete the agent
+		// 2. Delete the Properties mapping of the agent
+		// get the properties ids first
+		$query =& new SelectQuery();
+		$query->addTable($db."agent_properties");
+		$query->addColumn("fk_properties");
+		$query->addWhere($db."fk_agent = '".addslashes($idValue)."'");
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		$propertiesIdValues = array();
+		while ($row =& $queryResult->getCurrentRow()) {
+			$propertiesIdValues[] = $row['fk_properties'];
+		}
+		
+		// Delete the mapping
+		$query =& new DeleteQuery();
+		$query->setTable($db."agent_properties");
+		$query->addWhere($db."fk_agent = '".addslashes($idValue)."'");
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// 3. Delete the properties of the agent
+		// Delete each Property entry.
+		$query =& new DeleteQuery();
+		$query->setTable($db."shared_property");
+		$where = array();
+		foreach ($propertiesIdValues as $propertiesIdValue) {
+			$where[] = "fk_properties = '".addslashes($propertiesIdValue)."'";
+		}
+		$query->addWhere(implode(" OR ", $where));
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// Delete each Properties entry
+		$query =& new DeleteQuery();
+		$query->setTable($db."shared_properties");
+		$where = array();
+		foreach ($propertiesIdValues as $propertiesIdValue) {
+			$where[] = "id = '".addslashes($propertiesIdValue)."'";
+		}
+		$query->addWhere(implode(" OR ", $where));
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// 4. Now delete the agent
 		$query =& new DeleteQuery();
 		$query->setTable($db."agent");
 		$query->addWhere($db."agent.agent_id = '".addslashes($idValue)."'");
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
-		
-		// 3. Now see if any other agents have the same type
+		// 5. Now see if any other agents have the same type
 		$query =& new SelectQuery();
 		
 		$db = $this->_sharedDB.".";
@@ -277,14 +301,19 @@ class HarmoniSharedManager
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		$num = $queryResult->field("num");
-		if ($num == 0) { // if no other agents use this type, then delete the type
+		if ($num == 0) { 
+			// if no other agents use this type, then delete the type
+			
+			// WARNING
+			// This could pose a problem as other services use this same generic
+			// types table. A separate agent_type table should be used instead.
 			$query =& new DeleteQuery();
 			$query->setTable($db."type");
 			$query->addWhere($db."type.type_id = '".addslashes($typeIdValue)."'");
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		}
 
-		// 4. Now, we must remove this agent from all groups that include it
+		// 6. Now, we must remove this agent from all groups that include it
 		// first select all such groups (we will need this to update the cache)
 		$query =& new SelectQuery();
 		$query->addColumn("fk_groups", "group_id", $db."j_groups_agent");
@@ -303,7 +332,7 @@ class HarmoniSharedManager
 //		echo "</pre>\n";
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
-		// 5. Update the cache
+		// 7. Update the cache
 		if (isset($this->_agentsCache[$idValue])) {
 			while ($groupsResult->hasMoreRows()) {
 				// fetch current row
@@ -444,6 +473,16 @@ class HarmoniSharedManager
 		$query->addTable($db."agent");
 		$joinc = $db."agent.fk_type = ".$db."type.type_id";
 		$query->addTable($db."type", INNER_JOIN, $joinc);
+		// Join to the properties mapping table
+		$joinc = $db."agent.agent_id = ".$db."agent_properties.fk_agent";
+		$query->addTable($db."agent_properties", LEFT_JOIN, $joinc);
+		// Join to the properties and each Property
+		$joinc = $db."agent_properties.fk_properties = ".$db."shared_properties.id";
+		$query->addTable($db."shared_properties", INNER_JOIN, $joinc);
+		$joinc = $db."shared_properties.fk_type = ".$db."properties_type.type_id";
+		$query->addTable($db."type", INNER_JOIN, $joinc, "properties_type");
+		$joinc = $db."shared_properties.id = ".$db."shared_property.fk_properties";
+		$query->addTable($db."shared_property", LEFT_JOIN, $joinc);
 		
 		// set the columns to select
 		$query->addColumn("agent_id", "id", $db."agent");
@@ -452,25 +491,78 @@ class HarmoniSharedManager
 		$query->addColumn("type_authority", "authority", $db."type");
 		$query->addColumn("type_keyword", "keyword", $db."type");
 		$query->addColumn("type_description", "description", $db."type");
+		$query->addColumn("id", "properties_id", $db."shared_properties");
+		$query->addColumn("type_domain", "properties_domain", $db."properties_type");
+		$query->addColumn("type_authority", "properties_authority", $db."properties_type");
+		$query->addColumn("type_keyword", "properties_keyword", $db."properties_type");
+		$query->addColumn("type_description", "properties_description", $db."properties_type");
+		$query->addColumn("key", "property_key", $db."shared_property");
+		$query->addColumn("value", "property_value", $db."shared_property");
+		
 		if ($where)
 		    $query->addWhere($where);
-			
+		
+		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-
-		while ($queryResult->hasMoreRows()) {
-			// fetch current row
-			$arr = $queryResult->getCurrentRow();
-			
-			// cache it, if not cached
-			if (!isset($this->_agentsCache[$arr[id]])) {
-				// create agent object
-				$type =& new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
-				$agent =& new HarmoniAgent($arr['display_name'], $this->getId($arr['id']), $type, $this->_dbIndex, $this->_sharedDB);
-				
-				$this->_agentsCache[$arr['id']] =& $agent;
+		
+		// Create a starting array to stick properties objects in.
+		$propertiesArray = array();
+		
+		while ($arr = $queryResult->getCurrentRow()) {
+			// If we are out of rows or have moved on to the next agent, create our agent object
+			if (!$queryResult->advanceRow() || $queryResult->field('id') != $arr['id']) {
+				$instantiateAgent = TRUE;
+			} else {
+				$instantiateAgent = FALSE;
 			}
-
-			$queryResult->advanceRow();
+			
+			// Build our properties objects to add to the Agent.
+			if ($arr['properties_id']) {
+				// If we are starting on a new properties object, create a new object and add it to our array.
+				if (!is_object($currentProperties) 
+					|| $arr['properties_id'] != $currentPropertiesId) 
+				{
+					$propertiesType =& new HarmoniType(
+										$arr['properties_domain'],
+										$arr['properties_authority'],
+										$arr['properties_keyword'],
+										$arr['properties_description']);
+					$propertiesArray[] =& new HarmoniProperties($propertiesType);
+					$currentProperties =& $propertiesArray[count($propertiesArray)-1];
+					$currentPropertiesId = $arr['properties_id'];
+				}
+				
+				// Add the current Property row to the current Properties
+				if ($arr['property_key']) {
+					$currentProperties->addProperty(
+								unserialize(base64_decode($arr['property_key'])), 
+								unserialize(base64_decode($arr['property_value'])));
+				}
+			}
+			
+			if ($instantiateAgent) {
+				// cache it, if not cached
+				if (!isset($this->_agentsCache[$arr[id]])) {
+					// create agent object
+					$type =& new HarmoniType($arr['domain'],
+											$arr['authority'],
+											$arr['keyword'],
+											$arr['description']);
+					$agent =& new HarmoniAgent(
+									$arr['display_name'], 
+									$this->getId($arr['id']), 
+									$type,
+									$propertiesArray,
+									$this->_dbIndex, 
+									$this->_sharedDB);
+					
+					$this->_agentsCache[$arr['id']] =& $agent;
+					
+					// reset the propertiesArray for the next agent.
+					$propertiesArray = array();
+				}
+			}
 		}
 		
 		// Only specify that we are fully cached if we didn't limit the
@@ -945,8 +1037,16 @@ class HarmoniSharedManager
 						throwError(new Error("No rows returned.","SharedManager",true));
 					
 					$subrow = $subqueryResult->getCurrentRow();
-					$type =& new HarmoniType($subrow['gt_domain'],$subrow['gt_authority'],$subrow['gt_keyword'],$subrow['gt_description']);
-					$group =& new HarmoniGroup($subrow['g_display_name'], $this->getId($value), $type, $subrow['g_description'], $this->_dbIndex, $this->_sharedDB);
+					$type =& new HarmoniType($subrow['gt_domain'],
+											$subrow['gt_authority'],
+											$subrow['gt_keyword'],
+											$subrow['gt_description']);
+					$group =& new HarmoniGroup($subrow['g_display_name'], 
+													$this->getId($value), 
+													$type, 
+													$subrow['g_description'], 
+													$this->_dbIndex, 
+													$this->_sharedDB);
 					// set cache
 
 					// now fetch all agents in this subgroup
@@ -960,8 +1060,20 @@ class HarmoniSharedManager
 						// if agent has not been cached, do so:
 						$aid = $subrow['a_id'];
 						if (!isset($this->_agentsCache[$aid])) {
-							$type =& new HarmoniType($subrow['at_domain'],$subrow['at_authority'],$subrow['at_keyword'],$subrow['at_description']);
-							$agent =& new HarmoniAgent($subrow['a_display_name'], $this->getId($aid), $type, $this->_dbIndex, $this->_sharedDB);
+							$type =& new HarmoniType($subrow['at_domain'],
+													$subrow['at_authority'],
+													$subrow['at_keyword'],
+													$subrow['at_description']);
+
+							// Replace this when we implement group properties.
+							$propertiesArray = array();
+							
+							$agent =& new HarmoniAgent(
+													$subrow['a_display_name'], 
+													$this->getId($aid), $type, 
+													$propertiesArray, 
+													$this->_dbIndex, 
+													$this->_sharedDB);
 							$this->_agentsCache[$aid] =& $agent;
 						}
 						$group->attach($this->_agentsCache[$aid]);
@@ -1144,5 +1256,104 @@ class HarmoniSharedManager
 		$this->_allGroupsCached = false;
 	}
 	
+	/**
+	 * A private function for getting a type id (and insuring that it exists
+	 * in the database)
+	 * 
+	 * @param object Type $type
+	 * @return integer
+	 * @access private
+	 * @date 11/18/04
+	 */
+	function _getTypeId ( & $type ) {
+		$dbc =& Services::getService("DBHandler");
+		
+		// Check to see if the type already exists in the DB
+		$query =& new SelectQuery;
+		$query->addColumn("type_id");
+		$query->addTable("type");
+		$query->addWhere("type_domain='".addslashes($type->getDomain())."'");
+		$query->addWhere("type_authority='".addslashes($type->getAuthority())."'", _AND);
+		$query->addWhere("type_keyword='".addslashes($type->getKeyword())."'", _AND);
+		
+		$result =& $dbc->query($query, $this->_dbIndex);
+		
+		// If we have a type id already, use that
+		if ($result->getNumberOfRows()) {
+			$typeId = $result->field("type_id");
+		} 
+		// otherwise insert a new one.
+		else {
+			$query =& new InsertQuery;
+			$query->setTable("type");
+			$query->setColumns(array(
+								"type_domain",
+								"type_authority",
+								"type_keyword",
+								"type_description"));
+			$query->setValues(array(
+								"'".addslashes($type->getDomain())."'",
+								"'".addslashes($type->getAuthority())."'",
+								"'".addslashes($type->getKeyword())."'",
+								"'".addslashes($type->getDescription())."'"));
+			
+			$result =& $dbc->query($query, $this->_dbIndex);
+			$typeId = $result->getLastAutoIncrementValue();
+		}
+		
+		return $typeId;
+	}
+	
+	/**
+	 * Store a properties object and return its id
+	 * 
+	 * @param object Properties $properties
+	 * @return integer
+	 * @access public
+	 * @date 11/18/04
+	 */
+	function _storeProperties (& $properties ) {
+		$dbc =& Services::getService("DBHandler");
+		
+		// Store the Properties Type
+		$type =& $properties->getType();
+		$typeId = $this->_getTypeId($type);
+		
+		// Store the Properties row.
+		$query =& new InsertQuery;
+		$query->setTable("shared_properties");
+		$query->setColumns(array("fk_type"));
+		$query->setValues(array("'".$typeId."'"));
+		
+		$result =& $dbc->query($query, $this->_dbIndex);
+		$propertiesId = $result->getLastAutoIncrementValue();
+		
+		// Store the Property key/value pairs.
+		$keys =& $properties->getKeys();
+		if ($keys->hasNext()) {
+			$query =& new InsertQuery;
+			$query->setTable("shared_properties");
+			$query->setColumns(array(
+				"fk_properties",
+				"key",
+				"value"
+			
+			));
+			
+			while($keys->hasNext()) {
+				$key =& $keys->next();
+				$property =& $properties->getProperty($key);
+				$query->addRowOfValues(array(
+					"'".$propertiesId."'",
+					"'".base64_encode(serialize($key))."'",
+					"'".base64_encode(serialize($property))."'"
+				));
+			}
+			
+			$result =& $dbc->query($query, $this->_dbIndex);
+		}
+		
+		return $propertiesId;
+	}
 
 } // end SharedManager
