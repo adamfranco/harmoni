@@ -6,64 +6,99 @@
  * A theme is responsible for the look & feel of a website. The methods below
  * are called from various places within a script and all affect how the page
  * ends up looking. The theme is ultimately responsible for outputting the entire
- * HTML page. It is tightly integrated with {@link Layout} classes and their children
+ * HTML page. It is tightly integrated with {@link Layout} classes and its children
  * to create a powerful yet flexible system for content output.
  *
- * @package harmoni.interfaces.themes
- * @version $Id: Theme.interface.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
- * @copyright 2003 
+ * @package harmoni.themes
+ * @version $Id: Theme.interface.php,v 1.2 2004/03/03 19:09:41 adamfranco Exp $
+ * @copyright 2004 
  **/
 
 class ThemeInterface {
+
+	/**
+	 * Returns the DisplayName of this theme.
+	 * @access public
+	 * @return string The display name.
+	 **/
+	function getDisplayName () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns the Description of this theme.
+	 * @access public
+	 * @return string The Description name.
+	 **/
+	function getDescription () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns the ID of this theme.
+	 * @access public
+	 * @return object Id The ID of this theme.
+	 **/
+	function & getId () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+
 	/**
 	 * Sets the page title to $title.
 	 * @param string $title The page title.
 	 * @access public
 	 * @return void
 	 **/
-	function setPageTitle($title) {
+	function setPageTitle ( $title ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
 	/**
-	 * Adds $content to the <pre><head>...</head></pre> (head) section of the page.
+	 * Adds $contentString to the <pre><head>...</head></pre> (head) section of the page.
 	 * @param string $content The content to add to the head section.
 	 * @access public
 	 * @return void
 	 **/
-	function addHeadContent($content) {
+	function addHeadContent ( $contentString ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
 	/**
-	 * Prints a {@link Menu}, with specified orientation.
-	 * @param ref object $menuObj The {@link Menu} object to print.
-	 * @param integer $otientation The orientation. Either HORIZONTAL or VERTICAL.
+	 * Adds $styleString to the <pre><style>....</style></pre> (style) section of the head section of the page.
+	 * @param string $styleString The style to add to the style section.
 	 * @access public
 	 * @return void
 	 **/
-	function printMenu(&$menuObj, $orientation) {
+	function addHeadStyle ( $styleString ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
 	/**
-	 * Prints a {@link Content} object out using the theme. $level can be used to specify
-	 * changing look the deeper into a layout you go.
-	 * @param ref object $contentObj The {@link Content} object to use.
+	 * Adds $javascriptString to the <pre><script ...>....</script></pre> (script) section of the head section of the page.
+	 * @param string $javascriptString The javascript to add to the script section.
 	 * @access public
 	 * @return void
 	 **/
-	function printContent(&$contentObj) {
+	function addHeadJavascript ( $javascriptString ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
 	/**
-	 * Prints a {@link Layout} object.
-	 * @param ref object $layoutObj The Layout object.
+	 * Returns a HarmoniIterator object with this theme's ThemeSetting objects.
 	 * @access public
-	 * @return void
+	 * @see {@link ThemeInterface::setSettings}
+	 * @return object HarmoniIterator An iterator of ThemeSetting objects
 	 **/
-	function printLayout(&$layoutObj) {
+	function & getSettings () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns if this theme supports changing settings or if its static.
+	 * @access public
+	 * @return boolean TRUE if this theme supports settings, FALSE otherwise.
+	 **/
+	function hasSettings () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
@@ -73,65 +108,161 @@ class ThemeInterface {
 	 * @access public
 	 * @return void
 	 **/
-	function printPageWithLayout(&$layoutObj) {
+	function printPage (& $layoutObj) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+/******************************************************************************
+ * 	ThemeWidget access methods
+ ******************************************************************************/
+
+	/**
+	 * Returns a ThemeWidget object with of the MenuThemeWidget class.
+	 * @access public
+	 * @param integer $index Which MenuThemeWidget to get. MenuThemeWidgets are 
+	 *		indexed analogus to the HTML <h1>, <h2>, <h3>, etc headings where the
+	 *		lower the index, the more "prominent" the look of the widget. Indices
+	 *		start at 1 and go as high (in sequence; 1, 2, 3, etc) as the theme 
+	 *		developer desires.
+	 * @return object MenuThemeWidget A MenuThemeWidget object. If the requested
+	 *		index is higher than the Theme supports, the MenuThemeWidget of the highest 
+	 *		index availible is returned.
+	 **/
+	function & getMenu ( $index = 1 ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
 	/**
-	 * Sets this theme's settings to $serializedSettings.
-	 * @param string $serializedSettings A serialized string representing the optional
-	 * settings for this theme. Most of the time, this string will have come from {@link ThemeInterface::getSettings getSettings()},
-	 * stored in a database and then retrieved.
+	 * Returns an iterator of all ThemeWidget objects.
 	 * @access public
-	 * @see {@link ThemeInterface::getSettings}
-	 * @return void
+	 * @return object ThemeWidgetIterator An iterator of all MenuThemeWidgets.
 	 **/
-	function setSettings($serializedSettings) {
+	function & getMenus () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
 	/**
-	 * Returns a serialized string of this theme's settings.
+	 * Returns a ThemeWidget object with of the MenuItemThemeWidget class.
 	 * @access public
-	 * @see {@link ThemeInterface::setSettings}
-	 * @return string A serialized string representing the settings.
+	 * @param integer $index Which MenuItemThemeWidget to get. MenuItemThemeWidgets are 
+	 *		indexed analogus to the HTML <h1>, <h2>, <h3>, etc headings where the
+	 *		lower the index, the more "prominent" the look of the widget. Indices
+	 *		start at one and go as high (in sequence; 1, 2, 3, etc) as the theme 
+	 *		developer desires.
+	 * @return object MenuItemThemeWidget A MenuItemThemeWidget object. If the requested
+	 *		index is higher than the Theme supports, the MenuItemThemeWidget of the highest 
+	 *		index availible is returned.
 	 **/
-	function getSettings() {
+	function & getMenuItem ( $index = 1 ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
 	/**
-	 * This method servers two purposes: to output an HTML form and handle the conversion
-	 * of the user's input into a form the theme understands, storing it for later usage. Probably, 
-	 * the stored value will be retrieved using {@link ThemeInterface::getSettings getSettings()} for storage
-	 * in a database or similar storage method.
+	 * Returns an iterator of all ThemeWidget objects.
 	 * @access public
-	 * @return boolean Returns FALSE as long as it's not "happy" with the input it got. Either
-	 * it hasn't gotten any input from the user (eg, first page load) or the user entered
-	 * some invalid content. When everything has been verified and stored in a member variable,
-	 * the method can return TRUE.
+	 * @return object ThemeWidgetIterator An iterator of all MenuItemThemeWidgets.
 	 **/
-	function handleSettingsChange() {
+	function & getMenuItems () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
 	/**
-	 * Returns if this theme supports changing settings or if its static.
+	 * Returns a ThemeWidget object with of the MenuHeadingThemeWidget class.
 	 * @access public
-	 * @return boolean TRUE if this theme supports settings, FALSE otherwise.
+	 * @param integer $index Which MenuHeadingThemeWidget to get. MenuHeadingThemeWidgets are 
+	 *		indexed analogus to the HTML <h1>, <h2>, <h3>, etc headings where the
+	 *		lower the index, the more "prominent" the look of the widget. Indices
+	 *		start at one and go as high (in sequence; 1, 2, 3, etc) as the theme 
+	 *		developer desires.
+	 * @return object MenuHeadingThemeWidget A MenuHeadingThemeWidget object. If the requested
+	 *		index is higher than the Theme supports, the MenuHeadingThemeWidget of the highest 
+	 *		index availible is returned.
 	 **/
-	function hasSettings() {
+	function & getMenuHeading ( $index = 1 ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
 	/**
-	 * Returns this Theme's base color. This is usually used for color conformance
-	 * of certain elements in the output to a color scheme, like alternating table-row
-	 * background colors, etc. 
+	 * Returns an iterator of all ThemeWidget objects.
 	 * @access public
-	 * @return object An {@link HTMLColor} object.
+	 * @return object ThemeWidgetIterator An iterator of all MenuHeadingThemeWidgets.
 	 **/
-	function getBaseColor() {
+	function & getMenuHeadings () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns a ThemeWidget object with of the HeadingThemeWidget class.
+	 * @access public
+	 * @param integer $index Which HeadingThemeWidget to get. HeadingThemeWidgets are 
+	 *		indexed analogus to the HTML <h1>, <h2>, <h3>, etc headings where the
+	 *		lower the index, the more "prominent" the look of the widget. Indices
+	 *		start at one and go as high (in sequence; 1, 2, 3, etc) as the theme 
+	 *		developer desires.
+	 * @return object HeadingThemeWidget A HeadingThemeWidget object. If the requested
+	 *		index is higher than the Theme supports, the HeadingThemeWidget of the highest 
+	 *		index availible is returned.
+	 **/
+	function & getHeading ( $index = 1 ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns an iterator of all ThemeWidget objects.
+	 * @access public
+	 * @return object ThemeWidgetIterator An iterator of all HeadingThemeWidgets.
+	 **/
+	function & getHeadings () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns a ThemeWidget object with of the FooterThemeWidget class.
+	 * @access public
+	 * @param integer $index Which FooterThemeWidget to get. FooterThemeWidgets are 
+	 *		indexed analogus to the HTML <h1>, <h2>, <h3>, etc headings where the
+	 *		lower the index, the more "prominent" the look of the widget. Indices
+	 *		start at one and go as high (in sequence; 1, 2, 3, etc) as the theme 
+	 *		developer desires.
+	 * @return object FooterThemeWidget A FooterThemeWidget object. If the requested
+	 *		index is higher than the Theme supports, the FooterThemeWidget of the highest 
+	 *		index availible is returned.
+	 **/
+	function & getFooter ( $index = 1 ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns an iterator of all ThemeWidget objects.
+	 * @access public
+	 * @return object ThemeWidgetIterator An iterator of all FooterThemeWidgets.
+	 **/
+	function & getFooters () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns a ThemeWidget object with of the TextBlockThemeWidget class.
+	 * @access public
+	 * @param integer $index Which TextBlockThemeWidget to get. TextBlockThemeWidgets are 
+	 *		indexed analogus to the HTML <h1>, <h2>, <h3>, etc headings where the
+	 *		lower the index, the more "prominent" the look of the widget. Indices
+	 *		start at one and go as high (in sequence; 1, 2, 3, etc) as the theme 
+	 *		developer desires.
+	 * @return object TextBlockThemeWidget A TextBlockThemeWidget object. If the requested
+	 *		index is higher than the Theme supports, the TextBlockThemeWidget of the highest 
+	 *		index availible is returned.
+	 **/
+	function & getTextBlock ( $index = 1 ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Returns an iterator of all ThemeWidget objects.
+	 * @access public
+	 * @return object ThemeWidgetIterator An iterator of all TextBlockThemeWidgets.
+	 **/
+	function & getTextBlocks () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 }
