@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy/hierarchyApi.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.4 $ / $Date: 2003/10/10 13:56:26 $
+ * @version $Revision: 1.5 $ / $Date: 2003/10/10 15:09:10 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -179,7 +179,7 @@ class HarmoniNode
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function updateDescription(& $description) {
+	function updateDescription($description) {
 		// Check the arguments
 		ArgumentValidator::validate($description, new StringValidatorRule);
 				
@@ -197,7 +197,7 @@ class HarmoniNode
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function updateDisplayName(& $displayName) {
+	function updateDisplayName($displayName) {
 		// Check the arguments
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		
@@ -275,6 +275,23 @@ class HarmoniNode
 	function removeParent(& $parentId) {
 		// This implimentation only allows single-parent hierarchies.
 		if (!$this->_tree->nodeExists($nodeIdString))
-			throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", 1));	}
+			throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", 1));	
+	}
+	
+	/**
+	 * Saves this object to persistable storage.
+	 * @access protected
+	 */
+	function save () {
+		
+	}
+	 
+	/**
+	 * Loads this object from persistable storage.
+	 * @access protected
+	 */
+	function load () {
+	
+	}	
 
 } // end Node
