@@ -3,7 +3,7 @@
 /**
  * An interface to calculate various statistical information.
  *
- * @version $Id: StatisticsHandler.interface.php,v 1.4 2003/07/11 18:38:47 movsjani Exp $
+ * @version $Id: StatisticsHandler.interface.php,v 1.5 2003/07/14 18:59:51 movsjani Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -13,6 +13,7 @@ class StatisticsHandlerInterface {
    /**
     * Create a Add a handler with given information.
     * @param object $data The object, which contains all the data. It should be provided with methods: next(), getNext() and getSize().
+    * @return boolean Wheter all data is numeric.
     * @access public
     */	
 	function statisticsHandler(& $data) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
@@ -80,6 +81,13 @@ class StatisticsHandlerInterface {
     * @access public
     */
 	function getSecondaryDiscrimination(& $secondData) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+
+   /**
+    * Check if all the data is numerically interpretable (only contains numbers and numeric strings)
+    * @return boolean Whether all data is float interpretable.
+    * @access private
+    */
+	function _checkdata() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 }
 
 

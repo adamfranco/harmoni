@@ -1,18 +1,18 @@
 <?php
 
-    require_once(HARMONI.'utilities/StatisticsHandler.class.php');
+require_once(HARMONI.'utilities/StatisticsHandler.class.php');
 
-/**
- * A single unit test case. This class is intended to test one particular
- * class. Replace 'testedclass.php' below with the class you would like to
- * test.
- *
- * @version $Id: StatisticsHandlerTestCase.class.php,v 1.2 2003/07/11 18:43:41 movsjani Exp $
- * @copyright 2003 
- **/
+    /**
+     * A single unit test case. This class is intended to test one particular
+     * class. Replace 'testedclass.php' below with the class you would like to    
+     * test.
+     *
+     * @version $Id: StatisticsHandlerTestCase.class.php,v 1.3 2003/07/14 18:59:52 movsjani Exp $
+     * @copyright 2003 
+     **/
 
-    class StatisticsHandlerTestCase extends UnitTestCase {
-	
+class StatisticsHandlerTestCase extends UnitTestCase {
+		
 		var $testList;
 		var $testObject;
 		var $testQueue,$testQueue2;
@@ -73,16 +73,9 @@
 		}
 
 		function testMinMax() {
-			$test = array(1,0,1,0,1,1);
 			$this->assertEqual($this->testList->getMax(),184);
 			$this->assertEqual($this->testList->getMin(),0);
 		}
-
-
-
-	
-	
-
     }
 
 ?>

@@ -4,7 +4,7 @@ require_once(HARMONI.'utilities/StatisticsHandler.interface.php');
 /**
  * An interface to calculate various statistical information.
  *
- * @version $Id: StatisticsHandler.class.php,v 1.4 2003/07/11 18:38:47 movsjani Exp $
+ * @version $Id: StatisticsHandler.class.php,v 1.5 2003/07/14 18:59:51 movsjani Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -19,19 +19,21 @@ class StatisticsHandler extends StatisticsHandlerInterface{
    /**
     * Create a Add a handler with given information.
     * @param object $data The object, which contains all the data. It should be provided with methods: next(), getNext() and getSize().
+    * @return boolean Wheter all data is numeric.
     * @access public
     */	
 
 	function StatisticsHandler(& $data) { 
-		if(is_array($data))
+		if(is_array($data)){
 			$this->_data = $data;
-		
+		}
 		else{
 			$this->_data = array();
 			
 			while($data->hasNext())
 				$this->_data[] = $data->next();
 		}
+		return $this->_checkdata();
 	}
 
    /**
@@ -230,6 +232,18 @@ class StatisticsHandler extends StatisticsHandlerInterface{
 		$sum2 /= $size;	
 
 		return round($sum2 - $sum1,3);
+	}
+
+   /**
+    * Check if all the data is numerically interpretable (only contains numbers and numeric strings)
+    * @return boolean Whether all data is float interpretable.
+    * @access private
+    */
+	function _checkdata() {
+		foreach ($this->_data as $value)
+			if(!is_numeric($value))	
+				return false;
+		return true;
 	}
 }
 
