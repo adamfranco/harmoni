@@ -8,14 +8,15 @@
 ///////////////////////////////////////////////////////////////////////
 -->
 <xsl:template match="changelog">
- 	<xsl:value-of select="@name" />
+Name: <xsl:value-of select="@name" />
+<xsl:text>
+
+</xsl:text>
 	<xsl:for-each select="version">
 v. <xsl:value-of select="@number" /><xsl:if test="@date!=''"> (<xsl:value-of select="@date" />)</xsl:if>
-----------------------------------------------------
-		<xsl:apply-templates />
+----------------------------------------------------<xsl:apply-templates />
 
 	</xsl:for-each>
-    </div>
 </xsl:template>
 
 <!--
