@@ -98,7 +98,7 @@ define("DEBUG_SYS5",15);
 /**
  * The DebugHandler keeps track of multiple DebugItems.
  *
- * @version $Id: DebugHandler.class.php,v 1.3 2003/11/27 04:55:41 gabeschine Exp $
+ * @version $Id: DebugHandler.class.php,v 1.4 2004/06/24 17:51:27 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugging
  **/
@@ -155,6 +155,7 @@ class DebugHandler extends ServiceInterface {
 	 **/
 	function _add( & $debugItem, $debugBacktrace ) {
 		$debugItem->setBacktrace($debugBacktrace);
+
 		$this->_queue[] = & $debugItem;
 	}
 	

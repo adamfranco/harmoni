@@ -27,7 +27,7 @@ require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
  * 
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
- * @version $Id: HierarchyCache.class.php,v 1.10 2004/06/22 15:23:09 dobomode Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.11 2004/06/24 17:51:38 dobomode Exp $
  * @package harmoni.osid.hierarchy2
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -484,6 +484,7 @@ class HierarchyCache {
 		$query->addColumn("fk_child", "join_id", "{$db}j_node_node");
 		$query->addWhere($db."node.fk_hierarchy = '{$this->_hierarchyId}'");
 		$query->addWhere("ISNULL({$db}j_node_node.fk_child)");
+		$query->addOrderBy("fk_child");
 
 //		echo "<pre>\n";
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
@@ -615,6 +616,7 @@ class HierarchyCache {
 			
 			$where = $db."child.fk_child = '".$idValue."'";
 			$query->addWhere($where);
+			$query->addOrderBy("node_id");
 			
 			if (count($nodesToExclude) > 0) {
 				$where = implode(", ",array_keys($nodesToExclude));
@@ -724,6 +726,7 @@ class HierarchyCache {
 			
 			$where = $db."parent.fk_parent = '".$idValue."'";
 			$query->addWhere($where);
+			$query->addOrderBy("node_id");
 			
 			if (count($nodesToExclude) > 0) {
 				$where = implode(", ",array_keys($nodesToExclude));
@@ -1015,7 +1018,7 @@ class HierarchyCache {
 		// the original value of levels
 		$originalLevels = $levels;
 		
-		echo "<br><br><br><b>=== Caching node # $idValue, $levels levels up</b><br>";
+//		echo "<br><br><br><b>=== Caching node # $idValue, $levels levels up</b><br>";
 
 		// MySQL has a limit of 31 tables in a select query, thus essentially
 		// there is a limit to the max value of $levels.
@@ -1068,14 +1071,14 @@ class HierarchyCache {
 
 				// ignore null values
 				if (is_null($nodeId)) {
-					echo "<br>--- skipping to next row (null value encountered)<br>";
+//					echo "<br>--- skipping to next row (null value encountered)<br>";
 				    break;
 				}
 				
-				echo "<br><b>Level: $level - Node # $nodeId</b>";
+//				echo "<br><b>Level: $level - Node # $nodeId</b>";
 
 				// if the node has not been cached, then we must create it
-				echo "<br>--- CACHE UPDATE: ";
+//				echo "<br>--- CACHE UPDATE: ";
 				if (!$this->_isCached($nodeId)) {
 					$nodes =& $this->getNodesFromDB($db."node.node_id = '".$nodeId."'");
 					
@@ -1086,7 +1089,7 @@ class HierarchyCache {
 					}
 					
 					$displayName = $nodes[0]->getDisplayName();
-					echo "Creating node # <b>$nodeId - '$displayName'</b>, ";
+//					echo "Creating node # <b>$nodeId - '$displayName'</b>, ";
 
 					// insert node into cache
 					$this->_cache[$nodeId][0] =& $nodes[0];
@@ -1094,7 +1097,7 @@ class HierarchyCache {
 					$this->_cache[$nodeId][2] = 0;
 				}
 				else
-					echo "Node already in cache, ";
+//					echo "Node already in cache, ";
 				
 				
 				// update the levels fetched up, if necessary
@@ -1108,19 +1111,19 @@ class HierarchyCache {
 						// if not fully, then set the value appropriately
 						$this->_cache[$nodeId][2] = $levels - $level;
 
-					echo "changing level of caching from <b>$old</b> to <b>".$this->_cache[$nodeId][2]."</b>";
+//					echo "changing level of caching from <b>$old</b> to <b>".$this->_cache[$nodeId][2]."</b>";
 				}
-				else
-					echo "no need to set level of caching";
+//				else
+//					echo "no need to set level of caching";
 				
 				// now, update tree structure
-				echo "<br>--- TREE STRUCTURE UPDATE: ";
+//				echo "<br>--- TREE STRUCTURE UPDATE: ";
 
 				// get the current node (create it, if necessary)
 				if ($this->_tree->nodeExists($nodeId))
 					$node =& $this->_tree->getNode($nodeId);
 				else {
-					echo "Creating new tree node # <b>$nodeId</b>, ";
+//					echo "Creating new tree node # <b>$nodeId</b>, ";
 					$node =& new TreeNode($nodeId);
 					$this->_tree->addNode($node);
 				}
@@ -1128,7 +1131,7 @@ class HierarchyCache {
 				// does the current node have a child?
 				// if no, there is nothing to update
 				if ($level == 0) {
-					echo "Skipping leaf node, continuing with parent";
+//					echo "Skipping leaf node, continuing with parent";
 					continue;
 				}
 				// if there is a child, check if it has already been added
@@ -1140,11 +1143,13 @@ class HierarchyCache {
 						
 					// has the child been added? if no, add it!
 					if (!$node->isChild($child)) {
-						echo "adding node # <b>$nodeId</b> as a parent of node # <b>$childId</b>";
+//						echo "adding node # <b>$nodeId</b> as a parent of node # <b>$childId</b>";
+						// print_r($child);
+						// print_r($node);
 						$this->_tree->addNode($child, $node);
 					}
-					else
-						echo "already child";
+//					else
+//						echo "already child";
 				}
 			}
 

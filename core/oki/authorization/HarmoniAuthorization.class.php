@@ -84,7 +84,7 @@ class HarmoniAuthorization extends Authorization {
 	 * @access public
 	 */
 	function HarmoniAuthorization(& $id, & $agentId, & $functionId, & $qualifierId, 
-							      $explicit, $cache, & $effectiveDate, & $expirationDate) {
+							      $explicit, & $cache, & $effectiveDate, & $expirationDate) {
 
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("Id");

@@ -8,10 +8,16 @@ require_once(HARMONI.'oki/authorization/DefaultFunctionType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AuthorizationManagerTestCase.class.php,v 1.2 2004/06/22 15:23:08 dobomode Exp $
+ * @version $Id: AuthorizationManagerTestCase.class.php,v 1.3 2004/06/24 17:51:38 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
+ 
+class DoboTemp {
+
+  var $yo;
+  
+}
 
 class HarmoniAuthorizationManagerTestCase extends UnitTestCase {
 
@@ -33,14 +39,6 @@ class HarmoniAuthorizationManagerTestCase extends UnitTestCase {
 		unset($dbHandler); // done with that for now
 		
 		$this->manager =& new HarmoniAuthorizationManager($dbIndex, "doboHarmoniTest");
-
-		$hierarchyManager =& Services::requireService("Hierarchy");
-		$hierarchy =& $hierarchyManager->getHierarchy(new HarmoniId("6794"));
-		echo "<pre>\n";
-		print_r(array_keys($hierarchy->_cache->_tree->_nodes));
-		echo "</pre>\n";
-		ob_flush();
-		ob_start();
     }
 
 	function test_get_function() {
@@ -55,13 +53,13 @@ class HarmoniAuthorizationManagerTestCase extends UnitTestCase {
 		$this->assertIdentical($type->getDomain(), $deftype->getDomain());
 		$this->assertIdentical($type->getKeyword(), $deftype->getKeyword());
 		$this->assertIdentical($type->getDescription(), $deftype->getDescription());
-		
+
 		$this->assertReference($function, $this->manager->_cache->_functions['501']);
-		
+
 		// second time should come from cache
 		$function =& $this->manager->getFunction(new HarmoniId("501"));
 		$this->assertIsA($function, "FunctionInterface");
-		
+
 	}
 
 	function test_get_qualifier() {
@@ -75,22 +73,22 @@ class HarmoniAuthorizationManagerTestCase extends UnitTestCase {
 		$this->assertIdentical($type->getDomain(), $deftype->getDomain());
 		$this->assertIdentical($type->getKeyword(), $deftype->getKeyword());
 		$this->assertIdentical($type->getDescription(), $deftype->getDescription());
-		
+
 		$this->assertReference($qualifier, $this->manager->_cache->_qualifiers['6796']);
-		
+
 		// second time should come from cache
 		$qualifier =& $this->manager->getQualifier(new HarmoniId("6796"));
 		$this->assertIsA($qualifier, "Qualifier");
 	}
-	
-	
+
+
 	function test_create_dated_authorization() {
 		$agentId =& new HarmoniId("3827");
 		$functionId =& new HarmoniId("501");
 		$qualifierId =& new HarmoniId("6799");
 		$date1 =& new DateTime(1987, 10, 24);
 		$date2 =& new DateTime(2014, 6, 25);
-		
+
 		$authorization =& $this->manager->createDatedAuthorization($agentId, 
 													$functionId, $qualifierId,
 													$date1, $date2);
@@ -104,13 +102,13 @@ class HarmoniAuthorizationManagerTestCase extends UnitTestCase {
 
 		$this->manager->deleteAuthorization($authorization);
 	}
-	
-	
+
+
 	function test_create_authorization() {
 		$agentId =& new HarmoniId("3827");
 		$functionId =& new HarmoniId("501");
 		$qualifierId =& new HarmoniId("6799");
-		
+
 		$authorization =& $this->manager->createAuthorization($agentId, 
 													$functionId, $qualifierId);
 
@@ -118,11 +116,11 @@ class HarmoniAuthorizationManagerTestCase extends UnitTestCase {
 		$this->assertReference($agentId, $authorization->getAgentId());
 		$this->assertReference($functionId, $authorization->_functionId);
 		$this->assertReference($qualifierId, $authorization->_qualifierId);
-		
+
 		$this->manager->deleteAuthorization($authorization);
 	}
-	
-	
+
+
 	function test_create_qualifiers() {
 		$qualifierId =& new HarmoniId("777");
 		$displayName = "Drop-Dead-Gorgeous";
@@ -136,16 +134,16 @@ class HarmoniAuthorizationManagerTestCase extends UnitTestCase {
 		$this->assertReference($type, $qualifier->getQualifierType());
 		$this->assertIdentical($displayName, $qualifier->getDisplayName());
 		$this->assertIdentical($description, $qualifier->getDescription());
-		
+
 		$qualifier2Id =& new HarmoniId("778");
 		$qualifier2 =& $this->manager->createQualifier($qualifier2Id, $displayName, 
 											$description, $type, $qualifierId);
-		
+
 		$this->manager->deleteQualifier($qualifier2Id);
 		$this->manager->deleteQualifier($qualifierId);
 	}
 
-	
+
 	function test_create_function() {
 		$functionId =& new HarmoniId("777");
 		$displayName = "UEFA sucks!";
@@ -155,7 +153,7 @@ class HarmoniAuthorizationManagerTestCase extends UnitTestCase {
 
 		$function =& $this->manager->createFunction($functionId, $displayName, 
 											$description, $type, $qualifierHierarchyId);
-											
+
 		$this->assertReference($functionId, $function->getId());
 		$this->assertReference($type, $function->getfunctionType());
 		$this->assertIdentical($displayName, $function->getReferenceName());
@@ -173,10 +171,16 @@ class HarmoniAuthorizationManagerTestCase extends UnitTestCase {
 //		$az2 =& $this->manager->createAuthorization($agentId, $functionId, $qualifierId);
 //		$az3 =& $this->manager->createAuthorization($agentId, $functionId, $qualifierId);
 
-		$this->manager->_cache->getAZs("koko", "stupify", "6799", null, true, false);
-		
+		$this->manager->_cache->getAZs("3826", "501", "6800", null, true, true);
 	}
 	
+    /**
+     *    Clears the data set in the setUp() method call.
+     *    @public
+     */
+    function tearDown() {
+		unset($this->manager);
+    }
 }
 
 ?>

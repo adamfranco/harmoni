@@ -4,7 +4,7 @@
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.2 2004/06/22 15:23:07 dobomode Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.3 2004/06/24 17:51:37 dobomode Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -386,7 +386,7 @@ class AuthorizationCache {
 		ArgumentValidator::validate($qualifierId, new ExtendsValidatorRule("Id"), true);
 		// ** end of parameter validation
 		
-		$idValue =& $qualifierId->getIdString();
+		$idValue = $qualifierId->getIdString();
 
 		if (isset($this->_qualifiers[$idValue]))
 		    return $this->_qualifiers[$idValue];
@@ -413,6 +413,10 @@ class AuthorizationCache {
 		// ** parameter validation
 		ArgumentValidator::validate($authorization, new ExtendsValidatorRule("Authorization"), true);
 		// ** end of parameter validation
+		
+//		echo "<pre>\n";
+//		print_r($authorization);
+//		echo "</pre>\n";
 
 		// get the id
 		$idValue = $authorization->_id->getIdString();
@@ -435,7 +439,6 @@ class AuthorizationCache {
 		// update cache
 		$this->_authorizations[$idValue] = null;
 		unset($this->_authorizations[$idValue]);
-		$authorization = null;
 	}
 	
 	
@@ -551,10 +554,11 @@ class AuthorizationCache {
 			} // while
 		}
 		
+		print_r($qualifiers);
+		
 		// setup the query
 		$dbHandler =& Services::requireService("DBHandler");
 		$db = $this->_authzDB.".";
-		$query =& new SelectQuery();
 		$query =& new SelectQuery();
 		$query->addColumn("authorization_id", "id", $db."az_authorization");
 		$query->addColumn("fk_agent", "aId", $db."az_authorization");
@@ -563,20 +567,7 @@ class AuthorizationCache {
 		$query->addColumn("authorization_effective_date", "eff_date", $db."az_authorization");
 		$query->addColumn("authorization_expiration_date", "exp_date", $db."az_authorization");
 
-
-//		$query->addColumn("function_reference_name", "reference_name", $dbt);
-//		$query->addColumn("function_description", "description", $dbt);
-//		$query->addColumn("fk_qualifier_hierarchy", "hierarchy_id", $dbt);
-//		$query->addColumn("type_domain", "domain", $db.".type");
-//		$query->addColumn("type_authority", "authority", $db.".type");
-//		$query->addColumn("type_keyword", "keyword", $db.".type");
-//		$query->addColumn("type_description", "type_description", $db.".type");
-
 		$query->addTable($db."az_authorization");
-//		$joinc = $dbt.".fk_type = ".$db.".type.type_id";
-//		$query->addTable($db.".type", INNER_JOIN, $joinc);
-//		$where = $dbt.".function_id = '$idValue'";
-//		$query->addWhere($where);
 
 		// now include criteria
 		if (isset($aId)) {
@@ -591,12 +582,32 @@ class AuthorizationCache {
 			$where = $db."az_authorization.fk_function = '$fId'";
 			$query->addWhere($where);
 		}
-		if (isset($qId)) {
-			$where = $db."az_authorization.fk_qualifier = '$qId'";
+		if (isset($qualifiers)) {
+			$list = implode("','", $qualifiers);
+			$list = "'".$list."'";
+			$where = $db."az_authorization.fk_qualifier IN ($list)";
 			$query->addWhere($where);
 		}
+		if ($isActiveNow) {
+			$where = "(ISNULL(authorization_effective_date) OR (NOW() >= authorization_effective_date))";
+			$query->addWhere($where);
+			$where = "(ISNULL(authorization_expiration_date) OR (NOW() < authorization_expiration_date))";
+			$query->addWhere($where);
+		}
+		
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 
-
+		while ($queryResult->hasMoreRows()) {
+			$row =& $queryResult->getCurrentRow();
+			
+			echo "<pre>";
+			print_r($row);
+			echo "</pre>";
+			
+			$queryResult->advanceRow();
+		}
+		
+		
 		echo "<pre>\n";
 		echo MySQL_SQLGenerator::generateSQLQuery($query);
 		echo "</pre>\n";

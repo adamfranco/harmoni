@@ -7,7 +7,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunction.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FunctionTestCase.class.php,v 1.2 2004/06/22 15:23:08 dobomode Exp $
+ * @version $Id: FunctionTestCase.class.php,v 1.3 2004/06/24 17:51:38 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -37,13 +37,6 @@ class HarmoniFunctionTestCase extends UnitTestCase {
 		$this->function =& new HarmoniFunction($this->id1, "It doesn't matter",
 				"It doesn't matter too", $this->type, $this->id4, $dbIndex, "doboHarmoniTest");
 
-		$hierarchyManager =& Services::requireService("Hierarchy");
-		$hierarchy =& $hierarchyManager->getHierarchy(new HarmoniId("6794"));
-		echo "<pre>\n";
-		print_r(array_keys($hierarchy->_cache->_tree->_nodes));
-		echo "</pre>\n";
-		ob_flush();
-		ob_start();
     }
 
 	function test_constructor() {
