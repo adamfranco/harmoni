@@ -875,11 +875,14 @@ class HarmoniAsset
 		// cycle through all our DataSets, get their type and make an InfoStructure for each. 
 		$infoStructures = array();
 		
-		$sets =& $this->getContent();
+		$infoRecords =& $this->getInfoRecords();
 		
-		foreach (array_keys($sets) as $id) {
-			$typeDef =& $sets[$id]->getDataSetTypeDefinition();
-			$infoStructures[] =& new HarmoniInfoStructure($typeDef);
+		while ($infoRecords->hasNext()) {
+			$record =& $infoRecords->next();
+			$structure =& $record->getInfoStructure();
+			$structureId =& $structure->getId();
+			if (!$infoStructures[$structureId->getIdString()])
+				$infoStructures[$structureId->getIdString()] =& $structure;
 		}
 		
 		return new HarmoniIterator($infoStructures);
