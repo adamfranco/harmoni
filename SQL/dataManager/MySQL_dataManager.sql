@@ -206,6 +206,7 @@ CREATE TABLE `datasettypedef` (
   `datasettypedef_fieldtype` varchar(255) NOT NULL default '',
   `datasettypedef_active` tinyint(1) unsigned NOT NULL default '0',
   `datasettypedef_required` tinyint(1) unsigned NOT NULL default '0',
+  `datasettypedef_description` tinytext NOT NULL default '',
   PRIMARY KEY  (`datasettypedef_id`),
   KEY `fk_datasettype` (`fk_datasettype`),
   KEY `datasettypedef_label` (`datasettypedef_label`)

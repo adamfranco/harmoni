@@ -4,7 +4,7 @@
  * Holds information about a specific label within a {@link DataSetTypeDefinition}. Defines
  * what type of data the field holds (string, integer, etc) and if it can have multiple values.
  * @package harmoni.datamanager
- * @version $Id: FieldDefinition.class.php,v 1.13 2004/06/22 14:34:52 nstamato Exp $
+ * @version $Id: FieldDefinition.class.php,v 1.14 2004/07/22 19:36:04 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -17,6 +17,7 @@ class FieldDefinition {
 	var $_type;
 	var $_mult;
 	var $_required;
+	var $_description;
 	var $_dbID;
 	var $_associated;
 	
@@ -26,7 +27,7 @@ class FieldDefinition {
 	
 	var $_active;
 	
-	function FieldDefinition( $label, $type, $mult=false, $required=false, $active=true ) {
+	function FieldDefinition( $label, $type, $mult=false, $required=false, $active=true, $description="" ) {
 		ArgumentValidator::validate($mult, new BooleanValidatorRule());
 		ArgumentValidator::validate($type, new StringValidatorRule());
 		ArgumentValidator::validate($label, new StringValidatorRule());
@@ -36,6 +37,7 @@ class FieldDefinition {
 		$this->_associated = false;
 		$this->_mult = $mult;
 		$this->_required = $required;
+		$this->_description = $description;
 		$this->_type = $type;
 		$this->_label = $label;
 		$this->_active = $active;
@@ -121,6 +123,16 @@ class FieldDefinition {
 	}
 	
 	/**
+	 * Returns this field's description.
+	 * @access public
+	 * @return string
+	 */
+	function getDescription()
+	{
+		return $this->_description;
+	}
+	
+	/**
 	 * Returns our ID in the database.
 	 * @return int
 	 * @access public
@@ -171,7 +183,8 @@ class FieldDefinition {
 			$query = new InsertQuery();
 			$query->setTable("datasettypedef");
 			$query->setColumns(array("datasettypedef_id","fk_datasettype","datasettypedef_label",
-			"datasettypedef_mult","datasettypedef_fieldtype","datasettypedef_active","datasettypedef_required"));
+			"datasettypedef_mult","datasettypedef_fieldtype","datasettypedef_active","datasettypedef_required",
+			"datasettypedef_description"));
 			
 			$sharedManager =& Services::getService("Shared");
 			$newID =& $sharedManager->createId();
@@ -185,7 +198,8 @@ class FieldDefinition {
 					(($this->_mult)?1:0),
 					"'".addslashes($this->_type)."'",
 					1,
-					($this->_required?1:0)
+					($this->_required?1:0),
+					"'".addslashes($this->_description)."'"
 			));
 			
 			$result =& $dbHandler->query($query,$this->_dbID);
@@ -202,13 +216,14 @@ class FieldDefinition {
 			// do some updating
 			$query = new UpdateQuery();
 			$query->setTable("datasettypedef");
-			$query->setColumns(array("datasettypedef_mult","datasettypedef_active","datasettypedef_required"));
+			$query->setColumns(array("datasettypedef_mult","datasettypedef_active","datasettypedef_required","datasettypedef_description"));
 			$query->setWhere("datasettypedef_id=".$this->getID());
 			
 			$query->setValues(array(
 					(($this->_mult)?1:0),
 					(($this->_active)?1:0),
-					($this->_required?1:0)
+					($this->_required?1:0),
+					"'".addslashes($this->_description)."'"
 			));
 			
 			$result =& $dbHandler->query($query,$this->_dbID);
@@ -296,6 +311,17 @@ class FieldDefinition {
 	 * @access public
 	 */
 	function setActiveFlag($bool) { $this->_active=$bool; }
+	
+	/**
+	 * Sets this field definition's description.
+	 * @param string $description
+	 * @access public
+	 * @return void
+	 */
+	function setDescription($description)
+	{
+		$this->_description = $description;
+	}
 }
 
 /**

@@ -8,7 +8,7 @@ require_once(HARMONI."metaData/manager/FieldDefinition.class.php");
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link DataSetTypeManager}.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeDefinition.class.php,v 1.22 2004/07/16 21:03:10 gabeschine Exp $
+ * @version $Id: DataSetTypeDefinition.class.php,v 1.23 2004/07/22 19:36:03 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -142,6 +142,7 @@ class DataSetTypeDefinition {
 		$query->addColumn("datasettypedef_required");
 		$query->addColumn("datasettypedef_active");
 		$query->addColumn("datasettypedef_fieldtype");
+		$query->addColumn("datasettypedef_description");
 		$query->setWhere("fk_datasettype=".$this->_id);
 		
 		$dbHandler =& Services::requireService("DBHandler");
@@ -170,7 +171,8 @@ class DataSetTypeDefinition {
 			$newField =& new FieldDefinition($a['datasettypedef_label'],$a['datasettypedef_fieldtype'],
 					(($a['datasettypedef_mult'])?true:false),
 					($a['datasettypedef_required']?true:false),
-					(($a['datasettypedef_active'])?true:false)
+					(($a['datasettypedef_active'])?true:false),
+					$a['datasettypedef_description']
 					);
 			$this->_addField($newField, $a['datasettypedef_id']);
 			unset($newField);
@@ -259,6 +261,20 @@ class DataSetTypeDefinition {
 		if (!$this->fieldExists($label)) return false;
 		
 		return $this->_fields[$label]->getType();
+	}
+	
+	/**
+	 * Returns the description of a field.
+	 * @param string $label The label of the field.
+	 * @access public
+	 * @return string
+	 */
+	function getFieldDescription($label)
+	{
+		if ($this->fieldExists($label)) {
+			return $this->_fields[$label]->getDescription();
+		}
+		return null;
 	}
 }
 
