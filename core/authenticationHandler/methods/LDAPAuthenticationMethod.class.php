@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Does authentication procedures with an LDAP server.
  *
- * @version $Id: LDAPAuthenticationMethod.class.php,v 1.2 2004/04/21 17:55:27 adamfranco Exp $
+ * @version $Id: LDAPAuthenticationMethod.class.php,v 1.3 2004/12/06 20:18:00 ndhungel Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication.methods
@@ -117,11 +117,11 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 		if (ldap_count_entries($this->_conn,$sr)) {
 			$row = ldap_first_entry($this->_conn, $sr);
 			$dn = ldap_get_dn($this->_conn, $row);
-			ldap_free_result($this->_conn, $sr);
+			ldap_free_result($this->_conn);
 			if ($dn)
 				return $dn;
 		}
-		ldap_free_result($this->_conn,$sr);
+		ldap_free_result($this->_conn);
 		
 		return null;
 	}
@@ -140,7 +140,7 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 						$filter,
 						$return);
 		$info = ldap_get_entries($this->_conn,$sr);
-		ldap_free_result($this->_conn,$sr);
+		ldap_free_result($this->_conn);
 		return $info;
 	}
 	

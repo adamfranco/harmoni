@@ -172,7 +172,6 @@ class HarmoniAuthenticationManager
 		if (!$typeValid)
 			throwError(new Error(UNKNOWN_TYPE, "AuthenticationManager", 1));
 			
-		
 		if($this->_harmoni->LoginState 
 			&& $this->_harmoni->LoginState->isValid()) {
 			return TRUE;
