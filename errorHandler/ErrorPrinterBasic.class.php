@@ -6,7 +6,7 @@ require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
  * An ErrorPrinter provides functionality to output Error objects in any way one's soul may desire.
  * to be used by the ErrorHandler
  *
- * @version $Id: ErrorPrinterBasic.class.php,v 1.6 2003/06/27 12:40:52 gabeschine Exp $
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.7 2003/07/04 01:37:50 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003
  * @access public
@@ -115,7 +115,7 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 		
 			foreach($traceArray as $trace){
 				/* each $traceArray element represents a step in the call hiearchy. Print them from bottom up. */
-				$file = substr(strrchr($trace['file'],'/'),1);
+				$file = basename($trace['file']);
 				$line = $trace['line'];
 				$function = $trace['function'];
 				$class = $trace['class'];
