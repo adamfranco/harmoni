@@ -29,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.12 2004/08/17 02:22:57 gabeschine Exp $
+* @version $Id: Record.class.php,v 1.13 2004/12/26 23:31:17 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -454,6 +454,12 @@ class Record {
 				$query->setTable("dm_record");
 				$query->setWhere("id=".$this->getID());
 				
+				$dbHandler->query($query, DATAMANAGER_DBID);
+
+				$query =& new DeleteQuery();
+				$query->setTable("dm_record_set");
+				$query->setWhere("fk_record=".$this->getID());
+
 				$dbHandler->query($query, DATAMANAGER_DBID);
 			} else {
 				// if we're pruning but not deleting the whole shebang, let's
