@@ -69,6 +69,14 @@ class IntegerDataType
 	function populate( &$dbRow ) {
 		$this->_value = intval($dbRow['data_integer_value']);
 	}
+	
+	function takeValue(&$fromObject) {
+		$this->_value = $fromObject->_value;
+	}
+	
+	function &clone() {
+		return new IntegerDataType($this->_value);
+	}
 }
 
 ?>

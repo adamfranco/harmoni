@@ -14,11 +14,11 @@ class DataSetManager extends ServiceInterface {
 		$this->_typeManager = $dataSetTypeManager;
 	}
 	
-	function &fetchArrayOfIDs( $dataSetIDs, $allVersions=false ) {
+	function &fetchArrayOfIDs( $dataSetIDs, $editable=false ) {
 		
 	}
 	
-	function &fetchDataSet( $dataSetID, $allVersions=false ) {
+	function &fetchDataSet( $dataSetID, $editable=false ) {
 		
 	}
 	
@@ -38,8 +38,7 @@ class DataSetManager extends ServiceInterface {
 		// load from the DB
 		$typeDef->load();
 		debug::output("Creating new DataSet of type '".OKITypeToString($type)."', which allows fields: ".implode(", ",$typeDef->getAllLabels()),DEBUG_SYS4,"DataSetManager");
-		$newDataSet =& new DataSet($this->_idManager, $this->_dbID, $typeDef, $verControl);
-		$newDataSet->setEditableFlag(true);
+		$newDataSet =& new FullDataSet($this->_idManager, $this->_dbID, $typeDef, $verControl);
 		return $newDataSet;
 	}
 	

@@ -18,6 +18,8 @@ class DataTypeInterface {
 	
 	function populate( &$dbRow ) { }
 	
+	function takeValue(&$fromObject) { }
+	
 }
 
 ?>

@@ -63,7 +63,7 @@ class FieldValues {
 			$label = $this->_myLabel;
 			throwError ( new Error(
 			"Field label '$label' can not add a new value because it does not allow multiple
-				values. In DataSetType ".OKITypeToString($this->_dataSetTypeDef->getType()).".",
+				values. In DataSetType ".OKITypeToString($this->_parent->_dataSetTypeDef->getType()).".",
 			"DataSet",true));
 			return false;
 		}
@@ -84,11 +84,13 @@ class FieldValues {
 		// any field can have at least one value.. if index 0 is not yet set up, set it up
 		if ($index == 0 && !isset($this->_values[0])) {
 			$this->_values[0] =& new ValueVersions($this);
+			$this->_numValues++;
 		}
 		
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
+		
 		$this->_values[$index]->setValue($value);
 	}
 	

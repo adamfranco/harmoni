@@ -28,18 +28,20 @@ class ValueVersions {
 			// we're going to add a new version
 			// which means, we add a new VersionValue with a *clone*
 			// of the value, so that it gets added to the DB.
-			$newVer =& new ValueVersion($this);
+			$newVer =& $this->newVerObject();
 			$newVer->setValue($value->clone());
-			$this->_versions[] =& $newVer;
-			$this->_numVersions++;
+//			$this->_versions[] =& $newVer;
+//			$this->_numVersions++;
 			
 			// tell the new version to update to the DB on commit();
 			$newVer->update();
 			
 			// now, we h have to activate the new version
 			$oldVer =& $this->getActiveVersion();
-			$oldVer->setActiveFlag(false);
-			$oldVer->update();
+			if ($oldVer) {
+				$oldVer->setActiveFlag(false);
+				$oldVer->update();
+			}
 			$newVer->setActiveFlag(true);
 			
 			// all done (we hope)
@@ -48,24 +50,25 @@ class ValueVersions {
 		
 		// let's just set the value of the existing one.
 		$actVer =& $this->getActiveVersion();
-		if ($this->numVersions()) {
-			$oldVal =& $actVer->getValue();
-			$oldVal->takeValue($value);
-		} else $actVer->setValue($value);
+//		$actVer->getValue();
+		$actVer->takeValue($value);
 		
 		// now tell actVer to update the DB on commit()
 		$actVer->update();
 		return true;
 	}
 	
-	function &newVerObject() {
-		$this->_versions[$this->numVersions()] =& new ValueVersion($this,false);
+	function &newVerObject($active = false) {
+		$this->_versions[$this->numVersions()] =& new ValueVersion($this,$active);
 		$this->_numVersions++;
 		return $this->_versions[$this->numVersions()-1];
 	}
 	
 	function &getActiveVersion() {
-		if ($this->_numVersions == 0) return new ValueVersion($this, true);
+		if ($this->_numVersions == 0) {
+			return $this->newVerObject(true);
+		}
+			
 		
 		foreach (array_keys($this->_versions) as $id) {
 			if ($this->_versions[$id]->isActive()) return $this->_versions[$id];
@@ -123,6 +126,11 @@ class ValueVersion {
 	
 	function populate( $arrayOfRows ) {
 		
+	}
+	
+	function takeValue(&$object) {
+		if (!$this->_valueObj) $this->setValue($object);
+		else $this->_valueObj->takeValue($object);
 	}
 	
 	function setValue(&$object) {
