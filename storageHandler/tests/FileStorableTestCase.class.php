@@ -7,7 +7,7 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FileStorableTestCase.class.php,v 1.1 2003/06/30 15:38:22 adamfranco Exp $
+ * @version $Id: FileStorableTestCase.class.php,v 1.2 2003/06/30 21:05:46 movsjani Exp $
  * @copyright 2003 
  **/
 
@@ -37,8 +37,14 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
 		/**
 		 *    First test Description.
 		 */ 
-		function test_first_thing() {
-			$this->assertEqual(false,"We need to delete this and write some real tests.");	
+		function test_name_Path() {
+			$storable = new FileStorable(HARMONI.'storageHandler/tests/mtests',"","max1.txt");
+
+			$this->assertEqual("max1.txt",$storable->getName());	
+			$this->assertEqual("",$storable->getPath());
+			$storable->setName("max2.ttx");
+			$this->assertEqual($storable->getSize(),20);
+			
 		}
 		
     }

@@ -1,13 +1,13 @@
 <?php
 
-require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
+require_once(HARMONI.'storageHandler/StorageMethods/FileStorageMethod.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FileStorageMethodTestCase.class.php,v 1.2 2003/06/30 15:41:56 adamfranco Exp $
+ * @version $Id: FileStorageMethodTestCase.class.php,v 1.3 2003/06/30 21:05:46 movsjani Exp $
  * @copyright 2003 
  **/
 
@@ -37,8 +37,33 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
 		/**
 		 *    First test Description.
 		 */ 
-		function test_first_thing() {
-			$this->assertEqual(false,"We need to delete this and write some real tests.");	
+		function test_store_retrieve() {
+			
+			$method = new FileStorageMethod(HARMONI.'storageHandler/tests/stests');
+			
+			$storable = new FileStorable(HARMONI.'storageHandler/tests/mtests',"","max1.txt");
+
+			$method->store($storable,"","maxnew.txt");
+
+			$method->copy("","maxnew.txt","","maxultranew.txt");
+
+			$storable2 = $method->retrieve("","maxultranew.txt");
+
+			$this->assertEqual($storable->getData(),"as;dlfkjasasdf Adin.");
+			
+			$method->move("","maxnew.txt","","maxold.txt");
+
+			$storables = $method->listInPath("",true);
+			foreach ($storables as $storable){
+				print "<br>";
+				print $storable->getPath()." "; 
+				print $storable->getName()." "; 
+				print "<br>";
+			}
+
+			print $method->getSizeOf("");
+			print "<br>";
+			print $method->getSizeOf("","maxold.txt");
 		}
 		
     }
