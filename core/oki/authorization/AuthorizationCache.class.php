@@ -6,7 +6,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.11 2004/11/09 18:33:54 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.12 2004/11/09 19:32:41 adamfranco Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -317,6 +317,48 @@ class AuthorizationCache {
 		return $qualifier;
 	}
 	
+	/**
+	 * Get all the Function of the specified Type.
+	 * @param ref object functionType the Type of the Functions to return
+	 * @return ref object FunctionIterator
+	 */
+	function &getFunctionTypes() {
+		
+		$dbHandler =& Services::requireService("DBHandler");
+		
+		$db = $this->_authzDB;
+		$dbt = $db.".az_function";
+		
+		$query =& new SelectQuery();
+		$query->addColumn("type_domain", "domain", $db.".type");
+		$query->addColumn("type_authority", "authority", $db.".type");
+		$query->addColumn("type_keyword", "keyword", $db.".type");
+		$query->addColumn("type_description", "type_description", $db.".type");
+		
+		$query->addTable($dbt);
+		$joinc = $dbt.".fk_type = ".$db.".type.type_id";
+		$query->addTable($db.".type", INNER_JOIN, $joinc);
+		
+		$query->setGroupBy(array("type_domain", "type_authority", "type_keyword"));
+
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		$types = array();
+		
+		while ($queryResult->hasMoreRows()) {
+			$row = $queryResult->getCurrentRow();
+// 			echo "<pre>";
+// 			print_r($row);
+// 			echo "</pre>";
+			
+			$types[] =& new HarmoniType($row['domain'], $row['authority'], 
+								     $row['keyword'], $row['type_description']);
+
+			$queryResult->advanceRow();
+		}
+		
+		return new HarmoniTypeIterator($types);
+	}
 
 	/**
 	 * Get all the Function of the specified Type.

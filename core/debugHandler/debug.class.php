@@ -7,7 +7,7 @@ require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
  *
  * @see {@link DebugHandlerInterface}
  * @static
- * @version $Id: debug.class.php,v 1.5 2004/06/03 15:39:59 dobomode Exp $
+ * @version $Id: debug.class.php,v 1.6 2004/11/09 19:32:21 adamfranco Exp $
  * @package harmoni.debug
  * @copyright 2003 
  **/
@@ -73,7 +73,7 @@ class debug {
 
 function printpre($array, $return=FALSE) {
 	$string = "\n<pre>";
-	$string .= print_r($array, TRUE);
+	$string .= var_export($array, TRUE);
 	$string .= "\n</pre>";
 	
 	if ($return)
