@@ -4,7 +4,7 @@
  * Holds information about a specific label within a {@link DataSetTypeDefinition}. Defines
  * what type of data the field holds (string, integer, etc) and if it can have multiple values.
  * @package harmoni.datamanager
- * @version $Id: FieldDefinition.class.php,v 1.14 2004/07/22 19:36:04 gabeschine Exp $
+ * @version $Id: FieldDefinition.class.php,v 1.15 2004/08/02 20:00:26 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -209,6 +209,7 @@ class FieldDefinition {
 			}
 			
 			$this->_myID = $newID->getIdString();
+			$this->_addToDB = FALSE;
 			return true;
 		}
 		
