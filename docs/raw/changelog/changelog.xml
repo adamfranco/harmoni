@@ -10,6 +10,17 @@
 			GUI Manager saving functionality.
 		</new>
 		<new author='adam'>
+			OsidManagers can now be started and configured by 
+			Services::startManagerAsService("name", $context, $configuration);
+		</new>
+		<new author='adam'>
+			Service names can now have aliases.
+		</new>
+		<change author='adam'>
+			Authentication is completely handled by the AuthenticationManager
+			OSID implementation instead of the LoginHandler/AuthenticationHandler.
+		</change>
+		<new author='adam'>
 			New back-end for managing authentication tokens, agents, and the mappings
 			between agents and authentication tokens. This is all contained within
 			the core/oki2/agentmanagement/ directory.
