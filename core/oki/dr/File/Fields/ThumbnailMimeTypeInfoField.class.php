@@ -107,39 +107,46 @@ class ThumbnailMimeTypeInfoField extends InfoField
 	 * @package harmoni.osid.dr
 	 */
 	function updateValue($value) {
-		ArgumentValidator::validate($value, new StringValidatorRule);
+		ArgumentValidator::validate($value, new NonzeroLengthStringValidatorRule);
 		
 		// Store the name in the object in case its asked for again.
 		$this->_type = $value;
 		
 	// then write it to the database.
 		$dbHandler =& Services::getService("DBHandler");
-	
-		// Check to see if the type is in the database
-		$query =& new SelectQuery;
-		$query->addTable("dr_mime_type");
-		$query->addColumn("id");
-		$query->addWhere("type = '".$this->_type."'");
-		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 		
-		// If it doesn't exist, insert it.
-		if (!$result->getNumberOfRows()) {
-			$query =& new InsertQuery;
-			$query->setTable("dr_mime_type");
-			$query->setColumns(array("type"));
-			$query->setValues(array("'".addslashes($this->_type)."'"));
+		// If we have a key, make sure it exists.
+		if ($this->_type && $this->_type != "NULL") {
+			// Check to see if the type is in the database
+			$query =& new SelectQuery;
+			$query->addTable("dr_mime_type");
+			$query->addColumn("id");
+			$query->addWhere("type = '".$this->_type."'");
+			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 			
-			$result2 =& $dbHandler->query($query, $this->_configuration["dbId"]);
-			$mimeId = $result2->getLastAutoIncrementValue();
-		} else {
-			$mimeId = $result->field("id");
+			// If it doesn't exist, insert it.
+			if (!$result->getNumberOfRows()) {
+				$query =& new InsertQuery;
+				$query->setTable("dr_mime_type");
+				$query->setColumns(array("type"));
+				$query->setValues(array("'".addslashes($this->_type)."'"));
+				
+				$result2 =& $dbHandler->query($query, $this->_configuration["dbId"]);
+				$mimeId = "'".$result2->getLastAutoIncrementValue()."'";
+			} else {
+				$mimeId = "'".$result->field("id")."'";
+			}
+		} 
+		// If we don't have an Id, set the key to NULL.
+		else {
+			$mimeId = "NULL";
 		}
 			
 		// add its id to the file.
 		$query =& new UpdateQuery;
 		$query->setTable("dr_thumbnail");
 		$query->setColumns(array("FK_mime_type"));
-		$query->setValues(array("'".$mimeId."'"));
+		$query->setValues(array($mimeId));
 		$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
 		
 		// run the query

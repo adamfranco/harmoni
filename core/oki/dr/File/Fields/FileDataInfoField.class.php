@@ -146,13 +146,31 @@ class FileDataInfoField extends InfoField
 		// run the query
 		$dbHandler->query($query, $this->_configuration["dbId"]);
 		
-		// Update the size column
-		$query =& new UpdateQuery;
-		$query->setTable("dr_file");
-		$query->setColumns(array("size"));
-		$query->setValues(array("'".strlen($value)."'"));
+		// Check to see if the size is in the database
+		$query =& new SelectQuery;
+		$query->addTable("dr_file");
+		$query->addColumn("COUNT(*) as count");
 		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 		
+		// If it already exists, use an update query.
+		if ($result->field("count") > 0) {
+			$query =& new UpdateQuery;
+			$query->setTable("dr_file");
+			$query->setColumns(array("size"));
+			$query->setValues(array("'".strlen($value)."'"));
+			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+		}
+		// If it doesn't exist, use an insert query.
+		else {
+			$query =& new InsertQuery;
+			$query->setTable("dr_file");
+			$query->setColumns(array("id","size"));
+			$query->setValues(array("'".$this->_recordId->getIdString()."'",
+									"'".strlen($value)."'"));
+		}
+		
+		// run the query
 		$dbHandler->query($query, $this->_configuration["dbId"]);
 	}
 

@@ -694,27 +694,55 @@ class HarmoniAsset
 	function deleteInfoRecord(& $infoRecordId) {
 		ArgumentValidator::validate($infoRecordId, new ExtendsValidatorRule("Id"));
 		
-		$recordMgr =& Services::getService("RecordManager");
-		$record =& $recordMgr->fetchRecord($infoRecordId->getIdString(),RECORD_FULL);
+		$record =& $this->getInfoRecord($infoRecordId);
+		$structure =& $record->getInfoStructure();
+		$structureId =& $structure->getId();
 		
-		// Check if the record is part of other record sets (assets via inheretance)
-		$myId =& $this->getId();
-		$setsContaining = $recordMgr->getRecordSetIDsContaining($record);
-		$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
-		
-		// If this is the last asset referencing this record, delete it.
-		if (count($setsContaining) == 1 && $setsContaining[0] == $myId->getIdString()) {
-			$myRecordSet->removeRecord($record);
-			$myRecordSet->commit(TRUE);
-			$record->delete(TRUE);
-			$record->commit(TRUE);
+		// If this is a schema that is hard coded into our implementation, create
+		// a record for that schema.
+		if (in_array($structureId->getIdString(), array_keys($this->_dr->_builtInTypes))) 
+		{
+			// Delete all of the InfoFields for the record
+			$fields =& $record->getInfoFields();
+			while ($fields->hasNext()) {
+				$field =& $fields->next();
+				$record->deleteInfoField($field->getId());
+			}
+			
+			// Delete the relation for the record.
+			$dbHandler =& Services::getService("DBHandler");
+			$query =& new DeleteQuery;
+			$query->setTable("dr_asset_record");
+			$myId =& $this->getId();
+			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
+			$query->addWhere("FK_record = '".$infoRecordId->getIdString()."'");
+			
+			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
 		}
-		// If this record is used by other assets, remove the record from this set, 
-		// but leave it in the rest.
+		// Otherwise use the data manager
 		else {
+			$recordMgr =& Services::getService("RecordManager");
+			$record =& $recordMgr->fetchRecord($infoRecordId->getIdString(),RECORD_FULL);
+			
+			// Check if the record is part of other record sets (assets via inheretance)
+			$myId =& $this->getId();
+			$setsContaining = $recordMgr->getRecordSetIDsContaining($record);
 			$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
-			$myRecordSet->removeRecord($record);
-			$myRecordSet->commit(TRUE);
+			
+			// If this is the last asset referencing this record, delete it.
+			if (count($setsContaining) == 1 && $setsContaining[0] == $myId->getIdString()) {
+				$myRecordSet->removeRecord($record);
+				$myRecordSet->commit(TRUE);
+				$record->delete(TRUE);
+				$record->commit(TRUE);
+			}
+			// If this record is used by other assets, remove the record from this set, 
+			// but leave it in the rest.
+			else {
+				$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
+				$myRecordSet->removeRecord($record);
+				$myRecordSet->commit(TRUE);
+			}
 		}
 	}
 

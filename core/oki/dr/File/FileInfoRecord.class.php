@@ -136,11 +136,33 @@ class FileInfoRecord extends InfoRecord
 	 */
 	function deleteInfoField(& $infoFieldId) {
 		$string = $infoFieldId->getIdString();
-		if (ereg("(.*)-(size|name|data|mime_type)",$string,$r)) {
+		if (ereg("(.*)-(FILE_SIZE|FILE_NAME|FILE_DATA|MIME_TYPE|THUMBNAIL_DATA|THUMBNAIL_MIME_TYPE)",$string,$r)) {
 			$recordId = $r[1];
 			$field = $r[2];
 			
-			$this->_infoFields[$partIdString]->updateValue(NULL);
+			if ($this->_isLastField($field)) {
+				$dbHandler =& Services::getService("DBHandler");
+				
+				// Delete the data
+				$query =& new DeleteQuery();
+				$query->setTable("dr_file_data");
+				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
+				$dbHandler->query($query, $this->_configuration["dbId"]);
+				
+				// Delete the thumbnail
+				$query =& new DeleteQuery();
+				$query->setTable("dr_thumbnail");
+				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
+				$dbHandler->query($query, $this->_configuration["dbId"]);
+				
+				// delete the file row.
+				$query =& new DeleteQuery();
+				$query->setTable("dr_file");
+				$query->setWhere("id = '".$this->_id->getIdString()."'");
+				$dbHandler->query($query, $this->_configuration["dbId"]);
+			} else if ($field != "FILE_SIZE") {
+				$this->_infoFields[$field]->updateValue("NULL");
+			}
 		} else {
 			throwError(new Error(UNKNOWN_ID.": $string", "FileInfoRecord", true));
 		}
@@ -178,4 +200,51 @@ class FileInfoRecord extends InfoRecord
 	function &getInfoStructure() {
 		return $this->_infoStructure;
 	}
+	
+	/**
+	 * Return TRUE if the infoField of the passed Id is the last one, and the whole schebang should be deleted.
+	 * 
+	 * @param string $idString
+	 * @return boolean
+	 * @access public
+	 * @date 10/25/04
+	 */
+	function _isLastField ($idString) {
+		$dbHandler =& Services::getService("DBHandler");
+	
+		// Check to see if the data is in the database
+		$query =& new SelectQuery;
+		$query->addTable("dr_file");
+		$query->addTable("dr_file_data", LEFT_JOIN, "dr_file.id = dr_file_data.FK_file");
+		$query->addTable("dr_thumbnail", LEFT_JOIN, "dr_file.id = dr_thumbnail.FK_file");
+		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_file.FK_mime_type = file_mime_type.id", "file_mime_type");
+		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_thumbnail.FK_mime_type = thumbnail_mime_type.id", "thumbnail_mime_type");
+		$query->addColumn("filename");
+		$query->addColumn("size");
+		$query->addColumn("file_mime_type.type", "file_type");
+		$query->addColumn("dr_file_data.data", "file_data");
+		$query->addColumn("thumbnail_mime_type.type", "thumbnail_type");
+		$query->addColumn("dr_thumbnail.data", "thumbnail_data");
+		$query->addWhere("dr_file.id = '".$this->_id->getIdString()."'");
+		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		
+		if (!$result->getNumberOfRows()) {
+			return TRUE;
+		}
+		
+		$fields = array('filename', 'size', 'file_type', 'file_data', 'thumbnail_type', 'thumbnail_data');
+		
+		$countValues = 0;
+		foreach ($fields as $field) {
+			if ($result->field($field))
+				$countValues++;
+		}
+		
+		if ($countValues <= 1)
+			return TRUE;
+		else 
+			return FALSE;
+	}
+	
+	
 }
