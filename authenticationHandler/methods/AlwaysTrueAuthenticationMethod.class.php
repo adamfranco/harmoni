@@ -9,13 +9,13 @@
  * authenticate() will return true if the Agent exists on the targeted system.
  * This method is useful almost SOLELY for demo site purposes. BE CAREFUL USING IT!!!
  *
- * @version $Id: AlwaysTrueAuthenticationMethod.class.php,v 1.1 2003/06/26 18:11:46 gabeschine Exp $
+ * @version $Id: AlwaysTrueAuthenticationMethod.class.php,v 1.2 2003/06/26 21:05:42 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
  **/
  
-class AlwaysFalseAuthenticationMethod extends AuthenticationMethodInterface {
+class AlwaysTrueAuthenticationMethod extends AuthenticationMethodInterface {
 	/**
 	 * @access private
 	 * @var object AuthenticationMethod $_methodObject The method being wrapped.
