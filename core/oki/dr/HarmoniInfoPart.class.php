@@ -36,6 +36,26 @@ class HarmoniInfoPart extends InfoPart
 	function getDescription() {
 		return "A HarmoniDataManager field of type '".$this->_fieldDef->getType()."'.";
 	}
+	
+	/**
+	 * Get the type for this InfoPart
+	 *
+	 * WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * This method is not part of the OSID, but we
+	 * have submitted a proposal for its addition.
+	 * Use at your own risk.
+	 * /WARNING
+	 *
+	 * @return object Type
+	 */
+	function & getType() {
+		if (!isset($this->_type)) {
+			$type = $this->_fieldDef->getType();
+			$this->_type =& new HarmoniType("DR", "Harmoni", $type);
+		}
+		
+		return $this->_type;
+	}
 
 	/**
 	 * Get the Unique Id for this InfoPart.
