@@ -15,7 +15,7 @@ require_once(OKI."/hierarchy/hierarchyAPI.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.6 $ / $Date: 2003/10/03 15:43:14 $
+ * @version $Revision: 1.7 $ / $Date: 2003/10/07 19:58:31 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -43,7 +43,12 @@ class HarmoniHierarchy
 	 * @var object Tree $_tree A tree object.
 	 */
 	var $_tree = new Tree();
-	
+
+	/**
+	 * @var array $_nodeTypes Node types in this hierarchy.
+	 */
+	var $_nodeTypes = array();
+
     /**
      * Get the unique Id for this Hierarchy.
      *
@@ -240,8 +245,21 @@ class HarmoniHierarchy
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function addNodeType(& $type) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	function addNodeType(& $nodeType) {
+		// Check the arguments
+		ArgumentValidator::validate($nodeType, new ExtendsValidatorRule("Type"));
+		
+		// Throw an error if the nodeType has already been added.
+		foreach ($this->_nodeTypes as $key => $nodeType) {
+			if ($nodeType->isEqual($this->_nodeTypes[$key]))
+				throwError(new Error(ALREADY_ADDED, "Hierarchy", 1));
+		}
+		
+		// add the node type
+		$this->_nodeTypes[] =& $nodeType;
+		
+		// Store the updated hierarchy
+		$this->save();
 	}
 
 	/**
@@ -260,8 +278,29 @@ class HarmoniHierarchy
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function removeNodeType(& $type) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	function removeNodeType(& $nodeType) {
+		// Check the arguments
+		ArgumentValidator::validate($nodeType, new ExtendsValidatorRule("Type"));
+		
+		// Throw an error if the nodeType is in use.
+		$nodeIterator =& $this->getAllNodes();
+		while ($nodeIterator->hasNext()) {
+			$node =& $nodeIterator->next();
+			if ($nodeType->isEqual($node->getType()))
+				throwError(new Error(NODE_TYPE_IN_USE, "Hierarchy", 1));
+		}
+		
+		// remove the node type
+		$newNodeTypes = array();
+		foreach ($this->_nodeTypes as $key => $val) {
+			// if it isn't the type we are removing, add it to the new array
+			if (!$nodeType->isEqual($this->_nodeTypes[$key]))
+				$newNodeTypes =& $this->_nodeTypes[$key];
+		}
+		$this->_nodeTypes =& $newNodeTypes;
+		
+		// Store the updated hierarchy
+		$this->save();
 	}
 
 	/**
@@ -374,7 +413,8 @@ class HarmoniHierarchy
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getNodeTypes() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		$typeIterator =& new HarmoniTypeIterator($this->_nodeTypes);
+		return $typeIterator;
 	}
 
 	/**
