@@ -13,7 +13,10 @@ require_once(HARMONI."/oki/dr/HarmoniInfoRecordIterator.class.php");
 class HarmoniAsset
 	extends HarmoniAssetInterface
 { // begin Asset
-
+	
+	var $_configuration;
+	var $_versionControlAll = FALSE;
+	var $_versionControlTypes;
 	var $_hierarchy;
 	var $_node;
 	var $_dr;
@@ -37,6 +40,17 @@ class HarmoniAsset
 		$this->_dataSetsIDs = array();
 		$this->_createdInfoRecords = array();
 		$this->_createdInfoStructures = array();
+		
+		// Store our configuration
+		$this->_configuration =& $configuration;
+		$this->_versionControlAll = $configuration['versionControlAll'];
+		if (is_array($configuration['versionControlTypes'])) {
+			ArgumentValidator::validate($configuration['versionControlTypes'], new ArrayValidatorRuleWithRule( new ExtendsValidatorRule("Type")));
+			$this->_versionControlTypes =& $configuration['versionControlTypes'];
+		} else {
+			$this->_versionControlTypes = array();
+		}
+		
 	 }
 
 	/**
@@ -203,7 +217,18 @@ class HarmoniAsset
 		
 		if (!$contentDataSet) {		
 			// Set up and create our new dataset
-			$versionControl = FALSE;
+			
+			// Decide if we want to version-control this field.
+			$versionControl = $this->_versionControlAll;
+			if (!$versionControl) {
+				foreach ($this->_versionControlTypes as $key => $val) {
+					if ($contentType->isEqual($this->_versionControlTypes[$key])) {
+						$versionControl = TRUE;
+						break;
+					}
+				}
+			}
+			
 			$contentDataSet =& $dataSetMgr->newDataSet($contentType, $versionControl);
 			
 			// Add the DataSet to our group
@@ -285,7 +310,18 @@ class HarmoniAsset
 		
 		if (!$contentDataSet) {		
 			// Set up and create our new dataset
-			$versionControl = FALSE;
+			
+			// Decide if we want to version-control this field.
+			$versionControl = $this->_versionControlAll;
+			if (!$versionControl) {
+				foreach ($this->_versionControlTypes as $key => $val) {
+					if ($contentType->isEqual($this->_versionControlTypes[$key])) {
+						$versionControl = TRUE;
+						break;
+					}
+				}
+			}
+			
 			$contentDataSet =& $dataSetMgr->newDataSet($contentType, $versionControl);
 			
 			// Add the DataSet to our group
@@ -367,7 +403,18 @@ class HarmoniAsset
 		
 		if (!$contentDataSet) {		
 			// Set up and create our new dataset
-			$versionControl = FALSE;
+			
+			// Decide if we want to version-control this field.
+			$versionControl = $this->_versionControlAll;
+			if (!$versionControl) {
+				foreach ($this->_versionControlTypes as $key => $val) {
+					if ($contentType->isEqual($this->_versionControlTypes[$key])) {
+						$versionControl = TRUE;
+						break;
+					}
+				}
+			}
+			
 			$contentDataSet =& $dataSetMgr->newDataSet($contentType, $versionControl);
 			
 			// Add the DataSet to our group
@@ -510,8 +557,18 @@ class HarmoniAsset
 		$type =& $dataSetTypeMgr->getDataSetTypeByID($infoStructureId->getIdString());
 		
 		// Set up and create our new dataset
-		$versionControl = FALSE;
-		$newDataSet =& $dataSetMgr->newDataSet($type, $versionControl);
+		// Decide if we want to version-control this field.
+			$versionControl = $this->_versionControlAll;
+			if (!$versionControl) {
+				foreach ($this->_versionControlTypes as $key => $val) {
+					if ($type->isEqual($this->_versionControlTypes[$key])) {
+						$versionControl = TRUE;
+						break;
+					}
+				}
+			}
+			
+			$newDataSet =& $dataSetMgr->newDataSet($contentType, $versionControl);
 		
 		$newDataSet->commit();
 		

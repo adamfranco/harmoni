@@ -18,10 +18,11 @@ class HarmoniDigitalRepository
 	extends HarmoniDigitalRepositoryInterface
 {
 	
-	var $_hierarchy;
-	var $_node;
-	var $_createdAssets;
+	var $_configuration;
 	var $_searchTypes;
+	var $_node;
+	var $_hierarchy;
+	var $_createdAssets;
 	
 	var $_infoStructures;
 	var $_assetValidFlags;
@@ -29,7 +30,7 @@ class HarmoniDigitalRepository
 	/**
 	 * Constructor
 	 */
-	function HarmoniDigitalRepository (& $hierarchy, & $id) {
+	function HarmoniDigitalRepository (& $hierarchy, & $id, & $configuration) {
 		// Get the node coresponding to our id
 		$this->_hierarchy =& $hierarchy;
 		$this->_node =& $this->_hierarchy->getNode($id);
@@ -44,6 +45,9 @@ class HarmoniDigitalRepository
 		
 		// Set up an array of created Info structures so we can pass out references to them.
 		$this->_createdInfoStructures = array();
+		
+		// Store our configuration
+		$this->_configuration =& $configuration;
 	}
 	 
 	/**
@@ -133,7 +137,7 @@ class HarmoniDigitalRepository
 		$node =& $this->_hierarchy->createNode($newId, $drId, $assetType, $displayName, $description);
 		
 		// Create the asset with its new ID and cache it.
-		$this->_createdAssets[$newId->getIdString()] =& new HarmoniAsset($this->_hierarchy, $this, $newId);
+		$this->_createdAssets[$newId->getIdString()] =& new HarmoniAsset($this->_hierarchy, $this, $newId, $this->_configuration);
 		
 		return $this->_createdAssets[$newId->getIdString()];
 	}

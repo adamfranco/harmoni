@@ -11,7 +11,12 @@ require_once(HARMONI."/oki/dr/HarmoniDigitalRepository.class.php");
 class HarmoniDigitalRepositoryManager // :: API interface
 	extends DigitalRepositoryManager
 {
-
+	
+	var $_configuration;
+	var $_drValidFlags;
+	var $_hierarchy;
+	var $_createdDRs;
+	
 	/**
 	 * Constructor
 	 * @param array $configuration	An array of the configuration options nessisary to load
@@ -31,6 +36,10 @@ class HarmoniDigitalRepositoryManager // :: API interface
 		
 		// Cache any created DRs so that we can pass out references to them.
 		$this->_createdDRs = array();
+		
+		// Store the configuration
+		$this->_configuration =& $configuration;
+		
 		
 		// Make sure that we have a 'harmoni.dr.assetcontent' type InfoStructure for
 		// assets to put their generic content into.
@@ -62,7 +71,7 @@ class HarmoniDigitalRepositoryManager // :: API interface
 		// Add this DR's root node to the hierarchy.
 		$node =& $this->_hierarchy->createRootNode($newId, $digitalRepositoryType, $displayName, $description);
 		
-		 $this->_createdDRs[$newId->getIdString()] =& new HarmoniDigitalRepository ($this->_hierarchy, $newId);
+		 $this->_createdDRs[$newId->getIdString()] =& new HarmoniDigitalRepository ($this->_hierarchy, $newId, $this->_configuration);
 		return  $this->_createdDRs[$newId->getIdString()];
 	}
 
