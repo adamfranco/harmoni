@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package harmoni.layout
+ */
 
 require_once(HARMONI.'layoutHandler/components/layouts/RowLayout.class.php');
 require_once(HARMONI.'layoutHandler/components/layouts/ColumnLayout.class.php');

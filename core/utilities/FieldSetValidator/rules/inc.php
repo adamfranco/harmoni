@@ -3,12 +3,12 @@
 /**
  * include all the classes in the current dir
  *
- * @package harmoni.utilities
+ * @package harmoni.utilities.fieldsetvalidator.rules
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: inc.php,v 1.2 2005/01/19 21:10:16 adamfranco Exp $
+ * @version $Id: inc.php,v 1.3 2005/02/04 15:59:13 adamfranco Exp $
  */
 $_dh = opendir(dirname(__FILE__));
 while ($_f = readdir($_dh)) {

@@ -13,7 +13,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthenticationResult.class.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: AuthenticationResult.class.php,v 1.4 2005/02/04 15:58:59 adamfranco Exp $
  */
 class AuthenticationResult {
 	/**
@@ -47,8 +47,8 @@ class AuthenticationResult {
 	 * The constructor.
 	 * @param array $validMethods An array of method names that validated successfully.
 	 * @access public
-	 * @see {@link AuthenticationMethodInterface}
-	 * @see {@link AuthenticationHandlerInterface}
+	 * @see AuthenticationMethodInterface
+	 * @see AuthenticationHandlerInterface
 	 * @return void
 	 **/
 	function AuthenticationResult( $systemName, $validMethods ) {

@@ -24,18 +24,8 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAssetIterator.class.php,v 1.6 2005/01/27 15:45:39 adamfranco Exp $ 
+ * @version $Id: HarmoniAssetIterator.class.php,v 1.7 2005/02/04 15:59:09 adamfranco Exp $ 
  */
- 
-// public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
-define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
-
-/**
- * An iterator of Asset objects.
- *
- * @package harmoni.osid_v2.repository
- */
-
 class HarmoniAssetIterator
 	extends HarmoniIterator
 	//implements AssIterator

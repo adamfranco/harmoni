@@ -5,9 +5,11 @@
  * subdirectory.
  * You may fine it more useful to include_once any given interface directly
  * from classes extending it.
+ *
+ * @package org
  * 
- * @version $Id: include_all.php,v 1.2 2005/01/19 22:28:27 adamfranco Exp $
- * @since $Date: 2005/01/19 22:28:27 $
+ * @version $Id: include_all.php,v 1.3 2005/02/04 15:59:13 adamfranco Exp $
+ * @since $Date: 2005/02/04 15:59:13 $
  * @copyright 2004 Middlebury College
  * @author Adam Franco <afranco AT middlebury DOT edu>
  */

@@ -13,7 +13,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentInformationHandler.class.php,v 1.9 2005/01/19 21:09:40 adamfranco Exp $
+ * @version $Id: AgentInformationHandler.class.php,v 1.10 2005/02/04 15:58:59 adamfranco Exp $
  **/
 class AgentInformationHandler extends ServiceInterface {
 	/**
@@ -46,9 +46,9 @@ class AgentInformationHandler extends ServiceInterface {
 	 * for the supplied $systemName.
 	 * @param optional string $method The method name to fetch information from.
 	 * If not specified, will use all methods and combine the information.
-	 * @see {@link AuthenticationMethodInterface::setPriority()}
-	 * @see {@link AuthenticationMethodInterface}
-	 * @see {@link AuthenticationHandler}
+	 * @see AuthenticationMethodInterface::setPriority()
+	 * @see AuthenticationMethodInterface
+	 * @see AuthenticationHandler
 	 * @access public
 	 * @return array An associative array of agent information. If $method is
 	 * omitted, a join based on priority of all {@link AuthenticationMethod}s is

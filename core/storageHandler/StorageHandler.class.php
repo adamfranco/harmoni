@@ -46,7 +46,7 @@ define("STORAGE_PRIMARY", 3);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorageHandler.class.php,v 1.4 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: StorageHandler.class.php,v 1.5 2005/02/04 15:59:10 adamfranco Exp $
 */
 class StorageHandler {
 	/**
@@ -427,7 +427,7 @@ class StorageHandler {
 	* @param ref object $storable The Storable object to store.
 	* @param string $path The path under which to store the file.
 	* @param string $name The name to store under.
-	* @see {@link StorableInterface}
+	* @see StorableInterface
 	* @access public 
 	* @return boolean TRUE on success, FALSE otherwise.
 	*/

@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.6 2005/01/26 17:29:47 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.7 2005/02/04 15:59:08 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -151,7 +151,7 @@ class HierarchyCache {
 	
 	/**
 	 * Determines whether a node has been cached down
-	 * @see {@link HierarchyCache::_cache}.
+	 * @see HierarchyCache::_cache
 	 * @access private
 	 * @param string idValue The string id of the node.
 	 * @param integer levels The number of tree levels down to check for caching.
@@ -175,7 +175,7 @@ class HierarchyCache {
 
 	/**
 	 * Determines whether a node has been cached up 
-	 * @see {@link HierarchyCache::_cache}.
+	 * @see HierarchyCache::_cache
 	 * @access private
 	 * @param string idValue The string id of the node.
 	 * @param integer levels The number of tree levels up to check for caching. 

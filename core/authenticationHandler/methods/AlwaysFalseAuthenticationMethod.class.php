@@ -14,7 +14,7 @@ require_once(HARMONI."authenticationHandler/AuthenticationMethod.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AlwaysFalseAuthenticationMethod.class.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: AlwaysFalseAuthenticationMethod.class.php,v 1.4 2005/02/04 15:58:59 adamfranco Exp $
  **/
  
 class AlwaysFalseAuthenticationMethod extends AuthenticationMethod {
@@ -71,7 +71,7 @@ class AlwaysFalseAuthenticationMethod extends AuthenticationMethod {
 	/**
 	 * Returns the priority of this method.
 	 * @access public
-	 * @see {@link AlwaysFalseAuthenticationMethod::setPriority()}
+	 * @see AlwaysFalseAuthenticationMethod::setPriority()
 	 * @return integer The priority.
 	 **/
 	function getPriority() {
@@ -91,7 +91,7 @@ class AlwaysFalseAuthenticationMethod extends AuthenticationMethod {
 	/**
 	 * Returns if this method is authoritative or not.
 	 * @access public
-	 * @see {@link AlwaysFalseAuthenticationMethod::setAuthoritative()}
+	 * @see AlwaysFalseAuthenticationMethod::setAuthoritative()
 	 * @return boolean If the method is authoritative.
 	 **/
 	function getAuthoritative() {
@@ -104,7 +104,7 @@ class AlwaysFalseAuthenticationMethod extends AuthenticationMethod {
 	 * @param string $systemName The system name to get info for.
 	 * @access public
 	 * @return array An associative array of [key]=>value pairs.  
-	 * @see {@link AgentInformationHandlerInterface}
+	 * @see AgentInformationHandlerInterface
 	 **/
 	function getAgentInformation( $systemName ) {
 		return $this->_methodObject->getAgentInformation($systemName);

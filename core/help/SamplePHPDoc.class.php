@@ -79,7 +79,7 @@ function globalFunc() {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SamplePHPDoc.class.php,v 1.5 2005/01/19 23:23:01 adamfranco Exp $
+ * @version $Id: SamplePHPDoc.class.php,v 1.6 2005/02/04 15:59:04 adamfranco Exp $
  * @since Created: June 27, 2003
  */
 class SamplePHPDoc {
@@ -88,7 +88,7 @@ class SamplePHPDoc {
 	 * This is the id of a human. Humans rock!
 	 * @var integer _id 
 	 * @access private
-	 * @see {@link SamplePHPDoc::_name}
+	 * @see SamplePHPDoc::_name
 	 */
 	var $_id;
 
@@ -96,7 +96,7 @@ class SamplePHPDoc {
 	 * This is the name of a human. It is static. It is a string.
 	 * @var string _name 
 	 * @access public
-	 * @see {@link SamplePHPDoc::_id}
+	 * @see SamplePHPDoc::_id
 	 */
 	var $_name = "Ivan";
 
@@ -117,7 +117,7 @@ class SamplePHPDoc {
 	 * Get accessor for <code>$_id</code> property.
 	 *
 	 * @access public
-	 * @see {@link SamplePHPDoc::_id}
+	 * @see SamplePHPDoc::_id
 	 */
 	function getId() {
 		return $this->_id;
@@ -128,7 +128,7 @@ class SamplePHPDoc {
 	 * Set accessor for <code>$_id</code> property.
 	 *
 	 * @access public
-	 * @see {@link SamplePHPDoc::_id}
+	 * @see SamplePHPDoc::_id
 	 */
 	function setId($id) {
 		$this->_id = $id;

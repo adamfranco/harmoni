@@ -1,5 +1,8 @@
 <?
-
+/**
+ * @package harmoni.datamanager
+ */
+ 
 $this->addDataType("integer","Integer","StorableInteger");
 $this->addDataType("string","String","StorableString");
 $this->addDataType("blob","Blob","StorableBlob");

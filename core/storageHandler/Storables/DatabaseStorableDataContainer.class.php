@@ -11,7 +11,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DatabaseStorableDataContainer.class.php,v 1.3 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: DatabaseStorableDataContainer.class.php,v 1.4 2005/02/04 15:59:11 adamfranco Exp $
  */
 
 class DatabaseStorableDataContainer extends DataContainer {
@@ -23,8 +23,8 @@ class DatabaseStorableDataContainer extends DataContainer {
 	 * <br />
 	 * *******add more********
 	 * 
-	 * @see {@link DatabaseStorable}
-	 * @see {@link DataContainer}
+	 * @see DatabaseStorable
+	 * @see DataContainer
 	 * @access public
 	 */
 	function DatabaseStorableDataContainer()

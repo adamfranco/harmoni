@@ -5,14 +5,14 @@ require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
 /**
  * The debug class is a static abstract class that holds wrapper functions for the DebugHandler service in Harmoni.
  *
- * @see {@link DebugHandlerInterface}
+ * @see DebugHandlerInterface
  *
  * @package harmoni.utilities.debugging
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: debug.class.php,v 1.8 2005/01/19 22:27:48 adamfranco Exp $
+ * @version $Id: debug.class.php,v 1.9 2005/02/04 15:59:03 adamfranco Exp $
  *
  * @static
  **/

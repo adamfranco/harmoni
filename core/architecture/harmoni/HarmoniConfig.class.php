@@ -10,14 +10,14 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniConfig.class.php,v 1.3 2005/01/19 21:09:40 adamfranco Exp $
+ * @version $Id: HarmoniConfig.class.php,v 1.4 2005/02/04 15:58:42 adamfranco Exp $
  */
 
 class HarmoniConfig extends DataContainer {
     /**
      * Constructor -- sets up the allowed fields for this kind of {@link DataContainer}
      * 
-     * @see {@link DataContainer}
+     * @see DataContainer
      * @access public 
      * @return void 
      */

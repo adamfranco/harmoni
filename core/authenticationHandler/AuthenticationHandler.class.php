@@ -20,7 +20,7 @@ require_once(HARMONI."authenticationHandler/methods/DummyAuthenticationMethod.cl
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthenticationHandler.class.php,v 1.4 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.5 2005/02/04 15:58:59 adamfranco Exp $
  */
 
 class AuthenticationHandler extends ServiceInterface {
@@ -43,7 +43,7 @@ class AuthenticationHandler extends ServiceInterface {
 	 * @param string $password The password.
 	 * @param string $method The method with which to try authentication.
 	 * @access public
-	 * @see {@link AuthenticationMethodInterface}
+	 * @see AuthenticationMethodInterface
 	 * @return boolean True if authentication succeeds, false otherwise.
 	 **/
 	function authenticate($systemName, $password, $method ) { 
@@ -139,9 +139,9 @@ class AuthenticationHandler extends ServiceInterface {
 	 * @param optional boolean $authoritative Sets if this method is 
 	 * authoritative. At least ONE authoritative method MUST authenticate successfully 
 	 * or the entire authentication process will return false.
-	 * @see {@link AuthenticationMethodInterface}
-	 * @see {@link AuthenticationMethodInterface::setPriority()}
-	 * @see {@link AuthenticationMethodInterface::setAuthoritative()}
+	 * @see AuthenticationMethodInterface
+	 * @see AuthenticationMethodInterface::setPriority()
+	 * @see AuthenticationMethodInterface::setAuthoritative()
 	 * @access public
 	 * @return void 
 	 **/

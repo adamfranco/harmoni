@@ -5,7 +5,7 @@ require_once(HARMONI."layoutHandler/VisualComponent.interface.php");
 /**
  * @const string LAYOUT The constant defined for a layout, to be used with {@link Layout::addComponent()}.
  * @package harmoni.layout.components
- **/
+ */
 define("LAYOUT","LayoutInterface");
 
 /**
@@ -16,7 +16,7 @@ define("LAYOUT","LayoutInterface");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Layout.interface.php,v 1.6 2005/01/19 21:10:01 adamfranco Exp $
+ * @version $Id: Layout.interface.php,v 1.7 2005/02/04 15:59:04 adamfranco Exp $
  */
 class LayoutInterface extends VisualComponent {
 	/**

@@ -22,7 +22,7 @@ define ("BLANK_WIDGET", "blank");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.abstract.php,v 1.16 2005/01/26 15:20:49 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.17 2005/02/04 15:59:12 adamfranco Exp $
  */
 class Theme
 	extends ThemeInterface {
@@ -298,7 +298,7 @@ class Theme
 	/**
 	 * Returns a HarmoniIterator object with this theme's ThemeSetting objects.
 	 * @access public
-	 * @see {@link ThemeInterface::setSettings}
+	 * @see ThemeInterface::setSettings
 	 * @return object HarmoniIterator An iterator of ThemeSetting objects
 	 **/
 	function &getSettings () {

@@ -8,13 +8,12 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: throw.inc.php,v 1.7 2005/01/19 21:10:00 adamfranco Exp $
+ * @version $Id: throw.inc.php,v 1.8 2005/02/04 15:59:03 adamfranco Exp $
  */
 
 /**
  * Throws an error using the ErrorHandler.
  * @param object Error The error object to throw.
- * @package harmoni.errorhandler
  */
 function throwError(& $error) {
 	// first, make sure that the ErrorHandler service is running
@@ -64,7 +63,6 @@ function try ($operation) {
 /**
  * Throws an error using the UserErrorHandler.
  * @param object Error The error object to throw.
- * @package harmoni.errorhandler
  */
 function userError(& $error) {
 	// first, make sure that the ErrorHandler service is running
@@ -79,7 +77,6 @@ function userError(& $error) {
 
 /**
  * Prints out all of the errors from the ErrorHandler using the specified printer and returns the output in a string.
- * @package harmoni.errorhandler
  * @param ref object $printer The {@link ErrorPrinter} to use.
  * @return void
  */
@@ -93,7 +90,6 @@ function printErrors(&$printer)
 
 /**
  * Returns if we have errors in the ErrorHandler service.
- * @package harmoni.errorhandler
  * @return boolean
  */
 function haveErrors()
@@ -110,8 +106,7 @@ function haveErrors()
  * Prints all of the errors in the "UserError" service with a pretty error printer.
  * @access public
  * @return string A string containing the output of the error printer. 
- * @package harmoni.errorhandler
- **/
+ */
 function printUserErrors() {
 	// require the service
 	Services::requireService("UserError");
@@ -131,7 +126,6 @@ function printUserErrors() {
  * Prints a debug_backtrace() array in a pretty HTML way...
  * @param optional array $trace The array. If null, a current backtrace is used.
  * @param optional boolean $return If true will return the HTML instead of printing it.
- * @package harmoni.errorhandler
  * @access public
  * @return void
  */

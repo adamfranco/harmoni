@@ -48,7 +48,7 @@ require_once("Query.abstract.php");
 /**
  * A SelectQuery interface provides the tools to build an SQL SELECT query.
  *
- * @version $Id: SelectQuery.interface.php,v 1.6 2005/01/19 23:21:34 adamfranco Exp $
+ * @version $Id: SelectQuery.interface.php,v 1.7 2005/02/04 15:58:40 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -87,7 +87,7 @@ class SelectQueryInterface extends Query {
 	 * For a better approach, see addColumn().
 	 * @access public
 	 * @deprecated June 24, 2003 - Use addColumn() instead.
-	 * @see {@link SelectQueryInterface::addColumn()}
+	 * @see SelectQueryInterface::addColumn()
 	 */
 	function setColumns($columns) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
@@ -106,7 +106,7 @@ class SelectQueryInterface extends Query {
 	 * the column resides.
 	 * will be used.
 	 * @access public
-	 * @see {@link SelectQueryInterface::setColumns()}
+	 * @see SelectQueryInterface::setColumns()
 	 */ 
 	function addColumn($column, $alias = "", $table = "") {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");	

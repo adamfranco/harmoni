@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package harmoni
+ */
 
 // :: $harmoniVersion = "M[.m[.r]]"
 // M = major

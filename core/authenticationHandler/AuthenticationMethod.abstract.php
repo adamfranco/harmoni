@@ -11,7 +11,7 @@ require_once(HARMONI."authenticationHandler/AuthenticationMethod.interface.php")
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthenticationMethod.abstract.php,v 1.2 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: AuthenticationMethod.abstract.php,v 1.3 2005/02/04 15:58:59 adamfranco Exp $
  *
  * @abstract
  */
@@ -20,7 +20,7 @@ class AuthenticationMethod
 {
 	/**
 	 * The method's priority setting.
-	 * @see {@link AuthenticationMethod::setPriority()}
+	 * @see AuthenticationMethod::setPriority()
 	 * @access private
 	 * @var integer $_priority
 	 **/
@@ -28,7 +28,7 @@ class AuthenticationMethod
 	
 	/**
 	 * A boolean defining if this method is an authoritative method.
-	 * @see {@link AuthenticationMethod::setAuthoritative()}
+	 * @see AuthenticationMethod::setAuthoritative()
 	 * @access private
 	 * @var boolean $_authoritative
 	 **/
@@ -56,7 +56,7 @@ class AuthenticationMethod
 	/**
 	 * Returns the priority of this method.
 	 * @access public
-	 * @see {@link AuthenticationMethod::setPriority()}
+	 * @see AuthenticationMethod::setPriority()
 	 * @return integer The priority.
 	 **/
 	function getPriority() {
@@ -76,7 +76,7 @@ class AuthenticationMethod
 	/**
 	 * Returns if this method is authoritative or not.
 	 * @access public
-	 * @see {@link AuthenticationMethod::setAuthoritative()}
+	 * @see AuthenticationMethod::setAuthoritative()
 	 * @return boolean If the method is authoritative.
 	 **/
 	function getAuthoritative() {

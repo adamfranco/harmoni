@@ -9,7 +9,7 @@ require_once(HARMONI."DBHandler/InsertQuery.interface.php");
  * initialization steps, etc. What is left to be implemented is the
  * generateSQLQuery() method.
  * 
- * @version $Id: InsertQuery.class.php,v 1.2 2005/01/19 23:21:34 adamfranco Exp $
+ * @version $Id: InsertQuery.class.php,v 1.3 2005/02/04 15:58:40 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -115,7 +115,7 @@ class InsertQuery extends InsertQueryInterface {
 	 * Adds one row of values to insert into the table. 
 	 * By calling this method multiple times, you can insert many rows of
 	 * information using just one query.
-	 * @see {@link InsertQueryInterface::addRowOfValues }
+	 * @see InsertQueryInterface::addRowOfValues 
 	 * @param array $values One row of values to insert into the table. Must
 	 * match the order of columns specified with the setColumns() method.
 	 * @access public

@@ -1,4 +1,7 @@
 <?
+/**
+ * @package harmoni.datamanager.storableprimitives
+ */
 
 require_once(HARMONI."dataManager/storablePrimitives/StorableBoolean.class.php");
 require_once(HARMONI."dataManager/storablePrimitives/StorableFloat.class.php");

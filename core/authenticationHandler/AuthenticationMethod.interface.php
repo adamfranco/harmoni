@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthenticationMethod.interface.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: AuthenticationMethod.interface.php,v 1.4 2005/02/04 15:58:59 adamfranco Exp $
  */
  
 class AuthenticationMethodInterface {
@@ -42,7 +42,7 @@ class AuthenticationMethodInterface {
 	/**
 	 * Returns the priority of this method.
 	 * @access public
-	 * @see {@link AuthenticationMethodInterface::setPriority()}
+	 * @see AuthenticationMethodInterface::setPriority()
 	 * @return integer The priority.
 	 **/
 	function getPriority() {
@@ -62,7 +62,7 @@ class AuthenticationMethodInterface {
 	/**
 	 * Returns if this method is authoritative or not.
 	 * @access public
-	 * @see {@link AuthenticationMethodInterface::setAuthoritative()}
+	 * @see AuthenticationMethodInterface::setAuthoritative()
 	 * @return boolean If the method is authoritative.
 	 **/
 	function getAuthoritative() {

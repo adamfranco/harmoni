@@ -9,8 +9,8 @@ require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
  * query types, or the resource links can be returned and accessed directly.
  *
  * 
- * @version $Id: MySQLGenericQueryResult.class.php,v 1.4 2005/01/19 22:27:47 adamfranco Exp $
- * @package harmoni.dbc
+ * @version $Id: MySQLGenericQueryResult.class.php,v 1.5 2005/02/04 15:58:41 adamfranco Exp $
+ * @package harmoni.dbc.mysql
  * @access public
  * @copyright 2003 
  */

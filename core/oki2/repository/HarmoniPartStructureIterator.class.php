@@ -1,6 +1,8 @@
 <?
+ 
 require_once(OKI2."/osid/repository/PartStructureIterator.php");
 require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
+
 /**
  * PartStructureIterator provides access to these objects sequentially, one at
  * a time.	The purpose of all Iterators is to to offer a way for OSID methods
@@ -15,20 +17,13 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * OSID Version: 2.0
  * </p>
  * 
- * @package harmoni.XXXX.YYYYYY
+ * @package harmoni.osid_v2.repository
  * 
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructureIterator.class.php,v 1.6 2005/01/27 15:45:39 adamfranco Exp $ 
+ * @version $Id: HarmoniPartStructureIterator.class.php,v 1.7 2005/02/04 15:59:09 adamfranco Exp $ 
  */
-
-
-
-
-// public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
-define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
-
 class HarmoniPartStructureIterator
 	extends HarmoniIterator
 	//implements PartStructureIterator

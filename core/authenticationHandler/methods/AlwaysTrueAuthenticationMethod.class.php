@@ -14,7 +14,7 @@ require_once(HARMONI."authenticationHandler/AuthenticationMethod.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AlwaysTrueAuthenticationMethod.class.php,v 1.4 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: AlwaysTrueAuthenticationMethod.class.php,v 1.5 2005/02/04 15:58:59 adamfranco Exp $
  **/
  
 class AlwaysTrueAuthenticationMethod extends AuthenticationMethod {
@@ -61,7 +61,7 @@ class AlwaysTrueAuthenticationMethod extends AuthenticationMethod {
 	/**
 	 * Returns the priority of this method.
 	 * @access public
-	 * @see {@link AlwaysTrueAuthenticationMethod::setPriority()}
+	 * @see AlwaysTrueAuthenticationMethod::setPriority()
 	 * @return integer The priority.
 	 **/
 	function getPriority() {
@@ -81,7 +81,7 @@ class AlwaysTrueAuthenticationMethod extends AuthenticationMethod {
 	/**
 	 * Returns if this method is authoritative or not.
 	 * @access public
-	 * @see {@link AlwaysTrueAuthenticationMethod::setAuthoritative()}
+	 * @see AlwaysTrueAuthenticationMethod::setAuthoritative()
 	 * @return boolean If the method is authoritative.
 	 **/
 	function getAuthoritative() {

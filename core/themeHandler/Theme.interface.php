@@ -14,7 +14,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.interface.php,v 1.8 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: Theme.interface.php,v 1.9 2005/02/04 15:59:12 adamfranco Exp $
  */
 class ThemeInterface {
 
@@ -127,7 +127,7 @@ class ThemeInterface {
 	/**
 	 * Returns a HarmoniIterator object with this theme's ThemeSetting objects.
 	 * @access public
-	 * @see {@link ThemeInterface::setSettings}
+	 * @see ThemeInterface::setSettings
 	 * @return object HarmoniIterator An iterator of ThemeSetting objects
 	 **/
 	function &getSettings () {

@@ -7,14 +7,14 @@
  * access to any services they need.
  * Services should extend this class somewhere in their inheritance tree. (probably the top)
  * 
- * @see {@link ServicesInterface}
+ * @see ServicesInterface
  *
  * @package harmoni.services
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Service.interface.php,v 1.4 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: Service.interface.php,v 1.5 2005/02/04 15:59:10 adamfranco Exp $
  **/
 class ServiceInterface {
 	/**

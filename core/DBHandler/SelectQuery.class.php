@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQuery.interface.php");
  * 
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * @version $Id: SelectQuery.class.php,v 1.5 2005/01/19 23:21:34 adamfranco Exp $
+ * @version $Id: SelectQuery.class.php,v 1.6 2005/02/04 15:58:40 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -21,7 +21,7 @@ class SelectQuery extends SelectQueryInterface {
 	 * This array stores the tables in the FROM clause of the SELECT query along
 	 * with the join types, join conditions, and table alias.
 	 * @var string $_tables The tables in the FROM clause of the SELECT query.
-	 * @see {@link SelectQuery::addTable()}
+	 * @see SelectQuery::addTable()
 	 * @access private
 	 */
 	var $_tables;
@@ -163,7 +163,7 @@ class SelectQuery extends SelectQueryInterface {
 	 * For a better approach, see addColumn().
 	 * @access public
 	 * @deprecated June 24, 2003 - Use addColumn() instead.
-	 * @see {@link SelectQuery::addColumn()}
+	 * @see SelectQuery::addColumn()
 	 */
 	function setColumns($columns) {
 		// ** parameter validation
@@ -198,7 +198,7 @@ class SelectQuery extends SelectQueryInterface {
 	 * the column resides.
 	 * will be used.
 	 * @access public
-	 * @see {@link SelectQueryInterface::setColumns()}
+	 * @see SelectQueryInterface::setColumns()
 	 */ 
 	function addColumn($column, $alias = "", $table = "") {
 		// ** parameter validation
