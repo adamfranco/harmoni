@@ -3,7 +3,7 @@
 /**
  * the FieldSetInterface defines the methods required by any FieldSet class or derivatives
  *
- * @version $Id: FieldSet.interface.php,v 1.4 2003/06/23 19:14:26 gabeschine Exp $
+ * @version $Id: FieldSet.interface.php,v 1.5 2003/06/23 20:42:35 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/
@@ -16,7 +16,7 @@ class FieldSetInterface {
 	 * @access public
 	 * @return mixed the value associated with $key
 	 **/
-	function & get( $key ) {}
+	function & get( $key ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * returns an array of keys
@@ -24,7 +24,7 @@ class FieldSetInterface {
 	 * @access public
 	 * @return array an array of keys that are set
 	 **/
-	function getKeys() {}
+	function getKeys() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * returns the number of fields set
@@ -32,7 +32,7 @@ class FieldSetInterface {
 	 * @access public
 	 * @return int the number of fields
 	 **/
-	function count() {}
+	function count() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * sets the value associated with $key to $val
@@ -42,7 +42,7 @@ class FieldSetInterface {
 	 * @access public
 	 * @return void 
 	 **/
-	function set( $key, $val ) {}
+	function set( $key, $val ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * clears the fieldset
@@ -50,7 +50,7 @@ class FieldSetInterface {
 	 * @access public
 	 * @return void
 	 **/
-	function clear() {}
+	function clear() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * unsets the specified key
@@ -59,7 +59,7 @@ class FieldSetInterface {
 	 * @access public
 	 * @return int the number of fields
 	 **/
-	function unsetKey( $key ) {}
+	function unsetKey( $key ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 }
 
 ?>

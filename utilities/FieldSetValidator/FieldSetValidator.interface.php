@@ -4,7 +4,7 @@
  * the FieldSetValidatorInterface defines the required methods for any FieldSetValidator class
  *
  * @package harmoni.untilities.FieldSetValidator
- * @version $Id: FieldSetValidator.interface.php,v 1.1 2003/06/22 23:06:56 gabeschine Exp $
+ * @version $Id: FieldSetValidator.interface.php,v 1.2 2003/06/23 20:42:35 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -16,7 +16,7 @@ class FieldSetValidatorInterface {
 	 * @access public
 	 * @return boolean if the validation was successful or not
 	 **/
-	function validate( $key ) {}
+	function validate( $key ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * validates all defined keys in the FieldSet against those in the RuleSet
@@ -24,7 +24,7 @@ class FieldSetValidatorInterface {
 	 * @access public
 	 * @return boolean if the validation was successful or not
 	 **/
-	function validateAll() {}
+	function validateAll() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * sets the fieldset object to use to $fieldset
@@ -33,7 +33,7 @@ class FieldSetValidatorInterface {
 	 * @access public
 	 * @return void 
 	 **/
-	function setFieldSet( & $fieldset ) {}
+	function setFieldSet( & $fieldset ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * sets the ruleset object to use to $ruleset
@@ -42,7 +42,7 @@ class FieldSetValidatorInterface {
 	 * @access public
 	 * @return void 
 	 **/
-	function setRuleSet( & $ruleset ) {}
+	function setRuleSet( & $ruleset ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 }
 

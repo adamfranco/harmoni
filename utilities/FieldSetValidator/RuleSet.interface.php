@@ -5,7 +5,7 @@
  * 
  * any RuleSet should let the user define a number of keys with associated rules (one or more) and then let the user check any value against the rules defined for a key
  *
- * @version $Id: RuleSet.interface.php,v 1.3 2003/06/23 13:22:52 gabeschine Exp $
+ * @version $Id: RuleSet.interface.php,v 1.4 2003/06/23 20:42:35 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FIeldSetValidator
  **/
@@ -19,7 +19,7 @@ class RuleSetInterface {
 	 * @access public
 	 * @return void 
 	 **/
-	function addRule( $key, & $rule, & $error ) {}
+	function addRule( $key, & $rule, & $error ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * validates $val against the rules defined for $key. if validation fails the associated error is thrown
@@ -28,7 +28,7 @@ class RuleSetInterface {
 	 * @access public
 	 * @return boolean if the validation succeeded or failed
 	 **/
-	function validate( $key, $val ) {}
+	function validate( $key, $val ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * returns an array of keys
@@ -36,7 +36,7 @@ class RuleSetInterface {
 	 * @access public
 	 * @return array an array of keys that are set
 	 **/
-	function getKeys() {}
+	function getKeys() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
 	/**
 	 * returns the number of keys with rules
@@ -44,7 +44,7 @@ class RuleSetInterface {
 	 * @access public
 	 * @return int the number of keys
 	 **/
-	function count() {}
+	function count() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 }
 
 ?>
