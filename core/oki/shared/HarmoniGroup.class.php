@@ -127,7 +127,7 @@ class HarmoniGroup // :: API interface
 		if ($isGroup && !isset($this->_groups[$idValue]))
 			// add in the object
 		    $this->_groups[$id->getIdString()] =& $memberOrGroup;
-		elseif (!isset($this->_agents[$idValue]))
+		elseif (!$isGroup && !isset($this->_agents[$idValue]))
 			// add in the object
 			$this->_agents[$id->getIdString()] =& $memberOrGroup;
 	}
@@ -311,9 +311,10 @@ class HarmoniGroup // :: API interface
 		else
 			$result = $this->_groups;
 		
-		if ($recursive)
+		if ($recursive) {
 			foreach (array_keys($this->_groups) as $i => $key)
 				$result += $this->_groups[$key]->_getMembers($recursive, $agents);
+		}
 				
 		return $result;
 	}

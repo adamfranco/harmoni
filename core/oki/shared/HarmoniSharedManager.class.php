@@ -37,7 +37,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.40 2004/11/17 20:55:20 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.41 2004/11/18 02:33:17 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -986,8 +986,8 @@ class HarmoniSharedManager
 //		print_r($this->_groupsCache);
 //		print_r($this->_agentsCache);
 //		echo "</pre>\n";
-
-		$this->_allGroupsCached = true;
+		if (!$where)
+			$this->_allGroupsCached = true;
 	}
 	
 	
