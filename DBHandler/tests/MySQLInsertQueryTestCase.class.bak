@@ -8,7 +8,7 @@
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: MySQLInsertQueryTestCase.class.php,v 1.2 2003/06/18 03:16:21 dobomode Exp $
+ * @version $Id: MySQLInsertQueryTestCase.class.bak,v 1.1 2003/06/18 03:17:24 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -85,7 +85,7 @@
 		}
 	
 		/**
-		 * Tests the reset() method and error conditions.
+		 * Tests the reset() method.
 		 */ 
         function test_Reset() {
 			$table = "user";
@@ -99,7 +99,7 @@
 			$this->query->reset();
 
 			$sqlFromObject = $this->query->generateSQLQuery();
-			$this->assertEqual("Exception", $sqlFromObject);
+			$this->assertEqual("", $sqlFromObject);
 			
 			// ------- now test reset with many insert rows
 			
@@ -122,21 +122,7 @@
 			$this->query->reset();
 
 			$sqlFromObject = $this->query->generateSQLQuery();
-			$this->assertEqual("Exception", $sqlFromObject);
-			
-			// ----- test exception when # fields does not match # columns
-			$table = "user";
-			$columns = array("user_id","user_uname","user_fname","user_lname");
-			$values = array("5","'dradichk'","'Dobromir'");
-
-			$this->query->reset();
-			$this->query->setTable($table);
-			$this->query->setColumns($columns);
-			$this->query->addRowOfValues($values);
-
-			$sqlFromObject = $this->query->generateSQLQuery();
-			$this->assertEqual("Exception", $sqlFromObject);
-			
+			$this->assertEqual("", $sqlFromObject);
 		}
 	
     }
