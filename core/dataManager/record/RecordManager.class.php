@@ -7,7 +7,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
 /**
  * The RecordManager handles the creation, tagging and fetching of {@link Record}s from the database.
  * @package harmoni.datamanager
- * @version $Id: RecordManager.class.php,v 1.12 2004/12/18 05:16:21 gabeschine Exp $
+ * @version $Id: RecordManager.class.php,v 1.13 2004/12/27 19:20:37 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -199,6 +199,27 @@ class RecordManager extends ServiceInterface {
 				$this->cacheRecordSet($newSet);
 			}
 		}
+	}
+
+	/**
+	* Pre-loads all of the records which are contained in the RecordSet IDs passed.
+	* This is useful to speed up fetching records for multiple RecordSets
+	* @return void
+	* @param array $IDs An array of RecordSet ids.
+	* @param optional int $fetchMode the fetchmode to get the records (one of RECORD_*).
+	* @access public
+	*/
+	function preCacheRecordsFromRecordSetIDs($ids, $fetchMode=RECORD_CURRENT) {
+		$this->loadRecordSets($ids);
+		$recordIDs = array();
+		foreach ($ids as $id) {
+			$set =& $this->fetchRecordSet($id);
+			$temp = $set->getRecordIDs();
+			$recordIDs = array_merge($temp, $recordIDs);
+		}
+		$recordIDs = array_unique($recordIDs);
+
+		$this->fetchRecords($recordIDs, $fetchMode);
 	}
 	
 	/**
