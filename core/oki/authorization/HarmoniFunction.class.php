@@ -45,6 +45,20 @@ class HarmoniFunction /* :: API interface */
 
 
 	/**
+	 * The index of the database connection as returned by the DBHandler.
+	 * @attribute private integer _dbIndex
+	 */
+	var $_dbIndex;
+	
+	
+	/**
+	 * The name of the table that stores all authorizatoin Functions.
+	 * @attribute private string _table
+	 */
+	var $_table;
+
+
+	/**
 	 * The constructor.
 	 * @param object functionId - is externally defined functionId - is externally defined
 	 * @param string displayName - is externally defined displayName - the name to display for this Function
@@ -54,16 +68,19 @@ class HarmoniFunction /* :: API interface */
 	 * @access public
 	 */
 	function HarmoniFunction($id, $displayName, $description, $functionType, 
-							 $qualifierHierarchyId) {
+							 $qualifierHierarchyId, $dbIndex, $table) {
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
+		ArgumentValidator::validate($table, $stringRule, true);
 		$extendsRule =& new ExtendsRule("HarmoniId");
 		ArgumentValidator::validate($id, $extendsRule, true);
 		ArgumentValidator::validate($qualifierHierarchyId, $extendsRule, true);
 		$extendsRule =& new ExtendsRule("HarmoniType");
 		ArgumentValidator::validate($functionType, $extendsRule, true);
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($dbIndex, $integerRule, true);
 		// ** end of parameter validation
 		
 		$this->_id = $id;
@@ -71,7 +88,9 @@ class HarmoniFunction /* :: API interface */
 		$this->_description = $description;
 		$this->_functionType = $functionType;
 		$this->_qualifierHierarchyId = $qualifierHierarchyId;
-	}	
+		$this->_dbIndex = $dbIndex;
+		$this->_table = $table;
+	}
 		
 	
 	/**
@@ -152,6 +171,8 @@ class HarmoniFunction /* :: API interface */
 		// ** end of parameter validation
 		
 		$this->_displayName = $displayName;
+		// now update the database
+		
 	}
 
 

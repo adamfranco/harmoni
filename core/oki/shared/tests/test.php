@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.2 2004/03/30 23:38:43 dobomode Exp $
+ * @version $Id: test.php,v 1.3 2004/04/01 22:44:14 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003 
  **/
@@ -25,6 +25,7 @@
     $test =& new GroupTest('Shared Tests');
     $test->addTestFile(HARMONI.'/oki/shared/tests/DatabaseIdTestCase.class.php');
     $test->addTestFile(HARMONI.'/oki/shared/tests/SharedManagerTestCase.class.php');
+    $test->addTestFile(HARMONI.'/oki/shared/tests/AgentTestCase.class.php');
 
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();

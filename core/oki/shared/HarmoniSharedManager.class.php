@@ -36,7 +36,7 @@ require_once(HARMONI."oki/shared/HarmoniSharedManagerDataContainer.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.17 $ / $Date: 2004/03/30 23:38:43 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.18 $ / $Date: 2004/04/01 22:44:14 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -50,7 +50,14 @@ class HarmoniSharedManager
 	 * @var integer $_idDBIndex The index of the database from which to pull the ids.
 	 */
 	var $_idDBIndex = 0;
-
+	
+	/**
+	 * An array that will store the cached agent objects.
+	 * @attribute private array _agentsCache
+	 */
+	var $_agentsCache;
+	
+	
 	/**
 	 * Constructor. Set up any database connections needed.
 	 *
@@ -71,9 +78,23 @@ class HarmoniSharedManager
 		$this->_idTable_valueColumn = $dataContainer->get("idTable_valueColumn");
 		$this->_idTable_sequenceName = $dataContainer->get("idTable_sequenceName");
 		
+		$this->_typeTable = $dataContainer->get("typeTable");
+		$this->_typeTable_idColumn = $dataContainer->get("typeTable_idColumn");
+		$this->_typeTable_domainColumn = $dataContainer->get("typeTable_domainColumn");
+		$this->_typeTable_authorityColumn = $dataContainer->get("typeTable_authorityColumn");
+		$this->_typeTable_keywordColumn = $dataContainer->get("typeTable_keywordColumn");
+		$this->_typeTable_descriptionColumn = $dataContainer->get("typeTable_descriptionColumn");
+
 		$this->_agentTable = $dataContainer->get("agentTable");
+		$this->_agentTable_idColumn = $dataContainer->get("agentTable_idColumn");
+		$this->_agentTable_displayNameColumn = $dataContainer->get("agentTable_displayNameColumn");
+		$this->_agentTable_fkTypeColumn = $dataContainer->get("agentTable_fkTypeColumn");
+		
 		$this->_groupTable = $dataContainer->get("groupTable");
 		$this->_agentGroupJoinTable = $dataContainer->get("agentGroupJoinTable");
+		
+		// initialize cache
+		$this->_agentsCache = array();
 	}
 
     /**
@@ -93,7 +114,26 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & createAgent(& $agentType, $name) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("HarmoniType");
+		ArgumentValidator::validate($agentType, $extendsRule, true);
+		ArgumentValidator::validate($name, new StringValidatorRule(), true);
+		// ** end of parameter validation
+		
+		// create a new unique id for the agent
+		$id =& $this->createId();
+		// get the actual id
+		$idValue = $id->getIdString();
+		
+		// now insert the agent in the database
+		// first - insert the type
+		$query =& new InsertQuery();
+		$db = $this->_sharedDB.".";
+		$query->setTable($db.$this->_typeTable);
+		$query->setColumns(array());
+		
+
+		
 	}
 
 	/**
@@ -127,7 +167,56 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getAgent(& $id) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("Id");
+		ArgumentValidator::validate($id, $extendsRule, true);
+		// ** end of parameter validation
+
+		// get the id
+		$idValue = $id->getIdString();
+		
+		// check the cache
+		if (isset($this->_agentsCache[$idValue]))
+			return $this->_agentsCache[$idValue];
+
+			
+		// now just select the agent from the agent table
+		
+		$dbHandler =& Services::requireService("DBHandler");
+		$query =& new SelectQuery();
+		
+		$db = $this->_sharedDB.".";
+		
+		// set the tables
+		$query->addTable($db.$this->_agentTable);
+		$joinc = $db.$this->_agentTable.".".$this->_agentTable_fkTypeColumn." = ".$db.$this->_typeTable.".".$this->_typeTable_idColumn;
+		$query->addTable($db.$this->_typeTable, INNER_JOIN, $joinc);
+		
+		// set the columns to select
+		$query->addColumn($this->_agentTable_displayNameColumn, "display_name", $db.$this->_agentTable);
+		$query->addColumn($this->_typeTable_idColumn, "id", $db.$this->_typeTable);
+		$query->addColumn($this->_typeTable_domainColumn, "domain", $db.$this->_typeTable);
+		$query->addColumn($this->_typeTable_authorityColumn, "authority", $db.$this->_typeTable);
+		$query->addColumn($this->_typeTable_keywordColumn, "keyword", $db.$this->_typeTable);
+		$query->addColumn($this->_typeTable_descriptionColumn, "description", $db.$this->_typeTable);
+
+		// set the where clause
+		$query->setWhere($db.$this->_agentTable.".".$this->_agentTable_idColumn." = '".$idValue."'");
+		
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		if ($queryResult->getNumberOfRows() == 0)
+			throwError(new Error("The agent with Id: ".$idValue." does not exist in the database.","SharedManager",true));
+		if ($queryResult->getNumberOfRows() > 1)
+			throwError(new Error("Multiple agents with Id: ".$idValue." exist in the database." ,"SharedManager",true));
+		
+		$arr = $queryResult->getCurrentRow();
+		$type =& new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
+		$agent =& new HarmoniAgent($arr['display_name'], new HarmoniId($idValue), $type);
+		
+		// set cache
+		$this->_agentsCache[$idValue] =& $agent;
+		
+		return $agent;
 	}
 
 	/**
@@ -286,7 +375,7 @@ class HarmoniSharedManager
 		
 		$newID = $result->getLastAutoIncrementValue();
 		
-		debug::output("Successfully created new id '$newID'",DEBUG_SYS5,"IDManager");
+		debug::output("Successfully created new id '$newID'.",DEBUG_SYS5,"IDManager");
 		
 		return new HarmoniId($newID);
 	}
