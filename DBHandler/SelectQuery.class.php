@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQuery.interface.php");
  * 
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * @version $Id: SelectQuery.class.php,v 1.11 2003/07/08 03:33:46 dobomode Exp $
+ * @version $Id: SelectQuery.class.php,v 1.12 2003/07/09 01:28:25 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -19,7 +19,7 @@ class SelectQuery extends SelectQueryInterface {
 	 * This array stores the tables in the FROM clause of the SELECT query.
 	 *
 	 * This array stores the tables in the FROM clause of the SELECT query along
-	 * with the join types and join conditions.
+	 * with the join types, join conditions, and table alias.
 	 * @var string $_tables The tables in the FROM clause of the SELECT query.
 	 * @see {@link SelectQuery::addTable()}
 	 * @access private
@@ -130,22 +130,24 @@ class SelectQuery extends SelectQueryInterface {
 	 * the following: NO_JOIN, LEFT_JOIN, INNER_JOIN, RIGHT_JOIN.
 	 * @param string $joinCondition If a join is to be performed, then this
 	 * will indicate the join condition.
+	 * @param string alias An alias for this table.
 	 * @use NO_JOIN
 	 * @use LEFT_JOIN
 	 * @use INNER_JOIN
 	 * @use RIGHT_JOIN
 	 * @access public
 	 */
-	function addTable($table, $joinType = NO_JOIN, $joinCondition = "") {
+	function addTable($table, $joinType = NO_JOIN, $joinCondition = "", $alias = "") {
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
 		$integerRule =& new IntegerValidatorRule();
 		ArgumentValidator::validate($table, $stringRule, true);
 		ArgumentValidator::validate($joinType, $integerRule, true);
 		ArgumentValidator::validate($joinCondition, $stringRule, true);
+		ArgumentValidator::validate($alias, $stringRule, true);
 		// ** end of parameter validation
 		
-		$newTable = array($table, $joinType, $joinCondition);
+		$newTable = array($table, $joinType, $joinCondition, $alias);
 		$this->_tables[] = $newTable;
 	}
 
@@ -398,7 +400,7 @@ class SelectQuery extends SelectQueryInterface {
 		$this->_columns = array();
 
 		// no WHERE condition, by default
-		$this->_whereCondition = "";
+		$this->_condition = array();
 
 		// no GROUP BY clause
 		$this->_groupBy = array();

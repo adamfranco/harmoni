@@ -7,7 +7,7 @@ require_once(HARMONI.'authorizationHandler/HierarchicalAuthorizationContext.clas
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchicalAuthorizationContextTestCase.class.php,v 1.2 2003/07/02 01:14:00 dobomode Exp $
+ * @version $Id: HierarchicalAuthorizationContextTestCase.class.php,v 1.3 2003/07/09 01:28:27 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -25,7 +25,7 @@ require_once(HARMONI.'authorizationHandler/HierarchicalAuthorizationContext.clas
 		*    @public
 		*/
 		function setUp() {
-			$this->context =& new HierarchicalAuthorizationContext("segue", "siteunit", 2, array(3, 5, 6), 15);
+			$this->context =& new HierarchicalAuthorizationContext("segue", "siteunit", 2, 15);
 			// perhaps, initialize $obj here
 		}
 		

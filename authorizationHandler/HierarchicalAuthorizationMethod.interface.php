@@ -5,7 +5,7 @@
  * method capable of authorizing an <b>agent</b> performing a <b>function</b> in a given 
  * <b>context</b>.
  * @access public
- * @version $Id: HierarchicalAuthorizationMethod.interface.php,v 1.3 2003/07/04 03:32:34 dobomode Exp $
+ * @version $Id: HierarchicalAuthorizationMethod.interface.php,v 1.4 2003/07/09 01:28:27 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -69,6 +69,17 @@ class HierarchicalAuthorizationMethodInterface {
 	
 		
 		
+	/**
+	 * Clears the authorization method cache. Normally the method caches
+	 * information so that number of queries is minimized. You should call
+	 * this method if permissions or hierarchy structure has changed.
+	 * 
+	 * @method public clearCache
+	 * @return void 
+	 */
+	function clearCache() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
 
 }
 

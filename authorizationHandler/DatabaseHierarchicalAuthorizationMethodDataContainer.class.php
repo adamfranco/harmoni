@@ -7,7 +7,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * to the constructor of a DatabaseHierarchicalAuthorizationMethod object.
  * 
  * @package harmoni.authorizationHandler
- * @version $Id: DatabaseHierarchicalAuthorizationMethodDataContainer.class.php,v 1.1 2003/07/04 03:32:34 dobomode Exp $
+ * @version $Id: DatabaseHierarchicalAuthorizationMethodDataContainer.class.php,v 1.2 2003/07/09 01:28:27 dobomode Exp $
  * @copyright 2003
  */
 
@@ -20,6 +20,9 @@ class DatabaseHierarchicalAuthorizationMethodDataContainer extends DataContainer
 	 * <br>
 	 * <code>dbIndex</code> - the index of the database connection that the
 	 * authorization method will use as returned by the DBHandler service.
+	 * <br>
+	 * <code>primaryKeyColumn</code> - the name of the database table column that stores
+	 * the primary key. The column must be set up to store integers.
 	 * <br>
 	 * <code>agentIdColumn</code> - the name of the database table column that stores
 	 * the agent id. The column must be set up to store integers.
@@ -36,11 +39,6 @@ class DatabaseHierarchicalAuthorizationMethodDataContainer extends DataContainer
 	 * <code>contextDepthColumn</code> - the name of the database table column that stores
 	 * the context hierarchy level. The column must be set up to store integers.
 	 * <br>
-	 * <code>authorized</code> - the name of the database table column that stores
-	 * whether the agent is authorized to perform this function in this context.
-	 * The column must be set up to store integers. <code>0</code> means not
-	 * authorized. Anything else means authorized (though <code>1</code> is
-	 * the recommended value).
 	 * 
      * @see {@link DatabaseHierarchicalAuthorizationMethod}
      * @see {@link DataContainer}
@@ -56,12 +54,12 @@ class DatabaseHierarchicalAuthorizationMethodDataContainer extends DataContainer
 		$stringValidatorRule =& new StringValidatorRule();
 
 		$this->add("dbIndex", new IntegerValidatorRule());
+		$this->add("primaryKeyColumn", new StringValidatorRule());
 		$this->add("agentIdColumn", new StringValidatorRule());
 		$this->add("agentTypeColumn", new StringValidatorRule());
 		$this->add("functionIdColumn", new StringValidatorRule());
 		$this->add("contextIdColumn", new StringValidatorRule());
 		$this->add("contextDepthColumn", new StringValidatorRule());
-		$this->add("authorizedColumn", new StringValidatorRule());
     } 
 } 
 

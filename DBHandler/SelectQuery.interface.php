@@ -71,7 +71,7 @@ require_once("Query.abstract.php");
 /**
  * A SelectQuery interface provides the tools to build an SQL SELECT query.
  *
- * @version $Id: SelectQuery.interface.php,v 1.5 2003/07/08 03:33:46 dobomode Exp $
+ * @version $Id: SelectQuery.interface.php,v 1.6 2003/07/09 01:28:25 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -90,13 +90,14 @@ class SelectQueryInterface extends Query {
 	 * the following: NO_JOIN, LEFT_JOIN, INNER_JOIN, RIGHT_JOIN.
 	 * @param string $joinCondition If a join is to be performed, then this
 	 * will indicate the join condition.
+	 * @param string alias An alias for this table.
 	 * @use NO_JOIN
 	 * @use LEFT_JOIN
 	 * @use INNER_JOIN
 	 * @use RIGHT_JOIN
 	 * @access public
 	 */
-	function addTable($table, $joinType = NO_JOIN, $joinCondition = "") { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function addTable($table, $joinType = NO_JOIN, $joinCondition = "", $alias = "") { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
 	/**
 	 * Sets the columns to select.

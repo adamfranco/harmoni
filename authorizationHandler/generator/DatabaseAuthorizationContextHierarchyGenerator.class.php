@@ -12,7 +12,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * hierarchical information.
  * 
  * @access public
- * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.4 2003/07/08 03:33:47 dobomode Exp $
+ * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.5 2003/07/09 01:28:27 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
@@ -262,6 +262,12 @@ class DatabaseAuthorizationContextHierarchyGenerator
 		
 		if ($dbResult === null) {
 			$str = "Query failed. Possible invalid configuration of the HierarchyGenerator object.";
+		    throw(new Error($str, "AuthorizationHandler", true));
+		}
+
+		if ($dbResult->getNumberOfRows() < 1) {
+			$str = "Query did not return any rows. ";
+			$str .= "Possible invalid configuration of the HierarchyGenerator object.";
 		    throw(new Error($str, "AuthorizationHandler", true));
 		}
 

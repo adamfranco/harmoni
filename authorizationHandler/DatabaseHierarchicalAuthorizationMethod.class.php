@@ -9,7 +9,7 @@ require_once(HARMONI."authorizationHandler/DatabaseHierarchicalAuthorizationMeth
  * The class is capable of authorizing an <b>agent</b> performing a <b>function</b> in a given 
  * <b>context</b>.
  * @access public
- * @version $Id: DatabaseHierarchicalAuthorizationMethod.class.php,v 1.3 2003/07/07 02:27:46 dobomode Exp $
+ * @version $Id: DatabaseHierarchicalAuthorizationMethod.class.php,v 1.4 2003/07/09 01:28:27 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -28,6 +28,12 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 	 */
 	var $_dbIndex;
 	
+	/**
+	 * <code>primaryKeyColumn</code> - the name of the database table column that stores
+	 * the primary key. The column must be set up to store integers.
+	 * @attribute private string _primaryKeyColumn
+	 */
+	var $_primaryKeyColumn;
 
 	/**
 	 * <code>agentIdColumn</code> - the name of the database table column that stores
@@ -35,7 +41,6 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 	 * @attribute private string _agentIdColumn
 	 */
 	var $_agentIdColumn;
-	
 	
 	/**
 	 * <code>agentTypeColumn</code> - the name of the database table column that stores
@@ -65,18 +70,16 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 	 */
 	var $_contextDepthColumn;
 	
-
-	/**
-	 * <code>authorized</code> - the name of the database table column that stores
-	 * whether the agent is authorized to perform this function in this context.
-	 * The column must be set up to store integers. <code>0</code> means not
-	 * authorized. Anything else means authorized (though <code>1</code> is
-	 * the recommended value).
-	 * @attribute private string _authorizedColumn
-	 */
-	var $_authorizedColumn;
 	
-
+	/**
+	 * A properly set up AuthorizationContextHierarchyGeneratorInterface
+	 * object that will be used to generate the context hierarchy. See
+	 * {@link AuthorizationContextHierarchyGeneratorInterface}.
+	 * @attribute private object _hierarchyGenerator
+	 */
+	var $_hierarchyGenerator;
+	
+	
 	/**
 	 * The constructor sets up the authorization method.
 	 * @param object dataContainer This is a DatabaseHierarchicalAuthorizationMethodDataContainer
@@ -100,12 +103,23 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 		
 		// get arguments from data container and put in member variables
 		$this->_dbIndex = $dataContainer->get("dbIndex");
+		$this->_primaryKeyColumn = $dataContainer->get("primaryKeyColumn");
 		$this->_agentIdColumn = $dataContainer->get("agentIdColumn");
 		$this->_agentTypeColumn = $dataContainer->get("agentTypeColumn");
 		$this->_functionIdColumn = $dataContainer->get("functionIdColumn");
 		$this->_contextIdColumn = $dataContainer->get("contextIdColumn");
 		$this->_contextDepthColumn = $dataContainer->get("contextDepthColumn");
-		$this->_authorizedColumn = $dataContainer->get("authorizedColumn");
+		
+		// make sure we are connected to the database
+		Services::requireService("DBHandler", true);
+		$dbHandler =& Services::getService("DBHandler");
+		if (!$dbHandler->isConnected($this->_dbIndex)) {
+			$str = "Cannot initialize the AuthorizationMethod, because ";
+			$str .= "the database connection is inactive";
+			throw(new Error($str, "AuthorizationHandler", true));
+		}
+		
+		$this->_hierarchyGenerator = $hierarchyGenerator;
 	}
 
 
@@ -123,7 +137,74 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 	 * <code>false</code>, otherwise.
 	 */
 	function authorize($agent, $function, $context) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		// ** parameter validation
+		$extendsRule1 =& new ExtendsValidatorRule("AuthorizationAgentInterface");
+		$extendsRule2 =& new ExtendsValidatorRule("AuthorizationFunctionInterface");
+		$extendsRule3 =& new ExtendsValidatorRule("HierarchicalAuthorizationContextInterface");
+		ArgumentValidator::validate($agent, $extendsRule1, true);
+		ArgumentValidator::validate($function, $extendsRule2, true);
+		ArgumentValidator::validate($context, $extendsRule3, true);
+		// ** end of parameter validation
+		
+		// extract fields from objects
+		$agentId = $agent->getSystemId();
+		$agentType = $agent->getType();
+		$functionId = $function->getSystemId();
+		$contextSystem = $context->getSystem();
+		$contextSubsystem = $context->getSubsystem();
+		$contextDepth = $context->getHierarchyLevel();
+		$contextId = $context->getSystemId();
+		
+		// this string will precede every column name
+		$colPrefix = $contextSystem.".".$contextSubsystem.".";
+		
+		// get ancestors of this context
+		$ancestors =& $this->_hierarchyGenerator->getAncestors($contextDepth, $contextId);
+		$ancestors[$contextDepth] = $contextId;
+		$count = count($ancestors);
+		
+		// this boolean will show at the end whether the agent was authorized
+		$authorized = false;
+
+		// construct database query
+		$query =& new SelectQuery();
+		// run one query for each ancestor and the original context
+		for ($depth = 0; $depth < $count; $depth++) {
+			$query->reset();
+			$query->addColumn($colPrefix.$this->_primaryKeyColumn);
+		    $query->addTable($contextSystem.".".$contextSubsystem);
+			$query->addWhere($colPrefix.$this->_agentIdColumn." = ".$agentId);
+			$query->addWhere($colPrefix.$this->_agentTypeColumn." = ".$agentType);
+			$query->addWhere($colPrefix.$this->_functionIdColumn." = ".$functionId);
+			$query->addWhere($colPrefix.$this->_contextDepthColumn." = ".$depth);
+			$query->addWhere($colPrefix.$this->_contextIdColumn." = ".$ancestors[$depth]);
+
+			// run query
+			Services::requireService("DBHandler", true);
+			$dbHandler =& Services::getService("DBHandler");
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			
+			// validate query results
+			if ($queryResult === null) {
+				$str = "Query failed. Possible invalid configuration of the AuthorizationMethod object.";
+			    throw(new Error($str, "AuthorizationHandler", true));
+			}
+			if ($queryResult->getNumberOfRows() > 1) {
+				$str = "Query returned more than one rows. ";
+				$str .= "Possible invalid configuration of the AuthorizationMethod object.";
+			    throw(new Error($str, "AuthorizationHandler", true));
+			}
+			
+			// now see if the agent is authorized (unless they have already been authorized)
+			$authorized = $queryResult->getNumberOfRows() === 1;
+			
+			// if the agent was authorized at an ancestor then they would be authorized
+			// at the given context as well.
+			if ($authorized)
+			    break;
+		}
+
+		return $authorized;
 	}
 	
 	/**
@@ -159,6 +240,20 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
+
+		
+	/**
+	 * Clears the authorization method cache. Normally the method caches
+	 * information so that number of queries is minimized. You should call
+	 * this method if permissions or hierarchy structure has changed.
+	 * 
+	 * @method public clearCache
+	 * @return void 
+	 */
+	function clearCache() {
+		$this->_hierarchyGenerator->clearCache();
+	}
+
 
 }
 

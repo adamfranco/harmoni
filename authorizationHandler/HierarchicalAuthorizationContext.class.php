@@ -39,7 +39,7 @@ require_once(HARMONI."authorizationHandler/HierarchicalAuthorizationContext.inte
  * <b>system -> subsystem -> hierarchy depth -> context system id</b>
  * 
  * @access public
- * @version $Id: HierarchicalAuthorizationContext.class.php,v 1.2 2003/07/01 15:12:06 dobomode Exp $
+ * @version $Id: HierarchicalAuthorizationContext.class.php,v 1.3 2003/07/09 01:28:27 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -99,27 +99,23 @@ class HierarchicalAuthorizationContext extends HierarchicalAuthorizationContextI
 	 * @param string system The system of this context.
 	 * @param string subsystem The subsystem of this context.
 	 * @param integer hierarchyDepth The hierarchy depth of this context.
-	 * @param array ancestorSystemIds The ancestor systems ids of this context.
 	 * @param integer systemId The system id of this context.
 	 * @access public
 	 */
 	function HierarchicalAuthorizationContext($system, $subsystem, $hierarchyDepth,
-											  $ancestorSystemIds, $systemId) {
+											  $systemId) {
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
 		$integerRule =& new IntegerValidatorRule();
-		$integerArrayRule =& new ArrayValidatorRuleWithRule($integerRule);
 		ArgumentValidator::validate($system, $stringRule, true);
 		ArgumentValidator::validate($subsystem, $stringRule, true);
 		ArgumentValidator::validate($hierarchyDepth, $integerRule, true);
-		ArgumentValidator::validate($ancestorSystemIds, $integerArrayRule, true);
 		ArgumentValidator::validate($systemId, $integerRule, true);
 		// ** end of parameter validation
 
 		$this->_system = $system;
 		$this->_subsystem = $subsystem;
 		$this->_hierarchyDepth = $hierarchyDepth;
-		$this->_ancestorSystemIds = $ancestorSystemIds;
 		$this->_systemId = $systemId;
 	}
 

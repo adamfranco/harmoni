@@ -7,7 +7,7 @@ require_once(HARMONI.'authorizationHandler/generator/DatabaseAuthorizationContex
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseAuthorizationContextHierarchyGeneratorTestCase.class.php,v 1.5 2003/07/08 03:33:47 dobomode Exp $
+ * @version $Id: DatabaseAuthorizationContextHierarchyGeneratorTestCase.class.php,v 1.6 2003/07/09 01:28:27 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -259,6 +259,13 @@ require_once(HARMONI.'authorizationHandler/generator/DatabaseAuthorizationContex
 			$this->generator->addContextHierarchyLevel("page", "page_id", "FK_section");
 			$this->generator->addContextHierarchyLevel("story", "story_id", "FK_page");
 			
+			$resultFromGenerator = $this->generator->getAncestors(0, 71);
+			$resultFromDobo = array();
+			
+			$this->assertEqual($resultFromGenerator, $resultFromDobo);
+
+			// ******************
+
 			$resultFromGenerator = $this->generator->getAncestors(3, 678);
 			$resultFromDobo = array();
 			$resultFromDobo[0] = 71;
@@ -293,6 +300,17 @@ require_once(HARMONI.'authorizationHandler/generator/DatabaseAuthorizationContex
 			$resultFromDobo = array();
 			
 			$this->assertEqual($resultFromGenerator, $resultFromDobo);
+
+			// ******************
+
+			$resultFromGenerator = $this->generator->getAncestors(3, 678);
+			$resultFromDobo = array();
+			$resultFromDobo[0] = 71;
+			$resultFromDobo[1] = 252;
+			$resultFromDobo[2] = 814;
+			
+			$this->assertEqual($resultFromGenerator, $resultFromDobo);
+			
 		}
 		
 

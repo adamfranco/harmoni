@@ -7,7 +7,7 @@ require_once(HARMONI.'authorizationHandler/DatabaseHierarchicalAuthorizationMeth
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseHierarchicalAuthorizationMethodTestCase.class.php,v 1.1 2003/07/04 03:32:35 dobomode Exp $
+ * @version $Id: DatabaseHierarchicalAuthorizationMethodTestCase.class.php,v 1.2 2003/07/09 01:28:27 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -42,12 +42,12 @@ require_once(HARMONI.'authorizationHandler/DatabaseHierarchicalAuthorizationMeth
 			// setup data container
 			$dataContainer =& new DatabaseHierarchicalAuthorizationMethodDataContainer();
 			$dataContainer->set("dbIndex", $dbIndex);
+			$dataContainer->set("primaryKeyColumn", "id");
 			$dataContainer->set("agentIdColumn", "agent_id");
 			$dataContainer->set("agentTypeColumn", "agent_type");
 			$dataContainer->set("functionIdColumn", "function_id");
 			$dataContainer->set("contextIdColumn", "context_id");
 			$dataContainer->set("contextDepthColumn", "context_depth");
-			$dataContainer->set("authorizedColumn", "authorized");
 			
 			$this->method =& new DatabaseHierarchicalAuthorizationMethod($dataContainer, 
 																		 $generator);
@@ -59,6 +59,7 @@ require_once(HARMONI.'authorizationHandler/DatabaseHierarchicalAuthorizationMeth
 		 */
 		function tearDown() {
 			// perhaps, unset $obj here
+			unset($this->method);
 		}
 		
 	
@@ -72,11 +73,62 @@ require_once(HARMONI.'authorizationHandler/DatabaseHierarchicalAuthorizationMeth
 		
 	
 		/**
-		 *    Test no hierarchy.
+		 *    Test simple authorize.
 		 */ 
-		function test_No_Hierarchy() {
+		function test_Simple_Authorize() {
+			// create the agent objects
+			$agent =& new AuthorizationAgent(1, "dobo", "1");
+			
+			// create function objects
+			$function1 =& new AuthorizationFunction(1, "function name doesn't matter");
+			$function2 =& new AuthorizationFunction(2, "function name doesn't matter");
+			
+			// create context objects
+			$context1 =& new HierarchicalAuthorizationContext("harmoniTest", "permission", 0, 1);
+			$context2 =& new HierarchicalAuthorizationContext("harmoniTest", "permission", 0, 300);
+			$context3 =& new HierarchicalAuthorizationContext("harmoniTest", "permission", 1, 1152);
+			$context4 =& new HierarchicalAuthorizationContext("harmoniTest", "permission", 2, 3532);
+			$context5 =& new HierarchicalAuthorizationContext("harmoniTest", "permission", 3, 4107);
+			
+			$authorized = $this->method->authorize($agent, $function1, $context1);
+			$this->assertTrue($authorized);
+			
+			$authorized = $this->method->authorize($agent, $function2, $context1);
+			$this->assertFalse($authorized);
+			
+			$authorized = $this->method->authorize($agent, $function1, $context2);
+			$this->assertTrue($authorized);
+			
+			$authorized = $this->method->authorize($agent, $function1, $context3);
+			$this->assertTrue($authorized);
+			
+			$authorized = $this->method->authorize($agent, $function1, $context4);
+			$this->assertTrue($authorized);
+			
+			$authorized = $this->method->authorize($agent, $function1, $context5);
+			$this->assertTrue($authorized);
+			
+			// clear the cache and try the same queries in reversed order
+			$this->method->clearCache();
+			
+			$authorized = $this->method->authorize($agent, $function1, $context5);
+			$this->assertTrue($authorized);
+			
+			$authorized = $this->method->authorize($agent, $function1, $context4);
+			$this->assertTrue($authorized);
+			
+			$authorized = $this->method->authorize($agent, $function1, $context3);
+			$this->assertTrue($authorized);
+			
+			$authorized = $this->method->authorize($agent, $function1, $context2);
+			$this->assertTrue($authorized);
+			
+			$authorized = $this->method->authorize($agent, $function2, $context1);
+			$this->assertFalse($authorized);
+			
+			$authorized = $this->method->authorize($agent, $function1, $context1);
+			$this->assertTrue($authorized);
 		}
-		
     }
 
 ?>
