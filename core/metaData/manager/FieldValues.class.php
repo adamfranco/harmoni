@@ -6,7 +6,7 @@ require_once HARMONI."metaData/manager/ValueVersions.classes.php";
  * Holds a number of indexes for values within a specific field within a DataSet. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: FieldValues.class.php,v 1.19 2004/01/27 21:48:01 adamfranco Exp $
+ * @version $Id: FieldValues.class.php,v 1.20 2004/01/29 20:46:56 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -328,6 +328,20 @@ class FieldValues {
 	function getFieldDefinition() {
 		return $this->_fieldDefinition;
 	}
+
+	/**
+	 * Returns the id this FieldValues object.
+	 * @return ref object Id The id of this FieldValues object.
+	 */
+	function getId() {
+		if (!$this->_id) {
+			$sharedManager =& Services::getService("Shared");
+			$idString = $this->_parent->getID()."::".$this->_myLabel;
+			$this->_id =& $sharedManager->getId($idString);
+		}
+		return $this->_id;
+	}
+	
 }
 
 ?>
