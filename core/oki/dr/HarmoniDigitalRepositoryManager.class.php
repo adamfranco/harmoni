@@ -90,7 +90,6 @@ class HarmoniDigitalRepositoryManager
 		$node =& $this->_hierarchy->createRootNode($newId, $digitalRepositoryType, $displayName, $description);
 		
 		$this->_createdDRs[$newId->getIdString()] =& new HarmoniDigitalRepository ($this->_hierarchy, $newId, $this->_configuration);
-		$this->_createdDRs[$newId->getIdString()]->save();
 		return  $this->_createdDRs[$newId->getIdString()];
 	}
 
@@ -121,9 +120,6 @@ class HarmoniDigitalRepositoryManager
 		
 		// Delete the node for the DR
 		$this->_hierarchy->deleteNode($digitalRepositoryId);
-		
-		// Save
-		$this->save();
 		
 		unset($this->_createdDRs[$digitalRepositoryId->getIdString()]);
 	}
@@ -413,28 +409,6 @@ class HarmoniDigitalRepositoryManager
 		}
 		return new HarmoniTypeIterator($types);
 	}
-
-	/**
-	 * Saves this object to persistable storage.
-	 * @access protected
-	 */
-	function save () {
-		// Save the Hierarchy
-		$this->_hierarchy->save();
-		
-		// Save the Data
-		foreach ($this->_createdDRs as $key => $dr) {
-			$this->_createdDRs[$key]->save();
-		}
-	}
-	 
-	/**
-	 * Loads this object from persistable storage.
-	 * @access protected
-	 */
-	function load () {
-		
-	}	
 
 	/**
 	 * The start function is called when a service is created. Services may

@@ -168,8 +168,6 @@ class HarmoniDigitalRepository
 		
 		// Delete this asset from the createdAssets cache
 		unset($this->_createdAssets[$assetId->getIdString()]);
-		
-		$this->save();
 	}
 
 	/**
@@ -502,18 +500,6 @@ class HarmoniDigitalRepository
 		$this->_createdInfoStructures[$dataSetTypeDef->getID()] =& new HarmoniInfoStructure(
 																$dataSetTypeDef);
 		return $this->_createdInfoStructures[$dataSetTypeDef->getID()];
-	}
-
-	/**
-	 * Saves this object to persistable storage.
-	 * @access protected
-	 */
-	function save () {
-		// Save the Hierarchy
-		$this->_node->save();
-		
-		// Save the dataManager
-		//@todo
 	}
 
 	/**

@@ -994,10 +994,7 @@ class HarmoniAsset
 	 * Saves this object to persistable storage.
 	 * @access protected
 	 */
-	function save () {
-		// Save the Hierarchy
-		$this->_node->save();
-		
+	function save () {		
 		// Save the dataManager
 		$dataSetMgr =& Services::getService("DataSetManager");
 		$nodeId =& $this->_node->getId();
