@@ -6,7 +6,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  *
- * @version $Id: MySQL_SQLGenerator.class.php,v 1.2 2004/01/07 22:10:53 adamfranco Exp $
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.3 2004/03/30 23:36:46 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -98,9 +98,17 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	
 		$sql .= "INSERT INTO ";
 		$sql .= $query->_table;
-		if ($query->_columns) {
+		if ($query->_columns || $query->_autoIncrementColumn) {
 			$sql .= "\n\t(";
-			$sql .= implode(", ", $query->_columns);
+			
+			$columns = $query->_columns;
+			
+			// include autoincrement column if necessary
+			if ($query->_autoIncrementColumn)
+				$columns[] = $query->_autoIncrementColumn;
+				
+		    $sql .= implode(", ", $columns);
+
 			$sql .= ")";
 		}
 		
@@ -115,6 +123,11 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 				throwError(new Error($description, "DBHandler", true));
 				return null;
 			}
+			
+			// include autoincrement column if necessary
+			if ($query->_autoIncrementColumn)
+				$rowOfValues[] = "''";
+			
 			$allRows[] = implode(", ", $rowOfValues);
 		}
 
