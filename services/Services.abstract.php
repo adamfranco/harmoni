@@ -13,7 +13,7 @@ $__services__ = NULL;				// above defined variable must be set to NULL
 /**
  * The ServicesAbstract class defines the public static methods used by users.
  * The ServicesAbstract class defines the public static methods used by users.
- * @version $Id: Services.abstract.php,v 1.4 2003/06/26 15:44:08 gabeschine Exp $
+ * @version $Id: Services.abstract.php,v 1.5 2003/06/26 15:57:47 dobomode Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -128,18 +128,18 @@ class ServicesAbstract
 		$error = false;
 		if (!Services::serviceAvailable($service)) {
 			$error = true;
-		} else if ($start && !Service::serviceRunning($service) && !Services::startService($service)) {
+		} else if ($start && !Services::serviceRunning($service) && !Services::startService($service)) {
 			$error = true;
 		}
 		
-		if (($error) {
+		if ($error) {
 			$debug = debug_backtrace();
 			$str = "<B>FATAL ERROR</b><BR><BR>";
-			$str .= "A required Service ('$service') ";
+			$str .= "A required Service <b>\"$service\"</b> ";
 			$str .= ($start)? "could not be started":"is not available";
 			$str .= ".<br><br>\n";
 			$str .= "<b>Debug backtrace:</b>\n";
-			$str = "<pre>\n";
+			$str .= "<pre>\n";
 			$str .= print_r($debug, true);
 			$str .= "\n</pre>\n";
 			die($str);
