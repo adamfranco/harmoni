@@ -8,7 +8,7 @@ require_once(HARMONI."authenticationHandler/methods/inc.php");
  * The AuthenticationHandler keeps track of multiple AuthenticationMethods for 
  * authenticating agents.
  * 
- * @version $Id: AuthenticationHandler.class.php,v 1.6 2003/06/27 13:51:38 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.7 2003/06/27 15:08:47 dobomode Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -207,6 +207,29 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 		// if not, unset the method from the array
 		unset($this->_methods[$name]);
 	}
+
+
+	/**
+	 * The start function is called when a service is created. Services may
+	 * want to do pre-processing setup before any users are allowed access to
+	 * them.
+	 * @access public
+	 * @return void
+	 **/
+	function start() {
+	}
+	
+	/**
+	 * The stop function is called when a Harmoni service object is being destroyed.
+	 * Services may want to do post-processing such as content output or committing
+	 * changes to a database, etc.
+	 * @access public
+	 * @return void
+	 **/
+	function stop() {
+	}
+	
+
 }
 	
 ?>

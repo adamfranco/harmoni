@@ -14,7 +14,7 @@ require_once(HARMONI.'utilities/Queue.class.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.4 2003/06/27 01:19:58 dobomode Exp $
+ * @version $Id: DBHandler.class.php,v 1.5 2003/06/27 15:08:46 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  * @access public
@@ -292,6 +292,28 @@ class DBHandler extends DBHandlerInterface {
 
 		return $isConnected;
 	}
+
+
+	/**
+	 * The start function is called when a service is created. Services may
+	 * want to do pre-processing setup before any users are allowed access to
+	 * them.
+	 * @access public
+	 * @return void
+	 **/
+	function start() {
+	}
+	
+	/**
+	 * The stop function is called when a Harmoni service object is being destroyed.
+	 * Services may want to do post-processing such as content output or committing
+	 * changes to a database, etc.
+	 * @access public
+	 * @return void
+	 **/
+	function stop() {
+	}
+	
 	
 }
 ?>

@@ -6,7 +6,7 @@ require_once(HARMONI."debugHandler/DebugHandler.interface.php");
 /**
  * The DebugHandler keeps track of multiple DebugItems.
  *
- * @version $Id: DebugHandler.class.php,v 1.3 2003/06/25 14:34:23 dobomode Exp $
+ * @version $Id: DebugHandler.class.php,v 1.4 2003/06/27 15:08:47 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugHandler
  **/
@@ -82,6 +82,29 @@ class DebugHandler extends DebugHandlerInterface {
 		}
 		return $array;
 	}
+
+
+
+	/**
+	 * The start function is called when a service is created. Services may
+	 * want to do pre-processing setup before any users are allowed access to
+	 * them.
+	 * @access public
+	 * @return void
+	 **/
+	function start() {
+	}
+	
+	/**
+	 * The stop function is called when a Harmoni service object is being destroyed.
+	 * Services may want to do post-processing such as content output or committing
+	 * changes to a database, etc.
+	 * @access public
+	 * @return void
+	 **/
+	function stop() {
+	}
+	
 }
 
 ?>

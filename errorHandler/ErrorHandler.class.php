@@ -7,7 +7,7 @@ require_once(HARMONI."errorHandler/ErrorPrinterBasic.class.php");
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.14 2003/06/27 12:35:18 gabeschine Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.15 2003/06/27 15:08:47 dobomode Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */
@@ -136,5 +136,27 @@ class ErrorHandler extends ErrorHandlerInterface{
 			$printer->printErrors($this->_errorQueue, $detailLevel);
 		}
 	}
+
+	/**
+	 * The start function is called when a service is created. Services may
+	 * want to do pre-processing setup before any users are allowed access to
+	 * them.
+	 * @access public
+	 * @return void
+	 **/
+	function start() {
+	}
+	
+	/**
+	 * The stop function is called when a Harmoni service object is being destroyed.
+	 * Services may want to do post-processing such as content output or committing
+	 * changes to a database, etc.
+	 * @access public
+	 * @return void
+	 **/
+	function stop() {
+	}
+	
+
 }
 ?>
