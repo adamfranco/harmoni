@@ -15,7 +15,7 @@ require_once(OKI."/hierarchy/hierarchyAPI.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.5 $ / $Date: 2003/10/03 14:25:02 $
+ * @version $Revision: 1.6 $ / $Date: 2003/10/03 15:43:14 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -101,12 +101,12 @@ class HarmoniHierarchy
      * @param String description  Description cannot be null but may be empty.
      *
      * @throws HierarchyException if there is a general failure.     Throws an
-     *         exception with the message osid.OsidException.NULL_ARGUMENT if
-     *         description is null.
-     *
+	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
+	 *		   description is null.
+	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-    function updateDescription(& $description) {
+	function updateDescription(& $description) {
 		// Check the arguments
 		ArgumentValidator::validate($description, new StringValidatorRule);
 				
@@ -115,24 +115,24 @@ class HarmoniHierarchy
 		$this->save();
 	}
 
-    /**
-     * Create a root Node with root status. The Node is created with the
-     * specified unique Id, and, unlike Nodes created with createNode,
-     * initially has no parents or children.
-     *
-     * @param osid.shared.Id nodeId nodeId The unique Id to be associated with
-     *        the new Node; unique Id cannot be null.
-     * @param osid.shared.Type nodeType type The Type of the new Node; type may
-     *        be null if the node has no type.
-     * @param String displayName name The displayName of the new Node;
-     *        displayName cannot be null, but may be empty.
-     * @param String description The description of the new Node; description
-     *        cannot be null, but may be empty. new Node with root status.
-     *
-     * @throws HierarchyException if there is a general failure.     Thows an
-     *         exception with the message osid.OsidException.NULL_ARGUMENT if
-     *         id, displayName, or description is null.
-     *
+	/**
+	 * Create a root Node with root status. The Node is created with the
+	 * specified unique Id, and, unlike Nodes created with createNode,
+	 * initially has no parents or children.
+	 *
+	 * @param osid.shared.Id nodeId nodeId The unique Id to be associated with
+	 *		  the new Node; unique Id cannot be null.
+	 * @param osid.shared.Type nodeType type The Type of the new Node; type may
+	 *		  be null if the node has no type.
+	 * @param String displayName name The displayName of the new Node;
+	 *		  displayName cannot be null, but may be empty.
+	 * @param String description The description of the new Node; description
+	 *		  cannot be null, but may be empty. new Node with root status.
+	 *
+	 * @throws HierarchyException if there is a general failure.     Thows an
+	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
+	 *		   id, displayName, or description is null.
+	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & createRootNode(& $nodeId, & $type, $displayName, $description) {
@@ -140,27 +140,27 @@ class HarmoniHierarchy
 		return createNode($nodeId, $nodeId, $type, $displayName, $description);
 	}
 
-    /**
-     * Create a Node. The Node is created with the specified unique Id and
-     * initially has only the one specified parent.
-     *
-     * @param osid.shared.Id nodeId nodeId The unique Id to be associated with
-     *        the new Node; unique Id cannot be null.
-     * @param osid.shared.Id parentId nodeId The unique Id to be associated
-     *        with the parent of this new Node; unique Id cannot be null.
-     * @param osid.shared.Type nodeType type The Type of the new Node; type may
-     *        be null if the node has no type.
-     * @param String displayName name The displayName of the new Node;
-     *        displayName cannot be null, but may be empty.
-     * @param String description The description of the new Node; description
-     *        cannot be null, but may be empty. new Node.
-     *
-     * @throws HierarchyException if there is a general failure.     Throws an
-     *         exception with the message
-     *         HierarchyException.ATTEMPTED_RECURSION if the Hierarchy was
-     *         created with allowsRecurion false and recursive node link is
-     *         attempted.
-     *
+	/**
+	 * Create a Node. The Node is created with the specified unique Id and
+	 * initially has only the one specified parent.
+	 *
+	 * @param osid.shared.Id nodeId nodeId The unique Id to be associated with
+	 *		  the new Node; unique Id cannot be null.
+	 * @param osid.shared.Id parentId nodeId The unique Id to be associated
+	 *		  with the parent of this new Node; unique Id cannot be null.
+	 * @param osid.shared.Type nodeType type The Type of the new Node; type may
+	 *		  be null if the node has no type.
+	 * @param String displayName name The displayName of the new Node;
+	 *		  displayName cannot be null, but may be empty.
+	 * @param String description The description of the new Node; description
+	 *		  cannot be null, but may be empty. new Node.
+	 *
+	 * @throws HierarchyException if there is a general failure.     Throws an
+	 *		   exception with the message
+	 *		   HierarchyException.ATTEMPTED_RECURSION if the Hierarchy was
+	 *		   created with allowsRecurion false and recursive node link is
+	 *		   attempted.
+	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & createNode(& $nodeId, & $parentId, & $type, $displayName, $description) {
@@ -183,7 +183,8 @@ class HarmoniHierarchy
 				throwError(new Error(UNKNOWN_PARENT_NODE, "Hierarchy", 1));
 		}
 		
-		$node =& new HaromoniNode($this->_tree, $type, $displayName, $description);
+		$node =& new HaromoniNode($nodeId, $this->_tree, $type, $displayName, $description);
+		// @todo check that object references are being passed properly.
 		$treeNodeId = $this->_tree->addNode($node, $parentIdString);
 		
 		// Store the updated tree
@@ -192,17 +193,17 @@ class HarmoniHierarchy
 		return $node;
 	}
 
-    /**
-     * Delete a Node by Id.  Only leaf Nodes can be deleted.
-     *
-     * @param osid.shared.Id nodeId
-     *
-     * @throws HierarchyException if there is a general failure.     Throws an
-     *         exception with the message HierarchyException.UNKNOWN_NODE if
-     *         there is no Node mathching nodeId.  Throws an exception with
-     *         the message HierarchyException.INCONSISTENT_STATE if nodeId is
-     *         not a leaf.
-     *
+	/**
+	 * Delete a Node by Id.  Only leaf Nodes can be deleted.
+	 *
+	 * @param osid.shared.Id nodeId
+	 *
+	 * @throws HierarchyException if there is a general failure.     Throws an
+	 *		   exception with the message HierarchyException.UNKNOWN_NODE if
+	 *		   there is no Node mathching nodeId.  Throws an exception with
+	 *		   the message HierarchyException.INCONSISTENT_STATE if nodeId is
+	 *		   not a leaf.
+	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function deleteNode(& $nodeId) {
@@ -226,54 +227,54 @@ class HarmoniHierarchy
 		$this->save();
 	}
 
-    /**
-     * Add a NodeType to this Hierarchy.
-     *
-     * @param osid.shared.Type nodeType
-     *
-     * @throws HierarchyException if there is a general failure.     Throws an
-     *         exception with the message osid.OsidException.NULL_ARGUMENT if
-     *         nodeType is null.  Throws and exception with the message
-     *         HierarchyException.ALREADY_ADDED if the nodeType was already
-     *         added.
-     *
+	/**
+	 * Add a NodeType to this Hierarchy.
+	 *
+	 * @param osid.shared.Type nodeType
+	 *
+	 * @throws HierarchyException if there is a general failure.     Throws an
+	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
+	 *		   nodeType is null.  Throws and exception with the message
+	 *		   HierarchyException.ALREADY_ADDED if the nodeType was already
+	 *		   added.
+	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function addNodeType(& $type) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-    /**
-     * Remove a NodeType from this Hierarchy.  Note that no Nodes can have this
-     * NodeType.
-     *
-     * @param osid.shared.Type nodeType
-     *
-     * @throws HierarchyException if there is a general failure.     Throws an
-     *         exception with the message osid.OsidException.NULL_ARGUMENT if
-     *         nodeType is null.  Throws an exception with the message
-     *         HierarchyException.NODE_TYPE_IN_USE if the nodeType is
-     *         referenced by a Node.  Throws an exception with the message
-     *         HierarchyException.NODE_TYPE_NOT_FOUND if the nodeType was not
-     *         found.
-     *
+	/**
+	 * Remove a NodeType from this Hierarchy.  Note that no Nodes can have this
+	 * NodeType.
+	 *
+	 * @param osid.shared.Type nodeType
+	 *
+	 * @throws HierarchyException if there is a general failure.     Throws an
+	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
+	 *		   nodeType is null.  Throws an exception with the message
+	 *		   HierarchyException.NODE_TYPE_IN_USE if the nodeType is
+	 *		   referenced by a Node.  Throws an exception with the message
+	 *		   HierarchyException.NODE_TYPE_NOT_FOUND if the nodeType was not
+	 *		   found.
+	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function removeNodeType(& $type) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-    /**
-     * Get all the Nodes in this Hierarchy.
-     *
-     * @return NodeIterator  Iterators return a set, one at a time.  The
-     *         Iterator's hasNext method returns true if there are additional
-     *         objects available; false otherwise.  The Iterator's next method
-     *         returns the next object.  The order of the objects returned by
-     *         the Iterator is not guaranteed.
-     *
-     * @throws HierarchyException if there is a general failure.
-     *
+	/**
+	 * Get all the Nodes in this Hierarchy.
+	 *
+	 * @return NodeIterator  Iterators return a set, one at a time.  The
+	 *		   Iterator's hasNext method returns true if there are additional
+	 *		   objects available; false otherwise.  The Iterator's next method
+	 *		   returns the next object.  The order of the objects returned by
+	 *		   the Iterator is not guaranteed.
+	 *
+	 * @throws HierarchyException if there is a general failure.
+	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getAllNodes() {
@@ -298,18 +299,18 @@ class HarmoniHierarchy
 		return $nodeIterator;
 	}
 
-    /**
-     * Get the root Nodes in this Hierarchy.  The root Nodes are defined as all
-     * Nodes without parents.
-     *
-     * @return NodeIterator  Iterators return a set, one at a time.  The
-     *         Iterator's hasNext method returns true if there are additional
-     *         objects available; false otherwise.  The Iterator's next method
-     *         returns the next object.  The order of the objects returned by
-     *         the Iterator is not guaranteed.
-     *
-     * @throws HierarchyException if there is a general failure.
-     *
+	/**
+	 * Get the root Nodes in this Hierarchy.  The root Nodes are defined as all
+	 * Nodes without parents.
+	 *
+	 * @return NodeIterator  Iterators return a set, one at a time.  The
+	 *		   Iterator's hasNext method returns true if there are additional
+	 *		   objects available; false otherwise.  The Iterator's next method
+	 *		   returns the next object.  The order of the objects returned by
+	 *		   the Iterator is not guaranteed.
+	 *
+	 * @throws HierarchyException if there is a general failure.
+	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getRootNodes() {
@@ -333,15 +334,15 @@ class HarmoniHierarchy
 		return $nodeIterator;
 	}
 
-    /**
-     * Get a Node by unique Id.
-     *
-     * @return Node
-     *
-     * @throws HierarchyException if there is a general failure.     Throws an
-     *         exception with the message HierarchyException.UNKNOWN_NODE if
-     *         there is no Node matching nodeId.
-     *
+	/**
+	 * Get a Node by unique Id.
+	 *
+	 * @return Node
+	 *
+	 * @throws HierarchyException if there is a general failure.     Throws an
+	 * 		 exception with the message HierarchyException.UNKNOWN_NODE if
+	 *		   there is no Node matching nodeId.
+	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getNode(& $nodeId) {
@@ -359,76 +360,76 @@ class HarmoniHierarchy
 		return $node;
 	}
 
-    /**
-     * Get all NodeTypes used in this Hierarchy.
-     *
-     * @return osid.shared.TypeIterator Iterators return a set, one at a time.
-     *         The Iterator's hasNext method returns true if there are
-     *         additional objects available; false otherwise.  The Iterator's
-     *         next method returns the next object.  The order of the objects
-     *         returned by the Iterator is not guaranteed.
-     *
-     * @throws HierarchyException if there is a general failure.
-     *
+	/**
+	 * Get all NodeTypes used in this Hierarchy.
+	 *
+	 * @return osid.shared.TypeIterator Iterators return a set, one at a time.
+	 *		   The Iterator's hasNext method returns true if there are
+	 *		   additional objects available; false otherwise.  The Iterator's
+	 *		   next method returns the next object.  The order of the objects
+	 *		   returned by the Iterator is not guaranteed.
+	 *
+	 * @throws HierarchyException if there is a general failure.
+	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getNodeTypes() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
-    /**
-     * Returns true if multiple parents are allowed; false otherwise.
-     *
-     * @return boolean
-     *
-     * @throws HierarchyException if there is a general failure.
-     *
+	/**
+	 * Returns true if multiple parents are allowed; false otherwise.
+	 *
+	 * @return boolean
+	 *
+	 * @throws HierarchyException if there is a general failure.
+	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function allowsMultipleParents() {
 		return false;
 	}
 
-    /**
-     * Returns true if recursion allowed; false otherwise.
-     *
-     * @return boolean
-     *
-     * @throws HierarchyException if there is a general failure.
-     *
+	/**
+	 * Returns true if recursion allowed; false otherwise.
+	 *
+	 * @return boolean
+	 *
+	 * @throws HierarchyException if there is a general failure.
+	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function allowsRecursion() {
 		return false;
 	}
 
-    /**
-     * Traverse a Hierarchy returning information about each Node encountered.
-     *
-     * @param osid.shared.Id startId the unique Id of the node from which
-     *        traversal shoudl start.
-     * @param int mode must be either TRAVERSE_MODE_DEPTH_FIRST or
-     *        TRAVERSE_MODE_BREADTH_FIRST, indicating either depth-first or
-     *        breadth-first traversal, respectively
-     * @param int direction must be either TRAVERSE_DIRECTION_UP or
-     *        TRAVERSE_DIRECTION_DOWN, indicating the whether the traversal
-     *        should proceed up the parents or down the children.
-     * @param int levels the number of levels to traverse.  If this value is
-     *        &lt; 0 (or TRAVERSE_LEVELS_INFINITE, which equals -1), the
-     *        traversal will proceed to the end of the Hierarchy or until a
-     *        circular reference returns to a Node already traversed.
-     *
-     * @return TraversalInfoIterator where each TraversalInfo object contains
-     *         information about the Node traversed in the order they were
-     *         encountered.
-     *
-     * @throws HierarchyException if there is a general failure.     Throws an
-     *         exception with the message UNKNOWN_NODE if startId is unknown;
-     *         the message UNKNOWN_TRAVERSAL_MODE, if the mode is neither
-     *         depth- nor breath-first; and the message
-     *         UNKNOWN_TRAVERSAL_DIRECTION if the direction is neither up nor
-     *         down.
-     *
+	/**
+	 * Traverse a Hierarchy returning information about each Node encountered.
+	 *
+	 * @param osid.shared.Id startId the unique Id of the node from which
+	 *		  traversal shoudl start.
+	 * @param int mode must be either TRAVERSE_MODE_DEPTH_FIRST or
+	 *		  TRAVERSE_MODE_BREADTH_FIRST, indicating either depth-first or
+	 *		  breadth-first traversal, respectively
+	 * @param int direction must be either TRAVERSE_DIRECTION_UP or
+	 *		  TRAVERSE_DIRECTION_DOWN, indicating the whether the traversal
+	 *		  should proceed up the parents or down the children.
+	 * @param int levels the number of levels to traverse.  If this value is
+	 *		  &lt; 0 (or TRAVERSE_LEVELS_INFINITE, which equals -1), the
+	 *		  traversal will proceed to the end of the Hierarchy or until a
+	 *		  circular reference returns to a Node already traversed.
+	 *
+	 * @return TraversalInfoIterator where each TraversalInfo object contains
+	 *		   information about the Node traversed in the order they were
+	 *		   encountered.
+	 *
+	 * @throws HierarchyException if there is a general failure.	 Throws an
+	 *		   exception with the message UNKNOWN_NODE if startId is unknown;
+	 *		   the message UNKNOWN_TRAVERSAL_MODE, if the mode is neither
+	 *		   depth- nor breath-first; and the message
+	 *		   UNKNOWN_TRAVERSAL_DIRECTION if the direction is neither up nor
+	 *		   down.
+	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & traverse(& $startId, $mode, $direction, $levels) {
