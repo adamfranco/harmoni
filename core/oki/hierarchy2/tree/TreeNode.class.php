@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(HARMONI."oki/hierarchy2/tree/TreeNode.interface.php");
 
@@ -6,7 +6,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.interface.php");
  * This is the building piece of the Tree data structure used for the backbone of the
  * hierarchy.
  * @access public
- * @version $Id: TreeNode.class.php,v 1.3 2004/05/20 19:50:20 adamfranco Exp $
+ * @version $Id: TreeNode.class.php,v 1.4 2004/06/01 00:05:58 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -18,7 +18,7 @@ class TreeNode extends TreeNodeInterface
 
 	/**
 	 * The id (string representation) for this node.
-	 * @attribute protected string Id $_id 
+	 * @attribute protected string _id 
 	 */
 	var $_id;
 	
@@ -62,7 +62,7 @@ class TreeNode extends TreeNodeInterface
 	/**
 	 * Returns true if this TreeNode is among the children of the given node.
 	 * @access public
-	 * @param object node The node to start recursing from.
+	 * @param objcet node The node to start recursing from.
 	 * @return boolean True, if this TreeNode is among the children of <code>$node</code>.
 	 **/
 	function _checkForCycle(& $node) {
@@ -218,6 +218,9 @@ class TreeNode extends TreeNodeInterface
 	 * @return boolean <code>true</code> if <code>$node</code> is a child of this node.
 	 **/
 	function isChild(& $node) {
+		$extendsRule =& new ExtendsValidatorRule("TreeNodeInterface");
+		ArgumentValidator::validate($node, $extendsRule, true);
+
 		if (!isset($this->_children[$node->_id]))
 		    return false;
 
@@ -226,11 +229,30 @@ class TreeNode extends TreeNodeInterface
 
 
 	/**
+	 * Checks if the given node is a parent of this node.
+	 * @access public
+	 * @param ref object node The child node to check.
+	 * @return boolean <code>true</code> if <code>$node</code> is a parent of this node.
+	 **/
+	function isParent(& $node) {
+		$extendsRule =& new ExtendsValidatorRule("TreeNodeInterface");
+		ArgumentValidator::validate($node, $extendsRule, true);
+
+		if (!isset($this->_parents[$node->_id]))
+		    return false;
+
+		return ($this->_parents[$node->_id]->_id === $node->_id);
+	}
+
+	
+	/**
 	 * Returns the id of this node.
 	 * @method public getId
-	 * @return integer The id of this node.
+	 * @return string The id of this node.
 	 */
 	function getId() {
 		return $this->_id;
 	}
 }
+
+?>

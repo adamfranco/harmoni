@@ -6,7 +6,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
 /** 
  * The Tree data structure used by the Hierarchy.
  * @access public
- * @version $Id: Tree.class.php,v 1.2 2004/05/12 22:31:48 dobomode Exp $
+ * @version $Id: Tree.class.php,v 1.3 2004/06/01 00:05:58 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -95,6 +95,30 @@ class Tree extends TreeInterface {
 		}
 	}
 
+	
+	/**
+	 * Delete the node from the tree. This can only be done if the node has no
+	 * parents and no children.
+	 * @access public
+	 * @param object node The node to delete.
+	 * @return void
+	 **/
+	function deleteNode(& $node) {
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("TreeNode");
+		ArgumentValidator::validate($node, $extendsRule, true);
+		// ** end of parameter validation
+		
+		if (($node->getParentsCount() != 0) || ($node->getChildrenCount() != 0)) {
+				$str = "Cannot delete a node that has parents or children.";
+				throwError(new Error($str, "Hierarchy", true));
+		}
+		
+		// now delete it
+		unset($this->_nodes[$node->_id]);
+		$node = null;
+	}
+	
 
 
 	/**
@@ -174,6 +198,10 @@ class Tree extends TreeInterface {
 	 * then the recursion will go on until the last level is processed.
 	 * @return ref array An array of all nodes in the tree visited in a pre-order
 	 * manner. The keys of the array correspond to the nodes' ids.
+	 * Each element of the array is another array of two elements, the first
+	 * being the node itself, and the second being the depth of the node relative
+	 * to the starting node. Descendants are assigned increasingly positive levels; 
+	 * ancestors increasingly negative levels. 
 	 */
 	function & traverse(& $node, $down, $levels) {
 		// ** parameter validation
@@ -190,7 +218,7 @@ class Tree extends TreeInterface {
 
 		$result = array();
 
-		$this->_traverse($result, $node, $down, $levels);
+		$this->_traverse($result, $node, $down, $levels, $levels);
 
 		return $result;
 	}
@@ -207,17 +235,25 @@ class Tree extends TreeInterface {
 	 * @param integer levels Specifies how many levels of nodes remain to be fetched. This
 	 * will be recursively decremented and at 0 the recursion will stop. If this is negative
 	 * then the recursion will go on until the last level is processed.
+	 * @@param integer startingLevels This is the original value of the levels. This
+	 * is needed in order to properly calculate the relative depth of each returned node.
 	 * @return ref array An array of all nodes in the tree visited in a pre-order
-	 * manner.
+	 * manner. The keys of the array correspond to the nodes' ids.
+	 * Each element of the array is another array of two elements, the first
+	 * being the node itself, and the second being the depth of the node relative
+	 * to the starting node. Descendants are assigned increasingly positive levels; 
+	 * ancestors increasingly negative levels. 
 	 */
-	function _traverse(& $result, & $node, $down, $levels) {
+	function & _traverse(& $result, & $node, $down, $levels, $startingLevel) {
+		// visit the node
+		$result[$node->getId()][0] =& $node;
+		$mult = ($down) ? 1 : -1;
+		$result[$node->getId()][1] = ($startingLevel - $levels) * $mult;
+
 		// base case 1 : all levels have been processed
 		if ($levels == 0)
 			return;
 	
-		// visit the node
-		$result[$node->getId()] =& $node;
-
 		// base case 2: there are no more nodes left
 		if ($down) 
 			$noMoreLeft = !$node->hasChildren();
@@ -233,7 +269,7 @@ class Tree extends TreeInterface {
 			$nodes =& $node->getParents();
 		foreach (array_keys($nodes) as $i => $key)
 			// recurse for each node
-			$this->_traverse($result, $nodes[$key], $down, $levels - 1);
+			$this->_traverse($result, $nodes[$key], $down, $levels - 1, $startingLevel);
 	}
 	
 

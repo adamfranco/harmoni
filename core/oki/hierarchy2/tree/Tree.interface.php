@@ -3,7 +3,7 @@
 /** 
  * The interface for the Tree data structure used by the Hierarchy.
  * @access public
- * @version $Id: Tree.interface.php,v 1.1 2004/05/07 19:22:07 dobomode Exp $
+ * @version $Id: Tree.interface.php,v 1.2 2004/06/01 00:05:58 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -68,7 +68,17 @@ class TreeInterface {
 	}
 	
 	
-	
+	/**
+	 * Delete the node from the tree. This can only be done if the node has no
+	 * parents and no children.
+	 * @access public
+	 * @param object node The node to delete.
+	 * @return void
+	 **/
+	function deleteNode(& $node) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
 	
 	/**
 	 * Returns the node with the specified id. If it does not exist, return <code>null</code>.

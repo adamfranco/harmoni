@@ -18,13 +18,12 @@ require_once(HARMONI."oki/hierarchy2/GenericNodeType.class.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.3 2004/05/25 18:53:17 dobomode Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.4 2004/06/01 00:05:26 dobomode Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
 
 class HarmoniNode extends Node {
-
 
 	/**
 	 * The Id of this node.
@@ -67,7 +66,7 @@ class HarmoniNode extends Node {
 	 * @attribute private object _cache
 	 */
 	var $_cache;
-	
+
 	
 	/**
 	 * Constructor.
@@ -80,11 +79,13 @@ class HarmoniNode extends Node {
 	 * one that all other nodes in the Hierarchy are using.
 	 */
 	function HarmoniNode(& $id, & $type, $displayName, $description, & $cache) {
- 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
- 		ArgumentValidator::validate($displayName, new StringValidatorRule);
- 		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate($cache, new ExtendsValidatorRule("HierarchyCache"));
+		// ** parameter validation
+ 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"), true);
+ 		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
+ 		ArgumentValidator::validate($description, new StringValidatorRule(), true);
+		ArgumentValidator::validate($cache, new ExtendsValidatorRule("HierarchyCache"), true);
+		// ** end of parameter validation
 		
 		// set the private variables
 		$this->_id = $id;
@@ -92,7 +93,7 @@ class HarmoniNode extends Node {
 		$this->_displayName = $displayName;
 		$this->_description = $description;
 		$this->_tn =& new TreeNode($id->getIdString());
-		$this->_cache = $cache;
+		$this->_cache =& $cache;
 	}
 
 	/**
@@ -166,7 +167,7 @@ class HarmoniNode extends Node {
 		$idValue = $this->_id->getIdString();
 	
 		// get the children (cache them if necessary)
-		$children =& $this->_cache->CacheAndGetParents($this);
+		$children =& $this->_cache->getParents($this);
 		$result =& new HarmoniNodeIterator($children);
 
 		return $result;
@@ -190,12 +191,11 @@ class HarmoniNode extends Node {
 		$idValue = $this->_id->getIdString();
 	
 		// get the children (cache them if necessary)
-		$children =& $this->_cache->CacheAndGetChildren($this);
+		$children =& $this->_cache->getChildren($this);
 		$result =& new HarmoniNodeIterator($children);
 
 		return $result;
 	}
-
 
 	/**
 	 * Update the description of this Node. The description of the new Node;
@@ -294,9 +294,10 @@ class HarmoniNode extends Node {
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function isLeaf() {
-		// *********************************************
-		// STUF HEREE !!!!@!#!!!
-		// *********************************************
+		// leaf-check is done through getChildren(). A leaf would not have any children.
+		
+		$children =& $this->getChildren();
+		return (!$children->hasNext());
 	}
 
 	/**
@@ -310,9 +311,10 @@ class HarmoniNode extends Node {
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function isRoot() {
-		// *********************************************
-		// STUF HEREE !!!!@!#!!!
-		// *********************************************
+		// leaf-check is done through getChildren(). A leaf would not have any children.
+		
+		$children =& $this->getParents();
+		return (!$children->hasNext());
 	}
 
 	/**
@@ -332,9 +334,11 @@ class HarmoniNode extends Node {
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function addParent(& $nodeId) {
-		// *********************************************
-		// STUF HEREE !!!!@!#!!!
-		// *********************************************
+		// ** parameter validation
+		ArgumentValidator::validate($nodeId, new ExtendsValidatorRule("Id"), true);
+		// ** end of parameter validation
+
+		$this->_cache->addParent($nodeId->getIdString(), $this->_id->getIdString());
 	}
 
 	/**
@@ -354,9 +358,11 @@ class HarmoniNode extends Node {
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function removeParent(& $parentId) {
-		// *********************************************
-		// STUF HEREE !!!!@!#!!!
-		// *********************************************
+		// ** parameter validation
+		ArgumentValidator::validate($parentId, new ExtendsValidatorRule("Id"), true);
+		// ** end of parameter validation
+
+		$this->_cache->removeParent($parentId->getIdString(), $this->_id->getIdString());
 	}
 
 	/**
@@ -367,9 +373,15 @@ class HarmoniNode extends Node {
 	 * @package harmoni.osid.hierarchy
 	 */
 	function changeParent(& $oldParentId, & $newParentId) { 
-		// *********************************************
-		// STUF HEREE !!!!@!#!!!
-		// *********************************************
+		// ** parameter validation
+		ArgumentValidator::validate($oldParentId, new ExtendsValidatorRule("Id"), true);
+		ArgumentValidator::validate($newParentId, new ExtendsValidatorRule("Id"), true);
+		// ** end of parameter validation
+		
+		$this->_cache->removeParent($oldParentId->getIdString(), $this->_id->getIdString());
+		$this->_cache->addParent($newParentId->getIdString(), $this->_id->getIdString());
 	}
 
 }
+
+?>

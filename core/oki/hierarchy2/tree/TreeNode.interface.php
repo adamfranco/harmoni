@@ -4,7 +4,7 @@
  * This is the building piece of the Tree data structure used for the backbone of the
  * hierarchy.
  * @access public
- * @version $Id: TreeNode.interface.php,v 1.2 2004/05/12 22:31:48 dobomode Exp $
+ * @version $Id: TreeNode.interface.php,v 1.3 2004/06/01 00:05:58 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -107,6 +107,15 @@ class TreeNodeInterface {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
+	/**
+	 * Checks if the given node is a parent of this node.
+	 * @access public
+	 * @param ref object node The child node to check.
+	 * @return boolean <code>true</code> if <code>$node</code> is a parent of this node.
+	 **/
+	function isParent(& $node) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
 	
 	/**
 	 * Returns the id of this node.

@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: NodeTestCase.class.php,v 1.3 2004/05/25 18:53:26 dobomode Exp $
+ * @version $Id: NodeTestCase.class.php,v 1.4 2004/06/01 00:05:58 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -15,6 +15,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
     class NodeTestCase extends UnitTestCase {
 	
 		var $nodeA;
+		var $nodeF;
 		var $cache;
 		
         /**
@@ -29,10 +30,18 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
 			$dbHandler->pConnect($dbIndex);
 			unset($dbHandler); // done with that for now
 			
-			$type =& new HarmoniType("harmoni", "hierarchy", "generic_node", "");
 			$this->cache =& new HierarchyCache("1", $dbIndex, "doboHarmoniTest");
-			$this->nodeA =& new HarmoniNode(new HarmoniId('1'), $type, "A", "", $this->cache);
-			$this->nodeF =& new HarmoniNode(new HarmoniId('6'), $type, "F", "", $this->cache);
+			$this->nodeA =& $this->cache->getNode("1");
+			$this->nodeF =& $this->cache->getNode("6");
+
+			// all tests assume the following tree in the database
+			//			 A B C
+			//			  \|/
+			//			D  E
+			//			 \/ \
+			//			 F   G
+			//			 /\ /
+			//			H  I
         }
 		
         /**
@@ -46,7 +55,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
 		//--------------the tests ----------------------
 
 		function test_get_node() {
-			$nodeF =& $this->cache->cacheAndGetNode('6');
+			$nodeF =& $this->cache->getNode('6');
 			
 			$this->assertEqual($nodeF->_id, $this->nodeF->_id);
 			$this->assertEqual($nodeF->_type, $this->nodeF->_type);
@@ -207,4 +216,27 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
 			$this->nodeA->updateDisplayName($val);
 			$this->assertIdentical($this->nodeA->getDisplayName(), $val);
 		}
+		
+		function test_is_leaf() {
+			$this->assertFalse($this->nodeA->isLeaf());
+			$this->assertFalse($this->nodeF->isLeaf());
+			$children =& $this->nodeF->getChildren();
+			$child =& $children->next();
+			$this->assertTrue($child->isLeaf());
+		}
+		
+		function test_is_root() {
+			$this->assertTrue($this->nodeA->isRoot());
+			$this->assertFalse($this->nodeF->isRoot());
+		}
+		
+		function test_add_remove_change_parent() {
+			// let's make B a parent of F
+			// get B (B is the parent of E, which is the child of A
+
+			$this->nodeF->addParent(new HarmoniId('2'));
+			$this->nodeF->changeParent(new HarmoniId('2'), new  HarmoniId('7'));
+			$this->nodeF->removeParent(new HarmoniId('7'));
+		}
+		
 	}

@@ -31,8 +31,7 @@ class HarmoniNodeIterator
 	 */
 	function HarmoniNodeIterator (& $nodeArray) {
 		// make sure that we get an array of Node objects
-		ArgumentValidator::validate($nodeArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Node")));
-		
+
 		// load the types into our private array
 		foreach (array_keys($nodeArray) as $i => $key) {
 			$this->_nodes[] =& $nodeArray[$key];

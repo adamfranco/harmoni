@@ -7,7 +7,7 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: TreeTestCase.class.php,v 1.1 2004/05/25 18:53:26 dobomode Exp $
+ * @version $Id: TreeTestCase.class.php,v 1.2 2004/06/01 00:05:58 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -133,20 +133,20 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 			$resultFromObject =& $tree->traverse($node1, true, -1);
 			
 			$this->assertIdentical(count($resultFromObject), 7);
-			$this->assertReference($resultFromObject['1'], $node1);
-			$this->assertReference($resultFromObject['1_1'], $node1_1);
-			$this->assertReference($resultFromObject['1_2'], $node1_2);
-			$this->assertReference($resultFromObject['1_2_1'], $node1_2_1);
-			$this->assertReference($resultFromObject['1_2_2'], $node1_2_2);
-			$this->assertReference($resultFromObject['1_2_2_1'], $node1_2_2_1);
-			$this->assertReference($resultFromObject['1_2_2_2'], $node1_2_2_2);
+			$this->assertReference($resultFromObject['1'][0], $node1);
+			$this->assertReference($resultFromObject['1_1'][0], $node1_1);
+			$this->assertReference($resultFromObject['1_2'][0], $node1_2);
+			$this->assertReference($resultFromObject['1_2_1'][0], $node1_2_1);
+			$this->assertReference($resultFromObject['1_2_2'][0], $node1_2_2);
+			$this->assertReference($resultFromObject['1_2_2_1'][0], $node1_2_2_1);
+			$this->assertReference($resultFromObject['1_2_2_2'][0], $node1_2_2_2);
 
 			$resultFromObject =& $tree->traverse($node2_3, true, -1);
 			
 			$this->assertIdentical(count($resultFromObject), 3);
-			$this->assertReference($resultFromObject['2_3'], $node2_3);
-			$this->assertReference($resultFromObject['2_3_3'], $node2_3_3);
-			$this->assertReference($resultFromObject['2_3_4'], $node2_3_4);
+			$this->assertReference($resultFromObject['2_3'][0], $node2_3);
+			$this->assertReference($resultFromObject['2_3_3'][0], $node2_3_3);
+			$this->assertReference($resultFromObject['2_3_4'][0], $node2_3_4);
 
 			$resultFromObject =& $tree->traverse($node1, true, -1);
 }
@@ -197,48 +197,70 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 			$resultFromObject =& $tree->traverse($nodeA, true, -1);
 			
 			$this->assertIdentical(count($resultFromObject), 6);
-			$this->assertReference($resultFromObject['A'], $nodeA);
-			$this->assertReference($resultFromObject['E'], $nodeE);
-			$this->assertReference($resultFromObject['F'], $nodeF);
-			$this->assertReference($resultFromObject['G'], $nodeG);
-			$this->assertReference($resultFromObject['H'], $nodeH);
-			$this->assertReference($resultFromObject['I'], $nodeI);
+			$this->assertReference($resultFromObject['A'][0], $nodeA);
+			$this->assertReference($resultFromObject['E'][0], $nodeE);
+			$this->assertReference($resultFromObject['F'][0], $nodeF);
+			$this->assertReference($resultFromObject['G'][0], $nodeG);
+			$this->assertReference($resultFromObject['H'][0], $nodeH);
+			$this->assertReference($resultFromObject['I'][0], $nodeI);
+			$this->assertIdentical($resultFromObject['A'][1], 0);
+			$this->assertIdentical($resultFromObject['E'][1], 1);
+			$this->assertIdentical($resultFromObject['F'][1], 2);
+			$this->assertIdentical($resultFromObject['G'][1], 2);
+			$this->assertIdentical($resultFromObject['H'][1], 3);
+			$this->assertIdentical($resultFromObject['I'][1], 3);
 
 			$resultFromObject =& $tree->traverse($nodeA, true, 10);
 			
 			$this->assertIdentical(count($resultFromObject), 6);
-			$this->assertReference($resultFromObject['A'], $nodeA);
-			$this->assertReference($resultFromObject['E'], $nodeE);
-			$this->assertReference($resultFromObject['F'], $nodeF);
-			$this->assertReference($resultFromObject['G'], $nodeG);
-			$this->assertReference($resultFromObject['H'], $nodeH);
-			$this->assertReference($resultFromObject['I'], $nodeI);
+			$this->assertReference($resultFromObject['A'][0], $nodeA);
+			$this->assertReference($resultFromObject['E'][0], $nodeE);
+			$this->assertReference($resultFromObject['F'][0], $nodeF);
+			$this->assertReference($resultFromObject['G'][0], $nodeG);
+			$this->assertReference($resultFromObject['H'][0], $nodeH);
+			$this->assertReference($resultFromObject['I'][0], $nodeI);
 
 			$resultFromObject =& $tree->traverse($nodeF, false, -1);
 			
 			$this->assertIdentical(count($resultFromObject), 6);
-			$this->assertReference($resultFromObject['A'], $nodeA);
-			$this->assertReference($resultFromObject['B'], $nodeB);
-			$this->assertReference($resultFromObject['C'], $nodeC);
-			$this->assertReference($resultFromObject['D'], $nodeD);
-			$this->assertReference($resultFromObject['E'], $nodeE);
-			$this->assertReference($resultFromObject['F'], $nodeF);
-
-			$resultFromObject =& $tree->traverse($nodeG, true, 0);
+			$this->assertReference($resultFromObject['A'][0], $nodeA);
+			$this->assertReference($resultFromObject['B'][0], $nodeB);
+			$this->assertReference($resultFromObject['C'][0], $nodeC);
+			$this->assertReference($resultFromObject['D'][0], $nodeD);
+			$this->assertReference($resultFromObject['E'][0], $nodeE);
+			$this->assertReference($resultFromObject['F'][0], $nodeF);
+			$this->assertIdentical($resultFromObject['A'][1], -2);
+			$this->assertIdentical($resultFromObject['B'][1], -2);
+			$this->assertIdentical($resultFromObject['C'][1], -2);
+			$this->assertIdentical($resultFromObject['D'][1], -1);
+			$this->assertIdentical($resultFromObject['E'][1], -1);
+			$this->assertIdentical($resultFromObject['F'][1], 0);
 			
-			$this->assertIdentical(count($resultFromObject), 0);
+			$resultFromObject =& $tree->traverse($nodeG, true, 0);
+			$this->assertIdentical(count($resultFromObject), 1);
+			$this->assertReference($resultFromObject['G'][0], $nodeG);
+			$this->assertIdentical($resultFromObject['G'][1], 0);
 
 			$resultFromObject =& $tree->traverse($nodeB, true, 1);
-			
-			$this->assertIdentical(count($resultFromObject), 1);
-			$this->assertReference($resultFromObject['B'], $nodeB);
+			$this->assertIdentical(count($resultFromObject), 2);
+			$this->assertReference($resultFromObject['B'][0], $nodeB);
+			$this->assertReference($resultFromObject['E'][0], $nodeE);
+			$this->assertIdentical($resultFromObject['B'][1], 0);
+			$this->assertIdentical($resultFromObject['E'][1], 1);
 
 			$resultFromObject =& $tree->traverse($nodeI, false, 2);
 			
-			$this->assertIdentical(count($resultFromObject), 3);
-			$this->assertReference($resultFromObject['I'], $nodeI);
-			$this->assertReference($resultFromObject['F'], $nodeF);
-			$this->assertReference($resultFromObject['G'], $nodeG);
+			$this->assertIdentical(count($resultFromObject), 5);
+			$this->assertReference($resultFromObject['I'][0], $nodeI);
+			$this->assertReference($resultFromObject['F'][0], $nodeF);
+			$this->assertReference($resultFromObject['G'][0], $nodeG);
+			$this->assertReference($resultFromObject['D'][0], $nodeD);
+			$this->assertReference($resultFromObject['E'][0], $nodeE);
+			$this->assertIdentical($resultFromObject['I'][1], 0);
+			$this->assertIdentical($resultFromObject['F'][1], -1);
+			$this->assertIdentical($resultFromObject['G'][1], -1);
+			$this->assertIdentical($resultFromObject['D'][1], -2);
+			$this->assertIdentical($resultFromObject['E'][1], -2);
 			
 			// test getRoots()
 			$roots =& $tree->getRoots();
