@@ -11,7 +11,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * <ul><li />Index: 0, A Content object.</ul>
  *
  * @package harmoni.layout.components
- * @version $Id: SingleContentLayout.class.php,v 1.7 2003/07/25 00:53:43 gabeschine Exp $
+ * @version $Id: SingleContentLayout.class.php,v 1.8 2003/07/25 07:27:14 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -28,15 +28,14 @@ class SingleContentLayout extends Layout {
 	/**
 	 * Prints the component out using the given theme.
 	 * @param object $theme The theme object to use.
-	 * @param optional integer $level The current level in the output hierarchy. Default=0.
 	 * @access public
 	 * @return void
 	 **/
-	function outputLayout(&$theme, $level) {
+	function outputLayout(&$theme) {
 		$this->verifyComponents();
 
 		$c =& $this->getComponent(0);
-		$c->output($theme,$level+1);
+		$c->output($theme);
 	}
 }
 

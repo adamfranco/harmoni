@@ -37,8 +37,8 @@ $leftMenu->addItem(new LinkMenuItem("New window","http://google.com",false,"_bla
 $leftMenu->addItem(new LinkMenuItem("JavaScript Alert","#",false,null,"onClick='alert(\"testing\")'","style='text-decoration:none' "));
 
 // add the menus to their respective layouts
-$topMenuLayout->setComponent(0,&$topMenu);
-$leftMenuLayout->setComponent(0,&$leftMenu);
+$topMenuLayout->setComponent(0,$topMenu);
+$leftMenuLayout->setComponent(0,$leftMenu);
 
 // create a new SingleContentLayout to fill the space in the LefMenuLayout
 $contentLayout =& new SingleContentLayout;
@@ -50,12 +50,12 @@ $content .= "<b>The contens of TestTheme's template file (is uses a template):</
 $content .= highlight_string(file_get_contents(HARMONI."themeHandler/TestTheme.tpl"),true);
 $contentLayout->setComponent(0,new Content($content));
 // add it to the left menu
-$leftMenuLayout->setComponent(1,&$contentLayout);
+$leftMenuLayout->setComponent(1,$contentLayout);
 
 // add the leftmenulayout to the topmenulayout
-$topMenuLayout->setComponent(1,&$leftMenuLayout);
+$topMenuLayout->setComponent(1,$leftMenuLayout);
 
 // print it all with the theme
-$theme->printPageWithLayout(&$topMenuLayout);
+$theme->printPageWithLayout($topMenuLayout);
 
 ?>

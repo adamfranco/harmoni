@@ -6,7 +6,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * The HamoniConfig is a {@link DataContainer} for the {@link Harmoni} object.
  * 
  * @package harmoni.authentication.ldap
- * @version $Id: HarmoniConfig.class.php,v 1.3 2003/07/24 23:38:42 gabeschine Exp $
+ * @version $Id: HarmoniConfig.class.php,v 1.4 2003/07/25 07:27:14 gabeschine Exp $
  * @copyright 2003
  */
 
@@ -43,7 +43,8 @@ class HarmoniConfig extends DataContainer {
 		$this -> set("sessionUseCookies",true);
 		$this -> add("sessionCookiePath", new FieldRequiredValidatorRule);
 		$this -> set("sessionCookiePath","/");
-		$this -> add("sessionCookieDomain", new FieldRequiredValidatorRule, new Error("HarmoniConfig - You must set a 'sessionDomain' to the DNS domain you would like your session cookie sent to! (eg, '.mydomain.com')","Harmoni",true));
+		$this -> add("sessionCookieDomain", new StringValidatorRule, new Error("HarmoniConfig - You must set the 'sessionDomain' to the DNS domain you would like your session cookie sent to! (eg, '.mydomain.com')","Harmoni",true));
+		$this -> set("sessionCookieDomain", ""); // default
 	} 
 } 
 

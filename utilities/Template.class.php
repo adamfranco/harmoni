@@ -9,7 +9,7 @@ require_once(HARMONI."utilities/Template.interface.php");
  * some html ... &lt?=$value1=&gt; ... more html ...
  *
  * @package harmoni.utilities.template
- * @version $Id: Template.class.php,v 1.3 2003/07/25 00:53:44 gabeschine Exp $
+ * @version $Id: Template.class.php,v 1.4 2003/07/25 07:27:14 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -52,28 +52,28 @@ class Template extends TemplateInterface {
 	/**
 	 * Outputs the content of the current template with $variables containing
 	 * the variable output.
-	 * @param mixed $variables Either an associative array or a {@link FieldSet} containing
+	 * @param mixed $variables,... Either an associative array or a {@link FieldSet} containing
 	 * a number of [key]=>content pairs.
 	 * @access public
 	 * @return void
 	 **/
-	function output( $variables ) {
-		// so that we don't interfere with the template, rename $variables
-		// to something very obscure
-		$__v =& $variables; unset($variables);
-		// first check if what we have is good
-		if (is_array($__v)) {
-			// ok, register them all as local variables
-			foreach(array_keys($__v) as $__k)
-				$$__k = $__v[$__k];
-		} else if (is_a($__v,"FieldSetInterface")) {
-			$__keys = $__v->getKeys();
-			foreach ($__keys as $__k)
-				$$__k = $__v->get($__k);
-		} else {
-			throwError(new Error("Template::output() - could not output: variables passed to method do not seem to be an associative array or a FieldSet."));
-			return false;
-		}
+	function output( /* variable length parameter list */ ) {
+		// go through each argument, check if its good and set all the variables.
+		for($i = 0; $i < func_num_args(); $i++) {
+			$__v = func_get_arg($i);
+			if (is_array($__v)) {
+				// ok, register them all as local variables
+				foreach(array_keys($__v) as $__k)
+					$$__k = $__v[$__k];
+			} else if (is_a($__v,"FieldSetInterface")) {
+				$__keys = $__v->getKeys();
+				foreach ($__keys as $__k)
+					$$__k = $__v->get($__k);
+			} else {
+				throwError(new Error("Template::output() - could not output: variables passed to method do not seem to be an associative array or a FieldSet."));
+				return false;
+			}			
+		} // for
 		
 		// otherwise, let's continue and output the file.
 		include($this->_fullPath);
@@ -81,16 +81,25 @@ class Template extends TemplateInterface {
 	
 	/**
 	 * Calls output() but catches whatever is printed and returns the output in a string.
-	 * @param mixed $variables See description under {@link TemplateInterface::output()}
+	 * @param mixed $variables,... See description under {@link TemplateInterface::output()}
 	 * @access public
 	 * @return string The output from the template.
 	 **/
 	function catchOutput( $variables ) {
+		// build a string for the eval command (this is because we're passed multiple arguments
+		$argArray = array();
+		for($i = 0; $i < func_num_args(); $i++){
+			$var = "arg$i";
+			$argArray[] = "\$$var";
+			$$var = func_get_arg($i);
+		} // for
+		$cmd = '$this->output('.implode(",",$argArray).');';
+		
 		// start the output buffer
 		ob_start();
 		
 		// output
-		$this->output($variables);
+		eval($cmd);
 		
 		// catch the output
 		$output = ob_get_contents();

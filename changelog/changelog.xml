@@ -2,6 +2,8 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.2">
+		<change>Layouts &amp; other VisualComponents now have setLevel() and getLevel() methods and store the level locally.</change>
+		<change>Template::output() now accepts a variable length argument list of FieldSets or hash tables.</change>
 		<change>Actions are now passed a reference to the Harmoni object.</change>
 		<new author='gabe'>Databases now have a toDBDate() and fromDBDate() function to convert to the necessary Date format.</new>
 		<new author='gabe'>Completed ActionHandler, LoginHandler and Harmoni classes and services.</new>

@@ -8,7 +8,7 @@ require_once(HARMONI."utilities/HTMLcolor.class.php");
  * {@link NamedThemeInterface}.
  *
  * @package harmoni.themes
- * @version $Id: NamedTheme.abstract.php,v 1.4 2003/07/20 14:17:18 gabeschine Exp $
+ * @version $Id: NamedTheme.abstract.php,v 1.5 2003/07/25 07:27:14 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -150,12 +150,11 @@ class NamedTheme extends NamedThemeInterface {
 	/**
 	 * Prints a {@link Layout} object.
 	 * @param object $layoutObj The Layout object.
-	 * @param integer $level The current depth in the layout.
 	 * @access public
 	 * @return void
 	 **/
-	function printLayout($layoutObj, $level) {
-		$layoutObj->outputLayout($this,$level);
+	function printLayout($layoutObj) {
+		$layoutObj->outputLayout($this);
 	}
 }
 

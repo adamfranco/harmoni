@@ -12,7 +12,7 @@ define("LAYOUT","LayoutInterface");
  * LayoutInterface defines the methods required of any {@link Layout}.
  *
  * @package harmoni.layout
- * @version $Id: Layout.interface.php,v 1.5 2003/07/25 00:53:43 gabeschine Exp $
+ * @version $Id: Layout.interface.php,v 1.6 2003/07/25 07:27:14 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -33,11 +33,12 @@ class LayoutInterface extends VisualComponent {
 	/**
 	 * Sets the "content" for the component indexed by $index to $object.
 	 * @param integer $index The index number for the component to be set.
-	 * @param object $object The object that complies to the expected type for $index.
+	 * @param ref object $object The object that complies to the expected type for $index.
+	 * @param optional boolean $dontSetLevel When TRUE, setComponent will not call setLevel on this component. Default = FALSE.
 	 * @access public
 	 * @return void
 	 **/
-	function setComponent($index, $object) {
+	function setComponent($index, &$object, $dontSetLevel=false) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	

@@ -15,7 +15,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginHandler.interface.php");
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.3 2003/07/25 00:53:43 gabeschine Exp $
+ * @version $Id: LoginHandler.class.php,v 1.4 2003/07/25 07:27:10 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginHandler extends LoginHandlerInterface {
@@ -84,14 +84,7 @@ class LoginHandler extends LoginHandlerInterface {
 			
 		// if they are logged in and valid, just return
 		if ($state->isValid()) {return $state;}
-		
-		// otherwise, check if they need to be authenticated or not
-		
-		// if the current action is in the noAuthActions array, return as well.
-		if (in_array($this->_harmoni->getCurrentAction(),$this->_noAuthActions))
-			return $state;
-			
-		// now, if we're here, they MUST be authenticated.
+					
 		// first, we need to somehow get the username/passwd pair from the browser,
 		// and we're also going to store the URL they were trying to access
 		// in the session so we can send them there later.
@@ -101,6 +94,10 @@ class LoginHandler extends LoginHandlerInterface {
 			$function = $this->_usernamePasswordCallbackFunction;
 			$result = $function();
 			if (!$result) {
+				// if the current action is in the noAuthActions array, return as well.
+				if (in_array($this->_harmoni->getCurrentAction(),$this->_noAuthActions))
+					return $state;
+
 				// the user didn't enter any info yet -- execute the failed login action
 				// first save the current URL in the session
 				// @todo -cLoginHandler Implement LoginHandler.execute replace old ID with a new one.
@@ -110,12 +107,12 @@ class LoginHandler extends LoginHandlerInterface {
 			}
 			$username = $result[0];
 			$password = $result[1];
-			
+
 			// pass these values to the AuthenticationHandler
 			Services::requireService("Authentication");
 			$authHandler =& Services::getService("Authentication");
 			$authResult =& $authHandler->authenticateAllMethods($username,$password);
-			
+
 			// save the new LoginState in the session
 			$state =& new LoginState($username,$authResult);
 			$_SESSION['__LoginState'] =& $state;
@@ -125,7 +122,8 @@ class LoginHandler extends LoginHandlerInterface {
 			if ($authResult->isValid()) {
 				if ($url = $_SESSION['__afterLoginURL']) {
 					unset($_SESSION['__afterLoginURL']);
-					header("Location: $url?".SID);
+					$url .= ereg("\?",$url)?"":"?".SID;
+					header("Location: $url");
 				}
 				return $state;
 			}

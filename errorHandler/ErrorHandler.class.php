@@ -4,10 +4,11 @@ require_once(HARMONI."utilities/Queue.class.php");
 require_once(HARMONI."errorHandler/Error.class.php");
 require_once(HARMONI."errorHandler/ErrorHandler.interface.php");
 require_once(HARMONI."errorHandler/ErrorPrinterBasic.class.php");
+require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.20 2003/07/23 21:43:58 gabeschine Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.21 2003/07/25 07:27:15 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */

@@ -16,10 +16,22 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.7 2003/07/25 00:53:43 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.8 2003/07/25 07:27:14 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni extends HarmoniInterface {
+	/**
+	 * @access private
+	 * @var object $_startWithLayout A {@link Layout} object.
+	 */ 
+	var $_startWithLayout;
+	
+	/**
+	 * @access private
+	 * @var integer $_startWithLayoutIndex The index where the layout from actions should go in $_startWithLayout
+	 */ 
+	var $_startWithLayoutIndex;
+	
 	/**
 	 * @access private
 	 * @var string $_actionCallbackFunction The name of a function that gets the current
@@ -40,10 +52,10 @@ class Harmoni extends HarmoniInterface {
 	var $_currentAction;
 	
 	/**
-	 * @access private
-	 * @var object $_theme The theme we are using for output.
+	 * @access public
+	 * @var object $theme The theme we are using for output.
 	 **/
-	var $_theme;
+	var $theme;
 	
 	/**
 	 * @access public
@@ -128,7 +140,7 @@ class Harmoni extends HarmoniInterface {
 		$this->config->checkAll();
 		
 		// check to make sure we have a theme object set!
-		if (!$this->_theme) throwError(new Error("Harmoni::execute() - You must 
+		if (!$this->theme) throwError(new Error("Harmoni::execute() - You must 
 							specify a theme to use before calling execute()!","Harmoni",true));
 		
 		// find what action we are trying to execute
@@ -191,7 +203,12 @@ class Harmoni extends HarmoniInterface {
 			$rule = new ExtendsValidatorRule("LayoutInterface");
 			if ($rule->check($result)) {
 				// indeed!
-				$this->_theme->printPageWithLayout($result);
+				// now check if we have a "startWithLayout" layout
+				if ($this->_startWithLayout) {
+					$this->_startWithLayout->setComponent($this->_startWithLayoutIndex,$result);
+					$this->theme->printPageWithLayout($this->_startWithLayout);
+				} else
+					$this->theme->printPageWithLayout($result);
 			} else {
 				// we got something else back... well, let's print out an error
 				// explaining what happened.
@@ -211,7 +228,7 @@ class Harmoni extends HarmoniInterface {
 	 **/
 	function setTheme(&$themeObject) {
 		ArgumentValidator::validate($themeObject, new ExtendsValidatorRule("ThemeInterface"));
-		$this->_theme =& $themeObject;
+		$this->theme =& $themeObject;
 	}
 	
 	/**
@@ -220,7 +237,7 @@ class Harmoni extends HarmoniInterface {
 	 * @return ref object A {@link ThemeInterface Theme} object.
 	 **/
 	function &getTheme() {
-		return $this->_theme;
+		return $this->theme;
 	}
 	
 	
@@ -261,7 +278,20 @@ class Harmoni extends HarmoniInterface {
 		session_start(); // yay!
 	}
 	
-
+	/**
+	 * Tells Harmoni to "start" with the given layout object. Instead of taking the layout from an action
+	 * and passing that directly to the theme, harmoni will take this layout object and add the one it gets
+	 * from the theme to it at index $index, and pass that to the theme.
+	 * @param ref object $layoutObject A {@link Layout} object. 
+	 * @param integer $index The index where the layout returned from actions should go in $layoutObject.
+	 * @access public
+	 * @return void 
+	 **/
+	function startWithLayout(&$layoutObject, $index) {
+		ArgumentValidator::validate($layoutObject, new ExtendsValidatorRule("LayoutInterface"));
+		$this->_startWithLayout =& $layoutObject;
+		$this->_startWithLayoutIndex = $index;
+	}
 }
 
 /**

@@ -12,7 +12,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  * </ul>
  *
  * @package harmoni.layout.components
- * @version $Id: LeftMenuLayout.class.php,v 1.4 2003/07/25 00:53:43 gabeschine Exp $
+ * @version $Id: LeftMenuLayout.class.php,v 1.5 2003/07/25 07:27:14 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -30,11 +30,10 @@ class LeftMenuLayout extends Layout {
 	/**
 	 * Prints the component out using the given theme.
 	 * @param object $theme The theme object to use.
-	 * @param optional integer $level The current level in the output hierarchy. Default=0.
 	 * @access public
 	 * @return void
 	 **/
-	function outputLayout($theme, $level) {
+	function outputLayout($theme) {
 		$this->verifyComponents();
 		
 		$menu =& $this->getComponent(0);
@@ -43,9 +42,9 @@ class LeftMenuLayout extends Layout {
 		// output the table;
 		print "<table border=0 cellpadding=0 cellspacing=0 width=100%>\n";
 		print "<tr><td width=10% valign=top>\n";
-		$menu->output($theme, $level+1, VERTICAL);
+		$menu->output($theme, VERTICAL);
 		print "</td><td>\n";
-		$layout->output($theme, $level+1);
+		$layout->output($theme);
 		print "</td></tr>\n";
 		print "</table>\n";
 	}

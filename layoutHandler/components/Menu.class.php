@@ -6,11 +6,17 @@ require_once(HARMONI."layoutHandler/components/Menu.interface.php");
  * are useful in page layouts for navigation. 
  *
  * @package harmoni.layout.components
- * @version $Id: Menu.class.php,v 1.4 2003/07/25 00:53:43 gabeschine Exp $
+ * @version $Id: Menu.class.php,v 1.5 2003/07/25 07:27:14 gabeschine Exp $
  * @copyright 2003 
  **/
 
 class Menu extends MenuInterface {
+	/**
+	 * @access private
+	 * @var mixed $_level 
+	 */ 
+	var $_level;
+
 	/**
 	 * @access private
 	 * @var array $_items An array of {@link MenuItem}s.
@@ -64,15 +70,35 @@ class Menu extends MenuInterface {
 	/**
 	 * Prints the component out using the given theme.
 	 * @param object $theme The theme object to use.
-	 * @param optional integer $level The current level in the output hierarchy. Default=0.
 	 * @param optional integer $orientation The orientation in which we should print. Should be one of either HORIZONTAL or VERTICAL.
 	 * @use HORIZONTAL
 	 * @use VERTICAL
 	 * @access public
 	 * @return void
 	 **/
-	function output(&$theme, $level=0, $orientation=HORIZONTAL) {
-		$theme->printMenu($this,$level,$orientation);
+	function output(&$theme, $orientation=HORIZONTAL) {
+		$theme->printMenu($this,$orientation);
+	}
+	
+	/**
+	 * Returns this component's level in the visual hierarchy.
+	 * @access public
+	 * @return integer The level.
+	 **/
+	function getLevel() {
+		return $this->_level;
+	}
+	
+	/**
+	 * Sets this component's level in the visual hierarchy. Spiders down to children (if it has any) and sets their level
+	 * to $level+1 if $spiderDown is TRUE.
+	 * @param integer $level The level.
+	 * @param optional boolean $spiderDown Specifies if the function should spider down to children.
+	 * @access public
+	 * @return void 
+	 **/
+	function setLevel($level, $spiderDown=true) {
+		$this->_level = $level;
 	}
 }
 

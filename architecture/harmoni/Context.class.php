@@ -4,7 +4,7 @@
  * The Context class provides easy access to variables for action scripts and classes. 
  *
  * @package harmoni.architecture
- * @version $Id: Context.class.php,v 1.3 2003/07/22 22:05:46 gabeschine Exp $
+ * @version $Id: Context.class.php,v 1.4 2003/07/25 07:27:14 gabeschine Exp $
  * @copyright 2003 
  **/
 class Context {
@@ -13,6 +13,12 @@ class Context {
 	 * @var string $sid The session name & id: "name=id"
 	 **/
 	var $sid;
+	
+	/**
+	 * @access public
+	 * @var string $hiddenFieldSID HTML containing a form <b>hidden</b> tag with the SID in it.
+	 */ 
+	var $hiddenFieldSID;
 	
 	/**
 	 * @access public
@@ -47,6 +53,7 @@ class Context {
 	 **/
 	function Context($module, $action) {
 		$this->sid = session_name() . "=" . session_id();
+		$this->hiddenFieldSID = "<input type='hidden' name='".session_name()."' value='".session_id()."' />";
 		$this->myURL = $_SERVER['PHP_SELF'];
 		
 		$this->requestAction = $action;
