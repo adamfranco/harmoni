@@ -9,7 +9,7 @@ require_once(HARMONI."authorizationHandler/DatabaseHierarchicalAuthorizationMeth
  * The class is capable of authorizing an <b>agent</b> performing a <b>function</b> in a given 
  * <b>context</b>.
  * @access public
- * @version $Id: DatabaseHierarchicalAuthorizationMethod.class.php,v 1.2 2003/07/04 03:32:34 dobomode Exp $
+ * @version $Id: DatabaseHierarchicalAuthorizationMethod.class.php,v 1.3 2003/07/07 02:27:46 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -26,7 +26,7 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 	 * authorization method will use as returned by the DBHandler service.
 	 * @attribute private string _dbIndex
 	 */
-	var $_authorizedColumn;
+	var $_dbIndex;
 	
 
 	/**

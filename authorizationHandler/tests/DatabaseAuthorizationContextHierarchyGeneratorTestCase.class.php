@@ -7,7 +7,7 @@ require_once(HARMONI.'authorizationHandler/generator/DatabaseAuthorizationContex
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseAuthorizationContextHierarchyGeneratorTestCase.class.php,v 1.3 2003/07/04 03:32:35 dobomode Exp $
+ * @version $Id: DatabaseAuthorizationContextHierarchyGeneratorTestCase.class.php,v 1.4 2003/07/07 02:27:48 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -174,6 +174,13 @@ require_once(HARMONI.'authorizationHandler/generator/DatabaseAuthorizationContex
 			$this->generator->addContextHierarchyLevel("page", "page_id", "FK_section");
 			$this->generator->addContextHierarchyLevel("story", "story_id", "FK_page");
 		
+			$resultFromDobo = array();
+			$resultFromGenerator = $this->generator->generateSubtree(1, 251);
+			$resultFromDobo[2] = array(811, 812, 813);
+			$resultFromDobo[3] = array(675, 679, 676, 677);
+
+			$this->assertEqual($resultFromGenerator, $resultFromDobo);
+
 			$resultFromGenerator = $this->generator->generateSubtree(0, 71);
 			$resultFromDobo = array();
 			$resultFromDobo[1] = array(251, 252);
@@ -186,11 +193,6 @@ require_once(HARMONI.'authorizationHandler/generator/DatabaseAuthorizationContex
 			$resultFromGenerator = $this->generator->generateSubtree(0, 71);
 			$this->assertEqual($resultFromGenerator, $resultFromDobo);
 			
-			$resultFromDobo = array();
-			$resultFromGenerator = $this->generator->generateSubtree(1, 251);
-			$resultFromDobo[2] = array(811, 812, 813);
-			$resultFromDobo[3] = array(675, 679, 676, 677);
-
 			// this should come from the cache
 			$this->assertEqual($resultFromGenerator, $resultFromDobo);
 			
