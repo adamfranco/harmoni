@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.7 2004/05/07 19:22:07 dobomode Exp $
+ * @version $Id: test.php,v 1.8 2004/06/03 15:39:59 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003 
  **/
@@ -49,7 +49,7 @@ print "\n</p>";
 
 $num = $dbHandler->getTotalNumberOfQueries();
 debug::output("Total # of queries: ".$num,1,"DBHandler");
-// debug::printAll();
+//debug::printAll();
 unset($dbHandler,$errorHandler, $userError);
 unset($num);
 //	$errorHandler->printErrors(HIGH_DETAIL);

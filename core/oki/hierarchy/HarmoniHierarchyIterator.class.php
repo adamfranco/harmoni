@@ -34,7 +34,7 @@ class HarmoniHierarchyIterator
 		ArgumentValidator::validate($hierarchyArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Hierarchy")));
 		
 		// load the types into our private array
-		foreach ($hierarchyArray as $key => $val) {
+		foreach (array_keys($hierarchyArray) as $i => $key) {
 			$this->_hierarchies[] =& $hierarchyArray[$key];
 		}
 	}

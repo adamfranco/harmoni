@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: GroupTestCase.class.php,v 1.3 2004/04/20 21:29:37 dobomode Exp $
+ * @version $Id: GroupTestCase.class.php,v 1.4 2004/06/03 15:39:59 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -43,6 +43,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
          */
         function tearDown() {
 			// perhaps, unset $obj here
+			$this->manager->deleteGroup($this->group->getId());
 			unset($this->group);
         }
 
@@ -233,6 +234,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 			$this->manager->deleteAgent($agent4->getId());
 			$this->manager->deleteAgent($agent5->getId());
 			$this->manager->deleteGroup($group1->getId());
+			$this->manager->deleteGroup($group2->getId());
 		}
 		
 		function test_contains() {

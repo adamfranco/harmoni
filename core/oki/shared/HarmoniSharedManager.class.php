@@ -37,7 +37,7 @@ require_once(HARMONI."oki/shared/HarmoniStringId.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.28 2004/04/23 19:29:21 dobomode Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.29 2004/06/03 15:39:59 dobomode Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -271,8 +271,40 @@ class HarmoniSharedManager
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		}
 
-		// clear the cache
+		// 4. Now, we must remove this agent from all groups that include it
+		// first select all such groups (we will need this to update the cache)
+		$query =& new SelectQuery();
+		$query->addColumn("fk_groups", "group_id", $db."j_groups_agent");
+		$query->addTable($db."j_groups_agent");
+		$query->addWhere($db."j_groups_agent.fk_agent = '".$idValue."'");
+//		echo "<pre>\n";
+//		echo MySQL_SQLGenerator::generateSQLQuery($query);
+//		echo "</pre>\n";
+		$groupsResult =& $dbHandler->query($query, $this->_dbIndex);
+		// now delete the entries in the database
+		$query =& new DeleteQuery();
+		$query->setTable($db."j_groups_agent");
+		$query->addWhere($db."j_groups_agent.fk_agent = '".$idValue."'");
+//		echo "<pre>\n";
+//		echo MySQL_SQLGenerator::generateSQLQuery($query);
+//		echo "</pre>\n";
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// 5. Update the cache
 		if (isset($this->_agentsCache[$idValue])) {
+			while ($groupsResult->hasMoreRows()) {
+				// fetch current row
+				$arr = $groupsResult->getCurrentRow();
+				$groupId = $arr['group_id'];
+				// if the group has been fetched then get rid of the agent
+				if (isset($this->_groupsCache[$groupId])) {
+//					echo "<b>unsetting the agent # {$idValue} in group # ".$groupId."</b><br>";
+					unset($this->_groupsCache[$groupId]->_agents[$idValue]);
+				}
+
+				$groupsResult->advanceRow();
+			}
+			
 			$this->_agentsCache[$idValue] = null; // IMPORTANT: this will set to null all other
 												  // vars pointing to this one
 			unset($this->_agentsCache[$idValue]);
@@ -579,7 +611,7 @@ class HarmoniSharedManager
 			throwError(new Error("Multiple groups with Id: ".$idValue." exist in the database." ,"SharedManager",true));
 		$typeIdValue = $queryResult->field("type_id");
 		
-		// 2. Now delete the agent
+		// 2. Now delete the group
 		$query =& new DeleteQuery();
 		$query->setTable($db."groups");
 		$query->addWhere($db."groups.groups_id = '".$idValue."'");
@@ -604,8 +636,42 @@ class HarmoniSharedManager
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		}
 
-		// clear the cache
+		// 4. Now, we must remove any entry in the join table that reference
+		// this group
+		// first select all groups that are parents of this group
+		$query =& new SelectQuery();
+		$query->addColumn("fk_parent", "group_id", $db."j_groups_groups");
+		$query->addTable($db."j_groups_groups");
+		$query->addWhere($db."j_groups_groups.fk_child = '".$idValue."'");
+//		echo "<pre>\n";
+//		echo MySQL_SQLGenerator::generateSQLQuery($query);
+//		echo "</pre>\n";
+		$groupsResult =& $dbHandler->query($query, $this->_dbIndex);
+		// now delete the entries in the database
+		$query =& new DeleteQuery();
+		$query->setTable($db."j_groups_groups");
+		$query->addWhere($db."j_groups_groups.fk_parent = '".$idValue."'");
+		$query->addWhere($db."j_groups_groups.fk_child = '".$idValue."'", _OR);
+//		echo "<pre>\n";
+//		echo MySQL_SQLGenerator::generateSQLQuery($query);
+//		echo "</pre>\n";
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// 5. Update the cache
 		if (isset($this->_groupsCache[$idValue])) {
+			while ($groupsResult->hasMoreRows()) {
+				// fetch current row
+				$arr = $groupsResult->getCurrentRow();
+				$groupId = $arr['group_id'];
+				// if the group has been fetched then get rid of the agent
+				if (isset($this->_groupsCache[$groupId])) {
+//					echo "<b>unsetting the group # {$idValue} in group # ".$groupId."</b><br>";
+					unset($this->_groupsCache[$groupId]->_groups[$idValue]);
+				}
+
+				$groupsResult->advanceRow();
+			}
+			
 			$this->_groupsCache[$idValue] = null; // IMPORTANT: this will set to null all other
 												  // vars pointing to this one
 			unset($this->_groupsCache[$idValue]);

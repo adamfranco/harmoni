@@ -5,7 +5,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.11 2004/05/12 22:31:48 dobomode Exp $
+ * @version $Id: SharedManagerTestCase.class.php,v 1.12 2004/06/03 15:39:59 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -163,8 +163,8 @@ class SharedManagerTestCase extends UnitTestCase {
 //		$this->assertReference($group2, $group3);
 		
 		// delete the groups
-//		$this->manager->deleteGroup($group1->getId());
-//		$this->manager->deleteGroup($group2->getId());
+		$this->manager->deleteGroup($group1->getId());
+		$this->manager->deleteGroup($group2->getId());
 	}
 	
 

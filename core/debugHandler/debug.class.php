@@ -7,7 +7,7 @@ require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
  *
  * @see {@link DebugHandlerInterface}
  * @static
- * @version $Id: debug.class.php,v 1.4 2004/01/07 19:37:26 adamfranco Exp $
+ * @version $Id: debug.class.php,v 1.5 2004/06/03 15:39:59 dobomode Exp $
  * @package harmoni.debug
  * @copyright 2003 
  **/
@@ -57,8 +57,16 @@ class debug {
 	 * @access public
 	 * @return void
 	 */
-	function printAll() {
-		NewWindowDebugHandlerPrinter::printDebugHandler(Services::requireService("Debug"));
+	function printAll($debugPrinter = null) {
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("DebugHandlerPrinter");
+		ArgumentValidator::validate($id, new OptionalRule($extendsRule), true);
+		// ** end of parameter validation
+	
+		if (is_null($debugPrinter))
+			NewWindowDebugHandlerPrinter::printDebugHandler(Services::requireService("Debug"));
+		else
+			$debugPrinter->printDebugHandler(Services::requireService("Debug"));
 	}
 	
 }
