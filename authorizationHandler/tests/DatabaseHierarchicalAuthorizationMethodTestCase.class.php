@@ -7,7 +7,7 @@ require_once(HARMONI.'authorizationHandler/DatabaseHierarchicalAuthorizationMeth
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseHierarchicalAuthorizationMethodTestCase.class.php,v 1.3 2003/07/09 21:10:05 dobomode Exp $
+ * @version $Id: DatabaseHierarchicalAuthorizationMethodTestCase.class.php,v 1.4 2003/07/10 23:04:50 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -217,14 +217,159 @@ require_once(HARMONI.'authorizationHandler/DatabaseHierarchicalAuthorizationMeth
 			
 			$cacheAFC = array();
 
+			// find initial status
+			$authorizedOriginal = $this->method->authorize($agent, $function1, $context2);
+			
+			// revoke
+			$result = $this->method->revoke($agent, $function1, $context2);
+			if ($authorizedOriginal)
+				$this->assertTrue($result);
+			else
+				$this->assertFalse($result);
+			$authorized = $this->method->authorize($agent, $function1, $context2);
+			$this->assertFalse($authorized);
+			$cacheAFC[1][1][1][harmoniTest][permission][0][200] = false;
+			if ($authorizedOriginal === true) {
+				$cacheAFC[1][1][1][harmoniTest][permission][1][736] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][1][737] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][1][1074] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][1][1075] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][2][2247] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][2][2248] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][2][2250] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][2][3332] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][2][3334] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][2][3336] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][2][3339] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][2][3344] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][2][3345] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][2][3350] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][2][3359] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][2][3362] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][2][3367] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][2853] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][3928] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][2854] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][2856] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][3865] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][3868] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][3873] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][3875] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][3879] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][3883] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][3894] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][3898] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][3902] = false;
+				$cacheAFC[1][1][1][harmoniTest][permission][3][3907] = false;
+			}
+			$this->assertEqual($this->method->_cacheAFC, $cacheAFC);
+			
+			// grant
 			$result = $this->method->grant($agent, $function1, $context2);
+			$this->assertTrue($result);
 			$authorized = $this->method->authorize($agent, $function1, $context2);
 			$this->assertTrue($authorized);
 			$cacheAFC[1][1][1][harmoniTest][permission][0][200] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][1][736] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][1][737] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][1][1074] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][1][1075] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][2247] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][2248] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][2250] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3332] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3334] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3336] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3339] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3344] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3345] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3350] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3359] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3362] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3367] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][2853] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3928] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][2854] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][2856] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3865] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3868] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3873] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3875] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3879] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3883] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3894] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3898] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3902] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3907] = true;
 			$this->assertEqual($this->method->_cacheAFC, $cacheAFC);
-		}
-		
 			
+			// cannot revoke - parent is granted
+			$result = $this->method->revoke($agent, $function1, $context4);
+			$this->assertFalse($result);
+			
+			// cannot grant - already granted
+			$result = $this->method->grant($agent, $function1, $context4);
+			$this->assertFalse($result);
+
+			// revoke what we just granted
+			$result = $this->method->revoke($agent, $function1, $context2);
+			$this->assertTrue($result);
+			
+			// CLEAR CACHE
+			$this->method->clearCache();
+			
+			// grant
+			$result = $this->method->grant($agent, $function1, $context5);
+			$this->assertTrue($result);
+			$result = $this->method->grant($agent, $function1, $context4);
+			$this->assertTrue($result);
+			$result = $this->method->grant($agent, $function1, $context3);
+			$this->assertTrue($result);
+			$result = $this->method->grant($agent, $function1, $context2);
+			$this->assertTrue($result);
+			$authorized = $this->method->authorize($agent, $function1, $context5);
+			$this->assertTrue($authorized);
+			$authorized = $this->method->authorize($agent, $function1, $context4);
+			$this->assertTrue($authorized);
+			$authorized = $this->method->authorize($agent, $function1, $context3);
+			$this->assertTrue($authorized);
+			$authorized = $this->method->authorize($agent, $function1, $context2);
+			$this->assertTrue($authorized);
+			$cacheAFC[1][1][1][harmoniTest][permission][0][200] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][1][736] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][1][737] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][1][1074] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][1][1075] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][2247] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][2248] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][2250] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3332] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3334] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3336] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3339] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3344] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3345] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3350] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3359] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3362] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][2][3367] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][2853] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3928] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][2854] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][2856] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3865] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3868] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3873] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3875] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3879] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3883] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3894] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3898] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3902] = true;
+			$cacheAFC[1][1][1][harmoniTest][permission][3][3907] = true;
+			$this->assertEqual($this->method->_cacheAFC, $cacheAFC);
+			
+		}
     }
 
 ?>

@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/DeleteQueryResult.interface.php");
  *
  * The DeleteQueryResult interface provides the functionality common to all Delete query results.
  * For example, you can get the primary key for the last Deleteion, get number of Deleteed rows, etc.
- * @version $Id: MySQLDeleteQueryResult.class.php,v 1.4 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: MySQLDeleteQueryResult.class.php,v 1.5 2003/07/10 23:04:50 dobomode Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
@@ -49,7 +49,7 @@ class MySQLDeleteQueryResult extends DeleteQueryResultInterface {
 		// ** end of parameter validation
 
 		$this->_linkId = $linkId;
-
+		
 		$this->_numberOfRows = mysql_affected_rows($this->_linkId);
 	}
 		

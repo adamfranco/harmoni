@@ -34,7 +34,7 @@ require_once(HARMONI."authorizationHandler/DatabaseHierarchicalAuthorizationMeth
  * </pre>
  * 
  * @access public
- * @version $Id: DatabaseHierarchicalAuthorizationMethod.class.php,v 1.6 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: DatabaseHierarchicalAuthorizationMethod.class.php,v 1.7 2003/07/10 23:04:50 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -266,6 +266,10 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 		// if not authorized in cache AND there is missing information in the cache
 		// run database query to determine authorization status
 		if ($authorized === false && $cachedUntilLevel <= $contextDepth) {
+			// get DBHandler service
+			Services::requireService("DBHandler", true);
+			$dbHandler =& Services::getService("DBHandler");
+
 			// construct database query
 			$query =& new SelectQuery();
 			
@@ -284,13 +288,11 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 				$query->addWhere($colPrefix.$this->_contextIdColumn." = ".$ancestors[$depth]);
 	
 				// follows, some debugging stuff
-				echo "<pre>";
-				echo MySQL_SQLGenerator::generateSQLQuery($query);
-				echo "</pre>";
+				//echo "<pre>";
+				//echo MySQL_SQLGenerator::generateSQLQuery($query);
+				//echo "</pre>";
 	
 				// run query
-				Services::requireService("DBHandler", true);
-				$dbHandler =& Services::getService("DBHandler");
 				$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 				
 				// validate query results
@@ -376,15 +378,138 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 		if ($this->authorize($agent, $function, $context))
 		    return false;
 			
+		// this string will precede every column name
+		$colPrefix = $contextSystem.".".$contextSubsystem.".";
+
 		// add to the database
-		// @todo Insert into database 
-			
-		// get subtree of this context
-		$subtree =& $this->_hierarchyGenerator->getSubtree($contextDepth, $contextId);
-		// @todo Remove each node in subtree from DB
+		$query =& new InsertQuery();
+		$query->setTable($contextSystem.".".$contextSubsystem);
+		$columns = array();
+		$columns[] = $colPrefix.$this->_agentIdColumn;
+		$columns[] = $colPrefix.$this->_agentTypeColumn;
+		$columns[] = $colPrefix.$this->_functionIdColumn;
+		$columns[] = $colPrefix.$this->_contextDepthColumn;
+		$columns[] = $colPrefix.$this->_contextIdColumn;
+		$query->setColumns($columns);
+		$values = array();
+		$values[] = $agentId;
+		$values[] = $agentType;
+		$values[] = $functionId;
+		$values[] = $contextDepth;
+		$values[] = $contextId;
+		$query->addRowOfValues($values);
 		
-		// @todo Update cache
+		// follows, some debugging stuff
+		//echo "<pre>";
+		//echo MySQL_SQLGenerator::generateSQLQuery($query);
+		//echo "</pre>";
+	
+		// get DBHandler service
+		Services::requireService("DBHandler", true);
+		$dbHandler =& Services::getService("DBHandler");
+		
+		// run query
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// validate query results
+		if ($queryResult === null) {
+			$str = "Query failed in grant().";
+		    throw(new Error($str, "AuthorizationHandler", true));
+		}
+		if ($queryResult->getNumberOfRows() > 1) {
+			$str = "Insert query must affect exactly one row in grant().";
+		    throw(new Error($str, "AuthorizationHandler", true));
+		}
+
+		// update cache
+		$this->_cacheACF[$agentId][$agentType]
+					[$contextSystem][$contextSubsystem][$contextDepth][$contextId]
+					[$functionId]
+					= true;
+		
+		$this->_cacheFCA[$functionId]
+					[$contextSystem][$contextSubsystem][$contextDepth][$contextId]
+					[$agentId][$agentType]
+					= true;
+		
+		$this->_cacheAFC[$agentId][$agentType]
+					[$functionId]
+					[$contextSystem][$contextSubsystem][$contextDepth][$contextId]
+					= true;
+
+		// get subtree of this context and revoke on each node (updating the cache,
+		// meanwhile.
+		$subtree =& $this->_hierarchyGenerator->generateSubtree($contextDepth, $contextId);
+		foreach (array_keys($subtree) as $i => $depth)
+			foreach ($subtree[$depth] as $id) {
+				$this->_revoke($agentId, $agentType, 
+							   $functionId, 
+							   $contextSystem, $contextSubsystem, $depth, $id);
+
+				// update cache
+				$this->_cacheACF[$agentId][$agentType]
+							[$contextSystem][$contextSubsystem][$depth][$id]
+							[$functionId]
+							= true;
+				
+				$this->_cacheFCA[$functionId]
+							[$contextSystem][$contextSubsystem][$depth][$id]
+							[$agentId][$agentType]
+							= true;
+				
+				$this->_cacheAFC[$agentId][$agentType]
+							[$functionId]
+							[$contextSystem][$contextSubsystem][$depth][$id]
+							= true;
+			}
+			
+		return true;
 	}
+	
+	
+	
+	/**
+	 * A private auxilliary method for grant() and revoke(). Runs a delete DB query
+	 * on the specified context.
+	 * @method private _revoke
+	 * @return boolean <code>true</code>, if successful; <code>false</code>, otherwise.
+	 */
+	function _revoke($agentId, $agentType, 
+					 $functionId, 
+					 $contextSystem, $contextSubsystem, $contextDepth, $contextId) {
+		
+		// this string will precede every column name
+		$colPrefix = $contextSystem.".".$contextSubsystem.".";
+		// create and run query
+		$query =& new DeleteQuery();
+		$query->setTable($contextSystem.".".$contextSubsystem);
+		$query->addWhere($colPrefix.$this->_agentIdColumn." = ".$agentId);
+		$query->addWhere($colPrefix.$this->_agentTypeColumn." = ".$agentType);
+		$query->addWhere($colPrefix.$this->_functionIdColumn." = ".$functionId);
+		$query->addWhere($colPrefix.$this->_contextDepthColumn." = ".$contextDepth);
+		$query->addWhere($colPrefix.$this->_contextIdColumn." = ".$contextId);
+		
+		// follows, some debugging stuff
+		//echo "<pre>";
+		//echo MySQL_SQLGenerator::generateSQLQuery($query);
+		//echo "</pre>";
+		
+		// get DBHandler service
+		Services::requireService("DBHandler", true);
+		$dbHandler =& Services::getService("DBHandler");
+		
+		// run query
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// validate query results
+		if ($queryResult === null) {
+			$str = "Delete query failed.";
+		    throw(new Error($str, "AuthorizationHandler", true));
+		}
+
+		return ($queryResult->getNumberOfRows() == 1);
+	}
+	
 	
 	
 	/**
@@ -426,11 +551,43 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 		$ancestors =& $this->_hierarchyGenerator->getAncestors($contextDepth, $contextId);
 		$count = count($ancestors);
 		
-		// @todo If an ancestor is authorized - error
+		// If an ancestor is authorized - error
+		for ($depth = 0; $depth < $count; $depth++) {
+			$id = $ancestors[$depth];
+		    if ($this->_cacheAFC[$agentId][$agentType]
+								[$functionId]
+								[$contextSystem][$contextSubsystem][$depth][$id]
+								=== true) return false;
+		}
 		
-		// @todo Remove context from DB
-		// @todo Grant to subtree of context
-		// @todo Update cache
+		// get subtree of this context, add the context itself,
+		// and revoke on each node (updating the cache, meanwhile).
+		$subtree =& $this->_hierarchyGenerator->generateSubtree($contextDepth, $contextId);
+		$subtree[$contextDepth][] = $contextId;
+		foreach (array_keys($subtree) as $i => $depth)
+			foreach ($subtree[$depth] as $id) {
+				$this->_revoke($agentId, $agentType, 
+							   $functionId, 
+							   $contextSystem, $contextSubsystem, $depth, $id);
+
+				// update cache
+				$this->_cacheACF[$agentId][$agentType]
+							[$contextSystem][$contextSubsystem][$depth][$id]
+							[$functionId]
+							= false;
+				
+				$this->_cacheFCA[$functionId]
+							[$contextSystem][$contextSubsystem][$depth][$id]
+							[$agentId][$agentType]
+							= false;
+				
+				$this->_cacheAFC[$agentId][$agentType]
+							[$functionId]
+							[$contextSystem][$contextSubsystem][$depth][$id]
+							= false;
+			}
+			
+		return true;
 	}
 	
 

@@ -6,7 +6,7 @@ require_once(HARMONI."DBHandler/DeleteQuery.interface.php");
  * A DeleteQuery class provides the tools to build a DELETE query.
  * 
  * A DeleteQuery class provides the tools to build a DELETE query.
- * @version $Id: DeleteQuery.class.php,v 1.4 2003/07/10 02:34:19 gabeschine Exp $
+ * @version $Id: DeleteQuery.class.php,v 1.5 2003/07/10 23:04:49 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -20,14 +20,17 @@ class DeleteQuery extends DeleteQueryInterface {
 	 */
 	var $_table;
 
-
+	
 	/**
-	 * @var string $_condition This will store the condition in the WHERE clause.
+	 * This will store the condition in the WHERE clause. Each element of this
+	 * array stores 2 things: the condition itself, and the logical operator
+	 * to use to join with the previous condition.
+	 * @var array $_condition The condition in the WHERE clause.
 	 * @access private
 	 */
 	var $_condition;
 
-
+	
 	/**
 	 * This is the constructor for a DELETE query.
 	 * This is the constructor for a DELETE query.
@@ -58,8 +61,9 @@ class DeleteQuery extends DeleteQueryInterface {
 	 *
 	 * The query will execute only on rows that fulfil the condition. If this method
 	 * is never called, then the WHERE clause will not be included.
-	 * @param string $condition The WHERE clause condition.
+	 * @param string The WHERE clause condition.
 	 * @access public
+	 * @deprecated July 09, 2003 - Use addWhere() instead.
 	 */
 	function setWhere($condition) {
 		// ** parameter validation
@@ -67,7 +71,40 @@ class DeleteQuery extends DeleteQueryInterface {
 		ArgumentValidator::validate($condition, $stringRule, true);
 		// ** end of parameter validation
 
-		$this->_condition = $condition;
+		$arr = array();
+		$arr[] = $condition;
+		$arr[] = null;
+		
+		$this->_condition[] = $arr;
+	}
+
+
+	/**
+	 * Adds a new condition in the WHERE clause.
+	 * 
+	 * The query will execute only on rows that fulfil the condition. If this method
+	 * is never called, then the WHERE clause will not be included.
+	 * @param string condition The WHERE clause condition to add.
+	 * @param integer logicalOperation The logical operation to use to connect
+	 * this WHERE condition with the previous WHERE conditions. Allowed values:
+	 * <code>_AND</code> , <code>_OR</code> , and <code>_XOR</code>. 
+	 * @method public addWhere
+	 * @return void 
+	 */
+	function addWhere($condition, $logicalOperation = _AND) {
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		$integerRule =& new IntegerValidatorRule();
+		$optionalRule =& new OptionalRule($integerRule);
+		ArgumentValidator::validate($condition, $stringRule, true);
+		ArgumentValidator::validate($logicalOperation, $optionalRule, true);
+		// ** end of parameter validation
+
+		$arr = array();
+		$arr[] = $condition;
+		$arr[] = $logicalOperation;
+		
+		$this->_condition[] = $arr;
 	}
 
 
@@ -87,7 +124,7 @@ class DeleteQuery extends DeleteQueryInterface {
 		$this->_table = "";
 
 		// no WHERE condition, by default
-		$this->_condition = "";
+		$this->_condition = array();
 	}
 
 }

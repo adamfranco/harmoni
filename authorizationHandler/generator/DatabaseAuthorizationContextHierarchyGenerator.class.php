@@ -12,7 +12,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * hierarchical information.
  * 
  * @access public
- * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.7 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.8 2003/07/10 23:04:50 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
@@ -250,9 +250,9 @@ class DatabaseAuthorizationContextHierarchyGenerator
 		}
 		
 		// follows, some debugging stuff
-		echo "<pre>";
-		echo MySQL_SQLGenerator::generateSQLQuery($query);
-		echo "</pre>";
+		//echo "<pre>";
+		//echo MySQL_SQLGenerator::generateSQLQuery($query);
+		//echo "</pre>";
 
 		// now, execute the query
 		Services::requireService("DBHandler");

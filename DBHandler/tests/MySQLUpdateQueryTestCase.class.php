@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.11 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.12 2003/07/10 23:04:50 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -102,10 +102,11 @@
 			$this->query->setTable($table);
 			$this->query->setColumns($columns);
 			$this->query->setValues($values);
-			$this->query->setWhere($condition);
+			$this->query->addWhere($condition);
+			$this->query->addWhere($condition);
 			
 
-			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk',\n\tuser_fname = 'Dobo',\n\tuser_id = 5\nWHERE\n\tuser_id = 3\n";
+			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk',\n\tuser_fname = 'Dobo',\n\tuser_id = 5\nWHERE\n\tuser_id = 3\n\t\tAND\n\tuser_id = 3\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);

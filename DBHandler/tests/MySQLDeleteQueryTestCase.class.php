@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLDeleteQueryTestCase.class.php,v 1.10 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: MySQLDeleteQueryTestCase.class.php,v 1.11 2003/07/10 23:04:50 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -74,9 +74,10 @@
 
 			$this->query->reset();
 			$this->query->setTable($table);
-			$this->query->setWhere($condition);
+			$this->query->addWhere($condition);
+			$this->query->addWhere($condition);
 
-			$sql = "DELETE\nFROM\n\tperson\nWHERE\n\tuser_uname = 'dradichk'\n";
+			$sql = "DELETE\nFROM\n\tperson\nWHERE\n\tuser_uname = 'dradichk'\n\t\tAND\n\tuser_uname = 'dradichk'\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);

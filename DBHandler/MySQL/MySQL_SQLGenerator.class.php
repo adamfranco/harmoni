@@ -6,7 +6,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  *
- * @version $Id: MySQL_SQLGenerator.class.php,v 1.8 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.9 2003/07/10 23:04:50 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -132,9 +132,33 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 		
 		$sql .= implode(",\n\t", $updateExpressions);
 		
-		// include WHERE condition, if necessary
-		if ($query->_condition)
-		    $sql .= "\nWHERE\n\t".$query->_condition;
+		// include the WHERE clause, if necessary
+		if ($query->_condition) {
+			$sql .= "\nWHERE";
+
+			// include join
+			foreach($query->_condition as $key => $condition) {
+				// we don't append anything for the first element
+				if ($key != 0) {
+					switch ($condition[1]) {
+						case _AND :
+							$sql .= "\n\t\tAND";
+							break;
+						case _OR :
+							$sql .= "\n\t\tOR";
+							break;
+						case _XOR :
+							$sql .= "\n\t\tXOR";
+							break;
+						default:
+							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
+					} // switch
+				}
+				
+				$sql .= "\n\t";
+				$sql .= $condition[0];
+			}
+		}
 		
 		$sql .= "\n";
 			
@@ -167,10 +191,32 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 		
 		// include the WHERE clause, if necessary
 		if ($query->_condition) {
-			$sql .= "\nWHERE\n\t";
-			$sql .= $query->_condition;
+			$sql .= "\nWHERE";
+
+			// include join
+			foreach($query->_condition as $key => $condition) {
+				// we don't append anything for the first element
+				if ($key != 0) {
+					switch ($condition[1]) {
+						case _AND :
+							$sql .= "\n\t\tAND";
+							break;
+						case _OR :
+							$sql .= "\n\t\tOR";
+							break;
+						case _XOR :
+							$sql .= "\n\t\tXOR";
+							break;
+						default:
+							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
+					} // switch
+				}
+				
+				$sql .= "\n\t";
+				$sql .= $condition[0];
+			}
 		}
-		
+
 		$sql .= "\n";
 
 		return $sql;

@@ -46,32 +46,30 @@ require_once("Query.abstract.php");
 	
 	/**
 	 * Defines a constant for 'AND' operations (used in WHERE and JOIN clauses)
-	 * @const integer SELECT
+	 * @const integer _AND
 	 * @package harmoni.dbc
 	 */
 	define("_AND", 7);
-
+	
+	
 	/**
 	 * Defines a constant for 'OR' operations (used in WHERE and JOIN clauses)
-	 * @const integer SELECT
+	 * @const integer _OR
 	 * @package harmoni.dbc
 	 */
 	define("_OR", 8);
 	
 	/**
 	 * Defines a constant for 'OR' operations (used in WHERE and JOIN clauses)
-	 * @const integer SELECT
+	 * @const integer _XOR
 	 * @package harmoni.dbc
 	 */
 	define("_XOR", 9);
-	
-	
-
 
 /**
  * A SelectQuery interface provides the tools to build an SQL SELECT query.
  *
- * @version $Id: SelectQuery.interface.php,v 1.7 2003/07/10 02:34:19 gabeschine Exp $
+ * @version $Id: SelectQuery.interface.php,v 1.8 2003/07/10 23:04:49 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
