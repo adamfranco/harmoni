@@ -105,7 +105,7 @@ class OsidManager
      * 
      * @access public
      */
-    function assignConfiguration ( $configuration ) { 
+    function assignConfiguration ( &$configuration ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

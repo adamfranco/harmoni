@@ -5,14 +5,14 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.16 2005/03/02 21:33:48 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.17 2005/03/24 17:26:29 adamfranco Exp $
  *
  * @package harmoni.services
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.class.php,v 1.16 2005/03/02 21:33:48 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.17 2005/03/24 17:26:29 adamfranco Exp $
  */
 class Services extends ServicesAbstract {
 	/**
@@ -193,6 +193,53 @@ class Services extends ServicesAbstract {
 		// call the service's start() method if it exists
 		if (method_exists($this->_services[$name], 'start'))
 			$this->_services[$name]->start();
+		
+		return true;
+	}
+	
+	/**
+	 * Attempts to start the manager referenced by $name. The manager must
+	 * extend OsidManager And assign its context and configuration.
+	 * 
+	 * @param string $name
+	 * @param object OsidContext $context
+	 * @param object Properties $configuration
+	 * @return boolean true on success
+	 * @access public
+	 * @since 3/24/05
+	 */
+	function startManager ( $name, &$context, &$configuration ) {
+		// make sure that the service is not currently running.
+		if ($this->running($name))
+			return true;
+		
+		$classname = $this->_registeredServices[$name];
+		
+		if (!$classname)
+			throwError(new Error("Services::startService('$name') - could not 
+				start service - A classname was not registered for this service
+				correctly", "Services", 1));
+						
+		$this->_services[$name] =& new $classname;
+		$this->_services[$name]->assignOsidContext($context);
+		$this->_services[$name]->assignConfiguration($configuration);
+		
+		
+		// make sure the service was instantiated properly
+		if (!is_object($this->_services[$name]) || get_class($this->_services[$name]) != strtolower($classname)) {
+			// if we have the error Handler, throw a pretty error with that,
+			// otherwise, use the die() function.
+			if ($this->_registeredServices['ErrorHandler']) {
+				throwError(new Error("Services::startService('$name') - could not 
+				start service - the object of class $classname was not instantiated 
+				correctly", "Services", 1));
+			} else {
+				die($this->_getBacktrace()."Services::startService('$name') - could not 
+				start service - the object of class $classname was not instantiated 
+				correctly");
+			}
+			return false;
+		}
 		
 		return true;
 	}

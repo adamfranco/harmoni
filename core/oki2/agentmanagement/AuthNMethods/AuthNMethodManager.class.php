@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethodManager.class.php,v 1.1 2005/03/03 01:03:51 adamfranco Exp $
+ * @version $Id: AuthNMethodManager.class.php,v 1.2 2005/03/24 17:25:47 adamfranco Exp $
  */ 
 
 /**
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethodManager.class.php,v 1.1 2005/03/03 01:03:51 adamfranco Exp $
+ * @version $Id: AuthNMethodManager.class.php,v 1.2 2005/03/24 17:25:47 adamfranco Exp $
  */
 class AuthNMethodManager
 	extends OsidManager
@@ -91,6 +91,13 @@ class AuthNMethodManager
      */
     function assignConfiguration ( &$configuration ) { 
         $this->_configuration =& $configuration;
+        $keys =& $configuration->getKeys();
+        while($keys->hasNextObject()) {
+        	$authNType =& $keys->nextObject();
+        	$this->addAuthNMethodWithType(
+        		$configuration->getProperty($authNType),
+        		$authNType);
+        }
     }
     
     /**

@@ -13,7 +13,7 @@ require_once(HARMONI."services/Services.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.abstract.php,v 1.10 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: Services.abstract.php,v 1.11 2005/03/24 17:26:29 adamfranco Exp $
  */
 class ServicesAbstract
 	extends ServicesInterface {
@@ -85,6 +85,21 @@ class ServicesAbstract
 		eval($str);
 //		var_dump($result);
 		return $result;
+	}
+	
+	/**
+	 * Attempts to start the manager referenced by $name. The manager must
+	 * extend OsidManager And assign its context and configuration.
+	 * 
+	 * @param string $name
+	 * @param object OsidContext $context
+	 * @param object Properties $configuration
+	 * @return boolean true on success
+	 * @access public
+	 * @since 3/24/05
+	 */
+	function startManagerAsService ( $name, &$context, &$configuration ) {
+		return $GLOBALS[SERVICES_OBJECT]->startManager($name, $context, $configuration);
 	}
 	
 	/**
