@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_test.php,v 1.1 2003/06/16 20:01:08 dobomode Exp $
+    // $Id: simple_test.php,v 1.2 2003/06/20 15:36:36 dobomode Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -273,6 +273,7 @@
         function paintEnd($test_name, $size) {
             if ($size > 0) {
                 $this->_progress++;
+				echo "<br>";
             }
             array_pop($this->_test_stack);
             if (count($this->_test_stack) == 0) {
