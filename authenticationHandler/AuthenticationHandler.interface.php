@@ -5,7 +5,7 @@
  * The AuthenticationHandlerInterface defines the functionallity that all extending classes should have.
  * An implementing class should reference one or several AuthenticationMethod objects and use them
  * to authenticate an agent.
- * @version $Id: AuthenticationHandler.interface.php,v 1.5 2003/06/26 15:44:07 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.interface.php,v 1.6 2003/06/26 17:29:47 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @see AuthenticationMethod
@@ -39,7 +39,7 @@ class AuthenticationHandlerInterface {
 	 * @access public
 	 * @return object AuthenticationResult The AuthenticationResult object.
 	 **/
-	function authenticateAllMethods($systemName, $password) { 
+	function & authenticateAllMethods($systemName, $password) { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	

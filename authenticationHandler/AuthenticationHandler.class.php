@@ -8,7 +8,7 @@ require_once(HARMONI."authenticationHandler/AuthenticationHandler.interface.php"
  * authenticating agents.
  * 
  * @see AuthenticationMethodInterface
- * @version $Id: AuthenticationHandler.class.php,v 1.2 2003/06/26 15:44:07 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.3 2003/06/26 17:29:47 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -59,11 +59,50 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	 * @access public
 	 * @return object AuthenticationResult The AuthenticationResult object.
 	 **/
-	function authenticateAllMethods($systemName, $password) { 
+	function & authenticateAllMethods($systemName, $password) { 
 		// first, build an array of methods, their priority and authority
+		$aMethods = $pMethods = array();
 		foreach($this->getMethodNames() as $method) {
-			
+			if ($this->_methods[$method]->getAuthoritative())
+				$aMethods[$method] = $this->_methods[$method]->getPriority();
+			else
+				$pMethods[$method] = $this->_methods[$method]->getPriority();
 		}
+		
+		// now, authoritative methods are in $aMethods, non are in $pMethods
+		// sort the two arrays
+		asort($pMethods,SORT_NUMERIC);
+		asort($aMethods,SORT_NUMERIC);
+		
+		// if we have aMethods, we will assume that none of them authenticated yet.
+		if (count($aMethods)) $haveGoodAMethod = false;
+		else $haveGoodAMethod = true;
+		// otherwise, we have no *required* methods, so everything should just
+		// run normally
+		
+		// now, run through the aMethods first, then the pMethods, and
+		// store the results in an AuthenticationResult object.
+		$validList = array();
+		foreach (array_keys($aMethods) as $method) {
+			if ($this->_methods[$method]->authenticate($systemName,$password)) {
+				// they're good!
+				$haveGoodAMethod = true;
+				$validList[] = $method;
+			}
+		}
+		
+		// now, continue only if we are a-OK on the authoritative methods
+		if ($haveGoodAMethod) {
+			foreach (array_keys($pMethods) as $method) {
+				if ($this->_methods[$method]->authenticate($systemName,$password)) {
+					// they're good!
+					$validList[] = $method;
+				}
+			}
+		}
+		
+		$results = & new AuthenticationResult($validList);
+		return $results;
 	}
 	
 	/**

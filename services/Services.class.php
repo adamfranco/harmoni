@@ -5,7 +5,7 @@ require_once(HARMONI."services/Services.abstract.php");
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.3 2003/06/25 20:42:02 gabeschine Exp $
+ * @version $Id: Services.class.php,v 1.4 2003/06/26 17:29:48 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -150,6 +150,16 @@ class Services extends ServicesAbstract {
 			return true;
 		return false;
 	}
+	
+	/**
+	 * Stops all the services -- used internally by PHP.
+	 * @access public
+	 * @return void
+	 **/
+	function __sleep() {
+		foreach ($this->_services as $service) $this->stop($service);
+	}
+	
 }
 	
 ?>
