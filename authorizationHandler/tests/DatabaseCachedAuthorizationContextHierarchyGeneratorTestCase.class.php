@@ -7,7 +7,7 @@ require_once(HARMONI.'authorizationHandler/generator/DatabaseCachedAuthorization
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseCachedAuthorizationContextHierarchyGeneratorTestCase.class.php,v 1.3 2003/07/03 01:34:14 dobomode Exp $
+ * @version $Id: DatabaseCachedAuthorizationContextHierarchyGeneratorTestCase.class.php,v 1.4 2003/07/04 00:15:38 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -133,7 +133,6 @@ require_once(HARMONI.'authorizationHandler/generator/DatabaseCachedAuthorization
 		 *    Test getAncestors().
 		 */ 
 		function test_getAncestors() {
-			// no hierarchy
 			$this->generator->addContextHierarchyLevel("site", "site_id");
 			$this->generator->addContextHierarchyLevel("section", "section_id", "FK_site");
 			$this->generator->addContextHierarchyLevel("page", "page_id", "FK_section");
@@ -163,6 +162,44 @@ require_once(HARMONI.'authorizationHandler/generator/DatabaseCachedAuthorization
 			$resultFromDobo[1] = 252;
 			$resultFromDobo[2] = 814;
 			
+			$this->assertEqual($resultFromGenerator, $resultFromDobo);
+		}
+		
+		/**
+		 *    Test caching.
+		 */ 
+		function test_caching() {
+			$this->generator->addContextHierarchyLevel("site", "site_id");
+			$this->generator->addContextHierarchyLevel("section", "section_id", "FK_site");
+			$this->generator->addContextHierarchyLevel("page", "page_id", "FK_section");
+			$this->generator->addContextHierarchyLevel("story", "story_id", "FK_page");
+		
+			$resultFromGenerator = $this->generator->generateSubtree(0, 71);
+			$resultFromDobo = array();
+			$resultFromDobo[1] = array(251, 252);
+			$resultFromDobo[2] = array(811, 812, 813, 814);
+			$resultFromDobo[3] = array(675, 679, 676, 677, 678);
+			
+			$this->assertEqual($resultFromGenerator, $resultFromDobo);
+
+			// this should come from the cache
+			$resultFromGenerator = $this->generator->generateSubtree(0, 71);
+			$this->assertEqual($resultFromGenerator, $resultFromDobo);
+			
+			$resultFromDobo = array();
+			$resultFromGenerator = $this->generator->generateSubtree(1, 251);
+			$resultFromDobo[2] = array(811, 812, 813);
+			$resultFromDobo[3] = array(675, 679, 676, 677);
+
+			// this should come from the cache
+			$this->assertEqual($resultFromGenerator, $resultFromDobo);
+			
+			$resultFromDobo = array();
+			$resultFromGenerator = $this->generator->generateSubtree(1, 252);
+			$resultFromDobo[2] = array(814);
+			$resultFromDobo[3] = array(678);
+
+			// this should come from the cache
 			$this->assertEqual($resultFromGenerator, $resultFromDobo);
 		}
 

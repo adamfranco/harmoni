@@ -4,7 +4,7 @@
  * The interface for an AuthorizationContextHierarchy, a tree-like datastructure used by
  * the AuthorizationContextHierarchyGenerator objects.
  * @access public
- * @version $Id: AuthorizationContextHierarchy.interface.php,v 1.1 2003/07/01 01:55:22 dobomode Exp $
+ * @version $Id: AuthorizationContextHierarchy.interface.php,v 1.2 2003/07/04 00:15:37 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -14,14 +14,27 @@ class AuthorizationContextHierarchyInterface {
 
 
 	/**
-	 * Adds one node to the hierarchy and make it a child of the specified
-	 * parent.
-	 * @method public addNode
+	 * Creates and adds one node to the hierarchy and makes it a child of the specified
+	 * parent. If the parent is not specified, then it makes the node a root.
+	 * @method public addNewNode
 	 * @param integer systemId The system id of the new node.
-	 * @param ref object parent The node that will become the parent of the added node.
+	 * @param optional ref object parent The node that will become the parent of the added node.
 	 * @return ref object The newly created node.
 	 */
-	function & addNode($systemId, & $parent) {
+	function & addNewNode($systemId, & $parent) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+
+	/**
+	 * Adds the specified node to the hierarchy and makes it a child of the specified
+	 * parent. If the parent is not specified, then it makes the node a root.
+	 * @method public addNode
+	 * @param ref object The node to add.
+	 * @param optional ref object parent The node that will become the parent of the added node.
+	 * @return boolean <code>true</code> on success; <code>false</code>, otherwise.
+	 */
+	function & addNode(& $node, & $parent) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -75,9 +88,23 @@ class AuthorizationContextHierarchyInterface {
 	 * @method public getNodeAtLevel
 	 * @param integer level The level of the requested node.
 	 * @param integer systemId The systemId of the requested node.
-	 * @return ref object The requested node.
+	 * @return ref object The requested node. <code>Null</code>, if the node
+	 * is not in the hierarchy.
 	 */
 	function & getNodeAtLevel($level, $systemId) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
+	
+	/**
+	 * Traverses the hierarchy and returns all the nodes in an array. The traversal
+	 * is a pre-order traversal.
+	 * @method public traverse
+	 * @return ref array An array of all nodes in the hierarchy visited in a pre-order
+	 * manner.
+	 */
+	function & traverse() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

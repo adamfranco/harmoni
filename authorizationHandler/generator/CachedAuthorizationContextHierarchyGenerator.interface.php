@@ -11,7 +11,7 @@
  * not have to care about the way the hierarchy is stored and/or retrieved.
  * 
  * @access public
- * @version $Id: CachedAuthorizationContextHierarchyGenerator.interface.php,v 1.4 2003/07/03 01:34:14 dobomode Exp $
+ * @version $Id: CachedAuthorizationContextHierarchyGenerator.interface.php,v 1.5 2003/07/04 00:15:37 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
@@ -47,8 +47,8 @@ class CachedAuthorizationContextHierarchyGeneratorInterface {
 	 * Generates the whole context hierarchy tree. This method is probably not
 	 * going to be very useful, but is included in any case.
 	 * @method public generateTree
-	 * @return array An <code>h</code>-dimensional array, where <code>h</code> is the height
-	 * of the context hierarchy. Each element of the array is another array containing the
+	 * @return array An <code>2</code>-dimensional array.
+	 * Each element of the array is another array containing the
 	 * system ids of all contexts on that hierarchy depth.
 	 */
 	function generateTree() {
@@ -63,8 +63,8 @@ class CachedAuthorizationContextHierarchyGeneratorInterface {
 	 * @method public generateSubtree
 	 * @param integer hierarchyLevel The level of the root context.
 	 * @param integer systemId  The system id of the root context.
-	 * @return array An <code>(h-1)</code>-dimensional array, where <code>h</code> is the height
-	 * of the subtree. Each element of the array is another array containing the
+	 * @return array A <code>2</code>-dimensional array.
+	 * Each element of the array is another array containing the
 	 * system ids of all contexts on that hierarchy level. The root itself, is not included.
 	 * Thus the indexing of the array starts from <code>l+1</code> where <code>l</code>
 	 * is the level of the root.

@@ -12,7 +12,7 @@ require_once(HARMONI."authorizationHandler/generator/CachedAuthorizationContextH
  * hierarchical information.
  * 
  * @access public
- * @version $Id: DatabaseCachedAuthorizationContextHierarchyGenerator.class.php,v 1.4 2003/07/03 01:34:14 dobomode Exp $
+ * @version $Id: DatabaseCachedAuthorizationContextHierarchyGenerator.class.php,v 1.5 2003/07/04 00:15:37 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
@@ -39,6 +39,17 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 	 */
 	var $_levels;
 	
+
+
+	/**
+	 * This variable will store cached information about the hierarchy. This is
+	 * an AuthorizationContextHierarchy object.
+	 * @attribute private object _cache
+	 */
+	var $_cache;
+	
+	
+	
 	
 					
 	/**
@@ -55,6 +66,7 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 		
 		$this->_dbIndex = $dbIndex;
 		$this->_levels = array();
+		$this->_cache =& new AuthorizationContextHierarchy();
 	}
 					
 					
@@ -83,6 +95,9 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 		ArgumentValidator::validate($FK_column, $stringRule, true);
 		// ** end of parameter validation
 		
+		// clear the cache
+		$this->clearCache();
+
 		$level = array($table, $id_column, $FK_column);
 		$this->_levels[] = $level;
 		
@@ -95,8 +110,8 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 	 * Generates the whole context hierarchy tree. This method is probably not
 	 * going to be very useful, but is included in any case.
 	 * @method public generateTree
-	 * @return array An <code>h</code>-dimensional array, where <code>h</code> is the height
-	 * of the context hierarchy. Each element of the array is another array containing the
+	 * @return array An <code>2</code>-dimensional array.
+	 * Each element of the array is another array containing the
 	 * system ids of all contexts on that hierarchy depth.
 	 */
 	function generateTree() {
@@ -110,11 +125,11 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 	 * @method public generateSubtree
 	 * @param integer hierarchyLevel The level of the root context.
 	 * @param integer systemId  The system id of the root context.
-	 * @return array An <code>(h-1)</code>-dimensional array, where <code>h</code> is the height
-	 * of the subtree. Each element of the array is another array containing the
+	 * @return array A <code>2</code>-dimensional array.
+	 * Each element of the array is another array containing the
 	 * system ids of all contexts on that hierarchy level. The root itself, is not included.
 	 * Thus the indexing of the array starts from <code>l+1</code> where <code>l</code>
-	 * is the level of the root.
+	 * is the hierarchy level of the root.
 	 * Returns null if something went wrong.
 	 */
 	function generateSubtree($hierarchyLevel, $systemId) {
@@ -136,7 +151,29 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 		if ($hierarchyLevel == $this->getHierarchyHeight() - 1)
 			return array();
 
+
+		$result = array();
 		
+		// see, if the subtree has been cached
+		$node =& $this->_cache->getNodeAtLevel($hierarchyLevel, $systemId);
+		if (! is_null($node)) {
+			// convert the tree into an array
+			$nodes =& $this->_cache->traverse($node);
+			// get rid of root
+			array_shift($nodes);
+			
+			$numNodes = count($nodes);
+			// place nodes on the same level in a separate array
+			for ($i = 0; $i < $numNodes; $i++) {
+				$depth = $nodes[$i]->getDepth();
+				$id = $nodes[$i]->getSystemId();
+				$result[$depth][] = $id;
+			}
+			return $result;
+		}
+		
+		// if not cached, then fetch from database
+
 		// create an appropriate query and fetch the information from the
 		// database
 		$query = new SelectQuery();
@@ -163,7 +200,7 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 			$query->addOrderBy($level[1]);
 		}
 		
-		// follow, some debugging stuff
+		// follows, some debugging stuff
 		// echo "<pre>";
 		// echo MySQL_SQLGenerator::generateSQLQuery($query);
 		// echo "</pre>";
@@ -202,19 +239,37 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 		// $result[0] = array(251, 252);
 		// $result[1] = array(811, 812, 813, 814);
 
-		$result = array();
+		// fill the values of $result, and cache it, so that next time we request 
+		// this information, we don't have to query the database
+
+		// first cache, the root
+		$root =& new AuthorizationContextHierarchyNode($systemId, $hierarchyLevel);
+		$this->_cache->addNode($root);
+		
 		$numFields = $dbResult->getNumberOfFields();
 		while($dbResult->hasMoreRows()) {
-			for ($i = 0; $i < $numFields; $i++) {
-				$value = $dbResult->field($i);
+			for ($level = $hierarchyLevel + 1; $level < $numFields + $hierarchyLevel + 1; $level++) {
+				$fieldIndex = $level - $hierarchyLevel - 1;
+				$value = intval($dbResult->field($fieldIndex));
 				// if we haven't put the value already in the array, then do it
-				if (!in_array($value, $result[$i + $hierarchyLevel + 1]))
-				    $result[$i + $hierarchyLevel + 1][] = $value;
+				if (!in_array($value, $result[$level])) {
+					// put in $result
+				    $result[$level][] = $value;
+					
+					// put in cache
+					$node =& new AuthorizationContextHierarchyNode($value, $level);
+		    		if ($fieldIndex == 0)
+		    		    $parent =& $root;
+					else
+						$parent =& $this->_cache->getNodeAtLevel($level - 1, 
+									intval($dbResult->field($fieldIndex - 1)));
+					$this->_cache->addNode($node, $parent);
+				}
 			}
 
 			$dbResult->advanceRow();
 		}
-
+		
 		return $result;
 	}
 	
@@ -271,10 +326,10 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 			$query->addColumn($level[1]);
 		}
 		
-		// follow, some debugging stuff
-		echo "<pre>";
-		echo MySQL_SQLGenerator::generateSQLQuery($query);
-		echo "</pre>";
+		// follows, some debugging stuff
+		// echo "<pre>";
+		// echo MySQL_SQLGenerator::generateSQLQuery($query);
+		// echo "</pre>";
 		
 		// now, execute the query
 		Services::requireService("DBHandler");
@@ -313,6 +368,19 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 	}
 	
 
+
+	/**
+	 * Clears the hierarchy cache. You should call this function, whenever the
+	 * hierarchy structure has changed on whatever media is used (i.e., the
+	 * database has been updated).
+	 * @method public clearCache
+	 * @return void 
+	 */
+	function clearCache() {
+		unset($this->_cache);
+		$this->_cache =& new AuthorizationContextHierarchy();
+	}
+	
 
 	/**
 	 * Returns the height of the hierarchy for this generator.
