@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Does authentication procedures with an LDAP server.
  *
- * @version $Id: LDAPAuthenticationMethod.class.php,v 1.2 2003/06/30 14:48:07 gabeschine Exp $
+ * @version $Id: LDAPAuthenticationMethod.class.php,v 1.3 2003/06/30 16:06:21 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -121,6 +121,7 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	 * @return array An array of ldap_get_entries results.
 	 **/
 	function _search( $filter, $return = array() ) {
+		$this->_bindForSearch();
 		$sr = ldap_search($this->_conn,
 						$this->_opt->get("baseDN"),
 						$filter,
@@ -128,6 +129,22 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 		$info = ldap_get_entries($this->_conn,$sr);
 		return $info;
 	}
+	
+	/**
+	 * Attempts to bind to the LDAP server either anonymously or with a
+	 * DN and password supplied in the configuration so that we can
+	 * search the database.
+	 * @access public
+	 * @return void
+	 **/
+	function _bindForSearch() {
+		$dn = $this->_opt->get("bindDN");
+		$pass = $this->_opt->get("bindDNPassword");
+		if ($dn && $dn != '') { // we don't *require* the passwd
+			$this->_bind($dn,$pass);
+		} else $this->_anonymousBind();
+	}
+	
 	
 	/**
 	 * Connects to the LDAP server.
@@ -155,7 +172,31 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	 * @return array An associative array of [key]=>value pairs.  
 	 **/
 	function getAgentInformation( $systemName ) {
+		// get the array of fields to fetch
+		$fields = $this->_opt->get("agentInformationFields");
+		if (!is_array($fields)) return array();
 		
+		// we need all the values from $fields from the LDAP server.
+		$return = array_values($fields);
+		
+		$uidField = $this->_opt->get("usernameField");
+		$values = $this->_search("$uidField=$systemName",$return);
+		
+		// no go through and populate the $info array
+		$info = array();
+		
+		// first off, do we have any results
+		if ($values['count'])
+			$row = $values[0];
+		else
+			return array();
+		
+		foreach ($fields as $key=>$field) {
+			if ($row[$field]['count']) {
+				$info[$key] = $row[$field][0];
+			}
+		}
+		return $info;
 	}
 	
 	/**
@@ -166,7 +207,9 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	 * @return boolean If the agent exists or not. 
 	 **/
 	function agentExists( $systemName ) {
-		
+		$dn = $this->_getDN($systemName);
+		if ($dn) return true;
+		return false;
 	}
 	
 }
