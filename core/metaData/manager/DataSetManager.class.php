@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.21 2004/01/15 19:37:11 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.22 2004/01/15 20:55:17 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -29,17 +29,17 @@ class DataSetManager extends ServiceInterface {
 	 * @param ref object $versionConstraint A {@link VersionConstraint} object to use for checking if values are too old, etc.
 	 * @return void
 	 */
-	function setGlobalVersionConstraint(&$versionConstraint) {
+/*	function setGlobalVersionConstraint(&$versionConstraint) {
 		$this->_versionConstraint =& $versionConstraint;
-	}
+	}*/
 	
 	/**
 	 * Returns the global {@link VersionConstraint} if one is set.
 	 * @return ref object
 	 */
-	function &getGlobalVersionConstraint() {
+/*	function &getGlobalVersionConstraint() {
 		return $this->_versionConstraint;
-	}
+	}*/
 	
 	/**
 	*  Fetches and returns an array of DataSet IDs from the database in one Query.

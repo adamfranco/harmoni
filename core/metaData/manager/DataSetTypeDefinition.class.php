@@ -8,7 +8,7 @@ require_once(HARMONI."metaData/manager/FieldDefinition.class.php");
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link DataSetTypeManager}.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeDefinition.class.php,v 1.15 2004/01/09 04:21:21 gabeschine Exp $
+ * @version $Id: DataSetTypeDefinition.class.php,v 1.16 2004/01/15 20:55:17 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -100,8 +100,6 @@ class DataSetTypeDefinition {
 			return true;
 		}
 		
-		$this->_loaded = true;
-		
 		// if we were not initialized with an ID, that means that we're not meant to interface with the DB
 		if (!$this->_id) {
 			throwError( new Error("The DataSetTypeDefinition object of type '".OKITypeToString($this->_type)."'
@@ -148,6 +146,8 @@ class DataSetTypeDefinition {
 			$this->_addField($newField, $a['datasettypedef_id']);
 			unset($newField);
 		}
+		
+		$this->_loaded = true;
 	}
 	
 	/**

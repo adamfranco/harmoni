@@ -16,11 +16,15 @@ $db->connect($dbid);
 HarmoniDataManager::setup($dbid);
 
 $manager =& Services::requireService("DataSetManager");
+$typeManager =& Services::requireService("DataSetTypeManager");
 
 // check the query string
 
 $agent =& new HarmoniType("middlebury.edu","Harmoni","SimpleAgent");
 $comp =& new HarmoniType("middlebury.edu","Harmoni","Computer");
+$ar = array($agent, $comp);
+$it =& new HarmoniTypeIterator($ar);
+$typeManager->loadMultiple($it);
 
 //$s =& new AndSearch;
 //$s->addCriteria(new DataSetTypeSearch($comp));

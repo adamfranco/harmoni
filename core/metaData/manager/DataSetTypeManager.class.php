@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.19 2004/01/14 19:42:25 adamfranco Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.20 2004/01/15 20:55:17 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -124,6 +124,8 @@ class DataSetTypeManager
 			}
 			$query->setWhere("(".implode(" OR ",$wheres).")");
 			
+//			print "<PRE>".MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
+			
 			$dbHandler =& Services::getService("DBHandler");
 			$res = $dbHandler->query($query, $this->_dbID);
 			
@@ -136,6 +138,8 @@ class DataSetTypeManager
 				if (!isset($rows[$theID])) $rows[$theID] = array();
 				$rows[$theID][] = $row;
 			}
+			
+//			printpre($rows);
 			
 			// now distribute the rows among their respective objects
 			foreach (array_keys($rows) as $id) {

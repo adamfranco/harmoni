@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.25 2004/01/15 19:37:11 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.26 2004/01/15 20:55:16 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -191,13 +191,13 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.25 2004/01/15 19:37:11 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.26 2004/01/15 20:55:16 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {
 	
 	var $_prune;
-	var $_versionConstraint;
+	var $_pruneConstraint;
 	
 	function FullDataSet(&$idManager, $dbID, &$dataSetTypeDef, $verControl=false ) {
 		parent::CompactDataSet($idManager, $dbID, $dataSetTypeDef, $verControl);
@@ -294,20 +294,13 @@ class FullDataSet extends CompactDataSet {
 			return false;
 		}
 		
-		// if the DataSetManager has a version constraint set, we should have it prune all our Tags
-		// real quick
-		$dataSetMgr =& Services::getService("DataSetManager");
-		if ($constraint =& $dataSetMgr->getGlobalVersionConstraint()) {
-			$constraint->checkDataSetTags($this);
-		}
-		
 		// now let's cycle through our FieldValues and commit them
 		foreach ($this->_dataSetTypeDef->getAllLabels() as $label) {
 			$this->_fields[$label]->commit();
 		}
-
+		
 		if ($this->_prune) {
-			$constraint =& $this->_prune;
+			$constraint =& $this->_pruneConstraint;
 			
 			// check if we have to delete any dataset tags based on our constraints
 			$constraint->checkDataSetTags($this);
@@ -381,7 +374,8 @@ class FullDataSet extends CompactDataSet {
 	* @return void
 	*/
 	function prune(&$versionConstraint) {
-		$this->_prune =& $versionConstraint;
+		$this->_pruneConstraint =& $versionConstraint;
+		$this->_prune=true;
 		
 		// just step through each FieldValues object and call prune()
 		foreach ($this->_dataSetTypeDef->getAllLabels(true) as $label) {

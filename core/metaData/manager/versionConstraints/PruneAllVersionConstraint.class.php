@@ -6,12 +6,12 @@ require_once HARMONI."metaData/manager/versionConstraints/VersionConstraint.inte
  * Prunes out ALL inactive values, of everything.
  * @package harmoni.datamanager.versionconstraint
  * @copyright 2004, Middlebury College
- * @version $Id: PruneAllVersionConstraint.class.php,v 1.1 2004/01/14 21:14:34 gabeschine Exp $
+ * @version $Id: PruneAllVersionConstraint.class.php,v 1.2 2004/01/15 20:55:28 gabeschine Exp $
  */
 class PruneAllVersionConstraint extends VersionConstraint {
 
 	function checkValueVersions(&$valueVers) {		
-		foreach (array_keys($valueVers) as $verID) {
+		foreach ($valueVers->getVersionList() as $verID) {
 			$ver =& $valueVers->getVersion($verID);
 			
 			// these are the conditions under which we will prune the version: (OR)

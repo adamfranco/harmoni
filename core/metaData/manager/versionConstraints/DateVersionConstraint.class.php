@@ -8,13 +8,13 @@ require_once HARMONI."metaData/manager/versionConstraints/VersionConstraint.inte
  * will throw an error.
  * @package harmoni.datamanager.versionconstraint
  * @copyright 2004, Middlebury College
- * @version $Id: DateVersionConstraint.class.php,v 1.1 2004/01/14 21:14:34 gabeschine Exp $
+ * @version $Id: DateVersionConstraint.class.php,v 1.2 2004/01/15 20:55:28 gabeschine Exp $
  */
 class DateVersionConstraint extends VersionConstraint {
 	
 	var $_cutoffDate;
 	
-	function DateVersionContraint( $relativeDateString ) {
+	function DateVersionConstraint( $relativeDateString ) {
 		$now = time();
 		$relative = strtotime($relativeDateString, $now);
 		

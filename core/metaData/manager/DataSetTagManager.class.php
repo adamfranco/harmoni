@@ -7,7 +7,7 @@ require_once HARMONI."metaData/manager/DataSetTag.class.php";
 * more detailed explanation of the role of tags.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSetTagManager.class.php,v 1.13 2004/01/14 21:09:21 gabeschine Exp $
+* @version $Id: DataSetTagManager.class.php,v 1.14 2004/01/15 20:55:17 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class DataSetTagManager extends ServiceInterface {
@@ -138,7 +138,7 @@ class DataSetTagManager extends ServiceInterface {
 		// first get rid of all our mappings
 		$query =& new DeleteQuery;
 		$query->setTable("dataset_tag_map");
-		$query->setWhere("fk_dataset=$id");
+		$query->setWhere("fk_dataset_tag=$id");
 		
 		$dbHandler->query($query, $this->_dbID);
 		

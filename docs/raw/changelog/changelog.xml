@@ -4,6 +4,12 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.1.0" date="Not Released">
 		<change author='gabe'>
+			Removed argument validation from DateTime constructor to speed up code by 33%.
+		</change>
+		<change author='gabe'>
+			DataManager: sped up fetching large numbers of DataSets at once (by a factor of two).
+		</change>
+		<change author='gabe'>
 			DataManager: DataSet::prune() now takes a required VersionConstraint object on which to base the
 			pruning process. Handling of pruning Tags is very very messy, but it works.
 		</change>
