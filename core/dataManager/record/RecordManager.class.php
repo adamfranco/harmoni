@@ -7,7 +7,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
 /**
  * The RecordManager handles the creation, tagging and fetching of {@link Record}s from the database.
  * @package harmoni.datamanager
- * @version $Id: RecordManager.class.php,v 1.7 2004/08/27 18:11:29 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.8 2004/10/06 19:49:04 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -342,6 +342,42 @@ class RecordManager extends ServiceInterface {
 		$record->setActiveFlag(false);
 		if ($prune) $record->prune( new PruneAllVersionConstraint() );
 		$record->commit();
+	}
+	
+	/**
+	 * Delete the Record Set and any records that are referenced only by this record
+	 * set and not shared with other record sets.
+	 * 
+	 * @param int $id The Id of the set to delete.
+	 * @return void
+	 * @access public
+	 * @date 10/6/04
+	 */
+	function deleteRecordSet ($id) {
+		$recordSet =& $this->fetchRecordSet($id);
+		
+		// Delete the records in the set.
+		$records =& $recordSet->getRecords();
+		
+		foreach (array_keys($records) as $key) {
+			$record =& $records[$key];
+			
+			// Only delete records if they are not shared with other sets.
+			$setsContaining = $recordManager->getRecordSetIDsContaining($record);
+			if (count($setsContaining) == 1 
+				&& $setsContaing[0] == $id)
+			{
+				$this->deleteRecord($record->getID());
+			}
+		}
+		
+		// Delete the set from the database
+		$query =& new DeleteQuery;
+		$query->setTable("dm_record_set");
+		$query->addWhere("id = '".$id."'");
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 	}
 	
 	/**
