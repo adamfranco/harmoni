@@ -7,7 +7,7 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: LDAPAuthenticationMethodTestCase.class.php,v 1.1 2003/06/30 19:11:53 adamfranco Exp $
+ * @version $Id: LDAPAuthenticationMethodTestCase.class.php,v 1.2 2003/06/30 20:40:42 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -25,17 +25,21 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
 		var $m;
 		var $o;
 		function setUp() {
-			$o = & new DBMethodOptions;
-			$o->set("databaseType",MYSQL);
-			$o->set("databaseName","harmoniTest");
-			$o->set("databaseUsername","test");
-			$o->set("databasePassword","test");
-			$o->set("databaseHost","devo.middlebury.edu");
-			$o->set("tableName","user");
-			$o->set("usernameField","user_uname");
-			$o->set("passwordField","user_pass");
-			Services::startService("DBHandler");
-			$this->m = &new DBAuthenticationMethod($o);
+			$o = & new LDAPMethodOptions;
+			$o->set("LDAPHost","jaguar.middlebury.edu");
+			$o->set("baseDN","ou=Midd,o=MC");
+			
+			// bindDN can be blank or a username
+			// if it is a username, then searches can be done where that user has priveleges.
+			// an example of bindDB is "cn=afranco,cn=midd"
+//			$o->set("bindDN","cn=afranco,cn=midd");
+//			$o->set("bindDNPassword","testpassword");			
+			$o->set("usernameField","uid");
+			$o->set("agentInformationFields",array("fullname"=>"cn"
+													,"email"=>"mail",
+													"idnumber"=>"extension-attribute-1",
+													"memberof"=>"memberOf"));
+			$this->m = &new LDAPAuthenticationMethod($o);
 			$this->o = &$o;
 		}
 		
@@ -50,21 +54,6 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
 		/**
 		 *    First test Description
 		 */ 
-		 
-		function test_aaa_connect_disconnect() {
-			$this->assertFalse($this->m->_connected);
-			$this->m->_connect();
-			$this->assertTrue($this->m->_connected);
-			$this->m->_disconnect();
-			$this->assertFalse($this->m->_DBHandler->isConnected($this->m->_id));
-			$this->assertFalse($this->m->_connected);
-			$this->m->_connect();
-			$this->assertTrue($this->m->_connected);
-			$this->m->_disconnect();
-			$this->assertFalse($this->m->_DBHandler->isConnected($this->m->_id));
-			$this->assertFalse($this->m->_connected);
-
-		}
 		function test_agent_exists() {
 			$this->assertFalse($this->m->agentExists("blablastupid"));
 			$this->assertTrue($this->m->agentExists("afranco"));

@@ -7,7 +7,7 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPMethodOptions.class.php'
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: LDAPMethodOptionsTestCase.class.php,v 1.2 2003/06/30 20:04:49 adamfranco Exp $
+ * @version $Id: LDAPMethodOptionsTestCase.class.php,v 1.3 2003/06/30 20:40:42 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -40,29 +40,29 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPMethodOptions.class.php'
 		 */ 
 		function test_set_all_options() {
 			$o = &$this->opt;
-			$o->set("databaseType",MYSQL);
-			$this->assertEqual($o->get("databaseType"),MYSQL);
-			$o->set("databaseName","harmoniTest");
-			$this->assertEqual($o->get("databaseName"),"harmoniTest");
-			$o->set("databaseUsername","test");
-			$this->assertEqual($o->get("databaseUsername"),"test");
-			$o->set("databasePassword","test");
-			$this->assertEqual($o->get("databasePassword"),"test");
-			$o->set("databaseHost","devo.middlebury.edu");
-			$this->assertEqual($o->get("databaseHost"),"devo.middlebury.edu");
-			$o->set("tableName","user");
-			$this->assertEqual($o->get("tableName"),"user");
-			$o->set("usernameField","user_uname");
-			$this->assertEqual($o->get("usernameField"),"user_uname");
-			$o->set("passwordField","user_pass");
-			$this->assertEqual($o->get("passwordField"),"user_pass");
-			$o->set("passwordFieldEncrypted",true);
-			$this->assertEqual($o->get("passwordFieldEncrypted"),true);
-			$o->set("passwordFieldEncryptionType","databaseSHA1");
-			$this->assertEqual($o->get("passwordFieldEncryptionType"),"databaseSHA1");
-			$o->set("agentInformationFields",array("email"=>"user_email"
-													,"firstname"=>"user_fname",
-													"lastname"=>"user_lname"));
+			$o->set("LDAPHost","jaguar.middlebury.edu");
+			$this->assertEqual($o->get("LDAPHost"),"jaguar.middlebury.edu");
+			$o->set("baseDN","ou=Midd,o=MC");
+			$this->assertEqual($o->get("baseDN"),"ou=Midd,o=MC");
+			
+			// bindDN can be blank or a username
+			// if it is a username, then searches can be done where that user has priveleges.
+			// an example of bindDB is "cn=afranco,cn=midd"
+			$o->set("bindDN","cn=afranco,cn=midd");
+			$this->assertEqual($o->get("bindDN"),"cn=afranco,cn=midd");
+			$o->set("bindDNPassword","testpassword");
+			$this->assertEqual($o->get("bindDNPassword"),"testpassword");
+			
+			$o->set("usernameField","uid");
+			$this->assertEqual($o->get("usernameField"),"uid");
+			$o->set("agentInformationFields",array("fullname"=>"cn"
+													,"email"=>"mail",
+													"idnumber"=>"extension-attribute-1",
+													"memberof"=>"memberOf"));
+			$this->assertEqual($o->get("agentInformationFields"),array("fullname"=>"cn"
+													,"email"=>"mail",
+													"idnumber"=>"extension-attribute-1",
+													"memberof"=>"memberOf"));
 		}
 		
     }

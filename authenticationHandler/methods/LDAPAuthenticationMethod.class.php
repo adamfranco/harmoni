@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Does authentication procedures with an LDAP server.
  *
- * @version $Id: LDAPAuthenticationMethod.class.php,v 1.4 2003/06/30 19:05:32 gabeschine Exp $
+ * @version $Id: LDAPAuthenticationMethod.class.php,v 1.5 2003/06/30 20:40:41 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -66,9 +66,12 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 		
 		if ($dn) {
 			// the user exists
-			if ($this->_bind($dn,$password)) // they're good!
+			if ($this->_bind($dn,$password)) {// they're good!
+				$this->_disconnect();
 				return true;
+			}
 		}
+		$this->_disconnect();
 		return false;
 	}
 	
@@ -208,8 +211,13 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	 * @return boolean If the agent exists or not. 
 	 **/
 	function agentExists( $systemName ) {
+		$this->_connect();
 		$dn = $this->_getDN($systemName);
-		if ($dn) return true;
+		if ($dn) {
+			$this->_disconnect();
+			return true;
+		}
+		$this->_disconnect();
 		return false;
 	}
 	
