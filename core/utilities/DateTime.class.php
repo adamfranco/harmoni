@@ -5,7 +5,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.9 2004/01/08 23:42:33 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.10 2004/01/09 22:40:59 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -233,7 +233,7 @@ class DateTime {
 		return $months[$this->getMonth() - 1] . " " .
 			sprintf("%d",$this->getDay()) . ", " .
 			$this->getYear() . " " .
-			$hours . ":" . sprintf("%02d",($this->getMinutes()+1)) . " " . $this->getHoursAMPM();
+			$hours . ":" . sprintf("%02d",($this->getMinutes())) . " " . $this->getHoursAMPM();
 	}
 	
 	function getHoursAMPM() {

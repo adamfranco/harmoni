@@ -3,7 +3,84 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.0.4</h2><h3>2003-12-06</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.0.5</h2><h3>2004-01-09</h3><ul>
+		<li/> Change:  
+			Implementation of the OKI SharedManager (HarmoniSharedManager) now uses the HarmoniDataManager's IDManager
+			or ID creation.
+		
+		<li/> Bug Fix:
+	 
+			DateTime::toString() now correctly displays minutes.
+		
+		<li/> New feature:  
+			Optional third argument to DataSetManager::fetchArrayOfIDs() specifies an array of DataSetTypes to limit the
+			query.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Completed the HarmoniDataManager!
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			HarmoniDataManager::setup($dbID) now takes optional second argument including a list of DataSetTypes to
+			preload in a single query to save time and Database overhead.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			added FloatDataType, ShortStringDataType. finished up DataManager tagging, cloning, pruning functionality.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			added BooleanDataType to DataManager.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			DataSetManager::fetchArrayOfIDs() fetches an array of DataSet ids in one SQL query. 
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			DateTime::compare(date1, date2) returns difference in seconds between two dates.
+		 (<i>Gabe Schine</i>)
+		<li/> Bug Fix:
+	 
+			Typo in constructor for UnknownDBError class.
+		
+		<li/> New feature:  
+			Harmoni::forward(module,action) is now a synonym for Harmoni::ActionHandler::forward() for convenience.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Classes: Timer and QueryCounter for easy micro-second timing or DB query counting, respectively.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Harmoni::getData has been deprecated and replaced by Harmoni::getAttachedData to avoid ambiguity.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			IDManager::newID() now uses auto_increment DB functionality to reduce query count on compatible
+			servers.
+		 (<i>Gabe Schine</i>)
+		<li/> Bug Fix:
+	 
+			DataSet::populate() now sets its own ID to avoid super re-duplication of DataSets in database.
+		 (<i>Gabe Schine</i>)
+		<li/> Bug Fix:
+	 
+			DateTime::now() now gives correct Hour value. Likewise MySQLDatabase::toDBDate() now adds 1 to hour value
+			to give correct 1-24 value. Other DB Types haven't yet been checked.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Modified field in HarmoniDataManager table "datasetfield" from "datasetfield_created" to "datasetfield_modified"
+			since it is updated on every commit().
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Extensive work on DataManager. Now works for creating/retrieving datasets with version controls.
+		 (<i>Gabe Schine</i>)
+		<li/> Bug Fix:
+	 
+			Corrected ArgumentValidator call in DBHandler checking for DateTimeInterface instead of DateTime.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Added AgentInformationHandler::agentExists($name, [$method]) which steps through each AuthenticationMethod
+			and checks for an existing agent.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			LoginState now has better support for Active/Authenticated agents. It should allow one to change
+			the active agent without disturbing the actual authentication process.
+		 (<i>Gabe Schine</i>)
+	</ul><br/><h2>Version 0.0.4</h2><h3>2003-12-06</h3><ul>
 		<li/> New feature:  
 			DateTime class has two new functions: toString() and toMDY() which display
 			a full date/time and a MM/DD/YY string, respectfully.
@@ -44,10 +121,10 @@
 		<li/> Change:  LoginHandler and Harmoni: when LoginHandler is used, 
 		the action that is checked for required authentication is now the LAST action
 		executed instead of the first. This way, the action that finally ends up being
-		executed is the &quot;authoritative&quot; action. (<i>Gabe Schine</i>)
+		executed is the "authoritative" action. (<i>Gabe Schine</i>)
 	</ul><br/><h2>Version 0.0.3</h2><h3>2003-11-26</h3><ul>
 		<li/> Change:  Made ActionHandler check for class and method definitions before trying to execute them. (<i>Gabe Schine</i>)
-		<li/> New feature:  Added defines in config/services.cfg.php to allow a choice of which major &quot;modules&quot; of Harmoni to load, in order to save on startup time. (<i>Gabe Schine</i>)
+		<li/> New feature:  Added defines in config/services.cfg.php to allow a choice of which major "modules" of Harmoni to load, in order to save on startup time. (<i>Gabe Schine</i>)
 		<li/> Bug Fix:
 	 Numerous bug fixes in Harmoni, ActionHandler, LoginHandler (<i>Gabe Schine</i>)
 		<li/> New feature:  Added a file under core/version.inc.php which holds the current harmoni versions. (<i>Gabe Schine</i>)
@@ -89,7 +166,7 @@
 		 (<i>Gabe Schine</i>)
 		<li/> Change:  
 			LanguageLocalizer now uses gettext() functions instead of
-			home-brewed. Included PO generators, &quot;borrowed&quot; from the Horde
+			home-brewed. Included PO generators, "borrowed" from the Horde
 			project (www.horde.org).
 		 (<i>Gabe Schine</i>)
 		<li/> Change:  New OKI interfaces, OKI gen-scripts and token

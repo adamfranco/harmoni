@@ -2,7 +2,18 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.0.5" date="Not Released">
+	<version number="0.0.5" date="2004-01-09">
+		<change>
+			Implementation of the OKI SharedManager (HarmoniSharedManager) now uses the HarmoniDataManager's IDManager
+			or ID creation.
+		</change>
+		<fix>
+			DateTime::toString() now correctly displays minutes.
+		</fix>
+		<new author='gabe'>
+			Optional third argument to DataSetManager::fetchArrayOfIDs() specifies an array of DataSetTypes to limit the
+			query.
+		</new>
 		<new author='gabe'>
 			Completed the HarmoniDataManager!
 		</new>

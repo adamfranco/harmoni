@@ -3,6 +3,51 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.0.5 (2004-01-09)
+----------------------------------------------------
+		
+	* Change: Implementation of the OKI SharedManager (HarmoniSharedManager) now uses the HarmoniDataManager's IDManager or ID creation.
+		
+	* Bug Fix: DateTime::toString() now correctly displays minutes.
+		
+	* New feature: Optional third argument to DataSetManager::fetchArrayOfIDs() specifies an array of DataSetTypes to limit the query. (Gabe Schine)
+		
+	* New feature: Completed the HarmoniDataManager! (Gabe Schine)
+		
+	* Change: HarmoniDataManager::setup($dbID) now takes optional second argument including a list of DataSetTypes to preload in a single query to save time and Database overhead. (Gabe Schine)
+		
+	* New feature: added FloatDataType, ShortStringDataType. finished up DataManager tagging, cloning, pruning functionality. (Gabe Schine)
+		
+	* New feature: added BooleanDataType to DataManager. (Gabe Schine)
+		
+	* New feature: DataSetManager::fetchArrayOfIDs() fetches an array of DataSet ids in one SQL query. (Gabe Schine)
+		
+	* New feature: DateTime::compare(date1, date2) returns difference in seconds between two dates. (Gabe Schine)
+		
+	* Bug Fix: Typo in constructor for UnknownDBError class.
+		
+	* New feature: Harmoni::forward(module,action) is now a synonym for Harmoni::ActionHandler::forward() for convenience. (Gabe Schine)
+		
+	* New feature: Classes: Timer and QueryCounter for easy micro-second timing or DB query counting, respectively. (Gabe Schine)
+		
+	* Change: Harmoni::getData has been deprecated and replaced by Harmoni::getAttachedData to avoid ambiguity. (Gabe Schine)
+		
+	* Change: IDManager::newID() now uses auto_increment DB functionality to reduce query count on compatible servers. (Gabe Schine)
+		
+	* Bug Fix: DataSet::populate() now sets its own ID to avoid super re-duplication of DataSets in database. (Gabe Schine)
+		
+	* Bug Fix: DateTime::now() now gives correct Hour value. Likewise MySQLDatabase::toDBDate() now adds 1 to hour value to give correct 1-24 value. Other DB Types haven't yet been checked. (Gabe Schine)
+		
+	* Change: Modified field in HarmoniDataManager table "datasetfield" from "datasetfield_created" to "datasetfield_modified" since it is updated on every commit(). (Gabe Schine)
+		
+	* New feature: Extensive work on DataManager. Now works for creating/retrieving datasets with version controls. (Gabe Schine)
+		
+	* Bug Fix: Corrected ArgumentValidator call in DBHandler checking for DateTimeInterface instead of DateTime. (Gabe Schine)
+		
+	* New feature: Added AgentInformationHandler::agentExists($name, [$method]) which steps through each AuthenticationMethod and checks for an existing agent. (Gabe Schine)
+		
+	* Change: LoginState now has better support for Active/Authenticated agents. It should allow one to change the active agent without disturbing the actual authentication process. (Gabe Schine)
+	
 v. 0.0.4 (2003-12-06)
 ----------------------------------------------------
 		
@@ -24,14 +69,14 @@ v. 0.0.4 (2003-12-06)
 		
 	* Change: LoginState::attachData() has been moved to Harmoni::attachContextData() and LoginState::getData() has been moved to Context::getData() for logical and organizational reasons. (Gabe Schine)
 		
-	* Change: LoginHandler and Harmoni: when LoginHandler is used, the action that is checked for required authentication is now the LAST action executed instead of the first. This way, the action that finally ends up being executed is the &quot;authoritative&quot; action. (Gabe Schine)
+	* Change: LoginHandler and Harmoni: when LoginHandler is used, the action that is checked for required authentication is now the LAST action executed instead of the first. This way, the action that finally ends up being executed is the "authoritative" action. (Gabe Schine)
 	
 v. 0.0.3 (2003-11-26)
 ----------------------------------------------------
 		
 	* Change: Made ActionHandler check for class and method definitions before trying to execute them. (Gabe Schine)
 		
-	* New feature: Added defines in config/services.cfg.php to allow a choice of which major &quot;modules&quot; of Harmoni to load, in order to save on startup time. (Gabe Schine)
+	* New feature: Added defines in config/services.cfg.php to allow a choice of which major "modules" of Harmoni to load, in order to save on startup time. (Gabe Schine)
 		
 	* Bug Fix: Numerous bug fixes in Harmoni, ActionHandler, LoginHandler (Gabe Schine)
 		
@@ -57,7 +102,7 @@ v. 0.0.3 (2003-11-26)
 		
 	* New feature: Harmoni Users's Guide stored locally in XML format. Wrote a gen-script in PHP using domxml to make pretty HTML interface. (Gabe Schine)
 		
-	* Change: LanguageLocalizer now uses gettext() functions instead of home-brewed. Included PO generators, &quot;borrowed&quot; from the Horde project (www.horde.org). (Gabe Schine)
+	* Change: LanguageLocalizer now uses gettext() functions instead of home-brewed. Included PO generators, "borrowed" from the Horde project (www.horde.org). (Gabe Schine)
 		
 	* Change: New OKI interfaces, OKI gen-scripts and token files added (under harmoni/oki and harmoni/core/tools/oki respectively) (Gabe Schine)
 	

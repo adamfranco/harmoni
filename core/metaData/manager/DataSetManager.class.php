@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.15 2004/01/09 04:21:21 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.16 2004/01/09 22:40:52 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -27,9 +27,11 @@ class DataSetManager extends ServiceInterface {
 	* @return ref array Indexed by DataSet ID, values are either {@link CompactDataSet}s or {@link FullDataSet}s.
 	* @param array $dataSetIDs
 	* @param optional bool $editable If TRUE will fetch the DataSets as Editable and with ALL versions. Default: FALSE (will only fetch ACTIVE values).
+	* @param optional array $limitTypes An array of {@link HarmoniType}s specifying to ignore any datasets who's type doesn't match one in the array.
 	*/
-	function &fetchArrayOfIDs( $dataSetIDs, $editable=false ) {
+	function &fetchArrayOfIDs( $dataSetIDs, $editable=false, $limitTypes = null ) {
 		ArgumentValidator::validate($dataSetIDs, new ArrayValidatorRuleWithRule(new NumericValidatorRule()));
+		$dataSetIDs = array_unique($dataSetIDs);
 		// first, make the new query
 		$query =& new SelectQuery();
 
@@ -42,9 +44,24 @@ class DataSetManager extends ServiceInterface {
 		$query->addWhere("(".implode(" OR ", $t).")");
 		if (!$editable) $query->addWhere("datasetfield_active=1");
 		
+		// ok, if we have any limit types, add them to the query
+		if (is_array($limitTypes)) {
+			$wheres = array();
+			foreach ($limitTypes as $type) {
+				$id = $this->_typeManager->getIDForType($type);
+				if ($id) {
+					$wheres[] = "fk_datasettype=$id";
+				}
+			}
+			
+			$query->addWhere("(".implode(" OR ", $wheres).")");
+		}
+		
 		$dbHandler =& Services::getService("DBHandler");
 		
 		$result =& $dbHandler->query($query,$this->_dbID);
+		
+		print "<pre>".MySQL_SQLGenerator::generateSQLQuery($query)."</pre>";
 		
 		if (!$result) {
 			throwError(new UnknownDBError("DataSetManager"));
