@@ -12,7 +12,7 @@ require_once(HARMONI."authorizationHandler/generator/CachedAuthorizationContextH
  * hierarchical information.
  * 
  * @access public
- * @version $Id: DatabaseCachedAuthorizationContextHierarchyGenerator.class.php,v 1.3 2003/07/02 01:13:56 dobomode Exp $
+ * @version $Id: DatabaseCachedAuthorizationContextHierarchyGenerator.class.php,v 1.4 2003/07/03 01:34:14 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
@@ -113,6 +113,8 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 	 * @return array An <code>(h-1)</code>-dimensional array, where <code>h</code> is the height
 	 * of the subtree. Each element of the array is another array containing the
 	 * system ids of all contexts on that hierarchy level. The root itself, is not included.
+	 * Thus the indexing of the array starts from <code>l+1</code> where <code>l</code>
+	 * is the level of the root.
 	 * Returns null if something went wrong.
 	 */
 	function generateSubtree($hierarchyLevel, $systemId) {
@@ -122,7 +124,7 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 		ArgumentValidator::validate($systemId, $integerRule, true);
 		// ** end of parameter validation
 		
-		if ($hierarchyLevel > $this->getHierarchyHeight() - 1) {
+		if ($hierarchyLevel < 0 || $hierarchyLevel > $this->getHierarchyHeight() - 1) {
 			$str = "\$hierarchyLevel is outside the possible range; cannot ";
 			$str .= "generate subtree.";
 		    throw(new Error($str, "AuthorizationHandler", true));
@@ -140,47 +142,79 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 		$query = new SelectQuery();
 
 		// process the first level	
-		$level = $this->_levels[0];
+		$level = $this->_levels[$hierarchyLevel];
 		// select from the first level (this will be needed for the where condition)
 		$query->addTable($level[0]);
 		// set where condition (only get subtree for $systemId)
 		$query->setWhere($level[1]." = ".$systemId);
 
 		// process the other levels
-		foreach(array_keys($this->_levels) as $i => $key) {
-			// the first level has been already taken care of
-			if ($key === 0)
-				continue;
-	
-			// process the other levels
+		for($key = $hierarchyLevel + 1; $key < $this->getHierarchyHeight(); $key++) {
 			$level = $this->_levels[$key];
 			$previousLevel = $this->_levels[$key - 1];
+
 			// make a LEFT JOIN between the previous and this level
 			$query->addTable($level[0], LEFT_JOIN, $level[2]." = ".$previousLevel[1]);
+
 			// select the id column of this level
 			$query->addColumn($level[1]);
+
 			// set order by
 			$query->addOrderBy($level[1]);
 		}
 		
-		echo "<pre>";
-		echo MySQL_SQLGenerator::generateSQLQuery($query);
-		echo "</pre>";
+		// follow, some debugging stuff
+		// echo "<pre>";
+		// echo MySQL_SQLGenerator::generateSQLQuery($query);
+		// echo "</pre>";
 
 		// now, execute the query
 		Services::requireService("DBHandler");
 		$dbHandler =& Services::getService("DBHandler");
 		$dbResult =& $dbHandler->query($query, $this->_dbIndex);
 
-		$result = array();
 		
+		if ($dbResult === null) {
+			$str = "Query failed. Possible invalid configuration of the HierarchyGenerator object.";
+		    throw(new Error($str, "AuthorizationHandler", true));
+		}
+
+		if ($dbResult->getNumberOfRows() < 1) {
+			$str = "Query did not return any rows. ";
+			$str .= "Possible invalid configuration of the HierarchyGenerator object.";
+		    throw(new Error($str, "AuthorizationHandler", true));
+		}
+
+		
+		// the query will return something like this:
+		// +------------+---------+
+		// | section_id | page_id |
+		// +------------+---------+
+		// |        251 |     811 |
+		// |        251 |     812 |
+		// |        251 |     813 |
+		// |        252 |     814 |
+		// +------------+---------+
+		// each column in the result has to go in an array ano NO values should
+		// repeat. For the example, above, the method should return:
+		//
+		// $result = array();
+		// $result[0] = array(251, 252);
+		// $result[1] = array(811, 812, 813, 814);
+
+		$result = array();
+		$numFields = $dbResult->getNumberOfFields();
 		while($dbResult->hasMoreRows()) {
-			$result[0][] = $dbResult->field("section_id");
+			for ($i = 0; $i < $numFields; $i++) {
+				$value = $dbResult->field($i);
+				// if we haven't put the value already in the array, then do it
+				if (!in_array($value, $result[$i + $hierarchyLevel + 1]))
+				    $result[$i + $hierarchyLevel + 1][] = $value;
+			}
+
 			$dbResult->advanceRow();
 		}
 
-		echo $dbResult->getNumberOfRows();
-		
 		return $result;
 	}
 	
@@ -188,14 +222,94 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 	/**
 	 * Returns all the ancestors of a given context.
 	 * @method public getAncestors
-	 * @param integer hierarchyDepth The depth of the context.
+	 * @param integer hierarchyLevel The level of the context.
 	 * @param integer systemId  The system id of the context.
 	 * @return array An array of all the ancestors of the given context. The keys
 	 * of the array coincide with the hierarchy depth of each ancestor. 
 	 * Each element is the system id of the ancestor.
 	 */
-	function getAncestors($hierarchyDepth, $systemId) {
-		return "";
+	function getAncestors($hierarchyLevel, $systemId) {
+		// ** parameter validation
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($hierarchyLevel, $integerRule, true);
+		ArgumentValidator::validate($systemId, $integerRule, true);
+		// ** end of parameter validation
+		
+		if ($hierarchyLevel < 0 || $hierarchyLevel > $this->getHierarchyHeight() - 1) {
+			$str = "\$hierarchyLevel is outside the possible range; cannot ";
+			$str .= "generate subtree.";
+		    throw(new Error($str, "AuthorizationHandler", true));
+			return null;
+		}
+
+		// if this is the first level, then just return an empty array: there
+		// are no ancestors.
+		if ($hierarchyLevel == 0)
+			return array();
+
+		
+		// create an appropriate query and fetch the information from the
+		// database
+		$query = new SelectQuery();
+
+		// process the specified level
+		$level = $this->_levels[$hierarchyLevel];
+		// select from the first level (this will be needed for the where condition)
+		$query->addTable($level[0]);
+		// set where condition (only get subtree for $systemId)
+		$query->setWhere($level[1]." = ".$systemId);
+
+		// process the other levels
+		for($key = $hierarchyLevel - 1; $key >= 0; $key--) {
+			$level = $this->_levels[$key];
+			$previousLevel = $this->_levels[$key + 1];
+
+			// make an INNER JOIN between the previous and this level
+			$query->addTable($level[0], INNER_JOIN, $previousLevel[2]." = ".$level[1]);
+
+			// select the id column of this level
+			$query->addColumn($level[1]);
+		}
+		
+		// follow, some debugging stuff
+		echo "<pre>";
+		echo MySQL_SQLGenerator::generateSQLQuery($query);
+		echo "</pre>";
+		
+		// now, execute the query
+		Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
+		$dbResult =& $dbHandler->query($query, $this->_dbIndex);
+
+		
+		if ($dbResult === null) {
+			$str = "Query failed. Possible invalid configuration of the HierarchyGenerator object.";
+		    throw(new Error($str, "AuthorizationHandler", true));
+		}
+
+		if ($dbResult->getNumberOfRows() < 1) {
+			$str = "Query did not return any rows. ";
+			$str .= "Possible invalid configuration of the HierarchyGenerator object.";
+		    throw(new Error($str, "AuthorizationHandler", true));
+		}
+
+		// there should be a unique path from the specified context to the 
+		// top level. Error, if more than one rows were returned.
+		if ($dbResult->getNumberOfRows() > 1) {
+			$str = "Query returned more than one rows. ";
+			$str .= "Possible invalid database hierarchy.";
+		    throw(new Error($str, "AuthorizationHandler", true));
+		}
+		    
+		// fill the result array
+		$result = array();
+		$numFields = $dbResult->getNumberOfFields();
+		for ($i = 0; $i < $numFields; $i++) {
+			$value = $dbResult->field($i);
+		    $result[$hierarchyLevel - ($i + 1)] = $value;
+		}
+
+		return $result;		
 	}
 	
 

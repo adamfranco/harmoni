@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  *
  * The MySQLSelectQueryResult interface provides the functionality common to a MySQL SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.3 2003/06/26 16:18:06 dobomode Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.4 2003/07/03 01:34:14 dobomode Exp $
  * @package harmoni.dbhandler
  * @access public
  * @copyright 2003 
@@ -70,7 +70,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 		
 		// if we have at least one row in the result, fetch its array
 		if ($this->hasMoreRows())
-			$this->_currentRow = mysql_fetch_assoc($this->_resourceId); // first row
+			$this->_currentRow = mysql_fetch_array($this->_resourceId); // first row
 	}
 		
 
@@ -102,7 +102,9 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 		
 		// now, advance
 		$this->_currentRowIndex++;
-		$this->_currentRow = mysql_fetch_assoc($this->_resourceId);	
+		$this->_currentRow = mysql_fetch_array($this->_resourceId);	
+		
+		return true;
 	}
 	
 
@@ -121,14 +123,16 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	/**
 	 * Returns the specified field value in the current row.
 	 * Returns the specified field value in the current row.
-	 * @param string $field The name of the field, whose value will be returned.
+	 * @param mixed $field The name or index of the field, whose value will be returned.
 	 * @access public
 	 * @return mixed The value that was requested.
 	 **/
 	function field($field) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
-		ArgumentValidator::validate($field, $stringRule, true);
+		if (!array_key_exists($field, $this->_currentRow)) {
+			$str = "Invalid field to return from a SELECT query result.";
+			throw(new Error($str, "DBHandler", true));
+		}
 		// ** end of parameter validation
 
 		return $this->_currentRow[$field];
@@ -158,8 +162,8 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	
 	
 	/**
-	 * Returns an associative array of the current row.
-	 * Returns an associative array of the current row.
+	 * Returns an array that stores the current row in the result. The data
+	 * can be accessed through associative indices <b>as well as</b> numeric indices.
 	 * @access public
 	 * @return array An associative array of the current row.
 	 **/
@@ -179,6 +183,37 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 		return mysql_num_rows($this->_resourceId);
 	}
 
+	
+
+	/**
+	 * Moves the internal row pointer to the specified position. The range of
+	 * possible values is <code>0 - (getNumberOfRows()-1)</code>.
+	 * @param integer rowNumber The number of the row to move to.
+	 * @method public moveToRow
+	 * @return boolean <code>true</code>, if operation was successful; <code>false</code>, otherwise.
+	 */
+	function moveToRow($rowNumber) {
+		// ** parameter validation
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($rowNumber, $integerRule, true);
+		// ** end of parameter validation
+		
+		
+		if (($rowNumber < 0) || ($rowNumber > $this->getNumberOfRows() - 1)) {
+			$str = "\$rowNumber must be in the range 0..(getNumberOfRows()-1)";
+			throw(new Error($str, "DBHandler", true));
+		}
+		    
+		$result = mysql_data_seek($this->_resourceId, $rowNumber);
+		
+		if ($result === true)
+			$this->_currentRowIndex = $rowNumber;
+		    
+		return $result;
+		
+	}
+
+	
 }
 
 ?>

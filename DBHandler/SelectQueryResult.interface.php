@@ -7,7 +7,7 @@ require_once("QueryResult.interface.php");
  *
  * The SelectQueryResult interface provides the functionality common to a SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: SelectQueryResult.interface.php,v 1.1 2003/06/24 20:56:25 gabeschine Exp $
+ * @version $Id: SelectQueryResult.interface.php,v 1.2 2003/07/03 01:34:13 dobomode Exp $
  * @package harmoni.dbhandler
  * @access public
  * @copyright 2003 
@@ -48,7 +48,7 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	/**
 	 * Returns the specified field value in the current row.
 	 * Returns the specified field value in the current row.
-	 * @param string $field The name of the field, whose value will be returned.
+	 * @param mixed $field The name or index of the field, whose value will be returned.
 	 * @access public
 	 * @return mixed The value that was requested.
 	 **/
@@ -74,8 +74,8 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	
 	
 	/**
-	 * Returns an associative array of the current row.
-	 * Returns an associative array of the current row.
+	 * Returns an array that stores the current row in the result. The data
+	 * can be accessed through associative indices <b>as well as</b> numeric indices.
 	 * @access public
 	 * @return array An associative array of the current row.
 	 **/
@@ -91,6 +91,19 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * @return integer Number of rows that were processed by the query.
 	 */ 
 	function getNumberOfRows() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	
+	
+	
+	/**
+	 * Moves the internal row pointer to the specified position. The range of
+	 * possible values is <code>0 - (getNumberOfRows()-1)</code>.
+	 * @param integer rowNumber The number of the row to move to.
+	 * @method public moveToRow
+	 * @return boolean <code>true</code>, if operation was successful; <code>false</code>, otherwise.
+	 */
+	function moveToRow($rowNumber) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
 
 }
 
