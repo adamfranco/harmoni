@@ -1,6 +1,7 @@
 <?
 
 require_once(OKI2."/osid/hierarchy/HierarchyManager.php");
+require_once(OKI2."/osid/hierarchy/HierarchyException.php");
 
 require_once(HARMONI."oki2/hierarchy/HarmoniHierarchy.class.php");
 require_once(HARMONI."oki2/hierarchy/HarmoniHierarchyIterator.class.php");
@@ -43,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.11 2005/03/29 19:44:25 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.12 2005/03/31 20:24:24 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -187,7 +188,7 @@ class HarmoniHierarchyManager
 
 		// check for supported hierarchies
 		if ($allowsRecursion)
-			throwError(new Error(HierarchyException::UNSUPPORTED_HIERARCHY(), "HierarchyManager", 1));
+			throwError(new Error(HierarchyException::UNSUPPORTED_CREATION(), "HierarchyManager", 1));
 		
 		$dbHandler =& Services::requireService("DBHandler");
 		$db = $this->_hyDB.".";
