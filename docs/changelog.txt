@@ -6,6 +6,8 @@ Name: Harmoni ChangeLog
 v. 0.0.3 (Not Released)
 ----------------------------------------------------
 		
+	* New feature: FormFieldSet class under 'utilities' combines FieldSet functionality with keeping track of changed values and easy validation. Intended for HTML Form use. (Gabe Schine)
+		
 	* Change: Various fixes to the OSIDs. Added 'requires' for classes being extended. Fixed syntax errors. (Adam Franco)
 		
 	* New feature: Laid out a skeleton Shared Service implimentation. Currently the shared manager only provides for the generation of unique IDs using a databse. (Adam Franco)
