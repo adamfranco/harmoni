@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.11 2005/01/27 15:58:56 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.12 2005/01/28 16:52:51 thebravecowboy Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -110,7 +110,7 @@ class HarmoniRepositoryManager
 																	$schema);
 			// Add the parts to the schema
 			$partType = new HarmoniType("Repository", "Harmoni", "Blob", "");
-			$this->_createdRecordStructures[$schema->getID()]->createPartStructure(
+			$this->_createdRecordStructures[$schema->getID()]->createPart(
 																"Content",
 																"The binary content of the Asset",
 																$partType,
