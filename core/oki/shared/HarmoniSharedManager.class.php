@@ -39,7 +39,7 @@ require_once(HARMONI."oki/shared/AgentSearches/AncestorGroupSearch.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.56 2005/01/03 20:50:33 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.57 2005/01/04 22:21:05 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -532,8 +532,8 @@ class HarmoniSharedManager
 		$query->addColumn("type_authority", "properties_authority", $db."properties_type");
 		$query->addColumn("type_keyword", "properties_keyword", $db."properties_type");
 		$query->addColumn("type_description", "properties_description", $db."properties_type");
-		$query->addColumn("key", "property_key", $db."shared_property");
-		$query->addColumn("value", "property_value", $db."shared_property");
+		$query->addColumn("property_key", "property_key", $db."shared_property");
+		$query->addColumn("property_value", "property_value", $db."shared_property");
 		
 		if ($where)
 		    $query->addWhere($where);
@@ -1154,8 +1154,8 @@ class HarmoniSharedManager
 		$query->addColumn("type_authority", "properties_authority", $db."properties_type");
 		$query->addColumn("type_keyword", "properties_keyword", $db."properties_type");
 		$query->addColumn("type_description", "properties_description", $db."properties_type");
-		$query->addColumn("key", "property_key", $db."shared_property");
-		$query->addColumn("value", "property_value", $db."shared_property");
+		$query->addColumn("property_key", "property_key", $db."shared_property");
+		$query->addColumn("property_value", "property_value", $db."shared_property");
 
 		// set the tables
 		$query->addTable($db."groups", NO_JOIN, "", "subgroup0");
@@ -1236,8 +1236,8 @@ class HarmoniSharedManager
 		$subquery1->addColumn("type_authority", "properties_authority", $db."properties_type");
 		$subquery1->addColumn("type_keyword", "properties_keyword", $db."properties_type");
 		$subquery1->addColumn("type_description", "properties_description", $db."properties_type");
-		$subquery1->addColumn("key", "property_key", $db."shared_property");
-		$subquery1->addColumn("value", "property_value", $db."shared_property");
+		$subquery1->addColumn("property_key", "property_key", $db."shared_property");
+		$subquery1->addColumn("property_value", "property_value", $db."shared_property");
 
 		// set the tables
 		$subquery1->addTable($db."groups");
@@ -1621,8 +1621,8 @@ class HarmoniSharedManager
 			$query->setTable("shared_property");
 			$query->setColumns(array(
 				"shared_property.fk_properties",
-				"shared_property.key",
-				"shared_property.value"
+				"shared_property.property_key",
+				"shared_property.property_value"
 			
 			));
 			
