@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.25 2004/01/16 20:36:10 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.26 2004/01/17 02:52:11 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -64,7 +64,7 @@ class DataSetManager extends ServiceInterface {
 			if (!isset($this->_dataSetGroupCache[$id]))
 				$fromDBIDs[] = $id;
 		}
-		
+
 		if (count($fromDBIDs)) {
 			$wheres = array();
 			foreach ($fromDBIDs as $id) {
@@ -82,6 +82,7 @@ class DataSetManager extends ServiceInterface {
 			
 			while ($result->hasMoreRows()) {
 				$a = $result->getCurrentRow();
+
 				$result->advanceRow();
 				$id = $a["id"];
 				if (!isset($this->_dataSetGroupCache[$id])) {
@@ -104,7 +105,7 @@ class DataSetManager extends ServiceInterface {
 	function &fetchArrayOfIDs( $dataSetIDs, $editable=false, $limitResults = null ) {
 		ArgumentValidator::validate($dataSetIDs, new ArrayValidatorRuleWithRule(new NumericValidatorRule()));
 		$dataSetIDs = array_unique($dataSetIDs);
-		
+
 		// let's weed out those IDs that we can take from cache
 		$fromCacheIDs = array();
 		$fromDBIDs = array();
@@ -119,6 +120,8 @@ class DataSetManager extends ServiceInterface {
 					$fromDBIDs[] = $dataSetID;
 				}
 			}
+		} else {
+			$fromDBIDs = $dataSetIDs;
 		}
 		
 		$sets = array();

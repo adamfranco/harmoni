@@ -30,7 +30,7 @@ class DataSetGroup {
 	}
 	
 	function takeRow(&$row) {
-		$this->_dataSetIDs[] = $a["fk_dataset"];
+		$this->_dataSetIDs[] = $row["fk_dataset"];
 	}
 	
 	function &fetchDataSets($editable = false, $limitResults = null) {
