@@ -9,7 +9,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.8 2003/10/13 15:07:42 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.9 2003/10/17 15:51:19 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -40,7 +40,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
         	$this->leafNodeLevel2Id = 0;
         	
 			// perhaps, initialize $obj here
-//			print "<pre>";
+			print "<pre>";
 			
 			$nodeTypes = array();
 			$nodeTypes[] =& new GenericNodeType;
@@ -120,7 +120,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
         function tearDown() {
 			// perhaps, unset $obj here
 			unset($this->hierarchy);
-//			print "</pre>";
+			print "</pre>";
         }
 
 		//--------------the tests ----------------------
@@ -385,6 +385,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 		}
 		
 		function test_get_node_types () {
+			print_r($this->hierarchy);
 			$hierarchy =& $this->hierarchy;
 			
 			$nodeTypeIterator =& $hierarchy->getNodeTypes();
