@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.6 2003/06/20 01:29:35 dobomode Exp $
+ * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.7 2003/06/20 22:44:22 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -122,7 +122,7 @@
 			$this->query->startFromRow(10);
 			
 			$tables = "\n\tuser\n\t\tINNER JOIN\n\tclass\n\t\tON user.user_weight = class.class_id,\n\tperson\n\t\tLEFT JOIN\n\ttree\n\t\tON person.person_id = tree.tree_height - 10\n\t\tRIGHT JOIN\n\tbush\n\t\tON tree.tree_leaves = 3000,\n\tsand";
-			$sql = "SELECT DISTINCT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM{$tables}\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname,\n\tuser_fname\n\tASC\nLIMIT\n\t9, 100\n";
+			$sql = " SELECT DISTINCT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM{$tables}\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname,\n\tuser_fname\n\tASC\nLIMIT\n\t9, 100\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
