@@ -12,7 +12,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * hierarchical information.
  * 
  * @access public
- * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.8 2003/07/10 23:04:50 dobomode Exp $
+ * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.9 2003/07/11 00:20:25 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
@@ -187,7 +187,7 @@ class DatabaseAuthorizationContextHierarchyGenerator
 		if ($hierarchyLevel < 0 || $hierarchyLevel > $this->getHierarchyHeight() - 1) {
 			$str = "\$hierarchyLevel is outside the possible range; cannot ";
 			$str .= "generate subtree.";
-		    throw(new Error($str, "AuthorizationHandler", true));
+		    throwError(new Error($str, "AuthorizationHandler", true));
 			return null;
 		}
 
@@ -262,13 +262,13 @@ class DatabaseAuthorizationContextHierarchyGenerator
 		
 		if ($dbResult === null) {
 			$str = "Query failed. Possible invalid configuration of the HierarchyGenerator object.";
-		    throw(new Error($str, "AuthorizationHandler", true));
+		    throwError(new Error($str, "AuthorizationHandler", true));
 		}
 
 		if ($dbResult->getNumberOfRows() < 1) {
 			$str = "Query did not return any rows. ";
 			$str .= "Possible invalid configuration of the HierarchyGenerator object.";
-		    throw(new Error($str, "AuthorizationHandler", true));
+		    throwError(new Error($str, "AuthorizationHandler", true));
 		}
 
 		// the query will return something like this:
@@ -362,7 +362,7 @@ class DatabaseAuthorizationContextHierarchyGenerator
 		if ($hierarchyLevel < 0 || $hierarchyLevel > $this->getHierarchyHeight() - 1) {
 			$str = "\$hierarchyLevel is outside the possible range; cannot ";
 			$str .= "generate subtree.";
-		    throw(new Error($str, "AuthorizationHandler", true));
+		    throwError(new Error($str, "AuthorizationHandler", true));
 			return null;
 		}
 
@@ -421,13 +421,13 @@ class DatabaseAuthorizationContextHierarchyGenerator
 		
 		if ($dbResult === null) {
 			$str = "Query failed. Possible invalid configuration of the HierarchyGenerator object.";
-		    throw(new Error($str, "AuthorizationHandler", true));
+		    throwError(new Error($str, "AuthorizationHandler", true));
 		}
 
 		if ($dbResult->getNumberOfRows() < 1) {
 			$str = "Query did not return any rows. ";
 			$str .= "Possible invalid configuration of the HierarchyGenerator object.";
-		    throw(new Error($str, "AuthorizationHandler", true));
+		    throwError(new Error($str, "AuthorizationHandler", true));
 		}
 
 		// there should be a unique path from the specified context to the 
@@ -435,7 +435,7 @@ class DatabaseAuthorizationContextHierarchyGenerator
 		if ($dbResult->getNumberOfRows() > 1) {
 			$str = "Query returned more than one rows. ";
 			$str .= "Possible invalid database hierarchy.";
-		    throw(new Error($str, "AuthorizationHandler", true));
+		    throwError(new Error($str, "AuthorizationHandler", true));
 		}
 		    
 		// fill the result array
@@ -449,7 +449,7 @@ class DatabaseAuthorizationContextHierarchyGenerator
 				$str = "";	
 				$str .= "NULL returned by SELECT query. ";
 				$str .= "Possible invalid configuration of the HierarchyGenerator object.";
-			    throw(new Error($str, "AuthorizationHandler", true));
+			    throwError(new Error($str, "AuthorizationHandler", true));
 			}
 			$value = intval($value);
 			

@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.7 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.8 2003/07/11 00:20:22 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -135,7 +135,7 @@ class MySQLDatabase extends DatabaseInterface {
 			return $linkId;
 		}
 		else {
-			throw(new Error("Cannot connect to database.", "DBHandler", false));
+			throwError(new Error("Cannot connect to database.", "DBHandler", false));
 		    $this->_linkId = false;
 			return false;						
 		}
@@ -169,7 +169,7 @@ class MySQLDatabase extends DatabaseInterface {
 			return $linkId;
 		}
 		else {
-			throw(new Error("Cannot connect to database.", "DBHandler", false));
+			throwError(new Error("Cannot connect to database.", "DBHandler", false));
 		    $this->_linkId = false;
 			return false;						
 		}
@@ -189,7 +189,7 @@ class MySQLDatabase extends DatabaseInterface {
 	function & query(& $query) {
 		// do not attempt, to query, if not connected
 		if (!$this->isConnected()) {
-			throw(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
+			throwError(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
 			return false;
 		}
 			
@@ -218,7 +218,7 @@ class MySQLDatabase extends DatabaseInterface {
 				$result =& new MySQLSelectQueryResult($resourceId, $this->_linkId);
 				break;
 			default:
-				throw(new Error("Unsupported query type.", "DBHandler", true));
+				throwError(new Error("Unsupported query type.", "DBHandler", true));
 		} // switch
 
 		return $result;
@@ -239,7 +239,7 @@ class MySQLDatabase extends DatabaseInterface {
 	function _query($query) {
 		// do not attempt to query, if not connected
 		if (!$this->isConnected()) {
-			throw(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
+			throwError(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
 			return false;
 		}
 			
@@ -248,7 +248,7 @@ class MySQLDatabase extends DatabaseInterface {
 		
 		if ($resourceId === false) {
 		    $this->_failedQueries++;
-			throw(new Error(mysql_error($this->_linkId), "DBHandler", false));
+			throwError(new Error(mysql_error($this->_linkId), "DBHandler", false));
 		}
 		else
 		    $this->_successfulQueries++;

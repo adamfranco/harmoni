@@ -14,7 +14,7 @@ require_once(HARMONI . "storageHandler/Storables/VirtualStorable.class.php");
 * 
 * @package harmoni.storage
 * @author Middlebury College, ETS 
-* @version $Id: StorageHandler.class.php,v 1.9 2003/07/10 02:34:21 gabeschine Exp $
+* @version $Id: StorageHandler.class.php,v 1.10 2003/07/11 00:20:25 gabeschine Exp $
 * @copyright 2003
 */
 class StorageHandler extends StorageHandlerInterface {
@@ -87,14 +87,14 @@ class StorageHandler extends StorageHandlerInterface {
 		if ($path != '/' && !$this->_pathDefined('/')) {
 			// this is bad.. the user needs to specify ONE '/' method
 			// before defining any more
-			throw(new Error("StorageHandler::addMethod - You MUST add ONE method with '/' as the path before you can add any others (such as '$path', which was just attempted).", "StorageHandler", true));
+			throwError(new Error("StorageHandler::addMethod - You MUST add ONE method with '/' as the path before you can add any others (such as '$path', which was just attempted).", "StorageHandler", true));
 		} 
 		// add the method to our private arrays, if it's valid
 		if (!$this->_pathDefined($path)) {
 			// ok, this path hasn't been defined before
 			$this->_addMethod($method, $path, STORAGE_PRIMARY);
 		}else
-			throw(new Error("StorageHandler::addMethod - can not add another primary storage method for '$path'. One already exists.", "StorageHandler", true));
+			throwError(new Error("StorageHandler::addMethod - can not add another primary storage method for '$path'. One already exists.", "StorageHandler", true));
 	}
 
 	/**
@@ -118,7 +118,7 @@ class StorageHandler extends StorageHandlerInterface {
 		$this->_checkPath($path); 
 		// check to make sure we have a primary method defined for this path
 		if (!$this->_hasPrimary($path)) {
-			throw(new Error("StorageHandler::addBackupMethod - can not add a backup method for '$path' because it does not have a primary method defined yet!", "StorageHandler", true)); 
+			throwError(new Error("StorageHandler::addBackupMethod - can not add a backup method for '$path' because it does not have a primary method defined yet!", "StorageHandler", true)); 
 			return false;
 		}
 		// ok, let's add this bugger
@@ -240,7 +240,7 @@ class StorageHandler extends StorageHandlerInterface {
 		// if we get here, something is very wrong...
 		// it means that we don't have a primary method defined that handles
 		// this path... bad.
-		throw(new Error("StorageHandler::_getPimaryForPath('$path') - Could not find a method to handle the path '$path'. This is bad -- maybe there are not methods defined.", "StorageHandler", true));
+		throwError(new Error("StorageHandler::_getPimaryForPath('$path') - Could not find a method to handle the path '$path'. This is bad -- maybe there are not methods defined.", "StorageHandler", true));
 	}
 
 	/**
@@ -283,7 +283,7 @@ class StorageHandler extends StorageHandlerInterface {
 			}
 		}
 		if ($deepestPath == '') // something is very wrong (again)
-			throw(new Error("StorageHandler::_findDeepestDefinedFor('$path') - Could not find a defined path for '$path'. Storage not possible! Fix this!", "StorageHandler", true));
+			throwError(new Error("StorageHandler::_findDeepestDefinedFor('$path') - Could not find a defined path for '$path'. Storage not possible! Fix this!", "StorageHandler", true));
 		return $deepestPath;
 	}
 
@@ -328,7 +328,7 @@ class StorageHandler extends StorageHandlerInterface {
 	function _checkMethods()
 	{
 		if (!$this->_pathDefined('/')) // sure enough, things are not good
-			throw (new Error("StorageHandler::_checkMethods() - Could not procede because no path for '/' (root) has been defined! Before you do any operations using the StorageHandler, you must define at least one method.", "StorageHandler", true));
+			throwError(new Error("StorageHandler::_checkMethods() - Could not procede because no path for '/' (root) has been defined! Before you do any operations using the StorageHandler, you must define at least one method.", "StorageHandler", true));
 	}
 
 	/**

@@ -14,7 +14,7 @@ require_once(HARMONI.'utilities/Queue.class.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.9 2003/07/10 02:34:19 gabeschine Exp $
+ * @version $Id: DBHandler.class.php,v 1.10 2003/07/11 00:20:21 gabeschine Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
@@ -82,7 +82,7 @@ class DBHandler extends DBHandlerInterface {
 				break;
 			default : {
 			    // unsupported database type
-				throw(new Error("Unknown database type.", "DBHandler", true));
+				throwError(new Error("Unknown database type.", "DBHandler", true));
 				return false;
 			}
 		}
@@ -130,7 +130,7 @@ class DBHandler extends DBHandlerInterface {
 
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex])) {
-			throw(new Error("Invalid database index.", "DBHandler", false));
+			throwError(new Error("Invalid database index.", "DBHandler", false));
 			return false;
 		}
 
@@ -201,7 +201,7 @@ class DBHandler extends DBHandlerInterface {
 
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex])) {
-			throw(new Error("Invalid database index.", "DBHandler", false));
+			throwError(new Error("Invalid database index.", "DBHandler", false));
 			return false;
 		}
 		
@@ -228,7 +228,7 @@ class DBHandler extends DBHandlerInterface {
 
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex])) {
-			throw(new Error("Invalid database index.", "DBHandler", false));
+			throwError(new Error("Invalid database index.", "DBHandler", false));
 			return false;
 		}
 			
@@ -255,7 +255,7 @@ class DBHandler extends DBHandlerInterface {
 
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex])) {
-			throw(new Error("Invalid database index.", "DBHandler", false));
+			throwError(new Error("Invalid database index.", "DBHandler", false));
 			return false;
 		}
 			
@@ -283,7 +283,7 @@ class DBHandler extends DBHandlerInterface {
 
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex])) {
-			throw(new Error("Invalid database index.", "DBHandler", false));
+			throwError(new Error("Invalid database index.", "DBHandler", false));
 			return false;
 		}
 			

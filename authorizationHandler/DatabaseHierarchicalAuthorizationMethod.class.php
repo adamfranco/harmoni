@@ -34,7 +34,7 @@ require_once(HARMONI."authorizationHandler/DatabaseHierarchicalAuthorizationMeth
  * </pre>
  * 
  * @access public
- * @version $Id: DatabaseHierarchicalAuthorizationMethod.class.php,v 1.7 2003/07/10 23:04:50 dobomode Exp $
+ * @version $Id: DatabaseHierarchicalAuthorizationMethod.class.php,v 1.8 2003/07/11 00:20:24 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -182,7 +182,7 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 		if (!$dbHandler->isConnected($this->_dbIndex)) {
 			$str = "Cannot initialize the AuthorizationMethod, because ";
 			$str .= "the database connection is inactive";
-			throw(new Error($str, "AuthorizationHandler", true));
+			throwError(new Error($str, "AuthorizationHandler", true));
 		}
 		
 		$this->_hierarchyGenerator = $hierarchyGenerator;
@@ -298,12 +298,12 @@ class DatabaseHierarchicalAuthorizationMethod extends HierarchicalAuthorizationM
 				// validate query results
 				if ($queryResult === null) {
 					$str = "Query failed. Possible invalid configuration of the AuthorizationMethod object.";
-				    throw(new Error($str, "AuthorizationHandler", true));
+				    throwError(new Error($str, "AuthorizationHandler", true));
 				}
 				if ($queryResult->getNumberOfRows() > 1) {
 					$str = "Query returned more than one rows. ";
 					$str .= "Possible invalid configuration of the AuthorizationMethod object.";
-				    throw(new Error($str, "AuthorizationHandler", true));
+				    throwError(new Error($str, "AuthorizationHandler", true));
 				}
 				
 				// now see if the agent is authorized

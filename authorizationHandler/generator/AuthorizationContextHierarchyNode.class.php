@@ -6,7 +6,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * This is the building piece of the tree-like AuthorizationContextHierarchy
  * data structure used in AuthorizationContextHierarchyGenerator obejcts.
  * @access public
- * @version $Id: AuthorizationContextHierarchyNode.class.php,v 1.7 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: AuthorizationContextHierarchyNode.class.php,v 1.8 2003/07/11 00:20:24 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -77,7 +77,7 @@ class AuthorizationContextHierarchyNode
 		$childsParent = $child->getParent();
 		if (isset($childsParent)) {
 			$str = "Child node already has a parent!";
-			throw(new Error($str, "AuthorizationHandler", true));
+			throwError(new Error($str, "AuthorizationHandler", true));
 		}
 
 		// set parent-child relationship

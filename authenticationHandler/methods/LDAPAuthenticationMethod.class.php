@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Does authentication procedures with an LDAP server.
  *
- * @version $Id: LDAPAuthenticationMethod.class.php,v 1.12 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: LDAPAuthenticationMethod.class.php,v 1.13 2003/07/11 00:20:24 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication.ldap
@@ -166,7 +166,7 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	 * @return void 
 	 **/
 	function _connect() {
-		$this->_conn = ldap_connect($this->_opt->get("LDAPHost"),$this->_opt->get("LDAPPort")) or throw(new Error("LDAPAuthenticationMethod::_connect() - could not connect to LDAP host <b>".$this->_opt->get("LDAPHost")."</b>!","LDAPAuthenticationMethod",true));
+		$this->_conn = ldap_connect($this->_opt->get("LDAPHost"),$this->_opt->get("LDAPPort")) or throwError(new Error("LDAPAuthenticationMethod::_connect() - could not connect to LDAP host <b>".$this->_opt->get("LDAPHost")."</b>!","LDAPAuthenticationMethod",true));
 	}
 	
 	/**

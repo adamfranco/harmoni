@@ -3,7 +3,7 @@
 /**
  * Defines the throw function.
  * Defines the throw function.
- * @version $Id: throw.inc.php,v 1.1 2003/06/26 16:18:06 dobomode Exp $
+ * @version $Id: throw.inc.php,v 1.2 2003/07/11 00:20:25 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.errorHandler
  **/
@@ -14,7 +14,7 @@
  * Throws an error using the ErrorHandler.
  * @param object Error The error object to throw.
  */
-function throw(& $error) {
+function throwError(& $error) {
 	// first, make sure that the ErrorHandler service is running
 	Services::requireService("ErrorHandler");
 

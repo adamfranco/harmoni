@@ -8,7 +8,7 @@ require_once(HARMONI."authenticationHandler/methods/inc.php");
  * The AuthenticationHandler keeps track of multiple AuthenticationMethods for 
  * authenticating agents.
  * 
- * @version $Id: AuthenticationHandler.class.php,v 1.11 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.12 2003/07/11 00:20:23 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authentication
@@ -139,12 +139,12 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	function addMethod( $name, $priority, & $methodObject, $authoritative = false ) {
 		// if we have already been used for authentication, return.
 		if ($this->_used) {
-			throw(new Error("AuthenticationHandler::addMethod() - can not add new method '$name': The handler has already been used for authentication. Please add your method before any authentication occurs.","AuthenticationHandler",true));
+			throwError(new Error("AuthenticationHandler::addMethod() - can not add new method '$name': The handler has already been used for authentication. Please add your method before any authentication occurs.","AuthenticationHandler",true));
 		}
 		
 		// if we already have a method by this name, throw an error & return
 		if ($this->_methodExists($name)) {
-			throw( new Error("AuthenticationHandler::addMethod() - can not add a method named '$name' because it already exists!", "AuthenticationHandler", true));			
+			throwError( new Error("AuthenticationHandler::addMethod() - can not add a method named '$name' because it already exists!", "AuthenticationHandler", true));			
 			return;
 		}
 		
@@ -181,7 +181,7 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 		if ($this->_methodExists($name))
 			return $this->_methods[$name];
 		else {
-			throw(new Error("AuthenticationHandler - can not getMethod('$name'): it does not exist.","AuthenticationHandler",true));
+			throwError(new Error("AuthenticationHandler - can not getMethod('$name'): it does not exist.","AuthenticationHandler",true));
 		}
 	}
 	

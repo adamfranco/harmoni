@@ -7,7 +7,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * An AuthorizationContextHierarchy is a tree-like datastructure used by
  * the AuthorizationContextHierarchyGenerator objects.
  * @access public
- * @version $Id: AuthorizationContextHierarchy.class.php,v 1.7 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: AuthorizationContextHierarchy.class.php,v 1.8 2003/07/11 00:20:24 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -96,7 +96,7 @@ class AuthorizationContextHierarchy
 		// you can only add one node at a time
 		if ($node->getChildrenCount() > 0) {
 			$str = "Must add only one node at a time to the hierarchy";
-			throw(new Error($str, "AuthorizationHandler", true));
+			throwError(new Error($str, "AuthorizationHandler", true));
 		}
 
 		// if $node is to be a new child of $parent
@@ -107,7 +107,7 @@ class AuthorizationContextHierarchy
 			if (!$this->nodeExists($pDepth, $pId)) {
 				$str = "Attempted to create a child for a node that is not ";
 				$str .= "in the hierarchy.";
-				throw(new Error($str, "AuthorizationHandler", true));
+				throwError(new Error($str, "AuthorizationHandler", true));
 			}
 			
 			// now add $node as a child to $parent		
@@ -121,7 +121,7 @@ class AuthorizationContextHierarchy
 		if (isset($this->_nodes[$level][$systemId])) {
 			$str = "Cannot add node to the hierarchy, because it has already";
 			$str .= " been added.";
-			throw(new Error($str, "AuthorizationHandler", true));
+			throwError(new Error($str, "AuthorizationHandler", true));
 		}
 	
 		// add the node

@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * makes use of a specified ValidatorRule object. In addition, if validation
  * fails, a new fatal error is added to the default ErrorHandler.
  *
- * @version $Id: ArgumentValidator.class.php,v 1.5 2003/07/01 17:14:13 dobomode Exp $
+ * @version $Id: ArgumentValidator.class.php,v 1.6 2003/07/11 00:20:25 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.utilities
@@ -37,7 +37,7 @@ class ArgumentValidator extends ArgumentValidatorInterface {
 		$extendsRule =& new ExtendsValidatorRule("ValidatorRuleInterface");
 		if (!$extendsRule->check($rule)) {
 			$str = "Unable to recognize the ValidatorRule object. Possibly, an invalid argument was passed.";
-			throw(new Error($str, "System", true));
+			throwError(new Error($str, "System", true));
 		}
 		
 		// now try to validate the argument
@@ -65,7 +65,7 @@ class ArgumentValidator extends ArgumentValidatorInterface {
 			$description .= ".";
 
 			// now create the error
-			throw(new Error($description, "System", $isFatal));
+			throwError(new Error($description, "System", $isFatal));
 			return false;		    
 		}
 		
