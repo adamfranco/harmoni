@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.7 2003/06/20 22:44:22 dobomode Exp $
+ * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.8 2003/06/21 00:30:25 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -94,9 +94,10 @@
 			$this->query->addTable("person", NO_JOIN);
 			$this->query->setWhere("user_id = 5");
 			$this->query->setGroupBy(array("user_id", "user_sex"), "user_age = 38");
-			$this->query->setOrderBy(array("user_lname", "user_fname"), ASCENDING);
+			$this->query->addOrderBy("user_lname", ASCENDING);
+			$this->query->addOrderBy("user_fname", DESCENDING);
 			
-			$sql = "SELECT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM\n\tuser,\n\tclass,\n\tperson\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname,\n\tuser_fname\n\tASC\n";
+			$sql = "SELECT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM\n\tuser,\n\tclass,\n\tperson\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname ASC,\n\tuser_fname DESC\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
@@ -116,13 +117,14 @@
 			$this->query->addTable("sand", NO_JOIN);
 			$this->query->setWhere("user_id = 5");
 			$this->query->setGroupBy(array("user_id", "user_sex"), "user_age = 38");
-			$this->query->setOrderBy(array("user_lname", "user_fname"), ASCENDING);
+			$this->query->addOrderBy("user_lname", ASCENDING);
+			$this->query->addOrderBy("user_fname", DESCENDING);
 			$this->query->setDistinct(true);
 			$this->query->limitNumberOfRows(100);
 			$this->query->startFromRow(10);
 			
 			$tables = "\n\tuser\n\t\tINNER JOIN\n\tclass\n\t\tON user.user_weight = class.class_id,\n\tperson\n\t\tLEFT JOIN\n\ttree\n\t\tON person.person_id = tree.tree_height - 10\n\t\tRIGHT JOIN\n\tbush\n\t\tON tree.tree_leaves = 3000,\n\tsand";
-			$sql = " SELECT DISTINCT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM{$tables}\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname,\n\tuser_fname\n\tASC\nLIMIT\n\t9, 100\n";
+			$sql = "SELECT DISTINCT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM{$tables}\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname ASC,\n\tuser_fname DESC\nLIMIT\n\t9, 100\n";
 	
 			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);

@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DBHandlerTestCase.class.php,v 1.3 2003/06/20 19:32:49 dobomode Exp $
+ * @version $Id: DBHandlerTestCase.class.php,v 1.4 2003/06/21 00:30:25 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -81,13 +81,12 @@
 			$query->addTable("test1", INNER_JOIN, "test.FK = test1.id");
 			$query->setWhere("test1.id = 20");
 			
-/* 			$result =& $this->dbhandler->query($query); */
-/* 			$this->assertTrue($result->isSuccessful()); */
-/* 			$this->assertEqual($result->getNumberOfRows(),20); */
-/* 			$this->assertEqual($result->getNumberOfFields(),3); */
-/* 			$names = $result->getFieldNames(); */
-/* 			$this->assertTrue(in_array("test1_value",$names)); */
-/* 			$this->assertEqual("This is the value",$result->field("test1_value")); */
+ 			$result =& $this->dbhandler->query($query);
+ 			$this->assertEqual($result->getNumberOfRows(),20);
+ 			$this->assertEqual($result->getNumberOfFields(),3);
+ 			$names = $result->getFieldNames();
+ 			$this->assertTrue(in_array("test1_value",$names));
+ 			$this->assertEqual("This is the value",$result->field("test1_value"));
 		}
 		
 		/**

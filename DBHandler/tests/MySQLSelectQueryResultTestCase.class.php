@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLSelectQueryResultTestCase.class.php,v 1.1 2003/06/20 19:04:28 dobomode Exp $
+ * @version $Id: MySQLSelectQueryResultTestCase.class.php,v 1.2 2003/06/21 00:30:25 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -38,7 +38,7 @@
 			// connect to some database and do a select query
 			$this->db =& new MySQLDatabase("devo.middlebury.edu", "test", "test", "test");
 			$this->db->connect();
-			$this->rid = $this->db->_query("SELECT * FROM test LIMIT 100,100");
+			$this->rid = $this->db->_query("SELECT * FROM test LIMIT 100,4");
 			
 			// create the query result
 			$this->queryResult =& new MySQLSelectQueryResult($this->rid, $this->db->_linkId);
@@ -66,11 +66,34 @@
 		 * Tests all functions.
 		 */ 
         function test_All_Functions() {
+			// number of fields must be 3
 			$this->assertEqual($this->queryResult->getNumberOfFields(), 3);
 
-			$this->assertEqual($this->queryResult->getNumberOfRows(), 100);
+			// only 4 rows must be returned
+			$this->assertEqual($this->queryResult->getNumberOfRows(), 4);
 		
+			// we have more rows left
 			$this->assertTrue($this->queryResult->hasMoreRows());
+			
+			// see if field names are correct
+			$fieldNames = $this->queryResult->getFieldNames();
+			$this->assertEqual($fieldNames, array("id", "FK", "value"));
+			
+			$id = $this->queryResult->field("id");
+			$FK = $this->queryResult->field("FK");
+			$value = $this->queryResult->field("value");
+			$row["id"] = $id;
+			$row["FK"] = $FK;
+			$row["value"] = $value;
+			$this->assertEqual($id, "101");
+			$this->assertEqual($FK, "5");
+			$this->assertEqual($value, "This is the value");
+			$this->assertEqual($row, $this->queryResult->getCurrentRow());
+			
+			// after 4 advances, no more rows should be left
+			for ($i = 0; $i < 4; $i++)
+				$this->queryResult->advanceRow();
+			$this->assertFalse($this->queryResult->hasMoreRows());
 		}
 		
     }
