@@ -20,8 +20,12 @@
  * </p>
  * 
  * @package org.osid.repository
+ *
+ * WARNING: The real class-name should be Record, not RecordInterface. The re-naming
+ * of this class is a temporary fix due to another class named Record already existing
+ * in Harmoni.
  */
-class Record
+class RecordInterface // Record
 {
     /**
      * Update the display name for this Record.
