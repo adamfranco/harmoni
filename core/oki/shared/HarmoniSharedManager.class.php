@@ -37,7 +37,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.39 2004/11/17 19:11:19 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.40 2004/11/17 20:55:20 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -473,7 +473,10 @@ class HarmoniSharedManager
 			$queryResult->advanceRow();
 		}
 		
-		$this->_allAgentsCached = true;
+		// Only specify that we are fully cached if we didn't limit the
+		// results
+		if ($where === NULL)
+			$this->_allAgentsCached = true;
 	}
 	
 
