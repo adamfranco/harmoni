@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableBoolean.class.php,v 1.4 2005/01/28 19:34:46 adamfranco Exp $
+ * @version $Id: StorableBoolean.class.php,v 1.5 2005/04/04 17:39:22 adamfranco Exp $
  */
 class StorableBoolean extends Boolean /* implements StorablePrimitive */ {
 
@@ -35,7 +35,7 @@ class StorableBoolean extends Boolean /* implements StorablePrimitive */ {
 		
 		$query->addRowOfValues(array($newID->getIdString(), $this->getBooleanValue()?1:0));
 		
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$result =& $dbHandler->query($query, $dbID);
 		if (!$result || $result->getNumberOfRows() != 1) {
 			throwError( new UnknownDBError("Storable") );

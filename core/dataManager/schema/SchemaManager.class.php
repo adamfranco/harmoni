@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.14 2005/03/29 19:44:14 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.15 2005/04/04 17:39:13 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaManager
@@ -66,7 +66,7 @@ class SchemaManager
 		$query->addColumn("description","","dm_schema");
 		$query->addColumn("revision","","dm_schema");
 		
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 		if (!$result) throwError(new UnknownDBError("DataManager"));
 		
@@ -247,7 +247,7 @@ class SchemaManager
 			$revision
 		));
 		
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 		if (!$result || $result->getNumberOfRows() != 1) {
 			throwError( new UnknownDBError("DataManager") );

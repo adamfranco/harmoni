@@ -6,9 +6,23 @@ Name: Harmoni ChangeLog
 v. 0.3.0 (The nebulous future)
 ----------------------------------------------------
 		
-	* New feature: GUI Manager now complete. (Dobo Radichkov)
+	* Change: Services::requireService() is now deprecated. Please use Services::startService() and/or Services::getService() instead. (Adam Franco)
+		
+	* Change: OKI version 1 interfaces and implementations have been removed, saving 2MB of files and cleaning up the source tree. (Adam Franco)
+		
+	* Change: The hierarchy's Tree class, HierarchyManager/tree/Tree.class.php, now caches its traversal results. (Savings: 93,529 calls to tree-&gt;_traverse(), 43 seconds execution time on a 500MHz PC in a 5000-node hierarchy) (Adam Franco)
+		
+	* New feature: ValidatorRule objects can now be accessed via static XxxxxValidatorRule::getRule() methods, allowing the ValidatorRule classes to behave as Singletons and avoid the instantiation of tens of thousands of ValidatorRule objects. (Adam Franco)
+		
+	* New feature: GUI Manager now complete. ThemeHandler and LayoutHandler have been removed. (Dobo Radichkov)
 		
 	* New feature: GUI Manager saving functionality. (Nikitas Stamatopoulos)
+		
+	* New feature: OsidManagers can now be started and configured by Services::startManagerAsService(&quot;name&quot;, $context, $configuration); (Adam Franco)
+		
+	* New feature: Service names can now have aliases. (Adam Franco)
+		
+	* Change: Authentication is completely handled by the AuthenticationManager OSID implementation instead of the LoginHandler/AuthenticationHandler. The LoginHandler and AuthenticationHandler have been removed. (Adam Franco)
 		
 	* New feature: New back-end for managing authentication tokens, agents, and the mappings between agents and authentication tokens. This is all contained within the core/oki2/agentmanagement/ directory. (Adam Franco)
 		

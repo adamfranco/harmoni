@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.13 2005/03/29 19:44:24 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.14 2005/04/04 17:39:37 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -97,7 +97,7 @@ class AuthorizationCache {
 		// ** end of parameter validation
 		
 		// create the authorization object
-		$idManager =& Services::requireService("Id");
+		$idManager =& Services::getService("Id");
 		$id =& $idManager->createId();
 		$idValue = $id->getIdString();
 		// figure out whether it's dated or not
@@ -108,7 +108,7 @@ class AuthorizationCache {
 			$authorization =& new HarmoniAuthorization($idValue, $agentId, $functionId, $qualifierId,true, $this);
 		
 		// now insert into database
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$dbt = $this->_authzDB.".az_authorization";
 
 		$query =& new InsertQuery();
@@ -171,13 +171,13 @@ class AuthorizationCache {
 		// ** end of parameter validation
 		
 		// create the Function object
-		$idManager =& Services::requireService("Id");
+		$idManager =& Services::getService("Id");
 		$function =& new HarmoniFunction($functionId, $displayName, $description, 
 										 $functionType, $qualifierHierarchyId,
 										 $this->_dbIndex, $this->_authzDB);
 		
 		// now insert into database
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$db = $this->_authzDB.".";
 		$dbt = $this->_authzDB.".az_function";
 		$idValue = $functionId->getIdString();
@@ -272,7 +272,7 @@ class AuthorizationCache {
 		// ** end of parameter validation
 
 		// create the node for the qualifier		
-		$hierarchyManager =& Services::requireService("Hierarchy");
+		$hierarchyManager =& Services::getService("Hierarchy");
 		$hierarchy =& $hierarchyManager->getHierarchy($qualifierHierarchyId);
 		$node =& $hierarchy->createRootNode($qualifierId, $qualifierType, $displayName, $description);
 
@@ -306,7 +306,7 @@ class AuthorizationCache {
 		// ** end of parameter validation
 
 		// create the node for the qualifier		
-		$hierarchyManager =& Services::requireService("Hierarchy");
+		$hierarchyManager =& Services::getService("Hierarchy");
 		
 		// get the hierarchy id from the node
 		$parentNode =& $hierarchyManager->getNode($parentId);
@@ -330,7 +330,7 @@ class AuthorizationCache {
 	 */
 	function &getFunctionTypes() {
 		
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		
 		$db = $this->_authzDB;
 		$dbt = $db.".az_function";
@@ -376,7 +376,7 @@ class AuthorizationCache {
 		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
 		// ** end of parameter validation
 		
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		
 		$db = $this->_authzDB;
 		$dbt = $db.".az_function";
@@ -416,7 +416,7 @@ class AuthorizationCache {
 			else {
 				$type =& new HarmoniType($row['domain'], $row['authority'], 
 										 $row['keyword'], $row['type_description']);
-				$idManager =& Services::requireService("Id");
+				$idManager =& Services::getService("Id");
 				$functionId =& $idManager->getId($row['id']);
 				$hierarchyId =& $idManager->getId($row['hierarchy_id']);
 				$function =& new HarmoniFunction($functionId, $row['reference_name'],
@@ -448,7 +448,7 @@ class AuthorizationCache {
 		if (isset($this->_functions[$idValue]))
 			return $this->_functions[$idValue];
 
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		
 		$db = $this->_authzDB;
 		$dbt = $db.".az_function";
@@ -479,7 +479,7 @@ class AuthorizationCache {
 								 $row['keyword'], $row['type_description']);
 		
 		
-		$idManager =& Services::requireService("Id");
+		$idManager =& Services::getService("Id");
 		$functionId =& $idManager->getId($row['id']);
 		$hierarchyId =& $idManager->getId($row['hierarchy_id']);
 		$function =& new HarmoniFunction($functionId, $row['reference_name'],
@@ -509,7 +509,7 @@ class AuthorizationCache {
 			return $this->_qualifiers[$idValue];
 
 		// get the node for the qualifier		
-		$hierarchyManager =& Services::requireService("Hierarchy");
+		$hierarchyManager =& Services::getService("Hierarchy");
 		$node =& $hierarchyManager->getNode($qualifierId);
 		// now create the qualifier
 		$qualifier =& new HarmoniQualifier($node, $this);
@@ -528,7 +528,7 @@ class AuthorizationCache {
 	 * @return object QualifierIterator
 	 */
 	function &getRootQualifiers(& $qualifierHierarchyId) {
-		$hierarchyManager =& Services::requireService("Hierarchy", true);
+		$hierarchyManager =& Services::getService("Hierarchy", true);
 		$hierarchy =& $hierarchyManager->getHierarchy($qualifierHierarchyId);
 		
 		// create an array for our qualifiers
@@ -566,7 +566,7 @@ class AuthorizationCache {
 		$idValue = $qualifierId->getIdString();
 
 		// get the descendant nodes
-		$hierarchyManager =& Services::requireService("Hierarchy");
+		$hierarchyManager =& Services::getService("Hierarchy");
 		$node =& $hierarchyManager->getNode($qualifierId);
 		$hierarchy =& $hierarchyManager->getHierarchyForNode($node);
 		$nodes =& $hierarchy->traverse($qualifierId, Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), 
@@ -614,7 +614,7 @@ class AuthorizationCache {
 		$idValue = $authorization->_id;
 		
 		// now remove from database
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$dbt = $this->_authzDB.".az_authorization";
 
 		$query =& new DeleteQuery();
@@ -648,7 +648,7 @@ class AuthorizationCache {
 		$idValue = $qualifierId->getIdString();
 
 		// create the node for the qualifier		
-		$hierarchyManager =& Services::requireService("Hierarchy");
+		$hierarchyManager =& Services::getService("Hierarchy");
 
 		$node =& $hierarchyManager->getNode($qualifierId);
 		$hierarchy =& $hierarchyManager->getHierarchyForNode($node);
@@ -675,7 +675,7 @@ class AuthorizationCache {
 		$idValue = $functionId->getIdString();
 		
 		// now remove from database
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$dbt = $this->_authzDB.".az_function";
 
 		$query =& new DeleteQuery();
@@ -721,7 +721,7 @@ class AuthorizationCache {
 		ArgumentValidator::validate($isActiveNow,BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$idManager =& Services::requireService("Id");
+		$idManager =& Services::getService("Id");
 		
 		// the parameter that influences the result most is $isExplicit
 		// 1) If $isExplicit is TRUE, then we only need to check for Authorizations
@@ -733,7 +733,7 @@ class AuthorizationCache {
 		// this array will store the ids of all qualifiers to be checked for authorizations
 		$qualifiers = array();
 		// check all ancestors of given qualifier
-		$hierarchyManager =& Services::requireService("Hierarchy");
+		$hierarchyManager =& Services::getService("Hierarchy");
 
 		$qualifierId =& $idManager->getId($qId);
 		$node =& $hierarchyManager->getNode($qualifierId);

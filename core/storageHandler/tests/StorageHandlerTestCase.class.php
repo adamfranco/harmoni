@@ -8,7 +8,7 @@ require_once(HARMONI . "storageHandler/StorageMethods/DummyStorageMethod.class.p
 * class. Replace 'testedclass.php' below with the class you would like to
 * test.
 * 
-* @version $Id: StorageHandlerTestCase.class.php,v 1.3 2005/01/19 16:33:29 adamfranco Exp $
+* @version $Id: StorageHandlerTestCase.class.php,v 1.4 2005/04/04 17:39:50 adamfranco Exp $
 * @copyright 2003
 */
 
@@ -28,7 +28,6 @@ class StorageHandlerTestCase extends UnitTestCase {
 	function setUp()
 	{
 		$this->m = & new StorageHandler;
-		Services::requireService("ErrorHandler");
 		$er = & Services::getService("ErrorHandler");
 		$er->setDebugMode(true);
 		$this->er =& $er;

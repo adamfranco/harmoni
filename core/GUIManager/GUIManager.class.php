@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.15 2005/04/01 21:36:05 adamfranco Exp $
+ * @version $Id: GUIManager.class.php,v 1.16 2005/04/04 17:39:10 adamfranco Exp $
  */
 class GUIManager extends GUIManagerInterface {
 
@@ -342,13 +342,13 @@ class GUIManager extends GUIManagerInterface {
 		$themeState = serialize($exportData);
 		
 		// 1. create an id for the theme state
-		$sharedManager =& Services::requireService("Shared");
+		$sharedManager =& Services::getService("Shared");
 		$id =& $sharedManager->createId();
 		$idValue = $id->getIdString();
 		
 		// 2. now simply insert the theme state
 		$db = $this->_guiDB.".";
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$query =& new InsertQuery();
 		$query->setTable($db."gui");
 		$columns = array();
@@ -404,7 +404,7 @@ class GUIManager extends GUIManagerInterface {
 		
 		//set up the query
 		$db = $this->_guiDB.".";
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$idValue = $stateId->getIdString();
 		$query =& new UpdateQuery;
 		$query->setTable($db."gui");
@@ -442,7 +442,7 @@ class GUIManager extends GUIManagerInterface {
 		
 		// get the theme state from the database
 		$db = $this->_guiDB.".";
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$idValue = $stateId->getIdString();
 		$query =& new SelectQuery();
 		$query->addColumn("gui_theme", "theme", $db."gui");
@@ -489,7 +489,7 @@ class GUIManager extends GUIManagerInterface {
 		// ** end of parameter validation
 		
 		$db = $this->_guiDB.".";
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$idValue = $id->getIdString();
 		$query =& new DeleteQuery;
 		$query->setTable($db."gui");

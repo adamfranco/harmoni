@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.2 2004/12/13 05:06:54 dobomode Exp $
+ * @version $Id: test.php,v 1.3 2005/04/04 17:39:10 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -26,7 +26,7 @@
 		Services::startService("ErrorHandler");
 	}
 	
-	$errorHandler =& Services::requireService("ErrorHandler");
+	$errorHandler =& Services::getService("ErrorHandler");
 	$errorHandler->setDebugMode(true);
 
     $test =& new GroupTest('DBHandler tests');

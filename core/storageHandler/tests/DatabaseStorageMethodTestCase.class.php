@@ -8,7 +8,7 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseStorageMethodTestCase.class.php,v 1.3 2005/02/07 21:38:27 adamfranco Exp $
+ * @version $Id: DatabaseStorageMethodTestCase.class.php,v 1.4 2005/04/04 17:39:50 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -39,7 +39,6 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
 		 *    First test Description.
 		 */ 
 		function test_exists_store() {
-			Services::requireService("DBHandler");
 			$dbHandler =& Services::getService("DBHandler");
 
 			$dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");
@@ -73,7 +72,6 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
 		}
 
 		function test_getSize() {
-			Services::requireService("DBHandler");
 			$dbHandler =& Services::getService("DBHandler");
 
 			$dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test33", "test3", "test3");
@@ -94,7 +92,6 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
 		}
 
 		function test_delete() {
-			Services::requireService("DBHandler");
 			$dbHandler =& Services::getService("DBHandler");
 
 			$dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test33", "test3", "test3");
@@ -115,7 +112,6 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
 		}
 
 		function test_listInPath_getcont() {
-			Services::requireService("DBHandler");
 			$dbHandler =& Services::getService("DBHandler");
 
 			$dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test33", "test3", "test3");

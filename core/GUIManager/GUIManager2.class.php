@@ -33,7 +33,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FontFamilySP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager2.class.php,v 1.3 2005/02/07 21:38:13 adamfranco Exp $
+ * @version $Id: GUIManager2.class.php,v 1.4 2005/04/04 17:39:11 adamfranco Exp $
  */
 class GUIManager {
 	
@@ -70,7 +70,6 @@ class GUIManager {
 		$this->_dbIndex = $dbIndex;
 		
 		
-		Services::requireService("DBHandler");
 		$this->_dbHandler =& Services::getService("DBHandler");
 		
 		

@@ -10,7 +10,7 @@ require_once(HARMONI.'services/Services.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseStorableTestCase.class.php,v 1.3 2005/02/07 21:38:27 adamfranco Exp $
+ * @version $Id: DatabaseStorableTestCase.class.php,v 1.4 2005/04/04 17:39:50 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -41,7 +41,6 @@ require_once(HARMONI.'services/Services.class.php');
 		 *    First test Description.
 		 */ 
 		function test_get_data() {
- 			Services::requireService("DBHandler");
 			$dbHandler =& Services::getService("DBHandler");
 
 			$dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");
@@ -61,7 +60,6 @@ require_once(HARMONI.'services/Services.class.php');
 		}
 
 		function test_get_size() {
- 			Services::requireService("DBHandler");
 			$dbHandler =& Services::getService("DBHandler");
 
 			$dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");

@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.46 2005/04/01 20:29:50 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.47 2005/04/04 17:37:15 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -163,12 +163,14 @@ require_once(HARMONI."utilities/ArgumentValidator.class.php");
  */
 require_once(HARMONI."errorHandler/ErrorHandler.class.php");
 Services::registerService("ErrorHandler","ErrorHandler");
+Services::startService("ErrorHandler");
 require_once(HARMONI."errorHandler/throw.inc.php");
 
 /**
  * load user error handler
  */
 Services::registerService("UserError","ErrorHandler");
+Services::startService("UserError");
 
 /**
  * load DBHandler
@@ -183,6 +185,7 @@ if (LOAD_DEBUG) {
 	require_once(HARMONI."debugHandler/DebugHandler.class.php");
 	Services::registerService("DebugManager","DebugHandler");
 	Services::createServiceAlias("DebugManager", "Debug");
+	Services::startService("DebugManager");
 	require_once(HARMONI."debugHandler/debug.class.php");
 }
 

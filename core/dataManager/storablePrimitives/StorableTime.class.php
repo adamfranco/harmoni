@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableTime.class.php,v 1.6 2005/01/28 19:34:47 adamfranco Exp $
+ * @version $Id: StorableTime.class.php,v 1.7 2005/04/04 17:39:22 adamfranco Exp $
  */
 class StorableTime extends Time /* implements StorablePrimitive */ {
 	
@@ -58,7 +58,7 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 		$query =& new InsertQuery();
 		$query->setTable($this->_table);
 		$query->setColumns(array("id","data"));
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		
 		$query->addRowOfValues(array($newID->getIdString(), $this->toTimestamp()));
 		

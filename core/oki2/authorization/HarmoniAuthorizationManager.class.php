@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.12 2005/03/29 19:47:16 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.13 2005/04/04 17:39:40 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -1367,7 +1367,7 @@ class HarmoniAuthorizationManager
 	 * @access public
 	 */
 	function &getQualifierHierarchies () { 
-		$hierarchyManager =& Services::requireService("Hierarchy", true);
+		$hierarchyManager =& Services::getService("Hierarchy");
 		$hierarchies =& $hierarchyManager->getHierarchies();
 		$array = array();
 		while ($hierarchies->hasNext()) {

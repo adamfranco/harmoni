@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.12 2005/03/31 20:24:24 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.13 2005/04/04 17:39:44 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -190,11 +190,11 @@ class HarmoniHierarchyManager
 		if ($allowsRecursion)
 			throwError(new Error(HierarchyException::UNSUPPORTED_CREATION(), "HierarchyManager", 1));
 		
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$db = $this->_hyDB.".";
 
 		// Create an Id for the Hierarchy
-		$idManager =& Services::requireService("Id");
+		$idManager =& Services::getService("Id");
 		$id =& $idManager->createId();
 		$idValue = $id->getIdString();
 		
@@ -264,7 +264,7 @@ class HarmoniHierarchyManager
 		if (isset($this->_hierarchies[$idValue]))
 			return $this->_hierarchies[$idValue];
 
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$db = $this->_hyDB.".";
 		
 		$query =& new SelectQuery();
@@ -283,7 +283,7 @@ class HarmoniHierarchyManager
 		$row = $queryResult->getCurrentrow();
 
 		$idValue =& $row['id'];
-		$idManager =& Services::requireService("Id");
+		$idManager =& Services::getService("Id");
 		$id =& $idManager->getId($idValue);
 		$allowsMultipleParents = ($row['multiparent'] == '1');
 		
@@ -319,7 +319,7 @@ class HarmoniHierarchyManager
 	 */
 	function &getHierarchies () { 
 
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$db = $this->_hyDB.".";
 		
 		$query =& new SelectQuery();
@@ -333,7 +333,7 @@ class HarmoniHierarchyManager
 		
 		$hierarchies = array();
 		
-		$idManager =& Services::requireService("Id");
+		$idManager =& Services::getService("Id");
 
 		while ($queryResult->hasMoreRows()) {
 			$row = $queryResult->getCurrentrow();
@@ -392,7 +392,7 @@ class HarmoniHierarchyManager
 		ArgumentValidator::validate($hierarchyId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$db = $this->_hyDB.".";
 		
 		$idValue = $hierarchyId->getIdString();
@@ -470,7 +470,7 @@ class HarmoniHierarchyManager
 
 		$idValue = $id->getIdString();
 		
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 
 		// find the hierarchy id for this node
 		$db = $this->_hyDB.".";
@@ -490,7 +490,7 @@ class HarmoniHierarchyManager
 		
 		$nodeRow = $nodeQueryResult->getCurrentRow();
 
-		$idManager =& Services::requireService("Id");
+		$idManager =& Services::getService("Id");
 
 		$hierarchyId = $nodeRow['hierarchy_id'];
 
@@ -515,7 +515,7 @@ class HarmoniHierarchyManager
 	 * @return ref object The Hierarchy to which the Node belongs.
 	 **/
 	function &getHierarchyForNode(& $node) {
-		$idManager =& Services::requireService("Id");
+		$idManager =& Services::getService("Id");
 		$hierarchyId =& $idManager->getId($node->_cache->_hierarchyId);
 		$hierarchy =& $this->getHierarchy($hierarchyId);
 		

@@ -4,6 +4,10 @@
 <changelog name="Harmoni ChangeLog">
 	<version number="0.3.0" date="The nebulous future">
 		<change author='adam'>
+			Services::requireService() is now deprecated. Please use 
+			Services::startService() and/or Services::getService() instead.
+		</change>
+		<change author='adam'>
 			OKI version 1 interfaces and implementations have been removed, saving
 			2MB of files and cleaning up the source tree.
 		</change>

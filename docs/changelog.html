@@ -4,25 +4,56 @@
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
 	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.3.0</h2><h3>The nebulous future</h3><ul>
+		<li/> Change:  
+			Services::requireService() is now deprecated. Please use 
+			Services::startService() and/or Services::getService() instead.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			OKI version 1 interfaces and implementations have been removed, saving
+			2MB of files and cleaning up the source tree.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			The hierarchy's Tree class, HierarchyManager/tree/Tree.class.php, now 
+			caches its traversal results. (Savings: 93,529 calls to tree-&gt;_traverse(), 
+			43 seconds execution time on a 500MHz PC in a 5000-node hierarchy)
+		 (<i>Adam Franco</i>)
 		<li/> New feature:  
-			GUI Manager now complete.
+			ValidatorRule objects can now be accessed via static
+			XxxxxValidatorRule::getRule() methods, allowing the ValidatorRule classes
+			to behave as Singletons and avoid the instantiation of tens of thousands
+			of ValidatorRule objects.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			GUI Manager now complete. ThemeHandler and LayoutHandler have been
+			removed.
 		 (<i>Dobo Radichkov</i>)
 		<li/> New feature:  
 			GUI Manager saving functionality.
 		 (<i>Nikitas Stamatopoulos</i>)
+		<li/> New feature:  
+			OsidManagers can now be started and configured by 
+			Services::startManagerAsService(&quot;name&quot;, $context, $configuration);
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Service names can now have aliases.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Authentication is completely handled by the AuthenticationManager
+			OSID implementation instead of the LoginHandler/AuthenticationHandler.
+			The LoginHandler and AuthenticationHandler have been removed.
+		 (<i>Adam Franco</i>)
 		<li/> New feature:  
 			New back-end for managing authentication tokens, agents, and the mappings
 			between agents and authentication tokens. This is all contained within
 			the core/oki2/agentmanagement/ directory.
 		 (<i>Adam Franco</i>)
 		<li/> Change:  
-			 DBHandler now provides methods for transaction handling. Applications
+			DBHandler now provides methods for transaction handling. Applications
 			can be coded to use transactions to ensure atomic writes. Databases
 			that do not support transactions will simply ignore the calls. Nested
 			transaction calls in MySQL are interperated so that only the outer 
 			transaction is run allowing applications coded to use nested transactions
 			to often operate on MySQL 4.0.11+.
-			
 		 (<i>Adam Franco</i>)
 		<li/> New feature:  
 			Now includes implementations of v2.0 of the O.K.I OSIDs.

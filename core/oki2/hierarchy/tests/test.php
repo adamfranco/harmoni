@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.3 2005/01/19 22:28:22 adamfranco Exp $
+ * @version $Id: test.php,v 1.4 2005/04/04 17:39:46 adamfranco Exp $
  * @package harmoni.tests.metadata
  * @copyright 2003 
  **/
@@ -30,8 +30,8 @@ $harmonyLoadupTimer->end();
 /*	} */
 
 	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
-	$errorHandler =& Services::requireService("ErrorHandler",true);
-	$dbHandler =& Services::requireService("DBHandler",true);
+	$errorHandler =& Services::getService("ErrorHandler",true);
+	$dbHandler =& Services::getService("DBHandler",true);
 	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
 	$dbHandler->pConnect($dbIndex);
 	Services::startService("Shared", $dbIndex, "doboHarmoniTest");

@@ -22,7 +22,7 @@
 	    require_once("../../../harmoni.inc.php");
 	}
 	
-	$errorHandler =& Services::requireService("ErrorHandler",true);
+	$errorHandler =& Services::getService("ErrorHandler");
 
 // =============================================================================
 // Include all needed files.

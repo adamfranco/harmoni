@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.12 2005/03/31 20:21:13 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.13 2005/04/04 17:39:42 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
@@ -159,7 +159,7 @@ class HarmoniHierarchy
 		$this->_displayName = $displayName;
 
 		// update the database
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$db = $this->_cache->_hyDB.".";
 		
 		$query =& new UpdateQuery();
@@ -234,7 +234,7 @@ class HarmoniHierarchy
 		$this->_description = $description;
 
 		// update the database
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$db = $this->_cache->_hyDB.".";
 		
 		$query =& new UpdateQuery();
@@ -538,7 +538,7 @@ class HarmoniHierarchy
 	 * @access public
 	 */
 	function &getNodeTypes () { 
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$query =& new SelectQuery();
 		
 		$db = $this->_cache->_hyDB.".";

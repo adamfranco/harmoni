@@ -4,7 +4,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.8 2005/03/10 03:18:19 dobomode Exp $
+ * @version $Id: test.php,v 1.9 2005/04/04 17:39:12 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -23,9 +23,9 @@
         require_once("../../../harmoni.inc.php");
     }
 
-	$errorHandler =& Services::requireService("ErrorHandler",true);
+	$errorHandler =& Services::getService("ErrorHandler");
 	
-	$dbHandler =& Services::requireService("DBHandler",true);
+	$dbHandler =& Services::getService("DBHandler");
 	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo.middlebury.edu","doboHarmoniTest","test","test") );
 	$dbHandler->pConnect($dbIndex);
 	Services::startService("Shared", $dbIndex, "doboHarmoniTest");

@@ -20,7 +20,7 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.9 2005/03/29 19:44:25 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.10 2005/04/04 17:39:44 adamfranco Exp $
  */
 
 class HarmoniNode 
@@ -279,7 +279,7 @@ class HarmoniNode
 		$this->_description = $description;
 
 		// update the database
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$db = $this->_cache->_hyDB.".";
 		
 		$query =& new UpdateQuery();
@@ -333,7 +333,7 @@ class HarmoniNode
 		$this->_displayName = $displayName;
 
 		// update the database
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$db = $this->_cache->_hyDB.".";
 		
 		$query =& new UpdateQuery();

@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableString.abstract.php,v 1.3 2005/01/28 19:34:47 adamfranco Exp $
+ * @version $Id: StorableString.abstract.php,v 1.4 2005/04/04 17:39:22 adamfranco Exp $
  */
 class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 	
@@ -33,7 +33,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 		
 		$query->addRowOfValues(array($newID->getIdString(), "'".addslashes($this->toString())."'"));
 		
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$result =& $dbHandler->query($query, $dbID);
 		if (!$result || $result->getNumberOfRows() != 1) {
 			throwError( new UnknownDBError("StorableString") );

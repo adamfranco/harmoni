@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.10 2005/03/31 22:10:14 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.11 2005/04/04 17:39:44 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -287,7 +287,7 @@ class HierarchyCache {
 
 		// 2) update the database
 		$db = $this->_hyDB.".";
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$query =& new InsertQuery();
 		$query->setTable($db."j_node_node");
 		$columns = array();
@@ -342,7 +342,7 @@ class HierarchyCache {
 
 		// 2) update the database
 		$db = $this->_hyDB.".";
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$query =& new DeleteQuery();
 		$query->setTable($db."j_node_node");
 		$query->addWhere($db."j_node_node.fk_parent = '".addslashes($parentIdValue)."'");
@@ -372,7 +372,7 @@ class HierarchyCache {
 		ArgumentValidator::validate($where, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 
 		$this->_nodeQuery->resetWhere();
 		$this->_nodeQuery->addWhere($where);
@@ -382,7 +382,7 @@ class HierarchyCache {
 		
 		$result = array();
 
-		$idManager =& Services::requireService("Id");
+		$idManager =& Services::getService("Id");
 
 		while ($nodeQueryResult->hasMoreRows()) {
 			$nodeRow = $nodeQueryResult->getCurrentRow();
@@ -409,8 +409,8 @@ class HierarchyCache {
 	 * @return ref array An array of all nodes in this hierarchy.
 	 **/
 	function &getAllNodes() {
-		$dbHandler =& Services::requireService("DBHandler");
-		$idManager =& Services::requireService("Id");
+		$dbHandler =& Services::getService("DBHandler");
+		$idManager =& Services::getService("Id");
 
 		$db = $this->_hyDB.".";
 		$query =& new SelectQuery();
@@ -493,8 +493,8 @@ class HierarchyCache {
 	 * @return ref array An array of all root nodes in this hierarchy.
 	 **/
 	function &getRootNodes() {
-		$dbHandler =& Services::requireService("DBHandler");
-		$idManager =& Services::requireService("Id");
+		$dbHandler =& Services::getService("DBHandler");
+		$idManager =& Services::getService("Id");
 		$db = $this->_hyDB.".";
 
 		// copy _nodeQuery into a new object
@@ -614,8 +614,8 @@ class HierarchyCache {
 			$nodesToExclude = (isset($treeNode)) ? ($treeNode->getParents()) : array();
 	
 			$db = $this->_hyDB.".";
-			$dbHandler =& Services::requireService("DBHandler");
-			$idManager =& Services::requireService("Id");
+			$dbHandler =& Services::getService("DBHandler");
+			$idManager =& Services::getService("Id");
 			$query =& new SelectQuery();
 	
 			// set the columns to select
@@ -724,8 +724,8 @@ class HierarchyCache {
 			$nodesToExclude = (isset($treeNode)) ? ($treeNode->getChildren()) : array();
 	
 			$db = $this->_hyDB.".";
-			$dbHandler =& Services::requireService("DBHandler");
-			$idManager =& Services::requireService("Id");
+			$dbHandler =& Services::getService("DBHandler");
+			$idManager =& Services::getService("Id");
 			$query =& new SelectQuery();
 	
 			// set the columns to select
@@ -878,7 +878,7 @@ class HierarchyCache {
 	 * @return void
 	 **/
 	function _traverseDown($idValue, $levels) {
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$query =& new SelectQuery();
 		
 		$db = $this->_hyDB.".";
@@ -1034,7 +1034,7 @@ class HierarchyCache {
 	 * @return void
 	 **/
 	function _traverseUp($idValue, $levels) {
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$query =& new SelectQuery();
 		
 		$db = $this->_hyDB.".";
@@ -1207,7 +1207,7 @@ class HierarchyCache {
 		}
 		
 		// attempt to insert the node now
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$db = $this->_hyDB.".";
 
 		// 1. Insert the type
@@ -1349,7 +1349,7 @@ class HierarchyCache {
 		$node = null;
 
 		// now remove from database
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 
 		// 1. Get the id of the type associated with the node
 		$query =& new SelectQuery();

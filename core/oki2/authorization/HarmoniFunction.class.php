@@ -16,7 +16,7 @@ require_once(OKI2."/osid/authorization/Function.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniFunction.class.php,v 1.9 2005/03/29 19:44:24 adamfranco Exp $
+ * @version $Id: HarmoniFunction.class.php,v 1.10 2005/04/04 17:39:40 adamfranco Exp $
  */
 class HarmoniFunction
 	extends FunctionInterface 
@@ -276,7 +276,7 @@ class HarmoniFunction
 		$this->_description = $description;
 
 		// update the database
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$dbPrefix = $this->_authzDB.".az_function";
 		
 		$query =& new UpdateQuery();
@@ -332,7 +332,7 @@ class HarmoniFunction
 		$this->_referenceName = $referenceName;
 		
 		// update the database
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$dbPrefix = $this->_authzDB.".az_function";
 		
 		$query =& new UpdateQuery();

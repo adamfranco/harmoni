@@ -16,7 +16,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.10 2005/03/29 19:44:24 adamfranco Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.11 2005/04/04 17:39:39 adamfranco Exp $
  */
 class HarmoniAuthorization 
 	extends Authorization 
@@ -418,7 +418,7 @@ class HarmoniAuthorization
 		$expirationDateTime->setDate($this->_expirationDate);
 
 		// update the database
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$dbPrefix = $this->_cache->_authzDB.".az_authorization";
 		
 		$query =& new UpdateQuery();
@@ -484,7 +484,7 @@ class HarmoniAuthorization
 		$effectiveDateTime->setDate($this->_effectiveDate);
 
 		// update the database
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		$dbPrefix = $this->_cache->_authzDB.".az_authorization";
 		
 		$query =& new UpdateQuery();

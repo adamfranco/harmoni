@@ -8,7 +8,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: GUIManagerTestCase.class.php,v 1.6 2005/02/07 21:38:18 adamfranco Exp $
+ * @version $Id: GUIManagerTestCase.class.php,v 1.7 2005/04/04 17:39:12 adamfranco Exp $
  * @copyright 2003 
  */
 
@@ -26,7 +26,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 		*    @access public
 		*/
 		function setUp() {
-			$dbHandler=&Services::requireService("DBHandler");
+			$dbHandler=&Services::getService("DBHandler");
 			$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
 			$dbHandler->connect($dbIndex);
 			unset($dbHandler); // done with that for now
@@ -89,7 +89,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 			
 			/*** testing method deleteThemeState ***/
 			
-			$dbHandler=&Services::requireService("DBHandler");
+			$dbHandler=&Services::getService("DBHandler");
 			$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
 			$dbHandler->connect($dbIndex);
 			

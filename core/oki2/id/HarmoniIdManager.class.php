@@ -41,7 +41,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdManager.class.php,v 1.12 2005/03/29 19:44:27 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.13 2005/04/04 17:39:46 adamfranco Exp $
  */
 
 class HarmoniIdManager
@@ -195,7 +195,7 @@ class HarmoniIdManager
 	 */
 	function &createId () { 
 		debug::output("Attempting to generate new id.", 20, "IdManager");
-		$dbHandler =& Services::requireService("DBHandler");
+		$dbHandler =& Services::getService("DBHandler");
 		
 		$query =& new InsertQuery();
 		$query->setAutoIncrementColumn("id_value", "id_sequence");

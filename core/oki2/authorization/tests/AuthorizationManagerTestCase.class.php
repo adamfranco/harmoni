@@ -8,7 +8,7 @@ require_once(HARMONI.'oki/authorization/DefaultFunctionType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AuthorizationManagerTestCase.class.php,v 1.3 2005/01/19 16:33:05 adamfranco Exp $
+ * @version $Id: AuthorizationManagerTestCase.class.php,v 1.4 2005/04/04 17:39:41 adamfranco Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -33,7 +33,7 @@ class HarmoniAuthorizationManagerTestCase extends UnitTestCase {
 	 */
 	function setUp() {
 		// Set up the database connection
-		$dbHandler=&Services::requireService("DBHandler");
+		$dbHandler=&Services::getService("DBHandler");
 		$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
 		$dbHandler->pConnect($dbIndex);
 		unset($dbHandler); // done with that for now

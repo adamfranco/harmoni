@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: throw.inc.php,v 1.8 2005/02/04 15:59:03 adamfranco Exp $
+ * @version $Id: throw.inc.php,v 1.9 2005/04/04 17:39:23 adamfranco Exp $
  */
 
 /**
@@ -16,10 +16,6 @@
  * @param object Error The error object to throw.
  */
 function throwError(& $error) {
-	// first, make sure that the ErrorHandler service is running
-	Services::requireService("ErrorHandler");
-
-	// now that the ErrorHandler is running, we can access it
 	$errorHandler =& Services::getService("ErrorHandler");
 
 	// throw the error
@@ -65,10 +61,6 @@ function try ($operation) {
  * @param object Error The error object to throw.
  */
 function userError(& $error) {
-	// first, make sure that the ErrorHandler service is running
-	Services::requireService("UserError");
-
-	// now that the ErrorHandler is running, we can access it
 	$errorHandler =& Services::getService("UserError");
 
 	// throw the error
@@ -82,7 +74,7 @@ function userError(& $error) {
  */
 function printErrors(&$printer)
 {
-	$handler =& Services::requireService("ErrorHandler");
+	$handler =& Services::getService("ErrorHandler");
 	
 	if (haveErrors())
 		return $handler->printErrorsWithErrorPrinter($printer);
@@ -94,7 +86,7 @@ function printErrors(&$printer)
  */
 function haveErrors()
 {
-	$handler =& Services::requireService("ErrorHandler");
+	$handler =& Services::getService("ErrorHandler");
 	
 	if ($handler->getNumberOfErrors()) {
 		return true;
@@ -108,9 +100,6 @@ function haveErrors()
  * @return string A string containing the output of the error printer. 
  */
 function printUserErrors() {
-	// require the service
-	Services::requireService("UserError");
-	
 	// get it
 	$errorHandler =& Services::getService("UserError");
 	
