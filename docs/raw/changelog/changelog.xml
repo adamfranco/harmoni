@@ -3,18 +3,37 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.2.0" date="Unreleased">
-		<change author='adam' task='102450'>
+		<fix author='adam' task='102450'>
 			AuthN queries now have slashes added to dbc query values.
-		</change>
-		<change author='adam' task='102449'>
+		</fix>
+		<fix author='adam' task='102449'>
 			Shared queries now have slashes added to query values.
-		</change>
-		<change author='adam' task='102455'>
+		</fix>
+		<fix author='adam' task='102455'>
 			Globally added addslashes() calls to quoted values in query strings.
+		</fix>
+		<change author='adam'>
+			Fixed LoginHandler problem which was preventing the use of custom
+			callback functions.
 		</change>
+		<new author='adam'>
+			A new "Sets" service provides an easy system for the creation, ordering,
+			and maintaining of persistant collections of Ids.
+		</new>
 		<new author='gabe'>
 			Added a "revision" to all DataSetTypeDefinitions for later program upgrades (can check revision number to see if the structure is up-to-date instead of comparing every field).
 		</new>
+		<new author='dobo'>
+			GUIManager service, based around CSS, will eventually replace the 
+			theme/layout handlers.
+		</new>
+		<new author='dobo'>
+			Implemented the Authorization OSID.
+		</new>
+		<change author='dobo'>
+			Reworked the Hierarchy implementation to use a better data-fetching/caching
+			model.
+		</change>
 	</version>
 	<version number="0.1.0" date="2004-06-11">
 		<new author='dobo'>
@@ -26,6 +45,10 @@
 		<fix author='gabe'>
 			Bugs in LoginHandler.
 		</fix>
+		<change author='adam'>
+			LanguageLocalizer reworked for easier usage and caching of language
+			preferences.
+		</change>
 		<change author='adam'>
 			The DataManager/metaData now uses the OKI Shared Ids instead of its own internal
 			id system. This keeps all access to unique ids safely behind the Shared interface.
