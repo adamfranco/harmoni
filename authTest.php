@@ -14,8 +14,9 @@ $a->modCfg("table","user");
 
 $a->modCfg("usernameField","user_username");
 $a->modCfg("passwordField","user_password");
+$a->modCfg("otherFields",array("fullname"=>"user_fname","email"=>"user_email"));
 $a->modCfg("passwordFieldEncrypted",false);
-$a->modCfg("passwordEncryptionType","des");
+$a->modCfg("passwordEncryptionType","des"); // not implemented yet!
 
 
 
