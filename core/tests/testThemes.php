@@ -1,7 +1,7 @@
 <?php
 
 // include all required files.
-require_once("../harmoni.inc.php");
+require_once("../../harmoni.inc.php");
 require_once(HARMONI."themeHandler/TestTheme.class.php");
 require_once(HARMONI."layoutHandler/components/layouts/SingleContentLayout.class.php");
 require_once(HARMONI."layoutHandler/components/layouts/LeftMenuLayout.class.php");
