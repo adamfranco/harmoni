@@ -29,13 +29,31 @@ require_once(HARMONI."GUIManager/StyleProperties/LineHeightSP.class.php");
 
 require_once(HARMONI."GUIManager/StyleProperties/CursorSP.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/DirectionSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/DisplaySP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/PositionSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/TextTransformSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/VisibilitySP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/ZIndexSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/MaxWidthSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/MaxHeightSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/WordSpacingSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/LetterSpacingSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/WhiteSpaceSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/ClearSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/FloatSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/TopSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/LeftSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/RightSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/BottomSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/VerticalAlignSP.class.php");
+require_once(HARMONI."GUIManager/StyleProperties/OverflowSP.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StylePropertiesTestCase.class.php,v 1.4 2004/07/19 23:59:51 dobomode Exp $
+ * @version $Id: StylePropertiesTestCase.class.php,v 1.5 2004/07/22 17:10:40 tjigmes Exp $
  * @copyright 2003 
  */
 
@@ -148,8 +166,98 @@ require_once(HARMONI."GUIManager/StyleProperties/DirectionSP.class.php");
 			$this->assertIdentical($sp->getCSS(), "direction: ltr;");
 		}
 		
+		function test_display_sp() {
+			$sp =& new DisplaySP("inline");
+			$this->assertIdentical($sp->getCSS(), "display: inline;");
+			
+			$sp =& new DisplaySP("block");
+			$this->assertIdentical($sp->getCSS(), "display: block;");
+		}
+				
+		function test_position_sp() {
+			$sp =& new PositionSP("absolute");
+			$this->assertIdentical($sp->getCSS(), "position: absolute;");
+		}
 		
+		function test_text_transform_sp() {
+			$sp =& new TextTransformSP("capitalize");
+			$this->assertIdentical($sp->getCSS(), "text-transform: capitalize;");
+		}
 		
-    }
+		function test_visibility_sp() {
+			$sp =& new VisibilitySP("hidden");
+			$this->assertIdentical($sp->getCSS(), "visibility: hidden;");
+		}
+		
+		function test_z_index_sp() {
+			$sp =& new ZIndexSP("3");
+			$this->assertIdentical($sp->getCSS(), "z-index: 3;");
+		}
+		
+		function test_max_width_sp() {
+			$sp =& new MaxWidthSP("none");
+			$this->assertIdentical($sp->getCSS(), "max-width: none;");
+		}
+
+		function test_max_height_sp() {
+			$sp =& new MaxHeightSP("12px");
+			$this->assertIdentical($sp->getCSS(), "max-height: 12px;");
+		}
+
+		function test_word_spacing_sp() {
+			$sp =& new WordSpacingSP("12px");
+			$this->assertIdentical($sp->getCSS(), "word-spacing: 12px;");
+		}
+		
+		function test_letter_spacing_sp() {
+			$sp =& new LetterSpacingSP("normal");
+			$this->assertIdentical($sp->getCSS(), "letter-spacing: normal;");
+		}
+		
+		function test_white_space_sp() {
+			$sp =& new WhiteSpaceSP("normal");
+			$this->assertIdentical($sp->getCSS(), "white-space: normal;");
+		}
+		
+		function test_clear_sp() {
+			$sp =& new ClearSP("both");
+			$this->assertIdentical($sp->getCSS(), "clear: both;");
+		}
+		
+		function test_float_sp() {
+			$sp =& new FloatSP("left");
+			$this->assertIdentical($sp->getCSS(), "float: left;");
+		}
+		
+		function test_top_sp() {
+			$sp =& new TopSP("auto");
+			$this->assertIdentical($sp->getCSS(), "top: auto;");
+		}
+		
+		function test_left_sp() {
+			$sp =& new LeftSP("2%");
+			$this->assertIdentical($sp->getCSS(), "left: 2%;");
+		}
+		
+		function test_right_sp() {
+			$sp =& new RightSP("auto");
+			$this->assertIdentical($sp->getCSS(), "right: auto;");
+		}
+		
+		function test_bottom_sp() {
+			$sp =& new BottomSP("13cm");
+			$this->assertIdentical($sp->getCSS(), "bottom: 13cm;");
+		}
+		
+		function test_vertical_align_sp() {
+			$sp =& new VerticalAlignSP("middle");
+			$this->assertIdentical($sp->getCSS(), "vertical-align: middle;");
+		}
+		
+		function test_overflow_sp() {
+			$sp =& new OverflowSP("scroll");
+			$this->assertIdentical($sp->getCSS(), "overflow: scroll;");
+		}
+	}
 
 ?>
