@@ -11,7 +11,7 @@ require_once(HARMONI."metaData/manager/DataSetTagManager.class.php");
  * The HarmoniDataManager class is used purely to setup the services required to use the
  * other DataManager classes such as the {@link DataSetTypeManager} or the {@link DataSetManager}.
  * @package harmoni.datamanager
- * @version $Id: HarmoniDataManager.abstract.php,v 1.7 2004/01/06 19:38:37 gabeschine Exp $
+ * @version $Id: HarmoniDataManager.abstract.php,v 1.8 2004/01/07 20:19:03 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -25,9 +25,12 @@ class HarmoniDataManager {
 	 * DataTypeManager, DataSetManager, DataSetTagManager
 	 * @return void
 	 * @access public
+	 * @param int $dbID The DB index from the {@link DBHandler} that we should use to look for our data.
+	 * @param opt object $preloadTypes A {@link HarmoniTypeIterator} containing a number of {@link HarmoniType}s
+	 * corresponding to DataSetTypes that should be pre-loaded in one DB query.
 	 * @abstract
 	 */
-	function setup( $dbID ) {
+	function setup( $dbID, $preloadTypes = null ) {
 		
 		// let's setup all our services
 		
@@ -42,7 +45,7 @@ class HarmoniDataManager {
 		
 		// ok, now on to registering everything
 		$idManager =& new IDManager( $dbID );
-		$dataSetTypeManager =& new DataSetTypeManager($idManager, $dbID);
+		$dataSetTypeManager =& new DataSetTypeManager($idManager, $dbID, $preloadTypes);
 		$dataTypeManager =& new DataTypeManager();
 		$dataSetManager =& new DataSetManager( $idManager, $dbID, $dataSetTypeManager );
 		$dataSetTagManager =& new DataSetTagManager($idManager, $dbID);

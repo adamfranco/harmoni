@@ -3,6 +3,13 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.5" date="Not Released">
+		<change author='gabe'>
+			HarmoniDataManager::setup($dbID) now takes optional second argument including a list of DataSetTypes to
+			preload in a single query to save time and Database overhead.
+		</change>
+		<new author='gabe'>
+			added FloatDataType, ShortStringDataType. finished up DataManager tagging, cloning, pruning functionality.
+		</new>
 		<new author='gabe'>
 			added BooleanDataType to DataManager.
 		</new>

@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.12 2004/01/06 22:21:32 gabeschine Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.13 2004/01/07 20:19:03 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -28,24 +28,28 @@ class DataSetTypeManager
 	/**
 	* @param object $idmanager The {@link IDManager} to use for ID generation.
 	* @param int $dbID The {@link DBHandler} connection ID to use for data type storage.
+	* @param ref object $preloadTypes A {@link HarmoniTypeIterator} containing a number of {@link HarmoniType}s to
+	* pre-load structure data for. This will avoid queries later on.
 	* @desc Constructor.
 	*/
-	function DataSetTypeManager( &$idmanager, $dbID ) {
+	function DataSetTypeManager( &$idmanager, $dbID, &$preloadTypes ) {
 		$this->_idmanager =& $idmanager;
 		$this->_dbID = $dbID;
 		$this->_types = array();
 		
 		// talk to the DB
-		$this->populate();
+		$this->populate($preloadTypes);
 		
 		debug::output("Initialized new DataSetTypeManager with ".$this->numberOfTypes()." types.",DEBUG_SYS4,"DataSetTypeManager");
 	}
 	
 	/**
 	* @return void
+	* @param ref object $preloadTypes A {@link HarmoniTypeIterator} containing a number of {@link HarmoniType}s to
+	* pre-load structure data for. This will avoid queries later on.
 	* @desc Fetches from the DB a list of registered DataSetTypes.
 	*/
-	function populate() {
+	function populate(&$preloadTypes) {
 		debug::output("Fetching all our known DataSetTypes from the database.",DEBUG_SYS1, "DataSetTypeManager");
 		
 		// let's get all our known types
@@ -78,6 +82,66 @@ class DataSetTypeManager
 			
 			debug::output("Found type ID ".$a['datasettype_id']." of type '".OKITypeToString($type)."'",DEBUG_SYS2,"DataSetTypeManager");
 			unset($type);
+		}
+		
+		// now let's preload
+		if ($preloadTypes) {
+			$this->loadMultiple($preloadTypes);
+		}
+	}
+	
+	/**
+	* Will load the data structures for multiple DataSetTypes.
+	* @param ref object A {@link HarmoniTypeIterator} containing the list of types to be loaded.
+	* @return void
+	* @access public
+	*/
+	function loadMultiple(&$preloadTypes) {
+		$ids = array();
+		while ($preloadTypes->hasNext()) {
+			$type =& $preloadTypes->next();
+			$id = $this->getIDForType($type);
+			if (!$id) continue;
+			$obj =& $this->getDataSetTypeDefinition($type);
+			if ($obj->loaded()) continue;
+			$ids[] = $id;
+		}
+		
+		if (count($ids)) {
+			// let's do it
+			$query =& new SelectQuery;
+			$query->addTable("datasettypedef");
+			$query->addColumn("datasettypedef_id");
+			$query->addColumn("datasettypedef_label");
+			$query->addColumn("datasettypedef_mult");
+			$query->addColumn("datasettypedef_active");
+			$query->addColumn("datasettypedef_fieldtype");
+			$query->addColumn("fk_datasettype");
+			
+			$wheres = array();
+			foreach ($ids as $id) {
+				$wheres[] = "fk_datasettype=$id";
+			}
+			$query->setWhere("(".implode(" OR ",$wheres).")");
+			
+			$dbHandler =& Services::getService("DBHandler");
+			$res = $dbHandler->query($query, $this->_dbID);
+			
+			$rows = array();
+			while ($res->hasMoreRows()) {
+				$row = $res->getCurrentRow();
+				$res->advanceRow();
+				
+				$theID = $row["fk_datasettype"];
+				if (!isset($rows[$theID])) $rows[$theID] = array();
+				$rows[$theID][] = $row;
+			}
+			
+			// now distribute the rows among their respective objects
+			foreach (array_keys($rows) as $id) {
+				$obj =& $this->getDataSetTypeDefinitionByID($id);
+				if (!$obj->loaded()) $obj->populate($rows[$id]);
+			}
 		}
 	}
 	
