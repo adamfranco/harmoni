@@ -16,7 +16,7 @@
 	define("LOAD_THEMES", false);
 	
 	if (!defined('HARMONI')) {
-	    require_once("../../harmoni.inc.php");
+	    require_once("../../../harmoni.inc.php");
 	}
 	
 	$errorHandler =& Services::requireService("ErrorHandler",true);

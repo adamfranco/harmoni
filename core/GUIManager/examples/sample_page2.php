@@ -16,7 +16,7 @@
 	define("LOAD_THEMES", false);
 	
 	if (!defined('HARMONI')) {
-	    require_once("../../harmoni.inc.php");
+	    require_once("../../../harmoni.inc.php");
 	}
 	
 	$errorHandler =& Services::requireService("ErrorHandler",true);
@@ -41,8 +41,6 @@
 	require_once(HARMONI."GUIManager/Layouts/YLayout.class.php");
 	require_once(HARMONI."GUIManager/Layouts/FlowLayout.class.php");
 	
-	require_once(HARMONI."GUIManager/StyleProperties/FloatSP.class.php");
-
 // =============================================================================
 // Create some containers & components. This stuff would normally go in an action.
 // =============================================================================
