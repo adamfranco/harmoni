@@ -73,7 +73,7 @@ class JavaPOCSharedManager {
 	function & getId($idString) {
 		return $this->_javaClass->getId($idString);
 	}
-
+/*
 	// public AgentIterator & getAgents(osid.shared.Type & $agentType);
 	function & getAgents(& $agentType) {
 		return $this->_javaClass->getAgents($agentType);
@@ -82,7 +82,7 @@ class JavaPOCSharedManager {
 	// public AgentIterator & getGroups(osid.shared.Type & $groupType);
 	function & getGroups(& $groupType) {
 		return $this->_javaClass->getGroups($groupType);
-	}
+	}*/
 }
 
 ?>
