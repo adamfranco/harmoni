@@ -4,6 +4,7 @@ require_once(OKI."/authentication.interface.php");
 require_once(HARMONI.'/oki/shared/HarmoniType.class.php');
 require_once(HARMONI.'/oki/authentication/HarmoniAuthenticationType.class.php');
 require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
+require_once(HARMONI."oki/shared/HarmoniProperties.class.php");
 
 /**
  * The AuthenticationManager identifies the authentication Types supported by 
@@ -337,14 +338,24 @@ class HarmoniAuthenticationManager
 			} else if ($result->getNumberOfRows() == 0) {
 				$type =& new HarmoniType ('Authentication', 'Harmoni', 'User',
 											'A generic user agent created during login.');
-				// Create the Agent
-				$agent =& $sharedManager->createAgent($tokens, $type);
+								
+				
+				$propertiesType = new HarmoniType('Agents', 'Harmoni', 'Auth Properties',
+						'Properties known to the Harmoni Authentication System.');
+				$properties =& new HarmoniProperties($propertiesType);
 				
 				// Populate its properties if we can find any.
 				$agentInfoHandler =& Services::getService("AgentInformation");
 				$info =& $agentInfoHandler->getAgentInformation($tokens, FALSE);
 				
 				printpre($info);
+				foreach (array_keys($info) as $key) {
+					$properties->addProperty($key, $info[$key]);
+				}
+				
+				
+				// Create the Agent
+				$agent =& $sharedManager->createAgent($tokens, $type, $properties);
 				
 				// Store a mapping in our table.
 				$id =& $agent->getId();

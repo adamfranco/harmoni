@@ -9,6 +9,7 @@ require_once(HARMONI."oki/shared/HarmoniAgentIterator.class.php");
 require_once(HARMONI."oki/shared/HarmoniGroup.class.php");
 require_once(HARMONI."oki/shared/HarmoniTestId.class.php");
 require_once(HARMONI."oki/shared/HarmoniId.class.php");
+require_once(HARMONI."oki/shared/HarmoniProperties.class.php");
 require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.php");
 
 /**
@@ -37,7 +38,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.42 2004/11/19 22:27:53 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.43 2004/11/19 23:23:46 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -190,10 +191,10 @@ class HarmoniSharedManager
 			"fk_properties"
 		));
 		$query->setValues(array(
-			"'".$this->_id->getIdString()."'",
-			"'".$propertiesId."'"
+			"'".addslashes($agentIdValue)."'",
+			"'".addslashes($propertiesId)."'"
 		));
-		$result =& $dbc->query($query, $this->_dbIndex);
+		$result =& $dbHandler->query($query, $this->_dbIndex);
 		
 		
 		// create the agent object to return
@@ -1323,7 +1324,7 @@ class HarmoniSharedManager
 		$query =& new InsertQuery;
 		$query->setTable("shared_properties");
 		$query->setColumns(array("fk_type"));
-		$query->setValues(array("'".$typeId."'"));
+		$query->setValues(array("'".addslashes($typeId)."'"));
 		
 		$result =& $dbc->query($query, $this->_dbIndex);
 		$propertiesId = $result->getLastAutoIncrementValue();
@@ -1332,11 +1333,11 @@ class HarmoniSharedManager
 		$keys =& $properties->getKeys();
 		if ($keys->hasNext()) {
 			$query =& new InsertQuery;
-			$query->setTable("shared_properties");
+			$query->setTable("shared_property");
 			$query->setColumns(array(
-				"fk_properties",
-				"key",
-				"value"
+				"shared_property.fk_properties",
+				"shared_property.key",
+				"shared_property.value"
 			
 			));
 			
@@ -1344,9 +1345,9 @@ class HarmoniSharedManager
 				$key =& $keys->next();
 				$property =& $properties->getProperty($key);
 				$query->addRowOfValues(array(
-					"'".$propertiesId."'",
-					"'".base64_encode(serialize($key))."'",
-					"'".base64_encode(serialize($property))."'"
+					"'".addslashes($propertiesId)."'",
+					"'".addslashes(base64_encode(serialize($key)))."'",
+					"'".addslashes(base64_encode(serialize($property)))."'"
 				));
 			}
 			
