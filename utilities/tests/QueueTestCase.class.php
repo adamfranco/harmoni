@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: QueueTestCase.class.php,v 1.7 2003/06/20 01:29:35 dobomode Exp $
+ * @version $Id: QueueTestCase.class.php,v 1.8 2003/06/23 16:42:43 movsjani Exp $
  * @copyright 2003 
  **/
 
@@ -99,12 +99,16 @@
 			$this->assertReference($test3,$testReversedQueue->next());			
 
 			$testReversedQueue->add(& $test4);
-
-			$this->assertReference($test2,$testReversedQueue->next());			
+			
+			$this->assertReference($test4,$testReversedQueue->next());			
 
 			$testReversedQueue->add(& $test5);
 
-			$this->assertReference($test1,$testReversedQueue->next());			
+			$this->assertReference($test5,$testReversedQueue->next());			
+
+			$this->assertReference($test1,$testReversedQueue->_queue[0]);			
+
+			$this->assertReference($test2,$testReversedQueue->_queue[1]);			
 			
 			// Max: Once, we start iterating (once we call next()), the
 			// position should be preserved, so that the next call of

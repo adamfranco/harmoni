@@ -4,7 +4,7 @@ require_once(dirname(__FILE__)."/Queue.interface.php");
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.class.php,v 1.7 2003/06/22 23:06:56 gabeschine Exp $
+ * @version $Id: Queue.class.php,v 1.8 2003/06/23 16:42:43 movsjani Exp $
  * @copyright 2003 
  */
 
@@ -35,7 +35,7 @@ class Queue extends QueueInterface {
 		$this->_reversed = $reversed;
 		($this->_reversed) ? $this->_position = -1 : $this->_position = 0;
 	}
-
+	
 	/**
 	 * Add an object to the queue.
 	 * @param object $object The object to add to the queue.
@@ -61,7 +61,12 @@ class Queue extends QueueInterface {
 	 */
 	function & next() {
 		$object =& $this->_queue[$this->_position];
-		($this->_reversed) ? $this->_position-- : $this->_position++;
+		if($this->_reversed){
+			$this->_position--; 
+			array_pop($this->_queue);
+		}
+		else
+			$this->_position++;
 		return $object;
 	}
 
