@@ -6,7 +6,7 @@ require_once(HARMONI."errorHandler/ErrorHandler.interface.php");
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.9 2003/06/26 19:26:33 adamfranco Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.10 2003/06/26 23:36:50 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */
@@ -119,7 +119,7 @@ class ErrorHandler extends ErrorHandlerInterface{
 	/**
      * Add an ErrorPrinter to the printer Queue, which will be used by the PrintErrors method.
      * Add an ErrorPrinter to the printer Queue, which will be used by the PrintErrors method.
-     * @param class ErrorPrinter The Error printer to be added to the queue.
+     * @param object ErrorPrinter The Error printer to be added to the queue.
 	 * @access public
 	 */
 	function addErrorPrinter(& $printer){

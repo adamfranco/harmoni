@@ -1,5 +1,7 @@
 <?php
 
+require_once(HARMONI."authenticationHandler/AuthenticationMethod.abstract.php");
+
 /**
  * This AuthenticationMethod is an "always true" wrapper for another method.
  * 
@@ -9,13 +11,13 @@
  * authenticate() will return true if the Agent exists on the targeted system.
  * This method is useful almost SOLELY for demo site purposes. BE CAREFUL USING IT!!!
  *
- * @version $Id: AlwaysTrueAuthenticationMethod.class.php,v 1.2 2003/06/26 21:05:42 adamfranco Exp $
+ * @version $Id: AlwaysTrueAuthenticationMethod.class.php,v 1.3 2003/06/26 23:36:50 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
  **/
  
-class AlwaysTrueAuthenticationMethod extends AuthenticationMethodInterface {
+class AlwaysTrueAuthenticationMethod extends AuthenticationMethod {
 	/**
 	 * @access private
 	 * @var object AuthenticationMethod $_methodObject The method being wrapped.

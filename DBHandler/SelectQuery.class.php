@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQuery.interface.php");
  * 
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * @version $Id: SelectQuery.class.php,v 1.7 2003/06/26 16:18:06 dobomode Exp $
+ * @version $Id: SelectQuery.class.php,v 1.8 2003/06/26 23:36:50 gabeschine Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -124,7 +124,7 @@ class SelectQuery extends SelectQueryInterface {
 	 * a current set of tables is maintained in the object, so when a new one
 	 * is added, it is combined with the current set.
 	 * @param string $table The table to add to the FROM clause.
-	 * @param constant $joinType Specifies what type of join to perform between
+	 * @param integer $joinType Specifies what type of join to perform between
 	 * the current set of tables and the table being added. Could be one of
 	 * the following: NO_JOIN, LEFT_JOIN, INNER_JOIN, RIGHT_JOIN.
 	 * @param string $joinCondition If a join is to be performed, then this

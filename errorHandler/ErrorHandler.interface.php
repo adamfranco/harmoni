@@ -5,7 +5,7 @@ require_once(HARMONI.'services/Service.interface.php');
 /**
  * 
  *
- * @version $Id: ErrorHandler.interface.php,v 1.5 2003/06/26 19:26:04 adamfranco Exp $
+ * @version $Id: ErrorHandler.interface.php,v 1.6 2003/06/26 23:36:50 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  **/
@@ -63,7 +63,7 @@ class ErrorHandlerInterface extends ServiceInterface {
 	/**
      * Add an ErrorPrinter to the printer Queue, which will be used by the PrintErrors method.
      * Add an ErrorPrinter to the printer Queue, which will be used by the PrintErrors method.
-     * @param class ErrorPrinter The Error printer to be added to the queue.
+     * @param object ErrorPrinter The Error printer to be added to the queue.
 	 * @access public
 	 */
 	function addErrorPrinter(){ die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }

@@ -13,9 +13,11 @@ $__services__ = NULL;				// above defined variable must be set to NULL
 /**
  * The ServicesAbstract class defines the public static methods used by users.
  * The ServicesAbstract class defines the public static methods used by users.
- * @version $Id: Services.abstract.php,v 1.5 2003/06/26 15:57:47 dobomode Exp $
+ * @version $Id: Services.abstract.php,v 1.6 2003/06/26 23:36:50 gabeschine Exp $
  * @copyright 2003 
  * @access public
+ * @static
+ * @abstract
  * @package harmoni.services
  **/
 
@@ -29,6 +31,7 @@ class ServicesAbstract
 	 * @param string $name The reference name of the service.
 	 * @param string $class The class name to be instantiated.
 	 * @access public
+	 * @static
 	 * @return boolean True on success. False if service is registered and running or an error occurs.
 	 **/
 	function registerService( $name, $class ) {
@@ -39,6 +42,7 @@ class ServicesAbstract
 	 * Returns the services object.
 	 * Returns the services object.
 	 * @access public
+	 * @static
 	 * @return object Services The Services object.
 	 **/
 	function & getServices() {
@@ -50,6 +54,7 @@ class ServicesAbstract
 	 * Returns the service object associated with reference name $name.
 	 * @param string $name The reference name of the service.
 	 * @access public
+	 * @static
 	 * @return object Object The service object.
 	 **/
 	function & getService( $name ) {
@@ -61,6 +66,7 @@ class ServicesAbstract
 	 * Attempts to start the service referenced by $name.
 	 * @param string $name The service name.
 	 * @access public
+	 * @static
 	 * @return boolean True on success.
 	 **/
 	function startService( $name ) {
@@ -68,10 +74,22 @@ class ServicesAbstract
 	}
 	
 	/**
+	 * Cycles through all registered services and attempts to start them.
+	 * @static
+	 * @access public
+	 * @return void
+	 **/
+	function startAllServices() {
+		$GLOBALS[SERVICES_OBJECT]->startAll();
+	}
+	
+	
+	/**
 	 * Attempts to stop the service reference by $name.
 	 * Attempts to stop the service reference by $name.
 	 * @param string $name The service name.
 	 * @access public
+	 * @static
 	 * @return boolean True on success.
 	 **/
 	function stopService( $name ) {
@@ -83,6 +101,7 @@ class ServicesAbstract
 	 * Attempts to restart the service reference by $name.
 	 * @param string $name The service name.
 	 * @access public
+	 * @static
 	 * @return boolean True on success.
 	 **/
 	function restartService( $name ) {
@@ -93,6 +112,7 @@ class ServicesAbstract
 	 * Checks if the service referenced by $name is available for use.
 	 * Checks if the service referenced by $name is available for use.
 	 * @access public
+	 * @static
 	 * @param string $name The service name.
 	 * @return boolean True if the service is available, false otherwise.
 	 **/
@@ -104,6 +124,7 @@ class ServicesAbstract
 	 * Checks if the service referenced by $name has been started.
 	 * Checks if the service referenced by $name has been started.
 	 * @access public
+	 * @static
 	 * @param string $name The service name.
 	 * @return boolean True if the service is running, false otherwise.
 	 **/

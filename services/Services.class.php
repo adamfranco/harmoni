@@ -6,7 +6,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.5 2003/06/26 18:11:46 gabeschine Exp $
+ * @version $Id: Services.class.php,v 1.6 2003/06/26 23:36:50 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -108,6 +108,17 @@ class Services extends ServicesAbstract {
 		return true;
 	}
 	 
+	/**
+	 * Cycles through all registered services and attempts to start them.
+	 * @access public
+	 * @return void
+	 **/
+	function startAll() {
+		foreach (array_keys($this->_registeredServices) as $service) {
+			if (!$this->running($service)) $this->start($service);
+		}
+	}
+	
 	/**
 	 * Attempts to stop the service reference by $name.
 	 * Attempts to stop the service reference by $name.

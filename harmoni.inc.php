@@ -4,7 +4,7 @@
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.7 2003/06/26 20:46:44 gabeschine Exp $
+ * @version $Id: harmoni.inc.php,v 1.8 2003/06/26 23:36:48 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
@@ -27,9 +27,6 @@ define("SERVICES_OBJECT","__services__");
 
 // load the services
 require_once(HARMONI."services/Services.class.php");
-// load error throwing functionallity
-require_once(HARMONI."errorHandler/throw.inc.php");
-
 
 /**
  * The global Services object.

@@ -1,5 +1,7 @@
 <?php
 
+require_once(HARMONI."authenticationHandler/AuthenticationMethod.abstract.php");
+
 /**
  * This AuthenticationMethod is an "always false" wrapper for another method.
  * 
@@ -10,13 +12,13 @@
  * a method for only fetching agent information and not authentication.
  *
  * @see AgentInformationHandlerInterface
- * @version $Id: AlwaysFalseAuthenticationMethod.class.php,v 1.1 2003/06/26 18:11:46 gabeschine Exp $
+ * @version $Id: AlwaysFalseAuthenticationMethod.class.php,v 1.2 2003/06/26 23:36:50 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
  **/
  
-class AlwaysFalseAuthenticationMethod extends AuthenticationMethodInterface {
+class AlwaysFalseAuthenticationMethod extends AuthenticationMethod {
 	/**
 	 * @access private
 	 * @var object AuthenticationMethod $_methodObject The method being wrapped.
