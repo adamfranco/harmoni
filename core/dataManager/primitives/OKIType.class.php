@@ -7,11 +7,11 @@ require_once(HARMONI."dataManager/Primitive.interface.php");
  * A {@link Primitive} that extends the {@link HarmoniType} class.
  * @package harmoni.datamanager.primitives
  * @copyright 2004
- * @version $Id: OKIType.class.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+ * @version $Id: OKIType.class.php,v 1.2 2004/07/27 18:15:25 gabeschine Exp $
  */
 class OKIType extends HarmoniType /* implements Primitive */ {
 
-	function OKIType($one, $two, $three, $four="") {
+	function OKIType($one='', $two='', $three='', $four='') {
 		parent::HarmoniType($one, $two, $three, $four);
 	}
 	

@@ -1,11 +1,10 @@
 <?php
 
-//require_once(HARMONI."dataManager/manager/DataSetTypeManager.class.php");
-//require_once(HARMONI."dataManager/manager/DataTypeManager.class.php");
-//require_once(HARMONI."dataManager/manager/DataType.interface.php");
-//require_once(HARMONI."dataManager/manager/DataSetManager.class.php");
-//require_once(HARMONI."dataManager/manager/DataSetTagManager.class.php");
-//require_once(HARMONI."dataManager/manager/DataSetGroup.class.php");
+require_once(HARMONI."dataManager/schema/SchemaManager.class.php");
+require_once(HARMONI."dataManager/DataTypeManager.class.php");
+require_once(HARMONI."dataManager/record/RecordManager.class.php");
+require_once(HARMONI."dataManager/record/TagManager.class.php");
+require_once(HARMONI."dataManager/record/RecordSet.class.php");
 
 //require_once(HARMONI."dataManager/manager/search/include.php");
 
@@ -15,7 +14,7 @@
  * The HarmoniDataManager class is used purely to setup the services required to use the
  * other DataManager classes such as the {@link DataSetTypeManager} or the {@link DataSetManager}.
  * @package harmoni.datamanager
- * @version $Id: DataManager.abstract.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+ * @version $Id: DataManager.abstract.php,v 1.2 2004/07/27 18:14:58 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -54,27 +53,18 @@ class DataManager {
 		
 		// let's setup all our services
 		
-		// first, make sure they're all stopped and unregistered.
-//		$services = array("DataTypeManager","SchemaManager","RecordManager","TagManager");
-//		foreach ($services as $service) {
-//			if (Services::serviceAvailable($service)) {
-//				if (Services::serviceRunning($service))
-//					Services::stopService($service);
-//			}
-//		}
-		
 		define("DATAMANAGER_DBID",$dbID);
 
 		// ok, now on to registering everything
 		$schemaManager =& new SchemaManager($preloadTypes);
-//		$dataTypeManager =& new DataTypeManager();
-//		$dataSetManager =& new DataSetManager($dbID, $dataSetTypeManager );
-//		$dataSetTagManager =& new DataSetTagManager($dbID);
+		$dataTypeManager =& new DataTypeManager();
+		$recordManager =& new RecordManager();
+//		$tagManager =& new TagManager();
 
 		Services::registerObjectAsService("SchemaManager",$schemaManager);
-//		Services::registerObjectAsService("DataTypeManager",$dataTypeManager);
-//		Services::registerObjectAsService("DataSetManager",$dataSetManager);
-//		Services::registerObjectAsService("DataSetTagManager",$dataSetTagManager);
+		Services::registerObjectAsService("DataTypeManager",$dataTypeManager);
+		Services::registerObjectAsService("RecordManager",$recordManager);
+//		Services::registerObjectAsService("TagManager",$tagManager);
 
 		debug::output("Activated Harmoni Data Manager.",DEBUG_SYS1,"DataManager");
 	}

@@ -3,7 +3,7 @@
 /**
  * The RecordSet class holds a list of IDs and their Records in a specific record set.
  * @package harmoni.datamanager
- * @version $Id
+ * @version $Id: RecordSet.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
  * @copyright 2004, Middlebury College
  */
 class RecordSet {
@@ -102,6 +102,16 @@ class RecordSet {
 	 */
 	function getRecordIDs() {
 		return $this->_recordIDs;
+	}
+	
+	/**
+	 * Returns our ID.
+	 * @access public
+	 * @return int
+	 */
+	function getID()
+	{
+		return $this->_myID;
 	}
 	
 	/**

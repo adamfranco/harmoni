@@ -1,13 +1,17 @@
 <?php
 
 require_once(HARMONI."utilities/recast.function.php");
+require_once(HARMONI."dataManager/Primitive.interface.php");
+require_once(HARMONI."dataManager/StorablePrimitive.interface.php");
+require_once(HARMONI."dataManager/primitives/inc.php");
+require_once(HARMONI."dataManager/storablePrimitives/inc.php");
 
 /**
  * Responsible for keeping track of the available data type primitives (such as string, integer, etc) and 
  * creation of the appropriate classes when those data types are required. Is also responsible for mapping {@link Primitive}s with
  * their respective {@link StorablePrimitive}s so that we can store them in the database.
  * @package harmoni.datamanager
- * @version $Id: DataTypeManager.class.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+ * @version $Id: DataTypeManager.class.php,v 1.2 2004/07/27 18:14:58 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -77,21 +81,41 @@ class DataTypeManager
 	}
 	
 	/**
-	 * Recasts a {@link Primitive} to its associated {@link StorablePrimitive} class and returns the new object.
-	 * @param ref object $primitive
+	 * Creates a new {@link StorablePrimitive} object that is associated with the given $name.
+	 * @param string $type The type-string of the primitive (such as "integer").
 	 * @access public
 	 * @return ref object
 	 */
-	function &recastAsStorablePrimitive(&$primitive)
+	function &newStorablePrimitive($type)
+	{
+		if (!$this->typeRegistered($type)) {
+			throwError( new Error("Could not create new DataType object for '$type' because it doesn't seem to be registered.",
+			"DataTypeManager",true));
+		}
+		
+		$class = $this->_registeredTypes[$type]["storable"];
+		
+		$object =& new $class;
+		return $object;
+	}
+	
+	/**
+	 * Recasts a {@link Primitive} to its associated {@link StorablePrimitive} class and returns the new object.
+	 * @param ref object $primitive
+	 * @param string $type The type of data contained in the primitive (ie, "integer" or "string")
+	 * @access public
+	 * @return ref object
+	 */
+	function &recastAsStorablePrimitive(&$primitive, $type)
 	{
 		$class = strtolower(get_class($primitive));
-		if (!isset($this->_primitiveClassMapping[$class])) {
+		if (!isset($this->_registeredTypes[$type]) || strtolower($this->_registeredTypes[$type]["primitive"]) != $class) {
 			// this means that either we can't do anything with this primitive (we dont' know it) or
 			// it's already a storable.
 			return $primitive;
 		}
 		
-		$newClass = $this->_primitiveClassMapping[$class];
+		$newClass = $this->_registeredTypes[$type]["storable"];
 		return recast($primitive, $newClass);
 	}
 	

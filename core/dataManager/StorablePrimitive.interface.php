@@ -4,7 +4,7 @@
  * This interface allows for the storage into a database (or other medium) the data contained in a {@link Primitive} data type.
  * @package harmoni.datamanager
  * @copyright 2004
- * @version $Id: StorablePrimitive.interface.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+ * @version $Id: StorablePrimitive.interface.php,v 1.2 2004/07/27 18:14:58 gabeschine Exp $
  */
 class StorablePrimitive {
 
@@ -45,7 +45,7 @@ class StorablePrimitive {
 	 * contains, greater than, less than, etc)
 	 * @return string or NULL if no searching is allowed.
 	 */
-	function makeSearchString(&$value) { }
+	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) { }
 	
 	/**
 	 * Takes a single database row, which would contain the columns added by alterQuery()

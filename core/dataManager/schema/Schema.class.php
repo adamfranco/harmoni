@@ -8,7 +8,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link SchemaManager}.
  * @package harmoni.datamanager
- * @version $Id: Schema.class.php,v 1.1 2004/07/26 04:21:17 gabeschine Exp $
+ * @version $Id: Schema.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -16,7 +16,6 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
 class Schema {
 	
 	var $_type;
-	var $_id;
 	
 	var $_loaded;
 	
@@ -188,10 +187,10 @@ class Schema {
 	function populate($arrayOfRows) {
 		foreach ($arrayOfRows as $a) {
 			$newField =& new SchemaField($a['label'],$a['fieldtype'],
+					$a['description'],
 					(($a['mult'])?true:false),
 					($a['required']?true:false),
-					(($a['active'])?true:false),
-					$a['description']
+					(($a['active'])?true:false)
 					);
 			$this->_addField($newField);
 			$this->_fieldIDs[$a['label']] = $a['id'];

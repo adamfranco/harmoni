@@ -5,7 +5,7 @@ require_once HARMONI."dataManager/record/Record.class.php";
 /**
  * The RecordManager handles the creation, tagging and fetching of {@link Record}s from the database.
  * @package harmoni.datamanager
- * @version $Id: RecordManager.class.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+ * @version $Id: RecordManager.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -30,11 +30,38 @@ class RecordManager extends ServiceInterface {
 	 */
 	function &fetchRecordSet($groupID, $dontLoad=false) {
 		if ($dontLoad) {
-			return isset($this->_recordSetCache[$groupID])?$this->_recordSetCache[$groupID]:null;
+			return $this->getCachedRecordSet($groupID);
 		} else {
 			$this->loadRecordSets(array($groupID));
-			$null = null;
-			return $this->_recordSetCache[$groupID]?$this->_recordSetCache[$groupID]:$null;
+			return $this->getCachedRecordSet($groupID);
+		}
+	}
+	
+	/**
+	 * Returns a cached {@link RecordSet}.
+	 * @param int $id The ID of the RecordSet.
+	 * @access public
+	 * @return ref object
+	 */
+	function &getCachedRecordSet($id)
+	{
+		$null = null;
+		return $this->_recordSetCache[$id]?$this->_recordSetCache[$id]:$null;
+	}
+	
+	/**
+	 * Puts the passed {@link RecordSet} into the internal cache.
+	 * @param ref object $set A {@link RecordSet}.
+	 * @param boolean $force Re-cache even if we already have it cached. (default=no)
+	 * @access public
+	 * @return void
+	 */
+	function cacheRecordSet(&$set, $force=false)
+	{
+		$id = $set->getID();
+		
+		if ($force || !isset($this->_recordSetCache[$id])) {
+			$this->_recordSetCache[$id] =& $set;
 		}
 	}
 	
@@ -45,11 +72,21 @@ class RecordManager extends ServiceInterface {
 	 * @return array An indexed array of the group ids (integers).
 	 */
 	function getRecordSetIDsContaining(&$record) {
-		if (!$record->getID()) return array(); // no ID
+		return $this->getRecordSetIDsContainingID($record->getID());
+	}
+	
+	/**
+	 * Returns the Ids of all groups a Record ID is in.
+	 *
+	 * @param int $id
+	 * @return array An indexed array of the group ids (integers).
+	 */
+	function getRecordSetIDsContainingID($id) {
+		if (!$id) return array(); // no ID
 		$query =& new SelectQuery;
 		$query->addTable("dm_record_set");
 		$query->addColumn("id");
-		$query->addWhere("fk_record=".$record->getID());
+		$query->addWhere("fk_record=".$id);
 		
 		$dbHandler =& Services::getService("DBHandler");
 		$result = $dbHandler->query($query,DATAMANAGER_DBID);
@@ -72,7 +109,7 @@ class RecordManager extends ServiceInterface {
 		$fromDBIDs = array();
 		
 		foreach ($groupIDsArray as $id) {
-			if (!isset($this->_recordSetCache[$id]))
+			if (!$this->getCachedRecordSet($id))
 				$fromDBIDs[] = $id;
 		}
 
@@ -98,11 +135,12 @@ class RecordManager extends ServiceInterface {
 
 				$result->advanceRow();
 				$id = $a["id"];
-				if (!isset($this->_recordSetCache[$id])) {
-					$this->_recordSetCache[$id] =& new RecordSet($id);
+				if (!($newSet =& $this->getCachedRecordSet($id))) {
+					$newSet =& new RecordSet($id);
+					$this->cacheRecordSet($newSet);
 				}
 				
-				$this->_recordSetCache[$id]->takeRow($a);
+				$newSet->takeRow($a);
 			}
 		}
 	}
@@ -201,7 +239,7 @@ class RecordManager extends ServiceInterface {
 				if (!isset($records[$id])) $records[$id] =& $this->_recordCache[$id];
 			}
 		}
-		
+
 		// make sure we found the data sets
 		$rule =& new ExtendsValidatorRule("Record");
 		foreach ($IDs as $id) {
@@ -209,7 +247,7 @@ class RecordManager extends ServiceInterface {
 				throwError(new Error(UNKNOWN_ID.": Record $id was requested, but not found.", "DataManager", TRUE));
 		}
 			
-		return $sets;
+		return $records;
 	}
 	
 	/**
@@ -300,7 +338,7 @@ class RecordManager extends ServiceInterface {
 
 		$query->addTable("dm_record");
 		$query->addTable("dm_record_field",LEFT_JOIN,"dm_record_field.fk_record=dm_record.id");
-		$query->addTable("dm_schema_field",LEFT_JOIN,"dm_record.fk_schema=dm_schema_field.id");
+		$query->addTable("dm_schema_field",LEFT_JOIN,"dm_record_field.fk_schema_field=dm_schema_field.id");
 		
 		$dataTypeManager =& Services::getService("DataTypeManager");
 		$list = $dataTypeManager->getRegisteredStorablePrimitives();
@@ -313,13 +351,13 @@ class RecordManager extends ServiceInterface {
 		$query->addColumn("id","record_id","dm_record");
 		if (!$idsOnly) {
 			$query->addColumn("created","record_created","dm_record");
-			$query->addColumn("active","record_created","dm_record");
+			$query->addColumn("active","record_active","dm_record");
 			$query->addColumn("ver_control");
-			$query->addColumn("fk_schema","","dataset"); //specify table to avoid ambiguity
+			$query->addColumn("fk_schema","","dm_record"); //specify table to avoid ambiguity
 			
 			/* dm_record_field table */
 			$query->addColumn("id","record_field_id","dm_record_field");
-			$query->addColumn("index","record_field_index","dm_record_field");
+			$query->addColumn("value_index","record_field_index","dm_record_field");
 			$query->addColumn("active","record_field_active","dm_record_field");
 			$query->addColumn("modified","record_field_modified","dm_record_field");
 			$query->addColumn("fk_data");
@@ -350,6 +388,7 @@ class RecordManager extends ServiceInterface {
 		$schema->load();
 		debug::output("Creating new Record of type '".OKITypeToString($type)."', which allows fields: ".implode(", ",$schema->getAllLabels()),DEBUG_SYS4,"DataManager");
 		$newRecord =& new Record($schema, $verControl);
+		$newRecord->setFetchMode(RECORD_FULL);
 		return $newRecord;
 	}
 	

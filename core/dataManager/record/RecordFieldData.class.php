@@ -1,37 +1,34 @@
 <?
 
 /**
- * Holds information about a specific version of a value index of a field in a DataSet. Information held
- * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
+ * Holds information about a specific version of a value index of a field in a {@link Record}. Information held
+ * includes: Date created/modified, active/not active (ie, deleted), and the actual value object (usually a {@link Primitive}). 
  * @package harmoni.datamanager
- * @version $Id: RecordFieldData.class.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
  **/
-class ValueVersion {
+class RecordFieldData {
 	
 	var $_myID;
+	var $_dataID;
 	
-	var $_date;
-	var $_valueObj;
-	var $_active;
+	var $_date = null;
+	var $_primitive = null;
+	var $_active = false;
 	
-	var $_parent;
+	var $_parent = null;
 	
-	var $_update;
-	var $_prune;
+	var $_update = false;
+	var $_prune = false;
+	var $_recast = false;
 	
-	function ValueVersion(&$parent, $active=false) {
-//		$this->_date = null; // @todo - should we create a new DateTime::now() or leave null?
+	function RecordFieldData(&$parent, $active=false) {
 		$this->_date =& DateTime::now();
-		$this->_valueObj = null;
 		$this->_active = $active;
 		
 		$this->_parent =& $parent;
-		
-		$this->_update = false;
-		$this->_prune = false;
 	}
 	
 	/**
@@ -41,11 +38,11 @@ class ValueVersion {
 	 * @access public
 	 */
 	function &clone(&$parent) {
-		$newObj =& new ValueVersion($parent, $this->_active);
+		$newObj =& new RecordFieldData($parent, $this->_active);
 		
 		$date = $this->_date; // in PHP4 this will clone the DateTime
-		$newObj->_date =& $date;
-		$newObj->_valueObj =& $this->_valueObj->clone();
+		$newObj->setDate($date);
+		$newObj->setValue($this->_primitive->clone());
 		
 		$newObj->update();
 		
@@ -53,14 +50,14 @@ class ValueVersion {
 	}
 	
 	/**
-	 * Flags this ValueVersion to be updated to the database upon commit().
+	 * Flags this RecordFieldData to be updated to the database upon commit().
 	 * @return void
 	 * @access public
 	 */
 	function update() { $this->_update=true; }
 	
 	/**
-	 * Changes the active flag of this ValueVersion to $active.
+	 * Changes the active flag of this RecordFieldData to $active.
 	 * @param bool $active
 	 * @return void
 	 * @access public
@@ -87,24 +84,26 @@ class ValueVersion {
 	 */
 	function populate( &$row ) {
 		$dbHandler =& Services::getService("DBHandler");
-		$fieldValues =& $this->_parent->getFieldValues();
-		$dataSet =& $fieldValues->getDataSet();
-		$dbID = $dataSet->getDatabaseId();
+//		$recordField =& $this->_parent->getRecordField();
+//		$record =& $recordField->getRecord();
+//		$dbID = $dataSet->getDatabaseId();
 		
-		$this->_myID = $row['datasetfield_id'];
-		$this->_date =& $dbHandler->fromDBDate($row['datasetfield_modified'],$dbID);
+		$this->_myID = $row['record_field_id'];
+		$this->_date =& $dbHandler->fromDBDate($row['record_field_modified'],DATAMANAGER_DBID);
 		// $this->_active was set by parent on construction
 		
 		// now we need to create the valueObj
-		$valueType =& $this->_parent->_parent->_fieldDefinition->getType();
+		$recordField =& $this->_parent->getRecordField();
+		$schemaField =& $recordField->getSchemaField();
+		$type = $schemaField->getType();
 		
 		$dataTypeManager =& Services::getService("DataTypeManager");
-		$valueObj =& $dataTypeManager->newDataObject($valueType);
+		$valueObj =& $dataTypeManager->newStorablePrimitive($type);
 		
 		$valueObj->populate($row);
-		$valueObj->setID($row['fk_data']);
+		$this->_dataID = $row['fk_data'];
 		
-		$this->_valueObj =& $valueObj;
+		$this->_primitive =& $valueObj;
 	}
 	
 	/**
@@ -117,7 +116,27 @@ class ValueVersion {
 	}
 	
 	/**
-	 * Commits any changes that have been made to the database. If neither udpate() nor prune() have been
+	 * Re-casts our internal {@link Primitive} data object as a {@link StorablePrimitive} of the same data type.
+	 * @access public
+	 * @return void
+	 */
+	function recastAsStorable()
+	{
+		if ($this->_recast) return;
+		$dataTypeManager =& Services::getService("DataTypeManager");
+		$recordField =& $this->_parent->getRecordField();
+		$schemaField =& $recordField->getSchemaField();
+		$type = $schemaField->getType();
+		
+		$newObj =& $dataTypeManager->recastAsStorablePrimitive($this->_primitive, $type);
+		if ($newObj) {
+			$this->_primitive =& $newObj;
+			$this->_recast = true;
+		}
+	}
+	
+	/**
+	 * Commits any changes that have been made to the database. If neither update() nor prune() have been
 	 * called, even if changes have been made, they will not be reflected in the database.
 	 * @return bool
 	 * @access public
@@ -125,24 +144,26 @@ class ValueVersion {
 	function commit() {
 		
 		$dbHandler =& Services::getService("DBHandler");
-		$dbID = $this->_parent->_parent->_parent->_dbID;
-		
-		// associate the valueObject with us. its master.
-		$this->_valueObj->setup($this->_parent->_parent->_parent->_dbID);
 		
 		if ($this->_update) {
-			// first we need to commit the actual DataType value
+			// let's re-cast our primitive to a storablePrimitive
+			$this->recastAsStorable();
+			// first we need to commit the actual Primitive value
 			// so that we can get its ID
-			$this->_valueObj->commit();
+			if (!$this->_dataID) 
+				$this->_dataID = $this->_primitive->insert(DATAMANAGER_DBID);
+			else
+				$this->_primitive->update(DATAMANAGER_DBID,$this->_dataID);
 			
 			
 			if ($this->_myID) {
 				// we're already in the DB. just update the entry
 				$query =& new UpdateQuery();
 				
-				$query->setWhere("datasetfield_id=".$this->_myID);
-				$query->setColumns(array("datasetfield_index","datasetfield_active", "datasetfield_modified"));
-				$query->setValues(array($this->_parent->_myIndex,($this->_active)?1:0,$dbHandler->toDBDate($this->_date,$dbID)));
+				$query->setWhere("id=".$this->_myID);
+				$query->setColumns(array("index","active", "modified"));
+				$query->setValues(array($this->_parent->getIndex(),($this->_active)?1:0,
+										$dbHandler->toDBDate($this->_date,DATAMANAGER_DBID)));
 			} else {
 				// we have to insert a new one
 				$query =& new InsertQuery();
@@ -152,58 +173,60 @@ class ValueVersion {
 				
 				$this->_myID = $newID->getIdString();
 				$query->setColumns(array(
-				"datasetfield_id",
-				"fk_dataset",
-				"fk_datasettypedef",
-				"datasetfield_index",
+				"id",
+				"fk_record",
+				"fk_schema_field",
+				"value_index",
 				"fk_data",
-				"datasetfield_active",
-				"datasetfield_modified"
+				"active",
+				"modified"
 				));
+				
+				$schema =& $this->_parent->_parent->_parent->getSchema();
+				$schemaField =& $this->_parent->_parent->getSchemaField();
 				
 				$query->addRowOfValues(array(
 				$this->_myID,
 				$this->_parent->_parent->_parent->getID(),
-				$this->_parent->_parent->_fieldDefinition->getID(),
-				$this->_parent->_myIndex,
-				$this->_valueObj->getID(),
+				$schema->getFieldID($schemaField->getLabel()),
+				$this->_parent->getIndex(),
+				$this->_dataID,
 				($this->_active)?1:0,
-				$dbHandler->toDBDate($this->_date,$dbID)
+				"'".$dbHandler->toDBDate($this->_date,DATAMANAGER_DBID)."'"
 				));
 			}
 			
-			$query->setTable("datasetfield");
-			
-			$result =& $dbHandler->query($query, $dbID);
+			$query->setTable("dm_record_field");
+
+			$result =& $dbHandler->query($query, DATAMANAGER_DBID);
 			
 			if (!$result) {
-				throwError( new UnknownDBError("ValueVersion") );
+				throwError( new UnknownDBError("Record") );
 				return false;
 			}
 		}
 		
-		if ($this->_prune) {
+		if ($this->_prune && $this->_dataID) {
 			if ($id = $this->getID()) {
 				// ok, let's get rid of ourselves... completely!
 				$query =& new DeleteQuery;
-				$query->setTable("datasetfield");
-				$query->setWhere("datasetfield_id=$id");
+				$query->setTable("dm_record_field");
+				$query->setWhere("id=$id");
 
-				$res =& $dbHandler->query($query, $dbID);
-				if (!$res) throwError( new UnknownDBError("ValueVersion"));
+				$res =& $dbHandler->query($query, DATAMANAGER_DBID);
+				if (!$res) throwError( new UnknownDBError("Record"));
 				
 				// now tell the data object to prune itself
-				$this->_valueObj->prune();
+				$this->recastAsStorable();
+				$this->_primitive->prune(DATAMANAGER_DBID, $this->_dataID);
 				
 				// and we have to get rid of any tag mappings where we are included.
-				// DEPRECATED:: this has been moved to FullDataSet::prune()
-				// cancel that... we need this now for VersionConstraints
 				$query =& new DeleteQuery;
-				$query->setTable("dataset_tag_map");
-				$query->setWhere("fk_datasetfield=$id");
+				$query->setTable("dm_tag_map");
+				$query->setWhere("fk_record_field=$id");
 				
-				$res =& $dbHandler->query($query, $dbID);
-				if (!$res) throwError( new UnknownDBError("ValueVersion"));
+				$res =& $dbHandler->query($query, DATAMANAGER_DBID);
+				if (!$res) throwError( new UnknownDBError("Record"));
 			}
 		}
 		
@@ -227,34 +250,34 @@ class ValueVersion {
 	}
 	
 	/**
-	 * Takes a {@link DataType} object and hands it to our local DataType object so that it can 
+	 * Takes a {@link Primitive} object and hands it to our local value object so that it can 
 	 * set its own value based on $object.
 	 * @param ref object $object
 	 * @return void
 	 * @access public
 	 */
-	function takeValue(&$object) {
-		if (!$this->_valueObj) $this->setValue($object);
-		else $this->_valueObj->takeValue($object);
+	function takeValueFromPrimitive(&$object) {
+		if (!$this->_primitive) $this->setValueFromPrimitive($object);
+		else $this->_primitive->adoptValue($object);
 	}
 	
 	/**
 	 * Sets the local valueObject to be a reference to $object.
-	 * @param ref object $object A new {@link DataType} object.
+	 * @param ref object $object A new {@link Primitive} object.
 	 * @return void
 	 * @access public
 	 */
-	function setValue(&$object) {
-		$this->_valueObj =& $object;
+	function setValueFromPrimitive(&$object) {
+		$this->_primitive =& $object;
 	}
 	
 	/**
 	 * Returns the current value object contained locally.
-	 * @return ref object
+	 * @return ref object A {@link Primitive}.
 	 * @access public
 	 */
-	function &getValue() {
-		return $this->_valueObj;
+	function &getPrimitive() {
+		return $this->_primitive;
 	}
 	
 	/**

@@ -1,12 +1,12 @@
 <?
 
-require_once HARMONI."metaData/manager/ValueVersions.classes.php";
+require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
 
 /**
  * Holds a number of indexes for values within a specific field within a Record. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: RecordField.class.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+ * @version $Id: RecordField.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -20,10 +20,10 @@ class RecordField {
 	var $_schemaField;
 	var $_myLabel;
 	
-	function RecordField( &$schemaField, &$parent, $label ) {
+	function RecordField( &$schemaField, &$parent ) {
 		$this->_numValues = 0;
 		
-		$this->_myLabel = $label;
+		$this->_myLabel = $schemaField->getLabel();
 		
 		$this->_parent =& $parent;
 		$this->_schemaField =& $schemaField;

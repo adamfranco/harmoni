@@ -4,13 +4,13 @@
  * A simple Integer data type.
  * @package harmoni.datamanager.primitives
  * @copyright 2004
- * @version $Id: Integer.class.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+ * @version $Id: Integer.class.php,v 1.2 2004/07/27 18:15:25 gabeschine Exp $
  */
 class Integer extends Primitive /* = implements Primitive */ {
 	
 	var $_int;
 
-	function Integer($value) {
+	function Integer($value=0) {
 		$this->_int = (int) $value;
 	}
 	

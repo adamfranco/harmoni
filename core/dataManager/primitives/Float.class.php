@@ -1,16 +1,16 @@
 <?
 
 /**
- * A simple Integer data type.
+ * A simple Float data type.
  * @package harmoni.datamanager.primitives
  * @copyright 2004
- * @version $Id: Float.class.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+ * @version $Id: Float.class.php,v 1.2 2004/07/27 18:15:25 gabeschine Exp $
  */
-class Integer extends Primitive /* = implements Primitive */ {
+class Float extends Primitive /* = implements Primitive */ {
 	
 	var $_float;
 
-	function Integer($value) {
+	function Float($value=0) {
 		$this->_float = (float) $value;
 	}
 	

@@ -1,6 +1,6 @@
 <?php
 
-require_once HARMONI."metaData/manager/FieldValues.class.php";
+require_once HARMONI."dataManager/record/RecordField.class.php";
 
 /**
  * @package harmoni.datamanager
@@ -24,7 +24,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+* @version $Id: Record.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -35,7 +35,8 @@ class Record {
 	var $_schema;
 	var $_versionControlled;
 	var $_fields;
-	var $_fieldModes;
+	var $_creationDate;
+	var $_dateFromDB = false;
 	var $_fetchMode;
 
 	var $_prune;
@@ -51,6 +52,8 @@ class Record {
 		$this->_fetchMode = 0;
 		
 		$this->_myID = null;
+		
+		$this->_creationDate =& DateTime::now();
 		
 		// set up the individual fields
 		foreach ($schema->getAllLabels(true) as $label) {
@@ -203,18 +206,35 @@ class Record {
 			Record ID.", "Record",true));
 		}
 		
+		// let's check if we have our creation date set yet.
+		if (!$this->_dateFromDB) {
+			$dbHandler=& Services::getService("DBHandler");
+			$this->_creationDate =& $dbHandler->fromDBDate($row["record_created"], DATAMANAGER_DBID);
+			$this->_dateFromDB = true;
+		}
+		
 		// if this is an empty Record, we're going to get a row with NULL values for all
 		// columns not in the "dm_record_field" table. so, let's check for that and return if it's the case.
 		if (!$row['record_field_id']) return;
 		
-		$label = $row['record_field_label'];
-		
+		$label = $row['schema_field_label'];
+
 		if (!isset($this->_fields[$label])) {
 			throwError( new Error("Could not populate Record with label '$label' because it doesn't
 				seem to be defined in the Schema.","record",true));
 		}
 		
 		$this->_fields[$label]->takeRow($row);
+	}
+	
+	/**
+	 * Returns the {@link DateTime} object specifying when this Record was created.
+	 * @access public
+	 * @return ref object
+	 */
+	function &getCreationDate()
+	{
+		return $this->_creationDate;
 	}
 	
 	/**
@@ -256,9 +276,9 @@ class Record {
 		$this->_checkLabel($label);
 		
 		if ($index == NEW_VALUE) {
-			return $this->_fields[$label]->addValue($obj);
+			return $this->_fields[$label]->addValueFromPrimitive($obj);
 		}
-		return $this->_fields[$label]->setValue($index, $obj);
+		return $this->_fields[$label]->setValueFromPrimitive($index, $obj);
 	}
 	
 	/**
@@ -316,7 +336,7 @@ class Record {
 			$query->addRowOfValues(array(
 				$this->_myID,
 				$this->_schema->getID(),
-				$dbHandler->toDBDate(DateTime::now(),DATAMANAGER_DBID),
+				$dbHandler->toDBDate($this->_creationDate,DATAMANAGER_DBID),
 				($this->_active)?1:0,
 				($this->_versionControlled)?1:0
 				));

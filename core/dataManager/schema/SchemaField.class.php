@@ -4,7 +4,7 @@
  * Holds information about a specific field within a {@link Schema}. Defines
  * what type of data the field holds (string, integer, etc) and if it can have multiple values.
  * @package harmoni.datamanager
- * @version $Id: SchemaField.class.php,v 1.1 2004/07/26 04:21:17 gabeschine Exp $
+ * @version $Id: SchemaField.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -12,7 +12,6 @@
 class SchemaField {
 	
 	var $_schema;
-	var $_myID;
 	var $_label;
 	var $_type;
 	var $_mult;

@@ -1,28 +1,28 @@
 <?
 
 /**
-* Stores the mapping between a DataSetTag and the specific versions of values within a DataSet that were
-* created when the DataSet was tagged. A tag can be thought of like a CVS tag, where each file in CVS is like
-* a specific value in a dataset. Each value has its own number of versions, and a DataSetTag can remember
+* Stores the mapping between a Tag and the specific versions of values within a Record that were
+* created when the Record was tagged. A tag can be thought of like a CVS tag, where each file in CVS is like
+* a specific value in a record. Each value has its own number of versions, and a Tag can remember
 * all the versions that were active at any given time.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Tag.class.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+* @version $Id: Tag.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
-class DataSetTag {
+class Tag {
 	
 	var $_myID;
-	var $_myDataSet;
+	var $_recordID;
 	var $_date;
 	
 	var $_mappings;
 	
 	var $_loaded;
 	
-	function DataSetTag( $myID, $dataSetID, &$date ) {		
+	function Tag( $recordID, &$date, $id = null ) {		
 		$this->_myID = $myID;
-		$this->_myDataSet = $dataSetID;
+		$this->_recordID = $recordID;
 		$this->_date =& $date;
 		
 		$this->_loaded = false;
@@ -36,12 +36,12 @@ class DataSetTag {
 	 */
 	function populate( $arrayOfRows ) {
 		foreach ($arrayOfRows as $row) {
-			$label = $row["datasettypedef_label"];
-			$index = $row["datasetfield_index"];
-			$verID = $row["datasetfield_id"];
+			$label = $row["schema_field_label"];
+			$index = $row["record_field_index"];
+			$verID = $row["record_field_id"];
 			
 			if (isset($this->_mappings[$label][$index])) throwError ( new Error(
-				"While creating DataSetTag mappings, we already have a mapping for $label -> $index. What's going on?","DatatSetTag",true));
+				"While creating Tag mappings, we already have a mapping for $label -> $index. What's going on?","Tag",true));
 			
 			$this->_mappings[$label][$index] = $verID;
 		}
@@ -80,11 +80,11 @@ class DataSetTag {
 	}
 	
 	/**
-	 * Returns the ID of the DataSet for which this Tag was created.
+	 * Returns the ID of the {@link Record} for which this Tag was created.
 	 * @return int
 	 * @access public
 	 */
-	function getDataSetID() { return $this->_myDataSet; }
+	function getRecordID() { return $this->_recordID; }
 	
 	/**
 	 * Returns our ID.
@@ -104,21 +104,21 @@ class DataSetTag {
 		
 		$query =& new SelectQuery;
 		
-		$query->addTable("dataset_tag_map");
-		$query->addTable("datasetfield",INNER_JOIN,"fk_datasetfield=datasetfield_id");
-		$query->addTable("datasettypedef",INNER_JOIN,"fk_datasettypedef=datasettypedef_id");
+		$query->addTable("dm_tag_map");
+		$query->addTable("dm_record_field",INNER_JOIN,"dm_tag_map.fk_record_field=dm_record_field.id");
+		$query->addTable("dm_schema_field",INNER_JOIN,"dm_record_field.fk_schema_field=dm_schema_field.id");
 		
-		$query->addColumn("datasetfield_index");
-		$query->addColumn("datasetfield_id");
+		$query->addColumn("index","record_field_index","dm_record_field");
+		$query->addColumn("id","record_field_id","dm_record_field");
 		
-		$query->addColumn("datasettypedef_label");
+		$query->addColumn("label","schema_field_label","dm_schema_field");
 		
-		$query->setWhere("fk_dataset_tag=".$this->_myID);
+		$query->setWhere("fk_tag=".$this->_myID);
 		
 		$dbHandler =& Services::getService("DBHandler");
-		$result =& $dbHandler->query($query, $this->_dbID);
+		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
 		
-		if (!$result) throwError( new UnknownDBError("DataSetTag"));
+		if (!$result) throwError( new UnknownDBError("Tag"));
 		
 		$tagRows = array();
 		

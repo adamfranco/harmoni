@@ -4,13 +4,13 @@
  * A simple Boolean data type.
  * @package harmoni.datamanager.primitives
  * @copyright 2004
- * @version $Id: Boolean.class.php,v 1.1 2004/07/26 04:21:16 gabeschine Exp $
+ * @version $Id: Boolean.class.php,v 1.2 2004/07/27 18:15:25 gabeschine Exp $
  */
 class Boolean extends Primitive /* = implements Primitive */ {
 	
 	var $_bool;
 
-	function Boolean($value) {
+	function Boolean($value=true) {
 		$this->_bool = (bool) $value;
 	}
 	
