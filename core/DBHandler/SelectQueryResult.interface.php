@@ -35,7 +35,7 @@ define("BOTH", 3);
  *
  * The SelectQueryResult interface provides the functionality common to a SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: SelectQueryResult.interface.php,v 1.2 2004/04/20 19:48:58 adamfranco Exp $
+ * @version $Id: SelectQueryResult.interface.php,v 1.3 2004/07/01 20:40:21 adamfranco Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
@@ -52,7 +52,26 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 **/
 	function getResourceId() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
+	/**
+	 * Indicates if there are any remaining rows returned by the SELECT query.
+	 * Indicates if there are any remaining rows returned by the SELECT query including
+	 * the current row.
+	 * @access public
+	 * @return boolean True, if there are some rows left; False, otherwise.
+	 **/
+	function hasNext() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
+	/**
+	 * Returns an array that stores the current row in the result and advances
+	 * to the next row. The data
+	 * can be accessed through associative indices <b>as well as</b> numeric indices.
+	 * @access public
+	 * @param optional integer arrayType Specifies what type of an array to return.
+	 * Allowed values are: ASSOC, NUMERIC, and BOTH.
+	 * @return array An associative array of the current row.
+	 **/
+	function next() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	
 	/**
 	 * Advances the current row position.
 	 * Advances the current row position. If there are no more rows left, then
