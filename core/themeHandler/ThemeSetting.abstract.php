@@ -1,6 +1,5 @@
 <?php
 
-require_once(HARMONI."/oki/shared/HarmoniIterator.class.php");
 require_once(HARMONI."/themeHandler/ThemeSetting.interface.php");
 
 /**
@@ -14,7 +13,7 @@ require_once(HARMONI."/themeHandler/ThemeSetting.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ThemeSetting.abstract.php,v 1.6 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: ThemeSetting.abstract.php,v 1.7 2005/01/26 15:20:49 adamfranco Exp $
  */
 class ThemeSetting
 	extends ThemeSettingInterface {

@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI."oki/shared/HarmoniIterator.class.php");
+require_once(HARMONI."oki".OKI_VERSION."/shared/HarmoniIterator.class.php");
 
 /**
  * The Set interface defines methods that are needed for sets of ids. 
@@ -11,7 +11,7 @@ require_once(HARMONI."oki/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Set.interface.php,v 1.4 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: Set.interface.php,v 1.5 2005/01/26 15:20:49 adamfranco Exp $
  * @author Adam Franco
  */
 class SetInterface 

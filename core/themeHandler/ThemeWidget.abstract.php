@@ -1,6 +1,5 @@
 <?php
 
-require_once(HARMONI."/oki/shared/HarmoniIterator.class.php");
 require_once(HARMONI."/themeHandler/ThemeWidget.interface.php");
 
 /**
@@ -14,7 +13,7 @@ require_once(HARMONI."/themeHandler/ThemeWidget.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ThemeWidget.abstract.php,v 1.9 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: ThemeWidget.abstract.php,v 1.10 2005/01/26 15:20:49 adamfranco Exp $
  */
 class ThemeWidget
 	extends ThemeWidgetInterface {

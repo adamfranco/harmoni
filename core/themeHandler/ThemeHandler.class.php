@@ -1,6 +1,5 @@
 <?php
 
-require_once(HARMONI."/oki/shared/HarmoniIterator.class.php");
 require_once(HARMONI."/themeHandler/Theme.abstract.php");
 
 // Built-in Themes
@@ -19,7 +18,7 @@ require_once(HARMONI."/themeHandler/themes/ImageBox/ImageBox.theme.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ThemeHandler.class.php,v 1.13 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: ThemeHandler.class.php,v 1.14 2005/01/26 15:20:49 adamfranco Exp $
  */
 class ThemeHandler {
 

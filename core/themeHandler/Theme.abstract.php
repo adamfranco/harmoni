@@ -1,6 +1,5 @@
 <?php
 
-require_once(HARMONI."/oki/shared/HarmoniIterator.class.php");
 require_once(HARMONI."/themeHandler/Theme.interface.php");
 
 define ("MENU_WIDGET", "menu");
@@ -23,7 +22,7 @@ define ("BLANK_WIDGET", "blank");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.abstract.php,v 1.15 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.16 2005/01/26 15:20:49 adamfranco Exp $
  */
 class Theme
 	extends ThemeInterface {

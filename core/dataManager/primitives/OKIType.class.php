@@ -1,6 +1,6 @@
 <?
 
-require_once(HARMONI."oki/shared/HarmoniType.class.php");
+require_once(HARMONI."oki".OKI_VERSION."/shared/HarmoniType.class.php");
 require_once(HARMONI."dataManager/Primitive.interface.php");
 
 /**
@@ -11,7 +11,7 @@ require_once(HARMONI."dataManager/Primitive.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OKIType.class.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: OKIType.class.php,v 1.4 2005/01/26 15:20:48 adamfranco Exp $
  */
 class OKIType extends HarmoniType /* implements Primitive */ {
 
