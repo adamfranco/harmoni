@@ -7,8 +7,8 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * used by the AgentManager for searching for agents.
  * 
  * @package harmoni.osid.shared
- * @version $Id: AncestorGroupSearch.class.php,v 1.1 2004/12/01 16:06:43 adamfranco Exp $
- * @date $Date: 2004/12/01 16:06:43 $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.2 2004/12/01 18:56:33 adamfranco Exp $
+ * @date $Date: 2004/12/01 18:56:33 $
  * @copyright 2004 Middlebury College
  */
 
@@ -44,6 +44,10 @@ class AncestorGroupSearch
 	 * @date 11/10/04
 	 */
 	function &getGroupsBySearch ( & $searchCriteria, & $groupSearchType ) {
+		ArgumentValidator::validate($searchCriteria, new ExtendsValidatorRule("Id"));
+		
+		$groupOrAgentId = $searchCriteria->getIdString();
+	
 		$groups = array();
 		
 		return new HarmoniIterator($groups);
