@@ -6,9 +6,9 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
  * The SetManager maintains a configuration and retreives Sets with that 
  * configuration.
  * 
- * @package polyphony.sets
- * @version $Id: SetManager.class.php,v 1.1 2004/06/28 21:16:43 adamfranco Exp $
- * @date $Date: 2004/06/28 21:16:43 $
+ * @package harmoni.sets
+ * @version $Id: SetManager.class.php,v 1.2 2004/06/28 21:18:36 adamfranco Exp $
+ * @date $Date: 2004/06/28 21:18:36 $
  * @copyright 2004 Middlebury College
  */
 

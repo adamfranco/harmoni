@@ -6,11 +6,11 @@ require_once(dirname(__FILE__)."/Set.interface.php");
  * The OrderedSet interface defines methods that are needed for ordering
  * sets of ids. Sets provide for the easy storage of groups of ids.
  * 
- * @package polyphony.set
+ * @package harmoni.sets
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: OrderedSet.interface.php,v 1.1 2004/06/28 21:16:43 adamfranco Exp $
+ * @version $Id: OrderedSet.interface.php,v 1.2 2004/06/28 21:18:36 adamfranco Exp $
  */
  
 class OrderedSetInterface 

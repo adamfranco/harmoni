@@ -8,11 +8,11 @@ require_once(dirname(__FILE__)."/OrderedSet.interface.php");
  * the ids are returned.
  * Sets provide for the easy storage of groups of ids.
  * 
- * @package polyphony.set
+ * @package harmoni.sets
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: OrderedSet.class.php,v 1.1 2004/06/28 21:16:43 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.2 2004/06/28 21:18:36 adamfranco Exp $
  */
  
 class OrderedSet 
