@@ -1,6 +1,6 @@
 <?
 
-require_once HARMONI."metaData/manager/DataSetTagManager.class.php";
+require_once HARMONI."metaData/manager/DataSetTag.class.php";
 
 class DataSetTagManager extends ServiceInterface {
 	
@@ -74,7 +74,7 @@ class DataSetTagManager extends ServiceInterface {
 //		$query->addTable
 //	}
 	
-	function fetchTagDescriptors( $id) {
+	function &fetchTagDescriptors( $id) {
 		$query =& new SelectQuery;
 		
 		$query->addTable("dataset_tag");
@@ -92,19 +92,19 @@ class DataSetTagManager extends ServiceInterface {
 		
 		$tags = array();
 		while ($result->hasMoreRows()) {
-			$a = $result->currentRow();
+			$a = $result->getCurrentRow();
 			$result->advanceRow();
 			
 			$newTag =& new DataSetTag($a["dataset_tag_id"], $id, 
 					$dbHandler->fromDBDate($a["dataset_tag_date"], $this->_dbID));
 			
-			$tags[$a["datase_tag_id"]] =& $newTag;
+			$tags[$a["dataset_tag_id"]] =& $newTag;
 		}
 		
 		return $tags;
 	}
 	
-	function fetchTags($id) {
+	function &fetchTags($id) {
 		$query =& new SelectQuery;
 		
 		$query->addTable("dataset_tag_map");
@@ -118,7 +118,7 @@ class DataSetTagManager extends ServiceInterface {
 		$query->addColumn("datasetfield_index");
 		$query->addColumn("datasetfield_id");
 		
-		$query->addColumn("datasettypdef_label");
+		$query->addColumn("datasettypedef_label");
 		
 		$dbHandler =& Services::getService("DBHandler");
 		$result =& $dbHandler->query($query, $this->_dbID);
@@ -129,7 +129,8 @@ class DataSetTagManager extends ServiceInterface {
 		$dates = array();
 		
 		while ($result->hasMoreRows()) {
-			$a = $result->currentRow();
+			$a = $result->getCurrentRow();
+			$result->advanceRow();
 			$tagID = $a["dataset_tag_id"];
 			
 			if (!isset($tagRows[$tagID])) {

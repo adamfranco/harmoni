@@ -33,6 +33,10 @@ class DataSetTag {
 		$this->_loaded = true;
 	}
 	
+	function &getDate() {
+		return $this->_date;
+	}
+	
 	function getMapping($label, $index) {
 		return $this->_mappings[$label][$index]?$this->_mappings[$label][$index]:null;
 	}

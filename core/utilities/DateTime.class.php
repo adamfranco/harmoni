@@ -5,7 +5,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.6 2003/12/29 05:25:13 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.7 2004/01/06 14:41:41 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -228,7 +228,7 @@ class DateTime {
 	
 	function toString() {
 		$months = array("January","February","March","April","May","June","July","August","September","October","November","December");
-//		$hours = $this->getHours()+1;
+		$hours = $this->getHours();
 		if ($hours > 12) $hours -= 12;
 		if ($hours == 0) $hours = 12;
 		return $months[$this->getMonth() - 1] . " " .
@@ -238,7 +238,7 @@ class DateTime {
 	}
 	
 	function getHoursAMPM() {
-//		$hour = $this->getHours() + 1;
+		$hour = $this->getHours();
 		if (($hour >= 0 && $hour < 12)) return "AM";
 		return "PM";
 	}

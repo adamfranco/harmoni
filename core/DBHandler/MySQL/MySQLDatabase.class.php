@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.4 2003/12/26 19:32:59 gabeschine Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.5 2004/01/06 14:41:36 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -361,7 +361,7 @@ class MySQLDatabase extends DatabaseInterface {
 		 */
 		$string = sprintf("%s%02d%02d%02d%02d%02d",$dateTime->getYear(),
 							$dateTime->getMonth(), $dateTime->getDay(),
-							$dateTime->getHours()+1, $dateTime->getMinutes(),
+							$dateTime->getHours(), $dateTime->getMinutes(),
 							$dateTime->getSeconds());
 		return $string;
 	}
@@ -398,15 +398,15 @@ class MySQLDatabase extends DatabaseInterface {
 		 * DateTime object.
 		 */
 		if (ereg("([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3],$r[4]-1,$r[5],$r[6]);
+		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5],$r[6]);
 		if (ereg("([0-9]{4})-([0-9]{2})-([0-9]{2})",$value,$r))
 		 	return new DateTime($r[1],$r[2],$r[3]);
 		if (ereg("([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3],$r[4]-1,$r[5],$r[6]);
+		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5],$r[6]);
 		if (ereg("([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3],$r[4]-1,$r[5],$r[6]);
+		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5],$r[6]);
 		if (ereg("([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3],$r[4]-1,$r[5]);
+		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5]);
 		if (ereg("([0-9]{4})([0-9]{2})([0-9]{2})",$value,$r))
 		 	return new DateTime($r[1],$r[2],$r[3]);
 		if (ereg("([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
