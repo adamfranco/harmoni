@@ -4,9 +4,9 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
 
 /** 
  * This is the building piece of the tree-like AuthorizationContextHierarchy
- * data structure used in AuthorizationContextGenerator obejcts.
+ * data structure used in AuthorizationContextHierarchyGenerator obejcts.
  * @access public
- * @version $Id: AuthorizationContextHierarchyNode.class.php,v 1.1 2003/07/01 01:55:22 dobomode Exp $
+ * @version $Id: AuthorizationContextHierarchyNode.class.php,v 1.2 2003/07/01 15:12:07 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003

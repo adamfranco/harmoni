@@ -11,7 +11,7 @@
  * not have to care about the way the hierarchy is stored and/or retrieved.
  * 
  * @access public
- * @version $Id: CachedAuthorizationContextHierarchyGenerator.interface.php,v 1.1 2003/07/01 01:55:22 dobomode Exp $
+ * @version $Id: CachedAuthorizationContextHierarchyGenerator.interface.php,v 1.2 2003/07/01 15:12:07 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
@@ -23,17 +23,19 @@ class CachedAuthorizationContextHierarchyGeneratorInterface {
 	
 	
 	/**
-	 * Generates the whole context hierarchy tree.
+	 * Generates the whole context hierarchy tree. This method is probably not
+	 * going to be very useful, but is included in any case.
 	 * @method public generateTree
 	 * @return array An <code>h</code>-dimensional array, where <code>h</code> is the height
 	 * of the context hierarchy. Each element of the array is another array containing the
 	 * system ids of all contexts on that hierarchy depth.
-	 *
+	 */
 	function generateTree() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
-	*/
 	
+	
+
 	
 	/**
 	 * Generates the subtree rooted at the specified context.

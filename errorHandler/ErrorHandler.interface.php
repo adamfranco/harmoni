@@ -5,7 +5,7 @@ require_once(HARMONI.'services/Service.interface.php');
 /**
  * 
  *
- * @version $Id: ErrorHandler.interface.php,v 1.10 2003/06/27 15:11:57 dobomode Exp $
+ * @version $Id: ErrorHandler.interface.php,v 1.11 2003/07/01 15:12:07 dobomode Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  **/
@@ -13,13 +13,27 @@ require_once(HARMONI.'services/Service.interface.php');
 class ErrorHandlerInterface extends ServiceInterface {
     
 
+	/**
+	 * Sets the debug mode. In debug mode, fatal errors do not kill the script.
+	 * @method public setDebugMode
+	 * @param boolean debugMode Specifies whether the handler should enter in
+	 * debug mode.
+	 * @return void 
+	 */
+	function setDebugMode($debugMode) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
     /**
      * Adds an Error object to the queue. If the error passed is fatal, then all the 
      * errors in the queue are outputed and the execution of the script is halted.
      *
      * @param object Error An error object to be added to the queue.
      * @access public
-    function addError(& $error){ die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+     */
+	function addError(& $error){
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
 
 	/**
 	 * Create a new Error object based on input and add it to the queue.

@@ -7,7 +7,7 @@ require_once(HARMONI."errorHandler/ErrorPrinterBasic.class.php");
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.16 2003/06/27 15:11:57 dobomode Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.17 2003/07/01 15:12:07 dobomode Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */
@@ -25,6 +25,14 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 * @access private
 	 */
 	var $_printerQueue;
+	
+	
+	/**
+	 * The debug mode variable.
+	 * @attribute private boolean _debugMode
+	 */
+	var $_debugMode;
+	
    
 
 	/**
@@ -36,7 +44,22 @@ class ErrorHandler extends ErrorHandlerInterface{
 		$this->_errorQueue = new Queue(true);
 		$this->_printerQueue = new Queue();
 		$this->addErrorPrinter(new ErrorPrinterBasic());
+		$this->_debugMode = false;
 	}
+	
+	
+	/**
+	 * Sets the debug mode. In debug mode, fatal errors do not kill the script.
+	 * @method public setDebugMode
+	 * @param boolean debugMode Specifies whether the handler should enter in
+	 * debug mode.
+	 * @return void 
+	 */
+	function setDebugMode($debugMode) {
+		$this->_debugMode = $debugMode;
+	}
+	
+	
 
     /**
      * Adds an Error object to the queue. If the error passed is fatal, then all the 
@@ -49,7 +72,8 @@ class ErrorHandler extends ErrorHandlerInterface{
 		$this->_errorQueue->add($error);
 		if($error->isFatal()){
 			$this->printErrors();
-			die();
+			if (!$this->_debugMode)
+				die();
 		}
 	}
 

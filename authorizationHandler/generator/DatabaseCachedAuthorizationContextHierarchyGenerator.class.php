@@ -12,7 +12,7 @@ require_once(HARMONI."authorizationHandler/generator/CachedAuthorizationContextH
  * hierarchical information.
  * 
  * @access public
- * @version $Id: DatabaseCachedAuthorizationContextHierarchyGenerator.class.php,v 1.1 2003/07/01 01:55:22 dobomode Exp $
+ * @version $Id: DatabaseCachedAuthorizationContextHierarchyGenerator.class.php,v 1.2 2003/07/01 15:12:07 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
@@ -34,6 +34,7 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 	/**
 	 * The constructor takes a database connection index (as returned by the DBHandler
 	 * service) and returns a new DatabaseAuthorizationContextHierarchyGenerator object.
+	 * @param integer dbIndex The database connection index.
 	 * @access public
 	 */
 	function DatabaseCachedAuthorizationContextHierarchyGenerator($dbIndex) {
@@ -68,16 +69,18 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 	
 	
 	/**
-	 * Generates the whole context hierarchy tree.
+	 * Generates the whole context hierarchy tree. This method is probably not
+	 * going to be very useful, but is included in any case.
 	 * @method public generateTree
 	 * @return array An <code>h</code>-dimensional array, where <code>h</code> is the height
 	 * of the context hierarchy. Each element of the array is another array containing the
 	 * system ids of all contexts on that hierarchy depth.
-	 *
+	 */
 	function generateTree() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
-	*/
+	
+	
 	
 	/**
 	 * Generates the subtree rooted at the specified context.
