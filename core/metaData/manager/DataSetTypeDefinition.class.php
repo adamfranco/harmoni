@@ -8,7 +8,7 @@ require_once(HARMONI."metaData/manager/FieldDefinition.class.php");
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link DataSetTypeManager}.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeDefinition.class.php,v 1.11 2004/01/06 22:21:32 gabeschine Exp $
+ * @version $Id: DataSetTypeDefinition.class.php,v 1.12 2004/01/07 19:14:13 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -128,9 +128,10 @@ class DataSetTypeDefinition {
 		while ($result->hasMoreRows()) {
 			$rows[] = $result->getCurrentRow();
 			$result->advanceRow();
-			
-			$this->populate($rows);
 		}
+		
+		$this->populate($rows);
+		return true;
 	}
 	
 	/**

@@ -4,7 +4,7 @@
  * Holds information about a specific label within a {@link DataSetTypeDefinition}. Defines
  * what type of data the field holds (string, integer, etc) and if it can have multiple values.
  * @package harmoni.datamanager
- * @version $Id: FieldDefinition.class.php,v 1.7 2004/01/01 19:03:42 gabeschine Exp $
+ * @version $Id: FieldDefinition.class.php,v 1.8 2004/01/07 19:14:13 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -139,7 +139,7 @@ class FieldDefinition {
 			// do some updating
 			$query = new UpdateQuery();
 			$query->setTable("datasettypedef");
-			$query->setColumns(array("datasettypedef_mult","dataseettypedef_active"));
+			$query->setColumns(array("datasettypedef_mult","datasettypedef_active"));
 			$query->setWhere("datasettypedef_id=".$this->getID());
 			
 			$query->setValues(array(

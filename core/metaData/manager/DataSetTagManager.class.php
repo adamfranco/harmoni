@@ -124,6 +124,8 @@ class DataSetTagManager extends ServiceInterface {
 		
 		$query->addColumn("datasettypedef_label");
 		
+		$query->setWhere("fk_dataset=$id");
+		
 		$dbHandler =& Services::getService("DBHandler");
 		$result =& $dbHandler->query($query, $this->_dbID);
 		

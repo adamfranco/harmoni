@@ -319,7 +319,16 @@ class FullDataSet extends CompactDataSet {
 	* the DB as a new set with the same data.
 	*/
 	function &clone() {
+		$newSet =& new FullDataSet($this->_idManager, $this->_dbID, $this->_dataSetTypeDef, $this->_versionControlled);
 		
+		foreach ($this->_dataSetTypeDef->getAllLabels() as $label) {
+			for($i=0;$i<$this->numValues($label); $i++) {
+				$newSet->_fields[$label]->_values[$i] =& $this->_fields[$label]->_values[$i]->clone($newSet->_fields[$label]);
+				$newSet->_fields[$label]->_numValues++;
+			}
+		}
+		
+		return $newSet;
 	}
 	
 	/**
@@ -327,7 +336,10 @@ class FullDataSet extends CompactDataSet {
 	* @desc Goes through all the old versions of values and actually DELETES them from the database.
 	*/
 	function prune() {
-		
+		// just step through each FieldValues object and call prune()
+		foreach ($this->_dataSetTypeDef->getAllLabels(true) as $label) {
+			$this->_fields[$label]->prune();
+		}
 	}
 	
 	/**
@@ -463,6 +475,7 @@ function renderDataSet(&$dataSet) {
 				print $date->toString().": ";
 				$val =& $ver->getValue();
 				if ($ver->_update) print "(flagged for update) ";
+				if ($ver->_prune) print "(to be pruned) ";
 				print $val->toString()."\n";
 			}
 		}

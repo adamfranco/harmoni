@@ -6,7 +6,7 @@ require_once HARMONI."metaData/manager/ValueVersions.classes.php";
  * Holds a number of indexes for values within a specific field within a DataSet. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: FieldValues.class.php,v 1.9 2004/01/06 22:21:32 gabeschine Exp $
+ * @version $Id: FieldValues.class.php,v 1.10 2004/01/07 19:14:13 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -28,6 +28,8 @@ class FieldValues {
 		
 		$this->_parent =& $parent;
 		$this->_fieldDefinition =& $fieldDefinition;
+		
+		$this->_values = array();
 	}
 	
 	/**
@@ -76,6 +78,28 @@ class FieldValues {
 		// cycle through each index and commit()
 		for ($i=0; $i<$this->numValues(); $i++) {
 			$this->_values[$i]->commit();
+		}
+	}
+	
+	/**
+	* @return void
+	* @desc Goes through all the old versions of values and actually DELETES them from the database.
+	*/
+	function prune() {
+		if ($this->_parent->readOnly()) return;
+		// just step through each ValueVersions object and call prune()
+		for ($i=0, $j=0; $i<$this->numValues(); $i++) {
+			$this->_values[$i]->prune();
+			
+			// now, if we are pruning and we will completely remove an index within this field,
+			// we need to re-index the fields and make sure they update.
+			// so, if the field is going to have an active value, then we're going to re-index it
+			if ($this->_values[$i]->isActive()) {
+				if ($this->_values[$i]->setIndex($j++)) {
+					$ver =& $this->_values[$i]->getActiveVersion();
+					$ver->update();
+				}
+			}
 		}
 	}
 	

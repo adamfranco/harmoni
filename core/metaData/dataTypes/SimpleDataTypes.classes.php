@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataType.abstract.php";
 /**
  * A simple integer data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.12 2004/01/06 19:38:36 gabeschine Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -76,6 +76,21 @@ class IntegerDataType
 		else $this->insert();
 	}
 	
+	function prune() {
+		if (!$this->getID()) return false;
+		// delete ourselves from our data table
+		$table = "data_integer";
+		
+		$query =& new DeleteQuery;
+		$query->setTable($table);
+		$query->setWhere($table."_id=".$this->getID());
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$res =& $dbHandler->query($query, $this->_dbID);
+		
+		if (!$res) throwError( new UnknownDBError("DataType"));
+	}
+	
 	function alterQuery( &$query ) {
 		$query->addTable("data_integer",LEFT_JOIN,"data_integer_id = fk_data");
 //		$query->addColumn("data_integer_id");
@@ -98,7 +113,7 @@ class IntegerDataType
 /**
  * A simple float data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.12 2004/01/06 19:38:36 gabeschine Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -169,6 +184,21 @@ class FloatDataType
 		else $this->insert();
 	}
 	
+	function prune() {
+		if (!$this->getID()) return false;
+		// delete ourselves from our data table
+		$table = "data_float";
+		
+		$query =& new DeleteQuery;
+		$query->setTable($table);
+		$query->setWhere($table."_id=".$this->getID());
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$res =& $dbHandler->query($query, $this->_dbID);
+		
+		if (!$res) throwError( new UnknownDBError("DataType"));
+	}
+	
 	function alterQuery( &$query ) {
 		$query->addTable("data_float",LEFT_JOIN,"data_float_id = fk_data");
 		$query->addColumn("data_float_data");
@@ -190,7 +220,7 @@ class FloatDataType
 /**
  * A simple (large) string data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.12 2004/01/06 19:38:36 gabeschine Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -261,6 +291,21 @@ class StringDataType
 		else $this->insert();
 	}
 	
+	function prune() {
+		if (!$this->getID()) return false;
+		// delete ourselves from our data table
+		$table = "data_string";
+		
+		$query =& new DeleteQuery;
+		$query->setTable($table);
+		$query->setWhere($table."_id=".$this->getID());
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$res =& $dbHandler->query($query, $this->_dbID);
+		
+		if (!$res) throwError( new UnknownDBError("DataType"));
+	}
+	
 	function alterQuery( &$query ) {
 		$query->addTable("data_string",LEFT_JOIN,"data_string_id = fk_data");
 //		$query->addColumn("data_string_id");
@@ -282,7 +327,7 @@ class StringDataType
 /**
  * A simple short string (up to 255 chars) data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.12 2004/01/06 19:38:36 gabeschine Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -353,6 +398,21 @@ class ShortStringDataType
 		else $this->insert();
 	}
 	
+	function prune() {
+		if (!$this->getID()) return false;
+		// delete ourselves from our data table
+		$table = "data_shortstring";
+		
+		$query =& new DeleteQuery;
+		$query->setTable($table);
+		$query->setWhere($table."_id=".$this->getID());
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$res =& $dbHandler->query($query, $this->_dbID);
+		
+		if (!$res) throwError( new UnknownDBError("DataType"));
+	}
+	
 	function alterQuery( &$query ) {
 		$query->addTable("data_shortstring",LEFT_JOIN,"data_shortstring_id = fk_data");
 		$query->addColumn("data_shortstring_data");
@@ -373,7 +433,7 @@ class ShortStringDataType
 /**
  * A simple boolean data type.
  * @package harmoni.datamanager.datatypes
- * @version $Id: SimpleDataTypes.classes.php,v 1.12 2004/01/06 19:38:36 gabeschine Exp $
+ * @version $Id: SimpleDataTypes.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -446,6 +506,21 @@ class BooleanDataType
 		// decides whether to insert() or update()
 		if ($this->getID()) $this->update();
 		else $this->insert();
+	}
+	
+	function prune() {
+		if (!$this->getID()) return false;
+		// delete ourselves from our data table
+		$table = "data_boolean";
+		
+		$query =& new DeleteQuery;
+		$query->setTable($table);
+		$query->setWhere($table."_id=".$this->getID());
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$res =& $dbHandler->query($query, $this->_dbID);
+		
+		if (!$res) throwError( new UnknownDBError("DataType"));
 	}
 	
 	function alterQuery( &$query ) {

@@ -6,7 +6,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.12 2004/01/06 22:21:32 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -89,11 +89,34 @@ class ValueVersions {
 	}
 	
 	/**
+	* @return void
+	* @desc Goes through all the old versions of values and actually DELETES them from the database.
+	*/
+	function prune() {
+		// just step through each ValueVersion object and call prune();
+		foreach ($this->getVersionList() as $verID) {
+			$ver =& $this->getVersion($verID);
+			$ver->prune();
+		}
+	}
+	
+	/**
 	* @return int
 	* @desc Returns the number of versions we have set for this value.
 	*/
 	function numVersions() {
 		return $this->_numVersions;
+	}
+	
+	/**
+	* @desc sets the index of this entry to $index.
+	* @param int $index
+	* @return bool TRUE if the index was changed. FALSE if not.
+	*/
+	function setIndex( $index ) {
+		if ($index == $this->_myIndex) return false;
+		$this->_myIndex = $index;
+		return true;
 	}
 	
 	/**
@@ -268,13 +291,30 @@ class ValueVersions {
 		}
 		return false;
 	}
+	
+	/**
+	* @desc Returns a new ValueVersions object that is an exact data-specific clone of the current object.
+	* @param ref object A reference to a {@link FieldValues} object that will act as the parent.
+	* @return ref object
+	*/
+	function &clone(&$parent) {
+		$newObj =& new ValueVersions($parent, $this->_myIndex);
+		
+		foreach ($this->getVersionList() as $verID) {
+			$ver =& $this->getVersion($verID);
+			
+			$newObj->_versions[++$newObj->_numVersions] =& $ver->clone($newObj);
+		}
+		
+		return $newObj;
+	}
 }
 
 /**
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.12 2004/01/06 22:21:32 gabeschine Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.13 2004/01/07 19:14:13 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -290,6 +330,7 @@ class ValueVersion {
 	var $_parent;
 	
 	var $_update;
+	var $_prune;
 	
 	function ValueVersion(&$parent, $active=false) {
 //		$this->_date = null; // @todo - should we create a new DateTime::now() or leave null?
@@ -300,6 +341,19 @@ class ValueVersion {
 		$this->_parent =& $parent;
 		
 		$this->_update = false;
+		$this->_prune = false;
+	}
+	
+	function &clone(&$parent) {
+		$newObj =& new ValueVersion($parent, $this->_active);
+		
+		$date = $this->_date; // in PHP4 this will clone the DateTime
+		$newObj->_date =& $date;
+		$newObj->_valueObj =& $this->_valueObj->clone();
+		
+		$newObj->update();
+		
+		return $newObj;
 	}
 	
 	function update() { $this->_update=true; }
@@ -332,32 +386,43 @@ class ValueVersion {
 		$this->_valueObj =& $valueObj;
 	}
 	
+	function prune() {
+		// there are two conditions under which we will prune ourselves:
+		// 1) we are inactive
+		// 2) the field we are part of has been entirely deleted (inactivated) in the DataSetTypeDefinition
+		if (!$this->isActive() || !$this->_parent->_parent->_fieldDefinition->isActive())
+			$this->_prune = true;
+	}
+	
 	function commit() {
-		if (!$this->_update) return false; // if we weren't flagged to update, git out
-		
-		// first we need to commit the actual DataType value
-		// so that we can get its ID
-		$this->_valueObj->setup($this->_parent->_parent->_parent->_idManager,
-								$this->_parent->_parent->_parent->_dbID);
-		$this->_valueObj->commit();
 		
 		$dbHandler =& Services::getService("DBHandler");
 		$dbID = $this->_parent->_parent->_parent->_dbID;
 		
-		if ($this->_myID) {
-			// we're already in the DB. just update the entry
-			$query =& new UpdateQuery();
+		// associate the valueObject with us. its master.
+		$this->_valueObj->setup($this->_parent->_parent->_parent->_idManager,
+					$this->_parent->_parent->_parent->_dbID);
+		
+		if ($this->_update) {
+			// first we need to commit the actual DataType value
+			// so that we can get its ID
+			$this->_valueObj->commit();
 			
-			$query->setWhere("datasetfield_id=".$this->_myID);
-			$query->setColumns(array("datasetfield_active", "datasetfield_modified"));
-			$query->setValues(array(($this->_active)?1:0,$dbHandler->toDBDate($this->_date,$dbID)));
-		} else {
-			// we have to insert a new one
-			$query =& new InsertQuery();
 			
-			$this->_myID = $this->_parent->_parent->_parent->_idManager->newID(
-					new HarmoniType("Harmoni","HarmoniDataManager","DataSetField"));
-			$query->setColumns(array(
+			if ($this->_myID) {
+				// we're already in the DB. just update the entry
+				$query =& new UpdateQuery();
+				
+				$query->setWhere("datasetfield_id=".$this->_myID);
+				$query->setColumns(array("datasetfield_index","datasetfield_active", "datasetfield_modified"));
+				$query->setValues(array($this->_parent->_myIndex,($this->_active)?1:0,$dbHandler->toDBDate($this->_date,$dbID)));
+			} else {
+				// we have to insert a new one
+				$query =& new InsertQuery();
+				
+				$this->_myID = $this->_parent->_parent->_parent->_idManager->newID(
+				new HarmoniType("Harmoni","HarmoniDataManager","DataSetField"));
+				$query->setColumns(array(
 				"datasetfield_id",
 				"fk_dataset",
 				"fk_datasettypedef",
@@ -366,8 +431,8 @@ class ValueVersion {
 				"datasetfield_active",
 				"datasetfield_modified"
 				));
-			
-			$query->addRowOfValues(array(
+				
+				$query->addRowOfValues(array(
 				$this->_myID,
 				$this->_parent->_parent->_parent->getID(),
 				$this->_parent->_parent->_fieldDefinition->getID(),
@@ -376,19 +441,53 @@ class ValueVersion {
 				($this->_active)?1:0,
 				$dbHandler->toDBDate($this->_date,$dbID)
 				));
+			}
+			
+			$query->setTable("datasetfield");
+			
+			$result =& $dbHandler->query($query, $dbID);
+			
+			if (!$result) {
+				throwError( new UnknownDBError("ValueVersion") );
+				return false;
+			}
 		}
 		
-		$query->setTable("datasetfield");
-		
-		$result =& $dbHandler->query($query, $dbID);
-		
-		if (!$result) {
-			throwError( new UnknownDBError("ValueVersion") );
-			return false;
+		if ($this->_prune) {
+			if ($id = $this->getID()) {
+				// ok, let's get rid of ourselves... completely!
+				$query =& new DeleteQuery;
+				$query->setTable("datasetfield");
+				$query->setWhere("datasetfield_id=$id");
+
+				$res =& $dbHandler->query($query, $dbID);
+				if (!$res) throwError( new UnknownDBError("ValueVersion"));
+				
+				// now tell the data object to prune itself
+				$this->_valueObj->prune();
+				
+				// and we have to get rid of any tag mappings where we are included.
+				$query =& new DeleteQuery;
+				$query->setTable("dataset_tag_map");
+				$query->setWhere("fk_datasetfield=$id");
+				
+				$res =& $dbHandler->query($query, $dbID);
+				if (!$res) throwError( new UnknownDBError("ValueVersion"));
+			}
 		}
+		
+		// reset the prune flag
+		$this->_prune = false;
+		
+		// reset the update flag
+		$this->_update = false;
 		
 		return true;
 		
+	}
+	
+	function willPrune() {
+		return $this->_prune;
 	}
 	
 	function takeValue(&$object) {

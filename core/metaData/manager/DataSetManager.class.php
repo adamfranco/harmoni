@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.11 2004/01/06 22:21:32 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.12 2004/01/07 19:14:13 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -29,6 +29,7 @@ class DataSetManager extends ServiceInterface {
 	* @desc Fetches and returns an array of DataSet IDs from the database in one Query.
 	*/
 	function &fetchArrayOfIDs( $dataSetIDs, $editable=false ) {
+		ArgumentValidator::validate($dataSetIDs, new ArrayValidatorRuleWithRule(new NumericValidatorRule()));
 		// first, make the new query
 		$query =& new SelectQuery();
 

@@ -51,6 +51,36 @@ class DataSetTag {
 		if ($this->_loaded) return true;
 		
 		// load the data
+		
+		$query =& new SelectQuery;
+		
+		$query->addTable("dataset_tag_map");
+		$query->addTable("datasetfield",INNER_JOIN,"fk_datasetfield=datasetfield_id");
+		$query->addTable("datasettypedef",INNER_JOIN,"fk_datasettypedef=datasettypedef_id");
+		
+		$query->addColumn("datasetfield_index");
+		$query->addColumn("datasetfield_id");
+		
+		$query->addColumn("datasettypedef_label");
+		
+		$query->setWhere("fk_dataset_tag=".$this->_myID);
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$result =& $dbHandler->query($query, $this->_dbID);
+		
+		if (!$result) throwError( new UnknownDBError("DataSetTag"));
+		
+		$tagRows = array();
+		
+		while ($result->hasMoreRows()) {
+			$a = $result->getCurrentRow();
+			$result->advanceRow();
+			
+			$tagRows[] = $a;
+		}
+		
+		$this->populate($tagRows);
+		return true;
 	}
 	
 }
