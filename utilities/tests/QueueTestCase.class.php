@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: QueueTestCase.class.php,v 1.6 2003/06/19 18:28:07 adamfranco Exp $
+ * @version $Id: QueueTestCase.class.php,v 1.7 2003/06/20 01:29:35 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -88,11 +88,28 @@
 			$testReversedQueue =& new Queue(true);
 			$test1 = & new Queue();
 			$test2 = & new Queue();
+			$test3 = & new Queue();
+			$test4 = & new Queue();
+			$test5 = & new Queue();
 			
 			$testReversedQueue->add(& $test1);
 			$testReversedQueue->add(& $test2);
+			$testReversedQueue->add(& $test3);
 			
+			$this->assertReference($test3,$testReversedQueue->next());			
+
+			$testReversedQueue->add(& $test4);
+
 			$this->assertReference($test2,$testReversedQueue->next());			
+
+			$testReversedQueue->add(& $test5);
+
+			$this->assertReference($test1,$testReversedQueue->next());			
+			
+			// Max: Once, we start iterating (once we call next()), the
+			// position should be preserved, so that the next call of
+			// next() will return the same element regardless of whether
+			// we have called add() or not. Please, fix this.
 		} 
 		
     }

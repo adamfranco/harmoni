@@ -1,13 +1,14 @@
 <?php
 
-    require_once('MySQLDeleteQuery.class.php');
+    require_once('DeleteQuery.class.php');
+    require_once('MySQL_SQLGenerator.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLDeleteQueryTestCase.class.php,v 1.4 2003/06/19 18:28:06 adamfranco Exp $
+ * @version $Id: MySQLDeleteQueryTestCase.class.php,v 1.5 2003/06/20 01:29:35 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -27,7 +28,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->query =& new MySQLDeleteQuery();
+			$this->query =& new DeleteQuery();
         }
 		
         /**
@@ -38,6 +39,15 @@
 			// perhaps, unset $obj here
 			unset($this->query);
         }
+
+
+		/**
+		 * Tests the getType function.
+		 **/
+		function test_getType(){
+			$this->assertEqual($this->query->getType(), DELETE);
+		}
+		
 
 		/**
 		 * Tests the generateSQLQuery() without WHERE clause.
@@ -50,7 +60,7 @@
 
 			$sql = "DELETE\nFROM\n\tperson\n";
 	
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 			
 		}
@@ -68,7 +78,7 @@
 
 			$sql = "DELETE\nFROM\n\tperson\nWHERE\n\tuser_uname = 'dradichk'\n";
 	
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 			
 		}
@@ -86,7 +96,7 @@
 			$this->query->setWhere($condition);
 			$this->query->reset();
 
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual("Exception", $sqlFromObject);
 		}
 

@@ -1,13 +1,14 @@
 <?php
 
-    require_once('MySQLUpdateQuery.class.php');
+    require_once('UpdateQuery.class.php');
+    require_once('MySQL_SQLGenerator.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.5 2003/06/19 18:28:06 adamfranco Exp $
+ * @version $Id: MySQLUpdateQueryTestCase.class.php,v 1.6 2003/06/20 01:29:35 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -27,7 +28,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->query =& new MySQLUpdateQuery();
+			$this->query =& new UpdateQuery();
         }
 		
         /**
@@ -38,6 +39,15 @@
 			// perhaps, unset $obj here
 			unset($this->query);
         }
+
+
+		/**
+		 * Tests the getType function.
+		 **/
+		function test_getType(){
+			$this->assertEqual($this->query->getType(), UPDATE);
+		}
+
 
 		/**
 		 * Tests the generateSQLQuery() method for updating only one column   
@@ -54,7 +64,7 @@
 
 			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk'\n";
 	
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 			
 		}
@@ -74,7 +84,7 @@
 
 			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk',\n\tuser_fname = 'Dobo',\n\tuser_id = 5\n";
 	
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 		
@@ -97,7 +107,7 @@
 
 			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk',\n\tuser_fname = 'Dobo',\n\tuser_id = 5\nWHERE\n\tuser_id = 3\n";
 	
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 
@@ -119,7 +129,7 @@
 			$this->query->setWhere($condition);
 			$this->query->reset();
 
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual("Exception", $sqlFromObject);
 			
 			// ----- test exception when # fields does not match # columns
@@ -134,7 +144,7 @@
 			$this->query->setValues($values);
 			$this->query->setWhere($condition);
 
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual("Exception", $sqlFromObject);
 			
 		}

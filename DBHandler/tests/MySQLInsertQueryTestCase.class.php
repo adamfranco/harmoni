@@ -1,13 +1,14 @@
 <?php
 
-    require_once('MySQLInsertQuery.class.php');
+    require_once('InsertQuery.class.php');
+	require_once('MySQL_SQLGenerator.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLInsertQueryTestCase.class.php,v 1.5 2003/06/19 18:28:06 adamfranco Exp $
+ * @version $Id: MySQLInsertQueryTestCase.class.php,v 1.6 2003/06/20 01:29:35 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -27,7 +28,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->query =& new MySQLInsertQuery();
+			$this->query =& new InsertQuery();
         }
 		
         /**
@@ -38,6 +39,17 @@
 			// perhaps, unset $obj here
 			unset($this->query);
         }
+
+
+
+		/**
+		 * Tests the getType function.
+		 **/
+		function test_getType(){
+			$this->assertEqual($this->query->getType(), INSERT);
+		}
+
+
 
 		/**
 		 * Tests the generateSQLQuery method for inserting one row.
@@ -54,7 +66,7 @@
 
 			$sql = "INSERT INTO user\n\t(user_id, user_uname, user_fname)\n\tVALUES(5, 'dradichk', 'Dobromir')\n";
 	
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 		
@@ -80,7 +92,7 @@
 
 			$sql = "INSERT INTO user\n\t(user_id, user_uname, user_fname)\n\tVALUES(5, 'dradichk', 'Dobromir'), (6, 'afranco', 'Adam'), (7, 'movsjani', 'Maks')\n";
 	
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 	
@@ -98,7 +110,7 @@
 			$this->query->addRowOfValues($values);
 			$this->query->reset();
 
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual("Exception", $sqlFromObject);
 			
 			// ------- now test reset with many insert rows
@@ -121,7 +133,7 @@
 
 			$this->query->reset();
 
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual("Exception", $sqlFromObject);
 			
 			// ----- test exception when # fields does not match # columns
@@ -134,7 +146,7 @@
 			$this->query->setColumns($columns);
 			$this->query->addRowOfValues($values);
 
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual("Exception", $sqlFromObject);
 			
 		}

@@ -4,24 +4,26 @@ require_once("Queue.interface.php");
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: Queue.class.php,v 1.5 2003/06/19 15:28:00 dobomode Exp $
+ * @version $Id: Queue.class.php,v 1.6 2003/06/20 01:29:35 dobomode Exp $
  * @copyright 2003 
  */
 
 class Queue extends QueueInterface {
 
 	var $_queue;
+
 	var $_position;
 
 	/**
 	 * The order of extraction from the queue.
-	 * Indicates whether the order in which objects are extracted from the queue is FIFO ($_reversed = false) or FILO ($_reversed = true).
+	 * Indicates whether the order in which objects are extracted from the queue 
+	 * is FIFO ($_reversed = false) or FILO ($_reversed = true).
 	 * 
-	 * @var boolean    
+	 * @var boolean $_reversed   
 	 */
-
 	var $_reversed;
 	
+
 	/**
      * Create a new Queue
 	 * 

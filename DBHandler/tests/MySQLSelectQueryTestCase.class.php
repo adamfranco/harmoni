@@ -1,13 +1,14 @@
 <?php
 
-    require_once('MySQLSelectQuery.class.php');
+    require_once('SelectQuery.class.php');
+	require_once('MySQL_SQLGenerator.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.5 2003/06/19 18:28:06 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryTestCase.class.php,v 1.6 2003/06/20 01:29:35 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -27,7 +28,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->query =& new MySQLSelectQuery();
+			$this->query =& new SelectQuery();
         }
 		
         /**
@@ -38,6 +39,14 @@
 			// perhaps, unset $obj here
 			unset($this->query);
         }
+
+		/**
+		 * Tests the getType function.
+		 **/
+		function test_getType(){
+			$this->assertEqual($this->query->getType(), SELECT);
+		}
+
 
 		/**
 		 * Tests a simple SELECT with one column and table. No WHERE, ORDER BY, GROUP BY, etc.
@@ -52,7 +61,7 @@
 
 			$sql = "SELECT\n\tuser_id\nFROM\n\tperson\n";
 	
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 		
@@ -70,7 +79,7 @@
 
 			$sql = "SELECT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM\n\tuser,\n\tclass,\n\tperson\n";
 	
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 		
@@ -89,7 +98,7 @@
 			
 			$sql = "SELECT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM\n\tuser,\n\tclass,\n\tperson\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname,\n\tuser_fname\n\tASC\n";
 	
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 		
@@ -115,7 +124,7 @@
 			$tables = "\n\tuser\n\t\tINNER JOIN\n\tclass\n\t\tON user.user_weight = class.class_id,\n\tperson\n\t\tLEFT JOIN\n\ttree\n\t\tON person.person_id = tree.tree_height - 10\n\t\tRIGHT JOIN\n\tbush\n\t\tON tree.tree_leaves = 3000,\n\tsand";
 			$sql = "SELECT DISTINCT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM{$tables}\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname,\n\tuser_fname\n\tASC\nLIMIT\n\t9, 100\n";
 	
-			$sqlFromObject = $this->query->generateSQLQuery();
+			$sqlFromObject = MySQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 		
