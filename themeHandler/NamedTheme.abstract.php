@@ -7,7 +7,7 @@ require_once(HARMONI."themeHandler/NamedTheme.interface.php");
  * {@link NamedThemeInterface}.
  *
  * @package harmoni.themes
- * @version $Id: NamedTheme.abstract.php,v 1.2 2003/07/18 20:26:24 gabeschine Exp $
+ * @version $Id: NamedTheme.abstract.php,v 1.3 2003/07/18 23:32:26 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -99,7 +99,8 @@ class NamedTheme extends NamedThemeInterface {
 	 * @return void
 	 **/
 	function addHeadContent($content) {
-		$this->_extraHeadContent = $content;
+		if (!is_string($this->_extraHeadContent)) $this->_extraHeadContent = '';
+		$this->_extraHeadContent .= $content;
 	}
 	
 	/**

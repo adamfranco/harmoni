@@ -13,7 +13,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  *
  * @abstract
  * @package harmoni.layout.components
- * @version $Id: LeftMenuLayout.class.php,v 1.1 2003/07/18 20:26:23 gabeschine Exp $
+ * @version $Id: LeftMenuLayout.class.php,v 1.2 2003/07/18 23:32:26 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -43,7 +43,7 @@ class LeftMenuLayout extends Layout {
 		
 		// output the table;
 		print "<table border=0 cellpadding=0 cellspacing=0 width=100%>\n";
-		print "<tr><td width=10%>\n";
+		print "<tr><td width=10% valign=top>\n";
 		$menu->output(&$theme, $level+1, VERTICAL);
 		print "</td><td>\n";
 		$layout->output(&$theme, $level+1);

@@ -9,7 +9,7 @@ require_once(HARMONI."utilities/FieldSetValidator/FieldSet.class.php");
  * This is a test theme object.
  *
  * @package harmoni.themes
- * @version $Id: TestTheme.class.php,v 1.2 2003/07/18 20:26:24 gabeschine Exp $
+ * @version $Id: TestTheme.class.php,v 1.3 2003/07/18 23:32:26 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -101,6 +101,7 @@ class TestTheme extends NamedTheme {
 	 **/
 	function printLayout($layoutObj, $level) {
     	print "<div style='border: 1px solid gray; padding: 2px; margin: 2px;'>";
+		print "<div align=center style='background-color: #eee;'>level=<b>$level</b></div>";
 		$layoutObj->outputLayout($this,$level);
 		print "</div>";
 	}
