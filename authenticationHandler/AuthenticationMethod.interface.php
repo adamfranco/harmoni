@@ -3,7 +3,7 @@
 /**
  * defines the methods that are required for any authenticationMethod
  *
- * @version $Id: AuthenticationMethod.interface.php,v 1.3 2003/06/23 20:42:34 adamfranco Exp $
+ * @version $Id: AuthenticationMethod.interface.php,v 1.4 2003/06/24 18:27:46 dobomode Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -22,7 +22,7 @@ class AuthenticationMethodInterface {
 	
 	/**
 	 * @access public
-	 * @return string/int returns the user-defined name or ID of the module
+	 * @return string returns the user-defined name/ID of the module
 	 **/
 	function getName () { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	

@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DBHandlerTestCase.class.php,v 1.6 2003/06/23 21:37:22 adamfranco Exp $
+ * @version $Id: DBHandlerTestCase.class.php,v 1.7 2003/06/24 18:27:46 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -198,7 +198,6 @@
 			$query->setColumns(array("value"));
 			$query->addRowOfValues(array($value));
 			$queryQueue->add($query);
-//			echo "<pre>".MySQL_SQLGenerator::generateSQLQuery($query);
 			
 			$query =& new InsertQuery();
 			$query->setTable("test1");

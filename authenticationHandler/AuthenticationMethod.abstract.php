@@ -4,7 +4,7 @@
  * the DB Authentication Method will contact an SQL database and check a username/password pair
  * against fields in a specified table.
  *
- * @version $Id: AuthenticationMethod.abstract.php,v 1.1 2003/06/23 13:22:53 gabeschine Exp $
+ * @version $Id: AuthenticationMethod.abstract.php,v 1.2 2003/06/24 18:27:46 dobomode Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -30,7 +30,7 @@ class AuthenticationMethod
 	
 	/**
 	 * @access public
-	 * @return string/int returns the user-defined name or ID of the module
+	 * @return string returns the user-defined name/ID of the module
 	 **/
 	function getName () {
 		return $this->_name;

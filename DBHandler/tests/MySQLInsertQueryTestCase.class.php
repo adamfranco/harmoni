@@ -1,14 +1,14 @@
 <?php
 
     require_once(HARMONI.'DBHandler/classes/InsertQuery.class.php');
-	require_once(HARMONI.'DBHandler/classes/MySQL_SQLGenerator.class.php');
+	require_once(HARMONI.'DBHandler/classes/MySQL/MySQL_SQLGenerator.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: MySQLInsertQueryTestCase.class.php,v 1.7 2003/06/23 21:37:22 adamfranco Exp $
+ * @version $Id: MySQLInsertQueryTestCase.class.php,v 1.8 2003/06/24 18:27:46 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
@@ -47,6 +47,9 @@
 		 **/
 		function test_getType(){
 			$this->assertEqual($this->query->getType(), INSERT);
+			
+			$this->query->setAutoIncrementColumn("id");
+			
 		}
 
 
