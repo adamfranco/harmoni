@@ -207,64 +207,9 @@ class HarmoniAuthenticationManager
 		// If the user is authenticated, look up their Agent Id or create a
 		// new Agent if they don't have one.
 		if ($this->isUserAuthenticated($authenticationType)) {
-			$name =& $this->_harmoni->LoginState->getAgentName();
+			$name = $this->_harmoni->LoginState->getAgentName();
 			
-			// If we have cached this mapping, use that
-			if ($this->_agentIds[$name]) {
-				return $this->_agentIds[$name];
-			
-			// otherwise, look up the id in the database.
-			} else {
-				$dbHandler =& Services::getService("DBHandler");
-				$query =& new SelectQuery;
-				$query->addColumn($this->_authNDB.".authn_mapping.agent_id", "agent_id");
-				$query->addTable($this->_authNDB.".authn_mapping");
-				$query->addWhere($this->_authNDB.".authn_mapping.system_name='".addslashes($name)."'");
-				$query->addWhere($this->_authNDB.".authn_mapping.type_domain='".addslashes($authenticationType->getDomain())."'");
-				$query->addWhere($this->_authNDB.".authn_mapping.type_authority='".addslashes($authenticationType->getAuthority())."'");
-				$query->addWhere($this->_authNDB.".authn_mapping.type_keyword='".addslashes($authenticationType->getKeyword())."'");
-				$result =& $dbHandler->query($query, $this->_dbIndex);
-				
-				$sharedManager =& Services::getService('Shared');
-				
-				// If an agent Id can be mapped to the name, return the id.
-				if ($result->getNumberOfRows() == 1) {
-					$id =& $sharedManager->getId($result->field('agent_id'));
-				
-				// If no AgentId can be mapped to the Id, create a new Agent
-				// then populate its properties.
-				} else if ($result->getNumberOfRows() == 0) {
-					$type =& new HarmoniType ('Authentication', 'Harmoni', 'User',
-												'A generic user agent created during login.');
-					$agent =& $sharedManager->createAgent($name, $type);
-					$id =& $agent->getId();
-					
-					// Store a mapping in our table.
-					$query =& new InsertQuery;
-					$columns = array($this->_authNDB.".authn_mapping.agent_id", 
-									$this->_authNDB.".authn_mapping.system_name",
-									$this->_authNDB.".authn_mapping.type_domain",
-									$this->_authNDB.".authn_mapping.type_authority",
-									$this->_authNDB.".authn_mapping.type_keyword");
-					$query->setColumns($columns);
-					$values = array("'".addslashes($id->getIdString())."'", "'".addslashes($name)."'",
-									"'".addslashes($authenticationType->getDomain())."'", 
-									"'".addslashes($authenticationType->getAuthority())."'", 
-									"'".addslashes($authenticationType->getKeyword())."'");
-					$query->setValues($values);
-					$query->setTable($this->_authNDB.".authn_mapping");
-					$result =& $dbHandler->query($query, $this->_dbIndex);
-					
-				
-				// If we have more than one row, we have problems.
-				} else {
-					throwError(new Error(OPERATION_FAILED, "AuthenticationManager", 1));
-				}
-				
-				// Cache the id, then return it.
-				$this->_agentIds[$name] =& $id;
-				return $id;
-			}
+			return $this->_getAgentId($name, $authenticationType);
 			
 		} else {
 			throwError(new Error(OPERATION_FAILED, "AuthenticationManager", 1));
@@ -349,11 +294,25 @@ class HarmoniAuthenticationManager
 		
 		// Look up their Agent Id or create a
 		// new Agent if they don't have one.
-		$name = $tokens;
+		return $this->_getAgentId($tokens, $authenticationType);
+	}
+	
+	/**
+	 * Get the agent Id for the given tokens from our mapping or store a new
+	 * one if it doesn't exist.
+	 * 
+	 * @param mixed $tokens
+	 * @param object $authori
+	 * @return object Id
+	 * @access public
+	 * @date 11/18/04
+	 */
+	function _getAgentId ($tokens, & $authenticationType) {
+		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
 		
 		// If we have cached this mapping, use that
-		if ($this->_agentIds[$name]) {
-			return $this->_agentIds[$name];
+		if ($this->_agentIds[$tokens]) {
+			return $this->_agentIds[$tokens];
 		
 		// otherwise, look up the id in the database.
 		} else {
@@ -361,7 +320,7 @@ class HarmoniAuthenticationManager
 			$query =& new SelectQuery;
 			$query->addColumn($this->_authNDB.".authn_mapping.agent_id", "agent_id");
 			$query->addTable($this->_authNDB.".authn_mapping");
-			$query->addWhere($this->_authNDB.".authn_mapping.system_name='".addslashes($name)."'");
+			$query->addWhere($this->_authNDB.".authn_mapping.system_name='".addslashes($tokens)."'");
 			$query->addWhere($this->_authNDB.".authn_mapping.type_domain='".addslashes($authenticationType->getDomain())."'");
 			$query->addWhere($this->_authNDB.".authn_mapping.type_authority='".addslashes($authenticationType->getAuthority())."'");
 			$query->addWhere($this->_authNDB.".authn_mapping.type_keyword='".addslashes($authenticationType->getKeyword())."'");
@@ -378,7 +337,7 @@ class HarmoniAuthenticationManager
 			} else if ($result->getNumberOfRows() == 0) {
 				$type =& new HarmoniType ('Authentication', 'Harmoni', 'User',
 											'A generic user agent created during login.');
-				$agent =& $sharedManager->createAgent($name, $type);
+				$agent =& $sharedManager->createAgent($tokens, $type);
 				$id =& $agent->getId();
 				
 				// Store a mapping in our table.
@@ -389,7 +348,7 @@ class HarmoniAuthenticationManager
 								$this->_authNDB.".authn_mapping.type_authority",
 								$this->_authNDB.".authn_mapping.type_keyword");
 				$query->setColumns($columns);
-				$values = array("'".addslashes($id->getIdString())."'", "'".addslashes($name)."'",
+				$values = array("'".addslashes($id->getIdString())."'", "'".addslashes($tokens)."'",
 								"'".addslashes($authenticationType->getDomain())."'", 
 								"'".addslashes($authenticationType->getAuthority())."'", 
 								"'".addslashes($authenticationType->getKeyword())."'");
@@ -404,10 +363,12 @@ class HarmoniAuthenticationManager
 			}
 			
 			// Cache the id, then return it.
-			$this->_agentIds[$name] =& $id;
+			$this->_agentIds[$tokens] =& $id;
 			return $id;
 		}
 	}
+	
+	
 	
 	function start() {}
 	
