@@ -7,12 +7,13 @@ require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.5 2004/04/12 22:58:26 dobomode Exp $
+ * @version $Id: SharedManagerTestCase.class.php,v 1.6 2004/04/13 22:53:32 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
 
 class SharedManagerTestCase extends UnitTestCase {
+
 
 	var $manager;
 
@@ -28,36 +29,7 @@ class SharedManagerTestCase extends UnitTestCase {
 		$dbHandler->pConnect($dbIndex);
 		unset($dbHandler); // done with that for now
 		
-		// set up data  container
-		$dataContainer =& new HarmoniSharedManagerDataContainer();
-		$dataContainer->set("dbIndex", $dbIndex);
-		$dataContainer->set("sharedDB", "doboHarmoniTest");
-		
-		$dataContainer->set("typeTable", "type");
-		$dataContainer->set("typeTable_idColumn", "type_id");
-		$dataContainer->set("typeTable_domainColumn", "type_domain");
-		$dataContainer->set("typeTable_authorityColumn", "type_authority");
-		$dataContainer->set("typeTable_keywordColumn", "type_keyword");
-		$dataContainer->set("typeTable_descriptionColumn", "type_description");
-
-		$dataContainer->set("idTable", "id");
-		$dataContainer->set("idTable_valueColumn", "id_value");
-		$dataContainer->set("idTable_sequenceName", "irrelevant in mysql");
-		
-		$dataContainer->set("agentTable", "agent");
-		$dataContainer->set("agentTable_idColumn", "agent_id");
-		$dataContainer->set("agentTable_displayNameColumn", "agent_display_name");
-		$dataContainer->set("agentTable_fkTypeColumn", "fk_type");
-		
-		$dataContainer->set("groupTable", "groups");
-		$dataContainer->set("groupTable_idColumn", "group_id");
-		$dataContainer->set("groupTable_displayNameColumn", "group_display_name");
-		$dataContainer->set("groupTable_fkTypeColumn", "fk_type");
-		$dataContainer->set("groupTable_description", "group_description");
-
-		$dataContainer->set("agentGroupJoinTable", "j_agent_group");
-
-       	$this->manager =& new HarmoniSharedManager($dataContainer);
+       	$this->manager =& new HarmoniSharedManager($dbIndex, "doboHarmoniTest");
        }
 	
        /**
@@ -183,6 +155,19 @@ class SharedManagerTestCase extends UnitTestCase {
 		// delete the groups
 //		$this->manager->deleteGroup($group1->getId());
 //		$this->manager->deleteGroup($group2->getId());
+	}
+	
+	
+	function test_update_description() {
+		// create a type
+		$type =& new HarmoniType("Create", "Group", "Test", "A test for updating a group\'s description");
+
+ 		// create one group
+		$group =& $this->manager->createGroup("depeche", $type, "The greatest band.");
+
+		$group->updateDescription("Hoho!");
+
+		$this->assertIdentical($group->getDescription(), "Hoho!");
 	}
 	
 }

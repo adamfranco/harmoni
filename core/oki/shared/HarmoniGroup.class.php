@@ -17,6 +17,20 @@ class HarmoniGroup // :: API interface
 	
 	
 	/**
+	 * The database connection as returned by the DBHandler.
+	 * @attribute private integer _dbIndex
+	 */
+	var $_dbIndex;
+
+	
+	/**
+	 * The name of the shared database.
+	 * @attribute private string _sharedD
+	 */
+	var $_sharedDB;
+
+	
+	/**
 	 * An array storing groups that are members of this group.
 	 * @attribute private array _groups
 	 */
@@ -36,20 +50,26 @@ class HarmoniGroup // :: API interface
 	 * @param object id The id.
 	 * @param object type The type.
 	 * @param string description The description.
+	 * @param dbIndex integer The database connection as returned by the DBHandler.
+	 * @param string sharedDB The name of the shared database.
 	 * @access public
 	 */
-	function HarmoniGroup($displayName, & $id, & $type, $description) {
-		$this->HarmoniAgent($displayName, & $id, & $type);
-		
+	function HarmoniGroup($displayName, & $id, & $type, $description, $dbIndex, $sharedDB) {
 		// ** parameter validation
-		$stringRule =& new StringValidatorRule();
-		ArgumentValidator::validate($description, $stringRule, true);
+		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($sharedDB, new StringValidatorRule(), true);
 		// ** end of parameter validation
 		
+		$this->HarmoniAgent($displayName, & $id, & $type);
+		
 		$this->_description = $description;
+
+		$this->_dbIndex = $dbIndex;
+		$this->_sharedDB = $sharedDB;
+
 		$this->_groups = array();
 		$this->_agents = array();
-	}	
+	}
 	
 	
 	/**
@@ -69,17 +89,32 @@ class HarmoniGroup // :: API interface
 	 * @package osid.shared
 	 */
 	function updateDescription($description) {
-	
-	// ***********************************************
-	// ***********************************************
-	// ***********************************************
-	// ***********************************************
-	// IMPLEMENT IMPLEMENT IMPLEMENT IMPLEMENT IMPLEMENT
-	// ***********************************************
-	// ***********************************************
-	// ***********************************************
-	// ***********************************************
-	
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($description, $stringRule, true);
+		// ** end of parameter validation
+		
+		// update the object
+		$this->_description = $description;
+
+		// update the database
+		$dbHandler =& Services::requireService("DBHandler");
+		$db = $this->_sharedDB.".";
+		
+		$query =& new UpdateQuery();
+		$query->setTable($db."groups");
+		$id =& $this->getId();
+		$idValue = $id->getIdString();
+		$where = "{$db}groups.groups_id = '{$idValue}'";
+		$query->setWhere($where);
+		$query->setColumns(array("{$db}groups.groups_description"));
+		$query->setValues(array("'$description'"));
+		
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		if ($queryResult->getNumberOfRows() == 0)
+			throwError(new Error("The group with Id: ".$idValue." does not exist in the database.","SharedManager",true));
+		if ($queryResult->getNumberOfRows() > 1)
+			throwError(new Error("Multiple groups with Id: ".$idValue." exist in the database. Note: their descriptions have been updated." ,"SharedManager",true));
 	}
 
 
@@ -102,10 +137,27 @@ class HarmoniGroup // :: API interface
 		$isGroup = is_a($memberOrGroup, get_class($this));
 		
 		$id =& $memberOrGroup->getId();
-		if ($isGroup)
+		$idValue = $id->getIdString();
+		if ($isGroup && !isset($this->_groups[$idValue])) {
+			// check to see for existence in database
+			// if the group do not exist, then we are in trouble
+			if (!HarmoniGroup::_exist($memberOrGroup))
+			    throwError(new Error("Cannot add a group that does not exist in the database.",
+							 		 "SharedManager", true));
+			
+			// add in the object
 		    $this->_groups[$id->getIdString()] =& $memberOrGroup;
-		else
+		}
+		elseif (!isset($this->_agents[$idValue])) {
+			// check to see for existence in database
+			// if the group do not exist, then we are in trouble
+			if (!HarmoniAgent::_exist($memberOrGroup))
+			    throwError(new Error("Cannot add an agent that does not exist in the database.",
+							 		 "SharedManager", true));
+
+			// add in the object
 			$this->_agents[$id->getIdString()] =& $memberOrGroup;
+		}
 	}
 
 	
@@ -233,6 +285,47 @@ class HarmoniGroup // :: API interface
 					return true;
 
 		return false;
+	}
+	
+	/**
+	 * A private function checking whether the specified group exist in the database.
+	 * @access public
+	 * @static
+	 * @param objcet group The groups to check for existence.
+	 * @return boolean <code>tru</code> if it exists; <code>false</code> otherwise.
+	 **/
+	function _exist(& $group) {
+		$dbHandler =& Services::requireService("DBHandler");
+		$query =& new SelectQuery();
+		
+		// get the id
+		$id =& $group->getId();
+		$idValue = $id->getIdString();
+
+		// string prefix
+		$db = $group->_sharedDB.".";
+		
+		// set the tables
+		$query->addTable($db."groups");
+		// set the columns to select
+		$query->addColumn("groups_id", "id", $db."groups");
+		// set where
+		$where = $db."groups.groups_id = '".$idValue."' AND ";
+		$where .= $db."groups.groups_display_name = '".$group->getDisplayName()."' AND ";
+		$where .= $db."groups.groups_description = '".$group->getDescription()."'";
+		$query->addWhere($where);
+
+		echo "<pre>\n";
+		echo MySQL_SQLGenerator::generateSQLQuery($query);
+		echo "</pre>\n";
+		
+		
+		
+		$queryResult =& $dbHandler->query($query, $group->_dbIndex);
+		if ($queryResult->getNumberOfRows() == 1)
+			return true;
+		else
+			return false;
 	}
 
 

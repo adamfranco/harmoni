@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: GroupTestCase.class.php,v 1.1 2004/04/08 21:21:51 dobomode Exp $
+ * @version $Id: GroupTestCase.class.php,v 1.2 2004/04/13 22:53:32 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
         function setUp() {
 			$this->id =& new HarmoniId(8);
 			$this->type =& new HarmoniType("Look at me!", "I rock...", "I rule!", "And rise!");
-			$this->group =& new HarmoniGroup("dobomode", $this->id, $this->type, "Muhaha!");
+			$this->group =& new HarmoniGroup("dobomode", $this->id, $this->type, "Muhaha!", 0, "doboHarmoniTest");
         }
 		
         /**
@@ -45,6 +45,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 			$this->assertReference($this->group->getType(), $this->type);
 			$this->assertIdentical($this->group->getDescription(), "Muhaha!");
 		}
+		
 		
 		function test_add_and_remove() {
 			// hehe, no hierarchy implied in the examples below ;)
@@ -77,7 +78,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 			// and add the group to the original one
 			$id =& new HarmoniId(256);
 			$type =& new HarmoniType("Fancy", "Mancy", "Shmootsy", "Tootsy");
-			$group1 =& new HarmoniGroup("dm", $id, $type, "So lala!");
+			$group1 =& new HarmoniGroup("dm", $id, $type, "So lala!", 0, "doboHarmoniTest");
 			
 			$id =& new HarmoniId(15);
 			$type =& new HarmoniType("Fourth", "Cuarto", "Vierte", "Chetvarti");
@@ -136,7 +137,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 			// and add the group to the original one
 			$id =& new HarmoniId(256);
 			$type =& new HarmoniType("Fancy", "Mancy", "Shmootsy", "Tootsy");
-			$group1 =& new HarmoniGroup("dm", $id, $type, "So lala!");
+			$group1 =& new HarmoniGroup("dm", $id, $type, "So lala!", 0, "doboHarmoniTest");
 			
 			$id =& new HarmoniId(15);
 			$type =& new HarmoniType("Fourth", "Cuarto", "Vierte", "Chetvarti");
@@ -180,7 +181,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 			$this->assertIdentical($arr, $arr1);
 			
 			// check for uniqueness of returned elements
-			$group2 =& new HarmoniGroup("dm", new HarmoniId(300), $type, "So lala!");
+			$group2 =& new HarmoniGroup("dm", new HarmoniId(300), $type, "So lala!", 0, "doboHarmoniTest");
 			$group1->add($group2);
 			
 			$arr1 =& $this->group->_getMembers(true, false);
@@ -223,7 +224,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 			// and add the group to the original one
 			$id =& new HarmoniId(256);
 			$type =& new HarmoniType("Fancy", "Mancy", "Shmootsy", "Tootsy");
-			$group1 =& new HarmoniGroup("dm", $id, $type, "So lala!");
+			$group1 =& new HarmoniGroup("dm", $id, $type, "So lala!", 0, "doboHarmoniTest");
 			
 			$id =& new HarmoniId(15);
 			$type =& new HarmoniType("Fourth", "Cuarto", "Vierte", "Chetvarti");
@@ -246,7 +247,7 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 			
 			$id =& new HarmoniId(300);
 			$type =& new HarmoniType("Fancy", "Mancy", "Shmootsy", "Tootsy");
-			$group2 =& new HarmoniGroup("dm", $id, $type, "So lala!");
+			$group2 =& new HarmoniGroup("dm", $id, $type, "So lala!", 0, "doboHarmoniTest");
 			$group1->add($group2);
 
 			$this->assertTrue($this->group->contains($agent15, true));
@@ -254,6 +255,9 @@ require_once(HARMONI.'/oki/shared/HarmoniGroup.class.php');
 			$this->assertTrue($this->group->contains($group2, true));
 			$this->assertFalse($this->group->contains($this->group, true));
 		}
+		
+		
+		
 		
 		
 		

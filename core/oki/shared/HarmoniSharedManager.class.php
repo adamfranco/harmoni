@@ -39,22 +39,29 @@ require_once(HARMONI."oki/shared/HarmoniSharedManagerDataContainer.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.20 $ / $Date: 2004/04/12 22:58:12 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.21 $ / $Date: 2004/04/13 22:53:28 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
 
 class HarmoniSharedManager
 	extends SharedManager
-//	impliments ServicesInterface	// start() and stop() methods are provided
 { // begin SharedManager
 
 	/**
-	 * @var integer $_idDBIndex The index of the database from which to pull the ids.
+	 * The database connection as returned by the DBHandler.
+	 * @attribute private integer _dbIndex
 	 */
-	var $_idDBIndex = 0;
-	
+	var $_dbIndex;
 
+	
+	/**
+	 * The name of the shared database.
+	 * @attribute private string _sharedD
+	 */
+	var $_sharedDB;
+	
+	
 	/**
 	 * An array that will store the cached agent objects.
 	 * @attribute private array _agentsCache
@@ -71,42 +78,17 @@ class HarmoniSharedManager
 	
 	/**
 	 * Constructor. Set up any database connections needed.
-	 *
+	 * @param dbIndex integer The database connection as returned by the DBHandler.
+	 * @param string sharedDB The name of the shared database.
 	 */
-	function HarmoniSharedManager( $dataContainer ) {
+	function HarmoniSharedManager($dbIndex, $sharedDB) {
 		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("HarmoniSharedManagerDataContainer");
-		ArgumentValidator::validate($dataContainer, $extendsRule, true);
+		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($sharedDB, new StringValidatorRule(), true);
 		// ** end of parameter validation
 		
-		// now, validate the data container
-		$dataContainer->checkAll();
-		
-		$this->_dbIndex = $dataContainer->get("dbIndex");
-		$this->_sharedDB = $dataContainer->get("sharedDB");
-		
-		$this->_idTable = $dataContainer->get("idTable");
-		$this->_idTable_valueColumn = $dataContainer->get("idTable_valueColumn");
-		$this->_idTable_sequenceName = $dataContainer->get("idTable_sequenceName");
-		
-		$this->_typeTable = $dataContainer->get("typeTable");
-		$this->_typeTable_idColumn = $dataContainer->get("typeTable_idColumn");
-		$this->_typeTable_domainColumn = $dataContainer->get("typeTable_domainColumn");
-		$this->_typeTable_authorityColumn = $dataContainer->get("typeTable_authorityColumn");
-		$this->_typeTable_keywordColumn = $dataContainer->get("typeTable_keywordColumn");
-		$this->_typeTable_descriptionColumn = $dataContainer->get("typeTable_descriptionColumn");
-
-		$this->_agentTable = $dataContainer->get("agentTable");
-		$this->_agentTable_idColumn = $dataContainer->get("agentTable_idColumn");
-		$this->_agentTable_displayNameColumn = $dataContainer->get("agentTable_displayNameColumn");
-		$this->_agentTable_fkTypeColumn = $dataContainer->get("agentTable_fkTypeColumn");
-		
-		$this->_groupTable = $dataContainer->get("groupTable");
-		$this->_groupTable_idColumn = $dataContainer->get("groupTable_idColumn");
-		$this->_groupTable_displayNameColumn = $dataContainer->get("groupTable_displayNameColumn");
-		$this->_groupTable_fkTypeColumn = $dataContainer->get("groupTable_fkTypeColumn");
-		$this->_groupTable_description = $dataContainer->get("groupTable_description");
-		$this->_agentGroupJoinTable = $dataContainer->get("agentGroupJoinTable");
+		$this->_dbIndex = $dbIndex;
+		$this->_sharedDB = $sharedDB;
 		
 		// initialize cache
 		$this->_agentsCache = array();
@@ -156,12 +138,12 @@ class HarmoniSharedManager
 
 		// check whether the type is already in the DB, if not insert it
 		$query =& new SelectQuery();
-		$query->addTable($db.$this->_typeTable);
-		$query->addColumn($this->_typeTable_idColumn, "id", $db.$this->_typeTable);
-		$where = $db.$this->_typeTable.".".$this->_typeTable_domainColumn." = '".$domain."'";
-		$where .= " AND ".$db.$this->_typeTable.".".$this->_typeTable_authorityColumn." = '".$authority."'";
-		$where .= " AND ".$db.$this->_typeTable.".".$this->_typeTable_keywordColumn." = '".$keyword."'";
-		$where .= " AND ".$db.$this->_typeTable.".".$this->_typeTable_descriptionColumn." = '".$description."'";
+		$query->addTable($db."type");
+		$query->addColumn("type_id", "id", $db."type");
+		$where = $db."type.type_domain = '".$domain."'";
+		$where .= " AND {$db}type.type_authority = '".$authority."'";
+		$where .= " AND {$db}type.type_keyword = '".$keyword."'";
+		$where .= " AND {$db}type.type_description = '".$description."'";
 		$query->addWhere($where);
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -169,12 +151,12 @@ class HarmoniSharedManager
 			$typeIdValue = $queryResult->field("id"); // get the id
 		else { // if not, insert it
 			$query =& new InsertQuery();
-			$query->setTable($db.$this->_typeTable);
+			$query->setTable($db."type");
 			$columns = array();
-			$columns[] = $this->_typeTable_domainColumn;
-			$columns[] = $this->_typeTable_authorityColumn;
-			$columns[] = $this->_typeTable_keywordColumn;
-			$columns[] = $this->_typeTable_descriptionColumn;
+			$columns[] = "type_domain";
+			$columns[] = "type_authority";
+			$columns[] = "type_keyword";
+			$columns[] = "type_description";
 			$query->setColumns($columns);
 			$values = array();
 			$values[] = "'".$domain."'";
@@ -189,11 +171,11 @@ class HarmoniSharedManager
 		
 		// 2. Now that we know the id of the type, insert the agent itself
 		$query =& new InsertQuery();
-		$query->setTable($db.$this->_agentTable);
+		$query->setTable($db."agent");
 		$columns = array();
-		$columns[] = $this->_agentTable_idColumn;
-		$columns[] = $this->_agentTable_displayNameColumn;
-		$columns[] = $this->_agentTable_fkTypeColumn;
+		$columns[] = "agent_id";
+		$columns[] = "agent_display_name";
+		$columns[] = "fk_type";
 		$query->setColumns($columns);
 		$values = array();
 		$values[] = "'".$agentIdValue."'";
@@ -238,9 +220,9 @@ class HarmoniSharedManager
 		$query =& new SelectQuery();
 		
 		$db = $this->_sharedDB.".";
-		$query->addTable($db.$this->_agentTable);
-		$query->addColumn($this->_agentTable_fkTypeColumn, "type_id", $db.$this->_agentTable);
-		$query->addWhere($db.$this->_agentTable.".".$this->_agentTable_idColumn." = '".$idValue."'");
+		$query->addTable($db."agent");
+		$query->addColumn("fk_type", "type_id", $db."agent");
+		$query->addWhere($db."agent.agent_id = '".$idValue."'");
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -251,8 +233,8 @@ class HarmoniSharedManager
 		
 		// 2. Now delete the agent
 		$query =& new DeleteQuery();
-		$query->setTable($db.$this->_agentTable);
-		$query->addWhere($db.$this->_agentTable.".".$this->_agentTable_idColumn." = '".$idValue."'");
+		$query->setTable($db."agent");
+		$query->addWhere($db."agent.agent_id = '".$idValue."'");
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		
@@ -260,17 +242,17 @@ class HarmoniSharedManager
 		$query =& new SelectQuery();
 		
 		$db = $this->_sharedDB.".";
-		$query->addTable($db.$this->_agentTable);
+		$query->addTable($db."agent");
 		// count the number of agents using the same type
-		$query->addColumn("COUNT(".$db.$this->_agentTable.".".$this->_agentTable_fkTypeColumn.")", "num");
-		$query->addWhere($db.$this->_agentTable.".".$this->_agentTable_fkTypeColumn." = '".$typeIdValue."'");
+		$query->addColumn("COUNT({$db}agent.fk_type)", "num");
+		$query->addWhere($db."agent.fk_type = '".$typeIdValue."'");
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		$num = $queryResult->field("num");
 		if ($num == 0) { // if no other agents use this type, then delete the type
 			$query =& new DeleteQuery();
-			$query->setTable($db.$this->_typeTable);
-			$query->addWhere($db.$this->_typeTable.".".$this->_typeTable_idColumn." = '".$typeIdValue."'");
+			$query->setTable($db."type");
+			$query->addWhere($db."type.type_id = '".$typeIdValue."'");
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		}
 
@@ -315,19 +297,19 @@ class HarmoniSharedManager
 		$db = $this->_sharedDB.".";
 		
 		// set the tables
-		$query->addTable($db.$this->_agentTable);
-		$joinc = $db.$this->_agentTable.".".$this->_agentTable_fkTypeColumn." = ".$db.$this->_typeTable.".".$this->_typeTable_idColumn;
-		$query->addTable($db.$this->_typeTable, INNER_JOIN, $joinc);
+		$query->addTable($db."agent");
+		$joinc = $db."agent.fk_type = ".$db."type.type_id";
+		$query->addTable($db."type", INNER_JOIN, $joinc);
 		
 		// set the columns to select
-		$query->addColumn($this->_agentTable_displayNameColumn, "display_name", $db.$this->_agentTable);
-		$query->addColumn($this->_typeTable_domainColumn, "domain", $db.$this->_typeTable);
-		$query->addColumn($this->_typeTable_authorityColumn, "authority", $db.$this->_typeTable);
-		$query->addColumn($this->_typeTable_keywordColumn, "keyword", $db.$this->_typeTable);
-		$query->addColumn($this->_typeTable_descriptionColumn, "description", $db.$this->_typeTable);
+		$query->addColumn("agent_display_name", "display_name", $db."agent");
+		$query->addColumn("type_domain", "domain", $db."type");
+		$query->addColumn("type_authority", "authority", $db."type");
+		$query->addColumn("type_keyword", "keyword", $db."type");
+		$query->addColumn("type_description", "description", $db."type");
 
 		// set the where clause
-		$query->addWhere($db.$this->_agentTable.".".$this->_agentTable_idColumn." = '".$idValue."'");
+		$query->addWhere($db."agent.agent_id = '".$idValue."'");
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -366,17 +348,17 @@ class HarmoniSharedManager
 		$db = $this->_sharedDB.".";
 		
 		// set the tables
-		$query->addTable($db.$this->_agentTable);
-		$joinc = $db.$this->_agentTable.".".$this->_agentTable_fkTypeColumn." = ".$db.$this->_typeTable.".".$this->_typeTable_idColumn;
-		$query->addTable($db.$this->_typeTable, INNER_JOIN, $joinc);
+		$query->addTable($db."agent");
+		$joinc = $db."agent.fk_type = ".$db."type.type_id";
+		$query->addTable($db."type", INNER_JOIN, $joinc);
 		
 		// set the columns to select
-		$query->addColumn($this->_agentTable_idColumn, "id", $db.$this->_agentTable);
-		$query->addColumn($this->_agentTable_displayNameColumn, "display_name", $db.$this->_agentTable);
-		$query->addColumn($this->_typeTable_domainColumn, "domain", $db.$this->_typeTable);
-		$query->addColumn($this->_typeTable_authorityColumn, "authority", $db.$this->_typeTable);
-		$query->addColumn($this->_typeTable_keywordColumn, "keyword", $db.$this->_typeTable);
-		$query->addColumn($this->_typeTable_descriptionColumn, "description", $db.$this->_typeTable);
+		$query->addColumn("agent_id", "id", $db."agent");
+		$query->addColumn("agent_display_name", "display_name", $db."agent");
+		$query->addColumn("type_domain", "domain", $db."type");
+		$query->addColumn("type_authority", "authority", $db."type");
+		$query->addColumn("type_keyword", "keyword", $db."type");
+		$query->addColumn("type_description", "description", $db."type");
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 
 		$agents = array();
@@ -422,17 +404,17 @@ class HarmoniSharedManager
 		$db = $this->_sharedDB.".";
 		
 		// set the tables
-		$query->addTable($db.$this->_agentTable);
-		$joinc = $db.$this->_agentTable.".".$this->_agentTable_fkTypeColumn." = ".$db.$this->_typeTable.".".$this->_typeTable_idColumn;
-		$query->addTable($db.$this->_typeTable, INNER_JOIN, $joinc);
+		$query->addTable($db."agent");
+		$joinc = $db."agent.fk_type = ".$db."type.type_id";
+		$query->addTable($db."type", INNER_JOIN, $joinc);
 		
 		// set the columns to select
 		$query->setDistinct(true);
-		$query->addColumn($this->_typeTable_idColumn, "id", $db.$this->_typeTable);
-		$query->addColumn($this->_typeTable_domainColumn, "domain", $db.$this->_typeTable);
-		$query->addColumn($this->_typeTable_authorityColumn, "authority", $db.$this->_typeTable);
-		$query->addColumn($this->_typeTable_keywordColumn, "keyword", $db.$this->_typeTable);
-		$query->addColumn($this->_typeTable_descriptionColumn, "description", $db.$this->_typeTable);
+		$query->addColumn("type_id", "id", $db."type");
+		$query->addColumn("type_domain", "domain", $db."type");
+		$query->addColumn("type_authority", "authority", $db."type");
+		$query->addColumn("type_keyword", "keyword", $db."type");
+		$query->addColumn("type_description", "description", $db."type");
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 
 		$types = array();
@@ -497,12 +479,12 @@ class HarmoniSharedManager
 
 		// check whether the type is already in the DB, if not insert it
 		$query =& new SelectQuery();
-		$query->addTable($db.$this->_typeTable);
-		$query->addColumn($this->_typeTable_idColumn, "id", $db.$this->_typeTable);
-		$where = $db.$this->_typeTable.".".$this->_typeTable_domainColumn." = '".$domain."'";
-		$where .= " AND ".$db.$this->_typeTable.".".$this->_typeTable_authorityColumn." = '".$authority."'";
-		$where .= " AND ".$db.$this->_typeTable.".".$this->_typeTable_keywordColumn." = '".$keyword."'";
-		$where .= " AND ".$db.$this->_typeTable.".".$this->_typeTable_descriptionColumn." = '".$description."'";
+		$query->addTable($db."type");
+		$query->addColumn("type_id", "id", $db."type");
+		$where = $db."type.type_domain = '".$domain."'";
+		$where .= " AND ".$db."type.type_authority = '".$authority."'";
+		$where .= " AND ".$db."type.type_keyword = '".$keyword."'";
+		$where .= " AND ".$db."type.type_description = '".$description."'";
 		$query->addWhere($where);
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -510,12 +492,12 @@ class HarmoniSharedManager
 			$typeIdValue = $queryResult->field("id"); // get the id
 		else { // if not, insert it
 			$query =& new InsertQuery();
-			$query->setTable($db.$this->_typeTable);
+			$query->setTable($db."type");
 			$columns = array();
-			$columns[] = $this->_typeTable_domainColumn;
-			$columns[] = $this->_typeTable_authorityColumn;
-			$columns[] = $this->_typeTable_keywordColumn;
-			$columns[] = $this->_typeTable_descriptionColumn;
+			$columns[] = "type_domain";
+			$columns[] = "type_authority";
+			$columns[] = "type_keyword";
+			$columns[] = "type_description";
 			$query->setColumns($columns);
 			$values = array();
 			$values[] = "'".$domain."'";
@@ -530,12 +512,12 @@ class HarmoniSharedManager
 		
 		// 2. Now that we know the id of the type, insert the group itself
 		$query =& new InsertQuery();
-		$query->setTable($db.$this->_groupTable);
+		$query->setTable($db."groups");
 		$columns = array();
-		$columns[] = $this->_groupTable_idColumn;
-		$columns[] = $this->_groupTable_displayNameColumn;
-		$columns[] = $this->_groupTable_description;
-		$columns[] = $this->_groupTable_fkTypeColumn;
+		$columns[] = "groups_id";
+		$columns[] = "groups_display_name";
+		$columns[] = "groups_description";
+		$columns[] = "fk_type";
 		$query->setColumns($columns);
 		$values = array();
 		$values[] = "'".$groupIdValue."'";
@@ -547,7 +529,7 @@ class HarmoniSharedManager
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		// create the group object to return
-		$group =& new HarmoniGroup($displayName, $groupId, $groupType, $description);
+		$group =& new HarmoniGroup($displayName, $groupId, $groupType, $description, $this->_dbIndex, $this->_sharedDB);
 		// then cache it
 		$this->_groupsCache[$groupIdValue] =& $group;
 		
@@ -642,8 +624,8 @@ class HarmoniSharedManager
 		$dbHandler =& Services::requireService("DBHandler");
 		
 		$query =& new InsertQuery();
-		$query->setAutoIncrementColumn($this->_idTable_valueColumn, $this->_idTable_sequenceName);
-		$query->setTable($this->_sharedDB.".".$this->_idTable);
+		$query->setAutoIncrementColumn("id_value", "id_sequence");
+		$query->setTable($this->_sharedDB.".id");
 		$query->addRowOfValues(array());
 		
 		$result =& $dbHandler->query($query,$this->_dbIndex);
