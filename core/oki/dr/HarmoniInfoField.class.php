@@ -5,17 +5,27 @@
 	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 	 * @package osid.dr
 	 */
-class InfoField // :: API interface
+class HarmoniInfoField extends InfoField
 //	extends java.io.Serializable
 {
 
+	var $_valueVersions;
+	var $_infoPart;
+	
+	function HarmoniInfoField( &$infoPart, &$valueVersions ) {
+		$this->_valueVersions =& $valueVersions;
+		$this->_infoPart =& $infoPart;
+	}
+	
 	/**
 	 * Get the Unique Id for this InfoStructure.
 	 * @return osid.shared.Id Unique Id this is usually set by a create method's implementation
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getId() { /* :: interface :: */ }
+	function & getId() {
+		return new HarmoniId($this->_valueVersions->_parent->_myLabel."::".$this->_valueVersions->myIndex);
+	}
 
 	/**
 	 * Create an InfoField.  InfoRecords are composed of InfoFields. InfoFields can also contain other InfoFields.  Each InfoRecord is associated with a specific InfoStructure and each InfoField is associated with a specific InfoPart.
@@ -25,7 +35,10 @@ class InfoField // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function & createInfoField(& $infoPartId, & $value) { /* :: interface :: */ }
+	function & createInfoField(& $infoPartId, & $value) {
+		throwError(
+			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
+	}
 	// :: full java declaration :: public InfoField createInfoField(osid.shared.Id infoPartId, java.io.Serializable value)
 
 	/**
@@ -34,7 +47,10 @@ class InfoField // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#UNKNOWN_ID UNKNOWN_ID}
 	 * @package osid.dr
 	 */
-	function deleteInfoField(& $infoFieldId) { /* :: interface :: */ }
+	function deleteInfoField(& $infoFieldId) {
+		throwError(
+			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
+	}
 	// :: full java declaration :: public void deleteInfoField(osid.shared.Id infoFieldId)
 
 	/**
@@ -43,7 +59,10 @@ class InfoField // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getInfoFields() { /* :: interface :: */ }
+	function & getInfoFields() {
+		throwError(
+			new Error(UNIMPLEMENTED, "HarmoniInfoField", true));
+	}
 	// :: full java declaration :: public InfoFieldIterator getInfoFields()
 
 	/**
@@ -52,7 +71,14 @@ class InfoField // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getValue() { /* :: interface :: */ }
+	function & getValue() {
+		// NOTE: if no active versions exist, false will be returned here.
+		$actValue =& $this->_valueVersions->getActiveVersion();
+		
+		if ($actValue) return $actValue->getValue();
+		
+		return null;
+	}
 	// :: full java declaration :: public java.io.Serializable getValue()
 
 	/**
@@ -61,7 +87,9 @@ class InfoField // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * @package osid.dr
 	 */
-	function updateValue(& $value) { /* :: interface :: */ }
+	function updateValue(& $value) {
+		$this->_valueVersions->setValue($value);
+	}
 	// :: full java declaration :: public void updateValue(java.io.Serializable value)
 
 	/**
@@ -70,5 +98,7 @@ class InfoField // :: API interface
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 * @package osid.dr
 	 */
-	function & getInfoPart() { /* :: interface :: */ }
+	function & getInfoPart() {
+		return $this->_infoPart;
+	}
 }

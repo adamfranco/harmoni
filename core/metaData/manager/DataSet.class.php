@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.27 2004/01/16 04:43:26 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.28 2004/01/16 19:23:23 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -46,6 +46,22 @@ class CompactDataSet {
 			$this->_fields[$label] =& new FieldValues($def, $this, $label );
 			unset($def);
 		}
+	}
+	
+	/**
+	 * Returns this dataset's DataSetTypeDefinition
+	 * @return ref object
+	 */
+	function &getDataSetTypeDefinition() {
+		return $this->_dataSetTypeDef;
+	}
+	
+	/**
+	 * Returns the OKI type associated with this DataSet.
+	 * @return ref object
+	 */
+	function &getType() {
+		return $this->_dataSetTypeDef->getType();
 	}
 	
 	/**
@@ -191,7 +207,7 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.27 2004/01/16 04:43:26 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.28 2004/01/16 19:23:23 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {

@@ -15,7 +15,7 @@ require_once(HARMONI."metaData/manager/versionConstraints/include.php");
  * The HarmoniDataManager class is used purely to setup the services required to use the
  * other DataManager classes such as the {@link DataSetTypeManager} or the {@link DataSetManager}.
  * @package harmoni.datamanager
- * @version $Id: HarmoniDataManager.abstract.php,v 1.12 2004/01/14 21:09:21 gabeschine Exp $
+ * @version $Id: HarmoniDataManager.abstract.php,v 1.13 2004/01/16 19:23:23 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -34,6 +34,23 @@ class HarmoniDataManager {
 	 * @abstract
 	 */
 	function setup( $dbID ) {
+		
+		// check config options
+		if (ini_get("magic_quotes_gpc")) {
+			throwError(
+				new Error(
+					"The HarmoniDataManager requires that the php.ini config option <B>magic_quotes_gpc</B> be OFF.",
+					"HarmoniDataManager",
+					true));
+		}
+
+		if (ini_get("magic_quotes_runtime")) {
+			throwError(
+				new Error(
+					"The HarmoniDataManager requires that the php.ini config option <B>magic_quotes_runtime</B> be OFF.",
+					"HarmoniDataManager",
+					true));
+		}
 		
 		// let's setup all our services
 		

@@ -5,7 +5,7 @@ require_once HARMONI."metaData/manager/DataSet.class.php";
 /**
  * The DataSetManager handles the creation, tagging and fetching of DataSets from the database.
  * @package harmoni.datamanager
- * @version $Id: DataSetManager.class.php,v 1.23 2004/01/16 04:43:26 gabeschine Exp $
+ * @version $Id: DataSetManager.class.php,v 1.24 2004/01/16 19:23:23 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -19,6 +19,7 @@ class DataSetManager extends ServiceInterface {
 	var $_versionConstraint = null;
 	
 	var $_dataSetCache;
+	var $_dataSetGroupCache;
 	
 	function DataSetManager( &$idManager, $dbID, &$dataSetTypeManager) {
 		$this->_idManager =& $idManager;
@@ -26,6 +27,7 @@ class DataSetManager extends ServiceInterface {
 		$this->_typeManager = $dataSetTypeManager;
 		
 		$this->_dataSetCache = array();
+		$this->_dataSetGroupCache = array();
 	}
 	
 	/**
@@ -44,6 +46,55 @@ class DataSetManager extends ServiceInterface {
 /*	function &getGlobalVersionConstraint() {
 		return $this->_versionConstraint;
 	}*/
+	
+	/**
+	 * Fetches all DataSets within a DataSetGroup.
+	 * @param int $groupID The DataSetGroup ID.
+	 * @param optional bool $editable If TRUE will fetch the DataSets as Editable and with ALL versions. Default: FALSE (will only fetch ACTIVE values).
+	 * @param optional object $limitResults NOT YET IMPLEMENTED
+	 * @return ref array
+	 */
+	function fetchDataSetGroup($groupID, $editable=false, $limitResults = null) {
+		return $this->fetchArrayOfIDs( $this->getDataSetIDsInGroup($groupID),
+				$editable,
+				$limitResults);
+	}
+	
+	/**
+	 * Loads the specified DataSetGroups into the cache.
+	 * @param array $groupIDsArray An array of numeric IDs.
+	 * @return void
+	 */
+	function loadGroups($groupIDsArray) {
+		
+	}
+	
+//	/**
+//	 * Returns an array of all IDs within a DataSetGroup.
+//	 * @param int $groupID
+//	 * @return array
+//	 */
+//	function getDataSetIDsInGroup($groupID) {
+//		if ($this->_dataSetGroupCache[$groupID]) return $this->_dataSetGroupCache[$groupID];
+//		
+//		$query =& new SelectQuery;
+//		$query->setTable("dataset_group");
+//		$query->addColumn("fk_dataset");
+//		$query->setWhere("dataset_group.id=$groupID");
+//		
+//		$dbHandler =& Services::getService("DBHandler");
+//		
+//		$result =& $dbHandler->query($query, $this->_dbID);
+//		$ids = array();
+//		while ($result->hasMoreRows()) {
+//			$ids[] = $result->field(0);
+//			$result->advanceRow();
+//		}
+//		
+//		$this->_dataSetGroupCache[$groupID] = $ids;
+//		
+//		return $ids;
+//	}
 	
 	/**
 	*  Fetches and returns an array of DataSet IDs from the database in one Query.
