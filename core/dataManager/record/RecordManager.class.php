@@ -5,7 +5,7 @@ require_once HARMONI."dataManager/record/Record.class.php";
 /**
  * The RecordManager handles the creation, tagging and fetching of {@link Record}s from the database.
  * @package harmoni.datamanager
- * @version $Id: RecordManager.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
+ * @version $Id: RecordManager.class.php,v 1.3 2004/07/27 20:23:43 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -263,8 +263,6 @@ class RecordManager extends ServiceInterface {
 		$query =& new SelectQuery();
 		$this->_setupSelectQuery($query, TRUE);
 		
-		$typeIDs = array_unique($criteria->getTypeList());
-		
 		$searchString = $criteria->returnSearchString();
 		
 		if ($ids) {
@@ -275,15 +273,9 @@ class RecordManager extends ServiceInterface {
 			$part1 = implode(" OR ", $parts1);
 		}
 		
-		$parts2 = array();
-		foreach ($typeIDs as $typeID) {
-			$parts2[] = "dm_record.fk_schema!=$typeID";
-		}
-		$part2 = implode(" AND ",$parts2);
+		$part2 = $searchString;
 		
-		$part3 = $searchString;
-		
-		$fullWhere = (isset($part1)?"($part1) AND ":"")."(($part2) OR $part3)";
+		$fullWhere = (isset($part1)?"($part1) AND ":"")."($part2)";
 		
 		$query->setWhere($fullWhere);
 		
