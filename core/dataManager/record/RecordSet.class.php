@@ -3,7 +3,7 @@
 /**
  * The RecordSet class holds a list of IDs and their Records in a specific record set.
  * @package harmoni.datamanager
- * @version $Id: RecordSet.class.php,v 1.2 2004/07/27 18:15:26 gabeschine Exp $
+ * @version $Id: RecordSet.class.php,v 1.3 2004/07/27 20:44:23 gabeschine Exp $
  * @copyright 2004, Middlebury College
  */
 class RecordSet {
@@ -216,9 +216,25 @@ class RecordSet {
 	 * @access public
 	 * @return array
 	 */
-	function getMergedTagDates()
+	function &getMergedTagDates()
 	{
+		// first get all the tags for each of our Records, then ask them for their dates. avoid duplicates
+		$tagManager =& Services::getService("TagManager");
+		$dates = array();
+		$dateStrings = array();
+		foreach ($this->_recordIDs as $id) {
+			$tags =& $tagManager->getTagDescriptors($id);
+			foreach (array_keys($tags) as $key) {
+				$date =& $tags[$key]->getDate();
+				$str = $date->toString();
+				if (!in_array($str, $dateStrings)) {
+					$dateStrings[] = $str;
+					$dates[] =& $date;
+				}
+			}
+		}
 		
+		return $dates;
 	}
 	
 	/**
@@ -229,7 +245,33 @@ class RecordSet {
 	 */
 	function revertToDate(&$date)
 	{
+		// this function goes through each Record, gets all the tags, and finds the one that has the closest tag
+		// date to $date, as long as the tag date is *before* $date.
+		// then, we activate that tag on the Record and commit it to the database
+		$tagManager =& Services::getService("TagManager");
 		
+		$this->fetchRecords(true); // get all our records read-write
+		
+		foreach (array_keys($this->_records) as $index) {
+			$tags =& $tagManager->fetchTags($this->_records[$index]->getID());
+			
+			$closest = null;
+			$separation = 0;
+			foreach (array_keys($tags) as $key) {
+				$tagDate =& $tags[$key]->getDate();
+				if (($sep = DateTime::compare($tagDate, $date)) <= 0 && $sep < $separation) {
+					$separation = $sep;
+					$closest =& $tags[$key];
+				}
+			}
+			
+			if ($closest) {
+				// we're going to activate the tag, then commit the Record
+				$this->_records[$index]->activateTag($closest);
+				$this->_records[$index]->commit();
+			}
+		}
+		return true;
 	}
 	
 }
