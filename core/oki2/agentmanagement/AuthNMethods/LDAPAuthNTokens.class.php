@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNTokens.class.php,v 1.2 2005/03/04 23:06:01 adamfranco Exp $
+ * @version $Id: LDAPAuthNTokens.class.php,v 1.3 2005/03/04 23:49:47 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNTokens.class.php,v 1.2 2005/03/04 23:06:01 adamfranco Exp $
+ * @version $Id: LDAPAuthNTokens.class.php,v 1.3 2005/03/04 23:49:47 adamfranco Exp $
  */
 class LDAPAuthNTokens
 	extends UsernamePasswordAuthNTokens
@@ -38,6 +38,11 @@ class LDAPAuthNTokens
 		parent::$par($configuration);
 		
 		$this->_connector =& $configuration->getProperty('connector');
+		
+		// Validate the configuration options we use:
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('login_fields'), 
+			new ArrayValidatorRuleWithRule(new StringValidatorRule));
 	}
 
 	/**
@@ -76,7 +81,6 @@ class LDAPAuthNTokens
 		// If we haven't found it, just leave it alone as it might be the DN 
 		// itself.
 		$this->_identifier = $tokens['username'];
-		print "\nWe didn't find a DN.\n";
 	}
 }
 

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.2 2005/03/04 23:06:01 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.3 2005/03/04 23:49:47 adamfranco Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.2 2005/03/04 23:06:01 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.3 2005/03/04 23:49:47 adamfranco Exp $
  */
 class LDAPConnector {
 		
@@ -36,21 +36,41 @@ class LDAPConnector {
 	var $_bind;
 	
 	/**
-	 * The DataContainer containing (really) the options for this method.
+	 * The configuration for this method.
 	 * @access private
-	 * @var object LDAPMethodOptions $_opt 
+	 * @var object Properties $_configuration 
 	 */ 
-	var $_opt;
+	var $_configuration;
 	
 	/**
 	 * The constructor.
-	 * @param ref object $options A {@link LDAPMethodOptions} data container with options for connection.
+	 * @param ref object $configuration A {@link Properties} Properties with configuration for connection.
 	 * @access public
 	 * @return void 
 	 **/
-	function LDAPConnector( &$options ) {
-		$options->checkAll();
-		$this->_opt =& $options;
+	function LDAPConnector( &$configuration ) {
+		$this->_configuration =& $configuration;
+		
+		// Validate the configuration options we use:
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('LDAPHost'),  
+			new FieldRequiredValidatorRule);
+			
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('LDAPPort'),  
+			new OptionalRule(new NumericValidatorRule));
+			
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('baseDN'), 
+			new FieldRequiredValidatorRule);
+		
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('bindDN'), 
+			new OptionalRule(new StringValidatorRule));
+			
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('bindDNPassword'),  
+			new OptionalRule(new StringValidatorRule));
 	}
 	
 	/**
@@ -85,8 +105,8 @@ class LDAPConnector {
 	 * @return void
 	 **/
 	function _bindForSearch() {
-		$dn = $this->_opt->get("bindDN");
-		$pass = $this->_opt->get("bindDNPassword");
+		$dn = $this->_configuration->getProperty("bindDN");
+		$pass = $this->_configuration->getProperty("bindDNPassword");
 		if ($dn && $dn != '') { // we don't *require* the passwd
 			$this->_bind($dn,$pass);
 		} else $this->_anonymousBind();
@@ -98,7 +118,7 @@ class LDAPConnector {
 	 * @return void 
 	 **/
 	function _connect() {
-		$this->_conn = ldap_connect($this->_opt->get("LDAPHost"),$this->_opt->get("LDAPPort")) or throwError(new Error("LDAPAuthenticationMethod::_connect() - could not connect to LDAP host <b>".$this->_opt->get("LDAPHost")."</b>!","LDAPAuthenticationMethod",true));
+		$this->_conn = ldap_connect($this->_configuration->getProperty("LDAPHost"),$this->_configuration->getProperty("LDAPPort")) or throwError(new Error("LDAPAuthenticationMethod::_connect() - could not connect to LDAP host <b>".$this->_configuration->getProperty("LDAPHost")."</b>!","LDAPAuthenticationMethod",true));
 	}
 	
 	/**
@@ -144,7 +164,7 @@ class LDAPConnector {
 		$this->_connect();
 		$this->_bindForSearch();
 		$sr = ldap_search($this->_conn,
-						$this->_opt->get("baseDN"),
+						$this->_configuration->getProperty("baseDN"),
 						$filter);
 		$dns = array();
 		$entry = ldap_first_entry($this->_conn, $sr);
@@ -167,7 +187,7 @@ class LDAPConnector {
 		$this->_connect();
 		$this->_bindForSearch();
 		$sr = ldap_search($this->_conn,
-						$this->_opt->get("baseDN"),
+						$this->_configuration->getProperty("baseDN"),
 						$dn,
 						array($uidField));
 		if (ldap_count_entries($this->_conn,$sr)) {

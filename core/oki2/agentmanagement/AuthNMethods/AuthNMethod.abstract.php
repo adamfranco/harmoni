@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.3 2005/03/04 22:22:45 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.4 2005/03/04 23:49:47 adamfranco Exp $
  */ 
 
 /**
@@ -32,7 +32,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.3 2005/03/04 22:22:45 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.4 2005/03/04 23:49:47 adamfranco Exp $
  */
 class AuthNMethod {
 	
@@ -45,6 +45,7 @@ class AuthNMethod {
 	 * @since 3/1/05
 	 */
 	function AuthNMethod ( &$configuration ) {
+		ArgumentValidator::validate ($configuration, new ExtendsValidatorRule("Properties"));
 		$this->_configuration =& $configuration;
 	}
 	
