@@ -7,7 +7,7 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: LDAPAuthenticationMethodTestCase.class.php,v 1.2 2003/06/30 20:40:42 adamfranco Exp $
+ * @version $Id: LDAPAuthenticationMethodTestCase.class.php,v 1.3 2003/06/30 20:54:23 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -32,8 +32,8 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
 			// bindDN can be blank or a username
 			// if it is a username, then searches can be done where that user has priveleges.
 			// an example of bindDB is "cn=afranco,cn=midd"
-//			$o->set("bindDN","cn=afranco,cn=midd");
-//			$o->set("bindDNPassword","testpassword");			
+			$o->set("bindDN","cn=fjones,cn=midd");
+			$o->set("bindDNPassword","lk87df");			
 			$o->set("usernameField","uid");
 			$o->set("agentInformationFields",array("fullname"=>"cn"
 													,"email"=>"mail",
@@ -54,38 +54,32 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPAuthenticationMethod.cla
 		/**
 		 *    First test Description
 		 */ 
+		 
+		function test_aaa_connect_disconnect() {
+			$this->assertFalse($this->m->_conn);
+			$this->m->_connect();
+			$this->assertTrue($this->m->_conn);
+			$this->m->_disconnect();
+			$this->assertFalse($this->m->_conn);
+		}
+		
 		function test_agent_exists() {
 			$this->assertFalse($this->m->agentExists("blablastupid"));
 			$this->assertTrue($this->m->agentExists("afranco"));
 		}
+		
 		function test_authenticate() {
-			$this->assertFalse($this->m->_connected);
-			$this->assertTrue($this->m->authenticate("afranco","afrancopassword"));
-			$this->assertFalse($this->m->_connected);
-			$this->assertTrue($this->m->authenticate("jdoe","jdoepassword"));
-			$this->assertFalse($this->m->authenticate("gschine","notthepasswd"));
+			$this->assertFalse($this->m->_conn);
+			$this->assertTrue($this->m->authenticate("afranco",""));
+			$this->assertFalse($this->m->_conn);
 		}
+		
 		function test_getagentinfo() {
-			$this->o->set("agentInformationFields",array("email"=>"user_email"
-													,"firstname"=>"user_fname",
-													"lastname"=>"user_lname"));
-			$a = $this->m->getAgentInformation("gschine");
+			$a = $this->m->getAgentInformation("afranco");
+			print_r($a);
 			$this->assertEqual(count($a),3);
-			$this->assertEqual($a['email'],"gschine@email.net");
-			$this->assertEqual($a['firstname'],"Gabriel");
-			$this->assertEqual($a['lastname'],'Schine');
-		}
-		function test_encrypted_passwd() {
-			// we are only testing Database-driven MD5 encryption here.
-			// the other two types supported: Database-driven SHA1 and
-			// system-driven crypt() are not being tested.
-			$this->o->set("passwordFieldEncrypted",true);
-			$this->o->set("tableName","usermd5");
-			$this->o->set("passwordFieldEncryptionType","databaseMD5");
-			$this->m->_connect();
-			var_dump($this->m->_getEncryptedPassword("gschine","pass"));
-			$this->assertTrue($this->m->authenticate("gschine","gschinepassword"));
-			$this->assertFalse($this->m->authenticate("afranco","weewee"));
+			$this->assertEqual($a['email'],"afranco@middlebury.edu");
+			$this->assertEqual($a['fullname'],"Franco, Adam");
 		}
 		
     }

@@ -6,7 +6,7 @@ require_once(HARMONI."authenticationHandler/methods/LDAPMethodOptions.class.php"
 /**
  * Does authentication procedures with an LDAP server.
  *
- * @version $Id: LDAPAuthenticationMethod.class.php,v 1.5 2003/06/30 20:40:41 adamfranco Exp $
+ * @version $Id: LDAPAuthenticationMethod.class.php,v 1.6 2003/06/30 20:54:22 adamfranco Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -165,7 +165,8 @@ class LDAPAuthenticationMethod extends AuthenticationMethod {
 	 * @return void 
 	 **/
 	function _disconnect() {
-		// don't do anything -- we want to keep the connection open.
+		ldap_close($this->_conn);
+		$this->_conn = NULL;
 	}
 	
 	/**
