@@ -6,7 +6,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * Responsible for the synchronization of {@link Schema} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: SchemaManager.class.php,v 1.3 2004/08/10 19:15:56 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.4 2004/08/10 19:17:59 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -405,7 +405,7 @@ class SchemaManager
 			
 			// if the field exists in the old but not in the new, flag it for deletion.
 			if ($old->fieldExists($label) && !$new->fieldExists($label)) {
-				$field =& $oldDef->getField($label);
+				$field =& $old->getField($label);
 				$field->delete();
 				
 				debug::output("Label '$label' flagged for deletion from database.",DEBUG_SYS5,"DataManager");
