@@ -1,9 +1,10 @@
 <?php
 
+require_once('OrderedList.interface.php');
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: OrderedList.class.php,v 1.1 2003/07/04 00:52:39 movsjani Exp $
+ * @version $Id: OrderedList.class.php,v 1.2 2003/07/04 02:13:15 movsjani Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -46,7 +47,7 @@ class OrderedList extends OrderedListInterface {
 		if(!isset($this->_list[$key]))
 			return false;
 
-		else return(& $this->_list[$key]);
+		else return ($this->_list[$key]);
 	}
 
 	/**
@@ -79,6 +80,19 @@ class OrderedList extends OrderedListInterface {
 	}
 
 	/**
+     * Tell whether an element with a given reference exists in the list.
+	 * @param string $key The primary key of the object to check.
+	 * @return boolean True if the reference exists, false otherwise.
+	 * @access public
+	 */
+	function exists($key) { 
+		if(isset($this->_list[$key]))
+			return true;
+		else
+			return false;
+	}
+
+	/**
      * Swap two elements in the list.
 	 * @param string $key1 The primary key of first object to swap the position of.
 	 * @param string $key2 The primary key of second object to swap the position of.
@@ -91,16 +105,14 @@ class OrderedList extends OrderedListInterface {
 		   return false;
 
 		$tempArray = array();
-		$object1 =& $this->_list[$key1];
-		$object2 =& $this->_list[$key1];
 		   
 		foreach ($this->_list as $key=>$value) {
 			if (($key!=$key1) && ($key!=$key2))
-				$tempArray[] =& $this->_list[$key];
+				$tempArray[$key] =& $this->_list[$key];
 			elseif ($key==$key1)
-				$tempArray[] =& $object2;
+				$tempArray[$key2] =& $this->_list[$key2];
 			else
-				$tempArray[] =& $object1;
+				$tempArray[$key1] =& $this->_list[$key1];
 		}
 		   
 		$this->_list = $tempArray;
@@ -141,7 +153,7 @@ class OrderedList extends OrderedListInterface {
 	function moveDown($key) { 
 		$key1 = $key;
 		foreach ($this->_list as $key=>$value) {
-			if ($keyOld == $key){
+			if ($keyOld == $key1){
 				$this->swap($key,$keyOld);
 				return true;
 			}		
@@ -161,20 +173,23 @@ class OrderedList extends OrderedListInterface {
 	 */
 
 	function putBefore($source,$destination) { 
-		if ((!isset($this->_list[$source])) || (!(($destination!=="list_end") && (isset($this->_list[$destination])))))
+		/* See if both source and destintion are set or source is set and destination==list_end */
+		if ((!isset($this->_list[$source])) || (($destination!=="list_end") && (!isset($this->_list[$destination])))){
 			return false;
+		}
 
 		$tempArray = array();
 		foreach ($this->_list as $key=>$value) {
 			if ($key==$destination)
-				$tempArray[] =& $this->_list[$source];
+				$tempArray[$source] =& $this->_list[$source];
 			if ($key!=$source)
-				$tempArray[] =& $this->_list[$key];
+				$tempArray[$key] =& $this->_list[$key];
 		}
 		
 		if ($destination==="list_end")
-			$tempArray[] =& $this->_list[$source];
+			$tempArray[$source] =& $this->_list[$source];
 
+		$this->_list = $tempArray;
 		reset($this->_list);
 		return true;
 	}
@@ -187,7 +202,7 @@ class OrderedList extends OrderedListInterface {
 	function &next() { 
 		$key = key($this->_list);
 		next($this->_list);
-		return &$this->_list[$key];
+		return $this->_list[$key];
 	}
 
 	/**

@@ -3,7 +3,7 @@
 /**
  * A generic queue of objects. It provides iterator functions next() and hasNext().
  *
- * @version $Id: OrderedList.interface.php,v 1.1 2003/07/04 00:52:39 movsjani Exp $
+ * @version $Id: OrderedList.interface.php,v 1.2 2003/07/04 02:13:15 movsjani Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -41,7 +41,14 @@ class OrderedListInterface {
 	 * @access public
 	 */
 	function delete($key) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
-
+	
+	/**
+     * Tell whether an element with a given reference exists in the list.
+	 * @param string $key The primary key of the object to check.
+	 * @return boolean True if the reference exists, false otherwise.
+	 * @access public
+	 */
+	function exists($key) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	/**
      * Swap two elements in the list.
 	 * @param string $key1 The primary key of first object to swap the position of.
