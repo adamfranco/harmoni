@@ -6,7 +6,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.interface.php");
  * This is the building piece of the Tree data structure used for the backbone of the
  * hierarchy.
  * @access public
- * @version $Id: TreeNode.class.php,v 1.5 2004/06/01 18:28:44 dobomode Exp $
+ * @version $Id: TreeNode.class.php,v 1.6 2004/06/09 19:26:27 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -62,10 +62,10 @@ class TreeNode extends TreeNodeInterface
 	/**
 	 * Returns true if this TreeNode is among the children of the given node.
 	 * @access public
-	 * @param objcet node The node to start recursing from.
+	 * @param object node The node to start recursing from.
 	 * @return boolean True, if this TreeNode is among the children of <code>$node</code>.
 	 **/
-	function _checkForCycle(& $node) {
+	function isDescendantOf(& $node) {
 		// base case
 		if ($this->_id == $node->_id)
 			return true;
@@ -73,7 +73,7 @@ class TreeNode extends TreeNodeInterface
 		else
 			foreach (array_keys($node->_children) as $i => $key)
 				// recurse down
-				if ($this->_checkForCycle($node->_children[$key]))
+				if ($this->isDescendantOf($node->_children[$key]))
 					return true;
 		
 		return false;
@@ -109,9 +109,10 @@ class TreeNode extends TreeNodeInterface
 		// **********************************************************
 		// NB: hmmm, it this check going to slow down things a lot???
 		// **********************************************************
-		if ($this->_checkForCycle($child)) {
+		if ($this->isDescendantOf($child)) {
 			$str = "Adding this node would result in a cycle!";
 			throwError(new Error($str, "Hierarchy", true));
+			return;
 		}
 
 		// see if $this is among any of $child's children.

@@ -3,7 +3,7 @@
 /** 
  * The interface for the Tree data structure used by the Hierarchy.
  * @access public
- * @version $Id: Tree.interface.php,v 1.2 2004/06/01 00:05:58 dobomode Exp $
+ * @version $Id: Tree.interface.php,v 1.3 2004/06/09 19:26:27 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -102,18 +102,7 @@ class TreeInterface {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
-	
-	/**
-	 * Returns an array of all root nodes (i.e., all nodes that don't have
-	 * parents) in no particular order.
-	 * @method public getRoot
-	 * @return ref array The root nodes.
-	 */
-	function & getRoots() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
 
-	
 	/**
 	 * Simply returns all nodes of this hierarchy in an array in no particular
 	 * order.

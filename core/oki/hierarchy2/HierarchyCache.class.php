@@ -25,7 +25,7 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
  * 
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
- * @version $Id: HierarchyCache.class.php,v 1.6 2004/06/03 15:46:17 dobomode Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.7 2004/06/09 19:26:27 dobomode Exp $
  * @package harmoni.osid.hierarchy2
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -148,8 +148,14 @@ class HierarchyCache {
 	 * levels have been cached down.
 	 **/
 	function _isCachedDown($idValue, $levels) {
+		// ** parameter validation
+		ArgumentValidator::validate($idValue, new StringValidatorRule(), true);
+		ArgumentValidator::validate($levels, new IntegerValidatorRule(), true);
+		// ** end of parameter validation
+
 		if (isset($this->_cache[$idValue]))
-			return ($this->_cache[$idValue][1] >= $levels) || ($this->_cache[$idValue][1] < 0);
+			return (($this->_cache[$idValue][1] >= $levels) && ($levels >= 0)) || 
+				   ($this->_cache[$idValue][1] < 0);
 		else
 			return false;
 	}
@@ -172,7 +178,8 @@ class HierarchyCache {
 		// ** end of parameter validation
 
 		if (isset($this->_cache[$idValue]))
-			return ($this->_cache[$idValue][2] >= $levels) || ($this->_cache[$idValue][2] < 0);
+			return (($this->_cache[$idValue][2] >= $levels)  && ($levels >= 0)) || 
+			       ($this->_cache[$idValue][2] < 0);
 		else
 			return false;
 	}
@@ -211,6 +218,7 @@ class HierarchyCache {
 		// i.e. will help to detect that $parent is not already a parent of $child
 		$parent->getChildren();
 		$child->getParents();
+		$this->traverse($child->getId(), true, -1); // traverse fully down in order to detect cycles
 		
 		// IMPORTANT SPECIAL CASES:
 
@@ -241,7 +249,7 @@ class HierarchyCache {
 		
 		// 1) update the cache
 		$parentTreeNode =& $this->_tree->getNode($parentIdValue);
-		$childTreeNode =& $this->_tree->getNode($childIdValue); 
+		$childTreeNode =& $this->_tree->getNode($childIdValue);
 		$this->_tree->addNode($childTreeNode, $parentTreeNode);
 
 		// 2) update the database
@@ -730,7 +738,7 @@ class HierarchyCache {
 		
 		// get the id value
 		$idValue = $id->getIdString();
-		
+
 		// see if the nodes have already been cached, if so
 		// there is no need to access the database, but if not,
 		// then hell yeah, we gotta access the database.

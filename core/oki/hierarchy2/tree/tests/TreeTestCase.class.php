@@ -7,7 +7,7 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: TreeTestCase.class.php,v 1.2 2004/06/01 00:05:58 dobomode Exp $
+ * @version $Id: TreeTestCase.class.php,v 1.3 2004/06/09 19:26:27 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -44,7 +44,6 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 			$this->assertNotNull($tree);
 			
 			$this->assertIdentical($tree->getSize(), 0);
-			$this->assertIdentical($tree->getRoots(), array());
 			
 			// create two root nodes
 			$node1 =& new TreeNode('1');
@@ -55,8 +54,6 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 			$this->assertTrue(is_a($node1, "TreeNodeInterface"));
 			$this->assertTrue(is_a($node2, "TreeNodeInterface"));
 			$this->assertIdentical($tree->getSize(), 2);
-			$this->assertIdentical($tree->getRoots(), array('1' => $node1, '2' => $node2));
-			$this->assertIdentical($tree->getNodes(), array('1' => $node1, '2' => $node2));
 			$this->assertReference($tree->getNode('1'), $node1);
 			$this->assertReference($tree->getNode('2'), $node2);
 			
@@ -69,10 +66,6 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 			$tree->addNode($node5, $node3);
 			$this->assertIdentical($tree->getSize(), 5);
 
-			$roots =& $tree->getRoots();
-			$this->assertReference($roots['1'], $node1);
-			$this->assertReference($roots['2'], $node2);
-			
 			$nodes =& $tree->getNodes();
 
 			$this->assertReference($nodes['1'], $node1);
@@ -262,14 +255,6 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 			$this->assertIdentical($resultFromObject['D'][1], -2);
 			$this->assertIdentical($resultFromObject['E'][1], -2);
 			
-			// test getRoots()
-			$roots =& $tree->getRoots();
-			$this->assertIdentical(count($roots), 4);
-			$this->assertReference($roots['A'], $nodeA);
-			$this->assertReference($roots['B'], $nodeB);
-			$this->assertReference($roots['C'], $nodeC);
-			$this->assertReference($roots['D'], $nodeD);
-			
 			// now make A and C non-roots
 			// the new tree will be
 			//
@@ -288,11 +273,6 @@ require_once(HARMONI."oki/hierarchy2/tree/Tree.class.php");
 			$tree->addNode($nodeJ);
 			$tree->addNode($nodeC, $nodeJ);
 			
-			$roots =& $tree->getRoots();
-			$this->assertIdentical(count($roots), 3);
-			$this->assertReference($roots['A'], $nodeA);
-			$this->assertReference($roots['B'], $nodeB);
-			$this->assertReference($roots['J'], $nodeJ);
 		}
 		
 		

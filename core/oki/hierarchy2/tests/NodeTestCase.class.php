@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: NodeTestCase.class.php,v 1.5 2004/06/02 22:57:43 dobomode Exp $
+ * @version $Id: NodeTestCase.class.php,v 1.6 2004/06/09 19:26:27 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -79,7 +79,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
 			
 			$parent =& $parents->next();
 			$type =& new HarmoniType("harmoni", "hierarchy", "generic_node");
-			$parent1 =& new HarmoniNode(new HarmoniId('5'), $type, "E", "blah", $parent->_cache);
+			$parent1 =& new HarmoniNode(new HarmoniId('5'), $type, "E", "", $parent->_cache);
 									   
 			$this->assertEqual($parent->_id, $parent1->_id);
 			$this->assertEqual($parent->_type, $parent1->_type);
@@ -103,7 +103,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
 			
 			$parent =& $parents->next();
 			$type =& new HarmoniType("harmoni", "hierarchy", "generic_node");
-			$parent1 =& new HarmoniNode(new HarmoniId('5'), $type, "E", "blah", $parent->_cache);
+			$parent1 =& new HarmoniNode(new HarmoniId('5'), $type, "E", "", $parent->_cache);
 									   
 			$this->assertEqual($parent->_id, $parent1->_id);
 			$this->assertEqual($parent->_type, $parent1->_type);
@@ -158,7 +158,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
 			$this->assertIsA($children, "HarmoniNodeIterator");
 			$child =& $children->next();
 			$type =& new HarmoniType("harmoni", "hierarchy", "generic_node");
-			$child1 =& new HarmoniNode(new HarmoniId('5'), $type, "E", "blah", $child->_cache);
+			$child1 =& new HarmoniNode(new HarmoniId('5'), $type, "E", "", $child->_cache);
 									   
 			$this->assertEqual($child->_id, $child1->_id);
 			$this->assertEqual($child->_type, $child1->_type);
@@ -173,7 +173,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniNode.class.php');
 			$this->assertIsA($children, "HarmoniNodeIterator");
 			$child =& $children->next();
 			$type =& new HarmoniType("harmoni", "hierarchy", "generic_node");
-			$child1 =& new HarmoniNode(new HarmoniId('5'), $type, "E", "blah", $child->_cache);
+			$child1 =& new HarmoniNode(new HarmoniId('5'), $type, "E", "", $child->_cache);
 									   
 			$this->assertEqual($child->_id, $child1->_id);
 			$this->assertEqual($child->_type, $child1->_type);
