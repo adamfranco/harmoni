@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.19 2005/04/05 18:53:16 adamfranco Exp $
+ * @version $Id: GUIManager.class.php,v 1.20 2005/04/05 19:35:32 adamfranco Exp $
  */
 class GUIManager 
 	extends GUIManagerAbstract 
@@ -76,18 +76,17 @@ class GUIManager
 		
 		$dbIndex =& $configuration->getProperty('database_index');
 		$dbName =& $configuration->getProperty('database_name');
+		$theme =& $configuration->getProperty('default_theme');
 		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
-		ArgumentValidator::validate($dbName, StringValidatorRule::getRule(), true);		
+		ArgumentValidator::validate($dbName, StringValidatorRule::getRule(), true);	
+		ArgumentValidator::validate($theme, ExtendsValidatorRule::getRule("ThemeInterface"), true);		
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
 		$this->_guiDB = $dbName;
-		
-		if ($theme =& $configuration->getProperty('default_theme')) {
-			$this->setTheme($theme);
-		}
+		$this->setTheme($theme);
 	}
 
 	/**
