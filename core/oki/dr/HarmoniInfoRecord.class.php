@@ -12,8 +12,8 @@ class HarmoniInfoRecord extends InfoRecord
 //	extends java.io.Serializable
 {
 	
-	var $_infoStructure;
 	var $_dataSet;
+	var $_infoStructure;
 	
 	var $_createdInfoFields;
 	
