@@ -1,9 +1,11 @@
 <?php
 
+require_once (dirname(__FILE__)."/FieldSetValidator.class.php");
+
 /**
  * the ReferencedFieldSet holds a set of key=value pairs of data, where the value is passed by reference
  *
- * @version $Id: ReferencedFieldSet.class.php,v 1.1 2004/06/21 19:26:19 gabeschine Exp $
+ * @version $Id: ReferencedFieldSet.class.php,v 1.2 2004/06/25 21:32:45 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.utilities.fieldsetvalidator
  **/

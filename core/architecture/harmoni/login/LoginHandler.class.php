@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.13 2004/06/25 16:33:44 adamfranco Exp $
+ * @version $Id: LoginHandler.class.php,v 1.14 2004/06/25 21:32:41 adamfranco Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -143,23 +143,27 @@ class LoginHandler {
 		
 		//---------------
 		// Collect any auth tokens from the browser.
-		$function = $this->_collectionCallbackFunction;
+		$collectionFunction = $this->_collectionCallbackFunction;
 		
 		debug::output("Executing Collection callback function",8,"LoginHandler");
 		
-		$result = $function($this->_harmoni);
+		$result = $collectionFunction($this->_harmoni);
 		
 		
 		//---------------
 		// If we don't have tokens and we need them (AuthReq action, forceAuthCheck, etc), prompt for login
 		if ( !$result && ($this->actionRequiresAuthentication($this->_harmoni->getCurrentAction()) || $forceAuthCheck)) {
-			$function = $this->_promptCallbackFunction;
+			$promptFunction = $this->_promptCallbackFunction;
 			
 			debug::output("Executing Prompt callback function",8,"LoginHandler");
 			
-			$function($this->_harmoni);
+			$promptFunction($this->_harmoni);
+			
+			// Try grabbing the result incase the prompt function hasn't
+			// halted the execution of this method.
+			$result = $collectionFunction($this->_harmoni);
 		
-		
+
 		//---------------
 		// Otherwise (if we don't have and don't need tokens) return the current state.
 		} else if (!$result) {
@@ -224,10 +228,14 @@ class LoginHandler {
 			}
 		
 		
-		// If we don't have tokens at this point, there is a setup problem.
+		// If we don't have tokens at this point, it is because the user was
+		// prompted, but didn't submit any tokens.
 		} else {
-			throwError(new Error("LoginHandler::execute() - Could not proceed. 
-				There is a configuration problem. No callback function is defined.","Login",true));
+// 			$this->_harmoni->setCurrentAction($this->_failedLoginAction);
+// 			printpre($this->_harmoni->ActionHandler->executePair();
+ 			throwError(new Error("LoginHandler::execute() - Could not proceed. 
+ 				it is probably because the user was prompted, but didn't submit 
+ 				any tokens.","Login",true));
 		}
 	}
 	
