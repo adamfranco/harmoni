@@ -11,7 +11,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.16 2005/01/19 23:22:58 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.17 2005/03/09 19:38:17 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.mysql
  * @access public
@@ -431,8 +431,73 @@ class MySQLDatabase extends DatabaseInterface {
 		 	return new DateTime($r[1]);
 	}
 	
-
-
+	/**
+	 * Return TRUE if this database supports transactions.
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function supportsTransactions () {
+		if ($this->_supportsTransactions === NULL) {
+			$versionString = mysql_get_server_info($this->_linkId);
+			if(!preg_match("^([0-9]+).([0-9]+).([0-9]+)", $versionString, $matches))
+				$this->_supportsTransactions = FALSE;
+			else {
+				$primaryVersion = $matches[1];
+				$secondaryVersion = $matches[2];
+				$terciaryVersion = $matches[3];
+				
+				if ($primaryVersion >= 4
+					&& ($secondaryVersion > 0
+						|| $terciaryVersion >= 11))
+				{
+					$this->_supportsTransactions = TRUE;
+				} else {
+					$this->_supportsTransactions = FALSE;
+				}
+			}
+		}
+		
+		return $this->_supportsTransactions;
+	}
+	
+	/**
+	 * Begin a transaction.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function beginTransaction () {
+		$this->_query("START TRANSACTION");
+	}
+	
+	/**
+	 * Commit a transaction. This will roll-back changes if errors occured in the
+	 * transaction block.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function commitTransaction () {
+		if (mysql_error($this->_linkId))
+			$this->rollbackTransaction();
+		else
+			$this->_query("COMMIT");
+	}
+	
+	/**
+	 * Roll-back a transaction manually instead of committing
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function rollbackTransaction () {
+		$this->_query("ROLLBACK");
+	}
 }
 
 ?>

@@ -4,7 +4,7 @@
  * A Database interface provides generic database functionality: connect(), executeQuery(), etc.
  * A Database interface provides generic database functionality: connect(), executeQuery(), etc.
  * The interface can be implemented for different types of databases: MySQL, Oracle, SQLServer, etc.
- * @version $Id: Database.interface.php,v 1.4 2005/01/19 23:21:34 adamfranco Exp $
+ * @version $Id: Database.interface.php,v 1.5 2005/03/09 19:37:28 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -116,7 +116,50 @@ class DatabaseInterface {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
+	/**
+	 * Return TRUE if this database supports transactions.
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function supportsTransactions () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
 	
+	/**
+	 * Begin a transaction.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function beginTransaction () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
+	 * Commit a transaction. This will roll-back changes if errors occured in the
+	 * transaction block.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function commitTransaction () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
+	 * Roll-back a transaction manually instead of committing
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function rollbackTransaction () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
 }
 
 ?>

@@ -11,7 +11,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 /**
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * @version $Id: PostGreDatabase.class.php,v 1.6 2005/01/19 23:22:59 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.7 2005/03/09 19:38:17 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.postgre
  * @access public
@@ -462,7 +462,50 @@ class PostGreDatabase extends DatabaseInterface {
 		 	return new DateTime($r[3],$r[2],$r[1],$r[4],$r[5],$r[6]); // German
 	}
 	
+	/**
+	 * Return TRUE if this database supports transactions.
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function supportsTransactions () {
+		return TRUE;
+	}
 	
+	/**
+	 * Begin a transaction.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function beginTransaction () {
+		$this->_query("BEGIN");
+	}
+	
+	/**
+	 * Commit a transaction. This will roll-back changes if errors occured in the
+	 * transaction block.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function commitTransaction () {
+		$this->_query("COMMIT");
+	}
+	
+	/**
+	 * Roll-back a transaction manually instead of committing
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function rollbackTransaction () {
+		$this->_query("ROLLBACK");
+	}
 }
 
 ?>

@@ -20,7 +20,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.11 2005/01/19 23:21:34 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.12 2005/03/09 19:37:28 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
@@ -129,16 +129,9 @@ class DBHandler extends DBHandlerInterface {
 	function &query(& $query, $dbIndex=0) {
 		// ** parameter validation
 		$queryRule =& new ExtendsValidatorRule("QueryInterface");
-		$integerRule =& new IntegerValidatorRule();
 		ArgumentValidator::validate($query, $queryRule, true);
-		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
-
-		// check that the index is valid
-		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", true));
-			return false;
-		}
 		
 		// run the query on the appropriate database.
 		$result =& $this->_databases[$dbIndex]->query($query);
@@ -157,16 +150,9 @@ class DBHandler extends DBHandlerInterface {
 	function &queryQueue(& $queue, $dbIndex=0) {
 		// ** parameter validation
 		$queueRule =& new ExtendsValidatorRule("Queue");
-		$integerRule =& new IntegerValidatorRule();
 		ArgumentValidator::validate($queue, $queueRule, true);
-		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
-
-		// check that the index is valid
-		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", true));
-			return false;
-		}
 
 		$resultQueue =& new Queue();
 		while ($queue->hasNext()) {
@@ -229,15 +215,8 @@ class DBHandler extends DBHandlerInterface {
 	 */
 	function connect($dbIndex = 0) {
 		// ** parameter validation
-		$integerRule =& new IntegerValidatorRule();
-		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
-
-		// check that the index is valid
-		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", true));
-			return false;
-		}
 		
 		// attempt to connect to the specified database
 		$result = $this->_databases[$dbIndex]->connect();
@@ -256,15 +235,8 @@ class DBHandler extends DBHandlerInterface {
 	 */
 	function pConnect($dbIndex = 0) {
 		// ** parameter validation
-		$integerRule =& new IntegerValidatorRule();
-		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
-
-		// check that the index is valid
-		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", true));
-			return false;
-		}
 			
 		// attempt to connect to the specified database
 		$result = $this->_databases[$dbIndex]->pConnect();
@@ -283,15 +255,8 @@ class DBHandler extends DBHandlerInterface {
 	 */
 	function disconnect($dbIndex = 0) {
 		// ** parameter validation
-		$integerRule =& new IntegerValidatorRule();
-		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
-
-		// check that the index is valid
-		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", true));
-			return false;
-		}
 			
 		// attempt to disconnect from the specified database
 		$result = $this->_databases[$dbIndex]->disconnect();
@@ -311,15 +276,8 @@ class DBHandler extends DBHandlerInterface {
 	 */
 	function isConnected($dbIndex = 0) {
 		// ** parameter validation
-		$integerRule =& new IntegerValidatorRule();
-		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
-
-		// check that the index is valid
-		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", true));
-			return false;
-		}
 			
 		// see if the specified database is connected
 		$isConnected = $this->_databases[$dbIndex]->isConnected();
@@ -340,17 +298,10 @@ class DBHandler extends DBHandlerInterface {
 	 */
 	function toDBDate(& $dateTime, $dbIndex = 0) {
 		// ** parameter validation
-		$integerRule =& new IntegerValidatorRule();
 		$extendsRule =& new ExtendsValidatorRule("DateTime");
-		ArgumentValidator::validate($dbIndex, $integerRule, true);
 		ArgumentValidator::validate($dateTime, $extendsRule, true);
+		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
-
-		// check that the index is valid
-		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", true));
-			return false;
-		}
 			
 		return $this->_databases[$dbIndex]->toDBDate($dateTime);
 	}
@@ -367,19 +318,73 @@ class DBHandler extends DBHandlerInterface {
 	 */
 	function &fromDBDate($value, $dbIndex = 0) {
 		// ** parameter validation
-		$integerRule =& new IntegerValidatorRule();
-		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
-		
-		// check that the index is valid
-		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", true));
-			return false;
-		}
 		
 		return $this->_databases[$dbIndex]->fromDBDate($value);
 	}
 	
+		
+	/**
+	 * Return TRUE if this database supports transactions.
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function supportsTransactions ( $dbIndex = 0 ) {
+		// ** parameter validation
+		$this->_validateDBIndex($dbIndex);
+		// ** end of parameter validation
+		
+		return $this->_databases[$dbIndex]->supportsTransactions();
+	}
+	
+	/**
+	 * Begin a transaction.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function beginTransaction ( $dbIndex = 0 ) {
+		// ** parameter validation
+		$this->_validateDBIndex($dbIndex);
+		// ** end of parameter validation
+		
+		$this->_databases[$dbIndex]->beginTransaction();
+	}
+	
+	/**
+	 * Commit a transaction. This will roll-back changes if errors occured in the
+	 * transaction block.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function commitTransaction ( $dbIndex = 0 ) {
+		// ** parameter validation
+		$this->_validateDBIndex($dbIndex);
+		// ** end of parameter validation
+		
+		$this->_databases[$dbIndex]->commitTransaction();
+	}
+	
+	/**
+	 * Roll-back a transaction manually instead of committing
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function rollbackTransaction ( $dbIndex = 0 ) {
+		// ** parameter validation
+		$this->_validateDBIndex($dbIndex);
+		// ** end of parameter validation
+		
+		$this->_databases[$dbIndex]->rollbackTransaction();
+	}
 
 	/**
 	 * The start function is called when a service is created. Services may
@@ -401,6 +406,24 @@ class DBHandler extends DBHandlerInterface {
 	function stop() {
 	}
 	
-	
+	/**
+	 * Private method for validating the dbIndex passed.
+	 * 
+	 * @param integer $dbIndex
+	 * @return void
+	 * @access private
+	 * @since 3/9/05
+	 */
+	function _validateDBIndex ($dbIndex) {
+		// ** parameter validation
+		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
+		// ** end of parameter validation
+		
+		// check that the index is valid
+		if (!is_object($this->_databases[$dbIndex])) {
+			throwError(new Error("Invalid database index.", "DBHandler", true));
+			return false;
+		}
+	}
 }
 ?>

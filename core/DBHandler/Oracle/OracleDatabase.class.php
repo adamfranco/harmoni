@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
 /**
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
- * @version $Id: OracleDatabase.class.php,v 1.5 2005/01/19 23:22:59 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.6 2005/03/09 19:38:17 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.oracle
  * @access public
@@ -428,8 +428,50 @@ class OracleDatabase extends DatabaseInterface {
 		 */
 	}
 	
-
-
+	/**
+	 * Return TRUE if this database supports transactions.
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function supportsTransactions () {
+		return TRUE;
+	}
+	
+	/**
+	 * Begin a transaction.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function beginTransaction () {
+		$this->_query("BEGIN");
+	}
+	
+	/**
+	 * Commit a transaction. This will roll-back changes if errors occured in the
+	 * transaction block.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function commitTransaction () {
+		$this->_query("COMMIT");
+	}
+	
+	/**
+	 * Roll-back a transaction manually instead of committing
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function rollbackTransaction () {
+		$this->_query("ROLLBACK");
+	}
 }
 
 ?>
