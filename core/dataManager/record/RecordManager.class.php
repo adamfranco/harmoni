@@ -7,7 +7,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
 /**
  * The RecordManager handles the creation, tagging and fetching of {@link Record}s from the database.
  * @package harmoni.datamanager
- * @version $Id: RecordManager.class.php,v 1.6 2004/08/26 15:10:31 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.7 2004/08/27 18:11:29 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -229,7 +229,7 @@ class RecordManager extends ServiceInterface {
 			
 			$dbHandler =& Services::getService("DBHandler");
 			
-			//print "<PRE>" . MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
+//			print "<PRE>" . MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
 			
 			$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 			
@@ -355,7 +355,11 @@ class RecordManager extends ServiceInterface {
 		// this function sets up the selectquery to include all the necessary tables
 		$query->addTable("dm_record");
 		if ($mode > RECORD_NODATA) {
-			$query->addTable("dm_record_field",LEFT_JOIN,"dm_record_field.fk_record=dm_record.id");
+			if ($mode < RECORD_FULL) {
+				$query->addTable("dm_record_field",LEFT_JOIN,"(dm_record_field.fk_record=dm_record.id AND dm_record_field.active=1)");
+			} else {
+				$query->addTable("dm_record_field",LEFT_JOIN,"dm_record_field.fk_record=dm_record.id");
+			}
 			$query->addTable("dm_schema_field",LEFT_JOIN,"dm_record_field.fk_schema_field=dm_schema_field.id");
 		
 			$dataTypeManager =& Services::getService("DataTypeManager");
@@ -375,10 +379,6 @@ class RecordManager extends ServiceInterface {
 			/* dm_schema_field table */
 			$query->addColumn("id","schema_field_id","dm_schema_field");
 			$query->addColumn("label","schema_field_label","dm_schema_field");
-			
-			if ($mode < RECORD_FULL) {
-				$query->addWhere("(dm_record_field.active=1 OR dm_record_field.active IS NULL)");
-			}
 		}
 		
 		/* dm_record table */
