@@ -89,6 +89,15 @@ class HarmoniInfoField extends InfoField
 	 * @package osid.dr
 	 */
 	function updateValue(& $value) {
+		// Get the type for the field.
+		$fieldValuesObj =& $this->_valueVersions->getFieldValues();
+		$fieldDef =& $fieldValuesObj->getFieldDefinition();
+		$fieldType =& $fieldDef->getType();
+		
+		// Create a valueObj for this value
+		$class = $fieldType."DataType";
+		$valueObj =& new $class($value);
+	
 		$this->_valueVersions->setValue($value);
 	}
 	// :: full java declaration :: public void updateValue(java.io.Serializable value)

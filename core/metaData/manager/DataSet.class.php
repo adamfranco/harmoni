@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.29 2004/01/22 21:06:38 adamfranco Exp $
+* @version $Id: DataSet.class.php,v 1.30 2004/01/27 21:47:54 adamfranco Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -201,6 +201,15 @@ class CompactDataSet {
 	function isActive() {
 		return $this->_active;
 	}
+	
+	/**
+	 * Returns the database ID used by the DataSet.
+	 * @return integer
+	 */
+	function getDatabaseId() {
+		return $this->_dbID;
+	}
+	
 }
 
 
@@ -208,7 +217,7 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.29 2004/01/22 21:06:38 adamfranco Exp $
+* @version $Id: DataSet.class.php,v 1.30 2004/01/27 21:47:54 adamfranco Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {

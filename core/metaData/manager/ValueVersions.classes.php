@@ -10,7 +10,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a DataSet.
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.25 2004/01/26 16:17:26 adamfranco Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.26 2004/01/27 21:48:01 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -146,7 +146,7 @@ class ValueVersions {
 	function setValue(&$value) {
 		// if we're version controlled, we're adding a new version
 		// otherwise, we're just setting the existing (or only active) one.
-		if ($this->_parent->_parent->isVersionControlled()) {
+		if ($this->_parent->_parent->isVersionControlled()) {		// @todo This is referencing another object's private variables. Bad!! Fix this!
 			// we're going to add a new version
 			// which means, we add a new VersionValue with a *clone*
 			// of the value, so that it gets added to the DB.
@@ -336,13 +336,21 @@ class ValueVersions {
 		
 		return $newObj;
 	}
+	
+	/**
+	 * Returns the FieldValues object that is the current object is a part of.
+	 * @return ref object FieldValues The parent FieldValues object
+	 */
+	function getFieldValues() {
+		return $this->_parent;
+	}
 }
 
 /**
  * Holds information about a specific version of a value index of a field in a DataSet. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object. 
  * @package harmoni.datamanager
- * @version $Id: ValueVersions.classes.php,v 1.25 2004/01/26 16:17:26 adamfranco Exp $
+ * @version $Id: ValueVersions.classes.php,v 1.26 2004/01/27 21:48:01 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -425,7 +433,9 @@ class ValueVersion {
 	 */
 	function populate( &$row ) {
 		$dbHandler =& Services::getService("DBHandler");
-		$dbID = $this->_parent->_parent->_parent->_dbID;
+		$fieldValues =& $this->_parent->getFieldValues();
+		$dataSet =& $fieldValues->getDataSet();
+		$dbID = $dataSet->getDatabaseId();
 		
 		$this->_myID = $row['datasetfield_id'];
 		$this->_date =& $dbHandler->fromDBDate($row['datasetfield_modified'],$dbID);
