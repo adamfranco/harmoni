@@ -76,7 +76,7 @@ class SQLDatabaseHierarchyStore
 	/**
 	 * @var integer $_maxDepth The maximum depth of this hierarchy.
 	 */
-	var $_maxDepth = 29;
+	var $_maxDepth = 14;
 	
 	/**
 	 * @var object Id $_id The id for this hierarchy.
@@ -129,8 +129,24 @@ class SQLDatabaseHierarchyStore
 
 	/**
 	 * @var array $_nodeTypes Node types in this hierarchy.
+	 *		This is an associative array of Type objects with the database id of 
+	 *		the node type as the key.
 	 */
 	var $_nodeTypes = array();
+	
+	/**
+	 * @var array $_newNodeTypes Node types to be saved in the hierarchy.
+	 *		These should be an indexed array of Type objects. When they are saved they 
+	 *		will be given ids and put into the _nodeTypes array.
+	 */
+	var $_newNodeTypes = array();
+	
+	/**
+	 * @var array $_deletedNodeTypes Node types to be removed from the hierarchy.
+	 *		These should be an associative array with the database ids of the node 
+	 *		types to delete as the keys.
+	 */
+	var $_deletedNodeTypes = array();
 	
 	/**
 	 * Constructor
@@ -149,7 +165,17 @@ class SQLDatabaseHierarchyStore
 	 * @param string $nodeDisplayNameColumn	The displayName column.
 	 * @param string $nodeDescriptionColumn	The description column.
 	 */
-	function SQLDatabaseHierarchyStore ($dbIndex, $hierarchyTableName, $hierarchyIdColumn, $hierarchyDisplayNameColumn, $hierarchyDescriptionColumn, $nodeTableName, $nodeHierarchyKeyColumn, $nodeIdColumn, $nodeParentKeyColumn, $nodeDisplayNameColumn, $nodeDescriptionColumn) {
+	function SQLDatabaseHierarchyStore ($dbIndex, 
+			$hierarchyTableName = "hierarchy", $hierarchyIdColumn = "id", 
+			$hierarchyDisplayNameColumn = "display_name", $hierarchyDescriptionColumn = "description", 
+			$nodeTableName = "hierarchy_node", $nodeHierarchyKeyColumn = "fk_hierarchy", 
+			$nodeIdColumn = "id", $nodeParentKeyColumn = "fk_parent", 
+			$nodeDisplayNameColumn = "display_name", $nodeDescriptionColumn = "description",
+			$nodeTypeKeyColumn = "fk_nodetype",
+			$typeTableName = "hierarchy_nodetype", $typeHierarchyKeyColumn = "fk_hierarchy",
+			$typeIdColumn = "id", $typeDomainColumn = "domain", $typeAuthorityColumn = "authority",
+			$typeKeywordColumn = "keyword", $typeDescriptionColumn = "description") {
+			
 		// Check the arguments
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule);
 		ArgumentValidator::validate($hierarchyTableName, new StringValidatorRule);
@@ -168,12 +194,22 @@ class SQLDatabaseHierarchyStore
 		$this->_hierarchyIdColumn = $hierarchyIdColumn;
 		$this->_hierarchyDisplayNameColumn = $hierarchyDisplayNameColumn;
 		$this->_hierarchyDescriptionColumn = $hierarchyDescriptionColumn;
+		
 		$this->_nodeTableName = $nodeTableName;
 		$this->_nodeHierarchyKeyColumn = $nodeHierarchyKeyColumn;
 		$this->_nodeIdColumn = $nodeIdColumn;
 		$this->_nodeParentKeyColumn = $nodeParentKeyColumn;
 		$this->_nodeDisplayNameColumn = $nodeDisplayNameColumn;
 		$this->_nodeDescriptionColumn = $nodeDescriptionColumn;
+		$this->_nodeTypeKeyColumn = $nodeTypeKeyColumn;
+		
+		$this->_typeTableName = $typeTableName;
+		$this->_typeHierarchyKeyColumn = $typeHierarchyKeyColumn;
+		$this->_typeIdColumn = $typeIdColumn;
+		$this->_typeDomainColumn = $typeDomainColumn;
+		$this->_typeAuthorityColumn = $typeAuthorityColumn;
+		$this->_typeKeywordColumn = $typeKeywordColumn;
+		$this->_typeDescriptionColumn = $typeDescriptionColumn;
 		
 		$this->_tree =& new Tree;
 		
@@ -188,31 +224,6 @@ class SQLDatabaseHierarchyStore
 	 */
 	function initialize() {
 		throwError(new Error("Manager should handle the existance state. Use setExists() to set the current existance", "Hierarchy", 1));
-		$dbc =& Services::requireService("DBHandler");
-		$sharedManager =& Services::requireService("Shared");
-		
-		// This may be able to be droped if the hierarchy has been initialized, but it makes for a nice check
-		// of data integrity.
-		// Pull the info for this hierarchy if it doesn't already exist.
-		$query =& new SelectQuery;
-		$query->addColumn($this->_hierarchyDisplayNameColumn,"displayName");
-		$query->addColumn($this->_hierarchyDescriptionColumn,"description");
-		$query->addTable($this->_hierarchyTableName);
-		$query->addWhere($this->_hierarchyIdColumn."=".$this->_id->getIdString());
-		
-		$result =& $dbc->query($query, $this->_dbIndex);
-		
-		if ($result->getNumberOfRows() > 1) { // we have problems.
-			throwError(new Error("Loss of data integrity, multiple hierarchies of id, ".$this->_id->getIdString().", found!", "Hierarchy", 1));
-			
-		} else if ($result->getNumberOfRows() == 1) { // The hierarchy exists
-			$this->_exists = TRUE;
-			$this->_displayName = $result->field("displayName");
-			$this->_description = $result->field("description");
-
-		} else {	// the hierarchy doesn't exist yet
-			$this->_exists = FALSE;
-		}
 	}
 	
     /**
@@ -266,8 +277,7 @@ class SQLDatabaseHierarchyStore
 			} else if ($existingHierarchiesWithThisId == 1) { // The hierarchy exists
 				$this->_exists = TRUE;
 				$this->_displayName = stripslashes($result->field("displayName"));
-				$this->_description = stripslasher($result->field("description"));
-			
+				$this->_description = stripslashes($result->field("description"));
 			} else {
 				$this->_exists = FALSE;
 			}
@@ -275,102 +285,55 @@ class SQLDatabaseHierarchyStore
 		
 		// If this hierarchy exists in the database, lets load it.
 		if ($this->_exists) {
-			// build the query. To get trees, this could be broken into
-			// two queries; one that fetched the parents, and one that fetched
-			// the children rooted at this node with joins.
-
-			// pull the parents of $nodeId if $nodeId is not a root node.
-			if ($nodeId) {
-				$query =& new SelectQuery;
-				
-				$query->addColumn($this->_nodeTableName."0.".$this->_nodeIdColumn,"id0");
-				$query->addColumn($this->_nodeTableName."0.".$this->_nodeParentKeyColumn,"parent_id0");
-				$query->addColumn($this->_nodeTableName."0.".$this->_nodeDisplayNameColumn,"displayName0");
-				$query->addColumn($this->_nodeTableName."0.".$this->_nodeDescriptionColumn,"description0");
-				
-				$query->addTable($this->_nodeTableName, NO_JOIN, "", $this->_nodeTableName."0");
-			
-				$query->addWhere($this->_nodeTableName."0.".$this->_nodeHierarchyKeyColumn."=".$this->_id->getIdString());
-				$query->addWhere($this->_nodeTableName."0.".$this->_nodeIdColumn."=".$nodeId, _AND);
-
-//				$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeParentKeyColumn, ASCENDING);
-//				$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeIdColumn, ASCENDING);
-				
 		
-				for ($i = 1; $i <= $this->_maxDepth; $i++) {
-					$query->addTable($this->_nodeTableName, LEFT_JOIN, $this->_nodeTableName.($i-1).".".$this->_nodeParentKeyColumn."=".$this->_nodeTableName.($i).".".$this->_nodeIdColumn, $this->_nodeTableName.($i));
-					$query->addColumn($this->_nodeTableName.$i.".".$this->_nodeIdColumn,"id".$i);
-					$query->addColumn($this->_nodeTableName.$i.".".$this->_nodeParentKeyColumn,"parent_id".$i);
-					$query->addColumn($this->_nodeTableName.$i.".".$this->_nodeDisplayNameColumn,"displayName".$i);
-					$query->addColumn($this->_nodeTableName.$i.".".$this->_nodeDescriptionColumn,"description".$i);
-				}
-				
-				$result =& $dbc->query($query, $this->_dbIndex);
-				
-//				print MySQL_SQLGenerator::generateSQLQuery($query);
-				
-				for ($i = $this->_maxDepth; $i > 0; $i--) {
-					if ($result->field("id".$i)) { // this is a node and not a null join
-						$id = $result->field("id".$i);
-						$parent_id = $result->field("parent_id".$i);
-						$displayName = stripslashes($result->field("displayName".$i));
-						$description = stripslashes($result->field("description".$i));
-				
-						// If this node is not in the hierarchy, add it.
-						if (!$this->_tree->nodeExists($id)) {
-							// create the Id for the HarmoniNode object
-							$nodeIdObj =& $sharedManager->getId($id);
-				
-							// create the HarmoniNode object
-							$harmoniNode =& new HarmoniNode($nodeIdObj, $this, NULL, $displayName, $description);
-							
-							// the parentKey should be 0 if this is a root node, so addNode should work
-							// always.
-							// Add the node to the tree with HarmoniNode object as data
-							$this->_tree->addNode($harmoniNode, $parent_id, $id);
-//							print "Adding parent $id\n";
-				//			$this->_tree->setData($harmoniNode, $id);
-						}
-					}
-				}
-			}
-
-			// pull the sub-tree rooted at $nodeId
+			// get all the types for this hierarchy
+			$query =& new SelectQuery;
+			$query->addColumn($this->_typeIdColumn,"id");
+			$query->addColumn($this->_typeDomainColumn,"domain");
+			$query->addColumn($this->_typeAuthorityColumn,"authority");
+			$query->addColumn($this->_typeKeywordColumn,"keyword");
+			$query->addColumn($this->_typeDescriptionColumn,"description");
+			$query->addTable($this->_typeTableName);
+			$query->addWhere($this->_typeHierarchyKeyColumn."=".$this->_id->getIdString());
 			
-			// How deep should we search?
-			// The maxDepth thing should maybe be chosen intelligently. It is currently
-			// just set to "bigger than we need"
-			if ($childrenOnly)
-				$depthToSearch = 1;
-			else
-				$depthToSearch = $this->_maxDepth;
+			$result =& $dbc->query($query, $this->_dbIndex);
+			
+			$this->_nodeTypes = array();
+			while ($result->hasMoreRows()) {
+				$id = intval($result->field("id"));
+				$domain = stripslashes($result->field("domain"));
+				$authority = stripslashes($result->field("authority"));
+				$keyword = stripslashes($result->field("keyword"));
+				$description = stripslashes($result->field("description"));
+				
+				$this->_nodeTypes[$id] =& new HarmoniType($domain, $authority, $keyword, $description);
+				
+				$result->advanceRow();
+			}
+					
+			// pull the sub-tree rooted at $nodeId
+			// Actually, we are just going to pull the whole hierarchy for now.
+			// Later, maybe we should just pull the tree with the same root node as
+			// $nodeId
 					
 			$query =& new SelectQuery;
 			
-			$query->addColumn($this->_nodeTableName."0.".$this->_nodeIdColumn,"id");
-			$query->addColumn($this->_nodeTableName."0.".$this->_nodeParentKeyColumn,"parent_id");
-			$query->addColumn($this->_nodeTableName."0.".$this->_nodeDisplayNameColumn,"displayName");
-			$query->addColumn($this->_nodeTableName."0.".$this->_nodeDescriptionColumn,"description");
+			$query->addColumn($this->_nodeTableName.".".$this->_nodeIdColumn,"id");
+			$query->addColumn($this->_nodeTableName.".".$this->_nodeParentKeyColumn,"parent_id");
+			$query->addColumn($this->_nodeTableName.".".$this->_nodeDisplayNameColumn,"displayName");
+			$query->addColumn($this->_nodeTableName.".".$this->_nodeDescriptionColumn,"description");
+			$query->addColumn($this->_nodeTableName.".".$this->_nodeTypeKeyColumn,"type_id");
 			
-			$query->addTable($this->_nodeTableName, NO_JOIN, "", $this->_nodeTableName."0");
+			$query->addTable($this->_nodeTableName, NO_JOIN, "", $this->_nodeTableName);
 			
-			$query->addWhere($this->_nodeTableName."0.".$this->_nodeHierarchyKeyColumn."=".$this->_id->getIdString());
-			$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeParentKeyColumn, ASCENDING);
-			$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeIdColumn, ASCENDING);
-			
-			$additionalWhere = array();
-			for ($i = 0; $i <= $depthToSearch; $i++) {
-				$query->addTable($this->_nodeTableName, LEFT_JOIN, $this->_nodeTableName.$i.".".$this->_nodeParentKeyColumn."=".$this->_nodeTableName.($i+1).".".$this->_nodeIdColumn, $this->_nodeTableName.($i+1));
-				$additionalWhere[] = $this->_nodeTableName.$i.".".$this->_nodeIdColumn."=".$nodeId;
-//				$additionalWhere[] = $this->_nodeTableName.$i.".".$this->_nodeParentKeyColumn."=".$nodeId;
-			}
-			if ($nodeId)
-				$query->addWhere("(".implode(" OR ", $additionalWhere).")", _AND);
+			$query->addWhere($this->_nodeTableName.".".$this->_nodeHierarchyKeyColumn."=".$this->_id->getIdString());
+			$query->addOrderBy($this->_nodeTableName.".".$this->_nodeParentKeyColumn, ASCENDING);
+			$query->addOrderBy($this->_nodeTableName.".".$this->_nodeIdColumn, ASCENDING);
 			
 			$result =& $dbc->query($query, $this->_dbIndex);
 	
 	//		print_r($result);
-	//		print MySQL_SQLGenerator::generateSQLQuery($query);
+	//		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 			
 			// Build the tree from the results
 			while ($result->hasMoreRows()) {
@@ -378,14 +341,22 @@ class SQLDatabaseHierarchyStore
 				$parent_id = intval($result->field("parent_id"));
 				$displayName = stripslashes($result->field("displayName"));
 				$description = stripslashes($result->field("description"));
+				$type_id = intval($result->field("type_id"));
 				
 				// If this node is not in the hierarchy, add it.
 				if (!$this->_tree->nodeExists($id)) {
 					// create the Id for the HarmoniNode object
 					$nodeIdObj =& $sharedManager->getId($id);
-		
+					
+					// create a type object for the Node
+					if ($type_id) {
+						$type =& $this->_nodeTypes[$type_id];
+					} else {
+						$type =& new GenericNodeType;
+					}
+					
 					// create the HarmoniNode object
-					$harmoniNode =& new HarmoniNode($nodeIdObj, $this, NULL, $displayName, $description);
+					$harmoniNode =& new HarmoniNode($nodeIdObj, $this, $type, $displayName, $description);
 					
 					// the parentKey should be 0 if this is a root node, so addNode should work
 					// always.
@@ -415,6 +386,9 @@ class SQLDatabaseHierarchyStore
 	 * @access protected
 	 */
 	function save ($nodeId=NULL) {
+		// connect to the database
+		$dbc =& Services::requireService("DBHandler");
+	
 		if ($nodeId !== NULL) {
 			// Check the arguments
 			ArgumentValidator::validate($nodeId, new NumericValidatorRule);
@@ -462,6 +436,60 @@ class SQLDatabaseHierarchyStore
 			$queryQueue->add($query);
 		}
 		
+		// Insert any new types. After inserting them, add them to the _nodeTypes 
+		// array with their new ids. 
+		if (count($this->_newNodeTypes)) {
+			foreach($this->_newNodeTypes as $key => $type) {
+				// Insert this node type.
+				$query =& new InsertQuery;
+				$query->setTable($this->_typeTableName);
+				$columns = array(
+								$this->_typeHierarchyKeyColumn,
+								$this->_typeAuthorityColumn,
+								$this->_typeDomainColumn,
+								$this->_typeKeywordColumn,
+								$this->_typeDescriptionColumn
+							);
+				$query->setColumns($columns);
+				$values = array(
+							$this->_id->getIdString(),
+							"'".addslashes($type->getAuthority())."'",
+							"'".addslashes($type->getDomain())."'",
+							"'".addslashes($type->getKeyword())."'",
+							"'".addslashes($type->getDescription())."'"
+						);
+				$query->addRowOfValues($values);
+				$result =& $dbc->query($query, $this->_dbIndex);
+				$id = $result->getLastAutoIncrementValue();
+				
+				// Move this node type to the _nodeTypes array with its new id.
+				// The _newNodeTypes array will be cleared at the end.
+				$this->_nodeTypes[$id] =& $this->_newNodeTypes[$key];
+			}
+			
+			// Clear out the _newNodeTypes array();
+			$this->_newNodeTypes = array();
+		}
+		
+		// Remove any deleted node types.
+		// Checking as to whether these are in use or not should have been
+		// handled by the remove node functions. If a node is referencing this
+		// type, then it should be in line for deletion below.
+		if (count($this->_deletedNodeTypes)) {
+			// Create the delete Query
+			$query =& new DeleteQuery;
+			$query->setTable($this->_typeTableName);
+			// Add the key for each type to delete.
+			foreach($this->_deletedNodeTypes as $key => $type) {
+				$query->addWhere($this->_typeIdColumn."=".$key, _OR);
+			}
+			// Run the Query
+			$result =& $dbc->query($query, $this->_dbIndex);
+			
+			// Clear out the _deletedNodeTypes array();
+			$this->_deletedNodeTypes = array();
+		}
+		
 		// Insert any new nodes
 		if (count($this->_added)) {
 			$query =& new InsertQuery;
@@ -470,7 +498,8 @@ class SQLDatabaseHierarchyStore
 				$this->_nodeHierarchyKeyColumn,
 				$this->_nodeParentKeyColumn,
 				$this->_nodeDisplayNameColumn,
-				$this->_nodeDescriptionColumn
+				$this->_nodeDescriptionColumn,
+				$this->_nodeTypeKeyColumn
 			);
 			$query->setColumns($columns);
 			$query->setTable($this->_nodeTableName);
@@ -492,12 +521,26 @@ class SQLDatabaseHierarchyStore
 					$displayName = $nodeObj->getDisplayName();
 					$description = $nodeObj->getDescription();
 					
+					// Get the key of the type for this node.
+					// It should be in the _nodeTypes array and should be
+					// inserted by this point.
+					$nodeType =& $nodeObj->getType();
+					$nodeTypeKey = FALSE;
+					foreach ($this->_nodeTypes as $key => $type) {
+						if ($nodeType->isEqual($type))
+							$nodeTypeKey = $key;
+					}
+					// make sure that we got a valid key.
+					if (!$nodeTypeKey)
+						throwError(new Error("Invalid NodeType key for node '$displayName'.", "Hierarchy", 1));
+					
 					$values = array(
 						$id,
 						$this->_id->getIdString(),
 						$parentId,
 						"'".addslashes($displayName)."'",
-						"'".addslashes($description)."'"
+						"'".addslashes($description)."'",
+						$nodeTypeKey
 					);
 					$query->addRowOfValues($values);
 				}
@@ -575,7 +618,6 @@ class SQLDatabaseHierarchyStore
 		
 		// Run all of the queries
 		$queryQueue->rewind();
-		$dbc =& Services::requireService("DBHandler");
 		$result =& $dbc->queryQueue($queryQueue, $this->_dbIndex);
 		
 		// Since we've just saved everything in the hierarchy, clear out the changed flags
@@ -680,6 +722,52 @@ class SQLDatabaseHierarchyStore
 		// update and save
 		$this->_description = $description;
 		$this->_isChanged = TRUE;
+	}
+	
+	/**
+	 * Returns all of the Node Types in this hierarchy.
+	 * 
+	 * @return array An array of all of the NodeTypes known.
+	 */
+	function getNodeTypes () {
+		$types =& array_merge($this->_nodeTypes, $this->_newNodeTypes);
+		return $types;
+	}
+	
+	/**
+	 * Adds a node type.
+	 * Checking that this node type does not already exist should already be done.
+	 * 
+	 * @param object Type $nodeType The nodeType to add.
+	 */
+	function addNodeType (& $nodeType) {
+		$this->_newNodeTypes[] =& $nodeType;
+	}
+	
+	/**
+	 * Removes a node type.
+	 * Checking that this node type is not in use should already have been done.
+	 * 
+	 * @param object Type $nodeType The nodeType to remove.
+	 */
+	function removeNodeType(& $nodeType) {
+		$newNodeTypes = array();
+		$found = FALSE;
+		foreach ($this->_nodeTypes as $key => $val) {
+			// if it is the type we are removing, add it to the _deletedNodeTypes array,
+			// otherwise add it to the new array.
+			if ($nodeType->isEqual($this->_nodeTypes[$key])) {
+				$this->_deletedNodeTypes[$key] =& $this->_nodeTypes[$key];
+				$found = TRUE;
+			} else
+				$newNodeTypes[$key] =& $this->_nodeTypes[$key];
+		}
+		
+		// Make sure we found the type to delete.
+		if (!$found)
+			throwError(new Error(NODE_TYPE_NOT_FOUND, "Hierarchy", 1));
+		
+		$this->_nodeTypes =& $newNodeTypes;
 	}
 
 /******************************************************************************

@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.11 $ / $Date: 2004/01/07 22:11:06 $
+ * @version $Revision: 1.12 $ / $Date: 2004/01/13 23:03:46 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -126,9 +126,13 @@ class HarmoniNode
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getParents() {
-		$parentId = $this->_hierarchyStore->getParentID($this->_id->getIdString());
-		$parentArray = array();
-		$parentArray[] =& $this->_hierarchyStore->getData($parentId);
+		if ($this->isRoot()) {
+			$parentArray = array();
+		} else {			
+			$parentId = $this->_hierarchyStore->getParentID($this->_id->getIdString());
+			$parentArray = array();
+			$parentArray[] =& $this->_hierarchyStore->getData($parentId);
+		}
 		$parentIterator =& new HarmoniNodeIterator($parentArray);
 		return $parentIterator;
 	}
@@ -294,9 +298,15 @@ class HarmoniNode
 		ArgumentValidator::validate($oldParentId, new ExtendsValidatorRule("Id"));
 		ArgumentValidator::validate($newParentId, new ExtendsValidatorRule("Id"));
 		
-		// Verify the old parent
-		$parentId = $this->_hierarchyStore->getParentID($this->_id->getIdString());
-		if ($oldParentId->getIdString() != $parentId)
+		// Verify the old parent if not a root node
+		if (!$this->isRoot()) {
+			$parentId = $this->_hierarchyStore->getParentID($this->_id->getIdString());
+			if ($oldParentId->getIdString() != $parentId)
+				throwError(new Error(OPERATION_FAILED, "Hierarchy", 1));
+		}
+		
+		// Make sure that we are not moving a node to itsself
+		if ($newParentId->isEqual($this->getId()))
 			throwError(new Error(OPERATION_FAILED, "Hierarchy", 1));
 		
 		// move the node

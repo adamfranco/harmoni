@@ -25,7 +25,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.21 $ / $Date: 2003/11/06 22:52:48 $
+ * @version $Revision: 1.22 $ / $Date: 2004/01/13 23:03:46 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -218,6 +218,18 @@ class HarmoniHierarchy
 			if (!$this->_hierarchyStore->nodeExists($parentIdString))
 				throwError(new Error(UNKNOWN_PARENT_NODE, "Hierarchy", 1));
 		}
+		
+		// Add the node Type to the hierarchy if it doesn't already exist.
+		$nodeTypes =& $this->getNodeTypes();
+		$typeExists = FALSE;
+		while ($nodeTypes->hasNext()) {
+			$nodeType =& $nodeTypes->next();
+			if ($type->isEqual($nodeType)) {
+				$typeExists = TRUE;
+			}
+		}
+		if (!$typeExists)
+			$this->_hierarchyStore->addNodeType($type);
 
 		$node =& new HarmoniNode($nodeId, $this->_hierarchyStore, $type, $displayName, $description);
 		$treeNodeId = $this->_hierarchyStore->addNode($node, $parentIdString, $nodeIdString);
@@ -274,15 +286,15 @@ class HarmoniHierarchy
 		ArgumentValidator::validate($nodeType, new ExtendsValidatorRule("Type"));
 		
 		// Throw an error if the nodeType has already been added.
-		
-		// @todo fix this to use the store
-		foreach ($this->_nodeTypes as $key => $val) {
-			if ($nodeType->isEqual($this->_nodeTypes[$key]))
+		$nodeTypes =& $this->getNodeTypes();
+		while ($nodeTypes->hasNext()) {
+			$type =& $nodeTypes->next();
+			if ($nodeType->isEqual($type))
 				throwError(new Error(ALREADY_ADDED, "Hierarchy", 1));
 		}
 		
 		// add the node type
-		$this->_nodeTypes[] =& $nodeType;
+		$this->_hierarchyStore->addNodeType($nodeType);
 	}
 
 	/**
@@ -313,16 +325,7 @@ class HarmoniHierarchy
 				throwError(new Error(NODE_TYPE_IN_USE, "Hierarchy", 1));
 		}
 		
-		// @todo Fix this to use the store
-		
-		// remove the node type
-		$newNodeTypes = array();
-		foreach ($this->_nodeTypes as $key => $val) {
-			// if it isn't the type we are removing, add it to the new array
-			if (!$nodeType->isEqual($this->_nodeTypes[$key]))
-				$newNodeTypes[] =& $this->_nodeTypes[$key];
-		}
-		$this->_nodeTypes =& $newNodeTypes;
+		$this->_hierarchyStore->removeNodeType($nodeType);
 	}
 
 	/**
@@ -435,7 +438,8 @@ class HarmoniHierarchy
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getNodeTypes() {
-		$typeIterator =& new HarmoniTypeIterator($this->_nodeTypes);
+		$typesArray =& $this->_hierarchyStore->getNodeTypes();
+		$typeIterator =& new HarmoniTypeIterator($typesArray);
 		return $typeIterator;
 	}
 
