@@ -529,7 +529,6 @@ class Tree
 			$depth++;
 			$currID = $this->structure[$currID];
 		}
-
 		return $depth;
 	}
 	

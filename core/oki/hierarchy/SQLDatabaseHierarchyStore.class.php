@@ -339,8 +339,8 @@ class SQLDatabaseHierarchyStore
 			
 			// Build the tree from the results
 			while ($result->hasMoreRows()) {
-				$id = $result->field("id");
-				$parent_id = $result->field("parent_id");
+				$id = intval($result->field("id"));
+				$parent_id = intval($result->field("parent_id"));
 				$displayName = $result->field("displayName");
 				$description = $result->field("description");
 				
@@ -435,6 +435,11 @@ class SQLDatabaseHierarchyStore
 		// Save any changes to any nodes
 		if (count($this->_changed)) {
 			foreach ($this->_changed as $key => $id) {
+				$nodeObj =& $this->_tree->getData($id);
+				$parentId = $this->_tree->getParentId($id);
+				$displayName = $nodeObj->getDisplayName();
+				$description = $nodeObj->getDescription();
+				
 				if (!in_array($id, $this->_added) && !in_array($id, $this->_deleted)) {
 					$query =& new UpdateQuery;
 					$query->setTable($this->_nodeTableName);
@@ -470,12 +475,15 @@ class SQLDatabaseHierarchyStore
 			}
 		}
 		
+/* 		$queryQueue->rewind(); */
+/* 		while ($queryQueue->hasNext()) { */
+/* 			print MySQL_SQLGenerator::generateSQLQuery($queryQueue->next()); */
+/* 		} */
+		
 		// Run all of the queries
 		$queryQueue->rewind();
-		while ($queryQueue->hasNext()) {
-			print MySQL_SQLGenerator::generateSQLQuery($queryQueue->next());
-		}
-		$queryQueue->rewind();
+		$dbc =& Services::requireService("DBHandler");
+		$result =& $dbc->queryQueue($queryQueue, $this->_dbIndex);
 		
 		// Since we've just saved everything in the hierarchy, clear out the changed flags
 		$this->_added = array();
@@ -578,7 +586,7 @@ class SQLDatabaseHierarchyStore
 				$this->_deleted[] = $deleteId;
 		}
 		
-		$this->_tree->removeNode($deleteId);
+		$this->_tree->removeNode($id);
 	}
 	
 	/**
@@ -598,6 +606,18 @@ class SQLDatabaseHierarchyStore
 	* @return mixed       The data
     */
 	function & getData($id)	{
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		
+		// There is a chance that not all of the children have been loaded.
+		// For instance, two of four children could have been loaded, each of which
+		// is added as this node's child. Without load() being called with this node's id,
+		// some children might be missing. This could cause significant slowdown if used
+		// too much though.
+		// For now we will leave it up to the application to call load() on what it needs
+//		if (!$this->nodeExists($id))
+//			$this->load($id);
+
 		return $this->_tree->getData($id);
 	}
 	
@@ -608,6 +628,18 @@ class SQLDatabaseHierarchyStore
 	* @param integer $id Node ID
     */
 	function setData($id, & $data) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		
+		// There is a chance that not all of the children have been loaded.
+		// For instance, two of four children could have been loaded, each of which
+		// is added as this node's child. Without load() being called with this node's id,
+		// some children might be missing. This could cause significant slowdown if used
+		// too much though.
+		// For now we will leave it up to the application to call load() on what it needs
+//		if (!$this->nodeExists($id))
+//			$this->load($id);
+			
 		$this->_tree->setData($id, $data);
 		if (!in_array($id,$this->_changed))
 			$this->_changed[] = $id;
@@ -621,6 +653,18 @@ class SQLDatabaseHierarchyStore
 	* @return integer     The parent ID
     */
 	function getParentID($id) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		
+		// There is a chance that not all of the children have been loaded.
+		// For instance, two of four children could have been loaded, each of which
+		// is added as this node's child. Without load() being called with this node's id,
+		// some children might be missing. This could cause significant slowdown if used
+		// too much though.
+		// For now we will leave it up to the application to call load() on what it needs
+//		if (!$this->nodeExists($id))
+//			$this->load($id);
+			
 		return $this->_tree->getParentID($id);
 	}
 	
@@ -633,6 +677,18 @@ class SQLDatabaseHierarchyStore
 	* @return integer     The depth of the node
     */
 	function depth($id) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		
+		// There is a chance that not all of the children have been loaded.
+		// For instance, two of four children could have been loaded, each of which
+		// is added as this node's child. Without load() being called with this node's id,
+		// some children might be missing. This could cause significant slowdown if used
+		// too much though.
+		// For now we will leave it up to the application to call load() on what it needs
+//		if (!$this->nodeExists($id))
+//			$this->load($id);
+			
 		return $this->_tree->depth($id);
 	}
 	
@@ -645,6 +701,18 @@ class SQLDatabaseHierarchyStore
 	* @return bool              Whether the ID is a child of the parent ID
     */
 	function isChildOf($id, $parentID) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		
+		// There is a chance that not all of the children have been loaded.
+		// For instance, two of four children could have been loaded, each of which
+		// is added as this node's child. Without load() being called with this node's id,
+		// some children might be missing. This could cause significant slowdown if used
+		// too much though.
+		// For now we will leave it up to the application to call load() on what it needs
+//		if (!$this->nodeExists($id))
+//			$this->load($id);
+			
 		return $this->_tree->isChildOf($id, $parentID);
 	}
 	
@@ -657,7 +725,34 @@ class SQLDatabaseHierarchyStore
 	* @return bool        Whether the node has children
     */
 	function hasChildren($id) {
-		return $this->_tree->hasChildren($id);
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		
+		// There is a chance that not all of the children have been loaded.
+		// For instance, two of four children could have been loaded, each of which
+		// is added as this node's child. Without load() being called with this node's id,
+		// some children might be missing. This could cause significant slowdown if used
+		// too much though.
+		// For now we will leave it up to the application to call load() on what it needs
+//		if (!$this->nodeExists($id))
+//			$this->load($id);
+			
+		$hasChildren = $this->_tree->hasChildren($id);
+		
+		// If this doesn't have children, they may have just not been loaded.
+		if (!$hasChildren) {
+			// There is a chance that not all of the children have been loaded.
+			// For instance, two of four children could have been loaded, each of which
+			// is added as this node's child. Without load() being called with this node's id,
+			// some children might be missing. This could cause significant slowdown if used
+			// too much though.
+			// For now we will leave it up to the application to call load() on what it needs
+//			$this->load($id);
+		}
+		
+		$hasChildren = $this->_tree->hasChildren($id);
+		
+		return $hasChildren;
 	}
 	
 	/**
@@ -668,6 +763,17 @@ class SQLDatabaseHierarchyStore
 	* @return integer     Number of child nodes
     */
 	function numChildren($id) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		
+		// There is a chance that not all of the children have been loaded.
+		// For instance, two of four children could have been loaded, each of which
+		// is added as this node's child. Without load() being called with this node's id,
+		// some children might be missing. This could cause significant slowdown if used
+		// too much though.
+		// For now we will leave it up to the application to call load() on what it needs
+//		$this->load($id);
+		
 		return $this->_tree->numChildren($id);
 	}
 	
@@ -680,6 +786,17 @@ class SQLDatabaseHierarchyStore
 	* @return array       The child node IDs
     */
 	function getChildren($id) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		
+		// There is a chance that not all of the children have been loaded.
+		// For instance, two of four children could have been loaded, each of which
+		// is added as this node's child. Without load() being called with this node's id,
+		// some children might be missing. This could cause significant slowdown if used
+		// too much though.
+		// For now we will leave it up to the application to call load() on what it needs
+//		$this->load($id);
+		
 		return $this->_tree->getChildren($id);
 	}
 	
@@ -691,6 +808,18 @@ class SQLDatabaseHierarchyStore
 	* @param integer $newParentID New parent ID
     */
 	function moveChildrenTo($parentID, $newParentID) {
+		// Check the arguments
+		ArgumentValidator::validate($parentID, new NumericValidatorRule);
+		ArgumentValidator::validate($newParentID, new NumericValidatorRule);
+
+		// There is a chance that not all of the children have been loaded.
+		// For instance, two of four children could have been loaded, each of which
+		// is added as this node's child. Without load() being called with this node's id,
+		// some children might be missing. This could cause significant slowdown if used
+		// too much though.
+		// For now we will leave it up to the application to call load() on what it needs
+//		$this->load($parentID);
+		
 		$childIds = $this->_tree->getChildren($parentID);
 		foreach ($childIds as $key => $id) {
 			if (!in_array($id, $this->_changed))
@@ -708,6 +837,20 @@ class SQLDatabaseHierarchyStore
 	* @param integer $newParentID New parent ID
     */
 	function copyChildrenTo($parentID, $newParentID) {
+		throwError(new Error("This should be handled on the program level to preserve Id integrity", "Hierarchy", 1));
+		
+		// Check the arguments
+		ArgumentValidator::validate($parentID, new NumericValidatorRule);
+		ArgumentValidator::validate($newParentID, new NumericValidatorRule);
+
+		// There is a chance that not all of the children have been loaded.
+		// For instance, two of four children could have been loaded, each of which
+		// is added as this node's child. Without load() being called with this node's id,
+		// some children might be missing. This could cause significant slowdown if used
+		// too much though.
+		// For now we will leave it up to the application to call load() on what it needs
+//		$this->load($parentID);
+		
 		$existingChildIds = $this->_tree->getChildren($newParentID);
 	
 		$this->_tree->copyChildrenTo($parentID, $newParentID);
@@ -728,6 +871,9 @@ class SQLDatabaseHierarchyStore
 	* @return integer     The previous sibling ID
     */
 	function prevSibling($id) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+
 		return $this->_tree->prevSibling($id);
 	}
 	
@@ -752,6 +898,10 @@ class SQLDatabaseHierarchyStore
 	* @param integer $parentID New parent ID
     */
 	function moveTo($id, $parentID) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($parentID, new NumericValidatorRule);
+
 		$this->_tree->moveTo($id, $parentID);
 		if (!in_array($id, $this->_changed))
 			$this->_changed[] = $id;
@@ -768,6 +918,12 @@ class SQLDatabaseHierarchyStore
 	* @param integer $parentID New parent ID
     */
 	function copyTo($id, $parentID) {
+		throwError(new Error("This should be handled on the program level to preserve Id integrity", "Hierarchy", 1));
+	
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		ArgumentValidator::validate($parentID, new NumericValidatorRule);
+		
 		$existingChildIds = $this->_tree->getChildren($parentID);
 
 		$this->_tree->copyTo($id, $parentID);
@@ -787,6 +943,9 @@ class SQLDatabaseHierarchyStore
 	* @return integer           The node ID
     */
 	function firstNode($parentID = 0) {
+		// Check the arguments
+		ArgumentValidator::validate($parentID, new NumericValidatorRule);
+		
 		return $this->_tree->firstNode($parentID);
 	}
 	
@@ -798,6 +957,9 @@ class SQLDatabaseHierarchyStore
 	* @return integer The node ID
     */
 	function lastNode($parentID = 0) {
+		// Check the arguments
+		ArgumentValidator::validate($parentID, new NumericValidatorRule);
+		
 		return $this->_tree->lastNode($parentID);
 	}
 	
@@ -809,6 +971,9 @@ class SQLDatabaseHierarchyStore
 	* @return integer     Number of nodes
     */
 	function getNodeCount($id = 0) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		
 		return $this->_tree->getNodeCount($id);
 	}
     
@@ -819,6 +984,9 @@ class SQLDatabaseHierarchyStore
     * @return array Flat list of the node IDs from top to bottom, left to right.
     */
     function getFlatList($id = 0) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		
 		return $this->_tree-> getFlatList($id);
 	}
 
@@ -861,6 +1029,9 @@ class SQLDatabaseHierarchyStore
 	* @return boolean     True if the node exists in the tree.
     */	
 	function nodeExists($id) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		
 		return $this->_tree->nodeExists($id);
 	}
 	
@@ -877,6 +1048,11 @@ class SQLDatabaseHierarchyStore
 	* @return	array			An array of the resulting ids
 	*/
 	function depthFirstEnumeration($currentId, $levels = NULL) {
+		// Check the arguments
+		ArgumentValidator::validate($currentId, new NumericValidatorRule);
+		if ($levels != NULL)
+			ArgumentValidator::validate($levels, new NumericValidatorRule);
+		
 		return $this->_tree->depthFirstEnumeration($currentId, $levels);
 	}
 
