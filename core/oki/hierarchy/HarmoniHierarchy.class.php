@@ -3,6 +3,7 @@
 require_once(OKI."/hierarchy.interface.php");
 require_once(HARMONI.'/oki/hierarchy/Tree.php');
 require_once(HARMONI.'/oki/hierarchy/MemoryOnlyHierarchyStore.class.php');
+require_once(HARMONI.'/oki/hierarchy/SQLDatabaseHierarchyStore.class.php');
 require_once(HARMONI.'/oki/hierarchy/HarmoniNode.class.php');
 require_once(HARMONI.'/oki/hierarchy/HarmoniNodeIterator.class.php');
 require_once(HARMONI.'/oki/hierarchy/HarmoniTraversalInfo.class.php');
@@ -24,7 +25,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.19 $ / $Date: 2003/11/04 22:37:38 $
+ * @version $Revision: 1.20 $ / $Date: 2003/11/05 22:21:48 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */

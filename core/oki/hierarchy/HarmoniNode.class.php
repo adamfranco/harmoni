@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.9 $ / $Date: 2003/10/30 22:39:34 $
+ * @version $Revision: 1.10 $ / $Date: 2003/11/05 22:21:48 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -68,7 +68,7 @@ class HarmoniNode
 		$this->_type =& $type;
 		$this->_displayName = $displayName;
 		$this->_description = $description;
-		$this->save();
+//		$this->save();
 	}
 
 	/**
@@ -188,7 +188,7 @@ class HarmoniNode
 				
 		// update and save
 		$this->_description = $description;
-		$this->save();	
+//		$this->save();	
 	}
 
 	/**
@@ -207,7 +207,7 @@ class HarmoniNode
 		
 		// update and save
 		$this->_displayName = $displayName;
-		$this->save();
+//		$this->save();
 	}
 
 	/**
@@ -279,7 +279,30 @@ class HarmoniNode
 		// This implimentation only allows single-parent hierarchies.
 		throwError(new Error(SINGLE_PARENT_HIERARCHY, "Hierarchy", 1));	
 	}
-	
+
+	/**
+	 * Changes the parent of this Node by adding a new parent and removing the old parent.
+	 * @param oldParentId
+	 * @param newParentId
+	 * @throws osid.hierarchy.HierarchyException An exception with one of the following messages defined in osid.hierarchy.HierarchyException may be thrown:  {@link HierarchyException#OPERATION_FAILED OPERATION_FAILED}, {@link HierarchyException#PERMISSION_DENIED PERMISSION_DENIED}, {@link HierarchyException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link HierarchyException#UNIMPLEMENTED UNIMPLEMENTED}, {@link HierarchyException#NULL_ARGUMENT NULL_ARGUMENT}, {@link HierarchyException#NODE_TYPE_NOT_FOUND NODE_TYPE_NOT_FOUND}, {@link HierarchyException#ATTEMPTED_RECURSION ATTEMPTED_RECURSION}
+	 * @package osid.hierarchy
+	 */
+	function changeParent(& $oldParentId, & $newParentId) { 
+		// Check the arguments
+		ArgumentValidator::validate($oldParentId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($newParentId, new ExtendsValidatorRule("Id"));
+		
+		// Verify the old parent
+		$parentId = $this->_hierarchyStore->getParentID($this->_id->getIdString());
+		if ($oldParentId->getIdString() != $parentId)
+			throwError(new Error(OPERATION_FAILED, "Hierarchy", 1));
+		
+		// move the node
+		$idString = $this->_id->getIdString();
+		$newParentIdString = $newParentId->getIdString();
+		$this->_hierarchyStore->moveTo($idString, $newParentIdString);
+	}
+
 	/**
 	 * Saves this object to persistable storage.
 	 * @access protected

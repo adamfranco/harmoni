@@ -1,6 +1,7 @@
 <?php
 
 require_once(HARMONI."oki/hierarchy/HierarchyManagerStore.interface.php");
+require_once(HARMONI."oki/hierarchy/SQLDatabaseHierarchyStore.class.php");
 
 /******************************************************************************
  * A storage class for HierarchyManager[s]. This class provides saving and loading
@@ -13,6 +14,12 @@ require_once(HARMONI."oki/hierarchy/HierarchyManagerStore.interface.php");
 class SQLDatabaseHierarchyManagerStore
 	extends HierarchyManagerStore
 {
+
+	/**
+	 * @var array $_changed The ids of objects that have been modified since they were 
+	 *						loaded from persistable storage.
+	 */
+	var $_hierarchies = array();
 
 	/**
 	 * Constructor
@@ -56,6 +63,8 @@ class SQLDatabaseHierarchyManagerStore
 		$this->_nodeParentKeyColumn = $nodeParentKeyColumn;
 		$this->_nodeDisplayNameColumn = $nodeDisplayNameColumn;
 		$this->_nodeDescriptionColumn = $nodeDescriptionColumn;
+		
+		$this->_hierarchies = array();
 		
 		$this->load();
 	}
@@ -168,7 +177,6 @@ class SQLDatabaseHierarchyManagerStore
 	 */
 	function save () {
 		foreach ($this->_hierarchies as $key => $val) {
-			print "Saving $key";
 			$this->_hierarchies[$key]->save();
 		}
 	}

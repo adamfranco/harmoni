@@ -9,7 +9,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyManagerSQLTestCase.class.php,v 1.1 2003/11/04 22:37:38 adamfranco Exp $
+ * @version $Id: HierarchyManagerSQLTestCase.class.php,v 1.2 2003/11/05 22:22:06 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
          *    @public
          */
         function setUp() {
-        	print "<pre>";
+//        	print "<pre>";
         	
         	$this->dbc =& Services::requireService("DBHandler","DBHandler");
  			$this->dbindex = $this->dbc->createDatabase(MYSQL,"devo.middlebury.edu", "harmoniTest", "test", "test");
@@ -53,7 +53,6 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
         		$this->numPreExisting++;
         		$hierarchyIterator->next();
         	}
-        	print $this->numPreExisting;
         	
         	$nodeType =& new TestNodeType;
 			$nodeTypes = array ($nodeType);
@@ -75,7 +74,7 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 			$this->manager->save();
 			
 			unset($this->manager);
-			print "</pre>";
+//			print "</pre>";
         }
 
 		//--------------the tests ----------------------
@@ -97,10 +96,10 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
 			
 			$hierarchy2 =& $manager->createHierarchy(FALSE, "Another test Hierarchy", "Hierarchy2", $nodeTypes, FALSE);
 			$hierarchy2Id = $hierarchy2->getId();
-			print $this->dbc->getTotalNumberOfQueries($this->dbindex)."\n";
+//			print $this->dbc->getTotalNumberOfQueries($this->dbindex)."\n";
 //			print_r($manager);
 			$manager->save();
-			print $this->dbc->getTotalNumberOfQueries($this->dbindex)."\n";
+//			print $this->dbc->getTotalNumberOfQueries($this->dbindex)."\n";
 			
 			$configuration = array(
 				"type" => SQL_DATABASE,

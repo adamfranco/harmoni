@@ -1,6 +1,8 @@
 <?php
 
 require_once(HARMONI.'/oki/hierarchy/HierarchyStore.interface.php');
+require_once(HARMONI.'/oki/hierarchy/Tree.php');
+require_once(HARMONI.'/oki/hierarchy/HarmoniHierarchy.class.php');
 require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
 Services::registerService("Shared","HarmoniSharedManager");
 
@@ -436,19 +438,30 @@ class SQLDatabaseHierarchyStore
 			
 			// Add a row of values for each new node
 			foreach ($this->_added as $key => $id) {
-				$nodeObj =& $this->_tree->getData($id);
-				$parentId = $this->_tree->getParentId($id);
-				$displayName = $nodeObj->getDisplayName();
-				$description = $nodeObj->getDescription();
+				// ---- Database access ----
+				// if added - will be inserted
+				// if changed - will be updated
+				// if deleted - will be deleted
+				// if added and changed - will be inserted
+				// if changed and deleted - will be deleted
+				// if added and deleted - no database calls
+				// if added and changed and deleted - no database calls
 				
-				$values = array(
-					$id,
-					$this->_id->getIdString(),
-					$parentId,
-					"'".$displayName."'",
-					"'".$description."'"					
-				);
-				$query->addRowOfValues($values);
+				if (!in_array($id, $this->_deleted)) {
+					$nodeObj =& $this->_tree->getData($id);
+					$parentId = $this->_tree->getParentId($id);
+					$displayName = $nodeObj->getDisplayName();
+					$description = $nodeObj->getDescription();
+					
+					$values = array(
+						$id,
+						$this->_id->getIdString(),
+						$parentId,
+						"'".$displayName."'",
+						"'".$description."'"					
+					);
+					$query->addRowOfValues($values);
+				}
 			}
 			
 			$queryQueue->add($query);
@@ -457,6 +470,15 @@ class SQLDatabaseHierarchyStore
 		// Save any changes to any nodes
 		if (count($this->_changed)) {
 			foreach ($this->_changed as $key => $id) {
+				// ---- Database access ----
+				// if added - will be inserted
+				// if changed - will be updated
+				// if deleted - will be deleted
+				// if added and changed - will be inserted
+				// if changed and deleted - will be deleted
+				// if added and deleted - no database calls
+				// if added and changed and deleted - no database calls
+				
 				$nodeObj =& $this->_tree->getData($id);
 				$parentId = $this->_tree->getParentId($id);
 				$displayName = $nodeObj->getDisplayName();
@@ -489,11 +511,21 @@ class SQLDatabaseHierarchyStore
 		// Remove any deleted nodes
 		if (count($this->_deleted)) {
 			foreach ($this->_deleted as $key => $id) {
-				$query =& new DeleteQuery;
-				$query->setTable($this->_nodeTableName);
-				$query->setWhere($this->_nodeIdColumn."=".$id);
+				// ---- Database access ----
+				// if added - will be inserted
+				// if changed - will be updated
+				// if deleted - will be deleted
+				// if added and changed - will be inserted
+				// if changed and deleted - will be deleted
+				// if added and deleted - no database calls
+				// if added and changed and deleted - no database calls
+				if (!in_array($id, $this->_added)) {
+					$query =& new DeleteQuery;
+					$query->setTable($this->_nodeTableName);
+					$query->setWhere($this->_nodeIdColumn."=".$id);
 				
-				$queryQueue->add($query);
+					$queryQueue->add($query);
+				}
 			}
 		}
 		
@@ -627,6 +659,16 @@ class SQLDatabaseHierarchyStore
 		$this->_tree->addNode($data, $parentID, $id);
 		if (!in_array($id,$this->_changed))
 			$this->_added[] = $id;
+			
+		// if we deleted this node and are adding it back in, remove it from the deleted array
+		if (in_array($id,$this->_deleted)) {
+			$newDeleted = array();
+			foreach ($this->_deleted as $deletedId) {
+				if ($deletedId != $id)
+					$newDeleted[] = $deletedId;
+			}
+			$this->_deleted =& $newDeleted;
+		}
 	}
 
 	/**

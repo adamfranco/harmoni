@@ -33,7 +33,7 @@ define("MEMORY_ONLY", 1001);
  * 
  * <p></p>
  *
- * @version $Revision: 1.13 $ / $Date: 2003/11/04 22:37:38 $
+ * @version $Revision: 1.14 $ / $Date: 2003/11/05 22:21:48 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -119,12 +119,13 @@ class HarmoniHierarchyManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & createHierarchy($allowsMultipleParents, $description, $name, & $nodeTypes, $allowsRecursion) {
+	function & createHierarchy($allowsMultipleParents, $description, $name, $nodeTypes, $allowsRecursion) {
 		// Check the arguments
 		ArgumentValidator::validate($allowsMultipleParents, new BooleanValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
 		ArgumentValidator::validate($name, new StringValidatorRule);
-		ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
+		if ($nodeTypes != NULL)
+			ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
 		ArgumentValidator::validate($allowsRecursion, new BooleanValidatorRule);
 		
 		// if allowsMultipleParents is false and allowsRecursion is true
@@ -150,7 +151,7 @@ class HarmoniHierarchyManager
 		$this->_managerStore->addHierarchy($hierarchy);
 		
 		// Save this Manager to persistable storage
-		$this->save();
+//		$this->save(); // on second thought, lets let the application decide when to save it.
 		
 		return $hierarchy;
 	}
@@ -234,7 +235,7 @@ class HarmoniHierarchyManager
 			throwError(new Error(HIERARCHY_NOT_EMPTY, "Hierarchy", 1));
 		
 		$this->_managerStore->deleteHierarchy($hierarchyId);
-		$this->save();
+//		$this->save(); // on second thought, lets let the application decide when to save it.
 	}
 
 	/**

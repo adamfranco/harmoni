@@ -1,13 +1,14 @@
 <?php
 
 require_once(HARMONI.'/oki/hierarchy/HarmoniHierarchy.class.php');
+require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: NodeTestCase.class.php,v 1.9 2003/11/04 22:37:38 adamfranco Exp $
+ * @version $Id: NodeTestCase.class.php,v 1.10 2003/11/05 22:22:06 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/

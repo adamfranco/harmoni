@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy/SQLDatabaseHierarchyStore.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SQLDatabaseHierarchyStoreTestCase.class.php,v 1.5 2003/11/04 22:37:38 adamfranco Exp $
+ * @version $Id: SQLDatabaseHierarchyStoreTestCase.class.php,v 1.6 2003/11/05 22:22:06 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -28,7 +28,7 @@ require_once(HARMONI.'/oki/hierarchy/SQLDatabaseHierarchyStore.class.php');
  			$this->dbc->connect($this->dbindex);
  			
  			$this->sharedManager =& Services::requireService("Shared");
- 			$this->hierarchyId =& $this->sharedManager->getId("1");
+ 			$this->hierarchyId =& $this->sharedManager->createId();
  			
 			$this->store =& new SQLDatabaseHierarchyStore($this->dbindex, 
 				"hierarchy", "id","display_name","description",
@@ -74,6 +74,13 @@ require_once(HARMONI.'/oki/hierarchy/SQLDatabaseHierarchyStore.class.php');
 			// perhaps, unset $obj here
 			$this->store->removeNode($this->newRootIdString);
 			$this->store->save();
+			
+			$id =& $this->store->getId();
+			$idString = $id->getIdString();
+			$query = new DeleteQuery;
+			$query->setTable("hierarchy");
+			$query->setWhere("id=".$idString);
+			$this->dbc->query($query);
 			
 //			$this->dbc->disconnect($this->dbindex);
 			
