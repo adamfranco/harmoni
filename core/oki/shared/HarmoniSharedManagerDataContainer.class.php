@@ -7,7 +7,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * to the constructor of a DatabaseHierarchicalAuthorizationMethod object.
  * 
  * @package harmoni.authorization
- * @version $Id: HarmoniSharedManagerDataContainer.class.php,v 1.2 2004/04/01 22:44:14 dobomode Exp $
+ * @version $Id: HarmoniSharedManagerDataContainer.class.php,v 1.3 2004/04/12 22:58:13 dobomode Exp $
  * @copyright 2003
  */
 
@@ -39,6 +39,11 @@ class HarmoniSharedManagerDataContainer extends DataContainer {
 	 * <code>agentTable_fkTypeColumnColumn</code> - the name of the column in the agent table storing the foreign key to the type table
 	 * 
 	 * <code>groupTable</code> - the name of the table that will store the groups
+	 * <code>groupTable_idColumn</code> - the name of the column in the group table storing the id
+	 * <code>groupTable_displayNameColumn</code> - the name of the column in the group table storing the display name
+	 * <code>groupTable_fkTypeColumnColumn</code> - the name of the column in the group table storing the foreign key to the type table
+	 * <code>groupTable_description</code> - the name of the column in the group table storing the description of the group
+	 * 
 	 * <code>agentGroupJoinTable</code> - the name of the join table for the groups and agents.
 	 * 
      * @see {@link HarmoniSharedManager}
@@ -74,6 +79,10 @@ class HarmoniSharedManagerDataContainer extends DataContainer {
 		$this->add("agentTable_fkTypeColumn", $stringValidatorRule);
 		
 		$this->add("groupTable", $stringValidatorRule);
+		$this->add("groupTable_idColumn", $stringValidatorRule);
+		$this->add("groupTable_displayNameColumn", $stringValidatorRule);
+		$this->add("groupTable_fkTypeColumn", $stringValidatorRule);
+		$this->add("groupTable_description", $stringValidatorRule);
 		$this->add("agentGroupJoinTable", $stringValidatorRule);
     } 
 }

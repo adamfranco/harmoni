@@ -39,7 +39,7 @@ require_once(HARMONI."oki/shared/HarmoniSharedManagerDataContainer.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.19 $ / $Date: 2004/04/08 21:21:37 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.20 $ / $Date: 2004/04/12 22:58:12 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -54,11 +54,19 @@ class HarmoniSharedManager
 	 */
 	var $_idDBIndex = 0;
 	
+
 	/**
 	 * An array that will store the cached agent objects.
 	 * @attribute private array _agentsCache
 	 */
 	var $_agentsCache;
+	
+	
+	/**
+	 * An array that will store the cached group objects.
+	 * @attribute private array _groupsCache
+	 */
+	var $_groupsCache;
 	
 	
 	/**
@@ -94,10 +102,15 @@ class HarmoniSharedManager
 		$this->_agentTable_fkTypeColumn = $dataContainer->get("agentTable_fkTypeColumn");
 		
 		$this->_groupTable = $dataContainer->get("groupTable");
+		$this->_groupTable_idColumn = $dataContainer->get("groupTable_idColumn");
+		$this->_groupTable_displayNameColumn = $dataContainer->get("groupTable_displayNameColumn");
+		$this->_groupTable_fkTypeColumn = $dataContainer->get("groupTable_fkTypeColumn");
+		$this->_groupTable_description = $dataContainer->get("groupTable_description");
 		$this->_agentGroupJoinTable = $dataContainer->get("agentGroupJoinTable");
 		
 		// initialize cache
 		$this->_agentsCache = array();
+		$this->_groupsCache = array();
 	}
 
     /**
@@ -403,7 +416,41 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getAgentTypes() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		$dbHandler =& Services::requireService("DBHandler");
+		$query =& new SelectQuery();
+		
+		$db = $this->_sharedDB.".";
+		
+		// set the tables
+		$query->addTable($db.$this->_agentTable);
+		$joinc = $db.$this->_agentTable.".".$this->_agentTable_fkTypeColumn." = ".$db.$this->_typeTable.".".$this->_typeTable_idColumn;
+		$query->addTable($db.$this->_typeTable, INNER_JOIN, $joinc);
+		
+		// set the columns to select
+		$query->setDistinct(true);
+		$query->addColumn($this->_typeTable_idColumn, "id", $db.$this->_typeTable);
+		$query->addColumn($this->_typeTable_domainColumn, "domain", $db.$this->_typeTable);
+		$query->addColumn($this->_typeTable_authorityColumn, "authority", $db.$this->_typeTable);
+		$query->addColumn($this->_typeTable_keywordColumn, "keyword", $db.$this->_typeTable);
+		$query->addColumn($this->_typeTable_descriptionColumn, "description", $db.$this->_typeTable);
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+
+		$types = array();
+		while ($queryResult->hasMoreRows()) {
+			// fetch current row
+			$arr = $queryResult->getCurrentRow();
+			
+			// create agent object
+			$type =& new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
+			
+			// add it to array
+			$types[] =& $type;
+
+			$queryResult->advanceRow();
+		}
+		
+		$result =& new HarmoniTypeIterator($types);
+		return $result;
 	}
 
 	/**
@@ -423,8 +470,88 @@ class HarmoniSharedManager
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function & createGroup($description, $name, & $groupType) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	function & createGroup($displayName, & $groupType, $description) {
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("HarmoniType");
+		ArgumentValidator::validate($groupType, $extendsRule, true);
+		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
+		ArgumentValidator::validate($description, new StringValidatorRule(), true);
+		// ** end of parameter validation
+		
+		// create a new unique id for the group
+		$groupId =& $this->createId();
+		// get the actual id
+		$groupIdValue = $groupId->getIdString();
+		
+		// now insert the group in the database
+
+		$dbHandler =& Services::requireService("DBHandler");
+		$db = $this->_sharedDB.".";
+
+		// 1. Insert the type
+		
+		$domain = $groupType->getDomain();
+		$authority = $groupType->getAuthority();
+		$keyword = $groupType->getKeyword();
+		$description = $groupType->getDescription();
+
+		// check whether the type is already in the DB, if not insert it
+		$query =& new SelectQuery();
+		$query->addTable($db.$this->_typeTable);
+		$query->addColumn($this->_typeTable_idColumn, "id", $db.$this->_typeTable);
+		$where = $db.$this->_typeTable.".".$this->_typeTable_domainColumn." = '".$domain."'";
+		$where .= " AND ".$db.$this->_typeTable.".".$this->_typeTable_authorityColumn." = '".$authority."'";
+		$where .= " AND ".$db.$this->_typeTable.".".$this->_typeTable_keywordColumn." = '".$keyword."'";
+		$where .= " AND ".$db.$this->_typeTable.".".$this->_typeTable_descriptionColumn." = '".$description."'";
+		$query->addWhere($where);
+
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		if ($queryResult->getNumberOfRows() > 0) // if the type is already in the database
+			$typeIdValue = $queryResult->field("id"); // get the id
+		else { // if not, insert it
+			$query =& new InsertQuery();
+			$query->setTable($db.$this->_typeTable);
+			$columns = array();
+			$columns[] = $this->_typeTable_domainColumn;
+			$columns[] = $this->_typeTable_authorityColumn;
+			$columns[] = $this->_typeTable_keywordColumn;
+			$columns[] = $this->_typeTable_descriptionColumn;
+			$query->setColumns($columns);
+			$values = array();
+			$values[] = "'".$domain."'";
+			$values[] = "'".$authority."'";
+			$values[] = "'".$keyword."'";
+			$values[] = "'".$description."'";
+			$query->setValues($values);
+
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			$typeIdValue = $queryResult->getLastAutoIncrementValue();
+		}
+		
+		// 2. Now that we know the id of the type, insert the group itself
+		$query =& new InsertQuery();
+		$query->setTable($db.$this->_groupTable);
+		$columns = array();
+		$columns[] = $this->_groupTable_idColumn;
+		$columns[] = $this->_groupTable_displayNameColumn;
+		$columns[] = $this->_groupTable_description;
+		$columns[] = $this->_groupTable_fkTypeColumn;
+		$query->setColumns($columns);
+		$values = array();
+		$values[] = "'".$groupIdValue."'";
+		$values[] = "'".$displayName."'";
+		$values[] = "'".$description."'";
+		$values[] = "'".$typeIdValue."'";
+		$query->setValues($values);
+
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// create the group object to return
+		$group =& new HarmoniGroup($displayName, $groupId, $groupType, $description);
+		// then cache it
+		$this->_groupsCache[$groupIdValue] =& $group;
+		
+		return $group;
 	}
 
 	/**

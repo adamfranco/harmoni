@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTestId.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.4 2004/04/08 21:21:51 dobomode Exp $
+ * @version $Id: SharedManagerTestCase.class.php,v 1.5 2004/04/12 22:58:26 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -49,7 +49,12 @@ class SharedManagerTestCase extends UnitTestCase {
 		$dataContainer->set("agentTable_displayNameColumn", "agent_display_name");
 		$dataContainer->set("agentTable_fkTypeColumn", "fk_type");
 		
-		$dataContainer->set("groupTable", "group");
+		$dataContainer->set("groupTable", "groups");
+		$dataContainer->set("groupTable_idColumn", "group_id");
+		$dataContainer->set("groupTable_displayNameColumn", "group_display_name");
+		$dataContainer->set("groupTable_fkTypeColumn", "fk_type");
+		$dataContainer->set("groupTable_description", "group_description");
+
 		$dataContainer->set("agentGroupJoinTable", "j_agent_group");
 
        	$this->manager =& new HarmoniSharedManager($dataContainer);
@@ -132,7 +137,7 @@ class SharedManagerTestCase extends UnitTestCase {
 	/**
 	 * Testing getAgents
 	 **/
-	function test_agents() {
+	function test_get_agents() {
 		$agents =& $this->manager->getAgents();
 		$this->assertIsA($agents, "HarmoniAgentIterator");
 		while ($agents->hasNext()) {
@@ -141,5 +146,43 @@ class SharedManagerTestCase extends UnitTestCase {
 		}
 	}
 
+	/**
+	 * Testing getAgentTypes
+	 **/
+	function test_get_agent_types() {
+		$types =& $this->manager->getAgentTypes();
+		$this->assertIsA($types, "HarmoniTypeIterator");
+		while ($types->hasNext()) {
+			$type =& $types->next();
+			$this->assertIsA($type, "Type");
+		}
+	}
 
+	/**
+	 * Testing createAgent
+	 **/
+	function test_create_group() {
+		// create a type
+		$type =& new HarmoniType("Create", "Group", "Test", "A test for creating a group");
+		
+		// create one group
+		$group1 =& $this->manager->createGroup("depeche", $type, "The greatest band.");
+		$this->assertIsA($group1, "HarmoniGroup");
+
+		// create another one		
+		$group2 =& $this->manager->createGroup("u2", $type, "Another great one, but not as great.");
+		$this->assertIsA($group2, "HarmoniGroup");
+		
+		// they should be distinct
+		$this->assertNotIdentical($group1, $group2);
+		
+		// now use getGroup to fetch the created group and verify identity
+//		$group3 =& $this->manager->getGroup($group2->getId());
+//		$this->assertReference($group2, $group3);
+		
+		// delete the groups
+//		$this->manager->deleteGroup($group1->getId());
+//		$this->manager->deleteGroup($group2->getId());
+	}
+	
 }

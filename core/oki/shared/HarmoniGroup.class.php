@@ -235,7 +235,7 @@ class HarmoniGroup // :: API interface
 		return false;
 	}
 
-	
+
 }
 
 ?>
