@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.15 2004/06/28 15:23:25 adamfranco Exp $
+ * @version $Id: LoginHandler.class.php,v 1.16 2004/07/08 17:09:47 adamfranco Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -304,6 +304,17 @@ class LoginHandler {
 	}
 	
 	/**
+	 * Sets the callback function for the LoginHandler to prompt for a username/password
+	 * pair from the browser. It could, for example, send a 401 HTTP headers to prompt
+	 * for an HTTP Login
+	 * @access public
+	 * @return void
+	 **/
+	function setPromptCallbackFunction($functionName) {
+		$this->_PromptCallbackFunction = $functionName;
+	}
+	
+	/**
 	 * Sets the callback function for the LoginHandler to fetch a username/password
 	 * pair from the browser. It could, for example, check some $_POST/_GET fields
 	 * for the information. The function should either: 1) return FALSE if the user
@@ -312,7 +323,7 @@ class LoginHandler {
 	 * @access public
 	 * @return void
 	 **/
-	function setPromptCallbackFunction($functionName) {
+	function setCollectionCallbackFunction($functionName) {
 		$this->_PromptCallbackFunction = $functionName;
 	}
 }
