@@ -1,0 +1,11 @@
+<changelog>
+	<version number="0.0.2">
+		add here anything that you have done since 0.0.1
+	</version>
+	<version number="0.0.1" date="2003-07-10">
+		<change>Changed AuthenticationMethod to allow for getAgentInformation(username,searchMode) so that one can search for a username/fullname etc as well as get information for a single entry.</change>
+		<new>Added StatisticsHandler</new>
+		<change>Updated DB and LDAP AuthenticationMethods to allow for user-info searching & tested backwards compatibility.</change>
+		<change>Changed naming scheme of packages so that they describe more clearly what they DO as opposed to what they CONTAIN.</change>
+	</version>
+</changelog>
