@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.13 $ / $Date: 2004/01/14 21:17:05 $
+ * @version $Revision: 1.14 $ / $Date: 2004/01/15 18:29:57 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -53,14 +53,18 @@ class HarmoniNode
 	 * @param string $displayName The displayName of the Node.
 	 * @param string $description The description of the Node.
 	 */
-	function HarmoniNode(& $id, & $hierarchyStore, $type, $displayName, $description) {
+	function HarmoniNode(& $id, & $hierarchyStore, & $type, $displayName, $description) {
 		// Check the arguments
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($hierarchyStore, new ExtendsValidatorRule("HierarchyStore"));
-		if ($type !== NULL)
-			ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
-		ArgumentValidator::validate($description, new StringValidatorRule);
+		// SLOW-VALIDATE -- comment validation out to increase program speed.
+		// This function should only be called by the HarmoniHierarchyClass and the
+		// Hierarchy Stores, so we can assume that they have validated the parameters 
+		// already. Adding the validation adds 1/3 to the load time of the hierarchy.
+/* 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id")); */
+/* 		ArgumentValidator::validate($hierarchyStore, new ExtendsValidatorRule("HierarchyStore")); */
+/* 		if ($type !== NULL) */
+/* 			ArgumentValidator::validate($type, new ExtendsValidatorRule("Type")); */
+/* 		ArgumentValidator::validate($displayName, new StringValidatorRule); */
+/* 		ArgumentValidator::validate($description, new StringValidatorRule); */
 		
 		// set the private variables
 		$this->_id =& $id;
