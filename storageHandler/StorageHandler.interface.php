@@ -5,7 +5,7 @@
  * server for the mirrored path will also be stored on the mirror.
  * 
  * @package harmoni.StorageHandler
- * @const integer MIRROR_REGULAR
+ * @const integer MIRROR_SHALLOW
  */
 define("MIRROR_SHALLOW", 1);
 
@@ -43,7 +43,7 @@ define("STORAGE_PRIMARY", 3);
  * 
  * @package harmoni.StorageHandler
  * @author Middlebury College, ETS 
- * @version $Id: StorageHandler.interface.php,v 1.4 2003/07/03 18:03:20 gabeschine Exp $
+ * @version $Id: StorageHandler.interface.php,v 1.5 2003/07/06 22:10:30 gabeschine Exp $
  * @copyright 2003
  */
 class StorageHandlerInterface extends ServiceInterface {
