@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.11 2005/03/29 19:44:24 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.12 2005/03/31 20:21:13 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
@@ -286,13 +286,12 @@ class HarmoniHierarchy
 	function &createRootNode ( &$nodeId, &$nodeType, $displayName, $description ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
-		$stringRule =& StringValidatorRule::getRule();
-		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
-		ArgumentValidator::validate($displayName, $stringRule, true);
-		ArgumentValidator::validate($description, $stringRule, true);
+		ArgumentValidator::validate($nodeType, ExtendsValidatorRule::getRule("Type"), true);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
-		return $this->_cache->createRootNode($nodeId, $type, $displayName, $description);
+		return $this->_cache->createRootNode($nodeId, $nodeType, $displayName, $description);
 	}
 
 	/**
@@ -331,10 +330,9 @@ class HarmoniHierarchy
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($parentId, ExtendsValidatorRule::getRule("Id"), true);
-		$stringRule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
-		ArgumentValidator::validate($displayName, $stringRule, true);
-		ArgumentValidator::validate($description, $stringRule, true);
+		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		return $this->_cache->createNode($nodeId, $parentId, $type, $displayName, $description);
