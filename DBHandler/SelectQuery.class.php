@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQuery.interface.php");
  * 
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * @version $Id: SelectQuery.class.php,v 1.6 2003/06/26 02:03:50 dobomode Exp $
+ * @version $Id: SelectQuery.class.php,v 1.7 2003/06/26 16:18:06 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -338,7 +338,7 @@ class SelectQuery extends SelectQueryInterface {
 	function reset() {
 		parent::reset();
 
-		// a DELETE query
+		// an UPDATE query
 		$this->_type = SELECT;
 		
 		// default query configuration:

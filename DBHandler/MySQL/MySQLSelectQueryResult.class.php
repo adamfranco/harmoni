@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  *
  * The MySQLSelectQueryResult interface provides the functionality common to a MySQL SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.2 2003/06/24 21:08:45 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.3 2003/06/26 16:18:06 dobomode Exp $
  * @package harmoni.dbhandler
  * @access public
  * @copyright 2003 
@@ -58,6 +58,12 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 * @return object MySQLSelectQueryResult A new MySQLSelectQueryResult object.
 	 */
 	function MySQLSelectQueryResult($resourceId, $linkId) {
+		// ** parameter validation
+		$resourceRule =& new ResourceValidatorRule();
+		ArgumentValidator::validate($resourceId, $resourceRule, true);
+		ArgumentValidator::validate($linkId, $resourceRule, true);
+		// ** end of parameter validation
+
 		$this->_resourceId = $resourceId;
 		$this->_linkId = $linkId;
 		$this->_currentRowIndex = 0;
@@ -120,6 +126,11 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 * @return mixed The value that was requested.
 	 **/
 	function field($field) {
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($field, $stringRule, true);
+		// ** end of parameter validation
+
 		return $this->_currentRow[$field];
 	}
 	

@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/UpdateQuery.interface.php");
  *
  * An UpdateQuery class provides the tools to build an UPDATE query.
  * 
- * @version $Id: UpdateQuery.class.php,v 1.2 2003/06/24 21:08:45 adamfranco Exp $
+ * @version $Id: UpdateQuery.class.php,v 1.3 2003/06/26 16:18:06 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -54,6 +54,11 @@ class UpdateQuery extends UpdateQueryInterface {
 	 * @access public
 	 */
 	function setTable($table) {
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($table, $stringRule, true);
+		// ** end of parameter validation
+
 		$this->_table = $table;
 	}
 
@@ -63,6 +68,11 @@ class UpdateQuery extends UpdateQueryInterface {
 	 * @access public
 	 */
 	function setColumns($columns) {
+		// ** parameter validation
+		$arrayRule =& new ArrayValidatorRule();
+		ArgumentValidator::validate($columns, $arrayRule, true);
+		// ** end of parameter validation
+
 		$this->_columns = $columns;
 	}
 
@@ -74,6 +84,11 @@ class UpdateQuery extends UpdateQueryInterface {
 	 * @access public
 	 */
 	function setValues($values) {
+		// ** parameter validation
+		$arrayRule =& new ArrayValidatorRule();
+		ArgumentValidator::validate($values, $arrayRule, true);
+		// ** end of parameter validation
+
 		$this->_values = $values;
 	}
 	
@@ -87,6 +102,11 @@ class UpdateQuery extends UpdateQueryInterface {
 	 * @access public
 	 */
 	function setWhere($condition) {
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($condition, $stringRule, true);
+		// ** end of parameter validation
+
 		$this->_condition = $condition;
 	}
 
@@ -98,7 +118,7 @@ class UpdateQuery extends UpdateQueryInterface {
 	function reset() {
 		parent::reset();
 
-		// a DELETE query
+		// an UPDATE query
 		$this->_type = UPDATE;
 		
 		// default query configuration:

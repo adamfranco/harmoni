@@ -9,7 +9,7 @@ require_once(HARMONI."DBHandler/InsertQuery.interface.php");
  * initialization steps, etc. What is left to be implemented is the
  * generateSQLQuery() method.
  * 
- * @version $Id: InsertQuery.class.php,v 1.2 2003/06/24 21:08:45 adamfranco Exp $
+ * @version $Id: InsertQuery.class.php,v 1.3 2003/06/26 16:18:06 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -54,6 +54,11 @@ class InsertQuery extends InsertQueryInterface {
 	 * @access public
 	 */
 	function setTable($table) {
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($table, $stringRule, true);
+		// ** end of parameter validation
+
 		$this->_table = $table;
 	}
 
@@ -63,6 +68,11 @@ class InsertQuery extends InsertQueryInterface {
 	 * @access public
 	 */
 	function setColumns($columns) {
+		// ** parameter validation
+		$arrayRule =& new ArrayValidatorRule();
+		ArgumentValidator::validate($columns, $arrayRule, true);
+		// ** end of parameter validation
+
 		$this->_columns = $columns;
 	}
 
@@ -76,6 +86,11 @@ class InsertQuery extends InsertQueryInterface {
 	 * @access public
 	 */
 	function addRowOfValues($values) {
+		// ** parameter validation
+		$arrayRule =& new ArrayValidatorRule();
+		ArgumentValidator::validate($values, $arrayRule, true);
+		// ** end of parameter validation
+
 		$this->_values[] = $values;
 	}
 
@@ -91,6 +106,11 @@ class InsertQuery extends InsertQueryInterface {
 	function setAutoIncrementColumn($column) {
 		// In MySQL, this is irrelevant. Auto_Increment columns should
 		// be defined as such in the table definition.
+		
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($column, $stringRule, true);
+		// ** end of parameter validation
 	}
 
 
@@ -101,7 +121,7 @@ class InsertQuery extends InsertQueryInterface {
 	function reset() {
 		parent::reset();
 
-		// a DELETE query
+		// an UPDATE query
 		$this->_type = INSERT;
 
 		// default query configuration:

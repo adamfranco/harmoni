@@ -14,7 +14,7 @@ require_once(HARMONI.'utilities/Queue.class.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.2 2003/06/24 21:08:45 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.3 2003/06/26 16:18:06 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  * @access public
@@ -53,6 +53,16 @@ class DBHandler extends DBHandlerInterface {
 	 * @access public
 	 */
 	function createDatabase($dbType, $dbHost, $dbName, $dbUser, $dbPass) {
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($dbType, $integerRule, true);
+		ArgumentValidator::validate($dbHost, $stringRule, true);
+		ArgumentValidator::validate($dbName, $stringRule, true);
+		ArgumentValidator::validate($dbUser, $stringRule, true);
+		ArgumentValidator::validate($dbPass, $stringRule, true);
+		// ** end of parameter validation
+
 	
 		// depending on $dbType, instantiate the corresponding Database object.
 		switch ($dbType) {
@@ -77,7 +87,7 @@ class DBHandler extends DBHandlerInterface {
 		}
 		
 		// return the index of the database we just created
-		return count($this->_databases) - 1;
+		return true;
 	}
 
 	/**
@@ -88,11 +98,19 @@ class DBHandler extends DBHandlerInterface {
 	 * @access public
 	 */
 	function & query(& $query, $dbIndex=0) {
+		// ** parameter validation
+		$queryRule =& new ExtendsValidatorRule("QueryInterface");
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($query, $queryRule, true);
+		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		// ** end of parameter validation
+
 		// run the query on the appropriate database.
 		$result =& $this->_databases[$dbIndex]->query($query);
 		return $result;
 	}
 
+	
 	/**
 	 * Run a database query for each Query in the Queue and return a Queue of QueryResults.
 	 * @param object QueueInterface A queue object which holds the queries to run.
@@ -101,6 +119,13 @@ class DBHandler extends DBHandlerInterface {
 	 * @access public
 	 */
 	function & queryQueue(& $queue, $dbIndex=0) {
+		// ** parameter validation
+		$queueRule =& new ExtendsValidatorRule("QueueInterface");
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($queue, $queueRule, true);
+		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		// ** end of parameter validation
+
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex]))
 			return false;
@@ -112,6 +137,7 @@ class DBHandler extends DBHandlerInterface {
 		}
 		return $resultQueue;
 	}
+	
 	
 	/**
 	 * Gets the total number of queries that have been run so far.
@@ -127,6 +153,7 @@ class DBHandler extends DBHandlerInterface {
 		}
 		return $numberOfQueries;
 	}
+	
 	
 	/**
 	 * Gets the total number of queries that have been run successfully so far.
@@ -163,6 +190,11 @@ class DBHandler extends DBHandlerInterface {
 	 * @access public
 	 */
 	function connect($dbIndex = 0) {
+		// ** parameter validation
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		// ** end of parameter validation
+
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex]))
 			return false;
@@ -183,6 +215,11 @@ class DBHandler extends DBHandlerInterface {
 	 * @access public
 	 */
 	function pConnect($dbIndex = 0) {
+		// ** parameter validation
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		// ** end of parameter validation
+
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex]))
 			return false;
@@ -203,6 +240,11 @@ class DBHandler extends DBHandlerInterface {
 	 * @access public
 	 */
 	function disconnect($dbIndex = 0) {
+		// ** parameter validation
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		// ** end of parameter validation
+
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex]))
 			return false;
@@ -224,6 +266,11 @@ class DBHandler extends DBHandlerInterface {
 	 * @return boolean True, if there is an open connection to the database; False, otherwise.
 	 */
 	function isConnected($dbIndex = 0) {
+		// ** parameter validation
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		// ** end of parameter validation
+
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex]))
 			return false;
