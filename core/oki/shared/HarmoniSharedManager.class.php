@@ -11,7 +11,6 @@ require_once(HARMONI."oki/shared/HarmoniTestId.class.php");
 require_once(HARMONI."oki/shared/HarmoniId.class.php");
 require_once(HARMONI."oki/shared/HarmoniStringId.class.php");
 require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
-require_once(HARMONI."oki/shared/HarmoniSharedManagerDataContainer.class.php");
 
 /**
  * Properties is a mechanism for returning read-only data about an Agent.  Each
@@ -39,7 +38,7 @@ require_once(HARMONI."oki/shared/HarmoniSharedManagerDataContainer.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.21 $ / $Date: 2004/04/13 22:53:28 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.22 $ / $Date: 2004/04/14 21:46:43 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
