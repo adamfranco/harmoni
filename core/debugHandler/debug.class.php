@@ -12,7 +12,7 @@ require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: debug.class.php,v 1.10 2005/02/07 21:13:35 adamfranco Exp $
+ * @version $Id: debug.class.php,v 1.11 2005/03/02 23:08:15 adamfranco Exp $
  *
  * @static
  **/
@@ -73,6 +73,21 @@ class debug {
 		else
 			$debugPrinter->printDebugHandler(Services::requireService("Debug"));
 	}
+	
+	/**
+	 * Print the MySQL version of a query
+	 * 
+	 * @param object Query $query
+	 * @return void
+	 * @access public
+	 * @since 3/2/05
+	 */
+	function printQuery (&$query) {
+		print "\n<pre>";
+		print_r(MySQL_SQLGenerator::generateSQLQuery($query));	
+		print "\n</pre>";
+	}
+	
 	
 }
 

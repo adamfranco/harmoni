@@ -17,7 +17,7 @@ require_once(OKI2."/osid/shared/Properties.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniProperties.class.php,v 1.9 2005/01/27 15:45:40 adamfranco Exp $
+ * @version $Id: HarmoniProperties.class.php,v 1.10 2005/03/02 23:09:30 adamfranco Exp $
  */
 class HarmoniProperties
 	extends Properties
@@ -78,7 +78,7 @@ class HarmoniProperties
 	 * 
 	 * @access public
 	 */
-	function &getProperty ( &$key ) { 
+	function &getProperty ( $key ) { 
 		return $this->_properties[serialize($key)];
 	}
 
@@ -105,7 +105,7 @@ class HarmoniProperties
 			$keys[] = unserialize($key);
 		}
 		
-		return new HarmoniIterator($keys);
+		return new HarmoniObjectIterator($keys);
 	}
 	
 	/**
@@ -120,7 +120,7 @@ class HarmoniProperties
 	 * @access public
 	 * @since 11/18/04
 	 */
-	function addProperty ( &$key, &$value ) {
+	function addProperty ( $key, &$value ) {
 		$this->_properties[serialize($key)] =& $value;
 	}
 	
