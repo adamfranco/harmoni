@@ -6,6 +6,7 @@ class Harmoni {
 	var $context;	// where + what
 	var $form;		// input variables
 	var $config;	// application configuration	
+	var $services; 	// harmoni services
 	var $oki;		// oki services
 	
 	
@@ -15,12 +16,14 @@ class Harmoni {
 		require_once ("Context.class.php");
 		require_once ("Form.class.php");
 		require_once ("Config.class.php");
+		require_once ("Services.class.php");
 		//require_once ("OKI.class.php");
 	
 		$this->user = new User ();
-		$this->context = new Context ($_REQUEST);
-		$this->form = new Form ($_REQUEST);
+		$this->context = new Context ();
+		$this->form = new Form ();
 		$this->config = new Config ();
+		$this->services = new Services ();
 		//$this->oki = new OKI ();
 		
 		################
@@ -48,6 +51,10 @@ class Harmoni {
 	
 	function getConfig () {
 		return $this->config;
+	}
+	
+	function getServices () {
+		return $this->services;
 	}
 	
 	function getOKI () {
