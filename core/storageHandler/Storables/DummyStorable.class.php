@@ -3,11 +3,11 @@
 require_once(HARMONI.'storageHandler/Storable.abstract.php');
 
 /**
- * File Storable class provides functionality to create Storables
- * that are files (file uploads), images and such. To be used 
+ * Dummy Storable class provides functionality to create Storables
+ * not from files but from data that the user somehow has. To be used 
  * by the StorageMethod and StorageHandler.
  *
- * @version $Id: DummyStorable.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: DummyStorable.class.php,v 1.2 2004/05/27 20:38:54 nstamato Exp $
  * @package harmoni.storage.storables
  * @copyright 2003
  * @access public
@@ -42,7 +42,7 @@ class DummyStorable extends AbstractStorable {
      * Constructor. Create a new storable.
      * @param string $name Name (primary key) of the storable.
      * @param string $path Path (descriptor) of the storable.
-     * @param string $basePath The path to the base directory of the Storable.
+     * @param string $content The data content of the storable.
      * @access public
      */
     function DummyStorable($path,$name,$content) { 

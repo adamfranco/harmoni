@@ -2,6 +2,7 @@
 
 require_once(HARMONI.'storageHandler/StorageMethod.interface.php');
 require_once(HARMONI.'storageHandler/Storables/DatabaseStorable.class.php');
+require_once(HARMONI.'storageHandler/Storable.abstract.php');
 
 /**
  * Database Storage Method interface provides functionality to store and handle
@@ -10,7 +11,7 @@ require_once(HARMONI.'storageHandler/Storables/DatabaseStorable.class.php');
  * Note: All methods assume the path parameter has a trailing slash ('/'). Otherwise
  * all recursive functions may get hold of paths that are unrelated.
  *
- * @version $Id: DatabaseStorageMethod.class.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+ * @version $Id: DatabaseStorageMethod.class.php,v 1.2 2004/05/27 20:38:55 nstamato Exp $
  * @package harmoni.storage.methods
  * @copyright 2003
  * @access public
@@ -19,11 +20,14 @@ require_once(HARMONI.'storageHandler/Storables/DatabaseStorable.class.php');
 class DatabaseStorageMethod extends StorageMethodInterface {
 
 	/**
-	 * @variable object The storage specifications (dbIndex, tableName, etc.) within 
+	 * @variable object $_parameters The storage specifications (dbIndex, tableName, etc.) within 
 	 * which all storables are to be stored. Look at the source for details.
 	 */
 	var $_parameters;
-
+	/**
+	* @variable object $_dbHandler The Database Handler used to store the storable to
+	* the database specified in the variable $_parameters.
+	*/
 	var $_dbHandler;
 
     /**
@@ -64,7 +68,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
     function store(&$storable,$path,$name) { 
 		$path = addslashes($path); $name = addslashes($name);
 
-        $extendsRule =& new ExtendsValidatorRule("FileStorable");
+        $extendsRule =& new ExtendsValidatorRule("AbstractStorable");
 		ArgumentValidator::validate($storable, $extendsRule, true);
 
 		Services::requireService("DBHandler");
@@ -84,6 +88,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 
 			$query->addRowOfValues(array("'$name'","'$path'"));
 			$queryQueue->add($query);
+			
 		}
 
 		// now add the data. If there is no Size Column (Data Column must be there imperatively), ommit it.
@@ -109,6 +114,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 						 $this->_parameters->get("pathColumn")." = '$path'");
 
 		$queryQueue->add($query);
+		
 		$result =& $this->_dbHandler->queryQueue($queryQueue,$this->_parameters->get("dbIndex"));
 	}
 
