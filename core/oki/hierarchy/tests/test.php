@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.10 2003/10/30 22:39:44 adamfranco Exp $
+ * @version $Id: test.php,v 1.11 2003/11/04 22:37:38 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003 
  **/
@@ -19,15 +19,16 @@
 
 	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
 	$errorHandler =& Services::requireService("ErrorHandler","ErrorHandler");
-	$errorHandler->setDebugMode(TRUE);
+//	$errorHandler->setDebugMode(TRUE);
 	
 	
     $test =& new GroupTest('Hierarchy Tests');
     $test->addTestFile(HARMONI.'/oki/hierarchy/tests/TreeTestCase.class.php');
+    $test->addTestFile(HARMONI.'/oki/hierarchy/tests/SQLDatabaseHierarchyStoreTestCase.class.php');
     $test->addTestFile(HARMONI.'/oki/hierarchy/tests/NodeTestCase.class.php');
     $test->addTestFile(HARMONI.'/oki/hierarchy/tests/HierarchyTestCase.class.php');
     $test->addTestFile(HARMONI.'/oki/hierarchy/tests/HierarchyManagerTestCase.class.php');
-    $test->addTestFile(HARMONI.'/oki/hierarchy/tests/SQLDatabaseHierarchyStoreTestCase.class.php');
+    $test->addTestFile(HARMONI.'/oki/hierarchy/tests/HierarchyManagerSQLTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 	

@@ -9,12 +9,12 @@ require_once(HARMONI.'/oki/hierarchy/tests/TestNodeType.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyManagerTestCase.class.php,v 1.11 2003/10/17 15:51:19 adamfranco Exp $
+ * @version $Id: HierarchyManagerTestCase.class.php,v 1.12 2003/11/04 22:37:38 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
 
-    class HarmoniHierarcyManagerTestCase extends UnitTestCase {
+    class HierarchyManagerTestCase extends UnitTestCase {
 	
 		var $manager;
 

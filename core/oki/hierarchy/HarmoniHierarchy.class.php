@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
  * 
  * <p></p>
  *
- * @version $Revision: 1.18 $ / $Date: 2003/10/23 20:29:28 $
+ * @version $Revision: 1.19 $ / $Date: 2003/11/04 22:37:38 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -37,16 +37,6 @@ class HarmoniHierarchy
 	 * @var object Id $_id The id for this hierarchy.
 	 */
 	var $_id;
-	
-	/**
-	 * @var string $_description The description for this hierarchy.
-	 */
-	var $_description;
-	
-	/**
-	 * @var string $_displayName The description for this hierarchy.
-	 */
-	var $_displayName;
 	
 	/**
 	 * @var object HarmoniHierarchyStore $_hierarchyStore A hierarchy storage/loader object.
@@ -66,24 +56,31 @@ class HarmoniHierarchy
 	function HarmoniHierarchy(& $id, $displayName, $description, & $nodeTypes, & $hierarchyStore) {
 		// Check the arguments
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
-		ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
+		if (count($nodeTypes))
+			ArgumentValidator::validate($nodeTypes, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Type")));
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
 		ArgumentValidator::validate($hierarchyStore, new ExtendsValidatorRule("HierarchyStore"));
 		
+		// make sure that the Store was created with our same id
+		if ($hierarchyStore->getId()) 
+			throwError(new Error("Hierarchy Store already in use.", 1));
+		
 		// set the private variables
 		$this->_id =& $id;
-		$this->_displayName = $displayName;
-		$this->_description = $description;
 		$this->_hierarchyStore =& $hierarchyStore;
-		$this->_hierarchyStore->initialize($this->_id, $this->_displayName, $this->_description);
+		$this->_hierarchyStore->setId($this->_id);
+		$this->_hierarchyStore->initialize();
+		
+		if ($this->_hierarchyStore->getDisplayName() != $displayName)
+			$this->_hierarchyStore->updateDisplayName($displayName);
+		if ($this->_hierarchyStore->getDescription() != $description)
+			$this->_hierarchyStore->updateDescription($description);
+		
 		
 		foreach ($nodeTypes as $key => $val) {
 			$this->addNodeType($nodeTypes[$key]);
 		}
-		
-		// save the Hierarchy
-		$this->save();
 	}
 
     /**
@@ -144,7 +141,6 @@ class HarmoniHierarchy
 		// update and save
 		$this->_description = $description;
 		$this->_hierarchyStore->updateDescription($description);
-		$this->save();
 	}
 
 	/**
@@ -218,9 +214,6 @@ class HarmoniHierarchy
 		$node =& new HarmoniNode($nodeId, $this->_hierarchyStore, $type, $displayName, $description);
 		$treeNodeId = $this->_hierarchyStore->addNode($node, $parentIdString, $nodeIdString);
 		
-		// Store the updated tree
-		$this->save();
-		
 		return $node;
 	}
 
@@ -253,9 +246,6 @@ class HarmoniHierarchy
 		
 		// Remove the node
 		$this->_hierarchyStore->removeNode($nodeIdString);
-		
-		// Store the updated tree
-		$this->save();
 	}
 
 	/**
@@ -285,9 +275,6 @@ class HarmoniHierarchy
 		
 		// add the node type
 		$this->_nodeTypes[] =& $nodeType;
-		
-		// Store the updated hierarchy
-		$this->save();
 	}
 
 	/**
@@ -328,9 +315,6 @@ class HarmoniHierarchy
 				$newNodeTypes[] =& $this->_nodeTypes[$key];
 		}
 		$this->_nodeTypes =& $newNodeTypes;
-		
-		// Store the updated hierarchy
-		$this->save();
 	}
 
 	/**

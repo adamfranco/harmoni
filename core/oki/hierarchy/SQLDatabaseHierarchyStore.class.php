@@ -128,7 +128,6 @@ class SQLDatabaseHierarchyStore
 	/**
 	 * Constructor
 	 *
-	 * @param string $hierarchyId
 	 * @param integer $dbIndex	The index of the database from which to pull this hierarchy.
 	 *
 	 * @param string $hierarchyTableName	The table from which to pull this hierarchy.
@@ -143,9 +142,8 @@ class SQLDatabaseHierarchyStore
 	 * @param string $nodeDisplayNameColumn	The displayName column.
 	 * @param string $nodeDescriptionColumn	The description column.
 	 */
-	function SQLDatabaseHierarchyStore ($hierarchyId, $dbIndex, $hierarchyTableName, $hierarchyIdColumn, $hierarchyDisplayNameColumn, $hierarchyDescriptionColumn, $nodeTableName, $nodeHierarchyKeyColumn, $nodeIdColumn, $nodeParentKeyColumn, $nodeDisplayNameColumn, $nodeDescriptionColumn) {
+	function SQLDatabaseHierarchyStore ($dbIndex, $hierarchyTableName, $hierarchyIdColumn, $hierarchyDisplayNameColumn, $hierarchyDescriptionColumn, $nodeTableName, $nodeHierarchyKeyColumn, $nodeIdColumn, $nodeParentKeyColumn, $nodeDisplayNameColumn, $nodeDescriptionColumn) {
 		// Check the arguments
-		ArgumentValidator::validate($hierarchyId, new NumericValidatorRule);
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule);
 		ArgumentValidator::validate($hierarchyTableName, new StringValidatorRule);
 		ArgumentValidator::validate($hierarchyIdColumn, new StringValidatorRule);
@@ -158,7 +156,6 @@ class SQLDatabaseHierarchyStore
 		ArgumentValidator::validate($nodeDisplayNameColumn, new StringValidatorRule);
 		ArgumentValidator::validate($nodeDescriptionColumn, new StringValidatorRule);
 		
-		$this->_id = $hierarchyId;
 		$this->_dbIndex = $dbIndex;
 		$this->_hierarchyTableName = $hierarchyTableName;
 		$this->_hierarchyIdColumn = $hierarchyIdColumn;
@@ -177,41 +174,39 @@ class SQLDatabaseHierarchyStore
 		// as it is needed.
 //		$this->load();
 	}
-	
+
 	/**
 	 * Initializes this Store. Loads any saved data for the hierarchy.
 	 *
-	 * @param object Id	$hierarchyId		The Id of the hierarchy that should be initialized.
-	 * @param string 	$hierarchyDisplayName	The displayName, will be loaded from storage
-	 *											if NULL.
-	 * @param string	$hierarchyDescription	The description, will be loaded from storage
-	 *											if NULL.
 	 */
 	function initialize() {
 		$dbc =& Services::requireService("DBHandler");
 		$sharedManager =& Services::requireService("Shared");
 		
-		// Pull the info for this hierarchy
+		// This may be able to be droped if the hierarchy has been initialized, but it makes for a nice check
+		// of data integrity.
+		// Pull the info for this hierarchy if it doesn't already exist.
 		$query =& new SelectQuery;
 		$query->addColumn($this->_hierarchyDisplayNameColumn,"displayName");
 		$query->addColumn($this->_hierarchyDescriptionColumn,"description");
 		$query->addTable($this->_hierarchyTableName);
-		$query->addWhere($this->_hierarchyIdColumn."=".$this->_id);
+		$query->addWhere($this->_hierarchyIdColumn."=".$this->_id->getIdString());
 		
 		$result =& $dbc->query($query, $this->_dbIndex);
 		
 		if ($result->getNumberOfRows() > 1) { // we have problems.
-			throwError(new Error("Loss of data integrity, multiple hierarchies of id, ".$this->_id.", found!", "Hierarchy", 1));
+			throwError(new Error("Loss of data integrity, multiple hierarchies of id, ".$this->_id->getIdString().", found!", "Hierarchy", 1));
 			
 		} else if ($result->getNumberOfRows() == 1) { // The hierarchy exists
 			$this->_exists = TRUE;
 			$this->_displayName = $result->field("displayName");
 			$this->_description = $result->field("description");
+
 		} else {	// the hierarchy doesn't exist yet
 			$this->_exists = FALSE;
 		}
 	}
-	
+
 	/**
 	 * Loads this object from persistable storage.
 	 * Existing nodes will not be overwritten.
@@ -232,17 +227,17 @@ class SQLDatabaseHierarchyStore
 		
 		// This may be able to be droped if the hierarchy has been initialized, but it makes for a nice check
 		// of data integrity.
-		// Pull the info for this hierarchy
+		// Pull the info for this hierarchy if it doesn't already exist.
 		$query =& new SelectQuery;
 		$query->addColumn($this->_hierarchyDisplayNameColumn,"displayName");
 		$query->addColumn($this->_hierarchyDescriptionColumn,"description");
 		$query->addTable($this->_hierarchyTableName);
-		$query->addWhere($this->_hierarchyIdColumn."=".$this->_id);
+		$query->addWhere($this->_hierarchyIdColumn."=".$this->_id->getIdString());
 		
 		$result =& $dbc->query($query, $this->_dbIndex);
 		
 		if ($result->getNumberOfRows() > 1) { // we have problems.
-			throwError(new Error("Loss of data integrity, multiple hierarchies of id, ".$this->_id.", found!", "Hierarchy", 1));
+			throwError(new Error("Loss of data integrity, multiple hierarchies of id, ".$this->_id->getIdString().", found!", "Hierarchy", 1));
 			
 		} else if ($result->getNumberOfRows() == 1) { // The hierarchy exists
 			$this->_exists = TRUE;
@@ -265,7 +260,7 @@ class SQLDatabaseHierarchyStore
 				
 				$query->addTable($this->_nodeTableName, NO_JOIN, "", $this->_nodeTableName."0");
 			
-				$query->addWhere($this->_nodeTableName."0.".$this->_nodeHierarchyKeyColumn."=".$this->_id);
+				$query->addWhere($this->_nodeTableName."0.".$this->_nodeHierarchyKeyColumn."=".$this->_id->getIdString());
 				$query->addWhere($this->_nodeTableName."0.".$this->_nodeIdColumn."=".$nodeId, _AND);
 
 //				$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeParentKeyColumn, ASCENDING);
@@ -319,7 +314,7 @@ class SQLDatabaseHierarchyStore
 			
 			$query->addTable($this->_nodeTableName, NO_JOIN, "", $this->_nodeTableName."0");
 			
-			$query->addWhere($this->_nodeTableName."0.".$this->_nodeHierarchyKeyColumn."=".$this->_id);
+			$query->addWhere($this->_nodeTableName."0.".$this->_nodeHierarchyKeyColumn."=".$this->_id->getIdString());
 			$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeParentKeyColumn, ASCENDING);
 			$query->addOrderBy($this->_nodeTableName."0.".$this->_nodeIdColumn, ASCENDING);
 			
@@ -390,13 +385,40 @@ class SQLDatabaseHierarchyStore
 		$queryQueue =& new Queue;
 		
 		// Save any changes to the hierarchy properties
-		if ($this->_isChanged) {
+		if (!$this->_exists) {
 			$query =& new InsertQuery;
 			$columns = array(
 							$this->_hierarchyIdColumn,
 							$this->_hierarchyDisplayNameColumn,
 							$this->_hierarchyDescriptionColumn
 						);
+			$query->setColumns($columns);
+			$values = array(
+							$this->_id->getIdString(),
+							"'".$this->_displayName."'",
+							"'".$this->_description."'"
+						);
+			$query->setTable($this->_hierarchyTableName);
+			$query->addRowOfValues($values);
+			
+			$queryQueue->add($query);
+			
+		} else if ($this->_isChanged && $this->_exists) {
+			$query =& new UpdateQuery;
+			$columns = array(
+							$this->_hierarchyDisplayNameColumn,
+							$this->_hierarchyDescriptionColumn
+						);
+			$query->setColumns($columns);
+			$values = array(
+							$this->_id->getIdString(),
+							"'".$this->_displayName."'",
+							"'".$this->_description."'"
+						);
+			$query->setValues($values);
+			$query->setTable($this->_hierarchyTableName);
+			$query->setWhere($this->_hierarchyIdColumn."=".$this->_id);
+			$queryQueue->add($query);
 		}
 		
 		// Insert any new nodes
@@ -421,7 +443,7 @@ class SQLDatabaseHierarchyStore
 				
 				$values = array(
 					$id,
-					$this->_id,
+					$this->_id->getIdString(),
 					$parentId,
 					"'".$displayName."'",
 					"'".$description."'"					
@@ -451,7 +473,7 @@ class SQLDatabaseHierarchyStore
 					);
 					$query->setColumns($columns);
 					$values = array(
-						$this->_id,
+						$this->_id->getIdString(),
 						$parentId,
 						"'".$displayName."'",
 						"'".$description."'"					
@@ -505,6 +527,23 @@ class SQLDatabaseHierarchyStore
 	function & getId() {
 		return $this->_id;
 	}
+	
+    /**
+     * Set the unique Id for this Hierarchy.
+     *
+     * @param osid.shared.Id A unique Id that is usually set by a create
+     *         method's implementation
+     *
+     * @throws HierarchyException if there is a general failure.
+     *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function setId(& $id) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
+		
+		$this->_id =& $id;
+	}
 
     /**
      * Get the display name for this Hierarchy.
@@ -517,6 +556,26 @@ class SQLDatabaseHierarchyStore
 	 */
 	function getDisplayName() {
 		return $this->_displayName;
+	}
+
+    /**
+     * Update the displayName for this Hierarchy.
+     *
+     * @param String displayName  displayName cannot be null but may be empty.
+     *
+     * @throws HierarchyException if there is a general failure.     Throws an
+	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
+	 *		   displayName is null.
+	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function updatedisplayName($displayName) {
+		// Check the arguments
+		ArgumentValidator::validate($displayName, new StringValidatorRule);
+				
+		// update and save
+		$this->_displayName = $displayName;
+		$this->_isChanged = TRUE;
 	}
 
     /**

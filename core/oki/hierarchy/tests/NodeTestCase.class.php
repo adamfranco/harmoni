@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy/HarmoniHierarchy.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: NodeTestCase.class.php,v 1.8 2003/10/13 15:08:13 adamfranco Exp $
+ * @version $Id: NodeTestCase.class.php,v 1.9 2003/11/04 22:37:38 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -43,10 +43,12 @@ require_once(HARMONI.'/oki/hierarchy/HarmoniHierarchy.class.php');
 			$nodeTypes = array();
 			$nodeTypes[] =& new GenericNodeType;
 			
+			$hierarchyId =& new HarmoniTestId;
+			
 			$hierarchyStore =& new MemoryOnlyHierarchyStore;
 			
 			// The id for each of these will be the initial number of the last part.
-			$this->hierarchy =& new HarmoniHierarchy(new HarmoniTestId, "Test Case Hierarchy",
+			$this->hierarchy =& new HarmoniHierarchy($hierarchyId, "Test Case Hierarchy",
 												"A Hierarchy for the HierarchyTestCase",
 												$nodeTypes, $hierarchyStore);
 			

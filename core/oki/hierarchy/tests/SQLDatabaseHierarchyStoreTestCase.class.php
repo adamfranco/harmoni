@@ -7,7 +7,7 @@ require_once(HARMONI.'/oki/hierarchy/SQLDatabaseHierarchyStore.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SQLDatabaseHierarchyStoreTestCase.class.php,v 1.4 2003/11/03 22:55:07 adamfranco Exp $
+ * @version $Id: SQLDatabaseHierarchyStoreTestCase.class.php,v 1.5 2003/11/04 22:37:38 adamfranco Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003
  **/
@@ -22,15 +22,19 @@ require_once(HARMONI.'/oki/hierarchy/SQLDatabaseHierarchyStore.class.php');
          *    @public
          */
         function setUp() {
-        	print "<pre>";
+//        	print "<pre>";
         	$this->dbc =& Services::requireService("DBHandler","DBHandler");
  			$this->dbindex = $this->dbc->createDatabase(MYSQL,"devo.middlebury.edu", "harmoniTest", "test", "test");
  			$this->dbc->connect($this->dbindex);
  			
-			$this->store =& new SQLDatabaseHierarchyStore(1, $this->dbindex, 
+ 			$this->sharedManager =& Services::requireService("Shared");
+ 			$this->hierarchyId =& $this->sharedManager->getId("1");
+ 			
+			$this->store =& new SQLDatabaseHierarchyStore($this->dbindex, 
 				"hierarchy", "id","display_name","description",
 				"hierarchy_node","fk_hierarchy","id","lk_parent","display_name",
 				"description");
+			$this->store->setId($this->hierarchyId);
 			$this->store->load();
 			
 			$sharedManager =& Services::getService("Shared");
@@ -73,7 +77,7 @@ require_once(HARMONI.'/oki/hierarchy/SQLDatabaseHierarchyStore.class.php');
 			
 //			$this->dbc->disconnect($this->dbindex);
 			
-			print "</pre>";
+//			print "</pre>";
         }
 
 		//--------------the tests ----------------------
@@ -101,10 +105,11 @@ require_once(HARMONI.'/oki/hierarchy/SQLDatabaseHierarchyStore.class.php');
 /* 			print_r($store->depthFirstEnumeration(0)); */
 			$store->save();
 			
-			$storedHierarchy =& new SQLDatabaseHierarchyStore(1, $this->dbindex, 
+			$storedHierarchy =& new SQLDatabaseHierarchyStore($this->dbindex, 
 					"hierarchy", "id","display_name","description",
 					"hierarchy_node","fk_hierarchy","id","lk_parent","display_name",
 					"description");
+			$storedHierarchy->setId($this->hierarchyId);
 			$storedHierarchy->load();
 			$storedNodeObj =& $storedHierarchy->getData($nodeIdString);
 			
@@ -136,10 +141,11 @@ require_once(HARMONI.'/oki/hierarchy/SQLDatabaseHierarchyStore.class.php');
 			$this->assertTrue($store->nodeExists($this->newRootIdString));
 			$this->assertTrue($store->nodeExists($this->node3IdString));
 						
-			$storedHierarchy =& new SQLDatabaseHierarchyStore(1, $this->dbindex, 
+			$storedHierarchy =& new SQLDatabaseHierarchyStore($this->dbindex, 
 					"hierarchy", "id","display_name","description",
 					"hierarchy_node","fk_hierarchy","id","lk_parent","display_name",
 					"description");
+			$storedHierarchy->setId($this->hierarchyId);
 			$storedHierarchy->load();
 			
 			// make sure that the node and its children are gone, but the rest of the
@@ -217,10 +223,11 @@ require_once(HARMONI.'/oki/hierarchy/SQLDatabaseHierarchyStore.class.php');
 			
 			$store->save();
 			
-			$store =& new SQLDatabaseHierarchyStore(1, $this->dbindex, 
+			$store =& new SQLDatabaseHierarchyStore($this->dbindex, 
 					"hierarchy", "id","display_name","description",
 					"hierarchy_node","fk_hierarchy","id","lk_parent","display_name",
 					"description");
+			$store->setId($this->hierarchyId);
 			$store->load($this->newRootIdString);
 			
 			$this->assertEqual($store->numChildren($this->node2IdString),1);
@@ -244,10 +251,11 @@ require_once(HARMONI.'/oki/hierarchy/SQLDatabaseHierarchyStore.class.php');
 			
 			$store->save();
 			
-			$store =& new SQLDatabaseHierarchyStore(1, $this->dbindex, 
+			$store =& new SQLDatabaseHierarchyStore($this->dbindex, 
 					"hierarchy", "id","display_name","description",
 					"hierarchy_node","fk_hierarchy","id","lk_parent","display_name",
 					"description");
+			$store->setId($this->hierarchyId);
 			$store->load($this->newRootIdString);
 			
 			$this->assertEqual($store->numChildren($this->node2IdString),2);
@@ -271,10 +279,11 @@ require_once(HARMONI.'/oki/hierarchy/SQLDatabaseHierarchyStore.class.php');
 			
 			$store->save();
 			
-			$store =& new SQLDatabaseHierarchyStore(1, $this->dbindex, 
+			$store =& new SQLDatabaseHierarchyStore($this->dbindex, 
 					"hierarchy", "id","display_name","description",
 					"hierarchy_node","fk_hierarchy","id","lk_parent","display_name",
 					"description");
+			$store->setId($this->hierarchyId);
 			$store->load($this->newRootIdString);
 			
 			$this->assertEqual($store->numChildren($this->node2IdString),0);
@@ -283,5 +292,12 @@ require_once(HARMONI.'/oki/hierarchy/SQLDatabaseHierarchyStore.class.php');
 			$this->assertEqual(count($children),2);
 			$this->assertTrue(in_array($this->node4IdString, $children));
 			$this->assertTrue(in_array($this->node5IdString, $children));
+		}
+		
+		function test_get_info() {
+			$store =& $this->store;
+			
+/* 			$this->assertEqual($store->getDisplayName(),"My Test Hierarchy"); */
+/* 			$this->assertEqual($store->getDescription(),"A test Hierarchy."); */
 		}
 	}

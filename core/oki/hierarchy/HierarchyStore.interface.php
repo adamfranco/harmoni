@@ -13,13 +13,8 @@ class HierarchyStore
 	/**
 	 * Initializes this Store. Loads any saved data for the hierarchy.
 	 *
-	 * @param object Id	$hierarchyId		The Id of the hierarchy that should be initialized.
-	 * @param string 	$hierarchyDisplayName	The displayName, will be loaded from storage
-	 *											if NULL.
-	 * @param string	$hierarchyDescription	The description, will be loaded from storage
-	 *											if NULL.
 	 */
-	function initialize(& $hierarchyId, $hierarchyDisplayName, $hierarchyDescription) {
+	function initialize() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -43,6 +38,94 @@ class HierarchyStore
 	function save ($nodeId=NULL) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
+	
+	/**
+     * Get the unique Id for this Hierarchy.
+     *
+     * @return osid.shared.Id A unique Id that is usually set by a create
+     *         method's implementation
+     *
+     * @throws HierarchyException if there is a general failure.
+     *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function & getId() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+	/**
+     * Get the unique Id for this Hierarchy.
+     *
+     * @param osid.shared.Id A unique Id that is usually set by a create
+     *         method's implementation
+     *
+     * @throws HierarchyException if there is a general failure.
+     *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function & setId(& $id) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
+     * Get the display name for this Hierarchy.
+     *
+     * @return String the display name
+     *
+     * @throws HierarchyException if there is a general failure.
+     *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function getDisplayName() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+    /**
+     * Update the displayName for this Hierarchy.
+     *
+     * @param String displayName  displayName cannot be null but may be empty.
+     *
+     * @throws HierarchyException if there is a general failure.     Throws an
+	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
+	 *		   displayName is null.
+	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function updatedisplayName($displayName) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+    /**
+     * Get the description for this Hierarchy.
+     *
+     * @return String the description
+     *
+     * @throws HierarchyException if there is a general failure.
+     *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function getDescription() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+
+    /**
+     * Update the description for this Hierarchy.
+     *
+     * @param String description  Description cannot be null but may be empty.
+     *
+     * @throws HierarchyException if there is a general failure.     Throws an
+	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
+	 *		   description is null.
+	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function updateDescription($description) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+/******************************************************************************
+ * Node functions
+ ******************************************************************************/
 
 	/**
     * Adds a node to the tree.

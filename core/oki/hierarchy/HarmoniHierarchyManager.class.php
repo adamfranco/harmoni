@@ -8,6 +8,10 @@ require_once(HARMONI."oki/hierarchy/HarmoniNodeIterator.class.php");
 require_once(HARMONI."oki/hierarchy/HarmoniTraversalInfoIterator.class.php");
 
 require_once(HARMONI."oki/hierarchy/MemoryOnlyHierarchyManagerStore.class.php");
+require_once(HARMONI."oki/hierarchy/SQLDatabaseHierarchyManagerStore.class.php");
+
+require_once(HARMONI.'/oki/shared/HarmoniSharedManager.class.php');
+Services::registerService("Shared","HarmoniSharedManager");
 
 define("SQL_DATABASE", 1000);
 define("MEMORY_ONLY", 1001);
@@ -29,7 +33,7 @@ define("MEMORY_ONLY", 1001);
  * 
  * <p></p>
  *
- * @version $Revision: 1.12 $ / $Date: 2003/10/23 20:29:28 $
+ * @version $Revision: 1.13 $ / $Date: 2003/11/04 22:37:38 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -67,10 +71,24 @@ class HarmoniHierarchyManager
 			$this->_managerStore =& new MemoryOnlyHierarchyManagerStore(); 
 		} else {
 			if ($configuration[type] == SQL_DATABASE) {
-				$database = $configuration[database_index];
-				
+				$dbIndex = $configuration[database_index];
+				$hierarchyTableName = $configuration[hierarchy_table_name];
+				$hierarchyIdColumn = $configuration[hierarchy_id_column];
+				$hierarchyDisplayNameColumn = $configuration[hierarchy_display_name_column];
+				$hierarchyDescriptionColumn = $configuration[hierarchy_description_column];
+				$nodeTableName = $configuration[node_table_name];
+				$nodeHierarchyKeyColumn = $configuration[node_hierarchy_key_column];
+				$nodeIdColumn = $configuration[node_id_column];
+				$nodeParentKeyColumn = $configuration[node_parent_key_column];
+				$nodeDisplayNameColumn = $configuration[node_display_name_column];
+				$nodeDescriptionColumn = $configuration[node_description_column];
+						
 				// create the store
-				$this->_managerStore =& new SQLDatabaseHierarchyManagerStore($database); 
+				$this->_managerStore =& new SQLDatabaseHierarchyManagerStore($dbIndex,
+						$hierarchyTableName, $hierarchyIdColumn, $hierarchyDisplayNameColumn,
+						$hierarchyDescriptionColumn, $nodeTableName, $nodeHierarchyKeyColumn,
+						$nodeIdColumn, $nodeParentKeyColumn, $nodeDisplayNameColumn, 
+						$nodeDescriptionColumn, $nodeTypes); 
 				
 			} else if ($configuration[type] == MEMORY_ONLY) {
 				$this->_managerStore =& new MemoryOnlyHierarchyManagerStore();
@@ -120,18 +138,12 @@ class HarmoniHierarchyManager
 		// Load this Manager from persistable storage
 		$this->load();
 		
-		// Create a HierarchyStore and id based on the given configuration.
-		$hierarchyStore =& $this->_managerStore->createHierarchyStore();
+		// Create an Id for the Hierarchy
+		$sharedManager =& Services::requireService("Shared");
+		$hierarchyId =& $sharedManager->createId();
 		
-/******************************************************************************/
- 		// @todo Replace with the calls to SharedManager below
-		if ($this->_configuration[type] == SQL_DATABASE)
-			$hierarchyId =& new HarmoniTestDBId;
-		else
-			$hierarchyId =& new HarmoniTestId;
-		//$sharedManager =& Services::require_service("SharedManager", "SharedManager");
-		//$hierarchyId =& $sharedManager->createId();
-/******************************************************************************/
+		// Create a HierarchyStore and id based on the given configuration.
+		$hierarchyStore =& $this->_managerStore->createHierarchyStore($hierarchyId);
 
 		// Create a new hierarchy and add it to the managerStore;
 		$hierarchy =& new HarmoniHierarchy($hierarchyId, $description, $name, $nodeTypes, $hierarchyStore);

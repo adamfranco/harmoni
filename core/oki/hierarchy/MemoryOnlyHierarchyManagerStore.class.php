@@ -55,6 +55,7 @@ class MemoryOnlyHierarchyManagerStore
 
 	/**
 	 * Creates a new hierarchy store that will work in this manager's location.
+	 *
 	 * @return object HierarchyStore A HierarchyStore that will work in this manager's 
 	 *				location.
 	 */

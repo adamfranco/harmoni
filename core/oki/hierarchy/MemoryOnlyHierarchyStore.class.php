@@ -39,26 +39,32 @@ class MemoryOnlyHierarchyStore
 	var $_nodeTypes = array();
 	
 	/**
+	 * Constructor
+	 *
+	 */
+	function MemoryOnlyHierarchyStore () {
+		$this->_tree =& new Tree;
+	}
+
+	/**
+	 * Initializes this Store. Loads any saved data for the hierarchy.
+	 *
+	 */
+	function initialize() {
+		// Do Nothing
+	}
+
+	/**
 	 * Initializes this Store. Loads any saved data for the hierarchy.
 	 *
 	 * @param object Id	$hierarchyId		The Id of the hierarchy that should be initialized.
-	 * @param string 	$hierarchyDisplayName	The displayName, will be loaded from storage
-	 *											if NULL.
-	 * @param string	$hierarchyDescription	The description, will be loaded from storage
-	 *											if NULL.
 	 */
-	function initialize(& $hierarchyId, $hierarchyDisplayName, $hierarchyDescription) {
+	function setId(& $hierarchyId) {
 		// Check the arguments
 		ArgumentValidator::validate($hierarchyId, new ExtendsValidatorRule("Id"));
-		if ($hierarchyDisplayName)
-			ArgumentValidator::validate($hierarchyDisplayName, new StringValidatorRule);
-		if ($hierarchyDescription)
-			ArgumentValidator::validate($hierarchyDescription, new StringValidatorRule);
 		
 		// set the private variables
 		$this->_id =& $hierarchyId;
-		$this->_displayName = $hierarchyDisplayName;
-		$this->_description = $hierarchyDescription;
 		$this->_tree =& new Tree();
 	}
 	
@@ -98,6 +104,25 @@ class MemoryOnlyHierarchyStore
 	}
 
     /**
+     * Update the id for this Hierarchy.
+     *
+     * @param String id  id cannot be null.
+     *
+     * @throws HierarchyException if there is a general failure.     Throws an
+	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
+	 *		   id is null.
+	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function updateid($id) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new StringValidatorRule);
+				
+		// update and save
+		$this->_id = $id;
+	}
+
+    /**
      * Get the display name for this Hierarchy.
      *
      * @return String the display name
@@ -108,6 +133,25 @@ class MemoryOnlyHierarchyStore
 	 */
 	function getDisplayName() {
 		return $this->_displayName;
+	}
+
+    /**
+     * Update the displayName for this Hierarchy.
+     *
+     * @param String displayName  displayName cannot be null but may be empty.
+     *
+     * @throws HierarchyException if there is a general failure.     Throws an
+	 *		   exception with the message osid.OsidException.NULL_ARGUMENT if
+	 *		   displayName is null.
+	 *
+	 * @todo Replace JavaDoc with PHPDoc
+	 */
+	function updatedisplayName($displayName) {
+		// Check the arguments
+		ArgumentValidator::validate($displayName, new StringValidatorRule);
+				
+		// update and save
+		$this->_displayName = $displayName;
 	}
 
     /**
