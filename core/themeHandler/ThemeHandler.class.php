@@ -5,6 +5,7 @@ require_once(HARMONI."/themeHandler/Theme.abstract.php");
 
 // Built-in Themes
 require_once(HARMONI."/themeHandler/themes/SimpleLines.theme.php");
+require_once(HARMONI."/themeHandler/themes/ImageBox/ImageBox.theme.php");
 
 /**
  * ThemeSetting interface defines what methods are required of any theme widget.
@@ -14,7 +15,7 @@ require_once(HARMONI."/themeHandler/themes/SimpleLines.theme.php");
  * setting.
  *
  * @package harmoni.themes
- * @version $Id: ThemeHandler.class.php,v 1.7 2004/04/02 22:06:27 adamfranco Exp $
+ * @version $Id: ThemeHandler.class.php,v 1.8 2004/04/06 20:16:46 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -67,6 +68,7 @@ class ThemeHandler {
 		
 		// Add any built-in themes
 		$this->registerThemeClass("SimpleLinesTheme");
+		$this->registerThemeClass("ImageBoxTheme");
 	}
 
 	/**
