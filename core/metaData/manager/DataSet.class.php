@@ -257,6 +257,44 @@ class FullDataSet extends CompactDataSet {
 		$this->_active = false;
 	}
 	
+	function activateTag(&$tag) {
+		// check to make sure the tag is affiliated with us
+		if ($this->getID() != $tag->getDataSetID()) {
+			throwError (new Error("Can not activate tag because it is not affiliated with my DataSet","DataSet",true));
+			return false;
+		}
+		
+		// load the mapping data for the tag
+		$tag->load();
+		
+		foreach ($this->_dataSetTypeDef->getAllLabels(true) as $label) {
+			for ($i=0; $i<$this->numValues($label); $i++) {
+				$newVerID = $tag->getMapping($label, $i);
+				
+				// go through each version and deactivate all versions unless they are active and $verID
+				$vers =& $this->getValueVersionsObject($label, $i);
+				foreach ($vers->getVersionList() as $verID) {
+					$verObj =& $vers->getVersion($verID);
+					
+					// if it's our active vers in the Tag, activate it
+					if ($verID == $newVerID) {
+						if (!$verObj->isActive()) {
+							$verObj->setActiveFlag(true);
+							$verObj->update();
+						}
+					}
+					
+					// if it's not, deactivate it
+					else {
+						if ($verObj->isActive()) {
+							$verObj->setActiveFlag(false);
+							$verObj->update();
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 class FieldNotFoundError extends Error {
