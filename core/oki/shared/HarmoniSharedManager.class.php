@@ -34,7 +34,7 @@ require_once(HARMONI."oki/shared/HarmoniDatabaseId.class.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.8 $ / $Date: 2004/01/14 20:09:42 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
+ * @version $Revision: 1.9 $ / $Date: 2004/01/15 15:40:13 $  Note that this implementation uses a serialization approach that is simple rather than scalable.  Agents, Groups, and Ids are all lumped together into a single Vector that gets serialized.
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -283,7 +283,7 @@ class HarmoniSharedManager
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function & getId($idString) {
-		$id =& new HarmoniDatabaseId($this->_idDBIndex, $idString);
+		$id =& new HarmoniId($idString);
 		return $id;
 	}
 
