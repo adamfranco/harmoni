@@ -7,7 +7,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
 /**
  * The RecordManager handles the creation, tagging and fetching of {@link Record}s from the database.
  * @package harmoni.datamanager
- * @version $Id: RecordManager.class.php,v 1.4 2004/08/04 02:18:56 gabeschine Exp $
+ * @version $Id: RecordManager.class.php,v 1.5 2004/08/11 14:48:09 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -144,6 +144,14 @@ class RecordManager extends ServiceInterface {
 				}
 				
 				$newSet->takeRow($a);
+			}
+		}
+		
+		// now, if some of the IDs didn't exist in the DB, we'll create new ones.
+		foreach ($groupIDsArray as $id) {
+			if (!$this->getCachedRecordSet($id)) {
+				$newSet =& new StorableRecordSet($id);
+				$this->cacheRecordSet($newSet);
 			}
 		}
 	}
