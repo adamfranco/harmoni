@@ -7,7 +7,7 @@ require_once(HARMONI.'storageHandler/Storables/DatabaseStorableDataContainer.cla
  * A DatabaseStorable is like a FileStorable, with the exception that all data
  * is stored in a database, and not on a file system.
  *
- * @version $Id: DatabaseStorable.class.php,v 1.4 2003/07/16 19:02:24 movsjani Exp $
+ * @version $Id: DatabaseStorable.class.php,v 1.5 2003/07/16 19:08:55 movsjani Exp $
  * @package harmoni.storage.storables
  * @copyright 2003
  * @access public
@@ -43,7 +43,7 @@ class DatabaseStorable extends AbstractStorable {
      * @return string Data content of the storable.
      * @access public
      */
-    function getData() { 
+    function getData() {
 		Services::requireService("DBHandler");
 		$dbHandler =& Services::getService("DBHandler");
 		
@@ -53,7 +53,7 @@ class DatabaseStorable extends AbstractStorable {
 
 		$query->addColumn($this->_parameters->get("dataColumn"));
 
-		$name = addslashes($this->_name); $path = addslashes($path);
+		$name = addslashes($this->_name); $path = addslashes($this->_path);
 		$query->setWhere($this->_parameters->get("nameColumn")." = '$name' AND ".
 						 $this->_parameters->get("pathColumn")." = '$path'");
 
@@ -61,6 +61,7 @@ class DatabaseStorable extends AbstractStorable {
 			$dbHandler->connect($this->_parameters->get("dbIndex"));
 		$result =& $dbHandler->query($query,$this->_parameters->get("dbIndex"));
 
+		
 		$data = $result->field($this->_parameters->get("dataColumn"));
 
 		return $data;
@@ -86,7 +87,7 @@ class DatabaseStorable extends AbstractStorable {
 
 		$query->addColumn($selectColumn);
 
-		$name = addslashes($this->_name); $path = addslashes($path);
+		$name = addslashes($this->_name); $path = addslashes($this->_path);
 		$query->setWhere($this->_parameters->get("nameColumn")." = '$name' AND ".
 						 $this->_parameters->get("pathColumn")." = '$path'");
 
