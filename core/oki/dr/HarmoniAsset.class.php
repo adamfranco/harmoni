@@ -427,6 +427,8 @@ class HarmoniAsset
 		
 		// Move the asset to the dr root.
 		$node->changeParent($this->_node->getId(), $this->_dr->getId());
+		
+		$this->save();
 	}
 
 	/**
