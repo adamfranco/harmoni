@@ -11,6 +11,7 @@ require_once(HARMONI."oki/shared/HarmoniTestId.class.php");
 require_once(HARMONI."oki/shared/HarmoniId.class.php");
 require_once(HARMONI."oki/shared/HarmoniProperties.class.php");
 require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.php");
+require_once(HARMONI."oki/shared/AgentSearches/AncestorGroupSearch.class.php");
 
 /**
  * Properties is a mechanism for returning read-only data about an Agent.  Each
@@ -38,7 +39,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.51 2004/11/23 17:22:49 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.52 2004/12/01 16:06:42 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -122,6 +123,11 @@ class HarmoniSharedManager
 		$this->_agentSearches = array ();
 		$this->_agentSearches["Agent & Group Search::Middlebury::HarmoniAgentExists"] =&
 			new HarmoniAgentExistsSearch;
+		
+		// initialize our Group Search Types
+		$this->_groupSearches = array ();
+		$this->_groupSearches["Agent & Group Search::Middlebury::AncestorGroups"] =&
+			new AncestorGroupSearch;
 	}
 
     /**
@@ -1008,6 +1014,52 @@ class HarmoniSharedManager
 		
 		$result =& new HarmoniAgentIterator($this->_groupsCache);
 		return $result;
+	}
+	
+	/**
+	 * Get all the Groups with the specified search criteria and search Type.
+	 *
+	 * This method is defined in v.2 of the OSIDs.
+	 * 
+	 * @param mixed $searchCriteria
+	 * @param object Type $groupSearchType
+	 * @return object GroupIterator
+	 * @access public
+	 * @date 11/10/04
+	 */
+	function &getGroupsBySearch ( & $searchCriteria, & $groupSearchType ) {
+		ArgumentValidator::validate($groupSearchType, new ExtendsValidatorRule("HarmoniType"));
+		$typeString = $groupSearchType->getDomain()
+						."::".$groupSearchType->getAuthority()
+						."::".$groupSearchType->getKeyword();
+		
+		// get the Group Search object
+		$groupSearch =& $this->_groupSearches[$typeString];
+		if (!is_object($groupSearch))
+			throwError(new Error("Unknown GroupSearchType, '".$typeString."'.","GroupManager",true));
+		
+		return $groupSearch->getGroupsBySearch($searchCriteria); 
+	}
+	
+	/**
+	 * Get all the group search Types supported by this implementation.
+	 *
+	 * This method is defined in v.2 of the OSIDs.
+	 * 
+	 * @return object TypeIterator
+	 * @access public
+	 * @date 11/10/04
+	 */
+	function &getGroupSearchTypes () {
+		$types = array();
+		// Break our search type keys on "::" and create type objects
+		// to return.
+		foreach (array_keys($this->_groupSearches) as $typeString) {
+			$parts = explode("::", $typeString);
+			$types[] =& new HarmoniType($parts[0], $parts[1], $parts[2]);
+		}
+		
+		return new HarmoniIterator($types);
 	}
 
 	

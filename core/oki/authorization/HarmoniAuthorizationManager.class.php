@@ -11,7 +11,7 @@ require_once(HARMONI.'oki/shared/HarmoniIdIterator.class.php');
 /**
  * AuthorizationManager allows an application to create Authorizations, get Authorizations given selection criterias, ask questions of Authorization such as what Agent can do a Function in a Qualifier context, etc.<p><p>The primary objects in Authorization are Authorization, Function, Agent, and Qualifier. There are also Function and Qualifier types that are understood by the implementation.<p><p>Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p><p>There are two methods to create Authorizations. One uses method uses Agent, Function, and Qualifier.  The other adds effective date and expiration date.  For the method without the dates, the effective date is today and there is no expiration date.  <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
  * @access public
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.17 2004/11/29 18:27:41 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.18 2004/12/01 16:05:36 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @package harmoni.osid.authorization
@@ -708,7 +708,10 @@ class HarmoniAuthorizationManager extends AuthorizationManager {
 		$groupIds = array();
 		
 		$sharedManager =& Services::getService("Shared");
-		$containingGroups =& $sharedManager->getGroupsContainingMember($agentOrGroupId);
+		$ancestorSearchType =& new HarmoniType("Agent & Group Search",
+												"Middlebury","AncestorGroups");
+		$containingGroups =& $sharedManager->getGroupsBySearch(
+									$agentOrGroupId, $ancestorSearchType);
 		while ($containingGroups->hasNext()) {
 			$group =& $containingGroups->next();
 			$groupId =& $group->getId();
