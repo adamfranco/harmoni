@@ -29,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.13 2004/12/26 23:31:17 gabeschine Exp $
+* @version $Id: Record.class.php,v 1.14 2005/01/03 05:48:29 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -191,6 +191,20 @@ class Record {
 		if (!$val) return null;
 		
 		return $val->toString();
+	}
+	
+	/**
+	* Returns an array of all the string values for the passed label.
+	* @param string $label
+	* @access public
+	* @return array
+	*/
+	function getStringValues($label) {
+		$ar = array();
+		foreach($this->getIndices($label) as $index) {
+			if (!$this->deleted($label, $index)) $ar[] = $this->getStringValue($label, $index);
+		}
+		return $ar;
 	}
 	
 	/**
