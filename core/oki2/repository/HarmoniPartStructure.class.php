@@ -14,12 +14,12 @@
  * OSID Version: 2.0
  * </p>
  * 
- * @package harmoni.XXXX.YYYYYY
+ * @package harmoni.osid_v2.repository
  * 
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.2 2005/01/19 21:39:18 thebravecowboy Exp $ 
+ * @version $Id: HarmoniPartStructure.class.php,v 1.3 2005/01/26 21:52:26 thebravecowboy Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable

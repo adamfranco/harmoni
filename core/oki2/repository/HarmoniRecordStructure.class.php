@@ -18,14 +18,13 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * OSID Version: 2.0
  * </p>
  * 
- * @package harmoni.XXXX.YYYYYY
+ * @package harmoni.osid_v2.repository
  * 
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.6 2005/01/26 17:29:47 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.7 2005/01/26 21:52:26 thebravecowboy Exp $ 
  */
-
 
 class HarmoniRecordStructure extends RecordStructure
 //	extends java.io.Serializable

@@ -19,12 +19,12 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * OSID Version: 2.0
  * </p>
  * 
- * @package harmoni.XXXX.YYYYYY
+ * @package harmoni.osid_v2.repository
  * 
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.5 2005/01/20 21:07:44 thebravecowboy Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.6 2005/01/26 21:52:26 thebravecowboy Exp $ 
  */
 
 class HarmoniRecord extends Record
