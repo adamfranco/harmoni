@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.7 2004/05/07 19:22:07 dobomode Exp $
+ * @version $Id: test.php,v 1.1 2004/05/07 19:22:06 dobomode Exp $
  * @package concerto.tests.api.metadata
  * @copyright 2003 
  **/
@@ -14,6 +14,8 @@ $timer->start();
 
 $harmonyLoadupTimer =& new Timer;
 $harmonyLoadupTimer->start();
+
+define("LOAD_HIERARCHY", false);
 
 require_once(dirname(__FILE__)."/../../../../harmoni.inc.php");
 
@@ -33,11 +35,14 @@ $harmonyLoadupTimer->end();
 	$errorHandler->setDebugMode(TRUE);
 	
 	
-    $test =& new GroupTest('Shared Tests');
-    $test->addTestFile(HARMONI.'/oki/shared/tests/SharedManagerTestCase.class.php');
-    $test->addTestFile(HARMONI.'/oki/shared/tests/AgentTestCase.class.php');
-    $test->addTestFile(HARMONI.'/oki/shared/tests/GroupTestCase.class.php');
-
+    $test =& new GroupTest('Hierarchy Tests');
+//    $test->addTestFile(HARMONI.'/oki/hierarchy2/tests/TreeTestCase.class.php');
+//    $test->addTestFile(HARMONI.'/oki/hierarchy2/tests/SQLDatabaseHierarchyStoreTestCase.class.php');
+    $test->addTestFile(HARMONI.'/oki/hierarchy2/tests/NodeTestCase.class.php');
+//    $test->addTestFile(HARMONI.'/oki/hierarchy2/tests/HierarchyTestCase.class.php');
+//    $test->addTestFile(HARMONI.'/oki/hierarchy2/tests/HierarchyManagerTestCase.class.php');
+//    $test->addTestFile(HARMONI.'/oki/hierarchy2/tests/HierarchyManagerSQLTestCase.class.php');
+//    $test->addTestFile(HARMONI.'/oki/hierarchy2/tests/FullSQLTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 	
@@ -49,7 +54,7 @@ print "\n</p>";
 
 $num = $dbHandler->getTotalNumberOfQueries();
 debug::output("Total # of queries: ".$num,1,"DBHandler");
-// debug::printAll();
+debug::printAll();
 unset($dbHandler,$errorHandler, $userError);
 unset($num);
 //	$errorHandler->printErrors(HIGH_DETAIL);
