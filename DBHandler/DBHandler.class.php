@@ -6,6 +6,8 @@ require_once(HARMONI."DBHandler/UpdateQuery.class.php");
 require_once(HARMONI."DBHandler/DeleteQuery.class.php");
 require_once(HARMONI."DBHandler/InsertQuery.class.php");
 require_once(HARMONI.'DBHandler/MySQL/MySQLDatabase.class.php');
+require_once(HARMONI.'DBHandler/PostGre/PostGreDatabase.class.php');
+require_once(HARMONI.'DBHandler/Oracle/OracleDatabase.class.php');
 require_once(HARMONI.'utilities/Queue.class.php');
 
 
@@ -14,7 +16,7 @@ require_once(HARMONI.'utilities/Queue.class.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.10 2003/07/11 00:20:21 gabeschine Exp $
+ * @version $Id: DBHandler.class.php,v 1.11 2003/07/20 17:43:24 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
@@ -41,6 +43,27 @@ class DBHandler extends DBHandlerInterface {
 	}
 	
 	
+	
+	/**
+	 * Adds the specified Database object to the list of databases.
+	 * @method public addDatabase
+	 * @param ref object database
+	 * @return mixed $dbIndex The index of the new database, if it was created successfully; False, otherwise.
+	 */
+	function addDatabase(& $database) {
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("DatabaseInterface");
+		ArgumentValidator::validate($database, $extendsRule, true);
+		// ** end of parameter validation
+
+		$this->_databases[] =& $database;
+		
+		// return the index of the database we just created
+		return (count($this->_databases) - 1);
+	}
+	
+	
+
 	/**
 	 * Creates a new database connection.
 	 * @param string $dbType The type of database: MYSQL, POSTGRES, ORACLE, OKI, etc.
@@ -49,6 +72,7 @@ class DBHandler extends DBHandlerInterface {
 	 * @param string $dbUser The username with which to connect to the database.
 	 * @param string $dbPass The password for $_dbUser with which to connect to the database.
 	 * @return mixed $dbIndex The index of the new database, if it was created successfully; False, otherwise.
+	 * @deprecated July 20, 2003 - Use addDatabase instead.
 	 * @access public
 	 */
 	function createDatabase($dbType, $dbHost, $dbName, $dbUser, $dbPass) {
@@ -72,7 +96,7 @@ class DBHandler extends DBHandlerInterface {
 				;
 				break;
 			case POSTGRESQL :
-				;
+				$this->_databases[] =& new PostGreDatabase($dbHost, $dbName, $dbUser, $dbPass);
 				break;
 			case SQLSERVER :
 				;
@@ -293,6 +317,57 @@ class DBHandler extends DBHandlerInterface {
 		return $isConnected;
 	}
 
+
+
+	
+	/**
+	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
+	 * for the specified database object.
+	 * @method public toDBDate
+	 * @param ref object dateTime The DateTime object to convert.
+	 * @return mixed A proper datetime/timestamp/time representation for this Database.
+	 */
+	function toDBDate(& $dateTime, $dbIndex = 0) {
+		// ** parameter validation
+		$integerRule =& new IntegerValidatorRule();
+		$extendsRule =& new ExtendsValidatorRule("DateTimeInterface");
+		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		ArgumentValidator::validate($dateTime, $extendsRule, true);
+		// ** end of parameter validation
+
+		// check that the index is valid
+		if (!is_object($this->_databases[$dbIndex])) {
+			throwError(new Error("Invalid database index.", "DBHandler", false));
+			return false;
+		}
+			
+		return $this->_databases[$dbIndex]->toDBDate($dateTime);
+	}
+	
+	
+	/**
+	 * Converts a database datetime/timestamp/time value (that has been fetched
+	 * from the db) to a DateTime object.
+	 * @method public fromDBDate
+	 * @param mixed A database datetime/timestamp/time value (that has been fetched
+	 * from the db).
+	 * @return ref object The DateTime object.
+	 */
+	function & fromDBDate($value, $dbIndex = 0) {
+		// ** parameter validation
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($dbIndex, $integerRule, true);
+		// ** end of parameter validation
+
+		// check that the index is valid
+		if (!is_object($this->_databases[$dbIndex])) {
+			throwError(new Error("Invalid database index.", "DBHandler", false));
+			return false;
+		}
+		
+		return $this->_databases[$dbIndex]->fromDBDate($value);
+	}
+	
 
 	/**
 	 * The start function is called when a service is created. Services may

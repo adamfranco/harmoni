@@ -56,7 +56,7 @@ require_once(HARMONI.'services/Service.interface.php');
  * program executution with configuration settings for the database type, name, 
  * server, user, and password.
  *
- * @version $Id: DBHandler.interface.php,v 1.4 2003/07/10 02:34:19 gabeschine Exp $
+ * @version $Id: DBHandler.interface.php,v 1.5 2003/07/20 17:43:24 dobomode Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
@@ -72,10 +72,22 @@ class DBHandlerInterface extends ServiceInterface {
 	 * @param string $dbUser The username with which to connect to the database.
 	 * @param string $dbPass The password for $_dbUser with which to connect to the database.
 	 * @return mixed $dbIndex The index of the new database, if it was created successfully; False, otherwise.
+	 * @deprecated July 20, 2003 - Use addDatabase instead.
 	 * @access public
 	 */
-	function & createDatabase($dbType, $dbHost, $dbName, $dbUser, $dbPass) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
-
+	function createDatabase($dbType, $dbHost, $dbName, $dbUser, $dbPass) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	
+	/**
+	 * Adds the specified Database object to the list of databases.
+	 * @method public addDatabase
+	 * @param ref object database
+	 * @return mixed $dbIndex The index of the new database, if it was created successfully; False, otherwise.
+	 */
+	function addDatabase(& $database) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
 	/**
 	 * Run a database query based on the Query object and return a QueryResult object.
 	 * @param object QueryInterface A query object which holds the query to run.
@@ -150,6 +162,34 @@ class DBHandlerInterface extends ServiceInterface {
 	 * @return boolean True, if there is an open connection to the database; False, otherwise.
 	 */
 	function isConnected($dbIndex = 0) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+
+
+	
+	/**
+	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
+	 * for the specified database object.
+	 * @method public toDBDate
+	 * @param ref object dateTime The DateTime object to convert.
+	 * @return mixed A proper datetime/timestamp/time representation for this Database.
+	 */
+	function toDBDate(& $dateTime, $dbIndex = 0) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
+	/**
+	 * Converts a database datetime/timestamp/time value (that has been fetched
+	 * from the db) to a DateTime object.
+	 * @method public fromDBDate
+	 * @param mixed A database datetime/timestamp/time value (that has been fetched
+	 * from the db).
+	 * @return ref object The DateTime object.
+	 */
+	function & fromDBDate($value, $dbIndex = 0) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+
 }
 
 ?>

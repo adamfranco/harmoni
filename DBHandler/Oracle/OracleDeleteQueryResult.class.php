@@ -7,13 +7,13 @@ require_once(HARMONI."DBHandler/DeleteQueryResult.interface.php");
  *
  * The DeleteQueryResult interface provides the functionality common to all Delete query results.
  * For example, you can get the primary key for the last Deleteion, get number of Deleteed rows, etc.
- * @version $Id: PostGreDeleteQueryResult.class.php,v 1.1 2003/07/18 21:07:07 dobomode Exp $
+ * @version $Id: OracleDeleteQueryResult.class.php,v 1.1 2003/07/20 17:43:25 dobomode Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
  */
 
-class PostGreDeleteQueryResult extends DeleteQueryResultInterface {
+class OracleDeleteQueryResult extends DeleteQueryResultInterface {
 
 	/**
 	 * The resource id for this query.
@@ -36,7 +36,7 @@ class PostGreDeleteQueryResult extends DeleteQueryResultInterface {
 	 * @access public
 	 * @param integer $resourceId The resource id for this query.
 	 */
-	function PostGreDeleteQueryResult($resourceId) {
+	function OracleDeleteQueryResult($resourceId) {
 		// ** parameter validation
 		$resourceRule =& new ResourceValidatorRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);

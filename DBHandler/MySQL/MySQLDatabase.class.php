@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.11 2003/07/18 21:07:07 dobomode Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.12 2003/07/20 17:43:25 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -340,6 +340,61 @@ class MySQLDatabase extends DatabaseInterface {
 		$this->_dbName = $database;
 		return mysql_select_db($database, $this->_linkId);
 	}
+
+
+	
+	
+	/**
+	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
+	 * for this Database.
+	 * @method public toDBDate
+	 * @param ref object dateTime The DateTime object to convert.
+	 * @return mixed A proper datetime/timestamp/time representation for this Database.
+	 */
+	function toDBDate(& $dateTime) {
+		/**
+		 * The easiest way to convert is to create an integer (or a string,
+		 * choose which one you think is better, MySQL accepts both, but make
+		 * sure to document) in the following format: YYYYMMDDHHMMSS.
+		 * You can pass this to a MySQL datetime or timestamp column types
+		 * and it gets parsed automatically by MySQL.
+		 */
+	}
+	
+	
+	/**
+	 * Converts a database datetime/timestamp/time value (that has been fetched
+	 * from the db) to a DateTime object.
+	 * @method public fromDBDate
+	 * @param mixed A database datetime/timestamp/time value (that has been fetched
+	 * from the db).
+	 * @return ref object The DateTime object.
+	 */
+	function & fromDBDate($value) {
+		/**
+		 * Depending whether the value was fecthed from a datetime, date or 
+		 * timestamp column, $value could have the following two formats:
+		 * 'YYYY-MM-DD HH:MM:SS' for datetime
+		 * 'YYYY-MM-DD' for date
+		 * For a timestamp, $value could be any of the following depending on
+		 * the column size.
+		 * TIMESTAMP(14)  YYYYMMDDHHMMSS  
+		 * TIMESTAMP(12)  YYMMDDHHMMSS  
+		 * TIMESTAMP(10)  YYMMDDHHMM  
+		 * TIMESTAMP(8)  YYYYMMDD  
+		 * TIMESTAMP(6)  YYMMDD  
+		 * TIMESTAMP(4)  YYMM  
+		 * TIMESTAMP(2)  YY  
+		 * (Warning: From MySQL version 4.1, TIMESTAMP is returned as 
+		 * a string with the format 'YYYY-MM-DD HH:MM:SS' and different timestamp 
+		 * lengths are no longer supported.)
+		 *
+		 * Parse with regular expressions, create and return the appropriate
+		 * DateTime object.
+		 */
+	}
+	
+
 
 }
 

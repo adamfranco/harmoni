@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 /**
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * @version $Id: PostGreDatabase.class.php,v 1.4 2003/07/18 21:07:07 dobomode Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.5 2003/07/20 17:43:25 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -395,6 +395,54 @@ class PostGreDatabase extends DatabaseInterface {
 		}
 	}
 
+	
+	
+	/**
+	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
+	 * for this Database.
+	 * @method public toDBDate
+	 * @param ref object dateTime The DateTime object to convert.
+	 * @return mixed A proper datetime/timestamp/time representation for this Database.
+	 */
+	function toDBDate(& $dateTime) {
+		/**
+		 * The easiest way to convert is to create a string in the following 
+		 * format: 
+		 * 'YYYY-MM-DD HH:MM:SS', i.e. 1999-01-08 04:05:06
+		 * You can pass this to a PostGre date or timestamp column types
+		 * and it gets parsed automatically by PostGre.
+		 */
+		
+	}
+	
+	
+	/**
+	 * Converts a database datetime/timestamp/time value (that has been fetched
+	 * from the db) to a DateTime object.
+	 * @method public fromDBDate
+	 * @param mixed A database datetime/timestamp/time value (that has been fetched
+	 * from the db).
+	 * @return ref object The DateTime object.
+	 */
+	function & fromDBDate($value) {
+		/**
+		 * Depending on the server configuration PostGre retrieves date/time
+		 * types as 4 different formats. (format could be set with SET DateStyle
+		 * ). The default formatting is 'ISO'. Note that timestamp column types 
+		 * return the full string. Date column types only return the date (no time).
+		 *
+		 * Style 			Description 						Example 
+		 * 'ISO' 			ISO-8601 standard 			1997-12-17 07:37:16-08 
+		 * 'SQL' 			Traditional style 		12/17/1997 07:37:16.00 PST 
+		 * 'PostgreSQL' 	Original style 			Wed Dec 17 07:37:16 1997 PST 
+		 * 'German' 		Regional style 			17.12.1997 07:37:16.00 PST 
+		 * 
+		 * Parse with regular expressions, create and return the appropriate
+		 * DateTime object.
+		 */
+	}
+	
+	
 }
 
 ?>

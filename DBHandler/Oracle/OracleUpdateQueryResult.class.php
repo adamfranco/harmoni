@@ -7,13 +7,13 @@ require_once(HARMONI."DBHandler/UpdateQueryResult.interface.php");
  *
  * The UPDATEQueryResult interface provides the functionality common to all UPDATE query results.
  * For example, you can get the primary key for the last UPDATEion, get number of UPDATEed rows, etc.
- * @version $Id: PostGreUpdateQueryResult.class.php,v 1.1 2003/07/18 21:07:07 dobomode Exp $
+ * @version $Id: OracleUpdateQueryResult.class.php,v 1.1 2003/07/20 17:43:25 dobomode Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
  */
 
-class PostGreUpdateQueryResult extends UpdateQueryResultInterface {
+class OracleUpdateQueryResult extends UpdateQueryResultInterface {
 
 
 
@@ -39,7 +39,7 @@ class PostGreUpdateQueryResult extends UpdateQueryResultInterface {
 	 * @access public
 	 * @param integer $resourceId The resource id for this query.
 	 */
-	function PostGreUpdateQueryResult($resourceId) {
+	function OracleUpdateQueryResult($resourceId) {
 		// ** parameter validation
 		$resourceRule =& new ResourceValidatorRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);

@@ -4,7 +4,7 @@
  * A Database interface provides generic database functionality: connect(), executeQuery(), etc.
  * A Database interface provides generic database functionality: connect(), executeQuery(), etc.
  * The interface can be implemented for different types of databases: MySQL, Oracle, SQLServer, etc.
- * @version $Id: Database.interface.php,v 1.5 2003/07/16 02:55:57 dobomode Exp $
+ * @version $Id: Database.interface.php,v 1.6 2003/07/20 17:43:24 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.dbc
  * @access public
@@ -42,19 +42,6 @@ class DatabaseInterface {
 	 */
 	function query($query) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
-
-	/**
-	 * Executes an SQL query.
-	 * Executes an SQL query.
-	 * @access private
-	 * @param string The SQL query string.
-	 * @return mixed For a SELECT statement, a resource identifier, if
-	 * successful; For INSERT, DELETE, UPDATE statements, TRUE if successful;
-	 * for all: FALSE, if not successful. FALSE will be returned if not
-	 * connected to the database.
-	 */
-	function _query($query) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
-	
 
 	/**
 	 * Disconnects from the database.
@@ -100,6 +87,32 @@ class DatabaseInterface {
 	 * @return boolean True, if successful; False, otherwise.
 	 */
 	function selectDatabase($database) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
+	
+	/**
+	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
+	 * for this Database.
+	 * @method public toDBDate
+	 * @param ref object dateTime The DateTime object to convert.
+	 * @return mixed A proper datetime/timestamp/time representation for this Database.
+	 */
+	function toDBDate(& $dateTime) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	
+	/**
+	 * Converts a database datetime/timestamp/time value (that has been fetched
+	 * from the db) to a DateTime object.
+	 * @method public fromDBDate
+	 * @param mixed A database datetime/timestamp/time value (that has been fetched
+	 * from the db).
+	 * @return ref object The DateTime object.
+	 */
+	function & fromDBDate($value) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

@@ -2,6 +2,8 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.2">
+		<change author='dobo'>Deprecated the createDatabase() method in DBHandler. Use addDatabase(), instead. This
+		change was provoked by the fact that Oracle requires different arguments to instantiate the DB object.</change>
 		<new author='gabe'>Added RGBcolor and HTMLcolor classes.</new>
 		<change author='gabe'>Finished Layout, Theme and Template.</change>
 		<change>AuthenticationMethod includes changed to avoid random unprintable character output.</change>
@@ -27,7 +29,7 @@
 		<name short="gabe">Gabe Schine</name>
 		<name short="adam">Adam Franco</name>
 		<name short="dobo">Dobo Radichkov</name>
-		<name short="max">Max Ovsjanikov</name>
+		<name short="max">Max Ovsjanikovs</name>
 		<name short="eric">Eric Janssen</name>
 		<name short="zach">Zach Toups</name>
 		<name short="karlie">Karlie Verkest</name>

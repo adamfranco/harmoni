@@ -3,7 +3,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.10 2003/07/18 21:07:08 dobomode Exp $
+ * @version $Id: test.php,v 1.11 2003/07/20 17:43:25 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -40,6 +40,10 @@
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleUpdateQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleInsertQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleSelectQueryTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/OracleDatabaseTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/OracleInsertQueryResultTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/OracleSelectQueryResultTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/OracleComprehensiveTestCase.class.php');
 
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreDeleteQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/PostGreUpdateQueryTestCase.class.php');

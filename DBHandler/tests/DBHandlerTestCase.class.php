@@ -7,7 +7,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DBHandlerTestCase.class.php,v 1.9 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: DBHandlerTestCase.class.php,v 1.10 2003/07/20 17:43:25 dobomode Exp $
  * @package harmoni.dbc.tests
  * @copyright 2003 
  **/
@@ -57,7 +57,8 @@
 		 * Test the addition of a new database.
 		 **/
 		function test_createdatabase() {
-			$databaseId = $this->dbhandler->createDatabase(MYSQL,"devo123.middlebury.edu", "test123", "test123", "test123");
+			$mysql =& new MySQLDatabase("devo123.middlebury.edu", "test123", "test123", "test123");
+			$databaseId = $this->dbhandler->addDatabase($mysql);
 			$this->assertEqual("mysqldatabase", get_class($this->dbhandler->_databases[$databaseId]));
 			$this->assertEqual("devo123.middlebury.edu", $this->dbhandler->_databases[$databaseId]->_dbHost);
 			$this->assertEqual("test123", $this->dbhandler->_databases[$databaseId]->_dbName);

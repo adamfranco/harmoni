@@ -7,13 +7,13 @@ require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
  *
  * The InsertQueryResult interface provides the functionality common to all INSERT query results.
  * For example, you can get the primary key for the last insertion, get number of inserted rows, etc.
- * @version $Id: PostGreInsertQueryResult.class.php,v 1.1 2003/07/18 21:07:07 dobomode Exp $
+ * @version $Id: OracleInsertQueryResult.class.php,v 1.1 2003/07/20 17:43:25 dobomode Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
  */
 
-class PostGreInsertQueryResult extends InsertQueryResultInterface  {
+class OracleInsertQueryResult extends InsertQueryResultInterface  {
 
 
 	/**
@@ -40,13 +40,13 @@ class PostGreInsertQueryResult extends InsertQueryResultInterface  {
 
 
 	/**
-	 * Creates a new PostGreINSERTQueryResult object.
+	 * Creates a new OracleINSERTQueryResult object.
 	 * @access public
 	 * @param integer $resourceId The resource id for this query.
 	 * @param integer $lastId The last id that was inserted
-	 * @return object A new PostGreINSERTQueryResult object.
+	 * @return object A new OracleINSERTQueryResult object.
 	 */
-	function PostGreInsertQueryResult($resourceId, $lastId) {
+	function OracleInsertQueryResult($resourceId, $lastId) {
 		// ** parameter validation
 		$resourceRule =& new ResourceValidatorRule();
 		$integerRule =& new OptionalRule(new IntegerValidatorRule());

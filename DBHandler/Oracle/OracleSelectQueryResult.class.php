@@ -3,17 +3,17 @@
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
 
 /**
- * The PostGreSelectQueryResult interface provides the functionality common to a PostGre SELECT query result.
+ * The OracleSelectQueryResult interface provides the functionality common to a Oracle SELECT query result.
  *
- * The PostGreSelectQueryResult interface provides the functionality common to a PostGre SELECT query result.
+ * The OracleSelectQueryResult interface provides the functionality common to a Oracle SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.1 2003/07/18 21:07:07 dobomode Exp $
+ * @version $Id: OracleSelectQueryResult.class.php,v 1.1 2003/07/20 17:43:25 dobomode Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
  */
 
-class PostGreSelectQueryResult extends SelectQueryResultInterface {
+class OracleSelectQueryResult extends SelectQueryResultInterface {
 
 
 	/**
@@ -50,14 +50,14 @@ class PostGreSelectQueryResult extends SelectQueryResultInterface {
 
 	
 	/**
-	 * Creates a new PostGreSelectQueryResult object.
-	 * Creates a new PostGreSelectQueryResult object.
+	 * Creates a new OracleSelectQueryResult object.
+	 * Creates a new OracleSelectQueryResult object.
 	 * @access public
 	 * @param integer $resourceId The resource id for this SELECT query.
 	 * @param integer $linkId The link identifier for the database connection.
-	 * @return object PostGreSelectQueryResult A new PostGreSelectQueryResult object.
+	 * @return object OracleSelectQueryResult A new OracleSelectQueryResult object.
 	 */
-	function PostGreSelectQueryResult($resourceId, $linkId) {
+	function OracleSelectQueryResult($resourceId, $linkId) {
 		// ** parameter validation
 		$resourceRule =& new ResourceValidatorRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);
@@ -88,7 +88,7 @@ class PostGreSelectQueryResult extends SelectQueryResultInterface {
 	/**
 	 * Returns the resource id for this SELECT query.
 	 * Returns the resource id for this SELECT query. The resource id is returned
-	 * by the PostGre_query() function.
+	 * by the Oracle_query() function.
 	 * @access public
 	 * @return integer The resource id for this SELECT query.
 	 **/
