@@ -14,7 +14,7 @@ require_once(HARMONI . "storageHandler/Storables/VirtualStorable.class.php");
 * 
 * @package harmoni.StorageHandler
 * @author Middlebury College, ETS 
-* @version $Id: StorageHandler.class.php,v 1.6 2003/07/03 18:03:20 gabeschine Exp $
+* @version $Id: StorageHandler.class.php,v 1.7 2003/07/04 01:38:13 gabeschine Exp $
 * @copyright 2003
 */
 class StorageHandler extends StorageHandlerInterface {
@@ -117,8 +117,10 @@ class StorageHandler extends StorageHandlerInterface {
 	{
 		$this->_checkPath($path); 
 		// check to make sure we have a primary method defined for this path
-		if (!$this->_hasPrimary($path))
+		if (!$this->_hasPrimary($path)) {
 			throw(new Error("StorageHandler::addBackupMethod - can not add a backup method for '$path' because it does not have a primary method defined yet!", "StorageHandler", true)); 
+			return false;
+		}
 		// ok, let's add this bugger
 		$this->_addMethod($method, $path, $backupType);
 	}
@@ -344,9 +346,9 @@ class StorageHandler extends StorageHandlerInterface {
 		// let's first find any MIRROR_SHALLOW backup types for this path
 		$backups = array();
 
-		$ids = $this->_getIDs($path);
+		$ids = $this->_getIDs($deepestPath);
 		foreach ($ids as $id)
-		if ($this->_types[$id] == MIRROR_SHALLOW) $backups[] = $id; 
+			if ($this->_types[$id] == MIRROR_SHALLOW) $backups[] = $id; 
 		// now let's go through and get all the methods that are MIRROR_DEEP
 		// that overlap with this path
 		foreach ($this->_types as $id => $type) {
@@ -693,7 +695,7 @@ class StorageHandler extends StorageHandlerInterface {
 		$ids = $this->_getBackupsForPath($path);
 		$ids[] = $this->_getPrimaryForPath($path);
 		if ($recursive) {
-			$ids = array_merge($ids, $this->_getDefinedMethodsUnder($path));
+			$ids = array_merge($ids, $this->_findDefinedMethodsBelow($path));
 		}
 
 		$storables = array();
@@ -777,7 +779,7 @@ class StorageHandler extends StorageHandlerInterface {
 		$ids[] = $this->_getPrimaryForPath($path);
 
 		foreach ($ids as $id) {
-			$totalCount += $this->_methods[$id]->getCount($this->_translatePathForMethod($id, $path));
+			$totalCount += $this->_methods[$id]->getCount($this->_translatePathForMethod($id, $path),$recursive);
 		}
 		return $totalCount;
 	}

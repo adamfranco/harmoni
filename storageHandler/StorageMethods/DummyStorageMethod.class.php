@@ -7,7 +7,7 @@ require_once(HARMONI."storageHandler/Storables/DummyStorable.class.php");
 * Storage Method interface provides functionality to create StorageMethods
 * to handle Storables. A collection of StorageMethods can be used by StorageHandler.
 * 
-* @version $Id: DummyStorageMethod.class.php,v 1.1 2003/07/03 18:03:20 gabeschine Exp $
+* @version $Id: DummyStorageMethod.class.php,v 1.2 2003/07/04 01:38:13 gabeschine Exp $
 * @package harmoni.Storagehandler
 * @copyright 2003
 * @access public 
@@ -19,6 +19,16 @@ class DummyStorageMethod extends StorageMethodInterface {
 	 * @var array $_files A dummy array of "files" that "exist".
 	 **/
 	var $_files;
+	
+	/**
+	 * The constructor.
+	 * @access public
+	 * @return void 
+	 **/
+	function DummyStorageMethod() {
+		$this->_files = array();
+	}
+	
 	
 	/**
 	* Store a given storable in a given location. This is the basic function that should 
