@@ -9,13 +9,13 @@ require_once('Error.class.php');
  * test.
  *
  * @author Dobo Radichkov
- * @version $Id: ErrorTestCase.class.php,v 1.2 2003/06/17 20:21:31 movsjani Exp $
+ * @version $Id: ErrorTestCase.class.php,v 1.3 2003/06/18 16:23:04 movsjani Exp $
  * @copyright 2003 
  **/
 
     class ErrorTestCase extends UnitTestCase {
 	
-	$_testError;
+	var $_testError;
 
 	function ErrorTestCase() {
 	    $this->UnitTestCase();
@@ -40,9 +40,8 @@ require_once('Error.class.php');
         }
 
 	function testTwoParameters(){
-	    echo "asdfasdf";
 	    $this->_testError = new Error("Error1","user");
-	    $this->assertEqual("Error1",$this->_testError->getDescrption());
+	    $this->assertEqual("Error1",$this->_testError->getDescription());
 	    $this->assertEqual("user",$this->_testError->getType());
 	    $this->assertFalse($this->_testError->isFatal());
 	}
@@ -50,9 +49,13 @@ require_once('Error.class.php');
 
 	function testThreeParameters(){
 	    $this->_testError = new Error("Error1","user",true);
-	    $this->assertEqual("Error1",$this->_testError->getDescrption());
+	    $this->assertEqual("Error1",$this->_testError->getDescription());
 	    $this->assertEqual("user",$this->_testError->getType());
 	    $this->assertTrue($this->_testError->isFatal());
+	}
+	
+	function testWhatever(){
+		$this->sucks;
 	}
 
     }
