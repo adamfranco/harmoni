@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.32 2004/10/22 21:58:45 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.33 2004/11/08 16:38:48 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -49,6 +49,9 @@ if (!defined("LOAD_SHARED")) 				define("LOAD_SHARED", true);
 // functionality affected: OKI AuthN calls.
 if (!defined("LOAD_AUTHN")) 				define("LOAD_AUTHN", true);
 
+// functionality affected: OKI AuthZ calls.
+if (!defined("LOAD_AUTHZ")) 				define("LOAD_AUTHZ", true);
+
 // functionality affected: Digital Repository.
 if (!defined("LOAD_DR")) 			define("LOAD_DR", true);
 
@@ -57,6 +60,9 @@ if (!defined("LOAD_LANG")) 			define("LOAD_LANG", true);
 
 // functionality affected: Sets
 if (!defined("LOAD_SETS")) 			define("LOAD_SETS", true);
+
+// functionality affected: MIME Type sniffing, ImageProcessing
+if (!defined("LOAD_MIME")) 			define("LOAD_MIME", true);
 
 // functionality affected: ImageProcessing
 if (!defined("LOAD_IMAGEPROCESSOR")) 		define("LOAD_IMAGEPROCESSOR", true);
@@ -170,6 +176,12 @@ if (LOAD_AUTHN) {
 	Services::registerService("AuthN","HarmoniAuthenticationManager");
 }
 
+// load the AuthZManager
+if (LOAD_AUTHZ) {
+	require_once(HARMONI."oki/authorization/HarmoniAuthorizationManager.class.php");
+	Services::registerService("AuthZ","HarmoniAuthorizationManager");
+}
+
 // load the DigitalRepositoryManager.
 if (LOAD_DR) {
 	require_once(HARMONI."oki/dr/HarmoniDigitalRepositoryManager.class.php");
@@ -191,6 +203,12 @@ if (LOAD_LANG) {
 if (LOAD_SETS) {
 	require_once(HARMONI."sets/SetManager.class.php");
 	Services::registerService("Sets","SetManager");
+}
+
+// load the Sets service
+if (LOAD_MIME) {
+	require_once(HARMONI."utilities/MIMETypes.class.php");
+	Services::registerService("MIME", "MIMETypes");
 }
 
 // load the Sets service
