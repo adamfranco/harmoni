@@ -17,7 +17,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.14 2004/04/30 19:17:24 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.15 2004/04/30 21:00:03 adamfranco Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -255,7 +255,7 @@ class Harmoni {
 		list($module,$action) = explode(".",$pair);
 		
 		// process the login information
-		if ($this->config->get("useAuthentication") && $this->LoginHandler->actionRequiresAuthentication($this->getCurrentAction())) {
+		if ($this->config->get("useAuthentication")) {
 			$loginState =& $this->LoginHandler->execute();
 		} else $loginState =& new LoginState; // "blank" loginState
 		

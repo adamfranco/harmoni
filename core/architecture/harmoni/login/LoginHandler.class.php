@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.6 2004/04/30 19:17:39 adamfranco Exp $
+ * @version $Id: LoginHandler.class.php,v 1.7 2004/04/30 21:00:21 adamfranco Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -141,39 +141,53 @@ class LoginHandler {
 		// and we're also going to store the URL they were trying to access
 		// in the session so we can send them there later.
 		
-		// first try getting the username/pass from a callback function first.
-		if ($function = $this->_usernamePasswordCallbackFunction) {
-			$result = $function();
-			if (!$result) {
-				// the user didn't enter any info yet -- execute the failed login action
-				// first save the current URL in the session
-				// @todo -cLoginHandler Implement LoginHandler.execute replace old ID with a new one.
-				$_SESSION['__afterLoginURL'] = $_SERVER['REQUEST_URI'];
-				$this->_failedLogin = true;
-				debug::output("LoginHandler failed!",DEBUG_SYS5,"LoginHandler");
-				return $state;
+		// If we don't require authentication for this action, don't try
+		// to authenticate. Just return the stored state if availible.
+		// Without this provision, we try to authenticate always.
+		if (!$this->actionRequiresAuthentication($this->_harmoni->getCurrentAction())) {
+			if ($_SESSION['__LoginState'])
+				return $_SESSION['__LoginState'];
+			else {
+				$_SESSION['__LoginState'] =& new LoginState;
+				return $_SESSION['__LoginState'];
 			}
-			$username = $result[0];
-			$password = $result[1];
-
-			// pass these values to the AuthenticationHandler
-			$authHandler =& Services::requireService("Authentication");
-			$authResult =& $authHandler->authenticateAllMethods($username,$password);
-
-			// save the new LoginState in the session
-			$state =& new LoginState($username,$authResult);
-			$_SESSION['__LoginState'] =& $state;
 			
-			// now, if they were valid, everything is honky-dory
-			// -- send them to the saved url if its defined
-			if ($authResult->isValid()) {
-				if ($url = $_SESSION['__afterLoginURL']) {
-					unset($_SESSION['__afterLoginURL']);
-					$url .= (ereg("\?",$url)?"":"?").SID;
-					header("Location: $url");
+		// Continue with authenticating
+		} else {
+			// first try getting the username/pass from a callback function first.
+			if ($function = $this->_usernamePasswordCallbackFunction) {
+				$result = $function();
+				if (!$result) {
+					// the user didn't enter any info yet -- execute the failed login action
+					// first save the current URL in the session
+					// @todo -cLoginHandler Implement LoginHandler.execute replace old ID with a new one.
+					$_SESSION['__afterLoginURL'] = $_SERVER['REQUEST_URI'];
+					$this->_failedLogin = true;
+					debug::output("LoginHandler failed!",DEBUG_SYS5,"LoginHandler");
+					return $state;
 				}
-				debug::output("LoginHandler succeeded!",DEBUG_SYS5,"LoginHandler");
-				return $state;
+				$username = $result[0];
+				$password = $result[1];
+	
+				// pass these values to the AuthenticationHandler
+				$authHandler =& Services::requireService("Authentication");
+				$authResult =& $authHandler->authenticateAllMethods($username,$password);
+	
+				// save the new LoginState in the session
+				$state =& new LoginState($username,$authResult);
+				$_SESSION['__LoginState'] =& $state;
+				
+				// now, if they were valid, everything is honky-dory
+				// -- send them to the saved url if its defined
+				if ($authResult->isValid()) {
+					if ($url = $_SESSION['__afterLoginURL']) {
+						unset($_SESSION['__afterLoginURL']);
+						$url .= (ereg("\?",$url)?"":"?").SID;
+						header("Location: $url");
+					}
+					debug::output("LoginHandler succeeded!",DEBUG_SYS5,"LoginHandler");
+					return $state;
+				}
 			}
 			
 			// hmm, they're still not valid. too bad.
@@ -213,7 +227,8 @@ class LoginHandler {
 	function logout() {
 		// first invalidated the current state.
 		$state =& $_SESSION['__LoginState'];
-		$state->nullify();
+		if ($state)
+			$state->nullify();
 		unset($state);
 		
 		// essentially, unset the session vars
@@ -225,7 +240,7 @@ class LoginHandler {
 		// if the callback function used HTTP Authentication, we need to
 		// tell the browser to clear its username/password cache!
 		if ($this->_usernamePasswordCallbackFunction == 'basicHTTPAuthenticationCallback') {
-	//		header("HTTP/1.0 401");
+			header("HTTP/1.0 401");
 		}
 		// done;
 	}

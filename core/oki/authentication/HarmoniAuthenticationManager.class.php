@@ -118,7 +118,7 @@ class HarmoniAuthenticationManager
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->authTypes[$key]->isEqual($authenticationType)) {
 				$typeValid = TRUE;
-				break();
+				break;
 			}
 		}
 		if (!$typeValid)
@@ -161,7 +161,7 @@ class HarmoniAuthenticationManager
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->authTypes[$key]->isEqual($authenticationType)) {
 				$typeValid = TRUE;
-				break();
+				break;
 			}
 		}
 		if (!$typeValid)
@@ -198,7 +198,7 @@ class HarmoniAuthenticationManager
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->authTypes[$key]->isEqual($authenticationType)) {
 				$typeValid = TRUE;
-				break();
+				break;
 			}
 		}
 		if (!$typeValid)
@@ -227,7 +227,7 @@ class HarmoniAuthenticationManager
 				
 				// If an agent Id can be mapped to the name, return the id.
 				if ($result->getNumberOfRows() == 1) {
-					$id =& sharedManager->getId($result->field('agent_id'));
+					$id =& $sharedManager->getId($result->field('agent_id'));
 				
 				// If no AgentId can be mapped to the Id, create a new Agent
 				// then populate its properties.
@@ -298,7 +298,7 @@ class HarmoniAuthenticationManager
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->authTypes[$key]->isEqual($authenticationType)) {
 				$typeValid = TRUE;
-				break();
+				break;
 			}
 		}
 		if (!$typeValid)
@@ -308,6 +308,10 @@ class HarmoniAuthenticationManager
 		// just destroy that Authentication.
 		$this->_harmoni->LoginHandler->logout();
 	}
+	
+	function start() {}
+	
+	function stop() {}
 }
 
 ?>
