@@ -210,7 +210,7 @@ class HarmoniDigitalRepository
 		while ($children->hasNext()) {
 			$child =& $children->next();
 			if ($assetType->isEqual($child->getType()))
-				$assets[] =& $this->_dr->getAsset($child->getId());
+				$assets[] =& $this->getAsset($child->getId());
 		}
 		
 		return new HarmoniAssetIterator($assets);
