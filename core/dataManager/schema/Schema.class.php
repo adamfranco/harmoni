@@ -8,7 +8,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link SchemaManager}.
  * @package harmoni.datamanager
- * @version $Id: Schema.class.php,v 1.5 2004/08/11 15:06:30 adamfranco Exp $
+ * @version $Id: Schema.class.php,v 1.6 2004/09/09 16:53:41 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public

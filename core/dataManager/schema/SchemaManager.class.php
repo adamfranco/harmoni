@@ -6,7 +6,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * Responsible for the synchronization of {@link Schema} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: SchemaManager.class.php,v 1.7 2004/08/26 15:10:32 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.8 2004/09/09 16:53:41 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -391,7 +391,7 @@ class SchemaManager
 		
 		foreach ($allLabels as $label) {
 			// now we're going to go through the logic above in the comment
-			
+			debug::output("Checking label '$label' ...", DEBUG_SYS5, "DataManager");
 			// if the field exists in new and not in old, add it to old, and flag it to add to DB
 			if (!$old->fieldExists($label) && $new->fieldExists($label)) {
 				$field =& $new->getField($label);
@@ -503,7 +503,7 @@ class SchemaManager
 			$query->setValues(array($new->getRevision()));
 			
 			$dbHandler=& Services::getService("DBHandler");
-			$dbHandler->query($query,$this->_dbID);
+			$dbHandler->query($query,DATAMANAGER_DBID);
 		}
 		
 		$old->loaded(true);

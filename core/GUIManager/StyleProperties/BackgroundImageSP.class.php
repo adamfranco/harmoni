@@ -1,7 +1,7 @@
 <?php
 
 require_once(HARMONI."GUIManager/StyleProperty.class.php");
-require_once(HARMONI."GUIManager/StyleComponents/URLSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/UrlSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/RepeatSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/AttachmentSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/AlignmentPositionSC.class.php");
@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/StyleComponents/AlignmentPositionSC.class.php")
  * The other two CSS styles building pieces are <code>StyleComponents</code> and
  * <code>StyleCollections</code>. 
  
- * @version $Id: BackgroundImageSP.class.php,v 1.1 2004/08/17 02:22:41 gabeschine Exp $
+ * @version $Id: BackgroundImageSP.class.php,v 1.2 2004/09/09 16:53:24 gabeschine Exp $
  * @package harmoni.gui.sps
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -32,7 +32,7 @@ class BackgroundImageSP extends StyleProperty {
 	 **/
 	function BackgroundImageSP($imageURL, $repeat="repeat", $attachment="scroll", $xpos=null, $ypos=null) {
 		$this->StyleProperty("background", "Background Image", "This property specifies the background image and its settings.");
-		$this->addSC(new URLSC($imageURL));
+		$this->addSC(new UrlSC($imageURL));
 		$this->addSC(new RepeatSC($repeat));
 		$this->addSC(new AttachmentSC($attachment));
 		if ($xpos && $ypos) {
