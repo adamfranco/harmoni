@@ -5,7 +5,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.12 2004/01/15 19:37:41 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.13 2004/02/05 23:05:05 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -219,6 +219,31 @@ class DateTime {
 		ArgumentValidator::validate($seconds, $rangeRule, true);
 
 		$this->_seconds = $seconds;
+	}
+	
+	/**
+	 * Set the date from a timestamp
+	 *
+	 * @access public
+	 */
+	function setDate($timestamp) {
+		$year = date(Y, $timestamp);
+		$this->setYear(intval($year));
+		
+		$month = date(n, $timestamp);
+		$this->setMonth(intval($month));
+		
+		$day = date(j, $timestamp);
+		$this->setDay(intval($day));
+		
+		$hour = date(G, $timestamp);
+		$this->setHours(intval($hour));
+		
+		$min = date(i, $timestamp);
+		$this->setMinutes(intval($min));
+		
+		$sec = date(s, $timestamp);
+		$this->setSeconds(intval($sec));
 	}
 	
 	/**

@@ -95,9 +95,9 @@ class HarmoniInfoField extends InfoField
 		$class = $fieldType."DataType";
 		$valueObj =& new $class($value);
 	
-		$this->_valueVersions->setValue($valueObj);
+		$fieldValuesObj->setValue($this->_valueVersions->getIndex(), $valueObj);
 		
-		$this->_valueVersions->commit();
+		$fieldValuesObj->commit();
 	}
 
 	/**

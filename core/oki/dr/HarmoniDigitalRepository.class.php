@@ -356,7 +356,7 @@ class HarmoniDigitalRepository
 				throwError(new Error(UNKNOWN_ID, "Digital Repository", 1));
 			
 			// create the asset and add it to the cache
-			$this->_createdAssets[$assetId->getIdString()] =& new HarmoniAsset($this->_hierarchy, $this, $assetId);
+			$this->_createdAssets[$assetId->getIdString()] =& new HarmoniAsset($this->_hierarchy, $this, $assetId, $this->_configuration);
 			$this->_assetValidFlags[$assetId->getIdString()] = true;
 		}
 		
@@ -367,12 +367,15 @@ class HarmoniDigitalRepository
 	/**
 	 * Get the Asset with the specified Unique Id and appropriate for the date specified.  The date permits
 	 * @param assetId
-	 * @param date
+	 * @param object DateTime $date The date to get.
 	 * @return Asset
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}, {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, {@link DigitalRepositoryException#NO_OBJECT_WITH_THIS_DATE NO_OBJECT_WITH_THIS_DATE}
 	 * @package osid.dr
 	 */
 	function & getAssetByDate(& $assetId, & $date) {
+		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
+		ArgumentValidator::validate($date, new ExtendsValidatorRule("DateTime"));
+		
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
 		
 		// Return an Asset where all InfoRecords have the values that they
@@ -392,7 +395,7 @@ class HarmoniDigitalRepository
 		
 		// Get the DataSets in the Asset's DataSetGroup
 		$dataSetGroup =& $dataSetMgr->fetchDataSetGroup($assetId->getIdString());
-		$dataSets =& $dataSetGroup->fetchDataSets();
+		$dataSets =& $dataSetGroup->fetchDataSets(TRUE);
 		
 		// Get the dates for all Fields of all DataSets and
 		// put them into an array.
@@ -409,10 +412,10 @@ class HarmoniDigitalRepository
 						foreach ($versionIDs as $id) {
 							$version =& $versionsObjs[$versionObjsKey]->getVersion($id);
 							$date =& $version->getDate();
-						
+				
 							// Add Date to the array if it doesn't exist already.
-							if (!in_array($date->toString(), $dateStrings)) {
-								$dateStrings[] = $date->toString();
+							if (!in_array($date->toTimeStamp(), $dateStrings)) {
+								$dateStrings[] = $date->toTimeStamp();
 								$dates[] =& $date;
 							}
 						}

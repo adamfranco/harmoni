@@ -71,7 +71,7 @@ class HarmoniDigitalRepositoryManager // :: API interface
 		// Add this DR's root node to the hierarchy.
 		$node =& $this->_hierarchy->createRootNode($newId, $digitalRepositoryType, $displayName, $description);
 		
-		 $this->_createdDRs[$newId->getIdString()] =& new HarmoniDigitalRepository ($this->_hierarchy, $newId, $this->_configuration);
+		$this->_createdDRs[$newId->getIdString()] =& new HarmoniDigitalRepository ($this->_hierarchy, $newId, $this->_configuration);
 		return  $this->_createdDRs[$newId->getIdString()];
 	}
 
@@ -158,7 +158,7 @@ class HarmoniDigitalRepositoryManager // :: API interface
 				throwError(new Error(UNKNOWN_ID, "Digital Repository", 1));
 			
 			// create the dr and add it to the cache
-			$this->_createdDRs[$digitalRepositoryId->getIdString()] =& new HarmoniDigitalRepository($this->_hierarchy, $digitalRepositoryId);
+			$this->_createdDRs[$digitalRepositoryId->getIdString()] =& new HarmoniDigitalRepository($this->_hierarchy, $digitalRepositoryId, $this->_configuration);
 			$this->_drValidFlags[$digitalRepositoryId->getIdString()] = true;
 		}
 		
