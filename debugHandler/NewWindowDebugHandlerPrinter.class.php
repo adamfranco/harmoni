@@ -6,7 +6,7 @@ require_once(HARMONI."utilities/HTMLcolor.class.php");
 /**
  * the NewWindowDebugHandlerPrinter prints debug items to a new HTML window.
  *
- * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.1 2003/08/07 22:09:04 gabeschine Exp $
+ * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.2 2003/08/08 22:07:31 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.debugging
  **/
@@ -53,7 +53,7 @@ class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {
 				$string .= "{$btext}</font>";
 				$string .= "<div style='padding-left:10px'><font face='monaco' size=1>[<font color='#$htmlColor'>".$items[$key]->getCategory().":".$items[$key]->getLevel()."</font>] ".$items[$key]->getText();
 				$string .= "</font></div></div>";
-				print "debugWindow.document.write('".addslashes($string)."');\n";
+				print "debugWindow.document.write('".addslashes(str_replace("\n","<BR />",$string))."');\n";
 				print "debugWindow.scrollBy(0,100000);\n";
 			}
 		}

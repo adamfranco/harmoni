@@ -3,9 +3,99 @@
 require_once(HARMONI.'services/Service.interface.php');
 
 /**
+ * @const integer DEBUG_API1 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_API1",6);
+
+/**
+ * @const integer DEBUG_API2 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_API2",7);
+
+/**
+ * @const integer DEBUG_API3 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_API3",8);
+
+/**
+ * @const integer DEBUG_API4 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_API4",9);
+
+/**
+ * @const integer DEBUG_API5 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_API5",10);
+
+/**
+ * @const integer DEBUG_USER1 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_USER1",1);
+
+/**
+ * @const integer DEBUG_USER2 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_USER2",2);
+
+/**
+ * @const integer DEBUG_USER3 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_USER3",3);
+
+/**
+ * @const integer DEBUG_USER4 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_USER4",4);
+
+/**
+ * @const integer DEBUG_USER5 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_USER5",5);
+
+/**
+ * @const integer DEBUG_SYS1 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_SYS1",11);
+
+/**
+ * @const integer DEBUG_SYS2 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_SYS2",12);
+
+/**
+ * @const integer DEBUG_SYS3 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_SYS3",13);
+
+/**
+ * @const integer DEBUG_SYS4 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_SYS4",14);
+
+/**
+ * @const integer DEBUG_SYS5 Debug level constant
+ * @package harmoni.utilities.debugging
+ **/
+define("DEBUG_SYS5",15);
+
+/**
  * the DebugHandler interface defines the required methods for a DebugHandler class
  *
- * @version $Id: DebugHandler.interface.php,v 1.6 2003/08/06 22:32:40 gabeschine Exp $
+ * @version $Id: DebugHandler.interface.php,v 1.7 2003/08/08 22:07:31 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.interfaces.utilities.debugging
  **/
