@@ -12,7 +12,7 @@ require_once(HARMONI."authenticationHandler/methods/DBMethodOptions.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBAuthenticationMethod.class.php,v 1.7 2005/02/14 19:19:38 thebravecowboy Exp $
+ * @version $Id: DBAuthenticationMethod.class.php,v 1.8 2005/02/16 15:23:44 thebravecowboy Exp $
  **/
  
 class DBAuthenticationMethod
@@ -102,12 +102,13 @@ class DBAuthenticationMethod
 	/**
 	 * authenticate will check a systemName/password pair against the defined method
 	 * 
+	 * Warning! Not in the OSID as of v2.0
 	 * @param string $systemName the system name to validate (ie, a user name)
 	 * @param string $password the password associated with $systemName
 	 * @access public
 	 * @return boolean true if authentication succeeded with the method, false if not 
 	 **/
-	function & addAgent( $systemName, $password, $receivedProperties, $displayName = null) {
+	function &addAgent( $systemName, $password, $receivedProperties, $displayName = null) {
 		
 		ArgumentValidator::validate($systemName, new StringValidatorRule(), true);
 		ArgumentValidator::validate($password, new StringValidatorRule(), true);
@@ -140,19 +141,31 @@ class DBAuthenticationMethod
 			$displayName = $systemName;
 		}
 		
-		$type =& new HarmoniType("agent","harmoni","newAgent");
+		$type =& new HarmoniAuthenticationType();
 		$properties =& new HarmoniProperties($type);
+		
+		$key[]="systemName";
+		$key[]="displayName";
+		
+		$properties->addProperty($key[0], $systemName);
+		$properties->addProperty($key[1], $displayName);
 		
 		foreach($receivedProperties as $key => $property){
 			$properties->addProperty($key, $property);
 		}
 			
 		$agent =& $agentManager->createAgent($displayName, $type, $properties);
-			
 		
+		$authManager = Services::getService("AuthN");
+		
+		$authManager->createMapping($systemName ,$agent->getType(), $agent->getId());
+		
+		$idManager = Services::getService("Id");
+		$everyoneId =& $idManager->getId("-1");
+		$group =& $agentManager->getGroup($everyoneId);
+		$group->attach($agent);
 						
 		return $agent;
-				
 		
 	}
 	

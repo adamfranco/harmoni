@@ -60,7 +60,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.10 2005/02/08 17:21:13 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.11 2005/02/16 15:23:49 thebravecowboy Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -419,6 +419,7 @@ class HarmoniAuthenticationManager
 	function &getAgentId ( &$tokens, &$authenticationType ) {
 		// Check that we have a valid AuthenticationType.
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+		
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
 			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
@@ -433,6 +434,39 @@ class HarmoniAuthenticationManager
 		// Look up their Agent Id or create a
 		// new Agent if they don't have one.
 		return $this->_getAgentId($tokens, $authenticationType);
+	}
+	
+	function &createMapping(&$tokens, &$authenticationType, &$id){
+		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
+		ArgumentValidator::validate($id, new ExtendsvalidatorRule("Id"));
+		
+		$dbHandler =& Services::getService("DBHandler");
+
+		if ($this->_agentIds[$tokens]) {
+			throwError(new Error("Agent Id already exists","AuthenticationManager", 1));
+		}
+				
+		// Store a mapping in our table.
+						
+		$query =& new InsertQuery;
+		$columns = array($this->_authNDB.".authn_mapping.agent_id", 
+						$this->_authNDB.".authn_mapping.system_name",
+						$this->_authNDB.".authn_mapping.type_domain",
+						$this->_authNDB.".authn_mapping.type_authority",
+						$this->_authNDB.".authn_mapping.type_keyword");
+		$query->setColumns($columns);
+		$values = array("'".addslashes($id->getIdString())."'", "'".addslashes($tokens)."'",
+						"'".addslashes($authenticationType->getDomain())."'", 
+						"'".addslashes($authenticationType->getAuthority())."'", 
+						"'".addslashes($authenticationType->getKeyword())."'");
+		$query->setValues($values);
+		$query->setTable($this->_authNDB.".authn_mapping");
+		$result =& $dbHandler->query($query, $this->_dbIndex);
+		
+		//$id =& $this->getAgentId($tokens, $authenticationType);
+		
+		return;
+	
 	}
 	
 	/**
