@@ -43,7 +43,7 @@ define("STORAGE_PRIMARY", 3);
  * 
  * @package harmoni.StorageHandler
  * @author Middlebury College, ETS 
- * @version $Id: StorageHandler.interface.php,v 1.2 2003/06/30 19:05:32 gabeschine Exp $
+ * @version $Id: StorageHandler.interface.php,v 1.3 2003/06/30 22:49:50 gabeschine Exp $
  * @copyright 2003
  */
 class StorageHandlerInterface extends ServiceInterface {
@@ -87,14 +87,14 @@ class StorageHandlerInterface extends ServiceInterface {
 	/**
 	 * Store a file. Takes a {@link StorableInterface Storable}, name, and path
 	 * and stores the file under $path/$name in the handler.
-	 * @param object $storable The Storable object to store.
+	 * @param ref object $storable The Storable object to store.
 	 * @param string $path The path under which to store the file.
 	 * @param string $name The name to store under.
 	 * @see {@link StorableInterface}
 	 * @access public
 	 * @return boolean TRUE on success, FALSE otherwise.
 	 **/
-	function store( $storable, $path, $name) {
+	function store( &$storable, $path, $name) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
@@ -104,9 +104,10 @@ class StorageHandlerInterface extends ServiceInterface {
 	 * @param string $path The path leading to the file.
 	 * @param string $name The name of the virtual file to retrieve.
 	 * @access public
-	 * @return object The Storable object associated with $path/$name.
+	 * @return object The Storable object associated with $path/$name. FALSE if it
+	 * could not be found.
 	 **/
-	function retrieve( $path, $name) {
+	function &retrieve( $path, $name) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
