@@ -196,7 +196,7 @@ class HarmoniAuthenticationManager
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
-			if ($this->authTypes[$key]->isEqual($authenticationType)) {
+			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
 				$typeValid = TRUE;
 				break;
 			}
@@ -221,6 +221,9 @@ class HarmoniAuthenticationManager
 				$query->addColumn($this->_authNDB.".authn_mapping.agent_id", "agent_id");
 				$query->addTable($this->_authNDB.".authn_mapping");
 				$query->addWhere($this->_authNDB.".authn_mapping.system_name='".$name."'");
+				$query->addWhere($this->_authNDB.".authn_mapping.type_domain='".$authenticationType->getDomain()."'");
+				$query->addWhere($this->_authNDB.".authn_mapping.type_authority='".$authenticationType->getAuthority()."'");
+				$query->addWhere($this->_authNDB.".authn_mapping.type_keyword='".$authenticationType->getKeyword()."'");
 				$result =& $dbHandler->query($query, $this->_dbIndex);
 				
 				$sharedManager =& Services::getService('Shared');
@@ -233,17 +236,22 @@ class HarmoniAuthenticationManager
 				// then populate its properties.
 				} else if ($result->getNumberOfRows() == 0) {
 					$type =& new HarmoniType ('Authentication', 'Harmoni', 'User',
-												'A generic user agent created
-												during login.');
+												'A generic user agent created during login.');
 					$agent =& $sharedManager->createAgent($name, $type);
 					$id =& $agent->getId();
 					
 					// Store a mapping in our table.
 					$query =& new InsertQuery;
 					$columns = array($this->_authNDB.".authn_mapping.agent_id", 
-									$this->_authNDB.".authn_mapping.system_name");
+									$this->_authNDB.".authn_mapping.system_name",
+									$this->_authNDB.".authn_mapping.type_domain",
+									$this->_authNDB.".authn_mapping.type_authority",
+									$this->_authNDB.".authn_mapping.type_keyword");
 					$query->setColumns($columns);
-					$values = array($id->getIdString(), $name);
+					$values = array("'".$id->getIdString()."'", "'".$name."'",
+									"'".$authenticationType->getDomain()."'", 
+									"'".$authenticationType->getAuthority()."'", 
+									"'".$authenticationType->getKeyword()."'");
 					$query->setValues($values);
 					$query->setTable($this->_authNDB.".authn_mapping");
 					$result =& $dbHandler->query($query, $this->_dbIndex);
