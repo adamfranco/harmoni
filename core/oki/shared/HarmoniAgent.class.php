@@ -114,12 +114,7 @@ class HarmoniAgent extends Agent // :: API interface
 	 * @package harmoni.osid.shared
 	 */
 	function &getProperties() {
-		
-		//==============@todo==================
-		// This will just return an empty iterator for compatibility
-		// untill we support property adding.
-		$array = array();
-		$iterator =& new HarmoniIterator($array);
+		$iterator =& new HarmoniIterator($this->_propertiesArray);
 		return $iterator;
 	
 	}
@@ -131,11 +126,16 @@ class HarmoniAgent extends Agent // :: API interface
 	 * @package harmoni.osid.shared
 	 */
 	function &getPropertiesByType(& $propertiesType) {
-		
-		//==============@todo==================
-		// This will just return an empty iterator for compatibility
-		// untill we support property adding.
 		$array = array();
+		
+		foreach (array_keys($this->_propertiesArray) as $key) {
+			if ($propertiesType->isEqual(
+					$this->_propertiesArray[$key]->getType()))
+			{
+				$array[] =& $this->_propertiesArray[$key];
+			}
+		}
+		
 		$iterator =& new HarmoniIterator($array);
 		return $iterator;
 	
@@ -148,11 +148,16 @@ class HarmoniAgent extends Agent // :: API interface
 	 * @package harmoni.osid.shared
 	 */
 	function &getPropertiesTypes() {
-		
-		//==============@todo==================
-		// This will just return an empty iterator for compatibility
-		// untill we support property adding.
 		$array = array();
+		
+		foreach (array_keys($this->_propertiesArray) as $key) {
+			$type =& $this->_propertiesArray[$key]->getType();
+			$typeString = $type->getDomain()
+							."::".$type->getAuthority()
+							."::".$type->getKeyword();
+			$array[$typeString] =& $type;
+		}
+		
 		$iterator =& new HarmoniIterator($array);
 		return $iterator;
 	

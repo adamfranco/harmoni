@@ -38,7 +38,7 @@ require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.ph
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.43 2004/11/19 23:23:46 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.44 2004/11/20 00:43:40 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -479,9 +479,9 @@ class HarmoniSharedManager
 		$query->addTable($db."agent_properties", LEFT_JOIN, $joinc);
 		// Join to the properties and each Property
 		$joinc = $db."agent_properties.fk_properties = ".$db."shared_properties.id";
-		$query->addTable($db."shared_properties", INNER_JOIN, $joinc);
+		$query->addTable($db."shared_properties", LEFT_JOIN, $joinc);
 		$joinc = $db."shared_properties.fk_type = ".$db."properties_type.type_id";
-		$query->addTable($db."type", INNER_JOIN, $joinc, "properties_type");
+		$query->addTable($db."type", LEFT_JOIN, $joinc, "properties_type");
 		$joinc = $db."shared_properties.id = ".$db."shared_property.fk_properties";
 		$query->addTable($db."shared_property", LEFT_JOIN, $joinc);
 		
@@ -503,12 +503,10 @@ class HarmoniSharedManager
 		if ($where)
 		    $query->addWhere($where);
 		
-		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+//		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
-		// Create a starting array to stick properties objects in.
-		$propertiesArray = array();
 		
 		while ($arr = $queryResult->getCurrentRow()) {
 			// If we are out of rows or have moved on to the next agent, create our agent object
@@ -518,25 +516,44 @@ class HarmoniSharedManager
 				$instantiateAgent = FALSE;
 			}
 			
+			// Create an array for this agent's properties if it doesn't exist
+			// I was having reference problems when attempting to use one array
+			// that got passed off and reset.
+			$propertiesArrayName = "propertiesArray".$arr['id'];
+			if (!is_array($$propertiesArrayName))
+				$$propertiesArrayName = array();
+			
 			// Build our properties objects to add to the Agent.
-			if ($arr['properties_id']) {
+			if ($arr['properties_id'] && $arr['properties_id'] != "NULL") {
+			
+				// Create a name for the Current Properties variable. I was 
+				// having reference problems when attempting to use one variable name
+				// that got passed off and reset.
+				$currentPropertiesName = "currentProperties".$arr['properties_id'];
+					
+					
 				// If we are starting on a new properties object, create a new object and add it to our array.
-				if (!is_object($currentProperties) 
-					|| $arr['properties_id'] != $currentPropertiesId) 
+				if (!is_object($$currentPropertiesName) || $arr['properties_id'] != $currentPropertiesId) 
 				{
 					$propertiesType =& new HarmoniType(
 										$arr['properties_domain'],
 										$arr['properties_authority'],
 										$arr['properties_keyword'],
 										$arr['properties_description']);
-					$propertiesArray[] =& new HarmoniProperties($propertiesType);
-					$currentProperties =& $propertiesArray[count($propertiesArray)-1];
+					
+					// Create the new Properties object
+					$$currentPropertiesName =& new HarmoniProperties($propertiesType);
 					$currentPropertiesId = $arr['properties_id'];
+					
+					// add the new Properties object to the Properties array for the
+					// current Asset.
+					$myArray =& $$propertiesArrayName;
+					$myArray[] =& $$currentPropertiesName;
 				}
 				
 				// Add the current Property row to the current Properties
 				if ($arr['property_key']) {
-					$currentProperties->addProperty(
+					$$currentPropertiesName->addProperty(
 								unserialize(base64_decode($arr['property_key'])), 
 								unserialize(base64_decode($arr['property_value'])));
 				}
@@ -550,18 +567,16 @@ class HarmoniSharedManager
 											$arr['authority'],
 											$arr['keyword'],
 											$arr['description']);
+					// make sure that we aren't passing agents the same properties array.
 					$agent =& new HarmoniAgent(
 									$arr['display_name'], 
 									$this->getId($arr['id']), 
 									$type,
-									$propertiesArray,
+									$$propertiesArrayName,
 									$this->_dbIndex, 
 									$this->_sharedDB);
 					
 					$this->_agentsCache[$arr['id']] =& $agent;
-					
-					// reset the propertiesArray for the next agent.
-					$propertiesArray = array();
 				}
 			}
 		}
