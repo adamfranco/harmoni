@@ -31,7 +31,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: AutoLengthSC.class.php,v 1.2 2004/07/15 21:25:56 tjigmes Exp $
+ * @version $Id: AutoLengthSC.class.php,v 1.3 2004/07/16 04:17:22 dobomode Exp $
  * @package 
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -50,14 +50,14 @@ class AutoLengthSC extends StyleComponent {
 
 		$errDescription = "Could not validate the AutoLength StyleComponent value \"$value\".
 						   Allowed values are: ".implode(", ", $options).", or a specific 
-						   distance value (a length value, i.e. px, in, %, etc.).";
+						   value (a length value, i.e. px, in, %, etc.).";
 		
 		$rule =& new CSSLengthValidatorRule();
 		
 		$displayName = "AutoLength";
 		$description = "Specifies the values for CSS properties 'top', 'left', 'right',
 						'bottom', 'width', and 'height'. Allowed values are: 
-						".implode(", ", $options).", or a distance value 
+						".implode(", ", $options).", or a specific value 
 						(a length value, i.e. px, in, %, etc.).";
 		
 		$this->StyleComponent($value, $rule, $options, false, $errDescription, $displayName, $description);

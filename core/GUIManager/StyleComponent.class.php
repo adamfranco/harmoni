@@ -28,7 +28,7 @@ require_once(HARMONI."oki/shared/HarmoniIterator.class.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: StyleComponent.class.php,v 1.1 2004/07/14 20:50:27 dobomode Exp $
+ * @version $Id: StyleComponent.class.php,v 1.2 2004/07/16 04:17:14 dobomode Exp $
  * @package 
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -204,12 +204,12 @@ class StyleComponent extends StyleComponentInterface {
 	/**
 	 * Returns the list of options (list of allowed values) of this SC.
 	 * @access public
-	 * @return ref object An iterator containing the list of options 
+	 * @return array An array containing the list of options 
 	 * (list of allowed values) of this SC.
 	 **/
-	function & getOptions() {
-		return new HarmoniIterator($this->_options);
-	}	
+	function getOptions() {
+		return $this->_options;
+	}
 	
 }
 ?>

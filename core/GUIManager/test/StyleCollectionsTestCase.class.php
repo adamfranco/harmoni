@@ -9,7 +9,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StyleCollectionsTestCase.class.php,v 1.1 2004/07/14 20:50:38 dobomode Exp $
+ * @version $Id: StyleCollectionsTestCase.class.php,v 1.2 2004/07/16 04:17:23 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -49,8 +49,8 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
 			$collection->addSP(new ColorSP("#FFBBAA"));
 			$collection->addSP(new BorderSP("3em", "solid", "#421"));
 			
-			$css1 =& $collection->getCSS();
-			$css2 = "p.col3 {\n\tcolor: #FFBBAA;\n\tborder: 3em solid #421;\n}";
+			$css1 =& $collection->getCSS(2);
+			$css2 = "\t\tp.col3 {\n\t\t\tcolor: #FFBBAA;\n\t\t\tborder: 3em solid #421;\n\t\t}";
 			$this->assertIdentical($css1, $css2);
 		}
 		

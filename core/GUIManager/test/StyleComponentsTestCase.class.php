@@ -11,14 +11,13 @@ require_once(HARMONI."GUIManager/StyleComponents/FontWeightSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/FontVariantSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/LineHeightSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/TextDecorationSC.class.php");
-require_once(HARMONI."GUIManager/StyleComponents/WidthSC.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StyleComponentsTestCase.class.php,v 1.1 2004/07/14 20:50:38 dobomode Exp $
+ * @version $Id: StyleComponentsTestCase.class.php,v 1.2 2004/07/16 04:17:23 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -71,11 +70,8 @@ require_once(HARMONI."GUIManager/StyleComponents/WidthSC.class.php");
 			$this->assertIdentical($options, $sc->_options);
 			$this->assertIdentical($error, $sc->_errorDescription);
 			$this->assertTrue($sc->hasOptions());
-			$options =& $sc->getOptions();
-			$this->assertIdentical("red", $options->next());
-			$this->assertIdentical("blue", $options->next());
-			$this->assertIdentical("green", $options->next());
-			$this->assertFalse($options->hasNext());
+			$options1 = $sc->getOptions();
+			$this->assertIdentical($options, $options1);
 		}
 		
 		function test_scs() {
@@ -149,11 +145,7 @@ require_once(HARMONI."GUIManager/StyleComponents/WidthSC.class.php");
 
 			$sc =& new TextDecorationSC("blink");
 			$sc =& new TextDecorationSC("underline");
-			
-			// ---------------------------------------------------
 
-			$sc =& new WidthSC("auto");
-			$sc =& new WidthSC("12cm");
 		}
 		
 		

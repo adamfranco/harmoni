@@ -31,7 +31,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: TextAlignSC.class.php,v 1.1 2004/07/15 21:29:29 tjigmes Exp $
+ * @version $Id: TextAlignSC.class.php,v 1.2 2004/07/16 04:17:22 dobomode Exp $
  * @package 
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -51,7 +51,7 @@ class TextAlignSC extends StyleComponent {
 		$errDescription = "Could not validate the text-align StyleComponent value \"$value\". ";
 		$errDescription .= "Allowed values are ".implode(", ", $options).".";
 		
-		$displayName = "Text Align";
+		$displayName = "Text Alignment";
 		$description = "Specifies the text alignment. Allowed values are: ".implode(", ", $options).".";
 		
 		$this->StyleComponent($value, null, $options, true, $errDescription, $displayName, $description);

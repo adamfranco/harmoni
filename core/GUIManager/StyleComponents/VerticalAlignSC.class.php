@@ -14,7 +14,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * 		<li> text-bottom </li>
  * 		<li> super </li>
  * 		<li> sub </li>
- * 		<li> [specific line height] - a length value (%, px, in, etc.) </li>
+ * 		<li> [specific value] - a length value (%, px, in, etc.) </li>
  * </ul>
  * <br><br>
  * The <code>StyleComponent</code> (SC) is the most basic of the three building pieces
@@ -37,7 +37,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: VerticalAlignSC.class.php,v 1.1 2004/07/15 21:29:29 tjigmes Exp $
+ * @version $Id: VerticalAlignSC.class.php,v 1.2 2004/07/16 04:17:22 dobomode Exp $
  * @package 
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -55,13 +55,13 @@ class VerticalAlignSC extends StyleComponent {
 		$options = array("baseline","middle","top","bottom","text-top","text-bottom",
 					"super","sub");
 
-		$errDescription = "Could not validate the VerticalAlign StyleComponent value \"$value\".
+		$errDescription = "Could not validate the vertical-align StyleComponent value \"$value\".
 						   Allowed values are: ".implode(", ", $options).", or a specific 
-						   distance value (a length value, i.e. px, in, %, etc.).";
+						   value (a length value, i.e. px, in, %, etc.).";
 		
 		$rule =& new CSSLengthValidatorRule();
 		
-		$displayName = "VerticalAlign";
+		$displayName = "Vertical Alignment";
 		$description = "Specifies the vertical-align value. Allowed values are: 
 						".implode(", ", $options).", or a distance value 
 						(a length value, i.e. px, in, %, etc.).";

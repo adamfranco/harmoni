@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: PositionSC.class.php,v 1.1 2004/07/15 21:29:29 tjigmes Exp $
+ * @version $Id: PositionSC.class.php,v 1.2 2004/07/16 04:17:22 dobomode Exp $
  * @package 
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -53,7 +53,7 @@ class PositionSC extends StyleComponent {
 						   Allowed values are: ".implode(", ", $options).".";
 				
 		$displayName = "Position";
-		$description = "Specifies the display to use. Allowed values are: "
+		$description = "Specifies the position property value. Allowed values are: "
 						.implode(", ", $options).".";
 		
 		$this->StyleComponent($value, null, $options, true, $errDescription, $displayName, $description);

@@ -21,7 +21,7 @@
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: StyleComponent.interface.php,v 1.1 2004/07/14 20:50:27 dobomode Exp $
+ * @version $Id: StyleComponent.interface.php,v 1.2 2004/07/16 04:17:14 dobomode Exp $
  * @package 
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -94,10 +94,10 @@ class StyleComponentInterface {
 	/**
 	 * Returns the list of options (list of allowed values) of this SC.
 	 * @access public
-	 * @return ref object An iterator containing the list of options 
+	 * @return array An array containing the list of options 
 	 * (list of allowed values) of this SC.
 	 **/
-	function & getOptions() {
+	function getOptions() {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}	
 

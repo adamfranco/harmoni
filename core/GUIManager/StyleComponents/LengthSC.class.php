@@ -37,7 +37,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: LengthSC.class.php,v 1.1 2004/07/14 20:54:27 dobomode Exp $
+ * @version $Id: LengthSC.class.php,v 1.2 2004/07/16 04:17:22 dobomode Exp $
  * @package 
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -69,7 +69,7 @@ class LengthSC extends StyleComponent {
 class CSSLengthValidatorRule extends ValidatorRuleInterface {
 
 	function check(& $val) {
-		return ereg("^-?[1-9][0-9]*(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px)$", $val);
+		return ereg("^-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px)$", $val);
 	}
 }
 ?>

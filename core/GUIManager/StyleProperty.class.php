@@ -27,7 +27,7 @@ require_once(HARMONI."GUIManager/StyleProperty.interface.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: StyleProperty.class.php,v 1.1 2004/07/14 20:50:27 dobomode Exp $
+ * @version $Id: StyleProperty.class.php,v 1.2 2004/07/16 04:17:14 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -140,10 +140,10 @@ class StyleProperty extends StylePropertyInterface {
 	 * Returns the StyleComponents of this StyleProperty in a suitable
 	 * for CSS generation order.
 	 * @access public
-	 * @return ref object An iterator of the StyleComponents of this StyleProperty.
+	 * @return array An array of the StyleComponents of this StyleProperty.
 	 **/
-	function & getSCs() {
-		return new HarmoniIterator($this->_SCs);
+	function getSCs() {
+		return $this->_SCs;
 	}
 }
 

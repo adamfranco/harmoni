@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleProperties/LineHeightSP.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StylePropertiesTestCase.class.php,v 1.2 2004/07/14 20:50:38 dobomode Exp $
+ * @version $Id: StylePropertiesTestCase.class.php,v 1.3 2004/07/16 04:17:23 dobomode Exp $
  * @copyright 2003 
  */
 
@@ -67,12 +67,6 @@ require_once(HARMONI."GUIManager/StyleProperties/LineHeightSP.class.php");
 			$this->assertIdentical($sp->getDisplayName(), "border");
 			$this->assertIdentical($sp->getDescription(), "The border");
 			$this->assertIdentical($sp->getCSS(), "border: solid 1px #000;");
-			
-			$scs =& $sp->getSCs();
-			while ($scs->hasNext()) {
-				$sc =& $scs->next();
-				$this->assertIsA($sc, "StyleComponentInterface");
-			}
 		}
 		
 		function test_color_sps() {
@@ -81,12 +75,6 @@ require_once(HARMONI."GUIManager/StyleProperties/LineHeightSP.class.php");
 			$this->assertIdentical($sp->getDescription(), "This property specifies the foreground color.");
 			$this->assertIdentical($sp->getCSS(), "color: #23FF12;");
 
-			$scs =& $sp->getSCs();
-			while ($scs->hasNext()) {
-				$sc =& $scs->next();
-				$this->assertIsA($sc, "StyleComponentInterface");
-			}
-
 			$sp =& new BackgroundColorSP("#23FF12");
 			$this->assertIdentical($sp->getCSS(), "background-color: #23FF12;");
 		}
@@ -94,12 +82,6 @@ require_once(HARMONI."GUIManager/StyleProperties/LineHeightSP.class.php");
 		function test_border_sps() {
 			$sp =& new BorderSP("23in", "ridge","#23FF12");
 			$this->assertIdentical($sp->getCSS(), "border: 23in ridge #23FF12;");
-
-			$scs =& $sp->getSCs();
-			while ($scs->hasNext()) {
-				$sc =& $scs->next();
-				$this->assertIsA($sc, "StyleComponentInterface");
-			}
 
 			$sp =& new BorderTopSP("23in", "ridge","#23FF12");
 			$this->assertIdentical($sp->getCSS(), "border-top: 23in ridge #23FF12;");

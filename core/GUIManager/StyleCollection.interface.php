@@ -21,7 +21,7 @@
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: StyleCollection.interface.php,v 1.1 2004/07/14 20:50:27 dobomode Exp $
+ * @version $Id: StyleCollection.interface.php,v 1.2 2004/07/16 04:17:14 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -33,9 +33,11 @@ class StyleCollectionInterface {
 	/**
 	 * Returns the CSS code for this StyleCollection.
 	 * @access public
+	 * @param integer indent An optional integer specifying how many tabs to indent
+	 * the result string.
 	 * @return string The CSS code for this StyleCollection.
 	 **/
-	function getCSS() {
+	function getCSS($indent) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -79,9 +81,9 @@ class StyleCollectionInterface {
 	 * Returns the StyleProperties of this StyleCollection in a suitable
 	 * for CSS generation order.
 	 * @access public
-	 * @return ref object An iterator of the StyleComponents of this StyleCollection.
+	 * @return array An array of the StyleComponents of this StyleCollection.
 	 **/
-	function & getSPs() {
+	function getSPs() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

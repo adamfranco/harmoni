@@ -26,7 +26,7 @@ require_once(HARMONI."GUIManager/StyleProperty.class.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: BorderSP.class.php,v 1.2 2004/07/14 20:50:37 dobomode Exp $
+ * @version $Id: BorderSP.class.php,v 1.3 2004/07/16 04:17:23 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -36,7 +36,8 @@ require_once(HARMONI."GUIManager/StyleProperty.class.php");
 class BorderSP extends StyleProperty {
 
 	/**
-	 * The constructor.
+	 * The constructor. All parameters could be <code>null</code> and if so will be
+	 * ignored.
 	 * @access public
 	 * @param string width The width of the border.
 	 * @param string style The style of the border.

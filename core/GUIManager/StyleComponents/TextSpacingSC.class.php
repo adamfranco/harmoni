@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: TextSpacingSC.class.php,v 1.1 2004/07/15 21:29:29 tjigmes Exp $
+ * @version $Id: TextSpacingSC.class.php,v 1.2 2004/07/16 04:17:22 dobomode Exp $
  * @package 
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -49,7 +49,7 @@ class TextSpacingSC extends StyleComponent {
 	function TextSpacingSC($value) {
 		$options = array("normal");
 
-		$errDescription = "Could not validate the TextSpacing StyleComponent value \"$value\".
+		$errDescription = "Could not validate the text-spacing StyleComponent value \"$value\".
 						   Allowed values are: ".implode(", ", $options)."
   					       or a specific distance value (in length units, i.e. px,
 						   in, etc. but NOT %).";
@@ -57,8 +57,8 @@ class TextSpacingSC extends StyleComponent {
 		
 		$rule =& new CSSLengthValidatorRule();
 		
-		$displayName = "TextSpacingSC";
-		$description = "Specifies the length to use. Allowed values are: ".implode(", ", $options)."
+		$displayName = "Text Spacing";
+		$description = "Affects the text spacing between words. Allowed values are: ".implode(", ", $options)."
   					    or a specific distance value (in length units, i.e. px,
 						in, etc. but NOT %).";
 		

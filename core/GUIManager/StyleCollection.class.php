@@ -23,7 +23,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: StyleCollection.class.php,v 1.1 2004/07/14 20:50:27 dobomode Exp $
+ * @version $Id: StyleCollection.class.php,v 1.2 2004/07/16 04:17:14 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -77,21 +77,29 @@ class StyleCollection extends StyleCollectionInterface {
 	/**
 	 * Returns the CSS code for this StyleCollection.
 	 * @access public
+	 * @param integer indent An optional integer specifying how many tabs to indent
+	 * the result string.
 	 * @return string The CSS code for this StyleCollection.
 	 **/
-	function getCSS() {
+	function getCSS($indent = 0) {
+		// nothing to return
 		if (count($this->_SPs) == 0) 
 			return "";
 
-		$css = $this->_name." {\n\t";
+		// the tabs
+		$tabs = "";
+		for ($i = 0; $i < $indent; $i++)
+			$tabs .= "\t";
+	
+		$css = $tabs.$this->_name." {\n\t".$tabs;
 
 		$values = array();
 		foreach (array_keys($this->_SPs) as $key)
 			$values[] = $this->_SPs[$key]->getCSS();
 
-		$css .= implode("\n\t", $values);
+		$css .= implode("\n\t".$tabs, $values);
 
-		$css .= "\n}";
+		$css .= "\n".$tabs."}";
 
 		return $css;
 	}
@@ -137,10 +145,10 @@ class StyleCollection extends StyleCollectionInterface {
 	 * Returns the StyleProperties of this StyleCollection in a suitable
 	 * for CSS generation order.
 	 * @access public
-	 * @return ref object An iterator of the StyleComponents of this StyleCollection.
+	 * @return array An array of the StyleComponents of this StyleCollection.
 	 **/
-	function & getSPs() {
-		return new HarmoniIterator($this->_SPs);
+	function getSPs() {
+		return $this->_SPs;
 	}
 	
 	
