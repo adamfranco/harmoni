@@ -13,7 +13,7 @@ require_once(HARMONI."services/Services.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.abstract.php,v 1.11 2005/03/24 17:26:29 adamfranco Exp $
+ * @version $Id: Services.abstract.php,v 1.12 2005/03/24 18:00:29 adamfranco Exp $
  */
 class ServicesAbstract
 	extends ServicesInterface {
@@ -39,6 +39,19 @@ class ServicesAbstract
 	 **/
 	function registerObjectAsService($name, &$object) {
 		$GLOBALS[SERVICES_OBJECT]->registerObject($name,$object);
+	}
+	
+	/**
+	 * Create an alias from one service name to another.
+	 * 
+	 * @param string $name1
+	 * @param string $name2
+	 * @return void
+	 * @access public
+	 * @since 3/24/05
+	 */
+	function createServiceAlias ($name1, $name2) {
+		$GLOBALS[SERVICES_OBJECT]->createAlias($name1, $name2);
 	}
 	
 	/**

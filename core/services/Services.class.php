@@ -5,14 +5,14 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.17 2005/03/24 17:26:29 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.18 2005/03/24 18:00:30 adamfranco Exp $
  *
  * @package harmoni.services
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.class.php,v 1.17 2005/03/24 17:26:29 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.18 2005/03/24 18:00:30 adamfranco Exp $
  */
 class Services extends ServicesAbstract {
 	/**
@@ -36,6 +36,7 @@ class Services extends ServicesAbstract {
 	 **/
 	function Services() {
 		$this->_services = array();
+		$this->_aliases = array();
 	}
 	
 	/**
@@ -105,6 +106,41 @@ class Services extends ServicesAbstract {
 	}
 	
 	/**
+	 * Create an alias from one service name to another.
+	 * 
+	 * @param string $registeredName
+	 * @param string $aliasName
+	 * @return void
+	 * @access public
+	 * @since 3/24/05
+	 */
+	function createAlias ($registeredName, $aliasName) {
+		if (!$this->_registeredServices[$registeredName]) {
+			// if we have the error Handler, throw a pretty error with that,
+			// otherwise, use the die() function.
+			if ($this->_registeredServices['ErrorHandler']) {
+				throwError(new Error("Services::createAlias('$registeredName', '$aliasName') - failed because an '$registeredName' wasn't registered yet."
+				, "Services", 1));
+			} else {
+				die($this->_getBacktrace()."Services::createAlias('$registeredName', '$aliasName') - failed because an '$registeredName' wasn't registered yet.");
+			}
+		}
+		
+		if ($this->_aliases[$aliasName] || $this->_registeredServices[$aliasName]) {
+			// if we have the error Handler, throw a pretty error with that,
+			// otherwise, use the die() function.
+			if ($this->_registeredServices['ErrorHandler']) {
+				throwError(new Error("Services::createAlias('$registeredName', '$aliasName') - failed because an '$aliasName' is already in use."
+				, "Services", 1));
+			} else {
+				die($this->_getBacktrace()."Services::createAlias('$registeredName', '$aliasName') - failed because an '$aliasName' is already in use.");
+			}
+		}
+		
+		$this->_aliases[$aliasName] = $registeredName;
+	}
+	
+	/**
 	 * Attempts to stop all running services.
 	 * @access public
 	 * @return void
@@ -122,6 +158,7 @@ class Services extends ServicesAbstract {
 	 * @return object Object|false The service object.
 	 **/
 	function &get( $name ) {
+		$name = $this->_getServiceName($name);
 		if (!$this->running($name)) {
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
@@ -146,6 +183,7 @@ class Services extends ServicesAbstract {
 	 * @return boolean True on success.
 	 **/
 	function start( $name, $args=null ) {
+		$name = $this->_getServiceName($name);
 		// make sure that the service is not currently running.
 		if ($this->running($name))
 			return true;
@@ -209,6 +247,7 @@ class Services extends ServicesAbstract {
 	 * @since 3/24/05
 	 */
 	function startManager ( $name, &$context, &$configuration ) {
+		$name = $this->_getServiceName($name);
 		// make sure that the service is not currently running.
 		if ($this->running($name))
 			return true;
@@ -262,6 +301,7 @@ class Services extends ServicesAbstract {
 	 * @return boolean True on success.
 	 **/
 	function stop( $name ) {
+		$name = $this->_getServiceName($name);
 		if ($this->running($name)) {
 			if (method_exists($this->_services[$name], 'stop'))
 				$this->_services[$name]->stop();
@@ -291,6 +331,7 @@ class Services extends ServicesAbstract {
 	 * @return boolean True if the service is available, false otherwise.
 	 **/
 	function available( $name ) {
+		$name = $this->_getServiceName($name);
 		return (isset($this->_registeredServices[$name]))?true:false;
 	}
 	
@@ -301,6 +342,7 @@ class Services extends ServicesAbstract {
 	 * @return boolean True if the service is running, false otherwise.
 	 **/
 	function running ( $name ) {
+		$name = $this->_getServiceName($name);
 		if (isset($this->_services[$name]) && is_object($this->_services[$name]) && get_class($this->_services[$name]) == strtolower($this->_registeredServices[$name])) {
 			return true;
 		}
@@ -316,6 +358,20 @@ class Services extends ServicesAbstract {
 		foreach ($this->_services as $service) $this->stop($service);
 	}
 	
+	/**
+	 * Get service name. Gets the name of a service or its alias.
+	 * 
+	 * @param string $name
+	 * @return string
+	 * @access public
+	 * @since 3/24/05
+	 */
+	function _getServiceName ($name) {
+		if ($this->_aliases[$name])
+			return $this->_aliases[$name];
+		else
+			return $name;
+	}
 }
 	
 ?>
