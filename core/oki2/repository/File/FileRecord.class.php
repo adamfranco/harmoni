@@ -22,16 +22,12 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * OSID Version: 2.0
  * </p>
  * 
- * <p>
- * Licensed under the {@link org.osid.SidImplementationLicenseMIT MIT
- * O.K.I&#46; OSID Definition License}.
- * </p>
+ * @package harmoni.osid_v2.repository
  * 
- * @package org.osid.repository
+ * @copyright Copyright &copy;2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * WARNING: The real class-name should be Record, not RecordInterface. The re-naming
- * of this class is a temporary fix due to another class named Record already existing
- * in Harmoni.
+ * @version $Id: FileRecord.class.php,v 1.8 2005/02/16 22:48:11 adamfranco Exp $ 
  */
 class FileRecord 
 	extends Record
@@ -298,7 +294,7 @@ class FileRecord
 	 * 
 	 * @param string $idString
 	 * @return boolean
-	 * @access public
+	 * @access private
 	 * @since 10/25/04
 	 */
 	function _isLastPart ($idString) {

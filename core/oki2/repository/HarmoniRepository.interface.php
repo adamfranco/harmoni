@@ -1,6 +1,7 @@
 <?
 
 require_once(OKI2."osid/repository/Repository.php");
+require_once(OKI2."osid/repository/RepositoryException.php");
 
 /**
  * The HarmoniDigitalRepositoryInterface provides all of the methods of

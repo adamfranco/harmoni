@@ -7,6 +7,7 @@ require_once(HARMONI."/oki2/repository/HarmoniRepositoryIterator.class.php");
 require_once(HARMONI."/oki2/repository/HarmoniRecordStructure.class.php");
 
 require_once(HARMONI."/oki2/repository/File/FileRecord.class.php");
+require_once(HARMONI."/oki2/repository/File/FileSystemFileRecord.class.php");
 require_once(HARMONI."/oki2/repository/File/FileRecordStructure.class.php");
 
 require_once(HARMONI."/oki2/repository/HarmoniRecordStructureIterator.class.php");//where is this now?
@@ -44,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.16 2005/01/27 21:47:41 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.17 2005/02/16 22:47:03 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -90,7 +91,11 @@ class HarmoniRepository
 		// Keys of the array are the RecordStructure Ids,
 		// Vals of the array are the record class-names to instantiate.
 		$this->_builtInTypes = array();
-		$this->_builtInTypes['FILE'] = 'FileRecord';
+		
+		if ($configuration['use_filesystem_for_files'])
+			$this->_builtInTypes['FILE'] = 'FileSystemFileRecord';
+		else
+			$this->_builtInTypes['FILE'] = 'FileRecord';
 		
 		// Store our configuration
 		$this->_configuration =& $configuration;

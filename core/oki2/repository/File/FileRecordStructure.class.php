@@ -22,15 +22,15 @@ require_once(HARMONI."/oki2/repository/HarmoniPartStructureIterator.class.php");
  * OSID Version: 2.0
  * </p>
  * 
- * <p>
- * Licensed under the {@link org.osid.SidImplementationLicenseMIT MIT
- * O.K.I&#46; OSID Definition License}.
- * </p>
+ * @package harmoni.osid_v2.repository
  * 
- * @package org.osid.repository
+ * @copyright Copyright &copy;2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ *
+ * @version $Id: FileRecordStructure.class.php,v 1.7 2005/02/16 22:48:11 adamfranco Exp $ 
  */
-class HarmoniFileRecordStructure extends RecordStructure
-//	extends java.io.Serializable
+class HarmoniFileRecordStructure 
+	extends RecordStructure
 {
 	
 	var $_partStructures;

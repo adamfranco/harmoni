@@ -19,11 +19,11 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPart.class.php,v 1.3 2005/01/26 22:44:10 adamfranco Exp $
+ * @version $Id: FileDataPart.class.php,v 1.4 2005/02/16 22:48:11 adamfranco Exp $
  */
  
-class FileDataPart extends Part 
-//	extends java.io.Serializable
+class FileDataPart 
+	extends Part 
 {
 
 	var $_recordId;
