@@ -3,7 +3,7 @@
 /**
  * An interface to calculate various statistical information.
  *
- * @version $Id: StatisticsHandler.interface.php,v 1.3 2003/07/11 16:14:02 movsjani Exp $
+ * @version $Id: StatisticsHandler.interface.php,v 1.4 2003/07/11 18:38:47 movsjani Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -44,6 +44,20 @@ class StatisticsHandlerInterface {
     * @access public
     */
 	function getModal() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+
+   /**
+    * Return the maximum value of the data.
+    * @return float The maximum value of the data.
+    * @access public
+    */
+	function getMax() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+
+   /**
+    * Return the minimum value of the data.
+    * @return float The minimum value of the data.
+    * @access public
+    */
+	function getMin() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
    /**
     * Return the discrimination value of the data. Discrimination is the difference between 

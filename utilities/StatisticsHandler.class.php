@@ -4,7 +4,7 @@ require_once(HARMONI.'utilities/StatisticsHandler.interface.php');
 /**
  * An interface to calculate various statistical information.
  *
- * @version $Id: StatisticsHandler.class.php,v 1.3 2003/07/11 16:14:02 movsjani Exp $
+ * @version $Id: StatisticsHandler.class.php,v 1.4 2003/07/11 18:38:47 movsjani Exp $
  * @package harmoni.utilities
  * @copyright 2003 
  */
@@ -14,7 +14,7 @@ class StatisticsHandler extends StatisticsHandlerInterface{
 	var $_data;
 	var $_sortedData;
 
-	var $_mean, $_median, $_discrimination, $_standardDeviation;
+	var $_mean, $_median, $_discrimination, $_standardDeviation, $_max, $_min;
 
    /**
     * Create a Add a handler with given information.
@@ -121,6 +121,41 @@ class StatisticsHandler extends StatisticsHandlerInterface{
 		return $this->_modal;
 	}
 
+   /**
+    * Return the maximum value of the data.
+    * @return float The maximum value of the data.
+    * @access public
+    */
+	function getMax() { 
+		if(!isset($this->_max)){
+			if(!isset($this->_sortedData)){
+				$this->_sortedData = $this->_data;
+				sort($this->_sortedData);
+			}
+			$this->_max = $this->_sortedData[count($this->_sortedData)-1];
+			$this->_min = $this->_sortedData[0];
+		}
+
+		return $this->_max;
+	}
+
+   /**
+    * Return the minimum value of the data.
+    * @return float The minimum value of the data.
+    * @access public
+    */
+	function getMin() { 
+		if(!isset($this->_min)){
+			if(!isset($this->_sortedData)){
+				$this->_sortedData = $this->_data;
+				sort($this->_sortedData);
+			}
+			$this->_max = $this->_sortedData[count($this->_sortedData)-1];
+			$this->_min = $this->_sortedData[0];
+		}
+
+		return $this->_min;
+	}
 
    /**
     * Return the discrimination value of the data. Discrimination is the difference between 
