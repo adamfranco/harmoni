@@ -5,7 +5,7 @@ require_once(HARMONI.'services/Service.interface.php');
 /**
  * 
  *
- * @version $Id: ErrorHandler.interface.php,v 1.8 2003/06/27 02:59:37 gabeschine Exp $
+ * @version $Id: ErrorHandler.interface.php,v 1.9 2003/06/27 12:36:41 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  **/
@@ -64,7 +64,7 @@ class ErrorHandlerInterface extends ServiceInterface {
 
 	/**
      * Fetch the Error queue as it is to each ErrorPrinter in the Error Printer queue.
-     * @param constant $detailLevel The level of detail when printing. Could be
+     * @param int $detailLevel The level of detail when printing. Could be
 	 * LOW_LEVEL, MEDIUM_LEVEL or HIGH_LEVEL.
 	 * @access public
 	 */

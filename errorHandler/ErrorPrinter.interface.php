@@ -27,7 +27,7 @@
  * An ErrorPrinter interface provides functionality to output Error objects in any way one's soul may desire.
  * For example, you can print to a browser window, to a database, to a file, etc.
  *
- * @version $Id: ErrorPrinter.interface.php,v 1.5 2003/06/27 02:59:37 gabeschine Exp $
+ * @version $Id: ErrorPrinter.interface.php,v 1.6 2003/06/27 12:40:52 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003
  * @access public
@@ -39,7 +39,7 @@ class ErrorPrinterInterface {
      * Outputs a queue of errors to any NORMAL. This function will call
 	 * printHeader() at the beginning and printFooter() at the end.
      * @param object Queue $errors The queue of the errors to be printed
-     * @param constant $detailLevel The level of detail when printing. Could be
+     * @param int $detailLevel The level of detail when printing. Could be
 	 * LOW_DETAIL, NORMAL_DETAIL or HIGH_DETAIL.
 	 * @return string A string representation of what was printed.
      * @access public

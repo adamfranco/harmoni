@@ -7,7 +7,7 @@
  * necessary services.
  *
  * @package harmoni.services
- * @version $Id: services.cfg.php,v 1.3 2003/06/27 01:19:59 dobomode Exp $
+ * @version $Id: services.cfg.php,v 1.4 2003/06/27 12:33:48 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -56,9 +56,6 @@ require_once(HARMONI."utilities/ArgumentValidator.class.php");
 
 // load error handler
 require_once(HARMONI."errorHandler/ErrorHandler.class.php");
-
-// load error throwing functionallity
-require_once(HARMONI."errorHandler/throw.inc.php");
 Services::registerService("ErrorHandler","ErrorHandler");
 
 // load DBHandler
@@ -71,8 +68,16 @@ Services::registerService("Authentication","AuthenticationHandler");
 
 // load debug handler
 require_once(HARMONI."debugHandler/DebugHandler.class.php");
-// load debug wrapper -- debug::output() method
-require_once(HARMONI."debugHandler/debug.class.php");
 Services::registerService("Debug","DebugHandler");
 
+/**
+ * Load wrapper classes and functions for some of the above services. 
+ **/
+
+// Debug
+require_once(HARMONI."debugHandler/debug.class.php");
+
+
+// ErrorHandler
+require_once(HARMONI."errorHandler/throw.inc.php");
 ?>

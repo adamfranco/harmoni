@@ -6,7 +6,7 @@ require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
  * An ErrorPrinter provides functionality to output Error objects in any way one's soul may desire.
  * to be used by the ErrorHandler
  *
- * @version $Id: ErrorPrinterBasic.class.php,v 1.5 2003/06/27 02:09:52 dobomode Exp $
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.6 2003/06/27 12:40:52 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003
  * @access public
@@ -15,11 +15,10 @@ require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
 class ErrorPrinterBasic extends ErrorPrinterInterface {
 
     /**
-     * Outputs a queue of errors to any NORMAL.
      * Outputs a queue of errors to any NORMAL. This function will call
 	 * printHeader() at the beginning and printFooter() at the end.
      * @param object Queue $errors The queue of the errors to be printed
-     * @param constant $detailLevel The level of detail when printing. Could be
+     * @param int $detailLevel The level of detail when printing. Could be
 	 * LOW_DETAIL, NORMAL_DETAIL or HIGH_DETAIL.
      * @access public
      */
@@ -57,7 +56,6 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 	}
 
     /**
-     * Prints the header of the Error output.
      * Prints the header of the Error output. This function will be invoked before Errors  are printed.
      * @param object Queue $errors The queue of the errors to be printed
      * @access public
@@ -72,7 +70,6 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 	}
 
     /**
-     * Prints the footer of the Error output.
      * Prints the footer of the Error output. This function will be invoked after Errors have been printed.
      * @param object Queue $errors The queue of the errors to be printed
      * @access public
@@ -90,7 +87,6 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 	}
 
     /**
-     * Prints a single error.
      * Prints a single error.
      * @param object Error The Error object to be printed.
      * @param boolean $isDetailed If TRUE, will print the error with details.
