@@ -1,10 +1,55 @@
-<?php
+<?
 
-class JavaPOCSharedManager {
+require_once(OKI2."/osid/id/IdManager.php");
+
+/**
+ * IdManager creates and gets Ids.	Ids are used in many different contexts
+ * throughout the OSIDs.  As with other Managers, use the OsidLoader to load
+ * an implementation of this interface.
+ * 
+ * <p>
+ * All implementations of OsidManager (manager) provide methods for accessing
+ * and manipulating the various objects defined in the OSID package. A manager
+ * defines an implementation of an OSID. All other OSID objects come either
+ * directly or indirectly from the manager. New instances of the OSID objects
+ * are created either directly or indirectly by the manager.  Because the OSID
+ * objects are defined using interfaces, create methods must be used instead
+ * of the new operator to create instances of the OSID objects. Create methods
+ * are used both to instantiate and persist OSID objects.  Using the
+ * OsidManager class to define an OSID's implementation allows the application
+ * to change OSID implementations by changing the OsidManager package name
+ * used to load an implementation. Applications developed using managers
+ * permit OSID implementation substitution without changing the application
+ * source code. As with all managers, use the OsidLoader to load an
+ * implementation of this interface.
+ * </p>
+ * 
+ * <p>
+ * Unlike most Managers, IdManager does not have methods to return Type
+ * information.
+ * </p>
+ * 
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
+ * @package harmoni.osid.id
+ * @copyright 2004 Middlebury College
+ * @access public
+ * @version $Id: JavaPOCIdManager.class.php,v 1.2 2005/01/11 23:36:46 adamfranco Exp $
+ */
+
+class JavaPOCIdManager
+	extends IdManager
+{	
 	var $_javaClassName;
 	var $_javaClass;
 	
-	function JavaPOCSharedManager( $className ) {
+	/**
+	 * Constructor.
+	 */
+	function JavaPOCIdManager( $className ) {
 		$this->_javaClassName = $className;
 		$testClass = new Java($className);
 		$ex = java_last_exception_get();
@@ -13,97 +58,24 @@ class JavaPOCSharedManager {
 		
 		$this->_javaClass =& $testClass;
 	}
-	
-	// public Agent & createAgent(Type & $agentType, String $name);
-	function &createAgent(& $agentType, $name) {
-		$result = $this->_javaClass->createAgent($agentType, $name);
-		$ex = java_last_exception_get();
-		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
-		java_last_exception_clear();
-		return $result;
-	}
 
-	// public void deleteAgent(Id & $id);
-	function deleteAgent(& $id) {
-		$this->_javaClass->deleteAgent($id);
-		$ex = java_last_exception_get();
-		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
-		java_last_exception_clear();
-	}
-
-	// public Agent & getAgent(Id & $id);
-	function &getAgent(& $id) {
-		$result = $this->_javaClass->getAgent($id);
-		$ex = java_last_exception_get();
-		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
-		java_last_exception_clear();
-		return $result;
-	}
-
-	// public AgentIterator & getAgents();
-	function &getAgents() {
-		$result = $this->_javaClass->getAgents();
-		$ex = java_last_exception_get();
-		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
-		java_last_exception_clear();
-		return $result;
-	}
-
-	// public TypeIterator & getAgentTypes();
-	function &getAgentTypes() {
-		$result = $this->_javaClass->getAgentTypes();
-		$ex = java_last_exception_get();
-		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
-		java_last_exception_clear();
-		return $result;
-	}
-
-	// public Group & createGroup(String $description, String $name, Type & $groupType);
-	function &createGroup($description, $name, & $groupType) {
-		$result = $this->_javaClass->createGroup($description, $name, $groupType);
-		$ex = java_last_exception_get();
-		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
-		java_last_exception_clear();
-		return $result;
-	}
-
-	// public void deleteGroup(Id & $id);
-	function deleteGroup(& $id) {
-		$this->_javaClass->deleteGroup($id);
-		$ex = java_last_exception_get();
-		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
-		java_last_exception_clear();
-	}
-
-	// public Group & getGroup(Id & $id);
-	function &getGroup(& $id) {
-		$result = $this->_javaClass->getGroup($id);
-		$ex = java_last_exception_get();
-		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
-		java_last_exception_clear();
-		return $result;
-	}
-
-	// public AgentIterator & getGroups();
-	function &getGroups() {
-		$result = $this->_javaClass->getGroups();
-		$ex = java_last_exception_get();
-		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
-		java_last_exception_clear();
-		return $result;
-	}
-
-	// public TypeIterator & getGroupTypes();
-	function &getGroupTypes() {
-		$result = $this->_javaClass->getGroupTypes();
-		$ex = java_last_exception_get();
-		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
-		java_last_exception_clear();
-		return $result;
-	}
-
-	// public Id & createId();
-	function &createId() {
+	/**
+	 * Create a new unique identifier.
+	 *	
+	 * @return object Id
+	 * 
+	 * @throws object IdException An exception with one of the following
+	 *		   messages defined in org.osid.id.IdException:	 {@link
+	 *		   org.osid.id.IdException#OPERATION_FAILED OPERATION_FAILED},
+	 *		   {@link org.osid.id.IdException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.id.IdException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.id.IdException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
+	 */
+	function &createId () { 
 		$result = $this->_javaClass->createId();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -111,24 +83,32 @@ class JavaPOCSharedManager {
 		return $result;
 	}
 
-	// public Id & getId(String $idString);
-	function &getId($idString) {
+	/**
+	 * Get the unique Id with this String representation or create a new unique
+	 * Id with this representation.
+	 * 
+	 * @param string $idString
+	 *	
+	 * @return object Id
+	 * 
+	 * @throws object IdException An exception with one of the following
+	 *		   messages defined in org.osid.id.IdException:	 {@link
+	 *		   org.osid.id.IdException#OPERATION_FAILED OPERATION_FAILED},
+	 *		   {@link org.osid.id.IdException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.id.IdException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.id.IdException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
+	 *		   org.osid.id.IdException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @public
+	 */
+	function &getId ( $idString ) { 
 		$result = $this->_javaClass->getId($idString);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
 		java_last_exception_clear();
 		return $result;
 	}
-/*
-	// public AgentIterator & getAgents(osid.shared.Type & $agentType);
-	function &getAgents(& $agentType) {
-		return $this->_javaClass->getAgents($agentType);
-	}
-
-	// public AgentIterator & getGroups(osid.shared.Type & $groupType);
-	function &getGroups(& $groupType) {
-		return $this->_javaClass->getGroups($groupType);
-	}*/
-}
 
 ?>

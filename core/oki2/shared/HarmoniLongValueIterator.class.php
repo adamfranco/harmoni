@@ -1,14 +1,14 @@
-<?
+<?php 
 
-require_once(OKI2."/osid/shared/IdIterator.php");
+require_once(OKI2."/osid/shared/LongValueIterator.php");
 require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
-
+ 
 /**
- * IdIterator provides access to these objects sequentially, one at a time.
- * The purpose of all Iterators is to to offer a way for OSID methods to
- * return multiple values of a common type and not use an array.  Returning an
- * array may not be appropriate if the number of values returned is large or
- * is fetched remotely.	 Iterators do not allow access to values by index,
+ * LongValueIterator provides access to these objects sequentially, one at a
+ * time.  The purpose of all Iterators is to to offer a way for OSID methods
+ * to return multiple values of a common type and not use an array.	 Returning
+ * an array may not be appropriate if the number of values returned is large
+ * or is fetched remotely.	Iterators do not allow access to values by index,
  * rather you must access values in sequence. Similarly, there is no way to go
  * backwards through the sequence unless you place the values in a data
  * structure, such as an array, that allows for access by index.  To maximize
@@ -29,12 +29,12 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * 
  * @package harmoni.osid.shared
  */
-class HarmoniIdIterator
+class HarmoniLongValueIterator
 	extends HarmoniIterator
-//	implements IdIterator
+//	implements LongValueIterator
 {
 	/**
-	 * Return true if there is an additional  Id ; false otherwise.
+	 * Return true if there is an additional  LongValue ; false otherwise.
 	 *	
 	 * @return boolean
 	 * 
@@ -50,14 +50,14 @@ class HarmoniIdIterator
 	 * 
 	 * @public
 	 */
-	function hasNextId () { 
+	function hasNextLongValue () { 
 		return $this->hasNext();
-	}
+	} 
 
 	/**
-	 * Return the next Id.
+	 * Return the next long.
 	 *	
-	 * @return object Id
+	 * @return int
 	 * 
 	 * @throws object SharedException An exception with one of the
 	 *		   following messages defined in org.osid.shared.SharedException
@@ -74,9 +74,9 @@ class HarmoniIdIterator
 	 * 
 	 * @public
 	 */
-	function &nextId () { 
+	function nextLongValue () { 
 		return $this->next();
-	}
+	} 
 }
 
 ?>

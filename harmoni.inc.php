@@ -4,7 +4,7 @@
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.29 2005/01/11 03:28:11 nstamato Exp $
+ * @version $Id: harmoni.inc.php,v 1.30 2005/01/11 23:36:26 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
@@ -35,6 +35,7 @@ define("SIMPLE_TEST",HARMONI.DIRECTORY_SEPARATOR."simple_test".DIRECTORY_SEPARAT
  * @const string OKI The OKI interfaces location.
  */
 define("OKI",dirname(__FILE__).DIRECTORY_SEPARATOR."oki".DIRECTORY_SEPARATOR);
+define("OKI2",dirname(__FILE__).DIRECTORY_SEPARATOR."oki2".DIRECTORY_SEPARATOR);
 //require_once(OKI."inc.php");
 
 /**

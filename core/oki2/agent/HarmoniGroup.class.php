@@ -1,8 +1,21 @@
 <?php
 
 /**
- * The Group may contain Members (Agents) as well as other Groups.  There are management methods for adding, removing, and getting members and Groups.  There are also methods for testing if a Group or member is contained in a Group, and returning all Members in a Group, all Groups in a Group, or all Groups containing a specific Member. Many methods include an argument that specifies whether to include all subgroups or not.  This allows for more flexible maintenance and interrogation of the structure. Note that there is no specification for persisting the Group or its content -- this detail is left to the implementation. <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
- * @package harmoni.osid.shared
+ * Group contains members that are either Agents or other Groups.  There are
+ * management methods for adding, removing, and getting members and Groups.
+ * There are also methods for testing if a Group or member is contained in a
+ * Group, and returning all members in a Group, all Groups in a Group, or all
+ * Groups containing a specific member. Many methods include an argument that
+ * specifies whether to include all subgroups or not.  This allows for more
+ * flexible maintenance and interrogation of the structure. Note that there is
+ * no specification for persisting the Group or its content -- this detail is
+ * left to the implementation.
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
+ * @package harmoni.osid.agent
  */
 class HarmoniGroup // :: API interface
 	extends HarmoniAgent // implements Group OSID interface
@@ -59,32 +72,57 @@ class HarmoniGroup // :: API interface
 		$this->_groups = array();
 		$this->_agents = array();
 	}
-	
-	
+		
 	/**
-	 * Get the Description of this Group as stored.
-	 * @return String
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.shared
+	 * Get the Description of this Group.
+	 *	
+	 * @return string
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function getDescription() {
+	function getDescription () { 
 		return $this->_description;
 	}
 
 	/**
-	 * Update the Description of this Group as stored.
-	 * @param string description
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid.shared
+	 * Update the Description of this Group.
+	 * 
+	 * @param string $description
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @public
 	 */
-	function updateDescription($description) {
+	function updateDescription ( $description ) {
 		// ** parameter validation
 		$stringRule =& new StringValidatorRule();
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
 		
 		if ($this->_description == $description)
-		    return; // nothing to update
+			return; // nothing to update
 
 		// update the object
 		$this->_description = $description;
@@ -107,50 +145,31 @@ class HarmoniGroup // :: API interface
 			throwError(new Error("The group with Id: ".$idValue." does not exist in the database.","SharedManager",true));
 		if ($queryResult->getNumberOfRows() > 1)
 			throwError(new Error("Multiple groups with Id: ".$idValue." exist in the database. Note: their descriptions have been updated." ,"SharedManager",true));
-	}
-
-
+	}		
 
 	/**
-	 * An implementation-specific public method that does exactly the same as add(),
-	 * but does not insert into the database.
-	 * @access public
-	 * @param object memberOrGroup
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#ALREADY_ADDED ALREADY_ADDED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid.shared
-	 **/
-	function attach(& $memberOrGroup) {
-		// ** parameter validation
-		$extend =& new ExtendsValidatorRule("Agent"); // Group objects extend Agent
-		ArgumentValidator::validate($memberOrGroup, $extend, true);
-		// ** end of parameter validation
-
-		// we have to figure out whether the argument is an agent or a group
-		$isGroup = is_a($memberOrGroup, get_class($this));
-		
-		$id =& $memberOrGroup->getId();
-		$idValue = $id->getIdString();
-		
-		if ($isGroup && !isset($this->_groups[$idValue]))
-			// add in the object
-		    $this->_groups[$id->getIdString()] =& $memberOrGroup;
-		elseif (!$isGroup && !isset($this->_agents[$idValue]))
-			// add in the object
-			$this->_agents[$id->getIdString()] =& $memberOrGroup;
-	}
-	
-		
-
-	/**
-	 * Add an Agent member or a Group to this Group.  The Member or Group will not be added if it already exists in the group.
-	 * IMPORTANT: There is no check for cycles, i.e. if group A is a subgroup of group B, which is a subgroup of group A.
-	 * The user should be the one to be looking to avoid cycles. In the case that a cycle appears, then the recursive version of getMembers will
-	 * not work and in fact will terminate the script.
-	 * @param object memberOrGroup
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#ALREADY_ADDED ALREADY_ADDED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid.shared
+	 * Add an Agent or a Group to this Group.  The Agent or Group will not be
+	 * added if it already exists in the group.
+	 * 
+	 * @param object Agent $memberOrGroup
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#ALREADY_ADDED
+	 *		   ALREADY_ADDED}, {@link
+	 *		   org.osid.agent.AgentException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @public
 	 */
-	function add(& $memberOrGroup) {
+	function add ( &$memberOrGroup ) { 
 		// ** parameter validation
 		$extend =& new ExtendsValidatorRule("Agent"); // Group objects extend Agent
 		ArgumentValidator::validate($memberOrGroup, $extend, true);
@@ -172,8 +191,8 @@ class HarmoniGroup // :: API interface
 			// all groups or agents must have been gotten either trough
 			// the create or get methods, which ensure database existence.
 //			if (!HarmoniGroup::exist($memberOrGroup))
-//			    throwError(new Error("Cannot add the group, because it does not exist in the database.",
-//							 		 "SharedManager", true));
+//				throwError(new Error("Cannot add the group, because it does not exist in the database.",
+//									 "SharedManager", true));
 //	
 			// update the join table
 			$query =& new InsertQuery();
@@ -194,7 +213,7 @@ class HarmoniGroup // :: API interface
 				throwError(new Error("Insert failed.","SharedManager",true));
 
 			// add in the object
-		    $this->_groups[$id->getIdString()] =& $memberOrGroup;
+			$this->_groups[$id->getIdString()] =& $memberOrGroup;
 		}
 		elseif (!isset($this->_agents[$idValue])) {
 			// check to see for existence in database
@@ -203,8 +222,8 @@ class HarmoniGroup // :: API interface
 			// all groups or agents must have been gotten either trough
 			// the create or get methods, which ensure database existence.
 //			if (!HarmoniAgent::exist($memberOrGroup))
-//			    throwError(new Error("Cannot add the agent, because it does not exist in the database.",
-//							 		 "SharedManager", true));
+//				throwError(new Error("Cannot add the agent, because it does not exist in the database.",
+//									 "SharedManager", true));
 //
 			// update the join table
 			$query =& new InsertQuery();
@@ -229,14 +248,69 @@ class HarmoniGroup // :: API interface
 		}
 	}
 
+	/**
+	 * An implementation-specific public method that does exactly the same as add(),
+	 * but does not insert into the database.
+	 * @access public
+	 * @param object memberOrGroup
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#ALREADY_ADDED
+	 *		   ALREADY_ADDED}, {@link
+	 *		   org.osid.agent.AgentException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 */
+	function attach(& $memberOrGroup) {
+		// ** parameter validation
+		$extend =& new ExtendsValidatorRule("Agent"); // Group objects extend Agent
+		ArgumentValidator::validate($memberOrGroup, $extend, true);
+		// ** end of parameter validation
+
+		// we have to figure out whether the argument is an agent or a group
+		$isGroup = is_a($memberOrGroup, get_class($this));
+		
+		$id =& $memberOrGroup->getId();
+		$idValue = $id->getIdString();
+		
+		if ($isGroup && !isset($this->_groups[$idValue]))
+			// add in the object
+			$this->_groups[$id->getIdString()] =& $memberOrGroup;
+		elseif (!$isGroup && !isset($this->_agents[$idValue]))
+			// add in the object
+			$this->_agents[$id->getIdString()] =& $memberOrGroup;
+	}
 	
 	/**
-	 * Remove an Agent member or a Group from this Group. If the Member or Group is not in the group no action is taken and no exception is thrown.
-	 * @param object memberOrGroup
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#UNKNOWN_ID UNKNOWN_ID}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid.shared
+	 * Remove an Agent member or a Group from this Group. If the Agent or Group
+	 * is not in this group no action is taken and no exception is thrown.
+	 * 
+	 * @param object Agent $memberOrGroup
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#UNKNOWN_ID UNKNOWN_ID},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @public
 	 */
-	function remove(& $memberOrGroup) {
+	function remove ( &$memberOrGroup ) {
 		// ** parameter validation
 		$extend =& new ExtendsValidatorRule("Agent"); // Group objects extend Agent
 		ArgumentValidator::validate($memberOrGroup, $extend, true);
@@ -265,7 +339,7 @@ class HarmoniGroup // :: API interface
 				
 				// remove from object
 				// DO NOT SET TO NULL
-		    	unset($this->_groups[$id->getIdString()]);
+				unset($this->_groups[$id->getIdString()]);
 			}
 		}
 		else
@@ -282,19 +356,33 @@ class HarmoniGroup // :: API interface
 					throwError(new Error("Delete failed.","SharedManager",true));
 				
 				// remove from object
-		    	unset($this->_agents[$id->getIdString()]);
+				unset($this->_agents[$id->getIdString()]);
 			}
 	}
 
 	
 	/**
-	 * Get all the Members of this group and optionally all the Members from all subgroups. Duplicates are not returned.
-	 * @param boolean includeSubgroups If True, will execute recursively.
+	 * Get all the Members of this group and optionally all the Members from
+	 * all subgroups. Duplicates are not returned.
+	 * 
+	 * @param boolean $includeSubgroups
+	 *	
 	 * @return object AgentIterator
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.shared
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getMembers($includeSubgroups) {
+	function &getMembers ( $includeSubgroups ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($includeSubgroups, new BooleanValidatorRule(), true);
 		// ** end of parameter validation
@@ -309,8 +397,16 @@ class HarmoniGroup // :: API interface
 	 * @param boolean includeSubgroups
 	 * @param boolean agents If TRUE will return groups, if FALSE will return agents. 
 	 * @return array 
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.shared
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
 	function &_getMembers($recursive, $agents = TRUE) {
 		if ($agents)
@@ -327,13 +423,28 @@ class HarmoniGroup // :: API interface
 	}
 
 	/**
-	 * Get all the Groups in this group and optionally all the subgroups in this group. Note since Groups subclass Agents, we are returning an AgentIterator and there is no GroupIterator.
-	 * @param boolean includeSubgroups
+	 * Get all the Groups in this group and optionally all the subgroups in
+	 * this group. Note since Groups subclass Agents, we are returning an
+	 * AgentIterator and there is no GroupIterator.
+	 * 
+	 * @param boolean $includeSubgroups
+	 *	
 	 * @return object AgentIterator
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.shared
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getGroups($includeSubgroups) {
+	function &getGroups ( $includeSubgroups ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($includeSubgroups, new BooleanValidatorRule(), true);
 		// ** end of parameter validation
@@ -343,24 +454,54 @@ class HarmoniGroup // :: API interface
 	}
 	
 	/**
-	 * Get all the Groups, including subgroups, containing the Member. Note since Groups subclass Agents, we are returning an AgentIterator and there is no GroupIterator.
+	 * Get all the Groups, including subgroups, containing the Member. 
+	 * Note since Groups subclass Agents, we are returning an AgentIterator and 
+	 * there is no GroupIterator.
+	 * WARNING: This method does not exist in the OSIDs as of version 2.0
+	 *
 	 * @param object member
 	 * @return object AgentIterator
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
 	 * @package harmoni.osid.shared
 	 */
 	function &getGroupsContainingMember(& $member) { /* :: interface :: */ }
 	// :: full java declaration :: AgentIterator getGroupsContainingMember(Agent member)
 
 	/**
-	 * Return <code>true</code> if the Member or Group is in the Group, optionally including subgroups, <code>false</code> otherwise.
-	 * @param object memberOrGroup
-	 * @param boolean searchSubgroups
+	 * Return <code>true</code> if the Member or Group is in the Group,
+	 * optionally including subgroups, <code>false</code> otherwise.
+	 * 
+	 * @param object Agent $memberOrGroup
+	 * @param boolean $searchSubgroups
+	 *	
 	 * @return boolean
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid.shared
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @public
 	 */
-	function contains(& $memberOrGroup, $searchSubgroups = false) {
+	function contains ( &$memberOrGroup, $searchSubgroups ) { 
 		// ** parameter validation
 		$extend =& new ExtendsValidatorRule("Agent"); // Group objects extend Agent
 		ArgumentValidator::validate($memberOrGroup, $extend, true);
@@ -370,7 +511,7 @@ class HarmoniGroup // :: API interface
 		// we have to figure out whether the argument is an agent or a group
 		$isGroup = is_a($memberOrGroup, get_class($this));
 		
-	    $id =& $memberOrGroup->getId();
+		$id =& $memberOrGroup->getId();
 
 		// check if $memberOrGroup is in this group
 		if ($isGroup && ($this->_groups[$id->getIdString()] == $memberOrGroup))
@@ -391,7 +532,8 @@ class HarmoniGroup // :: API interface
 	 * A method checking whether the specified group exist in the database.
 	 * @access public
 	 * @static
-	 * @param boolean agentOrGroup TRUE, if <code>$memberOrGroup</code> is an agent; FALSE, if it is a group.
+	 * @param boolean agentOrGroup TRUE, if <code>$memberOrGroup</code> is an agent; 
+	 *		FALSE, if it is a group.
 	 * @return boolean <code>tru</code> if it exists; <code>false</code> otherwise.
 	 **/
 	function exist(& $group, $agentOrGroup) {
@@ -412,7 +554,7 @@ class HarmoniGroup // :: API interface
 		// set where
 		$where = "groups_id = '".addslashes($idValue)."' AND ";
 		$where .= "groups_display_name = '".addslashes($group->getDisplayName())."' AND ";
-	    $where .= "groups_description = '".addslashes($group->getDescription())."'";
+		$where .= "groups_description = '".addslashes($group->getDescription())."'";
 		$query->addWhere($where);
 
 		echo "<pre>\n";
@@ -425,7 +567,6 @@ class HarmoniGroup // :: API interface
 		else
 			return false;
 	}
-
 
 }
 

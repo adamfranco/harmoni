@@ -1,10 +1,10 @@
-<?
+<?php 
 
-require_once(OKI2."/osid/shared/IdIterator.php");
+require_once(OKI2."/osid/shared/StringIterator.php");
 require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
-
+ 
 /**
- * IdIterator provides access to these objects sequentially, one at a time.
+ * Stringiterator provides access to these objects sequentially, one at a time.
  * The purpose of all Iterators is to to offer a way for OSID methods to
  * return multiple values of a common type and not use an array.  Returning an
  * array may not be appropriate if the number of values returned is large or
@@ -29,12 +29,12 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * 
  * @package harmoni.osid.shared
  */
-class HarmoniIdIterator
+class HarmoniStringIterator
 	extends HarmoniIterator
-//	implements IdIterator
+//	implements StringIterator
 {
 	/**
-	 * Return true if there is an additional  Id ; false otherwise.
+	 * Return true if there is an additional  String ; false otherwise.
 	 *	
 	 * @return boolean
 	 * 
@@ -50,14 +50,14 @@ class HarmoniIdIterator
 	 * 
 	 * @public
 	 */
-	function hasNextId () { 
+	function hasNextString () { 
 		return $this->hasNext();
-	}
+	} 
 
 	/**
-	 * Return the next Id.
+	 * Return the next String.
 	 *	
-	 * @return object Id
+	 * @return string
 	 * 
 	 * @throws object SharedException An exception with one of the
 	 *		   following messages defined in org.osid.shared.SharedException
@@ -74,9 +74,9 @@ class HarmoniIdIterator
 	 * 
 	 * @public
 	 */
-	function &nextId () { 
+	function nextString () { 
 		return $this->next();
-	}
+	} 
 }
 
 ?>

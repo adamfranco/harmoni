@@ -1,57 +1,82 @@
 <?
 
-require_once(OKI."/shared.interface.php");
+require_once(OKI2."/osid/shared/TypeIterator.php");
+require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
 
-// public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
-define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
-
+/**
+ * TypeIterator provides access to these objects sequentially, one at a time.
+ * The purpose of all Iterators is to to offer a way for OSID methods to
+ * return multiple values of a common type and not use an array.  Returning an
+ * array may not be appropriate if the number of values returned is large or
+ * is fetched remotely.  Iterators do not allow access to values by index,
+ * rather you must access values in sequence. Similarly, there is no way to go
+ * backwards through the sequence unless you place the values in a data
+ * structure, such as an array, that allows for access by index.  To maximize
+ * reuse and implementation substitutability, it is important not to reference
+ * a class in one OSID implementation directly in another.  Interfaces should
+ * be used and new called only on objects in the implementation package.  To
+ * avoid binding a specific implementation of Shared to a specific
+ * implementaiton of some other OSID, implementations TypeIterator and the
+ * other primitative-type Iterators should reside in each OSID that requires
+ * them and not in an implementation of Shared.  For example, if an
+ * implementation of org.osid.logging.LoggingManager needs a class that
+ * implements org.osid.shared.StringIterator, the class should be in the
+ * package implementing Logging.
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
+ * @package harmoni.osid.shared
+ */
 class HarmoniTypeIterator
-	extends TypeIterator
-{ // begin TypeIterator
+	extends HarmoniIterator
+//	implements TypeIterator
+{
+    /**
+     * Return true if there is an additional  Type ; false otherwise.
+     *  
+     * @return boolean
+     * 
+     * @throws object SharedException An exception with one of the
+     *         following messages defined in org.osid.shared.SharedException
+     *         may be thrown:  {@link
+     *         org.osid.shared.SharedException#UNKNOWN_TYPE UNKNOWN_TYPE},
+     *         {@link org.osid.shared.SharedException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.shared.SharedException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function hasNextType () { 
+        return $this->hasNext();
+    } 
 
-	/**
-	 * @var array $_types The stored types.
-	 * @access private
-	 */
-	var $_types = array();
-	 
-	/**
-	 * @var int $_i The current posititon.
-	 * @access private
-	 */
-	var $_i = -1;
-	
-	/**
-	 * Constructor
-	 */
-	function HarmoniTypeIterator (& $typeArray) {
-		// make sure that we get an array of Type objects
-		ArgumentValidator::validate($typeArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("TypeInterface")));
-		
-		// load the types into our private array
-		foreach ($typeArray as $key => $val) {
-			$this->_types[] =& $typeArray[$key];
-		}
-	}
-
-	// public boolean hasNext();
-	function hasNext() {
-		return ($this->_i < count($this->_types)-1);
-	}
-
-	// public Type & next();
-	function &next() {
-		if ($this->hasNext()) {
-			$this->_i++;
-			return $this->_types[$this->_i];
-		} else {
-			throwError(new Error(NO_MORE_ITERATOR_ELEMENTS, "TypeIterator", 1));
-		}
-	}
-
-} // end TypeIterator
-
-
-
+    /**
+     * Return the next Type.
+     *  
+     * @return object Type
+     * 
+     * @throws object SharedException An exception with one of the
+     *         following messages defined in org.osid.shared.SharedException
+     *         may be thrown:  {@link
+     *         org.osid.shared.SharedException#UNKNOWN_TYPE UNKNOWN_TYPE},
+     *         {@link org.osid.shared.SharedException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.shared.SharedException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED},
+     *         {@link
+     *         org.osid.shared.SharedException#NO_MORE_ITERATOR_ELEMENTS
+     *         NO_MORE_ITERATOR_ELEMENTS}
+     * 
+     * @public
+     */
+    function &nextType () { 
+        return $this->next();
+    } 
+}
 
 ?>

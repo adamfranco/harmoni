@@ -1,11 +1,20 @@
 <?php
 
+require_once(OKI2."/osid/agent/Agent.php");
+
 /**
- * Agents are an abstraction for a principal or group.  The Agent may be granted authorization to perform specific functions.  Agents are created through implementations of osid.shared.SharedManager and have an immutable name, Type, and Unique Id. <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6
- * @package harmoni.osid.shared
+ * Agent is an abstraction that includes Id, display name, type, and
+ * Properties.	Agents are created using implementations of
+ * org.osid.agent.AgentManager.
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
+ * @package harmoni.osid.agent
  */
-class HarmoniAgent extends Agent // :: API interface
-//	extends java.io.Serializable
+class HarmoniAgent 
+	extends Agent
 {
 
 	/**
@@ -79,41 +88,89 @@ class HarmoniAgent extends Agent // :: API interface
 
 	/**
 	 * Get the name of this Agent.
-	 * @return String
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.shared
+	 *	
+	 * @return string
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function getDisplayName() {
+	function getDisplayName () { 
 		return $this->_displayName;
 	}
 
 	/**
 	 * Get the id of this Agent.
-	 * @return id
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.shared
+	 *	
+	 * @return object Id
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getId() {
+	function &getId () { 
 		return $this->_id;
 	}
 
 	/**
 	 * Get the type of this Agent.
-	 * @return Type
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.shared
+	 *	
+	 * @return object Type
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getType() {
+	function &getType () { 
 		return $this->_type;
 	}
 
 	/**
-	 * Get all the Properties associated with this Agent.
-	 * @return PropertiesIterator
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.shared
+	 * Get the Properties associated with this Agent.
+	 *	
+	 * @return object PropertiesIterator
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getProperties() {
+	function &getProperties () { 
 		$iterator =& new HarmoniIterator($this->_propertiesArray);
 		return $iterator;
 	
@@ -121,11 +178,28 @@ class HarmoniAgent extends Agent // :: API interface
 
 	/**
 	 * Get the Properties of this Type associated with this Agent.
-	 * @return Properties
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.shared
+	 * 
+	 * @param object Type $propertiesType
+	 *	
+	 * @return object Properties
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
+	 * 
+	 * @public
 	 */
-	function &getPropertiesByType(& $propertiesType) {
+	function &getPropertiesByType ( &$propertiesType ) { 
 		$array = array();
 		
 		foreach (array_keys($this->_propertiesArray) as $key) {
@@ -142,12 +216,24 @@ class HarmoniAgent extends Agent // :: API interface
 	}
 
 	/**
-	 * Get the Properties Types supported by the implementation.
-	 * @return TypeIterator
-	 * @throws osid.shared.SharedException An exception with one of the following messages defined in osid.shared.SharedException:  {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.shared
+	 * Get the Properties Types supported by this Agent.
+	 *	
+	 * @return object TypeIterator
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getPropertiesTypes() {
+	function &getPropertyTypes () { 
 		$array = array();
 		
 		foreach (array_keys($this->_propertiesArray) as $key) {
@@ -162,6 +248,7 @@ class HarmoniAgent extends Agent // :: API interface
 		return $iterator;
 	
 	}	
+	
 	
 	/**
 	 * Gets the dbIndex of this group.

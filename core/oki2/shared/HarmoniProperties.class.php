@@ -1,16 +1,18 @@
 <?
 
-require_once(OKI."/shared.interface.php");
+require_once(OKI2."/osid/shared/Properties.php");
 
 /**
- * Properties is a mechanism for returning read-only data about an Agent.  
- * Each Agent can have data associated with a PropertiesType.  For each 
- * PropertiesType, there are Properties which are Serializable values identified 
- * by a key.  
+ * Properties is a mechanism for returning read-only data about an object.  An
+ * object can have data associated with a PropertiesType.  For each
+ * PropertiesType, there are Properties which are Serializable values
+ * identified by a key.
  * 
- * <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}. 
- * <p>SID Version: 1.0 rc6
- * @package osid.shared
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
+ * @package harmoni.osid.shared
  */
 class HarmoniProperties
 	extends Properties
@@ -31,48 +33,68 @@ class HarmoniProperties
 	}
 
 	/**
-	 * Get the Type associated with these Properties. Properties
-	 * @return object Type
-	 * @throws osid.shared.SharedException An exception with one of the following 
-	 * messages defined in osid.shared.SharedException:  
-	 * {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, 
-	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
-	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
-	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
-	 */
-	function &getType() {
+     * Get the Type for this Properties instance.
+     *  
+     * @return object Type
+     * 
+     * @throws object SharedException An exception with one of the
+     *         following messages defined in org.osid.shared.SharedException
+     *         may be thrown:  {@link
+     *         org.osid.shared.SharedException#UNKNOWN_TYPE UNKNOWN_TYPE},
+     *         {@link org.osid.shared.SharedException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.shared.SharedException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function &getType () { 
 		return $this->_type;
 	}
 
 	/**
-	 * Get the Property associated with this key.
-	 * @return object java.io.Serializable
-	 * @throws osid.shared.SharedException An exception with one of the following
-	 *  messages defined in osid.shared.SharedException:  
-	 * {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, 
-	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
-	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
-	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
-	 * {@link SharedException#UNKNOWN_KEY UNKNOWN_KEY}
-	 * @package osid.shared
-	 */
-	function &getProperty(& $key) {
+     * Get the Property associated with this key.
+     * 
+     * @param object mixed $key (original type: java.io.Serializable)
+     *  
+     * @return object mixed (original type: java.io.Serializable)
+     * 
+     * @throws object SharedException An exception with one of the
+     *         following messages defined in org.osid.shared.SharedException
+     *         may be thrown:  {@link
+     *         org.osid.shared.SharedException#UNKNOWN_TYPE UNKNOWN_TYPE},
+     *         {@link org.osid.shared.SharedException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.shared.SharedException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED},
+     *         {@link org.osid.shared.SharedException#UNKNOWN_KEY UNKNOWN_KEY}
+     * 
+     * @public
+     */
+    function &getProperty ( &$key ) { 
 		return $this->_properties[serialize($key)];
 	}
 
 	/**
-	 * Get the Keys associated with these Properties.
-	 * @return object ObjectIterator
-	 * @throws osid.shared.SharedException An exception with one of the following 
-	 * messages defined in osid.shared.SharedException:  
-	 * {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, 
-	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
-	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
-	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package osid.shared
-	 */
-	function &getKeys() {
+     * Get the Keys associated with these Properties.
+     *  
+     * @return object ObjectIterator
+     * 
+     * @throws object SharedException An exception with one of the
+     *         following messages defined in org.osid.shared.SharedException
+     *         may be thrown:  {@link
+     *         org.osid.shared.SharedException#UNKNOWN_TYPE UNKNOWN_TYPE},
+     *         {@link org.osid.shared.SharedException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.shared.SharedException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
+     * 
+     * @public
+     */
+    function &getKeys () { 
 		$keys = array();
 		foreach (array_keys($this->_properties) as $key) {
 			$keys[] = unserialize($key);
@@ -92,7 +114,7 @@ class HarmoniProperties
 	 * @access public
 	 * @date 11/18/04
 	 */
-	function addProperty (& $key, & $value) {
+	function addProperty ( &$key, &$value ) {
 		$this->_properties[serialize($key)] =& $value;
 	}
 	

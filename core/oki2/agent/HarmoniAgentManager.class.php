@@ -1,52 +1,56 @@
 <?
 
-require_once(OKI."/shared.interface.php");
+require_once(OKI2."/osid/agent/AgentManager.php");
 
-require_once(HARMONI."oki/shared/HarmoniType.class.php");
-require_once(HARMONI."oki/shared/HarmoniTypeIterator.class.php");
-require_once(HARMONI."oki/shared/HarmoniAgent.class.php");
-require_once(HARMONI."oki/shared/HarmoniAgentIterator.class.php");
-require_once(HARMONI."oki/shared/HarmoniGroup.class.php");
-require_once(HARMONI."oki/shared/HarmoniTestId.class.php");
-require_once(HARMONI."oki/shared/HarmoniId.class.php");
-require_once(HARMONI."oki/shared/HarmoniProperties.class.php");
-require_once(HARMONI."oki/shared/AgentSearches/HarmoniAgentExistsSearch.class.php");
-require_once(HARMONI."oki/shared/AgentSearches/AncestorGroupSearch.class.php");
+require_once(HARMONI."oki2/agent/HarmoniAgent.class.php");
+require_once(HARMONI."oki2/agent/HarmoniAgentIterator.class.php");
+require_once(HARMONI."oki2/agent/HarmoniGroup.class.php");
+require_once(HARMONI."oki2/agent/AgentSearches/HarmoniAgentExistsSearch.class.php");
+require_once(HARMONI."oki2/agent/AgentSearches/AncestorGroupSearch.class.php");
+
+require_once(HARMONI."oki2/shared/HarmoniType.class.php");
+require_once(HARMONI."oki2/shared/HarmoniTypeIterator.class.php");
+require_once(HARMONI."oki2/shared/HarmoniId.class.php");
+require_once(HARMONI."oki2/shared/HarmoniTestId.class.php");
+require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
 
 /**
- * Properties is a mechanism for returning read-only data about an Agent.  Each
- * Agent can have data associated with a PropertiesType.  For each
- * PropertiesType, there are Properties which are Serializable values
- * identified by a key.
- * 
  * <p>
- * SharedManager creates, deletes, and gets Agents and Groups and creates and
- * gets Ids.  Group subclasses Agent and Groups may contains other Groups as
- * well as Agents.  All implementors of OsidManager provide create, delete,
- * and get methods for the various objects defined in the package.  Most
- * managers also include methods for returning Types.  We use create methods
- * in place of the new operator.  Create method implementations should both
- * instantiate and persist objects.  The reason we avoid the new operator is
- * that it makes the name of the implementating package explicit and requires
- * a source code change in order to use a different package name. In
- * combination with OsidLoader, applications developed using managers permit
- * implementation substitution without source code changes.
+ * AgentManager handles creating, deleting, and getting Agents and Groups.
+ * Group is a subclass of Agent. Groups contain members. Group members are
+ * Agents or other Groups.
  * </p>
  * 
+ * <p>
+ * All implementations of OsidManager (manager) provide methods for accessing
+ * and manipulating the various objects defined in the OSID package. A manager
+ * defines an implementation of an OSID. All other OSID objects come either
+ * directly or indirectly from the manager. New instances of the OSID objects
+ * are created either directly or indirectly by the manager.  Because the OSID
+ * objects are defined using interfaces, create methods must be used instead
+ * of the new operator to create instances of the OSID objects. Create methods
+ * are used both to instantiate and persist OSID objects.  Using the
+ * OsidManager class to define an OSID's implementation allows the application
+ * to change OSID implementations by changing the OsidManager package name
+ * used to load an implementation. Applications developed using managers
+ * permit OSID implementation substitution without changing the application
+ * source code. As with all managers, use the OsidLoader to load an
+ * implementation of this interface.
+ * </p>
  * 
  * <p></p>
- * @package harmoni.osid.shared
+ * 
+ * 
+ * @package harmoni.osid.agent
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniAgentManager.class.php,v 1.1 2005/01/11 17:39:27 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.2 2005/01/11 23:36:45 adamfranco Exp $
  * 
- * @todo Replace JavaDoc with PHPDoc
  */
-
-class HarmoniSharedManager
-	extends SharedManager
-{ // begin SharedManager
+class HarmoniAgentManager
+	extends AgentManager
+{
 
 	/**
 	 * The database connection as returned by the DBHandler.
@@ -102,7 +106,7 @@ class HarmoniSharedManager
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 * @param string sharedDB The name of the shared database.
 	 */
-	function HarmoniSharedManager($dbIndex, $sharedDB) {
+	function HarmoniAgentManager($dbIndex, $sharedDB) {
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
 		ArgumentValidator::validate($sharedDB, new StringValidatorRule(), true);
@@ -130,27 +134,33 @@ class HarmoniSharedManager
 			new AncestorGroupSearch ($this->_dbIndex);
 	}
 
-    /**
-     * Create an Agent with the display name and Type specified.  Both are
-     * immutable. Implemented with 1 SELECT and 1 INSERT queries for a total of
-	 * 2 SQL queries.
-     *
-     * @param string $displayName
-     * @param object osid.shared.Type $agentType
-     * @param object Properties $properties This parameter was added as of version 2
-     *		of the osids and is required for being able to manage properties of
-     *		the agents
-     *
-     * @return object osid.shared.Agent with its unique Id set
-     *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
-	 *		 PERMISSION_DENIED, CONFIGURATION_ERROR UNKNOWN_TYPE,
-	 *		 NULL_ARGUMENT
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	/**
+	 * Create an Agent with the display name, Type, and Properties specified.
+	 * All are immutable.
+	 * 
+	 * @param string $displayName
+	 * @param object Type $agentType
+	 * @param object Properties $properties
+	 *	
+	 * @return object Agent
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
+	 * 
+	 * @public
 	 */
-	function &createAgent($displayName, & $agentType, & $properties) { 
+	function &createAgent ( $displayName, &$agentType, &$properties ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($agentType, new ExtendsValidatorRule("HarmoniType"), true);
 		ArgumentValidator::validate($properties, new ExtendsValidatorRule("Properties"), true);
@@ -215,17 +225,26 @@ class HarmoniSharedManager
 
 	/**
 	 * Delete the Agent with the specified unique Id.
-	 *
-	 * @param object osid.shared.Id agentId
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
-	 *		 PERMISSION_DENIED, CONFIGURATION_ERROR NULL_ARGUMENT,
-	 *		 UNKNOWN_ID
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * 
+	 * @param object Id $id
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link org.osid.agent.AgentException#UNKNOWN_ID
+	 *		   UNKNOWN_ID}
+	 * 
+	 * @public
 	 */
-	function deleteAgent(& $id) {
+	function deleteAgent ( &$id ) { 
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
@@ -369,20 +388,30 @@ class HarmoniSharedManager
 	}
 
 	/**
-	 * Get the Agent with the specified unique Id. Implemented with 1 SELECT query.
-	 *
-	 * @param object osid.shared.Id agentId
-	 *
-	 * @return object osid.shared.Agent
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
-	 *		 PERMISSION_DENIED, CONFIGURATION_ERROR NULL_ARGUMENT,
-	 *		 UNKNOWN_ID
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * Get the Agent with the specified unique Id. Getting an Agent by name is
+	 * not supported since names are not guaranteed to be unique.
+	 * 
+	 * @param object Id $id
+	 *	
+	 * @return object Agent
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link org.osid.agent.AgentException#UNKNOWN_ID
+	 *		   UNKNOWN_ID}
+	 * 
+	 * @public
 	 */
-	function &getAgent(& $id) {
+	function &getAgent ( &$id ) { 
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
@@ -406,20 +435,27 @@ class HarmoniSharedManager
 	}
 
 	/**
-	 * Get all the Agents.
-	 *
-	 * @return object osid.shared.AgentIterator.  Iterators return a set, one at a
-	 *		 time.  The Iterator's hasNext method returns true if there are
-	 *		 additional objects available; false otherwise.  The Iterator's
-	 *		 next method returns the next object.
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
-	 *		 PERMISSION_DENIED
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * Get all the Agents.	The returned iterator provides access to the Agents
+	 * one at a time.  Iterators have a method hasNextAgent() which returns
+	 * <code>true</code> if there is an Agent available and a method
+	 * nextAgent() which returns the next Agent.
+	 *	
+	 * @return object AgentIterator
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getAgents() {
+	function &getAgents () { 
 		if (!$this->_allAgentsCached)
 			$this->_loadAgents();
 		
@@ -429,16 +465,29 @@ class HarmoniSharedManager
 	
 	/**
 	 * Get all the Agents with the specified search criteria and search Type.
-	 *
-	 * This method is defined in v.2 of the OSIDs.
 	 * 
-	 * @param mixed $searchCriteria
+	 * @param object mixed $searchCriteria (original type: java.io.Serializable)
 	 * @param object Type $agentSearchType
+	 *	
 	 * @return object AgentIterator
-	 * @access public
-	 * @date 11/10/04
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
+	 * 
+	 * @public
 	 */
-	function &getAgentsBySearch ( & $searchCriteria, & $agentSearchType ) {
+	function &getAgentsBySearch ( &$searchCriteria, &$agentSearchType ) { 
 		$typeString = $agentSearchType->getDomain()
 						."::".$agentSearchType->getAuthority()
 						."::".$agentSearchType->getKeyword();
@@ -453,14 +502,26 @@ class HarmoniSharedManager
 	
 	/**
 	 * Get all the agent search Types supported by this implementation.
-	 *
-	 * This method is defined in v.2 of the OSIDs.
-	 * 
+	 *	
 	 * @return object TypeIterator
-	 * @access public
-	 * @date 11/10/04
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
+	 * 
+	 * @public
 	 */
-	function &getAgentSearchTypes () {
+	function &getAgentSearchTypes () { 
 		$types = array();
 		// Break our search type keys on "::" and create type objects
 		// to return.
@@ -473,176 +534,27 @@ class HarmoniSharedManager
 	}
 	
 	/**
-	 * A private function that can be used by either getAgent or getAgents. Loads
-	 * agents in the internal cache.
-	 * @access protected
-	 * @param string $where An optional where clause.
-	 * @param string $fromGroup An optional group id string to limit the resulting
-	 * 		agents to.
-	 * @return array The agent ids found when limited by the where and fromGroup
-	 *		parameters.
-	 **/
-	function _loadAgents($where = null, $fromGroup = null) {
-		$foundIds = array();
-		$dbHandler =& Services::requireService("DBHandler");
-		$query =& new SelectQuery();
-		
-		$db = $this->_sharedDB.".";
-		
-		// set the tables
-		// If we have a group that we wish to limit the results to,
-		// join the agents to that group table.
-		if ($fromGroup !== NULL) {
-			// Add the group tables to join to.
-			$query->addTable($db."groups");
-			$joinc = $db."groups.groups_id = ".$db."j_groups_agent.fk_groups";
-			$query->addTable($db."j_groups_agent", LEFT_JOIN, $joinc);
-			$joinc = $db."j_groups_agent.fk_agent = ".$db."agent.agent_id";
-			$query->addTable($db."agent", LEFT_JOIN, $joinc);
-			
-			// Add a where clause to limit to this group
-			$query->addWhere($db."groups.groups_id = '".addslashes($fromGroup)."'");
-		} 
-		// If we want agents from any group, just start with the agent table
-		else {
-			$query->addTable($db."agent");
-		}
-		$joinc = $db."agent.fk_type = ".$db."type.type_id";
-		$query->addTable($db."type", INNER_JOIN, $joinc);
-		// Join to the properties mapping table
-		$joinc = $db."agent.agent_id = ".$db."agent_properties.fk_agent";
-		$query->addTable($db."agent_properties", LEFT_JOIN, $joinc);
-		// Join to the properties and each Property
-		$joinc = $db."agent_properties.fk_properties = ".$db."shared_properties.id";
-		$query->addTable($db."shared_properties", LEFT_JOIN, $joinc);
-		$joinc = $db."shared_properties.fk_type = ".$db."properties_type.type_id";
-		$query->addTable($db."type", LEFT_JOIN, $joinc, "properties_type");
-		$joinc = $db."shared_properties.id = ".$db."shared_property.fk_properties";
-		$query->addTable($db."shared_property", LEFT_JOIN, $joinc);
-		
-		// set the columns to select
-		$query->addColumn("agent_id", "id", $db."agent");
-		$query->addColumn("agent_display_name", "display_name", $db."agent");
-		$query->addColumn("type_domain", "domain", $db."type");
-		$query->addColumn("type_authority", "authority", $db."type");
-		$query->addColumn("type_keyword", "keyword", $db."type");
-		$query->addColumn("type_description", "description", $db."type");
-		$query->addColumn("id", "properties_id", $db."shared_properties");
-		$query->addColumn("type_domain", "properties_domain", $db."properties_type");
-		$query->addColumn("type_authority", "properties_authority", $db."properties_type");
-		$query->addColumn("type_keyword", "properties_keyword", $db."properties_type");
-		$query->addColumn("type_description", "properties_description", $db."properties_type");
-		$query->addColumn("property_key", "property_key", $db."shared_property");
-		$query->addColumn("property_value", "property_value", $db."shared_property");
-		
-		if ($where)
-		    $query->addWhere($where);
-		
-//		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
-		
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		
-		
-		while ($arr = $queryResult->getCurrentRow()) {
-			// If we are out of rows or have moved on to the next agent, create our agent object
-			if (!$queryResult->advanceRow() || $queryResult->field('id') != $arr['id']) {
-				$instantiateAgent = TRUE;
-				$foundIds[] = $arr['id'];
-			} else {
-				$instantiateAgent = FALSE;
-			}
-				
-			// If we don't have a Agent in our cache, go through the steps to
-			// create and cache it.
-			if (!isset($this->_agentsCache[$arr['id']])) {
-			
-				// Create an array for this agent's properties if it doesn't exist
-				// I was having reference problems when attempting to use one array
-				// that got passed off and reset.
-				$propertiesArrayName = "propertiesArray".$arr['id'];
-				if (!is_array($$propertiesArrayName))
-					$$propertiesArrayName = array();
-				
-				// Build our properties objects to add to the Agent.
-				if ($arr['properties_id'] && $arr['properties_id'] != "NULL") {
-				
-					// Create a name for the Current Properties variable. I was 
-					// having reference problems when attempting to use one variable name
-					// that got passed off and reset.
-					$currentPropertiesName = "currentProperties".$arr['properties_id'];
-						
-						
-					// If we are starting on a new properties object, create a new object and add it to our array.
-					if (!is_object($$currentPropertiesName) || $arr['properties_id'] != $currentPropertiesId) 
-					{
-						$propertiesType =& new HarmoniType(
-											$arr['properties_domain'],
-											$arr['properties_authority'],
-											$arr['properties_keyword'],
-											$arr['properties_description']);
-						
-						// Create the new Properties object
-						$$currentPropertiesName =& new HarmoniProperties($propertiesType);
-						$currentPropertiesId = $arr['properties_id'];
-						
-						// add the new Properties object to the Properties array for the
-						// current Asset.
-						$myArray =& $$propertiesArrayName;
-						$myArray[] =& $$currentPropertiesName;
-					}
-					
-					// Add the current Property row to the current Properties
-					if ($arr['property_key']) {
-						$$currentPropertiesName->addProperty(
-									unserialize(base64_decode($arr['property_key'])), 
-									unserialize(base64_decode($arr['property_value'])));
-					}
-				}
-				
-				if ($instantiateAgent) {
-					// create agent object
-					$type =& new HarmoniType($arr['domain'],
-											$arr['authority'],
-											$arr['keyword'],
-											$arr['description']);
-					// make sure that we aren't passing agents the same properties array.
-					$agent =& new HarmoniAgent(
-									$arr['display_name'], 
-									$this->getId($arr['id']), 
-									$type,
-									$$propertiesArrayName,
-									$this->_dbIndex, 
-									$this->_sharedDB);
-					
-					$this->_agentsCache[$arr['id']] =& $agent;
-				}
-			}
-		}
-		
-		// Only specify that we are fully cached if we didn't limit the
-		// results
-		if ($where === NULL)
-			$this->_allAgentsCached = true;
-		
-		return $foundIds;
-	}
-	
-
-	/**
-	 * Get all the Types of Agent.
-	 *
-	 * @return object osid.shared.TypeIterator.  Iterators return a set, one at a
-	 *		 time.  The Iterator's hasNext method returns true if there are
-	 *		 additional objects available; false otherwise.  The Iterator's
-	 *		 next method returns the next object.
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
-	 *		 PERMISSION_DENIED
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * Get all the agent Types.	 The returned iterator provides access to the
+	 * agent Types from this implementation one at a time.	Iterators have a
+	 * method hasNextType() which returns true if there is an agent Type
+	 * available and a method nextType() which returns the next agent Type.
+	 *	
+	 * @return object TypeIterator
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getAgentTypes() {
+	function &getAgentTypes () { 
 		$dbHandler =& Services::requireService("DBHandler");
 		$query =& new SelectQuery();
 		
@@ -681,89 +593,59 @@ class HarmoniSharedManager
 	}
 	
 	/**
-	 * Return TRUE if the Id specified corresponds to an agent.
-	 * WARNING: This method is not part of the OSIDs as of Version 2.0
-	 *
-	 * @param object osid.shared.Id agentId
-	 *
-	 * @return boolean
+	 * Get all the property Types.	The returned iterator provides access to
+	 * the property Types from this implementation one at a time.  Iterators
+	 * have a method hasNextType() which returns true if there is another
+	 * property Type available and a method nextType() which returns the next
+	 * property Type.
+	 *	
+	 * @return object TypeIterator
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function isAgent(& $id) {
-		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("Id");
-		ArgumentValidator::validate($id, $extendsRule, true);
-		// ** end of parameter validation
-
-		// get the id
-		$idValue = $id->getIdString();
-		
-		// check the cache
-		if (isset($this->_agentsCache[$idValue]))
-			return TRUE;
-		
-		$db = $this->_sharedDB.".";
-		$where = $db."agent.agent_id = '".addslashes($idValue)."'";
-
-		$this->_loadAgents($where);
-		
-		if (isset($this->_agentsCache[$idValue]))
-			return TRUE;
-		
-		return FALSE;
-	}
-	
-	/**
-	 * Return TRUE if the Id specified corresponds to an group.
-	 * WARNING: This method is not part of the OSIDs as of Version 2.0
-	 *
-	 * @param object osid.shared.Id agentId
-	 *
-	 * @return boolean
-	 */
-	function isGroup(& $id) {
-		// ** parameter validation
-		$extendsRule =& new ExtendsValidatorRule("Id");
-		ArgumentValidator::validate($id, $extendsRule, true);
-		// ** end of parameter validation
-
-		// get the id
-		$idValue = $id->getIdString();
-		
-		// check the cache
-		if (isset($this->_groupsCache[$idValue]))
-			return TRUE;
-		
-		$db = $this->_sharedDB.".";
-		$where = $db."subgroup0.groups_id = '".addslashes($idValue)."'";
-
-		$this->_loadGroups($where);
-		
-		if (isset($this->_groupsCache[$idValue]))
-			return TRUE;
-		
-		return FALSE;
-	}
+	function &getPropertyTypes () { 
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	} 
 
 	/**
-	 * Creates an Group with the display name and Type specified.  Both are
-	 * immutable.
-	 *
-	 * @param String displayName
-	 * @param object osid.shared.Type groupType
-	 * @param String description
-	 * @param object Properties $properties As of version 2 of the OSIDs, this
-	 *		parameter exists.
-	 *
-	 * @return object osid.shared.Group with its unique Id set
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
-	 *		 PERMISSION_DENIED, CONFIGURATION_ERROR UNKNOWN_TYPE,
-	 *		 NULL_ARGUMENT
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * Create a Group with the display name, Type, description, and Properties
+	 * specified.  All but description are immutable.
+	 * 
+	 * @param string $displayName
+	 * @param object Type $groupType
+	 * @param string $description
+	 * @param object Properties $properties
+	 *	
+	 * @return object Group
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
+	 * 
+	 * @public
 	 */
-	function &createGroup($displayName, & $groupType, $description, & $properties) {
+	function &createGroup ( $displayName, &$groupType, $description, &$properties ) { 
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("HarmoniType");
 		ArgumentValidator::validate($groupType, $extendsRule, true);
@@ -867,18 +749,27 @@ class HarmoniSharedManager
 	}
 
 	/**
-	 * Deletes the Group with the specified unique Id.
-	 *
-	 * @param object osid.shared.Id groupId
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
-	 *		 PERMISSION_DENIED, CONFIGURATION_ERROR NULL_ARGUMENT,
-	 *		 UNKNOWN_ID
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * Delete the Group with the specified unique Id.
+	 * 
+	 * @param object Id $id
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link org.osid.agent.AgentException#UNKNOWN_ID
+	 *		   UNKNOWN_ID}
+	 * 
+	 * @public
 	 */
-	function deleteGroup(& $id) {
+	function deleteGroup ( &$id ) { 
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
@@ -1020,20 +911,30 @@ class HarmoniSharedManager
 	}
 
 	/**
-	 * Gets the Group with the specified unique Id.
-	 *
-	 * @param object osid.shared.Id groupId
-	 *
-	 * @return object osid.shared.Group
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
-	 *		 PERMISSION_DENIED, CONFIGURATION_ERROR NULL_ARGUMENT,
-	 *		 UNKNOWN_ID
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * Gets the Group with the specified unique Id. Getting a Group by name is
+	 * not supported since names are not guaranteed to be unique.
+	 * 
+	 * @param object Id $id
+	 *	
+	 * @return object Group
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link org.osid.agent.AgentException#UNKNOWN_ID
+	 *		   UNKNOWN_ID}
+	 * 
+	 * @public
 	 */
-	function &getGroup(& $id) {
+	function &getGroup ( &$id ) { 
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
@@ -1058,21 +959,28 @@ class HarmoniSharedManager
 	
 	
 	/**
-	 * Get all the Groups.  Note since Groups subclass Agents, we are returning
-	 * an AgentIterator and there is no GroupIterator.
-	 *
-	 * @return object osid.shared.AgentIterator.  Iterators return a set, one at a
-	 *		 time.  The Iterator's hasNext method returns true if there are
-	 *		 additional objects available; false otherwise.  The Iterator's
-	 *		 next method returns the next object.
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
-	 *		 PERMISSION_DENIED
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
+	 * Get all the Groups.	Note since Groups subclass Agents, we are returning
+	 * an AgentIterator and there is no GroupIterator. the returned iterator
+	 * provides access to the Groups one at a time.	 Iterators have a method
+	 * hasNextAgent() which returns true if there is a Group available and a
+	 * method nextAgent() which returns the next Group.
+	 *	
+	 * @return object AgentIterator
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getGroups() {
+	function &getGroups () { 
 		if (!$this->_allGroupsCached)
 			$this->_loadGroups();
 		
@@ -1081,17 +989,30 @@ class HarmoniSharedManager
 	}
 	
 	/**
-	 * Get all the Groups with the specified search criteria and search Type.
-	 *
-	 * This method is defined in v.2 of the OSIDs.
+	 * Get all the groups with the specified search criteria and search Type.
 	 * 
-	 * @param mixed $searchCriteria
+	 * @param object mixed $searchCriteria (original type: java.io.Serializable)
 	 * @param object Type $groupSearchType
-	 * @return object GroupIterator
-	 * @access public
-	 * @date 11/10/04
+	 *	
+	 * @return object AgentIterator
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
+	 * 
+	 * @public
 	 */
-	function &getGroupsBySearch ( & $searchCriteria, & $groupSearchType ) {
+	function &getGroupsBySearch ( &$searchCriteria, &$groupSearchType ) { 
 		ArgumentValidator::validate($groupSearchType, new ExtendsValidatorRule("HarmoniType"));
 		$typeString = $groupSearchType->getDomain()
 						."::".$groupSearchType->getAuthority()
@@ -1106,15 +1027,27 @@ class HarmoniSharedManager
 	}
 	
 	/**
-	 * Get all the group search Types supported by this implementation.
-	 *
-	 * This method is defined in v.2 of the OSIDs.
-	 * 
+	 * Get all the group search types supported by this implementation.
+	 *	
 	 * @return object TypeIterator
-	 * @access public
-	 * @date 11/10/04
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
+	 * 
+	 * @public
 	 */
-	function &getGroupSearchTypes () {
+	function &getGroupSearchTypes () { 
 		$types = array();
 		// Break our search type keys on "::" and create type objects
 		// to return.
@@ -1125,7 +1058,339 @@ class HarmoniSharedManager
 		
 		return new HarmoniIterator($types);
 	}
+	
+	/**
+	 * Get all the group Types.	 The returned iterator provides access to the
+	 * group Types from this implementation one at a time.	Iterators have a
+	 * method hasNextType() which returns true if there is a group Type
+	 * available and a method nextType() which returns the next group Type.
+	 *	
+	 * @return object TypeIterator
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
+	 */
+	function &getGroupTypes () { 
+		$dbHandler =& Services::requireService("DBHandler");
+		$query =& new SelectQuery();
+		
+		$db = $this->_sharedDB.".";
+		
+		// set the tables
+		$query->addTable($db."groups");
+		$joinc = $db."groups.fk_type = ".$db."type.type_id";
+		$query->addTable($db."type", INNER_JOIN, $joinc);
+		
+		// set the columns to select
+		$query->setDistinct(true);
+		$query->addColumn("type_id", "id", $db."type");
+		$query->addColumn("type_domain", "domain", $db."type");
+		$query->addColumn("type_authority", "authority", $db."type");
+		$query->addColumn("type_keyword", "keyword", $db."type");
+		$query->addColumn("type_description", "description", $db."type");
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 
+		$types = array();
+		while ($queryResult->hasMoreRows()) {
+			// fetch current row
+			$arr = $queryResult->getCurrentRow();
+			
+			// create agent object
+			$type =& new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
+			
+			// add it to array
+			$types[] =& $type;
+
+			$queryResult->advanceRow();
+		}
+		
+		$result =& new HarmoniTypeIterator($types);
+		return $result;
+	}
+	
+	/**
+	 * Get all the Agents of the specified Type.
+	 * 
+	 * @param object Type $agentType
+	 *	
+	 * @return object AgentIterator
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
+	 * 
+	 * @public
+	 */
+	function &getAgentsByType ( &$agentType ) { 
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	} 
+
+	/**
+	 * Get all the Groups of the specified Type.
+	 * 
+	 * @param object Type $groupType
+	 *	
+	 * @return object AgentIterator
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.agent.AgentException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
+	 * 
+	 * @public
+	 */
+	function &getGroupsByType ( &$groupType ) { 
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	} 
+	
+	/**
+	 * Return TRUE if the Id specified corresponds to an agent.
+	 * WARNING: This method is not part of the OSIDs as of Version 2.0
+	 *
+	 * @param object osid.shared.Id agentId
+	 *
+	 * @return boolean
+	 */
+	function isAgent(& $id) {
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("Id");
+		ArgumentValidator::validate($id, $extendsRule, true);
+		// ** end of parameter validation
+
+		// get the id
+		$idValue = $id->getIdString();
+		
+		// check the cache
+		if (isset($this->_agentsCache[$idValue]))
+			return TRUE;
+		
+		$db = $this->_sharedDB.".";
+		$where = $db."agent.agent_id = '".addslashes($idValue)."'";
+
+		$this->_loadAgents($where);
+		
+		if (isset($this->_agentsCache[$idValue]))
+			return TRUE;
+		
+		return FALSE;
+	}
+	
+	/**
+	 * Return TRUE if the Id specified corresponds to an group.
+	 * WARNING: This method is not part of the OSIDs as of Version 2.0
+	 *
+	 * @param object osid.shared.Id agentId
+	 *
+	 * @return boolean
+	 */
+	function isGroup(& $id) {
+		// ** parameter validation
+		$extendsRule =& new ExtendsValidatorRule("Id");
+		ArgumentValidator::validate($id, $extendsRule, true);
+		// ** end of parameter validation
+
+		// get the id
+		$idValue = $id->getIdString();
+		
+		// check the cache
+		if (isset($this->_groupsCache[$idValue]))
+			return TRUE;
+		
+		$db = $this->_sharedDB.".";
+		$where = $db."subgroup0.groups_id = '".addslashes($idValue)."'";
+
+		$this->_loadGroups($where);
+		
+		if (isset($this->_groupsCache[$idValue]))
+			return TRUE;
+		
+		return FALSE;
+	}
+
+
+	/**
+	 * A private function that can be used by either getAgent or getAgents. Loads
+	 * agents in the internal cache.
+	 * @access protected
+	 * @param string $where An optional where clause.
+	 * @param string $fromGroup An optional group id string to limit the resulting
+	 *		agents to.
+	 * @return array The agent ids found when limited by the where and fromGroup
+	 *		parameters.
+	 **/
+	function _loadAgents($where = null, $fromGroup = null) {
+		$foundIds = array();
+		$dbHandler =& Services::requireService("DBHandler");
+		$query =& new SelectQuery();
+		
+		$db = $this->_sharedDB.".";
+		
+		// set the tables
+		// If we have a group that we wish to limit the results to,
+		// join the agents to that group table.
+		if ($fromGroup !== NULL) {
+			// Add the group tables to join to.
+			$query->addTable($db."groups");
+			$joinc = $db."groups.groups_id = ".$db."j_groups_agent.fk_groups";
+			$query->addTable($db."j_groups_agent", LEFT_JOIN, $joinc);
+			$joinc = $db."j_groups_agent.fk_agent = ".$db."agent.agent_id";
+			$query->addTable($db."agent", LEFT_JOIN, $joinc);
+			
+			// Add a where clause to limit to this group
+			$query->addWhere($db."groups.groups_id = '".addslashes($fromGroup)."'");
+		} 
+		// If we want agents from any group, just start with the agent table
+		else {
+			$query->addTable($db."agent");
+		}
+		$joinc = $db."agent.fk_type = ".$db."type.type_id";
+		$query->addTable($db."type", INNER_JOIN, $joinc);
+		// Join to the properties mapping table
+		$joinc = $db."agent.agent_id = ".$db."agent_properties.fk_agent";
+		$query->addTable($db."agent_properties", LEFT_JOIN, $joinc);
+		// Join to the properties and each Property
+		$joinc = $db."agent_properties.fk_properties = ".$db."shared_properties.id";
+		$query->addTable($db."shared_properties", LEFT_JOIN, $joinc);
+		$joinc = $db."shared_properties.fk_type = ".$db."properties_type.type_id";
+		$query->addTable($db."type", LEFT_JOIN, $joinc, "properties_type");
+		$joinc = $db."shared_properties.id = ".$db."shared_property.fk_properties";
+		$query->addTable($db."shared_property", LEFT_JOIN, $joinc);
+		
+		// set the columns to select
+		$query->addColumn("agent_id", "id", $db."agent");
+		$query->addColumn("agent_display_name", "display_name", $db."agent");
+		$query->addColumn("type_domain", "domain", $db."type");
+		$query->addColumn("type_authority", "authority", $db."type");
+		$query->addColumn("type_keyword", "keyword", $db."type");
+		$query->addColumn("type_description", "description", $db."type");
+		$query->addColumn("id", "properties_id", $db."shared_properties");
+		$query->addColumn("type_domain", "properties_domain", $db."properties_type");
+		$query->addColumn("type_authority", "properties_authority", $db."properties_type");
+		$query->addColumn("type_keyword", "properties_keyword", $db."properties_type");
+		$query->addColumn("type_description", "properties_description", $db."properties_type");
+		$query->addColumn("property_key", "property_key", $db."shared_property");
+		$query->addColumn("property_value", "property_value", $db."shared_property");
+		
+		if ($where)
+			$query->addWhere($where);
+		
+//		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		
+		while ($arr = $queryResult->getCurrentRow()) {
+			// If we are out of rows or have moved on to the next agent, create our agent object
+			if (!$queryResult->advanceRow() || $queryResult->field('id') != $arr['id']) {
+				$instantiateAgent = TRUE;
+				$foundIds[] = $arr['id'];
+			} else {
+				$instantiateAgent = FALSE;
+			}
+				
+			// If we don't have a Agent in our cache, go through the steps to
+			// create and cache it.
+			if (!isset($this->_agentsCache[$arr['id']])) {
+			
+				// Create an array for this agent's properties if it doesn't exist
+				// I was having reference problems when attempting to use one array
+				// that got passed off and reset.
+				$propertiesArrayName = "propertiesArray".$arr['id'];
+				if (!is_array($$propertiesArrayName))
+					$$propertiesArrayName = array();
+				
+				// Build our properties objects to add to the Agent.
+				if ($arr['properties_id'] && $arr['properties_id'] != "NULL") {
+				
+					// Create a name for the Current Properties variable. I was 
+					// having reference problems when attempting to use one variable name
+					// that got passed off and reset.
+					$currentPropertiesName = "currentProperties".$arr['properties_id'];
+						
+						
+					// If we are starting on a new properties object, create a new object and add it to our array.
+					if (!is_object($$currentPropertiesName) || $arr['properties_id'] != $currentPropertiesId) 
+					{
+						$propertiesType =& new HarmoniType(
+											$arr['properties_domain'],
+											$arr['properties_authority'],
+											$arr['properties_keyword'],
+											$arr['properties_description']);
+						
+						// Create the new Properties object
+						$$currentPropertiesName =& new HarmoniProperties($propertiesType);
+						$currentPropertiesId = $arr['properties_id'];
+						
+						// add the new Properties object to the Properties array for the
+						// current Asset.
+						$myArray =& $$propertiesArrayName;
+						$myArray[] =& $$currentPropertiesName;
+					}
+					
+					// Add the current Property row to the current Properties
+					if ($arr['property_key']) {
+						$$currentPropertiesName->addProperty(
+									unserialize(base64_decode($arr['property_key'])), 
+									unserialize(base64_decode($arr['property_value'])));
+					}
+				}
+				
+				if ($instantiateAgent) {
+					// create agent object
+					$type =& new HarmoniType($arr['domain'],
+											$arr['authority'],
+											$arr['keyword'],
+											$arr['description']);
+					// make sure that we aren't passing agents the same properties array.
+					$agent =& new HarmoniAgent(
+									$arr['display_name'], 
+									$this->getId($arr['id']), 
+									$type,
+									$$propertiesArrayName,
+									$this->_dbIndex, 
+									$this->_sharedDB);
+					
+					$this->_agentsCache[$arr['id']] =& $agent;
+				}
+			}
+		}
+		
+		// Only specify that we are fully cached if we didn't limit the
+		// results
+		if ($where === NULL)
+			$this->_allAgentsCached = true;
+		
+		return $foundIds;
+	}
 	
 	/**
 	 * A private function that can be used by either getGroup or getGroups. Doesn't
@@ -1189,9 +1454,9 @@ class HarmoniSharedManager
 		if ($where)
 			$query->addWhere($where);
 		
-// 		echo "<pre>\n";
-// 		echo MySQL_SQLGenerator::generateSQLQuery($query);
-// 		echo "</pre>\n";
+//		echo "<pre>\n";
+//		echo MySQL_SQLGenerator::generateSQLQuery($query);
+//		echo "</pre>\n";
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
@@ -1271,7 +1536,7 @@ class HarmoniSharedManager
 				// ignore null values
 				if (is_null($value)) {
 					$prev = $value;
-				    continue;
+					continue;
 				}
 				
 				// ignore cached values
@@ -1388,128 +1653,6 @@ class HarmoniSharedManager
 			$this->_allGroupsCached = true;
 	}
 	
-	
-	
-	
-	
-	/**
-	 * Get all the Types of Group.
-	 *
-	 * @return object osid.shared.TypeIterator.  Iterators return a set, one at a
-	 *		 time.  The Iterator's hasNext method returns true if there are
-	 *		 additional objects available; false otherwise.  The Iterator's
-	 *		 next method returns the next object.
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
-	 *		 PERMISSION_DENIED
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getGroupTypes() {
-		$dbHandler =& Services::requireService("DBHandler");
-		$query =& new SelectQuery();
-		
-		$db = $this->_sharedDB.".";
-		
-		// set the tables
-		$query->addTable($db."groups");
-		$joinc = $db."groups.fk_type = ".$db."type.type_id";
-		$query->addTable($db."type", INNER_JOIN, $joinc);
-		
-		// set the columns to select
-		$query->setDistinct(true);
-		$query->addColumn("type_id", "id", $db."type");
-		$query->addColumn("type_domain", "domain", $db."type");
-		$query->addColumn("type_authority", "authority", $db."type");
-		$query->addColumn("type_keyword", "keyword", $db."type");
-		$query->addColumn("type_description", "description", $db."type");
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-
-		$types = array();
-		while ($queryResult->hasMoreRows()) {
-			// fetch current row
-			$arr = $queryResult->getCurrentRow();
-			
-			// create agent object
-			$type =& new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
-			
-			// add it to array
-			$types[] =& $type;
-
-			$queryResult->advanceRow();
-		}
-		
-		$result =& new HarmoniTypeIterator($types);
-		return $result;
-	}
-
-	/**
-	 * Create a new unique identifier.
-	 *
-	 * @return object osid.shared.Id A unique Id that is usually set by a create
-	 *		 method's implementation
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
-	 *		 PERMISSION_DENIED
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &createId() {
-		debug::output("Attempting to generate new id.", 20, "SharedManager");
-		$dbHandler =& Services::requireService("DBHandler");
-		
-		$query =& new InsertQuery();
-		$query->setAutoIncrementColumn("id_value", "id_sequence");
-		$query->setTable($this->_sharedDB.".id");
-		$query->addRowOfValues(array());
-		
-		$result =& $dbHandler->query($query,$this->_dbIndex);
-		if ($result->getNumberOfRows() != 1) {
-			throwError( new UnknownDBError("SharedManager"));
-		}
-		
-		$newID = $result->getLastAutoIncrementValue();
-		$newID = strval($newID);
-		
-		debug::output("Successfully created new id '$newID'.",DEBUG_SYS5,"IDManager");
-		
-		$id =& new HarmoniId($newID);
-		
-		// cache the id
-		$this->_ids[$newId];
-		
-		return $id;
-	}
-
-	/**
-	 * Get the unique Id with this String representation or create a new unique
-	 * Id with this representation.
-	 *
-	 * @param string idString
-	 *
-	 * @return object osid.shared.Id A unique Id that is usually set by a create
-	 *		 method's implementation
-	 *
-	 * @throws An exception with one of the following messages defined in
-	 *		 osid.shared.SharedException may be thrown: OPERATION_FAILED,
-	 *		 PERMISSION_DENIED
-	 *
-	 * @todo Replace JavaDoc with PHPDoc
-	 */
-	function &getId($idString) {
-		if (isset($this->_ids[$idString]))
-			return $this->_ids[$idString];
-	
-		$id =& new HarmoniId($idString);
-			
-		// cache the id
-		$this->_ids[$idString] =& $id;
-
-		return $id;
-	}
-
 	/**
 	 * The start function is called when a service is created. Services may
 	 * want to do pre-processing setup before any users are allowed access to

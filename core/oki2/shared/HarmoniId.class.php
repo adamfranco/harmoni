@@ -1,12 +1,23 @@
 <?
 
+require_once(OKI2."/osid/shared/Id.php");
+
 /**
- * A class for passing an integer or a string representation of an integer as an
- * id.
+ * Id represents a unique identifier. A String representation of the unique
+ * identifier is available with getIdString().	To convert from a String
+ * representation of the identifier to the identifier object,
+ * org.osid.shared.Id, use getId(String). Id can determine if it is equal to
+ * another Id.
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ *
  * @package harmoni.osid.shared
  */
-
-class HarmoniId extends Id {
+class HarmoniId 
+	extends Id 
+{
 
 	/**
 	 * @var string $_id The id of this id.
@@ -26,13 +37,49 @@ class HarmoniId extends Id {
 		$this->_id = $id;
 	}
 
-	// public String getIdString();
-	function getIdString() {
+	/**
+	 * Return the String representation of this unique Id.
+	 *	
+	 * @return string
+	 * 
+	 * @throws object SharedException An exception with one of the
+	 *		   following messages defined in org.osid.shared.SharedException
+	 *		   may be thrown:  {@link
+	 *		   org.osid.shared.SharedException#UNKNOWN_TYPE UNKNOWN_TYPE},
+	 *		   {@link org.osid.shared.SharedException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.shared.SharedException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @public
+	 */
+	function getIdString () { 
 		return $this->_id;
 	}
 
-	// public boolean isEqual(osid.shared.Id & $id);
-	function isEqual(& $id) {
+	/**
+	 * Tests if an unique Id equals this unique Id.
+	 * 
+	 * @param object Id $id
+	 *	
+	 * @return boolean
+	 * 
+	 * @throws object SharedException An exception with one of the
+	 *		   following messages defined in org.osid.shared.SharedException
+	 *		   may be thrown:  {@link
+	 *		   org.osid.shared.SharedException#UNKNOWN_TYPE UNKNOWN_TYPE},
+	 *		   {@link org.osid.shared.SharedException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.shared.SharedException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.shared.SharedException#UNIMPLEMENTED UNIMPLEMENTED},
+	 *		   {@link org.osid.shared.SharedException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @public
+	 */
+	function isEqual ( &$id ) {
 		// Validate the arguments
 		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
 		

@@ -1,27 +1,17 @@
-<?
+<?php 
 
-require_once(OKI2."/osid/shared/IdIterator.php");
+require_once(OKI2."/osid/shared/PropertiesIterator.php");
 require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
-
+ 
 /**
- * IdIterator provides access to these objects sequentially, one at a time.
- * The purpose of all Iterators is to to offer a way for OSID methods to
- * return multiple values of a common type and not use an array.  Returning an
- * array may not be appropriate if the number of values returned is large or
- * is fetched remotely.	 Iterators do not allow access to values by index,
+ * PropertiesIterator provides access to these objects sequentially, one at a
+ * time.  The purpose of all Iterators is to to offer a way for OSID methods
+ * to return multiple values of a common type and not use an array.	 Returning
+ * an array may not be appropriate if the number of values returned is large
+ * or is fetched remotely.	Iterators do not allow access to values by index,
  * rather you must access values in sequence. Similarly, there is no way to go
  * backwards through the sequence unless you place the values in a data
- * structure, such as an array, that allows for access by index.  To maximize
- * reuse and implementation substitutability, it is important not to reference
- * a class in one OSID implementation directly in another.	Interfaces should
- * be used and new called only on objects in the implementation package.  To
- * avoid binding a specific implementation of Shared to a specific
- * implementaiton of some other OSID, implementations TypeIterator and the
- * other primitative-type Iterators should reside in each OSID that requires
- * them and not in an implementation of Shared.	 For example, if an
- * implementation of org.osid.logging.LoggingManager needs a class that
- * implements org.osid.shared.StringIterator, the class should be in the
- * package implementing Logging.
+ * structure, such as an array, that allows for access by index.
  * 
  * <p>
  * OSID Version: 2.0
@@ -29,12 +19,13 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * 
  * @package harmoni.osid.shared
  */
-class HarmoniIdIterator
+class HarmoniPropertiesIterator
 	extends HarmoniIterator
-//	implements IdIterator
+//	implements PropertiesIterator
 {
 	/**
-	 * Return true if there is an additional  Id ; false otherwise.
+	 * Return true if there is an additional  Properties object ; false
+	 * otherwise.
 	 *	
 	 * @return boolean
 	 * 
@@ -50,14 +41,14 @@ class HarmoniIdIterator
 	 * 
 	 * @public
 	 */
-	function hasNextId () { 
+	function hasNextProperties () { 
 		return $this->hasNext();
-	}
+	} 
 
 	/**
-	 * Return the next Id.
+	 * Return the next Properties.
 	 *	
-	 * @return object Id
+	 * @return object Properties
 	 * 
 	 * @throws object SharedException An exception with one of the
 	 *		   following messages defined in org.osid.shared.SharedException
@@ -74,9 +65,9 @@ class HarmoniIdIterator
 	 * 
 	 * @public
 	 */
-	function &nextId () { 
+	function &nextProperties () { 
 		return $this->next();
-	}
+	} 
 }
 
 ?>
