@@ -15,7 +15,7 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.7 2003/11/30 01:30:57 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.8 2003/12/03 02:38:44 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni {
@@ -88,11 +88,17 @@ class Harmoni {
 	
 	/**
 	 * @access public
-	 * @var object $language A {@link LanguageLocalizer} object.
+	 * @var object $language A {@link LanguageLocalizer} object. (NO LONGER USED -– BROKEN)
 	 **/
 	var $language;
 	
 	var $_attachedData;
+	
+	/**
+	 * @access public
+	 * @var array $pathInfoParts An array of split PATH_INFO elements.
+	 */
+	var $pathInfoParts;
 	
 	/**
 	 * The constructor.
@@ -118,6 +124,10 @@ class Harmoni {
 		$this->setActionCallbackFunction("httpTwoVarsActionCallback");
 		
 		$this->_attachedData =& new FieldSet;
+			
+		// set up pathInfoParts
+		$pathInfo = $_SERVER['PATH_INFO'];
+		$this->pathInfoParts = explode("/",ereg_replace("^/","",$pathInfo));
 		
 		// set up the language localizer :: BROKEN?
 //		$this->language =& new LanguageLocalizer(HARMONI."languages");

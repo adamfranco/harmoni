@@ -8,7 +8,7 @@ require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.2 2003/08/20 21:20:15 adamfranco Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.3 2003/12/03 02:38:44 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */
@@ -118,6 +118,15 @@ class ErrorHandler extends ErrorHandlerInterface{
 		}
 		
 		return $errorArray;
+	}
+	
+	/**
+	 * Returns the error queue in a {@link Queue} object.
+	 * @return object
+	 * @access public
+	 */
+	function &getErrorQueue() {
+		return $this->_errorQueue;
 	}
 
 	/**

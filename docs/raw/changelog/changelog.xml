@@ -3,6 +3,16 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.0.4" date="Not Yet Release">
+		<new author='gabe'>
+			DateTime class has two new functions: toString() and toMDY() which display
+			a full date/time and a MM/DD/YY string, respectfully.
+		</new>
+		<new author='gabe'>
+			Harmoni::pathInfoParts now contains an array of PATH_INFO elements.
+		</new>
+		<new author='gabe'>
+			ErrorHandler has new method getErrorQueue() which returns the error queue in a Queue object.
+		</new>
 		<change author='gabe'>
 			Harmoni::attachContextData() has been renamed (again) to Harmoni::attachData().
 			Context::getData() has been moved to Harmoni::getData().

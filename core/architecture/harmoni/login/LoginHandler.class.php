@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.4 2003/11/30 01:30:57 gabeschine Exp $
+ * @version $Id: LoginHandler.class.php,v 1.5 2003/12/03 02:38:44 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -145,15 +145,10 @@ class LoginHandler {
 		if ($function = $this->_usernamePasswordCallbackFunction) {
 			$result = $function();
 			if (!$result) {
-				// if the current action is in the noAuthActions array, return as well.
-//				if (in_array($this->_harmoni->getCurrentAction(),$this->_noAuthActions))
-//					return $state;
-
 				// the user didn't enter any info yet -- execute the failed login action
 				// first save the current URL in the session
 				// @todo -cLoginHandler Implement LoginHandler.execute replace old ID with a new one.
-//				$_SESSION['__afterLoginURL'] = $_SERVER['REQUEST_URI'];
-//				$this->_harmoni->setCurrentAction($this->_failedLoginAction);
+				$_SESSION['__afterLoginURL'] = $_SERVER['REQUEST_URI'];
 				$this->_failedLogin = true;
 				debug::output("LoginHandler failed!",DEBUG_SYS5,"LoginHandler");
 				return $state;
@@ -174,7 +169,7 @@ class LoginHandler {
 			if ($authResult->isValid()) {
 				if ($url = $_SESSION['__afterLoginURL']) {
 					unset($_SESSION['__afterLoginURL']);
-					$url .= ereg("\?",$url)?"":"?".SID;
+					$url .= (ereg("\?",$url)?"":"?").SID;
 					header("Location: $url");
 				}
 				debug::output("LoginHandler succeeded!",DEBUG_SYS5,"LoginHandler");

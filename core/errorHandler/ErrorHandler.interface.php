@@ -5,7 +5,7 @@ require_once(HARMONI.'services/Service.interface.php');
 /**
  * 
  *
- * @version $Id: ErrorHandler.interface.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: ErrorHandler.interface.php,v 1.2 2003/12/03 02:38:44 gabeschine Exp $
  * @package harmoni.interfaces.errorhandler
  * @copyright 2003 
  **/
@@ -49,6 +49,13 @@ class ErrorHandlerInterface extends ServiceInterface {
 	 */
     function addNewError($description,$type = "",$isFatal){ die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
+	/**
+	 * Returns the error queue in a {@link Queue} object.
+	 * @return object
+	 * @access public
+	 */
+	function &getErrorQueue() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+		
 	/**
      * Count the number of errors currently in the queue.
 	 * @return integer The number of errors that are currently in the queue.

@@ -5,7 +5,7 @@
 /** 
  * Declares the functionallity for all Date classes.
  * @access public
- * @version $Id: DateTime.class.php,v 1.2 2003/11/27 04:55:41 gabeschine Exp $
+ * @version $Id: DateTime.class.php,v 1.3 2003/12/03 02:38:44 gabeschine Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 7/20/2003
@@ -60,7 +60,6 @@ class DateTime {
 		return $this->_year;
 	}
 	
-	
 	/**
 	 * Creates a new date.
 	 * @access public
@@ -68,21 +67,21 @@ class DateTime {
 	function DateTime($year = 1970, $month = 1, $day = 1, 
 					  $hours = 0, $minutes = 0, $seconds = 0) {
 		// ** parameter validation
-		$integerRule =& new IntegerValidatorRule();
+		$integerRule =& new NumericValidatorRule();
 		ArgumentValidator::validate($year, $integerRule, true);
 
 		$rangeRule =& new IntegerRangeValidatorRule(1, 12);
-		ArgumentValidator::validate($month, $rangeRule, true);
+		ArgumentValidator::validate(intval($month), $rangeRule, true);
 
 		$rangeRule =& new IntegerRangeValidatorRule(1, 31);
-		ArgumentValidator::validate($day, $rangeRule, true);
+		ArgumentValidator::validate(intval($day), $rangeRule, true);
 		
 		$rangeRule =& new IntegerRangeValidatorRule(0, 23);
-		ArgumentValidator::validate($hours, $rangeRule, true);
+		ArgumentValidator::validate(intval($hours), $rangeRule, true);
 		
 		$rangeRule =& new IntegerRangeValidatorRule(0, 59);
-		ArgumentValidator::validate($minutes, $rangeRule, true);
-		ArgumentValidator::validate($seconds, $rangeRule, true);
+		ArgumentValidator::validate(intval($minutes), $rangeRule, true);
+		ArgumentValidator::validate(intval($seconds), $rangeRule, true);
 		// ** end of parameter validation
 
 		// make the year 1900+
@@ -95,7 +94,6 @@ class DateTime {
 		$this->_minutes = $minutes;
 		$this->_seconds = $seconds;
 	}
-	
 	
 	/**
 	 * Set accessor for _year property.
@@ -224,8 +222,25 @@ class DateTime {
 		$this->_seconds = $seconds;
 	}
 	
-		
+	function toMDY() {
+		return $this->getMonth()."/".$this->getDay()."/".substr($this->getYear(),2,2);
+	}	
 	
+	function toString() {
+		$months = array("January","February","March","April","May","June","July","August","September","October","November","December");
+		$hours = $this->getHours()+1;
+		if ($hours > 12) $hours -= 12;
+		return $months[$this->getMonth() - 1] . " " .
+			$this->getDay() . ", " .
+			$this->getYear() . " " .
+			$hours . ":" . ($this->getMinutes()+1) . " " . $this->getHoursAMPM();
+	}
+	
+	function getHoursAMPM() {
+		$hour = $this->getHours() + 1;
+		if ($hour == 24 || ($hour > 0 && $hour < 12)) return "AM";
+		return "PM";
+	}
 	
 	/**
 	 * Returns a DateTime object corresponding to the current date and time.
