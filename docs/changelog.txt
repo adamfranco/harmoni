@@ -3,6 +3,29 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.0.4 (2003-12-06)
+----------------------------------------------------
+		
+	* New feature: DateTime class has two new functions: toString() and toMDY() which display a full date/time and a MM/DD/YY string, respectfully. (Gabe Schine)
+		
+	* New feature: Harmoni::pathInfoParts now contains an array of PATH_INFO elements. (Gabe Schine)
+		
+	* New feature: ErrorHandler has new method getErrorQueue() which returns the error queue in a Queue object. (Gabe Schine)
+		
+	* Change: Harmoni::attachContextData() has been renamed (again) to Harmoni::attachData(). Context::getData() has been moved to Harmoni::getData(). (Gabe Schine)
+		
+	* Change: Context object now carries an array holding the executed actions path, available by referencing Context::actionPath. (Gabe Schine)
+		
+	* Change: ActionHander and Harmoni: ActionHandler now only passes a reference to the Harmoni object to action functions and scripts. Other variables are available here: Harmoni::HTTPVars, Harmoni::Context, Harmoni::LoginState. (Gabe Schine)
+		
+	* Change: Removed many .interface.php files to save on load times and unnecessary flexibility. (Gabe Schine)
+		
+	* Change: LoginHandler no longer throws a default error on login failure. LoginHandler::setFailedLoginError() can be used to specify an error to be thrown to the UserError service. This change is primarily so that people using different languages won't be locked into using English for this error message (a pretty important one). (Gabe Schine)
+		
+	* Change: LoginState::attachData() has been moved to Harmoni::attachContextData() and LoginState::getData() has been moved to Context::getData() for logical and organizational reasons. (Gabe Schine)
+		
+	* Change: LoginHandler and Harmoni: when LoginHandler is used, the action that is checked for required authentication is now the LAST action executed instead of the first. This way, the action that finally ends up being executed is the &quot;authoritative&quot; action. (Gabe Schine)
+	
 v. 0.0.3 (2003-11-26)
 ----------------------------------------------------
 		

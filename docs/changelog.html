@@ -3,7 +3,49 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.0.3</h2><h3>2003-11-26</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.0.4</h2><h3>2003-12-06</h3><ul>
+		<li/> New feature:  
+			DateTime class has two new functions: toString() and toMDY() which display
+			a full date/time and a MM/DD/YY string, respectfully.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Harmoni::pathInfoParts now contains an array of PATH_INFO elements.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			ErrorHandler has new method getErrorQueue() which returns the error queue in a Queue object.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Harmoni::attachContextData() has been renamed (again) to Harmoni::attachData().
+			Context::getData() has been moved to Harmoni::getData().
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Context object now carries an array holding the executed actions path, available
+			by referencing Context::actionPath.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			ActionHander and Harmoni: ActionHandler now only passes a reference to the Harmoni
+			object to action functions and scripts. Other variables are available here:
+			Harmoni::HTTPVars, Harmoni::Context, Harmoni::LoginState.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			Removed many .interface.php files to save on load times and unnecessary flexibility.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			LoginHandler no longer throws a default error on login failure. LoginHandler::setFailedLoginError()
+			can be used to specify an error to be thrown to the UserError service.
+			This change is primarily so that people using different languages won't be locked
+			into using English for this error message (a pretty important one).
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			LoginState::attachData() has been moved to Harmoni::attachContextData() and
+			LoginState::getData() has been moved to Context::getData() for logical and
+			organizational reasons.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  LoginHandler and Harmoni: when LoginHandler is used, 
+		the action that is checked for required authentication is now the LAST action
+		executed instead of the first. This way, the action that finally ends up being
+		executed is the &quot;authoritative&quot; action. (<i>Gabe Schine</i>)
+	</ul><br/><h2>Version 0.0.3</h2><h3>2003-11-26</h3><ul>
 		<li/> Change:  Made ActionHandler check for class and method definitions before trying to execute them. (<i>Gabe Schine</i>)
 		<li/> New feature:  Added defines in config/services.cfg.php to allow a choice of which major &quot;modules&quot; of Harmoni to load, in order to save on startup time. (<i>Gabe Schine</i>)
 		<li/> Bug Fix:

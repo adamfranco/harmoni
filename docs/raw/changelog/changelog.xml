@@ -2,7 +2,7 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.0.4" date="Not Yet Release">
+	<version number="0.0.4" date="2003-12-06">
 		<new author='gabe'>
 			DateTime class has two new functions: toString() and toMDY() which display
 			a full date/time and a MM/DD/YY string, respectfully.
