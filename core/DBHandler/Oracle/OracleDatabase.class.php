@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
 /**
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
- * @version $Id: OracleDatabase.class.php,v 1.2 2004/04/21 17:55:27 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.3 2004/07/02 19:13:09 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.oracle
  * @access public
@@ -241,6 +241,9 @@ class OracleDatabase extends DatabaseInterface {
 				break;
 			case SELECT : 
 				$result =& new OracleSelectQueryResult($resourceId, $this->_linkId);
+				break;
+			case GENERIC : 
+				$result =& new OracleGenericQueryResult($resourceId, $this->_linkId);
 				break;
 			default:
 				throwError(new Error("Unsupported query type.", "DBHandler", true));

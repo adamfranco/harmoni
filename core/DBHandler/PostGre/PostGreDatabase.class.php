@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 /**
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * @version $Id: PostGreDatabase.class.php,v 1.2 2004/04/21 17:55:27 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.3 2004/07/02 19:13:09 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.postgre
  * @access public
@@ -241,6 +241,9 @@ class PostGreDatabase extends DatabaseInterface {
 				break;
 			case SELECT : 
 				$result =& new PostGreSelectQueryResult($resourceId, $this->_linkId);
+				break;
+			case GENERIC : 
+				$result =& new PostGreGenericQueryResult($resourceId, $this->_linkId);
 				break;
 			default:
 				throwError(new Error("Unsupported query type.", "DBHandler", true));

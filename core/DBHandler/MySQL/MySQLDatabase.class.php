@@ -5,12 +5,13 @@ require_once(HARMONI."DBHandler/MySQL/MySQLSelectQueryResult.class.php");
 require_once(HARMONI."DBHandler/MySQL/MySQLInsertQueryResult.class.php");
 require_once(HARMONI."DBHandler/MySQL/MySQLUpdateQueryResult.class.php");
 require_once(HARMONI."DBHandler/MySQL/MySQLDeleteQueryResult.class.php");
+require_once(HARMONI."DBHandler/MySQL/MySQLGenericQueryResult.class.php");
 require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.12 2004/05/07 19:22:06 dobomode Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.13 2004/07/02 19:13:07 adamfranco Exp $
  * @copyright 2003 
  * @package harmoni.dbc.mysql
  * @access public
@@ -224,6 +225,9 @@ class MySQLDatabase extends DatabaseInterface {
 				break;
 			case SELECT : 
 				$result =& new MySQLSelectQueryResult($resourceId, $this->_linkId);
+				break;
+			case GENERIC : 
+				$result =& new MySQLGenericQueryResult($resourceId, $this->_linkId);
 				break;
 			default:
 				throwError(new Error("Unsupported query type.", "DBHandler", true));
