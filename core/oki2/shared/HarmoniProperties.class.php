@@ -1,6 +1,8 @@
 <?
 
 require_once(OKI2."/osid/shared/Properties.php");
+require_once(HARMONI."oki2/shared/HarmoniObjectIterator.class.php");
+
 
 /**
  * Properties is a mechanism for returning read-only data about an object.	An
@@ -17,7 +19,7 @@ require_once(OKI2."/osid/shared/Properties.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniProperties.class.php,v 1.11 2005/03/02 23:15:12 adamfranco Exp $
+ * @version $Id: HarmoniProperties.class.php,v 1.12 2005/03/02 23:43:53 adamfranco Exp $
  */
 class HarmoniProperties
 	extends Properties
@@ -127,6 +129,7 @@ class HarmoniProperties
 	 * $configuration->addProperty('authentication_table', $arg2 = 'auth_db_user');
 	 * $configuration->addProperty('username_field', $arg3 = 'username');
 	 * $configuration->addProperty('password_field', $arg4 = 'password');
+	 * unset($arg1, $arg2, $arg3, $arg4);
 	 * 
 	 * @param mixed $key
 	 * @param mixed $value

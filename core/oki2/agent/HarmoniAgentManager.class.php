@@ -45,7 +45,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.13 2005/02/16 15:16:56 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.14 2005/03/02 23:43:07 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -1378,9 +1378,13 @@ class HarmoniAgentManager
 					
 					// Add the current Property row to the current Properties
 					if ($arr['property_key']) {
+						// Properties take values by reference, so we have to work around
+						// that by creating/unsetting variables.
+						$value = unserialize(base64_decode($arr['property_value']));
 						$$currentPropertiesName->addProperty(
 									unserialize(base64_decode($arr['property_key'])), 
-									unserialize(base64_decode($arr['property_value'])));
+									$value);
+						unset($value);
 					}
 				}
 				
@@ -1624,9 +1628,13 @@ class HarmoniAgentManager
 							
 							// Add the current Property row to the current Properties
 							if ($subrow['property_key']) {
+								// Properties take values by reference, so we have to work around
+								// that by creating/unsetting variables.
+								$value = unserialize(base64_decode($subrow['property_value']));
 								$$currentPropertiesName->addProperty(
 											unserialize(base64_decode($subrow['property_key'])), 
-											unserialize(base64_decode($subrow['property_value'])));
+											$value);
+								unset($value);
 							}
 						}
 						
