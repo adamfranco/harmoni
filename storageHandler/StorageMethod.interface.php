@@ -4,7 +4,7 @@
  * Storage Method interface provides functionality to create StorageMethods
  * to handle Storables. A collection of StorageMethods can be used by StorageHandler. 
  *
- * @version $Id: StorageMethod.interface.php,v 1.2 2003/06/30 18:04:19 gabeschine Exp $
+ * @version $Id: StorageMethod.interface.php,v 1.3 2003/06/30 19:03:49 movsjani Exp $
  * @package harmoni.Storagehandler
  * @copyright 2003
  * @access public
@@ -22,7 +22,7 @@ class StorageMethodInterface {
      * @access public
      */
 
-    function store($storable,$name,$path) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function store($storable,$path,$name) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Returns a storable with a given name and path.
@@ -31,7 +31,7 @@ class StorageMethodInterface {
 	 * @return object Storable The storable, which can be used to retreive the data. False if no such storable exists.
      * @access public
      */
-    function &retrieve($name,$path) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function &retrieve($path,$name) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Deletes the storable with a given name and path.
@@ -39,7 +39,7 @@ class StorageMethodInterface {
      * @param string $path The path of the storable to delete.
      * @access public
      */
-    function delete($name,$path) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function delete($path,$name) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Moves a storable with a given name and path to a new location. 
@@ -52,7 +52,7 @@ class StorageMethodInterface {
      * @param string $locationPath The new path of the storable.
      * @access public
      */
-    function move($sourceName,$sourcePath,$locationName,$locationPath) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function move($sourcePath,$sourceName,$locationPath,$locationName) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Copies a storable with a given name and path to a specified location. 
@@ -65,7 +65,7 @@ class StorageMethodInterface {
      * @param string $locationPath The path of the location to copy into.
      * @access public
      */
-    function copy($sourceName,$sourcePath,$locationName,$locationPath) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function copy($sourcePath,$sourceName,$locationPath,$locationName) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Tells whether a certain storable exists.
@@ -74,7 +74,7 @@ class StorageMethodInterface {
      * @return boolean True if storable exists, false otherwise.
      * @access public
      */
-    function exists($name,$path) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function exists($path,$name="") { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Get the size of either one Storable or the whole tree within a certain path.
@@ -84,7 +84,7 @@ class StorageMethodInterface {
      * @return integer The size of the storable(s).
      * @access public
      */
-    function getSizeOf($name="",$path) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function getSizeOf($path,$name="") { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Delete a whole tree of storables.
@@ -96,18 +96,20 @@ class StorageMethodInterface {
     /**
      * List all the storables within a certain path.
      * @param string $path The path within which the storables should be listed
+     * @param boolean $recursive Whether to list files only in the path (recursive=false) or in and under it (recursive=true).
      * @return array The array of storables found within the path.
      * @access public
      */
-    function listInPath($path) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function listInPath($path,$recursive=true) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Count all the storables within a certain path.
-     * @param string $path The path within which the storables should be counted.
+     * @param string $path The path within which the storables should be counted
+     * @param optional boolean $recursive Whether to count files only in the path (recursive=false) or in and under it (recursive=true).
      * @return integer The number of storables found within the path.
      * @access public
      */
-    function getCount($path) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function getCount($path,$recursive=true) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 }
 
 ?>

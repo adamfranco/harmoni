@@ -7,7 +7,7 @@ require_once(HARMONI.'StorageHandler/Storables/FileStorable.class.php');
  * File Storage Method interface provides functionality to store and handle
  * Storables on a file system. To be used by StorageHandler
  *
- * @version $Id: FileStorageMethod.class.php,v 1.2 2003/06/30 14:28:09 dobomode Exp $
+ * @version $Id: FileStorageMethod.class.php,v 1.3 2003/06/30 19:03:49 movsjani Exp $
  * @package harmoni.Storagehandler
  * @copyright 2003
  * @access public
@@ -40,7 +40,7 @@ class FileStorageMethod extends StorageMethodInterface {
      * @access public
      */
 
-    function store($storable,$name,$path="") { 
+    function store($storable,$path,$name) { 
 		$path = $this->_convertPath($path);
 
 		$filename = $this->_basePath.$path.$name;
@@ -56,14 +56,12 @@ class FileStorageMethod extends StorageMethodInterface {
      * Returns a storable with a given name and path.
      * @param string $name The name of the storable to return.
      * @param string $path The path of the storable to return.
-	 * @return object FileStorable A reference to the storable, which can be used to retreive the data. False if no such storable exists.
+	 * @return object FileStorable A reference to the storable, which can be used to retrieve the data. False if no such storable exists.
      * @access public
      */
-    function &retrieve($name,$path="") { 
-		$path = $this->_convertPath($path);
-
-		if (file_exists($this->_basePath.$path.$name)){
-			$storable =& new FileStorable($name,$this->_basePath.$path);
+    function &retrieve($path,$name) { 
+		if (file_exists($this->_basePath.$this->_convertPath($path).$name)){
+			$storable =& new FileStorable($this->_basePath,$path,$name);
 			return $storable;
 		}
 		else return false;
@@ -75,7 +73,7 @@ class FileStorageMethod extends StorageMethodInterface {
      * @param string $path The path of the storable to delete.
      * @access public
      */
-    function delete($name,$path="") { 
+    function delete($path,$name) { 
 		$path = $this->_convertPath($path);
 		echo "<br>".$this->_basePath.$path.$name;
 		unlink($this->_basePath.$path.$name);
@@ -92,7 +90,7 @@ class FileStorageMethod extends StorageMethodInterface {
      * @param string $destinationPath The new path of the storable.
      * @access public
      */
-    function move($sourceName,$sourcePath,$destinationName,$destinationPath) { 
+    function move($sourcePath,$sourceName,$destinationPath,$destinationName) { 
 		$sourcePath = $this->_convertPath($sourcePath);
 		$destinationPath = $this->_convertPath($destinationPath);
 
@@ -111,7 +109,7 @@ class FileStorageMethod extends StorageMethodInterface {
      * @param string $destinationPath The path of the location to copy into.
      * @access public
      */
-    function copy($sourceName,$sourcePath,$destinationName,$destinationPath) { 
+    function copy($sourcePath,$sourceName,$destinationPath,$destinationName) { 
 		$sourcePath = $this->_convertPath($sourcePath);
 		$destinationPath = $this->_convertPath($destinationPath);
 
@@ -126,7 +124,7 @@ class FileStorageMethod extends StorageMethodInterface {
      * @return boolean True if storable exists, false otherwise.
      * @access public
      */
-    function exists($name,$path) { 
+    function exists($path,$name="") { 
 		$path = $this->_convertPath($path);
 		return file_exists($this->_basePath.$path.$name);
 	}
@@ -140,13 +138,13 @@ class FileStorageMethod extends StorageMethodInterface {
      * @access public
      */
     function getSizeOf($path,$name="") { 
+		$path = $this->_convertPath($path);
 		if($name!=""){
 			clearstatcache();
 			return filesize($this->_basePath.$path.$name);
 		}
 		else {
 			$totalsize = 0;
-			$path = $this->_convertPath($path);
 			if ($dirstream = @opendir($this->_basePath.$path)) {
 				while (false !== ($filename = readdir($dirstream))) {
 					if ($filename!="." && $filename!="..") {
@@ -190,16 +188,15 @@ class FileStorageMethod extends StorageMethodInterface {
      * @return array The array of storables found within the path.
      * @access public
      */
-    function listInPath($path) {
-		$path = $this->_convertPath($path);
+    function listInPath($path,$recursive=true) {
 		$storables = array();
 		if ($dirstream = @opendir($this->_basePath.$path)) {
 			while (false !== ($filename = readdir($dirstream))) {
 				if ($filename!="." && $filename!="..") {
-					if (is_file($this->_basePath.$path.$filename))
-						$storables[] =& $this->retrieve($filename,$path);
+					if (is_file($this->_basePath.$this->_convertPath($path).$filename))
+						$storables[] =& $this->retrieve($path,$filename);
 					
-					elseif (is_dir($this->_basePath.$path.$filename))
+					elseif (is_dir($this->_basePath.$this->_convertPath($path).$filename) && ($recursive))
 						$storables = array_merge($storables,$this->listInPath($path.$filename));
 				}
 			}
@@ -214,8 +211,8 @@ class FileStorageMethod extends StorageMethodInterface {
      * @return integer The number of storables found within the path.
      * @access public
      */
-    function getCount($path) { 
-		return count(listInPath($path));
+    function getCount($path,$recursive=true) { 
+		return count(listInPath($path,$recursive));
 	}
 
 	function _convertPath($path){
