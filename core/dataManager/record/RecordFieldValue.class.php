@@ -12,7 +12,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a Record.
  * @package harmoni.datamanager
- * @version $Id: RecordFieldValue.class.php,v 1.7 2004/08/27 18:19:04 adamfranco Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.8 2005/01/05 18:18:21 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -279,11 +279,19 @@ class RecordFieldValue {
 	* @return void
 	*/
 	function delete() {
-		// go through all the versions and deactivate them.
-		foreach ($this->getVersionIDs() as $ver) {
-			if ($this->_versions[$ver]->getActiveFlag()) {
-				$this->_versions[$ver]->setActiveFlag(false);
-				$this->_versions[$ver]->update(); // update to DB on commit()
+		// go through all the versions and deactivate them, if we are version controlled.
+		// otherwise, go through the *one* version we have and actually prune it from the DB.
+		if ($this->_parent->_parent->isVersionControlled()) {
+			foreach ($this->getVersionIDs() as $ver) {
+				if ($this->_versions[$ver]->getActiveFlag()) {
+					$this->_versions[$ver]->setActiveFlag(false);
+					$this->_versions[$ver]->update(); // update to DB on commit()
+				}
+			}
+		} else {
+			// although there should be only one version here, let's go through all to mamke sure
+			foreach($this->getVersionIDs() as $ver) {
+				$this->_versions[$ver]->prune();
 			}
 		}
 	}

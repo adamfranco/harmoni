@@ -4,7 +4,7 @@
  * Holds information about a specific field within a {@link Schema}. Defines
  * what type of data the field holds (string, integer, etc) and if it can have multiple values.
  * @package harmoni.datamanager
- * @version $Id: SchemaField.class.php,v 1.4 2004/08/10 16:29:26 gabeschine Exp $
+ * @version $Id: SchemaField.class.php,v 1.5 2005/01/05 18:19:35 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -24,6 +24,15 @@ class SchemaField {
 	var $_delete;
 	var $_update;
 	
+	/**
+	 * Constructor
+	 * @param string $label the field's label
+	 * @param string $type The string name as registered with the {@link DataTypeManager} of the data type (ie, "string", "integer", "boolean", etc)
+	 * @param optional string $description a description for this field
+	 * @param optional boolean $mult flag specifying if multiple values are allowed
+	 * @param optional boolean $required flag specifying if we will disallow a database commit without at least one value for this field
+	 * @param optional boolean $active flag specifying if this field is to be used or no.
+	 */
 	function SchemaField( $label, $type, $description="", $mult=false, $required=false, $active=true ) {
 		ArgumentValidator::validate($mult, new BooleanValidatorRule());
 		ArgumentValidator::validate($type, new StringValidatorRule());

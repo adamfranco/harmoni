@@ -4,7 +4,7 @@
  * Holds information about a specific version of a value index of a field in a {@link Record}. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object (usually a {@link Primitive}). 
  * @package harmoni.datamanager
- * @version $Id: RecordFieldData.class.php,v 1.6 2004/08/12 20:21:15 gabeschine Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.7 2005/01/05 18:18:21 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -63,9 +63,12 @@ class RecordFieldData {
 	 * @access public
 	 */
 	function setActiveFlag($active) {
-		ArgumentValidator::validate($active, new BooleanValidatorRule());
+//		ArgumentValidator::validate($active, new BooleanValidatorRule());
 		
 		$this->_active = $active;
+		
+		// if for some reason we are going to be pruned, and the new active flag is true, let's not prune
+		if ($active===true) $this->_prune = false;
 	}
 	
 	/**

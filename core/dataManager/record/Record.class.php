@@ -29,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.15 2005/01/03 20:50:31 adamfranco Exp $
+* @version $Id: Record.class.php,v 1.16 2005/01/05 18:18:20 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -72,7 +72,7 @@ class Record {
 	}
 	
 	/**
-	 * Returns this dataset's DataSetTypeDefinition
+	 * Returns this Record's {@link Schema}
 	 * @return ref object
 	 */
 	function &getSchema() {
