@@ -180,7 +180,7 @@ class HarmoniDigitalRepository
 		// get a list for all the nodes under this hierarchy.
 		$traversalInfoIterator =& $this->_hierarchy->traverse($this->_node->getId(), 
 										TRAVERSE_MODE_DEPTH_FIRST, TRAVERSE_DIRECTION_DOWN, 
-										TRAVERSE_LEVELS_ALL);
+										TRAVERSE_LEVELS_INFINITE);
 		while ($traversalInfoIterator->hasNext()) {
 			$traversalInfo =& $traversalInfoIterator->next();
 			$assetId =& $traversalInfo->getNodeId();
@@ -443,7 +443,7 @@ class HarmoniDigitalRepository
 		}
 		
 		if ($supported) {
-			$searchFunction = "_searchBy_".$searchType->getAuthority()."_".$searchType->getDomain()."_".$searchType->getKeyword();
+			$searchFunction = "_searchBy_".$searchType->getDomain()."_".$searchType->getAuthority()."_".$searchType->getKeyword();
 			$assetIds =& $this->$searchFunction($searchCriteria);
 			
 			// get the assets for the resuting ids
@@ -458,7 +458,7 @@ class HarmoniDigitalRepository
 			return $assetIterator;
 			
 		} else {
-			throwError(new Error(UNKNOWN_TYPE, "Digital Repository", 1));
+			throwError(new Error(UNKNOWN_TYPE." ".$searchType->getDomain()."::".$searchType->getAuthority()."::".$searchType->getKeyword(), "Digital Repository", 1));
 		}
 	}
 
@@ -574,7 +574,7 @@ class HarmoniDigitalRepository
 	 * @return array The root assets.
 	 * @access private
 	 */
-	function & _searchBy_harmoni_dr_assettype ($searchCriteria = NULL) {
+	function & _searchBy_dr_harmoni_assettype ($searchCriteria = NULL) {
 		// get the root Nodes
 		$assets =& $this->getAssetsByType($searchCriteria);
 		
@@ -596,7 +596,7 @@ class HarmoniDigitalRepository
 	 * @return array The root assets.
 	 * @access private
 	 */
-	function & _searchBy_harmoni_dr_rootassets ($searchCriteria = NULL) {
+	function & _searchBy_dr_harmoni_rootassets ($searchCriteria = NULL) {
 		// get the root Nodes
 		$rootNodes =& $this->_node->getChildren();
 		
@@ -619,7 +619,7 @@ class HarmoniDigitalRepository
 	 * @return array The matching assets.
 	 * @access private
 	 */
-	function & _searchBy_harmoni_dr_displayname ($searchCriteria = NULL) {
+	function & _searchBy_dr_harmoni_displayname ($searchCriteria = NULL) {
 		$matchingIds = array();
 		
 		// Get All the assets
@@ -644,7 +644,7 @@ class HarmoniDigitalRepository
 	 * @return array The matching assets.
 	 * @access private
 	 */
-	function & _searchBy_harmoni_dr_description ($searchCriteria = NULL) {
+	function & _searchBy_dr_harmoni_description ($searchCriteria = NULL) {
 		$matchingIds = array();
 		
 		// Get All the assets
@@ -669,7 +669,7 @@ class HarmoniDigitalRepository
 	 * @return array The matching assets.
 	 * @access private
 	 */
-	function & _searchBy_harmoni_dr_content ($searchCriteria = NULL) {
+	function & _searchBy_dr_harmoni_content ($searchCriteria = NULL) {
 		$matchingIds = array();
 		
 		// Get All the assets
