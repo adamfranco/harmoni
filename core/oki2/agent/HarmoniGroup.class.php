@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.11 2005/02/07 21:38:23 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.12 2005/02/08 17:19:41 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
@@ -460,29 +460,6 @@ class HarmoniGroup
 		$result = new HarmoniAgentIterator($this->_getMembers($includeSubgroups, false));
 		return $result;
 	}
-	
-	/**
-	 * Get all the Groups, including subgroups, containing the Member. 
-	 * Note since Groups subclass Agents, we are returning an AgentIterator and 
-	 * there is no GroupIterator.
-	 * 
-	 * WARNING: NOT IN OSID - This method does not exist in the OSIDs as of version 2.0
-	 *
-	 * @param object member
-	 * @return object AgentIterator
-	 * @throws object AgentException An exception with one of the
-	 *		   following messages defined in org.osid.agent.AgentException may
-	 *		   be thrown:  {@link
-	 *		   org.osid.agent.AgentException#OPERATION_FAILED
-	 *		   OPERATION_FAILED}, {@link
-	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
-	 *		   PERMISSION_DENIED}, {@link
-	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
-	 *		   CONFIGURATION_ERROR}, {@link
-	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
-	 */
-	function &getGroupsContainingMember(& $member) { /* :: interface :: */ }
-	// :: full java declaration :: AgentIterator getGroupsContainingMember(Agent member)
 
 	/**
 	 * Return <code>true</code> if the Member or Group is in the Group,

@@ -60,7 +60,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.9 2005/02/07 21:38:24 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.10 2005/02/08 17:21:13 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -312,9 +312,11 @@ class HarmoniAuthenticationManager
 			$name = $this->_harmoni->LoginState->getAgentName();
 			
 			return $this->_getAgentId($name, $authenticationType);
-			
+		
+		// Otherwise return Id == 0 for the "anonymous user"
 		} else {
-			throwError(new Error(AuthenticationException::OPERATION_FAILED(), "AuthenticationManager", 1));
+			$idManager =& Services::getService("Id");
+			return $idManager->getId("0");
 		}
 	}
 

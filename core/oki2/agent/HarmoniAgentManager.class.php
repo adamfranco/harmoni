@@ -3,6 +3,8 @@
 require_once(OKI2."/osid/agent/AgentManager.php");
 
 require_once(HARMONI."oki2/agent/HarmoniAgent.class.php");
+require_once(HARMONI."oki2/agent/AnonymousAgent.class.php");
+require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
 require_once(HARMONI."oki2/agent/HarmoniAgentIterator.class.php");
 require_once(HARMONI."oki2/agent/HarmoniGroup.class.php");
 require_once(HARMONI."oki2/agent/AgentSearches/HarmoniAgentExistsSearch.class.php");
@@ -43,7 +45,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.10 2005/02/07 21:38:23 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.11 2005/02/08 17:19:40 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -122,10 +124,15 @@ class HarmoniAgentManager
 		$this->_dbIndex = $dbIndex;
 		$this->_sharedDB = $sharedDB;
 		
+		// initialize our anonymous agent and everyone group.
+		$this->_anonymous =& new AnonymousAgent($this->_dbIndex, $this->_sharedDB);
+		$this->_everyone =& new EveryoneGroup($this->_dbIndex, $this->_sharedDB);
+		
 		// initialize cache
 		$this->_agentsCache = array();
+		$this->_agentsCache["0"] =& $this->_anonymous;
 		$this->_groupsCache = array();
-		$this->_ids = array();
+		$this->_groupsCache["-1"] =& $this->_everyone;
 		
 		$this->_allAgentsCached = false;
 		$this->_allGroupsCached = false;
@@ -426,7 +433,7 @@ class HarmoniAgentManager
 		// ** end of parameter validation
 
 		// get the id
-		$idValue = $id->getIdString();
+		$idValue = $id->getIdString();			
 		
 		// check the cache
 		if (isset($this->_agentsCache[$idValue]))
