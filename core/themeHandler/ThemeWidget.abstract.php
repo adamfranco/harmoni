@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/ThemeWidget.interface.php");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: ThemeWidget.abstract.php,v 1.4 2004/03/12 23:35:32 adamfranco Exp $
+ * @version $Id: ThemeWidget.abstract.php,v 1.5 2004/03/17 17:51:06 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -94,9 +94,7 @@ class ThemeWidget
 	 **/
 	function setIndex( $index ) {
 		ArgumentValidator::validate($index, new IntegerValidatorRule);
-		
-		// Update the Ids of our settings.
-		
+				
 		$this->_index = $index;
 	}
 
@@ -121,9 +119,7 @@ class ThemeWidget
 	 **/
 	function setType( $type ) {
 		ArgumentValidator::validate($type, new StringValidatorRule);
-		
-		// Update the Ids of our settings.
-		
+				
 		$this->_type = $type;
 	}
 
@@ -160,10 +156,8 @@ class ThemeWidget
 		if (!is_array($this->_settings))
 			$this->_settings = array();
 		
-		$idString = count($this->_settings);
-		$sharedManager =& Services::getService("Shared");
-		$id =& $sharedManager->getId($idString);
-		$setting->setId($id);
+		$key = count($this->_settings);
+		$setting->setKey($key);
 		
 		if ($displayName !== NULL)
 			$setting->setDisplayName($displayName);
@@ -174,23 +168,21 @@ class ThemeWidget
 			$setting->setValue($defaultValue);
 		}
 		
-		$this->_settings[$id->getIdString()] =& $setting;
-		return $id;
+		$this->_settings[$key] =& $setting;
+		return $key;
 	}
 	
 	/**
-	 * Returns the Setting known to this manager with the specified Id.
+	 * Returns the Setting known to this manager with the specified Key.
 	 * @access public
-	 * @param object Id The id of the desired Setting.
+	 * @param string $key The id of the desired Setting.
 	 * @return object SettingInterface The desired Setting object.
 	 **/
-	function & getSetting (& $id) {
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
-		
-		if (!$this->_settings[$id->getIdString()])
+	function & getSetting (& $key) {
+		if (!$this->_settings[$key])
 			throwError(new Error("Unknown Setting Id.", "ThemeWidget", TRUE));
 		
-		return $this->_settings[$id->getIdString()];
+		return $this->_settings[$key];
 	}
 
 	/**

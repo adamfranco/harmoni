@@ -19,7 +19,7 @@ define ("BLANK_WIDGET", "blank");
  * implimented for any classes that extend this abstract class.
  *
  * @package harmoni.themes
- * @version $Id: Theme.abstract.php,v 1.7 2004/03/12 23:35:32 adamfranco Exp $
+ * @version $Id: Theme.abstract.php,v 1.8 2004/03/17 17:51:06 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -246,10 +246,8 @@ class Theme
 		if (!is_array($this->_settings))
 			$this->_settings = array();
 		
-		$idString = count($this->_settings);
-		$sharedManager =& Services::getService("Shared");
-		$id =& $sharedManager->getId($idString);
-		$setting->setId($id);
+		$key = count($this->_settings);
+		$setting->setKey($key);
 		
 		if ($displayName !== NULL)
 			$setting->setDisplayName($displayName);
@@ -260,8 +258,8 @@ class Theme
 			$setting->setValue($defaultValue);
 		}
 		
-		$this->_settings[$id->getIdString()] =& $setting;
-		return $id;
+		$this->_settings[$key] =& $setting;
+		return $key;
 	}
 	
 	/**
@@ -270,13 +268,11 @@ class Theme
 	 * @param object Id The id of the desired Setting.
 	 * @return object SettingInterface The desired Setting object.
 	 **/
-	function & getSetting (& $id) {
-		ArgumentValidator::validate($id, new ExtendsValidatorRule("Id"));
-		
-		if (!$this->_settings[$id->getIdString()])
+	function & getSetting ( $key ) {		
+		if (!$this->_settings[$key])
 			throwError(new Error("Unknown Setting Id.", "Theme", TRUE));
 		
-		return $this->_settings[$id->getIdString()];
+		return $this->_settings[$key];
 	}
 	
 	/**

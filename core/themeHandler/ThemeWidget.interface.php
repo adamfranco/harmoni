@@ -10,7 +10,7 @@
  * (in the sequence; 1, 2, 3, etc) as the theme developer desires.
  *
  * @package harmoni.themes
- * @version $Id: ThemeWidget.interface.php,v 1.4 2004/03/05 21:40:06 adamfranco Exp $
+ * @version $Id: ThemeWidget.interface.php,v 1.5 2004/03/17 17:51:07 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -68,12 +68,12 @@ class ThemeWidgetInterface {
 	}
 	
 	/**
-	 * Returns the Setting known to this manager with the specified Id.
+	 * Returns the Setting known to this manager with the specified Key.
 	 * @access public
-	 * @param object Id The id of the desired Setting.
+	 * @param string $key The id of the desired Setting.
 	 * @return object SettingInterface The desired Setting object.
 	 **/
-	function & getSetting (& $id) {
+	function & getSetting ( $key ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 

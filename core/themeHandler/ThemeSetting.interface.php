@@ -8,28 +8,28 @@
  * setting.
  *
  * @package harmoni.themes
- * @version $Id: ThemeSetting.interface.php,v 1.4 2004/03/05 21:40:06 adamfranco Exp $
+ * @version $Id: ThemeSetting.interface.php,v 1.5 2004/03/17 17:51:06 adamfranco Exp $
  * @copyright 2004 
  **/
 
 class ThemeSettingInterface {
 
 	/**
-	 * Returns the ID of this ThemeSetting.
+	 * Returns the key of this ThemeSetting.
 	 * @access public
-	 * @return object Id The ID of this ThemeSetting.
+	 * @return string key The key of this ThemeSetting.
 	 **/
-	function & getId () {
+	function & getKey () {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 	
 	/**
 	 * Sets the ID of this ThemeSetting.
 	 * @access public
-	 * @param object Id $id The ID of this ThemeSetting.
+	 * @param string $key The ID of this ThemeSetting.
 	 * @return void
 	 **/
-	function & setId (& $id) {
+	function & setKey ( $key ) {
 		(throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.", "Interface", TRUE)) || die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.")); 
 	}
 
