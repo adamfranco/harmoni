@@ -5,6 +5,8 @@ require_once(HARMONI."/oki/dr/HarmoniAsset.class.php");
 require_once(HARMONI."/oki/dr/HarmoniAssetIterator.class.php");
 require_once(HARMONI."/oki/dr/HarmoniDigitalRepositoryIterator.class.php");
 require_once(HARMONI."/oki/dr/HarmoniInfoStructure.class.php");
+require_once(HARMONI."/oki/dr/File/FileInfoStructure.class.php");
+require_once(HARMONI."/oki/dr/File/FileInfoRecord.class.php");
 require_once(HARMONI."/oki/dr/HarmoniInfoStructureIterator.class.php");
 require_once(HARMONI."/oki/shared/HarmoniTypeIterator.class.php");
 require_once(HARMONI."/oki/shared/HarmoniCalendarIterator.class.php");
@@ -45,6 +47,15 @@ class HarmoniDigitalRepository
 		
 		// Set up an array of created Info structures so we can pass out references to them.
 		$this->_createdInfoStructures = array();
+		
+		// Add the file InfoStructure to the DR
+		$this->_createdInfoStructures['FILE'] =& new HarmoniFileInfoStructure;
+		
+		// Built-in Types
+		// Keys of the array are the infoStructure Ids,
+		// Vals of the array are the record class-names to instantiate.
+		$this->_builtInTypes = array();
+		$this->_builtInTypes['FILE'] = 'FileInfoRecord';
 		
 		// Store our configuration
 		$this->_configuration =& $configuration;

@@ -457,47 +457,76 @@ class HarmoniAsset
 	function &createInfoRecord(& $infoStructureId) {
 		ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
 		
-		// Get the DataSetGroup for this Asset
-		$recordMgr =& Services::getService("RecordManager");
-		$myId = $this->_node->getId();
-		$myGroup =& $recordMgr->fetchRecordSet($myId->getIdString());
+		// If this is a schema that is hard coded into our implementation, create
+		// a record for that schema.
+		if (in_array($infoStructureId->getIdString(), array_keys($this->_dr->_builtInTypes))) 
+		{
+			// Create an Id for the record;
+			$sharedManager =& Services::getService("Shared");
+			$newId =& $sharedManager->createId();
+	
+			// instantiate the new record.
+			$recordClass = $this->_dr->_builtInTypes[$infoStructureId->getIdString()];
+			$infoStructure =& $this->_dr->getInfoStructure($infoStructureId);
+			$record =& new $recordClass($infoStructure, $newId, $this->_configuration);
+			
+			// store a relation to the record
+			$dbHandler =& Services::getService("DBHandler");
+			$query =& new InsertQuery;
+			$query->setTable("dr_asset_record");
+			$query->setColumns(array("FK_asset", "FK_record", "structure_id"));
+			$myId =& $this->getId();
+			$query->addRowOfValues(array(
+								"'".$myId->getIdString()."'",
+								"'".$newId->getIdString()."'",
+								"'".$infoStructureId->getIdString()."'"));
+			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		} 
 		
-		// Get the info Structure needed.
-		$infoStructures =& $this->_dr->getInfoStructures();
-		while ($infoStructures->hasNext()) {
-			$structure =& $infoStructures->next();
-			if ($infoStructureId->isEqual($structure->getId()))
-				break;
-		}
-		
-		// 	get the type for the new data set.
-		$schemaMgr =& Services::getService("SchemaManager");
-		$type =& $schemaMgr->getSchemaTypeByID($infoStructureId->getIdString());
-		
-		// Set up and create our new dataset
-		// Decide if we want to version-control this field.
-			$versionControl = $this->_versionControlAll;
-			if (!$versionControl) {
-				foreach ($this->_versionControlTypes as $key => $val) {
-					if ($type->isEqual($this->_versionControlTypes[$key])) {
-						$versionControl = TRUE;
-						break;
-					}
-				}
+		// Otherwise use the data manager
+		else {
+			// Get the DataSetGroup for this Asset
+			$recordMgr =& Services::getService("RecordManager");
+			$myId = $this->_node->getId();
+			$myGroup =& $recordMgr->fetchRecordSet($myId->getIdString());
+			
+			// Get the info Structure needed.
+			$infoStructures =& $this->_dr->getInfoStructures();
+			while ($infoStructures->hasNext()) {
+				$structure =& $infoStructures->next();
+				if ($infoStructureId->isEqual($structure->getId()))
+					break;
 			}
 			
-			$newRecord =& $recordMgr->createRecord($type, $versionControl);
-		
-		// The ignoreMandatory Allows this record to be created without checking for
-		// values on mandatory fields. These constraints should be checked when
-		// validateAsset() is called.
-		$newRecord->commit(TRUE);
-		
-		// Add the DataSet to our group
-		$myGroup->add($newRecord);
-		
-		// us the InfoStructure and the dataSet to create a new InfoRecord
-		$record =& new HarmoniInfoRecord($structure, $newRecord);
+			// 	get the type for the new data set.
+			$schemaMgr =& Services::getService("SchemaManager");
+			$type =& $schemaMgr->getSchemaTypeByID($infoStructureId->getIdString());
+			
+			// Set up and create our new dataset
+			// Decide if we want to version-control this field.
+				$versionControl = $this->_versionControlAll;
+				if (!$versionControl) {
+					foreach ($this->_versionControlTypes as $key => $val) {
+						if ($type->isEqual($this->_versionControlTypes[$key])) {
+							$versionControl = TRUE;
+							break;
+						}
+					}
+				}
+				
+				$newRecord =& $recordMgr->createRecord($type, $versionControl);
+			
+			// The ignoreMandatory Allows this record to be created without checking for
+			// values on mandatory fields. These constraints should be checked when
+			// validateAsset() is called.
+			$newRecord->commit(TRUE);
+			
+			// Add the DataSet to our group
+			$myGroup->add($newRecord);
+			
+			// us the InfoStructure and the dataSet to create a new InfoRecord
+			$record =& new HarmoniInfoRecord($structure, $newRecord);
+		}
 		
 		// Add the record to our createdRecords array, so we can pass out references to it.
 		$recordId =& $record->getId();
@@ -528,36 +557,74 @@ class HarmoniAsset
 		ArgumentValidator::validate($infoStructureId, new ExtendsValidatorRule("Id"));
 		ArgumentValidator::validate($assetId, new ExtendsValidatorRule("Id"));
 		
-		// Get our managers:
-		$recordMgr =& Services::getService("RecordManager");
-		$sharedMgr =& Services::getService("Shared");
-		
-		// Get the DataSetGroup for this Asset
-		$myId = $this->_node->getId();
-		$mySet =& $recordMgr->fetchRecordSet($myId->getIdString());
-		
-		// Get the DataSetGroup for the source Asset
-		$otherSet =& $recordMgr->fetchRecordSet($assetId->getIdString());
-		$otherSet->loadRecords(RECORD_FULL);
-		$records =& $otherSet->getRecords();
-		
-		// Add all of DataSets (InfoRecords) of the specified InfoStructure and Asset
-		// to our DataSetGroup.
-		foreach (array_keys($records) as $key) {
-			// Get the ID of the current DataSet's TypeDefinition
-			$schema =& $records[$key]->getSchema();
-			$schemaId =& $sharedMgr->getId($schema->getID());
+		// If this is a schema that is hard coded into our implementation, create
+		// a record for that schema.
+		if (in_array($infoStructureId->getIdString(), array_keys($this->_dr->_builtInTypes))) 
+		{
+			// Create an Id for the record;
+			$sharedManager =& Services::getService("Shared");
+			$dbHandler =& Services::getService("DBHandler");
+	
+			// get the record ids that we want to inherit
+			$query =& new SelectQuery();
+			$query->addTable("dr_asset_record");
+			$query->addColumn("FK_record");
+			$query->addWhere("FK_asset = '".$assetId->getIdString()."'");
+			$query->addWhere("structure_id = '".$infoStructureId->getIdString()."'", _AND);
 			
-			// If the current DataSet's DataSetTypeDefinition's ID is the same as
-			// the InfoStructure ID that we are looking for, add that dataSet to our
-			// DataSetGroup.
-			if ($infoStructureId->isEqual($schemaId)) {
-				$mySet->add($records[$key]);
+			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			
+			// store a relation to the record
+			$dbHandler =& Services::getService("DBHandler");
+			$query =& new InsertQuery;
+			$query->setTable("dr_asset_record");
+			$query->setColumns(array("FK_asset", "FK_record", "structure_id"));
+			
+			$myId =& $this->getId();
+			
+			while ($result->hasMoreRows()) {
+				$query->addRowOfValues(array(
+									"'".$myId->getIdString()."'",
+									"'".$result->field("FK_record")."'",
+									"'".$infoStructureId->getIdString()."'"));
+				$dbHandler->query($query, $this->_configuration["dbId"]);
+				$result->advanceRow();
 			}
-		}
+		} 
 		
-		// Save our DataSetGroup
-		$mySet->commit(TRUE);
+		// Otherwise use the data manager
+		else {
+			// Get our managers:
+			$recordMgr =& Services::getService("RecordManager");
+			$sharedMgr =& Services::getService("Shared");
+		
+			// Get the DataSetGroup for this Asset
+			$myId = $this->_node->getId();
+			$mySet =& $recordMgr->fetchRecordSet($myId->getIdString());
+			
+			// Get the DataSetGroup for the source Asset
+			$otherSet =& $recordMgr->fetchRecordSet($assetId->getIdString());
+			$otherSet->loadRecords(RECORD_FULL);
+			$records =& $otherSet->getRecords();
+			
+			// Add all of DataSets (InfoRecords) of the specified InfoStructure and Asset
+			// to our DataSetGroup.
+			foreach (array_keys($records) as $key) {
+				// Get the ID of the current DataSet's TypeDefinition
+				$schema =& $records[$key]->getSchema();
+				$schemaId =& $sharedMgr->getId($schema->getID());
+				
+				// If the current DataSet's DataSetTypeDefinition's ID is the same as
+				// the InfoStructure ID that we are looking for, add that dataSet to our
+				// DataSetGroup.
+				if ($infoStructureId->isEqual($schemaId)) {
+					$mySet->add($records[$key]);
+				}
+			}
+			
+			// Save our DataSetGroup
+			$mySet->commit(TRUE);
+		}
 	}
 
 	/**
@@ -668,27 +735,60 @@ class HarmoniAsset
 		// If so, return it. If not, create it, then return it.
 		if (!$this->_createdInfoRecords[$infoRecordId->getIdString()]) {
 			
-			// Get the DataSet.
-			$recordMgr =& Services::getService("RecordManager");
-			// Specifying TRUE for editable because it is unknown whether or not editing will
-			// be needed. @todo Change this if we wish to re-fetch the $dataSet when doing 
-			// editing functions.
-			$record =& $recordMgr->fetchRecord($infoRecordId->getIdString());
-
-			// Make sure that we have a valid dataSet
-			$rule =& new ExtendsValidatorRule("Record");
-			if (!$rule->check($record))
-				throwError(new Error(UNKNOWN_ID, "Digital Repository :: Asset", TRUE));
+			// Check for the record in our non-datamanager records;
+		
+			$sharedManager =& Services::getService("Shared");
+			$dbHandler =& Services::getService("DBHandler");
+			$myId =& $this->getId();
 			
-			// Get the info structure.
-			$schema =& $record->getSchema();
-			if (!$this->_createdInfoStructures[$schema->getID()]) {
-				$this->_createdInfoStructures[$schema->getID()] =& new HarmoniInfoStructure($schema);
+			// get the record ids that we want to inherit
+			$query =& new SelectQuery();
+			$query->addTable("dr_asset_record");
+			$query->addColumn("structure_id");
+			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
+			$query->addWhere("FK_record = '".$infoRecordId->getIdString()."'", _AND);
+			
+			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			
+			if ($result->getNumberOfRows()) {
+				$structureIdString =& $result->field("structure_id");
+				
+				$recordClass = $this->_dr->_builtInTypes[$structureIdString];
+				$infoStructureId =& $sharedManager->getId($structureIdString);
+				$infoStructure =& $this->_dr->getInfoStructure($infoStructureId);
+				
+				$this->_createdInfoRecords[$infoRecordId->getIdString()] =& new $recordClass(
+												$infoStructure,
+												$infoRecordId,
+												$this->_configuration
+											);
+			} 
+			
+			// Otherwise use the data manager
+			else {
+				
+				// Get the DataSet.
+				$recordMgr =& Services::getService("RecordManager");
+				// Specifying TRUE for editable because it is unknown whether or not editing will
+				// be needed. @todo Change this if we wish to re-fetch the $dataSet when doing 
+				// editing functions.
+				$record =& $recordMgr->fetchRecord($infoRecordId->getIdString());
+	
+				// Make sure that we have a valid dataSet
+				$rule =& new ExtendsValidatorRule("Record");
+				if (!$rule->check($record))
+					throwError(new Error(UNKNOWN_ID, "Digital Repository :: Asset", TRUE));
+				
+				// Get the info structure.
+				$schema =& $record->getSchema();
+				if (!$this->_createdInfoStructures[$schema->getID()]) {
+					$this->_createdInfoStructures[$schema->getID()] =& new HarmoniInfoStructure($schema);
+				}
+				
+				// Create the InfoRecord in our cache.
+				$this->_createdInfoRecords[$infoRecordId->getIdString()] =& new HarmoniInfoRecord (
+								$this->_createdInfoStructures[$schema->getID()], $record);
 			}
-			
-			// Create the InfoRecord in our cache.
-			$this->_createdInfoRecords[$infoRecordId->getIdString()] =& new HarmoniInfoRecord (
-							$this->_createdInfoStructures[$schema->getID()], $record);
 		}
 		
 		return $this->_createdInfoRecords[$infoRecordId->getIdString()];
@@ -735,6 +835,7 @@ class HarmoniAsset
 		$sharedManager =& Services::getService("Shared");		
 		$infoRecords = array();
 		
+		// Get the records from the data manager.
 		if ($recordSet =& $recordMgr->fetchRecordSet($id->getIdString())) {
 			// fetching as editable since we don't know if it will be edited.
 			$recordSet->loadRecords();
@@ -750,6 +851,31 @@ class HarmoniAsset
 				// Add the record to our array
 				if (!$infoStructureId || $infoStructureId->isEqual($structure->getId()))
 					$infoRecords[] =& $infoRecord;
+			}
+		}
+		
+		// Get our non-datamanager records
+		if (!$infoStructureId || in_array($infoStructureId->getIdString(), array_keys($this->_dr->_builtInTypes))) 
+		{
+			// get the record ids that we want to inherit
+			$dbHandler =& Services::getService("DBHandler");
+			$myId =& $this->getId();
+			
+			$query =& new SelectQuery();
+			$query->addTable("dr_asset_record");
+			$query->addColumn("FK_record");
+			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
+			if ($infoStructureId)
+				$query->addWhere("structure_id = '".$infoStructureId->getIdString()."'", _AND);
+			
+			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			
+			while ($result->hasMoreRows()) {
+				$recordId =& $sharedManager->getId($result->field("FK_record"));
+				
+				$infoRecords[] =& $this->getInfoRecord($recordId);
+				
+				$result->advanceRow();
 			}
 		}
 		

@@ -1,6 +1,9 @@
 <?
 
-require_once(HARMONI."/oki/dr/HarmoniInfoPart.class.php");
+require_once(dirname(__FILE__)."/Fields/FileDataInfoPart.class.php");
+require_once(dirname(__FILE__)."/Fields/FileNameInfoPart.class.php");
+require_once(dirname(__FILE__)."/Fields/FileSizeInfoPart.class.php");
+require_once(dirname(__FILE__)."/Fields/MimeTypeInfoPart.class.php");
 require_once(HARMONI."/oki/dr/HarmoniInfoPartIterator.class.php");
 
 	/**
@@ -8,19 +11,22 @@ require_once(HARMONI."/oki/dr/HarmoniInfoPartIterator.class.php");
 	<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
 	 * @package harmoni.osid.dr
 	 */
-class HarmoniInfoStructure extends InfoStructure
+class HarmoniFileInfoStructure extends InfoStructure
 //	extends java.io.Serializable
 {
 	
-	var $_schema;
 	var $_createdInfoParts;
 	
-	function HarmoniInfoStructure( &$schema ) {
+	function HarmoniFileInfoStructure() {
 		$this->_schema =& $schema;
 		
 		// create an array of created InfoParts so we can return references to
 		// them instead of always making new ones.
-		$this->_createdInfoParts = array();
+		$this->_infoParts = array();
+		$this->_infoParts['FILE_DATA'] =& new FileDataInfoPart($this);
+		$this->_infoParts['FILE_NAME'] =& new FileNameInfoPart($this);
+		$this->_infoParts['MIME_TYPE'] =& new MimeTypeInfoPart($this);
+		$this->_infoParts['FILE_SIZE'] =& new FileSizeInfoPart($this);
 	}
 	
 	/**
@@ -30,9 +36,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @package harmoni.osid.dr
 	 */
 	function getDisplayName() {
-		$type =& $this->_schema->getType();
-		
-		return $type->getKeyword();
+		return "File";
 	}
 
 	/**
@@ -42,9 +46,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @package harmoni.osid.dr
 	 */
 	function getDescription() {
-		$type =& $this->_schema->getType();
-		
-		return $type->getDescription();
+		return "A structure for storing binary files.";
 	}
 
 	/**
@@ -55,7 +57,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 */
 	function &getId() {
 		$sharedManager =& Services::getService("Shared");
-		return $sharedManager->getId($this->_schema->getID());
+		return $sharedManager->getId('FILE');
 	}
 
 	/**
@@ -66,12 +68,11 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @package harmoni.osid.dr
 	 */
 	function &getInfoPart(& $infoPartId) {
-		if (!$this->_createdInfoParts[$infoPartId->getIdString()]) {
-			$this->_schema->load();
-			$this->_createdInfoParts[$infoPartId->getIdString()] =& new HarmoniInfoPart($this, $this->_schema->getFieldById($infoPartId->getIdString()));
+		if ($this->_infoParts[$infoPartId->getIdString()]) {		
+			return $this->_infoParts[$infoPartId->getIdString()];
+		} else {
+			throwError(new Error(UNKNOWN_ID, "Digital Repository :: FileInfoStructure", TRUE));
 		}
-		
-		return $this->_createdInfoParts[$infoPartId->getIdString()];
 	}
 
 	/**
@@ -81,17 +82,8 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @package harmoni.osid.dr
 	 */
 	function &getInfoParts() {
-		$this->_schema->load();
-		$array = array();
-		foreach ($this->_schema->getAllLabels() as $label) {
-			$fieldDef =& $this->_schema->getField($label);
-			if (!$this->_createdInfoParts[$this->_schema->getFieldID($label)])
-				 $this->_createdInfoParts[$this->_schema->getFieldID($label)] =& new HarmoniInfoPart($this, $fieldDef);
-		}
-		
-		return new HarmoniInfoPartIterator($this->_createdInfoParts);
+		return new HarmoniInfoPartIterator($this->_infoParts);
 	}
-	// :: full java declaration :: public InfoPartIterator getInfoParts()
 
 	/**
 	 * Get the schema for this InfoStructure.  The schema is defined by the implementation, e.g. Dublin Core.
@@ -100,7 +92,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @package harmoni.osid.dr
 	 */
 	function getSchema() {
-		return "Harmoni DataManager User-defined Schema";
+		return "Harmoni File Schema";
 	}
 
 	/**
@@ -110,7 +102,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @package harmoni.osid.dr
 	 */
 	function getFormat() {
-		return "DataManagerPrimatives";
+		return "MIME Type is specified for each record via mandatory part";
 	}
 
 	/**
@@ -144,23 +136,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @return object InfoPart The newly created InfoPart.
 	 */
 	function createInfoPart($displayName, $description, & $infoPartType, $isMandatory, $isRepeatable, $isPopulatedByDR) {
-		ArgumentValidator::validate($displayName, new StringValidatorRule);
-		ArgumentValidator::validate($description, new StringValidatorRule);
-		ArgumentValidator::validate($infoPartType, new ExtendsValidatorRule("TypeInterface"));
-		ArgumentValidator::validate($isMandatory, new BooleanValidatorRule);
-		ArgumentValidator::validate($isRepeatable, new BooleanValidatorRule);
-		ArgumentValidator::validate($isPopulatedByDR, new BooleanValidatorRule);
-				
-		$fieldDef =& new SchemaField($displayName, $infoPartType->getKeyword(), $description, $isRepeatable, $isMandatory);
-		$this->_schema->addField($fieldDef);
-		$fieldDef->addToDB();
- 		$this->_schema->commitAllFields();
-
-		$idString =& $this->_schema->getFieldId($displayName);
-		
-		$this->_createdInfoParts[$idString] =& new HarmoniInfoPart($this,
-																$fieldDef);
-		return $this->_createdInfoParts[$idString];
+		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: FileInfoStructure", TRUE));
 	}
 
 	/**
@@ -169,15 +145,7 @@ class HarmoniInfoStructure extends InfoStructure
 	 * @return object TypeIterator The Types supported in this implementation.
 	 */
 	function getInfoPartTypes() {
-		$types = array();
-		
-		$typeMgr =& Services::getService("DataTypeManager");
-		foreach ($typeMgr->getRegisteredTypes() as $dataType) {
-			$types[] =& new HarmoniType ("DR","Harmoni",$dataType);
-		}
-		
-		$typeIterator =& new HarmoniTypeIterator($types);
-		return $typeIterator;
+		throwError(new Error(UNIMPLEMENTED, "Digital Repository :: FileInfoStructure", TRUE));
 	}
 	
 }
