@@ -2,12 +2,40 @@
 
 require_once("QueryResult.interface.php");
 
+
+/**
+ * A constant indicating an associative array.
+ * @const integer ASSOC
+ * @package harmoni.DBHandler
+ */
+define("ASSOC", 1);
+
+
+/**
+ * A constant indicating a numeric array.
+ * @const integer NUMERIC
+ * @package harmoni.DBHandler
+ */
+define("NUMERIC", 2);
+
+
+/**
+ * A constant indicating an array that has both numeric and associative (string)
+ * indices.
+ * @const integer BOTH
+ * @package harmoni.DBHandler
+ */
+define("BOTH", 3);
+
+
+
+
 /**
  * The SelectQueryResult interface provides the functionality common to a SELECT query result.
  *
  * The SelectQueryResult interface provides the functionality common to a SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: SelectQueryResult.interface.php,v 1.2 2003/07/03 01:34:13 dobomode Exp $
+ * @version $Id: SelectQueryResult.interface.php,v 1.3 2003/07/04 01:56:31 dobomode Exp $
  * @package harmoni.dbhandler
  * @access public
  * @copyright 2003 
@@ -77,9 +105,11 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * Returns an array that stores the current row in the result. The data
 	 * can be accessed through associative indices <b>as well as</b> numeric indices.
 	 * @access public
+	 * @param optional integer arrayType Specifies what type of an array to return.
+	 * Allowed values are: ASSOC, NUMERIC, and BOTH.
 	 * @return array An associative array of the current row.
 	 **/
-	function getCurrentRow() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function getCurrentRow($arrayType = BOTH) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
 
 	/**

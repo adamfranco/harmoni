@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  *
  * The MySQLSelectQueryResult interface provides the functionality common to a MySQL SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.4 2003/07/03 01:34:14 dobomode Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.5 2003/07/04 01:56:32 dobomode Exp $
  * @package harmoni.dbhandler
  * @access public
  * @copyright 2003 
@@ -25,9 +25,9 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	var $_currentRowIndex;
 	
 	/**
-	 * An associative array of the current row in the result.
-	 * An associative array of the current row in the result.
-	 * @var array $_currentRow An associative array of the current row in the result.
+	 * An array storing three arrays (associative,
+	 * numeric, and both) for the current row in the result.
+	 * @variable private array _currentRow
 	 */
 	var $_currentRow;
 
@@ -67,10 +67,20 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 		$this->_resourceId = $resourceId;
 		$this->_linkId = $linkId;
 		$this->_currentRowIndex = 0;
+		$this->_currentRow = array();
+		$this->_currentRow[BOTH] = array();
+		$this->_currentRow[NUMERIC] = array();
+		$this->_currentRow[ASSOC] = array();
 		
 		// if we have at least one row in the result, fetch its array
-		if ($this->hasMoreRows())
-			$this->_currentRow = mysql_fetch_array($this->_resourceId); // first row
+		if ($this->hasMoreRows()) {
+			$this->_currentRow[BOTH] = mysql_fetch_array($this->_resourceId, MYSQL_BOTH);
+			foreach ($this->_currentRow[BOTH] as $key => $value)
+				if (is_int($key))
+				    $this->_currentRow[NUMERIC][$key] = $value;
+				else
+				    $this->_currentRow[ASSOC][$key] = $value;
+		}
 	}
 		
 
@@ -102,7 +112,13 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 		
 		// now, advance
 		$this->_currentRowIndex++;
-		$this->_currentRow = mysql_fetch_array($this->_resourceId);	
+
+		$this->_currentRow[BOTH] = mysql_fetch_array($this->_resourceId, MYSQL_BOTH);
+		foreach ($this->_currentRow[BOTH] as $key => $value)
+			if (is_int($key))
+			    $this->_currentRow[NUMERIC][$key] = $value;
+			else
+			    $this->_currentRow[ASSOC][$key] = $value;
 		
 		return true;
 	}
@@ -129,13 +145,13 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 **/
 	function field($field) {
 		// ** parameter validation
-		if (!array_key_exists($field, $this->_currentRow)) {
+		if (!array_key_exists($field, $this->_currentRow[BOTH])) {
 			$str = "Invalid field to return from a SELECT query result.";
 			throw(new Error($str, "DBHandler", true));
 		}
 		// ** end of parameter validation
 
-		return $this->_currentRow[$field];
+		return $this->_currentRow[BOTH][$field];
 	}
 	
 	
@@ -157,7 +173,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 * @return array An array of all field names that were selected.
 	 **/
 	function getFieldNames() {
-		return array_keys($this->getCurrentRow());
+		return array_keys($this->getCurrentRow(ASSOC));
 	}
 	
 	
@@ -165,10 +181,21 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 * Returns an array that stores the current row in the result. The data
 	 * can be accessed through associative indices <b>as well as</b> numeric indices.
 	 * @access public
+	 * @param optional integer arrayType Specifies what type of an array to return.
+	 * Allowed values are: ASSOC, NUMERIC, and BOTH.
 	 * @return array An associative array of the current row.
 	 **/
-	function getCurrentRow() {
-		return $this->_currentRow;
+	function getCurrentRow($arrayType = BOTH) {
+		// ** parameter validation
+		$integerRule =& new IntegerValidatorRule();
+		ArgumentValidator::validate($arrayType, $integerRule, true);
+		// ** end of parameter validation
+		
+		$result = $this->_currentRow[$arrayType];
+		if (is_null($result))
+		    $result = $this->_currentRow[BOTH];
+			
+		return $result;
 	}
 
 
