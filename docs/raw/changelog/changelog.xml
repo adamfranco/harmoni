@@ -3,6 +3,12 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.3.0" date="The nebulous future">
+		<change author='gabe'>
+			DataManager: added function to SchemaManager to generate valid PHP code for a given Schema.
+		</change>
+		<change author='gabe'>
+			DataManager: deleting a value from a Record without version control now actually deletes the value instead of flagging it as inactive.
+		</change>
 		<change author='adam'>
 			The LanguageLocalizer now defines functions for _() and gettext() that
 			simply return the passed string, so that localized apps can fail

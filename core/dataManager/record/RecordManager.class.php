@@ -7,7 +7,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
 /**
  * The RecordManager handles the creation, tagging and fetching of {@link Record}s from the database.
  * @package harmoni.datamanager
- * @version $Id: RecordManager.class.php,v 1.13 2004/12/27 19:20:37 gabeschine Exp $
+ * @version $Id: RecordManager.class.php,v 1.14 2005/01/08 22:17:04 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -383,7 +383,8 @@ class RecordManager extends ServiceInterface {
 			$resultIds[] = $a["record_id"];
 		}
 		
-		return array_unique($resultIds);
+		$ids = $criteria->postProcess(array_keys($resultIds));
+		return array_unique($ids);
 	}
 	
 	/**

@@ -37,7 +37,7 @@ define("SEARCH_TYPE_CONTAINS", 5);
  * down to ones that only match certain criteria. Criteria could hypothetically be anything imaginable,
  * as long as they can be represented within an SQL query.
  * @package harmoni.datamanager.search
- * @version $Id: SearchCriteria.interface.php,v 1.1 2004/07/27 20:23:43 gabeschine Exp $
+ * @version $Id: SearchCriteria.interface.php,v 1.2 2005/01/08 22:17:05 gabeschine Exp $
  * @copyright 2004, Middlebury College
  */
 class SearchCriteria {
@@ -49,6 +49,13 @@ class SearchCriteria {
 	 */
 	function returnSearchString() { }
 	
+	/**
+	 * Returns an array of new IDs, giving the criteria the opportunity to do post-processing if that is desired. If no post-processing is to be done, it should return what is passed.
+	 * @param array $ids A list of IDs found by searching with the criteria.
+	 * @return array
+	 * @access public
+	 */
+	function postProcess($ids) {}
 }
 
 ?>

@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.33 2004/11/08 16:38:48 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.34 2005/01/08 22:17:04 gabeschine Exp $
 * @copyright 2003
 **/
 

@@ -5,7 +5,7 @@ require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
 /**
  * Limits a search to exclude all other {@link Schema}s except the one specified.
  * @package harmoni.datamanager.search
- * @version $Id: SchemaSearch.class.php,v 1.2 2004/08/10 16:29:27 gabeschine Exp $
+ * @version $Id: SchemaSearch.class.php,v 1.3 2005/01/08 22:17:05 gabeschine Exp $
  * @copyright 2004, Middlebury College
  */
 class SchemaSearch extends SearchCriteria {
@@ -27,6 +27,8 @@ class SchemaSearch extends SearchCriteria {
 		if (!$id) return null;
 		return "dm_record.fk_schema=$id";
 	}
+
+	function postProcess($ids) { return $ids; }
 
 }
 

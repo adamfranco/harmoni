@@ -5,7 +5,7 @@ require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
 /**
  * Searches for only {@link Record}s that contain a certain field=value pair.
  * @package harmoni.datamanager.search
- * @version $Id: FieldValueSearch.class.php,v 1.3 2004/10/29 20:50:55 adamfranco Exp $
+ * @version $Id: FieldValueSearch.class.php,v 1.4 2005/01/08 22:17:05 gabeschine Exp $
  * @copyright 2004, Middlebury College
  */
 class FieldValueSearch extends SearchCriteria {
@@ -52,6 +52,8 @@ class FieldValueSearch extends SearchCriteria {
 		
 		return "(dm_record_field.fk_schema_field=".$def->getFieldID($this->_label)." AND ".$string." AND dm_record_field.active=1)";
 	}
+
+	function postProcess($ids) { return $ids; }
 	
 }
 
