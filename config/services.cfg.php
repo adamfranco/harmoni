@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.39 2005/03/23 20:57:23 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.40 2005/03/24 19:11:30 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -361,7 +361,8 @@ else if (OKI_VERSION === 2) {
 	 */
 	if (LOAD_AGENT) {
 		require_once(HARMONI."oki2/agent/HarmoniAgentManager.class.php");
-		Services::registerService("Agent","HarmoniAgentManager");
+		Services::registerService("AgentManager","HarmoniAgentManager");
+		Services::createServiceAlias("AgentManager", "Agent");
 	}
 		
 	/**
@@ -369,7 +370,8 @@ else if (OKI_VERSION === 2) {
 	 */
 	if (LOAD_AUTHN) {
 		require_once(HARMONI."oki2/authentication/HarmoniAuthenticationManager.class.php");
-		Services::registerService("AuthN","HarmoniAuthenticationManager");
+		Services::registerService("AuthenticationManager","HarmoniAuthenticationManager");
+		Services::createServiceAlias("AuthenticationManager", "AuthN");
 	}
 	
 	/**
@@ -377,9 +379,11 @@ else if (OKI_VERSION === 2) {
 	 */
 	if (LOAD_AGENT_MANAGEMENT) {
 		require_once(HARMONI."oki2/agentmanagement/AuthNMethods/AuthNMethodManager.class.php");
-		Services::registerService("AuthNMethods","AuthNMethodManager");
+		Services::registerService("AuthNMethodManager","AuthNMethodManager");
+		Services::createServiceAlias("AuthNMethodManager", "AuthNMethods");
 		require_once(HARMONI."oki2/agentmanagement/AgentTokenMapping/AgentTokenMappingManager.class.php");
-		Services::registerService("AgentTokenMapping","AgentTokenMappingManager");
+		Services::registerService("AgentTokenMappingManager","AgentTokenMappingManager");
+		Services::createServiceAlias("AgentTokenMappingManager", "AgentTokenMapping");
 	}
 	
 	/**
@@ -387,7 +391,8 @@ else if (OKI_VERSION === 2) {
 	 */
 	if (LOAD_AUTHZ) {
 		require_once(HARMONI."oki2/authorization/HarmoniAuthorizationManager.class.php");
-		Services::registerService("AuthZ","HarmoniAuthorizationManager");
+		Services::registerService("AuthorizationManager","HarmoniAuthorizationManager");
+		Services::createServiceAlias("AuthorizationManager", "AuthZ");
 	}
 	
 	/**
@@ -403,7 +408,8 @@ else if (OKI_VERSION === 2) {
 	 */
 	if (LOAD_ID) {
 		require_once(HARMONI."oki2/id/HarmoniIdManager.class.php");
-		Services::registerService("Id","HarmoniIdManager");
+		Services::registerService("IdManager","HarmoniIdManager");
+		Services::createServiceAlias("IdManager", "Id");
 	}
 		
 	/**
@@ -411,7 +417,8 @@ else if (OKI_VERSION === 2) {
 	 */
 	if (LOAD_REPOSITORY) {
 		require_once(HARMONI."oki2/repository/HarmoniRepositoryManager.class.php");
-		Services::registerService("Repository","HarmoniRepositoryManager");
+		Services::registerService("RepositoryManager","HarmoniRepositoryManager");
+		Services::createServiceAlias("RepositoryManager", "Repository");
 	}
 }
 
