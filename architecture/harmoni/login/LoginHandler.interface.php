@@ -15,10 +15,10 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.interface.php,v 1.1 2003/07/22 14:41:40 gabeschine Exp $
+ * @version $Id: LoginHandler.interface.php,v 1.2 2003/07/22 22:05:47 gabeschine Exp $
  * @copyright 2003 
  **/
-class LoginHandler {
+class LoginHandlerInterface {
 	/**
 	 * Executes the LoginHandler. The process followed goes: Check the session
 	 * for a saved LoginState and load it if found, otherwise check the HTTP
@@ -40,6 +40,43 @@ class LoginHandler {
 	function logout() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
+	
+	/**
+	 * Sets what action to forward the user to if login fails or they have not yet
+	 * logged in and need to.
+	 * @param string $action A dotted-pair module.action.
+	 * @access public
+	 * @return void
+	 **/
+	function setFailedLoginAction($action) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Adds actions to the list of actions for which a user is not REQUIRED to be
+	 * authenticated. If authentication is required and the user has not yet logged
+	 * in, they are forwarded to the failed login action.
+	 * @param string $action1,... A list of actions.
+	 * @access public
+	 * @return void
+	 **/
+	function addNoAuthActions($action) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Sets the callback function for the LoginHandler to fetch a username/password
+	 * pair from the browser. It could, for example, check some $_POST/_GET fields
+	 * for the information. The function should either: 1) return FALSE if the user
+	 * has not entered anything yet or 2) return a two element array containing first the
+	 * username, then the password.
+	 * @access public
+	 * @return void
+	 **/
+	function setUsernamePasswordCallbackFunction($functionName) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
 }
 
 ?>

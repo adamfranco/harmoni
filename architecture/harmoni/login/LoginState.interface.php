@@ -8,7 +8,7 @@
  * so that logins can be valid across page-loads.
  * 
  * @package harmoni.architecture.login
- * @version $Id: LoginState.interface.php,v 1.1 2003/07/22 14:41:40 gabeschine Exp $
+ * @version $Id: LoginState.interface.php,v 1.2 2003/07/22 22:05:47 gabeschine Exp $
  * @copyright 2003 
  **/
 class LoginStateInterface {
@@ -27,7 +27,7 @@ class LoginStateInterface {
 	 * @access public
 	 * @return object The {@link AuthenticationResult} object.
 	 **/
-	function getAuthenticationResult() {
+	function &getAuthenticationResult() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	

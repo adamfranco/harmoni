@@ -8,7 +8,7 @@
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.interface.php,v 1.1 2003/07/22 14:41:40 gabeschine Exp $
+ * @version $Id: Harmoni.interface.php,v 1.2 2003/07/22 22:05:46 gabeschine Exp $
  * @copyright 2003 
  **/
 class HarmoniInterface {
@@ -46,6 +46,36 @@ class HarmoniInterface {
 	function setTheme($themeObject) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
+	
+	/**
+	 * Returns the current theme object.
+	 * @access public
+	 * @return ref object A {@link Theme} object.
+	 **/
+	function &getTheme() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	
+	/**
+	 * Returns the current action.
+	 * @access public
+	 * @return string A dotted-pair action.
+	 **/
+	function getCurrentAction() {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Sets the current Harmoni action.
+	 * @param string $action A dotted-pair action string.
+	 * @access public
+	 * @return void
+	 **/
+	function setCurrentAction($action) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
 }
 
 ?>

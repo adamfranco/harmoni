@@ -31,6 +31,13 @@ define("ACTIONS_CLASS_METHODS",2);
 define("ACTIONS_FLATFILES",3);
 
 /**
+ * @const string ACTIONS_CLASSES_METHOD The method name to call when executing actions
+ * that are classes. (value = 'execute')
+ * @package harmoni.actions
+ **/
+define("ACTIONS_CLASSES_METHOD","execute");
+
+/**
  * The ActionHandler interface defines the required methods for an ActionHandler class.
  * 
  * The ActionHandler takes care of: authentication, and then executing PHP
@@ -42,29 +49,26 @@ define("ACTIONS_FLATFILES",3);
  * are not compatible (such as modules=folders and actions=method-within-class).
  * 
  * An action is passed the following items:<br/>
- * <li>An array of post/get variables from the web browser.
- * <li>An array of session variables.
- * <li>An array of cookie items from the browser.
+ * <li>A {@link FieldSet} object of post/get variables from the web browser.
  * <li>A {@link Context} object.
  * <li>A {@link LoginState} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.interface.php,v 1.1 2003/07/22 14:41:40 gabeschine Exp $
+ * @version $Id: ActionHandler.interface.php,v 1.2 2003/07/22 22:05:46 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandlerInterface {
 	/**
-	 * The execute function takes a module and action (if none is specified,
-	 * it executes the "default" action within the module). The method executes
+	 * The execute function takes a module and action. The method executes
 	 * the given action, taking the result and either executing another action
 	 * (based on the user specified options) or returning the result from the action.
 	 * @param string $module The module name.
-	 * @param optional string $action The action name.
+	 * @param string $action The action name.
 	 * @access public
 	 * @return ref mixed Returns whatever is recieved from the last action
 	 * to execute. Can be: a {@link Layout} object, TRUE/FALSE, etc.
 	 **/
-	function & execute($module, $action=null) {
+	function & execute($module, $action) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
@@ -113,6 +117,27 @@ class ActionHandlerInterface {
 	function setActionThread($action, $actionOnFail, $actionOnSuccess=null) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
+	
+	/**
+	 * Tells the ActionHandler to use the specified {@link LoginState} object.
+	 * @param object $loginState the {@link LoginState} object.
+	 * @access public
+	 * @return void
+	 **/
+	function useLoginState($loginState) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Tells the ActionHandler to use the specified {@link Context} object.
+	 * @param object $context The {@link Context} object.
+	 * @access public
+	 * @return void
+	 **/
+	function useContext($context) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
 }
 
 ?>

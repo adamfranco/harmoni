@@ -12,7 +12,7 @@ require_once(HARMONI."layoutHandler/components/Layout.abstract.php");
  *
  * @abstract
  * @package harmoni.layout.components
- * @version $Id: SingleContentLayout.class.php,v 1.4 2003/07/18 20:26:23 gabeschine Exp $
+ * @version $Id: SingleContentLayout.class.php,v 1.5 2003/07/22 22:05:47 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -35,7 +35,7 @@ class SingleContentLayout extends Layout {
 	 **/
 	function outputLayout($theme, $level) {
 		$this->verifyComponents();
-		// @todo -cSingleContentLayout Implement SingleContentLayout.print
+
 		$c =& $this->getComponent(0);
 		$c->output(&$theme,$level+1);
 	}

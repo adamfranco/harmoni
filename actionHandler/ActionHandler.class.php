@@ -15,14 +15,12 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * are not compatible (such as modules=folders and actions=method-within-class).
  * 
  * An action is passed the following items:<br/>
- * <li>An array of post/get variables from the web browser.
- * <li>An array of session variables.
- * <li>An array of cookie items from the browser.
+ * <li>A {@link FieldSet} object of post/get variables from the web browser.
  * <li>A {@link Context} object.
  * <li>A {@link LoginState} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.1 2003/07/22 14:41:40 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.2 2003/07/22 22:05:46 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandlerInterface {
@@ -72,21 +70,174 @@ class ActionHandlerInterface {
 	var $_actionsExecuted;
 	
 	/**
-	 * The execute function takes a module and action (if none is specified,
-	 * it executes the "default" action within the module). The method executes
+	 * @access private
+	 * @var object $_httpVars A {@link FieldSet} object containing HTTP variables from GET and POST.
+	 **/
+	var $_httpVars;
+	
+	/**
+	 * @access private
+	 * @var object $_context
+	 **/
+	var $_context;
+	
+	/**
+	 * @access private
+	 * @var object $_loginState
+	 **/
+	var $_loginState;
+	
+	/**
+	 * The constructor.
+	 * @param object $httpVars A {@link FieldSet} object of HTTP variables.
+	 * @param optional object $context A {@link Context} object.
+	 * @param optional object $loginState A {@link LoginState} object.
+	 * @access public
+	 * @return void
+	 **/
+	function ActionHandler($httpVars, $context=null, $loginState=null) {
+		$this->_httpVars =& $httpVars;
+		$this->_context =& $context;
+		$this->_loginState =& $loginState;
+		$this->_actionsExecuted = array();
+		$this->_threads = array();
+	}
+	
+	
+	/**
+	 * The execute function takes a module and action. The method executes
 	 * the given action, taking the result and either executing another action
 	 * (based on the user specified options) or returning the result from the action.
 	 * @param string $module The module name.
-	 * @param optional string $action The action name.
+	 * @param string $action The action name.
 	 * @access public
 	 * @return ref mixed Returns whatever is recieved from the last action
 	 * to execute. Can be: a {@link Layout} object, TRUE/FALSE, etc.
 	 **/
-	function & execute($module, $action=null) {
+	function & execute($module, $action) {
 		// first make sure that the pair of actionType/moduleType we have is valid
 		// eg, if modules are folder, actions cannot be class-methods.
 		// if modules are classes, actions cannot be flatfiles.
+		$are_ok = false;
+		if ($this->_modulesType == MODULES_FOLDERS) {
+			if ($this->_actionsType == ACTIONS_FLATFILES) $are_ok = true;
+			if ($this->_actionsType == ACTIONS_CLASSES) $are_ok = true;
+		} else if ($this->_modulesType == MODULES_CLASSES) {
+			if ($this->_actionsType == ACTIONS_CLASS_METHODS) $are_ok = true;
+		}
+		if (!$are_ok) {
+			// throw an error
+			throwError(new Error("ActionHandler::execute() - Could not proceed: an illegal combination of modulesType and actionsType was set.","ActionHandler",true));
+			return $are_ok;
+		}
+		
+		// make sure we have a login state
+		if (!$this->_loginState)
+			throwError(new Error("ActionHandler::execute() - Could not proceed: it seems we do not yet have a LoginState object set.","ActionHandler",true));
+		
+		$this->_execute($module, $action);
 	}
+	
+	/**
+	 * Executes the given action
+	 * @param string $module
+	 * @param string $action
+	 * @access private
+	 * @return mixed
+	 **/
+	function &_execute($module, $action) {
+		$_pair = "$module.$action";
+		// if we've already executed this action, we're probably stuck
+		// in an infinied loop. no good!
+		if (in_array($pair, $this->_actionsExecuted)) {
+			throwError(new Error("ActionHandler::execute($_pair) - could not proceed: 
+								it seems we have already executed this action before. 
+								Are we in an infinite loop?","ActionHandler",true));
+			return false;
+		}
+	
+	
+		$_includeFile = $this->_modulesPath;
+		$_includeFile .= DIRECTORY_SEPARATOR . $module;
+		if ($this->_modulesType == MODULES_CLASSES) $_includeFile .= $this->_modulesFileExtension;
+		else $_includeFile .= DIRECTORY_SEPARATOR . $action . $this->_actionsFileExtension;
+				
+		// if we are using flatfiles for actions, we have to set some global variables for it to use
+		if ($this->_actionsType == ACTIONS_FLATFILES) {
+			$httpVars =& $this->_httpVars;
+			$context =& $this->_context;
+			$loginState =& $this->_loginState;
+		}
+		
+		// include the file
+        $incResult =& @include($_includeFile) or throwError(new Error("ActionHandler::execute($_pair) - could not proceed:
+							The file '$_includeFile' produced the following error: ".$php_errormsg,"ActionHandler",true));
+
+		$result = false; // default
+
+		$class = $method = false;
+		if ($this->_actionsType == ACTIONS_FLATFILES) {
+			$result =& $incResult;
+		}
+		
+		// if actions are classes, execute the class.
+		if ($this->_actionsType == ACTIONS_CLASSES) {
+			$class = $action;
+			$method = ACTIONS_CLASSES_METHOD;
+		}
+		
+		// if actions are class-methods
+		if ($this->_actionsType == ACTIONS_CLASS_METHODS) {
+			$class = $module;
+			$method = $action;
+		}
+		
+		// create the class, execute the method.
+		if ($class) {
+			$object =& @new $class;
+			if (!$object) throwError(new Error("ActionHandler::execute($_pair) - 
+							could not proceed: The class '$class' could not be created:
+							$php_errormsg","ActionHandler",true));
+			
+			// execute the $method and get the result.
+			$result =& $object->$method(&$this->_httpVars, &$this->_context,
+									&$this->_loginState);
+		}
+		
+		// we've now executed this action -- add it to the array
+		$this->_actionsExecuted[] = $_pair;
+		
+		// now that we have our $result, let's check if we should do anything
+		// else or just return back to our caller.
+		if ($this->_threads[$_pair]) {
+			// we have a subsequent action defined...
+			// if we failed and there's a fail defined
+			if (!$result && ($failAction = $this->_threads[$_pair][0])) {
+				return $this->_executePair($failAction);
+			}
+			
+			// if we succeeded and there's a success action defined
+			if ($result && ($successAction = $this->_threads[$_pair][1])) {
+				return $this->_executePair($successAction);
+			}
+		}
+		
+		// otherwise, just return the darned result
+		return $result;
+		// phew!
+	}
+	
+	/**
+	 * Executes a module.action pair.
+	 * @param string $pair
+	 * @access private
+	 * @return mixed
+	 **/
+	function _executePair($pair) {
+		list($module, $action) = explode(".",$pair);
+		return $this->_execute($module, $action);
+	}
+	
 	
 	/**
 	 * Sets the location of the modules to use.
@@ -163,6 +314,26 @@ class ActionHandlerInterface {
 		// ok, let's do the dirty
 		$this->_threads[$action] = array($actionOnFail,$actionOnSuccess);
 		// done.
+	}
+	
+	/**
+	 * Tells the ActionHandler to use the specified {@link LoginState} object.
+	 * @param object $loginState the {@link LoginState} object.
+	 * @access public
+	 * @return void
+	 **/
+	function useLoginState($loginState) {
+		$this->_loginState =& $loginState;
+	}
+	
+	/**
+	 * Tells the ActionHandler to use the specified {@link Context} object.
+	 * @param object $context The {@link Context} object.
+	 * @access public
+	 * @return void
+	 **/
+	function useContext($context) {
+		$this->_context =& $context;
 	}
 }
 
