@@ -6,7 +6,7 @@ require_once(HARMONI."errorHandler/ErrorHandler.interface.php");
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.6 2003/06/26 16:05:44 movsjani Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.7 2003/06/26 18:38:55 dobomode Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */
@@ -49,7 +49,7 @@ class ErrorHandler extends ErrorHandlerInterface{
 		$this->_errorQueue->add($error);
 		if($error->isFatal()){
 			$this->printErrors();
-			exit();
+			die();
 		}
 	}
 
@@ -127,7 +127,7 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 */
 
 	function addErrorPrinter(& $printer){
-		$this->_printerQueue->add(& $printer);
+		$this->_printerQueue->add($printer);
 	}
 
 	/**

@@ -1,14 +1,12 @@
 <?php
 
-require_once('ErrorPrinter.interface.php');
-require_once(HARMONI.'utilities/ArgumentRenderer.class.php');
-
+require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
 
 /**
  * An ErrorPrinter provides functionality to output Error objects in any way one's soul may desire.
  * to be used by the ErrorHandler
  *
- * @version $Id: ErrorPrinterBasic.class.php,v 1.1 2003/06/26 16:30:25 movsjani Exp $
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.2 2003/06/26 18:38:55 dobomode Exp $
  * @package harmoni.errorhandler
  * @copyright 2003
  * @access public
@@ -23,21 +21,82 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
      * @access public
      */
     function printErrors(& $errors) { 
-		/* Print the information about the last Error and the sequence of commands that caused it */
-
-		$error = $errors->next();
+		$result = "";
+		
+		// get header
+		$header = $this->printHeader();
 
 		/* We are assuming that only the last Error (first in the reversed queue) can be Fatal.*/
-		if($error->isFatal()){
-			print "<br><b>FATAL ERROR:</b><br><br>\n";
-			
-			$argumentRenderer = new ArgumentRenderer();
-
-			if($error->getType())
-				print "<b>Type</b>: ".$error->getType()."<br>";
+		while($errors->hasNext()) {
+			$error =& $errors->next();
+			if($error->isFatal())
+				$result .= $this->_printError(& $error, true);
+			else
+				$result .= $this->_printError(& $error, false);
+		}
 		
-			print "<b>Description</b>: ".$error->getDescription()."<br><br>\n";
+		// print result
+		echo $result;
+		
+		// get footer
+		$footer = $this->printFooter();
 
+		// return everything that was printed
+		return $header.$result.$footer;
+	}
+
+    /**
+     * Prints the header of the Error output.
+     * Prints the header of the Error output. This function will be invoked before Errors  are printed.
+     * @access public
+     */
+    function printHeader() { 
+		$result = "\n<br>\n<b>ERRORS:</b><br><br>\n";
+		$result .= "<ul>";
+
+		echo $result;
+		
+		return $result;
+	}
+
+    /**
+     * Prints the footer of the Error output.
+     * Prints the footer of the Error output. This function will be invoked after Errors have been printed.
+     * @access public
+     */
+    function printFooter() {
+		$result .= "</ul>";
+		
+		echo $result;
+		
+		return $result;
+	}
+
+    /**
+     * Prints a single error.
+     * Prints a single error.
+     * @param object Error The Error object to be printed.
+     * @param boolean $isDetailed If TRUE, will print the error with details.
+     * @access private
+     */
+    function _printError(& $error, $isDetailed = false) {
+		$result = "";
+		
+		$type = $error->getType();
+		if(!$type)
+			$type = "N/A";
+	
+		$description = nl2br($error->getDescription());
+
+		$isFatal = ($error->isFatal()) ? "[FATAL]" : "[NON-FATAL]";
+		
+		$result .= "<li>\n";
+		
+		
+		$result .= "<b>Type</b>: ".$type." $isFatal<br>\n";
+		$result .= "<b>Description</b>: ".$description."<br><br>\n";
+	
+		if ($isDetailed) {
 			/* get the call sequence information */
 			$traceArray = $error->getDebugBacktrace();
 		
@@ -48,93 +107,17 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 				$function = $trace['function'];
 				$class = $trace['class'];
 				$type = $trace['type'];
-				$args = "";
-				
-				/* Get comma delimited arguements of the calls.  Arrays and Objects are not expanded */
-				/*				$argsArray = array();
-				
-				foreach ($trace["args"] as $arg)
-					$argsArray[] = $this->_renderVariable($arg);
-				
-				$args = implode(", ", $argsArray);*/
-				if($trace['args'])
-					$args = $argumentRenderer->renderOneArgument($trace['args'],true);
+				$args = ArgumentRenderer::renderManyArguments($trace['args'], false, false);
 
-				print "in <b>$file:$line</b> $class$type$function($args)<br>\n";
+				$result .= "in <b>$file:$line</b> $class$type$function($args)<br>\n";
 			}
-			print "<br>----------------<br><br><b>PREVIOUS ERRORS:</b><br><ul>\n";
+			
+			$result .= "<br>";
 		}
-		else{
-			print "<ul>";
-			$this->_printError(& $error);
-		}
-	  
-		while($errors->hasNext()){
-			$error = $errors->next();
-			$this->_printError(& $error);
-		}
-
-		print "</ul>\n";
-	}
-
-    /**
-     * Prints the header of the Error output.
-     * Prints the header of the Error output. This function will be invoked before Errors  are printed.
-     * @access public
-     */
-    function printHeader() { 
 		
+		return $result;
 	}
 
-    /**
-     * Prints the footer of the Error output.
-     * Prints the footer of the Error output. This function will be invoked after Errors have been printed.
-     * @access public
-     */
-    function printFooter() {
-		
-	}
-
-    /**
-     * Prints a single error.
-     * @param object Error The Error object to be printed.
-     * @access private
-     */
-    function _printError(& $error) {
-		print "<li>";
-		$description = nl2br($error->getDescription());
-		$type = $error->getType();
-		echo "[$type] $description<br>";
-	}
-
-   /**
-     *    Renders a variable in a shorter form than print_r().
-	 *    Renders a variable in a shorter form than print_r(). Borrowed from
-	 *    the SimpleTest PHP unit test framework.
-	 *    @param $var        Variable to render as a string.
-	 *    @protected
-	 */
-
-	function _renderVariable($var) {
-	    if (!isset($var)) {
-	        return "NULL";
-	    } elseif (is_bool($var)) {
-	        return "Boolean: " . ($var ? "true" : "false");
-	    } elseif (is_string($var)) {
-	        return "String: \"$var\"";
-	    } elseif (is_integer($var)) {
-	        return "Integer: $var";
-	    } elseif (is_float($var)) {
-	        return "Float: $var";
-	    } elseif (is_array($var)) {
-	        return "Array: " . count($var) . " items";
-	    } elseif (is_resource($var)) {
-	        return "Resource: $var";
-	    } elseif (is_object($var)) {
-	        return "Object: " . get_class($var);
-	    }
-	    return "Unknown";
-	}
 }
 
 
