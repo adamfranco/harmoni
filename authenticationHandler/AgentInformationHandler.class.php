@@ -9,7 +9,7 @@ require_once(HARMONI."authenticationHandler/AgentInformationHandler.interface.ph
  * as email addresses, full names, etc.
  *
  * @package harmoni.authenticationHandler.agentInformationHandler
- * @version $Id: AgentInformationHandler.class.php,v 1.2 2003/06/30 02:16:09 gabeschine Exp $
+ * @version $Id: AgentInformationHandler.class.php,v 1.3 2003/06/30 18:43:13 adamfranco Exp $
  * @copyright 2003 
  **/
 class AgentInformationHandler extends AgentInformationHandlerInterface {
@@ -94,11 +94,7 @@ class AgentInformationHandler extends AgentInformationHandlerInterface {
 	 * @return array An associative array of agent information.
 	 **/
 	function _getInformation( $systemName, $method ) {
-		print "<br><br>$systemName,$method<BR>";
 		$methodObj =& $this->_authHandler->getMethod($method);
-//		print "<pre>"; print_r($methodObj);
-		if (is_object($methodObj)) print "$method = object<br>";
-		else print "$method = not object<BR>";
 		$array = $methodObj->getAgentInformation($systemName);
 		return $array;
 	}
