@@ -53,6 +53,10 @@ class HarmoniDigitalRepository
 		// Set up an array of searchTypes that this DR supports
 		$this->_registerSearchTypes();
 		
+		// Define the type to use as a key for Identifying DRs
+		$this->_repositoryKeyType =& new HarmoniType("Repository", "Harmoni", 
+							"Repository", "Nodes with this type are by definition Repositories.");
+		
 		// Set up an array of created Info structures so we can pass out references to them.
 		$this->_createdInfoStructures = array();
 		
@@ -136,7 +140,36 @@ class HarmoniDigitalRepository
 	 * @package harmoni.osid.dr
 	 */
 	function &getType() {
-		return $this->_node->getType();
+		// If we don't have it cached, get our type.
+		if (!$this->_type) {
+			$myId =& $this->getId();
+			
+			$query =& new SelectQuery;
+			$query->addColumn("type_domain");
+			$query->addColumn("type_authority");
+			$query->addColumn("type_keyword");
+			$query->addColumn("type_description");
+			$query->addTable("dr_repository_type");
+			$query->addTable("dr_type", INNER_JOIN, "fk_dr_type = type_id");
+			$query->addWhere("repository_id = '".addslashes($myId->getIdString())."'");
+			
+			$dbc =& Services::getService("DBHandler");
+			$result =& $dbc->query($query, $this->_configuration['dbId']);
+			
+			// Return our type
+			if ($result->getNumberOfRows()) {
+				$this->_type =& new HarmoniType($result->field("type_domain"),
+												$result->field("type_authority"),
+												$result->field("type_keyword"),
+												$result->field("type_description"));
+			} 
+			// Otherwise, throw an error
+			else {
+				throwError(new Error(OPERATION_FAILED, "Digital Repository", 1));
+			}
+		}
+		
+		return $this->_type;
 	}
 
 	/**
@@ -205,14 +238,42 @@ class HarmoniDigitalRepository
 		$traversalInfoIterator =& $this->_hierarchy->traverse($this->_node->getId(), 
 										TRAVERSE_MODE_DEPTH_FIRST, TRAVERSE_DIRECTION_DOWN, 
 										TRAVERSE_LEVELS_INFINITE);
+		
+		// These are for ignoring nodes, used when we have another repository
+		// as a child.
+		$ignoreNodes = FALSE;
+		$childRepositoryLevel = NULL;
+		
 		while ($traversalInfoIterator->hasNext()) {
 			$traversalInfo =& $traversalInfoIterator->next();
 			$assetId =& $traversalInfo->getNodeId();
 			
+			// If we are skipping a child repository, break out of skipping
+			// when we have reached the level of the child repository and
+			// its siblings.
+			if ($ignoreNodes 
+				&& $traversalInfo->getLevel() <= $childRepositoryLevel)
+			{
+				$ignoreNodes = FALSE;
+				$childRepositoryLevel = NULL;
+			}
+			
 			// make sure that the asset is loaded into the createdAssets array
 			// make sure that we don't create an asset with the id of the dr.
-			if (!$assetId->isEqual($this->getId()))
-				$this->getAsset($assetId);
+			if (!$assetId->isEqual($this->getId())) {
+				$node =& $this->_hierarchy->getNode($assetId);
+				
+				// Make sure the child nod is not also a DR
+				// If the node has the type which defines it as an repository
+				// ignore it and its children.
+				if ($this->_repositoryKeyType->isEqual($node->getType())) {
+					$ignoreNodes = TRUE;
+					$childRepositoryLevel = $traversalInfo->getLevel();
+				}
+				
+				if (!$ignoreNodes)
+					$this->getAsset($assetId);
+			}
 		}
 		
 		// create an AssetIterator with all fo the Assets in the createdAssets array
@@ -399,6 +460,14 @@ class HarmoniDigitalRepository
 			if (!$this->_hierarchy->getNode($assetId))
 				throwError(new Error(UNKNOWN_ID, "Digital Repository", 1));
 			
+			// Verify that the requested Asset is in this DR.
+			$drMan =& Services::getService("DR");
+			if (!$drId = $drMan->_getAssetDR($assetId)
+				|| !$drId->isEqual($this->getId()))
+			{
+				throwError(new Error(UNKNOWN_ID, "Digital Repository", 1));
+			}		
+			
 			// create the asset and add it to the cache
 			$this->_createdAssets[$assetId->getIdString()] =& new HarmoniAsset($this->_hierarchy, $this, $assetId, $this->_configuration);
 			$this->_assetValidFlags[$assetId->getIdString()] = true;
@@ -524,7 +593,7 @@ class HarmoniDigitalRepository
 		
 		// The SchemaManager only allows you to use Schemas created by it for use with Records.
 		$schema =& $schemaMgr->getSchemaByType($recordType);
-		debug::output("InfoStructure is being created from Schema with Id: '".$schema->getID()."'");
+		//debug::output("InfoStructure is being created from Schema with Id: '".$schema->getID()."'");
 		
 		$this->_createdInfoStructures[$schema->getID()] =& new HarmoniInfoStructure(
 																$schema);

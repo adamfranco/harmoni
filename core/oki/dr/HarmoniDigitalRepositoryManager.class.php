@@ -38,6 +38,17 @@ class HarmoniDigitalRepositoryManager
 		$hierarchyId =& $sharedManager->getId($configuration['hierarchyId']);
 		$this->_hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
 		
+		// Record what parent to store newly created DRs under
+		if ($configuration['defaultParentId']) {
+			$this->_defaultParentId =& $sharedManager->getId($configuration['defaultParentId']);
+		} else {
+			$this->_defaultParentId = NULL;
+		}
+		
+		// Define the type to use as a key for Identifying DRs
+		$this->_repositoryKeyType =& new HarmoniType("Repository", "Harmoni", 
+							"Repository", "Nodes with this type are by definition Repositories.");
+		
 		// Cache any created DRs so that we can pass out references to them.
 		$this->_createdDRs = array();
 		
@@ -112,8 +123,70 @@ class HarmoniDigitalRepositoryManager
 		$sharedManager =& Services::getService("Shared");
 		$newId =& $sharedManager->createId();
 		
-		// Add this DR's root node to the hierarchy.
-		$node =& $this->_hierarchy->createRootNode($newId, $digitalRepositoryType, $displayName, $description);
+		// Store the type passed in our own table as we will be using
+		// a special type, "_repositoryKeyType", as definition of which
+		// Nodes in the Hierarchy are Repositories.
+		$dbc =& Services::getService("DBHandler");
+		
+		$query =& new SelectQuery;
+		$query->addColumn("type_id");
+		$query->addTable("dr_type");
+		$query->addWhere("type_domain = '".addslashes($digitalRepositoryType->getDomain())."'");
+		$query->addWhere("type_authority = '".addslashes($digitalRepositoryType->getAuthority())."'", _AND);
+		$query->addWhere("type_keyword = '".addslashes($digitalRepositoryType->getKeyword())."'", _AND);
+		
+		$result =& $dbc->query($query, $this->_configuration['dbId']);
+		
+		if ($result->getNumberOfRows()) {
+			$typeId = $result->field("type_id");
+		} else {
+			$query =& new InsertQuery;
+			$query->setTable("dr_type");
+			$query->setColumns(array(
+								"type_domain",
+								"type_authority",
+								"type_keyword",
+								"type_description",
+							));
+			$query->setValues(array(
+								"'".addslashes($digitalRepositoryType->getDomain())."'",
+								"'".addslashes($digitalRepositoryType->getAuthority())."'",
+								"'".addslashes($digitalRepositoryType->getKeyword())."'",
+								"'".addslashes($digitalRepositoryType->getDescription())."'",
+							));
+			
+			$result =& $dbc->query($query, $this->_configuration['dbId']);
+			$typeId = $result->getLastAutoIncrementValue();
+		}
+		
+		$query =& new InsertQuery;
+		$query->setTable("dr_repository_type");
+		$query->setColumns(array(
+							"repository_id",
+							"fk_dr_type",
+						));
+		$query->setValues(array(
+							"'".addslashes($newId->getIdString())."'",
+							"'".addslashes($typeId)."'",
+						));
+		
+		$result =& $dbc->query($query, $this->_configuration['dbId']);
+		
+		
+		// Add this DR's node to the hierarchy.
+		// If we don't have a default parent specified, create
+		// it as a root node
+		if ($this->_defaultParentId == NULL) {
+			$node =& $this->_hierarchy->createRootNode($newId, 
+						$this->_repositoryKeyType, $displayName, $description);
+		} 
+		// If we have a default parent specified, create the
+		// Node as a child of that.
+		else {
+			$node =& $this->_hierarchy->createNode($newId, 
+						$this->_defaultParentId, 
+						$this->_repositoryKeyType, $displayName, $description);
+		}
 		
 		$this->_createdDRs[$newId->getIdString()] =& new HarmoniDigitalRepository ($this->_hierarchy, $newId, $this->_configuration);
 		return  $this->_createdDRs[$newId->getIdString()];
@@ -147,6 +220,15 @@ class HarmoniDigitalRepositoryManager
 		// Delete the node for the DR
 		$this->_hierarchy->deleteNode($digitalRepositoryId);
 		
+		// Delete type type for the Repository
+		$query =& new DeleteQuery;
+		$query->setTable("dr_repository_type");
+		$query->addWhere("repository_id = '"
+						.addslashes($digitalRepositoryId->getIdString())
+						."' LIMIT 1");
+		$dbc =& Services::getService("DBHandler");
+		$dbc->query($query, $this->_configuration['dbId']);
+		
 		unset($this->_createdDRs[$digitalRepositoryId->getIdString()]);
 	}
 
@@ -169,12 +251,12 @@ class HarmoniDigitalRepositoryManager
 	 * @package harmoni.osid.dr
 	 */
 	function &getDigitalRepositories() {
-		$rootNodes =& $this->_hierarchy->getRootNodes();
-		while ($rootNodes->hasNext()) {
-			$rootNode =& $rootNodes->next();
+		$nodes =& $this->_hierarchy->getNodesByType($this->_repositoryKeyType);
+		while ($nodes->hasNext()) {
+			$node =& $nodes->next();
 			
 			// make sure that the dr is loaded into the createdDRs array
-			$this->getDigitalRepository($rootNode->getId());
+			$this->getDigitalRepository($node->getId());
 		}
 		
 		// create a DigitalRepositoryIterator with all fo the DRs in the createdDRs array
@@ -205,16 +287,30 @@ class HarmoniDigitalRepositoryManager
 	 * @package harmoni.osid.dr
 	 */
 	function &getDigitalRepositoriesByType(& $digitalRepositoryType) {
-		$rootNodes =& $this->_hierarchy->getRootNodes();
+		ArgumentValidator::validate($digitalRepositoryType, new ExtendsValidatorRule("TypeInterface"));
+		
+		// Select the Ids of corresponding DRs
+		$query =& new SelectQuery;
+		$query->addColumn("repository_id");
+		$query->addTable("dr_repository_type");
+		$query->addTable("dr_type", INNER_JOIN, "fk_dr_type = type_id");
+		$query->addWhere("type_domain = '".addslashes($digitalRepositoryType->getDomain())."'");
+		$query->addWhere("type_authority = '".addslashes($digitalRepositoryType->getAuthority())."'", _AND);
+		$query->addWhere("type_keyword = '".addslashes($digitalRepositoryType->getKeyword())."'", _AND);
+		
+		$dbc =& Services::getService("DBHandler");
+		$result =& $dbc->query($query, $this->_configuration['dbId']);
+		
+		$shared =& Services::getService("Shared");
+		
 		$drs = array();
-		while ($rootNodes->hasNext()) {
-			$rootNode =& $rootNodes->next();
+		while ($result->hasMoreRows()) {
+			$idString = $result->field("repository_id");
+			$id =& $shared->getId($idString);
 			
-			// If the type is right, get the dr
-			if ($digitalRepositoryType->isEqual($rootNode->getType())) {
-				// make sure that the dr is loaded into the createdDRs array
-				$drs[] =& $this->getDigitalRepository($rootNode->getId());
-			}
+			// make sure that the dr is loaded into the createdDRs array
+			$drs[] =& $this->getDigitalRepository($id);
+			$result->advanceRow();
 		}
 		
 		// create a DigitalRepositoryIterator with all fo the DRs in the createdDRs array
@@ -243,7 +339,9 @@ class HarmoniDigitalRepositoryManager
 		
 		if (!$this->_createdDRs[$digitalRepositoryId->getIdString()]) {
 			// Get the node for this dr to make sure its availible
-			if (!$this->_hierarchy->getNode($digitalRepositoryId))
+			if (!$node = $this->_hierarchy->getNode($digitalRepositoryId))
+				throwError(new Error(UNKNOWN_ID, "Digital Repository", 1));
+			if (!$this->_repositoryKeyType->isEqual($node->getType()))
 				throwError(new Error(UNKNOWN_ID, "Digital Repository", 1));
 			
 			// create the dr and add it to the cache
@@ -278,7 +376,9 @@ class HarmoniDigitalRepositoryManager
 			throwError(new Error(UNKNOWN_ID, "Digital Repository", 1));
 		
 		// figure out which DR it is in.
-		$drId =& $this->_getAssetDR($assetId);
+		if (! $drId =& $this->_getAssetDR($assetId))
+			throwError(new Error(UNKNOWN_ID, "Digital Repository", 1));
+			
 		$dr =& $this->getDigitalRepository($drId);
 		
 		// have the dr create it.
@@ -304,7 +404,9 @@ class HarmoniDigitalRepositoryManager
 	 */
 	function &getAssetByDate(& $assetId, & $date) {
 		// figure out which DR it is in.
-		$drId =& $this->_getAssetDR($assetId);
+		if (! $drId =& $this->_getAssetDR($assetId))
+			throwError(new Error(UNKNOWN_ID, "Digital Repository", 1));
+			
 		$dr =& $this->getDigitalRepository($drId);
 		
 		//return the assetByDate
@@ -328,7 +430,9 @@ class HarmoniDigitalRepositoryManager
 	 */
 	function &getAssetDates(& $assetId) {
 		// figure out which DR it is in.
-		$drId =& $this->_getAssetDR($assetId);
+		if (! $drId =& $this->_getAssetDR($assetId))
+			throwError(new Error(UNKNOWN_ID, "Digital Repository", 1));
+			
 		$dr =& $this->getDigitalRepository($drId);
 		
 		//return the assetByDate
@@ -421,18 +525,27 @@ class HarmoniDigitalRepositoryManager
 	 * @package harmoni.osid.dr
 	 */
 	function &getDigitalRepositoryTypes() {
-		$drs =& $this->getDigitalRepositories();
 		$types = array();
-		$typeStrings = array();
-		while ($drs->hasNext()) {
-			$dr =& $drs->next();
-			$type =& $dr->getType();
-			$typeString = $type->getAuthority()."::".$type->getDomain()."::".$type->getKeyword();
-			if (!in_array($typeString, $typeStrings)) {
-				$typeStrings[] = $typeString;
-				$types[] =& $type;
-			}
-		}
+		
+		$query =& new SelectQuery;
+		$query->addColumn("type_domain");
+		$query->addColumn("type_authority");
+		$query->addColumn("type_keyword");
+		$query->addColumn("type_description");
+		$query->addTable("dr_type");
+		
+		$dbc =& Services::getService("DBHandler");
+		$result =& $dbc->query($query, $this->_configuration['dbId']);
+		
+		// Return our types
+		while ($result->hasMoreRows()) {
+			$types[] =& new HarmoniType($result->field("type_domain"),
+											$result->field("type_authority"),
+											$result->field("type_keyword"),
+											$result->field("type_description"));
+			$result->advanceRow();
+		} 
+		
 		return new HarmoniTypeIterator($types);
 	}
 
@@ -464,12 +577,23 @@ class HarmoniDigitalRepositoryManager
  function _getAssetDR (& $assetId) {
  	$node =& $this->_hierarchy->getNode($assetId);
  	
+ 	// If we have reached the top of the hierarchy and don't have a parent that
+ 	// is of the DR type, then we aren't in a DR and are therefore unknown
+ 	// to the DR manager.
+ 	if ($node->isRoot())
+ 		return FALSE;
+ 	
  	// Get the parent and return its ID if it is a root node (drs are root nodes).
  	$parents =& $node->getParents();
+ 	
+ 	// Make sure that we have Parents
+ 	if (!$parents->hasNext())
+ 		return FALSE;
+ 	
  	// assume a single-parent hierarchy
  	$parent =& $parents->next();
  	
- 	if ($parent->isRoot())
+ 	if ($this->_repositoryKeyType->isEqual($parent->getType()))
  		return $parent->getId();
  	else
  		return $this->_getAssetDR( $parent->getId() );
