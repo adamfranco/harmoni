@@ -4,7 +4,7 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.3 2003/06/28 01:01:51 gabeschine Exp $
+ * @version $Id: test.php,v 1.4 2003/06/30 20:04:49 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -40,6 +40,8 @@
 //    $test->addTestFile(HARMONI.'authenticationHandler/tests/AuthenticationResultTestCase.class.php');
     $test->addTestFile(HARMONI.'authenticationHandler/tests/DBAuthenticationMethodTestCase.class.php');
     $test->addTestFile(HARMONI.'authenticationHandler/tests/DBMethodOptionsTestCase.class.php');
+    $test->addTestFile(HARMONI.'authenticationHandler/tests/LDAPAuthenticationMethodTestCase.class.php');
+    $test->addTestFile(HARMONI.'authenticationHandler/tests/LDAPMethodOptionsTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();
 

@@ -7,7 +7,7 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPMethodOptions.class.php'
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: LDAPMethodOptionsTestCase.class.php,v 1.1 2003/06/30 19:11:53 adamfranco Exp $
+ * @version $Id: LDAPMethodOptionsTestCase.class.php,v 1.2 2003/06/30 20:04:49 adamfranco Exp $
  * @copyright 2003 
  **/
 
@@ -24,7 +24,7 @@ require_once(HARMONI.'authenticationHandler/methods/LDAPMethodOptions.class.php'
 		*/
 		var $opt;
 		function setUp() {
-			$this->opt = & new DBMethodOptions;
+			$this->opt = & new LDAPMethodOptions;
 		}
 		
 		/**
