@@ -6,7 +6,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  *
- * @version $Id: MySQL_SQLGenerator.class.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.2 2004/01/07 22:10:53 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  */
@@ -65,7 +65,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 
 		if (!is_array($queries) || count($queries) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throwError(new Error($description, "DBHandler", TRUE));
 			return null;
 		}
 		else if (count($queries) == 1)
@@ -92,7 +92,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	
 		if (!$query->_table || count($query->_values) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throwError(new Error($description, "DBHandler", true));
 			return null;
 		}
 	
@@ -112,7 +112,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 			// make sure that the number of fields matches the number of columns
 			if (count($rowOfValues) != count($query->_columns)) {
 				$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-				throwError(new Error($description, "DBHandler", false));
+				throwError(new Error($description, "DBHandler", true));
 				return null;
 			}
 			$allRows[] = implode(", ", $rowOfValues);
@@ -142,7 +142,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	
 		if (!$query->_table || count($query->_columns) == 0 || count($query->_values) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throwError(new Error($description, "DBHandler", true));
 			return null;
 		}
 			
@@ -152,8 +152,8 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 		
 		// make sure that the number of fields matches the number of columns
 		if (count($query->_values) != count($query->_columns)) {
-			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			$description = "Cannot generate SQL string for this Query object due to invalid query setup: Num values is not equal to Num columns: ".print_r($query->_values, TRUE)." ".print_r($query->_columns, TRUE);
+			throwError(new Error($description, "DBHandler", true));
 			return null;
 		}
 
@@ -214,7 +214,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	
 		if (!$query->_table) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throwError(new Error($description, "DBHandler", true));
 			return null;
 		}
 			
@@ -268,7 +268,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 		
 		if (count($query->_columns) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throwError(new Error($description, "DBHandler", true));
 			return null;
 		}
 			

@@ -13,7 +13,7 @@ require_once(OKI."/hierarchy.interface.php");
  * 
  * <p></p>
  *
- * @version $Revision: 1.10 $ / $Date: 2003/11/05 22:21:48 $
+ * @version $Revision: 1.11 $ / $Date: 2004/01/07 22:11:06 $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -188,6 +188,7 @@ class HarmoniNode
 				
 		// update and save
 		$this->_description = $description;
+		$this->_hierarchyStore->flagChanged($this->_id->getIdString());
 //		$this->save();	
 	}
 
@@ -207,6 +208,7 @@ class HarmoniNode
 		
 		// update and save
 		$this->_displayName = $displayName;
+		$this->_hierarchyStore->flagChanged($this->_id->getIdString());
 //		$this->save();
 	}
 

@@ -188,6 +188,15 @@ class HierarchyStore
 	}
 	
 	/**
+    * Specifies if the node $id has been changed.
+	* 
+	* @param integer $id Node ID
+    */
+	function flagChanged($id) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
     * Returns parent id of the node with
 	* given id.
 	* 

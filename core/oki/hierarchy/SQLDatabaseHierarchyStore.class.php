@@ -265,8 +265,8 @@ class SQLDatabaseHierarchyStore
 				
 			} else if ($existingHierarchiesWithThisId == 1) { // The hierarchy exists
 				$this->_exists = TRUE;
-				$this->_displayName = $result->field("displayName");
-				$this->_description = $result->field("description");
+				$this->_displayName = stripslashes($result->field("displayName"));
+				$this->_description = stripslasher($result->field("description"));
 			
 			} else {
 				$this->_exists = FALSE;
@@ -313,8 +313,8 @@ class SQLDatabaseHierarchyStore
 					if ($result->field("id".$i)) { // this is a node and not a null join
 						$id = $result->field("id".$i);
 						$parent_id = $result->field("parent_id".$i);
-						$displayName = $result->field("displayName".$i);
-						$description = $result->field("description".$i);
+						$displayName = stripslashes($result->field("displayName".$i));
+						$description = stripslashes($result->field("description".$i));
 				
 						// If this node is not in the hierarchy, add it.
 						if (!$this->_tree->nodeExists($id)) {
@@ -376,8 +376,8 @@ class SQLDatabaseHierarchyStore
 			while ($result->hasMoreRows()) {
 				$id = intval($result->field("id"));
 				$parent_id = intval($result->field("parent_id"));
-				$displayName = $result->field("displayName");
-				$description = $result->field("description");
+				$displayName = stripslashes($result->field("displayName"));
+				$description = stripslashes($result->field("description"));
 				
 				// If this node is not in the hierarchy, add it.
 				if (!$this->_tree->nodeExists($id)) {
@@ -420,6 +420,8 @@ class SQLDatabaseHierarchyStore
 			ArgumentValidator::validate($nodeId, new NumericValidatorRule);
 		}
 		
+//		printpre($this);
+		
 		$queryQueue =& new Queue;
 		
 		// Save any changes to the hierarchy properties
@@ -433,8 +435,8 @@ class SQLDatabaseHierarchyStore
 			$query->setColumns($columns);
 			$values = array(
 							$this->_id->getIdString(),
-							"'".$this->_displayName."'",
-							"'".$this->_description."'"
+							"'".addslashes($this->_displayName)."'",
+							"'".addslashes($this->_description)."'"
 						);
 			$query->setTable($this->_hierarchyTableName);
 			$query->addRowOfValues($values);
@@ -444,18 +446,19 @@ class SQLDatabaseHierarchyStore
 		} else if ($this->_isChanged && $this->_exists) {
 			$query =& new UpdateQuery;
 			$columns = array(
+							$this->_hierarchyIdColumn,
 							$this->_hierarchyDisplayNameColumn,
 							$this->_hierarchyDescriptionColumn
 						);
 			$query->setColumns($columns);
 			$values = array(
 							$this->_id->getIdString(),
-							"'".$this->_displayName."'",
-							"'".$this->_description."'"
+							"'".addslashes($this->_displayName)."'",
+							"'".addslashes($this->_description)."'"
 						);
 			$query->setValues($values);
 			$query->setTable($this->_hierarchyTableName);
-			$query->setWhere($this->_hierarchyIdColumn."=".$this->_id);
+			$query->setWhere($this->_hierarchyIdColumn."=".$this->_id->getIdString());
 			$queryQueue->add($query);
 		}
 		
@@ -493,8 +496,8 @@ class SQLDatabaseHierarchyStore
 						$id,
 						$this->_id->getIdString(),
 						$parentId,
-						"'".$displayName."'",
-						"'".$description."'"					
+						"'".addslashes($displayName)."'",
+						"'".addslashes($description)."'"
 					);
 					$query->addRowOfValues($values);
 				}
@@ -533,8 +536,8 @@ class SQLDatabaseHierarchyStore
 					$values = array(
 						$this->_id->getIdString(),
 						$parentId,
-						"'".$displayName."'",
-						"'".$description."'"					
+						"'".addslashes($displayName)."'",
+						"'".addslashes($description)."'"					
 					);
 					$query->setValues($values);
 					$query->setWhere($this->_nodeIdColumn."=".$id);
@@ -779,6 +782,19 @@ class SQLDatabaseHierarchyStore
 			
 		$this->_tree->setData($id, $data);
 		if (!in_array($id,$this->_changed))
+			$this->_changed[] = $id;
+	}
+	
+	/**
+    * Specifies if the node $id has been changed.
+	* 
+	* @param integer $id Node ID
+    */
+	function flagChanged($id) {
+		// Check the arguments
+		ArgumentValidator::validate($id, new NumericValidatorRule);
+		
+		if (!in_array($id, $this->_changed) && !in_array($id, $this->_added) && !in_array($id, $this->_deleted))
 			$this->_changed[] = $id;
 	}
 	
