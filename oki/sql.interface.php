@@ -1,6 +1,5 @@
 <?php
 
-
 	/**
 	 * A Blob is a variable length representation of binary (byte) values.  (Blob stands for <u>B</u>inary <u>L</u>arge <u>Ob</u>ject.)  The contents of a Blob are returned in a ByteValueIterator by the getBytes() method.  Its length is returned by the method length().
 	<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}. <p>SID Version: 1.0 rc6

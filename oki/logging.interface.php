@@ -1,5 +1,6 @@
 <?php
 
+require_once(OKI."/osid.interface.php");
 
 	 /**
 	 * LoggingManager allows the application developer to create, delete, and get logs for reading or writing.  All log Entries have a formatType, a priorityType, and a timestamp. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.

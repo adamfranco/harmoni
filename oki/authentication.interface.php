@@ -1,5 +1,6 @@
 <?php
 
+require_once(OKI."/osid.interface.php");
 
 	/**
 	 * The AuthenticationManager identifies the authentication Types supported by the implementation, authenticates the user using a particular authentication Type, determines if the user is authenticated for a particular authentication Type, destroys the user's authentication, and returns the id of the Agent that represents the user. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.

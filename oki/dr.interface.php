@@ -1,5 +1,6 @@
 <?php
 
+require_once(OKI."/osid.interface.php");
 
 	/**
 	 * The DigitalRepositoryManager supports creating and deleting Digital Repositories and Assets as well as getting the various Types used.  <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.

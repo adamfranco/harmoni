@@ -1,5 +1,6 @@
 <?php
 
+require_once(OKI."/osid.interface.php");
 
 	/**
 	 * SchedulingManager creates, deletes, and gets ScheduleItems.  Items include Agent Commitments (e.g. Calendar events).  The Manager also enumerates the commitment Status Types supported by the implementation. <p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.

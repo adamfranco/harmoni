@@ -1,5 +1,6 @@
 <?php
 
+require_once(OKI."/osid.interface.php");
 
 	  /**
 	   * The ByteStore is the fundamental interface of the Filing package.

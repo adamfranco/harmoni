@@ -1,5 +1,6 @@
 <?php
 
+require_once(OKI."/osid.interface.php");
 
 	/**
 	 * The Manager sends and receives messages and returns the Types of messages and delivery supported by the implementation.  A message is not created explicitly; it is created when it is sent.<p>SID Version: 1.0 rc6<p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
