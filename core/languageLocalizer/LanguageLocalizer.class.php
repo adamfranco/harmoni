@@ -11,7 +11,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.class.php,v 1.12 2005/01/19 23:23:01 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.13 2005/04/01 21:37:43 adamfranco Exp $
  */
 class LanguageLocalizer extends LanguageLocalizerInterface {
 	/**
@@ -47,7 +47,7 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 	 * @return void
 	 * @todo -cLanguageLocalizer Implement LanguageLocalizer.constructor - use gettext functionality.
 	 **/
-	function LanguageLocalizer($defaultLanguage="en_US", $application=NULL, $langDir=NULL) {
+	function LanguageLocalizer() {
 	
 		// Get the current Language encoding from the session if it exists.
 		if (isset($_SESSION['__CurrentLanguageCodeset'])) {
@@ -56,17 +56,84 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 			// Use UTF-8 by default.
 			$this->_codeset = "UTF-8";
 		}
+	}
+	
+	/**
+	 * Assign the configuration of this Manager. Valid configuration options are as
+	 * follows:
+	 *		default_language	string	(ex: 'en_US')
+	 *		applications		array of strings (
+	 *								application_name => language_file_directory,
+	 *	 							...,
+	 * 								...,
+	 *							)
+	 *		
+	 * 
+	 * @param object Properties $configuration (original type: java.util.Properties)
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#OPERATION_FAILED OPERATION_FAILED},
+	 *		   {@link org.osid.OsidException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.OsidException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignConfiguration ( &$configuration ) { 
+		$this->_configuration =& $configuration;
+		
+		ArgumentValidator::validate($configuration->getProperty('default_language'),
+			StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($configuration->getProperty('applications'),
+			ArrayValidatorRule::getRule(), true);
 		
 		// Get the current Language settings from the session if they exist.
 		if (isset($_SESSION['__CurrentLanguage'])) {
 			$this->setLanguage( $_SESSION['__CurrentLanguage'] );
 		} else {
-			$this->setLanguage( $defaultLanguage );
+			$this->setLanguage( $configuration->getProperty('default_language') );
 		}
 		
-		// Add our first application if passed
-		if ($application && $langDir)
-			$this->addApplication($application, $langDir);
+		foreach ($configuration->getProperty('applications') 
+			as $application => $languageDir)
+		{
+			ArgumentValidator::validate($application, StringValidatorRule::getRule(), true);
+			ArgumentValidator::validate($languageDir, StringValidatorRule::getRule(), true);
+			
+			$this->addApplication($application, $languageDir);
+		}
+	}
+
+	/**
+	 * Return context of this OsidManager.
+	 *	
+	 * @return object OsidContext
+	 * 
+	 * @throws object OsidException 
+	 * 
+	 * @access public
+	 */
+	function &getOsidContext () { 
+		return $this->_osidContext;
+	} 
+
+	/**
+	 * Assign the context of this OsidManager.
+	 * 
+	 * @param object OsidContext $context
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignOsidContext ( &$context ) { 
+		$this->_osidContext =& $context;
 	}
 	
 	/**

@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.14 2005/04/01 20:30:29 adamfranco Exp $
+ * @version $Id: GUIManager.class.php,v 1.15 2005/04/01 21:36:05 adamfranco Exp $
  */
 class GUIManager extends GUIManagerInterface {
 
@@ -53,6 +53,7 @@ class GUIManager extends GUIManagerInterface {
 	 * follows:
 	 *	database_index			integer
 	 *	database_name			string
+	 *	default_theme			object Theme
 	 * 
 	 * @param object Properties $configuration (original type: java.util.Properties)
 	 * 
