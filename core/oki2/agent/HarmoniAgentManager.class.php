@@ -1,6 +1,7 @@
 <?
 
 require_once(OKI2."/osid/agent/AgentManager.php");
+require_once(OKI2."/osid/agent/AgentException.php");
 
 require_once(HARMONI."oki2/agent/HarmoniAgent.class.php");
 require_once(HARMONI."oki2/agent/AnonymousAgent.class.php");
@@ -45,7 +46,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.15 2005/03/23 21:03:13 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.16 2005/03/25 18:34:25 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -115,27 +116,54 @@ class HarmoniAgentManager
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 * @param string sharedDB The name of the shared database.
 	 */
-	function HarmoniAgentManager($dbIndex, $sharedDB) {
+	function HarmoniAgentManager() {
+		// initialize cache
+		$this->_agentsCache = array();
+		$this->_groupsCache = array();
+		
+		$this->_allAgentsCached = false;
+		$this->_allGroupsCached = false;
+	}
+	
+	/**
+	 * Assign the configuration of this Manager. Valid configuration options are as
+	 * follows:
+	 *	database_index			integer
+	 *	database_name			string
+	 * 
+	 * @param object Properties $configuration (original type: java.util.Properties)
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#OPERATION_FAILED OPERATION_FAILED},
+	 *		   {@link org.osid.OsidException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.OsidException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignConfiguration ( &$configuration ) { 
+		$this->_configuration =& $configuration;
+		
+		$dbIndex =& $configuration->getProperty('database_index');
+		$dbName =& $configuration->getProperty('database_name');
+		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($sharedDB, new StringValidatorRule(), true);
+		ArgumentValidator::validate($dbName, new StringValidatorRule(), true);
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
-		$this->_sharedDB = $sharedDB;
+		$this->_sharedDB = $dbName;
 		
 		// initialize our anonymous agent and everyone group.
 		$this->_anonymous =& new AnonymousAgent($this->_dbIndex, $this->_sharedDB);
 		$this->_everyone =& new EveryoneGroup($this->_dbIndex, $this->_sharedDB);
-		
-		// initialize cache
-		$this->_agentsCache = array();
 		$this->_agentsCache["0"] =& $this->_anonymous;
-		$this->_groupsCache = array();
 		$this->_groupsCache["-1"] =& $this->_everyone;
-		
-		$this->_allAgentsCached = false;
-		$this->_allGroupsCached = false;
 		
 		// initialize our Agent Search Types
 		$this->_agentSearches = array ();
@@ -147,6 +175,35 @@ class HarmoniAgentManager
 		$this->_groupSearches["Agent & Group Search::Middlebury::AncestorGroups"] =&
 			new AncestorGroupSearch ($this->_dbIndex);
 	}
+
+	/**
+	 * Return context of this OsidManager.
+	 *	
+	 * @return object OsidContext
+	 * 
+	 * @throws object OsidException 
+	 * 
+	 * @access public
+	 */
+	function &getOsidContext () { 
+		return $this->_osidContext;
+	} 
+
+	/**
+	 * Assign the context of this OsidManager.
+	 * 
+	 * @param object OsidContext $context
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignOsidContext ( &$context ) { 
+		$this->_osidContext =& $context;
+	} 
+
 
 	/**
 	 * Create an Agent with the display name, Type, and Properties specified.

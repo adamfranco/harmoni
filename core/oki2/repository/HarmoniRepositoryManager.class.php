@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.13 2005/02/04 15:59:09 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.14 2005/03/25 18:34:26 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -58,18 +58,7 @@ class HarmoniRepositoryManager
 	 * @access public
 	 */
 	function HarmoniRepositoryManager ($configuration = NULL) {
-		// Set up our hierarchy
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$idManager =& Services::getService("Id");
-		$hierarchyId =& $idManager->getId($configuration['hierarchyId']);
-		$this->_hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
 		
-		// Record what parent to store newly created repositories under
-		if ($configuration['defaultParentId']) {
-			$this->_defaultParentId =& $idManager->getId($configuration['defaultParentId']);
-		} else {
-			$this->_defaultParentId = NULL;
-		}
 		
 		// Define the type to use as a key for Identifying repositories
 		$this->_repositoryKeyType =& new HarmoniType("Repository", "Harmoni", 
@@ -77,22 +66,6 @@ class HarmoniRepositoryManager
 		
 		// Cache any created repositories so that we can pass out references to them.
 		$this->_createdRepositories = array();
-		
-		// Store the configuration
-		$this->_configuration =& $configuration;
-		
-		
-		// Make sure that we have a 'harmoni.dr.assetcontent' type RecordStructure for
-		// assets to put their generic content into.
-//		$type = new HarmoniType("DR", "Harmoni", "AssetContent", "An RecordStructure for the generic content of an asset.");
-//		$dataSetTypeManager =& Services::getService("DataSetTypeManager");
-//		if (!$dataSetTypeManager->dataSetTypeExists($type)) {
-//			$definition =& $dataSetTypeManager->newDataSetType($type);
-//			$definition->addNewField( new FieldDefinition("Content", "blob"));
-//			$definition->addNewField( new FieldDefinition("EffectiveDate", "datetime"));
-//			$definition->addNewField( new FieldDefinition("ExpirationDate", "datetime"));
-//			$dataSetTypeManager->synchronize($definition);
-//		}
 
 		$schemaMgr =& Services::getService("SchemaManager");
 		$recordType = new HarmoniType("Repository", "Harmoni", "AssetContent", "A RecordStructure for the generic content of an asset.");
@@ -120,36 +93,113 @@ class HarmoniRepositoryManager
 																);
 		}
 	}
+	
+	/**
+	 * Assign the configuration of this Manager. Valid configuration options are as
+	 * follows:
+	 *	database_index			integer
+	 *	database_name			string
+	 * 
+	 * @param object Properties $configuration (original type: java.util.Properties)
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#OPERATION_FAILED OPERATION_FAILED},
+	 *		   {@link org.osid.OsidException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.OsidException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignConfiguration ( &$configuration ) { 
+		$this->_configuration =& $configuration;
+		
+		$dbIndex = $configuration->getProperty('database_index');
+		$hierarchyIdString = $configuration->getProperty('hierarchy_id');
+		$defaultParentIdString = $configuration->getProperty('default_parent_id');
+		
+		// ** parameter validation
+		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($hierarchyIdString, new StringValidatorRule(), true);
+		ArgumentValidator::validate($defaultParentIdString, new OptionalRule(new StringValidatorRule()), true);
+		// ** end of parameter validation
+		
+		$this->_dbIndex = $dbIndex;
+		
+		// Set up our hierarchy
+		$hierarchyManager =& Services::getService("Hierarchy");
+		$idManager =& Services::getService("Id");
+		$hierarchyId =& $idManager->getId($hierarchyIdString);
+		$this->_hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
+		
+		// Record what parent to store newly created repositories under
+		if ($defaultParentIdString) {
+			$this->_defaultParentId =& $idManager->getId($defaultParentIdString);
+		} else {
+			$this->_defaultParentId = NULL;
+		}
+	}
 
 	/**
-   * Create a new Repository of the specified Type.  The implementation of
-   * this method sets the Id for the new object.
-   * 
-   * @param string $displayName
-   * @param string $description
-   * @param object Type $repositoryType
-   *  
-   * @return object Repository
-   * 
-   * @throws object RepositoryException An exception with one of
-   *         the following messages defined in
-   *         org.osid.repository.RepositoryException may be thrown: {@link
-   *         org.osid.repository.RepositoryException#OPERATION_FAILED
-   *         OPERATION_FAILED}, {@link
-   *         org.osid.repository.RepositoryException#PERMISSION_DENIED
-   *         PERMISSION_DENIED}, {@link
-   *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
-   *         CONFIGURATION_ERROR}, {@link
-   *         org.osid.repository.RepositoryException#UNIMPLEMENTED
-   *         UNIMPLEMENTED}, {@link
-   *         org.osid.repository.RepositoryException#NULL_ARGUMENT
-   *         NULL_ARGUMENT}, {@link
-   *         org.osid.repository.RepositoryException#UNKNOWN_TYPE
-   *         UNKNOWN_TYPE}
-   * 
-   * @access public
-   */
-  function &createRepository ( $displayName, $description, &$repositoryType ){
+	 * Return context of this OsidManager.
+	 *	
+	 * @return object OsidContext
+	 * 
+	 * @throws object OsidException 
+	 * 
+	 * @access public
+	 */
+	function &getOsidContext () { 
+		return $this->_osidContext;
+	} 
+
+	/**
+	 * Assign the context of this OsidManager.
+	 * 
+	 * @param object OsidContext $context
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignOsidContext ( &$context ) { 
+		$this->_osidContext =& $context;
+	} 
+
+	/**
+	 * Create a new Repository of the specified Type.  The implementation of
+	 * this method sets the Id for the new object.
+	 * 
+	 * @param string $displayName
+	 * @param string $description
+	 * @param object Type $repositoryType
+	 *  
+	 * @return object Repository
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *         the following messages defined in
+	 *         org.osid.repository.RepositoryException may be thrown: {@link
+	 *         org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *         OPERATION_FAILED}, {@link
+	 *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *         PERMISSION_DENIED}, {@link
+	 *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *         CONFIGURATION_ERROR}, {@link
+	 *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *         UNIMPLEMENTED}, {@link
+	 *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *         NULL_ARGUMENT}, {@link
+	 *         org.osid.repository.RepositoryException#UNKNOWN_TYPE
+	 *         UNKNOWN_TYPE}
+	 * 
+	 * @access public
+	 */
+	function &createRepository ( $displayName, $description, &$repositoryType ){
 		// Argument Validation
 		ArgumentValidator::validate($displayName, new StringValidatorRule);
 		ArgumentValidator::validate($description, new StringValidatorRule);
@@ -171,7 +221,7 @@ class HarmoniRepositoryManager
 		$query->addWhere("type_authority = '".addslashes($repositoryType->getAuthority())."'", _AND);
 		$query->addWhere("type_keyword = '".addslashes($repositoryType->getKeyword())."'", _AND);
 		
-		$result =& $dbc->query($query, $this->_configuration['dbId']);
+		$result =& $dbc->query($query, $this->_dbIndex);
 		
 		if ($result->getNumberOfRows()) {
 			$typeId = $result->field("type_id");
@@ -191,7 +241,7 @@ class HarmoniRepositoryManager
 								"'".addslashes($repositoryType->getDescription())."'",
 							));
 			
-			$result =& $dbc->query($query, $this->_configuration['dbId']);
+			$result =& $dbc->query($query, $this->_dbIndex);
 			$typeId = $result->getLastAutoIncrementValue();
 		}
 		
@@ -206,7 +256,7 @@ class HarmoniRepositoryManager
 							"'".addslashes($typeId)."'",
 						));
 		
-		$result =& $dbc->query($query, $this->_configuration['dbId']);
+		$result =& $dbc->query($query, $this->_dbIndex);
 		
 		
 		// Add this DR's node to the hierarchy.
@@ -272,7 +322,7 @@ class HarmoniRepositoryManager
 						.addslashes($repositoryId->getIdString())
 						."' LIMIT 1");
 		$dbc =& Services::getService("DBHandler");
-		$dbc->query($query, $this->_configuration['dbId']);
+		$dbc->query($query, $this->_dbIndex);
 		
 		unset($this->_createdRepositories[$repositoryId->getIdString()]);
 	}
@@ -356,7 +406,7 @@ class HarmoniRepositoryManager
 		$query->addWhere("type_keyword = '".addslashes($repositoryType->getKeyword())."'", _AND);
 		
 		$dbc =& Services::getService("DBHandler");
-		$result =& $dbc->query($query, $this->_configuration['dbId']);
+		$result =& $dbc->query($query, $this->_dbIndex);
 		
 		$idManager =& Services::getService("Id");
 		
@@ -669,7 +719,7 @@ class HarmoniRepositoryManager
 		$query->addTable("dr_type");
 		
 		$dbc =& Services::getService("DBHandler");
-		$result =& $dbc->query($query, $this->_configuration['dbId']);
+		$result =& $dbc->query($query, $this->_dbIndex);
 		
 		// Return our types
 		while ($result->hasMoreRows()) {

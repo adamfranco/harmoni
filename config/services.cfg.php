@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.40 2005/03/24 19:11:30 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.41 2005/03/25 18:33:18 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -400,7 +400,8 @@ else if (OKI_VERSION === 2) {
 	 */
 	if (LOAD_HIERARCHY) {
 		require_once(HARMONI."oki2/hierarchy/HarmoniHierarchyManager.class.php");
-		Services::registerService("Hierarchy","HarmoniHierarchyManager");
+		Services::registerService("HierarchyManager","HarmoniHierarchyManager");
+		Services::createServiceAlias("HierarchyManager", "Hierarchy");
 	}
 	
 	/**

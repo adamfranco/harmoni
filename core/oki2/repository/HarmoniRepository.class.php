@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.18 2005/02/17 17:34:08 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.19 2005/03/25 18:34:26 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -219,7 +219,7 @@ class HarmoniRepository
 			$query->addWhere("repository_id = '".addslashes($myId->getIdString())."'");
 			
 			$dbc =& Services::getService("DBHandler");
-			$result =& $dbc->query($query, $this->_configuration['dbId']);
+			$result =& $dbc->query($query, $this->_configuration->getProperty('database_index'));
 			
 			// Return our type
 			if ($result->getNumberOfRows()) {

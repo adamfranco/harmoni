@@ -16,7 +16,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.11 2005/01/28 19:34:47 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.12 2005/03/25 18:34:26 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -49,14 +49,15 @@ class HarmoniAsset
 		
 		// Store our configuration
 		$this->_configuration =& $configuration;
-		$this->_versionControlAll = ($configuration['versionControlAll'])?TRUE:FALSE;
-		if (is_array($configuration['versionControlTypes'])) {
-			ArgumentValidator::validate($configuration['versionControlTypes'], new ArrayValidatorRuleWithRule( new ExtendsValidatorRule("Type")));
-			$this->_versionControlTypes =& $configuration['versionControlTypes'];
+		$this->_versionControlAll = ($configuration->getProperty('version_control_all'))?TRUE:FALSE;
+		if (is_array($configuration->getProperty('version_control_types'))) {
+			ArgumentValidator::validate($configuration->getProperty('version_control_types'), new ArrayValidatorRuleWithRule( new ExtendsValidatorRule("Type")));
+			$this->_versionControlTypes =& $configuration->getProperty('version_control_types');
 		} else {
 			$this->_versionControlTypes = array();
 		}
 		
+		$this->_dbIndex = $configuration->getProperty('database_index');
 	 }
 
 	/**
@@ -642,7 +643,7 @@ class HarmoniAsset
 								"'".$myId->getIdString()."'",
 								"'".$newId->getIdString()."'",
 								"'".$recordStructureId->getIdString()."'"));
-			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			$result =& $dbHandler->query($query, $this->_dbIndex);
 		} 
 		
 		// Otherwise use the data manager
@@ -748,7 +749,7 @@ class HarmoniAsset
 			$query->addWhere("FK_asset = '".$assetId->getIdString()."'");
 			$query->addWhere("structure_id = '".$recordStructureId->getIdString()."'", _AND);
 			
-			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			$result =& $dbHandler->query($query, $this->_dbIndex);
 			
 			// store a relation to the record
 			$dbHandler =& Services::getService("DBHandler");
@@ -763,7 +764,7 @@ class HarmoniAsset
 									"'".$myId->getIdString()."'",
 									"'".$result->field("FK_record")."'",
 									"'".$recordStructureId->getIdString()."'"));
-				$dbHandler->query($query, $this->_configuration["dbId"]);
+				$dbHandler->query($query, $this->_dbIndex);
 				$result->advanceRow();
 			}
 		} 
@@ -919,7 +920,7 @@ class HarmoniAsset
 			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
 			$query->addWhere("FK_record = '".$recordId->getIdString()."'");
 			
-			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			$result =& $dbHandler->query($query, $this->_dbIndex);
 		}
 		// Otherwise use the data manager
 		else {
@@ -992,7 +993,7 @@ class HarmoniAsset
 			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
 			$query->addWhere("FK_record = '".$recordId->getIdString()."'", _AND);
 			
-			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			$result =& $dbHandler->query($query, $this->_dbIndex);
 			
 			if ($result->getNumberOfRows()) {
 				$structureIdString =& $result->field("structure_id");
@@ -1093,7 +1094,7 @@ class HarmoniAsset
 		$query->addColumn("FK_record");
 		$query->addWhere("FK_asset = '".$myId->getIdString()."'");
 		
-		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		$result =& $dbHandler->query($query, $this->_dbIndex);
 		
 		while ($result->hasMoreRows()) {
 			$recordId =& $idManager->getId($result->field("FK_record"));
@@ -1174,7 +1175,7 @@ class HarmoniAsset
 			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
 			$query->addWhere("structure_id = '".$recordStructureId->getIdString()."'", _AND);
 			
-			$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+			$result =& $dbHandler->query($query, $this->_dbIndex);
 			
 			while ($result->hasMoreRows()) {
 				$recordId =& $idManager->getId($result->field("FK_record"));
@@ -1474,13 +1475,13 @@ class HarmoniAsset
 		
 		$columns = array("asset_id", "effective_date", "expiration_date");
 		$values = array($id->getIdString(), 
-						$dbHandler->toDBDate($this->_effectiveDate, $this->_configuration["dbId"]), 
-						$dbHandler->toDBDate($this->_expirationDate, $this->_configuration["dbId"]));
+						$dbHandler->toDBDate($this->_effectiveDate, $this->_dbIndex), 
+						$dbHandler->toDBDate($this->_expirationDate, $this->_dbIndex));
 		$query->setColumns($columns);
 		$query->setValues($values);
 		$query->setTable("dr_asset_info");
 		
-		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		$result =& $dbHandler->query($query, $this->_dbIndex);
 	}
 	
 	/**
@@ -1501,12 +1502,12 @@ class HarmoniAsset
 		$query->addColumn("expiration_date");
 		$query->addWhere("asset_id='".$id->getIdString()."'");
 		
-		$result =& $dbHandler->query($query, $this->_configuration["dbId"]);
+		$result =& $dbHandler->query($query, $this->_dbIndex);
 		
 		// If we have stored dates for this asset set them
 		if ($result->getNumberOfRows()) {
-			$this->_effectiveDate =& new Time($dbHandler->fromDBDate($result->field("effective_date"), $this->_configuration["dbId"]));
-			$this->_expirationDate =& new Time($dbHandler->fromDBDate($result->field("expiration_date"), $this->_configuration["dbId"]));
+			$this->_effectiveDate =& new Time($dbHandler->fromDBDate($result->field("effective_date"), $this->_dbIndex));
+			$this->_expirationDate =& new Time($dbHandler->fromDBDate($result->field("expiration_date"), $this->_dbIndex));
 			$this->_datesInDB = TRUE;
 		} 
 		

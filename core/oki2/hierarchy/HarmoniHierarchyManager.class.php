@@ -43,7 +43,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.9 2005/02/07 21:38:25 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.10 2005/03/25 18:34:26 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -81,16 +81,72 @@ class HarmoniHierarchyManager
 	 * manager.
 	 * @access public
 	 */
-	function HarmoniHierarchyManager ($dbIndex, $hyDB) {
+	function HarmoniHierarchyManager () {
+		$this->_hierarchies = array();
+	}
+	
+	/**
+	 * Assign the configuration of this Manager. Valid configuration options are as
+	 * follows:
+	 *	database_index			integer
+	 *	database_name			string
+	 * 
+	 * @param object Properties $configuration (original type: java.util.Properties)
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#OPERATION_FAILED OPERATION_FAILED},
+	 *		   {@link org.osid.OsidException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.OsidException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignConfiguration ( &$configuration ) { 
+		$this->_configuration =& $configuration;
+		
+		$dbIndex =& $configuration->getProperty('database_index');
+		$dbName =& $configuration->getProperty('database_name');
+		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
-		ArgumentValidator::validate($hyDB, new StringValidatorRule(), true);
+		ArgumentValidator::validate($dbName, new StringValidatorRule(), true);
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
-		$this->_hyDB = $hyDB;
-		$this->_hierarchies = array();
+		$this->_hyDB = $dbName;
 	}
+
+	/**
+	 * Return context of this OsidManager.
+	 *	
+	 * @return object OsidContext
+	 * 
+	 * @throws object OsidException 
+	 * 
+	 * @access public
+	 */
+	function &getOsidContext () { 
+		return $this->_osidContext;
+	} 
+
+	/**
+	 * Assign the context of this OsidManager.
+	 * 
+	 * @param object OsidContext $context
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignOsidContext ( &$context ) { 
+		$this->_osidContext =& $context;
+	} 
 
 	/**
 	 * Create a Hierarchy.
