@@ -14,7 +14,7 @@ define("NEW_VALUE",-1);
 * changes to a DataSet must be done using a {@link FullDataSet}.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.28 2004/01/16 19:23:23 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.29 2004/01/22 21:06:38 adamfranco Exp $
 * @copyright 2004, Middlebury College
 */
 class CompactDataSet {
@@ -31,9 +31,10 @@ class CompactDataSet {
 	
 	function CompactDataSet(&$idManager, $dbID, &$dataSetTypeDef, $verControl=false) {
 		ArgumentValidator::validate($verControl, new BooleanValidatorRule());
-		$this->_idManager = $idManager;
+		ArgumentValidator::validate($idManager, new ExtendsValidatorRule("IDManager"));
+		$this->_idManager =& $idManager;
 		$this->_dbID = $dbID;
-		$this->_dataSetTypeDef = $dataSetTypeDef;
+		$this->_dataSetTypeDef =& $dataSetTypeDef;
 		$this->_fields = array();
 		$this->_versionControlled = $verControl;
 		$this->_active = true;
@@ -207,7 +208,7 @@ class CompactDataSet {
 * Stores a full representation of the data for a dataset, including all inactive and deleted versions
 * of values. Can be edited, etc.
 * @package harmoni.datamanager
-* @version $Id: DataSet.class.php,v 1.28 2004/01/16 19:23:23 gabeschine Exp $
+* @version $Id: DataSet.class.php,v 1.29 2004/01/22 21:06:38 adamfranco Exp $
 * @copyright 2004, Middlebury College
 */
 class FullDataSet extends CompactDataSet {
@@ -532,7 +533,9 @@ class ValueIndexNotFoundError extends Error {
  * @param ref object A {@link FullDataSet} or {@link CompactDataSet} to render.
  */
 function renderDataSet(&$dataSet) {
-	$fields = $dataSet->_dataSetTypeDef->getAllLabels(true);
+	ArgumentValidator::validate($dataSet,new ExtendsValidatorRule("CompactDataSet"));
+	
+	$fields = $dataSet->_dataSetTypeDef->getAllLabels(true); // @todo This is referencing another object's private variables. Bad! -Adam
 	
 	print "<PRE>";
 	print "dataSet of type '".OKITypeToString($dataSet->_dataSetTypeDef->getType())."', ";

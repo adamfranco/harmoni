@@ -110,6 +110,7 @@ class DataSetGroup {
 	}
 	
 	function addID( $dataSetID ) {
+		ArgumentValidator::validate($dataSetID, new IntegerValidatorRule);
 		$this->_dirty = true;
 		
 		$this->_dataSetIDs[] = $dataSetID;
@@ -118,7 +119,7 @@ class DataSetGroup {
 	function addDataSet(&$dataSet) {
 		$this->_dirty = true;
 		
-		$this->_newDataSets =& $dataSet;
+		$this->_newDataSets[] =& $dataSet;
 	}
 	
 }

@@ -5,7 +5,7 @@
  * Each ID is associated with an OKI-style Type. Across an entire DB scheme no two IDs
  * will be the same.
  * @package harmoni.datamanager
- * @version $Id: IDManager.class.php,v 1.8 2004/01/14 20:09:42 gabeschine Exp $
+ * @version $Id: IDManager.class.php,v 1.9 2004/01/22 21:06:58 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -17,6 +17,7 @@ class IDManager
 	var $_dbID;
 	
 	function IDManager($dbID) {
+		ArgumentValidator::validate($dbID, new IntegerValidatorRule);
 		$this->_dbID = $dbID;
 	}
 	
@@ -29,6 +30,10 @@ class IDManager
 		if (!Services::serviceAvailable("IDManager")) {
 			$newIDMgr =& new IDManager($dbID);
 			Services::registerObjectAsService("IDManager",$newIDMgr);
+		}
+		// Make sure the IdManager is started
+		if (!Services::serviceRunning("IDManager")) {
+			Services::startService("IDManager", $dbID);
 		}
 	}
 
