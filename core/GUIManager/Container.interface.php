@@ -41,7 +41,7 @@ define("CENTER", 9);
  * The <code>Container</code> interface is an extension of the <code>Component</code>
  * interface; <code>Containers</code> are capable of storing multiple sub-<code>Components</code>
  * and when rendering Containers, all sub-<code>Components</code> will be rendered as well.
- * @version $Id: Container.interface.php,v 1.2 2004/07/22 16:31:39 dobomode Exp $
+ * @version $Id: Container.interface.php,v 1.3 2004/07/23 02:44:16 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -62,21 +62,30 @@ class ContainerInterface extends ComponentInterface {
 	 * @param integer alignmentY The vertical alignment for the added component. Allowed values are 
 	 * <code>TOP</code>, <code>CENTER</code>, and <code>BOTTOM</code>.
 	 * If null, will be ignored.
-	 * @return ref object component The component that was just added.
+	 * @return ref object The component that was just added.
 	 **/
 	function & add(& $component, $width, $height, $alignmentX, $alignmentY) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
 	/**
-	 * Returns the component of this container with the specified index. Indices
+	 * Returns the component of this container with the specified id. Ids
 	 * reflect the order in which components are added. That is, the very first 
-	 * component has an index of 1, the second component has an index of 2, and so forth.
+	 * component has an id of 1, the second component has an id of 2, and so forth.
 	 * @access public
-	 * @param integer index The index of the component which should be returned.
+	 * @param integer id The id of the component which should be returned.
 	 * @return ref object The component.
 	 **/
-	function & getComponent($index) {
+	function & getComponent($id) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
+	 * Returns the number of components in this container.
+	 * @access public
+	 * @return integer The number of components in this container.
+	 **/
+	function getComponentsCount() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -90,63 +99,63 @@ class ContainerInterface extends ComponentInterface {
 	}
 	
 	/**
-	 * Returns the width for the component of this container with the specified index. Indices
+	 * Returns the width for the component of this container with the specified id. Ids
 	 * reflect the order in which components are added. That is, the very first 
-	 * component has an index of 1, the second component has an index of 2, and so forth.
+	 * component has an id of 1, the second component has an id of 2, and so forth.
 	 * @access public
-	 * @param integer index The index of the component which should be returned.
+	 * @param integer id The id of the component which should be returned.
 	 * @return string The width.
 	 **/
-	function getComponentWidth($index) {
+	function getComponentWidth($id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
 	/**
-	 * Returns the height for the component of this container with the specified index. Indices
+	 * Returns the height for the component of this container with the specified id. Ids
 	 * reflect the order in which components are added. That is, the very first 
-	 * component has an index of 1, the second component has an index of 2, and so forth.
+	 * component has an id of 1, the second component has an id of 2, and so forth.
 	 * @access public
-	 * @param integer index The index of the component which should be returned.
+	 * @param integer id The id of the component which should be returned.
 	 * @return string The height.
 	 **/
-	function getComponentHeight($index) {
+	function getComponentHeight($id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
 	/**
-	 * Returns the horizontal alignment for the component of this container with the specified index. Indices
+	 * Returns the horizontal alignment for the component of this container with the specified id. Ids
 	 * reflect the order in which components are added. That is, the very first 
-	 * component has an index of 1, the second component has an index of 2, and so forth.
+	 * component has an id of 1, the second component has an id of 2, and so forth.
 	 * @access public
-	 * @param integer index The index of the component which should be returned.
+	 * @param integer id The id of the component which should be returned.
 	 * @return integer The horizontal alignment. 
 	 **/
-	function getComponentAlignmentX($index) {
+	function getComponentAlignmentX($id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
 	/**
-	 * Returns the vertical alignment for the component of this container with the specified index. Indices
+	 * Returns the vertical alignment for the component of this container with the specified id. Ids
 	 * reflect the order in which components are added. That is, the very first 
-	 * component has an index of 1, the second component has an index of 2, and so forth.
+	 * component has an id of 1, the second component has an id of 2, and so forth.
 	 * @access public
-	 * @param integer index The index of the component which should be returned.
+	 * @param integer id The id of the component which should be returned.
 	 * @return integer The vertical alignment. 
 	 **/
-	function getComponentAlignmentY($index) {
+	function getComponentAlignmentY($id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
 	/**
-	 * Removes the component with the specified index from this container. Indices
+	 * Removes the component with the specified id from this container. Ids
 	 * reflect the order in which components are added. That is, the very first 
-	 * component has an index of 1, the second component has an index of 2, and so forth.
+	 * component has an id of 1, the second component has an id of 2, and so forth.
 	 * @access public
-	 * @param integer index The index of the component which should be removed from
+	 * @param integer id The id of the component which should be removed from
 	 * this container..
 	 * @return ref object The component that was just removed.
 	 **/
-	function & remove($index) {
+	function & remove($id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

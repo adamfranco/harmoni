@@ -12,7 +12,7 @@ require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
  * The <code>Container</code> interface is an extension of the <code>Component</code>
  * interface; <code>Containers</code> are capable of storing multiple sub-<code>Components</code>
  * and when rendering Containers, all sub-<code>Components</code> will be rendered as well.
- * @version $Id: Container.class.php,v 1.2 2004/07/22 16:31:39 dobomode Exp $
+ * @version $Id: Container.class.php,v 1.3 2004/07/23 02:44:16 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -46,11 +46,13 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * @access public
 	 * @param ref object layout The <code>Layout</code> of this container.
 	 * @param integer type The type of this component. One of BLANK, HEADING, FOOTER,
-	 * BLOCK, MENU, MENU_ITEM_UNSELECTED, MENY_ITEM_SELECTED, MENU_ITEM_HEADING, OTHER.
-	 * Default value is OTHER.
-	 * @param integer type The type of this component. One of BLANK, HEADING, FOOTER,
-	 * BLOCK, MENU, MENU_ITEM_UNSELECTED, MENY_ITEM_SELECTED, MENU_ITEM_HEADING, OTHER.
-	 * Default value is OTHER.
+	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
+	 * @param integer index The index of this component. The index has no semantic meaning: 
+	 * you can think of the index as 'level' of the component. Alternatively, 
+	 * the index could serve as means of distinguishing between components with 
+	 * the same type. Most often one would use the index in conjunction with
+	 * the <code>getStylesForComponentType()</code> and 
+	 * <code>addStyleForComponentType()</code> methods.
 	 * @param optional StyleCollections styles,... Zero, one, or more StyleCollection 
 	 * objects that will be added to the newly created Component. Warning, this will
 	 * result in copying the objects instead of referencing them as using
@@ -101,7 +103,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * @param integer alignmentY The vertical alignment for the added component. Allowed values are 
 	 * <code>TOP</code>, <code>CENTER</code>, and <code>BOTTOM</code>.
 	 * If null, will be ignored.
-	 * @return ref object component The component that was just added.
+	 * @return ref object The component that was just added.
 	 **/
 	function & add(& $component, $width, $height, $alignmentX, $alignmentY) {
 		// ** parameter validation
@@ -119,21 +121,33 @@ class Container extends Component /* implements ContainerInterface */ {
 	}
 	
 	/**
-	 * Returns the component of this container with the specified index. Indices
+	 * Returns the component of this container with the specified id. Ids
 	 * reflect the order in which components are added. That is, the very first 
-	 * component has an index of 1, the second component has an index of 2, and so forth.
+	 * component has an id of 1, the second component has an id of 2, and so forth.
 	 * @access public
-	 * @param integer index The index of the component which should be returned.
+	 * @param integer id The id of the component which should be returned.
 	 * @return ref object The component.
 	 **/
-	function & getComponent($index) {
+	function & getComponent($id) {
 		// ** parameter validation
-		ArgumentValidator::validate($index, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($id, new IntegerValidatorRule(), true);
 		// ** end of parameter validation
 
-		return $this->_components[$index-1];
+		if (isset($this->_components[$id-1]))
+			return $this->_components[$id-1];
+		else
+			return null;
 	}
 	
+	/**
+	 * Returns the number of components in this container.
+	 * @access public
+	 * @return integer The number of components in this container.
+	 **/
+	function getComponentsCount() {
+		return count($this->_components);
+	}
+
 	/**
 	 * Returns all components in this <code>Container</code>.
 	 * @access public
@@ -144,70 +158,70 @@ class Container extends Component /* implements ContainerInterface */ {
 	}
 
 	/**
-	 * Returns the width for the component of this container with the specified index. Indices
+	 * Returns the width for the component of this container with the specified id. Ids
 	 * reflect the order in which components are added. That is, the very first 
-	 * component has an index of 1, the second component has an index of 2, and so forth.
+	 * component has an id of 1, the second component has an id of 2, and so forth.
 	 * @access public
-	 * @param integer index The index of the component which should be returned.
+	 * @param integer id The id of the component which should be returned.
 	 * @return string The width.
 	 **/
-	function getComponentWidth($index) {
-		return $this->_constraints[$index-1][0];
+	function getComponentWidth($id) {
+		return $this->_constraints[$id-1][0];
 	}
 	
 	/**
-	 * Returns the height for the component of this container with the specified index. Indices
+	 * Returns the height for the component of this container with the specified id. Ids
 	 * reflect the order in which components are added. That is, the very first 
-	 * component has an index of 1, the second component has an index of 2, and so forth.
+	 * component has an id of 1, the second component has an id of 2, and so forth.
 	 * @access public
-	 * @param integer index The index of the component which should be returned.
+	 * @param integer id The id of the component which should be returned.
 	 * @return string The height.
 	 **/
-	function getComponentHeight($index) {
-		return $this->_constraints[$index-1][1];
+	function getComponentHeight($id) {
+		return $this->_constraints[$id-1][1];
 	}
 	
 	/**
-	 * Returns the horizontal alignment for the component of this container with the specified index. Indices
+	 * Returns the horizontal alignment for the component of this container with the specified id. Ids
 	 * reflect the order in which components are added. That is, the very first 
-	 * component has an index of 1, the second component has an index of 2, and so forth.
+	 * component has an id of 1, the second component has an id of 2, and so forth.
 	 * @access public
-	 * @param integer index The index of the component which should be returned.
+	 * @param integer id The id of the component which should be returned.
 	 * @return integer The horizontal alignment. 
 	 **/
-	function getComponentAlignmentX($index) {
-		return $this->_constraints[$index-1][2];
+	function getComponentAlignmentX($id) {
+		return $this->_constraints[$id-1][2];
 	}
 
 	/**
-	 * Returns the vertical alignment for the component of this container with the specified index. Indices
+	 * Returns the vertical alignment for the component of this container with the specified id. Ids
 	 * reflect the order in which components are added. That is, the very first 
-	 * component has an index of 1, the second component has an index of 2, and so forth.
+	 * component has an id of 1, the second component has an id of 2, and so forth.
 	 * @access public
-	 * @param integer index The index of the component which should be returned.
+	 * @param integer id The id of the component which should be returned.
 	 * @return integer The vertical alignment. 
 	 **/
-	function getComponentAlignmentY($index) {
-		return $this->_constraints[$index-1][3];
+	function getComponentAlignmentY($id) {
+		return $this->_constraints[$id-1][3];
 	}
 
 	/**
-	 * Removes the component with the specified index from this container. Indices
+	 * Removes the component with the specified id from this container. Ids
 	 * reflect the order in which components are added. That is, the very first 
-	 * component has an index of 1, the second component has an index of 2, and so forth.
+	 * component has an id of 1, the second component has an id of 2, and so forth.
 	 * @access public
-	 * @param integer index The index of the component which should be removed from
+	 * @param integer id The id of the component which should be removed from
 	 * this container..
 	 * @return ref object The component that was just removed.
 	 **/
-	function & remove($index) {
+	function & remove($id) {
 		// ** parameter validation
-		ArgumentValidator::validate($index, new IntegerValidatorRule(), true);
+		ArgumentValidator::validate($id, new IntegerValidatorRule(), true);
 		// ** end of parameter validation
 
-		$component =& $this->_components[$index-1];
-		unset($this->_components[$index-1]);
-		unset($this->_constraints[$index-1]);
+		$component =& $this->_components[$id-1];
+		unset($this->_components[$id-1]);
+		unset($this->_constraints[$id-1]);
 
 		return $component;
 	}

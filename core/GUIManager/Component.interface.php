@@ -36,18 +36,18 @@ define("BLOCK", 8);
 define("MENU", 9);
  
 /**
- * A constant defining the MENU_ITEM_UNSELECTED component type.
- * @const integer MENU_ITEM_UNSELECTED
+ * A constant defining the MENU_ITEM_LINK_UNSELECTED component type.
+ * @const integer MENU_ITEM_LINK_UNSELECTED
  * @package harmoni.gui
  */
-define("MENU_ITEM_UNSELECTED", 10);
+define("MENU_ITEM_LINK_UNSELECTED", 10);
  
 /**
- * A constant defining the MENU_ITEM_SELECTED component type.
- * @const integer MENU_ITEM_SELECTED
+ * A constant defining the MENU_ITEM_LINK_SELECTED component type.
+ * @const integer MENU_ITEM_LINK_SELECTED
  * @package harmoni.gui
  */
-define("MENU_ITEM_SELECTED", 11);
+define("MENU_ITEM_LINK_SELECTED", 11);
  
 /**
  * A constant defining the MENU_ITEM_HEADING component type.
@@ -67,7 +67,7 @@ define("OTHER", 13);
  * <code>Components</code> are the basic units that can be displayed on
  * the screen. The main method <code>render()</code> which renders the component 
  * on the screen.
- * @version $Id: Component.interface.php,v 1.2 2004/07/22 16:31:39 dobomode Exp $
+ * @version $Id: Component.interface.php,v 1.3 2004/07/23 02:44:16 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -169,7 +169,7 @@ class ComponentInterface {
 	
 	/**
 	 * Returns the type of this component. One of BLANK, HEADING, FOOTER, BLOCK,
-	 * MENU, MENU_ITEM_UNSELECTED, MENU_ITEM_SELECTED, MENU_ITEM_HEADING, OTHER.
+	 * MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @access public
 	 * @return integer The type of this component.
 	 **/

@@ -10,7 +10,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * <code>Components</code> are the basic units that can be displayed on
  * the screen. The main method <code>render()</code> which renders the component 
  * on the screen.
- * @version $Id: Component.class.php,v 1.2 2004/07/22 16:31:39 dobomode Exp $
+ * @version $Id: Component.class.php,v 1.3 2004/07/23 02:44:16 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -19,30 +19,6 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
 
 class Component extends ComponentInterface {
 
-	/**
-	 * A StyleProperty for the width of this component.
-	 * @attribute private object _widthSP
-	 */
-	var $_widthSP;
-	
-	/**
-	 * A StyleProperty for the height of this component.
-	 * @attribute private object _heightSP
-	 */
-	var $_heightSP;
-	
-	/**
-	 * The horizontal alignment.
-	 * @attribute private integer _alignmentX
-	 */
-	var $_alignmentX;
-	
-	/**
-	 * The vertical alignment.
-	 * @attribute private integer _alignmentY
-	 */
-	var $_alignmentY;
-	
 	/**
 	 * The content of this component.
 	 * @attribute private string _content
@@ -67,7 +43,8 @@ class Component extends ComponentInterface {
 	 * you can think of the index as 'level' of the component. Alternatively, 
 	 * the index could serve as means of distinguishing between components with 
 	 * the same type. Most often one would use the index in conjunction with
-	 * the <code>getStylesForComponentType()</code> and <code>addStyleForComponentType()</code>
+	 * the <code>getStylesForComponentType()</code> and 
+	 * <code>addStyleForComponentType()</code> methods.
 	 * @attribute private integer _index
 	 */
 	var $_index;
@@ -79,34 +56,29 @@ class Component extends ComponentInterface {
 	 * whenever the user calls the <code>render()</code> method. If <code>null</code>,
 	 * then the component will have no content.
 	 * @param integer type The type of this component. One of BLANK, HEADING, FOOTER,
-	 * BLOCK, MENU, MENU_ITEM_UNSELECTED, MENY_ITEM_SELECTED, MENU_ITEM_HEADING, OTHER.
-	 * Default value is OTHER.
+	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
+	 * @param integer index The index of this component. The index has no semantic meaning: 
+	 * you can think of the index as 'level' of the component. Alternatively, 
+	 * the index could serve as means of distinguishing between components with 
+	 * the same type. Most often one would use the index in conjunction with
+	 * the <code>getStylesForComponentType()</code> and 
+	 * <code>addStyleForComponentType()</code> methods.
 	 * @param optional StyleCollections styles,... Zero, one, or more StyleCollection 
 	 * objects that will be added to the newly created Component. Warning, this will
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function Component($content, $type = OTHER, $index) {
+	function Component($content, $type, $index) {
 		// ** parameter validation
 		$rule =& new OptionalRule(new StringValidatorRule($content));
 		ArgumentValidator::validate($content, $rule, true);
 		$rule =& new ChoiceValidatorRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
-										 MENU_ITEM_UNSELECTED, MENU_ITEM_SELECTED, 
+										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
 		ArgumentValidator::validate($index, new IntegerValidatorRule(), true);
 		// ** end of parameter validation	
 
-		if (isset($width))
-			$this->_widthSP =& new WidthSP($width);
-		else
-			$this->_widthSP = null;
-
-		if (isset($height))
-			$this->_heightSP =& new HeightSP($height);
-		else
-			$this->_heightSP = null;
-			
 		$this->_content = $content;
 		$this->_styleCollections = array();
 		$this->_type = $type;
@@ -249,7 +221,8 @@ class Component extends ComponentInterface {
 	 **/
 	function render(& $theme, $tabs = "") {
 		echo $this->getPreHTML($theme, $tabs);
-		echo $tabs.$this->_content;
+		if (isset($this->_content))
+			echo $tabs.$this->_content;
 		echo $this->getPostHTML($theme, $tabs);
 	}
 	

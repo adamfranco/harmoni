@@ -14,7 +14,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * <br><br>
  * Each <code>Theme</code> has a single component (could be container) that will
  * be printed when <code>printPage()</code> is called.
- * @version $Id: Theme.interface.php,v 1.1 2004/07/22 16:31:39 dobomode Exp $
+ * @version $Id: Theme.interface.php,v 1.2 2004/07/23 02:44:16 dobomode Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -46,7 +46,7 @@ class ThemeInterface {
 	 * <code>setStyleForComponentType()</code> method in the Theme constructor.
 	 * @access public
 	 * @param integer type The type of the component. One of BLANK, HEADING, FOOTER,
-	 * BLOCK, MENU, MENU_ITEM_UNSELECTED, MENU_ITEM_SELECTED, MENU_ITEM_HEADING, OTHER.
+	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @param integer index The index that will determine which style collections
 	 * to return. If the given index is greater than the maximal registered index
 	 * for the given component type, then the highest index availible will be used.
@@ -61,7 +61,7 @@ class ThemeInterface {
 	 * @access public
 	 * @param ref object styleCollection The style collection to add.
 	 * @param integer type The type of the component. One of BLANK, HEADING, FOOTER,
-	 * BLOCK, MENU, MENU_ITEM_UNSELECTED, MENU_ITEM_SELECTED, MENU_ITEM_HEADING, OTHER.
+	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @param integer index The index with which to register the style collection.
 	 * For a description of the role of indices, see the documentation of
 	 * <code>getStylesForComponentType()</code>.
@@ -78,7 +78,7 @@ class ThemeInterface {
 	 * @access public
 	 * @param string html The HTML code to use.
 	 * @param integer type The type of the component. One of BLANK, HEADING, FOOTER,
-	 * BLOCK, MENU, MENU_ITEM_UNSELECTED, MENU_ITEM_SELECTED, MENU_ITEM_HEADING, OTHER.
+	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @param integer index The index with which to register the HTML string.
 	 * For a description of the role of indices, see the documentation of
 	 * <code>getStylesForComponentType()</code>.
@@ -94,7 +94,7 @@ class ThemeInterface {
 	 * <code>addStyleForComponentType()</code> and <code>getStylesForComponentType()</code>.
 	 * @access public
 	 * @param integer type The type of the component. One of BLANK, HEADING, FOOTER,
-	 * BLOCK, MENU, MENU_ITEM_UNSELECTED, MENU_ITEM_SELECTED, MENU_ITEM_HEADING, OTHER.
+	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @param integer index The index that will determine which HTML string to return
 	 * If the given index is greater than the maximal registered index
 	 * for the given component type, then the highest index availible will be used.
@@ -112,7 +112,7 @@ class ThemeInterface {
 	 * @access public
 	 * @param string html The HTML code to use.
 	 * @param integer type The type of the component. One of BLANK, HEADING, FOOTER,
-	 * BLOCK, MENU, MENU_ITEM_UNSELECTED, MENU_ITEM_SELECTED, MENU_ITEM_HEADING, OTHER.
+	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @param integer index The index with which to register the HTML string.
 	 * For a description of the role of indices, see the documentation of
 	 * <code>getStylesForComponentType()</code>.
@@ -128,7 +128,7 @@ class ThemeInterface {
 	 * <code>addStyleForComponentType()</code> and <code>getStylesForComponentType()</code>.
 	 * @access public
 	 * @param integer type The type of the component. One of BLANK, HEADING, FOOTER,
-	 * BLOCK, MENU, MENU_ITEM_UNSELECTED, MENU_ITEM_SELECTED, MENU_ITEM_HEADING, OTHER.
+	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @param integer index The index that will determine which HTML string to return
 	 * If the given index is greater than the maximal registered index
 	 * for the given component type, then the highest index availible will be used.
