@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE chapter SYSTEM "../dtds/chapter.dtd"> 
+<!-- this contains a chapter of the Harmoni manual -->
+
+<chapter>
+	<version>$Id: 05-The\040Architecture.xml,v 1.1 2003/08/23 23:56:21 gabeschine Exp $</version>
+	<name>The Architecture/Framework</name>
+	
+</chapter>

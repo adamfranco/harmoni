@@ -16,7 +16,7 @@ require_once(HARMONI."architecture/harmoni/login/LoginState.class.php");
  * the {@link ActionHandler} classes.
  * 
  * @package harmoni.architecture
- * @version $Id: Harmoni.class.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.2 2003/08/23 23:56:20 gabeschine Exp $
  * @copyright 2003 
  **/
 class Harmoni extends HarmoniInterface {
@@ -107,7 +107,6 @@ class Harmoni extends HarmoniInterface {
 		// set up the language localizer
 		$this->language =& new LanguageLocalizer(HARMONI."languages");
 	}
-	
 	
 	/**
 	 * Sets the callback function to find out what module and action the end-user

@@ -21,7 +21,7 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.actions
- * @version $Id: ActionHandler.class.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.2 2003/08/23 23:56:20 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandler extends ActionHandlerInterface {
@@ -95,6 +95,18 @@ class ActionHandler extends ActionHandlerInterface {
 	var $_loginState;
 	
 	/**
+	 * @access private
+	 * @var string $_forwardToAction
+	 */
+	var $_forwardToAction = false;
+	
+	/**
+	 * @access private
+	 * @var string $_executing
+	 */
+	var $_executing = false;
+	
+	/**
 	 * The constructor.
 	 * @param object $httpVars A {@link FieldSet} object of HTTP variables.
 	 * @param optional object $context A {@link Context} object.
@@ -109,6 +121,19 @@ class ActionHandler extends ActionHandlerInterface {
 		$this->_threads = array();
 	}
 	
+	/**
+	 * If called within an executing action, will execute $module.$action
+	 * after calling action has stopped.
+	 * @param string $module The module.
+	 * @param string $action The action to execute.
+	 * @access public
+	 * @return void
+	 */
+	function forward( $module, $action ) {
+		if ($this->_executing && $module && $action) {
+			$this->_forwardToAction = $module . "." . $action;
+		}
+	}
 	
 	/**
 	 * The execute function takes a module and action. The method executes
@@ -141,7 +166,11 @@ class ActionHandler extends ActionHandlerInterface {
 		if (!$this->_loginState)
 			throwError(new Error("ActionHandler::execute() - Could not proceed: it seems we do not yet have a LoginState object set.","ActionHandler",true));
 		
-		return $this->_execute($module, $action);
+		$this->_executing = true;
+		$result =& $this->_execute($module, $action);
+		$this->_executing = false;
+		
+		return $result;
 	}
 	
 	/**
@@ -217,6 +246,14 @@ class ActionHandler extends ActionHandlerInterface {
 		
 		// now that we have our $result, let's check if we should do anything
 		// else or just return back to our caller.
+		// if the action that was executing called forward(), execute that action.
+		// otherwise, check if we have a thread to follow.
+		if ($this->_forwardToAction) {
+			$forward = $this->_forwardToAction;
+			$this->_forwardToAction = false;
+			
+			return $this->_executePair($forward);
+		}
 		if ($this->_threads[$_pair]) {
 			// we have a subsequent action defined...
 			// if we failed and there's a fail defined

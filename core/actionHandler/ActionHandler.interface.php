@@ -55,7 +55,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * <li>The {@link Harmoni} object.
  *
  * @package harmoni.interfaces.actions
- * @version $Id: ActionHandler.interface.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: ActionHandler.interface.php,v 1.2 2003/08/23 23:56:20 gabeschine Exp $
  * @copyright 2003 
  **/
 class ActionHandlerInterface {
@@ -70,6 +70,18 @@ class ActionHandlerInterface {
 	 * to execute. Can be: a {@link Layout} object, TRUE/FALSE, etc.
 	 **/
 	function & execute($module, $action) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * If called within an executing action, will execute $module.$action
+	 * after calling action has stopped.
+	 * @param string $module The module.
+	 * @param string $action The action to execute.
+	 * @access public
+	 * @return void
+	 */
+	function forward( $module, $action ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	

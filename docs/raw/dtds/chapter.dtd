@@ -1,0 +1,29 @@
+<!ELEMENT chapter (version?, name, (section|p|subchapter|subchapterfile)+)>
+<!ELEMENT subchapter (name, (section|p)+)>
+<!ELEMENT subchapterfile EMPTY>
+<!ATTLIST subchapterfile
+	src	CDATA	#REQUIRED>
+<!ELEMENT section (name,(p|block|note|termdef|example|heading)+)>
+<!ELEMENT p (#PCDATA|i|b|ul|br|link|tm)*>
+<!ELEMENT link (#PCDATA)>
+<!ELEMENT tm EMPTY>
+<!ELEMENT br EMPTY>
+<!ELEMENT ul (li*)>
+<!ELEMENT li (#PCDATA)>
+<!ELEMENT block (#PCDATA)>
+<!ELEMENT b (#PCDATA)>
+<!ELEMENT note (#PCDATA|b|i|link)*>
+<!ELEMENT termdef (term, def+)>
+<!ELEMENT term (#PCDATA)>
+<!ELEMENT def (#PCDATA)>
+<!ELEMENT i (#PCDATA)>
+<!ELEMENT example (#PCDATA|file)*>
+<!ATTLIST example
+	allPHP	(yes|no)	"yes"
+>
+<!ELEMENT file (#PCDATA)>
+<!ELEMENT heading (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT version (#PCDATA)>
+
+<!ENTITY tm "(tm)">

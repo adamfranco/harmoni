@@ -5,7 +5,7 @@
  * 
  * Here, set up your various AuthenticationMethods and their options and add them to the AuthenticationHandler.
  *
- * @version $Id: authentication.cfg.php,v 1.3 2003/07/10 02:34:20 gabeschine Exp $
+ * @version $Id: authentication.cfg.php,v 1.4 2003/08/23 23:56:20 gabeschine Exp $
  * @package harmoni.authentication
  * @copyright 2003 
  **/
@@ -15,10 +15,10 @@
  *		no need to change these options -- go below
  **/
 
-// start the service
+// :: start the service ::
 Services::startService("Authentication");
 
-// get the Authentication service and store in $auth
+// :: get the Authentication service and store in $auth ::
 $auth =& Services::getService("Authentication");
 
 

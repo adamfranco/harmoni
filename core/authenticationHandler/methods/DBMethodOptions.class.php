@@ -6,7 +6,7 @@ require_once(HARMONI."utilities/DataContainer.abstract.php");
  * The DBMethodOptions is a data container for the {@link DBAuthenticationMethod}.
  * 
  * @package harmoni.authentication.database
- * @version $Id: DBMethodOptions.class.php,v 1.1 2003/08/14 19:26:29 gabeschine Exp $
+ * @version $Id: DBMethodOptions.class.php,v 1.2 2003/08/23 23:56:20 gabeschine Exp $
  * @copyright 2003 
  **/
 
@@ -23,11 +23,14 @@ class DBMethodOptions extends DataContainer {
 		$this->init();
 		
 		// add the fields we want to allow
-		$this->add("databaseType", new NumericValidatorRule, new Error("'databaseType' must be a valid pre-defined database type constant, such as MYSQL or ORACLE.","DBMethodOptions",true));
+		// @todo change this to accept just a DBIndex.
+/*		$this->add("databaseType", new NumericValidatorRule, new Error("'databaseType' must be a valid pre-defined database type constant, such as MYSQL or ORACLE.","DBMethodOptions",true));
 		$this->add("databaseName", new FieldRequiredValidatorRule, new Error("You must provide a valid 'databaseName'!","DBMethodOptions",true));
 		$this->add("databaseUsername", new FieldRequiredValidatorRule, new Error("You must provide a valid 'databaseUsername'","DBMethodOptions",true));
 		$this->add("databasePassword", new FieldRequiredValidatorRule, new Error("You must provide a valid 'databasePassword'","DBMethodOptions",true));
 		$this->add("databaseHost", new FieldRequiredValidatorRule, new Error("You must specify the Database Host to connect to!","DBMethodOptions",true));
+*/
+		$this->add("databaseIndex", new IntegerValidatorRule);
 		
 		$this->add("tableName", new FieldRequiredValidatorRule, new Error("You must specify what database table contains user information!","DBMethodOptions",true));
 		$this->add("usernameField", new FieldRequiredValidatorRule, new Error("You must specify what field within the table contains the username!","DBMethodOptions",true));

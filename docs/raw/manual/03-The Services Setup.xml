@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE chapter SYSTEM "../dtds/chapter.dtd"> 
+<!-- this contains a chapter of the Harmoni manual -->
+
+<chapter>
+	<version>$Id: 03-The\040Services\040Setup.xml,v 1.1 2003/08/23 23:56:21 gabeschine Exp $</version>
+	<name>The Services Setup</name>
+	
+	<section>
+		<name>Introduction</name>
+		<p>The Harmoni Services offer two things: global access to pre-programmed classes, supplying authentication, file storage and others; and a way for you to make classes or objects you write available to all scopes of you program.</p>
+		
+		<p>This chapter will concentrate on how Services are fetched and created, not on the individual supplied services themselves. For descriptions about those, see the next chapter.</p>
+	</section>
+	
+	<section>
+		<name>Accessing a Pre-defined Service</name>
+		<p>There are a few ways to access pre-defined services (or services you define, for that matter). </p>
+
+		<example>
+Services::startService("MyService");
+$myService =&amp; Services::getService("MyService");
+		</example>
+		
+		<p>Assuming you know that <i>MyService</i> will be available, this is a fine way to access it. The <b>$myService</b> variable will contain the service object. If you are writing your program using some service supplied with Harmoni, some schmucko may have changed their Harmoni installation and removed/changed one of the services (why? I don't know). This could hamper the performance of your program. To make sure that a service is available and started, use the <i>requireService</i> method: </p>
+
+		<example>
+$myService =&amp; Services::requireService("MyService");
+Services::requireService("MyService",false); // will only check if it's there,
+											 // not start it
+		</example>
+		
+		<p>The <i>requireService</i> method will throw a big ugly error if it can't find the service or can't start it. It takes an optional second boolean argument specifying if it should try to start the service or not.</p>
+		
+		<heading>Using wrapper classes/functions</heading>
+		
+		<p>To make some services even more accessible, one can write wrapper classes or functions to do common tasks with a specific service. For examples of these, take a look at the <i>throwError</i> and <i>userError</i> functions, and the <i>debug</i> class. These are all wrappers for the <i>ErrorHandler</i>, <i>UserError</i> and <i>Debug</i> services, respectively. A short example wrapper function:</p>
+		
+		<example>
+function storeMyFile(&amp;$file, $path, $filename) {
+	$storage =&amp; Services::requireService("Storage");
+	return $storage->store($file, $path, $filename);
+}
+		</example>
+	</section>
+	
+	<section>
+		<name>Creating New Services</name>
+		<p>Creating new services is easy: <b>Service::registerService("myService","className")</b>. You can name your service anything, as long as another service doesn't have that name. The <i>className</i> argument is the class that should be instantiated. Any class you register must extend the "Service" interface. Then, anywhere you want, you can get the service named "MyService", and it will hand you an object of the class "className".</p>
+
+		<heading>Already Instantiated Objects</heading>
+		<p>Sometimes it's useful to register a class that's already been instantiated as a service. This is especially useful if the class' constructor takes arguments. Here's the code:</p>
+		<example>
+$myObj =&amp; new SomeClass($bla, $foo);
+Services::registerObjectAsService("MyServiceTwo",$myObj);
+		</example>
+		
+	</section>
+	
+	<section>
+		<name>Replacing Existing Services</name>
+		<p>Replacing existing services is as easy as adding them. Two things need to be true for this to work though: 1) the service can't be started, 2) to avoid breaking a program, it must implement the same interface as the service to be replaced. Just call the <i>registerService</i> method with the same service name as the one you want to replace.</p>
+	</section>
+	
+</chapter>

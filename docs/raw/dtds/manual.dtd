@@ -1,0 +1,8 @@
+<!ELEMENT manual (chapterfile*)>
+<!ATTLIST manual
+	name	CDATA	#REQUIRED>
+	
+<!ELEMENT chapterfile EMPTY>
+<!ATTLIST chapterfile
+	file	CDATA	#REQUIRED
+>

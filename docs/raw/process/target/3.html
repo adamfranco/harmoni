@@ -1,0 +1,108 @@
+<html>
+	<head>
+		<title>The Services Setup</title>
+		<link rel="stylesheet" type="text/css" href="common.css">
+	</head>
+	
+	<body>
+		<!-- top nav bar -->
+		<div class="navbar">
+			<table border="0" cellpadding="0" width="100%">
+				<tr>
+					<td align="left" width="30%">
+						<a href='2.html'>prev</a> (Getting Started)					</td>
+					<td align="center" width="30%">
+						<a href='index.html'>up</a> (Harmoni Users Manual) | 						<a href="index.html">Home</a>
+					</td>
+					<td align="right" width="30%">
+						<a href='4.html'>next</a> (Included Services)					</td>
+				</tr>
+			</table>
+		</div>
+		<!-- end -->
+
+		<table width="100%" cellpadding="0" cellspacing="0">
+	<tr>
+		<td>&nbsp;</td>
+		<td width="50%" align="center">
+			<div class="title">
+				:: Table of Contents ::
+			</div>
+			<div class='toc0'>
+3 <a href='3.html'>The Services Setup</a><br/>
+<div class='toc'>
+3.1 <a href='3.html#Introduction'>Introduction</a><br/>
+</div>
+<div class='toc'>
+3.2 <a href='3.html#AccessingaPredefinedService'>Accessing a Pre-defined Service</a><br/>
+</div>
+<div class='toc'>
+3.3 <a href='3.html#CreatingNewServices'>Creating New Services</a><br/>
+</div>
+<div class='toc'>
+3.4 <a href='3.html#ReplacingExistingServices'>Replacing Existing Services</a><br/>
+</div>
+</div>
+		</td>
+		<td>&nbsp;</td>
+	</tr>
+</table><div class='title'>Chapter 3: The Services Setup</div>
+<div class='content'>
+<div class='inlinetitle'>3.1 <a name='Introduction'>Introduction</a></div>
+<div class='section'>
+<p><p>The Harmoni Services offer two things: global access to pre-programmed classes, supplying authentication, file storage and others; and a way for you to make classes or objects you write available to all scopes of you program.</p></p>
+<p><p>This chapter will concentrate on how Services are fetched and created, not on the individual supplied services themselves. For descriptions about those, see the next chapter.</p></p>
+</div>
+<div class='inlinetitle'>3.2 <a name='AccessingaPredefinedService'>Accessing a Pre-defined Service</a></div>
+<div class='section'>
+<p><p>There are a few ways to access pre-defined services (or services you define, for that matter). </p></p>
+<div class='padding'><div class='notetitle'>Example</div><div class='example'><code><font color="#000000">
+<font color="#0000BB">Services</font><font color="#007700">::</font><font color="#0000BB">startService</font><font color="#007700">(</font><font color="#DD0000">"MyService"</font><font color="#007700">);<br /></font><font color="#0000BB">$myService </font><font color="#007700">=&amp; </font><font color="#0000BB">Services</font><font color="#007700">::</font><font color="#0000BB">getService</font><font color="#007700">(</font><font color="#DD0000">"MyService"</font><font color="#007700">);<br /></font>
+</font>
+</code></div></div>
+<p><p>Assuming you know that <i>MyService</i> will be available, this is a fine way to access it. The <b>$myService</b> variable will contain the service object. If you are writing your program using some service supplied with Harmoni, some schmucko may have changed their Harmoni installation and removed/changed one of the services (why? I don't know). This could hamper the performance of your program. To make sure that a service is available and started, use the <i>requireService</i> method: </p></p>
+<div class='padding'><div class='notetitle'>Example</div><div class='example'><code><font color="#000000">
+<font color="#0000BB">$myService </font><font color="#007700">=&amp; </font><font color="#0000BB">Services</font><font color="#007700">::</font><font color="#0000BB">requireService</font><font color="#007700">(</font><font color="#DD0000">"MyService"</font><font color="#007700">);<br /></font><font color="#0000BB">Services</font><font color="#007700">::</font><font color="#0000BB">requireService</font><font color="#007700">(</font><font color="#DD0000">"MyService"</font><font color="#007700">,</font><font color="#0000BB">false</font><font color="#007700">); </font><font color="#FF8000">// will only check if it's there,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // not start it<br /></font>
+</font>
+</code></div></div>
+<p><p>The <i>requireService</i> method will throw a big ugly error if it can't find the service or can't start it. It takes an optional second boolean argument specifying if it should try to start the service or not.</p></p>
+<div class='heading'>:: Using wrapper classes/functions ::</div>
+<p><p>To make some services even more accessible, one can write wrapper classes or functions to do common tasks with a specific service. For examples of these, take a look at the <i>throwError</i> and <i>userError</i> functions, and the <i>debug</i> class. These are all wrappers for the <i>ErrorHandler</i>, <i>UserError</i> and <i>Debug</i> services, respectively. A short example wrapper function:</p></p>
+<div class='padding'><div class='notetitle'>Example</div><div class='example'><code><font color="#000000">
+<font color="#0000BB">function storeMyFile</font><font color="#007700">(&amp;</font><font color="#0000BB">$file</font><font color="#007700">, </font><font color="#0000BB">$path</font><font color="#007700">, </font><font color="#0000BB">$filename</font><font color="#007700">) {<br />&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$storage </font><font color="#007700">=&amp; </font><font color="#0000BB">Services</font><font color="#007700">::</font><font color="#0000BB">requireService</font><font color="#007700">(</font><font color="#DD0000">"Storage"</font><font color="#007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;return </font><font color="#0000BB">$storage</font><font color="#007700">-&gt;</font><font color="#0000BB">store</font><font color="#007700">(</font><font color="#0000BB">$file</font><font color="#007700">, </font><font color="#0000BB">$path</font><font color="#007700">, </font><font color="#0000BB">$filename</font><font color="#007700">);<br />}<br /></font>
+</font>
+</code></div></div>
+</div>
+<div class='inlinetitle'>3.3 <a name='CreatingNewServices'>Creating New Services</a></div>
+<div class='section'>
+<p><p>Creating new services is easy: <b>Service::registerService(&quot;myService&quot;,&quot;className&quot;)</b>. You can name your service anything, as long as another service doesn't have that name. The <i>className</i> argument is the class that should be instantiated. Any class you register must extend the &quot;Service&quot; interface. Then, anywhere you want, you can get the service named &quot;MyService&quot;, and it will hand you an object of the class &quot;className&quot;.</p></p>
+<div class='heading'>:: Already Instantiated Objects ::</div>
+<p><p>Sometimes it's useful to register a class that's already been instantiated as a service. This is especially useful if the class' constructor takes arguments. Here's the code:</p></p>
+<div class='padding'><div class='notetitle'>Example</div><div class='example'><code><font color="#000000">
+<font color="#0000BB">$myObj </font><font color="#007700">=&amp; new </font><font color="#0000BB">SomeClass</font><font color="#007700">(</font><font color="#0000BB">$bla</font><font color="#007700">, </font><font color="#0000BB">$foo</font><font color="#007700">);<br /></font><font color="#0000BB">Services</font><font color="#007700">::</font><font color="#0000BB">registerObjectAsService</font><font color="#007700">(</font><font color="#DD0000">"MyServiceTwo"</font><font color="#007700">,</font><font color="#0000BB">$myObj</font><font color="#007700">);<br /></font>
+</font>
+</code></div></div>
+</div>
+<div class='inlinetitle'>3.4 <a name='ReplacingExistingServices'>Replacing Existing Services</a></div>
+<div class='section'>
+<p><p>Replacing existing services is as easy as adding them. Two things need to be true for this to work though: 1) the service can't be started, 2) to avoid breaking a program, it must implement the same interface as the service to be replaced. Just call the <i>registerService</i> method with the same service name as the one you want to replace.</p></p>
+</div>
+</div>
+<div class='version'>Version: $Id: 3.html,v 1.1 2003/08/23 23:56:21 gabeschine Exp $</div>		
+		<!-- bottom nav bar -->
+		<div class="navbar">
+			<table border="0" cellpadding="0" width="100%">
+				<tr>
+					<td align="left" width="30%">
+						<a href='2.html'>prev</a> (Getting Started)					</td>
+					<td align="center" width="30%">
+						<a href='index.html'>up</a> (Harmoni Users Manual) | 						<a href="index.html">Home</a>
+					</td>
+					<td align="right" width="30%">
+						<a href='4.html'>next</a> (Included Services)					</td>
+				</tr>
+			</table>
+		</div>
+		<!-- end -->
+	</body>
+</html>

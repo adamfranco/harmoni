@@ -1,0 +1,137 @@
+<html>
+	<head>
+		<title>Getting Started</title>
+		<link rel="stylesheet" type="text/css" href="common.css">
+	</head>
+	
+	<body>
+		<!-- top nav bar -->
+		<div class="navbar">
+			<table border="0" cellpadding="0" width="100%">
+				<tr>
+					<td align="left" width="30%">
+						<a href='1.html'>prev</a> (Introduction)					</td>
+					<td align="center" width="30%">
+						<a href='index.html'>up</a> (Harmoni Users Manual) | 						<a href="index.html">Home</a>
+					</td>
+					<td align="right" width="30%">
+						<a href='2.4.html'>next</a> (Authentication & DBC)					</td>
+				</tr>
+			</table>
+		</div>
+		<!-- end -->
+
+		<table width="100%" cellpadding="0" cellspacing="0">
+	<tr>
+		<td>&nbsp;</td>
+		<td width="50%" align="center">
+			<div class="title">
+				:: Table of Contents ::
+			</div>
+			<div class='toc0'>
+2 <a href='2.html'>Getting Started</a><br/>
+<div class='toc'>
+2.1 <a href='2.html#TheHarmonidirectorystructure'>The Harmoni directory structure</a><br/>
+</div>
+<div class='toc'>
+2.2 <a href='2.html#MakingyourapplicationrununderHarmoni'>Making your application run "under" Harmoni</a><br/>
+</div>
+<div class='toc'>
+2.3 <a href='2.html#QuickServicesIntroduction'>Quick Services Introduction</a><br/>
+</div>
+<div class='toc'>
+2.4 <a href='2.4.html'>Authentication & DBC</a><br/>
+<div class='toc'>
+2.4.1 <a href='2.4.html#IntroductiontoAuthentication'>Introduction to Authentication</a><br/>
+</div>
+<div class='toc'>
+2.4.2 <a href='2.4.html#SimpleDatabaseAuthentication'>Simple Database Authentication</a><br/>
+</div>
+<div class='toc'>
+2.4.3 <a href='2.4.html#SimpleDatabaseAccess'>Simple Database Access</a><br/>
+</div>
+</div>
+</div>
+		</td>
+		<td>&nbsp;</td>
+	</tr>
+</table><div class='title'>Chapter 2: Getting Started</div>
+<div class='content'>
+<p><p>This chapter gives you a quick-start guide to Harmoni. It will concentrate on the most common required services: Authentication and Database Connectivity, as well as usage of the architecture.</p></p>
+<div class='inlinetitle'>2.1 <a name='TheHarmonidirectorystructure'>The Harmoni directory structure</a></div>
+<div class='section'>
+<p><p>Here is a run-down of what's in Harmoni:</p></p>
+<div class='term'>harmoni/</div>
+<div class='def'>The root Harmoni directory. Contains the "harmoni.inc.php" file which must be included by any script using Harmoni.</div>
+<div class='term'>harmoni/docs/</div>
+<div class='def'>The documentation directory, containing the manual, various READMEs, the PHPDoc, License, etc.</div>
+<div class='term'>harmoni/core/</div>
+<div class='def'>Contains all the Harmoni core class files. Feel free to muck around. Changing things may mess things up, though.</div>
+<div class='term'>harmoni/config/</div>
+<div class='def'>Harmoni user-configuration files. Edit these!</div>
+<div class='term'>harmoni/changelog/</div>
+<div class='def'>Contains the changelog in XML, TXT and HTML formats.</div>
+<div class='term'>harmoni/oki/</div>
+<div class='def'>Contains all the OKI OSIDs. These are interfaces you should follow when creating classes for functions underneath the OKI umbrella.</div>
+</div>
+<div class='inlinetitle'>2.2 <a name='MakingyourapplicationrununderHarmoni'>Making your application run "under" Harmoni</a></div>
+<div class='section'>
+<p><p>Get ready, this is hard. And by hard, I really mean easy. Take a look at this code:</p></p>
+<div class='padding'><div class='notetitle'>Example</div><div class='example'><code><font color="#000000">
+<font color="#0000BB">require_once</font><font color="#007700">(</font><font color="#DD0000">"/path/to/harmoni.inc.php"</font><font color="#007700">);<br /><br />...<br /></font>
+</font>
+</code></div></div>
+<p><p>Break it down: the <b>require_once(...)</b> is pretty much it. You include that, before most everything else, in a file called <i>index.php</i> or <i>default.php</i> or whatever you want, really. Once that file is included, all of Harmoni's required classes are included and services are instantiated and configured.</p></p>
+<p><p>Now, as much as you could claim that your program runs under Harmoni just by using this file, you might also want to take advantage of the functionality it provides.</p></p>
+</div>
+<div class='inlinetitle'>2.3 <a name='QuickServicesIntroduction'>Quick Services Introduction</a></div>
+<div class='section'>
+<p><p>This section will provide a quick introduction into how Harmoni services can be created, started, stopped and used. For information on specific services that are packaged Harmoni, there is a chapter devoted to just that. This is not it.</p></p>
+<p><p>Services are, in essence, special PHP classes. They are meant to hover over the execution of your code and pop down whenever you request them to impart their divine knowledge upon you. An example: The ErrorHandler. Any time something bad happens, you throw an error. The error handler picks it up and waits until later to print them out (at your discretion). If the error is fatal, well, it kills your program and tells the end user everything that happened (try it - it's fun). 
+		</p></p>
+<p><p>Harmoni provides a special class called <i>Services</i> which can be used statically. That means that it's available in any scope in your program, and hence your program has access to ALL services registered in ANY scope of your program. For those of you that have a little sense, you organize your code into functions, and maybe even classes and class-methods. No matter where you are, though, you can access the Services class! Amazing! Here's how:</p></p>
+<div class='padding'><div class='notetitle'>Example</div><div class='example'><code><font color="#000000">
+<font color="#0000BB"></font><font color="#007700">...<br /><br />if (</font><font color="#0000BB">Services</font><font color="#007700">::</font><font color="#0000BB">serviceRunning</font><font color="#007700">(</font><font color="#DD0000">"ErrorHandler"</font><font color="#007700">)) {<br />&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$errorHandler </font><font color="#007700">=&amp; </font><font color="#0000BB">Services</font><font color="#007700">::</font><font color="#0000BB">getService</font><font color="#007700">(</font><font color="#DD0000">"ErrorHandler"</font><font color="#007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$count </font><font color="#007700">= </font><font color="#0000BB">$errorHandler</font><font color="#007700">-&gt;</font><font color="#0000BB">getNumberOfErrors</font><font color="#007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;print </font><font color="#DD0000">"We have $count errors!"</font><font color="#007700">;<br />}<br /><br />...</font>
+</font>
+</code></div></div>
+<p><p>You can also start a service with <b>Services::startService(&quot;SomeName&quot;)</b> or stop it with <b>Services::stopService(&quot;SomeName&quot;)</b>. More useful is the requireService function:</p></p>
+<div class='padding'><div class='notetitle'>Example</div><div class='example'><code><font color="#000000">
+<font color="#0000BB">$errorHandler </font><font color="#007700">=&amp; </font><font color="#0000BB">Services</font><font color="#007700">::</font><font color="#0000BB">requireService</font><font color="#007700">(</font><font color="#DD0000">"ErrorHandler"</font><font color="#007700">);</font>
+</font>
+</code></div></div>
+<p><p>The above function will check if a Service exists. If it does not, it will complain. Loudly. An optional second argument (true/false - default=true) tells the function to start the Service if it is not already, and return the Service object to you. If the second argument is FALSE, it will do nothing other than make sure the Service has been registered.</p></p>
+<div class='padding'><div class='notetitle'>NOTE</div><div class='note'><note>Make sure that when you work with objects under PHP4 that you use the <i>assign by reference</i> operator (&quot;=&amp;&quot;) instead of a normal <i>assign</i> (&quot;=&quot;). PHP4 has an annoying way of assuming that you want a <b>copy</b> of an object by default. For the most part, this is pointless. If you were to get a service by copy, make changes to it, and expect those changes to be reflected later in your code when something else gets the service, you will be pleasantly surprised (and annoyed). So, any time that you are expecting an object back from a function, use <b>=&amp;</b>. </note></div></div>
+<p><p>More detail on Services and the more advanced functions can be found later.</p></p>
+</div>
+<div class='inlinetitle'>2.4 Subchapter: Authentication & DBC</div>
+<p>This section is a subchapter. Below is its table of contents:</p><div class='toc0'>
+2.4 <a href='2.4.html'>Authentication & DBC</a><br/>
+<div class='toc'>
+2.4.1 <a href='2.4.html#IntroductiontoAuthentication'>Introduction to Authentication</a><br/>
+</div>
+<div class='toc'>
+2.4.2 <a href='2.4.html#SimpleDatabaseAuthentication'>Simple Database Authentication</a><br/>
+</div>
+<div class='toc'>
+2.4.3 <a href='2.4.html#SimpleDatabaseAccess'>Simple Database Access</a><br/>
+</div>
+</div>
+</div>
+<div class='version'>Version: $Id: 2.html,v 1.1 2003/08/23 23:56:21 gabeschine Exp $</div>		
+		<!-- bottom nav bar -->
+		<div class="navbar">
+			<table border="0" cellpadding="0" width="100%">
+				<tr>
+					<td align="left" width="30%">
+						<a href='1.html'>prev</a> (Introduction)					</td>
+					<td align="center" width="30%">
+						<a href='index.html'>up</a> (Harmoni Users Manual) | 						<a href="index.html">Home</a>
+					</td>
+					<td align="right" width="30%">
+						<a href='2.4.html'>next</a> (Authentication & DBC)					</td>
+				</tr>
+			</table>
+		</div>
+		<!-- end -->
+	</body>
+</html>

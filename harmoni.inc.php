@@ -4,7 +4,7 @@
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.16 2003/08/20 21:20:03 adamfranco Exp $
+ * @version $Id: harmoni.inc.php,v 1.17 2003/08/23 23:56:20 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
@@ -15,18 +15,19 @@ if (!ob_get_level()) ob_start();
  
 /**
  * Defines the global harmoni directory.
- * @const string HARMONI The harmoni directory.
+ * @const string HARMONI The harmoni core directory.
  * @const string HARMONI_BASE The base harmoni directory.
  **/
 define("HARMONI",dirname(__FILE__)."/core/");
 define("HARMONI_BASE",dirname(__FILE__)."/");
+define("HARMONIBASE",dirname(__FILE__)."/");
 
 /**
  * Defines where OKI interfaces for PHP are located.
  * @const string OKI The OKI interfaces location.
  */
 define("OKI",dirname(__FILE__)."/oki/");
-require_once(OKI."inc.php");
+//require_once(OKI."inc.php");
 
 /**
  * The name of the services variable.
@@ -44,9 +45,14 @@ require_once(HARMONI."services/Services.class.php");
 $__services__ =& new Services();
 
 /* :: load the Services registration config file :: */
+require_once(HARMONIBASE."config/services.cfg.php");
 require_once(HARMONI_BASE."config/services.cfg.php");
 
 /* :: load the harmoni class :: */
 require_once(HARMONI."architecture/harmoni/Harmoni.class.php");
+
+
+/* :: include other useful things :: */
+require_once(HARMONI."utilities/TemplateFactory.class.php");
 
 ?>

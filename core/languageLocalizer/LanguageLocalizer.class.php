@@ -7,7 +7,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * and other data for multiple languages.
  *
  * @package harmoni.languages
- * @version $Id: LanguageLocalizer.class.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.2 2003/08/23 23:56:20 gabeschine Exp $
  * @copyright 2003 
  **/
 class LanguageLocalizer extends LanguageLocalizerInterface {
@@ -28,7 +28,13 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 	 * @var array $_strings A hash table of strings for this language.
 	 **/
 	var $_strings;
-	
+
+	/**
+	 * @access private
+	 * @var string $_application The "app" we are bound to.
+	 **/
+	var $_application;
+
 	/**
 	 * The constructor.
 	 * @param string $langDir The directory in which language files reside.
@@ -38,7 +44,14 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 	 * @todo -cLanguageLocalizer Implement LanguageLocalizer.constructor - use gettext functionality.
 	 **/
 	function LanguageLocalizer($langDir,$application) {
+		if (!file_exists($folder = $langDir)) {
+			throwError(new Error("LanguageLocalizer - could not find language folder '$langDir!","LanguageLocalizer",true));
+			return false;
+		}
+		
 		$this->_langDir = $langDir;
+		$this->_application = $application;
+		bindtextdomain($application, $langDir);
 	}
 	
 	/**
@@ -49,14 +62,23 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 	 * @todo -cLanguageLocalizer Implement LanguageLocalizer.setLanguage - use gettext functionality.
 	 **/
 	function setLanguage($language) {
-		$folder = $this->_langDir . DIRECTORY_SEPARATOR . $language;
+		if (!ereg("^[a-z]{2}_[A-Z]{2}",$language)) {
+			throwError(new Error("LanguageLocalizer::setLanguage($language) - language must start with 'xx_XX' (where x/X is any letter). Example: 'en_US'.","LanguageLocalizer",true));
+			return false;
+		}
 		
-		if (!file_exists($folder)) {
-			throwError(new Error("LanguageLocalizer::setLanguage($language) - could not find language files in '$folder'!","LanguageLocalizer",true));
+		$file = $this->_langDir . DIRECTORY_SEPARATOR
+				. $language . DIRECTORY_SEPARATOR
+				. "LC_MESSAGES" . DIRECTORY_SEPARATOR
+				. $this->_application . ".mo";
+		
+		if (! file_exists($file) ) {
+			throwError(new Error("LanguageLocalizer::setLanguage($language) - could not set language. The translation file '$file' does not exist!","LanguageLocalizer", true));
 			return false;
 		}
 		
 		$this->_lang = $language;
+		setlocale(LC_MESSAGES, $language);
 	}
 	
 	/**
@@ -67,7 +89,7 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 	 * @return string The string corresponding to $stringName in the specified language.
 	 **/
 	function getString($stringName) {
-		throwError(new Error("LanguageLocalizer::getString() has been deprecated. Use the gettext function '_()' instead.","LanguageLocalizer",true));
+		throwError(new Error("LanguageLocalizer::getString($stringName) has been deprecated. Use the gettext function '_()' instead.","LanguageLocalizer",false));
 	}
 	
 	/**
