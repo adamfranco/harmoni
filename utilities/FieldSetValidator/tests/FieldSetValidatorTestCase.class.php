@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FieldSetValidatorTestCase.class.php,v 1.3 2003/06/28 01:01:51 gabeschine Exp $
+ * @version $Id: FieldSetValidatorTestCase.class.php,v 1.4 2003/07/01 17:14:13 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -106,7 +106,13 @@
 		
 		function test_rule_set_add_multiple() {
 			$this->assertEqual($this->testRuleSet->count(),0);
-			$error = 1;
+
+			// what the hell is this???
+			// $error = 1;
+			
+			$error = new Error("blah", "blah", true);
+			
+			
 			$rq = & new FieldRequiredValidatorRule;
 			$email = & new EmailValidatorRule;
 			$number = & new NumericValidatorRule;

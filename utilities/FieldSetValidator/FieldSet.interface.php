@@ -3,7 +3,7 @@
 /**
  * the FieldSetInterface defines the methods required by any FieldSet class or derivatives
  *
- * @version $Id: FieldSet.interface.php,v 1.5 2003/06/23 20:42:35 adamfranco Exp $
+ * @version $Id: FieldSet.interface.php,v 1.6 2003/07/01 17:14:13 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/
@@ -42,7 +42,7 @@ class FieldSetInterface {
 	 * @access public
 	 * @return void 
 	 **/
-	function set( $key, $val ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function set( $key, & $val ) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * clears the fieldset

@@ -13,7 +13,7 @@
  * types of agents.
  * 
  * @access public
- * @version $Id: AuthorizationAgent.interface.php,v 1.2 2003/06/30 20:41:44 dobomode Exp $
+ * @version $Id: AuthorizationAgent.interface.php,v 1.3 2003/07/01 17:13:59 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/29/2003
@@ -46,7 +46,7 @@ class AuthorizationAgentInterface {
 	/**
 	 * Returns the type of this agent.
 	 * <br><br>
-	 * The <b>type</b> is a system-specific type used to differentiate between verious
+	 * The <b>type</b> is a system-specific type used to differentiate between various
 	 * types of agents.
 	 * @method public getType
 	 * @return string The type of this agent.
