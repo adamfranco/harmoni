@@ -52,4 +52,8 @@ class HarmoniType
 
 } // end Type
 
+function OKITypeToString(&$type) {
+	return $type->getDomain() . "/" . $type->getAuthority() . "/" . $type->getKeyword();
+}
+
 ?>

@@ -1,6 +1,9 @@
 <?php
 
-$harmoniVersion = 00.0003;
+// :: $harmoniVersion = XXXXXX where version is XX.XX.XX
+// :: example: 0.0.3 = 000003;
+
+$harmoniVersion = 000003;
 $harmoniVersionStr = "0.0.3";
 
 ?>

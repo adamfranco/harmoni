@@ -45,7 +45,7 @@ class IDManager {
 		
 		$result =& $this->_db->query($query,$this->_dbID);
 		if ($result->getNumberOfRows() != 1) {
-			throwError( new Error("IDManager::newID($domain, $authority, $keyword) - a database error occured","IDManager",true));
+			throwError( new UnknownDBError("IDManager"));
 		}
 		
 		debug::output("successfully created new id '$max'",DEBUG_SYS1,"IDManager");
@@ -69,6 +69,10 @@ class IDManager {
 			$type =& new HarmoniType($result->field(0),$result->field(1),$result->field(2));
 		
 		return $type;
+	}
+	
+	function getAllIDsofType(&$type) {
+		ArgumentValidator::validate($type, new ExtendsValidatorRule("Type"));
 	}
 }
 
