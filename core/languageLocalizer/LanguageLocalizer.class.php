@@ -7,7 +7,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * and other data for multiple languages.
  *
  * @package harmoni.languages
- * @version $Id: LanguageLocalizer.class.php,v 1.6 2004/05/20 17:24:36 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.7 2004/05/26 22:58:16 adamfranco Exp $
  * @copyright 2003 
  **/
 class LanguageLocalizer extends LanguageLocalizerInterface {
@@ -37,32 +37,14 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 
 	/**
 	 * The constructor.
-	 * @param string $langDir The directory in which language files reside.
-	 * @param string $application The name of the application to use (for *.mo files)
+	 * @param optional string $langDir The directory in which language files reside.
+	 * @param optional string $application The name of the application to use (for *.mo files)
 	 * @access public
 	 * @return void
 	 * @todo -cLanguageLocalizer Implement LanguageLocalizer.constructor - use gettext functionality.
 	 **/
-	function LanguageLocalizer($langDir,$application) {
-		if (!file_exists($folder = $langDir)) {
-			throwError(new Error("LanguageLocalizer - could not find language folder '$langDir!","LanguageLocalizer",true));
-			return false;
-		}
-				
-		$this->_langDir = $langDir;
-		$this->_application = $application;
-		bindtextdomain($this->_application, $this->_langDir);
-		textdomain($this->_application);
-		
-		debug::output("Starting LanguageLocalizer($langDir, $application), Lang=".$this->_lang."");
-		
-		// Get the current Language settings from the session if they exist.
-		if (isset($_SESSION['__CurrentLanguage'])) {
-			$this->setLanguage( $_SESSION['__CurrentLanguage'] );
-		} else {
-			$this->setLanguage( "en_US" );
-		}
-		
+	function LanguageLocalizer($application=NULL, $langDir=NULL) {
+	
 		// Get the current Language encoding from the session if it exists.
 		if (isset($_SESSION['__CurrentLanguageCodeset'])) {
 			$this->_codeset = $_SESSION['__CurrentLanguageCodeset'];
@@ -71,7 +53,65 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 			$this->_codeset = "UTF-8";
 		}
 		
-		bind_textdomain_codeset ($this->_application, $this->_codeset);
+		// Get the current Language settings from the session if they exist.
+		if (isset($_SESSION['__CurrentLanguage'])) {
+			$this->setLanguage( $_SESSION['__CurrentLanguage'] );
+		} else {
+			$this->setLanguage( "en_US" );
+		}
+		
+		// Add our first application if passed
+		if ($application && $langDir)
+			$this->addApplication($application, $langDir);
+	}
+	
+	/**
+	 * Add a new application to the LanguageLocalizer.
+	 * The first application added will be the default textdomain.
+	 * To use language files in other textdomains use the PHP textdomain()
+	 * function as follows:
+	 * 
+	 * < ?
+	 * $defaultTextDomain = textdomain();
+	 * textdomain("myAppName");
+	 * 
+	 * ...
+	 * print _("My nice string");
+	 * print _("Some other stuff.");
+	 * ...
+	 *
+	 * textdomain($defaultTextDomain);
+	 * ? >
+	 *
+	 * To create the localized binary hashes, the following steps need to be
+	 * followed:
+	 *
+	 * 1. use xgettext to create the .po translation files:
+	 * 		find /www/afranco/polyphony/ -iname "*.php" -exec xgettext -C -j -o /www/afranco/polyphony/main/languages/en_US/LC_MESSAGES/polyphony.po --keyword=_ {} \;
+	 *
+	 * 2. translate the .po files
+	 * 3. use msgfmt to create the binary hashes
+	 *		msgfmt -vf /www/afranco/polyphony/main/languages/es_ES/LC_MESSAGES/polyphony.po -o /www/afranco/polyphony/main/languages/es_ES/LC_MESSAGES/polyphony.mo
+	 *
+	 * @param string $application The application name to add.
+	 * @param string $langDir The directory where language files for the 
+	 *		application are stored.
+	 * @return void
+	 */
+	function addApplication ($application, $langDir) {
+		if (!file_exists($langDir)) {
+			throwError(new Error("LanguageLocalizer - could not find language folder '$langDir'.","LanguageLocalizer",true));
+			return false;
+		}
+		
+		$this->_applications[$application] = $langDir;
+		
+		bindtextdomain($application, $langDir);
+		bind_textdomain_codeset ($application, $this->_codeset);
+	
+		// The first application added will be the default textdomain.		
+		if (count($this->_applications) == 1)
+			textdomain($application);
 	}
 	
 	/**
@@ -87,21 +127,23 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 			return false;
 		}
 		
-		$file = $this->_langDir . DIRECTORY_SEPARATOR
-				. $language . DIRECTORY_SEPARATOR
-				. "LC_MESSAGES" . DIRECTORY_SEPARATOR
-				. $this->_application . ".mo";
-		
-		if (! file_exists($file) ) {
-			throwError(new Error("LanguageLocalizer::setLanguage($language) - could not set language. The translation file '$file' does not exist!","LanguageLocalizer", true));
-			return false;
-		}
+// 		foreach ($this->_applications as $application => $langDir) {
+// 			$file = $langDir . DIRECTORY_SEPARATOR
+// 					. $language . DIRECTORY_SEPARATOR
+// 					. "LC_MESSAGES" . DIRECTORY_SEPARATOR
+// 					. $application . ".mo";
+// 			
+// 			if (! file_exists($file) ) {
+// 				throwError(new Error("LanguageLocalizer::setLanguage($language) - could not set language. The translation file '$file' does not exist!","LanguageLocalizer", true));
+// 				return false;
+// 			}
+// 		}
 		
 		$this->_lang = $language;
 		$_SESSION['__CurrentLanguage'] = $this->_lang;
 		
 		$result = setlocale(LC_MESSAGES, $this->_lang);
-		debug::output( "Setting Lang to ".$this->_lang." => '$result', langdir=".$this->_langDir." app=".$this->_application."",DEBUG_SYS5,"LanguageLocalizer");
+		debug::output( "Setting Lang to ".$this->_lang." => '$result'.",DEBUG_SYS5,"LanguageLocalizer");
 	}
 	
 	/**
@@ -121,7 +163,9 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 	function setCodeset($codeset) {
 		$this->_codeset = $codeset;
 		$_SESSION['__CurrentLanguageCodeset'] = $this->_codeset;
-		bind_textdomain_codeset ($application, $codeset);
+		foreach ($this->_applications as $application => $langDir) {
+			bind_textdomain_codeset ($application, $codeset);
+		}
 	}
 	
 	/**
@@ -160,62 +204,21 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 			}
 			
 			$_SESSION['__AvailibleLanguages'] = array();
-			$handle = opendir($this->_langDir);
-			while (($file = readdir($handle)) !== FALSE) {
-				if (ereg("([a-z]{2})_([A-Z]{2})", $file, $parts)) {
-					if ($includeCountries)
-						$_SESSION['__AvailibleLanguages'][$file] = $languages[$parts[1]].
-															" - ".$countries[$parts[2]];
-					else
-						$_SESSION['__AvailibleLanguages'][$file] = $languages[$parts[1]];
+			foreach ($this->_applications as $application => $langDir) {
+				$handle = opendir($langDir);
+				while (($file = readdir($handle)) !== FALSE) {
+					if (ereg("([a-z]{2})_([A-Z]{2})", $file, $parts)) {
+						if ($includeCountries)
+							$_SESSION['__AvailibleLanguages'][$file] = $languages[$parts[1]].
+																" - ".$countries[$parts[2]];
+						else
+							$_SESSION['__AvailibleLanguages'][$file] = $languages[$parts[1]];
+					}
 				}
 			}
 		}
 		
 		return $_SESSION['__AvailibleLanguages'];
-	}
-	
-	/**
-	 * *Deprecated* Returns a string in the language set with setLanguage() of "id" $stringName.
-	 * @param string $stringName The corresponding string name in the language strings file.
-	 * @access public
-	 * @deprecated 8/8/2003 - localization functionality now handled by gettext()
-	 * @return string The string corresponding to $stringName in the specified language.
-	 **/
-	function getString($stringName) {
-		throwError(new Error("LanguageLocalizer::getString($stringName) has been deprecated. Use the gettext function '_()' instead.","LanguageLocalizer",false));
-	}
-	
-	/**
-	 * *Deprecated* Reads all the strings from the strings file into memory.
-	 * @access private
-	 * @deprecated 8/8/2003 - localization functionality now handled by gettext()
-	 * @return void
-	 **/
-	function _readStrings() {
-		if (is_array($this->_strings)) return;
-		
-		$this->_strings = array();
-		
-		$file = $this->_langDir . DIRECTORY_SEPARATOR . $this->_lang . DIRECTORY_SEPARATOR . "strings.$this->_lang.txt";
-		if (!file_exists($file)) {
-			throwError(new Error("LanguageLocalizer::getString() - could not find strings file '$file'!","LanguageLocalizer",true));
-			return false;
-		}
-		
-		$contents = file($file);
-		foreach ($contents as $line) {
-			// ignore comments
-			if (ereg("^[:blank:]*#.*$",$line)) continue;
-			
-			// ignore blank lines
-			if (ereg("^[:blank:]*$",$line)) continue;
-			
-			ereg("([^:]+):(.*)",$line,$regs);
-			$key = trim($regs[1]);
-			$data = trim($regs[2]);
-			$this->_strings[$key] = $data;
-		}
 	}
 	
 	/**
