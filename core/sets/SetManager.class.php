@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SetManager.class.php,v 1.9 2005/03/29 19:44:30 adamfranco Exp $
+ * @version $Id: SetManager.class.php,v 1.10 2005/04/04 18:02:02 adamfranco Exp $
  */
 class SetManager {
 	
@@ -131,31 +131,7 @@ class SetManager {
 		$set =& $this->getSet($id);
 		$set->removeAllItems();
 	}
-	
-	/**
-	 * Start the service
-	 * 
-	 * @return void
-	 * @access public
-	 * @since 6/28/04
-	 */
-	function start () {
-		
-	}
-	
-	/**
-	 * Stop the service
-	 * 
-	 * @return void
-	 * @access public
-	 * @since 6/28/04
-	 */
-	function stop () {
-		
-	}
-	
-	
-	
+
 }
 
 ?>

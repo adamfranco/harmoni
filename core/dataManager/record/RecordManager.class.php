@@ -12,11 +12,11 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.17 2005/03/29 19:44:13 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.18 2005/04/04 18:01:35 adamfranco Exp $
  *
  * @author Gabe Schine
  */
-class RecordManager extends ServiceInterface {
+class RecordManager {
 	
 	var $_versionConstraint = null;
 	
@@ -562,11 +562,7 @@ class RecordManager extends ServiceInterface {
 		}
 		
 		return $array;
-	}
-	
-	function start() {}
-	function stop() {}
-	
+	}	
 }
 
 ?>

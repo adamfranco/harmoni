@@ -5,14 +5,14 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.18 2005/03/24 18:00:30 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.19 2005/04/04 18:02:02 adamfranco Exp $
  *
  * @package harmoni.services
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.class.php,v 1.18 2005/03/24 18:00:30 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.19 2005/04/04 18:02:02 adamfranco Exp $
  */
 class Services extends ServicesAbstract {
 	/**
@@ -228,10 +228,6 @@ class Services extends ServicesAbstract {
 			return false;
 		}
 		
-		// call the service's start() method if it exists
-		if (method_exists($this->_services[$name], 'start'))
-			$this->_services[$name]->start();
-		
 		return true;
 	}
 	
@@ -302,10 +298,6 @@ class Services extends ServicesAbstract {
 	 **/
 	function stop( $name ) {
 		$name = $this->_getServiceName($name);
-		if ($this->running($name)) {
-			if (method_exists($this->_services[$name], 'stop'))
-				$this->_services[$name]->stop();
-		}
 		unset($this->_services[$name]);
 		return true;
 	}

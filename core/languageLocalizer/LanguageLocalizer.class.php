@@ -11,7 +11,7 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.class.php,v 1.13 2005/04/01 21:37:43 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.14 2005/04/04 18:01:39 adamfranco Exp $
  */
 class LanguageLocalizer extends LanguageLocalizerInterface {
 	/**
@@ -310,28 +310,6 @@ class LanguageLocalizer extends LanguageLocalizerInterface {
 		}
 		
 		return $_SESSION['__AvailibleLanguages'];
-	}
-	
-	/**
-	 * The start function is called when a service is created. Services may
-	 * want to do pre-processing setup before any users are allowed access to
-	 * them.
-	 * @access public
-	 * @return void
-	 **/
-	function start() {
-		// do nothing
-	}
-	
-	/**
-	 * The stop function is called when a Harmoni service object is being destroyed.
-	 * Services may want to do post-processing such as content output or committing
-	 * changes to a database, etc.
-	 * @access public
-	 * @return void
-	 **/
-	function stop() {
-		// do nothing
 	}
 }
 

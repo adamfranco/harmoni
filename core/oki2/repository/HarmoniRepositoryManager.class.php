@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.19 2005/03/31 22:10:35 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.20 2005/04/04 18:01:57 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -754,27 +754,6 @@ class HarmoniRepositoryManager
 		return new HarmoniTypeIterator($types);
 	}
 
-	/**
-	 * The start function is called when a service is created. Services may
-	 * want to do pre-processing setup before any users are allowed access to
-	 * them.
-	 * @access public
-	 * @return void
-	 **/
-	function start() {
-	}
-	
-	/**
-	 * The stop function is called when a Harmoni service object is being 
-	 * destroyed.
-	 * Services may want to do post-processing such as content output or 
-	 * committing changes to a database, etc.
-	 * @access public
-	 * @return void
-	 **/
-	function stop() {
-	}
-	
 /******************************************************************************
  * Private Functions:	
  ******************************************************************************/

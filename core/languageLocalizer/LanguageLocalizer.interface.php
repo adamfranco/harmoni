@@ -12,9 +12,9 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.interface.php,v 1.4 2005/01/19 21:10:01 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.interface.php,v 1.5 2005/04/04 18:01:39 adamfranco Exp $
  */
-class LanguageLocalizerInterface extends ServiceInterface {
+class LanguageLocalizerInterface {
 	/**
 	 * Sets the language to use for getting data to $language.
 	 * @param string $language The language code (eg, "en") to use.

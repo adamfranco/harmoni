@@ -46,7 +46,7 @@ define("STORAGE_PRIMARY", 3);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorageHandler.class.php,v 1.6 2005/03/29 19:44:30 adamfranco Exp $
+ * @version $Id: StorageHandler.class.php,v 1.7 2005/04/04 18:02:03 adamfranco Exp $
 */
 class StorageHandler {
 	/**
@@ -814,30 +814,6 @@ class StorageHandler {
 		}
 		return $totalCount;
 	}
-
-
-
-	/**
-	 * The start function is called when a service is created. Services may
-	 * want to do pre-processing setup before any users are allowed access to
-	 * them.
-	 * @access public
-	 * @return void
-	 **/
-	function start() {
-	}
-	
-	/**
-	 * The stop function is called when a Harmoni service object is being destroyed.
-	 * Services may want to do post-processing such as content output or committing
-	 * changes to a database, etc.
-	 * @access public
-	 * @return void
-	 **/
-	function stop() {
-	}
-	
-
 }
 
 ?>

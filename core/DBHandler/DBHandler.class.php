@@ -20,7 +20,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.13 2005/03/29 19:42:40 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.14 2005/04/04 17:59:14 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
@@ -384,26 +384,6 @@ class DBHandler extends DBHandlerInterface {
 		// ** end of parameter validation
 		
 		$this->_databases[$dbIndex]->rollbackTransaction();
-	}
-
-	/**
-	 * The start function is called when a service is created. Services may
-	 * want to do pre-processing setup before any users are allowed access to
-	 * them.
-	 * @access public
-	 * @return void
-	 **/
-	function start() {
-	}
-	
-	/**
-	 * The stop function is called when a Harmoni service object is being destroyed.
-	 * Services may want to do post-processing such as content output or committing
-	 * changes to a database, etc.
-	 * @access public
-	 * @return void
-	 **/
-	function stop() {
 	}
 	
 	/**

@@ -11,9 +11,9 @@ require_once HARMONI."dataManager/record/Tag.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.6 2005/01/28 19:34:33 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.7 2005/04/04 18:01:36 adamfranco Exp $
 */
-class TagManager extends ServiceInterface {
+class TagManager {
 	
 	/**
 	 * Takes a {@link Record} and an optional date and creates a {@link Tag} in the database based
@@ -309,8 +309,4 @@ class TagManager extends ServiceInterface {
 		
 		$dbHandler->query($query,DATAMANAGER_DBID);
 	}
-	
-	function start() {}
-	function stop() {}
-	
 }

@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/ImageMagickProcessor.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageProcessor.class.php,v 1.6 2005/04/01 21:56:04 adamfranco Exp $
+ * @version $Id: ImageProcessor.class.php,v 1.7 2005/04/04 18:01:35 adamfranco Exp $
  */
 
 class ImageProcessor {
@@ -269,30 +269,7 @@ class ImageProcessor {
 			return $this->_ImageMagickProcessor->getWebsafeData($format, $size, $data);
 		
 		throwError(new Error("Unsupported Format, '$format'.", "ImageProcessor", true));
-	}	
-		
-	/**
-	 * Start the service
-	 * 
-	 * @return void
-	 * @access public
-	 * @since 6/28/04
-	 */
-	function start () {
-		
 	}
-	
-	/**
-	 * Stop the service
-	 * 
-	 * @return void
-	 * @access public
-	 * @since 6/28/04
-	 */
-	function stop () {
-		
-	}
-	
 }
 
 ?>

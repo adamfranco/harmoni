@@ -39,20 +39,18 @@
 	 */
 	define("SQLSERVER", 4);
 	
-require_once(HARMONI.'services/Service.interface.php');
-
 /**
  * A Database Handler interface. The DBHandler is to be loaded at the beginning
  * program executution with configuration settings for the database type, name, 
  * server, user, and password.
  *
- * @version $Id: DBHandler.interface.php,v 1.7 2005/01/19 23:21:34 adamfranco Exp $
+ * @version $Id: DBHandler.interface.php,v 1.8 2005/04/04 17:59:14 adamfranco Exp $
  * @package harmoni.dbc
  * @copyright 2003 
  * @access public
  */
 
-class DBHandlerInterface extends ServiceInterface { 
+class DBHandlerInterface { 
 
 	/**
 	 * *Deprecated* Creates a new database connection.

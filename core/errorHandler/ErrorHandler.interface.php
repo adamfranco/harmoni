@@ -1,7 +1,5 @@
 <?php
 
-require_once(HARMONI.'services/Service.interface.php');
-
 /**
  * 
  *
@@ -10,9 +8,9 @@ require_once(HARMONI.'services/Service.interface.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorHandler.interface.php,v 1.5 2005/01/19 23:23:01 adamfranco Exp $
+ * @version $Id: ErrorHandler.interface.php,v 1.6 2005/04/04 18:01:38 adamfranco Exp $
  */
-class ErrorHandlerInterface extends ServiceInterface {
+class ErrorHandlerInterface {
     
 
 	/**

@@ -46,7 +46,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.18 2005/04/04 17:39:24 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.19 2005/04/04 18:01:40 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -1740,34 +1740,7 @@ class HarmoniAgentManager
 //		echo "</pre>\n";
 		if (!$where)
 			$this->_allGroupsCached = true;
-	}
-	
-	/**
-	 * The start function is called when a service is created. Services may
-	 * want to do pre-processing setup before any users are allowed access to
-	 * them.
-	 * 
-	 * WARNING: NOT IN OSID
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function start() {
-	}
-	
-	/**
-	 * The stop function is called when a Harmoni service object is being destroyed.
-	 * Services may want to do post-processing such as content output or committing
-	 * changes to a database, etc.
-	 * 
-	 * WARNING: NOT IN OSID
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function stop() {
-	}
-	
+	}	
 	
 	/**
 	 * Clears the agent and groups caches.

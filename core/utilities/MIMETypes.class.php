@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MIMETypes.class.php,v 1.5 2005/03/25 22:45:20 adamfranco Exp $
+ * @version $Id: MIMETypes.class.php,v 1.6 2005/04/04 18:02:04 adamfranco Exp $
  */
 class MIMETypes {
 
@@ -374,28 +374,6 @@ class MIMETypes {
 		
 		// If we still can't figure it out, send application.octet-stream.
 		return "";
-	}
-	
-	/**
-	 * Start the service
-	 * 
-	 * @return void
-	 * @access public
-	 * @since 6/28/04
-	 */
-	function start () {
-		
-	}
-	
-	/**
-	 * Stop the service
-	 * 
-	 * @return void
-	 * @access public
-	 * @since 6/28/04
-	 */
-	function stop () {
-		
 	}
 }
 

@@ -11,11 +11,10 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.15 2005/04/04 17:39:13 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.16 2005/04/04 18:01:37 adamfranco Exp $
  * @author Gabe Schine
  */
-class SchemaManager
-	extends ServiceInterface {
+class SchemaManager {
 	
 	var $_types;
 	var $_schemas;
@@ -558,9 +557,6 @@ class SchemaManager
 		}
 		return $c;
 	}
-	
-	function start() {}
-	function stop() {}
 }
 
 ?>

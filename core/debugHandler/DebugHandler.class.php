@@ -3,8 +3,6 @@
 require_once(HARMONI."debugHandler/DebugItem.class.php");
 //require_once(HARMONI."debugHandler/DebugHandler.interface.php");
 
-require_once(HARMONI.'services/Service.interface.php');
-
 /**
  * @const integer DEBUG_API1 Debug level constant
  * @package harmoni.utilities.debugging
@@ -103,10 +101,10 @@ define("DEBUG_SYS5",15);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DebugHandler.class.php,v 1.6 2005/01/19 21:09:59 adamfranco Exp $
+ * @version $Id: DebugHandler.class.php,v 1.7 2005/04/04 18:01:38 adamfranco Exp $
  **/
 
-class DebugHandler extends ServiceInterface {
+class DebugHandler {
 	/**
 	 * @var array $_queue The array of DebugItems.
 	 * @access private
@@ -206,27 +204,6 @@ class DebugHandler extends ServiceInterface {
 	function getOutputLevel() {
 		return $this->_outputLevel;
 	}
-
-	/**
-	 * The start function is called when a service is created. Services may
-	 * want to do pre-processing setup before any users are allowed access to
-	 * them.
-	 * @access public
-	 * @return void
-	 **/
-	function start() {
-	}
-	
-	/**
-	 * The stop function is called when a Harmoni service object is being destroyed.
-	 * Services may want to do post-processing such as content output or committing
-	 * changes to a database, etc.
-	 * @access public
-	 * @return void
-	 **/
-	function stop() {
-	}
-	
 }
 
 ?>
