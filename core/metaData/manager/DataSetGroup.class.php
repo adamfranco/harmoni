@@ -84,7 +84,14 @@ class DataSetGroup {
 			if (!count($ids)) {
 				$ids = array_unique($this->_dataSetIDs);
 			}
-			
+
+/******************************************************************************
+ * @todo Fix this function!
+ * If the dataSetGroup is not fully fetched before commit() is called, then
+ * unfetched datasets are deleted from this group. When the group members are 
+ * deleted needs to be defined more tightly.
+ ******************************************************************************/
+
 			$dbHandler =& Services::getService("DBHandler");
 			// first delete all the old mappings
 			$query =& new DeleteQuery;
