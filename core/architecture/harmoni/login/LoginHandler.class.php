@@ -15,7 +15,7 @@
  * If no action is specified, the LoginHandler uses standard HTTP clear-text authentication.
  *
  * @package harmoni.architecture.login
- * @version $Id: LoginHandler.class.php,v 1.7 2004/04/30 21:00:21 adamfranco Exp $
+ * @version $Id: LoginHandler.class.php,v 1.8 2004/05/04 21:51:15 adamfranco Exp $
  * @copyright 2003 
  **/
 class LoginHandler {
@@ -43,12 +43,6 @@ class LoginHandler {
 	 * @var object $_harmoni The {@Harmoni} object using this LoginHandler.
 	 **/
 	var $_harmoni;
-
-	/**
-	 * @access private
-	 * @var boolean $_executed Specifies if we've already executed this session.
-	 **/
-	var $_executed;
 	
 	/**
 	 * @access private
@@ -112,7 +106,7 @@ class LoginHandler {
 	 * @access public
 	 * @return object|false Returns a {@link LoginState} object or FALSE on failure.
 	 **/
-	function & execute() {
+	function & execute($forceAuthCheck = FALSE) {
 		// do we have a failedLoginAction?
 		if (!$this->_failedLoginAction) {
 			throwError(new Error("LoginHandler::execute() - could not proceed 
@@ -130,9 +124,12 @@ class LoginHandler {
 		}
 		
 		// if they are logged in and valid, or we've already executed, just return
-		if ($this->_executed || $state->isValid()) {return $state;}
+		if ($state->isValid()) {
+			debug::output("Returning valid login state.",DEBUG_SYS5,"LoginHandler");
+			return $state;
+		}
 					
-		$this->_executed = true;
+
 //		$this->_harmoni->_detectCurrentAction();
 		
 		debug::output("LoginHandler executing...",DEBUG_SYS5,"LoginHandler");
@@ -144,7 +141,7 @@ class LoginHandler {
 		// If we don't require authentication for this action, don't try
 		// to authenticate. Just return the stored state if availible.
 		// Without this provision, we try to authenticate always.
-		if (!$this->actionRequiresAuthentication($this->_harmoni->getCurrentAction())) {
+		if (!$forceAuthCheck && !$this->actionRequiresAuthentication($this->_harmoni->getCurrentAction())) {
 			if ($_SESSION['__LoginState'])
 				return $_SESSION['__LoginState'];
 			else {

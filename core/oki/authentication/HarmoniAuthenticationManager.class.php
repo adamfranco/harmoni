@@ -51,14 +51,13 @@ class HarmoniAuthenticationManager
 	 * Constructor. Ititializes the availible AuthenticationTypes and results.
 	 * @return void
 	 */
-	function HarmoniAuthenticationManager (& $harmoniObj, $dbIndex, $databaseName) {
+	function HarmoniAuthenticationManager ($dbIndex, $databaseName) {
 		// ** parameter validation
-		ArgumentValidator::validate($harmoniObj, new ExtendsValidatorRule('Harmoni'), true);
 		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
 		ArgumentValidator::validate($databaseName, new StringValidatorRule(), true);
 		// ** end of parameter validation
 		
-		$this->_harmoni =& $harmoniObj;
+		$this->_harmoni =& $GLOBALS['harmoni'];
 		$this->_dbIndex = $dbIndex;
 		$this->_authNDB = $databaseName;
 		
@@ -116,7 +115,7 @@ class HarmoniAuthenticationManager
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
-			if ($this->authTypes[$key]->isEqual($authenticationType)) {
+			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
 				$typeValid = TRUE;
 				break;
 			}
@@ -126,7 +125,8 @@ class HarmoniAuthenticationManager
 		
 		// Assuming that we only have the LoginHandler as our authentication type,
 		// just use that to authenticate.
-		$loginState =& $this->_harmoni->LoginHandler->execute();
+		debug::output("AuthN->authenticateUser()");
+		$loginState =& $this->_harmoni->LoginHandler->execute(TRUE);
 	}
 
 	/**
@@ -159,7 +159,7 @@ class HarmoniAuthenticationManager
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("Type"));
 		$typeValid = FALSE;
 		foreach (array_keys($this->_authTypes) as $key) {
-			if ($this->authTypes[$key]->isEqual($authenticationType)) {
+			if ($this->_authTypes[$key]->isEqual($authenticationType)) {
 				$typeValid = TRUE;
 				break;
 			}

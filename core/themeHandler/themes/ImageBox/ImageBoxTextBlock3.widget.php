@@ -10,7 +10,7 @@ require_once(HARMONI."/themeHandler/common_settings/BorderSetting.class.php");
  * A TextBlock Widget for the ImageBox theme.
  *
  * @package harmoni.themes.included_themes
- * @version $Id: ImageBoxTextBlock3.widget.php,v 1.2 2004/04/21 17:55:45 adamfranco Exp $
+ * @version $Id: ImageBoxTextBlock3.widget.php,v 1.3 2004/05/04 21:51:15 adamfranco Exp $
  * @copyright 2004 
  **/
 
@@ -58,7 +58,7 @@ class ImageBoxTextBlock3
 		$styles .= "\n\t\t\t\tpadding: ".$padding->getValue().";";
 // 
 // 		$margin =& $this->getSetting($this->_marginId);
-// 		$styles .= "\n\t\t\t\tmargin: ".$margin->getValue().";";
+		$styles .= "\n\t\t\t\tmargin: 10px;";
 		
 		$styles .= "\n\t\t\t}";
 		

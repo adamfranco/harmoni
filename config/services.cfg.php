@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.22 2004/03/31 19:13:25 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.23 2004/05/04 21:50:44 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -44,7 +44,10 @@ if (!defined("LOAD_DBC")) 					define("LOAD_DBC", true);
 if (!defined("LOAD_HIERARCHY")) 			define("LOAD_HIERARCHY", true);
 
 // functionality affected: Hiearchy, Digital Repository, DataManager, ID generation.
-if (!defined("LOAD_SHARED")) 			define("LOAD_SHARED", true);
+if (!defined("LOAD_SHARED")) 				define("LOAD_SHARED", true);
+
+// functionality affected: OKI AuthN calls.
+if (!defined("LOAD_AUTHN")) 				define("LOAD_AUTHN", true);
 
 // functionality affected: Digital Repository.
 if (!defined("LOAD_DR")) 			define("LOAD_DR", true);
@@ -149,6 +152,12 @@ if (LOAD_HIERARCHY) {
 if (LOAD_SHARED) {
 	require_once(HARMONI."oki/shared/HarmoniSharedManager.class.php");
 	Services::registerService("Shared","HarmoniSharedManager");
+}
+
+// load the AuthNManager
+if (LOAD_AUTHN) {
+	require_once(HARMONI."oki/authentication/HarmoniAuthenticationManager.class.php");
+	Services::registerService("AuthN","HarmoniAuthenticationManager");
 }
 
 // load the DigitalRepositoryManager.
