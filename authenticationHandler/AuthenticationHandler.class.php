@@ -5,12 +5,10 @@ require_once(HARMONI."authenticationHandler/AuthenticationResult.class.php");
 require_once(HARMONI."authenticationHandler/methods/inc.php");
 
 /**
- * The AuthenticationHandler keeps track of multiple AuthenticationMethods for authenticating agents.
  * The AuthenticationHandler keeps track of multiple AuthenticationMethods for 
  * authenticating agents.
  * 
- * @see AuthenticationMethodInterface
- * @version $Id: AuthenticationHandler.class.php,v 1.4 2003/06/26 20:46:44 gabeschine Exp $
+ * @version $Id: AuthenticationHandler.class.php,v 1.5 2003/06/27 02:59:37 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -30,13 +28,13 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	var $_methods = array();
 	
 	/**
-	 * Attempts to validate the given credentials.
 	 * Attempts to validate the given credentials using the method specified
 	 * in $method.
 	 * @param string $systemName The system name, i.e. the username, etc.
 	 * @param string $password The password.
 	 * @param string $method The method with which to try authentication.
 	 * @access public
+	 * @see AuthenticationMethodInterface
 	 * @return boolean True if authentication succeeds, false otherwise.
 	 **/
 	function authenticate($systemName, $password, $method ) { 
@@ -50,7 +48,6 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	}
 	
 	/**
-	 * Attempts to validate the given credentials.
 	 * Attempts to validate the given credentials. It steps through all of the 
 	 * AuthenticationMethod objects and tries to validate with each one. Authentication
 	 * order is based on two things: First, any authoritative methods are tried first, in
@@ -192,8 +189,6 @@ class AuthenticationHandler extends AuthenticationHandlerInterface {
 	}
 	
 	/**
-	 * Removes the method associated with $name from the system. 
-	 * 
 	 * Removes the method associated with $name from the system. If any methods
 	 * have already been used for any authentication, removing a method will fail
 	 * due to security/useability restrictions. Add and remove methods before

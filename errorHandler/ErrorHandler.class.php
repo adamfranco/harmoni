@@ -7,7 +7,7 @@ require_once(HARMONI."errorHandler/ErrorPrinterBasic.class.php");
 
 /**
  *  
- * @version $Id: ErrorHandler.class.php,v 1.12 2003/06/27 02:09:52 dobomode Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.13 2003/06/27 02:59:37 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  */
@@ -28,7 +28,6 @@ class ErrorHandler extends ErrorHandlerInterface{
    
 
 	/**
-	 * The Constructor.
 	 * The Constructor. It creates a new ErrorHandler.
 	 *
 	 * @access public
@@ -40,7 +39,6 @@ class ErrorHandler extends ErrorHandlerInterface{
 	}
 
     /**
-     * Adds an Error object to the queue.
      * Adds an Error object to the queue. If the error passed is fatal, then all the 
      * errors in the queue are outputed and the execution of the script is halted.
      *
@@ -56,7 +54,6 @@ class ErrorHandler extends ErrorHandlerInterface{
 	}
 
 	/**
-	 * Create a new Error object based on input and add it to the queue.
 	 * Create a new Error object based on input and add it to the queue.
 	 * Same as addError(new Error($description,$type,$isFatal))
 	 * if isFatal is true then all the errors in the queue should be 
@@ -76,7 +73,6 @@ class ErrorHandler extends ErrorHandlerInterface{
 	}
 
 	/**
-     * Generate an array os strings that describe the errors.
      * Generate an array os strings that describe the errors.
 	 * @return array An array of strings that describe all the errors in the queue.
 	 * @access public
@@ -100,7 +96,6 @@ class ErrorHandler extends ErrorHandlerInterface{
 
 	/**
      * Count the number of errors currently in the queue.
-     * Count the number of errors currently in the queue.
 	 * @return integer The number of errors that are currently in the queue.
 	 * @access public
 	 */
@@ -111,7 +106,6 @@ class ErrorHandler extends ErrorHandlerInterface{
 
     /**
      * Erase the error history.
-     * Erase the error history.
 	 * @access public
      */
     function clearErrors(){
@@ -119,7 +113,6 @@ class ErrorHandler extends ErrorHandlerInterface{
 	}
 
 	/**
-     * Add an ErrorPrinter to the printer Queue, which will be used by the PrintErrors method.
      * Add an ErrorPrinter to the printer Queue, which will be used by the PrintErrors method.
      * @param object ErrorPrinter The Error printer to be added to the queue.
 	 * @access public
@@ -130,9 +123,11 @@ class ErrorHandler extends ErrorHandlerInterface{
 
 	/**
      * Fetch the Error queue as it is to each ErrorPrinter in the Error Printer queue.
-     * Fetch the Error queue as it is to each ErrorPrinter in the Error Printer queue.
      * @param constant $detailLevel The level of detail when printing. Could be
 	 * LOW_DETAIL, NORMAL_DETAIL or HIGH_DETAIL.
+	 * @use LOW_DETAIL
+	 * @use NORMAL_DETAIL
+	 * @use HIGH_DETAIL
 	 * @access public
 	 */
 	function printErrors($detailLevel = NORMAL_DETAIL) {

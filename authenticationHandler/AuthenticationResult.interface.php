@@ -5,10 +5,8 @@
  * 
  * The AuthenticationResult is passed a list of valid AuthenticationMethod names
  * and stores it for user retreival.
- * @see AuthenticationMethodInterface
- * @see AuthenticationHandlerInterface
  * @package harmoni.authenticationHandler
- * @version $Id: AuthenticationResult.interface.php,v 1.1 2003/06/26 18:11:45 gabeschine Exp $
+ * @version $Id: AuthenticationResult.interface.php,v 1.2 2003/06/27 02:59:37 gabeschine Exp $
  * @copyright 2003 
  **/
 class AuthenticationResultInterface {
@@ -24,6 +22,8 @@ class AuthenticationResultInterface {
 	/**
 	 * Returns if the authentication was valid in $methodName.
 	 * @access public
+	 * @see AuthenticationMethodInterface
+	 * @see AuthenticationHandlerInterface
 	 * @return boolean True if valid.
 	 **/
 	function validInMethod( $methodName ) {

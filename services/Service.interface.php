@@ -1,21 +1,19 @@
 <?php
 
 /**
- * The Service Interface defines what methods are required for a Harmoni Service
+ * The Service Interface defines what methods are required for a Harmoni Service. 
  * 
  * Harmoni services can be set up with the Services interface to give scripts easy
  * access to any services they need.
  * Services should extend this class somewhere in their inheritance tree. (probably the top)
  * 
  * @see ServicesInterface
- * @version $Id: Service.interface.php,v 1.1 2003/06/26 18:11:46 gabeschine Exp $
+ * @version $Id: Service.interface.php,v 1.2 2003/06/27 02:59:37 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.services
  **/
 class ServiceInterface {
 	/**
-	 * The start function is called when a service is created.
-	 * 
 	 * The start function is called when a service is created. Services may
 	 * want to do pre-processing setup before any users are allowed access to
 	 * them.
@@ -27,8 +25,6 @@ class ServiceInterface {
 	}
 	
 	/**
-	 * The stop function is called when a Harmoni service object is being destroyed.
-	 * 
 	 * The stop function is called when a Harmoni service object is being destroyed.
 	 * Services may want to do post-processing such as content output or committing
 	 * changes to a database, etc.

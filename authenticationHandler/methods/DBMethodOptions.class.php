@@ -6,15 +6,15 @@ require_once(HARMONI."utilities/DataContainer.abstract.php");
  * The DBMethodOptions is a data container for the DBAuthenticationMethod.
  * 
  * @package harmoni.authenticationHandler
- * @see DBAuthenticationMethod
- * @see DataContainer
- * @version $Id: DBMethodOptions.class.php,v 1.2 2003/06/25 20:43:49 gabeschine Exp $
+ * @version $Id: DBMethodOptions.class.php,v 1.3 2003/06/27 02:59:36 gabeschine Exp $
  * @copyright 2003 
  **/
 
 class DBMethodOptions extends DataContainer {
 	/**
-     * Constructor
+     * Constructor -- sets up the allowed fields for this kind of DataContainer
+	 * @see DBAuthenticationMethod
+	 * @see DataContainer
      * @access protected
 	 * @return void
      */

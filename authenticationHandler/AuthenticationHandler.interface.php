@@ -4,25 +4,23 @@ require_once(HARMONI."services/Service.interface.php");
 
 /**
  * The AuthenticationHandlerInterface defines the functionallity that all extending classes should have.
- * The AuthenticationHandlerInterface defines the functionallity that all extending classes should have.
  * An implementing class should reference one or several AuthenticationMethod objects and use them
  * to authenticate an agent.
- * @version $Id: AuthenticationHandler.interface.php,v 1.7 2003/06/26 19:19:47 adamfranco Exp $
+ * @version $Id: AuthenticationHandler.interface.php,v 1.8 2003/06/27 02:59:37 gabeschine Exp $
  * @copyright 2003 
  * @access public
- * @see AuthenticationMethod
  * @package harmoni.authenticationHandler
  **/
 
 class AuthenticationHandlerInterface extends ServiceInterface {
 	/**
-	 * Attempts to validate the given credentials.
 	 * Attempts to validate the given credentials using the method specified
 	 * in $method.
 	 * @param string $systemName The system name, i.e. the username, etc.
 	 * @param string $password The password.
 	 * @param string $method The method with which to try authentication.
 	 * @access public
+	 * @see AuthenticationMethod
 	 * @return boolean True if authentication succeeds, false otherwise.
 	 **/
 	function authenticate($systemName, $password, $method) { 
@@ -30,7 +28,6 @@ class AuthenticationHandlerInterface extends ServiceInterface {
 	}
 	
 	/**
-	 * Attempts to validate the given credentials.
 	 * Attempts to validate the given credentials. It steps through all of the 
 	 * AuthenticationMethod objects and tries to validate with each one. Authentication
 	 * order is based on two things: First, any authoritative methods are tried first, in
@@ -95,8 +92,6 @@ class AuthenticationHandlerInterface extends ServiceInterface {
 	}
 	
 	/**
-	 * Removes the method associated with $name from the system. 
-	 * 
 	 * Removes the method associated with $name from the system. If any methods
 	 * have already been used for any authentication, removing a method will fail
 	 * due to security/useability restrictions. Add and remove methods before

@@ -5,8 +5,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.6 2003/06/26 23:36:50 gabeschine Exp $
+ * @version $Id: Services.class.php,v 1.7 2003/06/27 02:59:37 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.services
@@ -37,8 +36,6 @@ class Services extends ServicesAbstract {
 	}
 	
 	/**
-	 * Registers a new service.
-	 *
 	 * Registers a new service named $name. Upon starting, a new class of type $class will be instantiated.
 	 * @param string $name The reference name of the service.
 	 * @param string $class The class name to be instantiated.
@@ -48,13 +45,13 @@ class Services extends ServicesAbstract {
 	function register( $name, $class ) {
 		// if its registered and started, throw fatal error return false.
 		if ($this->running($name)) {
-			die("Services::registerService('$name') or Services::register('$name') - can not register service '$name' because it is already registered AND running.");
+			die("Services::registerService('$name') - can not register service '$name' because it is already registered AND running.");
 			return false;
 		}
 		$rule =& new ExtendsValidatorRule("ServiceInterface");
 		$tryObj =& new $class;
 		if (!$rule->check($tryObj)) {
-			die("Services::registerService('$name') or Services::register('$name') - can not register service '$name' because the class '$class' does not implement the Service Interface. Please change your PHP class definitions to include the Service Interface.");
+			die("Services::registerService('$name') - can not register service '$name' because the class '$class' does not implement the Service Interface. Please change your PHP class definitions to include the Service Interface.");
 			return false;
 		}
 		unset($rule,$tryObj);
@@ -72,14 +69,13 @@ class Services extends ServicesAbstract {
 	 **/
 	function & get( $name ) {
 		if (!$this->running($name)) {
-			die("Services::getService('$name') or Services::get('$name') - can not get service '$name' because it is not yet started.");
+			die("Services::getService('$name') - can not get service '$name' because it is not yet started.");
 			return false;
 		}
 		return $this->_services[$name];
 	}
 	
 	/**
-	 * Attempts to start the service referenced by $name.
 	 * Attempts to start the service referenced by $name.
 	 * @param string $name The service name.
 	 * @access public
@@ -92,19 +88,23 @@ class Services extends ServicesAbstract {
 		
 		$classname = $this->_registeredServices[$name];
 		
+		// UNNEEDED now that register does an implementation check on the class!
 		// check if $classname has been defined as a class
-		if (!class_exists($classname)) {
-			die("Services::startService('$name') or Services::start('$name') - can not start service - class $classname is not defined - make sure you include the appropriate file(s)");
-			return false;
-		}
+//		if (!class_exists($classname)) {
+//			die("Services::startService('$name') or Services::start('$name') - can not start service - class $classname is not defined - make sure you include the appropriate file(s)");
+//			return false;
+//		}
 		
 		$this->_services[$name] =& new $classname;
 		
 		// make sure the service was instantiated properly
 		if (!is_object($this->_services[$name]) || get_class($this->_services[$name]) != strtolower($classname)) {
-			die("Services::startService('$name') or Services::start('$name') - could not start service - the object of class $classname was not instantiated correctly");
+			die("Services::startService('$name') - could not start service - the object of class $classname was not instantiated correctly");
 			return false;
 		}
+		
+		// call the service's start() method
+		$this->_services[$name]->start();
 		return true;
 	}
 	 
@@ -121,18 +121,17 @@ class Services extends ServicesAbstract {
 	
 	/**
 	 * Attempts to stop the service reference by $name.
-	 * Attempts to stop the service reference by $name.
 	 * @param string $name The service name.
 	 * @access public
 	 * @return boolean True on success.
 	 **/
 	function stop( $name ) {
+		if ($this->running($name)) $this->_services[$name]->stop();
 		unset($this->_services[$name]);
 		return true;
 	}
 	
 	/**
-	 * Attempts to restart the service reference by $name.
 	 * Attempts to restart the service reference by $name.
 	 * @param string $name The service name.
 	 * @access public
@@ -148,7 +147,6 @@ class Services extends ServicesAbstract {
 	
 	/**
 	 * Checks if the service referenced by $name is available for use.
-	 * Checks if the service referenced by $name is available for use.
 	 * @param string $name The service name.* 
 	 * @access public
 	 * @return boolean True if the service is available, false otherwise.
@@ -158,7 +156,6 @@ class Services extends ServicesAbstract {
 	}
 	
 	/**
-	 * Checks if the service referenced by $name has been started.
 	 * Checks if the service referenced by $name has been started.
 	 * @access public
 	 * @param string $name The service name.
@@ -172,7 +169,7 @@ class Services extends ServicesAbstract {
 	
 	/**
 	 * Stops all the services -- used internally by PHP.
-	 * @access public
+	 * @access private
 	 * @return void
 	 **/
 	function __sleep() {

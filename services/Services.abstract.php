@@ -2,18 +2,9 @@
 
 require_once(HARMONI."services/Services.interface.php");
 
-
-/**
- * @const SERVICES_OBJECT The name of the services variable.
- **/
-//define("SERVICES_OBJECT","__services__");
-
-$__services__ = NULL;				// above defined variable must be set to NULL
-
 /**
  * The ServicesAbstract class defines the public static methods used by users.
- * The ServicesAbstract class defines the public static methods used by users.
- * @version $Id: Services.abstract.php,v 1.6 2003/06/26 23:36:50 gabeschine Exp $
+ * @version $Id: Services.abstract.php,v 1.7 2003/06/27 02:59:37 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @static
@@ -25,8 +16,6 @@ class ServicesAbstract
 	extends ServicesInterface {
 	
 	/**
-	 * Registers a new service.
-	 *
 	 * Registers a new service named $name. Upon starting, a new class of type $class will be instantiated.
 	 * @param string $name The reference name of the service.
 	 * @param string $class The class name to be instantiated.
@@ -40,7 +29,6 @@ class ServicesAbstract
 	
 	/**
 	 * Returns the services object.
-	 * Returns the services object.
 	 * @access public
 	 * @static
 	 * @return object Services The Services object.
@@ -50,7 +38,6 @@ class ServicesAbstract
 	}
 	
 	/**
-	 * Returns the service object associated with reference name $name.
 	 * Returns the service object associated with reference name $name.
 	 * @param string $name The reference name of the service.
 	 * @access public
@@ -62,7 +49,6 @@ class ServicesAbstract
 	}
 	
 	/**
-	 * Attempts to start the service referenced by $name.
 	 * Attempts to start the service referenced by $name.
 	 * @param string $name The service name.
 	 * @access public
@@ -86,7 +72,6 @@ class ServicesAbstract
 	
 	/**
 	 * Attempts to stop the service reference by $name.
-	 * Attempts to stop the service reference by $name.
 	 * @param string $name The service name.
 	 * @access public
 	 * @static
@@ -97,7 +82,6 @@ class ServicesAbstract
 	}
 	
 	/**
-	 * Attempts to restart the service reference by $name.
 	 * Attempts to restart the service reference by $name.
 	 * @param string $name The service name.
 	 * @access public
@@ -110,7 +94,6 @@ class ServicesAbstract
 	
 	/**
 	 * Checks if the service referenced by $name is available for use.
-	 * Checks if the service referenced by $name is available for use.
 	 * @access public
 	 * @static
 	 * @param string $name The service name.
@@ -121,7 +104,6 @@ class ServicesAbstract
 	}
 	
 	/**
-	 * Checks if the service referenced by $name has been started.
 	 * Checks if the service referenced by $name has been started.
 	 * @access public
 	 * @static

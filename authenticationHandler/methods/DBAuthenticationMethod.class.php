@@ -7,7 +7,7 @@ require_once(HARMONI."authenticationHandler/methods/DBMethodOptions.class.php");
  * the DB Authentication Method will contact an SQL database and check a username/password pair
  * against fields in a specified table.
  *
- * @version $Id: DBAuthenticationMethod.class.php,v 1.5 2003/06/25 21:46:54 gabeschine Exp $
+ * @version $Id: DBAuthenticationMethod.class.php,v 1.6 2003/06/27 02:59:36 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler
@@ -88,7 +88,7 @@ class DBAuthenticationMethod
 	 * Encrypts $password using the method specified by the user.
 	 * @param string $systemName The users's system name.
 	 * @param string $password The password to encrypt.
-	 * @access public
+	 * @access private
 	 * @return string The encrypted version of $password.
 	 **/
 	function _getEncryptedPassword( $systemName, $password ) {
@@ -118,7 +118,7 @@ class DBAuthenticationMethod
 	 * Fetches the specified fields from the DB form $systemName.
 	 * @param string $systemName The system name to fetch info for.
 	 * @param string $field1,... List of fields to fetch.
-	 * @access public
+	 * @access private
 	 * @return array An associative array of fields: [field1]=>data1,... 
 	 **/
 	function _getFieldsFromDB( $systemName ) {

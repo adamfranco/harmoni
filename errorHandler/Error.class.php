@@ -6,7 +6,7 @@ require_once(HARMONI."errorHandler/Error.interface.php");
  * An error class interface provides functionality to create Error objects 
  * to be used by the ErrorHandler
  *
- * @version $Id: Error.class.php,v 1.4 2003/06/26 18:38:55 dobomode Exp $
+ * @version $Id: Error.class.php,v 1.5 2003/06/27 02:59:37 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003 
  **/
@@ -21,7 +21,6 @@ class Error extends ErrorInterface {
 	var $_debugBacktrace;
 
 	/**
-	 * The constructor. Create a new error.
 	 * The constructor. Create a new error.
 	 * @param string $description A description of the error.
 	 * @param string $type The type of error. For sorting purposes. ie.: "user", "db", etc.
@@ -38,7 +37,6 @@ class Error extends ErrorInterface {
     
     /**
      * Gets a string description of the error.
-     * Gets a string description of the error.
      * @return string Description of the error.
      * @access public
      */
@@ -49,7 +47,6 @@ class Error extends ErrorInterface {
 
     /**
      * Gets the type of the error.
-     * Gets the type of the error.
      * @return string Type of the error.
      * @access public
      */
@@ -59,7 +56,6 @@ class Error extends ErrorInterface {
 
     /**
      * Whether the execution of the scirpt should be halted after this error has occured.
-     * Whether the execution of the scirpt should be halted after this error has occured.
      * @return boolean True if the execution should be halted.
      * @access public
      */
@@ -68,7 +64,6 @@ class Error extends ErrorInterface {
 	}
 
     /**
-     * Gets the debug backtrace information for the error.
      * Gets the debug backtrace information for the error.
      * @return The debug backtrace information the way it is stored by the debug_backtrace() function.
      * @access public

@@ -4,14 +4,12 @@ require_once(HARMONI."authenticationHandler/AuthenticationMethod.abstract.php");
 
 /**
  * This AuthenticationMethod is an "always true" wrapper for another method.
- * 
- * This AuthenticationMethod is an "always true" wrapper for another method.
  * Upon instantiation, the method is passed another authentication method. All
  * method calls *except* authenticate() are passed through to that method. 
  * authenticate() will return true if the Agent exists on the targeted system.
  * This method is useful almost SOLELY for demo site purposes. BE CAREFUL USING IT!!!
  *
- * @version $Id: AlwaysTrueAuthenticationMethod.class.php,v 1.3 2003/06/26 23:36:50 gabeschine Exp $
+ * @version $Id: AlwaysTrueAuthenticationMethod.class.php,v 1.4 2003/06/27 02:59:36 gabeschine Exp $
  * @copyright 2003 
  * @access public
  * @package harmoni.authenticationHandler

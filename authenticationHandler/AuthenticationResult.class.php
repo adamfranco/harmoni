@@ -7,10 +7,8 @@ require_once(HARMONI.'authenticationHandler/AuthenticationResult.interface.php')
  * 
  * The AuthenticationResult is passed a list of valid AuthenticationMethod names
  * and stores it for user retreival.
- * @see AuthenticationMethodInterface
- * @see AuthenticationHandlerInterface
  * @package harmoni.authenticationHandler
- * @version $Id: AuthenticationResult.class.php,v 1.2 2003/06/26 20:47:26 adamfranco Exp $
+ * @version $Id: AuthenticationResult.class.php,v 1.3 2003/06/27 02:59:37 gabeschine Exp $
  * @copyright 2003 
  **/
 class AuthenticationResult extends AuthenticationResultInterface {
@@ -39,6 +37,8 @@ class AuthenticationResult extends AuthenticationResultInterface {
 	 * The constructor.
 	 * @param array $validMethods An array of method names that validated successfully.
 	 * @access public
+	 * @see AuthenticationMethodInterface
+	 * @see AuthenticationHandlerInterface
 	 * @return void
 	 **/
 	function AuthenticationResult( $validMethods ) {

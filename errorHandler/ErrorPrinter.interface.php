@@ -3,7 +3,6 @@
 	// Define some constants for the detail level when printing
 
 	/**
-	 * Low detail level of printing.
 	 * Low detail level of printing. All errors are printed with no details.
 	 * @const LOW_DETAIL Low detail level of printing.
 	 * @access public
@@ -11,7 +10,6 @@
 	define(LOW_DETAIL, 1);
 	
 	/**
-	 * Normal detail level of printing.
 	 * Normal detail level of printing. Only fatal errors are printed with details.
 	 * @const NORMAL_DETAIL Normal detail level of printing.
 	 * @access public
@@ -19,7 +17,6 @@
 	define(NORMAL_DETAIL, 2);
 	
 	/**
-	 * High detail level of printing.
 	 * High detail level of printing. All errors are printed with details.
 	 * @const HIGH_DETAIL High detail level of printing.
 	 * @access public
@@ -28,10 +25,9 @@
 	
 /**
  * An ErrorPrinter interface provides functionality to output Error objects in any way one's soul may desire.
- * An ErrorPrinter interface provides functionality to output Error objects in any way one's soul may desire.
  * For example, you can print to a browser window, to a database, to a file, etc.
  *
- * @version $Id: ErrorPrinter.interface.php,v 1.4 2003/06/27 02:09:52 dobomode Exp $
+ * @version $Id: ErrorPrinter.interface.php,v 1.5 2003/06/27 02:59:37 gabeschine Exp $
  * @package harmoni.errorhandler
  * @copyright 2003
  * @access public
@@ -40,7 +36,6 @@
 class ErrorPrinterInterface {
 
     /**
-     * Outputs a queue of errors to any NORMAL.
      * Outputs a queue of errors to any NORMAL. This function will call
 	 * printHeader() at the beginning and printFooter() at the end.
      * @param object Queue $errors The queue of the errors to be printed
@@ -52,7 +47,6 @@ class ErrorPrinterInterface {
     function printErrors($errors, $detailLevel = NORMAL_DETAIL) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
-     * Prints the header of the Error output.
      * Prints the header of the Error output. This function will be invoked before Errors  are printed.
      * @param object Queue $errors The queue of the errors to be printed
      * @access public
@@ -61,7 +55,6 @@ class ErrorPrinterInterface {
     function printHeader($errors) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
-     * Prints the footer of the Error output.
      * Prints the footer of the Error output. This function will be invoked after Errors have been printed.
      * @param object Queue $errors The queue of the errors to be printed
      * @access public

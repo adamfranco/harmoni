@@ -1,11 +1,11 @@
 <?php
 
 /**
- * the RuleSetInterface defines the methods that are required for any ruleset
+ * the RuleSetInterface defines the methods that are required for any ruleset.
  * 
  * any RuleSet should let the user define a number of keys with associated rules (one or more) and then let the user check any value against the rules defined for a key
  *
- * @version $Id: RuleSet.interface.php,v 1.5 2003/06/26 23:36:50 gabeschine Exp $
+ * @version $Id: RuleSet.interface.php,v 1.6 2003/06/27 02:59:37 gabeschine Exp $
  * @copyright 2003 
  * @package harmoni.utilities.FieldSetValidator
  **/
