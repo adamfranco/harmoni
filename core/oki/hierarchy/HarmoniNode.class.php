@@ -14,7 +14,7 @@ require_once(OKI."/hierarchy.interface.php");
  * @author Adam Franco
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniNode.class.php,v 1.18 2004/04/22 14:53:19 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.19 2004/05/20 20:49:02 adamfranco Exp $
  *
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -198,7 +198,7 @@ class HarmoniNode
 		// update and save
 		$this->_description = $description;
 		$this->_hierarchyStore->flagChanged($this->_id->getIdString());
-//		$this->save();	
+		$this->save();	
 	}
 
 	/**
@@ -218,7 +218,7 @@ class HarmoniNode
 		// update and save
 		$this->_displayName = $displayName;
 		$this->_hierarchyStore->flagChanged($this->_id->getIdString());
-//		$this->save();
+		$this->save();
 	}
 
 	/**
