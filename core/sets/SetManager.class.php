@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SetManager.class.php,v 1.7 2005/01/19 22:28:26 adamfranco Exp $
+ * @version $Id: SetManager.class.php,v 1.8 2005/03/25 22:45:20 adamfranco Exp $
  */
 class SetManager {
 	
@@ -34,12 +34,70 @@ class SetManager {
 	 * @access public
 	 * @since 6/28/04
 	 */
-	function SetManager ($dbIndex) {
-		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule, true);
-		
-		$this->_dbIndex = $dbIndex;
+	function SetManager () {
 		$this->_sets = array ();
 	}
+	
+
+	/**
+	 * Assign the configuration of this Manager. Valid configuration options are as
+	 * follows:
+	 *	database_index			integer
+	 *	database_name			string
+	 * 
+	 * @param object Properties $configuration (original type: java.util.Properties)
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#OPERATION_FAILED OPERATION_FAILED},
+	 *		   {@link org.osid.OsidException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.OsidException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignConfiguration ( &$configuration ) { 
+		$this->_configuration =& $configuration;
+		
+		$dbIndex =& $configuration->getProperty('database_index');
+		
+		// ** parameter validation
+		ArgumentValidator::validate($dbIndex, new IntegerValidatorRule(), true);
+		// ** end of parameter validation
+		
+		$this->_dbIndex = $dbIndex;
+	}
+
+	/**
+	 * Return context of this OsidManager.
+	 *	
+	 * @return object OsidContext
+	 * 
+	 * @throws object OsidException 
+	 * 
+	 * @access public
+	 */
+	function &getOsidContext () { 
+		return $this->_osidContext;
+	} 
+
+	/**
+	 * Assign the context of this OsidManager.
+	 * 
+	 * @param object OsidContext $context
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignOsidContext ( &$context ) { 
+		$this->_osidContext =& $context;
+	} 
 	
 	/**
 	 * Get a Set object of the specified Id. The Set does not have to have been

@@ -7,7 +7,7 @@
 * necessary services.
 *
 * @package harmoni.services
-* @version $Id: services.cfg.php,v 1.41 2005/03/25 18:33:18 adamfranco Exp $
+* @version $Id: services.cfg.php,v 1.42 2005/03/25 22:44:55 adamfranco Exp $
 * @copyright 2003
 **/
 
@@ -226,23 +226,6 @@ if (LOAD_AUTHENTICATION) {
 	require_once(HARMONI_BASE."config/authentication.cfg.php");
 }
 
-/**
- * load debug handler
- */
-if (LOAD_DEBUG) {
-	require_once(HARMONI."debugHandler/DebugHandler.class.php");
-	Services::registerService("Debug","DebugHandler");
-	require_once(HARMONI."debugHandler/debug.class.php");
-}
-
-/**
- * load layout and theme handlers
- */
-if (LOAD_THEMES) {
-	require_once(HARMONI."layoutHandler/LayoutHandler.class.php");
-	require_once(HARMONI."themeHandler/ThemeHandler.class.php");
-	Services::registerService("Themes", "ThemeHandler");
-}
 
 /**
  * load the agent information handler
@@ -253,11 +236,32 @@ if (LOAD_AGENTINFORMATION && LOAD_AUTHENTICATION) {
 }
 
 /**
+ * load debug handler
+ */
+if (LOAD_DEBUG) {
+	require_once(HARMONI."debugHandler/DebugHandler.class.php");
+	Services::registerService("DebugManager","DebugHandler");
+	Services::createServiceAlias("DebugManager", "Debug");
+	require_once(HARMONI."debugHandler/debug.class.php");
+}
+
+/**
+ * load layout and theme handlers
+ */
+if (LOAD_THEMES) {
+	require_once(HARMONI."layoutHandler/LayoutHandler.class.php");
+	require_once(HARMONI."themeHandler/ThemeHandler.class.php");
+	Services::registerService("ThemeManager", "ThemeHandler");
+	Services::createServiceAlias("ThemeManager", "Themes");
+}
+
+/**
  * load the Storage handler.
  */
 if (LOAD_STORAGE) {
 	require_once(HARMONI."storageHandler/StorageHandler.class.php");
-	Services::registerService("Storage","StorageHandler");
+	Services::registerService("StorageManager","StorageHandler");
+	Services::createServiceAlias("StorageManager", "Storage");
 	require_once(HARMONI_BASE."config/storage.cfg.php");
 }
 
@@ -273,7 +277,8 @@ if (LOAD_DATAMANAGER) {
  */
 if (LOAD_LANG) {
 	require_once(HARMONI."languageLocalizer/LanguageLocalizer.class.php");
-	Services::registerService("Lang","LanguageLocalizer");
+	Services::registerService("LanguageManager","LanguageLocalizer");
+	Services::createServiceAlias("LanguageManager", "Lang");
 }
 
 /**
@@ -281,7 +286,8 @@ if (LOAD_LANG) {
  */
 if (LOAD_SETS) {
 	require_once(HARMONI."sets/SetManager.class.php");
-	Services::registerService("Sets","SetManager");
+	Services::registerService("SetManager","SetManager");
+	Services::createServiceAlias("SetManager", "Sets");
 }
 
 /**
@@ -289,7 +295,8 @@ if (LOAD_SETS) {
  */
 if (LOAD_MIME) {
 	require_once(HARMONI."utilities/MIMETypes.class.php");
-	Services::registerService("MIME", "MIMETypes");
+	Services::registerService("MIMEManager", "MIMETypes");
+	Services::createServiceAlias("MIMEManager", "MIME");
 }
 
 /**
@@ -297,7 +304,8 @@ if (LOAD_MIME) {
  */
 if (LOAD_IMAGEPROCESSOR) {
 	require_once(HARMONI."ImageProcessor/ImageProcessor.class.php");
-	Services::registerService("ImageProcessor", "ImageProcessor");
+	Services::registerService("ImageProcessingManager", "ImageProcessor");
+	Services::createServiceAlias("ImageProcessingManager", "ImageProcessor");
 }
 
 
