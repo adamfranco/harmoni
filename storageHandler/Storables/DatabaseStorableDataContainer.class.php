@@ -7,7 +7,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * to the constructor of a DatabaseStorable object.
  * 
  * @package harmoni.storageHandler.storables
- * @version $Id: DatabaseStorableDataContainer.class.php,v 1.1 2003/07/03 01:34:14 dobomode Exp $
+ * @version $Id: DatabaseStorableDataContainer.class.php,v 1.2 2003/07/04 03:32:35 dobomode Exp $
  * @copyright 2003
  */
 
@@ -15,7 +15,11 @@ class DatabaseStorableDataContainer extends DataContainer {
 
     /**
      * Constructor -- sets up the allowed fields for this kind of {@link DataContainer}
-     * 
+     * <br><br>
+	 * This container includes the following fields:
+	 * <br>
+	 * *******add more********
+	 * 
      * @see {@link DatabaseStorable}
      * @see {@link DataContainer}
      * @access public
@@ -24,7 +28,7 @@ class DatabaseStorableDataContainer extends DataContainer {
     { 
         // initialize the data container
         $this -> init(); 
-		
+
         // add the fields we want to allow
 		$stringValidatorRule =& new StringValidatorRule();
 		$this -> add("dbIndex", new IntegerValidatorRule());

@@ -7,7 +7,7 @@ require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarc
  * An AuthorizationContextHierarchy is a tree-like datastructure used by
  * the AuthorizationContextHierarchyGenerator objects.
  * @access public
- * @version $Id: AuthorizationContextHierarchy.class.php,v 1.2 2003/07/04 00:15:37 dobomode Exp $
+ * @version $Id: AuthorizationContextHierarchy.class.php,v 1.3 2003/07/04 03:32:34 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -195,7 +195,7 @@ class AuthorizationContextHierarchy
 	 * Traverses the hierarchy and returns all the nodes in an array. The traversal
 	 * is a pre-order traversal.
 	 * @method public traverse
-	 * @param optional ref node An optional node to start traversal from.
+	 * @param optional ref object node An optional node to start traversal from.
 	 * @return ref array An array of all nodes in the hierarchy visited in a pre-order
 	 * manner.
 	 */

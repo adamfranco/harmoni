@@ -10,7 +10,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
 /**
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
  * A MySQLDatabase class provides the tools to connect, query, etc., a MySQL database.
- * @version $Id: MySQLDatabase.class.php,v 1.5 2003/07/03 01:34:14 dobomode Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.6 2003/07/04 03:32:34 dobomode Exp $
  * @copyright 2003 
  * @package harmoni.dbhandler
  * @access public
@@ -317,6 +317,23 @@ class MySQLDatabase extends DatabaseInterface {
 	}
 
 	
+	
+	/**
+	 * This method selects the default database to use in queries.
+	 * @method public selectDatabase
+	 * @param string database The name of the default database.
+	 * @return boolean True, if successful; False, otherwise.
+	 */
+	function selectDatabase($database) {
+		// ** parameter validation
+		$stringRule =& new StringValidatorRule();
+		ArgumentValidator::validate($database, $stringRule, true);
+		// ** end of parameter validation
+	
+		$this->_dbName = $database;
+		return mysql_select_db($database, $this->_linkId);
+	}
+
 }
 
 ?>

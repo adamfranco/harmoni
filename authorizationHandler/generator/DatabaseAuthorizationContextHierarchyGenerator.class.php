@@ -1,25 +1,25 @@
 <?php
 
-require_once(HARMONI."authorizationHandler/generator/CachedAuthorizationContextHierarchyGenerator.interface.php");
+require_once(HARMONI."authorizationHandler/generator/AuthorizationContextHierarchyGenerator.interface.php");
 
 /** 
  * A database implementation of the AuthorizationContextHierarchyGeneratorInterface.
  * The implementation takes a database connection index (as returned by the DBHandler
  * service). The user has to call continously the
- * addContextDepth method to setup all the possible levels of the context
+ * <code>addContextHierarchyLevel</code> method to setup all the possible levels of the context
  * hierarchy. Subsequently, the user (or rather - the authorization method)
  * can call any of the three interface methods to generate the necessary 
  * hierarchical information.
  * 
  * @access public
- * @version $Id: DatabaseCachedAuthorizationContextHierarchyGenerator.class.php,v 1.5 2003/07/04 00:15:37 dobomode Exp $
+ * @version $Id: DatabaseAuthorizationContextHierarchyGenerator.class.php,v 1.1 2003/07/04 03:32:34 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
- * @package harmoni.authorizationHandler
+ * @package harmoni.authorizationHandler.generator
  */
-class DatabaseCachedAuthorizationContextHierarchyGenerator 
-					extends CachedAuthorizationContextHierarchyGeneratorInterface {
+class DatabaseAuthorizationContextHierarchyGenerator 
+					extends AuthorizationContextHierarchyGeneratorInterface {
 
 
 	/**
@@ -34,7 +34,7 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 	 * This array member variable stores all the hierarchy levels.
 	 * Each element of the array stores an array that has three things included:
 	 * the database table name, the id column name, and the foreign key column name.
-	 * @see {@link DatabaseCachedAuthorizationContextHierarchyGenerator::addContextHierarchyLevel}
+	 * @see {@link DatabaseAuthorizationContextHierarchyGenerator::addContextHierarchyLevel}
 	 * @attribute private array _levels
 	 */
 	var $_levels;
@@ -58,7 +58,7 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 	 * @param integer dbIndex The database connection index.
 	 * @access public
 	 */
-	function DatabaseCachedAuthorizationContextHierarchyGenerator($dbIndex) {
+	function DatabaseAuthorizationContextHierarchyGenerator($dbIndex) {
 		// ** parameter validation
 		$integerRule =& new IntegerValidatorRule();
 		ArgumentValidator::validate($dbIndex, $integerRule, true);
@@ -121,7 +121,11 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 	
 	
 	/**
-	 * Generates the subtree rooted at the specified context.
+	 * Generates the subtree rooted at the specified context. This method is
+	 * cached. In other words, if the same subtree (or part of the subtree)
+	 * is requested several times, only the first call will access the database,
+	 * while the other calls will read the information from a cached ContextHierarchy
+	 * object.
 	 * @method public generateSubtree
 	 * @param integer hierarchyLevel The level of the root context.
 	 * @param integer systemId  The system id of the root context.
@@ -275,7 +279,9 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 	
 	
 	/**
-	 * Returns all the ancestors of a given context.
+	 * Returns all the ancestors of a given context. It is non-trivial and not
+	 * feasible to make this method cached. For this reason, it always queries
+	 * the database.
 	 * @method public getAncestors
 	 * @param integer hierarchyLevel The level of the context.
 	 * @param integer systemId  The system id of the context.
@@ -372,7 +378,9 @@ class DatabaseCachedAuthorizationContextHierarchyGenerator
 	/**
 	 * Clears the hierarchy cache. You should call this function, whenever the
 	 * hierarchy structure has changed on whatever media is used (i.e., the
-	 * database has been updated).
+	 * database has been updated). This gets called automatically by
+	 * addContextHierarchyLevel().
+	 * 
 	 * @method public clearCache
 	 * @return void 
 	 */

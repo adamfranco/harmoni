@@ -11,13 +11,13 @@
  * not have to care about the way the hierarchy is stored and/or retrieved.
  * 
  * @access public
- * @version $Id: CachedAuthorizationContextHierarchyGenerator.interface.php,v 1.5 2003/07/04 00:15:37 dobomode Exp $
+ * @version $Id: AuthorizationContextHierarchyGenerator.interface.php,v 1.1 2003/07/04 03:32:34 dobomode Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 6/30/2003
- * @package harmoni.authorizationHandler
+ * @package harmoni.authorizationHandler.generator
  */
-class CachedAuthorizationContextHierarchyGeneratorInterface {
+class AuthorizationContextHierarchyGeneratorInterface {
 
 
 	
@@ -67,7 +67,7 @@ class CachedAuthorizationContextHierarchyGeneratorInterface {
 	 * Each element of the array is another array containing the
 	 * system ids of all contexts on that hierarchy level. The root itself, is not included.
 	 * Thus the indexing of the array starts from <code>l+1</code> where <code>l</code>
-	 * is the level of the root.
+	 * is the hierarchy level of the root.
 	 * Returns null if something went wrong.
 	 */
 	function generateSubtree($hierarchyLevel, $systemId) {
@@ -92,7 +92,9 @@ class CachedAuthorizationContextHierarchyGeneratorInterface {
 	/**
 	 * Clears the hierarchy cache. You should call this function, whenever the
 	 * hierarchy structure has changed on whatever media is used (i.e., the
-	 * database has been updated).
+	 * database has been updated). This gets called automatically by
+	 * addContextHierarchyLevel().
+	 * 
 	 * @method public clearCache
 	 * @return void 
 	 */

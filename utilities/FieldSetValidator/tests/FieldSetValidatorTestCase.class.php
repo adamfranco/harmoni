@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FieldSetValidatorTestCase.class.php,v 1.4 2003/07/01 17:14:13 dobomode Exp $
+ * @version $Id: FieldSetValidatorTestCase.class.php,v 1.5 2003/07/04 03:32:35 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -110,7 +110,7 @@
 			// what the hell is this???
 			// $error = 1;
 			
-			$error = new Error("blah", "blah", true);
+			$error = new Error("UnitTest", "UnitTest", false);
 			
 			
 			$rq = & new FieldRequiredValidatorRule;

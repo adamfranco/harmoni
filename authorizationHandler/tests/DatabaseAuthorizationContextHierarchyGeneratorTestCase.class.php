@@ -1,22 +1,22 @@
 <?php
 
-require_once(HARMONI.'authorizationHandler/generator/DatabaseCachedAuthorizationContextHierarchyGenerator.class.php');
+require_once(HARMONI.'authorizationHandler/generator/DatabaseAuthorizationContextHierarchyGenerator.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseCachedAuthorizationContextHierarchyGeneratorTestCase.class.php,v 1.4 2003/07/04 00:15:38 dobomode Exp $
+ * @version $Id: DatabaseAuthorizationContextHierarchyGeneratorTestCase.class.php,v 1.3 2003/07/04 03:32:35 dobomode Exp $
  * @copyright 2003 
  */
 
-    class DatabaseCachedAuthorizationContextHierarchyGeneratorTestCase extends UnitTestCase {
+    class DatabaseAuthorizationContextHierarchyGeneratorTestCase extends UnitTestCase {
 		
 		var $generator;
 		var $dbHandler;
 	
-		function DatabaseCachedAuthorizationContextHierarchyGeneratorTestCase() {
+		function DatabaseAuthorizationContextHierarchyGeneratorTestCase() {
 			$this->UnitTestCase();
 		}
 	
@@ -31,7 +31,7 @@ require_once(HARMONI.'authorizationHandler/generator/DatabaseCachedAuthorization
 			$dbIndex = $this->dbHandler->createDatabase(MYSQL, "devo.middlebury.edu", "harmoniTest", "test", "test");
 			$this->dbHandler->connect($dbIndex);
 			$this->generator =& new
-				DatabaseCachedAuthorizationContextHierarchyGenerator($dbIndex);
+				DatabaseAuthorizationContextHierarchyGenerator($dbIndex);
 			// perhaps, initialize $obj here
 		}
 		
