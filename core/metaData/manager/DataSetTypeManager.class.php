@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.30 2004/08/26 15:10:32 adamfranco Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.31 2005/01/03 20:50:32 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -263,7 +263,7 @@ class DataSetTypeManager
 	 */
 	function dataSetTypeExists(&$type) {
 //		print_r(array_keys($this->_typeIDs));
-//		print "<BR>".$this->_mkHash($type);
+//		print "<br />".$this->_mkHash($type);
 		return (isset($this->_typeIDs[$this->_mkHash($type)]))?true:false;
 	}
 	

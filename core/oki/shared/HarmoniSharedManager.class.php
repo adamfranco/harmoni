@@ -39,7 +39,7 @@ require_once(HARMONI."oki/shared/AgentSearches/AncestorGroupSearch.class.php");
  * @author Adam Franco, Dobromir Radichkov
  * @copyright 2004 Middlebury College
  * @access public
- * @version $Id: HarmoniSharedManager.class.php,v 1.55 2004/12/08 15:55:58 adamfranco Exp $
+ * @version $Id: HarmoniSharedManager.class.php,v 1.56 2005/01/03 20:50:33 adamfranco Exp $
  * 
  * @todo Replace JavaDoc with PHPDoc
  */
@@ -355,7 +355,7 @@ class HarmoniSharedManager
 				$groupId = $arr['group_id'];
 				// if the group has been fetched then get rid of the agent
 				if (isset($this->_groupsCache[$groupId])) {
-//					echo "<b>unsetting the agent # {$idValue} in group # ".$groupId."</b><br>";
+//					echo "<b>unsetting the agent # {$idValue} in group # ".$groupId."</b><br />";
 					unset($this->_groupsCache[$groupId]->_agents[$idValue]);
 				}
 
@@ -1006,7 +1006,7 @@ class HarmoniSharedManager
 				$groupId = $arr['group_id'];
 				// if the group has been fetched then get rid of the agent
 				if (isset($this->_groupsCache[$groupId])) {
-//					echo "<b>unsetting the group # {$idValue} in group # ".$groupId."</b><br>";
+//					echo "<b>unsetting the group # {$idValue} in group # ".$groupId."</b><br />";
 					unset($this->_groupsCache[$groupId]->_groups[$idValue]);
 				}
 

@@ -23,8 +23,8 @@ class HarmoniType
 		$this->_description = $description;
 		
 //		$ar = debug_backtrace();
-//		print $ar[0]["file"] . ": " . $ar[0]["line"]."<br>";
-//		print "$domain - $authority - $keyword - $description<br>";
+//		print $ar[0]["file"] . ": " . $ar[0]["line"]."<br />";
+//		print "$domain - $authority - $keyword - $description<br />";
 	}
 	// :: full java declaration :: public Type(String domain, String authority, String keyword)
 

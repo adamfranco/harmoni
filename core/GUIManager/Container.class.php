@@ -8,11 +8,11 @@ require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
 /**
  * This is a generic <code>Container</code> implementation that should be sufficient
  * for all means and purposes.
- * <br><br>
+ * <br /><br />
  * The <code>Container</code> interface is an extension of the <code>Component</code>
  * interface; <code>Containers</code> are capable of storing multiple sub-<code>Components</code>
  * and when rendering Containers, all sub-<code>Components</code> will be rendered as well.
- * @version $Id: Container.class.php,v 1.6 2004/10/26 21:05:49 adamfranco Exp $
+ * @version $Id: Container.class.php,v 1.7 2005/01/03 20:50:07 adamfranco Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS

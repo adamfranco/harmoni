@@ -6,10 +6,10 @@ require_once(HARMONI."GUIManager/Components/MenuItem.interface.php");
  * The <code>MenuItemLink</code> class is an extension of the <code>MenuItem</code>
  * interface adding support for attaching extra data like URL, target window, an 
  * access key (shortcut), a toolTip, etc.
- * <br><br>
+ * <br /><br />
  * <code>MenuItem</code> is an extension of <code>Component</code>; <code>MenuItems</code>
  * have display names and the ability to be added to <code>Menu</code> objects.
- * @version $Id: MenuItemLink.class.php,v 1.2 2004/07/26 23:23:30 dobomode Exp $
+ * @version $Id: MenuItemLink.class.php,v 1.3 2005/01/03 20:50:07 adamfranco Exp $
  * @package harmoni.gui.components
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS

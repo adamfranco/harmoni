@@ -16,11 +16,11 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * 		<li> sub </li>
  * 		<li> [specific value] - a length value (%, px, in, etc.) </li>
  * </ul>
- * <br><br>
+ * <br /><br />
  * The <code>StyleComponent</code> (SC) is the most basic of the three building pieces
  * of CSS styles. It combines a CSS property value with a ValidatorRule to ensure that
- * the value follows a certain format.<br><br>
- * @version $Id: VerticalAlignSC.class.php,v 1.3 2004/07/19 23:59:51 dobomode Exp $ 
+ * the value follows a certain format.<br /><br />
+ * @version $Id: VerticalAlignSC.class.php,v 1.4 2005/01/03 20:50:31 adamfranco Exp $ 
  * @package harmoni.gui.scs
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS

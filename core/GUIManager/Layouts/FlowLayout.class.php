@@ -7,14 +7,14 @@ require_once(HARMONI."GUIManager/Layout.interface.php");
  * container by simply rendering all of the container's components. The width, height,
  * and alignment options of the container and its components are ignored. No special 
  * arranging is done, and it is up to the browser or user to display the components properly. 
- * <br><br>
+ * <br /><br />
  * Contrary to what one might think, this could be a very useful <code>Layout</code>. 
  * For eaxmple, it could be used to display components that are just 
  * <code>div</code> elements with aboslute positioning.
- * <br><br>
+ * <br /><br />
  * Layouts are assigned to Containers and they specify how (in terms of location, 
  * not appearance) the sub-<code>Components</code> are going to be rendered on the screen.
- * @version $Id: FlowLayout.class.php,v 1.2 2004/07/22 16:31:55 dobomode Exp $
+ * @version $Id: FlowLayout.class.php,v 1.3 2005/01/03 20:50:08 adamfranco Exp $
  * @package harmoni.gui.layouts
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS

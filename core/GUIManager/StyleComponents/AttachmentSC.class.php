@@ -8,11 +8,11 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * 		<li> scroll </li>
  * 		<li> fixed </li>
  * </ul>
- * <br><br>
+ * <br /><br />
  * The <code>StyleComponent</code> (SC) is the most basic of the three building pieces
  * of CSS styles. It combines a CSS property value with a ValidatorRule to ensure that
- * the value follows a certain format.<br><br>
- * @version $Id: AttachmentSC.class.php,v 1.1 2004/08/17 02:22:34 gabeschine Exp $ 
+ * the value follows a certain format.<br /><br />
+ * @version $Id: AttachmentSC.class.php,v 1.2 2005/01/03 20:50:08 adamfranco Exp $ 
  * @package harmoni.gui.scs
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS

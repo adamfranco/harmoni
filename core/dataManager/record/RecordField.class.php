@@ -6,7 +6,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * Holds a number of indexes for values within a specific field within a Record. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  * @package harmoni.datamanager
- * @version $Id: RecordField.class.php,v 1.8 2004/12/18 05:14:32 gabeschine Exp $
+ * @version $Id: RecordField.class.php,v 1.9 2005/01/03 20:50:32 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -207,7 +207,7 @@ class RecordField {
 		for($i=0; true; $i++) {
 			if (!in_array($i,$this->getIndices())) return $i;
 		}
-		print "<b>Eh? We can't find a new index?</b><br>";
+		print "<b>Eh? We can't find a new index?</b><br />";
 		printDebugBacktrace(); exit();
 	}
 	

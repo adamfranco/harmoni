@@ -29,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.14 2005/01/03 05:48:29 gabeschine Exp $
+* @version $Id: Record.class.php,v 1.15 2005/01/03 20:50:31 adamfranco Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -670,7 +670,7 @@ class Record {
 		// that we already have fetched.
 		if ($this->getFetchMode() >= RECORD_FULL) return;
 		
-//		print "<b>makeFull()</b><br>";
+//		print "<b>makeFull()</b><br />";
 //		printDebugBacktrace(debug_backtrace());
 		
 		if (!$this->getID()) return;
@@ -689,7 +689,7 @@ class Record {
 		// we will get the RecordManager to fetch our fields from the database
 		if ($this->getFetchMode() >= RECORD_CURRENT) return;
 
-//		print "<b>makeCurrent()</b><br>";
+//		print "<b>makeCurrent()</b><br />";
 //		printDebugBacktrace(debug_backtrace());
 		
 		if (!$this->getID()) return;

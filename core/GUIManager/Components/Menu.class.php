@@ -7,7 +7,7 @@ require_once(HARMONI."GUIManager/Components/Menu.interface.php");
  * A <code>Menu</code> is a <code>Container</code> that stores a number of 
  * MenuItem objects. The familiar add/get/remove <code>Container</code> methods 
  * can be used to manage the <code>MenuItems</code>.
- * @version $Id: Menu.class.php,v 1.3 2004/10/26 21:07:28 adamfranco Exp $
+ * @version $Id: Menu.class.php,v 1.4 2005/01/03 20:50:07 adamfranco Exp $
  * @package harmoni.gui.components
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -53,7 +53,7 @@ class Menu extends Container /* implements MenuInterface */ {
 	 * familiar <code>add()</code> method of the Container class is that now
 	 * explicit checking is performed to make sure that the given component
 	 * is indeed a <code>menuItem</code> and not just any component.
-	 * <br><br>
+	 * <br /><br />
 	 * Warning: The <code>add()</code> method allows the user to add the same
 	 * instance of an object multiple times. With menus, this is extremely unadvised because
 	 * the menu might end up with multiple selected menu items at the same time.

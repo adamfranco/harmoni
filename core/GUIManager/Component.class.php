@@ -6,11 +6,11 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
 /**
  * This is a generic implementation of the Component interface that allows the user
  * to output an arbitrary string (content).
- * <br><br>
+ * <br /><br />
  * <code>Components</code> are the basic units that can be displayed on
  * the screen. The main method <code>render()</code> which renders the component 
  * on the screen.
- * @version $Id: Component.class.php,v 1.8 2004/10/26 21:05:49 adamfranco Exp $
+ * @version $Id: Component.class.php,v 1.9 2005/01/03 20:50:07 adamfranco Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS

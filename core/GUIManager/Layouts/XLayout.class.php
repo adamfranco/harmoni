@@ -8,10 +8,10 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
 
 /**
  * <code>XLayout</code> renders components sequentially and horizontally.
- * <br><br>
+ * <br /><br />
  * Layouts are assigned to Containers and they specify how (in terms of location, 
  * not appearance) the sub-<code>Components</code> are going to be rendered on the screen.
- * @version $Id: XLayout.class.php,v 1.3 2004/07/26 23:23:31 dobomode Exp $
+ * @version $Id: XLayout.class.php,v 1.4 2005/01/03 20:50:08 adamfranco Exp $
  * @package harmoni.gui.layouts
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS

@@ -8,13 +8,13 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * A <code>Theme</code> is a combination of two things: first, it stores a variety
  * of reusable <code>StyleCollections</code> and second, it offers a mechanism for
  * printing an HTML web page.
- * <br><br>
+ * <br /><br />
  * Each <code>Theme</code> has a set of style collections that correspond to 
  * each component type.
- * <br><br>
+ * <br /><br />
  * Each <code>Theme</code> has a single component (could be container) that will
  * be printed when <code>printPage()</code> is called.
- * @version $Id: Theme.interface.php,v 1.5 2004/08/26 15:10:30 adamfranco Exp $
+ * @version $Id: Theme.interface.php,v 1.6 2005/01/03 20:50:07 adamfranco Exp $
  * @package harmoni.gui
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -71,23 +71,23 @@ class ThemeInterface {
 	/**
 	 * This method returns all style collections for the given component type and
 	 * the given numeric index.
-	 * <br><br>
+	 * <br /><br />
 	 * Each <code>Theme</code> has a set of style collections that correspond to 
 	 * a combination of a component type and a numeric index. For example, the user
 	 * can define two style collections for components of type BLOCK and index 1 and
 	 * a totally different set of three style collections for componets of type
 	 * MENU and index 2. 
-	 * <br><br>
+	 * <br /><br />
 	 * The index has no semantic meaning: you can think of the index as 'level' of the
 	 * component. Alternatively, the index could serve as means of distinguishing 
 	 * between components with the same type.
 	 * For example, a BLOCK component with index 2 will normally have a 
 	 * different set of style collections than a BLOCK component with index 1. 
-	 * <br><br>
+	 * <br /><br />
 	 * Another way of interpreting the index is drawing a parallel to the HTML headings
 	 * &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, ..., where the lower the index, 
 	 * the more "prominent" the look of the component.
-	 * <br><br>
+	 * <br /><br />
 	 * The style collections would be normally set by the 
 	 * <code>setStyleForComponentType()</code> method in the Theme constructor.
 	 * @access public

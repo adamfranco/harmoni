@@ -6,7 +6,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.interface.php");
  * This is the building piece of the Tree data structure used for the backbone of the
  * hierarchy.
  * @access public
- * @version $Id: TreeNode.class.php,v 1.7 2004/08/26 15:10:34 adamfranco Exp $
+ * @version $Id: TreeNode.class.php,v 1.8 2005/01/03 20:50:33 adamfranco Exp $
  * @author Middlebury College, ETS
  * @copyright 2003 Middlebury College, ETS
  * @date Created: 8/30/2003
@@ -87,7 +87,7 @@ class TreeNode extends TreeNodeInterface
 	 * @return void
 	 */
 	function addChild(& $child) {
-		// echo "Adding {$child->_id} to {$this->_id} <br>";
+		// echo "Adding {$child->_id} to {$this->_id} <br />";
 	
 		$extendsRule =& new ExtendsValidatorRule("TreeNodeInterface");
 		ArgumentValidator::validate($child, $extendsRule, true);
@@ -131,12 +131,12 @@ class TreeNode extends TreeNodeInterface
 	 * @return void
 	 **/
 	function detachChild(& $child) {
-		// echo "Detaching {$child->_id} from {$this->_id} <br>";
+		// echo "Detaching {$child->_id} from {$this->_id} <br />";
 	
 		$extendsRule =& new ExtendsValidatorRule("TreeNodeInterface");
 		ArgumentValidator::validate($child, $extendsRule, true);
 		
-//		echo "Removing child ".$child->_id." from parent ".$this->_id."<br>";
+//		echo "Removing child ".$child->_id." from parent ".$this->_id."<br />";
 		
 		// check if $child is really a child of $this
 		if (!$this->isChild($child)) {

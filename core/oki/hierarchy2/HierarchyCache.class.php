@@ -8,7 +8,7 @@ require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
  * This class provides a mechanism for caching different parts of a hierarchy and
  * acts as an interface between the datastructures and the database. A
  * single instance of this class will be included with a single <code>Hierarchy</code> 
- * object and all its <code>Node</code> objects.<br><br>
+ * object and all its <code>Node</code> objects.<br /><br />
  * 
  * The class maintains a single <code>Tree</code> object called <code>tree</code>
  * that will store the parts of the hierarchy already cached. In addition, 
@@ -23,11 +23,11 @@ require_once(HARMONI."oki/hierarchy2/HarmoniTraversalInfoIterator.class.php");
  * integer specifies the number of tree levels cached down the node, and the second integer
  * specifies the number of tree levels cached up the node. If any of these values is negative
  * then that means that the caching extends all the way up or down. If any of the two
- * values is zero, then nothing has been cached in the corresponding direction.<br><br>
+ * values is zero, then nothing has been cached in the corresponding direction.<br /><br />
  * 
  * Caching occurs when the user calls the accessor methods of the <code>Hierarchy</code> class,
  * i.e. <code>traverse()</code>, <code>getChildren()</code> or <code>getParents()</code>.
- * @version $Id: HierarchyCache.class.php,v 1.15 2004/12/16 22:37:40 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.16 2005/01/03 20:50:32 adamfranco Exp $
  * @package harmoni.osid.hierarchy2
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -57,7 +57,7 @@ class HierarchyCache {
 	 * integer specifies the number of tree levels cached down the node, and the second integer
 	 * specifies the number of tree levels cached up the node. If any of these values is negative
 	 * then that means that the caching extends all the way down or up. If any of the two
-	 * values is zero, then nothing has been cached in the corresponding direction.<br><br>
+	 * values is zero, then nothing has been cached in the corresponding direction.<br /><br />
 	 * @attribute protected array _cache
 	 */
 	var $_cache;
@@ -546,7 +546,7 @@ class HierarchyCache {
 			}
 			
 			$displayName = $nodes[0]->getDisplayName();
-//			echo "<br>Creating node # <b>$idValue - '$displayName'</b>";
+//			echo "<br />Creating node # <b>$idValue - '$displayName'</b>";
 			
 			// insert node into cache
 			$this->_tree->addNode(new TreeNode($idValue));
@@ -861,7 +861,7 @@ class HierarchyCache {
 		// the original value of levels
 		$originalLevels = $levels;
 		
-//		echo "<br><br><br><b>=== Caching node # $idValue, $levels levels down</b><br>";
+//		echo "<br /><br /><br /><b>=== Caching node # $idValue, $levels levels down</b><br />";
 		
 		// MySQL has a limit of 31 tables in a select query, thus essentially
 		// there is a limit to the max value of $levels.
@@ -914,14 +914,14 @@ class HierarchyCache {
 
 				// ignore null values
 				if (is_null($nodeId)) {
-//					echo "<br>--- skipping to next row (null value encountered)<br>";
+//					echo "<br />--- skipping to next row (null value encountered)<br />";
 				    break;
 				}
 				
-//				echo "<br><b>Level: $level - Node # $nodeId</b>";
+//				echo "<br /><b>Level: $level - Node # $nodeId</b>";
 
 				// if the node has not been cached, then we must create it
-//				echo "<br>--- CACHE UPDATE: ";
+//				echo "<br />--- CACHE UPDATE: ";
 				if (!$this->_isCached($nodeId)) {
 					$nodes =& $this->getNodesFromDB($db."node.node_id = '".addslashes($nodeId)."'");
 					
@@ -960,7 +960,7 @@ class HierarchyCache {
 //					echo "no need to set level of caching";
 				
 				// now, update tree structure
-//				echo "<br>--- TREE STRUCTURE UPDATE: ";
+//				echo "<br />--- TREE STRUCTURE UPDATE: ";
 
 				// get the current node (create it, if necessary)
 				if ($this->_tree->nodeExists($nodeId))
@@ -1018,7 +1018,7 @@ class HierarchyCache {
 		// the original value of levels
 		$originalLevels = $levels;
 		
-//		echo "<br><br><br><b>=== Caching node # $idValue, $levels levels up</b><br>";
+//		echo "<br /><br /><br /><b>=== Caching node # $idValue, $levels levels up</b><br />";
 
 		// MySQL has a limit of 31 tables in a select query, thus essentially
 		// there is a limit to the max value of $levels.
@@ -1071,14 +1071,14 @@ class HierarchyCache {
 
 				// ignore null values
 				if (is_null($nodeId)) {
-//					echo "<br>--- skipping to next row (null value encountered)<br>";
+//					echo "<br />--- skipping to next row (null value encountered)<br />";
 				    break;
 				}
 				
-//				echo "<br><b>Level: $level - Node # $nodeId</b>";
+//				echo "<br /><b>Level: $level - Node # $nodeId</b>";
 
 				// if the node has not been cached, then we must create it
-//				echo "<br>--- CACHE UPDATE: ";
+//				echo "<br />--- CACHE UPDATE: ";
 				if (!$this->_isCached($nodeId)) {
 					$nodes =& $this->getNodesFromDB($db."node.node_id = '".addslashes($nodeId)."'");
 					
@@ -1117,7 +1117,7 @@ class HierarchyCache {
 //					echo "no need to set level of caching";
 				
 				// now, update tree structure
-//				echo "<br>--- TREE STRUCTURE UPDATE: ";
+//				echo "<br />--- TREE STRUCTURE UPDATE: ";
 
 				// get the current node (create it, if necessary)
 				if ($this->_tree->nodeExists($nodeId))

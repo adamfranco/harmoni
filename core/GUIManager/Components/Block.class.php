@@ -8,11 +8,11 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * Blocks are capable of storing an arbitrary content (string) and naturally have
  * their type set to <code>BLOCK</code>. Unlike the generic component, the content
  * of Blocks is required.
- * <br><br>
+ * <br /><br />
  * <code>Components</code> are the basic units that can be displayed on
  * the screen. The main method <code>render()</code> which renders the component 
  * on the screen.
- * @version $Id: Block.class.php,v 1.2 2004/10/26 21:07:28 adamfranco Exp $
+ * @version $Id: Block.class.php,v 1.3 2005/01/03 20:50:07 adamfranco Exp $
  * @package harmoni.gui.components
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
