@@ -12,7 +12,7 @@ define("NEW_VERSION","new");
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
  * field within a Record.
  * @package harmoni.datamanager
- * @version $Id: RecordFieldValue.class.php,v 1.8 2005/01/05 18:18:21 gabeschine Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.9 2005/01/08 01:22:52 gabeschine Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -292,6 +292,7 @@ class RecordFieldValue {
 			// although there should be only one version here, let's go through all to mamke sure
 			foreach($this->getVersionIDs() as $ver) {
 				$this->_versions[$ver]->prune();
+				$this->_versions[$ver]->setActiveFlag(false);
 			}
 		}
 	}
