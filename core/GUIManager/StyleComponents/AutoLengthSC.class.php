@@ -7,8 +7,8 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * The AutoLengthSC represents CSS "top", "left", "right", "bottom",
  * "width", and "height" values. The allowed values are: 
  * <ul style="font-family: monospace;">
- * 		<li> normal </li>
- * 		<li> [specific line height] - a length value (%, px, in, etc.) </li>
+ * 		<li> auto </li>
+ * 		<li> [specific length] - a length value (%, px, in, etc.) </li>
  * </ul>
  * <br><br>
  * The <code>StyleComponent</code> (SC) is the most basic of the three building pieces
@@ -31,7 +31,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * <code>StyleComponents</code> with values <code>1px</code>, <code>solid</code>,
  * and <code>#000</code> correspondingly.
  * 
- * @version $Id: AutoLengthSC.class.php,v 1.1 2004/07/15 20:31:56 tjigmes Exp $
+ * @version $Id: AutoLengthSC.class.php,v 1.2 2004/07/15 21:25:56 tjigmes Exp $
  * @package 
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
@@ -50,7 +50,7 @@ class AutoLengthSC extends StyleComponent {
 
 		$errDescription = "Could not validate the AutoLength StyleComponent value \"$value\".
 						   Allowed values are: ".implode(", ", $options).", or a specific 
-						   line-height value (a length value, i.e. px, in, %, etc.).";
+						   distance value (a length value, i.e. px, in, %, etc.).";
 		
 		$rule =& new CSSLengthValidatorRule();
 		
