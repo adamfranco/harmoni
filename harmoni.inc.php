@@ -3,7 +3,7 @@
 /**
  * This file sets up global harmoni options... ....
  *
- * @version $Id: harmoni.inc.php,v 1.3 2003/06/24 21:14:41 adamfranco Exp $
+ * @version $Id: harmoni.inc.php,v 1.4 2003/06/25 19:23:12 dobomode Exp $
  * @copyright 2003 
  * @package harmoni
  * @access public
@@ -24,4 +24,4 @@ define("SERVICES_OBJECT","__services__");
 
 require_once(HARMONI."services/Services.class.php");
 // Create the globally referenced services object
-$__services__ =& new Services;
+$__services__ =& new Services();

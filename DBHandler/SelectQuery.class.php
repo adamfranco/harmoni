@@ -7,7 +7,7 @@ require_once(HARMONI."DBHandler/SelectQuery.interface.php");
  * 
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * @version $Id: SelectQuery.class.php,v 1.4 2003/06/25 18:51:11 dobomode Exp $
+ * @version $Id: SelectQuery.class.php,v 1.5 2003/06/25 19:23:12 dobomode Exp $
  * @package harmoni.dbhandler
  * @copyright 2003 
  */
@@ -124,7 +124,7 @@ class SelectQuery extends SelectQueryInterface {
 	 * a current set of tables is maintained in the object, so when a new one
 	 * is added, it is combined with the current set.
 	 * @param string $table The table to add to the FROM clause.
-	 * @param integer $joinType Specifies what type of join to perform between
+	 * @param constant $joinType Specifies what type of join to perform between
 	 * the current set of tables and the table being added. Could be one of
 	 * the following: NO_JOIN, LEFT_JOIN, INNER_JOIN, RIGHT_JOIN.
 	 * @param string $joinCondition If a join is to be performed, then this
@@ -133,6 +133,15 @@ class SelectQuery extends SelectQueryInterface {
 	 * @access public
 	 */
 	function addTable($table, $joinType = NO_JOIN, $joinCondition = "") {
+		// parameter checking
+		$eh =& Services::getService("ErrorHandler");
+		if (!is_string($table))
+			$eh->addNewError("Invalid parameter in ".__CLASS__."::".__FUNCTION__."()", "DBHandler", false);
+		if (!is_integer($joinType))
+			$eh->addNewError("Invalid parameter in ".__CLASS__."::".__FUNCTION__."()", "DBHandler", false);
+		if (!is_string($joinCondition))
+			$eh->addNewError("Invalid parameter in ".__CLASS__."::".__FUNCTION__."()", "DBHandler", false);
+		
 		$newTable = array($table, $joinType, $joinCondition);
 		$this->_tables[] = $newTable;
 	}

@@ -3,11 +3,11 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.1 2003/06/24 14:07:03 adamfranco Exp $
+ * @version $Id: test.php,v 1.2 2003/06/25 19:23:12 dobomode Exp $
  * @package harmoni.dbhandler.tests
  * @copyright 2003 
  **/
-
+ 
     if (!defined('HARMONI')) {
         require_once("../../harmoni.inc.php");
     }
@@ -17,6 +17,11 @@
     }
     require_once(SIMPLE_TEST . 'simple_unit.php');
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
+
+	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
+
+	Services::registerService("ErrorHandler","ErrorHandler");
+	Services::startService("ErrorHandler");
 
     $test =& new GroupTest('DBHandler tests');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLInsertQueryTestCase.class.php');

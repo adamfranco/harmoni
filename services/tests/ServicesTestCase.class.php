@@ -8,7 +8,7 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ServicesTestCase.class.php,v 1.2 2003/06/24 21:14:42 adamfranco Exp $
+ * @version $Id: ServicesTestCase.class.php,v 1.3 2003/06/25 19:23:12 dobomode Exp $
  * @copyright 2003 
  **/
 
@@ -52,7 +52,7 @@
 			$this->assertFalse(Services::serviceRunning("DBHandler"));
 			$this->assertTrue(Services::serviceAvailable("DBHandler"));
 			$this->assertTrue(Services::startService("DBHandler"));
-			$this->assertTrue(is_object(Services::getService("DBHandler")));
+			$this->assertIsA(Services::getService("DBHandler"), "dbhandler");
 		}
 		
 		function test_start_stop_restart() {
