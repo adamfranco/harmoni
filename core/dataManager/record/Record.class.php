@@ -29,7 +29,7 @@ define("RECORD_FULL",4);
 * ways, which can be changed at runtime. See the RECORD_* constants.
 * @access public
 * @package harmoni.datamanager
-* @version $Id: Record.class.php,v 1.7 2004/08/07 03:31:56 gabeschine Exp $
+* @version $Id: Record.class.php,v 1.8 2004/08/11 14:23:05 gabeschine Exp $
 * @copyright 2004, Middlebury College
 */
 class Record {
@@ -343,15 +343,16 @@ class Record {
 	
 	/**
 	* Commits (either inserts or updates) the data for this Record into the database.
+	* @param optional bool $ignoreMandatory USED INTERNALLY
 	* @return bool
 	*/
-	function commit() {
+	function commit($ignoreMandatory=false) {
 		// the first thing we're gonna do is check to make sure that all our required fields
 		// have at least one value.
 		foreach ($this->_schema->getAllLabels() as $label) {
 			$fieldDef =& $this->_schema->getField($label);
 			if ($fieldDef->isRequired() && ($this->_fields[$label]->numValues() == 0 ||
-					$this->_fields[$label]->numActiveValues() == 0)) {
+					$this->_fields[$label]->numActiveValues() == 0) && !$ignoreMandatory) {
 				throwError(new Error("Could not commit Record to database because the required field '$label' does
 				not have any values!","Record",true));
 				return false;
