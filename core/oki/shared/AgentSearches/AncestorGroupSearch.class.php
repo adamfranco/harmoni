@@ -7,8 +7,8 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * used by the AgentManager for searching for agents.
  * 
  * @package harmoni.osid.shared
- * @version $Id: AncestorGroupSearch.class.php,v 1.3 2004/12/01 22:00:43 adamfranco Exp $
- * @date $Date: 2004/12/01 22:00:43 $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.4 2004/12/01 22:20:19 adamfranco Exp $
+ * @date $Date: 2004/12/01 22:20:19 $
  * @copyright 2004 Middlebury College
  */
 
@@ -114,7 +114,7 @@ class AncestorGroupSearch
 			$query->addColumn("fk_child", "subgroup".($level+1)."_id", "subgroup".($level+1));
 		}
 		
-		// printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		$result =& $dbHandler->query($query, $this->_dbIndex);
 		
 		// Go through each ancestor path and add the ancestor Ids to our groupIds
@@ -122,11 +122,11 @@ class AncestorGroupSearch
 		while ($row =& $result->getCurrentRow()) {
 			// Go up the Ancestory path until we hit null.
 			$level = 1;
-			while ($row['subgroup'.$level] 
-					&& $row['subgroup'.$level] != "NULL"
+			while ($row['subgroup'.$level."_id"] 
+					&& $row['subgroup'.$level."_id"] != "NULL"
 					&& $level < 29)
 			{
-				$groupIds[] = $row['subgroup'.$level];
+				$groupIds[] = $row['subgroup'.$level."_id"];
 				$level++;
 			}
 			
@@ -144,7 +144,7 @@ class AncestorGroupSearch
 			$groupId =& $shared->getId($id);
 			$groups[] =& $shared->getGroup($groupId);
 		}
-		
+				
 		return new HarmoniIterator($groups);
 	}
 }
