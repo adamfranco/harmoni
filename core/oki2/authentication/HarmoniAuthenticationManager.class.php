@@ -1,22 +1,62 @@
 <?php
 
-require_once(OKI."/authentication.interface.php");
-require_once(HARMONI.'/oki/shared/HarmoniType.class.php');
-require_once(HARMONI.'/oki/authentication/HarmoniAuthenticationType.class.php');
-require_once(HARMONI.'/oki/shared/HarmoniTypeIterator.class.php');
-require_once(HARMONI."oki/shared/HarmoniProperties.class.php");
+require_once(OKI2."/osid/authentication/AuthenticationManager.php");
+require_once(HARMONI.'/oki2/authentication/HarmoniAuthenticationType.class.php');
+require_once(HARMONI.'/oki2/shared/HarmoniType.class.php');
+require_once(HARMONI.'/oki2/shared/HarmoniTypeIterator.class.php');
+require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
 
 /**
- * The AuthenticationManager identifies the authentication Types supported by 
- * the implementation, authenticates the user using a particular authentication
- * Type, determines if the user is authenticated for a particular authentication 
- * Type, destroys the user's authentication, and returns the id of the Agent 
- * that represents the user. <p>SID Version: 1.0 rc6 <p>Licensed under the 
- * {@link SidLicense MIT O.K.I&#46; SID Definition License}.
+ * <p>
+ * AuthenticationManager:
+ * 
+ * <ul>
+ * <li>
+ * gets authentication Types supported by the implementation,
+ * </li>
+ * <li>
+ * authenticates the user using a particular authentication Type,
+ * </li>
+ * <li>
+ * determines if the user is authenticated for a particular authentication
+ * Type,
+ * </li>
+ * <li>
+ * destroys the user's authentication,
+ * </li>
+ * <li>
+ * returns the Id of the Agent that represents the user.
+ * </li>
+ * </ul>
+ * </p>
+ * 
+ * <p>
+ * All implementations of OsidManager (manager) provide methods for accessing
+ * and manipulating the various objects defined in the OSID package. A manager
+ * defines an implementation of an OSID. All other OSID objects come either
+ * directly or indirectly from the manager. New instances of the OSID objects
+ * are created either directly or indirectly by the manager.  Because the OSID
+ * objects are defined using interfaces, create methods must be used instead
+ * of the new operator to create instances of the OSID objects. Create methods
+ * are used both to instantiate and persist OSID objects.  Using the
+ * OsidManager class to define an OSID's implementation allows the application
+ * to change OSID implementations by changing the OsidManager package name
+ * used to load an implementation. Applications developed using managers
+ * permit OSID implementation substitution without changing the application
+ * source code. As with all managers, use the OsidLoader to load an
+ * implementation of this interface.
+ * </p>
+ * 
+ * <p></p>
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ *
  * @package harmoni.osid.authentication
  */
 class HarmoniAuthenticationManager 
-	extends AuthenticationManager // :: API interface
+	extends AuthenticationManager
 {
 	
 	/**
@@ -73,43 +113,63 @@ class HarmoniAuthenticationManager
 
 	/**
 	 * Get the authentication Types that are supported by the implementation.
-	 * @return object osid.shared.TypeIterator
-	 * @throws osid.shared.SharedException An exception with one of the 
-	 * following messages defined in osid.shared.SharedException:   
-	 * {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, 
-	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
-	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
-	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.authentication
+	 *	
+	 * @return object TypeIterator
+	 * 
+	 * @throws object AuthenticationException An exception
+	 *		   with one of the following messages defined in
+	 *		   org.osid.authentication.AuthenticationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authentication.AuthenticationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authentication.AuthenticationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getAuthenticationTypes() {
+	function &getAuthenticationTypes () {
 		$iterator =& new HarmoniIterator($this->_authTypes);
 		return $iterator;
 	}
 
 	/**
-	 * Invoke the authentication process of the specified Type to identify 
-	 * the user.  It may be necessary to call isUserAuthenticated to check 
-	 * the status of authentication.  The standard authentication technique 
-	 * of limiting the time an user's authentication is valid requires 
-	 * explicit queries of the authentication status. It is likely that 
-	 * checking the status of authentication will occur more frequently than 
-	 * invoking the mechanism to authenticate the user.  Separation of the 
-	 * authentication process from checking the status of the authentication 
-	 * process is made explicit by having the authenticateUser and 
-	 * isUserAuthenticated methods.
-	 * @param object Type $authenticationType 
-	 * @throws osid.shared.SharedException An exception with one of the 
-	 * following messages defined in osid.shared.SharedException:   
-	 * {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, 
-	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
-	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
-	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
-	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
-	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.authentication
+	 * Invoke the authentication process of the specified Type to identify the
+	 * user.  It may be necessary to call isUserAuthenticated to check the
+	 * status of authentication.  The standard authentication technique of
+	 * limiting the time an user's authentication is valid requires explicit
+	 * queries of the authentication status. It is likely that checking the
+	 * status of authentication will occur more frequently than invoking the
+	 * mechanism to authenticate the user.	Separation of the authentication
+	 * process from checking the status of the authentication process is made
+	 * explicit by having the authenticateUser and isUserAuthenticated
+	 * methods.
+	 * 
+	 * @param object Type $authenticationType
+	 * 
+	 * @throws object AuthenticationException An exception
+	 *		   with one of the following messages defined in
+	 *		   org.osid.authentication.AuthenticationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authentication.AuthenticationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authentication.AuthenticationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
+	 *		   UNKNOWN_TYPE}
+	 * 
+	 * @public
 	 */
-	function authenticateUser(& $authenticationType) {
+	function authenticateUser ( &$authenticationType ) {
 		// Check that we have a valid AuthenticationType.
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
 
@@ -121,7 +181,7 @@ class HarmoniAuthenticationManager
 			}
 		}
 		if (!$typeValid)
-			throwError(new Error(UNKNOWN_TYPE, "AuthenticationManager", 1));
+			throwError(new Error(AuthenticationException::UNKNOWN_TYPE(), "AuthenticationManager", 1));
 		
 		// Assuming that we only have the LoginHandler as our authentication type,
 		// just use that to authenticate.
@@ -135,31 +195,44 @@ class HarmoniAuthenticationManager
 	}
 
 	/**
-	 * Check the current authentication status of the user. If the method 
-	 * returns true, the user is authenticated.  If the method returns false, 
-	 * the user is not authenticated.  This can indicate that the user could 
-	 * not be authenticated or that the user's authentication has timed out.  
-	 * The intent is to use the method authenticateUser to invoke the 
-	 * authentication process.  The standard authentication technique of 
-	 * limiting the time an user's authentication is valid requires explicit 
-	 * queries of the authentication status. It is likely that checking the 
-	 * status of authentication will occur more frequently than invoking the 
-	 * mechanism to authenticate the user.  Separation of the authentication 
-	 * process from checking the status of the authentication process is made 
-	 * explicit by having the authenticateUser and isUserAuthenticated methods.
+	 * Check the current authentication status of the user. If the method
+	 * returns true, the user is authenticated.	 If the method returns false,
+	 * the user is not authenticated.  This can indicate that the user could
+	 * not be authenticated or that the user's authentication has timed out.
+	 * The intent is to use the method authenticateUser to invoke the
+	 * authentication process.	The standard authentication technique of
+	 * limiting the time an user's authentication is valid requires explicit
+	 * queries of the authentication status. It is likely that checking the
+	 * status of authentication will occur more frequently than invoking the
+	 * mechanism to authenticate the user.	Separation of the authentication
+	 * process from checking the status of the authentication process is made
+	 * explicit by having the authenticateUser and isUserAuthenticated
+	 * methods.
+	 * 
 	 * @param object Type $authenticationType
+	 *	
 	 * @return boolean
-	 * @throws osid.shared.SharedException An exception with one of the 
-	 * following messages defined in osid.shared.SharedException:   
-	 * {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, 
-	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
-	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
-	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
-	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
-	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.authentication
+	 * 
+	 * @throws object AuthenticationException An exception
+	 *		   with one of the following messages defined in
+	 *		   org.osid.authentication.AuthenticationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authentication.AuthenticationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authentication.AuthenticationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
+	 *		   UNKNOWN_TYPE}
+	 * 
+	 * @public
 	 */
-	function isUserAuthenticated(& $authenticationType) {
+	function isUserAuthenticated ( &$authenticationType ) { 
 		// Check that we have a valid AuthenticationType.
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
 		$typeValid = FALSE;
@@ -170,7 +243,7 @@ class HarmoniAuthenticationManager
 			}
 		}
 		if (!$typeValid)
-			throwError(new Error(UNKNOWN_TYPE, "AuthenticationManager", 1));
+			throwError(new Error(AuthenticationException::UNKNOWN_TYPE(), "AuthenticationManager", 1));
 			
 		if($this->_harmoni->LoginState 
 			&& $this->_harmoni->LoginState->isValid()) {
@@ -181,21 +254,33 @@ class HarmoniAuthenticationManager
 	}
 
 	/**
-	 * Get the Unique Id of the Agent that represents the user for the 
-	 * specified AuthenticationType.  Agents are managed in the Shared OSID.
+	 * Get the unique Id of the Agent that represents the user for the
+	 * specified AuthenticationType.  Agents are managed using the Agent OSID.
+	 * 
 	 * @param object Type $authenticationType
-	 * @return object osid.shared.Id
-	 * @throws osid.shared.SharedException An exception with one of the 
-	 * following messages defined in osid.shared.SharedException:   
-	 * {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, 
-	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
-	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
-	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
-	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
-	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.authentication
+	 *	
+	 * @return object Id
+	 * 
+	 * @throws object AuthenticationException An exception
+	 *		   with one of the following messages defined in
+	 *		   org.osid.authentication.AuthenticationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authentication.AuthenticationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authentication.AuthenticationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
+	 *		   UNKNOWN_TYPE}
+	 * 
+	 * @public
 	 */
-	function &getUserId(& $authenticationType) {
+	function &getUserId ( &$authenticationType ) { 
 		// Check that we have a valid AuthenticationType.
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
 		$typeValid = FALSE;
@@ -206,7 +291,7 @@ class HarmoniAuthenticationManager
 			}
 		}
 		if (!$typeValid)
-			throwError(new Error(UNKNOWN_TYPE, "AuthenticationManager", 1));
+			throwError(new Error(AuthenticationException::UNKNOWN_TYPE(), "AuthenticationManager", 1));
 		
 		
 		// If the user is authenticated, look up their Agent Id or create a
@@ -217,38 +302,57 @@ class HarmoniAuthenticationManager
 			return $this->_getAgentId($name, $authenticationType);
 			
 		} else {
-			throwError(new Error(OPERATION_FAILED, "AuthenticationManager", 1));
+			throwError(new Error(AuthenticationException::OPERATION_FAILED(), "AuthenticationManager", 1));
 		}
 	}
 
 	/**
 	 * Destroy authentication for all authentication types.
-	 * @throws osid.shared.SharedException An exception with one of the 
-	 * following messages defined in osid.shared.SharedException:   
-	 * {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, 
-	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
-	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
-	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.authentication
+	 * 
+	 * @throws object AuthenticationException An exception
+	 *		   with one of the following messages defined in
+	 *		   org.osid.authentication.AuthenticationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authentication.AuthenticationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authentication.AuthenticationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function destroyAuthentication() {
+	function destroyAuthentication () { 
 		$this->_harmoni->LoginHandler->logout();
 	}
 
 	/**
 	 * Destroy authentication for the specified authentication type.
+	 * 
 	 * @param object Type $authenticationType
-	 * @throws osid.shared.SharedException An exception with one of the 
-	 * following messages defined in osid.shared.SharedException:   
-	 * {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, 
-	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
-	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
-	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
-	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
-	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.authentication
+	 * 
+	 * @throws object AuthenticationException An exception
+	 *		   with one of the following messages defined in
+	 *		   org.osid.authentication.AuthenticationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authentication.AuthenticationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authentication.AuthenticationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
+	 *		   UNKNOWN_TYPE}
+	 * 
+	 * @public
 	 */
-	function destroyAuthenticationForType(& $authenticationType) {
+	function destroyAuthenticationForType ( &$authenticationType ) { 
 		// Check that we have a valid AuthenticationType.
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
 		$typeValid = FALSE;
@@ -259,7 +363,7 @@ class HarmoniAuthenticationManager
 			}
 		}
 		if (!$typeValid)
-			throwError(new Error(UNKNOWN_TYPE, "AuthenticationManager", 1));
+			throwError(new Error(AuthenticationException::UNKNOWN_TYPE(), "AuthenticationManager", 1));
 		
 		// Assuming that we only have the LoginHandler as our authentication type,
 		// just destroy that Authentication.
@@ -267,26 +371,38 @@ class HarmoniAuthenticationManager
 	}
 	
 	/**
-	 * Get the Unique Id of the Agent that represents the specified tokens for the 
-	 * specified AuthenticationType.  Agents are managed in the Shared OSID.
+	 * Get the unique Id of the Agent that represents the agent with the
+	 * specified authentication tokens for the specified AuthenticationType.  
+	 * Agents are managed using the Agent OSID.
 	 *
-	 * WARNING: This method is not part of the OSID.
-	 *
+	 * WARNING: NOT IN OSID - This method is not in the OSID.
+	 * 
 	 * @param mixed $tokens The authentication tokens used to represent the agent
 	 *		in the specified authentication Type.
 	 * @param object Type $authenticationType
-	 * @return object osid.shared.Id
-	 * @throws osid.shared.SharedException An exception with one of the 
-	 * following messages defined in osid.shared.SharedException:   
-	 * {@link SharedException#OPERATION_FAILED OPERATION_FAILED}, 
-	 * {@link SharedException#PERMISSION_DENIED PERMISSION_DENIED}, 
-	 * {@link SharedException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, 
-	 * {@link SharedException#UNIMPLEMENTED UNIMPLEMENTED}, 
-	 * {@link SharedException#NULL_ARGUMENT NULL_ARGUMENT}, 
-	 * {@link SharedException#UNKNOWN_TYPE UNKNOWN_TYPE}
-	 * @package harmoni.osid.authentication
+	 *	
+	 * @return object Id
+	 * 
+	 * @throws object AuthenticationException An exception
+	 *		   with one of the following messages defined in
+	 *		   org.osid.authentication.AuthenticationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authentication.AuthenticationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authentication.AuthenticationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.authentication.AuthenticationException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.authentication.AuthenticationException#UNKNOWN_TYPE
+	 *		   UNKNOWN_TYPE}
+	 * 
+	 * @public
 	 */
-	function &getAgentId(& $tokens, & $authenticationType) {
+	function &getAgentId ( &$tokens, &$authenticationType ) {
 		// Check that we have a valid AuthenticationType.
 		ArgumentValidator::validate($authenticationType, new ExtendsValidatorRule("TypeInterface"));
 		$typeValid = FALSE;
@@ -297,7 +413,7 @@ class HarmoniAuthenticationManager
 			}
 		}
 		if (!$typeValid)
-			throwError(new Error(UNKNOWN_TYPE, "AuthenticationManager", 1));
+			throwError(new Error(AuthenticationException::UNKNOWN_TYPE(), "AuthenticationManager", 1));
 		
 		
 		// Look up their Agent Id or create a
@@ -308,21 +424,21 @@ class HarmoniAuthenticationManager
 	/**
 	 * Delete the mapping between an Agent and their Authentication tokens.
 	 *
-	 * WARNING: This method is not part of the OSID.
+	 * WARNING: NOT IN OSID - This method is not in the OSID.
 	 * 
 	 * @param object Id $agentId
 	 * @return void
 	 * @access public
 	 * @date 11/22/04
 	 */
-	function deleteMapping (& $id) {
+	function deleteMapping ( &$id ) {
 		$dbHandler =& Services::getService("DBHandler");
 		$query =& new DeleteQuery;
 		$query->setTable($this->_authNDB.".authn_mapping");
 		$query->addWhere($this->_authNDB.".authn_mapping.agent_id='".addslashes($id->getIdString())."'");
-// 		$query->addWhere($this->_authNDB.".authn_mapping.type_domain='".addslashes($authenticationType->getDomain())."'");
-// 		$query->addWhere($this->_authNDB.".authn_mapping.type_authority='".addslashes($authenticationType->getAuthority())."'");
-// 		$query->addWhere($this->_authNDB.".authn_mapping.type_keyword='".addslashes($authenticationType->getKeyword())."'");
+//		$query->addWhere($this->_authNDB.".authn_mapping.type_domain='".addslashes($authenticationType->getDomain())."'");
+//		$query->addWhere($this->_authNDB.".authn_mapping.type_authority='".addslashes($authenticationType->getAuthority())."'");
+//		$query->addWhere($this->_authNDB.".authn_mapping.type_keyword='".addslashes($authenticationType->getKeyword())."'");
 		$result =& $dbHandler->query($query, $this->_dbIndex);
 	}
 	
@@ -333,7 +449,7 @@ class HarmoniAuthenticationManager
 	 * @param mixed $tokens
 	 * @param object $authori
 	 * @return object Id
-	 * @access public
+	 * @access private
 	 * @date 11/18/04
 	 */
 	function _getAgentId ($tokens, & $authenticationType) {
@@ -355,11 +471,12 @@ class HarmoniAuthenticationManager
 			$query->addWhere($this->_authNDB.".authn_mapping.type_keyword='".addslashes($authenticationType->getKeyword())."'");
 			$result =& $dbHandler->query($query, $this->_dbIndex);
 			
-			$sharedManager =& Services::getService('Shared');
+			$idManager =& Services::getService('Id');
+			$agentManager =& Services::getService('Agent');
 			
 			// If an agent Id can be mapped to the name, return the id.
 			if ($result->getNumberOfRows() == 1) {
-				$id =& $sharedManager->getId($result->field('agent_id'));
+				$id =& $idManager->getId($result->field('agent_id'));
 			
 			// If no AgentId can be mapped to the Id, create a new Agent
 			// then populate its properties.
@@ -382,7 +499,7 @@ class HarmoniAuthenticationManager
 				
 				
 				// Create the Agent
-				$agent =& $sharedManager->createAgent($tokens, $type, $properties);
+				$agent =& $agentManager->createAgent($tokens, $type, $properties);
 				
 				// Store a mapping in our table.
 				$id =& $agent->getId();
@@ -405,7 +522,7 @@ class HarmoniAuthenticationManager
 			
 			// If we have more than one row, we have problems.
 			} else {
-				throwError(new Error(OPERATION_FAILED, "AuthenticationManager", 1));
+				throwError(new Error(AuthenticationException::OPERATION_FAILED(), "AuthenticationManager", 1));
 			}
 			
 			// Cache the id, then return it.
@@ -415,9 +532,24 @@ class HarmoniAuthenticationManager
 	}
 	
 	
-	
+	/**
+	 * Functions required for the services interface.
+	 *
+	 * WARNING: NOT IN OSID - This method is not in the OSID.
+	 * 
+	 * @return void
+	 * @access public
+	 */
 	function start() {}
 	
+	/**
+	 * Functions required for the services interface.
+	 *
+	 * WARNING: NOT IN OSID - This method is not in the OSID.
+	 * 
+	 * @return void
+	 * @access public
+	 */
 	function stop() {}
 }
 

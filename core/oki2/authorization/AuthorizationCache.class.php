@@ -1,12 +1,12 @@
 <?php
 
-require_once(HARMONI.'oki/authorization/HarmoniFunctionIterator.class.php');
+require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
 
 /**
  * This class provides a mechanism for caching different authorization components and
  * also acts as an interface between the datastructures and the database.
  * 
- * @version $Id: AuthorizationCache.class.php,v 1.1 2005/01/11 17:40:17 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.2 2005/01/18 16:39:57 adamfranco Exp $
  * @package harmoni.osid.authorization
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS

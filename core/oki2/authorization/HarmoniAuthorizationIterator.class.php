@@ -1,60 +1,69 @@
 <?php
 
-require_once(OKI."/authorization.interface.php");
-
-// public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
-define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
+require_once(OKI2."/osid/authorization/AuthorizationIterator.php");
+require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
 
 /**
- *
+ * AuthorizationIterator is the iterator for a collection of Authorizations.
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
  * @package harmoni.osid.authorization
  */
-
 class HarmoniAuthorizationIterator
-	extends AuthorizationIterator
-{ // begin AuthorizationIterator
+	extends HarmoniIterator
+//	implements AuthorizationIterator
+{
 
 	/**
-	 * @var array $_authorizations The stored authorizations.
-	 * @access private
+	 * Return true if there is an additional  Authorization ; false otherwise.
+	 *	
+	 * @return boolean
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	var $_authorizations = array();
-	 
+	function hasNextAuthorization () { 
+		return $this->hasNext();
+	} 
+
 	/**
-	 * @var int $_i The current posititon.
-	 * @access private
+	 * Return the next Authorization.
+	 *	
+	 * @return object Authorization
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	var $_i = -1;
-	
-	/**
-	 * Constructor
-	 */
-	function HarmoniAuthorizationIterator (& $authorizationArray) {
-		// make sure that we get an array of Authorization objects
-		ArgumentValidator::validate($authorizationArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("Authorization")));
-		
-		// load the types into our private array
-		foreach (array_keys($authorizationArray) as $i => $key) {
-			$this->_authorizations[] =& $authorizationArray[$key];
-		}
-	}
-
-	// public boolean hasNext();
-	function hasNext() {
-		return ($this->_i < count($this->_authorizations)-1);
-	}
-
-	// public Type & next();
-	function &next() {
-		if ($this->hasNext()) {
-			$this->_i++;
-			return $this->_authorizations[$this->_i];
-		} else {
-			throwError(new Error(NO_MORE_ITERATOR_ELEMENTS, "AuthorizationIterator", 1));
-		}
-	}
-
-} // end AuthorizationIterator
-
+	function &nextAuthorization () { 
+		return $this->next();
+	} 
+}
 
 ?>

@@ -1,17 +1,25 @@
 <?php
 
-require_once(OKI."/authorization.interface.php");
-require_once(HARMONI.'oki/hierarchy2/HarmoniNode.class.php');
-require_once(HARMONI.'oki/authorization/AuthorizationCache.class.php');
-require_once(HARMONI.'oki/authorization/DefaultQualifierType.class.php');
-require_once(HARMONI.'oki/authorization/HarmoniQualifierIterator.class.php');
+require_once(OKI2."/osid/authorization/Qualifier.php");
+require_once(HARMONI.'oki2/hierarchy/HarmoniNode.class.php');
+require_once(HARMONI.'oki2/authorization/AuthorizationCache.class.php');
+require_once(HARMONI.'oki2/authorization/DefaultQualifierType.class.php');
+require_once(HARMONI.'oki2/authorization/HarmoniQualifierIterator.class.php');
 
 /**
- * Qualifier is the context in which an Authorization is valid and consists of an Id, a description and a QualifierType.  Ids in Authorization are externally defined and their uniqueness is enforced by the implementation. <p>SID Version: 1.0 rc6 <p>Licensed under the {@link SidLicense MIT O.K.I&#46; SID Definition License}.
+ * Qualifier is the context in which an Authorization is valid and consists of
+ * an Id, a description and a QualifierType.  Ids in Authorization are
+ * externally defined and their uniqueness is enforced by the implementation.
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
  * @package harmoni.osid.authorization
  */
-class HarmoniQualifier extends Qualifier {
-
+class HarmoniQualifier 
+	extends Qualifier 
+{
 	
 	/**
 	 * The associated hierarchy node object.
@@ -45,139 +53,297 @@ class HarmoniQualifier extends Qualifier {
 	
 	
 	/**
-	 * Get the Unique Id for this Qualifier.
-	 * @return object osid.shared.Id
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.authorization
+	 * Get the unique Id for this Qualifier.
+	 *	
+	 * @return object Id
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getId() {
+	function &getId () { 
 		$id =& $this->_node->getId();
 		return $id;
 	}
 
-
-	/* :: full java declaration :: osid.shared.Id getId()
 	/**
-	 * Get the name for this Qualifier.
-	 * @return String
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.authorization
+	 * Get the permanent reference name for this Qualifier.
+	 *	
+	 * @return string
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function getDisplayName() {
+	function getReferenceName () { 
 		return $this->_node->getDisplayName();
 	}
 
-
-	/* :: full java declaration :: String getDisplayName()
 	/**
 	 * Get the description for this Qualifier.
-	 * @return String
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.authorization
+	 *	
+	 * @return string
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function getDescription() {
+	function getDescription () { 
 		return $this->_node->getDescription();
 	}
 
-
-
-	/* :: full java declaration :: String getDescription()
 	/**
 	 * Return true if this Qualifier has any children; false otherwise
+	 *	
 	 * @return boolean
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.authorization
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function isParent() {
+	function isParent () { 
 		$children =& $this->getChildren();
 		return ($children->hasNext());
 	}
 
-
-	/* :: full java declaration :: boolean isParent()
 	/**
 	 * Get the QualifierType for this Qualifier.
-	 * @return object osid.shared.Type
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.authorization
+	 *	
+	 * @return object Type
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getQualifierType() {
+	function &getQualifierType () { 
 		return $this->_node->getType();
 	}
 
-
-	/* :: full java declaration :: osid.shared.Type getQualifierType()
 	/**
-	 * Update the name for this Qualifier.
-	 * @param string displayName
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid.authorization
+	 * Update the reference name for this Qualifier.
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @param string $referenceName
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @public
 	 */
-	function updateDisplayName($displayName) {
+	function updateReferenceName ( $referenceName ) { 
 		$this->_node->updateDisplayName($displayName);
 	}
 
-
-	/* :: full java declaration :: void updateDisplayName(String displayName)
 	/**
 	 * Update the description for this Qualifier.
-	 * @param string description
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * @package harmoni.osid.authorization
+	 * 
+	 * @param string $description
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @public
 	 */
-	function updateDescription($description) {
+	function updateDescription ( $description ) { 
 		$this->_node->updateDescription($description);
 	}
 
-
-
-	/* :: full java declaration :: void updateDescription(String description)
 	/**
-	 * Adds a parent to this Qualifier supported by the Authorization implementation.
-	 * @param parentQualifierId a Qualifier
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid.authorization
+	 * Adds a parent to this Qualifier supported by the Authorization
+	 * implementation.
+	 * 
+	 * @param object Id $parentQualifierId
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
+	 *		   UNKNOWN_ID}
+	 * 
+	 * @public
 	 */
-	function addParent(& $parentQualifierId) {
+	function addParent ( &$parentQualifierId ) { 
 		$this->_node->addParent($parentQualifierId);
 	}
 
-
-	/* :: full java declaration :: void addParent(osid.shared.Id parentQualifierId)
 	/**
-	 * Removes a parent from this Qualifier.  If this is the last parent the delete will fail and an AuthorizationException will be thrown.  For a non-Root Qualifier there must always be a parent.
-	 * @param parentQualifierId a Qualifer
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid.authorization
+	 * Removes a parent from this Qualifier.  If this is the last parent the
+	 * delete will fail and an AuthorizationException will be thrown.  For a
+	 * non-Root Qualifier there must always be a parent.
+	 * 
+	 * @param object Id $parentQualifierId
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
+	 *		   UNKNOWN_ID}
+	 * 
+	 * @public
 	 */
-	function removeParent(& $parentQualifierId) {
+	function removeParent ( &$parentQualifierId ) { 
 		$this->_node->removeParent($parentQualifierId);
 	}
 
-
-	/* :: full java declaration :: void removeParent(osid.shared.Id parentQualifierId)
 	/**
-	 * Changes the parent of this Qualifier by adding a new parent and removing the old parent.
-	 * @param object oldParentId a Qualifier
-	 * @param object newParentId a Qualifier
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid.authorization
+	 * Changes the parent of this Qualifier by adding a new parent and removing
+	 * the old parent.
+	 * 
+	 * @param object Id $oldParentId
+	 * @param object Id $newParentId
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
+	 *		   UNKNOWN_ID}
+	 * 
+	 * @public
 	 */
-	function changeParent(& $oldParentId, & $newParentId) {
+	function changeParent ( &$oldParentId, &$newParentId ) { 
 		$this->_node->changeParent($oldParentId, $newParentId);
 	}
 
-
-
-	/* :: full java declaration :: void changeParent(osid.shared.Id oldParentId, osid.shared.Id newParentId)
 	/**
 	 * Determines if this Qualifier is the child a given parent
-	 * @param parentId a Qualifer
+	 * 
+	 * @param object Id $parentId
+	 *	
 	 * @return boolean
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid.authorization
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
+	 *		   UNKNOWN_ID}
+	 * 
+	 * @public
 	 */
-	function isChildOf(& $parentId) {
+	function isChildOf ( &$parentId ) { 
 		// ** parameter validation
 		$extendsRule =& new ExtendsValidatorRule("Id");
 		ArgumentValidator::validate($parentId, $extendsRule, true);
@@ -197,17 +363,33 @@ class HarmoniQualifier extends Qualifier {
 		return false;
 	}
 
-
-
-	/* :: full java declaration :: boolean isChildOf(osid.shared.Id parentId)
 	/**
-	 * Determines if this Qualifier is a descendant of the given Qualifier.
-	 * @param ancestorId a Qualifer
+	 * Determines if this Qualifier is a descendant of the given qualifierId.
+	 * 
+	 * @param object Id $ancestorId
+	 *	
 	 * @return boolean
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}, {@link AuthorizationException#NULL_ARGUMENT NULL_ARGUMENT}, {@link AuthorizationException#UNKNOWN_ID UNKNOWN_ID}
-	 * @package harmoni.osid.authorization
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
+	 *		   UNKNOWN_ID}
+	 * 
+	 * @public
 	 */
-	function isDescendantOf(& $ancestorId) {
+	function isDescendantOf ( &$ancestorId ) { 
 		// Alright, I realize this could be written much more efficiently (for
 		// example by using Hierarchy->traverse()) but it is too much pain to do so.
 		// The code below uses the methods in this class and is clearer, albeit slower.
@@ -228,16 +410,27 @@ class HarmoniQualifier extends Qualifier {
 		return false;
 	}
 
-
-
-	/* :: full java declaration :: boolean isDescendantOf(osid.shared.Id ancestorId)
 	/**
 	 * Gets the children of this Qualifier.
-	 * @return QualifierIterator
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.authorization
+	 *	
+	 * @return object QualifierIterator
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getChildren() {
+	function &getChildren () { 
 		// obtain the parent nodes
 		$children =& $this->_node->getChildren();
 		
@@ -260,16 +453,27 @@ class HarmoniQualifier extends Qualifier {
 		return new HarmoniQualifierIterator($result);
 	}
 
-
-
-	/* :: full java declaration :: QualifierIterator getChildren()
 	/**
 	 * Gets the parents of this Qualifier.
-	 * @return QualifierIterator
-	 * @throws osid.authorization.AuthorizationException An exception with one of the following messages defined in osid.authorization.AuthorizationException may be thrown:  {@link AuthorizationException#OPERATION_FAILED OPERATION_FAILED}, {@link AuthorizationException#PERMISSION_DENIED PERMISSION_DENIED}, {@link AuthorizationException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link AuthorizationException#UNIMPLEMENTED UNIMPLEMENTED}
-	 * @package harmoni.osid.authorization
+	 *	
+	 * @return object QualifierIterator
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	function &getParents() {
+	function &getParents () { 
 		// obtain the parent nodes
 		$parents =& $this->_node->getParents();
 		

@@ -1,61 +1,69 @@
 <?php
 
-
-require_once(OKI."/authorization.interface.php");
-
-// public static final String NO_MORE_ITERATOR_ELEMENTS = "Iterator has no more elements "
-define("NO_MORE_ITERATOR_ELEMENTS","Iterator has no more elements ");
+require_once(OKI2."/osid/authorization/FunctionIterator.php");
+require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
 
 /**
- *
+ * FunctionIterator is the iterator for a collection of Functions.
+ * 
+ * <p>
+ * OSID Version: 2.0
+ * </p>
+ * 
  * @package harmoni.osid.authorization
  */
-
 class HarmoniFunctionIterator
-	extends FunctionIterator
-{ // begin FunctionIterator
+	extends HarmoniIterator
+//	implements AuthorizationIterator
+{
 
 	/**
-	 * @var array $_functions The stored functions.
-	 * @access private
+	 * Return true if there is an additional  Function ; false otherwise.
+	 *	
+	 * @return boolean
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	var $_functions = array();
-	 
+	function hasNextFunction () { 
+		return $this->hasNext();
+	} 
+
 	/**
-	 * @var int $_i The current posititon.
-	 * @access private
+	 * Return the next Function.
+	 *	
+	 * @return object Function
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @public
 	 */
-	var $_i = -1;
-	
-	/**
-	 * Constructor
-	 */
-	function HarmoniFunctionIterator (& $functionArray) {
-		// make sure that we get an array of Function objects
-		ArgumentValidator::validate($functionArray, new ArrayValidatorRuleWithRule(new ExtendsValidatorRule("FunctionInterface")));
-		
-		// load the types into our private array
-		foreach (array_keys($functionArray) as $i => $key) {
-			$this->_functions[] =& $functionArray[$key];
-		}
-	}
-
-	// public boolean hasNext();
-	function hasNext() {
-		return ($this->_i < count($this->_functions)-1);
-	}
-
-	// public Type & next();
-	function &next() {
-		if ($this->hasNext()) {
-			$this->_i++;
-			return $this->_functions[$this->_i];
-		} else {
-			throwError(new Error(NO_MORE_ITERATOR_ELEMENTS, "FunctionIterator", 1));
-		}
-	}
-
-} // end FunctionIterator
-
+	function &nextFunction () { 
+		return $this->next();
+	} 
+}
 
 ?>

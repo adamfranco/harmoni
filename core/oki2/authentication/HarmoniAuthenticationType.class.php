@@ -1,18 +1,20 @@
 <?
 
-require_once(HARMONI."oki/shared/HarmoniType.class.php");
+require_once(HARMONI."oki2/shared/HarmoniType.class.php");
 
 /**
- * This class represents the default Type for Node objects.
+ * This Type is that which makes use of the Harmoni AuthenticationHandler.
  * 
- * @version $Id: HarmoniAuthenticationType.class.php,v 1.1 2005/01/11 17:40:07 adamfranco Exp $
- * @package harmoni.osid.hierarchy2
+ * @version $Id: HarmoniAuthenticationType.class.php,v 1.2 2005/01/18 16:38:58 adamfranco Exp $
+ * @package harmoni.osid.authentication
  * @author Middlebury College, ETS
  * @copyright 2004 Middlebury College, ETS
  * @access public
  **/
 
-class HarmoniAuthenticationType extends HarmoniType {
+class HarmoniAuthenticationType
+	 extends HarmoniType 
+{
 
 	function HarmoniAuthenticationType() {
 		$this->HarmoniType("Authentication", 
