@@ -3,6 +3,14 @@
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.1.0" date="Not Released">
+		<change author='adam'>
+			DBHandler: DBHandler now throws fatal errors with an explanation when a query
+			fails.
+		</change>
+		<new author='adam'>
+			Hierarchy: Implimented the Hierarchy OSID. The Hiearchy supports the storing
+			of multiple hierarchies and their nodes in one database.
+		</new>
 		<new author='gabe'>
 			DataManager: added DataSet caching to the DataSetManager. Added support for required fields
 			in DataSetTypeDefinitions.
