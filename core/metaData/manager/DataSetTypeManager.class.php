@@ -8,7 +8,7 @@ require_once HARMONI."metaData/manager/DataSetTypeDefinition.class.php";
  * Responsible for the synchronization of {@link DataSetTypeDefinition} classes with the database, and the
  * creation of new Types.
  * @package harmoni.datamanager
- * @version $Id: DataSetTypeManager.class.php,v 1.18 2004/01/14 03:21:25 gabeschine Exp $
+ * @version $Id: DataSetTypeManager.class.php,v 1.19 2004/01/14 19:42:25 adamfranco Exp $
  * @author Gabe Schine
  * @copyright 2004
  * @access public
@@ -70,8 +70,8 @@ class DataSetTypeManager
 			$a = $result->getCurrentRow();
 			$result->advanceRow();
 			
-			$type =& new HarmoniType($a['datasettype_domain'],
-					$a['datasettype_authority'],
+			$type =& new HarmoniType($a['datasettype_authority'],
+					$a['datasettype_domain'],
 					$a['datasettype_keyword'],
 					$a['datasettype_description']);
 			

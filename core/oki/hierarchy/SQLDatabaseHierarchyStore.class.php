@@ -306,7 +306,7 @@ class SQLDatabaseHierarchyStore
 				$keyword = stripslashes($result->field("keyword"));
 				$description = stripslashes($result->field("description"));
 				
-				$this->_nodeTypes[$id] =& new HarmoniType($domain, $authority, $keyword, $description);
+				$this->_nodeTypes[$id] =& new HarmoniType($authority, $domain, $keyword, $description);
 				
 				$result->advanceRow();
 			}
@@ -756,9 +756,13 @@ class SQLDatabaseHierarchyStore
 		foreach ($this->_nodeTypes as $key => $val) {
 			// if it is the type we are removing, add it to the _deletedNodeTypes array,
 			// otherwise add it to the new array.
+			
+			printpre($nodeType); print "<br>Is Equal to?:<br>"; printpre($this->_nodeTypes[$key]);
+			
 			if ($nodeType->isEqual($this->_nodeTypes[$key])) {
 				$this->_deletedNodeTypes[$key] =& $this->_nodeTypes[$key];
 				$found = TRUE;
+				print "FOUND!";
 			} else
 				$newNodeTypes[$key] =& $this->_nodeTypes[$key];
 		}
