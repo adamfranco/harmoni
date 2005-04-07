@@ -1,4 +1,12 @@
 <?
+/**
+ * @package harmoni.architecture.output
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: BasicOutputHandlerConfigProperties.class.php,v 1.2 2005/04/07 19:41:34 adamfranco Exp $
+ */
 
 require_once(OKI2."/osid/shared/Properties.php");
 require_once(HARMONI."oki2/shared/HarmoniObjectIterator.class.php");
@@ -20,7 +28,7 @@ require_once(HARMONI."oki2/shared/ConfigurationPropertiesType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandlerConfigProperties.class.php,v 1.1 2005/04/06 20:39:11 adamfranco Exp $
+ * @version $Id: BasicOutputHandlerConfigProperties.class.php,v 1.2 2005/04/07 19:41:34 adamfranco Exp $
  */
 class BasicOutputHandlerConfigProperties
 	extends Properties

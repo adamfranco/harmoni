@@ -1,11 +1,11 @@
 <?php
 /**
- * @package harmoni.osid_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement.authn_methods
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsernamePasswordAuthNTokens.class.php,v 1.3 2005/04/07 15:12:32 adamfranco Exp $
+ * @version $Id: UsernamePasswordAuthNTokens.class.php,v 1.4 2005/04/07 19:42:13 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/AuthNTokens.abstract.php");
@@ -14,12 +14,12 @@ require_once(dirname(__FILE__)."/AuthNTokens.abstract.php");
  * UsernamePasswordAuthNTokens is used by AuthNMethods that wrap systems that
  * authenticate via a Username/Password pair of strings.
  * 
- * @package harmoni.osid_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement.authn_methods
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsernamePasswordAuthNTokens.class.php,v 1.3 2005/04/07 15:12:32 adamfranco Exp $
+ * @version $Id: UsernamePasswordAuthNTokens.class.php,v 1.4 2005/04/07 19:42:13 adamfranco Exp $
  */
 class UsernamePasswordAuthNTokens
 	extends AuthNTokens

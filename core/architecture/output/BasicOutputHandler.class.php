@@ -1,11 +1,11 @@
 <?php
 /**
- * @package harmoni.architecture
+ * @package harmoni.architecture.output
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandler.class.php,v 1.3 2005/04/06 20:38:44 adamfranco Exp $
+ * @version $Id: BasicOutputHandler.class.php,v 1.4 2005/04/07 19:41:34 adamfranco Exp $
  */ 
 
 require_once(HARMONI."/architecture/output/OutputHandler.abstract.php");
@@ -15,12 +15,12 @@ require_once(HARMONI."/architecture/output/OutputHandler.abstract.php");
  * the Harmoni framework object and output handling classes.
  *
  * 
- * @package harmoni.architecture
+ * @package harmoni.architecture.output
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandler.class.php,v 1.3 2005/04/06 20:38:44 adamfranco Exp $
+ * @version $Id: BasicOutputHandler.class.php,v 1.4 2005/04/07 19:41:34 adamfranco Exp $
  */
 class BasicOutputHandler
 	extends OutputHandler 

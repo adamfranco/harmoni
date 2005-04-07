@@ -1,23 +1,23 @@
 <?php
 /**
- * @package harmoni.osid_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement.authn_methods
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.5 2005/04/07 15:12:32 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.6 2005/04/07 19:42:13 adamfranco Exp $
  */ 
 
 /**
  * LDAPConnector is a class used by the LDAPAuthNMethod and the LDAPAuthNTokens
  * to handle common functions
  * 
- * @package harmoni.osid_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement.authn_methods
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.5 2005/04/07 15:12:32 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.6 2005/04/07 19:42:13 adamfranco Exp $
  */
 class LDAPConnector {
 		

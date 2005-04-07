@@ -1,11 +1,11 @@
 <?php
 /**
- * @package harmoni.osid_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement.authn_methods
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CryptUsernamePasswordAuthNTokens.class.php,v 1.4 2005/04/07 15:12:32 adamfranco Exp $
+ * @version $Id: CryptUsernamePasswordAuthNTokens.class.php,v 1.5 2005/04/07 19:42:13 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
@@ -14,12 +14,12 @@ require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
  * This UserNamePasswordAuthNTokens class encrypts the password passed to it using
  * the database's PHP's crypt() function.
  * 
- * @package harmoni.osid_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement.authn_methods
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CryptUsernamePasswordAuthNTokens.class.php,v 1.4 2005/04/07 15:12:32 adamfranco Exp $
+ * @version $Id: CryptUsernamePasswordAuthNTokens.class.php,v 1.5 2005/04/07 19:42:13 adamfranco Exp $
  */
 class CryptUsernamePasswordAuthNTokens
 	extends UsernamePasswordAuthNTokens

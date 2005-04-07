@@ -1,11 +1,11 @@
 <?php
 /**
- * @package harmoni.osid_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement.authn_methods
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.8 2005/04/07 15:12:32 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.9 2005/04/07 19:42:13 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -13,12 +13,12 @@ require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
 /**
  * The SQLDatabaseAuthNMethod is used to authenticate against a SQL database.
  * 
- * @package harmoni.osid_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement.authn_methods
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.8 2005/04/07 15:12:32 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.9 2005/04/07 19:42:13 adamfranco Exp $
  */
 class SQLDatabaseAuthNMethod
 	extends AuthNMethod

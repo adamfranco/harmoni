@@ -1,27 +1,26 @@
 <?php
-
-require_once(OKI2."/osid/OsidManager.php");
-
 /**
- * @package harmoni.architecture
+ * @package harmoni.architecture.output
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OutputHandler.abstract.php,v 1.3 2005/04/06 20:38:44 adamfranco Exp $
+ * @version $Id: OutputHandler.abstract.php,v 1.4 2005/04/07 19:41:34 adamfranco Exp $
  */ 
+ 
+ require_once(OKI2."/osid/OsidManager.php");
 
 /**
  * The OutputHander abstract class defines methods for the interaction between
  * the Harmoni framework object and output handling classes.
  *
  * 
- * @package harmoni.architecture
+ * @package harmoni.architecture.output
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OutputHandler.abstract.php,v 1.3 2005/04/06 20:38:44 adamfranco Exp $
+ * @version $Id: OutputHandler.abstract.php,v 1.4 2005/04/07 19:41:34 adamfranco Exp $
  */
 class OutputHandler 
 	extends OsidManager
