@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-
+<!-- 
+ @package harmoni.docs
+ @copyright Copyright &copy; 2005, Middlebury College
+ @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ @version $Id: changelog-plaintext.xsl,v 1.2 2005/04/07 16:33:50 adamfranco Exp $
+ -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:output format="text" />

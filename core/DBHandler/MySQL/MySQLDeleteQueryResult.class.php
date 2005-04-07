@@ -1,16 +1,26 @@
 <?php
-
+/**
+ * @package harmoni.dbc.mysql
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: MySQLDeleteQueryResult.class.php,v 1.4 2005/04/07 16:33:24 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."DBHandler/DeleteQueryResult.interface.php");
 
 /**
  * The DeleteQueryResult interface provides the functionality common to all Delete query results.
  *
- * The DeleteQueryResult interface provides the functionality common to all Delete query results.
  * For example, you can get the primary key for the last Deleteion, get number of Deleteed rows, etc.
- * @version $Id: MySQLDeleteQueryResult.class.php,v 1.3 2005/03/29 19:44:08 adamfranco Exp $
+ *
  * @package harmoni.dbc.mysql
- * @access public
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: MySQLDeleteQueryResult.class.php,v 1.4 2005/04/07 16:33:24 adamfranco Exp $
  */
 
 class MySQLDeleteQueryResult extends DeleteQueryResultInterface {

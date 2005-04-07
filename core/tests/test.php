@@ -4,8 +4,13 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.3 2005/04/04 17:39:50 adamfranco Exp $
- * @copyright 2003 
+ *
+ * @package harmoni.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: test.php,v 1.4 2005/04/07 16:33:30 adamfranco Exp $
  **/
 
 require_once("../harmoni.inc.php");

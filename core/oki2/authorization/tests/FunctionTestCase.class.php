@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * @package harmoni.osid_v2.authorization.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: FunctionTestCase.class.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
+ */
+ 
 require_once(HARMONI.'oki/authorization/HarmoniFunction.class.php');
 
 /**
@@ -7,11 +15,13 @@ require_once(HARMONI.'oki/authorization/HarmoniFunction.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FunctionTestCase.class.php,v 1.5 2005/04/04 18:23:46 adamfranco Exp $
- * @package harmoni.dbc.tests
- * @copyright 2003 
- **/
-
+ * @package harmoni.osid_v2.authorization.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: FunctionTestCase.class.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
+ */
 class HarmoniFunctionTestCase extends UnitTestCase {
 
 

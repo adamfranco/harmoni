@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * @package harmoni.errorhandler
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
 
 /**
@@ -11,7 +19,7 @@ require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorPrinterBasic.class.php,v 1.5 2005/01/19 21:10:00 adamfranco Exp $
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
  */
 
 class ErrorPrinterBasic extends ErrorPrinterInterface {

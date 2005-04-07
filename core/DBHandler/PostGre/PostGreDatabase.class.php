@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * @package harmoni.dbc.postgre
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: PostGreDatabase.class.php,v 1.9 2005/04/07 16:33:24 adamfranco Exp $
+ */
 require_once(HARMONI."DBHandler/Database.interface.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreInsertQueryResult.class.php");
@@ -10,11 +17,13 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
 
 /**
  * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
- * @version $Id: PostGreDatabase.class.php,v 1.8 2005/03/29 19:44:08 adamfranco Exp $
- * @copyright 2003 
+ *
  * @package harmoni.dbc.postgre
- * @access public
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: PostGreDatabase.class.php,v 1.9 2005/04/07 16:33:24 adamfranco Exp $
  **/
  
 class PostGreDatabase extends DatabaseInterface {

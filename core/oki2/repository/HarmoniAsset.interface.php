@@ -1,4 +1,12 @@
 <?
+/**
+ * @package harmoni.osid_v2.repository
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniAsset.interface.php,v 1.5 2005/04/07 16:33:30 adamfranco Exp $
+ */
 
 require_once(OKI2."osid/repository/Asset.php");
 
@@ -8,10 +16,13 @@ require_once(OKI2."osid/repository/Asset.php");
  * as the collecting of changes for later committing and the exposure of
  * the hierarchical nature of DRs used in Harmoni
  *
+ *
  * @package harmoni.osid_v2.repository
- * @author Adam Franco
- * @copyright 2004 Middlebury College
- * @access public
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniAsset.interface.php,v 1.5 2005/04/07 16:33:30 adamfranco Exp $
  */
 
 class HarmoniAssetInterface

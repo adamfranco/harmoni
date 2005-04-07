@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * @package harmoni.osid_v2.agent.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: AgentTestCase.class.php,v 1.7 2005/04/07 16:33:28 adamfranco Exp $
+ */
+ 
 require_once(HARMONI.'/oki2/agent/HarmoniAgent.class.php');
 
 /**
@@ -7,10 +15,13 @@ require_once(HARMONI.'/oki2/agent/HarmoniAgent.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: AgentTestCase.class.php,v 1.6 2005/02/07 21:38:23 adamfranco Exp $
- * @package harmoni.tests.metadata
- * @copyright 2003
- **/
+ * @package harmoni.osid_v2.agent.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: AgentTestCase.class.php,v 1.7 2005/04/07 16:33:28 adamfranco Exp $
+ */
 
 	class AgentTestCase extends UnitTestCase {
 	

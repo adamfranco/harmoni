@@ -1,14 +1,25 @@
 <?php
-
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DeleteQuery.class.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."DBHandler/DeleteQuery.interface.php");
 
 /**
  * A DeleteQuery class provides the tools to build a DELETE query.
  * 
- * A DeleteQuery class provides the tools to build a DELETE query.
- * @version $Id: DeleteQuery.class.php,v 1.5 2005/03/29 19:42:40 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DeleteQuery.class.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class DeleteQuery extends DeleteQueryInterface {

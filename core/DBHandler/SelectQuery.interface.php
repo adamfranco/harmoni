@@ -1,56 +1,62 @@
 <?php
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SelectQuery.interface.php,v 1.8 2005/04/07 16:33:23 adamfranco Exp $
+ */
 
 require_once("Query.abstract.php");
 
-	/**
-	 * Used with the setTable() method to indicate that no join will be performed. 
-	 * @const NO_JOIN No join will be performed.
-	 * @package harmoni.dbc
-	 */
-	define("NO_JOIN", 1);
+/**
+ * Used with the setTable() method to indicate that no join will be performed. 
+ * @const NO_JOIN No join will be performed.
+ */
+define("NO_JOIN", 1);
 
-	/**
-	 * Used with the setTable() method to indicate that a left join will be performed. 
-	 * @const LEFT_JOIN A left join will be performed.
-	 * @package harmoni.dbc
-	 */
-	define("LEFT_JOIN", 2);
+/**
+ * Used with the setTable() method to indicate that a left join will be performed. 
+ * @const LEFT_JOIN A left join will be performed.
+ */
+define("LEFT_JOIN", 2);
 
-	/**
-	 * Used with the setTable() method to indicate that an inner join will be performed. 
-	 * @const INNER_JOIN An inner join will be performed.
-	 * @package harmoni.dbc
-	 */
-	define("INNER_JOIN", 3);
+/**
+ * Used with the setTable() method to indicate that an inner join will be performed. 
+ * @const INNER_JOIN An inner join will be performed.
+ */
+define("INNER_JOIN", 3);
 
-	/**
-	 * Used with the setTable() method to indicate that a right join will be performed. 
-	 * @const RIGHT_JOIN A right join will be performed.
-	 * @package harmoni.dbc
-	 */
-	define("RIGHT_JOIN", 4);
+/**
+ * Used with the setTable() method to indicate that a right join will be performed. 
+ * @const RIGHT_JOIN A right join will be performed.
+ */
+define("RIGHT_JOIN", 4);
 
-	/**
-	 * Used with the setOrderBy() method to indicate that the order will be ascending. Used by {@link SelectQueryInterface::setOrderBy()}.
-	 * @const ASCENDING The order will be ascending.
-	 * @package harmoni.dbc
-	 */
-	define("ASCENDING", 5);
+/**
+ * Used with the setOrderBy() method to indicate that the order will be ascending. Used by {@link SelectQueryInterface::setOrderBy()}.
+ * @const ASCENDING The order will be ascending.
+ */
+define("ASCENDING", 5);
 
-	/**
-	 * Used with the setOrderBy() method to indicate that the order will be descending. Used by {@link SelectQueryInterface::setOrderBy()}.
-	 * @const DESCENDING The order will be descending.
-	 * @package harmoni.dbc
-	 */
-	define("DESCENDING", 6);
+/**
+ * Used with the setOrderBy() method to indicate that the order will be descending. Used by {@link SelectQueryInterface::setOrderBy()}.
+ * @const DESCENDING The order will be descending.
+ */
+define("DESCENDING", 6);
 
 
 /**
  * A SelectQuery interface provides the tools to build an SQL SELECT query.
  *
- * @version $Id: SelectQuery.interface.php,v 1.7 2005/02/04 15:58:40 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SelectQuery.interface.php,v 1.8 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class SelectQueryInterface extends Query {

@@ -1,5 +1,13 @@
 <?
-
+/**
+ * @package harmoni.osid_v2.repository
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniRepository.interface.php,v 1.7 2005/04/07 16:33:30 adamfranco Exp $
+ */
+ 
 require_once(OKI2."osid/repository/Repository.php");
 require_once(OKI2."osid/repository/RepositoryException.php");
 
@@ -9,10 +17,13 @@ require_once(OKI2."osid/repository/RepositoryException.php");
  * as the collecting of changes for later committing and the exposure of
  * the hierarchical nature of DRs used in Harmoni
  *
+ *
  * @package harmoni.osid_v2.repository
- * @author Adam Franco
- * @copyright 2004 Middlebury College
- * @access public
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniRepository.interface.php,v 1.7 2005/04/07 16:33:30 adamfranco Exp $
  */
 
 class HarmoniRepositoryInterface

@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * @package harmoni.utilities.debugging
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DebugHandlerTestCase.class.php,v 1.3 2005/04/07 16:33:28 adamfranco Exp $
+ */
     require_once(HARMONI.'debugHandler/DebugHandler.class.php');
 	require_once(HARMONI.'debugHandler/PlainTextDebugHandlerPrinter.class.php');
 
@@ -8,9 +15,13 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DebugHandlerTestCase.class.php,v 1.2 2005/01/19 16:32:56 adamfranco Exp $
- * @copyright 2003 
- **/
+ * @package harmoni.utilities.debugging
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DebugHandlerTestCase.class.php,v 1.3 2005/04/07 16:33:28 adamfranco Exp $
+ */
 
     class DebugHandlerTestCase extends UnitTestCase {
 	

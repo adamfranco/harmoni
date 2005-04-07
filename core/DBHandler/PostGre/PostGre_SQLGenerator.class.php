@@ -1,13 +1,25 @@
 <?php
-
+/**
+ * @package harmoni.dbc.postgre
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: PostGre_SQLGenerator.class.php,v 1.8 2005/04/07 16:33:25 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
 
 /**
  * A PostGreQueryGenerator class provides the tools to build a PostGre query from a Query object.
  *
- * @version $Id: PostGre_SQLGenerator.class.php,v 1.7 2005/03/29 19:44:09 adamfranco Exp $
+ *
  * @package harmoni.dbc.postgre
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: PostGre_SQLGenerator.class.php,v 1.8 2005/04/07 16:33:25 adamfranco Exp $
  */
 
 class PostGre_SQLGenerator extends SQLGeneratorInterface {

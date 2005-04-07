@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * @package harmoni.datamanager
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DataManager.abstract.php,v 1.13 2005/04/07 16:33:27 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."dataManager/schema/SchemaManager.class.php");
 require_once(HARMONI."dataManager/DataTypeManager.class.php");
 require_once(HARMONI."dataManager/record/RecordManager.class.php");
@@ -19,7 +27,7 @@ require_once(HARMONI."dataManager/versionConstraints/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataManager.abstract.php,v 1.12 2005/04/04 19:57:42 adamfranco Exp $
+ * @version $Id: DataManager.abstract.php,v 1.13 2005/04/07 16:33:27 adamfranco Exp $
  *
  * @author Gabe Schine
  * @abstract

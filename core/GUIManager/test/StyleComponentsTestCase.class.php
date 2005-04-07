@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * @package harmoni.gui.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StyleComponentsTestCase.class.php,v 1.8 2005/04/07 16:33:27 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."GUIManager/StyleComponent.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/ColorSC.class.php");
@@ -36,8 +44,12 @@ require_once(HARMONI."GUIManager/StyleComponents/BackgroundAttachmentSC.class.ph
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: StyleComponentsTestCase.class.php,v 1.7 2005/03/29 19:44:11 adamfranco Exp $
- * @copyright 2003 
+ * @package harmoni.gui.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StyleComponentsTestCase.class.php,v 1.8 2005/04/07 16:33:27 adamfranco Exp $
  */
 
     class StyleComponentsTestCase extends UnitTestCase {

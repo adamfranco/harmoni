@@ -7,9 +7,13 @@ require_once(HARMONI . "storageHandler/StorageMethods/DummyStorageMethod.class.p
 * A single unit test case. This class is intended to test one particular
 * class. Replace 'testedclass.php' below with the class you would like to
 * test.
-* 
-* @version $Id: StorageHandlerTestCase.class.php,v 1.4 2005/04/04 17:39:50 adamfranco Exp $
-* @copyright 2003
+ *
+ * @package harmoni.storage.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StorageHandlerTestCase.class.php,v 1.5 2005/04/07 16:33:30 adamfranco Exp $
 */
 
 class StorageHandlerTestCase extends UnitTestCase {

@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: InsertQuery.class.php,v 1.5 2005/04/07 16:33:23 adamfranco Exp $
+ */
 require_once(HARMONI."DBHandler/InsertQuery.interface.php");
 
 /**
@@ -9,9 +16,13 @@ require_once(HARMONI."DBHandler/InsertQuery.interface.php");
  * initialization steps, etc. What is left to be implemented is the
  * generateSQLQuery() method.
  * 
- * @version $Id: InsertQuery.class.php,v 1.4 2005/03/29 19:42:52 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: InsertQuery.class.php,v 1.5 2005/04/07 16:33:23 adamfranco Exp $ 
  */
 
 class InsertQuery extends InsertQueryInterface {

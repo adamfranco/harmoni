@@ -1,7 +1,14 @@
 <?php
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DBHandler.interface.php,v 1.9 2005/04/07 16:33:23 adamfranco Exp $
+ */
 
 	/**
-	 * A constant for the MySQL database type.
 	 * A constant for the MySQL database type.
 	 * @const MYSQL A constant for the MySQL database type.
 	 * @access public
@@ -12,7 +19,6 @@
 
 	/**
 	 * A constant for the POSTGRE_SQL database type.
-	 * A constant for the POSTGRE_SQL database type.
 	 * @const POSTGRE_SQL A constant for the POSTGRE_SQL database type.
 	 * @access public
 	 * @package harmoni.dbc
@@ -22,7 +28,6 @@
 
 	/**
 	 * A constant for the ORACLE database type.
-	 * A constant for the ORACLE database type.
 	 * @const ORACLE A constant for the ORACLE database type.
 	 * @access public
 	 * @package harmoni.dbc
@@ -31,7 +36,6 @@
 	
 
 	/**
-	 * A constant for the SQLSERVER database type.
 	 * A constant for the SQLSERVER database type.
 	 * @const SQLSERVER A constant for the SQLSERVER database type.
 	 * @access public
@@ -44,12 +48,14 @@
  * program executution with configuration settings for the database type, name, 
  * server, user, and password.
  *
- * @version $Id: DBHandler.interface.php,v 1.8 2005/04/04 17:59:14 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @copyright 2003 
- * @access public
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DBHandler.interface.php,v 1.9 2005/04/07 16:33:23 adamfranco Exp $
  */
-
 class DBHandlerInterface { 
 
 	/**

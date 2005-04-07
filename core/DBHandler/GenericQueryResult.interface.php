@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: GenericQueryResult.interface.php,v 1.4 2005/04/07 16:33:23 adamfranco Exp $
+ */
 require_once("QueryResult.interface.php");
 
 
@@ -8,11 +15,13 @@ require_once("QueryResult.interface.php");
  * a generic query. These results can be returned as if they were one of the other
  * query types, or the resource links can be returned and accessed directly.
  *
- * 
- * @version $Id: GenericQueryResult.interface.php,v 1.3 2005/01/19 22:26:52 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @access public
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: GenericQueryResult.interface.php,v 1.4 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class GenericQueryResultInterface extends QueryResultInterface {

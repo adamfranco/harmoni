@@ -1,4 +1,12 @@
 <?php
+/**
+ * @package harmoni.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: testThemes.php,v 1.5 2005/04/07 16:33:30 adamfranco Exp $
+ */
 
 // include all required files.
 require_once("../../harmoni.inc.php");

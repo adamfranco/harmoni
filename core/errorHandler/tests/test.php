@@ -4,10 +4,14 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.1 2003/08/14 19:26:30 gabeschine Exp $
+ *
  * @package harmoni.errorhandler.tests
- * @copyright 2003 
- **/
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: test.php,v 1.2 2005/04/07 16:33:28 adamfranco Exp $
+ */
     if (!defined('HARMONI')) {
         require_once("../../harmoni.inc.php");
     }

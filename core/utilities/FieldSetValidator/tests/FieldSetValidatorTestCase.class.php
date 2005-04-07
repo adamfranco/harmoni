@@ -8,8 +8,12 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FieldSetValidatorTestCase.class.php,v 1.4 2005/03/29 19:44:48 adamfranco Exp $
- * @copyright 2003 
+ * @package harmoni.utilities.fieldsetvalidator.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: FieldSetValidatorTestCase.class.php,v 1.5 2005/04/07 16:33:31 adamfranco Exp $
  **/
 
     class FieldSetValidatorTestCase extends UnitTestCase {

@@ -8,9 +8,14 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ServicesTestCase.class.php,v 1.2 2005/01/19 16:33:25 adamfranco Exp $
- * @copyright 2003 
- **/
+ *
+ * @package harmoni.services.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ServicesTestCase.class.php,v 1.3 2005/04/07 16:33:30 adamfranco Exp $
+ */
 
     class ServicesTestCase extends UnitTestCase {
 	

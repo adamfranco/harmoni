@@ -1,15 +1,25 @@
 <?php
-
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SelectQuery.class.php,v 1.8 2005/04/07 16:33:23 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."DBHandler/SelectQuery.interface.php");
 
 /**
  * A SelectQuery class provides the tools to build a SELECT query.
  * 
- * A SelectQuery class provides the tools to build a SELECT query.
- * 
- * @version $Id: SelectQuery.class.php,v 1.7 2005/03/29 19:42:52 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SelectQuery.class.php,v 1.8 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class SelectQuery extends SelectQueryInterface {

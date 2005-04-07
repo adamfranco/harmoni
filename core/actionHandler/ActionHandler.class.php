@@ -1,4 +1,12 @@
 <?php
+/**
+ * @package harmoni.actions
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ActionHandler.class.php,v 1.16 2005/04/07 16:33:27 adamfranco Exp $
+ */
 
 //require_once(HARMONI."actionHandler/ActionHandler.interface.php");
 require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
@@ -63,7 +71,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.15 2005/03/29 19:44:11 adamfranco Exp $
+ * @version $Id: ActionHandler.class.php,v 1.16 2005/04/07 16:33:27 adamfranco Exp $
  */
 class ActionHandler {
 	/**

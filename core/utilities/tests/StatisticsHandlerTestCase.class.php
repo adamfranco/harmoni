@@ -1,15 +1,28 @@
 <?php
+/**
+ * @package harmoni.utilities.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StatisticsHandlerTestCase.class.php,v 1.4 2005/04/07 16:33:31 adamfranco Exp $
+ */
 
 require_once(HARMONI.'utilities/StatisticsHandler.class.php');
 
-    /**
-     * A single unit test case. This class is intended to test one particular
-     * class. Replace 'testedclass.php' below with the class you would like to    
-     * test.
-     *
-     * @version $Id: StatisticsHandlerTestCase.class.php,v 1.3 2005/02/07 21:38:29 adamfranco Exp $
-     * @copyright 2003 
-     **/
+/**
+ * A single unit test case. This class is intended to test one particular
+ * class. Replace 'testedclass.php' below with the class you would like to    
+ * test.
+ *
+ *
+ * @package harmoni.utilities.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StatisticsHandlerTestCase.class.php,v 1.4 2005/04/07 16:33:31 adamfranco Exp $
+ */
 
 class StatisticsHandlerTestCase extends UnitTestCase {
 		

@@ -1,16 +1,26 @@
 <?php
-
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: UpdateQueryResult.interface.php,v 1.3 2005/04/07 16:33:23 adamfranco Exp $
+ */
+ 
 require_once("QueryResult.interface.php");
 
 /**
  * The UPDATEQueryResult interface provides the functionality common to all UPDATE query results.
  *
- * The UPDATEQueryResult interface provides the functionality common to all UPDATE query results.
  * For example, you can get the primary key for the last UPDATEion, get number of UPDATEed rows, etc.
- * @version $Id: UpdateQueryResult.interface.php,v 1.2 2004/04/20 19:48:58 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @access public
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: UpdateQueryResult.interface.php,v 1.3 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class UpdateQueryResultInterface extends QueryResultInterface {

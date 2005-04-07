@@ -5,10 +5,13 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.7 2005/04/04 18:23:31 adamfranco Exp $
- * @package harmoni.tests.metadata
- * @copyright 2003
- **/
+ * @package harmoni.osid_v2.agent.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SharedManagerTestCase.class.php,v 1.8 2005/04/07 16:33:28 adamfranco Exp $
+ */
 
 class SharedManagerTestCase extends UnitTestCase {
 

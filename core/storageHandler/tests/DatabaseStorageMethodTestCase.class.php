@@ -8,8 +8,12 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: DatabaseStorageMethodTestCase.class.php,v 1.5 2005/04/04 18:24:12 adamfranco Exp $
- * @copyright 2003 
+ * @package harmoni.storage.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DatabaseStorageMethodTestCase.class.php,v 1.6 2005/04/07 16:33:30 adamfranco Exp $
  **/
 
     class DatabaseStorageMethodTestCase extends UnitTestCase {

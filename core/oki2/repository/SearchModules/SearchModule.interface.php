@@ -1,12 +1,23 @@
 <?php
+/**
+ * @package harmoni.osid_v2.repository.search
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SearchModule.interface.php,v 1.4 2005/04/07 16:33:30 adamfranco Exp $
+ */
 
 /**
  * Search Modules implement the functionality of searching the digital repository
  * 
+ *
  * @package harmoni.osid_v2.repository.search
- * @version $Id: SearchModule.interface.php,v 1.3 2005/01/27 15:45:40 adamfranco Exp $
- * @since $Date: 2005/01/27 15:45:40 $
- * @copyright 2004 Middlebury College
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SearchModule.interface.php,v 1.4 2005/04/07 16:33:30 adamfranco Exp $
  */
 
 class SearchModuleInterface {

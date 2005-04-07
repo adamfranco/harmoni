@@ -1,21 +1,31 @@
 <?php
-
+/**
+ * @package harmoni.dbc.postgre
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: PostGreGenericQueryResult.class.php,v 1.7 2005/04/07 16:33:25 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
-
 
 /**
  * The GenericQueryResult interface provides methods for accessing the results of
  * a generic query. These results can be returned as if they were one of the other
  * query types, or the resource links can be returned and accessed directly.
  *
- * 
- * @version $Id: PostGreGenericQueryResult.class.php,v 1.6 2005/03/29 19:44:09 adamfranco Exp $
+ *
  * @package harmoni.dbc.postgre
- * @access public
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: PostGreGenericQueryResult.class.php,v 1.7 2005/04/07 16:33:25 adamfranco Exp $
  */
-
-class PostGreGenericQueryResult extends GenericQueryResultInterface {
+class PostGreGenericQueryResult 
+	extends GenericQueryResultInterface 
+{
 	
 	/**
 	 * The resource id for this SELECT query.

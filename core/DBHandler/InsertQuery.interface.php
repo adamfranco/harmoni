@@ -1,13 +1,24 @@
 <?php
-
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: InsertQuery.interface.php,v 1.4 2005/04/07 16:33:23 adamfranco Exp $
+ */
 require_once("Query.abstract.php");
 
 /**
  * An InsertQuery interface provides the tools to build an SQL INSERT query.
  *
- * @version $Id: InsertQuery.interface.php,v 1.3 2005/02/04 15:58:40 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: InsertQuery.interface.php,v 1.4 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class InsertQueryInterface extends Query {

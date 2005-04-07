@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * @package harmoni.osid_v2.hierarchy.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HierarchyManagerTestCase.class.php,v 1.8 2005/04/07 16:33:29 adamfranco Exp $
+ */
+ 
 require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchyManager.class.php');
 
 /**
@@ -7,10 +15,13 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchyManager.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: HierarchyManagerTestCase.class.php,v 1.7 2005/04/04 18:23:48 adamfranco Exp $
- * @package harmoni.tests.metadata
- * @copyright 2003
- **/
+ * @package harmoni.osid_v2.hierarchy.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HierarchyManagerTestCase.class.php,v 1.8 2005/04/07 16:33:29 adamfranco Exp $
+ */
 
 	class HierarchyManagerTestCase extends UnitTestCase {
 

@@ -1,19 +1,29 @@
 <?php
-
+/**
+ * @package harmoni.dbc.postgre
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: PostGreInsertQueryResult.class.php,v 1.5 2005/04/07 16:33:25 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
 
 /**
  * The InsertQueryResult interface provides the functionality common to all INSERT query results.
- *
- * The InsertQueryResult interface provides the functionality common to all INSERT query results.
  * For example, you can get the primary key for the last insertion, get number of inserted rows, etc.
- * @version $Id: PostGreInsertQueryResult.class.php,v 1.4 2005/03/29 19:44:09 adamfranco Exp $
+ *
  * @package harmoni.dbc.postgre
- * @access public
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: PostGreInsertQueryResult.class.php,v 1.5 2005/04/07 16:33:25 adamfranco Exp $
  */
-
-class PostGreInsertQueryResult extends InsertQueryResultInterface  {
+class PostGreInsertQueryResult 
+	extends InsertQueryResultInterface  
+{
 
 
 	/**

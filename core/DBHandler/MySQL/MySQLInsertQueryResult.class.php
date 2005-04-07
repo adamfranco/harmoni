@@ -1,16 +1,26 @@
 <?php
-
+/**
+ * @package harmoni.dbc.mysql
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: MySQLInsertQueryResult.class.php,v 1.4 2005/04/07 16:33:24 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
 
 /**
  * The InsertQueryResult interface provides the functionality common to all INSERT query results.
  *
- * The InsertQueryResult interface provides the functionality common to all INSERT query results.
  * For example, you can get the primary key for the last insertion, get number of inserted rows, etc.
- * @version $Id: MySQLInsertQueryResult.class.php,v 1.3 2005/03/29 19:44:08 adamfranco Exp $
+ *
  * @package harmoni.dbc.mysql
- * @access public
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: MySQLInsertQueryResult.class.php,v 1.4 2005/04/07 16:33:24 adamfranco Exp $
  */
 
 class MySQLInsertQueryResult extends InsertQueryResultInterface  {

@@ -1,4 +1,12 @@
 <?php
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DBHandler.class.php,v 1.16 2005/04/07 16:33:23 adamfranco Exp $
+ */
 
 require_once(HARMONI.'DBHandler/DBHandler.interface.php');
 require_once(HARMONI."DBHandler/SelectQuery.class.php");
@@ -20,10 +28,13 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * program executution with configuration settings for the database type, name, 
  * server, user, and password. 
  *
- * @version $Id: DBHandler.class.php,v 1.15 2005/04/04 18:23:21 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @copyright 2003 
- * @access public
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DBHandler.class.php,v 1.16 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class DBHandler extends DBHandlerInterface { 

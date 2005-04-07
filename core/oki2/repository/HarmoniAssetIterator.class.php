@@ -1,4 +1,12 @@
 <?
+/**
+ * @package harmoni.osid_v2.repository
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniAssetIterator.class.php,v 1.9 2005/04/07 16:33:30 adamfranco Exp $
+ */
 
 //require_once(OKI2."osid/repository/AssetIterator.interface.php");
 require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
@@ -24,7 +32,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAssetIterator.class.php,v 1.8 2005/02/17 17:34:08 adamfranco Exp $ 
+ * @version $Id: HarmoniAssetIterator.class.php,v 1.9 2005/04/07 16:33:30 adamfranco Exp $ 
  */
 class HarmoniAssetIterator
 	extends HarmoniIterator

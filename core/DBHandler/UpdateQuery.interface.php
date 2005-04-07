@@ -1,14 +1,25 @@
 <?php
-
-require_once("Query.abstract.php");
-	
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: UpdateQuery.interface.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ */
+ 
+require_once("Query.abstract.php");	
 
 /**
  * An UpdateQuery interface provides the tools to build an SQL UPDATE query.
  *
- * @version $Id: UpdateQuery.interface.php,v 1.5 2005/01/19 23:21:35 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: UpdateQuery.interface.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class UpdateQueryInterface extends Query {

@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * @package harmoni.gui.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ThemesTestCase.class.php,v 1.10 2005/04/07 16:33:27 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."GUIManager/Theme.class.php");
 require_once(HARMONI."GUIManager/MenuTheme.abstract.php");
 require_once(HARMONI."GUIManager/Components/Menu.class.php");
@@ -15,8 +23,12 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ThemesTestCase.class.php,v 1.9 2005/03/10 03:18:19 dobomode Exp $
- * @copyright 2003 
+ * @package harmoni.gui.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ThemesTestCase.class.php,v 1.10 2005/04/07 16:33:27 adamfranco Exp $
  */
 
     class ThemesTestCase extends UnitTestCase {

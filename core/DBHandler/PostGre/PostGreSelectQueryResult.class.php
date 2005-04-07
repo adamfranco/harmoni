@@ -1,19 +1,29 @@
 <?php
-
+/**
+ * @package harmoni.dbc.postgre
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: PostGreSelectQueryResult.class.php,v 1.7 2005/04/07 16:33:25 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
 
 /**
  * The PostGreSelectQueryResult interface provides the functionality common to a PostGre SELECT query result.
- *
- * The PostGreSelectQueryResult interface provides the functionality common to a PostGre SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.6 2005/03/29 19:44:09 adamfranco Exp $
+ *
  * @package harmoni.dbc.postgre
- * @access public
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: PostGreSelectQueryResult.class.php,v 1.7 2005/04/07 16:33:25 adamfranco Exp $
  */
-
-class PostGreSelectQueryResult extends SelectQueryResultInterface {
+class PostGreSelectQueryResult 
+	extends SelectQueryResultInterface 
+{
 
 
 	/**

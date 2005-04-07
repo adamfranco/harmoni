@@ -1,6 +1,11 @@
 <?php
 /**
- * @package harmoni.gui.examples
+ * @package  harmoni.gui.examples
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: sample_page2.php,v 1.7 2005/04/07 16:33:26 adamfranco Exp $
  */
 
 // =============================================================================

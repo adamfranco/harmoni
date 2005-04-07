@@ -4,11 +4,14 @@
  * This file sets up global harmoni options, includes important files,
  * and defines a few crucial functions.
  *
- * @version $Id: harmoni.inc.php,v 1.32 2005/04/04 19:55:38 adamfranco Exp $
- * @copyright 2003 
+ *
  * @package harmoni
- * @access public
- **/
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: harmoni.inc.php,v 1.33 2005/04/07 16:31:53 adamfranco Exp $
+ */
 
  /* :: start the output buffer, if it's not already :: */
 if (!ob_get_level()) ob_start();

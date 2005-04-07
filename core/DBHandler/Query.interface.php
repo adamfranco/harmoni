@@ -1,10 +1,17 @@
 <?php
-
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Query.interface.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ */
+ 
 	/**
 	 * A constant for an UNKNOWN query type.
  	 * @const UNKNOWN A constant for an UNKNOWN query type.
 	 * @access public
-	 * @package harmoni.dbc
 	 */
 	define("UNKNOWN", 1);
 
@@ -12,7 +19,6 @@
 	 * A constant for a SELECT query type.
  	 * @const SELECT A constant for a SELECT query type.
 	 * @access public
-	 * @package harmoni.dbc
 	 */
 	define("SELECT", 1);
 
@@ -20,7 +26,6 @@
 	 * A constant for an UPDATE query type.
  	 * @const UPDATE A constant for an UPDATE query type.
 	 * @access public
-	 * @package harmoni.dbc
 	 */
 	define("UPDATE", 2);
 
@@ -28,7 +33,6 @@
 	 * A constant for an INSERT query type.
  	 * @const INSERT A constant for an INSERT query type.
 	 * @access public
-	 * @package harmoni.dbc
 	 */
 	define("INSERT", 3);
 
@@ -36,7 +40,6 @@
 	 * A constant for a DELETE query type.
  	 * @const DELETE A constant for a DELETE query type.
 	 * @access public
-	 * @package harmoni.dbc
 	 */
 	define("DELETE", 4);
 
@@ -44,14 +47,12 @@
 	 * A constant for a GENERIC query type.
  	 * @const GENERIC A constant for a GENERIC query type.
 	 * @access public
-	 * @package harmoni.dbc
 	 */
 	define("GENERIC", 5);
 	
 	/**
 	 * Defines a constant for 'AND' operations (used in WHERE and JOIN clauses)
 	 * @const integer _AND
-	 * @package harmoni.dbc
 	 */
 	define("_AND", 7);
 	
@@ -59,7 +60,6 @@
 	/**
 	 * Defines a constant for 'OR' operations (used in WHERE and JOIN clauses)
 	 * @const integer _OR
-	 * @package harmoni.dbc
 	 */
 	define("_OR", 8);
 	
@@ -68,10 +68,13 @@
 /**
  * A generic Query interface to be implemented by all Query objects.
  *
- * @version $Id: Query.interface.php,v 1.5 2005/02/07 21:38:11 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @access public
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Query.interface.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class QueryInterface { 

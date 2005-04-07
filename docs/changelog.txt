@@ -6,6 +6,8 @@ Name: Harmoni ChangeLog
 v. 0.3.0 (The nebulous future)
 ----------------------------------------------------
 		
+	* Change: Test (Adam Franco)
+		
 	* Change: New Framework/Architecture-GUI/Theme interaction decouples the Harmoni object from the output system. The GUIManager and other OutputHandlers extend the OutputHandler abstract class and can be attached to Harmoni. A default 'BasicOutputHandler' is used when no other OutputHandler is specified. (Adam Franco)
 		
 	* Change: Services::startService(), Services::stopService(), Services::restartService(), and Services::startAll() are now deprecated and print warnings if used. Please use Services::startManagerAsService() and/or Services::getService() instead. (Adam Franco)
@@ -22,7 +24,7 @@ v. 0.3.0 (The nebulous future)
 		
 	* New feature: GUI Manager saving functionality. (Nikitas Stamatopoulos)
 		
-	* New feature: OsidManagers can now be started and configured by Services::startManagerAsService(&quot;name&quot;, $context, $configuration); (Adam Franco)
+	* New feature: OsidManagers can now be started and configured by Services::startManagerAsService("name", $context, $configuration); (Adam Franco)
 		
 	* New feature: Service names can now have aliases. (Adam Franco)
 		
@@ -51,13 +53,13 @@ v. 0.3.0 (The nebulous future)
 v. 0.2.0 (2004-10-26)
 ----------------------------------------------------
 		
-	* New feature: Added a &quot;MIME&quot; service for sniffing mime types from file extensions. (Adam Franco)
+	* New feature: Added a "MIME" service for sniffing mime types from file extensions. (Adam Franco)
 		
 	* New feature: Added an ImageProcessor service for the resizing of images, generation of thumbnails, and other common image processing functions. This service can be configured to use multiple modules to handle different file types, as availible. An example would be using PHP's GD libraries for handling jpegs and pngs, while using ImageMagick (via shell_exec()) for tiff, psd, pdf, etc. files. (Adam Franco)
 		
 	* Bug Fix: DBHandler: PostgreSQL now functions without throwing invalid errors. (Adam Franco)
 		
-	* New feature: Digital Repository: Now has a &quot;File&quot; Info structure system for storing binary files. (Adam Franco)
+	* New feature: Digital Repository: Now has a "File" Info structure system for storing binary files. (Adam Franco)
 		
 	* Change: Digital Repository: Now stores Asset dates outside of the the data manager. (Adam Franco)
 		
@@ -85,13 +87,13 @@ v. 0.2.0 (2004-10-26)
 		
 	* Change: Fixed LoginHandler problem which was preventing the use of custom callback functions. (Adam Franco)
 		
-	* New feature: A new &quot;Sets&quot; service provides an easy system for the creation, ordering, and maintaining of persistant collections of Ids. (Adam Franco)
+	* New feature: A new "Sets" service provides an easy system for the creation, ordering, and maintaining of persistant collections of Ids. (Adam Franco)
 		
 	* New feature: Added new system for storing primitive data values in objects (all classes implementing the Primitive interface - see harmoni/core/dataManager/primitives) (Gabe Schine)
 		
 	* New feature: Re-worked the DataManager with simpler class names and more flexibility. (see harmoni/core/dataManager) (Gabe Schine)
 		
-	* New feature: Added a &quot;revision&quot; to all DataSetTypeDefinitions for later program upgrades (can check revision number to see if the structure is up-to-date instead of comparing every field). (Gabe Schine)
+	* New feature: Added a "revision" to all DataSetTypeDefinitions for later program upgrades (can check revision number to see if the structure is up-to-date instead of comparing every field). (Gabe Schine)
 		
 	* New feature: GUIManager service, based around CSS, will eventually replace the theme/layout handlers. (Dobo Radichkov)
 		
@@ -114,7 +116,7 @@ v. 0.1.0 (2004-06-11)
 		
 	* Change: Themes and layouts have been completely re-worked to support easier use and more user control of the themes. (Adam Franco)
 		
-	* Change: Argument Validator now dosn't fail on string representations of integers; i.e. &quot;100&quot; as well as 100 will validate. (Adam Franco)
+	* Change: Argument Validator now dosn't fail on string representations of integers; i.e. "100" as well as 100 will validate. (Adam Franco)
 		
 	* New feature: Implimented the Digital Repository OSID in Harmoni. The DR uses the Hierarchy OSID, the DataManager, and the Shared OSID to provide for high-level access and browsing of Assets and their associated data/metadata. (Adam Franco)
 		
@@ -173,7 +175,7 @@ v. 0.0.5 (2004-01-09)
 		
 	* Bug Fix: DateTime::now() now gives correct Hour value. Likewise MySQLDatabase::toDBDate() now adds 1 to hour value to give correct 1-24 value. Other DB Types haven't yet been checked. (Gabe Schine)
 		
-	* Change: Modified field in HarmoniDataManager table &quot;datasetfield&quot; from &quot;datasetfield_created&quot; to &quot;datasetfield_modified&quot; since it is updated on every commit(). (Gabe Schine)
+	* Change: Modified field in HarmoniDataManager table "datasetfield" from "datasetfield_created" to "datasetfield_modified" since it is updated on every commit(). (Gabe Schine)
 		
 	* New feature: Extensive work on DataManager. Now works for creating/retrieving datasets with version controls. (Gabe Schine)
 		
@@ -204,14 +206,14 @@ v. 0.0.4 (2003-12-06)
 		
 	* Change: LoginState::attachData() has been moved to Harmoni::attachContextData() and LoginState::getData() has been moved to Context::getData() for logical and organizational reasons. (Gabe Schine)
 		
-	* Change: LoginHandler and Harmoni: when LoginHandler is used, the action that is checked for required authentication is now the LAST action executed instead of the first. This way, the action that finally ends up being executed is the &quot;authoritative&quot; action. (Gabe Schine)
+	* Change: LoginHandler and Harmoni: when LoginHandler is used, the action that is checked for required authentication is now the LAST action executed instead of the first. This way, the action that finally ends up being executed is the "authoritative" action. (Gabe Schine)
 	
 v. 0.0.3 (2003-11-26)
 ----------------------------------------------------
 		
 	* Change: Made ActionHandler check for class and method definitions before trying to execute them. (Gabe Schine)
 		
-	* New feature: Added defines in config/services.cfg.php to allow a choice of which major &quot;modules&quot; of Harmoni to load, in order to save on startup time. (Gabe Schine)
+	* New feature: Added defines in config/services.cfg.php to allow a choice of which major "modules" of Harmoni to load, in order to save on startup time. (Gabe Schine)
 		
 	* Bug Fix: Numerous bug fixes in Harmoni, ActionHandler, LoginHandler (Gabe Schine)
 		
@@ -237,7 +239,7 @@ v. 0.0.3 (2003-11-26)
 		
 	* New feature: Harmoni Users's Guide stored locally in XML format. Wrote a gen-script in PHP using domxml to make pretty HTML interface. (Gabe Schine)
 		
-	* Change: LanguageLocalizer now uses gettext() functions instead of home-brewed. Included PO generators, &quot;borrowed&quot; from the Horde project (www.horde.org). (Gabe Schine)
+	* Change: LanguageLocalizer now uses gettext() functions instead of home-brewed. Included PO generators, "borrowed" from the Horde project (www.horde.org). (Gabe Schine)
 		
 	* Change: New OKI interfaces, OKI gen-scripts and token files added (under harmoni/oki and harmoni/core/tools/oki respectively) (Gabe Schine)
 	

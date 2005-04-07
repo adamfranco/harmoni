@@ -3,11 +3,14 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.5 2005/04/04 18:23:47 adamfranco Exp $
- * @package harmoni.tests.metadata
- * @copyright 2003 
- **/
- 
+ * @package harmoni.osid_v2.authorization.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: test.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
+ */
+
 define("LOAD_DR", false);
 define("LOAD_STORAGE", false);
 define("LOAD_AUTHENTICATION", false);

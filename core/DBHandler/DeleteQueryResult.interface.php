@@ -1,16 +1,25 @@
 <?php
-
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DeleteQueryResult.interface.php,v 1.3 2005/04/07 16:33:23 adamfranco Exp $
+ */
 require_once("QueryResult.interface.php");
 
 /**
  * The DELETEQueryResult interface provides the functionality common to all DELETE query results.
  *
- * The DELETEQueryResult interface provides the functionality common to all DELETE query results.
  * For example, you can get the primary key for the last DELETEion, get number of DELETEed rows, etc.
- * @version $Id: DeleteQueryResult.interface.php,v 1.2 2004/04/20 19:48:58 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @access public
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DeleteQueryResult.interface.php,v 1.3 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class DeleteQueryResultInterface extends QueryResultInterface {

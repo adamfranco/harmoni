@@ -1,15 +1,25 @@
 <?php
-
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: UpdateQuery.class.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."DBHandler/UpdateQuery.interface.php");
 
 /**
  * An UpdateQuery class provides the tools to build an UPDATE query.
  *
- * An UpdateQuery class provides the tools to build an UPDATE query.
- * 
- * @version $Id: UpdateQuery.class.php,v 1.5 2005/03/29 19:42:52 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: UpdateQuery.class.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class UpdateQuery extends UpdateQueryInterface {

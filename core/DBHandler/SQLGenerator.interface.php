@@ -1,14 +1,26 @@
 <?php
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SQLGenerator.interface.php,v 1.3 2005/04/07 16:33:23 adamfranco Exp $
+ */
 
 /**
  * A SQLGeneratorInterface interface is the parent of all SQLGenerator objects.
  * A SQLGeneratorInterface interface declares only one method, namely
  * generateSQLQuery(), which takes a query object as a parameter. The method
  * returns the SQL string representation of that query object - thus, a SQLGenerator.
- * @version $Id: SQLGenerator.interface.php,v 1.2 2004/04/20 19:48:58 adamfranco Exp $
+ * @version $Id: SQLGenerator.interface.php,v 1.3 2005/04/07 16:33:23 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @access public
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SQLGenerator.interface.php,v 1.3 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class SQLGeneratorInterface { 

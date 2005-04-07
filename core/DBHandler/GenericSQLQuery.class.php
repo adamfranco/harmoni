@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: GenericSQLQuery.class.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ */
 require_once("GenericSQLQuery.interface.php");
 
 
@@ -8,9 +15,13 @@ require_once("GenericSQLQuery.interface.php");
  * query type to execute queries not available through the other Query
  * objects (for example, data-definition queries).
  *
- * @version $Id: GenericSQLQuery.class.php,v 1.5 2005/03/29 19:42:52 adamfranco Exp $
+ *
  * @package harmoni.dbc
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: GenericSQLQuery.class.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class GenericSQLQuery extends GenericSQLQueryInterface {

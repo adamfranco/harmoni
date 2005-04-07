@@ -1,6 +1,11 @@
 <?
 /**
  * @package harmoni.datamanager.storableprimitives
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: inc.php,v 1.4 2005/04/07 16:33:27 adamfranco Exp $
  */
 
 require_once(HARMONI."dataManager/storablePrimitives/StorableBoolean.class.php");

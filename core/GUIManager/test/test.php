@@ -4,9 +4,13 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.10 2005/04/04 18:23:22 adamfranco Exp $
- * @copyright 2003 
- **/
+ * @package harmoni.gui.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: test.php,v 1.11 2005/04/07 16:33:27 adamfranco Exp $
+ */
 
 	define("LOAD_HIERARCHY", false);
 	define("LOAD_STORAGE",false);

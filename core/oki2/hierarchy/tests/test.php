@@ -3,10 +3,14 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.4 2005/04/04 17:39:46 adamfranco Exp $
- * @package harmoni.tests.metadata
- * @copyright 2003 
- **/
+ *
+ * @package harmoni.osid_v2.hierarchy.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: test.php,v 1.5 2005/04/07 16:33:29 adamfranco Exp $
+ */
  
 require_once dirname(__FILE__)."/../../../../core/utilities/Timer.class.php";
 $timer =& new Timer;

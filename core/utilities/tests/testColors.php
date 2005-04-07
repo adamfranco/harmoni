@@ -1,4 +1,12 @@
 <?php
+/**
+ * @package harmoni.utilities.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: testColors.php,v 1.3 2005/04/07 16:33:31 adamfranco Exp $
+ */
 
 define("HARMONI","../../");
 require_once(HARMONI."utilities/HTMLcolor.class.php");

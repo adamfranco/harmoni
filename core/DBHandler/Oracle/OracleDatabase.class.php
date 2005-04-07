@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * @package harmoni.dbc.oracle
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: OracleDatabase.class.php,v 1.8 2005/04/07 16:33:24 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."DBHandler/Database.interface.php");
 require_once(HARMONI."DBHandler/Oracle/OracleSelectQueryResult.class.php");
 require_once(HARMONI."DBHandler/Oracle/OracleInsertQueryResult.class.php");
@@ -9,14 +17,17 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
 
 /**
  * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
- * A OracleDatabase class provides the tools to connect, query, etc., a Oracle database.
- * @version $Id: OracleDatabase.class.php,v 1.7 2005/03/29 19:44:08 adamfranco Exp $
- * @copyright 2003 
+ *
  * @package harmoni.dbc.oracle
- * @access public
- **/
- 
-class OracleDatabase extends DatabaseInterface {
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: OracleDatabase.class.php,v 1.8 2005/04/07 16:33:24 adamfranco Exp $
+ */
+class OracleDatabase 
+	extends DatabaseInterface 
+{
 
 	/**
 	 * The hostname of the database, i.e. myserver.mydomain.edu.

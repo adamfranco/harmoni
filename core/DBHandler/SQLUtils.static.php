@@ -1,13 +1,24 @@
 <?php
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SQLUtils.static.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ */
 
 /**
  * This is a static class that provides functions for the running of arbitrary
  * SQL strings and files.
  * 
+ *
  * @package harmoni.dbc
- * @version $Id: SQLUtils.static.php,v 1.5 2005/04/04 18:23:22 adamfranco Exp $
- * @since $Date: 2005/04/04 18:23:22 $
- * @copyright 2004 Middlebury College
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: SQLUtils.static.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
  * @static
  */
 

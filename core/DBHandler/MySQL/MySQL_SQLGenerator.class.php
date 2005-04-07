@@ -1,14 +1,25 @@
 <?php
-
+/**
+ * @package harmoni.dbc.mysql
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.12 2005/04/07 16:33:24 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
 
 /**
  * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
- * A MySQLSelectQueryGenerator class provides the tools to build a MySQL query from a Query object.
  *
- * @version $Id: MySQL_SQLGenerator.class.php,v 1.11 2005/03/29 19:44:08 adamfranco Exp $
+ *
  * @package harmoni.dbc.mysql
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.12 2005/04/07 16:33:24 adamfranco Exp $
  */
 
 class MySQL_SQLGenerator extends SQLGeneratorInterface {

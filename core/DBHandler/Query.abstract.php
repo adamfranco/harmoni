@@ -1,14 +1,24 @@
 <?php
-
+/**
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Query.abstract.php,v 1.2 2005/04/07 16:33:23 adamfranco Exp $
+ */
 require_once(HARMONI."DBHandler/Query.interface.php");
 
 /**
  * A generic Query interface to be implemented by all Query objects.
  *
- * @version $Id: Query.abstract.php,v 1.1 2003/08/14 19:26:28 gabeschine Exp $
+ *
  * @package harmoni.dbc
- * @access public
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Query.abstract.php,v 1.2 2005/04/07 16:33:23 adamfranco Exp $
  */
 
 class Query extends QueryInterface { 

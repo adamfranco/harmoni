@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * @package harmoni.dbc.mysql
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: MySQLDatabase.class.php,v 1.22 2005/04/07 16:33:24 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."DBHandler/Database.interface.php");
 require_once(HARMONI."DBHandler/MySQL/MySQLSelectQueryResult.class.php");
 require_once(HARMONI."DBHandler/MySQL/MySQLInsertQueryResult.class.php");
@@ -17,11 +25,14 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * statements. This allows applications coded for PostgreSQL/Oracle-style nested
  * transactions to operate in MySQL. 
  *
- * @version $Id: MySQLDatabase.class.php,v 1.21 2005/03/29 19:44:03 adamfranco Exp $
- * @copyright 2003 
+ *
  * @package harmoni.dbc.mysql
- * @access public
- **/
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: MySQLDatabase.class.php,v 1.22 2005/04/07 16:33:24 adamfranco Exp $
+ */
  
 class MySQLDatabase extends DatabaseInterface {
 

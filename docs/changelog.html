@@ -5,6 +5,9 @@
 	li {padding-bottom: 3px;}
 	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.3.0</h2><h3>The nebulous future</h3><ul>
 		<li/> Change:  
+			Test
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
 			New Framework/Architecture-GUI/Theme interaction decouples the Harmoni
 			object from the output system. The GUIManager and other OutputHandlers
 			extend the OutputHandler abstract class and can be attached to Harmoni.
@@ -47,7 +50,7 @@
 		 (<i>Nikitas Stamatopoulos</i>)
 		<li/> New feature:  
 			OsidManagers can now be started and configured by 
-			Services::startManagerAsService(&quot;name&quot;, $context, $configuration);
+			Services::startManagerAsService("name", $context, $configuration);
 		 (<i>Adam Franco</i>)
 		<li/> New feature:  
 			Service names can now have aliases.
@@ -103,7 +106,7 @@
 		 (<i>Dobo Radichkov</i>)
 	</ul><br/><h2>Version 0.2.0</h2><h3>2004-10-26</h3><ul>
 		<li/> New feature:  
-			Added a &quot;MIME&quot; service for sniffing mime types from file extensions.
+			Added a "MIME" service for sniffing mime types from file extensions.
 		 (<i>Adam Franco</i>)
 		<li/> New feature:  
 			Added an ImageProcessor service for the resizing of images, generation
@@ -118,7 +121,7 @@
 			DBHandler: PostgreSQL now functions without throwing invalid errors.
 		 (<i>Adam Franco</i>)
 		<li/> New feature:  
-			Digital Repository: Now has a &quot;File&quot; Info structure system for storing
+			Digital Repository: Now has a "File" Info structure system for storing
 			binary files.
 		 (<i>Adam Franco</i>)
 		<li/> Change:  
@@ -166,7 +169,7 @@
 			callback functions.
 		 (<i>Adam Franco</i>)
 		<li/> New feature:  
-			A new &quot;Sets&quot; service provides an easy system for the creation, ordering,
+			A new "Sets" service provides an easy system for the creation, ordering,
 			and maintaining of persistant collections of Ids.
 		 (<i>Adam Franco</i>)
 		<li/> New feature:  
@@ -176,7 +179,7 @@
 			Re-worked the DataManager with simpler class names and more flexibility. (see harmoni/core/dataManager)
 		 (<i>Gabe Schine</i>)
 		<li/> New feature:  
-			Added a &quot;revision&quot; to all DataSetTypeDefinitions for later program upgrades (can check revision number to see if the structure is up-to-date instead of comparing every field).
+			Added a "revision" to all DataSetTypeDefinitions for later program upgrades (can check revision number to see if the structure is up-to-date instead of comparing every field).
 		 (<i>Gabe Schine</i>)
 		<li/> New feature:  
 			GUIManager service, based around CSS, will eventually replace the 
@@ -214,7 +217,7 @@
 		 (<i>Adam Franco</i>)
 		<li/> Change:  
 			Argument Validator now dosn't fail on string representations of integers;
-			i.e. &quot;100&quot; as well as 100 will validate.
+			i.e. "100" as well as 100 will validate.
 		 (<i>Adam Franco</i>)
 		<li/> New feature:  
 			Implimented the Digital Repository OSID in Harmoni. The DR uses the Hierarchy OSID,
@@ -319,7 +322,7 @@
 			to give correct 1-24 value. Other DB Types haven't yet been checked.
 		 (<i>Gabe Schine</i>)
 		<li/> Change:  
-			Modified field in HarmoniDataManager table &quot;datasetfield&quot; from &quot;datasetfield_created&quot; to &quot;datasetfield_modified&quot;
+			Modified field in HarmoniDataManager table "datasetfield" from "datasetfield_created" to "datasetfield_modified"
 			since it is updated on every commit().
 		 (<i>Gabe Schine</i>)
 		<li/> New feature:  
@@ -378,10 +381,10 @@
 		<li/> Change:  LoginHandler and Harmoni: when LoginHandler is used, 
 		the action that is checked for required authentication is now the LAST action
 		executed instead of the first. This way, the action that finally ends up being
-		executed is the &quot;authoritative&quot; action. (<i>Gabe Schine</i>)
+		executed is the "authoritative" action. (<i>Gabe Schine</i>)
 	</ul><br/><h2>Version 0.0.3</h2><h3>2003-11-26</h3><ul>
 		<li/> Change:  Made ActionHandler check for class and method definitions before trying to execute them. (<i>Gabe Schine</i>)
-		<li/> New feature:  Added defines in config/services.cfg.php to allow a choice of which major &quot;modules&quot; of Harmoni to load, in order to save on startup time. (<i>Gabe Schine</i>)
+		<li/> New feature:  Added defines in config/services.cfg.php to allow a choice of which major "modules" of Harmoni to load, in order to save on startup time. (<i>Gabe Schine</i>)
 		<li/> Bug Fix:
 	 Numerous bug fixes in Harmoni, ActionHandler, LoginHandler (<i>Gabe Schine</i>)
 		<li/> New feature:  Added a file under core/version.inc.php which holds the current harmoni versions. (<i>Gabe Schine</i>)
@@ -423,7 +426,7 @@
 		 (<i>Gabe Schine</i>)
 		<li/> Change:  
 			LanguageLocalizer now uses gettext() functions instead of
-			home-brewed. Included PO generators, &quot;borrowed&quot; from the Horde
+			home-brewed. Included PO generators, "borrowed" from the Horde
 			project (www.horde.org).
 		 (<i>Gabe Schine</i>)
 		<li/> Change:  New OKI interfaces, OKI gen-scripts and token

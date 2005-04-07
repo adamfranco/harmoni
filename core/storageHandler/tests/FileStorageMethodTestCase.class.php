@@ -7,8 +7,13 @@ require_once(HARMONI.'storageHandler/StorageMethods/FileStorageMethod.class.php'
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: FileStorageMethodTestCase.class.php,v 1.4 2005/02/07 21:38:27 adamfranco Exp $
- * @copyright 2003 
+ *
+ * @package harmoni.storage.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: FileStorageMethodTestCase.class.php,v 1.5 2005/04/07 16:33:30 adamfranco Exp $
  **/
 
     class FileStorageMethodTestCase extends UnitTestCase {

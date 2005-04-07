@@ -1,21 +1,31 @@
 <?php
-
+/**
+ * @package harmoni.dbc.oracle
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: OracleGenericQueryResult.class.php,v 1.7 2005/04/07 16:33:24 adamfranco Exp $
+ */
+ 
 require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
-
 
 /**
  * The GenericQueryResult interface provides methods for accessing the results of
  * a generic query. These results can be returned as if they were one of the other
  * query types, or the resource links can be returned and accessed directly.
  *
- * 
- * @version $Id: OracleGenericQueryResult.class.php,v 1.6 2005/03/29 19:44:08 adamfranco Exp $
+ *
  * @package harmoni.dbc.oracle
- * @access public
- * @copyright 2003 
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: OracleGenericQueryResult.class.php,v 1.7 2005/04/07 16:33:24 adamfranco Exp $
  */
-
-class OracleGenericQueryResult extends GenericQueryResultInterface {
+class OracleGenericQueryResult 
+	extends GenericQueryResultInterface 
+{
 	
 	/**
 	 * The resource id for this SELECT query.

@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * @package harmoni.dbc.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: OracleInsertQueryTestCase.class.php,v 1.3 2005/04/07 16:33:25 adamfranco Exp $
+ */
+ 
     require_once(HARMONI.'DBHandler/InsertQuery.class.php');
 	require_once(HARMONI.'DBHandler/Oracle/Oracle_SQLGenerator.class.php');
 
@@ -8,10 +16,13 @@
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: OracleInsertQueryTestCase.class.php,v 1.2 2005/01/19 16:31:31 adamfranco Exp $
  * @package harmoni.dbc.tests
- * @copyright 2003 
- **/
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: OracleInsertQueryTestCase.class.php,v 1.3 2005/04/07 16:33:25 adamfranco Exp $ 
+ */
 
     class OracleInsertQueryTestCase extends UnitTestCase {
 

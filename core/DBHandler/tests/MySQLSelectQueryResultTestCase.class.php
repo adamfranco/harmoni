@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * @package harmoni.dbc.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: MySQLSelectQueryResultTestCase.class.php,v 1.6 2005/04/07 16:33:25 adamfranco Exp $
+ */
 require_once(HARMONI . 'DBHandler/MySQL/MySQLDatabase.class.php');
 
 /**
@@ -7,9 +14,13 @@ require_once(HARMONI . 'DBHandler/MySQL/MySQLDatabase.class.php');
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  * 
- * @version $Id: MySQLSelectQueryResultTestCase.class.php,v 1.5 2005/02/07 21:38:13 adamfranco Exp $
+ *
  * @package harmoni.dbc.tests
- * @copyright 2003
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: MySQLSelectQueryResultTestCase.class.php,v 1.6 2005/04/07 16:33:25 adamfranco Exp $
  */
 
 class MySQLSelectQueryResultTestCase extends UnitTestCase {

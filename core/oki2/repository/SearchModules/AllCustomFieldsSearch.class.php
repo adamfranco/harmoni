@@ -4,11 +4,13 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
 
 /**
  * Return assets of the specified type
- * 
+ *
  * @package harmoni.osid_v2.repository.search
- * @version $Id: AllCustomFieldsSearch.class.php,v 1.4 2005/01/27 16:12:18 adamfranco Exp $
- * @since $Date: 2005/01/27 16:12:18 $
- * @copyright 2004 Middlebury College
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: AllCustomFieldsSearch.class.php,v 1.5 2005/04/07 16:33:30 adamfranco Exp $
  */
 
 class AllCustomFieldsSearch

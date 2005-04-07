@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * @package  harmoni.gui.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ComponentsTestCase.class.php,v 1.8 2005/04/07 16:33:26 adamfranco Exp $
+ */
 require_once(HARMONI."GUIManager/Component.class.php");
 require_once(HARMONI."GUIManager/Container.class.php");
 require_once(HARMONI."GUIManager/StyleCollection.class.php");
@@ -20,8 +27,12 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
- * @version $Id: ComponentsTestCase.class.php,v 1.7 2005/02/07 21:38:18 adamfranco Exp $
- * @copyright 2003 
+ * @package harmoni.gui.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ComponentsTestCase.class.php,v 1.8 2005/04/07 16:33:26 adamfranco Exp $
  */
 
     class ComponentsTestCase extends UnitTestCase {

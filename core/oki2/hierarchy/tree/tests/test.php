@@ -4,9 +4,13 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @version $Id: test.php,v 1.2 2005/01/18 20:03:05 adamfranco Exp $
- * @copyright 2003 
- **/
+ * @package harmoni.osid_v2.hierarchy.tree.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: test.php,v 1.3 2005/04/07 16:33:29 adamfranco Exp $
+ */
 
 	define("LOAD_HIERARCHY", false);
 
