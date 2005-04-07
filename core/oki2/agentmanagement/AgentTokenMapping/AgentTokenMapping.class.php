@@ -1,23 +1,23 @@
 <?php
 /**
- * @package harmoni.oki_v2.agentmanagemenh
+ * @package harmoni.osid_v2.agentmanagemenh
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMapping.class.php,v 1.4 2005/04/07 14:54:10 adamfranco Exp $
+ * @version $Id: AgentTokenMapping.class.php,v 1.5 2005/04/07 15:12:32 adamfranco Exp $
  */ 
 
 /**
  * The AgentTokenMapping is the recorded mapping between a set of authentication
  * tokens and an AgentId as Known to the AgentManager OSID.
  * 
- * @package harmoni.oki_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMapping.class.php,v 1.4 2005/04/07 14:54:10 adamfranco Exp $
+ * @version $Id: AgentTokenMapping.class.php,v 1.5 2005/04/07 15:12:32 adamfranco Exp $
  */
 class AgentTokenMapping {
 		

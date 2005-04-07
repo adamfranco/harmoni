@@ -1,11 +1,11 @@
 <?php
 /**
- * @package harmoni.oki_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.8 2005/03/29 19:44:23 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.9 2005/04/07 15:12:32 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -14,12 +14,12 @@ require_once(dirname(__FILE__)."/LDAPConnector.class.php");
 /**
  * The LDAPAuthNMethod is used to authenticate against an LDAP system.
  * 
- * @package harmoni.oki_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.8 2005/03/29 19:44:23 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.9 2005/04/07 15:12:32 adamfranco Exp $
  */
 class LDAPAuthNMethod
 	extends AuthNMethod

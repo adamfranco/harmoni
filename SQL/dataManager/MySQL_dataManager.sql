@@ -1,11 +1,12 @@
-# CocoaMySQL dump
-# Version 0.5
-# http://cocoamysql.sourceforge.net
-#
-# Host: localhost (MySQL 4.0.15)
-# Database: harmoni
-# Generation Time: 2004-01-16 20:09:19 -0500
-# ************************************************************
+-- /**
+-- @package harmoni.datamanager
+--
+-- @copyright Copyright &copy; 2005, Middlebury College
+-- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+--
+-- @version $Id: MySQL_dataManager.sql,v 1.10 2005/04/07 15:12:28 adamfranco Exp $
+-- */
+-- --------------------------------------------------------
 
 # Dump of table dm_blob
 # ------------------------------------------------------------

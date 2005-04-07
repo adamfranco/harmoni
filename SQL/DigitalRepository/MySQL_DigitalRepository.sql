@@ -1,14 +1,12 @@
-# phpMyAdmin SQL Dump
-# version 2.5.7-pl1
-# http://www.phpmyadmin.net
-#
-# Host: localhost
-# Generation Time: Oct 26, 2004 at 10:49 AM
-# Server version: 3.23.58
-# PHP Version: 4.3.2
-# 
-# Database : `adam_concerto`
-# 
+-- /**
+-- @package harmoni.osid_v2.repository
+--
+-- @copyright Copyright &copy; 2005, Middlebury College
+-- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+--
+-- @version $Id: MySQL_DigitalRepository.sql,v 1.4 2005/04/07 15:12:28 adamfranco Exp $
+-- */
+-- --------------------------------------------------------
 
 # --------------------------------------------------------
 

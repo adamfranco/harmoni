@@ -1,15 +1,18 @@
 <?php
 
 /**
-* Services Configuration
-*
-* In this file, include whatever class files you need and register the
-* necessary services.
-*
-* @package harmoni.services
-* @version $Id: services.cfg.php,v 1.50 2005/04/04 19:57:39 adamfranco Exp $
-* @copyright 2003
-**/
+ * Services Configuration
+ *
+ * In this file, include whatever class files you need and register the
+ * necessary services.
+ *
+ * @package harmoni.services
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: services.cfg.php,v 1.51 2005/04/07 15:12:31 adamfranco Exp $
+ */
 
 /* :: what services should we load? you can disable some to save on startup time :: */
 

@@ -1,3 +1,13 @@
+-- /**
+-- @package harmoni.osid_v2.shared
+--
+-- @copyright Copyright &copy; 2005, Middlebury College
+-- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+--
+-- @version $Id: MySQL_shared.sql,v 1.7 2005/04/07 15:12:30 adamfranco Exp $
+-- */
+-- --------------------------------------------------------
+
 -- 
 -- Table structure for table `shared_properties`
 -- 

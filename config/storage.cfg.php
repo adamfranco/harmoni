@@ -9,10 +9,13 @@
  * Please read the documentation specific to the StorageHandler if you
  * need more information as to how it works and how to set it up.
  *
- * @version $Id: storage.cfg.php,v 1.3 2005/04/04 19:57:39 adamfranco Exp $
- * @copyright 2003 
  * @package harmoni.storage
- **/
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: storage.cfg.php,v 1.4 2005/04/07 15:12:32 adamfranco Exp $
+ */
 
 /**
  * REQUIRED INCLUDES & COMMANDS 

@@ -1,11 +1,11 @@
 <?php
 /**
- * @package harmoni.oki_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethodManager.class.php,v 1.3 2005/03/29 19:44:23 adamfranco Exp $
+ * @version $Id: AuthNMethodManager.class.php,v 1.4 2005/04/07 15:12:32 adamfranco Exp $
  */ 
 
 /**
@@ -14,12 +14,12 @@
  * AuthNMethods maintain any information about authentication states. They simply
  * provide the means of checking that authentication when desired.
  * 
- * @package harmoni.oki_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethodManager.class.php,v 1.3 2005/03/29 19:44:23 adamfranco Exp $
+ * @version $Id: AuthNMethodManager.class.php,v 1.4 2005/04/07 15:12:32 adamfranco Exp $
  */
 class AuthNMethodManager
 	extends OsidManager

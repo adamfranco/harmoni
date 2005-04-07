@@ -1,3 +1,13 @@
+-- /**
+-- @package harmoni.osid_v2.authorization
+--
+-- @copyright Copyright &copy; 2005, Middlebury College
+-- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+--
+-- @version $Id: MySQL_AuthZ.sql,v 1.2 2005/04/07 15:12:18 adamfranco Exp $
+-- */
+-- --------------------------------------------------------
+
 CREATE TABLE az_authorization (
   authorization_id int(10) unsigned NOT NULL default '0',
   fk_agent int(10) unsigned NOT NULL default '0',

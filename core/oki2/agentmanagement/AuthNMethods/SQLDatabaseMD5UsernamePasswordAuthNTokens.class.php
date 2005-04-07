@@ -1,11 +1,11 @@
 <?php
 /**
- * @package harmoni.oki_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseMD5UsernamePasswordAuthNTokens.class.php,v 1.3 2005/04/04 18:23:32 adamfranco Exp $
+ * @version $Id: SQLDatabaseMD5UsernamePasswordAuthNTokens.class.php,v 1.4 2005/04/07 15:12:32 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
@@ -14,12 +14,12 @@ require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
  * This UserNamePasswordAuthNTokens class encrypts the password passed to it using
  * the database's MD5 function.
  * 
- * @package harmoni.oki_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseMD5UsernamePasswordAuthNTokens.class.php,v 1.3 2005/04/04 18:23:32 adamfranco Exp $
+ * @version $Id: SQLDatabaseMD5UsernamePasswordAuthNTokens.class.php,v 1.4 2005/04/07 15:12:32 adamfranco Exp $
  */
 class SQLDatabaseMD5UsernamePasswordAuthNTokens
 	extends UsernamePasswordAuthNTokens

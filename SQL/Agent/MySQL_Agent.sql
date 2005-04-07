@@ -1,3 +1,13 @@
+-- /**
+-- @package harmoni.osid_v2.agent
+--
+-- @copyright Copyright &copy; 2005, Middlebury College
+-- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+--
+-- @version $Id: MySQL_Agent.sql,v 1.2 2005/04/07 15:10:29 adamfranco Exp $
+-- */
+-- --------------------------------------------------------
+
 -- 
 -- Table structure for table `agent`
 -- 

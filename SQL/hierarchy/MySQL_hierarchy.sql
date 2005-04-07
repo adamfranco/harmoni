@@ -1,16 +1,12 @@
-# phpMyAdmin SQL Dump
-# version 2.5.6
-# http://www.phpmyadmin.net
-#
-# Host: localhost
-# Generation Time: Jun 03, 2004 at 12:36 PM
-# Server version: 3.23.56
-# PHP Version: 4.3.2
-# 
-# Database : `doboHarmoniTest`
-# 
-
-# --------------------------------------------------------
+-- /**
+-- @package harmoni.osid_v2.hierarchy
+--
+-- @copyright Copyright &copy; 2005, Middlebury College
+-- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+--
+-- @version $Id: MySQL_hierarchy.sql,v 1.4 2005/04/07 15:12:29 adamfranco Exp $
+-- */
+-- --------------------------------------------------------
 
 #
 # Table structure for table `hierarchy`

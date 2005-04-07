@@ -1,13 +1,16 @@
 <?php
 
 /**
-* Framework Configuration
-*
-*
-* @package harmoni.services
-* @version $Id: framework.cfg.php,v 1.1 2005/04/04 19:57:38 adamfranco Exp $
-* @copyright 2005 Middlebury College
-**/
+ * Framework Configuration
+ *
+ * @package harmoni.architecture
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: framework.cfg.php,v 1.2 2005/04/07 15:12:31 adamfranco Exp $
+ */
+
 
 
 /**

@@ -1,11 +1,11 @@
 <?php
 /**
- * @package harmoni.oki_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNTokens.abstract.php,v 1.1 2005/03/03 01:03:51 adamfranco Exp $
+ * @version $Id: AuthNTokens.abstract.php,v 1.2 2005/04/07 15:12:32 adamfranco Exp $
  */ 
 
 /**
@@ -26,12 +26,12 @@
  * method for querying on the existance or associated properties of the user
  * that corresponds to the identifier.
  * 
- * @package harmoni.oki_v2.agentmanagement
+ * @package harmoni.osid_v2.agentmanagement
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNTokens.abstract.php,v 1.1 2005/03/03 01:03:51 adamfranco Exp $
+ * @version $Id: AuthNTokens.abstract.php,v 1.2 2005/04/07 15:12:32 adamfranco Exp $
  */
 class AuthNTokens {
 
