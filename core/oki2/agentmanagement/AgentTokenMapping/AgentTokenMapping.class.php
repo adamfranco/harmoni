@@ -1,11 +1,11 @@
 <?php
 /**
- * @package tarmoni.oki_v2.agentmanagemenh
+ * @package harmoni.oki_v2.agentmanagemenh
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMapping.class.php,v 1.3 2005/03/29 19:44:23 adamfranco Exp $
+ * @version $Id: AgentTokenMapping.class.php,v 1.4 2005/04/07 14:54:10 adamfranco Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMapping.class.php,v 1.3 2005/03/29 19:44:23 adamfranco Exp $
+ * @version $Id: AgentTokenMapping.class.php,v 1.4 2005/04/07 14:54:10 adamfranco Exp $
  */
 class AgentTokenMapping {
 		
