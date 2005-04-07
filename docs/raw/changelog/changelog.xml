@@ -3,12 +3,12 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.64 2005/04/07 16:33:31 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.65 2005/04/07 20:12:18 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.3.0" date="The nebulous future">
+	<version number="0.3.0" date="2005-04-07">
 		<change author='adam'>
 			New Framework/Architecture-GUI/Theme interaction decouples the Harmoni
 			object from the output system. The GUIManager and other OutputHandlers

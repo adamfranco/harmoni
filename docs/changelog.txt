@@ -3,10 +3,8 @@
 Name: Harmoni ChangeLog
 
 
-v. 0.3.0 (The nebulous future)
+v. 0.3.0 (2005-04-07)
 ----------------------------------------------------
-		
-	* Change: Test (Adam Franco)
 		
 	* Change: New Framework/Architecture-GUI/Theme interaction decouples the Harmoni object from the output system. The GUIManager and other OutputHandlers extend the OutputHandler abstract class and can be attached to Harmoni. A default 'BasicOutputHandler' is used when no other OutputHandler is specified. (Adam Franco)
 		
