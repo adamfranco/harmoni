@@ -12,7 +12,7 @@ require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: debug.class.php,v 1.13 2005/04/04 17:39:23 adamfranco Exp $
+ * @version $Id: debug.class.php,v 1.14 2005/04/08 19:23:34 adamfranco Exp $
  *
  * @static
  **/
@@ -49,8 +49,6 @@ class debug {
 			return;
 		}
 		
-		Services::requireService("Debug");
-		
 		$debugHandler =& Services::getService("Debug");
 		if (is_int($level))
 			$debugHandler->setOutputLevel($level);
@@ -69,9 +67,9 @@ class debug {
 		// ** end of parameter validation
 	
 		if (is_null($debugPrinter))
-			NewWindowDebugHandlerPrinter::printDebugHandler(Services::requireService("Debug"));
+			NewWindowDebugHandlerPrinter::printDebugHandler(Services::getService("Debug"));
 		else
-			$debugPrinter->printDebugHandler(Services::requireService("Debug"));
+			$debugPrinter->printDebugHandler(Services::getService("Debug"));
 	}
 	
 	/**
