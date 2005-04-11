@@ -3,11 +3,17 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.65 2005/04/07 20:12:18 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.66 2005/04/11 19:25:51 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.4.0" date="The Nebulous Future">
+		<change author='adam'>
+			Authentication now plays nicely with GET parameters and maintains them
+			around during the authentication sequence.
+		</change>
+	</version>
 	<version number="0.3.0" date="2005-04-07">
 		<change author='adam'>
 			New Framework/Architecture-GUI/Theme interaction decouples the Harmoni
