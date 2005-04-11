@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethodManager.class.php,v 1.5 2005/04/07 19:42:12 adamfranco Exp $
+ * @version $Id: AuthNMethodManager.class.php,v 1.6 2005/04/11 15:17:50 adamfranco Exp $
  */ 
 
 /**
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethodManager.class.php,v 1.5 2005/04/07 19:42:12 adamfranco Exp $
+ * @version $Id: AuthNMethodManager.class.php,v 1.6 2005/04/11 15:17:50 adamfranco Exp $
  */
 class AuthNMethodManager
 	extends OsidManager
@@ -148,6 +148,13 @@ class AuthNMethodManager
 	 */
 	function &getAuthNMethodForType ( &$authNType ) {
 		$key = $this->_getKey($authNType);
+		if (!$this->_authNMethods[$key])
+			throwError(new Error("Unknown AuthNMethod Type, '"
+				.$authNType->getDomain()."::"
+				.$authNType->getAuthority()."::"
+				.$authNType->getKeyword()."'", 
+				"AuthNMethodManager", 1));
+		
 		return $this->_authNMethods[$key];
 	}
 	
