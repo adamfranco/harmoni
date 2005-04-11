@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.15 2005/04/04 18:23:47 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.16 2005/04/11 19:05:39 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -485,7 +485,8 @@ class HarmoniHierarchyManager
 		$nodeQueryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		if ($nodeQueryResult->getNumberOfRows() != 1) {
-			throwError(new Error(HierarchyException::OPERATION_FAILED(), "Hierarchy", true));
+			throwError(new Error(HierarchyException::OPERATION_FAILED()." Could not find node of id, '".$id->getIdString()."'.", 
+				"Hierarchy", true));
 		}
 		
 		$nodeRow = $nodeQueryResult->getCurrentRow();
