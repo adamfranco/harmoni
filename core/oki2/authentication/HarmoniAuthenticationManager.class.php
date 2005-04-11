@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.13 2005/03/29 19:44:24 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.14 2005/04/11 20:56:06 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -431,7 +431,7 @@ class HarmoniAuthenticationManager
 	 * @param object AuthNTokens $authNTokens
 	 * @param object Type $authenticationType
 	 * @return object Id
-	 * @access private
+	 * @access protected
 	 * @since 3/15/05
 	 */
 	function &_getAgentIdForAuthNTokens ( &$authNTokens, &$authenticationType ) {

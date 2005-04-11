@@ -11,10 +11,10 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentExistsSearch.class.php,v 1.4 2005/01/19 22:28:14 adamfranco Exp $
+ * @version $Id: TokenSearch.class.php,v 1.1 2005/04/11 20:56:06 adamfranco Exp $
  */
 
-class HarmoniAgentExistsSearch
+class TokenSearch
 	extends AgentSearchInterface {
 		
 	/**
@@ -28,22 +28,28 @@ class HarmoniAgentExistsSearch
 	 * @access public
 	 * @since 11/10/04
 	 */
-	function &getAgentsBySearch ( & $searchCriteria, & $agentSearchType ) {
-		$agents = array();
+	function &getAgentsBySearch ( & $searchCriteria) {
+		$allAgents = array();
 		
 		// See if the agent exists as known by harmoni
-		$agentInfo =& Services::getService("AgentInformation");
-		if ($agentInfo->agentExists($searchCriteria)) {
-			// if the agent exists, make sure that we have a populated agent
-			// in the agent manager which we can return.			
-			$authN =& Services::getService("AuthN");
-			$agentId =& $authN->getAgentId($searchCriteria, new HarmoniAuthenticationType);
+		$authNMethodManager =& Services::getService("AuthNMethodManager");
+		$authenticationManager =& Services::getService("AuthenticationManager");
+		$agentManager =& Services::getService("AgentManager");
+		
+		$types =& $authNMethodManager->getAuthNTypes();
+		while ($types->hasNextType()) {
+			$type =& $types->nextType();
+			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+			$tokensIterator =& $authNMethod->getTokensBySearch($searchCriteria);
 			
-			$agentManager =& Services::getService("Agent");
-			$agents[] =& $agentManager->getAgent($agentId);
+			while ($tokensIterator->hasNextObject()) {
+				$agentId =& $authenticationManager->_getAgentIdForAuthNTokens(
+					$tokensIterator->nextObject(), $type);
+				$allAgents[] =& $agentManager->getAgent($agentId);
+			}
 		}
 		
-		return new HarmoniIterator($agents);
+		return new HarmoniIterator($allAgents);
 	}
 	
 	/**
@@ -57,9 +63,9 @@ class HarmoniAgentExistsSearch
 	 * @access public
 	 * @since 11/10/04
 	 */
-	function &getGroupsBySearch ( & $searchCriteria, & $groupSearchType ) {
+	function &getGroupsBySearch ( & $searchCriteria) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	}	
 }
 
 ?>

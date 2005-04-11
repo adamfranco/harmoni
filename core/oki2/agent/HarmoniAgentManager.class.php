@@ -8,7 +8,7 @@ require_once(HARMONI."oki2/agent/AnonymousAgent.class.php");
 require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
 require_once(HARMONI."oki2/agent/HarmoniAgentIterator.class.php");
 require_once(HARMONI."oki2/agent/HarmoniGroup.class.php");
-require_once(HARMONI."oki2/agent/AgentSearches/HarmoniAgentExistsSearch.class.php");
+require_once(HARMONI."oki2/agent/AgentSearches/TokenSearch.class.php");
 require_once(HARMONI."oki2/agent/AgentSearches/AncestorGroupSearch.class.php");
 
 require_once(HARMONI."oki2/shared/HarmoniType.class.php");
@@ -46,7 +46,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.20 2005/04/04 18:23:27 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.21 2005/04/11 20:54:41 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -167,8 +167,8 @@ class HarmoniAgentManager
 		
 		// initialize our Agent Search Types
 		$this->_agentSearches = array ();
-		$this->_agentSearches["Agent & Group Search::Middlebury::HarmoniAgentExists"] =&
-			new HarmoniAgentExistsSearch;
+		$this->_agentSearches["Agent & Group Search::Middlebury::TokenSearch"] =&
+			new TokenSearch;
 		
 		// initialize our Group Search Types
 		$this->_groupSearches = array ();
