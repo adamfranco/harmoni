@@ -21,7 +21,7 @@ require_once(OKI2."/osid/OsidContext.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.37 2005/04/06 20:38:44 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.38 2005/04/12 19:31:30 adamfranco Exp $
  **/
 class Harmoni {
 	
@@ -404,7 +404,7 @@ class Harmoni {
 	 * @access public
 	 * @since 4/5/05
 	 */
-	function &getOutputHandler ( &$outputHandler ) {
+	function &getOutputHandler () {
 		return $this->_outputHandler;
 	}
 	
