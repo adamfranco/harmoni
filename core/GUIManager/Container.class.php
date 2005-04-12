@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Container.class.php,v 1.12 2005/03/29 19:44:09 adamfranco Exp $
+ * @version $Id: Container.class.php,v 1.13 2005/04/12 20:53:27 adamfranco Exp $
  */
 class Container extends Component /* implements ContainerInterface */ {
 
@@ -109,10 +109,13 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * If null, will be ignored.
 	 * @return ref object The component that was just added.
 	 **/
-	function &add(& $component, $width, $height, $alignmentX, $alignmentY) {
+	function &add(& $component, $width = NULL, $height = NULL, $alignmentX = NULL, $alignmentY = NULL) {
 		// ** parameter validation
-		$rule =& ExtendsValidatorRule::getRule("ComponentInterface");
-		ArgumentValidator::validate($component, $rule, true);
+		ArgumentValidator::validate($component, ExtendsValidatorRule::getRule("ComponentInterface"), true);
+		ArgumentValidator::validate($width, OptionalRule::getRule(StringValidatorRule::getRule(), true));
+		ArgumentValidator::validate($height, OptionalRule::getRule(StringValidatorRule::getRule(), true));
+		ArgumentValidator::validate($alignmentX, OptionalRule::getRule(IntegerValidatorRule::getRule(), true));
+		ArgumentValidator::validate($alignmentY, OptionalRule::getRule(IntegerValidatorRule::getRule(), true));
 		// ** end of parameter validation
 		
 		$constraint = array();
