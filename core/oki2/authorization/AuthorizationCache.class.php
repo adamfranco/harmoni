@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.15 2005/04/04 18:23:32 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.16 2005/04/12 21:07:47 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -83,11 +83,11 @@ class AuthorizationCache {
 	 * @param ref object agentId who is authorized to perform this Function for this Qualifer and its descendants
 	 * @param ref object functionId the Id of the Function for this Authorization
 	 * @param ref object qualifierId the Id of the Qualifier for this Authorization
-	 * @param ref object effectiveDate when the Authorization becomes effective
-	 * @param ref object expirationDate when the Authorization stops being effective
+	 * @param integer effectiveDate when the Authorization becomes effective
+	 * @param integer expirationDate when the Authorization stops being effective
 	 * @return ref object Authorization
 	 **/
-	function &createAuthorization(& $agentId, & $functionId, & $qualifierId, $effectiveDate, $expirationDate) {
+	function &createAuthorization(& $agentId, & $functionId, & $qualifierId, $effectiveDate = NULL, $expirationDate = NULL) {
 		// ** parameter validation
 		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);

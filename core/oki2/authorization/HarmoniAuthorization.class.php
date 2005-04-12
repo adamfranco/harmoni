@@ -16,7 +16,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.13 2005/04/12 18:54:59 adamfranco Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.14 2005/04/12 21:07:47 adamfranco Exp $
  */
 class HarmoniAuthorization 
 	extends Authorization 
@@ -92,12 +92,12 @@ class HarmoniAuthorization
 	 * @param ref object agentId The Id of the agent.
 	 * @param ref object functionId The Id of the function.
 	 * @param ref object qualifierId The Id of the qualifier.
-	 * @param ref object effectiveDate The date when the authorization becomes effective.
-	 * @param ref object expirationDate The date when the authorization expires.
+	 * @param integer effectiveDate The date when the authorization becomes effective.
+	 * @param integer expirationDate The date when the authorization expires.
 	 * @param boolean explicit Specifies whether this Authorization is explicit or not.
 	 * @access public
 	 */
-	function HarmoniAuthorization($id, & $agentId, & $functionId, & $qualifierId, $explicit, & $cache, $effectiveDate, $expirationDate) {
+	function HarmoniAuthorization($id, & $agentId, & $functionId, & $qualifierId, $explicit, & $cache, $effectiveDate = NULL, $expirationDate = NULL) {
 
 		// ** parameter validation
 		$extendsRule =& ExtendsValidatorRule::getRule("Id");
