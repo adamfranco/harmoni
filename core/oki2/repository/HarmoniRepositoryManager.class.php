@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.21 2005/04/04 18:23:55 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.22 2005/04/12 21:46:00 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -656,12 +656,12 @@ class HarmoniRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_DR UNKNOWN_DR}
 	 */
-	function &getAssets(& $repositories, & $searchCriteria, & $searchType) {
+	function &getAssets(& $repositories, & $searchCriteria, & $searchType, &$searchProperties) {
 		$combinedAssets = array();
 		
 		foreach ($digitalRepositories as $key => $val) {
 			// Get the assets that match from this DR.
-			$assets =& $repositories[$key]->getAssetsBySearch($searchCriteria, $searchType);
+			$assets =& $repositories[$key]->getAssetsBySearch($searchCriteria, $searchType, $searchProperties);
 			
 			// Add the assets from this dr into our combined array.
 			while ($assets->hasNext()) {

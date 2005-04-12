@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.21 2005/04/04 18:23:52 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.22 2005/04/12 21:46:00 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -989,7 +989,7 @@ class HarmoniRepository
 		
 		if ($supported) {
 			$search =& new $searchName($this);
-			$assetIds =& $search->searchAssets($searchCriteria);
+			$assetIds =& $search->searchAssets($searchCriteria, $searchProperties);
 			
 			// get the assets for the resuting ids
 			$assets = array();
