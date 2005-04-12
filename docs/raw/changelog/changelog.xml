@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.68 2005/04/12 18:22:58 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.69 2005/04/12 18:55:00 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -11,11 +11,15 @@
 	<version number="0.3.2" date="2005-04-12">
 		<fix author='adam'>
 			Existance of a try() function in the ErrorHandler was throwing parse
-			errors on Win32 systems().
+			errors PHP5.
 		</fix>
 		<fix author='adam'>
 			Services weren't starting because of case problems with the get_class()
 			functions in PHP5.
+		</fix>
+		<fix author='adam'>
+			clone() is a reserved word in PHP5. All clone methods have been renamed 
+			replicate().
 		</fix>
 	</version>
 	<version number="0.3.1" date="2005-04-11">

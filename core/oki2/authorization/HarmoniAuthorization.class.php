@@ -16,7 +16,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.12 2005/04/04 18:23:45 adamfranco Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.13 2005/04/12 18:54:59 adamfranco Exp $
  */
 class HarmoniAuthorization 
 	extends Authorization 
@@ -60,14 +60,6 @@ class HarmoniAuthorization
 	 * @access private
 	 */
 	var $_qualifierId;
-	
-	
-	/**
-	 * The date when the authorization becomes effective.
-	 * @var object _effectiveDate 
-	 * @access private
-	 */
-	var $_effectiveDate;
 	
 	
 	/**
