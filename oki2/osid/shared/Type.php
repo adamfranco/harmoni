@@ -132,6 +132,19 @@ class Type
 	 * @return object
 	 */
 	function Type ( $domain, $authority, $keyword, $description = "" ) {
+		if (!$domain) {
+			printDebugBacktrace();
+			die ("Error: Domain not specified in function Type::Type()");
+		}
+		if (!$authority) {
+			printDebugBacktrace();
+			die ("Error: Authority not specified in function Type::Type()");
+		}
+		if (!$keyword) {
+			printDebugBacktrace();
+			die ("Error: Keyword not specified in function Type::Type()");
+		}
+			
         $this->domain = $domain;
         $this->authority = $authority;
         $this->keyword = $keyword;
