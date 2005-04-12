@@ -3,7 +3,37 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.3.1</h2><h3>2005-04-11</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.3.2</h2><h3>2005-04-12</h3><ul>
+		<li/> Bug Fix:
+	 
+			Existance of a try() function in the ErrorHandler was throwing parse
+			errors PHP5.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Services weren't starting because of case problems with the get_class()
+			functions in PHP5.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			clone() is a reserved word in PHP5. All clone methods have been renamed 
+			replicate().
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			clone() is a reserved word in PHP5. All clone methods have been renamed 
+			replicate().
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Type now validates arguments. ConfigurationPropertiesType now instantiates 
+			properly.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Removed unused parameters from several methods that were throwing warnings.
+		 (<i>Adam Franco</i>)
+	</ul><br/><h2>Version 0.3.1</h2><h3>2005-04-11</h3><ul>
 		<li/> Change:  
 			Authentication now plays nicely with GET parameters and maintains them
 			around during the authentication sequence.

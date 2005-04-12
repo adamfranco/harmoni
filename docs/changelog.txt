@@ -3,6 +3,21 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.3.2 (2005-04-12)
+----------------------------------------------------
+		
+	* Bug Fix: Existance of a try() function in the ErrorHandler was throwing parse errors PHP5. (Adam Franco)
+		
+	* Bug Fix: Services weren't starting because of case problems with the get_class() functions in PHP5. (Adam Franco)
+		
+	* Bug Fix: clone() is a reserved word in PHP5. All clone methods have been renamed replicate(). (Adam Franco)
+		
+	* Bug Fix: clone() is a reserved word in PHP5. All clone methods have been renamed replicate(). (Adam Franco)
+		
+	* Bug Fix: Type now validates arguments. ConfigurationPropertiesType now instantiates properly. (Adam Franco)
+		
+	* Bug Fix: Removed unused parameters from several methods that were throwing warnings. (Adam Franco)
+	
 v. 0.3.1 (2005-04-11)
 ----------------------------------------------------
 		
