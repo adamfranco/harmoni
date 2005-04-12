@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.70 2005/04/12 19:28:38 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.71 2005/04/12 19:29:28 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -28,6 +28,9 @@
 		<fix author='adam'>
 			Type now validates arguments. ConfigurationPropertiesType now instantiates 
 			properly.
+		</fix>
+		<fix author='adam'>
+			Removed unused parameters from AuthorizationManager constructor.
 		</fix>
 	</version>
 	<version number="0.3.1" date="2005-04-11">

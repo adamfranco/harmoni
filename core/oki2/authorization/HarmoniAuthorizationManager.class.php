@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.13 2005/04/04 17:39:40 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.14 2005/04/12 19:29:27 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -76,12 +76,10 @@ class HarmoniAuthorizationManager
 	
 	/**
 	 * Constructor
-	 * @param integer dbIndex The database connection as returned by the DBHandler.
-	 * @param string sharedDB The name of the shared database.
 	 * manager.
 	 * @access public
 	 */
-	function HarmoniAuthorizationManager($dbIndex, $authzDB) {
+	function HarmoniAuthorizationManager() {
 		$this->_groupAncestorsCache = array();
 	}
 	
