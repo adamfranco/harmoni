@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.22 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.23 2005/04/12 21:09:59 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.22 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.23 2005/04/12 21:09:59 adamfranco Exp $
  */
  
 class MySQLDatabase extends DatabaseInterface {
@@ -459,7 +459,7 @@ class MySQLDatabase extends DatabaseInterface {
 	function supportsTransactions () {
 		if ($this->_supportsTransactions === NULL) {
 			$versionString = mysql_get_server_info($this->_linkId);
-			if(!preg_match("^([0-9]+).([0-9]+).([0-9]+)", $versionString, $matches))
+			if(!preg_match("/^([0-9]+).([0-9]+).([0-9]+)/", $versionString, $matches))
 				$this->_supportsTransactions = FALSE;
 			else {
 				$primaryVersion = $matches[1];
