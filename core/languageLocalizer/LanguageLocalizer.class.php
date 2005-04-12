@@ -1,7 +1,5 @@
 <?php
 
-require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
-
 /**
  * The LanguageLocalizer is a class that handles the organization or strings
  * and other data for multiple languages.
@@ -11,9 +9,9 @@ require_once(HARMONI."languageLocalizer/LanguageLocalizer.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.class.php,v 1.14 2005/04/04 18:01:39 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.15 2005/04/12 19:51:55 adamfranco Exp $
  */
-class LanguageLocalizer extends LanguageLocalizerInterface {
+class LanguageLocalizer {
 	/**
 	 * @access private
 	 * @var string $_lang The current language.
