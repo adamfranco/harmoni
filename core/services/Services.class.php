@@ -5,14 +5,14 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.20 2005/04/04 19:57:45 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.21 2005/04/12 18:22:57 adamfranco Exp $
  *
  * @package harmoni.services
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.class.php,v 1.20 2005/04/04 19:57:45 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.21 2005/04/12 18:22:57 adamfranco Exp $
  */
 class Services extends ServicesAbstract {
 	/**
@@ -215,7 +215,9 @@ class Services extends ServicesAbstract {
 //		$this->_services[$name] =& new $classname;
 		
 		// make sure the service was instantiated properly
-		if (!is_object($this->_services[$name]) || get_class($this->_services[$name]) != strtolower($classname)) {
+		if (!is_object($this->_services[$name]) 
+			|| strtolower(get_class($this->_services[$name])) != strtolower($classname)) 
+		{
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
 			if ($this->_registeredServices['ErrorHandler']) {
@@ -263,7 +265,9 @@ class Services extends ServicesAbstract {
 		
 		
 		// make sure the service was instantiated properly
-		if (!is_object($this->_services[$name]) || get_class($this->_services[$name]) != strtolower($classname)) {
+		if (!is_object($this->_services[$name]) 
+			|| strtolower(get_class($this->_services[$name])) != strtolower($classname)) 
+		{
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
 			if ($this->_registeredServices['ErrorHandler']) {
@@ -340,7 +344,9 @@ class Services extends ServicesAbstract {
 	 **/
 	function running ( $name ) {
 		$name = $this->_getServiceName($name);
-		if (isset($this->_services[$name]) && is_object($this->_services[$name]) && get_class($this->_services[$name]) == strtolower($this->_registeredServices[$name])) {
+		if (isset($this->_services[$name]) && is_object($this->_services[$name]) 
+			&& strtolower(get_class($this->_services[$name])) == strtolower($this->_registeredServices[$name]))
+		{
 			return true;
 		}
 		return false;
