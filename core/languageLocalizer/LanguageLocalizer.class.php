@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.class.php,v 1.15 2005/04/12 19:51:55 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.16 2005/04/12 19:55:50 adamfranco Exp $
  */
 class LanguageLocalizer {
 	/**
@@ -217,7 +217,7 @@ class LanguageLocalizer {
 		
 		// If gettext support is availible, use it.
 		if (hasGettext()) {
-			$result = setlocale(LC_MESSAGES, $this->_lang);
+			$result = setlocale(LC_ALL, $this->_lang);
 			debug::output( "Setting Lang to ".$this->_lang." => '$result'.",DEBUG_SYS5,"LanguageLocalizer");
 		}
 	}
