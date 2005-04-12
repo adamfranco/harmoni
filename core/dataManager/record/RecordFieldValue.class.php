@@ -17,7 +17,7 @@ define("NEW_VERSION","new");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldValue.class.php,v 1.11 2005/01/28 19:34:33 adamfranco Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.12 2005/04/12 18:48:08 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -186,10 +186,10 @@ class RecordFieldValue {
 		// otherwise, we're just setting the existing (or only active) one.
 		if ($this->_parent->_parent->isVersionControlled()) {		// @todo This is referencing another object's private variables. Bad!! Fix this!
 			// we're going to add a new version
-			// which means, we add a new RecordFieldValue with a *clone*
+			// which means, we add a new RecordFieldValue with a *replicate*
 			// of the primitive, so that it gets added to the DB.
 			$newVer =& $this->newRecordFieldData();
-			$newVer->setValueFromPrimitive($value->clone());
+			$newVer->setValueFromPrimitive($value->replicate());
 			
 			// all done (we hope)
 			return true;
@@ -366,17 +366,17 @@ class RecordFieldValue {
 	}
 	
 	/**
-	* Returns a new {@link RecordFieldData} object that is an exact data-specific clone of the current object.
+	* Returns a new {@link RecordFieldData} object that is an exact data-specific replicate of the current object.
 	* @param ref object A reference to a {@link RecordField} object that will act as the parent.
 	* @return ref object
 	*/
-	function &clone(&$parent) {
+	function &replicate(&$parent) {
 		$newObj =& new RecordFieldValue($parent, $this->_myIndex);
 		
 		foreach ($this->getVersionIDs() as $verID) {
 			$ver =& $this->getVersion($verID);
 			
-			$newObj->_versions[++$newObj->_numVersions] =& $ver->clone($newObj);
+			$newObj->_versions[++$newObj->_numVersions] =& $ver->replicate($newObj);
 		}
 		
 		return $newObj;

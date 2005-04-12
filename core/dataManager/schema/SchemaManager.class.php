@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.17 2005/04/04 18:23:25 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.18 2005/04/12 18:48:09 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
@@ -402,7 +402,7 @@ class SchemaManager {
 			// if the field exists in new and not in old, add it to old, and flag it to add to DB
 			if (!$old->fieldExists($label) && $new->fieldExists($label)) {
 				$field =& $new->getField($label);
-				$newField =& $field->clone();
+				$newField =& $field->replicate();
 				$newField->addToDB();
 				$old->addField($newField);
 				

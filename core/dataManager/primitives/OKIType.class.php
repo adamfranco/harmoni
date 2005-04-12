@@ -11,7 +11,7 @@ require_once(HARMONI."dataManager/Primitive.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OKIType.class.php,v 1.4 2005/01/26 15:20:48 adamfranco Exp $
+ * @version $Id: OKIType.class.php,v 1.5 2005/04/12 18:48:04 adamfranco Exp $
  */
 class OKIType extends HarmoniType /* implements Primitive */ {
 
@@ -48,7 +48,7 @@ class OKIType extends HarmoniType /* implements Primitive */ {
 	 * @access public
 	 * @return ref object
 	 */
-	function &clone()
+	function &replicate()
 	{
 		return new OKIType($this->getDomain(), $this->getAuthority(), $this->getKeyword(), $this->getDescription());
 	}

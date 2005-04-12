@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/primitives/Float.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Double.class.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: Double.class.php,v 1.4 2005/04/12 18:48:04 adamfranco Exp $
  */
 class Double extends Float {
 
@@ -56,7 +56,7 @@ class Double extends Float {
 	 * @access public
 	 * @return ref object
 	 */
-	function &clone()
+	function &replicate()
 	{
 		return new Double($this->_float);
 	}

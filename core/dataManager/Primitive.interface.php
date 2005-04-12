@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Primitive.interface.php,v 1.2 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: Primitive.interface.php,v 1.3 2005/04/12 18:46:37 adamfranco Exp $
  */
 class Primitive {
 
@@ -50,7 +50,7 @@ class Primitive {
 	 * @access public
 	 * @return ref object
 	 */
-	function &clone()
+	function &replicate()
 	{
 		
 	}

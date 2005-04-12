@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Integer.class.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: Integer.class.php,v 1.4 2005/04/12 18:48:04 adamfranco Exp $
  */
 class Integer extends Primitive /* = implements Primitive */ {
 	
@@ -65,7 +65,7 @@ class Integer extends Primitive /* = implements Primitive */ {
 	 * @access public
 	 * @return ref object
 	 */
-	function &clone()
+	function &replicate()
 	{
 		return new Integer($this->_int);
 	}

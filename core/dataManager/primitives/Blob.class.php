@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Blob.class.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: Blob.class.php,v 1.4 2005/04/12 18:48:03 adamfranco Exp $
  */
 class Blob extends String {
 
@@ -21,7 +21,7 @@ class Blob extends String {
 	 * @access public
 	 * @return ref object
 	 */
-	function &clone()
+	function &replicate()
 	{
 		return new Blob($this->_string);
 	}

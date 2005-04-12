@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.16 2005/04/07 16:33:29 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.17 2005/04/12 18:48:09 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.16 2005/04/07 16:33:29 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.17 2005/04/12 18:48:09 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -866,10 +866,10 @@ class HarmoniAsset
 			$schemaId =& $idMgr->getId($schema->getID());
 			
 			// If the current Record's Schema ID is the same as
-			// the RecordStructure ID that we are looking for, add clones of that Record
+			// the RecordStructure ID that we are looking for, add replicates of that Record
 			// to our RecordSet.
 			if ($recordStructureId->isEqual($schemaId)) {
-				$newRecord =& $records[$key]->clone();
+				$newRecord =& $records[$key]->replicate();
 				$set->add($newRecord);
 			}
 		}

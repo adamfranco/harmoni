@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaField.class.php,v 1.9 2005/04/04 18:23:24 adamfranco Exp $
+ * @version $Id: SchemaField.class.php,v 1.10 2005/04/12 18:48:08 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaField {
@@ -304,7 +304,7 @@ class SchemaField {
 	 * @return ref object A new {@link SchemaField} object.
 	 * @access public
 	 */
-	function &clone() {
+	function &replicate() {
 		$newField =& new SchemaField($this->_label, $this->_type, $this->_description, $this->_mult, $this->_required );
 		return $newField;
 	}

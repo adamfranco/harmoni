@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.21 2005/04/04 18:23:23 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.22 2005/04/12 18:48:08 adamfranco Exp $
 */
 class Record {
 	
@@ -543,7 +543,7 @@ class Record {
 	* the DB as a new set with the same data.
 	* @return ref object A new {@link Record} object.
 	*/
-	function &clone() {
+	function &replicate() {
 		
 		$this->makeFull();
 		
@@ -551,7 +551,7 @@ class Record {
 		// @todo
 		foreach ($this->_schema->getAllLabels() as $label) {
 			for($i=0;$i<$this->numValues($label); $i++) {
-				$newSet->_fields[$label]->_values[$i] =& $this->_fields[$label]->_values[$i]->clone($newSet->_fields[$label]);
+				$newSet->_fields[$label]->_values[$i] =& $this->_fields[$label]->_values[$i]->replicate($newSet->_fields[$label]);
 				$newSet->_fields[$label]->_numValues++;
 			}
 		}

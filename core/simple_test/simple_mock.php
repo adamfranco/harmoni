@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_mock.php,v 1.2 2005/01/19 16:33:26 adamfranco Exp $
+    // $Id: simple_mock.php,v 1.3 2005/04/12 18:48:10 adamfranco Exp $
     
     define('MOCK_WILDCARD', '*');
     
@@ -569,9 +569,9 @@
         }
         
         /**
-         *    Clones a class' interface and creates a mock version
+         *    replicates a class' interface and creates a mock version
          *    that can have return values and expectations set.
-         *    @param $class            Class to clone.
+         *    @param $class            Class to replicate.
          *    @param $mock_class       New class name. Default is
          *                             the old name with "Mock"
          *                             prepended.
@@ -592,7 +592,7 @@
         
         /**
          *    The new mock class code in string form.
-         *    @param $class            Class to clone.
+         *    @param $class            Class to replicate.
          *    @param $mock_class       New class name.
          *    @static
          *    @access private

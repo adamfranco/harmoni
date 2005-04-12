@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/HTMLcolor.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.6 2005/01/19 21:09:59 adamfranco Exp $
+ * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.7 2005/04/12 18:48:09 adamfranco Exp $
  **/
 
 class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {
@@ -49,7 +49,7 @@ class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {
 					$btext .= " ";
 				}
 			
-				$color = $base; // $color = $base->__clone();
+				$color = $base; // $color = $base->__replicate();
 				$color->lighten(2*$l);
 				$color->shiftRed(10*$l);
 				$htmlColor = $color->getHTMLcolor();

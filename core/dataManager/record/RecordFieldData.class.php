@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.11 2005/04/04 18:23:23 adamfranco Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.12 2005/04/12 18:48:08 adamfranco Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -40,12 +40,12 @@ class RecordFieldData {
 	 * @return ref object
 	 * @access public
 	 */
-	function &clone(&$parent) {
+	function &replicate(&$parent) {
 		$newObj =& new RecordFieldData($parent, $this->_active);
 		
-		$date = $this->_date; // in PHP4 this will clone the DateTime
+		$date = $this->_date; // in PHP4 this will replicate the DateTime
 		$newObj->setDate($date);
-		$newObj->setValueFromPrimitive($this->_primitive->clone());
+		$newObj->setValueFromPrimitive($this->_primitive->replicate());
 		
 		$newObj->update();
 		

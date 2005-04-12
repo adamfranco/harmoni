@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RGBcolor.class.php,v 1.4 2005/01/19 21:10:15 adamfranco Exp $
+ * @version $Id: RGBcolor.class.php,v 1.5 2005/04/12 18:48:10 adamfranco Exp $
  */
 class RGBColor {
 	var $_red,$_green,$_blue;
@@ -203,7 +203,7 @@ class RGBColor {
 		$this->_checkColors();
 	}
 	
-	function &clone() {
+	function &replicate() {
 		return new RGBColor($this->getRed(), $this->getGreen(), $this->getBlue());
 	}
 }
