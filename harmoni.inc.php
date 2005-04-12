@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: harmoni.inc.php,v 1.33 2005/04/07 16:31:53 adamfranco Exp $
+ * @version $Id: harmoni.inc.php,v 1.34 2005/04/12 20:43:31 adamfranco Exp $
  */
 
  /* :: start the output buffer, if it's not already :: */
@@ -40,6 +40,17 @@ define("SIMPLE_TEST",HARMONI.DIRECTORY_SEPARATOR."simple_test".DIRECTORY_SEPARAT
 define("OKI",dirname(__FILE__).DIRECTORY_SEPARATOR."oki".DIRECTORY_SEPARATOR);
 define("OKI2",dirname(__FILE__).DIRECTORY_SEPARATOR."oki2".DIRECTORY_SEPARATOR);
 //require_once(OKI."inc.php");
+
+
+/*********************************************************
+ * if magic quotes on then get rid of them as we assume that
+ * they are off.
+ *********************************************************/
+if (get_magic_quotes_gpc()) {
+   $_GET    = array_map('stripslashes', $_GET);
+   $_POST  = array_map('stripslashes', $_POST);
+   $_COOKIE = array_map('stripslashes', $_COOKIE);
+}
 
 
 /*********************************************************

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataManager.abstract.php,v 1.13 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: DataManager.abstract.php,v 1.14 2005/04/12 20:44:52 adamfranco Exp $
  */
  
 require_once(HARMONI."dataManager/schema/SchemaManager.class.php");
@@ -27,7 +27,7 @@ require_once(HARMONI."dataManager/versionConstraints/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataManager.abstract.php,v 1.13 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: DataManager.abstract.php,v 1.14 2005/04/12 20:44:52 adamfranco Exp $
  *
  * @author Gabe Schine
  * @abstract
@@ -99,16 +99,6 @@ class DataManager {
 	 * @abstract
 	 */
 	function setup( $dbID, $preloadTypes=null ) {
-		
-		// check config options
-		if (ini_get("magic_quotes_gpc")) {
-			throwError(
-				new Error(
-					"The DataManager requires that the php.ini config option <B>magic_quotes_gpc</B> be OFF.",
-					"DataManager",
-					true));
-		}
-
 		if (ini_get("magic_quotes_runtime")) {
 			throwError(
 				new Error(

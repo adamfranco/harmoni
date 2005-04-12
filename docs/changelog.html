@@ -33,6 +33,19 @@
 	 
 			Removed unused parameters from several methods that were throwing warnings.
 		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			LanguageLocalizer now uses non-deprecated categories.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			If magic_quotes_gpc is on Harmoni now just strips slashes on the G/P/C
+			arrays instead of dying with errors.
+		 (<i>Adam Franco</i>)
+		<li/><span style="color: red">*** IMPORTANT ***</span> Change:  
+			Harmoni now runs on PHP5 and on Win32 systems in addition to PHP4.3 and
+			POSIX systems.
+		 (<i>Adam Franco</i>)
 	</ul><br/><h2>Version 0.3.1</h2><h3>2005-04-11</h3><ul>
 		<li/> Change:  
 			Authentication now plays nicely with GET parameters and maintains them

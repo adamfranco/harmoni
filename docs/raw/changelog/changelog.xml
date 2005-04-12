@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.72 2005/04/12 19:31:30 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.73 2005/04/12 20:44:53 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -32,6 +32,17 @@
 		<fix author='adam'>
 			Removed unused parameters from several methods that were throwing warnings.
 		</fix>
+		<fix author='adam'>
+			LanguageLocalizer now uses non-deprecated categories.
+		</fix>
+		<fix author='adam'>
+			If magic_quotes_gpc is on Harmoni now just strips slashes on the G/P/C
+			arrays instead of dying with errors.
+		</fix>
+		<important author='adam'>
+			Harmoni now runs on PHP5 and on Win32 systems in addition to PHP4.3 and
+			POSIX systems.
+		</important>
 	</version>
 	<version number="0.3.1" date="2005-04-11">
 		<change author='adam'>

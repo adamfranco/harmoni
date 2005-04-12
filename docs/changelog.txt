@@ -17,6 +17,12 @@ v. 0.3.2 (2005-04-12)
 	* Bug Fix: Type now validates arguments. ConfigurationPropertiesType now instantiates properly. (Adam Franco)
 		
 	* Bug Fix: Removed unused parameters from several methods that were throwing warnings. (Adam Franco)
+		
+	* Bug Fix: LanguageLocalizer now uses non-deprecated categories. (Adam Franco)
+		
+	* Bug Fix: If magic_quotes_gpc is on Harmoni now just strips slashes on the G/P/C arrays instead of dying with errors. (Adam Franco)
+		
+	**** IMPORTANT *** Change: Harmoni now runs on PHP5 and on Win32 systems in addition to PHP4.3 and POSIX systems. (Adam Franco)
 	
 v. 0.3.1 (2005-04-11)
 ----------------------------------------------------
