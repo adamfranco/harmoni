@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/OrderedSet.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.10 2005/04/04 18:23:59 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.11 2005/04/12 21:25:24 adamfranco Exp $
  * @author Adam Franco
  */
  
@@ -73,6 +73,7 @@ class OrderedSet
 		$result =& $dbHandler->query($query, $this->_dbIndex);
 		
 		$i = 0;
+		$oldItems = array();
 		while ($result->hasMoreRows()) {
 			// Add the items to our array
 			$this->_items[$i] = $result->field("item_id");
