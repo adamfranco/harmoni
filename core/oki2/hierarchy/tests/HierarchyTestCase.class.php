@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.10 2005/04/13 20:15:56 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.11 2005/04/13 22:00:12 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.10 2005/04/13 20:15:56 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.11 2005/04/13 22:00:12 adamfranco Exp $
  */
 
 	class HierarchyTestCase extends UnitTestCase {
@@ -42,7 +42,14 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 			
 			$cache =& new HierarchyCache("8", true, $dbIndex, "doboHarmoniTest");
 			$this->hierarchy =& new HarmoniHierarchy(new HarmoniId('8'), "Dobo Hierarchy", "Blah", $cache);
-			$this->manager =& new HarmoniSharedManager($dbIndex, "doboHarmoniTest");
+			
+			$context =& new OsidContext;
+			$configuration =& new ConfigurationProperties;
+			$configuration->addProperty('database_index', $dbIndex);
+			$configuration->addProperty('database_name', $arg0 = "doboHarmoniTest");
+			unset($arg0);
+			$this->manager =& new HarmoniIdManager;
+			$this->manager->assignConfiguration($configuration);
 		}
 		
 		/**
@@ -334,7 +341,7 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 			$this->assertIsA($types, "HarmoniTypeIterator");
 			while ($types->hasNext()) {
 				$type =& $types->next();
-				$this->assertIsA($type, "TypeInterface");
+				$this->assertIsA($type, "Type");
 			}
 		}
 		

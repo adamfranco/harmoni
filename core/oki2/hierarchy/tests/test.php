@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.6 2005/04/13 20:15:57 adamfranco Exp $
+ * @version $Id: test.php,v 1.7 2005/04/13 22:00:13 adamfranco Exp $
  */
  
 require_once dirname(__FILE__)."/../../../../core/utilities/Timer.class.php";
@@ -36,10 +36,10 @@ $harmonyLoadupTimer->end();
 	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
 	$errorHandler =& Services::getService("ErrorHandler",true);
 	$dbHandler =& Services::getService("DBHandler",true);
-	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","adam_concerto","test","test") );
+	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
 	$dbHandler->pConnect($dbIndex);
 	$configuration->addProperty('database_index', $dbIndex);
-	$configuration->addProperty('database_name', $arg0 = "adam_concerto");
+	$configuration->addProperty('database_name', $arg0 = "doboHarmoniTest");
 	unset($arg0);
 	Services::startManagerAsService("IdManager", $context, $configuration);
 	$errorHandler->setDebugMode(TRUE);

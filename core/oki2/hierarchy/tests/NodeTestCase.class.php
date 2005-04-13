@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: NodeTestCase.class.php,v 1.9 2005/04/13 20:15:56 adamfranco Exp $
+ * @version $Id: NodeTestCase.class.php,v 1.10 2005/04/13 22:00:13 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__).'/../HarmoniNode.class.php');
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__).'/../HarmoniNode.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: NodeTestCase.class.php,v 1.9 2005/04/13 20:15:56 adamfranco Exp $
+ * @version $Id: NodeTestCase.class.php,v 1.10 2005/04/13 22:00:13 adamfranco Exp $
  */
 
 	class NodeTestCase extends UnitTestCase {
@@ -80,20 +80,20 @@ require_once(dirname(__FILE__).'/../HarmoniNode.class.php');
 			
 			$this->assertIsA($parents, "HarmoniNodeIterator");
 			$parent =& $parents->next();
-			$type =& new HarmoniType("harmoni", "hierarchy", "node");
+			$type =& new HarmoniType("Hierarchy", "Harmoni", "Node");
 			$parent1 =& new HarmoniNode(new HarmoniId('4'), $type, "D", "", $parent->_cache);
 									   
 			$this->assertEqual($parent->_id, $parent1->_id);
-			$this->assertEqual($parent->_type, $parent1->_type);
+			$this->assertTrue($parent->_type->isEqual($parent1->_type));
 			$this->assertEqual($parent->_displayName, $parent1->_displayName);
 			$this->assertEqual($parent->_description, $parent1->_description);
 			
 			$parent =& $parents->next();
-			$type =& new HarmoniType("harmoni", "hierarchy", "node");
+			$type =& new HarmoniType("Hierarchy", "Harmoni", "Node");
 			$parent1 =& new HarmoniNode(new HarmoniId('5'), $type, "E", "", $parent->_cache);
 									   
 			$this->assertEqual($parent->_id, $parent1->_id);
-			$this->assertEqual($parent->_type, $parent1->_type);
+			$this->assertTrue($parent->_type->isEqual($parent1->_type));
 			$this->assertEqual($parent->_displayName, $parent1->_displayName);
 			$this->assertEqual($parent->_description, $parent1->_description);
 			
@@ -104,20 +104,20 @@ require_once(dirname(__FILE__).'/../HarmoniNode.class.php');
 			
 			$this->assertIsA($parents, "HarmoniNodeIterator");
 			$parent =& $parents->next();
-			$type =& new HarmoniType("harmoni", "hierarchy", "node");
+			$type =& new HarmoniType("Hierarchy", "Harmoni", "Node");
 			$parent1 =& new HarmoniNode(new HarmoniId('4'), $type, "D", "", $parent->_cache);
 									   
 			$this->assertEqual($parent->_id, $parent1->_id);
-			$this->assertEqual($parent->_type, $parent1->_type);
+			$this->assertTrue($parent->_type->isEqual($parent1->_type));
 			$this->assertEqual($parent->_displayName, $parent1->_displayName);
 			$this->assertEqual($parent->_description, $parent1->_description);
 			
 			$parent =& $parents->next();
-			$type =& new HarmoniType("harmoni", "hierarchy", "node");
+			$type =& new HarmoniType("Hierarchy", "Harmoni", "Node");
 			$parent1 =& new HarmoniNode(new HarmoniId('5'), $type, "E", "", $parent->_cache);
 									   
 			$this->assertEqual($parent->_id, $parent1->_id);
-			$this->assertEqual($parent->_type, $parent1->_type);
+			$this->assertTrue($parent->_type->isEqual($parent1->_type));
 			$this->assertEqual($parent->_displayName, $parent1->_displayName);
 			$this->assertEqual($parent->_description, $parent1->_description);
 			
@@ -130,27 +130,27 @@ require_once(dirname(__FILE__).'/../HarmoniNode.class.php');
 			
 			$this->assertIsA($parents, "HarmoniNodeIterator");
 			$parent =& $parents->next();
-			$type =& new HarmoniType("harmoni", "hierarchy", "node");
+			$type =& new HarmoniType("Hierarchy", "Harmoni", "Node");
 			$parent1 =& new HarmoniNode(new HarmoniId('1'), $type, "A", "", $parent->_cache);
 									   
 			$this->assertEqual($parent->_id, $parent1->_id);
-			$this->assertEqual($parent->_type, $parent1->_type);
+			$this->assertTrue($parent->_type->isEqual($parent1->_type));
 			
 			$parent =& $parents->next();
-			$type =& new HarmoniType("harmoni", "hierarchy", "node");
+			$type =& new HarmoniType("Hierarchy", "Harmoni", "Node");
 			$parent1 =& new HarmoniNode(new HarmoniId('2'), $type, "B", "", $parent->_cache);
 									   
 			$this->assertEqual($parent->_id, $parent1->_id);
-			$this->assertEqual($parent->_type, $parent1->_type);
+			$this->assertTrue($parent->_type->isEqual($parent1->_type));
 			$this->assertEqual($parent->_displayName, $parent1->_displayName);
 			$this->assertEqual($parent->_description, $parent1->_description);
 
 			$parent =& $parents->next();
-			$type =& new HarmoniType("harmoni", "hierarchy", "node");
+			$type =& new HarmoniType("Hierarchy", "Harmoni", "Node");
 			$parent1 =& new HarmoniNode(new HarmoniId('3'), $type, "C", "", $parent->_cache);
 									   
 			$this->assertEqual($parent->_id, $parent1->_id);
-			$this->assertEqual($parent->_type, $parent1->_type);
+			$this->assertTrue($parent->_type->isEqual($parent1->_type));
 			$this->assertEqual($parent->_displayName, $parent1->_displayName);
 			$this->assertEqual($parent->_description, $parent1->_description);
 			
@@ -168,11 +168,11 @@ require_once(dirname(__FILE__).'/../HarmoniNode.class.php');
 		
 			$this->assertIsA($children, "HarmoniNodeIterator");
 			$child =& $children->next();
-			$type =& new HarmoniType("harmoni", "hierarchy", "node");
+			$type =& new HarmoniType("Hierarchy", "Harmoni", "Node");
 			$child1 =& new HarmoniNode(new HarmoniId('5'), $type, "E", "", $child->_cache);
 									   
 			$this->assertEqual($child->_id, $child1->_id);
-			$this->assertEqual($child->_type, $child1->_type);
+			$this->assertTrue($child->_type->isEqual($child1->_type));
 			$this->assertEqual($child->_displayName, $child1->_displayName);
 			$this->assertEqual($child->_description, $child1->_description);
 			$this->assertFalse($children->hasNext());
@@ -183,11 +183,11 @@ require_once(dirname(__FILE__).'/../HarmoniNode.class.php');
 		
 			$this->assertIsA($children, "HarmoniNodeIterator");
 			$child =& $children->next();
-			$type =& new HarmoniType("harmoni", "hierarchy", "node");
+			$type =& new HarmoniType("Hierarchy", "Harmoni", "Node");
 			$child1 =& new HarmoniNode(new HarmoniId('5'), $type, "E", "", $child->_cache);
 									   
 			$this->assertEqual($child->_id, $child1->_id);
-			$this->assertEqual($child->_type, $child1->_type);
+			$this->assertTrue($child->_type->isEqual($child1->_type));
 			$this->assertEqual($child->_displayName, $child1->_displayName);
 			$this->assertEqual($child->_description, $child1->_description);
 			$this->assertFalse($children->hasNext());
@@ -198,20 +198,20 @@ require_once(dirname(__FILE__).'/../HarmoniNode.class.php');
 		
 			$this->assertIsA($children, "HarmoniNodeIterator");
 			$child =& $children->next();
-			$type =& new HarmoniType("harmoni", "hierarchy", "node");
+			$type =& new HarmoniType("Hierarchy", "Harmoni", "Node");
 			$child1 =& new HarmoniNode(new HarmoniId('6'), $type, "F", "", $child->_cache);
 									   
 			$this->assertEqual($child->_id, $child1->_id);
-			$this->assertEqual($child->_type, $child1->_type);
+			$this->assertTrue($child->_type->isEqual($child1->_type));
 			$this->assertEqual($child->_displayName, $child1->_displayName);
 			$this->assertEqual($child->_description, $child1->_description);
 
 			$child =& $children->next();
-			$type =& new HarmoniType("harmoni", "hierarchy", "node");
+			$type =& new HarmoniType("Hierarchy", "Harmoni", "Node");
 			$child1 =& new HarmoniNode(new HarmoniId('7'), $type, "G", "", $child->_cache);
 									   
 			$this->assertEqual($child->_id, $child1->_id);
-			$this->assertEqual($child->_type, $child1->_type);
+			$this->assertTrue($child->_type->isEqual($child1->_type));
 			$this->assertEqual($child->_displayName, $child1->_displayName);
 			$this->assertEqual($child->_description, $child1->_description);
 

@@ -10,7 +10,7 @@ require_once(HARMONI."oki2/shared/HarmoniType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DefaultNodeType.class.php,v 1.5 2005/02/07 21:38:25 adamfranco Exp $
+ * @version $Id: DefaultNodeType.class.php,v 1.6 2005/04/13 21:58:05 adamfranco Exp $
  **/
 
 class DefaultNodeType 
@@ -18,7 +18,7 @@ class DefaultNodeType
 {
 
 	function DefaultNodeType() {
-		$this->HarmoniType("harmoni", "hierarchy", "node");
+		$this->HarmoniType("Hierarchy", "Harmoni", "Node", "Default node type");
 	}
 
 }
