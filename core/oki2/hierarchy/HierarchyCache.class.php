@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.13 2005/04/12 21:04:01 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.14 2005/04/13 21:33:35 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -463,9 +463,9 @@ class HierarchyCache {
 				$parent_tn =& $this->_tree->getNode($parentIdValue);
 			else {
 				$parent_tn =& new TreeNode($parentIdValue);
-				$parent_parent = NULL; 	// getting rid of PHP warnings by specifying
+				$nullValue = NULL; 	// getting rid of PHP warnings by specifying
 									// this second argument
-				$this->_tree->addNode($parent_tn, $parent_parent);
+				$this->_tree->addNode($parent_tn, $nullValue);
 			}
 			// 3) insert child-parent relationship into the tree
 			$this->_tree->addNode($tn, $parent_tn);
@@ -529,9 +529,9 @@ class HierarchyCache {
 										  $nodeRow['display_name'], $nodeRow['description'], $this);
 
 				// insert node into cache
-				$parent = NULL; 	// getting rid of PHP warnings by specifying
+				$nullValue = NULL; 	// getting rid of PHP warnings by specifying
 									// this second argument
-				$this->_tree->addNode(new TreeNode($idValue), $parent);
+				$this->_tree->addNode(new TreeNode($idValue), $nullValue);
 				$this->_cache[$idValue][0] =& $node;
 				$this->_cache[$idValue][1] = 0;
 				$this->_cache[$idValue][2] = 0;
@@ -573,9 +573,9 @@ class HierarchyCache {
 //			echo "<br />Creating node # <b>$idValue - '$displayName'</b>";
 			
 			// insert node into cache
-			$parent = NULL; 	// getting rid of PHP warnings by specifying
+			$nullValue = NULL; 	// getting rid of PHP warnings by specifying
 								// this second argument
-			$this->_tree->addNode(new TreeNode($idValue), $parent);
+			$this->_tree->addNode(new TreeNode($idValue), $nullValue);
 			$this->_cache[$idValue][0] =& $nodes[0];
 			$this->_cache[$idValue][1] = 0;
 			$this->_cache[$idValue][2] = 0;
@@ -610,9 +610,9 @@ class HierarchyCache {
 
 			// include the given node in the cache of nodes if necessary
 			if (!$this->_isCached($idValue)) {
-				$parent = NULL; 	// getting rid of PHP warnings by specifying
+				$nullValue = NULL; 	// getting rid of PHP warnings by specifying
 									// this second argument
-				$this->_tree->addNode(new TreeNode($idValue), $parent);
+				$this->_tree->addNode(new TreeNode($idValue), $nullValue);
 				$this->_cache[$idValue][0] =& $node;
 			}
 	
@@ -722,9 +722,9 @@ class HierarchyCache {
 
 			// include the given node in the cache of nodes if necessary
 			if (!$this->_isCached($idValue)) {
-				$parent = NULL; 		// getting rid of PHP warnings by specifying
+				$nullValue = NULL; 		// getting rid of PHP warnings by specifying
 								// this second argument
-				$this->_tree->addNode(new TreeNode($idValue), $parent);
+				$this->_tree->addNode(new TreeNode($idValue), $nullValue);
 				$this->_cache[$idValue][0] =& $node;
 			}
 	
@@ -1002,9 +1002,9 @@ class HierarchyCache {
 				else {
 //					echo "Creating new tree node # <b>$nodeId</b>, ";
 					$node =& new TreeNode($nodeId);
-					$parent = NULL; 		// getting rid of PHP warnings by specifying
+					$nullValue = NULL; 		// getting rid of PHP warnings by specifying
 											// this second argument
-					$this->_tree->addNode($node, $parent);
+					$this->_tree->addNode($node, $nullValue);
 				}
 				
 				// does the current node have a parent?
@@ -1160,9 +1160,9 @@ class HierarchyCache {
 				else {
 //					echo "Creating new tree node # <b>$nodeId</b>, ";
 					$node =& new TreeNode($nodeId);
-					$parent = NULL; // getting rid of PHP warnings by specifying
+					$nullValue = NULL; // getting rid of PHP warnings by specifying
 									// this second argument
-					$this->_tree->addNode($node, $parent);
+					$this->_tree->addNode($node, $nullValue);
 				}
 				
 				// does the current node have a child?
@@ -1297,9 +1297,9 @@ class HierarchyCache {
 		$this->_cache[$idValue][1] = -1; // fully cached up and down because
 		$this->_cache[$idValue][2] = -1; // in fact this node does not have any ancestors or descendents
 		// update _tree
-		$parent = NULL; 		// getting rid of PHP warnings by specifying
+		$nullValue = NULL; 		// getting rid of PHP warnings by specifying
 								// this second argument
-		$this->_tree->addNode(new TreeNode($idValue), $parent);
+		$this->_tree->addNode(new TreeNode($idValue), $nullValue);
 		
 		return $node;		
 	}
