@@ -5,10 +5,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyManagerTestCase.class.php,v 1.8 2005/04/07 16:33:29 adamfranco Exp $
+ * @version $Id: HierarchyManagerTestCase.class.php,v 1.9 2005/04/13 20:15:56 adamfranco Exp $
  */
  
-require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchyManager.class.php');
+require_once(dirname(__FILE__).'/../HarmoniHierarchyManager.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -20,7 +20,7 @@ require_once(HARMONI.'/oki/hierarchy2/HarmoniHierarchyManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyManagerTestCase.class.php,v 1.8 2005/04/07 16:33:29 adamfranco Exp $
+ * @version $Id: HierarchyManagerTestCase.class.php,v 1.9 2005/04/13 20:15:56 adamfranco Exp $
  */
 
 	class HierarchyManagerTestCase extends UnitTestCase {

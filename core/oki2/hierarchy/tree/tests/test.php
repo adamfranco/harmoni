@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.3 2005/04/07 16:33:29 adamfranco Exp $
+ * @version $Id: test.php,v 1.4 2005/04/13 20:17:40 adamfranco Exp $
  */
 
 	define("LOAD_HIERARCHY", false);
@@ -26,8 +26,8 @@
 	require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 	
 	$test =& new GroupTest('Tree tests');
-	$test->addTestFile(HARMONI.'oki/hierarchy2/tree/tests/TreeTestCase.class.php');
-	$test->addTestFile(HARMONI.'oki/hierarchy2/tree/tests/TreeNodeTestCase.class.php');
+	$test->addTestFile(dirname(__FILE__).'/TreeTestCase.class.php');
+	$test->addTestFile(dirname(__FILE__).'/TreeNodeTestCase.class.php');
 	$test->attachObserver(new DoboTestHtmlDisplay());
 	$test->run();
 

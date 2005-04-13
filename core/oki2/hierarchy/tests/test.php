@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.5 2005/04/07 16:33:29 adamfranco Exp $
+ * @version $Id: test.php,v 1.6 2005/04/13 20:15:57 adamfranco Exp $
  */
  
 require_once dirname(__FILE__)."/../../../../core/utilities/Timer.class.php";
@@ -29,23 +29,26 @@ $harmonyLoadupTimer->end();
 	require_once(SIMPLE_TEST . 'simple_unit.php');
 	require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
-/*	if (!defined('CONCERTODBID')) { */
-/*		require_once(CONCERTO.'/tests/dbconnect.inc.php'); */
-/*	} */
+	$context =& new OsidContext;
+	$configuration =& new ConfigurationProperties;
+	Services::startManagerAsService("DatabaseManager");
 
 	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
 	$errorHandler =& Services::getService("ErrorHandler",true);
 	$dbHandler =& Services::getService("DBHandler",true);
-	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
+	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","adam_concerto","test","test") );
 	$dbHandler->pConnect($dbIndex);
-	Services::startService("Shared", $dbIndex, "doboHarmoniTest");
+	$configuration->addProperty('database_index', $dbIndex);
+	$configuration->addProperty('database_name', $arg0 = "adam_concerto");
+	unset($arg0);
+	Services::startManagerAsService("IdManager", $context, $configuration);
 	$errorHandler->setDebugMode(TRUE);
 	
 	
 	$test =& new GroupTest('Hierarchy Tests');
-	$test->addTestFile(HARMONI.'/oki/hierarchy2/tests/NodeTestCase.class.php');
-	$test->addTestFile(HARMONI.'/oki/hierarchy2/tests/HierarchyTestCase.class.php');
-	$test->addTestFile(HARMONI.'/oki/hierarchy2/tests/HierarchyManagerTestCase.class.php');
+	$test->addTestFile(HARMONI.'/oki2/hierarchy/tests/NodeTestCase.class.php');
+	$test->addTestFile(HARMONI.'/oki2/hierarchy/tests/HierarchyTestCase.class.php');
+	$test->addTestFile(HARMONI.'/oki2/hierarchy/tests/HierarchyManagerTestCase.class.php');
 	$test->attachObserver(new DoboTestHtmlDisplay());
 	$test->run();
 	

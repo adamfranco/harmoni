@@ -1,6 +1,6 @@
 <?php
 
-require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
+require_once(dirname(__FILE__)."/../TreeNode.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -12,7 +12,7 @@ require_once(HARMONI."oki/hierarchy2/tree/TreeNode.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TreeNodeTestCase.class.php,v 1.5 2005/04/07 16:33:29 adamfranco Exp $ 
+ * @version $Id: TreeNodeTestCase.class.php,v 1.6 2005/04/13 20:17:40 adamfranco Exp $ 
  */
 
 	class TreeNodeTestCase extends UnitTestCase {
