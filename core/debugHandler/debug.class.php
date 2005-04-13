@@ -12,7 +12,7 @@ require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: debug.class.php,v 1.14 2005/04/08 19:23:34 adamfranco Exp $
+ * @version $Id: debug.class.php,v 1.15 2005/04/13 22:17:50 adamfranco Exp $
  *
  * @static
  **/
@@ -91,7 +91,7 @@ class debug {
 
 function printpre($array, $return=FALSE) {
 	$string = "\n<pre>";
-	$string .= var_export($array, TRUE);
+	$string .= print_r($array, TRUE);
 	$string .= "\n</pre>";
 	
 	if ($return)
