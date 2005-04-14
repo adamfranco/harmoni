@@ -3,7 +3,7 @@
 Name: Harmoni ChangeLog
 
 
-v. 0.3.2 (2005-04-13)
+v. 0.3.2 (2005-04-14)
 ----------------------------------------------------
 		
 	* Bug Fix: Existance of a try() function in the ErrorHandler was throwing parse errors PHP5. (Adam Franco)
