@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_dataManager.sql,v 1.11 2005/04/20 19:39:50 adamfranco Exp $
+-- @version $Id: MySQL_dataManager.sql,v 1.12 2005/04/20 21:07:43 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -89,8 +89,8 @@ CREATE TABLE dm_okitype (
 -- 
 
 CREATE TABLE dm_record (
-  id varchar(255) NOT NULL default '0',
-  fk_schema varchar(255) NOT NULL default '0',
+  id varchar(75) NOT NULL default '0',
+  fk_schema varchar(75) NOT NULL default '0',
   created datetime NOT NULL default '0000-00-00 00:00:00',
   active tinyint(1) unsigned NOT NULL default '0',
   ver_control tinyint(1) unsigned NOT NULL default '0',
@@ -106,7 +106,7 @@ CREATE TABLE dm_record (
 
 CREATE TABLE dm_record_field (
   id bigint(20) unsigned NOT NULL default '0',
-  fk_record varchar(255) NOT NULL default '0',
+  fk_record varchar(75) NOT NULL default '0',
   fk_schema_field bigint(20) unsigned NOT NULL default '0',
   value_index bigint(20) unsigned NOT NULL default '0',
   fk_data bigint(20) unsigned NOT NULL default '0',
@@ -126,9 +126,9 @@ CREATE TABLE dm_record_field (
 -- 
 
 CREATE TABLE dm_record_set (
-  id varchar(255) NOT NULL default '0',
-  fk_record varchar(255) NOT NULL default '0',
-  PRIMARY KEY  (fk_record(250),id(250)),
+  id varchar(75) NOT NULL default '0',
+  fk_record varchar(75) NOT NULL default '0',
+  PRIMARY KEY  (fk_record,id),
   KEY id (id),
   KEY fk_record (fk_record)
 ) TYPE=MyISAM;
@@ -140,14 +140,14 @@ CREATE TABLE dm_record_set (
 -- 
 
 CREATE TABLE dm_schema (
-  id varchar(255) NOT NULL default '0',
-  domain varchar(255) NOT NULL default '',
-  authority varchar(255) NOT NULL default '',
-  keyword varchar(255) NOT NULL default '',
+  id varchar(75) NOT NULL default '0',
+  domain varchar(100) NOT NULL default '',
+  authority varchar(100) NOT NULL default '',
+  keyword varchar(100) NOT NULL default '',
   description tinytext NOT NULL,
   revision int(8) unsigned NOT NULL default '0',
   PRIMARY KEY  (id),
-  UNIQUE KEY unique_key (domain(100),authority(100),keyword(100))
+  UNIQUE KEY unique_key (domain,authority,keyword)
 ) TYPE=MyISAM;
 
 -- --------------------------------------------------------
@@ -158,7 +158,7 @@ CREATE TABLE dm_schema (
 
 CREATE TABLE dm_schema_field (
   id bigint(20) unsigned NOT NULL default '0',
-  fk_schema varchar(255) NOT NULL default '0',
+  fk_schema varchar(75) NOT NULL default '0',
   label varchar(255) NOT NULL default '',
   mult tinyint(1) unsigned NOT NULL default '0',
   fieldtype varchar(255) NOT NULL default '',
@@ -202,7 +202,7 @@ CREATE TABLE dm_string (
 
 CREATE TABLE dm_tag (
   id bigint(20) unsigned NOT NULL default '0',
-  fk_record varchar(255) NOT NULL default '0',
+  fk_record varchar(75) NOT NULL default '0',
   date datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (id),
   KEY fk_record (fk_record),
@@ -233,3 +233,4 @@ CREATE TABLE dm_time (
   data bigint(20) unsigned NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+        

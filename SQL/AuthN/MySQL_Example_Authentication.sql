@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_Example_Authentication.sql,v 1.2 2005/04/20 19:39:49 adamfranco Exp $
+-- @version $Id: MySQL_Example_Authentication.sql,v 1.3 2005/04/20 21:07:42 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -13,7 +13,7 @@
 -- 
 
 CREATE TABLE auth_db_user (
-  username varchar(255) NOT NULL default '',
+  username varchar(75) NOT NULL default '',
   password blob NOT NULL,
   PRIMARY KEY  (username)
 ) TYPE=MyISAM;
