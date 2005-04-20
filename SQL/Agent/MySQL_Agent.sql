@@ -1,10 +1,11 @@
 -- /**
 -- @package harmoni.osid_v2.agent
---
+-- 
+-- 
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
---
--- @version $Id: MySQL_Agent.sql,v 1.2 2005/04/07 15:10:29 adamfranco Exp $
+-- 
+-- @version $Id: MySQL_Agent.sql,v 1.3 2005/04/20 19:38:56 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -13,7 +14,7 @@
 -- 
 
 CREATE TABLE agent (
-  agent_id int(10) NOT NULL default '0',
+  agent_id varchar(255) NOT NULL default '0',
   agent_display_name varchar(255) NOT NULL default '',
   fk_type int(10) NOT NULL default '0',
   PRIMARY KEY  (agent_id),
@@ -28,7 +29,7 @@ CREATE TABLE agent (
 -- 
 
 CREATE TABLE agent_properties (
-  fk_agent int(10) unsigned NOT NULL default '0',
+  fk_agent varchar(255) NOT NULL default '0',
   fk_properties int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (fk_agent,fk_properties)
 ) TYPE=MyISAM;
@@ -40,7 +41,7 @@ CREATE TABLE agent_properties (
 -- 
 
 CREATE TABLE group_properties (
-  fk_group int(10) unsigned NOT NULL default '0',
+  fk_group varchar(255) NOT NULL default '0',
   fk_properties int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (fk_group,fk_properties)
 ) TYPE=MyISAM;
@@ -52,7 +53,7 @@ CREATE TABLE group_properties (
 -- 
 
 CREATE TABLE groups (
-  groups_id int(10) NOT NULL default '0',
+  groups_id varchar(255) NOT NULL default '0',
   groups_display_name varchar(255) NOT NULL default '',
   groups_description text NOT NULL,
   fk_type int(10) NOT NULL default '0',
@@ -64,23 +65,26 @@ CREATE TABLE groups (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `j_groups_agent`
+-- Table structure for table `j_groups_groups`
 -- 
 
-CREATE TABLE j_groups_agent (
-  fk_groups int(10) NOT NULL default '0',
-  fk_agent int(10) NOT NULL default '0',
-  PRIMARY KEY  (fk_agent,fk_groups)
+CREATE TABLE j_groups_groups (
+  fk_parent varchar(255) NOT NULL default '0',
+  fk_child varchar(255) NOT NULL default '0',
+  PRIMARY KEY  (fk_parent(250),fk_child(250))
 ) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `j_groups_groups`
+-- Table structure for table `j_node_node`
 -- 
 
-CREATE TABLE j_groups_groups (
-  fk_parent int(10) NOT NULL default '0',
-  fk_child int(10) NOT NULL default '0',
-  PRIMARY KEY  (fk_parent,fk_child)
+CREATE TABLE j_node_node (
+  fk_parent varchar(255) NOT NULL default '0',
+  fk_child varchar(255) NOT NULL default '0',
+  PRIMARY KEY  (fk_parent(250),fk_child(250)),
+  KEY fk_parent (fk_parent),
+  KEY fk_child (fk_child)
 ) TYPE=MyISAM;
+        
