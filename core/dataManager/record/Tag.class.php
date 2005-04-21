@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.4 2005/04/04 18:23:23 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.5 2005/04/21 21:37:48 adamfranco Exp $
  */
 class Tag {
 	
@@ -116,7 +116,7 @@ class Tag {
 		
 		$query->addColumn("label","schema_field_label","dm_schema_field");
 		
-		$query->setWhere("fk_tag=".$this->_myID);
+		$query->setWhere("fk_tag='".addslashes($this->_myID)."'");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, DATAMANAGER_DBID);

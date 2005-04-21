@@ -10,7 +10,7 @@ require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FieldValueSearch.class.php,v 1.5 2005/01/19 21:09:43 adamfranco Exp $
+ * @version $Id: FieldValueSearch.class.php,v 1.6 2005/04/21 21:37:48 adamfranco Exp $
  */
 class FieldValueSearch extends SearchCriteria {
 	
@@ -54,7 +54,7 @@ class FieldValueSearch extends SearchCriteria {
 		
 		$string = $tmpObj->makeSearchString($this->_value, $this->_comparison);
 		
-		return "(dm_record_field.fk_schema_field=".$def->getFieldID($this->_label)." AND ".$string." AND dm_record_field.active=1)";
+		return "(dm_record_field.fk_schema_field='".addslashes($def->getFieldID($this->_label))."' AND ".$string." AND dm_record_field.active=1)";
 	}
 
 	function postProcess($ids) { return $ids; }

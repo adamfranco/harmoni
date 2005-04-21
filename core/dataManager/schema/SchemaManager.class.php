@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.18 2005/04/12 18:48:09 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.19 2005/04/21 21:37:48 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
@@ -36,11 +36,7 @@ class SchemaManager {
 		// talk to the DB
 		$this->loadTypes($preloadTypes);
 		
-		if (OKI_VERSION > 1) {
-			$this->_idService =& Services::getService("Id");
-		} else {
-			$this->_idService =& Services::getService("Shared");
-		}
+		$this->_idService =& Services::getService("Id");
 		
 		debug::output("Initialized new SchemaManager with ".$this->numberOfTypes()." types.",DEBUG_SYS4,"DataManager");
 	}
@@ -127,7 +123,7 @@ class SchemaManager {
 			
 			$wheres = array();
 			foreach ($ids as $id) {
-				$wheres[] = "fk_schema=$id";
+				$wheres[] = "fk_schema='".addslashes($id)."'";
 			}
 			$query->setWhere("(".implode(" OR ",$wheres).")");
 			
@@ -238,7 +234,7 @@ class SchemaManager {
 		$query->setTable("dm_schema");
 		$query->setColumns(array("id","domain","authority","keyword","description", "revision"));
 		$query->addRowOfValues( array(
-			$newID->getIdString(),
+			"'".addslashes($newID->getIdString())."'",
 			"'".addslashes($type->getDomain())."'",
 			"'".addslashes($type->getAuthority())."'",
 			"'".addslashes($type->getKeyword())."'",
@@ -505,7 +501,7 @@ class SchemaManager {
 			// change the database.
 			$query =& new UpdateQuery();
 			$query->setTable("dm_schema");
-			$query->setWhere("id=".$old->getID());
+			$query->setWhere("id='".addslashes($old->getID())."'");
 			$query->setColumns(array("revision"));
 			$query->setValues(array($new->getRevision()));
 			

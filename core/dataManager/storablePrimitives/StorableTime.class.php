@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableTime.class.php,v 1.8 2005/04/04 18:23:26 adamfranco Exp $
+ * @version $Id: StorableTime.class.php,v 1.9 2005/04/21 21:37:48 adamfranco Exp $
  */
 class StorableTime extends Time /* implements StorablePrimitive */ {
 	
@@ -49,10 +49,7 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 	 * @return integer Returns the new ID of the data stored.
 	 */
 	function insert($dbID) {
-		if (OKI_VERSION > 1)
-			$idManager =& Services::getService("Id");
-		else
-			$idManager =& Services::getService("Shared");
+		$idManager =& Services::getService("Id");
 		$newID =& $idManager->createId();
 		
 		$query =& new InsertQuery();
@@ -60,7 +57,7 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 		$query->setColumns(array("id","data"));
 		$dbHandler =& Services::getService("DatabaseManager");
 		
-		$query->addRowOfValues(array($newID->getIdString(), $this->toTimestamp()));
+		$query->addRowOfValues(array("'".addslashes($newID->getIdString())."'", $this->toTimestamp()));
 		
 		$result =& $dbHandler->query($query, $dbID);
 		if (!$result || $result->getNumberOfRows() != 1) {
@@ -85,7 +82,7 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 		$query =& new UpdateQuery();
 		$query->setTable($this->_table);
 		$query->setColumns(array("data"));
-		$query->setWhere("id=".$dataID);
+		$query->setWhere("id='".addslashes($dataID)."'");
 		
 		$query->setValues(array($this->toTimestamp()));
 		
@@ -141,7 +138,7 @@ class StorableTime extends Time /* implements StorablePrimitive */ {
 		
 		$query =& new DeleteQuery;
 		$query->setTable($table);
-		$query->setWhere("id=".$dataID);
+		$query->setWhere("id='".addslashes($dataID)."'");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$res =& $dbHandler->query($query, $dbID);

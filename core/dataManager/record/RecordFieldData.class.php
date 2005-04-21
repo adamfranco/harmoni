@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.12 2005/04/12 18:48:08 adamfranco Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.13 2005/04/21 21:37:48 adamfranco Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -179,7 +179,7 @@ class RecordFieldData {
 				// we're already in the DB. just update the entry
 				$query =& new UpdateQuery();
 				
-				$query->setWhere("id=".$this->_myID);
+				$query->setWhere("id='".addslashes($this->_myID)."'");
 				$query->setColumns(array("value_index","active", "modified"));
 				$query->setValues(array($this->_parent->getIndex(),($this->_active)?1:0,
 										"'".$dbHandler->toDBDate($this->_date,DATAMANAGER_DBID)."'"));
@@ -209,11 +209,11 @@ class RecordFieldData {
 				$schemaField =& $this->_parent->_parent->getSchemaField();
 				
 				$query->addRowOfValues(array(
-				$this->_myID,
-				$this->_parent->_parent->_parent->getID(),
-				$schema->getFieldID($schemaField->getLabel()),
+				"'".addslashes($this->_myID)."'",
+				"'".addslashes($this->_parent->_parent->_parent->getID())."'",
+				"'".addslashes($schema->getFieldID($schemaField->getLabel()))."'",
 				$this->_parent->getIndex(),
-				$this->_dataID,
+				"'".addslashes($this->_dataID)."'",
 				($this->_active)?1:0,
 				"'".$dbHandler->toDBDate($this->_date,DATAMANAGER_DBID)."'"
 				));
@@ -234,7 +234,7 @@ class RecordFieldData {
 				// ok, let's get rid of ourselves... completely!
 				$query =& new DeleteQuery;
 				$query->setTable("dm_record_field");
-				$query->setWhere("id=$id");
+				$query->setWhere("id='".addslashes($id)."'");
 
 				$res =& $dbHandler->query($query, DATAMANAGER_DBID);
 				if (!$res) throwError( new UnknownDBError("Record"));
@@ -246,7 +246,7 @@ class RecordFieldData {
 				// and we have to get rid of any tag mappings where we are included.
 				$query =& new DeleteQuery;
 				$query->setTable("dm_tag_map");
-				$query->setWhere("fk_record_field=$id");
+				$query->setWhere("fk_record_field='".addslashes($id)."'");
 				
 				$res =& $dbHandler->query($query, DATAMANAGER_DBID);
 				if (!$res) throwError( new UnknownDBError("Record"));

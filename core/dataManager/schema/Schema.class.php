@@ -13,7 +13,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schema.class.php,v 1.11 2005/04/04 18:23:23 adamfranco Exp $
+ * @version $Id: Schema.class.php,v 1.12 2005/04/21 21:37:48 adamfranco Exp $
  * @author Gabe Schine
  */
 class Schema {
@@ -164,7 +164,7 @@ class Schema {
 		$query->addColumn("active","","dm_schema_field");
 		$query->addColumn("fieldtype","","dm_schema_field");
 		$query->addColumn("description","","dm_schema_field");
-		$query->setWhere("fk_schema=".$id);
+		$query->setWhere("fk_schema='".addslashes($id)."'");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query,DATAMANAGER_DBID);

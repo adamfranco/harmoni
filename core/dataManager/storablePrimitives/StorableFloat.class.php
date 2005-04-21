@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableFloat.class.php,v 1.6 2005/04/04 18:23:26 adamfranco Exp $
+ * @version $Id: StorableFloat.class.php,v 1.7 2005/04/21 21:37:48 adamfranco Exp $
  */
 class StorableFloat extends Double /* implements StorablePrimitive */ {
 	
@@ -21,17 +21,14 @@ class StorableFloat extends Double /* implements StorablePrimitive */ {
 	 * @return integer Returns the new ID of the data stored.
 	 */
 	function insert($dbID) {
-		if (OKI_VERSION > 1)
-			$idManager =& Services::getService("Id");
-		else
-			$idManager =& Services::getService("Shared");
+		$idManager =& Services::getService("Id");
 		$newID =& $idManager->createId();
 		
 		$query =& new InsertQuery();
 		$query->setTable("dm_float");
 		$query->setColumns(array("id","data"));
 		
-		$query->addRowOfValues(array($newID->getIdString(), $this->getDoubleValue()));
+		$query->addRowOfValues(array("'".addslashes($newID->getIdString())."'", $this->getDoubleValue()));
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, $dbID);
@@ -57,7 +54,7 @@ class StorableFloat extends Double /* implements StorablePrimitive */ {
 		$query =& new UpdateQuery();
 		$query->setTable("dm_float");
 		$query->setColumns(array("data"));
-		$query->setWhere("id=".$dataID);
+		$query->setWhere("id='".addslashes($dataID)."'");
 		
 		$query->setValues(array($this->getDoubleValue()));
 		
@@ -137,7 +134,7 @@ class StorableFloat extends Double /* implements StorablePrimitive */ {
 		
 		$query =& new DeleteQuery;
 		$query->setTable($table);
-		$query->setWhere("id=".$dataID);
+		$query->setWhere("id='".addslashes($dataID)."'");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$res =& $dbHandler->query($query, $dbID);

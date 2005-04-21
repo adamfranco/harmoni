@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.22 2005/04/12 18:48:08 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.23 2005/04/21 21:37:48 adamfranco Exp $
 */
 class Record {
 	
@@ -73,10 +73,7 @@ class Record {
 			unset($def);
 		}
 		
-		if (OKI_VERSION > 1)
-			$this->_idManager =& Services::getService("Id");
-		else
-			$this->_idManager =& Services::getService("Shared");
+		$this->_idManager =& Services::getService("Id");
 	}
 	
 	/**
@@ -423,7 +420,7 @@ class Record {
 				($this->_active)?1:0,
 				($this->_versionControlled)?1:0
 				));
-			$query->setWhere("id=".$this->_myID);
+			$query->setWhere("id='".addslashes($this->_myID)."'");
 
 			// execute the query;
 			$result =& $dbHandler->query($query,DATAMANAGER_DBID);
@@ -439,8 +436,8 @@ class Record {
 			$query->setTable("dm_record");
 			$query->setColumns(array("id","fk_schema","created","active","ver_control"));
 			$query->addRowOfValues(array(
-				$this->_myID,
-				$this->_schema->getID(),
+				"'".addslashes($this->_myID)."'",
+				"'".addslashes($this->_schema->getID())."'",
 				$dbHandler->toDBDate($this->_creationDate,DATAMANAGER_DBID),
 				($this->_active)?1:0,
 				($this->_versionControlled)?1:0
@@ -476,13 +473,13 @@ class Record {
 				
 				$query =& new DeleteQuery();
 				$query->setTable("dm_record");
-				$query->setWhere("id=".$this->getID());
+				$query->setWhere("id='".addslashes($this->getID())."'");
 				
 				$dbHandler->query($query, DATAMANAGER_DBID);
 
 				$query =& new DeleteQuery();
 				$query->setTable("dm_record_set");
-				$query->setWhere("fk_record=".$this->getID());
+				$query->setWhere("fk_record='".addslashes($this->getID())."'");
 
 				$dbHandler->query($query, DATAMANAGER_DBID);
 			} else {

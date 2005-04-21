@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableOKIType.class.php,v 1.6 2005/04/04 18:23:26 adamfranco Exp $
+ * @version $Id: StorableOKIType.class.php,v 1.7 2005/04/21 21:37:48 adamfranco Exp $
  */
 class StorableOKIType extends OKIType /* implements StorablePrimitive */ {
 
@@ -21,17 +21,14 @@ class StorableOKIType extends OKIType /* implements StorablePrimitive */ {
 	 * @return integer Returns the new ID of the data stored.
 	 */
 	function insert($dbID) {
-		if (OKI_VERSION > 1)
-			$idManager =& Services::getService("Id");
-		else
-			$idManager =& Services::getService("Shared");
+		$idManager =& Services::getService("Id");
 		$newID =& $idManager->createId();
 		
 		$query =& new InsertQuery();
 		$query->setTable("dm_okitype");
 		$query->setColumns(array("id","domain","authority","keyword"));
 		
-		$query->addRowOfValues(array($newID->getIdString(), "'".addslashes($this->getDomain())."'",
+		$query->addRowOfValues(array("'".addslashes($newID->getIdString())."'", "'".addslashes($this->getDomain())."'",
 															"'".addslashes($this->getAuthority())."'",
 															"'".addslashes($this->getKeyword())."'"));
 		
@@ -59,7 +56,7 @@ class StorableOKIType extends OKIType /* implements StorablePrimitive */ {
 		$query =& new UpdateQuery();
 		$query->setTable("dm_okitype");
 		$query->setColumns(array("domain","authority","keyword"));
-		$query->setWhere("id=".$dataID);
+		$query->setWhere("id='".addslashes($dataID)."'");
 		
 		$query->setValues(array("'".addslashes($this->getDomain())."'",
 								"'".addslashes($this->getAuthority())."'",
@@ -131,7 +128,7 @@ class StorableOKIType extends OKIType /* implements StorablePrimitive */ {
 		
 		$query =& new DeleteQuery;
 		$query->setTable($table);
-		$query->setWhere("id=".$dataID);
+		$query->setWhere("id='".addslashes($dataID)."'");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$res =& $dbHandler->query($query, $dbID);

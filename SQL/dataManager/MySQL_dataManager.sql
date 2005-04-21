@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_dataManager.sql,v 1.12 2005/04/20 21:07:43 adamfranco Exp $
+-- @version $Id: MySQL_dataManager.sql,v 1.13 2005/04/21 21:37:21 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -13,7 +13,7 @@
 -- 
 
 CREATE TABLE dm_blob (
-  id bigint(20) unsigned NOT NULL default '0',
+  id varchar(75) NOT NULL default '0',
   data blob NOT NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -25,7 +25,7 @@ CREATE TABLE dm_blob (
 -- 
 
 CREATE TABLE dm_boolean (
-  id bigint(20) unsigned NOT NULL default '0',
+  id varchar(75) NOT NULL default '0',
   data tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -37,7 +37,7 @@ CREATE TABLE dm_boolean (
 -- 
 
 CREATE TABLE dm_float (
-  id bigint(20) unsigned NOT NULL default '0',
+  id varchar(75) NOT NULL default '0',
   data double NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -49,7 +49,7 @@ CREATE TABLE dm_float (
 -- 
 
 CREATE TABLE dm_fuzzydate (
-  id bigint(20) unsigned NOT NULL default '0',
+  id varchar(75) NOT NULL default '0',
   mean bigint(20) unsigned NOT NULL default '0',
   range bigint(20) unsigned NOT NULL default '0',
   string varchar(255) default NULL,
@@ -63,7 +63,7 @@ CREATE TABLE dm_fuzzydate (
 -- 
 
 CREATE TABLE dm_integer (
-  id bigint(20) unsigned NOT NULL default '0',
+  id varchar(75) NOT NULL default '0',
   data bigint(20) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -75,7 +75,7 @@ CREATE TABLE dm_integer (
 -- 
 
 CREATE TABLE dm_okitype (
-  id bigint(20) unsigned NOT NULL default '0',
+  id varchar(75) NOT NULL default '0',
   domain varchar(255) NOT NULL default '',
   authority varchar(255) NOT NULL default '',
   keyword varchar(255) NOT NULL default '',
@@ -105,11 +105,11 @@ CREATE TABLE dm_record (
 -- 
 
 CREATE TABLE dm_record_field (
-  id bigint(20) unsigned NOT NULL default '0',
+  id varchar(75) NOT NULL default '0',
   fk_record varchar(75) NOT NULL default '0',
-  fk_schema_field bigint(20) unsigned NOT NULL default '0',
+  fk_schema_field varchar(75) NOT NULL default '0',
   value_index bigint(20) unsigned NOT NULL default '0',
-  fk_data bigint(20) unsigned NOT NULL default '0',
+  fk_data varchar(75) NOT NULL default '0',
   active tinyint(1) unsigned NOT NULL default '0',
   modified datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (id),
@@ -157,7 +157,7 @@ CREATE TABLE dm_schema (
 -- 
 
 CREATE TABLE dm_schema_field (
-  id bigint(20) unsigned NOT NULL default '0',
+  id varchar(75) NOT NULL default '0',
   fk_schema varchar(75) NOT NULL default '0',
   label varchar(255) NOT NULL default '',
   mult tinyint(1) unsigned NOT NULL default '0',
@@ -177,7 +177,7 @@ CREATE TABLE dm_schema_field (
 -- 
 
 CREATE TABLE dm_shortstring (
-  id bigint(20) unsigned NOT NULL default '0',
+  id varchar(75) NOT NULL default '0',
   data varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -189,7 +189,7 @@ CREATE TABLE dm_shortstring (
 -- 
 
 CREATE TABLE dm_string (
-  id bigint(20) unsigned NOT NULL default '0',
+  id varchar(75) NOT NULL default '0',
   data text NOT NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -201,7 +201,7 @@ CREATE TABLE dm_string (
 -- 
 
 CREATE TABLE dm_tag (
-  id bigint(20) unsigned NOT NULL default '0',
+  id varchar(75) NOT NULL default '0',
   fk_record varchar(75) NOT NULL default '0',
   date datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (id),
@@ -216,7 +216,7 @@ CREATE TABLE dm_tag (
 -- 
 
 CREATE TABLE dm_tag_map (
-  fk_tag bigint(20) unsigned NOT NULL default '0',
+  fk_tag varchar(75) NOT NULL default '0',
   fk_record_field bigint(20) unsigned NOT NULL default '0',
   KEY fk_tag (fk_tag),
   KEY fk_record_field (fk_record_field)
@@ -229,7 +229,7 @@ CREATE TABLE dm_tag_map (
 -- 
 
 CREATE TABLE dm_time (
-  id bigint(20) unsigned NOT NULL default '0',
+  id varchar(75) NOT NULL default '0',
   data bigint(20) unsigned NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;

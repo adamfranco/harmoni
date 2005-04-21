@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/OrderedSet.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.11 2005/04/12 21:25:24 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.12 2005/04/21 21:37:48 adamfranco Exp $
  * @author Adam Franco
  */
  
@@ -159,7 +159,7 @@ class OrderedSet
 		$query =& new InsertQuery;
 		$query->setTable("sets");
 		$columns = array("sets.id", "sets.item_id", "sets.item_order");
-		$values = array("'".$this->_setId->getIdString()."'", "'".$id->getIdString()."'", "'".$position."'");
+		$values = array("'".addslashes($this->_setId->getIdString())."'", "'".addslashes($id->getIdString())."'", "'".$position."'");
 		$query->setColumns($columns);
 		$query->setValues($values);
 		

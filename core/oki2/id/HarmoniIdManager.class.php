@@ -41,7 +41,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdManager.class.php,v 1.15 2005/04/04 18:23:50 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.16 2005/04/21 21:37:48 adamfranco Exp $
  */
 
 class HarmoniIdManager
@@ -112,6 +112,7 @@ class HarmoniIdManager
 	function HarmoniIdManager() {		
 		// initialize cache
 		$this->_ids = array();
+		$this->_prefix = '';
 	}
 	
 		/**
@@ -137,16 +138,21 @@ class HarmoniIdManager
 	function assignConfiguration ( &$configuration ) { 
 		$this->_configuration =& $configuration;
 		
-		$dbIndex =& $configuration->getProperty('database_index');
-		$dbName =& $configuration->getProperty('database_name');
+		$dbIndex = $configuration->getProperty('database_index');
+		$dbName = $configuration->getProperty('database_name');
+		$prefix = $configuration->getProperty('id_prefix');
 		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		ArgumentValidator::validate($dbName, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($prefix, OptionalRule::getRule(
+			StringValidatorRule::getRule(), true));
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
 		$this->_sharedDB = $dbName;
+		if ($prefix)
+			$this->_prefix = $prefix;
 	}
 
 	/**
@@ -208,7 +214,7 @@ class HarmoniIdManager
 		}
 		
 		$newID = $result->getLastAutoIncrementValue();
-		$newID = strval($newID);
+		$newID = $this->_prefix.strval($newID);
 		
 		debug::output("Successfully created new id '$newID'.",DEBUG_SYS5,"IdManager");
 		

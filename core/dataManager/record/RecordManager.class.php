@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.19 2005/04/04 18:23:23 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.20 2005/04/21 21:37:48 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -138,7 +138,7 @@ class RecordManager {
 		$query =& new SelectQuery;
 		$query->addTable("dm_record_set");
 		$query->addColumn("id");
-		$query->addWhere("fk_record=".$id);
+		$query->addWhere("fk_record='".addslashes($id)."'");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result = $dbHandler->query($query,DATAMANAGER_DBID);
@@ -168,7 +168,7 @@ class RecordManager {
 		if (count($fromDBIDs)) {
 			$wheres = array();
 			foreach ($fromDBIDs as $id) {
-				$wheres[] = "dm_record_set.id=$id";
+				$wheres[] = "dm_record_set.id='".addslashes($id)."'";
 			}
 			
 			$query =& new SelectQuery;
@@ -235,7 +235,7 @@ class RecordManager {
 	* criteria. If not specified, will fetch all IDs.
 	*/
 	function &fetchRecords( $IDs, $mode = RECORD_CURRENT, $limitResults = null ) {
-		ArgumentValidator::validate($IDs, ArrayValidatorRuleWithRule::getRule(NumericValidatorRule::getRule()));
+		ArgumentValidator::validate($IDs, ArrayValidatorRuleWithRule::getRule(StringValidatorRule::getRule()));
 		ArgumentValidator::validate($mode, IntegerValidatorRule::getRule());
 		$IDs = array_unique($IDs);
 
@@ -281,7 +281,7 @@ class RecordManager {
 			// and, build the WHERE clause while we're at it.
 			$t = array();
 			foreach ($fromDBIDs as $id) {
-				$t[] = "dm_record.id=".$id;
+				$t[] = "dm_record.id='".addslashes($id)."'";
 				
 				if (isset($this->_recordCache[$id])) {
 					$alreadyFetchedFields = array_unique(array_merge($alreadyFetchedFields, $this->_recordCache[$id]->getFetchedFieldIDs()));
@@ -292,7 +292,7 @@ class RecordManager {
 			if (count($alreadyFetchedFields)) {
 				$temp = array();
 				foreach ($alreadyFetchedFields as $id) {
-					$temp[] = "dm_record_field.id != $id";
+					$temp[] = "dm_record_field.id != ".addslashes($id)."'";
 				}
 				$query->addWhere('(' . implode(" AND ", $temp) . ')');
 			}
@@ -361,7 +361,7 @@ class RecordManager {
 		if ($ids) {
 			$parts1 = array();
 			foreach ($ids as $id) {
-				$parts1[] = "dm_record.id=$id";
+				$parts1[] = "dm_record.id='".addslashes($id)."'";
 			}
 			$part1 = implode(" OR ", $parts1);
 		}
@@ -425,7 +425,7 @@ class RecordManager {
 	 * @since 10/6/04
 	 */
 	function deleteRecordSet ($id, $prune = false) {
-		ArgumentValidator::validate($id, IntegerValidatorRule::getRule());
+		ArgumentValidator::validate($id, StringValidatorRule::getRule());
 		$recordSet =& $this->fetchRecordSet($id);
 		
 		$recordSet->loadRecords($prune?RECORD_FULL:RECORD_NODATA);
@@ -448,7 +448,7 @@ class RecordManager {
 		// Delete the set from the database
 		$query =& new DeleteQuery;
 		$query->setTable("dm_record_set");
-		$query->addWhere("id = '".$id."'");
+		$query->addWhere("id = '".addslashes($id)."'");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query,DATAMANAGER_DBID);

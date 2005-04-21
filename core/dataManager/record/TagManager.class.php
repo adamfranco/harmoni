@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/Tag.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.8 2005/04/04 18:23:23 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.9 2005/04/21 21:37:48 adamfranco Exp $
 */
 class TagManager {
 	
@@ -49,10 +49,7 @@ class TagManager {
 		$query->setTable("dm_tag");
 		$query->setColumns(array("id","fk_record","date"));
 		
-		if (OKI_VERSION > 1)
-			$idManager =& Services::getService("Id");
-		else
-			$idManager =& Services::getService("Shared");
+		$idManager =& Services::getService("Id");
 		
 		$newID =& $idManager->createId();
 		$query->addRowOfValues(array(
@@ -65,7 +62,7 @@ class TagManager {
 		$query2->setColumns(array("fk_tag","fk_record_field"));
 		
 		foreach ($ids as $id) {
-			$query2->addRowOfValues(array($newID->getIdString(),$id));
+			$query2->addRowOfValues(array("'".addslashes($newID->getIdString())."'",$id));
 		}
 		
 		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
@@ -91,13 +88,13 @@ class TagManager {
 		$query =& new SelectQuery;
 		$query->addTable("dm_tag");
 		$query->addColumn("id");
-		$query->setWhere("fk_record=$theID");
+		$query->setWhere("fk_record='".addslashes($theID)."'");
 		
 		$res =& $dbHandler->query($query, DATAMANAGER_DBID);
 		
 		$ids = array();
 		while ($res->hasMoreRows()) {
-			$ids[] = "fk_tag=".$res->field(0);
+			$ids[] = "fk_tag='".addslashes($res->field(0))."'";
 			$res->advanceRow();
 		}
 		
@@ -105,12 +102,14 @@ class TagManager {
 		
 		$query =& new DeleteQuery;
 		$query->setTable("dm_tag");
-		$query->setWhere("fk_record=$theID");
+		$query->setWhere("fk_record='".addslashes($theID)."'");
 		
 		$dbHandler->query($query, DATAMANAGER_DBID);
 		
 		$query =& new DeleteQuery;
 		$query->setTable("dm_tag_map");
+		foreach ($ids as $key => $id)
+			$ids[$key] = "'".addslashes($id)."'";
 		$query->setWhere(implode(" OR ",$ids));
 		
 		$dbHandler->query($query, DATAMANAGER_DBID);
@@ -130,7 +129,7 @@ class TagManager {
 		// first get rid of all our mappings
 		$query =& new DeleteQuery;
 		$query->setTable("dm_tag_map");
-		$query->setWhere("fk_tag=$id");
+		$query->setWhere("fk_tag='".addslashes($id)."'");
 		
 		$dbHandler->query($query, DATAMANAGER_DBID);
 		
@@ -138,7 +137,7 @@ class TagManager {
 		unset($query);
 		$query =& new DeleteQuery;
 		$query->setTable("dm_tag");
-		$query->setWhere("id=$id");
+		$query->setWhere("id='".addslashes($id)."'");
 		
 		$dbHandler->query($query, DATAMANAGER_DBID);
 	}
@@ -161,12 +160,14 @@ class TagManager {
 		
 		$pruneIDs = array();
 		foreach (array_keys($tagDescriptors) as $tagID) {
-			if (!isset($fullTags[$tagID])) $pruneIDs[] = "id=".$tagID;
+			if (!isset($fullTags[$tagID])) $pruneIDs[] = "id='".addslashes($tagID)."'";
 		}
 		
 		if (count($pruneIDs)) {
 			$query =& new DeleteQuery;
 			$query->setTable("dm_tag");
+			foreach ($pruneIDs as $key => $id)
+				$pruneIDs[$key] = "'".addslashes($id)."'";
 			$query->setWhere(implode(" OR ",$pruneIDs));
 			
 			$dbHandler =& Services::getService("DatabaseManager");
@@ -188,7 +189,7 @@ class TagManager {
 		$query->addColumn("id");
 		$query->addColumn("date");
 		
-		$query->setWhere("dm_tag.fk_record=$id");
+		$query->setWhere("dm_tag.fk_record='".addslashes($id)."'");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		
@@ -232,7 +233,7 @@ class TagManager {
 		
 		$query->addColumn("label","schema_field_label","dm_schema_field");
 		
-		$query->setWhere("dm_tag.fk_record=$id");
+		$query->setWhere("dm_tag.fk_record='".addslashes($id)."'");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
@@ -278,7 +279,7 @@ class TagManager {
 		$query =& new SelectQuery;
 		$query->addTable("dm_tag");
 		$query->addColumn("id");
-		$query->setWhere("fk_record=$id");
+		$query->setWhere("fk_record='".addslashes($id)."'");
 
 		$dbHandler =& Services::getService("DatabaseManager");
 		$res =& $dbHandler->query($query, DATAMANAGER_DBID);
@@ -293,14 +294,14 @@ class TagManager {
 		$query =& new DeleteQuery;
 		
 		$query->setTable("dm_tag");
-		$query->setWhere("fk_record=$id");
+		$query->setWhere("fk_record='".addslashes($id)."'");
 		
 		$dbHandler->query($query, DATAMANAGER_DBID);
 		
 		// and delete the mappings
 		$wheres = array();
 		foreach ($ids as $tagID) {
-			$wheres[] = "fk_tag=$tagID";
+			$wheres[] = "fk_tag='".addslashes($tagID)."'";
 		}
 		
 		$query->reset();

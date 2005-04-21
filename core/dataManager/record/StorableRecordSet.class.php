@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/record/RecordSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableRecordSet.class.php,v 1.7 2005/04/04 18:23:23 adamfranco Exp $
+ * @version $Id: StorableRecordSet.class.php,v 1.8 2005/04/21 21:37:48 adamfranco Exp $
  */
 class StorableRecordSet extends RecordSet {
 	
@@ -139,7 +139,7 @@ class StorableRecordSet extends RecordSet {
 			// first delete all the old mappings
 			$query =& new DeleteQuery;
 			$query->setTable("dm_record_set");
-			$query->setWhere("dm_record_set.id=".$this->_myID);
+			$query->setWhere("dm_record_set.id='".addslashes($this->_myID)."'");
 //			printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 			$dbHandler->query($query, DATAMANAGER_DBID);
 			
@@ -149,7 +149,7 @@ class StorableRecordSet extends RecordSet {
 				$query->setTable("dm_record_set");
 				$query->setColumns(array("id","fk_record"));
 				foreach ($ids as $id) {
-					$query->addRowOfValues(array($this->_myID, $id));
+					$query->addRowOfValues(array("'".addslashes($this->_myID)."'", "'".addslashes($id)."'"));
 					if (!in_array($id, $this->_storedRecordIDs)) $this->_storedRecordIDs[] = $id;
 				}
 				

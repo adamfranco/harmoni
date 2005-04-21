@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaField.class.php,v 1.10 2005/04/12 18:48:08 adamfranco Exp $
+ * @version $Id: SchemaField.class.php,v 1.11 2005/04/21 21:37:48 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaField {
@@ -57,10 +57,7 @@ class SchemaField {
 		
 		$this->_schema = null;
 		
-		if (OKI_VERSION > 1)
-			$this->_idManager =& Services::getService("Id");
-		else
-			$this->_idManager =& Services::getService("Shared");
+		$this->_idManager =& Services::getService("Id");
 		
 		// let's do a quick check and make sure that this type is registered
 //		$typeMgr =& Services::getService("DataTypeManager");
@@ -199,8 +196,8 @@ class SchemaField {
 			$schemaID = $this->_schema->getID();
 			
 			$query->addRowOfValues(array(
-					$newID->getIdString(),
-					$schemaID,
+					"'".addslashes($newID->getIdString())."'",
+					"'".addslashes($schemaID)."'",
 					"'".addslashes($this->_label)."'",
 					(($this->_mult)?1:0),
 					"'".addslashes($this->_type)."'",
@@ -225,7 +222,7 @@ class SchemaField {
 			$query = new UpdateQuery();
 			$query->setTable("dm_schema_field");
 			$query->setColumns(array("label","mult","active","required","description"));
-			$query->setWhere("id=".$id);
+			$query->setWhere("id='".addslashes($id)."'");
 			
 			$query->setValues(array(
 					"'".addslashes($this->_label)."'",
@@ -250,7 +247,7 @@ class SchemaField {
 			// let's get rid of this bad-boy
 			$query =& new UpdateQuery();
 			$query->setTable("dm_schema_field");
-			$query->setWhere("id=".$id);
+			$query->setWhere("id='".addslashes($id)."'");
 			$query->setColumns(array("active"));
 			$query->setValues(array(0));
 
