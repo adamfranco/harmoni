@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.14 2005/04/13 21:33:35 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.15 2005/04/22 16:50:27 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -672,7 +672,9 @@ class HierarchyCache {
 					$parent =& new HarmoniNode($parentId, $parentType, 
 											  $row['display_name'], $row['description'], $this);
 					$parentTreeNode =& new TreeNode($parentIdValue);
-					$this->_tree->addNode($parentTreeNode);
+					$nullValue = NULL; 	// getting rid of PHP warnings by specifying
+										// this second argument
+					$this->_tree->addNode($parentTreeNode, $nullValue);
 					$this->_tree->addNode($treeNode, $parentTreeNode);
 					$this->_cache[$parentIdValue][0] =& $parent;
 					$this->_cache[$parentIdValue][1] = 0;
