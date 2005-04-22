@@ -3,11 +3,16 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.76 2005/04/14 16:08:38 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.76.2.1 2005/04/22 16:27:43 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.3.2" date="The Nebulous Future">
+		<fix author='adam'>
+			Fixed some more PHP warnings.
+		</fix>
+	</version>
 	<version number="0.3.2" date="2005-04-14">
 		<fix author='adam'>
 			Existance of a try() function in the ErrorHandler was throwing parse
