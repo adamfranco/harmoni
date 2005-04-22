@@ -5,24 +5,10 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: MySQL_Agent.sql,v 1.4 2005/04/20 21:06:20 adamfranco Exp $
+-- @version $Id: MySQL_Agent.sql,v 1.5 2005/04/22 19:12:15 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
--- 
--- Table structure for table `agent`
--- 
-
-CREATE TABLE agent (
-  agent_id varchar(255) NOT NULL default '0',
-  agent_display_name varchar(255) NOT NULL default '',
-  fk_type int(10) NOT NULL default '0',
-  PRIMARY KEY  (agent_id),
-  KEY agent_display_name (agent_display_name),
-  KEY fk_type (fk_type)
-) TYPE=MyISAM;
-
--- --------------------------------------------------------
 
 -- 
 -- Table structure for table `agent`
