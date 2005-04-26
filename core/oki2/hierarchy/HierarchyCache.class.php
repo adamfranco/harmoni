@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.15 2005/04/22 16:50:27 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.16 2005/04/26 21:50:38 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -429,7 +429,7 @@ class HierarchyCache {
 		$joinc = $db."node.node_id = ".$db."j_node_node.fk_child";
 		$query->addTable($db."j_node_node", LEFT_JOIN, $joinc);
 
-		$query->addWhere($db."node.fk_hierarchy = '{$this->_hierarchyId}'");
+		$query->addWhere($db."node.fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
 
 		$query->addOrderBy($db."node.node_id");
 		
@@ -647,7 +647,10 @@ class HierarchyCache {
 			$query->addOrderBy("node_id");
 			
 			if (count($nodesToExclude) > 0) {
-				$where = implode(", ",array_keys($nodesToExclude));
+				$idsToExclude = array_keys($nodesToExclude);
+				foreach ($idsToExclude as $key => $id)
+					$idsToExclude[$key] = "'".addslashes($id)."'";
+				$where = implode(", ",$idsToExclude);
 				$where = $db."parents.node_id NOT IN ({$where})";
 				$query->addWhere($where);
 			}
@@ -761,7 +764,10 @@ class HierarchyCache {
 			$query->addOrderBy("node_id");
 			
 			if (count($nodesToExclude) > 0) {
-				$where = implode(", ",array_keys($nodesToExclude));
+				$idsToExclude = array_keys($nodesToExclude);
+				foreach ($idsToExclude as $key => $id)
+					$idsToExclude[$key] = "'".addslashes($id)."'";
+				$where = implode(", ",$idsToExclude);
 				$where = $db."children.node_id NOT IN ({$where})";
 				$query->addWhere($where);
 			}
