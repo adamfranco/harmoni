@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.20 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.21 2005/04/26 22:23:08 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -292,7 +292,7 @@ class RecordManager {
 			if (count($alreadyFetchedFields)) {
 				$temp = array();
 				foreach ($alreadyFetchedFields as $id) {
-					$temp[] = "dm_record_field.id != ".addslashes($id)."'";
+					$temp[] = "dm_record_field.id != '".addslashes($id)."'";
 				}
 				$query->addWhere('(' . implode(" AND ", $temp) . ')');
 			}
