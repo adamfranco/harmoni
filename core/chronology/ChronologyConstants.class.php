@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ChronologyConstants.class.php,v 1.1 2005/05/03 23:55:39 adamfranco Exp $
+ * @version $Id: ChronologyConstants.class.php,v 1.2 2005/05/04 20:18:23 adamfranco Exp $
  */ 
 
 /**
@@ -28,7 +28,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ChronologyConstants.class.php,v 1.1 2005/05/03 23:55:39 adamfranco Exp $
+ * @version $Id: ChronologyConstants.class.php,v 1.2 2005/05/04 20:18:23 adamfranco Exp $
  * @static
  */
 class ChronologyConstants {
@@ -127,8 +127,9 @@ class ChronologyConstants {
 	 * @static
 	 */
 	function MonthNames () {
-		return array ('January', 'February', 'March', 'April', 'May', 'June', 
-			'July', 'August', 'September', 'October', 'November', 'December');
+		return array (1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April', 
+			5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August', 9 => 'September', 
+			10 => 'October', 11 => 'November', 12 => 'December');
 	}
 	
 	/**
@@ -140,7 +141,8 @@ class ChronologyConstants {
 	 * @static
 	 */
 	function DaysInMonth () {
-		return array (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+		return array (1 => 31, 2 => 28, 3 => 31, 4 => 30, 5 => 31, 6 => 30, 
+			7 => 31, 8 => 31, 9 => 30, 10 => 31, 11 => 30, 12 => 31);
 	}
 }
 

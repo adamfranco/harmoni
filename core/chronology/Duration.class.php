@@ -6,10 +6,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.1 2005/05/03 23:55:39 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.2 2005/05/04 20:18:31 adamfranco Exp $
  */ 
  
 require_once("ChronologyConstants.class.php");
+require_once("Magnitude.class.php");
 
 /**
  * I represent a duration of time. I have been tested to support durations of 
@@ -24,10 +25,16 @@ require_once("ChronologyConstants.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.1 2005/05/03 23:55:39 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.2 2005/05/04 20:18:31 adamfranco Exp $
  */
-class Duration {
+class Duration 
+	extends Magnitude
+{
 	
+/*********************************************************
+ * Class methods
+ *********************************************************/
+ 
 	/**
 	 * Create a new Duration of days...
 	 * 
@@ -102,6 +109,9 @@ class Duration {
 	}
 	
 	
+/*********************************************************
+ * 	Instance methods
+ *********************************************************/
 	
 	/**
 	 * Initialize this Duration.
@@ -225,6 +235,10 @@ class Duration {
 		return $this->seconds;
 	}
 	
+/*********************************************************
+ * Comparing/Testing
+ *********************************************************/
+	
 	/**
 	 * Return true if this Duration is negative.
 	 * 
@@ -244,7 +258,7 @@ class Duration {
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isEqualTo ( $aDuration ) {
+	function isEqualTo ( &$aDuration ) {
 		return ($this->asSeconds() == $aDuration->asSeconds());
 	}
 	
@@ -256,21 +270,13 @@ class Duration {
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isLessThan ( $aDuration ) {
+	function isLessThan ( &$aDuration ) {
 		return ($this->asSeconds() < $aDuration->asSeconds());
 	}
 	
-	/**
-	 * Test if this Duration is greater than aDuration.
-	 * 
-	 * @param object Duration $aDuration
-	 * @return boolean
-	 * @access public
-	 * @since 5/3/05
-	 */
-	function isGreaterThan ( $aDuration ) {
-		return !($this->isEqualTo($aDuration) | $this->isLessThan($aDuration));
-	}
+/*********************************************************
+ * Operations
+ *********************************************************/
 	
 	/**
 	 * Add a Duration.
@@ -280,7 +286,7 @@ class Duration {
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &plus ( $aDuration ) {
+	function &plus ( &$aDuration ) {
 		return new Duration ($this->asSeconds() + $aDuration->asSeconds());
 	}
 	
@@ -292,7 +298,7 @@ class Duration {
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &minus ( $aDuration ) {
+	function &minus ( &$aDuration ) {
 		return new Duration ($this->asSeconds() - $aDuration->asSeconds());
 	}
 	
@@ -304,7 +310,7 @@ class Duration {
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &roundTo ( $aDuration ) {
+	function &roundTo ( &$aDuration ) {
 		return new Duration (
 			intval(
 				round(
@@ -358,8 +364,6 @@ class Duration {
 		return new Duration (abs($this->seconds));
 	}
 	
-	
-	
 	/**
 	 * Answer an array {days. seconds. nanoSeconds}. Used by DateAndTime and Time
 	 * 
@@ -375,6 +379,16 @@ class Duration {
 			
 	}
 	
+	/**
+	 * Answer a Duration that represents this object.
+	 * 
+	 * @return object Duration
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function &asDuration () {
+		return $this;
+	}
 }
 
 ?>
