@@ -6,13 +6,15 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.2 2005/05/04 20:18:31 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.3 2005/05/05 00:09:59 adamfranco Exp $
  */ 
 
 require_once("ChronologyConstants.class.php");
-require_once("TimeZone.class.php");
-require_once("Month.class.php");
 require_once("Magnitude.class.php");
+require_once("Month.class.php");
+require_once("TimeZone.class.php");
+require_once("Week.class.php");
+require_once("Year.class.php");
 
 /**
  * I represent a point in UTC time as defined by ISO 8601. I have zero duration.
@@ -33,7 +35,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.2 2005/05/04 20:18:31 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.3 2005/05/05 00:09:59 adamfranco Exp $
  */
 class DateAndTime 
 	extends Magnitude
@@ -215,7 +217,7 @@ class DateAndTime
 		$anIntOrStringMonth, $anIntDay, $anIntHour, 
 		$anIntMinute, $anIntSecond, &$aDurationOffset ) 
 	{
-		if (is_int($anIntOrStringMonth))
+		if (is_numeric($anIntOrStringMonth))
 			$monthIndex = $anIntOrStringMonth;
 		else
 			$monthIndex = Month::indexOfMonth($anIntOrStringMonth);
@@ -362,30 +364,7 @@ class DateAndTime
 /*********************************************************
  * Accessing
  *********************************************************/
-	/**
-	 * Answer the year
-	 * 
-	 * @return integer
-	 * @access public
-	 * @since 5/3/05
-	 */
-	function year () {
-		$array = $this->dayMonthYearArray();
-		return $array['yyyy'];
-	}
-	
-	/**
-	 * Answer the month
-	 * 
-	 * @return integer
-	 * @access public
-	 * @since 5/3/05
-	 */
-	function month () {
-		$array = $this->dayMonthYearArray();
-		return $array['mm'];
-	}
-	
+ 	
 	/**
 	 * Answer the day
 	 * 
@@ -399,15 +378,61 @@ class DateAndTime
 	}
 	
 	/**
-	 * Answer the hours (0-23)
+	 * Answer the day of the month
 	 * 
 	 * @return integer
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function hour24 () {
-		$duration =& Duration::withSeconds($this->seconds);
-		return $duration->hours();
+	function dayOfMonth () {
+		return $this->day();
+	}
+	
+	/**
+	 * Answer the day of the week
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function dayOfWeek () {
+		$x = $this->jdn + 1;
+		return ($x - (intval($x / 7) * 7)) + 1;
+	}
+	
+	/**
+	 * Answer the day of the week abbreviation
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function dayOfWeekAbbreviation () {
+		return substr($this->dayOfWeekName(), 0, 3);
+	}
+	
+	/**
+	 * Answer the day of the week name
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function dayOfWeekName () {
+		return Week::nameOfDay($this->dayOfWeek());
+	}
+	
+	/**
+	 * Answer the day of the year
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function dayOfYear () {
+		$thisYear =& Year::withYear($this->year());
+		$start =& $thisYear->start();
+		return ($this->jdn - $start->julianDayNumber() + 1);
 	}
 	
 	/**
@@ -419,6 +444,18 @@ class DateAndTime
 	 */
 	function hour () {
 		return $this->hour24();
+	}
+	
+	/**
+	 * Answer the hours (0-23)
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function hour24 () {
+		$duration =& Duration::withSeconds($this->seconds);
+		return $duration->hours();
 	}
 	
 	/**
@@ -437,6 +474,39 @@ class DateAndTime
 	}
 	
 	/**
+	 * Return if this year is a leap year
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function isLeapYear () {
+		return Year::isLeapYear($this->year());
+	}
+	
+	/**
+	 * Return the JulianDayNumber of this DateAndTime
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function julianDayNumber () {
+		return $this->jdn;
+	}
+	
+	/**
+	 * Answer a DateAndTime starting at midnight local time
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function &midnight () {
+		return DateAndTime::withYearMonthDay($this->year(), $this->month(), $this->day());
+	}
+	
+	/**
 	 * Answer the miniute (0-59)
 	 * 
 	 * @return integer
@@ -446,6 +516,62 @@ class DateAndTime
 	function minute () {
 		$duration =& Duration::withSeconds($this->seconds);
 		return $duration->minutes();
+	}
+	
+	/**
+	 * Answer the month
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function month () {
+		$array = $this->dayMonthYearArray();
+		return $array['mm'];
+	}
+	
+	/**
+	 * Answer the day of the week abbreviation
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function monthAbbreviation () {
+		return substr($this->monthName(), 0, 3);
+	}
+	
+	/**
+	 * Answer the index of the month.
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function monthIndex () {
+		return $this->month();
+	}
+	
+	/**
+	 * Answer the name of the month.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function monthName () {
+		return Month::nameOfMonth($this->month());
+	}
+	
+	/**
+	 * Answer the offset
+	 * 
+	 * @return object Duration
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function &offset () {
+		return $this->offset;
 	}
 	
 	/**
@@ -461,43 +587,84 @@ class DateAndTime
 	}
 	
 	/**
-	 * Answer the offset
+	 * Answer the year
 	 * 
-	 * @return object Duration
+	 * @return integer
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &offset () {
-		return $this->offset;
+	function year () {
+		$array = $this->dayMonthYearArray();
+		return $array['yyyy'];
 	}
 	
 /*********************************************************
  * Comparing/Testing
  *********************************************************/
 	/**
-	 * Test if this Duration is equal to aDuration.
+	 * comparand conforms to protocol DateAndTime,
+	 * or can be converted into something that conforms.
 	 * 
-	 * @param object Duration $aDuration
+	 * @param object $comparand
 	 * @return boolean
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isEqualTo ( $aDuration ) {
-		return ($this->asSeconds() == $aDuration->asSeconds());
+	function isEqualTo ( &$comparand ) {
+		if ($this === $comparand)
+			return TRUE;
+
+		if (!method_exists($comparand, 'asDateAndTime'))
+			return FALSE;
+		
+		$comparandAsDateAndTime =& $comparand->asDateAndTime();
+		
+		if ($this->offset->isEqualTo($comparandAsDateAndTime->offset())) {
+			$myTicks = $this->ticks();
+			$comparandTicks = $comparandAsDateAndTime->ticks();
+		} else {
+			$meAsUTC =& $this->asUTC();
+			$myTicks = $meAsUTC->ticks();
+			$comparandAsUTC =& $comparandAsDateAndTime->asUTC();
+			$comparandTicks = $comparandAsUTC->ticks();
+		}
+		
+		if ($myTicks[0] != $comparandTicks[0])
+			return FALSE;
+		else
+			return ($myTicks[1] == $comparandTicks[1]);
 	}
 	
 	/**
-	 * Test if this Duration is less than aDuration.
+	 * comparand conforms to protocol DateAndTime,
+	 * or can be converted into something that conforms.
 	 * 
-	 * @param object Duration $aDuration
+	 * @param object $comparand
 	 * @return boolean
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isLessThan ( $aDuration ) {
-		return ($this->asSeconds() < $aDuration->asSeconds());
+	function isLessThan ( &$comparand ) {
+		$comparandAsDateAndTime =& $comparand->asDateAndTime();
+		
+		if ($this->offset->isEqualTo($comparandAsDateAndTime->offset())) {
+			$myTicks = $this->ticks();
+			$comparandTicks = $comparandAsDateAndTime->ticks();
+		} else {
+			$meAsUTC =& $this->asUTC();
+			$myTicks = $meAsUTC->ticks();
+			$comparandAsUTC =& $comparandAsDateAndTime->asUTC();
+			$comparandTicks = $comparandAsUTC->ticks();
+		}
+		
+		if ($myTicks[0] < $comparandTicks[0])
+			return TRUE;
+		else
+			return (($myTicks[0] == $comparandTicks[0]) 
+				&& ($myTicks[1] < $comparandTicks[1]));
 	}
 	
+
 /*********************************************************
  * Operations
  *********************************************************/
@@ -511,7 +678,7 @@ class DateAndTime
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function &plus ( $operand ) {
+	function &plus ( &$operand ) {
 		$ticks = array();
 		$duration =& $operand->asDuration();
 		$durationTicks = $duration->ticks();
@@ -523,6 +690,22 @@ class DateAndTime
 		$result =& new DateAndTime();
 		$result->ticksOffset($ticks, $this->offset());
 		return $result;
+	}
+	
+
+/*********************************************************
+ * Converting
+ *********************************************************/
+	
+	/**
+	 * Answer a DateAndTime that represents this object
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function &asDateAndTime () {
+		return $this;
 	}
 	
 	/**
@@ -537,7 +720,30 @@ class DateAndTime
 		return Duration::withSeconds($this->seconds());
 	}
 	
+	/**
+	 * Answer a DateAndTime equivalent to the reciever, but at UTC (offset = 0)
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function &asUTC () {
+		return $this->utcOffset(Duration::withHours(0));
+	}
 	
+	/**
+	 * Answer a <DateAndTime> equivalent to the receiver but offset from UTC by aDuration
+	 * 
+	 * @param object Duration $aDuration
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function &utcOffset ( &$aDuration ) {
+		$equiv =& $this->plus($aDuration->minus($this->offset()));
+		$equiv->ticksOffset($equiv->ticks(), $aDuration);
+		return $equiv;
+	}
 }
 
 ?>

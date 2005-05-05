@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.1 2005/05/04 20:18:31 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.2 2005/05/05 00:09:59 adamfranco Exp $
  */ 
 
 /**
@@ -25,7 +25,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.1 2005/05/04 20:18:31 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.2 2005/05/05 00:09:59 adamfranco Exp $
  */
 class Magnitude {
 
@@ -75,7 +75,7 @@ class Magnitude {
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isLessThanOrEqual ( &$aMagnitude ) {
+	function isLessThanOrEqualTo ( &$aMagnitude ) {
 		return ! $this->isGreaterThan($aMagnitude);
 	}
 	
@@ -87,7 +87,7 @@ class Magnitude {
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isGreaterThanOrEqual ( &$aMagnitude ) {
+	function isGreaterThanOrEqualTo ( &$aMagnitude ) {
 		return ! $this->isLessThan($aMagnitude);
 	}
 	

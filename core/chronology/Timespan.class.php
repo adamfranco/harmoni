@@ -6,8 +6,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.1 2005/05/03 23:55:39 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.2 2005/05/05 00:09:59 adamfranco Exp $
  */ 
+
+require_once("Magnitude.class.php");
 
 /**
  * Timespan represents a duration starting at a specific DateAndTime.
@@ -27,10 +29,16 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.1 2005/05/03 23:55:39 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.2 2005/05/05 00:09:59 adamfranco Exp $
  */
-class Timespan {
-		
+class Timespan 
+	extends Magnitude
+{
+	
+/*********************************************************
+ * Instance Methods 
+ *********************************************************/
+ 
 	/**
 	 * Do not use this constructor for building objects, please use the 
 	 * class-methods Timespan::new(), Timespan::starting(), etcetera, instead.
@@ -42,16 +50,55 @@ class Timespan {
 	function Timespan () {
 		
 	}
+
+	/**
+	 * Store the start DateAndTime of this timespan
+	 * 
+	 * @param object DateAndTime $aDateAndTime
+	 * @return void
+	 * @access private
+	 * @since 5/4/05
+	 */
+	function setStart ( &$aDateAndTime ) {
+		$this->start =& $aDateAndTime;
+	}
 	
 	/**
-	 * Answer a Timespan starting on the Squeak epoch: 1 January 1901
+	 * Set the Duration of this timespan
 	 * 
-	 * @return object Timespan
-	 * @access public
-	 * @since 5/2/05
+	 * @param object Duration $aDuration
+	 * @return void
+	 * @access private
+	 * @since 5/4/05
 	 */
-	function &new () {
-		return Timespan::starting(DateAndTime::new());
+	function setDuration ( &$aDuration ) {
+		$this->duration =& $aDuration;
+	}
+
+/*********************************************************
+ * Accessing
+ *********************************************************/
+ 
+	/**
+	 * Answer the start DateAndTime of this timespan
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function &start () {
+		return $this->start;
+	}
+	
+	/**
+	 * Answer the Duration of this timespan
+	 * 
+	 * @return object Duration
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function &duration () {
+		return $this->duration();
 	}
 }
 

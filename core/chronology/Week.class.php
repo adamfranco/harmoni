@@ -6,13 +6,13 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.2 2005/05/05 00:09:59 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.1 2005/05/05 00:09:59 adamfranco Exp $
  */ 
  
 require_once("Timespan.class.php");
 
 /**
- * I represent a month.
+ * I represent a Week.
  * 
  * @since 5/4/05
  * @package harmoni.chronology
@@ -20,27 +20,27 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.2 2005/05/05 00:09:59 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.1 2005/05/05 00:09:59 adamfranco Exp $
  */
-class Month 
+class Week 
 	extends Timespan
 {
 		
 	/**
-	 * Return the index of a string Month.
+	 * Return the index of a string Day.
 	 * 
 	 * @param string $aNameString
 	 * @return integer
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function indexOfMonth ( $aNameString ) {
-		foreach (ChronologyConstants::MonthNames() as $i => $name) {
+	function indexOfDay ( $aNameString ) {
+		foreach (ChronologyConstants::DayNames() as $i => $name) {
 			if (preg_match("/$aNameString.*/i", $name))
 				return $i;
 		}
 		
-		$errorString = $aNameString ." is not a recognized month name.";
+		$errorString = $aNameString ." is not a recognized day name.";
 		if (function_exists('throwError'))
 			throwError(new Error($errorString));
 		else
@@ -48,19 +48,19 @@ class Month
 	}
 	
 	/**
-	 * Return the name of the month at index.
+	 * Return the name of the day at index.
 	 * 
 	 * @param integer $anInteger
 	 * @return string
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function nameOfMonth ( $anInteger ) {
-		$names = ChronologyConstants::MonthNames();
+	function nameOfDay ( $anInteger ) {
+		$names = ChronologyConstants::DayNames();
 		if ($names[$anInteger])
 			return $names[$anInteger];
 		
-		$errorString = $anInteger ." is not a valid month index.";
+		$errorString = $anInteger ." is not a valid day index.";
 		if (function_exists('throwError'))
 			throwError(new Error($errorString));
 		else

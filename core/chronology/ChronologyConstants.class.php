@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ChronologyConstants.class.php,v 1.2 2005/05/04 20:18:23 adamfranco Exp $
+ * @version $Id: ChronologyConstants.class.php,v 1.3 2005/05/05 00:09:59 adamfranco Exp $
  */ 
 
 /**
@@ -28,7 +28,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ChronologyConstants.class.php,v 1.2 2005/05/04 20:18:23 adamfranco Exp $
+ * @version $Id: ChronologyConstants.class.php,v 1.3 2005/05/05 00:09:59 adamfranco Exp $
  * @static
  */
 class ChronologyConstants {
@@ -114,8 +114,8 @@ class ChronologyConstants {
 	 * @static
 	 */
 	function DayNames () {
-		return array ('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
-			'Friday', 'Saturday');
+		return array (1 => 'Sunday', 2 => 'Monday', 3 => 'Tuesday', 4 => 'Wednesday',
+			5 => 'Thursday', 6 => 'Friday', 7 => 'Saturday');
 	}
 	
 	/**
