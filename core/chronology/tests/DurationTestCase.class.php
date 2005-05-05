@@ -1,4 +1,16 @@
 <?php
+/** 
+ * @package harmoni.chronology.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DurationTestCase.class.php,v 1.2 2005/05/05 23:10:46 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
+ * @since 5/3/05
+ */
 
 require_once(dirname(__FILE__)."/../Duration.class.php");
 
@@ -7,12 +19,17 @@ require_once(dirname(__FILE__)."/../Duration.class.php");
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
+ * @since 5/3/05
+ *
  * @package harmoni.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DurationTestCase.class.php,v 1.1 2005/05/03 23:55:39 adamfranco Exp $
+ * @version $Id: DurationTestCase.class.php,v 1.2 2005/05/05 23:10:46 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
 
 class DurationTestCase extends UnitTestCase {

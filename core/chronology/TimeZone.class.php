@@ -6,8 +6,13 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeZone.class.php,v 1.1 2005/05/03 23:55:39 adamfranco Exp $
+ * @version $Id: TimeZone.class.php,v 1.2 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
+
+require_once("SObject.class.php");
 
 /**
  * TimeZone is a simple class to colect the information identifying a UTC time zone.
@@ -25,9 +30,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeZone.class.php,v 1.1 2005/05/03 23:55:39 adamfranco Exp $
+ * @version $Id: TimeZone.class.php,v 1.2 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
-class TimeZone {
+class TimeZone 
+	extends SObject
+{
 	
 	/**
 	 * Create a new Timezone.

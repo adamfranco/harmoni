@@ -6,7 +6,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.2 2005/05/05 00:09:59 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
  
 require_once("Timespan.class.php");
@@ -20,11 +23,18 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.2 2005/05/05 00:09:59 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
 class Month 
 	extends Timespan
 {
+
+/*********************************************************
+ * Class Methods
+ *********************************************************/
 		
 	/**
 	 * Return the index of a string Month.
@@ -33,6 +43,7 @@ class Month
 	 * @return integer
 	 * @access public
 	 * @since 5/4/05
+	 * @static
 	 */
 	function indexOfMonth ( $aNameString ) {
 		foreach (ChronologyConstants::MonthNames() as $i => $name) {
@@ -54,6 +65,7 @@ class Month
 	 * @return string
 	 * @access public
 	 * @since 5/4/05
+	 * @static
 	 */
 	function nameOfMonth ( $anInteger ) {
 		$names = ChronologyConstants::MonthNames();
@@ -65,6 +77,106 @@ class Month
 			throwError(new Error($errorString));
 		else
 			die ($errorString);
+	}
+	
+	/**
+	 * Answer the days in this month on a given year.
+	 * 
+	 * @param string $indexOrNameString
+	 * @param ingteger $yearInteger
+	 * @return integer
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function daysInMonthForYear ( $indexOrNameString, $yearInteger ) {
+		if (is_numeric($indexOrNameString))
+			$index = $indexOrNameString;
+		else
+			$index = Month::indexOfMonth($indexOrNameString);
+		
+		if ($index < 1 | $index > 12) {
+			$errorString = $index ." is not a valid month index.";
+			if (function_exists('throwError'))
+				throwError(new Error($errorString));
+			else
+				die ($errorString);
+		}
+		
+		$monthDays = ChronologyConstants::DaysInMonth();
+		$days = $monthDays[$index];
+		
+		if ($index == 2 && Year::isLeapYear($yearInteger))
+			return $days + 1;
+		else
+			return $days;
+	}
+	
+/*********************************************************
+ * Class Methods - Instance Creation
+ *********************************************************/
+	
+	/**
+	 * Answer a new object that represents now.
+	 * 
+	 * @return object Month
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function &current () {
+		return Month::starting(DateAndTime::now());
+	}
+	
+	/**
+	 * Create a new object starting now, with zero duration
+	 * 
+	 * @param object DateAndTime $aDateAndTime
+	 * @return object Month
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function &starting ( &$aDateAndTime ) {
+		return Month::startingDuration($aDateAndTime, Duration::zero());
+	}
+	
+	/**
+	 * Create a new object starting now, with a given duration. 
+	 * Override - as each month has a defined duration
+	 * 
+	 * @param object DateAndTime $aDateAndTime
+	 * @param object Duration $aDuration
+	 * @return object Month
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function &startingDuration ( &$aDateAndTime, &$aDuration ) {
+		$start =& $aDateAndTime->asDateAndTime();
+		$adjusted =& DateAndTime::withYearMonthDay($start->year(), $start->month(), 1);
+		$days = Month::daysInMonthForYear($adjusted->month(), $adjusted->year());
+		
+		$month =& new Month;
+		$month->setStart($adjusted);
+		$month->setDuration(Duration::withDays($days));
+		
+		return $month;
+	}
+	
+/*********************************************************
+ * Instance methods - Accessing
+ *********************************************************/
+	
+	/**
+	 * Answer the number of days
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function daysInMonth () {
+		return $this->duration->days();
 	}
 }
 

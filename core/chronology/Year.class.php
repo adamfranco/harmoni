@@ -6,7 +6,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.1 2005/05/05 00:09:59 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.2 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
  
 require_once("Timespan.class.php");
@@ -20,7 +23,10 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.1 2005/05/05 00:09:59 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.2 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
 class Year 
 	extends Timespan
@@ -29,18 +35,50 @@ class Year
 /*********************************************************
  * Class Methods
  *********************************************************/
-		
+	
 	/**
-	 * Create a new Year
+	 * Return TRUE if the year passed is a leap year
 	 * 
 	 * @param integer $anInteger
-	 * @return object Year
+	 * @return boolean
 	 * @access public
 	 * @since 5/4/05
+	 * @static
 	 */
-	function &withYear ( $anInteger ) {
-		return Year::startingDuration(
-			DateAndTime::withYearMonthDay($anInteger, 1, 1), $null = NULL);
+	function isLeapYear ( $anInteger ) {
+		if($anInteger > 0)
+			$adjustedYear = $anInteger;
+		else
+			$adjustedYear = 0 - ($anInteger + 1);
+	}
+
+/*********************************************************
+ * Class Methods - Instance Creation
+ *********************************************************/
+	
+	/**
+	 * Answer a new object that represents now.
+	 * 
+	 * @return object Month
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function &current () {
+		return Year::starting(DateAndTime::now());
+	}
+	
+	/**
+	 * Create a new object starting now, with zero duration
+	 * 
+	 * @param object DateAndTime $aDateAndTime
+	 * @return object Month
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function &starting ( &$aDateAndTime ) {
+		return Year::startingDuration($aDateAndTime, Duration::zero());
 	}
 	
 	/**
@@ -50,6 +88,7 @@ class Year
 	 * @param object Duration $aDuration
 	 * @return object Year
 	 * @access public
+	 * @static
 	 * @since 5/4/05
 	 */
 	function &startingDuration ( &$aDateAndTime, &$aDuration) {
@@ -60,24 +99,23 @@ class Year
 		
 		return $year;
 	}
-	
+
 	/**
-	 * Return TRUE if the year passed is a leap year
+	 * Create a new Year
 	 * 
 	 * @param integer $anInteger
-	 * @return boolean
+	 * @return object Year
 	 * @access public
 	 * @since 5/4/05
+	 * @static
 	 */
-	function isLeapYear ( $anInteger ) {
-		if($anInteger > 0)
-			$adjustedYear = $anInteger;
-		else
-			$adjustedYear = 0 - ($anInteger + 1);
+	function &withYear ( $anInteger ) {
+		return Year::startingDuration(
+			DateAndTime::withYearMonthDay($anInteger, 1, 1), $null = NULL);
 	}
 
 /*********************************************************
- * Instance Methods
+ * Hybrid Class/Instance Methods
  *********************************************************/
 	
 	/**
@@ -109,6 +147,11 @@ class Year
 				return 365;
 		}
 	}
+
+/*********************************************************
+ * Instance Methods
+ *********************************************************/
+ 	
 }
 
 ?>

@@ -6,8 +6,13 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.2 2005/05/05 00:09:59 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
+ 
+require_once("SObject.class.php");
 
 /**
  * Magnitude has methods for dealing with linearly ordered collections.
@@ -25,9 +30,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.2 2005/05/05 00:09:59 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
-class Magnitude {
+class Magnitude 
+	extends SObject
+{
 
 	/**
 	 * Test if this is less than aMagnitude.

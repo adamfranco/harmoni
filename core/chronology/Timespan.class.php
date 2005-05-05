@@ -6,7 +6,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.2 2005/05/05 00:09:59 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
 
 require_once("Magnitude.class.php");
@@ -29,11 +32,55 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.2 2005/05/05 00:09:59 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
 class Timespan 
 	extends Magnitude
 {
+	/**
+	 * Answer a new object that represents now.
+	 * 
+	 * @return object Timespan
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function &current () {
+		die("Method ".__FUNCTION__." in class ".__CLASS__
+		." should have been overridden by a child class.");
+	}
+	
+	/**
+	 * Create a new object starting now, with zero duration
+	 * 
+	 * @param object DateAndTime $aDateAndTime
+	 * @return object Timespan
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function &starting ( &$aDateAndTime ) {
+		die("Method ".__FUNCTION__." in class ".__CLASS__
+		." should have been overridden by a child class.");
+	}
+	
+	/**
+	 * Create a new object starting now, with zero duration
+	 * 
+	 * @param object DateAndTime $aDateAndTime
+	 * @param object Duration $aDuration
+	 * @return object Timespan
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function &startingDuration ( &$aDateAndTime, &$aDuration ) {
+		die("Method ".__FUNCTION__." in class ".__CLASS__
+		." should have been overridden by a child class.");
+	}
 	
 /*********************************************************
  * Instance Methods 

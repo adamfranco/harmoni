@@ -6,7 +6,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.2 2005/05/04 20:18:31 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
  
 require_once("ChronologyConstants.class.php");
@@ -25,15 +28,30 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.2 2005/05/04 20:18:31 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
 class Duration 
 	extends Magnitude
 {
 	
 /*********************************************************
- * Class methods
+ * Class methods - Instance Creation
  *********************************************************/
+ 	
+ 	/**
+ 	 * Create a new Duration of zero length
+ 	 * 
+ 	 * @return object Duration
+ 	 * @access public
+ 	 * @since 5/5/05
+ 	 * @static
+ 	 */
+ 	function zero () {
+ 		return Duration::withDays(0);
+ 	}
  
 	/**
 	 * Create a new Duration of days...
@@ -110,7 +128,7 @@ class Duration
 	
 	
 /*********************************************************
- * 	Instance methods
+ * 	Instance methods - Private
  *********************************************************/
 	
 	/**
@@ -124,6 +142,25 @@ class Duration
 	function Duration ($seconds = 0) {
 		$this->seconds = $seconds;
 	}
+	
+	/**
+	 * Answer an array {days. seconds. nanoSeconds}. Used by DateAndTime and Time
+	 * 
+	 * @return array
+	 * @access private
+	 * @since 5/2/05
+	 */
+	function ticks () {
+		return array(
+			$this->days(),
+			(($this->hours() * 3600) + ($this->minutes() * 60) + floor($this->seconds()))
+		);
+			
+	}
+	
+/*********************************************************
+ * Instance methods - Accessing
+ *********************************************************/
 	
 	/**
 	 * Answer the number of days the receiver represents.
@@ -236,7 +273,7 @@ class Duration
 	}
 	
 /*********************************************************
- * Comparing/Testing
+ * Instance methods - Comparing/Testing
  *********************************************************/
 	
 	/**
@@ -275,7 +312,7 @@ class Duration
 	}
 	
 /*********************************************************
- * Operations
+ * Instance methods - Operations
  *********************************************************/
 	
 	/**
@@ -364,20 +401,9 @@ class Duration
 		return new Duration (abs($this->seconds));
 	}
 	
-	/**
-	 * Answer an array {days. seconds. nanoSeconds}. Used by DateAndTime and Time
-	 * 
-	 * @return array
-	 * @access public
-	 * @since 5/2/05
-	 */
-	function ticks () {
-		return array(
-			$this->days(),
-			(($this->hours() * 3600) + ($this->minutes() * 60) + floor($this->seconds()))
-		);
-			
-	}
+/*********************************************************
+ * Instance methods - Converting
+ *********************************************************/
 	
 	/**
 	 * Answer a Duration that represents this object.

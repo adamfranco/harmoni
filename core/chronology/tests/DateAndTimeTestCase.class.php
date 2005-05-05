@@ -1,4 +1,16 @@
 <?php
+/** 
+ * @package harmoni.chronology.tests
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.4 2005/05/05 23:10:46 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
+ * @since 5/3/05
+ */
 
 require_once(dirname(__FILE__)."/../DateAndTime.class.php");
 
@@ -12,7 +24,11 @@ require_once(dirname(__FILE__)."/../DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.3 2005/05/05 00:11:05 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.4 2005/05/05 23:10:46 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
+ * @since 5/3/05
  */
 
 class DateAndTimeTestCase extends UnitTestCase {
@@ -77,7 +93,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 							2005, 5, 4, 15, 25, 10, $null = NULL);
 		$this->assertEqual($dateAndTime->year(), 2005);
 		$this->assertEqual($dateAndTime->month(), 5);
-		$this->assertEqual($dateAndTime->day(), 4);
+		$this->assertEqual($dateAndTime->dayOfMonth(), 4);
 		$this->assertEqual($dateAndTime->hour(), 15);
 		$this->assertEqual($dateAndTime->hour12(), 3);
 		$this->assertEqual($dateAndTime->minute(), 25);
@@ -86,7 +102,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$dateAndTime =& DateAndTime::withYearMonthDayHourMinute(2005, 5, 4, 15, 25);
 		$this->assertEqual($dateAndTime->year(), 2005);
 		$this->assertEqual($dateAndTime->month(), 5);
-		$this->assertEqual($dateAndTime->day(), 4);
+		$this->assertEqual($dateAndTime->dayOfMonth(), 4);
 		$this->assertEqual($dateAndTime->hour(), 15);
 		$this->assertEqual($dateAndTime->hour12(), 3);
 		$this->assertEqual($dateAndTime->minute(), 25);
@@ -95,7 +111,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$dateAndTime =& DateAndTime::withYearDay(1950, 1);
 		$this->assertEqual($dateAndTime->year(), 1950);
 		$this->assertEqual($dateAndTime->month(), 1);
-		$this->assertEqual($dateAndTime->day(), 1);
+		$this->assertEqual($dateAndTime->dayOfMonth(), 1);
 		$this->assertEqual($dateAndTime->hour(), 0);
 		$this->assertEqual($dateAndTime->hour12(), 12);
 		$this->assertEqual($dateAndTime->minute(), 0);
@@ -104,7 +120,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$dateAndTime =& DateAndTime::withYearMonthDay(2005, 1, 1);
 		$this->assertEqual($dateAndTime->year(), 2005);
 		$this->assertEqual($dateAndTime->month(), 1);
-		$this->assertEqual($dateAndTime->day(), 1);
+		$this->assertEqual($dateAndTime->dayOfMonth(), 1);
 		$this->assertEqual($dateAndTime->hour(), 0);
 		$this->assertEqual($dateAndTime->hour12(), 12);
 		$this->assertEqual($dateAndTime->minute(), 0);
@@ -182,33 +198,31 @@ class DateAndTimeTestCase extends UnitTestCase {
 		// asUTC()
 		// asWeek()
 		// asYear		
-		$this->assertEqual($dateAndTime->day(), 4);
+		$this->assertEqual($dateAndTime->day(), 155);
 		$this->assertEqual($dateAndTime->dayOfMonth(), 4);
 		$this->assertEqual($dateAndTime->dayOfWeek(), 7);
 		$this->assertEqual($dateAndTime->dayOfWeekAbbreviation(), 'Sat');
 		$this->assertEqual($dateAndTime->dayOfWeekName(), 'Saturday');
 		$this->assertEqual($dateAndTime->dayOfYear(), 155);
-// 		$this->assertEqual($dateAndTime->daysInMonth(), 30);
-// 		$this->assertEqual($dateAndTime->daysInYear(), 365);
-// 		$this->assertEqual($dateAndTime->daysLeftInYear(), 210);
-// 		$duration =& $dateAndTime->duration();
-// 		$this->assertEqual($duration->asSeconds(), 0);
-// 		$this->assertEqual($dateAndTime->firstDayOfMonth(), 152);
+ 		$this->assertEqual($dateAndTime->daysInMonth(), 30);
+ 		$this->assertEqual($dateAndTime->daysInYear(), 365);
+ 		$this->assertEqual($dateAndTime->daysLeftInYear(), 210);
+ 		$duration =& $dateAndTime->duration();
+ 		$this->assertEqual($duration->asSeconds(), 0);
+ 		$this->assertEqual($dateAndTime->firstDayOfMonth(), 152);
 		$this->assertEqual($dateAndTime->hour(), 15);
 		$this->assertEqual($dateAndTime->hour24(), 15);
 		$this->assertEqual($dateAndTime->hour12(), 3);
-// 		$this->assertEqual($dateAndTime->hours(), 15);
 		$this->assertEqual($dateAndTime->hour(), 15);
 		// isEqualTo()
 		$this->assertFalse($dateAndTime->isLeapYear());
 		// isLessThan()
 		$this->assertEqual($dateAndTime->julianDayNumber(), 2453526);
-// 		$this->assertEqual($dateAndTime->meridianAbbreviation(), 'PM');
+		$this->assertEqual($dateAndTime->meridianAbbreviation(), 'PM');
 		// middleOf($aDuration)
 		// midnight()
 		// minus()
 		$this->assertEqual($dateAndTime->minute(), 25);
-// 		$this->assertEqual($dateAndTime->minutes(), 25);
 		$this->assertEqual($dateAndTime->month(), 6);
 		$this->assertEqual($dateAndTime->monthIndex(), 6);
 		$this->assertEqual($dateAndTime->monthName(), 'June');
@@ -221,7 +235,6 @@ class DateAndTimeTestCase extends UnitTestCase {
 		// printableString()
 // 		$this->assertEqual($dateAndTime->ymdString(), '2005-06-04');
 		$this->assertEqual($dateAndTime->second(), 10);
-// 		$this->assertEqual($dateAndTime->seconds(), 10);
 		// ticks()
 		// ticksOffset()
 // 		$this->assertEqual($dateAndTime->timeZoneAbbreviation(), 'EST');

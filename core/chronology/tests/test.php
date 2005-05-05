@@ -4,12 +4,14 @@
  * A group test template using the SimpleTest unit testing package.
  * Just add the UnitTestCase files below using addTestFile().
  *
- * @package harmoni.osid_v2.hierarchy.tree.tests
+ * @since 5/3/05
+ *
+ * @package harmoni.osid_v2.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.1 2005/05/03 23:55:39 adamfranco Exp $
+ * @version $Id: test.php,v 1.2 2005/05/05 23:10:46 adamfranco Exp $
  */
 
 	if (!defined('HARMONI')) {

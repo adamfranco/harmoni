@@ -6,12 +6,16 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.3 2005/05/05 00:09:59 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.4 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
 
 require_once("ChronologyConstants.class.php");
 require_once("Magnitude.class.php");
 require_once("Month.class.php");
+require_once("Time.class.php");
 require_once("TimeZone.class.php");
 require_once("Week.class.php");
 require_once("Year.class.php");
@@ -35,7 +39,10 @@ require_once("Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.3 2005/05/05 00:09:59 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.4 2005/05/05 23:09:48 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
 class DateAndTime 
 	extends Magnitude
@@ -80,6 +87,7 @@ class DateAndTime
 	 * @param integer $anIntYear
 	 * @param integer $anIntDayOfYear
 	 * @access public
+ 	 * @static
 	 * @since 5/4/05
 	 */
 	function &withYearDay ( $anIntYear, $anIntDayOfYear) {
@@ -104,6 +112,7 @@ class DateAndTime
 	 * @param object Duration $aDurationOffset
 	 * @return object DateAndTime
 	 * @access public
+ 	 * @static
 	 * @since 5/4/05
 	 */
 	function &withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
@@ -129,6 +138,7 @@ class DateAndTime
 	 * @param integer $anIntOrStringMonth
 	 * @param integer $anIntDay
 	 * @access public
+ 	 * @static
 	 * @since 5/4/05
 	 */
 	function &withYearMonthDay ( $anIntYear, 
@@ -154,6 +164,7 @@ class DateAndTime
 	 * @param integer $anIntHour
 	 * @param integer $anIntMinute
 	 * @access public
+ 	 * @static
 	 * @since 5/4/05
 	 */
 	function &withYearMonthDayHourMinute ( $anIntYear, 
@@ -182,6 +193,7 @@ class DateAndTime
 	 * @param integer $anIntSecond
 	 * @return object DateAndTime
 	 * @access public
+ 	 * @static
 	 * @since 5/4/05
 	 */
 	function &withYearMonthDayHourMinuteSecond ( $anIntYear, 
@@ -211,6 +223,7 @@ class DateAndTime
 	 * @param object Duration $aDurationOffset
 	 * @return object DateAndTime
 	 * @access public
+ 	 * @static
 	 * @since 5/4/05
 	 */
 	function &withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
@@ -234,7 +247,7 @@ class DateAndTime
 		
 		$since =& Duration::withDaysHoursMinutesSeconds($julianDayNumber,
 				$anIntHour, $anIntMinute, $anIntSecond);
-				
+
 		if (is_null($aDurationOffset))
 			$offset =& DateAndTime::localOffset();
 		else
@@ -250,6 +263,7 @@ class DateAndTime
 	 * 
 	 * @return object Duration
 	 * @access public
+ 	 * @static
 	 * @since 5/3/05
 	 */
 	function &localOffset () {
@@ -262,6 +276,7 @@ class DateAndTime
 	 * 
 	 * @return object Duration
 	 * @access public
+ 	 * @static
 	 * @since 5/3/05
 	 */
 	function &localTimeZone () {
@@ -278,7 +293,7 @@ class DateAndTime
 	
 	
 /*********************************************************
- * 	Instance Methods
+ * 	Instance Methods - Private
  *********************************************************/
 	
 	/**
@@ -335,6 +350,21 @@ class DateAndTime
 		return array ($this->jdn, $this->seconds);
 	}
 	
+/*********************************************************
+ * Instance Methods - Accessing
+ *********************************************************/
+ 	
+	/**
+	 * Answer the day
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function day () {
+		return $this->dayOfYear();
+	}
+	
 	/**
 	 * Return an array with the following elements:
 	 *	'dd' 	=> day of the year
@@ -361,22 +391,6 @@ class DateAndTime
 		return array('dd' => $dd, 'mm' => $mm, 'yyyy' => $yyyy);
 	}
 	
-/*********************************************************
- * Accessing
- *********************************************************/
- 	
-	/**
-	 * Answer the day
-	 * 
-	 * @return integer
-	 * @access public
-	 * @since 5/3/05
-	 */
-	function day () {
-		$array = $this->dayMonthYearArray();
-		return $array['dd'];
-	}
-	
 	/**
 	 * Answer the day of the month
 	 * 
@@ -385,7 +399,8 @@ class DateAndTime
 	 * @since 5/3/05
 	 */
 	function dayOfMonth () {
-		return $this->day();
+		$array = $this->dayMonthYearArray();
+		return $array['dd'];
 	}
 	
 	/**
@@ -433,6 +448,65 @@ class DateAndTime
 		$thisYear =& Year::withYear($this->year());
 		$start =& $thisYear->start();
 		return ($this->jdn - $start->julianDayNumber() + 1);
+	}
+	
+	/**
+	 * Answer the number of days in the month represented by the receiver.
+	 * 
+	 * @return ingteger
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function daysInMonth () {
+		$month =& $this->asMonth();
+		return $month->daysInMonth();
+	}
+	
+	/**
+	 * Answer the number of days in the year represented by the receiver.
+	 * 
+	 * @return ingteger
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function daysInYear () {
+		$year =& $this->asYear();
+		return $year->daysInYear();
+	}
+	
+	/**
+	 * Answer the number of days in the year after the date of the receiver.
+	 * 
+	 * @return ingteger
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function daysLeftInYear () {
+		return $this->daysInYear() - $this->dayOfYear();
+	}
+	
+	/**
+	 * Answer the duration of this object (always zero)
+	 * 
+	 * @return object Duration
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function &duration () {
+		return Duration::zero();
+	}
+	
+	/**
+	 * Answer the day-in-the-year of the first day of our month
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function firstDayOfMonth () {
+		$month =& $this->asMonth();
+		$monthStart =& $month->start();
+		return $monthStart->day();
 	}
 	
 	/**
@@ -496,6 +570,18 @@ class DateAndTime
 	}
 	
 	/**
+	 * Return the Meridian Abbreviation ('AM'/'PM')
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function meridianAbbreviation () {
+		$time =& $this->asTime();
+		return $time->meridianAbbreviation();
+	}
+	
+	/**
 	 * Answer a DateAndTime starting at midnight local time
 	 * 
 	 * @return object DateAndTime
@@ -503,7 +589,8 @@ class DateAndTime
 	 * @since 5/3/05
 	 */
 	function &midnight () {
-		return DateAndTime::withYearMonthDay($this->year(), $this->month(), $this->day());
+		$dAndT =& DateAndTime::withYearMonthDay($this->year(), $this->month(), $this->dayOfMonth());
+		return $dAndT;
 	}
 	
 	/**
@@ -599,7 +686,7 @@ class DateAndTime
 	}
 	
 /*********************************************************
- * Comparing/Testing
+ * Instance methods - Comparing/Testing
  *********************************************************/
 	/**
 	 * comparand conforms to protocol DateAndTime,
@@ -666,7 +753,7 @@ class DateAndTime
 	
 
 /*********************************************************
- * Operations
+ * Instance methods - Operations
  *********************************************************/
  
 	/**
@@ -694,8 +781,19 @@ class DateAndTime
 	
 
 /*********************************************************
- * Converting
+ * Instance methods - Converting
  *********************************************************/
+	
+	/**
+	 * Answer a Date that represents this object
+	 * 
+	 * @return object Date
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function &asDate () {
+		return Date::starting($this);
+	}
 	
 	/**
 	 * Answer a DateAndTime that represents this object
@@ -721,6 +819,66 @@ class DateAndTime
 	}
 	
 	/**
+	 * Answer a DateAndTime that represents the object, but at local time.
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function &asLocal () {
+		$myOffset =& $this->offset();
+		if ($myOffset->isEqualTo(DateAndTime::localOffset()))
+			return $this;
+		else
+			return $this->utcOffset(DateAndTime::localOffset());
+	}
+	
+	/**
+	 * Answer the month that represents this date's month
+	 * 
+	 * @return object Month
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function &asMonth () {
+		return Month::starting($this);
+	}
+	
+	/**
+	 * Return the number of seconds since the Squeak epoch.
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function asSeconds () {
+		$sinceEpoch =& $this->minus(DateTime::epoch());
+		return $sinceEpoch->asSeconds();
+	}
+	
+	/**
+	 * Answer a Time that represents our time component
+	 * 
+	 * @return object Time
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function &asTime () {
+		return Time::withSeconds($this->seconds);
+	}
+	
+	/**
+	 * Answer a Timestamp that represents this DateAndTime
+	 * 
+	 * @return object TimeStamp
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function &asTimeStamp () {
+		return $this->asA('TimeStamp');
+	}
+	
+	/**
 	 * Answer a DateAndTime equivalent to the reciever, but at UTC (offset = 0)
 	 * 
 	 * @return object DateAndTime
@@ -743,6 +901,17 @@ class DateAndTime
 		$equiv =& $this->plus($aDuration->minus($this->offset()));
 		$equiv->ticksOffset($equiv->ticks(), $aDuration);
 		return $equiv;
+	}
+	
+	/**
+	 * Answer the year that represents this date's year
+	 * 
+	 * @return object Year
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function &asYear () {
+		return Year::starting($this);
 	}
 }
 
