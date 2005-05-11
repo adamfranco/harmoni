@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.5 2005/05/11 03:04:46 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.6 2005/05/11 17:48:02 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -40,7 +40,7 @@ require_once("Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.5 2005/05/11 03:04:46 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.6 2005/05/11 17:48:02 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -931,14 +931,16 @@ class DateAndTime
 		$methods = get_class_methods($operand);
 		
 		// If this conforms to the DateAndTimeProtocal
-		if (in_array('asDateAndTime', $methods)) {
+		if (in_array('asdateandtime', $methods) 
+			| in_array('asDateAndTime', $methods)) 
+		{
 			$meLocal =& $this->asLocal();
 			$lticks = $meLocal->ticks();
 			$opDAndT =& $operand->asDateAndTime();
 			$opLocal =& $opDAndT->asLocal();
 			$rticks = $opLocal->ticks();
 			
-			return Duration::seconds(
+			return Duration::withSeconds(
 				(($lticks[0] - $rticks[0]) * ChronologyConstants::SecondsInDay())
 				+ ($lticks[1] - $rticks[1]));
 			

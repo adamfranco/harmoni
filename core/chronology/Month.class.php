@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.4 2005/05/11 17:48:02 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.4 2005/05/11 17:48:02 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -126,6 +126,22 @@ class Month
 	 */
 	function &current () {
 		return Month::starting(DateAndTime::now());
+	}
+	
+	/**
+	 * Create a Month for the given <year> and <month>.
+	 * <month> may be a number or a String with the
+	 * name of the month. <year> should be with 4 digits.
+	 * 
+	 * @param string $anIntegerOrStringMonth
+	 * @param integer $anIntegerYear Four-digit year.
+	 * @return object Month
+	 * @access public
+	 * @since 5/11/05
+	 */
+	function &withMonthYear ( $anIntegerOrStringMonth, $anIntegerYear ) {
+		return Month::starting(DateAndTime::withYearMonthDay(
+			$anIntegerYear, $anIntegerOrStringMonth, 1));
 	}
 	
 	/**

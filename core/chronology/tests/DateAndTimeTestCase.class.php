@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.5 2005/05/11 03:05:42 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.6 2005/05/11 17:48:27 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/../DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.5 2005/05/11 03:05:42 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.6 2005/05/11 17:48:27 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -272,7 +272,6 @@ class DateAndTimeTestCase extends UnitTestCase {
 							2005, 6, 4, 15, 25, 10, Duration::withHours(-5))));
 		
 		// asLocal()
-		
 		$startDuration =& Duration::withHours(-5);
 		$localOffset =& DateAndTime::localOffset();
 		$difference =& $localOffset->minus($startDuration);
@@ -283,8 +282,12 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertTrue($temp->isEqualTo($local));
 		
 		// asMonth()
+		$temp =& $dateAndTime->asMonth();
+		$this->assertTrue($temp->isEqualTo(Month::withMonthYear(6, 2005)));
 		
 		// asSeconds()
+		$localOffset =& DateAndTime::localOffset();
+		$this->assertEqual($dateAndTime->asSeconds(), (3295369510 + $localOffset->asSeconds()));
 		
 		// asTime()
 		

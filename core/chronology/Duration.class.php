@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.4 2005/05/11 03:04:46 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.5 2005/05/11 17:48:02 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -28,7 +28,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.4 2005/05/11 03:04:46 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.5 2005/05/11 17:48:02 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -253,7 +253,7 @@ class Duration
 			$remainderDuration =& $this->minus(Duration::withDays($this->days()));
 			return $remainderDuration->seconds();
 		} else {
-			if (!$this->isNegative())
+			if ($this->isPositive())
 				return floor($this->seconds % ChronologyConstants::SecondsInMinute());
 			else
 				return 0 - floor(
