@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.1 2005/05/05 23:11:22 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.2 2005/05/11 18:03:53 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -31,7 +31,7 @@ require_once("Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.1 2005/05/05 23:11:22 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.2 2005/05/11 18:03:53 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -41,7 +41,7 @@ class Time
 {
 
 /*********************************************************
- * Class Methods
+ * Class Methods - Instance Creation
  *********************************************************/
 	
 	/**
@@ -59,8 +59,8 @@ class Time
 	{
 		return Time::withSeconds(
 							  ($anIntHour * ChronologyConstants::SecondsInHour())
-							+ ($anIntMinutes * ChronologyConstants::SecondsInMinute())
-							+ $anIntSeconds);
+							+ ($anIntMinute * ChronologyConstants::SecondsInMinute())
+							+ $anIntSecond);
 	}
 	
 	/**

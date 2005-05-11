@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.6 2005/05/11 17:48:27 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.7 2005/05/11 18:04:50 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/../DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.6 2005/05/11 17:48:27 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.7 2005/05/11 18:04:50 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,16 +32,12 @@ require_once(dirname(__FILE__)."/../DateAndTime.class.php");
  */
 
 class DateAndTimeTestCase extends UnitTestCase {
-	
-	function TreeTestCase() {
-		$this->UnitTestCase();
-	}
-	
+
 	/**
-	*  Sets up unit test wide variables at the start
-	*	 of each test method.
-	*	 @access public
-	*/
+	 *  Sets up unit test wide variables at the start
+	 *	 of each test method.
+	 *	 @access public
+	 */
 	function setUp() {
 		// perhaps, initialize $obj here
 	}
@@ -290,6 +286,9 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertEqual($dateAndTime->asSeconds(), (3295369510 + $localOffset->asSeconds()));
 		
 		// asTime()
+		$temp =& $dateAndTime->asTime();
+		$this->assertTrue($temp->isEqualTo(Time::withHourMinuteSecond(15, 25, 10)));
+		$this->assertTrue($temp->isEqualTo(Time::withSeconds(55510)));
 		
 		// asTimestamp()
 		

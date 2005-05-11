@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.2 2005/05/05 23:10:46 adamfranco Exp $
+ * @version $Id: test.php,v 1.3 2005/05/11 18:04:50 adamfranco Exp $
  */
 
 	if (!defined('HARMONI')) {
@@ -27,6 +27,7 @@
 	
 	$test =& new GroupTest('Chronology Tests');
 	$test->addTestFile(dirname(__FILE__).'/DurationTestCase.class.php');
+	$test->addTestFile(dirname(__FILE__).'/TimeTestCase.class.php');
 	$test->addTestFile(dirname(__FILE__).'/DateAndTimeTestCase.class.php');
 	
 	$test->attachObserver(new DoboTestHtmlDisplay());
