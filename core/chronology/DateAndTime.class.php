@@ -6,13 +6,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.4 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.5 2005/05/11 03:04:46 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
 
 require_once("ChronologyConstants.class.php");
+require_once("Date.class.php");
 require_once("Magnitude.class.php");
 require_once("Month.class.php");
 require_once("Time.class.php");
@@ -39,7 +40,7 @@ require_once("Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.4 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.5 2005/05/11 03:04:46 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -62,6 +63,39 @@ class DateAndTime
 	 */
 	function &epoch () {
 		return DateAndTime::withJulianDayNumber(ChronologyConstants::SqueakEpoch());
+	}
+	
+	/**
+	 * Answer the duration we are offset from UTC
+	 * 
+	 * @return object Duration
+	 * @access public
+ 	 * @static
+	 * @since 5/3/05
+	 */
+	function &localOffset () {
+		$timeZone =& DateAndTime::localTimeZone();
+		return $timeZone->offset();
+	}
+	
+	/**
+	 * Answer the local TimeZone
+	 * 
+	 * @return object Duration
+	 * @access public
+ 	 * @static
+	 * @since 5/3/05
+	 */
+	function &localTimeZone () {
+		$tzAbbreviation = date('T');
+		$tzOffset = date('Z');
+		if ($tzAbbreviation && $tzOffset)
+			return TimeZone::offsetNameAbbreviation(
+						Duration::withSeconds($tzOffset),
+						$tzAbbreviation,
+						$tzAbbreviation);
+		else
+			return TimeZone::defaultTimeZone();
 	}
 	
 	/**
@@ -256,39 +290,6 @@ class DateAndTime
 		$dateAndTime =& new DateAndTime();
 		$dateAndTime->ticksOffset($since->ticks(), $offset);
 		return $dateAndTime;
-	}
-	
-	/**
-	 * Answer the duration we are offset from UTC
-	 * 
-	 * @return object Duration
-	 * @access public
- 	 * @static
-	 * @since 5/3/05
-	 */
-	function &localOffset () {
-		$timeZone =& DateAndTime::localTimeZone();
-		return $timeZone->offset();
-	}
-	
-	/**
-	 * Answer the local TimeZone
-	 * 
-	 * @return object Duration
-	 * @access public
- 	 * @static
-	 * @since 5/3/05
-	 */
-	function &localTimeZone () {
-		$tzAbbreviation = date('T');
-		$tzOffset = date('O');
-		if ($tzAbbreviation && $tzOffset)
-			return TimeZone::offsetNameAbbreviation(
-						Duration::withHours($tzOffset),
-						$tzAbbreviation,
-						$tzAbbreviation);
-		else
-			return TimeZone::defaultTimeZone();
 	}
 	
 	
@@ -510,6 +511,23 @@ class DateAndTime
 	}
 	
 	/**
+	 * Answer just 'hh:mm:ss'. This is equivalent to Squeak's printHMSOn: method.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function hmsString () {
+		$result = '';
+		$result .= str_pad($this->hour(), 2, '0', STR_PAD_LEFT);
+		$result .= ':';
+		$result .= str_pad($this->minute(), 2, '0', STR_PAD_LEFT);
+		$result .= ':';
+		$result .= str_pad($this->second(), 2, '0', STR_PAD_LEFT);
+		return $result;
+	}
+	
+	/**
 	 * Answer the hours (0-23)
 	 * 
 	 * @return integer
@@ -674,6 +692,92 @@ class DateAndTime
 	}
 	
 	/**
+	 * Print as per ISO 8601 sections 5.3.3 and 5.4.1.
+	 * If printLeadingSpaceToo is false, prints either:
+	 *		'YYYY-MM-DDThh:mm:ss.s+ZZ:zz:z' (for positive years) 
+	 *	or 
+	 *		'-YYYY-MM-DDThh:mm:ss.s+ZZ:zz:z' (for negative years)
+	 *
+	 * If printLeadingSpaceToo is true, prints either:
+	 * 		' YYYY-MM-DDThh:mm:ss.s+ZZ:zz:z' (for positive years) 
+	 *	or 
+	 *		'-YYYY-MM-DDThh:mm:ss.s+ZZ:zz:z' (for negative years)
+	 *
+	 * This is equivalent to Squeak's printOn:withLeadingSpace: method.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function string ( $printLeadingSpaceToo = FALSE ) {
+		$result = $this->ymdString($printLeadingSpaceToo);
+		$result .= 'T';
+		$result .= $this->hmsString();
+		
+		if ($this->offset->isPositive())
+			$result .= '+';
+		else
+			$result .= '-';
+		
+		$result .= str_pad(abs($this->offset->hours()), 2, '0', STR_PAD_LEFT);
+		$result .= ':';
+		$result .= str_pad(abs($this->offset->minutes()), 2, '0', STR_PAD_LEFT);
+		
+		if ($this->offset->seconds() != 0) {
+			$result .= ':';
+			$result .= intval(abs($this->offset->minutes())/10);
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Answer the Time Zone that corresponds to our offset.
+	 * 
+	 * @return object TimeZone
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function &timeZone () {
+		// Search through the array of timezones for one that matches. Otherwise,
+		// build our own. The name and abbreviation are just a guess, as multiple
+		// Time Zones have the same offset.
+		$zoneArray =& TimeZone::timeZones();
+		foreach (array_keys($zoneArray) as $key) {
+			if ($this->offset->isEqualTo($zoneArray[$key]->offset()))
+				return $zoneArray[$key];
+		}
+		return TimeZone::offsetNameAbbreviation(
+						$this->offset,
+						$tzAbbreviation,
+						$tzAbbreviation);
+	}
+	
+	/**
+	 * Answer the TimeZone abbreviation.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function timeZoneAbbreviation () {
+		$timeZone =& $this->timeZone();
+		return $timeZone->abbreviation();
+	}
+	
+	/**
+	 * Answer the TimeZone name.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function timeZoneName () {
+		$timeZone =& $this->timeZone();
+		return $timeZone->name();
+	}
+	
+	/**
 	 * Answer the year
 	 * 
 	 * @return integer
@@ -683,6 +787,42 @@ class DateAndTime
 	function year () {
 		$array = $this->dayMonthYearArray();
 		return $array['yyyy'];
+	}
+	
+	/**
+	 * Print just the year, month, and day on aStream.
+	 *
+	 * If printLeadingSpaceToo is true, then print as:
+	 * 	' YYYY-MM-DD' (if the year is positive) or '-YYYY-MM-DD' (if the year is negative)
+	 * otherwise print as:
+	 * 	'YYYY-MM-DD' or '-YYYY-MM-DD' 
+	 *
+	 * This is equivalent to Squeak's printYMDOn:withLeadingSpace: method.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function ymdString ( $printLeadingSpaceToo = FALSE ) {
+		$year = $this->year();
+		$month = $this->month();
+		$day = $this->dayOfMonth();
+		
+		$result = '';
+		
+		if ($year < 0) {
+			$result .= '-';
+		} else {
+			if ($printLeadingSpaceToo)
+				$resul .= ' ';
+		}
+		
+		$result .= str_pad(abs($year), 4, '0', STR_PAD_LEFT);
+		$result .= '-';
+		$result .= str_pad($month, 2, '0', STR_PAD_LEFT);
+		$result .= '-';
+		$result .= str_pad($day, 2, '0', STR_PAD_LEFT);
+		return $result;
 	}
 	
 /*********************************************************
@@ -779,6 +919,36 @@ class DateAndTime
 		return $result;
 	}
 	
+	/**
+	 * Subtract a Duration or DateAndTime.
+	 * 
+	 * @param object $operand
+	 * @return object
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function &minus ( &$operand ) {
+		$methods = get_class_methods($operand);
+		
+		// If this conforms to the DateAndTimeProtocal
+		if (in_array('asDateAndTime', $methods)) {
+			$meLocal =& $this->asLocal();
+			$lticks = $meLocal->ticks();
+			$opDAndT =& $operand->asDateAndTime();
+			$opLocal =& $opDAndT->asLocal();
+			$rticks = $opLocal->ticks();
+			
+			return Duration::seconds(
+				(($lticks[0] - $rticks[0]) * ChronologyConstants::SecondsInDay())
+				+ ($lticks[1] - $rticks[1]));
+			
+		} 
+		// If this conforms to the Duration protocal
+		else {
+			return $this->plus($operand->negated());
+		}
+	}
+	
 
 /*********************************************************
  * Instance methods - Converting
@@ -815,7 +985,7 @@ class DateAndTime
 	 * @since 5/4/05
 	 */
 	function &asDuration () {
-		return Duration::withSeconds($this->seconds());
+		return Duration::withSeconds($this->seconds);
 	}
 	
 	/**
@@ -852,7 +1022,7 @@ class DateAndTime
 	 * @since 5/5/05
 	 */
 	function asSeconds () {
-		$sinceEpoch =& $this->minus(DateTime::epoch());
+		$sinceEpoch =& $this->minus(DateAndTime::epoch());
 		return $sinceEpoch->asSeconds();
 	}
 	
@@ -897,9 +1067,10 @@ class DateAndTime
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function &utcOffset ( &$aDuration ) {
-		$equiv =& $this->plus($aDuration->minus($this->offset()));
-		$equiv->ticksOffset($equiv->ticks(), $aDuration);
+	function &utcOffset ( &$anOffset ) {
+		$duration =& $anOffset->asDuration();
+		$equiv =& $this->plus($duration->minus($this->offset()));
+		$equiv->ticksOffset($equiv->ticks(), $duration);
 		return $equiv;
 	}
 	

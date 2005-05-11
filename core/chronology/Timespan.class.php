@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.4 2005/05/11 03:04:46 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.4 2005/05/11 03:04:46 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -83,7 +83,7 @@ class Timespan
 	}
 	
 /*********************************************************
- * Instance Methods 
+ * Instance Methods - Private
  *********************************************************/
  
 	/**
@@ -123,7 +123,7 @@ class Timespan
 	}
 
 /*********************************************************
- * Accessing
+ * Instance Methods - Accessing
  *********************************************************/
  
 	/**
@@ -145,7 +145,110 @@ class Timespan
 	 * @since 5/4/05
 	 */
 	function &duration () {
-		return $this->duration();
+		return $this->duration;
+	}
+
+/*********************************************************
+ * Instance methods - Comparing/Testing
+ *********************************************************/
+	
+	/**
+	 * Test if this Timespan is equal to a Timespan.
+	 * 
+	 * @param object Timespan $aTimespan
+	 * @return boolean
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function isEqualTo ( &$aTimespan ) {
+		return ($this->start->isEqualTo($aTimespan->start())
+			&& $this->duration->isEqualTo($aTimespan->duration()));
+	}
+	
+	/**
+	 * Test if this Timespan is less than a comparand.
+	 * 
+	 * @param object $aComparand
+	 * @return boolean
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function isLessThan ( &$aComparand ) {
+		return ($this->start->isLessThan($aComparand));
+	}
+
+/*********************************************************
+ * Instance methods - Operations
+ *********************************************************/
+	
+	/**
+	 * Add a Duration.
+	 * 
+	 * @param object Duration $aDuration
+	 * @return object Duration The result.
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function &plus ( &$aDuration ) {
+		$classname = get_class($this);
+		
+		$operation = $classname.'::startingDuration($this->start, 
+			$this->duration->plus($aDuration));';
+		
+		return eval($operation);
+	}
+	
+	/**
+	 * Subtract a Duration or DateAndTime.
+	 * 
+	 * @param object $operand
+	 * @return object
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function &minus ( &$operand ) {
+		$methods = get_class_methods($operand);
+		
+		// If this conforms to the DateAndTimeProtocal
+		if (in_array('asDateAndTime', $methods)) {
+			return $this->start->minus($operand);
+		} 
+		// If this conforms to the Duration protocal
+		else {
+			return $this->plus($operand->negated());
+		}
+	}
+
+	/**
+	 * Answer the next object of our duration.
+	 * 
+	 * @return object Timespan
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function &next () {
+		$classname = get_class($this);
+		
+		$operation = $classname.'::startingDuration(
+			$this->start->plus($this->duration), $this->duration);';
+		
+		return eval($operation);
+	}
+	
+	/**
+	 * Answer the previous object of our duration.
+	 * 
+	 * @return object Timespan
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function &previous () {
+		$classname = get_class($this);
+		
+		$operation = $classname.'::startingDuration(
+			$this->start->minus($this->duration), $this->duration);';
+		
+		return eval($operation);
 	}
 }
 

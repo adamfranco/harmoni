@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.4 2005/05/11 03:04:46 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -28,7 +28,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.4 2005/05/11 03:04:46 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -170,7 +170,7 @@ class Duration
 	 * @since 5/3/05
 	 */
 	function days () {
-		if (!$this->isNegative())
+		if ($this->isPositive())
 			return floor($this->seconds/ChronologyConstants::SecondsInDay());
 		else {
 			return 0 - floor(abs($this->seconds)/ChronologyConstants::SecondsInDay());
@@ -288,6 +288,17 @@ class Duration
 	}
 	
 	/**
+	 * Return true if this Duration is positive.
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function isPositive () {
+		return !($this->isNegative());
+	}
+	
+	/**
 	 * Test if this Duration is equal to aDuration.
 	 * 
 	 * @param object Duration $aDuration
@@ -336,7 +347,7 @@ class Duration
 	 * @since 5/3/05
 	 */
 	function &minus ( &$aDuration ) {
-		return new Duration ($this->asSeconds() - $aDuration->asSeconds());
+		return $this->plus($aDuration->negated());
 	}
 	
 	/**
@@ -399,6 +410,17 @@ class Duration
 	 */
 	function &abs () {
 		return new Duration (abs($this->seconds));
+	}
+	
+	/**
+	 * Return the negative of this duration
+	 * 
+	 * @return object Duration
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function &negated () {
+		return new Duration(0 - $this->seconds);
 	}
 	
 /*********************************************************

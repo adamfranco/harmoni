@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeZone.class.php,v 1.2 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: TimeZone.class.php,v 1.3 2005/05/11 03:04:46 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -30,7 +30,7 @@ require_once("SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeZone.class.php,v 1.2 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: TimeZone.class.php,v 1.3 2005/05/11 03:04:46 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -38,7 +38,11 @@ require_once("SObject.class.php");
 class TimeZone 
 	extends SObject
 {
-	
+
+/*********************************************************
+ * Class Methods - Instance Creation
+ *********************************************************/	
+ 
 	/**
 	 * Create a new Timezone.
 	 * 
@@ -49,7 +53,8 @@ class TimeZone
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &offsetNameAbbreviation ( $aDuration, $aStringName, $aStringAbbreviation ) 
+	function &offsetNameAbbreviation ( $aDuration, $aStringName = NULL, 
+		$aStringAbbreviation = NULL) 
 	{
 		return new TimeZone ($aDuration, $aStringName, $aStringAbbreviation );
 	}
@@ -68,6 +73,11 @@ class TimeZone
 					'Greenwich Mean Time',
 					'GMT');
 	}
+	
+	
+/*********************************************************
+ * Class Methods - Accessing
+ *********************************************************/
 	
 	/**
 	 * Return an Array of TimeZones
@@ -92,9 +102,29 @@ class TimeZone
 				'British Summer Time',
 				'BST'),
 			TimeZone::offsetNameAbbreviation(
-				Duration::withHours(2),
-				'South African Standard Time',
-				'SAST'),
+				Duration::withHours(-5),
+				'Eastern Standard Time',
+				'EST'),
+			TimeZone::offsetNameAbbreviation(
+				Duration::withHours(-4),
+				'Eastern Daylight Time',
+				'EDT'),
+			TimeZone::offsetNameAbbreviation(
+				Duration::withHours(-6),
+				'Central Standard Time',
+				'CST'),
+			TimeZone::offsetNameAbbreviation(
+				Duration::withHours(-5),
+				'Central Daylight Time',
+				'CDT'),
+			TimeZone::offsetNameAbbreviation(
+				Duration::withHours(-7),
+				'Mountain Standard Time',
+				'MST'),
+			TimeZone::offsetNameAbbreviation(
+				Duration::withHours(-6),
+				'Mountain Daylight Time',
+				'MDT'),
 			TimeZone::offsetNameAbbreviation(
 				Duration::withHours(-8),
 				'Pacific Standard Time',
@@ -106,6 +136,11 @@ class TimeZone
 			
 		);
 	}
+	
+	
+/*********************************************************
+ * 	Instance Methods - private
+ *********************************************************/
 	
 	/**
 	 * Create a new Timezone.
@@ -121,7 +156,11 @@ class TimeZone
 		$this->offset =& $aDuration;
 		$this->name = $aStringName;
 		$this->abbreviation = $aStringAbbreviation;
-	}	
+	}
+	
+/*********************************************************
+ * Instance Methods - Accessing
+ *********************************************************/
 	
 	/**
 	 * Return the offset of this TimeZone
@@ -134,7 +173,27 @@ class TimeZone
 		return $this->offset;
 	}
 	
+	/**
+	 * Answer the abreviation
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function abbreviation () {
+		return $this->abbreviation;
+	}
 	
+	/**
+	 * Answer the name
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function name () {
+		return $this->name;
+	}
 }
 
 ?>

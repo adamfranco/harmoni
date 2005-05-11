@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.4 2005/05/05 23:10:46 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.5 2005/05/11 03:05:42 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/../DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.4 2005/05/05 23:10:46 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.5 2005/05/11 03:05:42 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -197,7 +197,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 		// asTimestamp()
 		// asUTC()
 		// asWeek()
-		// asYear		
+		// asYear()		
 		$this->assertEqual($dateAndTime->day(), 155);
 		$this->assertEqual($dateAndTime->dayOfMonth(), 4);
 		$this->assertEqual($dateAndTime->dayOfWeek(), 7);
@@ -231,23 +231,114 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$offset =& $dateAndTime->offset();
 		$this->assertTrue($offset->isEqualTo(Duration::withHours(-5)));
 		// plus()
-// 		$this->assertEqual($dateAndTime->hmsString(), '15:25:10');
-		// printableString()
-// 		$this->assertEqual($dateAndTime->ymdString(), '2005-06-04');
+ 		$this->assertEqual($dateAndTime->hmsString(), '15:25:10');
+ 		$this->assertEqual($dateAndTime->ymdString(), '2005-06-04');
+ 		$this->assertEqual($dateAndTime->string(), '2005-06-04T15:25:10-05:00');
 		$this->assertEqual($dateAndTime->second(), 10);
 		// ticks()
 		// ticksOffset()
-// 		$this->assertEqual($dateAndTime->timeZoneAbbreviation(), 'EST');
-// 		$this->assertEqual($dateAndTime->timeZoneAbbreviation(), 'Eastern Standard Time');
+ 		$this->assertEqual($dateAndTime->timeZoneAbbreviation(), 'EST');
+ 		$this->assertEqual($dateAndTime->timeZoneName(), 'Eastern Standard Time');
 		// to()
 		// toBy()
 		// toByDo()
-		// utcOffset
+		// utcOffset()
 		// withOffset()
 		$this->assertEqual($dateAndTime->year(), 2005);
 		
-		$this->assertEqual("A tests have been uncommented and run?", "Yes");
+// 		$this->assertEqual("All tests have been uncommented and run?", "Yes");
 	}
+	
+	/**
+	 * Test converting
+	 */ 
+	function test_converting() {
+		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							2005, 6, 4, 15, 25, 10, Duration::withHours(-5));
+		
+		
+		// asDate()
+		$temp =& $dateAndTime->asDate();
+		$this->assertTrue($temp->isEqualTo(Date::withYearMonthDay(2005, 6, 4)));
+		
+		// asDuration()
+		$temp =& $dateAndTime->asDuration();
+		$this->assertTrue($temp->isEqualTo(Duration::withSeconds(55510)));
+		
+		// asDateAndTime()
+		$temp =& $dateAndTime->asDateAndTime();
+		$this->assertTrue($temp->isEqualTo(
+			DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							2005, 6, 4, 15, 25, 10, Duration::withHours(-5))));
+		
+		// asLocal()
+		
+		$startDuration =& Duration::withHours(-5);
+		$localOffset =& DateAndTime::localOffset();
+		$difference =& $localOffset->minus($startDuration);
+		$temp =& $dateAndTime->asLocal();
+		$local =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							2005, 6, 4, (15 + $difference->hours()), 25, 10, $localOffset);
+		
+		$this->assertTrue($temp->isEqualTo($local));
+		
+		// asMonth()
+		
+		// asSeconds()
+		
+		// asTime()
+		
+		// asTimestamp()
+		
+		// asUTC()
+		$temp =& $dateAndTime->asUTC();
+		$this->assertTrue($temp->isEqualTo(
+			DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							2005, 6, 4, 20, 25, 10, Duration::withHours(0))));
+		
+		// asWeek()
+		
+		// asYear()
+		
+		$this->assertEqual("All tests have been uncommented and run?", "Yes");
+	}
+	
+	/**
+	 * Test utcOffset
+	 * 
+	 */
+	function test_utcOffset() {
+		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							2005, 6, 4, 15, 25, 10, Duration::withHours(-5));
+		
+		
+		$atUTC =& $dateAndTime->utcOffset(Duration::withHours(0));
+		
+		$this->assertEqual($dateAndTime->julianDayNumber(), 2453526);
+		$this->assertEqual($atUTC->julianDayNumber(), 2453526);
+		$this->assertEqual($dateAndTime->seconds, 55510);
+		$this->assertEqual($atUTC->seconds, 73510);
+		$this->assertEqual($dateAndTime->offset->seconds, -18000);
+		$this->assertEqual($atUTC->offset->seconds, 0);
+		
+		$this->assertEqual($dateAndTime->string(), '2005-06-04T15:25:10-05:00');
+		$this->assertEqual($atUTC->string(), '2005-06-04T20:25:10+00:00');
+	}
+	
+	/**
+	 * Test localOffset
+	 * 
+	 */
+	function test_localOffset() {
+		$localOffset =& DateAndTime::localOffset();
+		
+		$this->assertTrue($localOffset->isLessThanOrEqualTo(Duration::withHours(12)));
+		$this->assertTrue($localOffset->isGreaterThanOrEqualTo(Duration::withHours(-12)));
+		
+		$secondsOffset = date('Z');
+		$this->assertTrue($localOffset->isEqualTo(Duration::withSeconds($secondsOffset)));
+	}
+
 }
 
 // 		print "<pre>";
