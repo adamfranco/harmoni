@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.6 2005/05/12 00:03:15 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.7 2005/05/12 17:45:08 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.6 2005/05/12 00:03:15 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.7 2005/05/12 17:45:08 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -57,6 +57,13 @@ class Timespan
 
 /*********************************************************
  * Class Methods - Instance Creation
+ *
+ * All static instance creation methods have an optional
+ * $class parameter which is used to get around the limitations 
+ * of not being	able to find the class of the object that 
+ * recieved the initial method call rather than the one in
+ * which it is implemented. These parameters SHOULD NOT BE
+ * USED OUTSIDE OF THIS PACKAGE.
  *********************************************************/
 	/**
 	 * Answer a new object that represents now.
@@ -470,10 +477,6 @@ class Timespan
  	 * @since 5/11/05
  	 */
  	function startYear () {
- 		print "<pre>";
- 		var_export($this);
- 		if (!is_object($this->start))
- 			print_r(debug_backtrace());
  		return $this->start->year();
  	}
 }

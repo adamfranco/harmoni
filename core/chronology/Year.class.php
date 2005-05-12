@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.3 2005/05/12 00:03:15 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.4 2005/05/12 17:45:08 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.3 2005/05/12 00:03:15 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.4 2005/05/12 17:45:08 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -50,10 +50,25 @@ class Year
 			$adjustedYear = $anInteger;
 		else
 			$adjustedYear = 0 - ($anInteger + 1);
+		
+		if (($adjustedYear % 4 != 0) 
+			|| (($adjustedYear % 100 == 0) && ($adjustedYear % 400 != 0)))
+		{
+			return FALSE;
+		} else {
+			return TRUE;
+		}
 	}
 
 /*********************************************************
  * Class Methods - Instance Creation
+ *
+ * All static instance creation methods have an optional
+ * $class parameter which is used to get around the limitations 
+ * of not being	able to find the class of the object that 
+ * recieved the initial method call rather than the one in
+ * which it is implemented. These parameters SHOULD NOT BE
+ * USED OUTSIDE OF THIS PACKAGE.
  *********************************************************/
 	
  	/**
@@ -89,7 +104,7 @@ class Year
 	}
 	
 	/**
-	 * Create a new object starting now, with zero duration
+	 * Create a new object starting now
 	 * 
 	 * @param object DateAndTime $aDateAndTime
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
@@ -170,11 +185,12 @@ class Year
 	 */
 	function &withYear ( $anInteger, $class = 'Year' ) {
 		$start =& DateAndTime::withYearMonthDay($anInteger, 1, 1);
-		return Year::startingDuration(
+		eval('$result =& '.$class.'::startingDuration(
 				$start, 
 				$null = NULL,
 				$class
-			);
+			);');
+		return $result;
 	}
 
 /*********************************************************

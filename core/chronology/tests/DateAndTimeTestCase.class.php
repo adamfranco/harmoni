@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.8 2005/05/12 00:04:03 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.9 2005/05/12 17:46:45 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/../DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.8 2005/05/12 00:04:03 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.9 2005/05/12 17:46:45 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -308,9 +308,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 		
 		// asYear()
 		$temp =& $dateAndTime->asYear();
-		$this->assertTrue($temp->isEqualTo(Year::starting($dateAndTime)));
-		$this->assertTrue($temp->isEqualTo(Year::withYear(2005)));
-		
+		$this->assertTrue($temp->isEqualTo(Year::starting($dateAndTime)));		
 	}
 	
 	/**

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.7 2005/05/12 00:03:14 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.8 2005/05/12 17:45:08 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -34,7 +34,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.7 2005/05/12 00:03:14 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.8 2005/05/12 17:45:08 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -104,7 +104,12 @@ class DateAndTime
 /*********************************************************
  * Class Methods - Instance Creation
  *
- * All 
+ * All static instance creation methods have an optional
+ * $class parameter which is used to get around the limitations 
+ * of not being	able to find the class of the object that 
+ * recieved the initial method call rather than the one in
+ * which it is implemented. These parameters SHOULD NOT BE
+ * USED OUTSIDE OF THIS PACKAGE.
  *********************************************************/
 	
 	/**
@@ -124,6 +129,32 @@ class DateAndTime
 					ChronologyConstants::SqueakEpoch(), 
 					$class
 				);');
+		return $result;
+	}
+	
+	/**
+	 * Answer the current date and time.
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/12/05
+	 */
+	function &now ( $class = 'DateAndTime' ) {
+		eval('$result =& '.$class.'::withYearMonthDayHourMinuteSecondOffset(
+				'.intval(date('Y')).',
+				'.intval(date('n')).',
+				'.intval(date('j')).',
+				'.intval(date('G')).',
+				'.intval(date('i')).',
+				'.intval(date('s')).',
+				$null = NULL,
+				$class
+			);');
+		
 		return $result;
 	}
 	

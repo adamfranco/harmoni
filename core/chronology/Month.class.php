@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.5 2005/05/12 00:03:15 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.6 2005/05/12 17:45:08 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.5 2005/05/12 00:03:15 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.6 2005/05/12 17:45:08 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -114,6 +114,13 @@ class Month
 	
 /*********************************************************
  * Class Methods - Instance Creation
+ *
+ * All static instance creation methods have an optional
+ * $class parameter which is used to get around the limitations 
+ * of not being	able to find the class of the object that 
+ * recieved the initial method call rather than the one in
+ * which it is implemented. These parameters SHOULD NOT BE
+ * USED OUTSIDE OF THIS PACKAGE.
  *********************************************************/
  
  	/**
@@ -238,8 +245,9 @@ class Month
 	function &withMonthYear ( $anIntegerOrStringMonth, $anIntegerYear, 
 		$class = 'Month' ) 
 	{
-		return Month::starting(DateAndTime::withYearMonthDay(
-			$anIntegerYear, $anIntegerOrStringMonth, 1), $class);
+		eval('$result =& '.$class.'::starting(DateAndTime::withYearMonthDay(
+			$anIntegerYear, $anIntegerOrStringMonth, 1), $class);');
+		return $result;
 	}
 
 	

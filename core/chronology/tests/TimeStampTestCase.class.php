@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.1 2005/05/12 00:04:03 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.2 2005/05/12 17:46:54 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../TimeStamp.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.1 2005/05/12 00:04:03 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.2 2005/05/12 17:46:54 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -326,7 +326,6 @@ class TimeStampTestCase extends UnitTestCase {
 		// asYear()
 		$temp =& $dateAndTime->asYear();
 		$this->assertTrue($temp->isEqualTo(Year::starting($dateAndTime)));
-		$this->assertTrue($temp->isEqualTo(Year::withYear(2005)));
 	}
 	
 	/**

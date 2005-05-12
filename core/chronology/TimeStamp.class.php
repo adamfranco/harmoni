@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.1 2005/05/12 00:03:15 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.2 2005/05/12 17:45:08 adamfranco Exp $
  */ 
  
 require_once("DateAndTime.class.php");
@@ -20,7 +20,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.1 2005/05/12 00:03:15 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.2 2005/05/12 17:45:08 adamfranco Exp $
  */
 class TimeStamp
 	extends DateAndTime 
@@ -28,6 +28,13 @@ class TimeStamp
 		
 /*********************************************************
  * Class Methods - Instance Creation
+ *
+ * All static instance creation methods have an optional
+ * $class parameter which is used to get around the limitations 
+ * of not being	able to find the class of the object that 
+ * recieved the initial method call rather than the one in
+ * which it is implemented. These parameters SHOULD NOT BE
+ * USED OUTSIDE OF THIS PACKAGE.
  *********************************************************/
 	
 	/**

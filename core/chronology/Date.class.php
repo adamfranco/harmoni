@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.1 2005/05/11 03:04:46 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.2 2005/05/12 17:45:08 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -25,7 +25,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.1 2005/05/11 03:04:46 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.2 2005/05/12 17:45:08 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -42,18 +42,45 @@ class Date
 	
 /*********************************************************
  * Class Methods - Instance Creation
+ *
+ * All static instance creation methods have an optional
+ * $class parameter which is used to get around the limitations 
+ * of not being	able to find the class of the object that 
+ * recieved the initial method call rather than the one in
+ * which it is implemented. These parameters SHOULD NOT BE
+ * USED OUTSIDE OF THIS PACKAGE.
  *********************************************************/
 	
 	/**
 	 * Answer a new object that represents now.
 	 * 
-	 * @return object Month
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Date
 	 * @access public
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &current () {
-		return Date::starting(DateAndTime::now());
+	function &current ( $class = 'Date' ) {
+		return parent::current($class);
+	}
+	
+	/**
+	 * Answer a Date starting on the Squeak epoch: 1 January 1901
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Date
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function &epoch ( $class = 'Date' ) {
+		return parent::epoch($class);
 	}
 	
 	/**
@@ -68,11 +95,15 @@ class Date
 	 *		<four-digit year><two-digit monthNumber><two-digit day>	(19820405; 1982-04-05)
 	 * 
 	 * @param string $aString
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @return object Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &fromString ($aString) {
+	function &fromString ( $aString, $class = 'Date' ) {
 		$day = NULL;
 		$month = NULL;
 		$year = NULL;
@@ -120,64 +151,70 @@ class Date
 			die("'".$aString."' is not in a valid format.");
 		}
 		
-		return Date::starting(DateAndTime::withYearMonthDay($year, $month, $day));
+		eval('$result =& '.$class.'::starting(DateAndTime::withYearMonthDay($year, $month, $day));');
+		return $result;
 	}
 	
 	/**
 	 * Create a new object starting now, with our default one day duration
 	 * 
 	 * @param object DateAndTime $aDateAndTime
-	 * @return object Month
+	 * @return object Date
 	 * @access public
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &starting ( &$aDateAndTime ) {
-		return Date::startingDuration($aDateAndTime, Duration::withDays(1));
+	function &starting ( &$aDateAndTime, $class = 'Date' ) {
+		return parent::startingDuration($aDateAndTime->midnight(), Duration::withDays(1), $class);
 	}
 	
 	/**
-	 * Create a new object starting now, with a given duration. 
+	 * Create a new object starting from midnight
 	 * 
 	 * @param object DateAndTime $aDateAndTime
 	 * @param object Duration $aDuration
-	 * @return object Month
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Year
 	 * @access public
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &startingDuration ( &$aDateAndTime, &$aDuration ) {
-		$start =& $aDateAndTime->asDateAndTime();
-		$adjusted =& DateAndTime::withYearMonthDay($start->year(), 
-			$start->month(), $start->dayOfMonth());
-				
-		$date =& new Date;
-		$date->setStart($adjusted);
-		$date->setDuration($aDuration);
-		
-		return $date;
+	function &startingDuration ( &$aDateAndTime, &$aDuration, $class = 'Date' ) {
+		return parent::startingDuration ( $aDateAndTime, $aDuration, $class );
 	}
 	
 	/**
 	 * Answer today's date
 	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @return object Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &today () {
-		return Date::current();
+	function &today ( $class = 'Date' ) {
+		eval('$today =& '.$class.'::current($class);');
+		return $today;
 	}
 	
 	/**
 	 * Answer yesterday's date
 	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @return object Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &yesterday () {
-		$today =& Date::today();
+	function &yesterday ( $class = 'Date' ) {
+		eval('$today =& '.$class.'::today($class);');
 		return $today->previous();
 	}
 	
@@ -188,8 +225,8 @@ class Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &tomorrow () {
-		$today =& Date::today();
+	function &tomorrow ( $class = 'Date' ) {
+		eval('$today =& '.$class.'::today($class);');
 		return $today->next();
 	}
 	
@@ -201,8 +238,9 @@ class Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &withJulianDayNumber ( $anInteger ) {
-		return Date::starting(DateAndTime::withJulianDayNumber($anInteger));
+	function &withJulianDayNumber ( $anInteger, $class = 'Date' ) {
+		eval('$result =& '.$class.'::starting(DateAndTime::withJulianDayNumber($anInteger));');
+		return $result;
 	}
 	
 	/**
@@ -215,9 +253,10 @@ class Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay ) {
-		return Date::starting(DateAndTime::withYearMonthDay($anIntYear, 
-			$anIntOrStringMonth, $anIntDay));
+	function &withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, $class = 'Date' ) {
+		eval('$result =& '.$class.'::starting(DateAndTime::withYearMonthDay($anIntYear, 
+			$anIntOrStringMonth, $anIntDay));');
+		return $result;
 	}
 	
 	/**
@@ -229,8 +268,9 @@ class Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &withYearDay ( $anIntYear, $anIntDay ) {
-		return Date::starting(DateAndTime::withYearDay($anIntYear,  $anIntDay));
+	function &withYearDay ( $anIntYear, $anIntDay, $class = 'Date' ) {
+		eval('$result =& '.$class.'::starting(DateAndTime::withYearDay($anIntYear,  $anIntDay));');
+		return $result;
 	}
 	
 /*********************************************************
