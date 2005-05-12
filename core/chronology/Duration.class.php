@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.5 2005/05/11 17:48:02 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.6 2005/05/12 22:57:26 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -28,7 +28,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.5 2005/05/11 17:48:02 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.6 2005/05/12 22:57:26 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -236,6 +236,41 @@ class Duration
 	}
 	
 	/**
+	 * Format as per ANSI 5.8.2.16: [-]D:HH:MM:SS[.S]
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function printableString () {
+		$d = abs($this->days());
+		$h = abs($this->hours());
+		$m = abs($this->minutes());
+		$s = abs($this->seconds());
+		
+		$result = '';
+		
+		if ($this->isNegative())
+			$result .= '-';
+		
+		$result .= $d.':';
+		
+		if ($h < 10)
+			$result .= '0';
+		$result .= $h.':';
+		
+		if ($m < 10)
+			$result .= '0';
+		$result .= $m.':';
+		
+		if ($s < 10)
+			$result .= '0';
+		$result .= $s;
+		
+		return $result;
+	}
+	
+	/**
 	 * Answer the number of seconds the receiver represents.
 	 * 
 	 * @return integer
@@ -259,17 +294,6 @@ class Duration
 				return 0 - floor(
 					abs($this->seconds) % ChronologyConstants::SecondsInMinute());
 		}
-	}
-	
-	/**
-	 * Answer the duration in seconds.
-	 * 
-	 * @return integer
-	 * @access public
-	 * @since 5/3/05
-	 */
-	function asSeconds () {
-		return $this->seconds;
 	}
 	
 /*********************************************************
@@ -327,17 +351,33 @@ class Duration
  *********************************************************/
 	
 	/**
-	 * Add a Duration.
+	 * Return the absolute value of this duration.
 	 * 
-	 * @param object Duration $aDuration
-	 * @return object Duration The result.
+	 * @return object Duration
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &plus ( &$aDuration ) {
-		return new Duration ($this->asSeconds() + $aDuration->asSeconds());
+	function &abs () {
+		return new Duration (abs($this->seconds));
 	}
 	
+	/**
+	 * Divide a Duration. Operand is a Duration or a Number
+	 * 
+	 * @param object Duration $aDuration
+	 * @return object Duration The result
+	 * @access public
+	 * @since 5/12/05
+	 */
+	function &dividedBy ( $operand ) {
+		if (is_numeric($operand)) {
+			return new Duration (intval($this->asSeconds() / $operand));
+		} else {
+			$denominator =& $operand->asDuration();
+			return new Duration (intval($this->asSeconds() / $denominator->asSeconds()));
+		}
+	}
+		
 	/**
 	 * Subtract a Duration.
 	 * 
@@ -348,6 +388,46 @@ class Duration
 	 */
 	function &minus ( &$aDuration ) {
 		return $this->plus($aDuration->negated());
+	}
+	
+	/**
+	 * Multiply a Duration. Operand is a Duration or a Number
+	 * 
+	 * @param object Duration $aDuration
+	 * @return object Duration The result
+	 * @access public
+	 * @since 5/12/05
+	 */
+	function &multipliedBy ( $operand ) {
+		if (is_numeric($operand)) {
+			return new Duration (intval($this->asSeconds() * $operand));
+		} else {
+			$duration =& $operand->asDuration();
+			return new Duration (intval($this->asSeconds() * $duration->asSeconds()));
+		}
+	}
+	
+	/**
+	 * Return the negative of this duration
+	 * 
+	 * @return object Duration
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function &negated () {
+		return new Duration(0 - $this->seconds);
+	}
+	
+	/**
+	 * Add a Duration.
+	 * 
+	 * @param object Duration $aDuration
+	 * @return object Duration The result.
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function &plus ( &$aDuration ) {
+		return new Duration ($this->asSeconds() + $aDuration->asSeconds());
 	}
 	
 	/**
@@ -366,66 +446,21 @@ class Duration
 			* $aDuration->asSeconds());
 	}
 	
-	/**
-	 * Format as per ANSI 5.8.2.16: [-]D:HH:MM:SS[.S]
-	 * 
-	 * @return string
-	 * @access public
-	 * @since 5/3/05
-	 */
-	function printableString () {
-		$d = abs($this->days());
-		$h = abs($this->hours());
-		$m = abs($this->minutes());
-		$s = abs($this->seconds());
-		
-		$result = '';
-		
-		if ($this->isNegative())
-			$result .= '-';
-		
-		$result .= $d.':';
-		
-		if ($h < 10)
-			$result .= '0';
-		$result .= $h.':';
-		
-		if ($m < 10)
-			$result .= '0';
-		$result .= $m.':';
-		
-		if ($s < 10)
-			$result .= '0';
-		$result .= $s;
-		
-		return $result;
-	}
-	
-	/**
-	 * Return the absolute value of this duration.
-	 * 
-	 * @return object Duration
-	 * @access public
-	 * @since 5/3/05
-	 */
-	function &abs () {
-		return new Duration (abs($this->seconds));
-	}
-	
-	/**
-	 * Return the negative of this duration
-	 * 
-	 * @return object Duration
-	 * @access public
-	 * @since 5/10/05
-	 */
-	function &negated () {
-		return new Duration(0 - $this->seconds);
-	}
 	
 /*********************************************************
  * Instance methods - Converting
  *********************************************************/
+	
+	/**
+	 * Answer the duration in seconds.
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function asSeconds () {
+		return $this->seconds;
+	}
 	
 	/**
 	 * Answer a Duration that represents this object.
