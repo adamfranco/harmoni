@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.9 2005/05/12 19:17:29 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.10 2005/05/12 22:44:20 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -34,7 +34,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.9 2005/05/12 19:17:29 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.10 2005/05/12 22:44:20 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -406,7 +406,7 @@ class DateAndTime
 	}
 	
 	/**
-	 * Create a nnew instance.
+	 * Create a new instance.
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntDayOfYear
@@ -656,7 +656,7 @@ class DateAndTime
 	 */
 	function _normalize (&$ticks, $i, $base) {
 		$tick = $ticks[$i];
-		$quo = floor($tick/$base);
+		$quo = floor(abs($tick)/$base);
 		$rem = $tick % $base;
 		if ($rem < 0) {
 			$quo = $quo-1;

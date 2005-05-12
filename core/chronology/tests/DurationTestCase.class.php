@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DurationTestCase.class.php,v 1.2 2005/05/05 23:10:46 adamfranco Exp $
+ * @version $Id: DurationTestCase.class.php,v 1.3 2005/05/12 22:44:45 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../Duration.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DurationTestCase.class.php,v 1.2 2005/05/05 23:10:46 adamfranco Exp $
+ * @version $Id: DurationTestCase.class.php,v 1.3 2005/05/12 22:44:45 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -252,6 +252,27 @@ class DurationTestCase extends UnitTestCase {
 		$duration =& $duration->plus(Duration::withDays(20));
 		$this->assertEqual($duration->days(), 14);
 		$this->assertEqual($duration->asSeconds(), 86400*14);
+	}
+	
+	/**
+	 * Test the addition/subtraction.
+	 */ 
+	function test_negation() {
+		$duration =& Duration::withDays(5);
+		$neg =& $duration->negated();
+		$this->assertEqual($neg->seconds(), 0);
+		$this->assertEqual($neg->days(), -5);
+		$ticks = $neg->ticks();
+		$this->assertEqual($ticks[0], -5);
+		$this->assertEqual($ticks[1], 0);
+		
+		$duration =& Duration::withSeconds(1);
+		$neg =& $duration->negated();
+		$this->assertEqual($neg->seconds(), -1);
+		$this->assertEqual($neg->days(), 0);
+		$ticks = $neg->ticks();
+		$this->assertEqual($ticks[0], 0);
+		$this->assertEqual($ticks[1], -1);
 	}
 	
 	/**

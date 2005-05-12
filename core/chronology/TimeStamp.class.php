@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.3 2005/05/12 19:17:29 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.4 2005/05/12 22:44:20 adamfranco Exp $
  */ 
  
 require_once("DateAndTime.class.php");
@@ -20,7 +20,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.3 2005/05/12 19:17:29 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.4 2005/05/12 22:44:20 adamfranco Exp $
  */
 class TimeStamp
 	extends DateAndTime 
@@ -81,7 +81,109 @@ class TimeStamp
 	}
 	
 	/**
-	 * Create a new TimeStamp for a given Julian Day Number.
+	 * Answer a new instance starting at midnight local time.
+	 * This is a hybrid class/instance method that can either return today
+	 * at midnight (called statically) or midnight on a certain date (called
+	 * on an instance).
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object TimeStamp
+	 * @access public
+	 * @since 5/3/05
+	 * @static
+	 */
+	function &midnight ( $class = 'TimeStamp' ) {
+		return parent::midnight( $class );
+	}
+	
+	/**
+	 * Answer the current time.
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object TimeStamp
+	 * @access public
+	 * @since 5/12/05
+	 * @static
+	 */
+	function &now ( $class = 'TimeStamp' ) {
+		return parent::now( $class );
+	}
+	
+	/**
+	 * Answer a new instance starting at noon local time.
+	 * This is a hybrid class/instance method that can either return today
+	 * at noon (called statically) or noon on a certain date (called
+	 * on an instance).
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object TimeStamp
+	 * @access public
+	 * @since 5/3/05
+	 * @static
+	 */
+	function &noon ( $class = 'TimeStamp' ) {
+		return parent::noon( $class );
+	}
+	
+	/**
+	 * Answer a new instance representing today
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object TimeStamp
+	 * @access public
+	 * @since 5/12/05
+	 * @static
+	 */
+	function &today ( $class = 'TimeStamp' ) {
+		return parent::today( $class );
+	}
+	
+	/**
+	 * Answer a new instance representing tomorow
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object TimeStamp
+	 * @access public
+	 * @since 5/12/05
+	 * @static
+	 */
+	function &tomorrow ( $class = 'TimeStamp' ) {
+		return parent::tomorrow( $class );
+	}
+	
+	/**
+	 * Create a new instance from Date and Time objects
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object TimeStamp
+	 * @access public
+	 * @since 5/12/05
+	 * @static
+	 */
+	function &withDateAndTime ( &$aDate, &$aTime, $class = 'TimeStamp' ) {
+		return parent::withDateAndTime( $aDate, $aTime, $class );
+	}
+	
+	/**
+	 * Create a new instance for a given Julian Day Number.
 	 * 
 	 * @param integer $aJulianDayNumber
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
@@ -98,7 +200,7 @@ class TimeStamp
 	}
 	
 	/**
-	 * Create a new TimeStamp.
+	 * Create a new instance.
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntDayOfYear
@@ -115,7 +217,31 @@ class TimeStamp
 	}
 	
 	/**
-	 * Create a new TimeStamp.
+	 * Create a new instance.
+	 * 
+	 * @param integer $anIntYear
+	 * @param integer $anIntDayOfYear
+	 * @param integer $anIntHour
+	 * @param integer $anIntMinute
+	 * @param integer $anIntSecond
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object TimeStamp
+	 * @access public
+ 	 * @static
+	 * @since 5/4/05
+	 */
+	function &withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
+		$anIntHour, $anIntMinute, $anIntSecond, $class = 'TimeStamp' ) 
+	{
+		return parent::withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
+			$anIntHour, $anIntMinute, $anIntSecond, $class);
+	}
+	
+	/**
+	 * Create a new instance.
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntDayOfYear
@@ -140,7 +266,7 @@ class TimeStamp
 	}
 	
 	/**
-	 * Create a new TimeStamp.
+	 * Create a new instance.
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntOrStringMonth
@@ -162,7 +288,7 @@ class TimeStamp
 	}
 	
 	/**
-	 * Create a new TimeStamp.
+	 * Create a new instance.
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntOrStringMonth
@@ -186,7 +312,7 @@ class TimeStamp
 	}
 	
 	/**
-	 * Create a new TimeStamp.
+	 * Create a new instance.
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntOrStringMonth
@@ -211,7 +337,7 @@ class TimeStamp
 	}
 	
 	/**
-	 * Create a new TimeStamp.
+	 * Create a new instance.
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntOrStringMonth
@@ -236,6 +362,22 @@ class TimeStamp
 		return parent::withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
 			$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
 			$anIntSecond, $aDurationOffset, $class);
+	}
+	
+	/**
+	 * Answer a new instance representing yesterday
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object TimeStamp
+	 * @access public
+	 * @since 5/12/05
+	 * @static
+	 */
+	function &yesterday ( $class = 'TimeStamp' ) {
+		return parent::yesterday($class);
 	}
 	
 /*********************************************************

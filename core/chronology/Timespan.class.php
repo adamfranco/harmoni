@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.7 2005/05/12 17:45:08 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.8 2005/05/12 22:44:20 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.7 2005/05/12 17:45:08 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.8 2005/05/12 22:44:20 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -296,12 +296,11 @@ class Timespan
 	 * @since 5/10/05
 	 */
 	function &next () {
-		$classname = get_class($this);
-		
-		$operation = $classname.'::startingDuration(
-			$this->start->plus($this->duration), $this->duration);';
-		
-		return eval($operation);
+ 		eval('$result =& '.get_class($this).'::startingDuration(
+ 			$this->start->plus($this->duration),
+ 			$this->duration,
+ 			'.get_class($this).');');
+ 		return $result;
 	}
 	
 	/**
@@ -312,12 +311,11 @@ class Timespan
 	 * @since 5/10/05
 	 */
 	function &previous () {
-		$classname = get_class($this);
-		
-		$operation = $classname.'::startingDuration(
-			$this->start->minus($this->duration), $this->duration);';
-		
-		return eval($operation);
+		eval('$result =& '.get_class($this).'::startingDuration(
+ 			$this->start->minus($this->duration),
+ 			$this->duration,
+ 			'.get_class($this).');');
+ 		return $result;
 	}
 	
 /*********************************************************

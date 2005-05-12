@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.2 2005/05/12 17:46:54 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.3 2005/05/12 22:44:45 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../TimeStamp.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.2 2005/05/12 17:46:54 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.3 2005/05/12 22:44:45 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -71,6 +71,7 @@ class TimeStampTestCase extends UnitTestCase {
 	 * Test the DateAndTime representing the Squeak epoch: 1 January 1901.
 	 */ 
 	function test_epoch() {
+	print "test_epoch";
 	
 		$dateAndTime =& TimeStamp::epoch();
 		$this->assertEqual($dateAndTime->year(), 1901);
@@ -101,6 +102,7 @@ class TimeStampTestCase extends UnitTestCase {
 	 * Test alterate static creations
 	 */ 
 	function test_creation_methods() {
+	print "test_creation_methods";
 	
 		$dateAndTime =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 5, 4, 15, 25, 10, $null = NULL);
@@ -144,6 +146,7 @@ class TimeStampTestCase extends UnitTestCase {
 	 * Test comparisons
 	 */ 
 	function test_comparisons() {
+	print "test_comparisons";
 		$dateAndTimeA =& TimeStamp::withYearDay(1950, 1);
 		$dateAndTimeB =& TimeStamp::withYearDay(1950, 2);
 		
@@ -192,6 +195,7 @@ class TimeStampTestCase extends UnitTestCase {
 	 * Test accessing
 	 */ 
 	function test_accessing() {
+	print "test_accessing";
 		$dateAndTime =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 6, 4, 15, 25, 10, Duration::withHours(-5));
 		
@@ -266,6 +270,7 @@ class TimeStampTestCase extends UnitTestCase {
 	 * Test converting
 	 */ 
 	function test_converting() {
+		print "test_converting";
 		$dateAndTime =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 6, 4, 15, 25, 10, Duration::withHours(-5));
 		
@@ -333,6 +338,7 @@ class TimeStampTestCase extends UnitTestCase {
 	 * 
 	 */
 	function test_utcOffset() {
+	print "test_utcOffset";
 		$dateAndTime =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 6, 4, 15, 25, 10, Duration::withHours(-5));
 		
@@ -355,6 +361,7 @@ class TimeStampTestCase extends UnitTestCase {
 	 * 
 	 */
 	function test_localOffset() {
+		print "test_localOffset";
 		$localOffset =& TimeStamp::localOffset();
 		
 		$this->assertTrue($localOffset->isLessThanOrEqualTo(Duration::withHours(12)));

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.10 2005/05/12 19:18:19 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.11 2005/05/12 22:44:45 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/../DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.10 2005/05/12 19:18:19 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.11 2005/05/12 22:44:45 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -320,7 +320,26 @@ class DateAndTimeTestCase extends UnitTestCase {
 		
 		// asYear()
 		$temp =& $dateAndTime->asYear();
-		$this->assertTrue($temp->isEqualTo(Year::starting($dateAndTime)));		
+		$this->assertTrue($temp->isEqualTo(Year::starting($dateAndTime)));
+		
+		// middleOf()
+		
+		// to()
+		$datA =& DateAndTime::withYearDay(2005, 125);
+		$datB =& DateAndTime::withYearDay(2006, 125);
+		
+		$timespan =& $datA->to($datB);
+		$this->assertEqual($timespan->startYear(), 2005);
+		$this->assertEqual($timespan->dayOfYear(), 125);
+		$duration =& $timespan->duration();
+		$this->assertTrue($duration->isEqualTo(Duration::withDays(365)));
+		$end =& $timespan->end();
+		$this->assertEqual($end->julianDayNumber(), 2453860);
+		$this->assertEqual(($end->julianDayNumber() - $datA->julianDayNumber()), 364);
+		$this->assertEqual($end->year(), 2006);
+		$this->assertEqual($end->dayOfYear(), 124);
+		$this->assertTrue($end->isEqualTo(DateAndTime::withYearDayHourMinuteSecond(
+			2006, 124, 23, 59, 59)));
 	}
 	
 	/**
@@ -357,6 +376,34 @@ class DateAndTimeTestCase extends UnitTestCase {
 		
 		$secondsOffset = date('Z');
 		$this->assertTrue($localOffset->isEqualTo(Duration::withSeconds($secondsOffset)));
+	}
+	
+	/**
+	 * Magnitude operations
+	 * 
+	 */
+	function test_magnitude_ops () {
+		// Plus a Duration
+		$dateAndTime =& DateAndTime::withYearDayHourMinuteSecond(2005, 100, 0, 0, 0);
+		$result =& $dateAndTime->plus(Duration::withSeconds(1));
+		
+		$this->assertEqual(strtolower(get_class($result)), 'dateandtime');
+		$this->assertTrue($result->isEqualTo(DateAndTime::withYearDayHourMinuteSecond(
+			2005, 100, 0, 0, 1)));
+		
+		// minus a Duration
+		$dateAndTime =& DateAndTime::withYearDayHourMinuteSecond(2005, 100, 0, 0, 0);
+		$result =& $dateAndTime->minus(Duration::withSeconds(1));
+		
+		$this->assertEqual(strtolower(get_class($result)), 'dateandtime');
+		$this->assertEqual($result->year(), 2005);
+		$this->assertEqual($result->dayOfYear(), 99);
+		$this->assertEqual($result->hour(), 23);
+		$this->assertEqual($result->minute(), 59);
+		$this->assertEqual($result->second(), 59);
+		$this->assertTrue($result->isEqualTo(DateAndTime::withYearDayHourMinuteSecond(
+			2005, 99, 23, 59, 59)));
+			
 	}
 
 }
