@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.4 2005/05/12 22:44:20 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.5 2005/05/12 23:52:39 adamfranco Exp $
  */ 
  
 require_once("DateAndTime.class.php");
@@ -20,7 +20,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.4 2005/05/12 22:44:20 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.5 2005/05/12 23:52:39 adamfranco Exp $
  */
 class TimeStamp
 	extends DateAndTime 
@@ -281,7 +281,7 @@ class TimeStamp
 	 * @since 5/4/05
 	 */
 	function &withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
-		$class = 'DateAndTime' ) 
+		$class = 'Timestamp' ) 
 	{
 		return parent::withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
 			$class);

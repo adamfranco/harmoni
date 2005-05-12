@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.11 2005/05/12 23:35:32 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.12 2005/05/12 23:52:39 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -34,7 +34,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.11 2005/05/12 23:35:32 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.12 2005/05/12 23:52:39 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -426,7 +426,7 @@ class DateAndTime
 	function &withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
 		$anIntHour, $anIntMinute, $anIntSecond, &$aDurationOffset, $class = 'DateAndTime' ) 
 	{
-		eval('$year =& '.$class.'::withYearMonthDayHourMinuteSecondOffset(
+		eval('$result =& '.$class.'::withYearMonthDayHourMinuteSecondOffset(
 				$anIntYear,
 				1, 
 				1, 
@@ -437,7 +437,7 @@ class DateAndTime
 				$class
 			);');
 		$day =& Duration::withDays($anIntDayOfYear - 1);
-		return $year->plus($day);
+		return $result->plus($day);
 	}
 	
 	/**
@@ -1261,7 +1261,8 @@ class DateAndTime
 			$ticks[$key] = $value + $durationTicks[$key];
 		}
 		
-		$result =& new DateAndTime();
+		$class = get_class($this);
+		$result =& new $class();
 		$result->ticksOffset($ticks, $this->offset());
 		return $result;
 	}
@@ -1339,7 +1340,8 @@ class DateAndTime
 	 * @since 5/5/05
 	 */
 	function asSeconds () {
-		$sinceEpoch =& $this->minus(DateAndTime::epoch());
+		eval('$epoch =& '.get_class($this).'::epoch();');
+		$sinceEpoch =& $this->minus($epoch);
 		return $sinceEpoch->asSeconds();
 	}
 	
