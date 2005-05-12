@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.9 2005/05/12 17:46:45 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.10 2005/05/12 19:18:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/../DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.9 2005/05/12 17:46:45 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.10 2005/05/12 19:18:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -121,6 +121,18 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertEqual($dateAndTime->hour12(), 12);
 		$this->assertEqual($dateAndTime->minute(), 0);
 		$this->assertEqual($dateAndTime->second(), 0);
+		
+		$date =& Date::withYearMonthDay(2005, 5, 4);
+		$time =& Time::withHourMinuteSecond(15, 25, 10);
+		$dateAndTime =& DateAndTime::withDateAndTime($date, $time);
+		$this->assertEqual($dateAndTime->year(), 2005);
+		$this->assertEqual($dateAndTime->month(), 5);
+		$this->assertEqual($dateAndTime->dayOfMonth(), 4);
+		$this->assertEqual($dateAndTime->hour(), 15);
+		$this->assertEqual($dateAndTime->hour12(), 3);
+		$this->assertEqual($dateAndTime->minute(), 25);
+		$this->assertEqual($dateAndTime->second(), 10);
+		
 	}
 	
 	/**

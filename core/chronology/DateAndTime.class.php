@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.8 2005/05/12 17:45:08 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.9 2005/05/12 19:17:29 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -34,7 +34,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.8 2005/05/12 17:45:08 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.9 2005/05/12 19:17:29 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -67,6 +67,18 @@ class DateAndTime
 /*********************************************************
  * Class Methods
  *********************************************************/
+	
+	/**
+	 * One second precision.
+	 * 
+	 * @return object Duration
+	 * @access public
+	 * @since 5/12/05
+	 * @static
+	 */
+	function &clockPrecision () {
+		return Duration::withSeconds(1);
+	}
 	
 	/**
 	 * Answer the duration we are offset from UTC
@@ -113,7 +125,7 @@ class DateAndTime
  *********************************************************/
 	
 	/**
-	 * Answer a DateAndTime representing the Squeak epoch: 1 January 1901
+	 * Answer a new instance representing the Squeak epoch: 1 January 1901
 	 * 
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
 	 *		This parameter is used to get around the limitations of not being
@@ -133,6 +145,62 @@ class DateAndTime
 	}
 	
 	/**
+	 * Answer a new instance represented by a string:
+	 * 
+	 *	'-1199-01-05T20:33:14.321-05:00' 
+	 *	' 2002-05-16T17:20:45.00000001+01:01' 
+  	 *	' 2002-05-16T17:20:45.00000001' 
+ 	 *	' 2002-05-16T17:20' 
+	 *	' 2002-05-16T17:20:45' 
+	 *	' 2002-05-16T17:20:45+01:57' 
+ 	 *	' 2002-05-16T17:20:45-02:34' 
+ 	 *	' 2002-05-16T17:20:45+00:00' 
+	 *	' 1997-04-26T01:02:03+01:02:3'  
+	 *
+	 * @param string $aString The input string.
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/12/05
+	 * @static
+	 */
+	function &fromString ( $aString, $class = 'DateAndTime' ) {
+		die('DateAndTime::fromString($aString) is not yet implented.');
+	}
+	
+	/**
+	 * Answer a new instance starting at midnight local time.
+	 * This is a hybrid class/instance method that can either return today
+	 * at midnight (called statically) or midnight on a certain date (called
+	 * on an instance).
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/3/05
+	 * @static
+	 */
+	function &midnight ( $class = 'DateAndTime' ) {
+		// Instance implementation
+		if (is_object($this)) {
+			eval('$result =& '.get_class($this).'::withYearMonthDay($this->year(),
+				$this->month(), $this->dayOfMonth(), '.get_class($this).');');
+			return $result;
+		}
+		// Static implementation
+		else {
+			eval('$result =& '.$class.'::now('.$class.')');
+			return $result->midnight();
+		}
+	}
+	
+	/**
 	 * Answer the current date and time.
 	 * 
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
@@ -142,6 +210,7 @@ class DateAndTime
 	 * @return object DateAndTime
 	 * @access public
 	 * @since 5/12/05
+	 * @static
 	 */
 	function &now ( $class = 'DateAndTime' ) {
 		eval('$result =& '.$class.'::withYearMonthDayHourMinuteSecondOffset(
@@ -159,7 +228,99 @@ class DateAndTime
 	}
 	
 	/**
-	 * Create a new DateAndTime for a given Julian Day Number.
+	 * Answer a new instance starting at noon local time.
+	 * This is a hybrid class/instance method that can either return today
+	 * at noon (called statically) or noon on a certain date (called
+	 * on an instance).
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/3/05
+	 * @static
+	 */
+	function &noon ( $class = 'DateAndTime' ) {
+		// Instance implementation
+		if (is_object($this)) {
+			eval('$result =& '.get_class($this).'::withYearMonthDayHourMinuteSecond(
+				$this->year(), $this->month(), $this->dayOfMonth(), 12, 0, 0, 
+				'.get_class($this).');');
+			return $result;
+		}
+		// Static implementation
+		else {
+			eval('$result =& '.$class.'::now('.$class.')');
+			return $result->noon();
+		}
+	}
+	
+	/**
+	 * Answer a new instance representing today
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/12/05
+	 * @static
+	 */
+	function &today ( $class = 'DateAndTime' ) {
+		eval('$result =& '.$class.'::midnight($class);');
+		
+		return $result;
+	}
+	
+	/**
+	 * Answer a new instance representing tomorow
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/12/05
+	 * @static
+	 */
+	function &tomorrow ( $class = 'DateAndTime' ) {
+		eval('$today =& '.$class.'::today($class);');
+		$todaysDate =& $today->asDate();
+		$tomorowsDate =& $todaysDate->next();
+		return $tomorowsDate->asDateAndTime();
+	}
+	
+	/**
+	 * Create a new instance from Date and Time objects
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/12/05
+	 * @static
+	 */
+	function &withDateAndTime ( &$aDate, &$aTime, $class = 'DateAndTime' ) {
+		eval('$result =& '.$class.'::withYearDayHourMinuteSecond(
+				$aDate->startYear(),
+				$aDate->dayOfYear(),
+				$aTime->hour(),
+				$aTime->minute(),
+				$aTime->second(),
+				$class
+			);');
+		
+		return $result;
+	}
+	
+	/**
+	 * Create a new new instance for a given Julian Day Number.
 	 * 
 	 * @param integer $aJulianDayNumber
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
@@ -188,7 +349,7 @@ class DateAndTime
 	}
 	
 	/**
-	 * Create a new DateAndTime.
+	 * Create a new instance.
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntDayOfYear
@@ -201,20 +362,51 @@ class DateAndTime
 	 * @since 5/4/05
 	 */
 	function &withYearDay ( $anIntYear, $anIntDayOfYear, $class = 'DateAndTime') {
-		eval('$result =& '.$class.'::withYearDayHourMinuteSecondOffset(
+		eval('$result =& '.$class.'::withYearDayHourMinuteSecond(
 				$anIntYear,
 				$anIntDayOfYear, 
 				0, 
 				0, 
 				0,
-				$null = NULL,
 				$class
 			);');
 		return $result;
 	}
 	
 	/**
-	 * Create a new DateAndTime.
+	 * Create a new instance.
+	 * 
+	 * @param integer $anIntYear
+	 * @param integer $anIntDayOfYear
+	 * @param integer $anIntHour
+	 * @param integer $anIntMinute
+	 * @param integer $anIntSecond
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object DateAndTime
+	 * @access public
+ 	 * @static
+	 * @since 5/4/05
+	 */
+	function &withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
+		$anIntHour, $anIntMinute, $anIntSecond, $class = 'DateAndTime' ) 
+	{
+		eval('$return =& '.$class.'::withYearDayHourMinuteSecondOffset(
+				$anIntYear,
+				$anIntDayOfYear, 
+				$anIntHour, 
+				$anIntMinute, 
+				$anIntSecond, 
+				'.$class.'::localOffset(),
+				$class
+			);');
+		return $return;
+	}
+	
+	/**
+	 * Create a nnew instance.
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntDayOfYear
@@ -238,9 +430,9 @@ class DateAndTime
 				$anIntYear,
 				1, 
 				1, 
-				0, 
-				0, 
-				0,
+				$anIntHour, 
+				$anIntMinute, 
+				$anIntSecond,
 				$aDurationOffset,
 				$class
 			);');
@@ -249,7 +441,7 @@ class DateAndTime
 	}
 	
 	/**
-	 * Create a new DateAndTime.
+	 * Create a new instance.
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntOrStringMonth
@@ -280,7 +472,7 @@ class DateAndTime
 	}
 	
 	/**
-	 * Create a new DateAndTime.
+	 * Create a new instance.
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntOrStringMonth
@@ -314,7 +506,7 @@ class DateAndTime
 	}
 	
 	/**
-	 * Create a new DateAndTime.
+	 * Create a new instance.
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntOrStringMonth
@@ -349,7 +541,7 @@ class DateAndTime
 	}
 	
 	/**
-	 * Create a new DateAndTime.
+	 * Create a new instance.
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntOrStringMonth
@@ -405,6 +597,25 @@ class DateAndTime
 		$dateAndTime =& new $class;
 		$dateAndTime->ticksOffset($since->ticks(), $offset);
 		return $dateAndTime;
+	}
+	
+	/**
+	 * Answer a new instance representing yesterday
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/12/05
+	 * @static
+	 */
+	function &yesterday ( $class = 'DateAndTime' ) {
+		eval('$today =& '.$class.'::today($class);');
+		$todaysDate =& $today->asDate();
+		$yesterdaysDate =& $todaysDate->previous();
+		return $yesterdaysDate->asDateAndTime();
 	}
 	
 	
@@ -712,18 +923,6 @@ class DateAndTime
 	function meridianAbbreviation () {
 		$time =& $this->asTime();
 		return $time->meridianAbbreviation();
-	}
-	
-	/**
-	 * Answer a DateAndTime starting at midnight local time
-	 * 
-	 * @return object DateAndTime
-	 * @access public
-	 * @since 5/3/05
-	 */
-	function &midnight () {
-		$dAndT =& DateAndTime::withYearMonthDay($this->year(), $this->month(), $this->dayOfMonth());
-		return $dAndT;
 	}
 	
 	/**
@@ -1177,21 +1376,6 @@ class DateAndTime
 	}
 	
 	/**
-	 * Answer a <DateAndTime> equivalent to the receiver but offset from UTC by aDuration
-	 * 
-	 * @param object Duration $aDuration
-	 * @return object DateAndTime
-	 * @access public
-	 * @since 5/4/05
-	 */
-	function &utcOffset ( &$anOffset ) {
-		$duration =& $anOffset->asDuration();
-		$equiv =& $this->plus($duration->minus($this->offset()));
-		$equiv->ticksOffset($equiv->ticks(), $duration);
-		return $equiv;
-	}
-	
-	/**
 	 * Answer the week that represents this date's week
 	 * 
 	 * @return object Week
@@ -1211,6 +1395,64 @@ class DateAndTime
 	 */
 	function &asYear () {
 		return Year::starting($this);
+	}
+	
+	/**
+	 * Return a Timespan where the receiver is the middle of the Duration
+	 * 
+	 * @param object Duration $aDuration
+	 * @return object Timespan
+	 * @access public
+	 * @since 5/12/05
+	 */
+	function &middleOf ( &$aDuration ) {
+		$duration =& $aDuration->asDuration();
+		
+		return Timespan::startingDuration(
+			$this->minus($duration->dividedBy(2)),
+			$duration);
+	}
+	
+	/**
+	 * Answer a Timespan. anEnd conforms to protocol DateAndTime or protocol Timespan
+	 * 
+	 * @param object DateAndTime $anEnd
+	 * @return object Timespan
+	 * @access public
+	 * @since 5/12/05
+	 */
+	function &to ( &$anEnd ) {
+		return Timespan::startingEnding($this, $anEnd->asDateAndTime());
+	}
+	
+	/**
+	 * Answer a Timespan. anEnd conforms to protocol DateAndTime or protocol Timespan
+	 * 
+	 * @param object DateAndTime $anEnd
+	 * @param object Duration
+	 * @return object Schedule
+	 * @access public
+	 * @since 5/12/05
+	 */
+	function &toBy ( &$anEnd, $aDuration ) {
+		$schedule =& Schedule::startingEnding($this, $anEnd->asDateAndTime());
+		$schedule->addToSchedule(array($aDuration->asDuration()));
+		return $schedule;
+	}
+	
+	/**
+	 * Answer a <DateAndTime> equivalent to the receiver but offset from UTC by aDuration
+	 * 
+	 * @param object Duration $aDuration
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function &utcOffset ( &$anOffset ) {
+		$duration =& $anOffset->asDuration();
+		$equiv =& $this->plus($duration->minus($this->offset()));
+		$equiv->ticksOffset($equiv->ticks(), $duration);
+		return $equiv;
 	}
 }
 

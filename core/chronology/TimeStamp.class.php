@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.2 2005/05/12 17:45:08 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.3 2005/05/12 19:17:29 adamfranco Exp $
  */ 
  
 require_once("DateAndTime.class.php");
@@ -20,7 +20,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.2 2005/05/12 17:45:08 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.3 2005/05/12 19:17:29 adamfranco Exp $
  */
 class TimeStamp
 	extends DateAndTime 
@@ -51,6 +51,33 @@ class TimeStamp
 	 */
 	function &epoch ( $class = 'TimeStamp' ) {
 		return parent::epoch($class);
+	}
+	
+	/**
+	 * Answer a new instance represented by a string:
+	 * 
+	 *	'-1199-01-05T20:33:14.321-05:00' 
+	 *	' 2002-05-16T17:20:45.00000001+01:01' 
+  	 *	' 2002-05-16T17:20:45.00000001' 
+ 	 *	' 2002-05-16T17:20' 
+	 *	' 2002-05-16T17:20:45' 
+	 *	' 2002-05-16T17:20:45+01:57' 
+ 	 *	' 2002-05-16T17:20:45-02:34' 
+ 	 *	' 2002-05-16T17:20:45+00:00' 
+	 *	' 1997-04-26T01:02:03+01:02:3'  
+	 *
+	 * @param string $aString The input string.
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object TimeStamp
+	 * @access public
+	 * @since 5/12/05
+	 * @static
+	 */
+	function &fromString ( $aString, $class = 'TimeStamp' ) {
+		return parent::fromString( $aString, $class);
 	}
 	
 	/**
