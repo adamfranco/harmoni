@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.11 2005/05/12 22:44:45 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.12 2005/05/12 23:35:56 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/../DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.11 2005/05/12 22:44:45 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.12 2005/05/12 23:35:56 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -192,20 +192,20 @@ class DateAndTimeTestCase extends UnitTestCase {
 		
 		// Methods not in the test are in comments.
 		
-		// asDate()
+		// asDate() +
 		$temp =& $dateAndTime->asDateAndTime();
 		$this->assertTrue($temp->isEqualTo(
 			DateAndTime::withYearMonthDayHourMinuteSecondOffset(
 							2005, 6, 4, 15, 25, 10, Duration::withHours(-5))));
-		// asDuration()
-		// asLocal()
-		// asMonth()
-		// asSeconds()
-		// asTime()
-		// asTimestamp()
-		// asUTC()
-		// asWeek()
-		// asYear()		
+		// asDuration() +
+		// asLocal() +
+		// asMonth() +
+		// asSeconds() +
+		// asTime() +
+		// asTimestamp() +
+		// asUTC() +
+		// asWeek() +
+		// asYear()	+
 		$this->assertEqual($dateAndTime->day(), 155);
 		$this->assertEqual($dateAndTime->dayOfMonth(), 4);
 		$this->assertEqual($dateAndTime->dayOfWeek(), 7);
@@ -222,14 +222,14 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertEqual($dateAndTime->hour24(), 15);
 		$this->assertEqual($dateAndTime->hour12(), 3);
 		$this->assertEqual($dateAndTime->hour(), 15);
-		// isEqualTo()
+		// isEqualTo() +
 		$this->assertFalse($dateAndTime->isLeapYear());
-		// isLessThan()
+		// isLessThan() +
 		$this->assertEqual($dateAndTime->julianDayNumber(), 2453526);
 		$this->assertEqual($dateAndTime->meridianAbbreviation(), 'PM');
-		// middleOf($aDuration)
-		// midnight()
-		// minus()
+		// middleOf($aDuration) +
+		// midnight() +
+		// minus() +
 		$this->assertEqual($dateAndTime->minute(), 25);
 		$this->assertEqual($dateAndTime->month(), 6);
 		$this->assertEqual($dateAndTime->monthIndex(), 6);
@@ -238,7 +238,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 		// noon()
 		$offset =& $dateAndTime->offset();
 		$this->assertTrue($offset->isEqualTo(Duration::withHours(-5)));
-		// plus()
+		// plus() +
  		$this->assertEqual($dateAndTime->hmsString(), '15:25:10');
  		$this->assertEqual($dateAndTime->ymdString(), '2005-06-04');
  		$this->assertEqual($dateAndTime->string(), '2005-06-04T15:25:10-05:00');
@@ -247,11 +247,11 @@ class DateAndTimeTestCase extends UnitTestCase {
 		// ticksOffset()
  		$this->assertEqual($dateAndTime->timeZoneAbbreviation(), 'EST');
  		$this->assertEqual($dateAndTime->timeZoneName(), 'Eastern Standard Time');
-		// to()
+		// to() +
 		// toBy()
 		// toByDo()
-		// utcOffset()
-		// withOffset()
+		// utcOffset() +
+		// withOffset() +
 		$this->assertEqual($dateAndTime->year(), 2005);
 		
 // 		$this->assertEqual("All tests have been uncommented and run?", "Yes");
@@ -322,7 +322,21 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$temp =& $dateAndTime->asYear();
 		$this->assertTrue($temp->isEqualTo(Year::starting($dateAndTime)));
 		
+		// midnight();
+		$temp =& $dateAndTime->midnight();
+		$this->assertTrue($temp->isEqualTo(
+			DateAndTime::withYearMonthDayHourMinuteSecond(2005, 6, 4, 0, 0, 0)));
+		
 		// middleOf()
+		$dat =& DateAndTime::withYearDay(2005, 100);
+		$timespan =& $dat->middleOf(Duration::withDays(100));
+		$start =& $timespan->start();
+		$duration =& $timespan->duration();
+		$end =& $timespan->end();
+		$this->assertEqual($start->dayOfYear(), 50);
+		$this->assertTrue($start->isEqualTo(DateAndTime::withYearDay(2005, 50)));
+		$this->assertEqual($duration->days(), 100);
+		$this->assertEqual($end->dayOfYear(), 149);
 		
 		// to()
 		$datA =& DateAndTime::withYearDay(2005, 125);
@@ -340,6 +354,12 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertEqual($end->dayOfYear(), 124);
 		$this->assertTrue($end->isEqualTo(DateAndTime::withYearDayHourMinuteSecond(
 			2006, 124, 23, 59, 59)));
+			
+		// withOffset()
+		$temp =& $dateAndTime->withOffset(Duration::withHours(-7));
+		$this->assertTrue($temp->isEqualTo(
+			DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							2005, 6, 4, 15, 25, 10, Duration::withHours(-7))));
 	}
 	
 	/**
@@ -404,6 +424,41 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertTrue($result->isEqualTo(DateAndTime::withYearDayHourMinuteSecond(
 			2005, 99, 23, 59, 59)));
 			
+		
+		// Minus a DateAndTime
+		$dateAndTime =& DateAndTime::withYearDayHourMinuteSecond(2006, 100, 0, 0, 0);
+		$result =& $dateAndTime->minus(DateAndTime::withYearDayHourMinuteSecond(2005, 100, 0, 0, 0));
+		
+		$this->assertEqual(strtolower(get_class($result)), 'duration');
+		$this->assertTrue($result->isEqualTo(Duration::withDays(365)));
+		
+		// Minus a DateAndTime over a leap year
+		$dateAndTime =& DateAndTime::withYearDayHourMinuteSecond(2005, 10, 0, 0, 0);
+		$result =& $dateAndTime->minus(DateAndTime::withYearDayHourMinuteSecond(2004, 10, 0, 0, 0));
+		
+		$this->assertEqual(strtolower(get_class($result)), 'duration');
+		$this->assertTrue($result->isEqualTo(Duration::withDays(366)));
+		
+		// Plus a DateAndTime
+		$dateAndTime =& DateAndTime::withYearDayHourMinuteSecond(2000, 100, 5, 15, 30);
+		$result =& $dateAndTime->plus(DateAndTime::withYearDayHourMinuteSecond(
+			2000, 100, 5, 30, 15));
+		
+		$this->assertEqual(strtolower(get_class($result)), 'dateandtime');
+		$this->assertEqual($result->year(), 2000);
+		$this->assertEqual($result->dayOfYear(), 100);
+		$this->assertEqual($result->hour(), 10);
+		$this->assertEqual($result->minute(), 45);
+		$this->assertEqual($result->second(), 45);
+			
+	}
+	
+	/**
+	 * Test schedule creation.
+	 * 
+	 */
+	function test_schedule_creation () {
+		$this->assertEqual('Schedule creation is tested', 'Yes');
 	}
 
 }

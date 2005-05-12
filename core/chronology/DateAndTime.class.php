@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.10 2005/05/12 22:44:20 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.11 2005/05/12 23:35:32 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -34,7 +34,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.10 2005/05/12 22:44:20 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.11 2005/05/12 23:35:32 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -1209,29 +1209,6 @@ class DateAndTime
 /*********************************************************
  * Instance methods - Operations
  *********************************************************/
- 
-	/**
-	 * Answer a new Duration whose our date + operand. The operand must implement
-	 * asDuration().
-	 * 
-	 * @param object $operand
-	 * @return object DateAndTime
-	 * @access public
-	 * @since 5/4/05
-	 */
-	function &plus ( &$operand ) {
-		$ticks = array();
-		$duration =& $operand->asDuration();
-		$durationTicks = $duration->ticks();
-		
-		foreach ($this->ticks() as $key => $value) {
-			$ticks[$key] = $value + $durationTicks[$key];
-		}
-		
-		$result =& new DateAndTime();
-		$result->ticksOffset($ticks, $this->offset());
-		return $result;
-	}
 	
 	/**
 	 * Subtract a Duration or DateAndTime.
@@ -1263,6 +1240,30 @@ class DateAndTime
 		else {
 			return $this->plus($operand->negated());
 		}
+	}
+	
+	
+	/**
+	 * Answer a new Duration whose our date + operand. The operand must implement
+	 * asDuration().
+	 * 
+	 * @param object $operand
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function &plus ( &$operand ) {
+		$ticks = array();
+		$duration =& $operand->asDuration();
+		$durationTicks = $duration->ticks();
+		
+		foreach ($this->ticks() as $key => $value) {
+			$ticks[$key] = $value + $durationTicks[$key];
+		}
+		
+		$result =& new DateAndTime();
+		$result->ticksOffset($ticks, $this->offset());
+		return $result;
 	}
 	
 
@@ -1414,6 +1415,24 @@ class DateAndTime
 	}
 	
 	/**
+	 * Answer a <DateAndTime> equivalent to the receiver but offset from UTC by 
+	 * aDuration. This will not convert the recievers time, merely change the
+	 * offset to anOffset; i.e. 11am at UTC-05:00 would become 11am at UTC-7:00 
+	 * when -7 hours is passed as the offset.
+	 * 
+	 * @param object Duration $aDuration
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function &withOffset ( &$anOffset ) {
+		$class = get_class($this);
+		$equiv =& new $class;
+		$equiv->ticksOffset($this->ticks(), $anOffset->asDuration());
+		return $equiv;
+	}
+	
+	/**
 	 * Answer a Timespan. anEnd conforms to protocol DateAndTime or protocol Timespan
 	 * 
 	 * @param object DateAndTime $anEnd
@@ -1441,7 +1460,10 @@ class DateAndTime
 	}
 	
 	/**
-	 * Answer a <DateAndTime> equivalent to the receiver but offset from UTC by aDuration
+	 * Answer a <DateAndTime> equivalent to the receiver but offset from UTC by 
+	 * aDuration. This will convert the recievers time, to the time at anOffset;
+	 * i.e. 11am at UTC-05:00 would become 9am at UTC-7:00 when -7 hours is passed
+	 * as the offset.
 	 * 
 	 * @param object Duration $aDuration
 	 * @return object DateAndTime
