@@ -6,20 +6,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.6 2005/05/11 17:48:02 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.7 2005/05/12 00:03:14 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
 
-require_once("ChronologyConstants.class.php");
-require_once("Date.class.php");
 require_once("Magnitude.class.php");
-require_once("Month.class.php");
-require_once("Time.class.php");
-require_once("TimeZone.class.php");
-require_once("Week.class.php");
-require_once("Year.class.php");
+
 
 /**
  * I represent a point in UTC time as defined by ISO 8601. I have zero duration.
@@ -40,7 +34,7 @@ require_once("Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.6 2005/05/11 17:48:02 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.7 2005/05/12 00:03:14 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -49,21 +43,30 @@ class DateAndTime
 	extends Magnitude
 {
 
+	/**
+	 * @var integer $jdn; JulianDateNumber 
+	 * @access private
+	 * @since 5/11/05
+	 */
+	var $jdn;
+	
+	/**
+	 * @var integer $seconds; Seconds this day 
+	 * @access private
+	 * @since 5/11/05
+	 */
+	var $seconds;
+	
+	/**
+	 * @var object Duration $offset; The offset from UTC 
+	 * @access private
+	 * @since 5/11/05
+	 */
+	var $offset;
+
 /*********************************************************
  * Class Methods
  *********************************************************/
-		
-	/**
-	 * Answer a DateAndTime representing the Squeak epoch: 1 January 1901
-	 * 
-	 * @return object DateAndTime
-	 * @access public
-	 * @since 5/2/05
-	 * @static
-	 */
-	function &epoch () {
-		return DateAndTime::withJulianDayNumber(ChronologyConstants::SqueakEpoch());
-	}
 	
 	/**
 	 * Answer the duration we are offset from UTC
@@ -98,19 +101,57 @@ class DateAndTime
 			return TimeZone::defaultTimeZone();
 	}
 	
+/*********************************************************
+ * Class Methods - Instance Creation
+ *
+ * All 
+ *********************************************************/
+	
 	/**
-	 * Create a new DateAndTime for a given Julian Day Number.
+	 * Answer a DateAndTime representing the Squeak epoch: 1 January 1901
 	 * 
-	 * @param integer $aJulianDayNumber
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @return object DateAndTime
 	 * @access public
 	 * @since 5/2/05
 	 * @static
 	 */
-	function &withJulianDayNumber ($aJulianDayNumber) {
+	function &epoch ( $class = 'DateAndTime' ) {
+		eval('$result =& '.$class.'::withJulianDayNumber(
+					ChronologyConstants::SqueakEpoch(), 
+					$class
+				);');
+		return $result;
+	}
+	
+	/**
+	 * Create a new DateAndTime for a given Julian Day Number.
+	 * 
+	 * @param integer $aJulianDayNumber
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/2/05
+	 * @static
+	 */
+	function &withJulianDayNumber ( $aJulianDayNumber, $class = 'DateAndTime' ) {
+		
+		// Validate our passed class name.
+		if (!(strtolower($class) == strtolower('DateAndTime')
+			|| is_subclass_of(new $class, 'DateAndTime')))
+		{
+			die("Class, '$class', is not a subclass of 'DateAndTime'.");
+		}
+		
 		$days =& Duration::withDays($aJulianDayNumber);
 		
-		$dateAndTime =& new DateAndTime();
+		$dateAndTime =& new $class;
 		$dateAndTime->ticksOffset($days->ticks(), DateAndTime::localOffset());
 		return $dateAndTime;
 	}
@@ -120,19 +161,25 @@ class DateAndTime
 	 * 
 	 * @param integer $anIntYear
 	 * @param integer $anIntDayOfYear
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @access public
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearDay ( $anIntYear, $anIntDayOfYear) {
-		return DateAndTime::withYearDayHourMinuteSecondOffset(
+	function &withYearDay ( $anIntYear, $anIntDayOfYear, $class = 'DateAndTime') {
+		eval('$result =& '.$class.'::withYearDayHourMinuteSecondOffset(
 				$anIntYear,
 				$anIntDayOfYear, 
 				0, 
 				0, 
 				0,
-				$null = NULL
-			);
+				$null = NULL,
+				$class
+			);');
+		return $result;
 	}
 	
 	/**
@@ -144,23 +191,28 @@ class DateAndTime
 	 * @param integer $anIntMinute
 	 * @param integer $anIntSecond
 	 * @param object Duration $aDurationOffset
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @return object DateAndTime
 	 * @access public
  	 * @static
 	 * @since 5/4/05
 	 */
 	function &withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
-		$anIntHour, $anIntMinute, $anIntSecond, &$aDurationOffset ) 
+		$anIntHour, $anIntMinute, $anIntSecond, &$aDurationOffset, $class = 'DateAndTime' ) 
 	{
-		$year =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		eval('$year =& '.$class.'::withYearMonthDayHourMinuteSecondOffset(
 				$anIntYear,
 				1, 
 				1, 
 				0, 
 				0, 
 				0,
-				$aDurationOffset
-			);
+				$aDurationOffset,
+				$class
+			);');
 		$day =& Duration::withDays($anIntDayOfYear - 1);
 		return $year->plus($day);
 	}
@@ -171,22 +223,29 @@ class DateAndTime
 	 * @param integer $anIntYear
 	 * @param integer $anIntOrStringMonth
 	 * @param integer $anIntDay
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @access public
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearMonthDay ( $anIntYear, 
-		$anIntOrStringMonth, $anIntDay) 
+	function &withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
+		$class = 'DateAndTime' ) 
 	{
-		return DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		eval('$result =& '.$class.'::withYearMonthDayHourMinuteSecondOffset(
 				$anIntYear,
 				$anIntOrStringMonth, 
 				$anIntDay, 
 				0, 
 				0, 
 				0,
-				$null = NULL
-			);
+				$null = NULL,
+				$class
+			);');
+		
+		return $result;
 	}
 	
 	/**
@@ -197,23 +256,30 @@ class DateAndTime
 	 * @param integer $anIntDay
 	 * @param integer $anIntHour
 	 * @param integer $anIntMinute
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object DateAndTime
 	 * @access public
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearMonthDayHourMinute ( $anIntYear, 
-		$anIntOrStringMonth, $anIntDay, $anIntHour, 
-		$anIntMinute) 
+	function &withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
+		$anIntDay, $anIntHour, $anIntMinute, $class = 'DateAndTime' ) 
 	{
-		return DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		eval('$result =& '.$class.'::withYearMonthDayHourMinuteSecondOffset(
 				$anIntYear,
 				$anIntOrStringMonth, 
 				$anIntDay, 
 				$anIntHour, 
 				$anIntMinute, 
 				0,
-				$null = NULL
-			);
+				$null = NULL,
+				$class
+			);');
+		
+		return $result;
 	}
 	
 	/**
@@ -225,24 +291,30 @@ class DateAndTime
 	 * @param integer $anIntHour
 	 * @param integer $anIntMinute
 	 * @param integer $anIntSecond
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @return object DateAndTime
 	 * @access public
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearMonthDayHourMinuteSecond ( $anIntYear, 
-		$anIntOrStringMonth, $anIntDay, $anIntHour, 
-		$anIntMinute, $anIntSecond) 
+	function &withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
+		$anIntDay, $anIntHour, $anIntMinute, $anIntSecond, $class = 'DateAndTime' ) 
 	{
-		return DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		eval('$result =& '.$class.'::withYearMonthDayHourMinuteSecondOffset(
 				$anIntYear,
 				$anIntOrStringMonth, 
 				$anIntDay, 
 				$anIntHour, 
 				$anIntMinute, 
 				$anIntSecond,
-				$null = NULL
-			);
+				$null = NULL,
+				$class
+			);');
+		
+		return $result;
 	}
 	
 	/**
@@ -255,15 +327,27 @@ class DateAndTime
 	 * @param integer $anIntMinute
 	 * @param integer $anIntSecond
 	 * @param object Duration $aDurationOffset
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @return object DateAndTime
 	 * @access public
  	 * @static
 	 * @since 5/4/05
 	 */
 	function &withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
-		$anIntOrStringMonth, $anIntDay, $anIntHour, 
-		$anIntMinute, $anIntSecond, &$aDurationOffset ) 
+		$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
+		$anIntSecond, &$aDurationOffset, $class = 'DateAndTime'  ) 
 	{
+		// Validate our passed class name.
+		if (!(strtolower($class) == strtolower('DateAndTime')
+			|| is_subclass_of(new $class, 'DateAndTime')))
+		{
+			die("Class, '$class', is not a subclass of 'DateAndTime'.");
+		}
+		
+		
 		if (is_numeric($anIntOrStringMonth))
 			$monthIndex = $anIntOrStringMonth;
 		else
@@ -287,7 +371,7 @@ class DateAndTime
 		else
 			$offset =& $aDurationOffset;
 		
-		$dateAndTime =& new DateAndTime();
+		$dateAndTime =& new $class;
 		$dateAndTime->ticksOffset($since->ticks(), $offset);
 		return $dateAndTime;
 	}
@@ -1077,6 +1161,17 @@ class DateAndTime
 	}
 	
 	/**
+	 * Answer the week that represents this date's week
+	 * 
+	 * @return object Week
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function &asWeek () {
+		return Week::starting($this);
+	}
+	
+	/**
 	 * Answer the year that represents this date's year
 	 * 
 	 * @return object Year
@@ -1087,5 +1182,15 @@ class DateAndTime
 		return Year::starting($this);
 	}
 }
+
+require_once("ChronologyConstants.class.php");
+require_once("Date.class.php");
+require_once("Duration.class.php");
+require_once("Month.class.php");
+require_once("Time.class.php");
+require_once("TimeStamp.class.php");
+require_once("TimeZone.class.php");
+require_once("Week.class.php");
+require_once("Year.class.php");
 
 ?>

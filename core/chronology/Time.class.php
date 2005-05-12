@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.2 2005/05/11 18:03:53 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.3 2005/05/12 00:03:15 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -31,7 +31,7 @@ require_once("Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.2 2005/05/11 18:03:53 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.3 2005/05/12 00:03:15 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -39,6 +39,13 @@ require_once("Year.class.php");
 class Time 
 	extends Magnitude
 {
+
+	/**
+	 * @var integer $seconds; The seconds from midnight of this time 
+	 * @access private
+	 * @since 5/11/05
+	 */
+	var $seconds;
 
 /*********************************************************
  * Class Methods - Instance Creation

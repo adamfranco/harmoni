@@ -5,39 +5,40 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.8 2005/05/12 00:04:03 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.1 2005/05/12 00:04:03 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  * @since 5/3/05
  */
 
-require_once(dirname(__FILE__)."/../DateAndTime.class.php");
+require_once(dirname(__FILE__)."/../TimeStamp.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
  * class. Replace 'testedclass.php' below with the class you would like to
  * test.
  *
+ * @since 5/3/05
+ *
  * @package harmoni.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.8 2005/05/12 00:04:03 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.1 2005/05/12 00:04:03 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
- * @since 5/3/05
  */
 
-class DateAndTimeTestCase extends UnitTestCase {
-
+class TimeStampTestCase extends UnitTestCase {
+	
 	/**
-	 *  Sets up unit test wide variables at the start
-	 *	 of each test method.
-	 *	 @access public
-	 */
+	*  Sets up unit test wide variables at the start
+	*	 of each test method.
+	*	 @access public
+	*/
 	function setUp() {
 		// perhaps, initialize $obj here
 	}
@@ -51,28 +52,44 @@ class DateAndTimeTestCase extends UnitTestCase {
 	}
 	
 	/**
+	 * Test the creation methods.
+	 */ 
+	function test_creation() {
+		$epoch =& TimeStamp::epoch();
+		
+		$this->assertEqual(strtolower(get_class($epoch)), 'timestamp');
+	}
+	
+	
+	
+/*********************************************************
+ * Methods from the date and time test case. These should
+ * mostly work since Timestamp extends DateAndTime.
+ *********************************************************/
+	
+	/**
 	 * Test the DateAndTime representing the Squeak epoch: 1 January 1901.
 	 */ 
 	function test_epoch() {
 	
-		$dateAndTime =& DateAndTime::epoch();
+		$dateAndTime =& TimeStamp::epoch();
 		$this->assertEqual($dateAndTime->year(), 1901);
 		$this->assertEqual($dateAndTime->month(), 1);
 		$this->assertEqual($dateAndTime->day(), 1);
 		
-		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		$dateAndTime =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							1901, 1, 1, 0, 0, 0, $null = NULL);
 		$this->assertEqual($dateAndTime->year(), 1901);
 		$this->assertEqual($dateAndTime->month(), 1);
 		$this->assertEqual($dateAndTime->day(), 1);
 		
-		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		$dateAndTime =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							1901, 'jan', 1, 0, 0, 0, $null = NULL);
 		$this->assertEqual($dateAndTime->year(), 1901);
 		$this->assertEqual($dateAndTime->month(), 1);
 		$this->assertEqual($dateAndTime->day(), 1);
 		
-		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		$dateAndTime =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							1901, 'January', 1, 0, 0, 0, $null = NULL);
 		$this->assertEqual($dateAndTime->year(), 1901);
 		$this->assertEqual($dateAndTime->month(), 1);
@@ -85,7 +102,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 	 */ 
 	function test_creation_methods() {
 	
-		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		$dateAndTime =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 5, 4, 15, 25, 10, $null = NULL);
 		$this->assertEqual($dateAndTime->year(), 2005);
 		$this->assertEqual($dateAndTime->month(), 5);
@@ -95,7 +112,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertEqual($dateAndTime->minute(), 25);
 		$this->assertEqual($dateAndTime->second(), 10);
 		
-		$dateAndTime =& DateAndTime::withYearMonthDayHourMinute(2005, 5, 4, 15, 25);
+		$dateAndTime =& TimeStamp::withYearMonthDayHourMinute(2005, 5, 4, 15, 25);
 		$this->assertEqual($dateAndTime->year(), 2005);
 		$this->assertEqual($dateAndTime->month(), 5);
 		$this->assertEqual($dateAndTime->dayOfMonth(), 4);
@@ -104,7 +121,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertEqual($dateAndTime->minute(), 25);
 		$this->assertEqual($dateAndTime->second(), 0);
 	
-		$dateAndTime =& DateAndTime::withYearDay(1950, 1);
+		$dateAndTime =& TimeStamp::withYearDay(1950, 1);
 		$this->assertEqual($dateAndTime->year(), 1950);
 		$this->assertEqual($dateAndTime->month(), 1);
 		$this->assertEqual($dateAndTime->dayOfMonth(), 1);
@@ -113,7 +130,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertEqual($dateAndTime->minute(), 0);
 		$this->assertEqual($dateAndTime->second(), 0);
 		
-		$dateAndTime =& DateAndTime::withYearMonthDay(2005, 1, 1);
+		$dateAndTime =& TimeStamp::withYearMonthDay(2005, 1, 1);
 		$this->assertEqual($dateAndTime->year(), 2005);
 		$this->assertEqual($dateAndTime->month(), 1);
 		$this->assertEqual($dateAndTime->dayOfMonth(), 1);
@@ -127,8 +144,8 @@ class DateAndTimeTestCase extends UnitTestCase {
 	 * Test comparisons
 	 */ 
 	function test_comparisons() {
-		$dateAndTimeA =& DateAndTime::withYearDay(1950, 1);
-		$dateAndTimeB =& DateAndTime::withYearDay(1950, 2);
+		$dateAndTimeA =& TimeStamp::withYearDay(1950, 1);
+		$dateAndTimeB =& TimeStamp::withYearDay(1950, 2);
 		
 		$this->assertFalse($dateAndTimeA->isEqualTo($dateAndTimeB));
 		$this->assertTrue($dateAndTimeA->isLessThan($dateAndTimeB));
@@ -137,9 +154,9 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertFalse($dateAndTimeA->isGreaterThanOrEqualTo($dateAndTimeB));
 		
 		
-		$dateAndTimeA =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		$dateAndTimeA =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 5, 4, 15, 25, 10, Duration::withHours(-4));
-		$dateAndTimeB =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		$dateAndTimeB =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 5, 4, 15, 25, 10, Duration::withHours(-5));
 		
 		$this->assertFalse($dateAndTimeA->isEqualTo($dateAndTimeB));
@@ -148,9 +165,9 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertFalse($dateAndTimeA->isGreaterThan($dateAndTimeB));
 		$this->assertFalse($dateAndTimeA->isGreaterThanOrEqualTo($dateAndTimeB));
 		
-		$dateAndTimeA =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		$dateAndTimeA =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 5, 4, 16, 25, 10, Duration::withHours(-4));
-		$dateAndTimeB =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		$dateAndTimeB =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 5, 4, 15, 25, 10, Duration::withHours(-5));
 		
 		$this->assertTrue($dateAndTimeA->isEqualTo($dateAndTimeB));
@@ -159,9 +176,9 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertFalse($dateAndTimeA->isGreaterThan($dateAndTimeB));
 		$this->assertTrue($dateAndTimeA->isGreaterThanOrEqualTo($dateAndTimeB));
 		
-		$dateAndTimeA =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		$dateAndTimeA =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 5, 4, 20, 25, 10, Duration::withHours(5));
-		$dateAndTimeB =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		$dateAndTimeB =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 5, 4, 10, 25, 10, Duration::withHours(-5));
 		
 		$this->assertTrue($dateAndTimeA->isEqualTo($dateAndTimeB));
@@ -175,7 +192,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 	 * Test accessing
 	 */ 
 	function test_accessing() {
-		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		$dateAndTime =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 6, 4, 15, 25, 10, Duration::withHours(-5));
 		
 		// Methods not in the test are in comments.
@@ -249,7 +266,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 	 * Test converting
 	 */ 
 	function test_converting() {
-		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		$dateAndTime =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 6, 4, 15, 25, 10, Duration::withHours(-5));
 		
 		
@@ -310,7 +327,6 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$temp =& $dateAndTime->asYear();
 		$this->assertTrue($temp->isEqualTo(Year::starting($dateAndTime)));
 		$this->assertTrue($temp->isEqualTo(Year::withYear(2005)));
-		
 	}
 	
 	/**
@@ -318,7 +334,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 	 * 
 	 */
 	function test_utcOffset() {
-		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+		$dateAndTime =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 							2005, 6, 4, 15, 25, 10, Duration::withHours(-5));
 		
 		
@@ -340,7 +356,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 	 * 
 	 */
 	function test_localOffset() {
-		$localOffset =& DateAndTime::localOffset();
+		$localOffset =& TimeStamp::localOffset();
 		
 		$this->assertTrue($localOffset->isLessThanOrEqualTo(Duration::withHours(12)));
 		$this->assertTrue($localOffset->isGreaterThanOrEqualTo(Duration::withHours(-12)));
@@ -349,10 +365,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertTrue($localOffset->isEqualTo(Duration::withSeconds($secondsOffset)));
 	}
 
+	
+	
 }
-
-// 		print "<pre>";
-// 		print_r($duration);
-// 		print "</pre>";
-
 ?>

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.4 2005/05/11 17:48:02 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.5 2005/05/12 00:03:15 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.4 2005/05/11 17:48:02 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.5 2005/05/12 00:03:15 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -115,17 +115,109 @@ class Month
 /*********************************************************
  * Class Methods - Instance Creation
  *********************************************************/
-	
-	/**
+ 
+ 	/**
 	 * Answer a new object that represents now.
 	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @return object Month
 	 * @access public
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &current () {
-		return Month::starting(DateAndTime::now());
+	function &current ( $class = 'Month' ) {
+		return parent::current($class);
+	}
+	
+	/**
+	 * Answer a Month starting on the Squeak epoch: 1 January 1901
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Month
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function &epoch ( $class = 'Month' ) {
+		return parent::epoch($class);
+	}
+	
+	/**
+	 * Create a new object starting now, with zero duration
+	 * 
+	 * @param object DateAndTime $aDateAndTime
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Month
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function &starting ( &$aDateAndTime, $class = 'Month' ) {
+		return parent::starting($aDateAndTime, $class);
+	}
+	
+	/**
+	 * Create a new object with given start and end DateAndTimes
+	 * 
+	 * @param object DateAndTime $startDateAndTime
+	 * @param object DateAndTime $endDateAndTime
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Month
+	 * @access public
+	 * @since 5/11/05
+	 */
+	function &startingEnding ( &$startDateAndTime, &$endDateAndTime, 
+		$class = 'Month' ) 
+	{
+		return parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
+	}
+	
+		
+	/**
+	 * Create a new object starting now, with a given duration. 
+	 * Override - as each month has a defined duration
+	 * 
+	 * @param object DateAndTime $aDateAndTime
+	 * @param object Duration $aDuration
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Month
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function &startingDuration ( &$aDateAndTime, &$aDuration, $class = 'Month' ) {
+		
+		// Validate our passed class name.
+		if (!(strtolower($class) == strtolower('Month')
+			|| is_subclass_of(new $class, 'Month')))
+		{
+			die("Class, '$class', is not a subclass of 'Month'.");
+		}
+		
+		$start =& $aDateAndTime->asDateAndTime();
+		$adjusted =& DateAndTime::withYearMonthDay($start->year(), $start->month(), 1);
+		$days = Month::daysInMonthForYear($adjusted->month(), $adjusted->year());
+		
+		$month =& new $class;
+		$month->setStart($adjusted);
+		$month->setDuration(Duration::withDays($days));
+		
+		return $month;
 	}
 	
 	/**
@@ -135,50 +227,21 @@ class Month
 	 * 
 	 * @param string $anIntegerOrStringMonth
 	 * @param integer $anIntegerYear Four-digit year.
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @return object Month
 	 * @access public
 	 * @since 5/11/05
 	 */
-	function &withMonthYear ( $anIntegerOrStringMonth, $anIntegerYear ) {
+	function &withMonthYear ( $anIntegerOrStringMonth, $anIntegerYear, 
+		$class = 'Month' ) 
+	{
 		return Month::starting(DateAndTime::withYearMonthDay(
-			$anIntegerYear, $anIntegerOrStringMonth, 1));
+			$anIntegerYear, $anIntegerOrStringMonth, 1), $class);
 	}
-	
-	/**
-	 * Create a new object starting now, with zero duration
-	 * 
-	 * @param object DateAndTime $aDateAndTime
-	 * @return object Month
-	 * @access public
-	 * @since 5/5/05
-	 * @static
-	 */
-	function &starting ( &$aDateAndTime ) {
-		return Month::startingDuration($aDateAndTime, Duration::zero());
-	}
-	
-	/**
-	 * Create a new object starting now, with a given duration. 
-	 * Override - as each month has a defined duration
-	 * 
-	 * @param object DateAndTime $aDateAndTime
-	 * @param object Duration $aDuration
-	 * @return object Month
-	 * @access public
-	 * @since 5/5/05
-	 * @static
-	 */
-	function &startingDuration ( &$aDateAndTime, &$aDuration ) {
-		$start =& $aDateAndTime->asDateAndTime();
-		$adjusted =& DateAndTime::withYearMonthDay($start->year(), $start->month(), 1);
-		$days = Month::daysInMonthForYear($adjusted->month(), $adjusted->year());
-		
-		$month =& new Month;
-		$month->setStart($adjusted);
-		$month->setDuration(Duration::withDays($days));
-		
-		return $month;
-	}
+
 	
 /*********************************************************
  * Instance methods - Accessing

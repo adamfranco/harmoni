@@ -5,14 +5,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeTestCase.class.php,v 1.2 2005/05/12 00:04:03 adamfranco Exp $
+ * @version $Id: MonthTestCase.class.php,v 1.1 2005/05/12 00:04:03 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  * @since 5/3/05
  */
 
-require_once(dirname(__FILE__)."/../Time.class.php");
+require_once(dirname(__FILE__)."/../Month.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -26,13 +26,13 @@ require_once(dirname(__FILE__)."/../Time.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeTestCase.class.php,v 1.2 2005/05/12 00:04:03 adamfranco Exp $
+ * @version $Id: MonthTestCase.class.php,v 1.1 2005/05/12 00:04:03 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
 
-class TimeTestCase extends UnitTestCase {
+class MonthTestCase extends UnitTestCase {
 	
 	/**
 	*  Sets up unit test wide variables at the start
@@ -55,20 +55,18 @@ class TimeTestCase extends UnitTestCase {
 	 * Test the creation methods.
 	 */ 
 	function test_creation() {
-		$sTime =& Time::withSeconds(55510);
-		$hmsTime =& Time::withHourMinuteSecond(15, 25, 10);
+		$epochMonth =& Month::epoch();
 		
-		$this->assertEqual($sTime->asSeconds(), 55510);
-		$this->assertEqual($hmsTime->asSeconds(), 55510);
+		$this->assertEqual(strtolower(get_class($epochMonth)), 'month');
+		$this->assertEqual($epochMonth->dayOfMonth(), 1);
+		$this->assertEqual($epochMonth->dayOfYear(), 1);
+		$this->assertEqual($epochMonth->daysInMonth(), 31);
+		$this->assertEqual($epochMonth->startMonthIndex(), 1);
+		$this->assertEqual($epochMonth->startMonthName(), 'January');
+		$this->assertEqual($epochMonth->startMonthAbbreviation(), 'Jan');
 		
-		$this->assertEqual($sTime->hour(), 15);
-		$this->assertEqual($hmsTime->hour(), 15);
-		
-		$this->assertEqual($sTime->minute(), 25);
-		$this->assertEqual($hmsTime->minute(), 25);
-		
-		$this->assertEqual($sTime->second(), 10);
-		$this->assertEqual($hmsTime->second(), 10);
+		$duration =& $epochMonth->duration();
+		$this->assertTrue($duration->isEqualTo(Duration::withDays(31)));
 	}
 	
 	

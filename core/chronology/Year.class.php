@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.2 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.3 2005/05/12 00:03:15 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.2 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.3 2005/05/12 00:03:15 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -56,44 +56,99 @@ class Year
  * Class Methods - Instance Creation
  *********************************************************/
 	
-	/**
+ 	/**
 	 * Answer a new object that represents now.
 	 * 
-	 * @return object Month
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Year
 	 * @access public
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &current () {
-		return Year::starting(DateAndTime::now());
+	function &current ( $class = 'Year' ) {
+		return parent::current($class);
+	}
+	
+	/**
+	 * Answer a Year starting on the Squeak epoch: 1 January 1901
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Year
+	 * @access public
+	 * @since 5/5/05
+	 * @static
+	 */
+	function &epoch ( $class = 'Year' ) {
+		return parent::epoch($class);
 	}
 	
 	/**
 	 * Create a new object starting now, with zero duration
 	 * 
 	 * @param object DateAndTime $aDateAndTime
-	 * @return object Month
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Year
 	 * @access public
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &starting ( &$aDateAndTime ) {
-		return Year::startingDuration($aDateAndTime, Duration::zero());
+	function &starting ( &$aDateAndTime, $class = 'Year' ) {
+		return parent::starting($aDateAndTime, $class);
 	}
 	
 	/**
-	 * Create a new Year, start from midnight
+	 * Create a new object with given start and end DateAndTimes
+	 * 
+	 * @param object DateAndTime $startDateAndTime
+	 * @param object DateAndTime $endDateAndTime
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Year
+	 * @access public
+	 * @since 5/11/05
+	 */
+	function &startingEnding ( &$startDateAndTime, &$endDateAndTime, 
+		$class = 'Year' ) 
+	{
+		return parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
+	}
+	
+	/**
+	 * Create a new object starting from midnight
 	 * 
 	 * @param object DateAndTime $aDateAndTime
 	 * @param object Duration $aDuration
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @return object Year
 	 * @access public
+	 * @since 5/5/05
 	 * @static
-	 * @since 5/4/05
 	 */
-	function &startingDuration ( &$aDateAndTime, &$aDuration) {
+	function &startingDuration ( &$aDateAndTime, &$aDuration, $class = 'Year' ) {
+		
+		// Validate our passed class name.
+		if (!(strtolower($class) == strtolower('Year')
+			|| is_subclass_of(new $class, 'Year')))
+		{
+			die("Class, '$class', is not a subclass of 'Year'.");
+		}
+		
 		$midnight =& $aDateAndTime->midnight();
-		$year =& new Year;
+		$year =& new $class;
 		$year->setStart($midnight); 
 		$year->setDuration(Duration::withDays(Year::daysInYear($midnight->year())));
 		
@@ -104,14 +159,22 @@ class Year
 	 * Create a new Year
 	 * 
 	 * @param integer $anInteger
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @return object Year
 	 * @access public
 	 * @since 5/4/05
 	 * @static
 	 */
-	function &withYear ( $anInteger ) {
+	function &withYear ( $anInteger, $class = 'Year' ) {
+		$start =& DateAndTime::withYearMonthDay($anInteger, 1, 1);
 		return Year::startingDuration(
-			DateAndTime::withYearMonthDay($anInteger, 1, 1), $null = NULL);
+				$start, 
+				$null = NULL,
+				$class
+			);
 	}
 
 /*********************************************************
