@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.7 2005/05/13 13:49:46 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.8 2005/05/13 15:43:07 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -28,7 +28,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.7 2005/05/13 13:49:46 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.8 2005/05/13 15:43:07 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -282,30 +282,16 @@ class Duration
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function printableString () {
-		$d = abs($this->days());
-		$h = abs($this->hours());
-		$m = abs($this->minutes());
-		$s = abs($this->seconds());
-		
+	function printableString () {		
 		$result = '';
 		
 		if ($this->isNegative())
 			$result .= '-';
 		
-		$result .= $d.':';
-		
-		if ($h < 10)
-			$result .= '0';
-		$result .= $h.':';
-		
-		if ($m < 10)
-			$result .= '0';
-		$result .= $m.':';
-		
-		if ($s < 10)
-			$result .= '0';
-		$result .= $s;
+		$result .= abs($this->days()).':';
+		$result .= str_pad(abs($this->hours()), 2, '0', STR_PAD_LEFT).':';
+		$result .= str_pad(abs($this->minutes()), 2, '0', STR_PAD_LEFT).':';
+		$result .= str_pad(abs($this->seconds()), 2, '0', STR_PAD_LEFT);
 		
 		return $result;
 	}

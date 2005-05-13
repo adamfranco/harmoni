@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DurationTestCase.class.php,v 1.4 2005/05/13 13:50:10 adamfranco Exp $
+ * @version $Id: DurationTestCase.class.php,v 1.5 2005/05/13 15:44:14 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../Duration.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DurationTestCase.class.php,v 1.4 2005/05/13 13:50:10 adamfranco Exp $
+ * @version $Id: DurationTestCase.class.php,v 1.5 2005/05/13 15:44:14 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -84,6 +84,7 @@ class DurationTestCase extends UnitTestCase {
 		$this->assertEqual($duration->minutes(), 0);
 		$this->assertEqual($duration->seconds(), 0);
 		$this->assertEqual($duration->asSeconds(), 3600*5);
+		$this->assertTrue($duration->isEqualTo(Duration::withHours(5)));
 		
 		// 15 minutes
 		$duration =& Duration::withDaysHoursMinutesSeconds(0, 0, 15, 0);
@@ -92,6 +93,7 @@ class DurationTestCase extends UnitTestCase {
 		$this->assertEqual($duration->minutes(), 15);
 		$this->assertEqual($duration->seconds(), 0);
 		$this->assertEqual($duration->asSeconds(), 15*60);
+		$this->assertTrue($duration->isEqualTo(Duration::withMinutes(15)));
 		
 		// 35 seconds
 		$duration =& Duration::withDaysHoursMinutesSeconds(0, 0, 0, 35);
@@ -100,6 +102,7 @@ class DurationTestCase extends UnitTestCase {
 		$this->assertEqual($duration->minutes(), 0);
 		$this->assertEqual($duration->seconds(), 35);
 		$this->assertEqual($duration->asSeconds(), 35);
+		$this->assertTrue($duration->isEqualTo(Duration::withSeconds(35)));
 		
 		// 3 days, 2 hours, 23 minutes, and 12 seconds
 		$duration =& Duration::withDaysHoursMinutesSeconds(3, 2, 23, 12);
@@ -116,6 +119,72 @@ class DurationTestCase extends UnitTestCase {
 		$this->assertEqual($duration->minutes(), 0);
 		$this->assertEqual($duration->seconds(), 0);
 		$this->assertEqual($duration->asSeconds(), 86400*2);
+		
+		
+		// Month
+		$duration =& Duration::withMonth('June');
+		$this->assertEqual($duration->days(), 30);
+		$this->assertEqual($duration->hours(), 0);
+		$this->assertEqual($duration->minutes(), 0);
+		$this->assertEqual($duration->seconds(), 0);
+		
+		$duration =& Duration::withMonth('July');
+		$this->assertEqual($duration->days(), 31);
+		$this->assertEqual($duration->hours(), 0);
+		$this->assertEqual($duration->minutes(), 0);
+		$this->assertEqual($duration->seconds(), 0);
+		
+		$duration =& Duration::withMonth(9);
+		$this->assertEqual($duration->days(), 30);
+		$this->assertEqual($duration->hours(), 0);
+		$this->assertEqual($duration->minutes(), 0);
+		$this->assertEqual($duration->seconds(), 0);
+		
+		
+		// Weeks
+		$duration =& Duration::withWeeks(1);
+		$this->assertEqual($duration->days(), 7);
+		$this->assertEqual($duration->hours(), 0);
+		$this->assertEqual($duration->minutes(), 0);
+		$this->assertEqual($duration->seconds(), 0);
+		
+		$duration =& Duration::withWeeks(5);
+		$this->assertEqual($duration->days(), 35);
+		$this->assertEqual($duration->hours(), 0);
+		$this->assertEqual($duration->minutes(), 0);
+		$this->assertEqual($duration->seconds(), 0);
+		
+		$duration =& Duration::withWeeks(1.5);
+		$this->assertEqual($duration->days(), 10);
+		$this->assertEqual($duration->hours(), 12);
+		$this->assertEqual($duration->minutes(), 0);
+		$this->assertEqual($duration->seconds(), 0);
+		
+		$duration =& Duration::withWeeks(1.5);
+		$this->assertEqual($duration->days(), 10);
+		$this->assertEqual($duration->hours(), 12);
+		$this->assertEqual($duration->minutes(), 0);
+		$this->assertEqual($duration->seconds(), 0);
+		
+		$duration =& Duration::withWeeks(1.374);
+		$this->assertEqual($duration->days(), 9);
+		$this->assertEqual($duration->hours(), 14);
+		$this->assertEqual($duration->minutes(), 49);
+		$this->assertEqual($duration->seconds(), 55);
+		
+		$duration =& Duration::withWeeks(-1.374);
+		$this->assertEqual($duration->days(), -9);
+		$this->assertEqual($duration->hours(), -14);
+		$this->assertEqual($duration->minutes(), -49);
+		$this->assertEqual($duration->seconds(), -55);
+		
+		//Zero
+		$duration =& Duration::zero();
+		$this->assertEqual($duration->days(), 0);
+		$this->assertEqual($duration->hours(), 0);
+		$this->assertEqual($duration->minutes(), 0);
+		$this->assertEqual($duration->seconds(), 0);
+
 	}
 	
 	/**
@@ -124,6 +193,32 @@ class DurationTestCase extends UnitTestCase {
 	 */
 	function test_from_string () {
 		$this->assertEqual('fromString() is tested', 'Yes');
+	}
+	
+	/**
+	 * Test printable string.
+	 * 
+	 */
+	function test_printable_string () {
+		$duration =& Duration::withWeeks(1.374);
+		$this->assertEqual($duration->printableString(), '9:14:49:55');
+		
+		$duration =& Duration::withWeeks(-1.374);
+		$this->assertEqual($duration->printableString(), '-9:14:49:55');
+		
+		$duration =& Duration::withWeeks(1.5);
+		$this->assertEqual($duration->printableString(), '10:12:00:00');
+		
+		$duration =& Duration::withDaysHoursMinutesSeconds(3, 2, 23, 7);
+		$this->assertEqual($duration->printableString(), '3:02:23:07');
+		
+		// 3 days, 2 hours, 23 minutes, and 12 seconds
+		$duration =& Duration::withDaysHoursMinutesSeconds(3, 2, 23, 12);
+		$this->assertEqual($duration->printableString(), '3:02:23:12');
+		
+		// -3 days, -2 hours, -23 minutes, and -12 seconds
+		$duration =& Duration::withDaysHoursMinutesSeconds(-3, -2, -23, -12);
+		$this->assertEqual($duration->printableString(), '-3:02:23:12');
 	}
 	
 	/**
@@ -197,7 +292,7 @@ class DurationTestCase extends UnitTestCase {
 	/**
 	 * Test the creation based on a times other than a day.
 	 */ 
-	function test_comparisson() {
+	function test_comparison() {
 		$duration =& Duration::withDays(5);
 		
 		// Equality
@@ -259,7 +354,7 @@ class DurationTestCase extends UnitTestCase {
 	}
 	
 	/**
-	 * Test the addition/subtraction.
+	 * Test the negation
 	 */ 
 	function test_negation() {
 		$duration =& Duration::withDays(5);
@@ -330,6 +425,163 @@ class DurationTestCase extends UnitTestCase {
 			$result->isEqualTo(
 				Duration::withDaysHoursMinutesSeconds(0, 75, 0, 0)));
 	}
+	
+	/**
+	 * Test rounding.
+	 */ 
+	function test_rounding_negs() {
+		// 3 days, 2 hours, 23 minutes, and 12 seconds
+		$duration =& Duration::withDaysHoursMinutesSeconds(-3, -2, -23, -12);
+		
+		// To one day
+		$result =& $duration->roundTo(Duration::withDays(1));
+		$this->assertTrue($result->isEqualTo(Duration::withDays(-3)));
+		
+		// To two days
+		$result =& $duration->roundTo(Duration::withDays(2));
+		$this->assertTrue($result->isEqualTo(Duration::withDays(-4)));
+		
+		// 3 days + 2 hours = 74 hours
+		// To one hour
+		$result =& $duration->roundTo(
+			Duration::withDaysHoursMinutesSeconds(0, 1, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(0, -74, 0, 0)));
+		
+		// To two hours
+		$result =& $duration->roundTo(
+			Duration::withDaysHoursMinutesSeconds(0, 2, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(0, -74, 0, 0)));
+		
+		// To three hours
+		$result =& $duration->roundTo(
+			Duration::withDaysHoursMinutesSeconds(0, 3, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(0, -75, 0, 0)));
+		
+		// To four hours
+		$result =& $duration->roundTo(
+			Duration::withDaysHoursMinutesSeconds(0, 4, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(0, -76, 0, 0)));
+				
+		// To five hours
+		$result =& $duration->roundTo(
+			Duration::withDaysHoursMinutesSeconds(0, -5, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(0, -75, 0, 0)));
+	}
+	
+	/**
+	 * Test truncating.
+	 */ 
+	function test_truncating_negs() {
+		// 3 days, 2 hours, 23 minutes, and 12 seconds
+		$duration =& Duration::withDaysHoursMinutesSeconds(-3, -2, -23, -12);
+		
+		// To one day
+		$result =& $duration->truncateTo(Duration::withDays(1));
+		$this->assertTrue($result->isEqualTo(Duration::withDays(-3)));
+		
+		// To two days
+		$result =& $duration->truncateTo(Duration::withDays(2));
+		$this->assertTrue($result->isEqualTo(Duration::withDays(-2)));
+		
+		// 3 days + 2 hours = 74 hours
+		// To one hour
+		$result =& $duration->truncateTo(
+			Duration::withDaysHoursMinutesSeconds(0, 1, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(0, -74, 0, 0)));
+		
+		// To two hours
+		$result =& $duration->truncateTo(
+			Duration::withDaysHoursMinutesSeconds(0, 2, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(0, -74, 0, 0)));
+		
+		// To three hours
+		$result =& $duration->truncateTo(
+			Duration::withDaysHoursMinutesSeconds(0, -3, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(-3, 0, 0, 0)));
+		
+		// To four hours
+		$result =& $duration->truncateTo(
+			Duration::withDaysHoursMinutesSeconds(0, -4, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(-3, 0, 0, 0)));
+				
+		// To five hours
+		$result =& $duration->truncateTo(
+			Duration::withDaysHoursMinutesSeconds(0, -5, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(-2, -22, 0, 0)));
+	}
+	
+	/**
+	 * Test truncating.
+	 */ 
+	function test_truncating() {
+		// 3 days, 2 hours, 23 minutes, and 12 seconds
+		$duration =& Duration::withDaysHoursMinutesSeconds(3, 2, 23, 12);
+		
+		// To one day
+		$result =& $duration->truncateTo(Duration::withDays(1));
+		$this->assertTrue($result->isEqualTo(Duration::withDays(3)));
+		
+		// To two days
+		$result =& $duration->truncateTo(Duration::withDays(2));
+		$this->assertTrue($result->isEqualTo(Duration::withDays(2)));
+		
+		// 3 days + 2 hours = 74 hours
+		// To one hour
+		$result =& $duration->truncateTo(
+			Duration::withDaysHoursMinutesSeconds(0, 1, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(0, 74, 0, 0)));
+		
+		// To two hours
+		$result =& $duration->truncateTo(
+			Duration::withDaysHoursMinutesSeconds(0, 2, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(0, 74, 0, 0)));
+		
+		// To three hours
+		$result =& $duration->truncateTo(
+			Duration::withDaysHoursMinutesSeconds(0, 3, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(3, 0, 0, 0)));
+		
+		// To four hours
+		$result =& $duration->truncateTo(
+			Duration::withDaysHoursMinutesSeconds(0, 4, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(3, 0, 0, 0)));
+				
+		// To five hours
+		$result =& $duration->truncateTo(
+			Duration::withDaysHoursMinutesSeconds(0, 5, 0, 0));
+		$this->assertTrue(
+			$result->isEqualTo(
+				Duration::withDaysHoursMinutesSeconds(2, 22, 0, 0)));
+	}
+	
 	
 	/**
 	 * Test durations that generate seconds larger than 2^32 seconds.
@@ -448,21 +700,6 @@ class DurationTestCase extends UnitTestCase {
 // 		$this->assertEqual($duration->minutes(), 23);
 // 		$this->assertEqual($duration->seconds(), 12);
 
-	}
-	
-	/**
-	 * Test printable string.
-	 */ 
-	function test_printing() {
-		// 3 days, 2 hours, 23 minutes, and 12 seconds
-		$duration =& Duration::withDaysHoursMinutesSeconds(3, 2, 23, 12);
-		$string = $duration->printableString();
-		$this->assertEqual($string, '3:02:23:12');
-		
-		// -3 days, -2 hours, -23 minutes, and -12 seconds
-		$duration =& Duration::withDaysHoursMinutesSeconds(-3, -2, -23, -12);
-		$string = $duration->printableString();
-		$this->assertEqual($string, '-3:02:23:12');
 	}
 }
 
