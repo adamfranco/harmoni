@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.9 2005/05/13 19:40:16 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.10 2005/05/13 20:06:18 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.9 2005/05/13 19:40:16 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.10 2005/05/13 20:06:18 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -588,7 +588,7 @@ class Timespan
  	 * @since 5/11/05
  	 */
  	function startMonth () {
- 		return $this->start->isLeapYear();
+ 		return $this->start->month();
  	}
  	
  	/**
