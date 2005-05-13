@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.8 2005/05/12 22:44:20 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.9 2005/05/13 19:40:16 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.8 2005/05/12 22:44:20 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.9 2005/05/13 19:40:16 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -243,6 +243,64 @@ class Timespan
 	function isLessThan ( &$aComparand ) {
 		return ($this->start->isLessThan($aComparand));
 	}
+	
+	/**
+	 * Answer TRUE if the argument is within the timespan covered by the reciever.
+	 * 
+	 * @param object DateAndTime $aDateAndTime A DateAndTime or Timespan.
+	 * @return boolean
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function includes ( &$aDateAndTime ) {
+		// If the argument is a Timespan, check the end-date as well.
+		if (strtolower(get_class($aDateAndTime)) == 'timespan' 
+			|| is_subclass_of($aDateAndTime, 'Timespan')) 
+		{
+			return ($this->includes($aDateAndTime->start()) 
+				&& $this->includes($aDateAndTime->end()));
+		
+		} 
+		// If the argument is a DateAndTime, just check it.
+		else {
+			$asDandT =& $aDateAndTime->asDateAndTime();
+			return $asDandT->isBetween($this->start(), $this->end());
+		}
+	}
+	
+	/**
+	 * Answer whether all the elements of anArray are in the receiver.
+	 * 
+	 * @param array $anArray An array of Timespans or DateAndTimes.
+	 * @return boolean
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function includesAllOf ( &$anArray ) {
+		foreach (array_keys($anArray) as $key) {
+			if (!$this->includes($anArray[$key]))
+				return FALSE;
+		}
+		
+		return TRUE;
+	}
+	
+	/**
+	 * Answer whether any the elements of anArray are in the receiver.
+	 * 
+	 * @param array $anArray An array of Timespans or DateAndTimes.
+	 * @return boolean
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function includesAnyOf ( &$anArray ) {
+		foreach (array_keys($anArray) as $key) {
+			if (!$this->includes($anArray[$key]))
+				return TRUE;
+		}
+		
+		return FALSE;
+	}
 
 /*********************************************************
  * Instance methods - Operations
@@ -318,10 +376,64 @@ class Timespan
  		return $result;
 	}
 	
+	/**
+	 * Return the Timespan both have in common, or null
+	 * 
+	 * @param object Timespan $aTimespan
+	 * @return mixed object Timespan OR null
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &intersection ( &$aTimespan ) {
+		$start =& $this->start();
+		$end =& $this->end();
+		
+		$aBeginning =& $start->max($aTimespan->start());
+		$anEnd =& $end->min($aTimespan->end());
+		
+		if ($anEnd->isLessThan($aBeginning)) {
+			return NULL;
+		} else {
+			eval('$result =& '.get_class($this).'::startingEnding($aBeginning, $anEnd);');
+			return $result;
+		}
+	}
+	
+	/**
+	 * Return the Timespan spanned by both
+	 * 
+	 * @param object Timespan $aTimespan
+	 * @return mixed object Timespan OR null
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &union ( &$aTimespan ) {
+		$start =& $this->start();
+		$end =& $this->end();
+		
+		$aBeginning =& $start->min($aTimespan->start());
+		$anEnd =& $end->max($aTimespan->end());
+		
+		return Timespan::startingEnding(
+				$aBeginning, 
+				$anEnd->plus(DateAndTime::clockPrecision()));
+	}
+	
 /*********************************************************
  * Instance Methods - Accessing
  *********************************************************/
  	
+ 	/**
+	 * Answer the day
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function day () {
+		return $this->dayOfYear();
+	}
+	
  	/**
  	 * Answer the day of the month represented by the receiver.
  	 * 
@@ -367,6 +479,40 @@ class Timespan
  	}
  	
  	/**
+	 * Answer the number of days in the month represented by the receiver.
+	 * 
+	 * @return ingteger
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function daysInMonth () {
+		return $this->start->daysInMonth();
+	}
+	
+	/**
+	 * Answer the number of days in the year represented by the receiver.
+	 * 
+	 * @return ingteger
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function daysInYear () {
+		return $this->start->daysInYear();
+	}
+	
+	/**
+	 * Answer the number of days in the year after the date of the receiver.
+	 * 
+	 * @return ingteger
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function daysLeftInYear () {
+		return $this->start->daysLeftInYear();
+	}
+
+ 	
+ 	/**
  	 * Answer the Duration of this timespan
  	 * 
  	 * @return object Duration
@@ -391,6 +537,17 @@ class Timespan
  	}
  	
  	/**
+	 * Answer the day-in-the-year of the first day of our month
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function firstDayOfMonth () {
+		return $this->start->firstDayOfMonth();
+	}
+ 	
+ 	/**
  	 * Answer TRUE if the year represented by the receiver is a leap year.
  	 * 
  	 * @return integer
@@ -410,6 +567,17 @@ class Timespan
  	 */
  	function julianDayNumber () {
  		return $this->start->julianDayNumber();
+ 	}
+ 	
+ 	/**
+ 	 * Return a printable string
+ 	 * 
+ 	 * @return string
+ 	 * @access public
+ 	 * @since 5/13/05
+ 	 */
+ 	function printableString () {
+ 		die('Timespan::printableString() is unimplemented');
  	}
  	
  	/**
@@ -477,6 +645,223 @@ class Timespan
  	function startYear () {
  		return $this->start->year();
  	}
+ 
+/*********************************************************
+ * Instance Methods - Enumerating
+ *********************************************************/
+
+	/**
+	 * Return an array of the DateAndTimes that occur every $aDuration in the reciever.
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &every ( &$aDuration ) {
+		$every = array();
+		
+		$element =& $this->start;
+		$end =& $this->end();
+		
+		while ($element->isLessThanOrEqualTo($end)) {
+			$every[] =& $element;
+			$element =& $element->plus($aDuration);
+		}
+		
+		return $every;
+	}
+	
+	/**
+	 * Return an array of the dates in the reciever.
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &dates () {
+		$dates = array();
+		
+		$duration =& Duration::withDays(1);
+		$element =& $this->start->asDate();
+		$end =& $this->end();
+		
+		while ($element->isLessThanOrEqualTo($end)) {
+			$dates[] =& $element;
+			$element =& $element->plus($duration);
+		}
+		
+		return $dates;
+	}
+	
+	/**
+	 * Return an array of the Months in the reciever.
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &months () {
+		$months = array();
+		
+		$duration =& Duration::withMonths(1);
+		$element =& $this->start->asMonth();
+		$end =& $this->end();
+		
+		while ($element->isLessThanOrEqualTo($end)) {
+			$months[] =& $element;
+			$element =& $element->plus($duration);
+		}
+		
+		return $months;
+	}
+	
+	/**
+	 * Return an array of the weeks in the reciever.
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &weeks () {
+		$weeks = array();
+		
+		$duration =& Duration::withWeeks(1);
+		$element =& $this->start->asWeek();
+		$end =& $this->end();
+		
+		while ($element->isLessThanOrEqualTo($end)) {
+			$weeks[] =& $element;
+			$element =& $element->plus($duration);
+		}
+		
+		return $weeks;
+	}
+	
+	/**
+	 * Return an array of the years in the reciever.
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &years () {
+		$years = array();
+		
+		$duration =& Duration::withYears(1);
+		$element =& $this->start->asYear();
+		$end =& $this->end();
+		
+		while ($element->isLessThanOrEqualTo($end)) {
+			$years[] =& $element;
+			$element =& $element->plus($duration);
+		}
+		
+		return $years;
+	}
+ 	
+/*********************************************************
+ * Instance Methods - Converting
+ *********************************************************/
+	
+	/**
+	 * Answer this instance converted.
+	 * 
+	 * @return obect Date
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &asDate () {
+		return $this->start->asDate();
+	}
+	
+	/**
+	 * Answer this instance converted.
+	 * 
+	 * @return obect DateAndTime
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &asDateAndTime () {
+		return $this->start;
+	}
+	
+	/**
+	 * Answer this instance converted.
+	 * 
+	 * @return obect Duration
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &asDuration () {
+		return $this->duration;
+	}
+	
+	/**
+	 * Answer this instance converted.
+	 * 
+	 * @return obect Month
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &asMonth () {
+		return $this->start->asMonth();
+	}
+	
+	/**
+	 * Answer this instance converted.
+	 * 
+	 * @return obect Time
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &asTime () {
+		return $this->start->asTime();
+	}
+	
+	/**
+	 * Answer this instance converted.
+	 * 
+	 * @return obect TimeStamp
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &asTimeStamp () {
+		return $this->start->asTimeStamp();
+	}
+	
+	/**
+	 * Answer this instance converted.
+	 * 
+	 * @return obect Week
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &asWeek () {
+		return $this->start->asWeek();
+	}
+	
+	/**
+	 * Answer this instance converted.
+	 * 
+	 * @return obect Year
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &asYear () {
+		return $this->start->asYear();
+	}
+	
+	/**
+	 * Answer an Timespan. anEnd must be aDateAndTime or a Timespan
+	 * 
+	 * @param object $anEnd Must be a DateAndTime or a Timespan
+	 * @return object Timespan
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &to ( &$anEnd ) {
+		return Timespan::startingEnding($this->start(), $anEnd->asDateAndTime());
+	}
 }
 
 require_once("DateAndTime.class.php");
