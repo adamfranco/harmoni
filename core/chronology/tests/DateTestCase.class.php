@@ -5,14 +5,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthTestCase.class.php,v 1.2 2005/05/13 13:50:10 adamfranco Exp $
+ * @version $Id: DateTestCase.class.php,v 1.1 2005/05/13 13:50:10 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  * @since 5/3/05
  */
 
-require_once(dirname(__FILE__)."/../Month.class.php");
+require_once(dirname(__FILE__)."/../Date.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -26,13 +26,13 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthTestCase.class.php,v 1.2 2005/05/13 13:50:10 adamfranco Exp $
+ * @version $Id: DateTestCase.class.php,v 1.1 2005/05/13 13:50:10 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
 
-class MonthTestCase extends UnitTestCase {
+class DateTestCase extends UnitTestCase {
 	
 	/**
 	*  Sets up unit test wide variables at the start
@@ -55,18 +55,17 @@ class MonthTestCase extends UnitTestCase {
 	 * Test the creation methods.
 	 */ 
 	function test_creation() {
-		$epochMonth =& Month::epoch();
+		$epoch =& Date::epoch();
 		
-		$this->assertEqual(strtolower(get_class($epochMonth)), 'month');
-		$this->assertEqual($epochMonth->dayOfMonth(), 1);
-		$this->assertEqual($epochMonth->dayOfYear(), 1);
-		$this->assertEqual($epochMonth->daysInMonth(), 31);
-		$this->assertEqual($epochMonth->startMonthIndex(), 1);
-		$this->assertEqual($epochMonth->startMonthName(), 'January');
-		$this->assertEqual($epochMonth->startMonthAbbreviation(), 'Jan');
+		$this->assertEqual(strtolower(get_class($epoch)), 'date');
+		$this->assertEqual($epoch->dayOfMonth(), 1);
+		$this->assertEqual($epoch->dayOfYear(), 1);
+		$this->assertEqual($epoch->startMonthIndex(), 1);
+		$this->assertEqual($epoch->startMonthName(), 'January');
+		$this->assertEqual($epoch->startMonthAbbreviation(), 'Jan');
 		
-		$duration =& $epochMonth->duration();
-		$this->assertTrue($duration->isEqualTo(Duration::withDays(31)));
+		$duration =& $epoch->duration();
+		$this->assertTrue($duration->isEqualTo(Duration::withDays(1)));
 	}
 	
 	/**

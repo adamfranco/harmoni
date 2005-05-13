@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.6 2005/05/12 22:57:26 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.7 2005/05/13 13:49:46 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -28,7 +28,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.6 2005/05/12 22:57:26 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.7 2005/05/13 13:49:46 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -42,19 +42,20 @@ class Duration
  *********************************************************/
  	
  	/**
- 	 * Create a new Duration of zero length
+ 	 * Formatted as per ANSI 5.8.2.16: [-]D:HH:MM:SS[.S]
  	 * 
+ 	 * @param string $aString
  	 * @return object Duration
  	 * @access public
- 	 * @since 5/5/05
+ 	 * @since 5/13/05
  	 * @static
  	 */
- 	function zero () {
- 		return Duration::withDays(0);
+ 	function &fromString ( $aString ) {
+ 		die('Duration::fromString($aString) is not yet implented.');
  	}
- 
+ 	
 	/**
-	 * Create a new Duration of days...
+	 * Create a new instance of days...
 	 * 
 	 * @param integer $days
 	 * @return object Duration
@@ -67,46 +68,7 @@ class Duration
 	}
 	
 	/**
-	 * Create a new Duration of hours...
-	 * 
-	 * @param integer $hours
-	 * @return object Duration
-	 * @access public
-	 * @static
-	 * @since 5/3/05
-	 */
-	function &withHours ( $hours ) {
-		return Duration::withDaysHoursMinutesSeconds ( 0, $hours, 0, 0 );
-	}
-	
-	/**
-	 * Create a new Duration of minutes...
-	 * 
-	 * @param integer $minutes
-	 * @return object Duration
-	 * @access public
-	 * @static
-	 * @since 5/3/05
-	 */
-	function &withMinutes ( $minutes ) {
-		return Duration::withDaysHoursMinutesSeconds ( 0, 0, $minutes, 0 );
-	}
-	
-	/**
-	 * Create a new Duration of seconds...
-	 * 
-	 * @param integer $seconds
-	 * @return object Duration
-	 * @access public
-	 * @static
-	 * @since 5/3/05
-	 */
-	function &withSeconds ( $seconds ) {
-		return Duration::withDaysHoursMinutesSeconds ( 0, 0, 0, $seconds );
-	}
-
-	/**
-	 * Create a new Duration with.
+	 * Create a new instance with.
 	 * 
 	 * @param integer $days
 	 * @param integer $hours
@@ -125,6 +87,84 @@ class Duration
 			+ $seconds);
 			
 	}
+	
+	/**
+	 * Create a new Duration of hours...
+	 * 
+	 * @param integer $hours
+	 * @return object Duration
+	 * @access public
+	 * @static
+	 * @since 5/3/05
+	 */
+	function &withHours ( $hours ) {
+		return Duration::withDaysHoursMinutesSeconds ( 0, $hours, 0, 0 );
+	}
+	
+	/**
+	 * Create a new instance of minutes...
+	 * 
+	 * @param integer $minutes
+	 * @return object Duration
+	 * @access public
+	 * @static
+	 * @since 5/3/05
+	 */
+	function &withMinutes ( $minutes ) {
+		return Duration::withDaysHoursMinutesSeconds ( 0, 0, $minutes, 0 );
+	}
+	
+	/**
+	 * Create a new instance. aMonth is an Integer or a String
+	 * 
+	 * @param string $anIntOrStrMonth
+	 * @return object Duration
+	 * @access public
+	 * @since 5/13/05
+	 * @static
+	 */
+	function &withMonth ( $anIntOrStrMonth ) {
+		$currentYear =& Year::current();
+		$month =& Month::withMonthYear($anIntOrStrMonth, $currentYear->startYear());
+		return $month->duration();
+	}
+	
+	/**
+	 * Create a new instance of seconds...
+	 * 
+	 * @param integer $seconds
+	 * @return object Duration
+	 * @access public
+	 * @static
+	 * @since 5/3/05
+	 */
+	function &withSeconds ( $seconds ) {
+		return Duration::withDaysHoursMinutesSeconds ( 0, 0, 0, $seconds );
+	}
+	
+	/**
+	 * Create a new instance of a number of weeks
+	 * 
+	 * @param float $aNumber
+	 * @return object Duration
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &withWeeks ( $aNumber ) {
+		return Duration::withDaysHoursMinutesSeconds(($aNumber * 7), 0, 0, 0);
+	}
+	
+	/**
+ 	 * Create a new Duration of zero length
+ 	 * 
+ 	 * @return object Duration
+ 	 * @access public
+ 	 * @since 5/5/05
+ 	 * @static
+ 	 */
+ 	function zero () {
+ 		return Duration::withDays(0);
+ 	}
 	
 	
 /*********************************************************
@@ -443,6 +483,22 @@ class Duration
 			intval(
 				round(
 					$this->asSeconds() / $aDuration->asSeconds())) 
+			* $aDuration->asSeconds());
+	}
+	
+	/**
+	 * Truncate. 
+	 * e.g. if the receiver is 5 minutes, 37 seconds, and aDuration is 2 minutes, 
+	 * answer 4 minutes.
+	 * 
+	 * @param object Duration $aDuration
+	 * @return object Duration
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &truncateTo ( &$aDuration ) {
+		return new Duration (
+			intval($this->asSeconds() / $aDuration->asSeconds())
 			* $aDuration->asSeconds());
 	}
 	

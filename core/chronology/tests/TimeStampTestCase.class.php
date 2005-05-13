@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.4 2005/05/12 23:52:55 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.5 2005/05/13 13:50:10 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../TimeStamp.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.4 2005/05/12 23:52:55 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.5 2005/05/13 13:50:10 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -156,6 +156,14 @@ class TimeStampTestCase extends UnitTestCase {
 		$this->assertEqual($dateAndTime->second(), 10);
 		$this->assertEqual(strtolower(get_class($dateAndTime)), 'timestamp');
 		
+	}
+	
+	/**
+	 * Test instance creation from a string.
+	 * 
+	 */
+	function test_from_string () {
+		$this->assertEqual('fromString() is tested', 'Yes');
 	}
 	
 	/**

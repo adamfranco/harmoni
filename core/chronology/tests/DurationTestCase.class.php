@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DurationTestCase.class.php,v 1.3 2005/05/12 22:44:45 adamfranco Exp $
+ * @version $Id: DurationTestCase.class.php,v 1.4 2005/05/13 13:50:10 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,17 +26,13 @@ require_once(dirname(__FILE__)."/../Duration.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DurationTestCase.class.php,v 1.3 2005/05/12 22:44:45 adamfranco Exp $
+ * @version $Id: DurationTestCase.class.php,v 1.4 2005/05/13 13:50:10 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
 
 class DurationTestCase extends UnitTestCase {
-	
-	function TreeTestCase() {
-		$this->UnitTestCase();
-	}
 	
 	/**
 	*  Sets up unit test wide variables at the start
@@ -120,6 +116,14 @@ class DurationTestCase extends UnitTestCase {
 		$this->assertEqual($duration->minutes(), 0);
 		$this->assertEqual($duration->seconds(), 0);
 		$this->assertEqual($duration->asSeconds(), 86400*2);
+	}
+	
+	/**
+	 * Test instance creation from a string.
+	 * 
+	 */
+	function test_from_string () {
+		$this->assertEqual('fromString() is tested', 'Yes');
 	}
 	
 	/**
