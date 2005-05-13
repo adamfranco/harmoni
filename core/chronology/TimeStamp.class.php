@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.5 2005/05/12 23:52:39 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.6 2005/05/13 16:11:35 adamfranco Exp $
  */ 
  
 require_once("DateAndTime.class.php");
@@ -20,7 +20,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.5 2005/05/12 23:52:39 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.6 2005/05/13 16:11:35 adamfranco Exp $
  */
 class TimeStamp
 	extends DateAndTime 
@@ -36,6 +36,22 @@ class TimeStamp
  * which it is implemented. These parameters SHOULD NOT BE
  * USED OUTSIDE OF THIS PACKAGE.
  *********************************************************/
+ 	
+ 	/**
+ 	 * Answer a TimeStamp representing now
+ 	 * 
+ 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object TimeStamp
+ 	 * @access public
+ 	 * @since 5/13/05
+ 	 */
+ 	function &current ( $class = 'TimeStamp' ) {
+ 		eval('$result =& '.$class.'::now();');
+ 		return $result;
+ 	}
 	
 	/**
 	 * Answer a TimeStamp representing the Squeak epoch: 1 January 1901
@@ -379,7 +395,24 @@ class TimeStamp
 	function &yesterday ( $class = 'TimeStamp' ) {
 		return parent::yesterday($class);
 	}
-	
+
+/*********************************************************
+ * Instance methods - Accessing
+ *********************************************************/
+ 
+ 	/**
+ 	 * Print receiver's date and time
+ 	 * 
+ 	 * @return string
+ 	 * @access public
+ 	 * @since 5/13/05
+ 	 */
+ 	function printableString () {
+ 		$date =& $this->date();
+ 		$time =& $this->time();
+ 		return $date->printableString().' '.$time->printableString();
+ 	}
+
 /*********************************************************
  * Instance methods - Converting
  *********************************************************/
@@ -393,6 +426,90 @@ class TimeStamp
 	 */
 	function &asTimeStamp () {
 		return $this;
+	}
+	
+	/**
+	 * Answer the date of the receiver.
+	 * 
+	 * @return object Date
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &date () {
+		return $this->asDate();
+	}
+	
+	/**
+	 * Answer a two element Array containing the receiver's date and time.
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &dateAndTimeArray () {
+		return array (
+			$this->date(),
+			$this->time()
+		);
+	}
+	
+	/**
+	 * Answer a TimeStamp which is anInteger days before the receiver.
+	 * 
+	 * @param integer $anInteger
+	 * @return object TimeStamp
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &minusDays ( $anInteger ) {
+		return $this->minus(Duration::withDays($anIntager));
+	}
+	
+	/**
+	 * Answer a TimeStamp which is anInteger seconds before the receiver.
+	 * 
+	 * @param integer $anInteger
+	 * @return object TimeStamp
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &minusSeconds ( $anInteger ) {
+		return $this->minus(Duration::withSeconds($anIntager));
+	}
+	
+	/**
+	 * Answer a TimeStamp which is anInteger days after the receiver.
+	 * 
+	 * @param integer $anInteger
+	 * @return object TimeStamp
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &plusDays ( $anInteger ) {
+		return $this->plus(Duration::withDays($anIntager));
+	}
+	
+	/**
+	 * Answer a TimeStamp which is anInteger seconds after the receiver.
+	 * 
+	 * @param integer $anInteger
+	 * @return object TimeStamp
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &plusSeconds ( $anInteger ) {
+		return $this->plus(Duration::withSeconds($anIntager));
+	}
+	
+	/**
+	 * Answer the time of the receiver.
+	 * 
+	 * @return object Time
+	 * @access public
+	 * @since 5/13/05
+	 */
+	function &time () {
+		return $this->asTime();
 	}
 }
 
