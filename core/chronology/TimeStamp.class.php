@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.6 2005/05/13 16:11:35 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.7 2005/05/13 18:20:59 adamfranco Exp $
  */ 
  
 require_once("DateAndTime.class.php");
@@ -20,7 +20,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.6 2005/05/13 16:11:35 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.7 2005/05/13 18:20:59 adamfranco Exp $
  */
 class TimeStamp
 	extends DateAndTime 
@@ -462,7 +462,7 @@ class TimeStamp
 	 * @since 5/13/05
 	 */
 	function &minusDays ( $anInteger ) {
-		return $this->minus(Duration::withDays($anIntager));
+		return $this->minus(Duration::withDays($anInteger));
 	}
 	
 	/**
@@ -474,7 +474,7 @@ class TimeStamp
 	 * @since 5/13/05
 	 */
 	function &minusSeconds ( $anInteger ) {
-		return $this->minus(Duration::withSeconds($anIntager));
+		return $this->minus(Duration::withSeconds($anInteger));
 	}
 	
 	/**
@@ -486,7 +486,7 @@ class TimeStamp
 	 * @since 5/13/05
 	 */
 	function &plusDays ( $anInteger ) {
-		return $this->plus(Duration::withDays($anIntager));
+		return $this->plus(Duration::withDays($anInteger));
 	}
 	
 	/**
@@ -498,7 +498,7 @@ class TimeStamp
 	 * @since 5/13/05
 	 */
 	function &plusSeconds ( $anInteger ) {
-		return $this->plus(Duration::withSeconds($anIntager));
+		return $this->plus(Duration::withSeconds($anInteger));
 	}
 	
 	/**

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.5 2005/05/13 13:50:10 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.6 2005/05/13 18:21:30 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../TimeStamp.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.5 2005/05/13 13:50:10 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.6 2005/05/13 18:21:30 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -56,8 +56,85 @@ class TimeStampTestCase extends UnitTestCase {
 	 */ 
 	function test_creation() {
 		$epoch =& TimeStamp::epoch();
-		
 		$this->assertEqual(strtolower(get_class($epoch)), 'timestamp');
+		
+		$timestamp =& TimeStamp::current();
+		$this->assertEqual(strtolower(get_class($timestamp)), 'timestamp');
+	}
+	
+	/**
+	 * Test the timestamp conversion methods.
+	 */ 
+	function test_plus_minus_days() {
+		$timestamp =& TimeStamp::withYearMonthDayHourMinuteSecond(2005, 5, 4, 15, 25, 32);
+		$this->assertEqual(strtolower(get_class($timestamp)), 'timestamp');
+		
+		$temp =& $timestamp->minusDays(3);
+		$this->assertEqual(strtolower(get_class($temp)), 'timestamp');
+		$this->assertEqual($temp->year(), 2005);
+		$this->assertEqual($temp->month(), 5);
+		$this->assertEqual($temp->dayOfMonth(), 1);
+		$this->assertEqual($temp->hour(), 15);
+		$this->assertEqual($temp->minute(), 25);
+		$this->assertEqual($temp->second(), 32);
+		$this->assertTrue($temp->isEqualTo(
+			TimeStamp::withYearMonthDayHourMinuteSecond(2005, 5, 1, 15, 25, 32)));
+		
+		$temp =& $timestamp->plusDays(3);
+		$this->assertEqual(strtolower(get_class($temp)), 'timestamp');
+		$this->assertEqual($temp->year(), 2005);
+		$this->assertEqual($temp->month(), 5);
+		$this->assertEqual($temp->dayOfMonth(), 7);
+		$this->assertEqual($temp->hour(), 15);
+		$this->assertEqual($temp->minute(), 25);
+		$this->assertEqual($temp->second(), 32);
+		$this->assertTrue($temp->isEqualTo(
+			TimeStamp::withYearMonthDayHourMinuteSecond(2005, 5, 7, 15, 25, 32)));
+		
+		$temp =& $timestamp->minusSeconds(7);
+		$this->assertEqual(strtolower(get_class($temp)), 'timestamp');
+		$this->assertEqual($temp->year(), 2005);
+		$this->assertEqual($temp->month(), 5);
+		$this->assertEqual($temp->dayOfMonth(), 4);
+		$this->assertEqual($temp->hour(), 15);
+		$this->assertEqual($temp->minute(), 25);
+		$this->assertEqual($temp->second(), 25);
+		$this->assertTrue($temp->isEqualTo(
+			TimeStamp::withYearMonthDayHourMinuteSecond(2005, 5, 4, 15, 25, 25)));
+		
+		$temp =& $timestamp->plusSeconds(7);
+		$this->assertEqual(strtolower(get_class($temp)), 'timestamp');
+		$this->assertEqual($temp->year(), 2005);
+		$this->assertEqual($temp->month(), 5);
+		$this->assertEqual($temp->dayOfMonth(), 4);
+		$this->assertEqual($temp->hour(), 15);
+		$this->assertEqual($temp->minute(), 25);
+		$this->assertEqual($temp->second(), 39);
+		$this->assertTrue($temp->isEqualTo(
+			TimeStamp::withYearMonthDayHourMinuteSecond(2005, 5, 4, 15, 25, 39)));
+	}
+	
+	/**
+	 * Test the plus/minus days/seconds conversion methods.
+	 */ 
+	function test_timestamp_converion() {
+		$timestamp =& TimeStamp::withYearMonthDayHourMinute(2005, 5, 4, 15, 25);
+		$this->assertEqual(strtolower(get_class($timestamp)), 'timestamp');
+		
+		$temp =& $timestamp->date();
+		$this->assertEqual(strtolower(get_class($temp)), 'date');
+		$this->assertTrue($temp->isEqualTo(Date::withYearMonthDay(2005, 5, 4)));
+		
+		$temp =& $timestamp->time();
+		$this->assertEqual(strtolower(get_class($temp)), 'time');
+		$this->assertTrue($temp->isEqualTo(Time::withHourMinuteSecond(15, 25, 0)));
+		
+		$temp =& $timestamp->dateAndTimeArray();
+		$this->assertEqual(strtolower(get_class($temp[0])), 'date');
+		$this->assertEqual(strtolower(get_class($temp[1])), 'time');
+		$this->assertTrue($temp[0]->isEqualTo(Date::withYearMonthDay(2005, 5, 4)));
+		$this->assertTrue($temp[1]->isEqualTo(Time::withHourMinuteSecond(15, 25, 0)));
+		$this->assertEqual(count($temp), 2);
 	}
 	
 	
