@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.15 2005/04/04 18:23:29 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.16 2005/05/19 17:25:48 thebravecowboy Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
@@ -417,10 +417,11 @@ class HarmoniGroup
 	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
 	function &_getMembers($recursive, $agents = TRUE) {
-		if ($agents)
+		if ($agents){
 			$result = $this->_agents;
-		else
+		}else{
 			$result = $this->_groups;
+		}
 		
 		if ($recursive) {
 			foreach (array_keys($this->_groups) as $i => $key)

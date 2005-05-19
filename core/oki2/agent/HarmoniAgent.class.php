@@ -17,7 +17,7 @@ require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.13 2005/04/04 18:23:26 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.14 2005/05/19 17:25:48 thebravecowboy Exp $
  */
 class HarmoniAgent 
 	extends Agent
@@ -61,6 +61,13 @@ class HarmoniAgent
 	 * @access private
 	 */
 	var $_sharedDB;
+	
+	/**
+	 * An array of properties objects
+	 * @var array _propertiesArray
+	 * @access private
+	 */
+	var $_propertiesArray;
 	
 
 	
@@ -182,6 +189,7 @@ class HarmoniAgent
 	 * @access public
 	 */
 	function &getProperties () { 
+		
 		$iterator =& new HarmoniPropertiesIterator($this->_propertiesArray);
 		return $iterator;
 	
@@ -213,16 +221,18 @@ class HarmoniAgent
 	function &getPropertiesByType ( &$propertiesType ) { 
 		$array = array();
 		
+		//if we don't have an object of the type, we'll want to return Null so we know that
+		$propertiesOfType=null;
+		
 		foreach (array_keys($this->_propertiesArray) as $key) {
 			if ($propertiesType->isEqual(
 					$this->_propertiesArray[$key]->getType()))
 			{
-				$array[] =& $this->_propertiesArray[$key];
+				$propertiesOfType =& $this->_propertiesArray[$key];
 			}
 		}
 		
-		$iterator =& new HarmoniIterator($array);
-		return $iterator;
+		return $propertiesOfType;
 	
 	}
 

@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: MySQL_Agent.sql,v 1.5 2005/04/22 19:12:15 adamfranco Exp $
+-- @version $Id: MySQL_Agent.sql,v 1.6 2005/05/19 17:25:06 thebravecowboy Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -24,28 +24,21 @@ CREATE TABLE agent (
 ) TYPE=MyISAM;
 
 -- --------------------------------------------------------
-
 -- 
 -- Table structure for table `agent_properties`
 -- 
 
-CREATE TABLE agent_properties (
-  fk_agent varchar(75) NOT NULL default '0',
-  fk_properties int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (fk_agent,fk_properties)
+CREATE TABLE `agent_properties` (
+  `property_id` int(11) NOT NULL auto_increment,
+  `fk_object_id` varchar(255) NOT NULL default '0',
+  `fk_type_id` varchar(255) NOT NULL default '',
+  `property_key` varchar(255) NOT NULL default '',
+  `property_value` text NOT NULL,
+  PRIMARY KEY  (`property_id`),
+  KEY `fk_object_id` (`fk_object_id`),
+  KEY `fk_type_id` (`fk_type_id`)
 ) TYPE=MyISAM;
 
--- --------------------------------------------------------
-
--- 
--- Table structure for table `group_properties`
--- 
-
-CREATE TABLE group_properties (
-  fk_group varchar(75) NOT NULL default '0',
-  fk_properties int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (fk_group,fk_properties)
-) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 

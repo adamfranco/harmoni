@@ -19,7 +19,7 @@ require_once(HARMONI."oki2/shared/HarmoniObjectIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniProperties.class.php,v 1.13 2005/03/29 19:44:29 adamfranco Exp $
+ * @version $Id: HarmoniProperties.class.php,v 1.14 2005/05/19 17:25:48 thebravecowboy Exp $
  */
 class HarmoniProperties
 	extends Properties
@@ -83,7 +83,7 @@ class HarmoniProperties
 	function &getProperty ( $key ) { 
 		return $this->_properties[serialize($key)];
 	}
-
+	
 	/**
 	 * Get the Keys associated with these Properties.
 	 *	
@@ -141,5 +141,14 @@ class HarmoniProperties
 		$this->_properties[serialize($key)] =& $value;
 	}
 	
+	/**
+	 * Remove a Property from these properties
+	 * WARNING: NOT IN OSID - This method is not in the OSIDs as of version 2.0
+	 * Use at your own risk
+	 */
+	 
+	 function deleteProperty($key){
+	 	unset($this->_properties[serialize($key)]);
+	 }	
 	
 }

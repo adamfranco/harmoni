@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIterator.class.php,v 1.5 2005/02/04 15:59:10 adamfranco Exp $
+ * @version $Id: HarmoniIterator.class.php,v 1.6 2005/05/19 17:25:48 thebravecowboy Exp $
  */
 class HarmoniIterator
 {
@@ -29,6 +29,9 @@ class HarmoniIterator
 	 * Constructor
 	 */
 	function HarmoniIterator (& $elementArray) {
+		if($elementArray===NULL){
+			$elementArray=array();
+		}
 		// load the elements into our private array
 		foreach (array_keys($elementArray) as $i => $key) {
 			$this->_elements[] =& $elementArray[$key];

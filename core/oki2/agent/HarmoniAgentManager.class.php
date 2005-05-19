@@ -4,6 +4,7 @@ require_once(OKI2."/osid/agent/AgentManager.php");
 require_once(OKI2."/osid/agent/AgentException.php");
 
 require_once(HARMONI."oki2/agent/HarmoniAgent.class.php");
+require_once(HARMONI."oki2/agent/HarmoniEditableAgent.class.php");
 require_once(HARMONI."oki2/agent/AnonymousAgent.class.php");
 require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
 require_once(HARMONI."oki2/agent/HarmoniAgentIterator.class.php");
@@ -46,7 +47,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.21 2005/04/11 20:54:41 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.22 2005/05/19 17:25:48 thebravecowboy Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -110,6 +111,15 @@ class HarmoniAgentManager
 	 */
 	var $_ids;
 	
+	/**
+	 * Whether to use plain agents or editable agents. 'Flavor' is used because
+	 * it would be confusing to use the word 'type' because of the specific use 
+	 * of the OSID Type concept
+	 * @var string _agentFlavor
+	 * @access private
+	 */
+	
+	var $_agentFlavor;
 	
 	/**
 	 * Constructor. Set up any database connections needed.
@@ -150,6 +160,9 @@ class HarmoniAgentManager
 		
 		$dbIndex =& $configuration->getProperty('database_index');
 		$dbName =& $configuration->getProperty('database_name');
+		
+		//assigns the intitial flavor of agent.  This is set with the configuration 
+		$this->_agentFlavor =& $configuration->getProperty('defaultAgentFlavor');
 		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
@@ -205,9 +218,42 @@ class HarmoniAgentManager
 	} 
 
 
+	/***
+	 * WARNING! NOT IN THE OSID USE AT YOUR OWN RISK
+	 * Change the flavor between editable agent and non editable agent
+	 *
+	 * @return boolean
+	 *
+	 * @param string $agentFlavor
+	 *
+	 * @access public
+	 */
+	 function changeAgentFlavor($agentFlavor){
+	 	if($agentFlavor!="HarmoniAgent" && $agentFlavor!="HarmoniEditableAgent"){
+			return false;
+		}
+		
+		$this->_agentFlavor = $agentFlavor;
+		return true;
+	  }
+	  
+	  /***
+	   * WARNING! NOT IN THE OSID USE AT YOUR OWN RISK
+	   * Returns the agent flavor
+	   *
+	   * @return string
+	   * @access public
+	   */
+	   
+	  function getAgentFlavor(){
+	  	return $this->_agentFlavor;
+	  }
+	
+
 	/**
 	 * Create an Agent with the display name, Type, and Properties specified.
-	 * All are immutable.
+	 * Whether a HarmoniAgent or HarmoniEditableAgent is created depends on the
+	 * flavor.
 	 * 
 	 * @param string $displayName
 	 * @param object Type $agentType
@@ -232,20 +278,21 @@ class HarmoniAgentManager
 	 * @access public
 	 */
 	function &createAgent ( $displayName, &$agentType, &$properties ) { 
+		
 		// ** parameter validation
-		ArgumentValidator::validate($agentType, ExtendsValidatorRule::getRule("Type"), true);
-		ArgumentValidator::validate($properties, ExtendsValidatorRule::getRule("Properties"), true);
-		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($agentType, new ExtendsValidatorRule("Type"), true);
+		ArgumentValidator::validate($displayName, new StringValidatorRule(), true);
+	
+		$propertiesArray[] =& $properties;
 		// ** end of parameter validation
 		
 		// create a new unique id for the agent
 		$idManager =& Services::getService("Id");
 		$agentId =& $idManager->createId();
+				
 		// get the actual id
 		$agentIdValue = $agentId->getIdString();
 		
-		// now insert the agent in the database
-
 		$dbHandler =& Services::getService("DatabaseManager");
 		$db = $this->_sharedDB.".";
 
@@ -269,32 +316,21 @@ class HarmoniAgentManager
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		// 3. Store the properties of the agent.
-		$propertiesId = $this->_storeProperties($properties);
-		
-		// 4. Store the Mapping of the Properties to the Agent
-		$query =& new InsertQuery;
-		$query->setTable("agent_properties");
-		$query->setColumns(array(
-			"fk_agent",
-			"fk_properties"
-		));
-		$query->setValues(array(
-			"'".addslashes($agentIdValue)."'",
-			"'".addslashes($propertiesId)."'"
-		));
-		$result =& $dbHandler->query($query, $this->_dbIndex);
-		
-		
+		$propertyManager =& Services::getService("Property");
+		//properties are grouped by type into typed properties objects which contain all key/value pairs of that type.  That's why there's an array of properties objects
+		foreach($propertiesArray as $property){
+			$propertyManager->storeProperties($agentIdValue, $property);
+		}
+				
 		// create the agent object to return
-		$propertiesArray = array();
-		$propertiesArray[] =& $properties;
-		$agent =& new HarmoniAgent($displayName, $agentId, $agentType, $propertiesArray, $this->_dbIndex, $this->_sharedDB);
+	
+		$agent =& new $this->_agentFlavor($displayName, $agentId, $agentType, $propertiesArray, $this->_dbIndex, $this->_sharedDB);
 		// then cache it
 		$this->_agentsCache[$agentIdValue] =& $agent;
 		
 		return $agent;
 	}
-
+			
 	/**
 	 * Delete the Agent with the specified unique Id.
 	 * 
@@ -324,9 +360,10 @@ class HarmoniAgentManager
 
 		// get the id
 		$idValue = $id->getIdString();
-		
+			
 		$dbHandler =& Services::getService("DatabaseManager");
-
+		$propertyManager =& Services::getService("Property");
+		
 		// 1. Get the id of the type associated with the agent
 		$query =& new SelectQuery();
 		
@@ -342,57 +379,20 @@ class HarmoniAgentManager
 			throwError(new Error(AgentException::OPERATION_FAILED() ,"AgentManager",true));
 		$typeIdValue = $queryResult->field("type_id");
 		
-		// 2. Delete the Properties mapping of the agent
-		// get the properties ids first
-		$query =& new SelectQuery();
-		$query->addTable($db."agent_properties");
-		$query->addColumn("fk_properties");
-		$query->addWhere($db."agent_properties.fk_agent = '".addslashes($idValue)."'");
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		//remove the properties of the agent from the database
+		$propertyManager->deleteAllProperties($idValue);
 		
-		$propertiesIdValues = array();
-		while ($row =& $queryResult->getCurrentRow()) {
-			$propertiesIdValues[] = $row['fk_properties'];
-			$queryResult->advanceRow();
-		}
-		
-		// Delete the mapping
-		$query =& new DeleteQuery();
-		$query->setTable($db."agent_properties");
-		$query->addWhere($db."agent_properties.fk_agent = '".addslashes($idValue)."'");
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		
-		// 3. Delete the properties of the agent
-		// Delete each Property entry.
-		if (count($propertiesIdValues)) {
-			$query =& new DeleteQuery();
-			$query->setTable($db."shared_property");
-			$where = array();
-			foreach ($propertiesIdValues as $propertiesIdValue) {
-				$where[] = "fk_properties = '".addslashes($propertiesIdValue)."'";
-			}
-			$query->addWhere(implode(" OR ", $where));
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-			
-			// Delete each Properties entry
-			$query =& new DeleteQuery();
-			$query->setTable($db."shared_properties");
-			$where = array();
-			foreach ($propertiesIdValues as $propertiesIdValue) {
-				$where[] = "id = '".addslashes($propertiesIdValue)."'";
-			}
-			$query->addWhere(implode(" OR ", $where));
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		}
-		
+				
 		// 4. Now delete the agent
 		$query =& new DeleteQuery();
 		$query->setTable($db."agent");
 		$query->addWhere($db."agent.agent_id = '".addslashes($idValue)."'");
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
+		//NO!! The type table, not being the domain of agents alone, will not be altered here.  A method should be created to delete unused types somewhere else, that looks at all possible type users (leaning into creating a Type manager!) -- BG 5.19.2005
+		
 		// 5. Now see if any other agents have the same type
-		$query =& new SelectQuery();
+		/*$query =& new SelectQuery();
 		
 		$db = $this->_sharedDB.".";
 		$query->addTable($db."agent");
@@ -412,7 +412,7 @@ class HarmoniAgentManager
 			$query->setTable($db."type");
 			$query->addWhere($db."type.type_id = '".addslashes($typeIdValue)."'");
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		}
+		}*/
 
 		// 6. Now, we must remove this agent from all groups that include it
 		// first select all such groups (we will need this to update the cache)
@@ -437,6 +437,8 @@ class HarmoniAgentManager
 		// Mapping to this agent
 		$agentTokenMappingManager =& Services::getService("AgentTokenMapping");
 		$mappings =& $agentTokenMappingManager->getMappingsForAgentId($id);
+		
+		//if there are authentication mappings, remove them
 		while ($mappings->hasNextObject()) {
 			$agentTokenMappingManager->deleteMapping($mappings->nextObject());
 		}
@@ -502,7 +504,7 @@ class HarmoniAgentManager
 		$where = $db."agent.agent_id = '".addslashes($idValue)."'";
 
 		$this->_loadAgents($where);
-		
+			
 		if (!isset($this->_agentsCache[$idValue]))
 			throwError(new Error(AgentException::UNKNOWN_ID(),"AgentManager",true));
 		
@@ -531,8 +533,9 @@ class HarmoniAgentManager
 	 * @access public
 	 */
 	function &getAgents () { 
-		if (!$this->_allAgentsCached)
+		if (!$this->_allAgentsCached){
 			$this->_loadAgents();
+		}
 		
 		$result =& new HarmoniAgentIterator($this->_agentsCache);
 		return $result;
@@ -798,22 +801,16 @@ class HarmoniAgentManager
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
+		$groupIdString = $queryResult->getLastAutoIncrementValue();
+		$idManager =& Services::getService("Id");
+		$groupId =& $idManager->getId($groupIdString);
+		
 		// 3. Store the properties of the group.
-		$propertiesId = $this->_storeProperties($properties);
 		
-		// 4. Store the Mapping of the Properties to the Agent
-		$query =& new InsertQuery;
-		$query->setTable("group_properties");
-		$query->setColumns(array(
-			"fk_group",
-			"fk_properties"
-		));
-		$query->setValues(array(
-			"'".addslashes($groupIdValue)."'",
-			"'".addslashes($propertiesId)."'"
-		));
-		$result =& $dbHandler->query($query, $this->_dbIndex);
+		$propertyManager =& Services::getService("Property");
 		
+		$propertiesId = $propertyManager->storeProperties($groupId, $properties);
+						
 		// create the group object to return
 		$propertiesArray = array();
 		$propertiesArray[] =& $properties;
@@ -845,6 +842,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
+	 
 	function deleteGroup ( &$id ) { 
 		// ** parameter validation
 		$extendsRule =& ExtendsValidatorRule::getRule("Id");
@@ -855,6 +853,7 @@ class HarmoniAgentManager
 		$idValue = $id->getIdString();
 		
 		$dbHandler =& Services::getService("DatabaseManager");
+		$propertyManager =& Services::getService("Property");
 
 		// 1. Get the id of the type associated with the agent
 		$query =& new SelectQuery();
@@ -871,48 +870,9 @@ class HarmoniAgentManager
 			throwError(new Error(AgentException::OPERATION_FAILED() ,"AgentManager",true));
 		$typeIdValue = $queryResult->field("type_id");
 		
-		// 2. Delete the Properties mapping of the agent
-		// get the properties ids first
-		$query =& new SelectQuery();
-		$query->addTable($db."agent_properties");
-		$query->addColumn("fk_properties");
-		$query->addWhere($db."agent_properties.fk_agent = '".addslashes($idValue)."'");
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		//3. Delete all properties associated with this id
+		$propertyManager->deleteAllProperties($idValue);
 		
-		$propertiesIdValues = array();
-		while ($row =& $queryResult->getCurrentRow()) {
-			$propertiesIdValues[] = $row['fk_properties'];
-			$queryResult->advanceRow();
-		}
-		
-		// Delete the mapping
-		$query =& new DeleteQuery();
-		$query->setTable($db."group_properties");
-		$query->addWhere($db."group_properties.fk_group = '".addslashes($idValue)."'");
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		
-		// 3. Delete the properties of the group
-		// Delete each Property entry.
-		if (count($propertiesIdValues)) {
-			$query =& new DeleteQuery();
-			$query->setTable($db."shared_property");
-			$where = array();
-			foreach ($propertiesIdValues as $propertiesIdValue) {
-				$where[] = "fk_properties = '".addslashes($propertiesIdValue)."'";
-			}
-			$query->addWhere(implode(" OR ", $where));
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-			
-			// Delete each Properties entry
-			$query =& new DeleteQuery();
-			$query->setTable($db."shared_properties");
-			$where = array();
-			foreach ($propertiesIdValues as $propertiesIdValue) {
-				$where[] = "id = '".addslashes($propertiesIdValue)."'";
-			}
-			$query->addWhere(implode(" OR ", $where));
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		}
 		
 		// 4. Now delete the group
 		$query =& new DeleteQuery();
@@ -922,6 +882,8 @@ class HarmoniAgentManager
 		
 		
 		// 5. Now see if any other groups have the same type
+		/***** SAME AS ABOVE 
+		
 		$query =& new SelectQuery();
 		
 		$db = $this->_sharedDB.".";
@@ -937,7 +899,7 @@ class HarmoniAgentManager
 			$query->setTable($db."type");
 			$query->addWhere($db."type.type_id = '".addslashes($typeIdValue)."'");
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		}
+		}*/
 
 		// 6. Now, we must remove any entry in the join table that reference
 		// this group
@@ -1327,6 +1289,7 @@ class HarmoniAgentManager
 	 **/
 	function _loadAgents($where = null, $fromGroup = null) {
 		$idManager =& Services::getService("Id");
+		$propertyManager =& Services::getService("Property");
 		
 		$foundIds = array();
 		$dbHandler =& Services::getService("DatabaseManager");
@@ -1352,18 +1315,18 @@ class HarmoniAgentManager
 		else {
 			$query->addTable($db."agent");
 		}
+		//join the type table to get the agent type
 		$joinc = $db."agent.fk_type = ".$db."type.type_id";
-		$query->addTable($db."type", INNER_JOIN, $joinc);
-		// Join to the properties mapping table
-		$joinc = $db."agent.agent_id = ".$db."agent_properties.fk_agent";
+		$query->addTable($db."type", LEFT_JOIN, $joinc);
+		
+		// Join to the consolidated properties table
+		/*$joinc = $db."agent.agent_id = ".$db."agent_properties.fk_object_id";
 		$query->addTable($db."agent_properties", LEFT_JOIN, $joinc);
-		// Join to the properties and each Property
-		$joinc = $db."agent_properties.fk_properties = ".$db."shared_properties.id";
-		$query->addTable($db."shared_properties", LEFT_JOIN, $joinc);
-		$joinc = $db."shared_properties.fk_type = ".$db."properties_type.type_id";
+		
+		//join the type table again, under an alias, for the properties
+		$joinc = $db."agent_properties.fk_type = ".$db."properties_type.type_id";
 		$query->addTable($db."type", LEFT_JOIN, $joinc, "properties_type");
-		$joinc = $db."shared_properties.id = ".$db."shared_property.fk_properties";
-		$query->addTable($db."shared_property", LEFT_JOIN, $joinc);
+		*/
 		
 		// set the columns to select
 		$query->addColumn("agent_id", "id", $db."agent");
@@ -1372,24 +1335,16 @@ class HarmoniAgentManager
 		$query->addColumn("type_authority", "authority", $db."type");
 		$query->addColumn("type_keyword", "keyword", $db."type");
 		$query->addColumn("type_description", "description", $db."type");
-		$query->addColumn("id", "properties_id", $db."shared_properties");
-		$query->addColumn("type_domain", "properties_domain", $db."properties_type");
-		$query->addColumn("type_authority", "properties_authority", $db."properties_type");
-		$query->addColumn("type_keyword", "properties_keyword", $db."properties_type");
-		$query->addColumn("type_description", "properties_description", $db."properties_type");
-		$query->addColumn("property_key", "property_key", $db."shared_property");
-		$query->addColumn("property_value", "property_value", $db."shared_property");
 		
 		if ($where)
 			$query->addWhere($where);
 		
-//		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
-		
+		//print MySQL_SQLGenerator::generateSQLQuery($query);
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		
-		
+				
 		while ($arr = $queryResult->getCurrentRow()) {
 			// If we are out of rows or have moved on to the next agent, create our agent object
+			
 			if (!$queryResult->advanceRow() || $queryResult->field('id') != $arr['id']) {
 				$instantiateAgent = TRUE;
 				$foundIds[] = $arr['id'];
@@ -1400,69 +1355,32 @@ class HarmoniAgentManager
 			// If we don't have a Agent in our cache, go through the steps to
 			// create and cache it.
 			if (!isset($this->_agentsCache[$arr['id']])) {
-			
-				// Create an array for this agent's properties if it doesn't exist
-				// I was having reference problems when attempting to use one array
-				// that got passed off and reset.
+				//this is weird and makes little sense.  But if you use the same variable, even resetting it every loop, it won't work right.  don't ask me. BG
+				
 				$propertiesArrayName = "propertiesArray".$arr['id'];
-				if (!is_array($$propertiesArrayName))
-					$$propertiesArrayName = array();
-				
-				// Build our properties objects to add to the Agent.
-				if ($arr['properties_id'] && $arr['properties_id'] != "NULL") {
-				
-					// Create a name for the Current Properties variable. I was 
-					// having reference problems when attempting to use one variable name
-					// that got passed off and reset.
-					$currentPropertiesName = "currentProperties".$arr['properties_id'];
-						
-						
-					// If we are starting on a new properties object, create a new object and add it to our array.
-					if (!is_object($$currentPropertiesName) || $arr['properties_id'] != $currentPropertiesId) 
-					{
-						$propertiesType =& new HarmoniType(
-											$arr['properties_domain'],
-											$arr['properties_authority'],
-											$arr['properties_keyword'],
-											$arr['properties_description']);
-						
-						// Create the new Properties object
-						$$currentPropertiesName =& new HarmoniProperties($propertiesType);
-						$currentPropertiesId = $arr['properties_id'];
-						
-						// add the new Properties object to the Properties array for the
-						// current Asset.
-						$myArray =& $$propertiesArrayName;
-						$myArray[] =& $$currentPropertiesName;
-					}
-					
-					// Add the current Property row to the current Properties
-					if ($arr['property_key']) {
-						// Properties take values by reference, so we have to work around
-						// that by creating/unsetting variables.
-						$value = unserialize(base64_decode($arr['property_value']));
-						$$currentPropertiesName->addProperty(
-									unserialize(base64_decode($arr['property_key'])), 
-									$value);
-						unset($value);
-					}
-				}
-				
-				if ($instantiateAgent) {
-					// create agent object
+				$$propertiesArrayName = array();
+								
+				$$propertiesArrayName =& $propertyManager->retrieveProperties($arr['id']);
+								
+								
+				if ($instantiateAgent && $arr['id']) {
+					// create type object
 					$type =& new HarmoniType($arr['domain'],
 											$arr['authority'],
 											$arr['keyword'],
 											$arr['description']);
-					// make sure that we aren't passing agents the same properties array.
-					$agent =& new HarmoniAgent(
+					
+					//create the agent 
+					$agent =& new $this->_agentFlavor(
 									$arr['display_name'], 
 									$idManager->getId($arr['id']), 
 									$type,
 									$$propertiesArrayName,
 									$this->_dbIndex, 
 									$this->_sharedDB);
+					$id = $agent->getId();
 					
+					//cache it
 					$this->_agentsCache[$arr['id']] =& $agent;
 				}
 			}
@@ -1485,6 +1403,8 @@ class HarmoniAgentManager
 	function _loadGroups($where = null) {
 		$idManager =& Services::getService("Id");
 		$dbHandler =& Services::getService("DatabaseManager");
+		$propertyManager =& Services::getService("Property");
+		
 		$query =& new SelectQuery();
 		
 		$db = $this->_sharedDB.".";
@@ -1498,38 +1418,24 @@ class HarmoniAgentManager
 		$query->addColumn("type_authority", "authority", $db."type");
 		$query->addColumn("type_keyword", "keyword", $db."type");
 		$query->addColumn("type_description", "type_description", $db."type");
-		// Properties for the main group
-		$query->addColumn("id", "properties_id", $db."shared_properties");
-		$query->addColumn("type_domain", "properties_domain", $db."properties_type");
-		$query->addColumn("type_authority", "properties_authority", $db."properties_type");
-		$query->addColumn("type_keyword", "properties_keyword", $db."properties_type");
-		$query->addColumn("type_description", "properties_description", $db."properties_type");
-		$query->addColumn("property_key", "property_key", $db."shared_property");
-		$query->addColumn("property_value", "property_value", $db."shared_property");
+		// Properties for the main group are now handled by the PropertyManager
+		
 
 		// set the tables
 		$query->addTable($db."groups", NO_JOIN, "", "subgroup0");
 		$joinc = $db."subgroup0.fk_type = ".$db."type.type_id";
-		$query->addTable($db."type", INNER_JOIN, $joinc);
+		$query->addTable($db."type", LEFT_JOIN, $joinc);
 		// Join to the properties mapping table
-		$joinc = $db."subgroup0.groups_id = ".$db."group_properties.fk_group";
-		$query->addTable($db."group_properties", LEFT_JOIN, $joinc);
-		// Join to the properties and each Property
-		$joinc = $db."group_properties.fk_properties = ".$db."shared_properties.id";
-		$query->addTable($db."shared_properties", LEFT_JOIN, $joinc);
-		$joinc = $db."shared_properties.fk_type = ".$db."properties_type.type_id";
-		$query->addTable($db."type", LEFT_JOIN, $joinc, "properties_type");
-		$joinc = $db."shared_properties.id = ".$db."shared_property.fk_properties";
-		$query->addTable($db."shared_property", LEFT_JOIN, $joinc);
+		
 		// The first part of the left join
 		$joinc = $db."subgroup0.groups_id = ".$db."subgroup1.fk_parent";
 		$query->addTable($db."j_groups_groups", LEFT_JOIN, $joinc, "subgroup1");
 		$query->addColumn("fk_child", "subgroup".($level+1)."_id", "subgroup1");
 		
 		// now left join with itself.
-		// maximum number of joins is 31, we've used 7 already, so there are 24 left
+		// maximum number of joins is 31, we've used 3 already, so there are 28 left
 		// bottom line: a maximum group hierarchy of 25 levels
-		for ($level = 1; $level <= 24; $level++) {
+		for ($level = 1; $level <= 28; $level++) {
 			$joinc = "subgroup".($level).".fk_child = subgroup".($level+1).".fk_parent";
 			$query->addTable($db."j_groups_groups", LEFT_JOIN, $joinc, "subgroup".($level+1));
 			$query->addColumn("fk_child", "subgroup".($level+1)."_id", "subgroup".($level+1));
@@ -1580,30 +1486,13 @@ class HarmoniAgentManager
 		$subquery1->addColumn("type_authority", "gt_authority", $db."type");
 		$subquery1->addColumn("type_keyword", "gt_keyword", $db."type");
 		$subquery1->addColumn("type_description", "gt_description", $db."type");
-		// Properties for the group
-		$subquery1->addColumn("id", "properties_id", $db."shared_properties");
-		$subquery1->addColumn("type_domain", "properties_domain", $db."properties_type");
-		$subquery1->addColumn("type_authority", "properties_authority", $db."properties_type");
-		$subquery1->addColumn("type_keyword", "properties_keyword", $db."properties_type");
-		$subquery1->addColumn("type_description", "properties_description", $db."properties_type");
-		$subquery1->addColumn("property_key", "property_key", $db."shared_property");
-		$subquery1->addColumn("property_value", "property_value", $db."shared_property");
-
+		// Properties for the group are still now handled in the propertyManager		
+	
 		// set the tables
 		$subquery1->addTable($db."groups");
 		$joinc = $db."groups.fk_type = ".$db."type.type_id";
 		$subquery1->addTable($db."type", INNER_JOIN, $joinc);
-		// Join to the properties mapping table
-		$joinc = $db."groups.groups_id = ".$db."group_properties.fk_group";
-		$subquery1->addTable($db."group_properties", LEFT_JOIN, $joinc);
-		// Join to the properties and each Property
-		$joinc = $db."group_properties.fk_properties = ".$db."shared_properties.id";
-		$subquery1->addTable($db."shared_properties", LEFT_JOIN, $joinc);
-		$joinc = $db."shared_properties.fk_type = ".$db."properties_type.type_id";
-		$subquery1->addTable($db."type", LEFT_JOIN, $joinc, "properties_type");
-		$joinc = $db."shared_properties.id = ".$db."shared_property.fk_properties";
-		$subquery1->addTable($db."shared_property", LEFT_JOIN, $joinc);
-		
+				
 		$groups = array();
 
 		// for all rows returned by the query
@@ -1617,7 +1506,6 @@ class HarmoniAgentManager
 			
 			for ($level = 25; $level >= 0; $level--) {
 				$value = $row["subgroup{$level}_id"];
-
 				// ignore null values
 				if (is_null($value)) {
 					$prev = $value;
@@ -1634,72 +1522,34 @@ class HarmoniAgentManager
 				// create the group object if necessary
 				//**************************************
 				if (!isset($this->_groupsCache[$value])) {
+					
 					// now fetch the info and all agents for this group
 					// set the columns to select
 					$subquery1->resetWhere();
 					$subquery1->addWhere($db."groups.groups_id = '".addslashes($value)."'");
 
 					$subqueryResult =& $dbHandler->query($subquery1, $this->_dbIndex);
-					if ($subqueryResult->getNumberOfRows() == 0)
+					if ($subqueryResult->getNumberOfRows() == 0){
 						throwError(new Error(AgentException::OPERATION_FAILED(),"AgentManager",true));
+					}
 					
 					// Store our parameters for the constructor of the Group
 					$type =& new HarmoniType($subqueryResult->field('gt_domain'),
 											$subqueryResult->field('gt_authority'),
 											$subqueryResult->field('gt_keyword'),
 											$subqueryResult->field('gt_description'));
+					
 					$displayName = $subqueryResult->field('g_display_name');
 					$description = $subqueryResult->field('g_description');
-					
+										
 					// Go through the rows and build the Properties array
 					// Create an array for this agent's properties if it doesn't exist
 					// I was having reference problems when attempting to use one array
-					// that got passed off and reset.
 					$propertiesArrayName = "propertiesArray".$value;
-					$$propertiesArrayName = array();
-					while ($subrow = $subqueryResult->getCurrentRow()) {
-						// Build our properties objects to add to the Agent.
-						if ($subrow['properties_id'] && $subrow['properties_id'] != "NULL") {
-							
-							// Create a name for the Current Properties variable. I was 
-							// having reference problems when attempting to use one variable name
-							// that got passed off and reset.
-							$currentPropertiesName = "currentProperties".$subrow['properties_id'];
-								
-								
-							// If we are starting on a new properties object, create a new object and add it to our array.
-							if (!is_object($$currentPropertiesName) || $subrow['properties_id'] != $currentPropertiesId) 
-							{
-								$propertiesType =& new HarmoniType(
-													$subrow['properties_domain'],
-													$subrow['properties_authority'],
-													$subrow['properties_keyword'],
-													$subrow['properties_description']);
-								
-								// Create the new Properties object
-								$$currentPropertiesName =& new HarmoniProperties($propertiesType);
-								$currentPropertiesId = $subrow['properties_id'];
-								
-								// add the new Properties object to the Properties array for the
-								// current Asset.
-								$myArray =& $$propertiesArrayName;
-								$myArray[] =& $$currentPropertiesName;
-							}
-							
-							// Add the current Property row to the current Properties
-							if ($subrow['property_key']) {
-								// Properties take values by reference, so we have to work around
-								// that by creating/unsetting variables.
-								$value = unserialize(base64_decode($subrow['property_value']));
-								$$currentPropertiesName->addProperty(
-											unserialize(base64_decode($subrow['property_key'])), 
-											$value);
-								unset($value);
-							}
-						}
-						
-						$subqueryResult->advanceRow();
-					}
+					$$propertiesArrayName =& $propertyManager->retrieveProperties($value);
+													
+					$subqueryResult->advanceRow();
+					
 					
 //					printpre($$propertiesArrayName);
 					
@@ -1719,11 +1569,15 @@ class HarmoniAgentManager
 					// now fetch all agents in this subgroup
 					//**************************************
 					$agentIdsInSubgroup = $this->_loadAgents(NULL, $value);
+					
 					foreach($agentIdsInSubgroup as $agentIdString) {
-						$group->attach($this->_agentsCache[$agentIdString]);
+						
+						if($this->_agentsCache[$agentIdString]){
+							$group->attach($this->_agentsCache[$agentIdString]);
+						}
 					}
 				}
-
+				
 				// add the previous subgroup to this subgroup, if necessary
 				if (isset($prev))
 					$this->_groupsCache[$value]->attach($this->_groupsCache[$prev]);
@@ -1732,6 +1586,7 @@ class HarmoniAgentManager
 			}
 
 			$queryResult->advanceRow();
+		
 		}
 
 //		echo "<pre>\n";
@@ -1759,6 +1614,9 @@ class HarmoniAgentManager
 	/**
 	 * A private function for getting a type id (and insuring that it exists
 	 * in the database)
+	 * A direct copy of this has been added to the HarmoniProperties manager. 
+	 * It doesn't belong here or there really.  If some sort of Type manager
+	 * arises it should be put there.  The version in PropertyManager is public.
 	 * 
 	 * @param object Type $type
 	 * @return integer
@@ -1804,6 +1662,8 @@ class HarmoniAgentManager
 		return $typeId;
 	}
 	
+	//DEPRECATED HANDLED BY THE PROPERTIES MANAGER
+	
 	/**
 	 * Store a properties object and return its id
 	 * 
@@ -1812,7 +1672,7 @@ class HarmoniAgentManager
 	 * @access public
 	 * @since 11/18/04
 	 */
-	function _storeProperties (& $properties ) {
+/*	function _storeProperties (& $properties ) {
 		$dbc =& Services::getService("DatabaseManager");
 		
 		// Store the Properties Type
@@ -1854,7 +1714,7 @@ class HarmoniAgentManager
 		}
 		
 		return $propertiesId;
-	}
+	}*/
 
 }
 

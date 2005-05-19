@@ -16,7 +16,7 @@ require_once(dirname(__FILE__)."/HarmoniGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EveryoneGroup.class.php,v 1.1 2005/02/08 17:19:39 adamfranco Exp $
+ * @version $Id: EveryoneGroup.class.php,v 1.2 2005/05/19 17:25:48 thebravecowboy Exp $
  */
 class EveryoneGroup
 	extends HarmoniGroup
@@ -174,7 +174,10 @@ class EveryoneGroup
 	 */
 	function &getMembers ( $includeSubgroups ) { 
 		$agentManager =& Services::getService("Agent");
-		return $agentManager->getAgents();
+		
+		$agents=&$agentManager->getAgents();
+		
+		return $agents;
 	}
 
 	/**

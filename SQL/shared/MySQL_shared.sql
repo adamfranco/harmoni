@@ -1,10 +1,13 @@
 -- /**
+-- shared_property and shared_properties no longer have any true use, they are 
+-- in here for backward compatibility but should ultimately be removed--BG 5/19/2005
+
 -- @package harmoni.osid_v2.shared
 --
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_shared.sql,v 1.8 2005/04/20 21:07:44 adamfranco Exp $
+-- @version $Id: MySQL_shared.sql,v 1.9 2005/05/19 17:25:48 thebravecowboy Exp $
 -- */
 -- --------------------------------------------------------
 

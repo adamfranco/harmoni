@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: services.cfg.php,v 1.51 2005/04/07 15:12:31 adamfranco Exp $
+ * @version $Id: services.cfg.php,v 1.52 2005/05/19 17:25:48 thebravecowboy Exp $
  */
 
 /* :: what services should we load? you can disable some to save on startup time :: */
@@ -152,7 +152,6 @@ if (OKI_VERSION === 2) {
 
 
 
-
 /**
  * DON'T EDIT BELOW THIS LINE!
  *
@@ -162,9 +161,26 @@ if (OKI_VERSION === 2) {
  * If you choose to replace them, make SURE your classes implement the proper
  * interface so that compatibility can be assured.
  */
+
+
+/**
+ * Load property manager
+ */ 
+ 
+require_once(HARMONI."oki2/agent/HarmoniPropertyManager.class.php");
+Services::registerService("Property", "HarmoniPropertyManager");
+Services::createServiceAlias("Property", "PropertyManager");
+
+
+/**
+ * load ArgumentValidator
+ */
+require_once(HARMONI."utilities/ArgumentValidator.class.php");
+
 require_once(OKI2."osid/OsidContext.php");
 $context =& new OsidContext;
 $context->assignContext('harmoni', $harmoni);
+
 
 /**
  * load error handler
