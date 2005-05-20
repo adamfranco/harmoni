@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.3 2005/05/12 00:03:15 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.4 2005/05/20 23:03:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -31,7 +31,7 @@ require_once("Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.3 2005/05/12 00:03:15 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.4 2005/05/20 23:03:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -201,6 +201,68 @@ class Time
 	function minute () {
 		$duration =& Duration::withSeconds($this->seconds);
 		return $duration->minutes();
+	}
+	
+	/**
+	 * Format is 'h:mm:ss am'  or, if showSeconds is false, 'h:mm am'
+	 * 
+	 * @param optional boolean $showSeconds
+	 * @return string
+	 * @access public
+	 * @since 5/20/05
+	 */
+	function string12 ( $showSeconds = TRUE ) {
+		if ($this->hour() > 12)
+			$result .= $this->hour() - 12;
+		else
+			$result .= $this->hour();
+		
+		$result .= ':';
+		$result .= str_pad(abs($this->minute()), 2, '0', STR_PAD_LEFT);
+		
+		if ($showSeconds) {
+			$result .= ':';
+			$result .= str_pad(abs($this->second()), 2, '0', STR_PAD_LEFT);
+		}
+		
+		if ($this->hour() > 12)
+			$result .= ' pm';
+		else
+			$result .= ' am';
+		
+		return $result;
+	}
+	
+	/**
+	 * Format is 'hh:mm:ss' or, if showSeconds is false, 'hh:mm'
+	 * 
+	 * @param optional boolean $showSeconds
+	 * @return string
+	 * @access public
+	 * @since 5/20/05
+	 */
+	function string24 ( $showSeconds = TRUE ) {
+		$result .= str_pad(abs($this->hour()), 2, '0', STR_PAD_LEFT);
+		$result .= ':';
+		$result .= str_pad(abs($this->minute()), 2, '0', STR_PAD_LEFT);
+		
+		if ($showSeconds) {
+			$result .= ':';
+			$result .= str_pad(abs($this->second()), 2, '0', STR_PAD_LEFT);
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Format is 'h:mm<:ss> am'
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/20/05
+	 */
+	function printableString () {
+		return $this->string12(($this->second() != 0));
 	}
 	
 	/**

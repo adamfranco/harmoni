@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.10 2005/05/13 20:06:18 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.11 2005/05/20 23:03:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.10 2005/05/13 20:06:18 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.11 2005/05/20 23:03:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -295,7 +295,7 @@ class Timespan
 	 */
 	function includesAnyOf ( &$anArray ) {
 		foreach (array_keys($anArray) as $key) {
-			if (!$this->includes($anArray[$key]))
+			if ($this->includes($anArray[$key]))
 				return TRUE;
 		}
 		
@@ -305,29 +305,35 @@ class Timespan
 /*********************************************************
  * Instance methods - Operations
  *********************************************************/
-	
-	/**
-	 * Add a Duration.
+ 
+ 	/**
+	 * Return the Timespan both have in common, or null
 	 * 
-	 * @param object Duration $aDuration
-	 * @return object Duration The result.
+	 * @param object Timespan $aTimespan
+	 * @return mixed object Timespan OR null
 	 * @access public
-	 * @since 5/3/05
+	 * @since 5/13/05
 	 */
-	function &plus ( &$aDuration ) {
-		$classname = get_class($this);
+	function &intersection ( &$aTimespan ) {
+		$start =& $this->start();
+		$end =& $this->end();
 		
-		$operation = $classname.'::startingDuration($this->start, 
-			$this->duration->plus($aDuration));';
+		$aBeginning =& $start->max($aTimespan->start());
+		$anEnd =& $end->min($aTimespan->end());
 		
-		return eval($operation);
+		if ($anEnd->isLessThan($aBeginning)) {
+			return NULL;
+		} else {
+			eval('$result =& '.get_class($this).'::startingEnding($aBeginning, $anEnd);');
+			return $result;
+		}
 	}
 	
 	/**
 	 * Subtract a Duration or DateAndTime.
 	 * 
 	 * @param object $operand
-	 * @return object
+	 * @return object Timespan (if operand is a Duration) OR Duration (if operand is a DateAndTime).
 	 * @access public
 	 * @since 5/3/05
 	 */
@@ -362,6 +368,23 @@ class Timespan
 	}
 	
 	/**
+	 * Add a Duration.
+	 * 
+	 * @param object Duration $aDuration
+	 * @return object Timespan The result.
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function &plus ( &$aDuration ) {
+		$classname = get_class($this);
+		
+		eval('$result =& '.$classname.'::startingDuration($this->start, 
+			$this->duration->plus($aDuration));');
+		
+		return $result;
+	}
+	
+	/**
 	 * Answer the previous object of our duration.
 	 * 
 	 * @return object Timespan
@@ -374,29 +397,6 @@ class Timespan
  			$this->duration,
  			'.get_class($this).');');
  		return $result;
-	}
-	
-	/**
-	 * Return the Timespan both have in common, or null
-	 * 
-	 * @param object Timespan $aTimespan
-	 * @return mixed object Timespan OR null
-	 * @access public
-	 * @since 5/13/05
-	 */
-	function &intersection ( &$aTimespan ) {
-		$start =& $this->start();
-		$end =& $this->end();
-		
-		$aBeginning =& $start->max($aTimespan->start());
-		$anEnd =& $end->min($aTimespan->end());
-		
-		if ($anEnd->isLessThan($aBeginning)) {
-			return NULL;
-		} else {
-			eval('$result =& '.get_class($this).'::startingEnding($aBeginning, $anEnd);');
-			return $result;
-		}
 	}
 	
 	/**
@@ -577,7 +577,7 @@ class Timespan
  	 * @since 5/13/05
  	 */
  	function printableString () {
- 		die('Timespan::printableString() is unimplemented');
+ 		return $this->start->printableString().'D'.$this->duration->printableString();
  	}
  	
  	/**
@@ -681,13 +681,12 @@ class Timespan
 	function &dates () {
 		$dates = array();
 		
-		$duration =& Duration::withDays(1);
 		$element =& $this->start->asDate();
 		$end =& $this->end();
 		
 		while ($element->isLessThanOrEqualTo($end)) {
 			$dates[] =& $element;
-			$element =& $element->plus($duration);
+			$element =& $element->next();
 		}
 		
 		return $dates;
@@ -703,13 +702,12 @@ class Timespan
 	function &months () {
 		$months = array();
 		
-		$duration =& Duration::withMonths(1);
 		$element =& $this->start->asMonth();
 		$end =& $this->end();
 		
 		while ($element->isLessThanOrEqualTo($end)) {
 			$months[] =& $element;
-			$element =& $element->plus($duration);
+			$element =& $element->next();
 		}
 		
 		return $months;
@@ -725,13 +723,12 @@ class Timespan
 	function &weeks () {
 		$weeks = array();
 		
-		$duration =& Duration::withWeeks(1);
 		$element =& $this->start->asWeek();
 		$end =& $this->end();
 		
 		while ($element->isLessThanOrEqualTo($end)) {
 			$weeks[] =& $element;
-			$element =& $element->plus($duration);
+			$element =& $element->next();
 		}
 		
 		return $weeks;
@@ -747,13 +744,12 @@ class Timespan
 	function &years () {
 		$years = array();
 		
-		$duration =& Duration::withYears(1);
 		$element =& $this->start->asYear();
 		$end =& $this->end();
 		
 		while ($element->isLessThanOrEqualTo($end)) {
 			$years[] =& $element;
-			$element =& $element->plus($duration);
+			$element =& $element->next();
 		}
 		
 		return $years;

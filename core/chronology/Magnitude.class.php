@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.4 2005/05/20 23:03:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -30,7 +30,7 @@ require_once("SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.3 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.4 2005/05/20 23:03:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -112,7 +112,7 @@ class Magnitude
 	 * @since 5/4/05
 	 */
 	function isBetween ( &$min, &$max ) {
-		return ($this->isGreaterThanOrEqual($min) && $this->isLessThanOrEqual($max));
+		return ($this->isGreaterThanOrEqualTo($min) && $this->isLessThanOrEqualTo($max));
 	}
 	
 	/**

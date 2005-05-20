@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.12 2005/05/12 23:52:39 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.13 2005/05/20 23:03:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -34,7 +34,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.12 2005/05/12 23:52:39 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.13 2005/05/20 23:03:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -1023,7 +1023,7 @@ class DateAndTime
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function string ( $printLeadingSpaceToo = FALSE ) {
+	function printableString ( $printLeadingSpaceToo = FALSE ) {
 		$result = $this->ymdString($printLeadingSpaceToo);
 		$result .= 'T';
 		$result .= $this->hmsString();

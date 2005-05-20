@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.13 2005/05/13 13:50:10 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.14 2005/05/20 23:04:27 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/../DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.13 2005/05/13 13:50:10 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.14 2005/05/20 23:04:27 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -249,7 +249,7 @@ class DateAndTimeTestCase extends UnitTestCase {
 		// plus() +
  		$this->assertEqual($dateAndTime->hmsString(), '15:25:10');
  		$this->assertEqual($dateAndTime->ymdString(), '2005-06-04');
- 		$this->assertEqual($dateAndTime->string(), '2005-06-04T15:25:10-05:00');
+ 		$this->assertEqual($dateAndTime->printableString(), '2005-06-04T15:25:10-05:00');
 		$this->assertEqual($dateAndTime->second(), 10);
 		// ticks()
 		// ticksOffset()
@@ -388,8 +388,8 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertEqual($dateAndTime->offset->seconds, -18000);
 		$this->assertEqual($atUTC->offset->seconds, 0);
 		
-		$this->assertEqual($dateAndTime->string(), '2005-06-04T15:25:10-05:00');
-		$this->assertEqual($atUTC->string(), '2005-06-04T20:25:10+00:00');
+		$this->assertEqual($dateAndTime->printableString(), '2005-06-04T15:25:10-05:00');
+		$this->assertEqual($atUTC->printableString(), '2005-06-04T20:25:10+00:00');
 	}
 	
 	/**

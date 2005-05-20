@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.2 2005/05/12 17:45:08 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.3 2005/05/20 23:03:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -25,7 +25,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.2 2005/05/12 17:45:08 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.3 2005/05/20 23:03:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -276,8 +276,103 @@ class Date
 /*********************************************************
  * Instance methods - Accessing
  *********************************************************/
+ 
+ 	/**
+ 	 * Format is '4 June 2005'
+ 	 * 
+ 	 * @return string
+ 	 * @access public
+ 	 * @since 5/20/05
+ 	 */
+ 	function printableString () {
+ 		return $this->printableStringWithFormat(array(1, 2, 3, ' ', 3, 1));
+ 	}
 	
+	/**
+	 * Print a description of the receiver on aStream using the format 
+	 * denoted the argument, formatArray: 
 	
+*		array(item, item, item, sep, monthfmt, yearfmt, twoDigits) 
+	
+*		items: 1=day 2=month 3=year will appear in the order given, 
+	
+*		separated by sep which is eaither an ascii code or character. 
+	
+*		monthFmt: 1=09 2=Sep 3=September 
+	
+*		yearFmt: 1=1996 2=96 
+	
+*		digits: (missing or)1=9 2=09. 
+	
+*	See the examples in printOn: and mmddyy
+	 * 
+	 * @param array $formatArray
+	 * @return string
+	 * @access public
+	 * @since 5/20/05
+	 */
+	function printableStringWithFormat ( $formatArray ) {
+		$result = '';
+		$twoDigits = (count($formatArray) > 6 && $formatArray[6] > 1);
+		$monthFormat = $formatArray[4];
+		$yearFormat = $formatArray[5];
+		$separator = $formatArray[3];
+		
+		for ($i = 0; $i < 3; $i++) {
+			$element = $formatArray[$i];
+			
+			switch ($element) {
+				case 1:
+					if ($twoDigits)
+						$result .= str_pad($this->dayOfMonth(), 2, '0', STR_PAD_LEFT);
+					else
+						$result .= $this->dayOfMonth();
+					break;
+				
+				case 2:
+					if ($monthFormat == 1) {
+						if ($twoDigits)
+							$result .= str_pad($this->startMonth(), 2, '0', STR_PAD_LEFT);
+						else
+							$result .= $this->month();
+					} else if ($monthFormat == 2) {
+						$result .= substr(Month::nameOfMonth($this->startMonth()), 0, 3);
+					} else if ($monthFormat == 3) {
+						$result .= Month::nameOfMonth($this->startMonth());
+					}
+					break;
+				
+				case 3:
+					if ($yearFormat == 2) {
+						str_pad(($this->startYear() % 100), 2, '0', STR_PAD_LEFT);
+					} else
+						$result .= $this->startYear();
+			}
+			
+			if ($i < 2 && $separator)
+				$result .= $separator;
+		}
+		
+		return $result;
+	}
+	
+/*********************************************************
+ * Instance Methods - Operations
+ *********************************************************/
+
+	/**
+ 	 * Answer the date that occurs $anInteger days from this date
+ 	 * 
+ 	 * @param integer $anInteger
+ 	 * @return object Date
+ 	 * @access public
+ 	 * @since 5/20/05
+ 	 */
+ 	function &addDays ( $anInteger ) {
+ 		$asDateAndTime =& $this->asDateAndTime();
+ 		$newDateAndTime =& $asDateAndTime->plus(Duration::withDays($anInteger));
+ 		return $newDateAndTime->asDate();
+ 	}
 }
 
 ?>

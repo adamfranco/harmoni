@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.4 2005/05/12 17:45:08 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.5 2005/05/20 23:03:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.4 2005/05/12 17:45:08 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.5 2005/05/20 23:03:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -162,7 +162,8 @@ class Year
 			die("Class, '$class', is not a subclass of 'Year'.");
 		}
 		
-		$midnight =& $aDateAndTime->midnight();
+		$asDateAndTime =& $aDateAndTime->asDateAndTime();
+		$midnight =& $asDateAndTime->midnight();
 		$year =& new $class;
 		$year->setStart($midnight); 
 		$year->setDuration(Duration::withDays(Year::daysInYear($midnight->year())));

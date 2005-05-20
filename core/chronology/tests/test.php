@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.7 2005/05/13 13:50:10 adamfranco Exp $
+ * @version $Id: test.php,v 1.8 2005/05/20 23:04:28 adamfranco Exp $
  */
 
 	if (!defined('HARMONI')) {
@@ -30,9 +30,9 @@
 	$test->addTestFile(dirname(__FILE__).'/DateAndTimeTestCase.class.php');
 	$test->addTestFile(dirname(__FILE__).'/DurationTestCase.class.php');
 	$test->addTestFile(dirname(__FILE__).'/MonthTestCase.class.php');
-	$test->addTestFile(dirname(__FILE__).'/TimeTestCase.class.php');
-	$test->addTestFile(dirname(__FILE__).'/TimeStampTestCase.class.php');
-	$test->addTestFile(dirname(__FILE__).'/TimespanTestCase.class.php');
+ 	$test->addTestFile(dirname(__FILE__).'/TimeTestCase.class.php');
+ 	$test->addTestFile(dirname(__FILE__).'/TimeStampTestCase.class.php');
+ 	$test->addTestFile(dirname(__FILE__).'/TimespanTestCase.class.php');
 	$test->addTestFile(dirname(__FILE__).'/YearTestCase.class.php');
 	$test->addTestFile(dirname(__FILE__).'/WeekTestCase.class.php');
 	
