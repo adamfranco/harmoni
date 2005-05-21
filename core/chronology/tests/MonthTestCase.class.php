@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthTestCase.class.php,v 1.2 2005/05/13 13:50:10 adamfranco Exp $
+ * @version $Id: MonthTestCase.class.php,v 1.3 2005/05/21 00:11:27 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthTestCase.class.php,v 1.2 2005/05/13 13:50:10 adamfranco Exp $
+ * @version $Id: MonthTestCase.class.php,v 1.3 2005/05/21 00:11:27 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -67,15 +67,6 @@ class MonthTestCase extends UnitTestCase {
 		
 		$duration =& $epochMonth->duration();
 		$this->assertTrue($duration->isEqualTo(Duration::withDays(31)));
-	}
-	
-	/**
-	 * Test instance creation from a string.
-	 * 
-	 */
-	function test_from_string () {
-		$this->assertEqual('fromString() is tested', 'Yes');
-	}
-	
+	}	
 }
 ?>
