@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthTestCase.class.php,v 1.4 2005/05/23 15:39:07 adamfranco Exp $
+ * @version $Id: MonthTestCase.class.php,v 1.5 2005/05/23 16:51:28 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthTestCase.class.php,v 1.4 2005/05/23 15:39:07 adamfranco Exp $
+ * @version $Id: MonthTestCase.class.php,v 1.5 2005/05/23 16:51:28 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -67,6 +67,64 @@ class MonthTestCase extends UnitTestCase {
 		
 		$duration =& $epochMonth->duration();
 		$this->assertTrue($duration->isEqualTo(Duration::withDays(31)));
+	}
+	
+	/**
+	 * Test instance creation from a string.
+	 * 
+	 */
+	function test_from_string () {
+		$this->assertEqual('fromString() is tested', 'Yes');
+	}
+	
+	/**
+	 * Test days in month
+	 */ 
+	function test_days_In_Month() {
+		$this->assertEqual(Month::daysInMonthForYear(1, 1999), 31);
+		$this->assertEqual(Month::daysInMonthForYear(2, 1999), 28);
+		$this->assertEqual(Month::daysInMonthForYear(3, 1999), 31);
+		$this->assertEqual(Month::daysInMonthForYear(4, 1999), 30);
+		$this->assertEqual(Month::daysInMonthForYear(5, 1999), 31);
+		$this->assertEqual(Month::daysInMonthForYear(6, 1999), 30);
+		$this->assertEqual(Month::daysInMonthForYear(7, 1999), 31);
+		$this->assertEqual(Month::daysInMonthForYear(8, 1999), 31);
+		$this->assertEqual(Month::daysInMonthForYear(9, 1999), 30);
+		$this->assertEqual(Month::daysInMonthForYear(10, 1999), 31);
+		$this->assertEqual(Month::daysInMonthForYear(11, 1999), 30);
+		$this->assertEqual(Month::daysInMonthForYear(12, 1999), 31);
+		
+		$this->assertEqual(Month::daysInMonthForYear(1, 2000), 31);
+		$this->assertEqual(Month::daysInMonthForYear(2, 2000), 29);
+		$this->assertEqual(Month::daysInMonthForYear(3, 2000), 31);
+		$this->assertEqual(Month::daysInMonthForYear(4, 2000), 30);
+		$this->assertEqual(Month::daysInMonthForYear(5, 2000), 31);
+		$this->assertEqual(Month::daysInMonthForYear(6, 2000), 30);
+		$this->assertEqual(Month::daysInMonthForYear(7, 2000), 31);
+		$this->assertEqual(Month::daysInMonthForYear(8, 2000), 31);
+		$this->assertEqual(Month::daysInMonthForYear(9, 2000), 30);
+		$this->assertEqual(Month::daysInMonthForYear(10, 2000), 31);
+		$this->assertEqual(Month::daysInMonthForYear(11, 2000), 30);
+		$this->assertEqual(Month::daysInMonthForYear(12, 2000), 31);
+	}
+	
+	/**
+	 * Test name and index
+	 */
+	function test_name_index () {
+		$month =& Month::withMonthYear(5, 2005);
+		
+		$this->assertEqual($month->index(), 5);
+		$this->assertEqual($month->name(), 'May');
+	}
+	
+	/**
+	 * Test printing
+	 */
+	function test_printing () {
+		$month =& Month::withMonthYear(8, 2005);
+		
+		$this->assertEqual($month->printableString(), 'August 2005');
 	}
 	
 /*********************************************************
@@ -443,7 +501,7 @@ class MonthTestCase extends UnitTestCase {
 		$this->assertEqual($timespan->julianDayNumber(), 2453492);
 		
 		// printableString()
-		$this->assertEqual($timespan->printableString(), '2005-05-01T00:00:00-04:00D31:00:00:00');
+		$this->assertEqual($timespan->printableString(), 'May 2005');
 		
 		// startMonth()
 		$this->assertEqual($timespan->startMonth(), 5);

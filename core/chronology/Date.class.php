@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.3 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.4 2005/05/23 16:50:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -25,7 +25,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.3 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.4 2005/05/23 16:50:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -85,12 +85,12 @@ class Date
 	
 	/**
 	 * Read a Date from the stream in any of the forms:  
-	
-*		<day> <monthName> <year>		(5 April 1982; 5-APR-82)  
-	
-*		<monthName> <day> <year>		(April 5, 1982)  
-	
-*		<monthNumber> <day> <year>		(4/5/82) 
+	 *
+	 *		<day> <monthName> <year>		(5 April 1982; 5-APR-82)  
+	 *
+	 *		<monthName> <day> <year>		(April 5, 1982)  
+	 *
+	 *		<monthNumber> <day> <year>		(4/5/82) 
 	 *		<day><monthName><year>			(5APR82)
 	 *		<four-digit year><two-digit monthNumber><two-digit day>	(19820405; 1982-04-05)
 	 * 

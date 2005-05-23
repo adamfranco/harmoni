@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.7 2005/05/23 15:38:44 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.8 2005/05/23 16:50:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.7 2005/05/23 15:38:44 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.8 2005/05/23 16:50:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -156,6 +156,24 @@ class Month
 	}
 	
 	/**
+	 * Read a month from the stream in any of the forms:
+	 *
+	 *		- July 1998
+	 * 
+	 * @param string $aString
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Month
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function &fromString ( $aString, $class = 'Month' ) {
+		die('Month::fromString($aString) is not yet implented.');
+	}
+	
+	/**
 	 * Create a new object starting now, with zero duration
 	 * 
 	 * @param object DateAndTime $aDateAndTime
@@ -265,6 +283,39 @@ class Month
 	function daysInMonth () {
 		return $this->duration->days();
 	}
+	
+	/**
+	 * Answer the index of this object
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/23/05
+	 */
+	function index () {
+		return $this->startMonthIndex();
+	}
+	
+	/**
+	 * Answer the name of this object
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/23/05
+	 */
+	function name () {
+		return $this->startMonthName();
+	}
+	
+	/**
+	 * Answer a printable string
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/23/05
+	 */
+	function printableString () {
+		return $this->name().' '.$this->startYear();
+	}
 
 /*********************************************************
  * Instance methods - Operations
@@ -284,6 +335,21 @@ class Month
  			'.get_class($this).');');
  		return $result;
 	}
+	
+/*********************************************************
+ * Instance Methods - Converting
+ *********************************************************/
+ 	
+ 	/**
+ 	 * Answer the receiver as a Month
+ 	 * 
+ 	 * @return object Month
+ 	 * @access public
+ 	 * @since 5/23/05
+ 	 */
+ 	function &asMonth () {
+ 		return $this;
+ 	}
 
 }
 
