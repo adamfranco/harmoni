@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.4 2005/05/23 16:50:44 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.5 2005/05/23 18:05:12 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -25,7 +25,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.4 2005/05/23 16:50:44 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.5 2005/05/23 18:05:12 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -203,22 +203,6 @@ class Date
 	}
 	
 	/**
-	 * Answer yesterday's date
-	 * 
-	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
-	 *		This parameter is used to get around the limitations of not being
-	 *		able to find the class of the object that recieved the initial 
-	 *		method call.
-	 * @return object Date
-	 * @access public
-	 * @since 5/10/05
-	 */
-	function &yesterday ( $class = 'Date' ) {
-		eval('$today =& '.$class.'::today($class);');
-		return $today->previous();
-	}
-	
-	/**
 	 * Answer tommorow's date
 	 * 
 	 * @return object Date
@@ -273,9 +257,36 @@ class Date
 		return $result;
 	}
 	
+	/**
+	 * Answer yesterday's date
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Date
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function &yesterday ( $class = 'Date' ) {
+		eval('$today =& '.$class.'::today($class);');
+		return $today->previous();
+	}
+	
 /*********************************************************
- * Instance methods - Accessing
+ * Instance methods - Accessing/Printing
  *********************************************************/
+ 
+ 	/**
+ 	 * Answer the receiver rendered in standard U.S.A format mm/dd/yyyy.
+ 	 * 
+ 	 * @return string
+ 	 * @access public
+ 	 * @since 5/23/05
+ 	 */
+ 	function mmddyyyyString () {
+ 		return $this->printableStringWithFormat(array(2, 1, 3, '/', 1, 1, 2));
+ 	}
  
  	/**
  	 * Format is '4 June 2005'
@@ -291,20 +302,20 @@ class Date
 	/**
 	 * Print a description of the receiver on aStream using the format 
 	 * denoted the argument, formatArray: 
-	
-*		array(item, item, item, sep, monthfmt, yearfmt, twoDigits) 
-	
-*		items: 1=day 2=month 3=year will appear in the order given, 
-	
-*		separated by sep which is eaither an ascii code or character. 
-	
-*		monthFmt: 1=09 2=Sep 3=September 
-	
-*		yearFmt: 1=1996 2=96 
-	
-*		digits: (missing or)1=9 2=09. 
-	
-*	See the examples in printOn: and mmddyy
+	 *
+	 *		array(item, item, item, sep, monthfmt, yearfmt, twoDigits) 
+	 *
+	 *		items: 1=day 2=month 3=year will appear in the order given, 
+	 *
+	 *		separated by sep which is eaither an ascii code or character. 
+	 *
+	 *		monthFmt: 1=09 2=Sep 3=September 
+	 *
+	 *		yearFmt: 1=1996 2=96 
+	 *
+	 *		digits: (missing or)1=9 2=09. 
+	 *
+	 *	See the examples in printOn: and mmddyy
 	 * 
 	 * @param array $formatArray
 	 * @return string
@@ -334,7 +345,7 @@ class Date
 						if ($twoDigits)
 							$result .= str_pad($this->startMonth(), 2, '0', STR_PAD_LEFT);
 						else
-							$result .= $this->month();
+							$result .= $this->startMonth();
 					} else if ($monthFormat == 2) {
 						$result .= substr(Month::nameOfMonth($this->startMonth()), 0, 3);
 					} else if ($monthFormat == 3) {
@@ -344,7 +355,7 @@ class Date
 				
 				case 3:
 					if ($yearFormat == 2) {
-						str_pad(($this->startYear() % 100), 2, '0', STR_PAD_LEFT);
+						$result .= str_pad(($this->startYear() % 100), 2, '0', STR_PAD_LEFT);
 					} else
 						$result .= $this->startYear();
 			}
@@ -354,6 +365,17 @@ class Date
 		}
 		
 		return $result;
+	}
+	
+	/**
+	 * Format the date in ISO 8601 standard like '2002-10-22'.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/23/05
+	 */
+	function yyyymmddString () {
+		return $this->printableStringWithFormat(array(3, 2, 1, '-', 1, 1, 2));
 	}
 	
 /*********************************************************
@@ -372,6 +394,59 @@ class Date
  		$asDateAndTime =& $this->asDateAndTime();
  		$newDateAndTime =& $asDateAndTime->plus(Duration::withDays($anInteger));
  		return $newDateAndTime->asDate();
+ 	}
+ 	
+ 	/**
+ 	 *  Answer the date that occurs $anInteger days before this date
+ 	 * 
+ 	 * @param integer $anInteger
+ 	 * @return object Date
+ 	 * @access public
+ 	 * @since 5/23/05
+ 	 */
+ 	function &subtractDays ( $anInteger ) {
+ 		return $this->addDays(0 - $anInteger);
+ 	}
+ 	
+ 	/**
+ 	 * Answer the previous date whose weekday name is dayName.
+ 	 * 
+ 	 * @param string $dayNameString
+ 	 * @return object Date
+ 	 * @access public
+ 	 * @since 5/23/05
+ 	 */
+ 	function &previousDayNamed ( $dayNameString ) {
+ 		$days = abs($this->dayOfWeek() - (Week::indexOfDay($dayNameString) % 7));
+ 		if ($days == 0)
+ 			$days = 7;
+ 		return $this->subtractDays($days);
+ 	}
+ 	
+/*********************************************************
+ * Instance Methods - Converting
+ *********************************************************/
+ 	
+ 	/**
+ 	 * Answer the reciever as a Date
+ 	 * 
+ 	 * @return object Date
+ 	 * @access public
+ 	 * @since 5/23/05
+ 	 */
+ 	function &asDate () {
+ 		return $this;
+ 	}
+ 	
+ 	/**
+ 	 * Answer the seconds since the Squeak epoch: 1 January 1901 
+ 	 * 
+ 	 * @return integer
+ 	 * @access public
+ 	 * @since 5/23/05
+ 	 */
+ 	function asSeconds () {
+ 		return $this->start->asSeconds();
  	}
 }
 

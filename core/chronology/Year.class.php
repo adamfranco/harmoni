@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.6 2005/05/23 15:38:44 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.7 2005/05/23 18:05:12 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.6 2005/05/23 15:38:44 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.7 2005/05/23 18:05:12 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -238,9 +238,34 @@ class Year
 	}
 
 /*********************************************************
- * Instance Methods
+ * Instance Methods - Accessing
+ *********************************************************/
+ 
+	/**
+	 * Answer a printable string
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/23/05
+	 */
+	function printableString () {
+		return $this->startYear();
+	}
+
+/*********************************************************
+ * Instance Methods - Converting
  *********************************************************/
  	
+ 	/**
+ 	 * Answer the receiver as a Year
+ 	 * 
+ 	 * @return object Year
+ 	 * @access public
+ 	 * @since 5/23/05
+ 	 */
+ 	function &asYear () {
+ 		return $this;
+ 	}
 }
 
 ?>

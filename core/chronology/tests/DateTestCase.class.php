@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateTestCase.class.php,v 1.2 2005/05/23 16:08:06 adamfranco Exp $
+ * @version $Id: DateTestCase.class.php,v 1.3 2005/05/23 18:07:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../Date.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateTestCase.class.php,v 1.2 2005/05/23 16:08:06 adamfranco Exp $
+ * @version $Id: DateTestCase.class.php,v 1.3 2005/05/23 18:07:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -74,6 +74,76 @@ class DateTestCase extends UnitTestCase {
 	 */
 	function test_from_string () {
 		$this->assertEqual('fromString() is tested', 'Yes');
+	}
+	
+	/**
+	 * Test add/subtract days
+	 * 
+	 */
+	function test_add_subtract_days () {
+		$date =& Date::withYearMonthDay(2005, 5, 20);
+		
+		$result =& $date->addDays(5);
+		$this->assertTrue($result->isEqualTo(Date::withYearMonthDay(2005, 5, 25)));
+		
+		$result =& $date->subtractDays(5);
+		$this->assertTrue($result->isEqualTo(Date::withYearMonthDay(2005, 5, 15)));
+	}
+	
+	/**
+	 * Test previousDayNamed
+	 * 
+	 */
+	function test_previousDayNamed () {
+		// The 20th is a Friday
+		$date =& Date::withYearMonthDay(2005, 5, 20);
+		$this->assertEqual($date->dayOfWeek(), 6);
+		
+		$result =& $date->previousDayNamed('Thursday');
+		$this->assertEqual($result->dayOfWeek(), 5);
+		$this->assertTrue($result->isEqualTo(Date::withYearMonthDay(2005, 5, 19)));
+		
+		$result =& $date->previousDayNamed('Wednesday');
+		$this->assertEqual($result->dayOfWeek(), 4);
+		$this->assertTrue($result->isEqualTo(Date::withYearMonthDay(2005, 5, 18)));
+		
+		$result =& $date->previousDayNamed('Tuesday');
+		$this->assertEqual($result->dayOfWeek(), 3);
+		$this->assertTrue($result->isEqualTo(Date::withYearMonthDay(2005, 5, 17)));
+		
+		$result =& $date->previousDayNamed('Monday');
+		$this->assertEqual($result->dayOfWeek(), 2);
+		$this->assertTrue($result->isEqualTo(Date::withYearMonthDay(2005, 5, 16)));
+		
+		$result =& $date->previousDayNamed('Sunday');
+		$this->assertEqual($result->dayOfWeek(), 1);
+		$this->assertTrue($result->isEqualTo(Date::withYearMonthDay(2005, 5, 15)));
+		
+		$result =& $date->previousDayNamed('Saturday');
+		$this->assertEqual($result->dayOfWeek(), 7);
+		$this->assertTrue($result->isEqualTo(Date::withYearMonthDay(2005, 5, 14)));
+		
+		$result =& $date->previousDayNamed('Friday');
+		$this->assertEqual($result->dayOfWeek(), 6);
+		$this->assertTrue($result->isEqualTo(Date::withYearMonthDay(2005, 5, 13)));
+	}
+	
+	/**
+	 * Test printing
+	 * 
+	 */
+	function test_printing () {
+		$date =& Date::withYearMonthDay(2005, 8, 20);
+		
+		$this->assertEqual($date->mmddyyyyString(), '08/20/2005');
+		$this->assertEqual($date->yyyymmddString(), '2005-08-20');
+		$this->assertEqual($date->printableString(), '20 August 2005');
+		$this->assertEqual(
+			$date->printableStringWithFormat(array(2, 1, 3, '/', 1, 1, 1)), 
+			'8/20/2005');
+		$this->assertEqual(
+			$date->printableStringWithFormat(array(2, 1, 3, '/', 1, 2, 2)), 
+			'08/20/05');
 	}
 
 /*********************************************************

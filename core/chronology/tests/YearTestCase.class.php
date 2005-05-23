@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: YearTestCase.class.php,v 1.2 2005/05/23 15:39:07 adamfranco Exp $
+ * @version $Id: YearTestCase.class.php,v 1.3 2005/05/23 18:07:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: YearTestCase.class.php,v 1.2 2005/05/23 15:39:07 adamfranco Exp $
+ * @version $Id: YearTestCase.class.php,v 1.3 2005/05/23 18:07:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -132,6 +132,14 @@ class YearTestCase extends UnitTestCase {
 		$this->assertEqual($aYear->daysInYear(), 366);
 	}	
 	
+	/**
+	 * Test printing
+	 */
+	function test_printing () {
+		$year =& Year::withYear(2005);
+		
+		$this->assertEqual($year->printableString(), '2005');
+	}
 /*********************************************************
  * Tests from parent class, Timespan.
  *********************************************************/

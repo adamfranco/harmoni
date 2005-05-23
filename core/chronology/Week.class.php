@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.5 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.6 2005/05/23 18:05:12 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.5 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.6 2005/05/23 18:05:12 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -202,8 +202,23 @@ class Week
 		$adjusted =& $midnight->minus(Duration::withDays($delta));
 		
 		return parent::startingDuration($adjusted, Duration::withWeeks(1), $class);
-	}	
+	}
+
+	
+/*********************************************************
+ * Instance Methods - Converting
+ *********************************************************/
  	
+ 	/**
+ 	 * Answer the receiver as a Week
+ 	 * 
+ 	 * @return object Week
+ 	 * @access public
+ 	 * @since 5/23/05
+ 	 */
+ 	function &asWeek () {
+ 		return $this;
+ 	}
 }
 
 ?>
