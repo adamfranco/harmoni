@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.6 2005/05/12 17:45:08 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.7 2005/05/23 15:38:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.6 2005/05/12 17:45:08 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.7 2005/05/23 15:38:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -265,6 +265,26 @@ class Month
 	function daysInMonth () {
 		return $this->duration->days();
 	}
+
+/*********************************************************
+ * Instance methods - Operations
+ *********************************************************/
+
+	/**
+	 * Answer the previous object of our duration.
+	 * 
+	 * @return object Timespan
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function &previous () {
+		eval('$result =& '.get_class($this).'::startingDuration(
+ 			$this->start->minus(Duration::withDays(1)),
+ 			$this->duration,
+ 			'.get_class($this).');');
+ 		return $result;
+	}
+
 }
 
 ?>

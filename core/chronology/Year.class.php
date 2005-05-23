@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.5 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.6 2005/05/23 15:38:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.5 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.6 2005/05/23 15:38:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -36,29 +36,7 @@ class Year
  * Class Methods
  *********************************************************/
 	
-	/**
-	 * Return TRUE if the year passed is a leap year
-	 * 
-	 * @param integer $anInteger
-	 * @return boolean
-	 * @access public
-	 * @since 5/4/05
-	 * @static
-	 */
-	function isLeapYear ( $anInteger ) {
-		if($anInteger > 0)
-			$adjustedYear = $anInteger;
-		else
-			$adjustedYear = 0 - ($anInteger + 1);
-		
-		if (($adjustedYear % 4 != 0) 
-			|| (($adjustedYear % 100 == 0) && ($adjustedYear % 400 != 0)))
-		{
-			return FALSE;
-		} else {
-			return TRUE;
-		}
-	}
+	
 
 /*********************************************************
  * Class Methods - Instance Creation
@@ -197,6 +175,37 @@ class Year
 /*********************************************************
  * Hybrid Class/Instance Methods
  *********************************************************/
+ 
+ 	/**
+	 * Return TRUE if the year passed is a leap year
+	 *
+	 * This method can be either called as a class method (with a parameter)
+	 * or as an instance method (without a parameter).
+	 * 
+	 * @param optional integer $anInteger
+	 * @return boolean
+	 * @access public
+	 * @since 5/4/05
+	 * @static
+	 */
+	function isLeapYear ( $anInteger = NULL ) {
+		if (is_null($anInteger) && is_object ($this))
+			return $this->isLeapYear($this->startYear());
+		else {
+			if($anInteger > 0)
+				$adjustedYear = $anInteger;
+			else
+				$adjustedYear = 0 - ($anInteger + 1);
+			
+			if (($adjustedYear % 4 != 0) 
+				|| (($adjustedYear % 100 == 0) && ($adjustedYear % 400 != 0)))
+			{
+				return FALSE;
+			} else {
+				return TRUE;
+			}
+		}
+	}
 	
 	/**
 	 * Return the number of days in a year.

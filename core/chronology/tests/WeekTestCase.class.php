@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: WeekTestCase.class.php,v 1.3 2005/05/21 00:11:27 adamfranco Exp $
+ * @version $Id: WeekTestCase.class.php,v 1.4 2005/05/23 15:39:07 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../Date.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: WeekTestCase.class.php,v 1.3 2005/05/21 00:11:27 adamfranco Exp $
+ * @version $Id: WeekTestCase.class.php,v 1.4 2005/05/23 15:39:07 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -271,23 +271,27 @@ class WeekTestCase extends UnitTestCase {
 							
 		
 		// plus()
-		$temp =& Week::startingEnding(
+		$temp =& Week::starting(
 				DateAndTime::withYearMonthDay(
-							2005, 5, 8),
-				DateAndTime::withYearMonthDay(
-							2005, 5, 21));
-		$this->assertTrue($temp->isEqualTo($timespanC->plus(Duration::withDays(4))));
-		$this->assertTrue($temp->isEqualTo($timespanC->plus($timespanD->asDuration())));
+							2005, 5, 15));
+							
+		$result =& $timespanC->plus(Duration::withDays(6));
+		$this->assertFalse($temp->isEqualTo($result));
+		
+		$result =& $timespanC->plus(Duration::withDays(8));
+		$this->assertTrue($temp->isEqualTo($result));
+		
+		$result =& $timespanC->plus($timespanD->asDuration());
+		$this->assertTrue($temp->isEqualTo($result));
 		
 		
 		// minus()
 		// Subtracting an object that implemnts asDateAndTime
-		$temp =& Week::startingEnding(
+		$temp =& Week::starting(
 				DateAndTime::withYearMonthDay(
-							2005, 5, 8),
-				DateAndTime::withYearMonthDay(
-							2005, 5, 12));
-		$this->assertTrue($temp->isEqualTo($timespanC->minus(Duration::withDays(5))));
+							2005, 5, 1));
+		$result =& $timespanC->minus(Duration::withDays(5));
+		$this->assertTrue($temp->isEqualTo($result));
 		
 		$tempDuration =& Duration::withDays(7);
 		$this->assertTrue($tempDuration->isEqualTo($timespanC->minus($timespanA)));

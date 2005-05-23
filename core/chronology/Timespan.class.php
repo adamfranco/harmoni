@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.11 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.12 2005/05/23 15:38:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.11 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.12 2005/05/23 15:38:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -378,8 +378,8 @@ class Timespan
 	function &plus ( &$aDuration ) {
 		$classname = get_class($this);
 		
-		eval('$result =& '.$classname.'::startingDuration($this->start, 
-			$this->duration->plus($aDuration));');
+		eval('$result =& '.$classname.'::startingDuration($this->start->plus($aDuration), 
+			$this->duration());');
 		
 		return $result;
 	}

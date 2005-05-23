@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimespanTestCase.class.php,v 1.3 2005/05/20 23:04:27 adamfranco Exp $
+ * @version $Id: TimespanTestCase.class.php,v 1.4 2005/05/23 15:39:07 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimespanTestCase.class.php,v 1.3 2005/05/20 23:04:27 adamfranco Exp $
+ * @version $Id: TimespanTestCase.class.php,v 1.4 2005/05/23 15:39:07 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -280,7 +280,7 @@ class TimespanTestCase extends UnitTestCase {
 		// plus()
 		$temp =& Timespan::startingEnding(
 				DateAndTime::withYearMonthDay(
-							2005, 5, 8),
+							2005, 5, 12),
 				DateAndTime::withYearMonthDay(
 							2005, 5, 21));
 		$this->assertTrue($temp->isEqualTo($timespanC->plus(Duration::withDays(4))));
@@ -291,7 +291,7 @@ class TimespanTestCase extends UnitTestCase {
 		// Subtracting an object that implemnts asDateAndTime
 		$temp =& Timespan::startingEnding(
 				DateAndTime::withYearMonthDay(
-							2005, 5, 8),
+							2005, 5, 3),
 				DateAndTime::withYearMonthDay(
 							2005, 5, 12));
 		$this->assertTrue($temp->isEqualTo($timespanC->minus(Duration::withDays(5))));
@@ -397,15 +397,23 @@ class TimespanTestCase extends UnitTestCase {
 		
 		
 		// intersection()
-		$temp =& $timespanB->minus(DateAndTime::clockPrecision());
-		$this->assertTrue($temp->isEqualTo($timespanA->intersection($timespanB)));
+		$duration =& Duration::withDays(1);
+		$temp =& Timespan::startingDuration(
+				DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							2005, 5, 10, 12, 0, 0, Duration::withHours(-4)),
+				$duration->minus(DateAndTime::clockPrecision()));
 		
+		$result =& $timespanA->intersection($timespanB);
+		
+		$this->assertTrue($temp->isEqualTo($result));
+		
+		$tempEnd =& DateAndTime::withYearMonthDay(
+							2005, 5, 14);
 		$temp =& Timespan::startingEnding(
 				DateAndTime::withYearMonthDay(
 							2005, 5, 8),
-				DateAndTime::withYearMonthDay(
-							2005, 5, 14));
-		$temp =& $temp->minus(DateAndTime::clockPrecision());
+							$tempEnd->minus(DateAndTime::clockPrecision()
+				));
 		$this->assertTrue($temp->isEqualTo($timespanA->intersection($timespanC)));
 		
 		$this->assertEqual($timespanA->intersection($timespanD), NULL);
