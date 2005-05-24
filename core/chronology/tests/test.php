@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.8 2005/05/20 23:04:28 adamfranco Exp $
+ * @version $Id: test.php,v 1.9 2005/05/24 17:58:21 adamfranco Exp $
  */
 
 	if (!defined('HARMONI')) {
@@ -35,6 +35,9 @@
  	$test->addTestFile(dirname(__FILE__).'/TimespanTestCase.class.php');
 	$test->addTestFile(dirname(__FILE__).'/YearTestCase.class.php');
 	$test->addTestFile(dirname(__FILE__).'/WeekTestCase.class.php');
+	
+	
+	$test->addTestFile(dirname(__FILE__).'/../StringParser/tests/test.php');
 	
 	$test->attachObserver(new DoboTestHtmlDisplay());
 	$test->run();
