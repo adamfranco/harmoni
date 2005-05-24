@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthTestCase.class.php,v 1.5 2005/05/23 16:51:28 adamfranco Exp $
+ * @version $Id: MonthTestCase.class.php,v 1.6 2005/05/24 23:09:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthTestCase.class.php,v 1.5 2005/05/23 16:51:28 adamfranco Exp $
+ * @version $Id: MonthTestCase.class.php,v 1.6 2005/05/24 23:09:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -74,7 +74,18 @@ class MonthTestCase extends UnitTestCase {
 	 * 
 	 */
 	function test_from_string () {
-		$this->assertEqual('fromString() is tested', 'Yes');
+		$date =& Month::withMonthYear(8, 2005);
+		
+		$this->assertTrue($date->isEqualTo(Month::fromString('2005-08-20')));
+		$this->assertTrue($date->isEqualTo(Month::fromString('2005-08-20T15:25:10')));
+		$this->assertTrue($date->isEqualTo(Month::fromString('20050820152510')));
+		$this->assertTrue($date->isEqualTo(Month::fromString('08/20/2005')));
+		$this->assertTrue($date->isEqualTo(Month::fromString('August 20, 2005')));
+		$this->assertTrue($date->isEqualTo(Month::fromString('20aug05')));
+		$this->assertTrue($date->isEqualTo(Month::fromString('August 2005')));
+		$this->assertTrue($date->isEqualTo(Month::fromString('aug05')));
+		$this->assertTrue($date->isEqualTo(Month::fromString('2005-08')));
+		$this->assertTrue($date->isEqualTo(Month::fromString('200508')));
 	}
 	
 	/**

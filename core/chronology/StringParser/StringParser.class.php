@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.1 2005/05/24 17:58:21 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.2 2005/05/24 23:09:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -14,6 +14,7 @@
 
 require_once(dirname(__FILE__)."/../SObject.class.php");
 require_once(dirname(__FILE__)."/../Month.class.php");
+
 
 /**
  * StringParser and its decendent classes form a Strategy pattern. They classes 
@@ -32,13 +33,57 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.1 2005/05/24 17:58:21 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.2 2005/05/24 23:09:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
 class StringParser 
 	extends SObject {
+
+/*********************************************************
+ * Class Methods
+ *********************************************************/
+
+	/**
+	 * Answer the parser that was able to successfully parse the input string
+	 * or FALSE if none could handle the input string.
+	 * 
+	 * @param string $aString
+	 * @return mixed object StringParser OR FALSE
+	 * @access public
+	 * @since 5/24/05
+	 */
+	function &getParserFor ( $aString ) {
+		// Go through our parsers and try to find one that understands the format.
+		$parserClasses = array(	
+			'ISO8601StringParser',
+			'DayMonthNameYearStringParser',
+			'MonthNameDayYearStringParser',
+			'MonthNumberDayYearStringParser',
+			'KeywordStringParser',
+			'TimeStringParser',
+			'DateAndTimeStringParser'
+		);
+		
+		$handled = FALSE;
+		while (!$handled && current($parserClasses)) {
+			$parserClass = current($parserClasses);
+			$parser =& new $parserClass($aString);
+			
+			if ($parser->canHandle()) {
+				$handled = TRUE;
+				break;
+			} else {
+				next($parserClasses);
+			}
+		}
+		
+		if ($handled && is_object($parser))
+			return $parser;
+		else
+			return FALSE;
+	}
 
 /*********************************************************
  * Instance Variables
@@ -378,5 +423,16 @@ class StringParser
 		$this->offsetSecond = $anInteger;
 	}
 }
+
+require_once(dirname(__FILE__)."/RegexStringParser.class.php");
+require_once(dirname(__FILE__)."/TwoDigitYearStringParser.class.php");
+
+require_once(dirname(__FILE__)."/ISO8601StringParser.class.php");
+require_once(dirname(__FILE__)."/DayMonthNameYearStringParser.class.php");
+require_once(dirname(__FILE__)."/MonthNameDayYearStringParser.class.php");
+require_once(dirname(__FILE__)."/MonthNumberDayYearStringParser.class.php");
+require_once(dirname(__FILE__)."/KeywordStringParser.class.php");
+require_once(dirname(__FILE__)."/TimeStringParser.class.php");
+require_once(dirname(__FILE__)."/DateAndTimeStringParser.class.php");
 
 ?>

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.8 2005/05/23 16:50:44 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.9 2005/05/24 23:07:13 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.8 2005/05/23 16:50:44 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.9 2005/05/24 23:07:13 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -170,7 +170,14 @@ class Month
 	 * @since 5/10/05
 	 */
 	function &fromString ( $aString, $class = 'Month' ) {
-		die('Month::fromString($aString) is not yet implented.');
+		$parser =& StringParser::getParserFor($aString);
+		
+		if (!$parser)
+			die("'".$aString."' is not in a valid format.");
+		
+		eval('$result =& '.$class.'::withMonthYear($parser->month(), 
+					$parser->year(), $class);');
+		return $result;
 	}
 	
 	/**

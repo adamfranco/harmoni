@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.14 2005/05/20 23:04:27 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.15 2005/05/24 23:09:18 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/../DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.14 2005/05/20 23:04:27 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.15 2005/05/24 23:09:18 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -140,7 +140,61 @@ class DateAndTimeTestCase extends UnitTestCase {
 	 * 
 	 */
 	function test_from_string () {
-		$this->assertEqual('fromString() is tested', 'Yes');
+		$dateAndTime =& DateAndTime::withYearMonthDay(2005, 8, 20);
+		
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('2005-08-20')));
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('08/20/2005')));
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('August 20, 2005')));
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('20aug05')));
+		
+		
+		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecond(
+							2005, 8, 20, 15, 25, 10);
+							
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('2005-08-20T15:25:10')));
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('20050820152510')));
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('2005-08-20 3:25:10 pm')));
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('08/20/2005 3:25:10 pm')));
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('August 20, 2005 3:25:10 pm')));
+			
+		
+		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecond(
+							2005, 8, 20, 15, 25, 0);
+							
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('2005-08-20T15:25')));
+		
+		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecond(
+							2005, 8, 20, 15, 0, 0);
+							
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('2005-08-20T15')));
+		
+		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							2005, 8, 20, 15, 25, 10, Duration::withHours(-7));
+			
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('2005-08-20T15:25:10-07:00')));
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('20050820152510-07')));
+			
+		
+		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							2005, 8, 20, 15, 25, 10, Duration::zero());
+		
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('2005-08-20T15:25:10Z')));
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('20050820152510Z')));
 	}
 	
 	/**

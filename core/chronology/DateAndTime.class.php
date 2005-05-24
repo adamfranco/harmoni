@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.13 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.14 2005/05/24 23:07:13 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -34,7 +34,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.13 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.14 2005/05/24 23:07:13 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -168,7 +168,26 @@ class DateAndTime
 	 * @static
 	 */
 	function &fromString ( $aString, $class = 'DateAndTime' ) {
-		die('DateAndTime::fromString($aString) is not yet implented.');
+		$parser =& StringParser::getParserFor($aString);
+		
+		if (!$parser)
+			die("'".$aString."' is not in a valid format.");
+		
+		if (!is_null($parser->offsetHour()))
+			eval('$result =& '.$class.'::withYearMonthDayHourMinuteSecondOffset(
+				$parser->year(), $parser->month(), $parser->day(), $parser->hour(),
+				$parser->minute(), $parser->second(), 
+				Duration::withDaysHoursMinutesSeconds(0, $parser->offsetHour(),
+				$parser->offsetMinute(), $parser->offsetSecond()), $class);');
+		else if (!is_null($parser->hour()))
+			eval('$result =& '.$class.'::withYearMonthDayHourMinuteSecond(
+				$parser->year(), $parser->month(), $parser->day(), $parser->hour(),
+				$parser->minute(), $parser->second(), $class);');
+		else
+			eval('$result =& '.$class.'::withYearMonthDay(
+				$parser->year(), $parser->month(), $parser->day(), $class);');
+		
+		return $result;
 	}
 	
 	/**

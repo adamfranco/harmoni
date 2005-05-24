@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeTestCase.class.php,v 1.2 2005/05/12 00:04:03 adamfranco Exp $
+ * @version $Id: TimeTestCase.class.php,v 1.3 2005/05/24 23:09:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../Time.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeTestCase.class.php,v 1.2 2005/05/12 00:04:03 adamfranco Exp $
+ * @version $Id: TimeTestCase.class.php,v 1.3 2005/05/24 23:09:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -71,7 +71,35 @@ class TimeTestCase extends UnitTestCase {
 		$this->assertEqual($hmsTime->second(), 10);
 	}
 	
-	
+	/**
+	 * Test instance creation from a string.
+	 * 
+	 */
+	function test_from_string () {
+		$time =& Time::withHourMinuteSecond(0, 0, 0);
+		$this->assertTrue($time->isEqualTo(Time::fromString('2005-08-20')));
+		
+		$time =& Time::withHourMinuteSecond(15, 25, 10);
+		$this->assertTrue($time->isEqualTo(Time::fromString('2005-08-20T15:25:10-07:00')));
+		$this->assertTrue($time->isEqualTo(Time::fromString('2005-08-20T15:25:10')));
+		$this->assertTrue($time->isEqualTo(Time::fromString('20050820152510')));
+		$this->assertTrue($time->isEqualTo(Time::fromString('15:25:10')));
+		$this->assertTrue($time->isEqualTo(Time::fromString('3:25:10 pm')));
+		
+		$time =& Time::withHourMinuteSecond(15, 25, 0);
+		$this->assertTrue($time->isEqualTo(Time::fromString('15:25')));
+		$this->assertTrue($time->isEqualTo(Time::fromString('3:25 pm')));
+		$this->assertTrue($time->isEqualTo(Time::fromString('3:25 PM')));
+		$this->assertTrue($time->isEqualTo(Time::fromString('3:25PM')));
+		
+		$time =& Time::withHourMinuteSecond(15, 0, 0);
+		$this->assertTrue($time->isEqualTo(Time::fromString('3pm')));
+		
+		$time =& Time::withHourMinuteSecond(8, 25, 0);
+		$this->assertTrue($time->isEqualTo(Time::fromString('8:25')));
+		$this->assertTrue($time->isEqualTo(Time::fromString('8:25AM')));
+		
+	}
 	
 }
 ?>

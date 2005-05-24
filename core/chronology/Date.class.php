@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.5 2005/05/23 18:05:12 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.6 2005/05/24 23:07:13 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -25,7 +25,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.5 2005/05/23 18:05:12 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.6 2005/05/24 23:07:13 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -104,54 +104,13 @@ class Date
 	 * @since 5/10/05
 	 */
 	function &fromString ( $aString, $class = 'Date' ) {
-		$day = NULL;
-		$month = NULL;
-		$year = NULL;
+		$parser =& StringParser::getParserFor($aString);
 		
-		// <day> <monthName> <year>		(5 April 1982; 5-APR-82)  
-		// and
-		// <day><monthName><year>			(5APR82)
-		if (preg_match("/^([0-9]{1,2})[^0-9a-zA-Z]*([a-zA-Z]+)[^0-9a-zA-Z]*([0-9]+))$/",
-			$aString, $matches))
-		{
-			$day = $matches[1];
-			$month = $matches[2];
-			$year = $matches[3];
-		}
-		
-		// <monthName> <day> <year>		(April 5, 1982; Apr 5, 1982)  
-		else if (preg_match("/^([a-zA-Z]+)[^0-9a-zA-Z]*([0-9]{1,2})[^0-9a-zA-Z]*([0-9]+))$/",
-			$aString, $matches))
-		{
-			$day = $matches[2];
-			$month = $matches[1];
-			$year = $matches[3];
-		}
-		
-		// <monthNumber> <day> <year>		(4/5/82) 
-		else if (preg_match("/^([0-9]{1,2})[^0-9a-zA-Z]*([0-9]{1,2})[^0-9a-zA-Z]*([0-9]{2}))$/",
-			$aString, $matches))
-		{
-			$day = $matches[2];
-			$month = $matches[1];
-			$year = $matches[3];
-		}
-		
-		// <four-digit year><two-digit monthNumber><two-digit day>	(19820405; 1982-04-05)
-		else if (preg_match("/^(-?[0-9]{4})[^0-9a-zA-Z]*([0-9]{2})[^0-9a-zA-Z]*([0-9]{2}))$/",
-			$aString, $matches))
-		{
-			$day = $matches[3];
-			$month = $matches[2];
-			$year = $matches[1];
-		}
-		
-		// Otherwise we have an invalid date format
-		else {
+		if (!$parser)
 			die("'".$aString."' is not in a valid format.");
-		}
 		
-		eval('$result =& '.$class.'::starting(DateAndTime::withYearMonthDay($year, $month, $day));');
+		eval('$result =& '.$class.'::withYearMonthDay($parser->year(),
+						$parser->month(), $parser->day(), $class);');
 		return $result;
 	}
 	
@@ -165,7 +124,8 @@ class Date
 	 * @static
 	 */
 	function &starting ( &$aDateAndTime, $class = 'Date' ) {
-		return parent::startingDuration($aDateAndTime->midnight(), Duration::withDays(1), $class);
+		return parent::startingDuration($aDateAndTime->midnight(), 
+			Duration::withDays(1), $class);
 	}
 	
 	/**

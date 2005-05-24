@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.4 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.5 2005/05/24 23:07:13 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -31,7 +31,7 @@ require_once("Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.4 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.5 2005/05/24 23:07:13 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -50,6 +50,33 @@ class Time
 /*********************************************************
  * Class Methods - Instance Creation
  *********************************************************/
+	
+	/**
+	 * Read a Time from the stream in the forms:
+	 *		<hour24>:<minute>:<second>
+	 *		<hour>:<minute>:<second> <am/pm>
+
+	 *		<minute>, <second> or <am/pm> may be omitted.  e.g. 1:59:30 pm; 8AM; 15:30
+	 * 
+	 * @param string $aString
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Time
+	 * @access public
+	 * @since 5/24/05
+	 */
+	function &fromString ( $aString, $class = 'Time' ) {
+		$parser =& StringParser::getParserFor($aString);
+		
+		if (!$parser)
+			die("'".$aString."' is not in a valid format.");
+		
+		eval('$result =& '.$class.'::withHourMinuteSecond($parser->hour(),
+						$parser->minute(), $parser->second(), $class);');
+		return $result;
+	}
 	
 	/**
 	 * Create a new Time.

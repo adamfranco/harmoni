@@ -6,13 +6,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DayMonthNameYearStringParser.class.php,v 1.1 2005/05/24 17:58:20 adamfranco Exp $
+ * @version $Id: DayMonthNameYearStringParser.class.php,v 1.2 2005/05/24 23:09:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
- 
-require_once(dirname(__FILE__)."/TwoDigitYearStringParser.class.php");
+
+require_once(dirname(__FILE__)."/StringParser.class.php");
+//require_once(dirname(__FILE__)."/TwoDigitYearStringParser.class.php");
 
 /**
  * This StringParser can handle dates that contain an integer day followed by
@@ -30,7 +31,7 @@ require_once(dirname(__FILE__)."/TwoDigitYearStringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DayMonthNameYearStringParser.class.php,v 1.1 2005/05/24 17:58:20 adamfranco Exp $
+ * @version $Id: DayMonthNameYearStringParser.class.php,v 1.2 2005/05/24 23:09:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
