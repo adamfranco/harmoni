@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.5 2005/05/24 23:07:13 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.6 2005/05/25 19:01:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -31,7 +31,7 @@ require_once("Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.5 2005/05/24 23:07:13 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.6 2005/05/25 19:01:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -79,35 +79,92 @@ class Time
 	}
 	
 	/**
-	 * Create a new Time.
+	 * Answer the Time at midnight
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Time
+	 * @access public
+	 * @since 5/25/05
+	 */
+	function &midnight ( $class = 'Time' ) {
+		eval('$result =& '.$class.'::withSeconds(0, $class);');
+		return $result;
+	}
+	
+	/**
+	 * Answer the Time at noon
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Time
+	 * @access public
+	 * @since 5/25/05
+	 */
+	function &noon ( $class = 'Time' ) {
+		eval('$result =& '.$class.'::withHourMinuteSecond(12, 0, 0, $class);');
+		return $result;
+	}
+	
+	/**
+	 * Answer a Time from midnight
 	 * 
 	 * @param integer $anIntHour
 	 * @param integer $anIntMinute
 	 * @param integer $anIntSecond
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @return object Time
 	 * @access public
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withHourMinuteSecond ($anIntHour, $anIntMinute, $anIntSecond ) 
+	function &withHourMinuteSecond ($anIntHour, $anIntMinute, $anIntSecond, $class = 'Time' ) 
 	{
-		return Time::withSeconds(
+		eval('$result =& '.$class.'::withSeconds(
 							  ($anIntHour * ChronologyConstants::SecondsInHour())
 							+ ($anIntMinute * ChronologyConstants::SecondsInMinute())
-							+ $anIntSecond);
+							+ $anIntSecond, $class);');
+		return $result;
 	}
 	
 	/**
-	 * Create a new Time
+	 * Answer a Time from midnight
 	 * 
 	 * @param integer $anIntSeconds
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
 	 * @return object Time
 	 * @access public
 	 * @since 5/5/05
 	 */
-	function withSeconds ( $anIntSeconds ) {
-		$time = new Time;
-		$time->setSeconds($anIntSeconds);
+	function &withSeconds ( $anIntSeconds, $class = 'Time' ) {
+		// Lop off any seconds beyond those in a day
+		$duration =& Duration::withSeconds($anIntSeconds);
+		$ticks = $duration->ticks();
+		$seconds = $ticks[1];
+		
+		// Make sure that we have a positive time since midnight
+		if ($seconds < 0)
+			$seconds = ChronologyConstants::SecondsInDay() + $seconds;
+		
+		// Validate our passed class name.
+		if (!(strtolower($class) == strtolower('Time')
+			|| is_subclass_of(new $class, 'Time')))
+		{
+			die("Class, '$class', is not a subclass of 'Time'.");
+		}
+		
+		$time = new $class;
+		$time->setSeconds($seconds);
 		return $time;
 	}
 	
@@ -136,7 +193,7 @@ class Time
 	 * @since 5/4/05
 	 */
 	function ticks () {
-		return array ($this->seconds);
+		return array (0, $this->seconds);
 	}
 	
 /*********************************************************
@@ -166,18 +223,6 @@ class Time
 	}
 	
 	/**
-	 * Answer the hours (0-23)
-	 * 
-	 * @return integer
-	 * @access public
-	 * @since 5/3/05
-	 */
-	function hour24 () {
-		$duration =& $this->asDuration();
-		return $duration->hours();
-	}
-	
-	/**
 	 * Answer an <integer> between 1 and 12, inclusive, representing the hour 
 	 * of the day in the 12-hour clock of the local time of the receiver.
 	 * 
@@ -193,6 +238,18 @@ class Time
 	}
 	
 	/**
+	 * Answer the hours (0-23)
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/3/05
+	 */
+	function hour24 () {
+		$duration =& $this->asDuration();
+		return $duration->hours();
+	}
+		
+	/**
 	 * Return the Meridian Abbreviation ('AM'/'PM')
 	 * 
 	 * @return string
@@ -207,27 +264,15 @@ class Time
 	}
 	
 	/**
-	 * Answer a DateAndTime starting at midnight local time
-	 * 
-	 * @return object DateAndTime
-	 * @access public
-	 * @since 5/3/05
-	 */
-	function &midnight () {
-		$dAndT =& DateAndTime::withYearMonthDay($this->year(), $this->month(), $this->dayOfMonth());
-		return $dAndT;
-	}
-	
-	/**
-	 * Answer the miniute (0-59)
+	 * Answer the minute (0-59)
 	 * 
 	 * @return integer
 	 * @access public
 	 * @since 5/3/05
 	 */
 	function minute () {
-		$duration =& Duration::withSeconds($this->seconds);
-		return $duration->minutes();
+		$asDuration =& $this->asDuration();
+		return $asDuration->minutes();
 	}
 	
 	/**
@@ -300,8 +345,8 @@ class Time
 	 * @since 5/3/05
 	 */
 	function second () {
-		$duration =& Duration::withSeconds($this->seconds);
-		return $duration->seconds();
+		$asDuration =& $this->asDuration();
+		return $asDuration->seconds();
 	}
 	
 /*********************************************************
@@ -327,7 +372,10 @@ class Time
 		$myTicks = $this->ticks();
 		$comparandTicks = $comparand->ticks();
 		
-		return ($myTicks[0] == $comparandTicks[0]);
+		if ($myTicks[0] != $comparandTicks[0])
+			return FALSE;
+		else
+			return ($myTicks[1] == $comparandTicks[1]);
 	}
 	
 	/**
@@ -348,30 +396,50 @@ class Time
 /*********************************************************
  * Instance methods - Operations
  *********************************************************/
- 
+ 	
+ 	/**
+ 	 * Answer a Time that is nSeconds after the receiver.
+ 	 * 
+ 	 * @param integer $anInteger
+ 	 * @return object Time
+ 	 * @access public
+ 	 * @since 5/25/05
+ 	 */
+ 	function &addSeconds ( $anInteger ) {
+ 		eval('$result =& '.get_class($this).'::withSeconds(
+ 				$this->asSeconds() + $anInteger);');
+ 		return $result;
+ 	}
+ 	
+ 	/**
+ 	 * Answer a Time that is timeInterval after the receiver. timeInterval is an 
+	 * instance of Date or Time.
+ 	 * 
+ 	 * @param object $timeAmount An instance of Date or Time.
+ 	 * @return object Time
+ 	 * @access public
+ 	 * @since 5/25/05
+ 	 */
+ 	function &addTime ( $timeAmount ) {
+ 		eval('$result =& '.get_class($this).'::withSeconds(
+ 				$this->asSeconds() + $timeAmount->asSeconds());');
+ 		return $result;
+ 	}
+	
 	/**
-	 * Answer a new Duration whose our date + operand. The operand must implement
-	 * asDuration().
-	 * 
-	 * @param object $operand
-	 * @return object DateAndTime
-	 * @access public
-	 * @since 5/4/05
-	 */
-	function &plus ( &$operand ) {
-		die("need to implement Time::plus()");
-		$ticks = array();
-		$duration =& $operand->asDuration();
-		$durationTicks = $duration->ticks();
-		
-		foreach ($this->ticks() as $key => $value) {
-			$ticks[$key] = $value + $durationTicks[$key];
-		}
-		
-		$result =& new DateAndTime();
-		$result->ticksOffset($ticks, $this->offset());
-		return $result;
-	}
+ 	 * Answer a Time that is timeInterval before the receiver. timeInterval is  
+	 * an instance of Date or Time.
+ 	 * 
+ 	 * @param object $timeAmount An instance of Date or Time.
+ 	 * @return object Time
+ 	 * @access public
+ 	 * @since 5/25/05
+ 	 */
+ 	function &subtractTime ( $timeAmount ) {
+ 		eval('$result =& '.get_class($this).'::withSeconds(
+ 				$this->asSeconds() - $timeAmount->asSeconds());');
+ 		return $result;
+ 	}
 	
 
 /*********************************************************
@@ -481,6 +549,19 @@ class Time
 	function &asYear () {
 		$asDateAndTime =& $this->asDateAndTime();
 		return $asDateAndTime->asYear();
+	}
+	
+	/**
+	 * Answer a Timespan. anEnd must respond to asDateAndTime()
+	 * 
+	 * @param object $anEnd anEnd must understand asDateAndTime()
+	 * @return object Timespan
+	 * @access public
+	 * @since 5/25/05
+	 */
+	function &to ( &$anEnd ) {
+		$asDateAndTime =& $this->asDateAndTime();
+		return $asDateAndTime->to($anEnd);
 	}
 }
 

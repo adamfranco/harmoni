@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.7 2005/05/13 18:20:59 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.8 2005/05/25 19:01:44 adamfranco Exp $
  */ 
  
 require_once("DateAndTime.class.php");
@@ -20,7 +20,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.7 2005/05/13 18:20:59 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.8 2005/05/25 19:01:44 adamfranco Exp $
  */
 class TimeStamp
 	extends DateAndTime 
@@ -98,9 +98,6 @@ class TimeStamp
 	
 	/**
 	 * Answer a new instance starting at midnight local time.
-	 * This is a hybrid class/instance method that can either return today
-	 * at midnight (called statically) or midnight on a certain date (called
-	 * on an instance).
 	 * 
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
 	 *		This parameter is used to get around the limitations of not being
@@ -133,9 +130,6 @@ class TimeStamp
 	
 	/**
 	 * Answer a new instance starting at noon local time.
-	 * This is a hybrid class/instance method that can either return today
-	 * at noon (called statically) or noon on a certain date (called
-	 * on an instance).
 	 * 
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
 	 *		This parameter is used to get around the limitations of not being

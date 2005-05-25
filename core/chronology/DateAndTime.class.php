@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.14 2005/05/24 23:07:13 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.15 2005/05/25 19:01:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -34,7 +34,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.14 2005/05/24 23:07:13 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.15 2005/05/25 19:01:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -192,9 +192,6 @@ class DateAndTime
 	
 	/**
 	 * Answer a new instance starting at midnight local time.
-	 * This is a hybrid class/instance method that can either return today
-	 * at midnight (called statically) or midnight on a certain date (called
-	 * on an instance).
 	 * 
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
 	 *		This parameter is used to get around the limitations of not being
@@ -206,17 +203,8 @@ class DateAndTime
 	 * @static
 	 */
 	function &midnight ( $class = 'DateAndTime' ) {
-		// Instance implementation
-		if (is_object($this)) {
-			eval('$result =& '.get_class($this).'::withYearMonthDay($this->year(),
-				$this->month(), $this->dayOfMonth(), '.get_class($this).');');
-			return $result;
-		}
-		// Static implementation
-		else {
-			eval('$result =& '.$class.'::now('.$class.')');
-			return $result->midnight();
-		}
+		eval('$result =& '.$class.'::now('.$class.');');
+		return $result->atMidnight();
 	}
 	
 	/**
@@ -248,9 +236,6 @@ class DateAndTime
 	
 	/**
 	 * Answer a new instance starting at noon local time.
-	 * This is a hybrid class/instance method that can either return today
-	 * at noon (called statically) or noon on a certain date (called
-	 * on an instance).
 	 * 
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
 	 *		This parameter is used to get around the limitations of not being
@@ -262,18 +247,8 @@ class DateAndTime
 	 * @static
 	 */
 	function &noon ( $class = 'DateAndTime' ) {
-		// Instance implementation
-		if (is_object($this)) {
-			eval('$result =& '.get_class($this).'::withYearMonthDayHourMinuteSecond(
-				$this->year(), $this->month(), $this->dayOfMonth(), 12, 0, 0, 
-				'.get_class($this).');');
-			return $result;
-		}
-		// Static implementation
-		else {
-			eval('$result =& '.$class.'::now('.$class.')');
-			return $result->noon();
-		}
+		eval('$result =& '.$class.'::now('.$class.');');
+		return $result->atNoon();
 	}
 	
 	/**
@@ -700,6 +675,33 @@ class DateAndTime
  * Instance Methods - Accessing
  *********************************************************/
  	
+	/**
+	 * Answer the date and time at midnight on the day of the receiver.
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/25/05
+	 */
+	function &atMidnight () {
+		eval('$result =& '.get_class($this).'::withYearMonthDay($this->year(),
+				$this->month(), $this->dayOfMonth(), '.get_class($this).');');
+		return $result;
+	}
+	
+	/**
+	 * Answer noon on the day of the reciever
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/25/05
+	 */
+	function &atNoon () {
+		eval('$result =& '.get_class($this).'::withYearMonthDayHourMinuteSecond(
+			$this->year(), $this->month(), $this->dayOfMonth(), 12, 0, 0, 
+			'.get_class($this).');');
+		return $result;
+	}
+	
 	/**
 	 * Answer the day
 	 * 

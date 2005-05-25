@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.6 2005/05/24 23:07:13 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.7 2005/05/25 19:01:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -25,7 +25,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.6 2005/05/24 23:07:13 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.7 2005/05/25 19:01:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -124,7 +124,7 @@ class Date
 	 * @static
 	 */
 	function &starting ( &$aDateAndTime, $class = 'Date' ) {
-		return parent::startingDuration($aDateAndTime->midnight(), 
+		return parent::startingDuration($aDateAndTime->atMidnight(), 
 			Duration::withDays(1), $class);
 	}
 	

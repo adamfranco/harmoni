@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.6 2005/05/23 18:05:12 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.7 2005/05/25 19:01:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.6 2005/05/23 18:05:12 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.7 2005/05/25 19:01:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -194,7 +194,7 @@ class Week
 		}
 		
 		$asDateAndTime =& $aDateAndTime->asDateAndTime();
-		$midnight =& $asDateAndTime->midnight();
+		$midnight =& $asDateAndTime->atMidnight();
 		$dayNames =& ChronologyConstants::DayNames();
 		$temp = $midnight->dayOfWeek() + 7 - ($dayNames[Week::startDay()] + 1);
 		$delta =  abs($temp - (intval($temp/7) * 7));
