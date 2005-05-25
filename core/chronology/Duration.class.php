@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.8 2005/05/13 15:43:07 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.9 2005/05/25 19:52:30 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -14,6 +14,7 @@
  
 require_once("ChronologyConstants.class.php");
 require_once("Magnitude.class.php");
+require_once("StringParser/ANSI58216StringParser.class.php");
 
 /**
  * I represent a duration of time. I have been tested to support durations of 
@@ -28,7 +29,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.8 2005/05/13 15:43:07 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.9 2005/05/25 19:52:30 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -51,7 +52,13 @@ class Duration
  	 * @static
  	 */
  	function &fromString ( $aString ) {
- 		die('Duration::fromString($aString) is not yet implented.');
+ 		$parser =& new ANSI58216StringParser ($aString);
+ 		
+ 		if (!$parser)
+			die("'".$aString."' is not in a valid format.");
+		
+		return Duration::withDaysHoursMinutesSeconds(
+					$parser->day(), $parser->hour(), $parser->minute(), $parser->second());
  	}
  	
 	/**

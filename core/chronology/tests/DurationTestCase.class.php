@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DurationTestCase.class.php,v 1.5 2005/05/13 15:44:14 adamfranco Exp $
+ * @version $Id: DurationTestCase.class.php,v 1.6 2005/05/25 19:52:56 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../Duration.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DurationTestCase.class.php,v 1.5 2005/05/13 15:44:14 adamfranco Exp $
+ * @version $Id: DurationTestCase.class.php,v 1.6 2005/05/25 19:52:56 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -192,7 +192,62 @@ class DurationTestCase extends UnitTestCase {
 	 * 
 	 */
 	function test_from_string () {
-		$this->assertEqual('fromString() is tested', 'Yes');
+		$duration =& Duration::fromString('-7:09:12:06.10');
+		$this->assertEqual($duration->days(), -7);
+		$this->assertEqual($duration->hours(), -9);
+		$this->assertEqual($duration->minutes(), -12);
+		$this->assertEqual($duration->seconds(), -6);
+		
+		$duration =& Duration::fromString('+0:01:02');
+		$this->assertEqual($duration->days(), 0);
+		$this->assertEqual($duration->hours(), 1);
+		$this->assertEqual($duration->minutes(), 2);
+		$this->assertEqual($duration->seconds(), 0);
+		
+		$duration =& Duration::fromString('0:00:00:00');
+		$this->assertEqual($duration->days(), 0);
+		$this->assertEqual($duration->hours(), 0);
+		$this->assertEqual($duration->minutes(), 0);
+		$this->assertEqual($duration->seconds(), 0);
+		
+		// 50 years (18250 days)
+		$duration =& Duration::fromString('18250:12:00:00');
+		$this->assertEqual($duration->days(), 18250);
+		$this->assertEqual($duration->hours(), 12);
+		$this->assertEqual($duration->minutes(), 0);
+		$this->assertEqual($duration->seconds(), 0);
+		
+		// 500 years (182500 days)
+		$duration =& Duration::fromString('182500:12:00:00');
+		$this->assertEqual($duration->days(), 182500);
+		$this->assertEqual($duration->hours(), 12);
+		$this->assertEqual($duration->minutes(), 0);
+		$this->assertEqual($duration->seconds(), 0);
+		
+		// -500 years (-182500 days)
+		$duration =& Duration::fromString('-182500:12:00:00');
+		$this->assertEqual($duration->days(), -182500);
+		$this->assertEqual($duration->hours(), -12);
+		$this->assertEqual($duration->minutes(), 0);
+		$this->assertEqual($duration->seconds(), 0);
+		
+		// 500,000,000 years (182500000000 days)
+		$duration =& Duration::fromString('182500000000:12:00:00');
+		$this->assertEqual($duration->days(), 182500000000);
+		$this->assertEqual($duration->hours(), 12);
+		$this->assertEqual($duration->minutes(), 0);
+		$this->assertEqual($duration->seconds(), 0);
+		
+		// Beyond 4 billion years, the precision drops from
+		// second precision to hour precision.
+		
+		// 50,000,000,000 years (18250000000000 days)
+		$duration =& Duration::fromString('18250000000000:12:00:00');
+		$this->assertEqual($duration->days(), 18250000000000);
+		$this->assertEqual($duration->hours(), 12);
+// 		$this->assertEqual($duration->minutes(), 0);
+// 		$this->assertEqual($duration->seconds(), 0);
+		
 	}
 	
 	/**
