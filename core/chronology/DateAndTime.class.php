@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.15 2005/05/25 19:01:44 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.16 2005/05/25 22:07:15 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -18,15 +18,36 @@ require_once("Magnitude.class.php");
 /**
  * I represent a point in UTC time as defined by ISO 8601. I have zero duration.
  *
- * My implementation uses three SmallIntegers and a Duration:
- * jdn		- julian day number.
- * seconds	- number of seconds since midnight.
- * nanos	- the number of nanoseconds since the second.
- * 
- * offset	- duration from UTC.
+ * My implementation uses two Integers and a Duration:
+ * 		- jdn		- julian day number.
+ * 		- seconds	- number of seconds since midnight.
+ * 		- offset	- duration from UTC.
  *
- * The nanosecond attribute is almost always zero but it defined for full ISO 
- * compliance and is suitable for timestamping.
+ * To create new DateAndTime instances, use one of the static instance-creation 
+ * methods:
+ *		- DateAndTime::epoch();
+ *		- DateAndTime::fromString($aString);
+ *		- DateAndTime::midnight();
+ *		- DateAndTime::now();
+ *		- DateAndTime::noon();
+ *		- DateAndTime::today();
+ *		- DateAndTime::tomorrow();
+ *		- DateAndTime::withDateAndTime($aDate, $aTime);
+ *		- DateAndTime::withJulianDayNumber($aJulianDayNumber);
+ *		- DateAndTime::withYearDay($anIntYear, $anIntDayOfYear);
+ *		- DateAndTime::withYearDayHourMinuteSecond($anIntYear, $anIntDayOfYear, 
+ *						$anIntHour, $anIntMinute, $anIntSecond);
+ *		- DateAndTime::withYearDayHourMinuteSecondOffset($anIntYear, $anIntDayOfYear, 
+ *						$anIntHour, $anIntMinute, $anIntSecond, &$aDurationOffset);
+ *		- DateAndTime::withYearMonthDay($anIntYear, $anIntOrStringMonth, $anIntDay);
+ *		- DateAndTime::withYearMonthDayHourMinute($anIntYear, $anIntOrStringMonth, 
+ *						$anIntDay, $anIntHour, $anIntMinute);
+ *		- DateAndTime::withYearMonthDayHourMinuteSecond($anIntYear, $anIntOrStringMonth, 
+ *						$anIntDay, $anIntHour, $anIntMinute, $anIntSecond);
+ *		- DateAndTime::withYearMonthDayHourMinuteSecondOffset($anIntYear, 
+ *						$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
+ *						$anIntSecond, &$aDurationOffset);
+ *		- DateAndTime::yesterday();
  * 
  * @since 5/2/05
  * @package harmoni.chronology
@@ -34,7 +55,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.15 2005/05/25 19:01:44 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.16 2005/05/25 22:07:15 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -208,6 +229,23 @@ class DateAndTime
 	}
 	
 	/**
+	 * Answer a new instance starting at noon local time.
+	 * 
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/3/05
+	 * @static
+	 */
+	function &noon ( $class = 'DateAndTime' ) {
+		eval('$result =& '.$class.'::now('.$class.');');
+		return $result->atNoon();
+	}
+	
+	/**
 	 * Answer the current date and time.
 	 * 
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
@@ -232,23 +270,6 @@ class DateAndTime
 			);');
 		
 		return $result;
-	}
-	
-	/**
-	 * Answer a new instance starting at noon local time.
-	 * 
-	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
-	 *		This parameter is used to get around the limitations of not being
-	 *		able to find the class of the object that recieved the initial 
-	 *		method call.
-	 * @return object DateAndTime
-	 * @access public
-	 * @since 5/3/05
-	 * @static
-	 */
-	function &noon ( $class = 'DateAndTime' ) {
-		eval('$result =& '.$class.'::now('.$class.');');
-		return $result->atNoon();
 	}
 	
 	/**

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ChronologyConstants.class.php,v 1.4 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: ChronologyConstants.class.php,v 1.5 2005/05/25 22:07:15 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -16,14 +16,6 @@
  * ChronologyConstants is a SharedPool for the constants used by the 
  * Kernel-Chronology classes.
  *
- * Due to PHP's lack of decent date/time objects, handling of dates and times in
- * Harmoni here-to-for required swapping between various timestamp and date string 
- * represtations and other simple chronological objects that were never very 
- * universal. 
- * 
- * This package is a PHP implemenation of the Squeak (Smalltalk)
- * Kernel-Chronology package. The original Smalltalk implementation is licensed
- * under the Squeak License {@link http://squeak.org/download/license.html}.
  * 
  * @since 5/2/05
  * @package harmoni.chronology
@@ -31,7 +23,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ChronologyConstants.class.php,v 1.4 2005/05/05 23:09:48 adamfranco Exp $
+ * @version $Id: ChronologyConstants.class.php,v 1.5 2005/05/25 22:07:15 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
