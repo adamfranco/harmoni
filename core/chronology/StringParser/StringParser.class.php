@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.2 2005/05/24 23:09:17 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.3 2005/05/25 21:42:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -33,7 +33,7 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.2 2005/05/24 23:09:17 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.3 2005/05/25 21:42:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -427,6 +427,7 @@ class StringParser
 require_once(dirname(__FILE__)."/RegexStringParser.class.php");
 require_once(dirname(__FILE__)."/TwoDigitYearStringParser.class.php");
 
+require_once(dirname(__FILE__)."/ANSI58216StringParser.class.php");
 require_once(dirname(__FILE__)."/ISO8601StringParser.class.php");
 require_once(dirname(__FILE__)."/DayMonthNameYearStringParser.class.php");
 require_once(dirname(__FILE__)."/MonthNameDayYearStringParser.class.php");

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.16 2005/05/25 19:03:59 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.17 2005/05/25 21:42:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/../DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.16 2005/05/25 19:03:59 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.17 2005/05/25 21:42:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -513,14 +513,6 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertEqual($result->minute(), 45);
 		$this->assertEqual($result->second(), 45);
 			
-	}
-	
-	/**
-	 * Test schedule creation.
-	 * 
-	 */
-	function test_schedule_creation () {
-		$this->assertEqual('Schedule creation is tested', 'Yes');
 	}
 
 }

@@ -5,14 +5,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: YearTestCase.class.php,v 1.3 2005/05/23 18:07:19 adamfranco Exp $
+ * @version $Id: YearTestCase.class.php,v 1.4 2005/05/25 21:42:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  * @since 5/3/05
  */
 
-require_once(dirname(__FILE__)."/../Month.class.php");
+require_once(dirname(__FILE__)."/../Year.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: YearTestCase.class.php,v 1.3 2005/05/23 18:07:19 adamfranco Exp $
+ * @version $Id: YearTestCase.class.php,v 1.4 2005/05/25 21:42:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

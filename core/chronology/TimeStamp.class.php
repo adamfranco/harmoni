@@ -6,7 +6,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.8 2005/05/25 19:01:44 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.9 2005/05/25 21:42:01 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
  
 require_once("DateAndTime.class.php");
@@ -20,7 +23,10 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.8 2005/05/25 19:01:44 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.9 2005/05/25 21:42:01 adamfranco Exp $
+ *
+ * @link http://harmoni.sourceforge.net/
+ * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
 class TimeStamp
 	extends DateAndTime 
