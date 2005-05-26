@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.16 2005/05/25 22:07:15 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.17 2005/05/26 21:28:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,7 +24,7 @@ require_once("Magnitude.class.php");
  * 		- offset	- duration from UTC.
  *
  * To create new DateAndTime instances, use one of the static instance-creation 
- * methods:
+ * methods, NOT 'new':
  *		- DateAndTime::epoch();
  *		- DateAndTime::fromString($aString);
  *		- DateAndTime::midnight();
@@ -55,7 +55,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.16 2005/05/25 22:07:15 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.17 2005/05/26 21:28:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

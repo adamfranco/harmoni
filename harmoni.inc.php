@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: harmoni.inc.php,v 1.34 2005/04/12 20:43:31 adamfranco Exp $
+ * @version $Id: harmoni.inc.php,v 1.35 2005/05/26 21:27:47 adamfranco Exp $
  */
 
  /* :: start the output buffer, if it's not already :: */
@@ -58,7 +58,7 @@ if (get_magic_quotes_gpc()) {
  *********************************************************/
 /* :: load the Framework config file :: */
 require_once(HARMONIBASE."config/framework.cfg.php");
-$harmoni =& new Harmoni();
+$harmoni =& Harmoni::instance();
 
 
 /*********************************************************

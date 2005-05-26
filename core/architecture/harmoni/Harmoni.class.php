@@ -16,15 +16,45 @@ require_once(OKI2."/osid/OsidContext.php");
  * action-handling and theme-output. It makes use of the the 
  * {@link ActionHandler} classes.
  *
+ * The Harmoni class implements the Singleton pattern. There is only ever
+ * on instance of the Harmoni object and it is accessed only via the 
+ * {@link instance Harmoni::instance()} method.
+ *
  * @package harmoni.architecture
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.38 2005/04/12 19:31:30 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.39 2005/05/26 21:28:24 adamfranco Exp $
  **/
 class Harmoni {
-	
+
+/*********************************************************
+ * Class Methods - Instance-Creation/Singlton
+ *********************************************************/
+
+	/**
+	 * Get the instance of Harmoni.
+	 * The Harmoni class implements the Singleton pattern. There is only ever
+	 * on instance of the Harmoni object and it is accessed only via the 
+	 * Harmoni::instance() method.
+	 * 
+	 * @return object Harmoni
+	 * @access public
+	 * @since 5/26/05
+	 * @static
+	 */
+	function &instance () {
+		if (!isset($GLOBALS['__harmoni']))
+			$GLOBALS['__harmoni'] =& new Harmoni;
+		
+		return $GLOBALS['__harmoni'];
+	}
+
+/*********************************************************
+ * Instance Variables
+ *********************************************************/
+
 	/**
 	 * @access private
 	 * @var string $_actionCallbackFunction The name of a function that gets the current
@@ -76,17 +106,35 @@ class Harmoni {
 	 * @var array $pathInfoParts An array of split PATH_INFO elements.
 	 */
 	var $pathInfoParts;
-	
+
+/*********************************************************
+ * Instance Methods
+ *********************************************************/	
+
 	/**
 	 * The constructor.
 	 * @param optional array A hash table of http variables. Default = $_REQUEST (combination of GET and POST vars).
 	 * @access public
 	 * @return void
 	 **/
-	function Harmoni($httpVars = null) {
-		// set up the variables we are going to pass to actions
-		if ($httpVars) $this->HTTPVars =& new FieldSet($httpVars);
-		else $this->HTTPVars =& new ReferencedFieldSet($_REQUEST);
+	function Harmoni() {
+		// Verify that there is only one instance of Harmoni.
+		$backtrace = debug_backtrace();
+		if ($GLOBALS['__harmoni'] 
+			|| !(
+				$backtrace[1]['class'] == 'harmoni'
+				&& $backtrace[1]['function'] == 'instance'
+				&& $backtrace[1]['type'] == '::'
+			))
+		{
+			die("<br/><strong>Invalid Harmoni instantiation at...</strong>"
+			."<br/> File: ".$backtrace[0]['file']
+			."<br/> Line: ".$backtrace[0]['line']
+			."<br/><strong>Access Harmoni with <em>Harmoni::instance()</em></strong>");
+		}
+		
+		
+		$this->HTTPVars =& new ReferencedFieldSet($_REQUEST);
 
 		$this->ActionHandler =& new ActionHandler($this);
 		
