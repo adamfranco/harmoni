@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.10 2005/05/25 21:42:01 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.11 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -21,6 +21,19 @@ require_once("Magnitude.class.php");
  * 50 billion (50,000,000) years with hour precision. Durations beyond 50 billion
  * years have not been tested.
  *
+ * To create new Duration instances, <b>use one of the static instance-creation 
+ * methods</b>, NOT 'new Duration':
+ *		- {@link fromString Duration::fromString($aString)}
+ *		- {@link fromString Duration::fromString($aString)}
+ *		- {@link withDays Duration::withDays($days)}
+ *		- {@link withDaysHoursMinutesSeconds Duration::withDaysHoursMinutesSeconds($days, 
+ *					$hours, $minutes, $seconds)}
+ *		- {@link withHours Duration::withHours($hours)}
+ *		- {@link withMinutes Duration::withMinutes($minutes)}
+ *		- {@link withMonth Duration::withMonth($anIntOrStrMonth)}
+ *		- {@link withSeconds Duration::withSeconds($seconds)}
+ *		- {@link withWeeks Duration::withWeeks($weeks)}
+ *		- {@link zero Duration::zero()}
  * 
  * @since 5/2/05
  * @package harmoni.chronology
@@ -28,7 +41,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.10 2005/05/25 21:42:01 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.11 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

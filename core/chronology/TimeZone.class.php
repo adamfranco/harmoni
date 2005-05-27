@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeZone.class.php,v 1.3 2005/05/11 03:04:46 adamfranco Exp $
+ * @version $Id: TimeZone.class.php,v 1.4 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -17,12 +17,20 @@ require_once("SObject.class.php");
 /**
  * TimeZone is a simple class to colect the information identifying a UTC time zone.
  * 
- * offset			-	Duration	- the time zone's offset from UTC
- * abbreviation	-	String		- the abbreviated name for the time zone.
- * name			-	String		- the name of the time zone.
+ * 	- offset		-	Duration	- the time zone's offset from UTC
+ *  - abbreviation	-	String		- the abbreviated name for the time zone.
+ *  - name			-	String		- the name of the time zone.
  * 
- * TimeZone class >> #timeZones returns an array of the known time zones
- * TimeZone class >> #defaultTimeZone returns the default time zone (Grenwich Mean Time)
+ * TimeZone class >> timeZones() returns an array of the known time zones
+ * TimeZone class >> defaultTimeZone() returns the default time zone (Grenwich Mean Time)
+ * DateAndTime class >> localTimeZone() returns the local time zone.
+ *
+ * To create new TimeZone instances, <b>use one of the static instance-creation 
+ * methods</b>, NOT 'new TimeZone':
+ *		- {@link defaultTimeZone TimeZone::defaultTimeZone()}
+ *		- {@link defaultTimeZone TimeZone::defaultTimeZone()}
+ *		- {@link offsetNameAbbreviation TimeZone::offsetNameAbbreviation($aDuration, 
+ *					$aStringName, $aStringAbbreviation)}
  * 
  * @since 5/3/05
  * @package harmoni.chronology
@@ -30,7 +38,7 @@ require_once("SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeZone.class.php,v 1.3 2005/05/11 03:04:46 adamfranco Exp $
+ * @version $Id: TimeZone.class.php,v 1.4 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -43,6 +51,21 @@ class TimeZone
  * Class Methods - Instance Creation
  *********************************************************/	
  
+ 	/**
+	 * Answer the default time zone - GMT
+	 * 
+	 * @return object TimeZone
+	 * @access public
+	 * @since 5/3/05
+	 * @static
+	 */
+	function &defaultTimeZone () {
+		return TimeZone::offsetNameAbbreviation(
+					Duration::withHours(0),
+					'Greenwich Mean Time',
+					'GMT');
+	}
+	
 	/**
 	 * Create a new Timezone.
 	 * 
@@ -57,21 +80,6 @@ class TimeZone
 		$aStringAbbreviation = NULL) 
 	{
 		return new TimeZone ($aDuration, $aStringName, $aStringAbbreviation );
-	}
-	
-	/**
-	 * Answer the default time zone - GMT
-	 * 
-	 * @return object TimeZone
-	 * @access public
-	 * @since 5/3/05
-	 * @static
-	 */
-	function &defaultTimeZone () {
-		return TimeZone::offsetNameAbbreviation(
-					Duration::withHours(0),
-					'Greenwich Mean Time',
-					'GMT');
 	}
 	
 	

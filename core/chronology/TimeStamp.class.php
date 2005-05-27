@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.9 2005/05/25 21:42:01 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.10 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -16,6 +16,42 @@ require_once("DateAndTime.class.php");
 
 /**
  * This represents a duration of 0 length that marks a particular point in time.
+ *
+ * To create new TimeStamp instances, <b>use one of the static instance-creation 
+ * methods</b>, NOT 'new TimeStamp':
+ *		- {@link current TimeStamp::current()}
+ *		- {@link current TimeStamp::current()}
+ *		- {@link epoch TimeStamp::epoch()}
+ *		- {@link fromString TimeStamp::fromString($aString)}
+ *		- {@link midnight TimeStamp::midnight()}
+ *		- {@link now TimeStamp::now()}
+ *		- {@link noon TimeStamp::noon()}
+ *		- {@link today TimeStamp::today()}
+ *		- {@link tomorrow TimeStamp::tomorrow()}
+ *		- {@link withDateAndTime TimeStamp::withDateAndTime($aDate, $aTime)}
+ *		- {@link withJulianDayNumber TimeStamp::withJulianDayNumber($aJulianDayNumber)}
+ *		- {@link withYearDay TimeStamp::withYearDay($anIntYear, $anIntDayOfYear)}
+ *		- {@link withYearDayHourMinuteSecond TimeStamp::withYearDayHourMinuteSecond(
+ *						$anIntYear, $anIntDayOfYear, $anIntHour, $anIntMinute, 
+ *						$anIntSecond)}
+ *		- {@link withYearDayHourMinuteSecondOffset 
+ *						TimeStamp::withYearDayHourMinuteSecondOffset($anIntYear, 
+ *						$anIntDayOfYear, $anIntHour, $anIntMinute, $anIntSecond, 
+ *						$aDurationOffset)}
+ *		- {@link withYearMonthDay TimeStamp::withYearMonthDay($anIntYear, 
+ *						$anIntOrStringMonth, $anIntDay)}
+ *		- {@link withYearMonthDayHourMinute TimeStamp::withYearMonthDayHourMinute(
+ *						$anIntYear, $anIntOrStringMonth, $anIntDay, $anIntHour, 
+ *						$anIntMinute)}
+ *		- {@link withYearMonthDayHourMinuteSecond 
+ *						TimeStamp::withYearMonthDayHourMinuteSecond($anIntYear, 
+ *						$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
+ *						$anIntSecond)}
+ *		- {@link withYearMonthDayHourMinuteSecondOffset 
+ *						TimeStamp::withYearMonthDayHourMinuteSecondOffset($anIntYear, 
+ *						$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
+ *						$anIntSecond, &$aDurationOffset)}
+ *		- {@link yesterday TimeStamp::yesterday()}
  * 
  * @since 5/11/05
  * @package harmoni.chronology
@@ -23,7 +59,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.9 2005/05/25 21:42:01 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.10 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -78,15 +114,15 @@ class TimeStamp
 	/**
 	 * Answer a new instance represented by a string:
 	 * 
-	 *	'-1199-01-05T20:33:14.321-05:00' 
-	 *	' 2002-05-16T17:20:45.00000001+01:01' 
-  	 *	' 2002-05-16T17:20:45.00000001' 
- 	 *	' 2002-05-16T17:20' 
-	 *	' 2002-05-16T17:20:45' 
-	 *	' 2002-05-16T17:20:45+01:57' 
- 	 *	' 2002-05-16T17:20:45-02:34' 
- 	 *	' 2002-05-16T17:20:45+00:00' 
-	 *	' 1997-04-26T01:02:03+01:02:3'  
+	 *	- '-1199-01-05T20:33:14.321-05:00' 
+	 *	- ' 2002-05-16T17:20:45.00000001+01:01' 
+  	 *	- ' 2002-05-16T17:20:45.00000001' 
+ 	 *	- ' 2002-05-16T17:20' 
+	 *	- ' 2002-05-16T17:20:45' 
+	 *	- ' 2002-05-16T17:20:45+01:57' 
+ 	 *	- ' 2002-05-16T17:20:45-02:34' 
+ 	 *	- ' 2002-05-16T17:20:45+00:00' 
+	 *	- ' 1997-04-26T01:02:03+01:02:3'  
 	 *
 	 * @param string $aString The input string.
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.

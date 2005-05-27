@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.9 2005/05/24 23:07:13 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.10 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -15,7 +15,18 @@
 require_once("Timespan.class.php");
 
 /**
- * I represent a month.
+ * I am a timespan that represents a month.
+ *
+ * To create new Month instances, <b>use one of the static instance-creation 
+ * methods</b>, NOT 'new Month':
+ *		- {@link current Month::current()}
+ *		- {@link current Month::current()}
+ *		- {@link epoch Month::epoch()}
+ *		- {@link fromString Month::fromString($aString)}
+ *		- {@link starting Month::starting($aDateAndTime)}
+ *		- {@link startingDuration Month::startingDuration($aDateAndTime, $aDuration)}
+ *		- {@link startingEnding Month::startingEnding($startDateAndTime, $endDateAndTime)}
+ *		- {@link withMonthYear Month::withMonthYear($anIntegerOrStringMonth, $anIntYear)}
  * 
  * @since 5/4/05
  * @package harmoni.chronology
@@ -23,7 +34,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.9 2005/05/24 23:07:13 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.10 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

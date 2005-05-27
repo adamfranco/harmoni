@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ANSI58216StringParser.class.php,v 1.1 2005/05/25 19:52:56 adamfranco Exp $
+ * @version $Id: ANSI58216StringParser.class.php,v 1.2 2005/05/27 14:36:06 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -19,19 +19,19 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * This StringParser parses durations formatted as per ANSI 5.8.2.16: [-]D:HH:MM:SS[.S]
  *
  *	Examples:
- * 		'0:00:00:00' 
- *		'0:00:00:00.000000001' 
- *		'0:00:00:00.999999999' 
- *		'0:00:00:00.100000000' 
- *		'0:00:00:00.10' 
- *		'0:00:00:00.1' 
- *		'0:00:00:01' 
- *		'0:12:45:45' 
- *		'1:00:00:00' 
- *		'365:00:00:00' 
- *		'-7:09:12:06.10' 
- *		'+0:01:02' 
- *		'+0:01:02:3' 
+ * 		- '0:00:00:00' 
+ *		- '0:00:00:00.000000001' 
+ *		- '0:00:00:00.999999999' 
+ *		- '0:00:00:00.100000000' 
+ *		- '0:00:00:00.10' 
+ *		- '0:00:00:00.1' 
+ *		- '0:00:00:01' 
+ *		- '0:12:45:45' 
+ *		- '1:00:00:00' 
+ *		- '365:00:00:00' 
+ *		- '-7:09:12:06.10' 
+ *		- '+0:01:02' 
+ *		- '+0:01:02:3' 
  * 
  * @since 5/23/05
  * @package harmoni.chronology.string_parsers
@@ -39,7 +39,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ANSI58216StringParser.class.php,v 1.1 2005/05/25 19:52:56 adamfranco Exp $
+ * @version $Id: ANSI58216StringParser.class.php,v 1.2 2005/05/27 14:36:06 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

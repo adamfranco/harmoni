@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.17 2005/05/26 21:28:25 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.18 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,31 +23,40 @@ require_once("Magnitude.class.php");
  * 		- seconds	- number of seconds since midnight.
  * 		- offset	- duration from UTC.
  *
- * To create new DateAndTime instances, use one of the static instance-creation 
- * methods, NOT 'new':
- *		- DateAndTime::epoch();
- *		- DateAndTime::fromString($aString);
- *		- DateAndTime::midnight();
- *		- DateAndTime::now();
- *		- DateAndTime::noon();
- *		- DateAndTime::today();
- *		- DateAndTime::tomorrow();
- *		- DateAndTime::withDateAndTime($aDate, $aTime);
- *		- DateAndTime::withJulianDayNumber($aJulianDayNumber);
- *		- DateAndTime::withYearDay($anIntYear, $anIntDayOfYear);
- *		- DateAndTime::withYearDayHourMinuteSecond($anIntYear, $anIntDayOfYear, 
- *						$anIntHour, $anIntMinute, $anIntSecond);
- *		- DateAndTime::withYearDayHourMinuteSecondOffset($anIntYear, $anIntDayOfYear, 
- *						$anIntHour, $anIntMinute, $anIntSecond, &$aDurationOffset);
- *		- DateAndTime::withYearMonthDay($anIntYear, $anIntOrStringMonth, $anIntDay);
- *		- DateAndTime::withYearMonthDayHourMinute($anIntYear, $anIntOrStringMonth, 
- *						$anIntDay, $anIntHour, $anIntMinute);
- *		- DateAndTime::withYearMonthDayHourMinuteSecond($anIntYear, $anIntOrStringMonth, 
- *						$anIntDay, $anIntHour, $anIntMinute, $anIntSecond);
- *		- DateAndTime::withYearMonthDayHourMinuteSecondOffset($anIntYear, 
+ * To create new DateAndTime instances, <b>use one of the static instance-creation 
+ * methods</b>, NOT 'new DateAndTime':
+ *		- {@link epoch DateAndTime::epoch()}
+ *		- {@link epoch DateAndTime::epoch()}
+ *		- {@link fromString DateAndTime::fromString($aString)}
+ *		- {@link midnight DateAndTime::midnight()}
+ *		- {@link now DateAndTime::now()}
+ *		- {@link noon DateAndTime::noon()}
+ *		- {@link today DateAndTime::today()}
+ *		- {@link tomorrow DateAndTime::tomorrow()}
+ *		- {@link withDateAndTime DateAndTime::withDateAndTime($aDate, $aTime)}
+ *		- {@link withJulianDayNumber DateAndTime::withJulianDayNumber($aJulianDayNumber)}
+ *		- {@link withYearDay DateAndTime::withYearDay($anIntYear, $anIntDayOfYear)}
+ *		- {@link withYearDayHourMinuteSecond DateAndTime::withYearDayHourMinuteSecond(
+ *						$anIntYear, $anIntDayOfYear, $anIntHour, $anIntMinute, 
+ *						$anIntSecond)}
+ *		- {@link withYearDayHourMinuteSecondOffset 
+ *						DateAndTime::withYearDayHourMinuteSecondOffset($anIntYear, 
+ *						$anIntDayOfYear, $anIntHour, $anIntMinute, $anIntSecond, 
+ *						$aDurationOffset)}
+ *		- {@link withYearMonthDay DateAndTime::withYearMonthDay($anIntYear, 
+ *						$anIntOrStringMonth, $anIntDay)}
+ *		- {@link withYearMonthDayHourMinute DateAndTime::withYearMonthDayHourMinute(
+ *						$anIntYear, $anIntOrStringMonth, $anIntDay, $anIntHour, 
+ *						$anIntMinute)}
+ *		- {@link withYearMonthDayHourMinuteSecond 
+ *						DateAndTime::withYearMonthDayHourMinuteSecond($anIntYear, 
  *						$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
- *						$anIntSecond, &$aDurationOffset);
- *		- DateAndTime::yesterday();
+ *						$anIntSecond)}
+ *		- {@link withYearMonthDayHourMinuteSecondOffset 
+ *						DateAndTime::withYearMonthDayHourMinuteSecondOffset($anIntYear, 
+ *						$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
+ *						$anIntSecond, &$aDurationOffset)}
+ *		- {@link yesterday DateAndTime::yesterday()}
  * 
  * @since 5/2/05
  * @package harmoni.chronology
@@ -55,7 +64,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.17 2005/05/26 21:28:25 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.18 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -168,15 +177,15 @@ class DateAndTime
 	/**
 	 * Answer a new instance represented by a string:
 	 * 
-	 *	'-1199-01-05T20:33:14.321-05:00' 
-	 *	' 2002-05-16T17:20:45.00000001+01:01' 
-  	 *	' 2002-05-16T17:20:45.00000001' 
- 	 *	' 2002-05-16T17:20' 
-	 *	' 2002-05-16T17:20:45' 
-	 *	' 2002-05-16T17:20:45+01:57' 
- 	 *	' 2002-05-16T17:20:45-02:34' 
- 	 *	' 2002-05-16T17:20:45+00:00' 
-	 *	' 1997-04-26T01:02:03+01:02:3'  
+	 *	- '-1199-01-05T20:33:14.321-05:00' 
+	 *	- ' 2002-05-16T17:20:45.00000001+01:01' 
+  	 *	- ' 2002-05-16T17:20:45.00000001' 
+ 	 *	- ' 2002-05-16T17:20' 
+	 *	- ' 2002-05-16T17:20:45' 
+	 *	- ' 2002-05-16T17:20:45+01:57' 
+ 	 *	- ' 2002-05-16T17:20:45-02:34' 
+ 	 *	- ' 2002-05-16T17:20:45+00:00' 
+	 *	- ' 1997-04-26T01:02:03+01:02:3'  
 	 *
 	 * @param string $aString The input string.
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.

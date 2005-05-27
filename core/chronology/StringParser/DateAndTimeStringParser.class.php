@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeStringParser.class.php,v 1.1 2005/05/24 23:09:17 adamfranco Exp $
+ * @version $Id: DateAndTimeStringParser.class.php,v 1.2 2005/05/27 14:36:06 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -18,6 +18,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
 /**
  * DateAndTimeStringParser breaks up strings into a date component and a time
  * component and attempts to match each individually.
+ * The string must contain a valid time component at the end in order to be parsed.
  * 
  * @since 5/24/05
  * @package harmoni.chronology.string_parsers
@@ -25,7 +26,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeStringParser.class.php,v 1.1 2005/05/24 23:09:17 adamfranco Exp $
+ * @version $Id: DateAndTimeStringParser.class.php,v 1.2 2005/05/27 14:36:06 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

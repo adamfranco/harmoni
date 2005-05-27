@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.3 2005/05/25 21:42:17 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.4 2005/05/27 14:36:06 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -21,9 +21,30 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * that each implement a differnt method (strategy) for parsing strings into
  * dates and times.
  *
- * To use StringParsers, use the canHandle($aString) method to find out if it is
+ * To try to parse a string using all (general) StringParsers use the 
+ * {@link getParserFor getParserFor($aString)} method to iterate through the
+ * parsers until one is found that can handle the input:
+ * <code>
+ * 	$parser =& StringParser::getParserFor($aString);
+ *		
+ *	if (!$parser)
+ *		die("'".$aString."' is not in a valid format.");
+ *	
+ * 	$result =& Date::withYearMonthDay($parser->year(), $parser->month(), $parser->day());
+ * </code>
+ *
+ * To use StringParsers individually, use the canHandle($aString) method to find out if it is
  * appropriate to use this parse for a given string. If it is appropriate, create
- * a new StringParser with the given string and access its elements for the results.
+ * a new StringParser with the given string and access its elements for the results:
+ * <code>
+ * 	$parser =& new ANSI58216StringParser($aString);
+ *		
+ *	if (!$parser)
+ *		die("'".$aString."' is not in a valid format.");
+ *	
+ * 	$result =& Duration::withDaysHoursMinutesSeconds($parser->day(), $parser->hour(),
+ *					$parser->minute(), $parser->second());
+ * </code>
  *
  * To create new StringParsers, implement the canHandle() and parse() methods.
  * 
@@ -33,7 +54,7 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.3 2005/05/25 21:42:17 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.4 2005/05/27 14:36:06 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

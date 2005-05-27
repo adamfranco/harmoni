@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schedule.class.php,v 1.1 2005/05/25 21:45:43 adamfranco Exp $
+ * @version $Id: Schedule.class.php,v 1.2 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -16,6 +16,15 @@ require_once("Timespan.class.php");
 
 /**
  * I represent a powerful class for implementing recurring schedules.
+ *
+ * To create new Schedule instances, <b>use one of the static instance-creation 
+ * methods</b>, NOT 'new Schedule':
+ *		- {@link current Schedule::current()}
+ *		- {@link current Schedule::current()}
+ *		- {@link epoch Schedule::epoch()}
+ *		- {@link starting Schedule::starting($aDateAndTime)}
+ *		- {@link startingDuration Schedule::startingDuration($aDateAndTime, $aDuration)}
+ *		- {@link startingEnding Schedule::startingEnding($startDateAndTime, $endDateAndTime)}
  * 
  * @since 5/25/05
  * @package harmoni.chronology
@@ -23,7 +32,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schedule.class.php,v 1.1 2005/05/25 21:45:43 adamfranco Exp $
+ * @version $Id: Schedule.class.php,v 1.2 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

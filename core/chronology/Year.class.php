@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.8 2005/05/25 19:01:44 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.9 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -15,7 +15,17 @@
 require_once("Timespan.class.php");
 
 /**
- * I represent a Year.
+ * I am a Timespan that represents a Year.
+ *
+ * To create new Year instances, <b>use one of the static instance-creation 
+ * methods</b>, NOT 'new Year':
+ *		- {@link current Year::current()}
+ *		- {@link current Year::current()}
+ *		- {@link epoch Year::epoch()}
+ *		- {@link starting Year::starting($aDateAndTime)}
+ *		- {@link startingDuration Year::startingDuration($aDateAndTime, $aDuration)}
+ *		- {@link startingEnding Year::startingEnding($startDateAndTime, $endDateAndTime)}
+ *		- {@link withYear Year::withYear($anInteger)}
  * 
  * @since 5/4/05
  * @package harmoni.chronology
@@ -23,7 +33,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.8 2005/05/25 19:01:44 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.9 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

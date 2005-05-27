@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: KeywordStringParser.class.php,v 1.1 2005/05/24 17:58:21 adamfranco Exp $
+ * @version $Id: KeywordStringParser.class.php,v 1.2 2005/05/27 14:36:06 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -16,7 +16,19 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
 
 
 /**
- * KeywordStringParser matches keywords to common times
+ * KeywordStringParser matches keywords to common times.
+ *
+ * Valid keywords:
+ * <br/>
+ * <br/>Now
+ *	- now
+ * Today
+ *	- today
+ *	- current
+ * Tomorrow
+ *	- tomorrow
+ * Yesterday
+ *	- yesterday
  * 
  * @since 5/24/05
  * @package harmoni.chronology.string_parsers
@@ -24,7 +36,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: KeywordStringParser.class.php,v 1.1 2005/05/24 17:58:21 adamfranco Exp $
+ * @version $Id: KeywordStringParser.class.php,v 1.2 2005/05/27 14:36:06 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

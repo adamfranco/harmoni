@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.4 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.5 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -20,7 +20,7 @@ require_once("SObject.class.php");
  * Subclasses represent dates, times, and numbers.
  *
  * Example for interval-testing (answers a Boolean):
- *	7 between: 5 and: 10 
+ *	$seven->between($five, $ten);
  *
  * No instance-variables.
  * 
@@ -30,7 +30,7 @@ require_once("SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.4 2005/05/20 23:03:19 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.5 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

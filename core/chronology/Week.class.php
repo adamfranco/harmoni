@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.7 2005/05/25 19:01:44 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.8 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -15,7 +15,16 @@
 require_once("Timespan.class.php");
 
 /**
- * I represent a Week.
+ * I am a Timespan that represents a Week.
+ *
+ * To create new Week instances, <b>use one of the static instance-creation 
+ * methods</b>, NOT 'new Week':
+ *		- {@link current Week::current()}
+ *		- {@link current Week::current()}
+ *		- {@link epoch Week::epoch()}
+ *		- {@link starting Week::starting($aDateAndTime)}
+ *		- {@link startingDuration Week::startingDuration($aDateAndTime, $aDuration)}
+ *		- {@link startingEnding Week::startingEnding($startDateAndTime, $endDateAndTime)}
  * 
  * @since 5/4/05
  * @package harmoni.chronology
@@ -23,7 +32,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.7 2005/05/25 19:01:44 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.8 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

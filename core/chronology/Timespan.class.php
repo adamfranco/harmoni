@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.12 2005/05/23 15:38:44 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.13 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -17,14 +17,14 @@ require_once("Magnitude.class.php");
 /**
  * Timespan represents a duration starting at a specific DateAndTime.
  *
- * Due to PHP's lack of decent date/time objects, handling of dates and times in
- * Harmoni here-to-for required swapping between various timestamp and date string 
- * represtations and other simple chronological objects that were never very 
- * universal. 
- * 
- * This package is a PHP implemenation of the Squeak (Smalltalk)
- * Kernel-Chronology package. The original Smalltalk implementation is licensed
- * under the Squeak License {@link http://squeak.org/download/license.html}.
+ * To create new Timespan instances, <b>use one of the static instance-creation 
+ * methods</b>, NOT 'new Timespan':
+ *		- {@link current Timespan::current()}
+ *		- {@link current Timespan::current()}
+ *		- {@link epoch Timespan::epoch()}
+ *		- {@link starting Timespan::starting($aDateAndTime)}
+ *		- {@link startingDuration Timespan::startingDuration($aDateAndTime, $aDuration)}
+ *		- {@link startingEnding Timespan::startingEnding($startDateAndTime, $endDateAndTime)}
  * 
  * @since 5/2/05
  * @package harmoni.chronology
@@ -32,7 +32,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.12 2005/05/23 15:38:44 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.13 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

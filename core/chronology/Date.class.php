@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.7 2005/05/25 19:01:44 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.8 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -18,6 +18,21 @@ require_once("DateAndTime.class.php");
 /**
  * Instances of Date are Timespans with duration of 1 day.
  * Their default creation assumes a start of midnight in the local time zone.
+ *
+ * To create new Date instances, <b>use one of the static instance-creation 
+ * methods</b>, NOT 'new Date':
+ *		- {@link current Date::current()}
+ *		- {@link current Date::current()}
+ *		- {@link epoch Date::epoch()}
+ *		- {@link fromString Date::fromString($aString)}
+ *		- {@link starting Date::starting($aDateAndTime)}
+ *		- {@link startingDuration Date::startingDuration($aDateAndTime, $aDuration)}
+ *		- {@link startingEnding Date::startingEnding($startDateAndTime, $endDateAndTime)}
+ *		- {@link today Date::today()}
+ *		- {@link tomorrow Date::tomorrow()}
+ *		- {@link withJulianDayNumber Date::withJulianDayNumber($aJulianDayNumber)}
+ *		- {@link withYearDay Date::withYearDay($anIntYear, $anIntDayOfYear)}
+ *		- {@link yesterday Date::yesterday()}
  * 
  * @since 5/4/05
  * @package harmoni.chronology
@@ -25,7 +40,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.7 2005/05/25 19:01:44 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.8 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -86,13 +101,14 @@ class Date
 	/**
 	 * Read a Date from the stream in any of the forms:  
 	 *
-	 *		<day> <monthName> <year>		(5 April 1982; 5-APR-82)  
+	 *		- <day> <monthName> <year>		(5 April 1982; 5-APR-82)  
 	 *
-	 *		<monthName> <day> <year>		(April 5, 1982)  
+	 *		- <monthName> <day> <year>		(April 5, 1982)  
 	 *
-	 *		<monthNumber> <day> <year>		(4/5/82) 
-	 *		<day><monthName><year>			(5APR82)
-	 *		<four-digit year><two-digit monthNumber><two-digit day>	(19820405; 1982-04-05)
+	 *		- <monthNumber> <day> <year>		(4/5/82) 
+	 *		- <day><monthName><year>			(5APR82)
+	 *		- <four-digit year><two-digit monthNumber><two-digit day>	
+	 *											(19820405; 1982-04-05)
 	 * 
 	 * @param string $aString
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.

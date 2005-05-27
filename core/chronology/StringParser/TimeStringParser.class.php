@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStringParser.class.php,v 1.1 2005/05/24 23:09:18 adamfranco Exp $
+ * @version $Id: TimeStringParser.class.php,v 1.2 2005/05/27 14:36:06 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -16,12 +16,10 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
 //require_once(dirname(__FILE__)."/RegexStringParser.class.php");
 
 /**
- * This StringParser can handle ISO 8601 dates. {@link http://www.cl.cam.ac.uk/~mgk25/iso-time.html}
- * Examples:
- * 		- 4/5/82
- * 		- 04/05/82
- *		- 04/05/1982
- *		- 4-5-82
+ * This StringParser can handle Times (12-hour or 24-hour) in the form:
+ *		- <hour>:<minute>:<second> <am/pm>
+
+*	<minute>, <second> or <am/pm> may be omitted.  e.g. 1:59:30 pm; 8AM; 15:30
  * 
  * @since 5/24/05
  * @package harmoni.chronology.string_parsers
@@ -29,7 +27,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStringParser.class.php,v 1.1 2005/05/24 23:09:18 adamfranco Exp $
+ * @version $Id: TimeStringParser.class.php,v 1.2 2005/05/27 14:36:06 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

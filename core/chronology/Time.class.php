@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.6 2005/05/25 19:01:44 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.7 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,6 +24,16 @@ require_once("Year.class.php");
  *
  * My implementation uses one SmallIntegers:
  * seconds	- number of seconds since midnight.
+ *
+ * To create new Time instances, <b>use one of the static instance-creation 
+ * methods</b>, NOT 'new Time':
+ *		- {@link fromString Time::fromString($aString)}
+ *		- {@link fromString Time::fromString($aString)}
+ *		- {@link midnight Time::midnight()}
+ *		- {@link noon Time::noon()}
+ *		- {@link withHourMinuteSecond Time::withHourMinuteSecond($anIntHour, $anIntMinute, 
+ *						$anIntSecond)}
+ *		- {@link withSeconds Time::withSeconds($anIntSeconds)}
  * 
  * @since 5/5/05
  * @package harmoni.chronology
@@ -31,7 +41,7 @@ require_once("Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.6 2005/05/25 19:01:44 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.7 2005/05/27 14:35:51 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -53,10 +63,9 @@ class Time
 	
 	/**
 	 * Read a Time from the stream in the forms:
-	 *		<hour24>:<minute>:<second>
-	 *		<hour>:<minute>:<second> <am/pm>
-
-	 *		<minute>, <second> or <am/pm> may be omitted.  e.g. 1:59:30 pm; 8AM; 15:30
+	 *		- <hour24>:<minute>:<second>
+	 *		- <hour>:<minute>:<second> <am/pm>
+	 *		- <minute>, <second> or <am/pm> may be omitted.  e.g. 1:59:30 pm; 8AM; 15:30
 	 * 
 	 * @param string $aString
 	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
