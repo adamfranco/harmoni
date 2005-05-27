@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.10 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.11 2005/05/27 19:01:42 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -59,7 +59,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.10 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.11 2005/05/27 19:01:42 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -136,6 +136,27 @@ class TimeStamp
 	 */
 	function &fromString ( $aString, $class = 'TimeStamp' ) {
 		return parent::fromString( $aString, $class);
+	}
+	
+	/**
+	 * Create a new TimeStamp from a UNIX timestamp.
+	 * 
+	 * @param integer $aUnixTimeStamp The number of seconds since the Unix Epoch 
+	 *		(January 1 1970 00:00:00 GMT/UTC)
+	 * @param optional string $class DO NOT USE OUTSIDE OF PACKAGE.
+	 *		This parameter is used to get around the limitations of not being
+	 *		able to find the class of the object that recieved the initial 
+	 *		method call.
+	 * @return object Timestamp
+	 * @access public
+	 * @since 5/27/05
+	 */
+	function &fromUnixTimeStamp ( $aUnixTimeStamp, $class = 'TimeStamp' ) {
+		$sinceUnixEpoch =& Duration::withSeconds($aUnixTimeStamp);
+		
+		eval('$unixEpoch =& '.$class.'::withYearMonthDayHourMinuteSecondOffset(
+						1970, 1, 1, 0, 0, 0, Duration::zero());');
+		return $unixEpoch->plus($sinceUnixEpoch);
 	}
 	
 	/**
@@ -462,6 +483,21 @@ class TimeStamp
 	 */
 	function &asTimeStamp () {
 		return $this;
+	}
+	
+	/**
+	 * Answer the reciever as a UNIX timestamp - The number of seconds since the 
+	 * Unix Epoch (January 1 1970 00:00:00 GMT/UTC).
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/27/05
+	 */
+	function asUnixTimeStamp () {
+		$sinceUnixEpoch =& $this->minus(TimeStamp::withYearMonthDayHourMinuteSecondOffset(
+						1970, 1, 1, 0, 0, 0, Duration::zero()));
+				
+		return $sinceUnixEpoch->asSeconds();
 	}
 	
 	/**

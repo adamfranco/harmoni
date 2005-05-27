@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.9 2005/05/25 19:03:59 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.10 2005/05/27 19:02:53 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../TimeStamp.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.9 2005/05/25 19:03:59 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.10 2005/05/27 19:02:53 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -137,7 +137,40 @@ class TimeStampTestCase extends UnitTestCase {
 		$this->assertEqual(count($temp), 2);
 	}
 	
-	
+	/**
+	 * Test conversion from Unix timestamps
+	 * 
+	 */
+	function test_from_unix_timestamp () {
+		
+		$timestamp =& TimeStamp::fromUnixTimeStamp(0);
+		$unixEpoch =& TimeStamp::withYearMonthDayHourMinuteSecondOffset(
+						1970, 1, 1, 0, 0, 0, Duration::zero());
+		
+		$this->assertTrue($timestamp->isEqualTo($unixEpoch));
+		$this->assertEqual($timestamp, $unixEpoch);
+		
+		$this->assertEqual($timestamp->year(), 1970);
+		$this->assertEqual($timestamp->month(), 1);
+		$this->assertEqual($timestamp->dayOfMonth(), 1);
+		$this->assertEqual($timestamp->hour(), 0);
+		$this->assertEqual($timestamp->minute(), 0);
+		$this->assertEqual($timestamp->second(), 0);
+		
+		$this->assertEqual($timestamp->asUnixTimeStamp(), 0);
+		
+		$unixTimeStamp = time();
+		$timestamp =& TimeStamp::fromUnixTimeStamp($unixTimeStamp);
+		
+		$this->assertEqual($timestamp->year(), date('Y', $unixTimeStamp));
+		$this->assertEqual($timestamp->month(), date('m', $unixTimeStamp));
+		$this->assertEqual($timestamp->dayOfMonth(), date('j', $unixTimeStamp));
+		$this->assertEqual($timestamp->hour(), 
+			(date('H', $unixTimeStamp) - (date('Z', $unixTimeStamp)/3600)));
+		$this->assertEqual($timestamp->minute(), date('i', $unixTimeStamp));
+		$this->assertEqual($timestamp->second(), date('s', $unixTimeStamp));
+		$this->assertEqual($timestamp->asUnixTimeStamp(), $unixTimeStamp);
+	}
 	
 /*********************************************************
  * Methods from the date and time test case. These should
