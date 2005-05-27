@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.11 2005/05/27 19:01:42 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.12 2005/05/27 20:01:50 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,6 +23,7 @@ require_once("DateAndTime.class.php");
  *		- {@link current TimeStamp::current()}
  *		- {@link epoch TimeStamp::epoch()}
  *		- {@link fromString TimeStamp::fromString($aString)}
+ *		- {@link fromUnixTimeStamp TimeStamp::fromUnixTimeStamp($aUnixTimeStamp)}
  *		- {@link midnight TimeStamp::midnight()}
  *		- {@link now TimeStamp::now()}
  *		- {@link noon TimeStamp::noon()}
@@ -59,7 +60,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.11 2005/05/27 19:01:42 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.12 2005/05/27 20:01:50 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
