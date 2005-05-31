@@ -5,11 +5,13 @@ require_once(HARMONI."utilities/FieldSetValidator/ReferencedFieldSet.class.php")
 require_once(HARMONI."utilities/FieldSetValidator/FieldSet.class.php");
 require_once(HARMONI."languageLocalizer/LanguageLocalizer.class.php");
 require_once(HARMONI."architecture/harmoni/HarmoniConfig.class.php");
-require_once(HARMONI."architecture/harmoni/Context.class.php");
+require_once(HARMONI."architecture/request/RequestContext.class.php");
 require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
 require_once(HARMONI."/architecture/output/BasicOutputHandler.class.php");
 require_once(HARMONI."/architecture/output/BasicOutputHandlerConfigProperties.class.php");
 require_once(OKI2."/osid/OsidContext.php");
+
+$__harmoni = null;
 
 /**
  * The Harmoni class combines the functionality of login, authentication, 
@@ -25,7 +27,7 @@ require_once(OKI2."/osid/OsidContext.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.40 2005/05/31 17:17:24 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.42 2005/05/31 19:12:23 gabeschine Exp $
  **/
 class Harmoni {
 
@@ -45,8 +47,10 @@ class Harmoni {
 	 * @static
 	 */
 	function &instance () {
-		if (!isset($GLOBALS['__harmoni']))
+		if (!defined("HARMONI_INSTANTIATED")) {
 			$GLOBALS['__harmoni'] =& new Harmoni();
+			define("HARMONI_INSTANTIATED", true);
+		}
 		
 		return $GLOBALS['__harmoni'];
 	}
@@ -106,7 +110,7 @@ class Harmoni {
 	function Harmoni() {
 		// Verify that there is only one instance of Harmoni.
 		$backtrace = debug_backtrace();
-		if ($GLOBALS['__harmoni'] 
+		if (false && $GLOBALS['__harmoni'] 
 			|| !(
 				$backtrace[1]['class'] == 'harmoni'
 				&& $backtrace[1]['function'] == 'instance'

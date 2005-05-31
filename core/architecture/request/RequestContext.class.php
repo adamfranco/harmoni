@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.1 2005/05/31 17:17:25 gabeschine Exp $
+ * @version $Id: RequestContext.class.php,v 1.2 2005/05/31 19:11:50 gabeschine Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", ".");
@@ -34,11 +34,6 @@ class RequestContext {
 	var $_requestData;
 	/**
 	 * @access private
-	 * @var object Harmoni $_harmoni
-	 */
-	var $_harmoni;
-	/**
-	 * @access private
 	 * @var object RequestHandler $_requestHandler
 	 */
 	var $_requestHandler;
@@ -48,7 +43,6 @@ class RequestContext {
 	 * @access public
 	 */
 	function RequestContext() {
-		$this->_harmoni =& Harmoni::instance();
 		$this->_namespaces = array(); // normal
 		$this->_contextData = array(); // associative
 		$this->_requestData = array(); // associative
@@ -113,7 +107,8 @@ class RequestContext {
 		if ($module != null && $action != null) {
 			$url->setModuleAction($module, $action);
 		} else {
-			list($module, $action) = split(".",$this->_harmoni->getCurrentAction());
+			$harmoni =& Harmoni::instance();
+			list($module, $action) = split(".",$harmoni->getCurrentAction());
 			$url->setModuleAction($module, $action);
 		}
 		

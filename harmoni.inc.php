@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: harmoni.inc.php,v 1.35 2005/05/26 21:27:47 adamfranco Exp $
+ * @version $Id: harmoni.inc.php,v 1.36 2005/05/31 19:07:35 gabeschine Exp $
  */
 
  /* :: start the output buffer, if it's not already :: */
@@ -41,7 +41,6 @@ define("OKI",dirname(__FILE__).DIRECTORY_SEPARATOR."oki".DIRECTORY_SEPARATOR);
 define("OKI2",dirname(__FILE__).DIRECTORY_SEPARATOR."oki2".DIRECTORY_SEPARATOR);
 //require_once(OKI."inc.php");
 
-
 /*********************************************************
  * if magic quotes on then get rid of them as we assume that
  * they are off.
@@ -60,6 +59,7 @@ if (get_magic_quotes_gpc()) {
 require_once(HARMONIBASE."config/framework.cfg.php");
 $harmoni =& Harmoni::instance();
 
+exit();
 
 /*********************************************************
  * Services
