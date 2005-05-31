@@ -27,7 +27,7 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.42 2005/05/31 19:12:23 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.41 2005/05/31 19:09:25 gabeschine Exp $
  **/
 class Harmoni {
 
@@ -47,6 +47,7 @@ class Harmoni {
 	 * @static
 	 */
 	function &instance () {
+		while(ob_get_level()) ob_end_flush();
 		if (!defined("HARMONI_INSTANTIATED")) {
 			$GLOBALS['__harmoni'] =& new Harmoni();
 			define("HARMONI_INSTANTIATED", true);
