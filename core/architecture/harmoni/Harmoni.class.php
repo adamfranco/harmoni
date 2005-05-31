@@ -25,7 +25,7 @@ require_once(OKI2."/osid/OsidContext.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.39 2005/05/26 21:28:24 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.40 2005/05/31 17:17:24 gabeschine Exp $
  **/
 class Harmoni {
 
@@ -46,7 +46,7 @@ class Harmoni {
 	 */
 	function &instance () {
 		if (!isset($GLOBALS['__harmoni']))
-			$GLOBALS['__harmoni'] =& new Harmoni;
+			$GLOBALS['__harmoni'] =& new Harmoni();
 		
 		return $GLOBALS['__harmoni'];
 	}
@@ -54,19 +54,6 @@ class Harmoni {
 /*********************************************************
  * Instance Variables
  *********************************************************/
-
-	/**
-	 * @access private
-	 * @var string $_actionCallbackFunction The name of a function that gets the current
-	 * action from the user.
-	 **/
-	var $_actionCallbackFunction;
-
-	/**
-	 * @access public
-	 * @var array $_httpVars
-	 **/
-	var $HTTPVars;
 
 	/**
 	 * @access private
@@ -88,6 +75,12 @@ class Harmoni {
 	
 	/**
 	 * @access public
+	 * @var object RequestContext $request
+	 */
+	var $request;
+	
+	/**
+	 * @access public
 	 * @var object $config A {@link HarmoniConfig} {@link DataContainer} for Harmoni-specific options.
 	 **/
 	var $config;
@@ -100,12 +93,6 @@ class Harmoni {
 	var $_postProcessIgnoreList;
 	
 	var $result;
-	
-	/**
-	 * @access public
-	 * @var array $pathInfoParts An array of split PATH_INFO elements.
-	 */
-	var $pathInfoParts;
 
 /*********************************************************
  * Instance Methods
@@ -113,7 +100,6 @@ class Harmoni {
 
 	/**
 	 * The constructor.
-	 * @param optional array A hash table of http variables. Default = $_REQUEST (combination of GET and POST vars).
 	 * @access public
 	 * @return void
 	 **/
@@ -134,23 +120,17 @@ class Harmoni {
 		}
 		
 		
-		$this->HTTPVars =& new ReferencedFieldSet($_REQUEST);
-
 		$this->ActionHandler =& new ActionHandler($this);
 		
 		// set up config options
-		$this->config =& new HarmoniConfig;
+		$this->config =& new HarmoniConfig();
 		
-		// set up the default action callback function
-		$this->setActionCallbackFunction("httpTwoVarsActionCallback");
+		// set up request context / handler
+		$this->request =& new RequestContext();
 		
-		$this->_attachedData =& new ReferencedFieldSet;
+		$this->_attachedData =& new ReferencedFieldSet();
 		$this->_preExecActions = array();
 		$this->_postExecActions = array();
-			
-		// set up pathInfoParts
-		$pathInfo = $_SERVER['PATH_INFO'];
-		$this->pathInfoParts = explode("/",ereg_replace("^/|/$","",$pathInfo));
 		
 		// Set up a default OutputHandler
 		$osidContext =& new OsidContext;
@@ -320,29 +300,8 @@ class Harmoni {
 	* @param string $action
 	* An alias for {@link ActionHandler::forward()}. Purely for convenience.
 	*/
-	function &forward($module, $action) {
+	function forward($module, $action) {
 		$this->ActionHandler->forward($module, $action);
-	}
-	
-	/**
-	 * Sets the callback function to find out what module and action the end-user
-	 * would like to view. The function needs to return a dotted pair ("module.action") string
-	 * specifying which module and action to use. The default is to look for an HTTP
-	 * variable called "module" and one called "action". The function is passed a reference to the
-	 * Harmoni object.
-	 * @param string $functionName The name of the function to call to get
-	 * the module.action string.
-	 * @access public
-	 * @return void
-	 **/
-	function setActionCallbackFunction($functionName) {
-		if (!function_exists($functionName)) {
-			// come on, people! define yer darned functions!
-			throwError(new Error("Harmoni::setActionCallbackFunction($functionName) - Umm, the function '$functionName'
-								isn't defined yet. Try defining it... or something.","Harmoni",true));
-			return false;
-		}
-		$this->_actionCallbackFunction = $functionName;
 	}
 	
 	function _detectCurrentAction() {
@@ -350,8 +309,7 @@ class Harmoni {
 		if ($this->_currentAction) return;
 		
 		// find what action we are trying to execute
-		$callback = $this->_actionCallbackFunction;
-		$pair = $callback($this);
+		$pair = $this->request->getRequestedModuleAction();
 		
 		// now, let's find out what we got handed. could be any of:
 		// 1) module.action <-- great
@@ -386,6 +344,9 @@ class Harmoni {
 	 **/
 	function execute() {
 		$this->config->checkAll();
+		
+		// update the request handler
+		$this->request->update();
 		
 		// detect the current action
 		$this->_detectCurrentAction();
@@ -495,20 +456,5 @@ class Harmoni {
 	}
 
 }
-
-/**
- * This function is an actionCallback function for the {@link Harmoni} class. It returns
- * a "module.action" pair from HTTP GET variables "module" and "action".
- * @access public
- * @param ref object $harmoni The Harmoni object.
- * @package harmoni.architecture
- * @return void
- **/
-function httpTwoVarsActionCallback(&$harmoni) {
-	$module = $harmoni->HTTPVars->get('module');
-	$action = $harmoni->HTTPVars->get('action');
-	return "$module.$action";
-}
-
 
 ?>
