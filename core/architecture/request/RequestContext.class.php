@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.3 2005/06/01 17:58:57 gabeschine Exp $
+ * @version $Id: RequestContext.class.php,v 1.4 2005/06/01 19:32:06 gabeschine Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "_");
@@ -204,8 +204,11 @@ class RequestContext {
 			}
 			return implode("/", array_reverse($n));
 		}
-		if (count($this->_namespaces) == 0) return null;
-		return array_pop($this->_namespaces);
+		$n = count($this->_namespaces);
+		if ($n == 0) return null;
+		if ($this->_namespaces[$n-1] == $name) {
+			return array_pop($this->_namespaces);
+		return null;
 	}
 	
 	/**
