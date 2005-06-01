@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ValidatorRule.interface.php,v 1.4 2005/03/29 18:04:57 adamfranco Exp $
+ * @version $Id: ValidatorRule.interface.php,v 1.5 2005/06/01 17:58:58 gabeschine Exp $
  */ 
 class ValidatorRuleInterface{
 	/**
@@ -40,11 +40,11 @@ class ValidatorRuleInterface{
 		// in each descendent class.
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 
-		if (!is_array($GLOBALS['validator_rules']))
+		if (!isset($GLOBALS['validator_rules']) || !is_array($GLOBALS['validator_rules']))
 			$GLOBALS['validator_rules'] = array();
 		
 		$class = __CLASS__;
-		if (!$GLOBALS['validator_rules'][$class])
+		if (!isset($GLOBALS['validator_rules'][$class]))
 			$GLOBALS['validator_rules'][$class] =& new $class;
 		
 		return $GLOBALS['validator_rules'][$class];

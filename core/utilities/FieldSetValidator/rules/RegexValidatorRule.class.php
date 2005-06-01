@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RegexValidatorRule.class.php,v 1.3 2005/03/29 18:04:57 adamfranco Exp $
+ * @version $Id: RegexValidatorRule.class.php,v 1.4 2005/06/01 17:58:58 gabeschine Exp $
  */
 class RegexValidatorRule
 	extends ValidatorRuleInterface
@@ -59,16 +59,15 @@ class RegexValidatorRule
 	 * @since 3/28/05
 	 */
 	function &getRule ($regex) {
-		if (!is_array($GLOBALS['validator_rules']))
+		if (!isset($GLOBALS['validator_rules']) || !is_array($GLOBALS['validator_rules']))
 			$GLOBALS['validator_rules'] = array();
 		
+
 		$class = __CLASS__;
 		$ruleKey = $class."(".strtolower($regex).")";
 		
-		if (!$GLOBALS['validator_rules'][$ruleKey])
-			$GLOBALS['validator_rules'][$ruleKey] =& new $class($regex);
-		
-		return $GLOBALS['validator_rules'][$ruleKey];
+		if (!isset($GLOBALS['validator_rules'][$class]))
+			$GLOBALS['validator_rules'][$class] =& new $class;
 	}
 	
 	/**

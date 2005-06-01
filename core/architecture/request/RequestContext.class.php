@@ -11,10 +11,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.2 2005/05/31 19:11:50 gabeschine Exp $
+ * @version $Id: RequestContext.class.php,v 1.3 2005/06/01 17:58:57 gabeschine Exp $
  */
 
-define("REQUEST_HANDLER_CONTEXT_DELIMETER", ".");
+define("REQUEST_HANDLER_CONTEXT_DELIMETER", "_");
 
 class RequestContext {
 	/**
@@ -46,7 +46,6 @@ class RequestContext {
 		$this->_namespaces = array(); // normal
 		$this->_contextData = array(); // associative
 		$this->_requestData = array(); // associative
-		$this->_requestHandler = null;
 	}
 	
 	/**
@@ -108,11 +107,15 @@ class RequestContext {
 			$url->setModuleAction($module, $action);
 		} else {
 			$harmoni =& Harmoni::instance();
-			list($module, $action) = split(".",$harmoni->getCurrentAction());
+			list($module, $action) = explode(".",$harmoni->getCurrentAction());
+			if (!$module) list($module, $action) = explode(".",$this->getRequestedModuleAction());
+
 			$url->setModuleAction($module, $action);
 		}
 		
 		$url->setValues($this->_contextData);
+		
+		return $url;
 	}
 	
 	/**
@@ -154,7 +157,9 @@ class RequestContext {
 	/**
 	 * Returns the full contextual name of a field or variable. If passed "test",
 	 * it may return something like "context1.context2.test". This function is useful
-	 * when creating HTML forms.
+	 * when creating HTML forms. If you pass a name like "context1/context2/name",
+	 * the RequestContext uses it as a context-insensitive name (ie, you are specifying
+	 * the absolute namespace). 
 	 * @param string $name
 	 * @return string
 	 * @access public
@@ -172,6 +177,13 @@ class RequestContext {
 	 * @access public
 	 */
 	function startNamespace($name) {
+		if (ereg("/", $name)) {
+			$parts = explode("/", $name);
+			foreach ($parts as $part) {
+				$this->startNamespace($part);
+			}
+			return;
+		}
 		$this->_checkName($name);
 		$this->_namespaces[] = $name;
 	}
@@ -179,30 +191,43 @@ class RequestContext {
 	/**
 	 * Ends a namespace started previously. The last-started namespace is ended.
 	 * @return string The name of the namespace just ended.
+	 * @param string $name The name of the namespace to end
 	 * @access public
 	 */
-	function endNamespace() {
+	function endNamespace($name) {
+		if (ereg("/", $name)) {
+			$parts = array_reverse(explode("/", $name));
+			$n = array();
+			foreach($parts as $part) {
+				$t = $this->endNamespace($part);
+				if ($t) $n[] = $t;
+			}
+			return implode("/", array_reverse($n));
+		}
 		if (count($this->_namespaces) == 0) return null;
 		return array_pop($this->_namespaces);
 	}
 	
 	/**
 	 * Sets $key to $value in the context-data (this data is included automatically
-	 * when building new URLs). 
+	 * when building new URLs). If you pass a name like "context1/context2/name",
+	 * the RequestContext uses it as a context-insensitive name (ie, you are specifying
+	 * the absolute namespace). 
 	 * @param string $key
 	 * @param string $value
 	 * @return void
 	 * @access public
 	 */
 	function set($key, $value) {
-		$this->_checkName($key);
 		$nKey = $this->_mkFullName($key);
 		$this->_contextData[$nKey] = $value;
 	}
 	
 	/**
 	 * Ensures that $key is removed from the context-data (and not included in URLs
-	 * generated later). 
+	 * generated later). If you pass a name like "context1/context2/name",
+	 * the RequestContext uses it as a context-insensitive name (ie, you are specifying
+	 * the absolute namespace). 
 	 * @param string $key the key to forget.
 	 * @return void
 	 * @access public
@@ -216,15 +241,19 @@ class RequestContext {
 	/**
 	 * Copies the value(s) of keys passed from the request-data to the context
 	 * data. This is useful when request variables will be re-used later as contextual
-	 * variables.
-	 * @param string $key1,...
+	 * variables. If you pass a name like "context1/context2/name",
+	 * the RequestContext uses it as a context-insensitive name (ie, you are specifying
+	 * the absolute namespace). If no parameters are passed, all variables in the
+	 * current namespaced are passed through.
+	 * @param optional string $key1,...
 	 * @return void
 	 * @access public
 	 */
 	function passthrough(/* variable-length argument list */) {
 		// copy the request data for each key passed into the context data
 		// (ensures its transfer in the next URL request)
-		$args = func_get_args();
+		if (func_num_args() == 0) $args = $this->getKeys();
+		else $args = func_get_args();
 		foreach ($args as $arg) {
 			$this->_checkName($arg);
 			$nKey = $this->_mkFullName($arg);
@@ -235,7 +264,9 @@ class RequestContext {
 	/**
 	 * Returns the string-value of the $key passsed. It will first check for request
 	 * data under that name, then context data. The key passed will be located
-	 * within the current namespace.
+	 * within the current namespace. If you pass a name like "context1/context2/name",
+	 * the RequestContext uses it as a context-insensitive name (ie, you are specifying
+	 * the absolute namespace). 
 	 * @return string
 	 * @param string $key
 	 * @access public
@@ -250,11 +281,29 @@ class RequestContext {
 	}
 	
 	/**
+	 * Returns a list of keys within the current context.
+	 * @return array
+	 * @access public
+	 */
+	function getKeys() {
+		$pre = implode(REQUEST_HANDLER_CONTEXT_DELIMETER, $this->_namespaces);
+		$array = array();
+		$keys = array_unique(array_merge(array_keys($this->_requestData), array_keys($this->_contextData)));
+		foreach ($keys as $key) {
+			if (ereg("^$pre\.([^.]+)", $key, $r)) {
+				$array .= $r[1];
+			}
+		}
+		
+		return $array;
+	}
+	
+	/**
 	 * @access private
 	 * @return void
 	 */
 	function _checkForHandler() {
-		if ($this->_requestHandler == null) {
+		if (!isset($this->_requestHandler)) {
 			throwError( new Error("RequestContext requires a RequestHandler for proper functionality! Please set one by calling RequestContext::assignRequestHandler()", "RequestContext", true));
 		}
 	}
@@ -264,7 +313,8 @@ class RequestContext {
 	 * @return string
 	 */
 	function _mkFullName($key) {
-		return implode(REQUEST_HANDLER_CONTEXT_DELIMETER, $this->_namespaces) . REQUEST_HANDLER_CONTEXT_DELIMETER . $key;
+		if (ereg("/", $key)) return ereg_replace("/",REQUEST_HANDLER_CONTEXT_DELIMETER,$key);
+		return implode(REQUEST_HANDLER_CONTEXT_DELIMETER, $this->_namespaces) . ((count($this->_namespaces)>0)?REQUEST_HANDLER_CONTEXT_DELIMETER:"") . $key;
 	}
 	
 	/**
@@ -272,10 +322,22 @@ class RequestContext {
 	 * @return void
 	 */
 	function _checkName($name) {
-		if (ereg('\.', $name)) {
-			throwError( new Error("Property keys and namespaces cannot contain \".\"s (periods)!", "RequestHandler", true));
+		if (ereg("\\".REQUEST_HANDLER_CONTEXT_DELIMETER, $name)) {
+			throwError( new Error("Namespaces cannot contain \"".REQUEST_HANDLER_CONTEXT_DELIMETER."\"s!", "RequestHandler", true));
 		}
 	}
+}
+
+/**
+ * A quick shortcut function to get the expanded contextual name for a form
+ * field or request variable. Calls {@link RequestContext::getName()} with the
+ * passed $name.
+ * @package harmoni.architecture.request
+ * @access public
+ */
+function _n($name) {
+	$harmoni =& Harmoni::instance();
+	return $harmoni->request->getName($name);
 }
 
 ?>

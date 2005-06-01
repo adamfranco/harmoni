@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ResourceValidatorRule.class.php,v 1.3 2005/03/29 18:04:57 adamfranco Exp $
+ * @version $Id: ResourceValidatorRule.class.php,v 1.4 2005/06/01 17:58:58 gabeschine Exp $
  */ 
 class ResourceValidatorRule
 	extends ValidatorRuleInterface 
@@ -44,11 +44,11 @@ class ResourceValidatorRule
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.
 
-		if (!is_array($GLOBALS['validator_rules']))
+		if (!isset($GLOBALS['validator_rules']) || !is_array($GLOBALS['validator_rules']))
 			$GLOBALS['validator_rules'] = array();
 		
 		$class = __CLASS__;
-		if (!$GLOBALS['validator_rules'][$class])
+		if (!isset($GLOBALS['validator_rules'][$class]))
 			$GLOBALS['validator_rules'][$class] =& new $class;
 		
 		return $GLOBALS['validator_rules'][$class];

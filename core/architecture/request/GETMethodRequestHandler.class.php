@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.1 2005/05/31 17:17:25 gabeschine Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.2 2005/06/01 17:58:57 gabeschine Exp $
  */ 
  
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."architecture/request/URLWriter.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.1 2005/05/31 17:17:25 gabeschine Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.2 2005/06/01 17:58:57 gabeschine Exp $
  */
 
 class GETMethodRequestHandler extends RequestHandler {
@@ -49,7 +49,7 @@ class GETMethodRequestHandler extends RequestHandler {
 	 * @access public
 	 */
 	function &createURLWriter() {
-		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
+		return new GETMethodURLWriter();
 	}
 	
 	/**
@@ -79,7 +79,7 @@ class GETMethodRequestHandler extends RequestHandler {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.1 2005/05/31 17:17:25 gabeschine Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.2 2005/06/01 17:58:57 gabeschine Exp $
  */
 
 class GETMethodURLWriter extends URLWriter {

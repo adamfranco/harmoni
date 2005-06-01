@@ -6,6 +6,7 @@ require_once(HARMONI."utilities/FieldSetValidator/FieldSet.class.php");
 require_once(HARMONI."languageLocalizer/LanguageLocalizer.class.php");
 require_once(HARMONI."architecture/harmoni/HarmoniConfig.class.php");
 require_once(HARMONI."architecture/request/RequestContext.class.php");
+require_once(HARMONI."architecture/harmoni/BrowseHistoryManager.class.php");
 require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
 require_once(HARMONI."/architecture/output/BasicOutputHandler.class.php");
 require_once(HARMONI."/architecture/output/BasicOutputHandlerConfigProperties.class.php");
@@ -27,7 +28,7 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.41 2005/05/31 19:09:25 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.43 2005/06/01 17:58:19 gabeschine Exp $
  **/
 class Harmoni {
 
@@ -47,7 +48,6 @@ class Harmoni {
 	 * @static
 	 */
 	function &instance () {
-		while(ob_get_level()) ob_end_flush();
 		if (!defined("HARMONI_INSTANTIATED")) {
 			$GLOBALS['__harmoni'] =& new Harmoni();
 			define("HARMONI_INSTANTIATED", true);
@@ -83,6 +83,12 @@ class Harmoni {
 	 * @var object RequestContext $request
 	 */
 	var $request;
+	
+	/**
+	 * @access public
+	 * @var object BrowseHistoryManager $history
+	 */
+	var $history;
 	
 	/**
 	 * @access public
@@ -132,6 +138,9 @@ class Harmoni {
 		
 		// set up request context / handler
 		$this->request =& new RequestContext();
+		
+		// set up the history manager
+		$this->history =& new BrowseHistoryManager();
 		
 		$this->_attachedData =& new ReferencedFieldSet();
 		$this->_preExecActions = array();
@@ -451,7 +460,7 @@ class Harmoni {
 		// let's start the session
 		if (session_id()) return;
 		session_name($this->config->get("sessionName"));
-		if (!$_COOKIE[$this->config->get("sessionName")] && !$_REQUEST[$this->config->get("sessionName")])
+		if (!isset($_COOKIE[$this->config->get("sessionName")]) && !isset($_REQUEST[$this->config->get("sessionName")]))
 			session_id(uniqid(str_replace(".","",$_SERVER['REMOTE_ADDR']))); // make new session id.
 		$path = $this->config->get("sessionCookiePath");
 		if ($path[strlen($path) - 1] != '/') $path .= '/';
