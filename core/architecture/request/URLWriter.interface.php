@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: URLWriter.interface.php,v 1.1 2005/05/31 17:17:25 gabeschine Exp $
+ * @version $Id: URLWriter.interface.php,v 1.2 2005/06/02 18:07:41 gabeschine Exp $
  */
 
 class URLWriter {
@@ -23,31 +23,45 @@ class URLWriter {
 	 * @access public
 	 */
 	function setModuleAction($module, $action) {
-		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
+		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","RequestHandler",true));
 	}
 	
 //	function setContextData($data);
 	
 	/**
+	 * Takes an associative array of name/value pairs and sets the internal data
+	 * to those values. The method is used internally by the {@link RequestContext}
+	 * only and should not be called otherwise.
+	 * @param array $array
+	 * @access public
+	 * @return void
+	 */
+	function batchSetValues($array) {
+		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","RequestHandler",true));	
+	}
+	
+	/**
 	 * Takes an associative array of name/value pairs and sets the internal
 	 * data to those values, replacing any values that already exist.
-	 * @param array $array An associative array.
+	 * @param array $array An associative array. Contacts the {@link RequestContext}
+	 * to find the current context and sets the appropriate value.
 	 * @return void
 	 * @access public
 	 */
 	function setValues($array) {
-		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
+		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","RequestHandler",true));
 	}
 	
 	/**
-	 * Sets a single value in the internal data.
+	 * Sets a single value in the internal data. Contacts the {@link RequestContext}
+	 * to find the current context and sets the appropriate value.
 	 * @param string $key
 	 * @param string $value
 	 * @return void
 	 * @access public
 	 */
 	function setValue($key, $value) {
-		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
+		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","RequestHandler",true));
 	}
 	
 	/** 
@@ -63,7 +77,7 @@ class URLWriter {
 	 * @return string The URL. 
 	 */
 	function write(/* variable-length argument list*/) {
-		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
+		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","RequestHandler",true));
 	}
 	
 }

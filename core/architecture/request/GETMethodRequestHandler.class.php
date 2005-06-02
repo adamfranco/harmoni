@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.2 2005/06/01 17:58:57 gabeschine Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.3 2005/06/02 18:07:40 gabeschine Exp $
  */ 
  
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."architecture/request/URLWriter.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.2 2005/06/01 17:58:57 gabeschine Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.3 2005/06/02 18:07:40 gabeschine Exp $
  */
 
 class GETMethodRequestHandler extends RequestHandler {
@@ -79,7 +79,7 @@ class GETMethodRequestHandler extends RequestHandler {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.2 2005/06/01 17:58:57 gabeschine Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.3 2005/06/02 18:07:40 gabeschine Exp $
  */
 
 class GETMethodURLWriter extends URLWriter {
@@ -107,6 +107,21 @@ class GETMethodURLWriter extends URLWriter {
 	
 //	function setContextData($data);
 	
+	
+	/**
+	 * Takes an associative array of name/value pairs and sets the internal data
+	 * to those values. The method is used internally by the {@link RequestContext}
+	 * only and should not be called otherwise.
+	 * @param array $array
+	 * @access public
+	 * @return void
+	 */
+	function batchSetValues($array) {
+		foreach ($array as $key=>$val) {
+			$this->_vars[$key] = $val;
+		}	
+	}
+
 	/**
 	 * Takes an associative array of name/value pairs and sets the internal
 	 * data to those values, replacing any values that already exist.
@@ -116,7 +131,7 @@ class GETMethodURLWriter extends URLWriter {
 	 */
 	function setValues($array) {
 		foreach ($array as $key=>$val) {
-			$this->_vars[$key] = $val;
+			$this->setValue($key, $val);
 		}
 	}
 	
@@ -128,6 +143,7 @@ class GETMethodURLWriter extends URLWriter {
 	 * @access public
 	 */
 	function setValue($key, $value) {
+		$key = _n($key);
 		$this->_vars[$key] = $value;
 	}
 	
@@ -165,7 +181,7 @@ class GETMethodURLWriter extends URLWriter {
 		$pairs[] = "module=".$this->_module;
 		$pairs[] = "action=".$this->_action;
 		foreach ($this->_vars as $key=>$val) {
-			$pairs[] = urlencode($key) . "=" . urlencode($val);
+			$pairs[] = $key . "=" . urlencode($val);
 		}
 		
 		$url .= "?" . implode("&", $pairs);

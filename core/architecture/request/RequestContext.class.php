@@ -11,10 +11,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.5 2005/06/01 20:17:12 gabeschine Exp $
+ * @version $Id: RequestContext.class.php,v 1.6 2005/06/02 18:07:41 gabeschine Exp $
  */
 
-define("REQUEST_HANDLER_CONTEXT_DELIMETER", "_");
+define("REQUEST_HANDLER_CONTEXT_DELIMETER", "!");
 
 class RequestContext {
 	/**
@@ -22,6 +22,11 @@ class RequestContext {
 	 * @var array $_namespaces
 	 */
 	var $_namespaces;
+	/**
+	 * @access private
+	 * @var string $_currentNamespace
+	 */
+	var $_currentNamespace;
 	/**
 	 * @access private
 	 * @var array $_contextData
@@ -46,6 +51,7 @@ class RequestContext {
 		$this->_namespaces = array(); // normal
 		$this->_contextData = array(); // associative
 		$this->_requestData = array(); // associative
+		$this->_currentNamespace = null;
 	}
 	
 	/**
@@ -113,7 +119,7 @@ class RequestContext {
 			$url->setModuleAction($module, $action);
 		}
 		
-		$url->setValues($this->_contextData);
+		$url->batchSetValues($this->_contextData);
 		
 		return $url;
 	}
@@ -157,9 +163,7 @@ class RequestContext {
 	/**
 	 * Returns the full contextual name of a field or variable. If passed "test",
 	 * it may return something like "context1.context2.test". This function is useful
-	 * when creating HTML forms. If you pass a name like "context1/context2/name",
-	 * the RequestContext uses it as a context-insensitive name (ie, you are specifying
-	 * the absolute namespace). 
+	 * when creating HTML forms. 
 	 * @param string $name
 	 * @return string
 	 * @access public
@@ -177,39 +181,28 @@ class RequestContext {
 	 * @access public
 	 */
 	function startNamespace($name) {
-		if (ereg("/", $name)) {
-			$parts = explode("/", $name);
-			foreach ($parts as $part) {
-				$this->startNamespace($part);
-			}
-			return;
-		}
 		$this->_checkName($name);
-		$this->_namespaces[] = $name;
+		if ($this->_currentNamespace) $this->_namespaces[] = $this->_currentNamespace;
+		$this->_currentNamespace = $name;
 	}
 	
 	/**
 	 * Ends a namespace started previously. The last-started namespace is ended.
 	 * @return string The name of the namespace just ended.
-	 * @param string $name The name of the namespace to end
 	 * @access public
 	 */
-	function endNamespace($name) {
-		if (ereg("/", $name)) {
-			$parts = array_reverse(explode("/", $name));
-			$n = array();
-			foreach($parts as $part) {
-				$t = $this->endNamespace($part);
-				if ($t) $n[] = $t;
-			}
-			return implode("/", array_reverse($n));
-		}
+	function endNamespace() {
+		if ($this->_currentNamespace == null) return;
+		$curr = $this->_currentNamespace;
 		$n = count($this->_namespaces);
-		if ($n == 0) return null;
-		if ($this->_namespaces[$n-1] == $name) {
-			return array_pop($this->_namespaces);
+		if ($n == 0) { 
+			$this->_currentNamespace = null;
+			return $curr;
 		}
-		return null;
+		
+		$this->_currentNamespace = array_pop($this->_namespaces);
+		
+		return $curr;
 	}
 	
 	/**
@@ -223,6 +216,7 @@ class RequestContext {
 	 * @access public
 	 */
 	function set($key, $value) {
+		$this->_checkName($key);
 		$nKey = $this->_mkFullName($key);
 		$this->_contextData[$nKey] = $value;
 	}
@@ -290,12 +284,12 @@ class RequestContext {
 	 * @access public
 	 */
 	function getKeys() {
-		$pre = implode(REQUEST_HANDLER_CONTEXT_DELIMETER, $this->_namespaces);
+		$pre = $this->_currentNamespace;
 		$array = array();
 		$keys = array_unique(array_merge(array_keys($this->_requestData), array_keys($this->_contextData)));
 		foreach ($keys as $key) {
-			if (ereg("^$pre\.([^.]+)", $key, $r)) {
-				$array .= $r[1];
+			if (ereg("^$pre\\".REQUEST_HANDLER_CONTEXT_DELIMETER."([^".REQUEST_HANDLER_CONTEXT_DELIMETER."]+)", $key, $r)) {
+				$array[] = $r[1];
 			}
 		}
 		
@@ -317,8 +311,8 @@ class RequestContext {
 	 * @return string
 	 */
 	function _mkFullName($key) {
-		if (ereg("/", $key)) return ereg_replace("/",REQUEST_HANDLER_CONTEXT_DELIMETER,$key);
-		return implode(REQUEST_HANDLER_CONTEXT_DELIMETER, $this->_namespaces) . ((count($this->_namespaces)>0)?REQUEST_HANDLER_CONTEXT_DELIMETER:"") . $key;
+		$pre = $this->_currentNamespace==null?"":$this->_currentNamespace.REQUEST_HANDLER_CONTEXT_DELIMETER;
+		return $pre.$key;
 	}
 	
 	/**
@@ -327,7 +321,7 @@ class RequestContext {
 	 */
 	function _checkName($name) {
 		if (ereg("\\".REQUEST_HANDLER_CONTEXT_DELIMETER, $name)) {
-			throwError( new Error("Namespaces cannot contain \"".REQUEST_HANDLER_CONTEXT_DELIMETER."\"s!", "RequestHandler", true));
+			throwError( new Error("Namespaces and field names cannot contain \"".REQUEST_HANDLER_CONTEXT_DELIMETER."\"s!", "RequestHandler", true));
 		}
 	}
 }
