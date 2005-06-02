@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.class.php,v 1.16 2005/04/12 19:55:50 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.17 2005/06/02 20:40:22 adamfranco Exp $
  */
 class LanguageLocalizer {
 	/**
@@ -354,6 +354,20 @@ if (!function_exists("gettext")) {
 	 *
 	 */
 	function gettext ( $string ) {
+		return $string;
+	}
+	
+	/**
+	 * Does nothing. Here to emulate untranslated language support for
+	 * systems on which gettext isn't availible
+	 * 
+	 * @param string $string
+	 * @return string
+	 * @access public
+	 * @since 11/16/04
+	 *
+	 */
+	function textdomain ( $string ) {
 		return $string;
 	}
 	
