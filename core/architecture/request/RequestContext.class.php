@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.6 2005/06/02 18:07:41 gabeschine Exp $
+ * @version $Id: RequestContext.class.php,v 1.7 2005/06/02 20:10:36 gabeschine Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "!");
@@ -336,6 +336,17 @@ class RequestContext {
 function _n($name) {
 	$harmoni =& Harmoni::instance();
 	return $harmoni->request->getName($name);
+}
+
+/**
+ * A quick shortcut function to get the value of the variable in the current context. Calls {@link RequestContext::get()} with the
+ * passed $name.
+ * @package harmoni.architecture.request
+ * @access public
+ */
+function _v($name) {
+	$harmoni =& Harmoni::instance();
+	return $harmoni->request->get($name);
 }
 
 ?>
