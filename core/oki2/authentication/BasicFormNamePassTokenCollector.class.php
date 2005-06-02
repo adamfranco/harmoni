@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicFormNamePassTokenCollector.class.php,v 1.1 2005/03/23 21:26:37 adamfranco Exp $
+ * @version $Id: BasicFormNamePassTokenCollector.class.php,v 1.2 2005/06/02 20:18:49 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/NamePassTokenCollector.abstract.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/NamePassTokenCollector.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicFormNamePassTokenCollector.class.php,v 1.1 2005/03/23 21:26:37 adamfranco Exp $
+ * @version $Id: BasicFormNamePassTokenCollector.class.php,v 1.2 2005/06/02 20:18:49 adamfranco Exp $
  */
 class BasicFormNamePassTokenCollector
 	extends NamePassTokenCollector
@@ -33,18 +33,25 @@ class BasicFormNamePassTokenCollector
 	 * @since 3/16/05
 	 */
 	function prompt () {
+		$harmoni =& Harmoni::instance();
+		$harmoni->request->startNamespace("harmoni-authentication");
+		
 		$action = $_SERVER['PHP_SELF'];
+		$usernameField = $harmoni->request->getName("username");
+		$passwordField = $harmoni->request->getName("password");
 		$usernameText = _("Username");
 		$passwordText = _("Password");
+		
 		print<<<END
 
 <form name='login' action='$action' method='post'>
-	$usernameText: <input type='text' name='username' />
-	<br />$passwordText: <input type='password' name='password' />
+	$usernameText: <input type='text' name='$usernameField' />
+	<br />$passwordText: <input type='password' name='$passwordField' />
 	<br /><input type='submit' />
 </form>
 
 END;
+		$harmoni->request->endNamespace();
 		exit;
 	}
 	
@@ -57,7 +64,11 @@ END;
 	 * @since 3/16/05
 	 */
 	function collectName () {
-		return $_REQUEST['username'];
+		$harmoni =& Harmoni::instance();
+		$harmoni->request->startNamespace("harmoni-authentication");
+		$username = $harmoni->request->get("username");
+		$harmoni->request->endNamespace();
+		return $username;
 	}
 	
 	/**
@@ -69,7 +80,11 @@ END;
 	 * @since 3/16/05
 	 */
 	function collectPassword () {
-		return $_REQUEST['password'];
+		$harmoni =& Harmoni::instance();
+		$harmoni->request->startNamespace("harmoni-authentication");
+		$password = $harmoni->request->get("password");
+		$harmoni->request->endNamespace();
+		return $password;
 	}
 }
 
