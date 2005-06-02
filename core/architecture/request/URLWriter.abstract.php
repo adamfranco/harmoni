@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: URLWriter.abstract.php,v 1.1 2005/06/02 18:42:25 adamfranco Exp $
+ * @version $Id: URLWriter.abstract.php,v 1.2 2005/06/02 21:31:45 adamfranco Exp $
  */
 
 class URLWriter {
@@ -72,7 +72,7 @@ class URLWriter {
 	 * @access public
 	 */
 	function setValue($key, $value) {
-		$key = _n($key);
+		$key = RequestContext::name($key);
 		$this->_vars[$key] = $value;
 	}
 	

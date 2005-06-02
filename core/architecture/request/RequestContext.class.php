@@ -11,12 +11,59 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.8 2005/06/02 20:19:47 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.9 2005/06/02 21:31:45 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "!");
 
 class RequestContext {
+
+/*********************************************************
+ * Class Methods
+ *********************************************************/
+
+	/**
+	 * A quick shortcut function to get the expanded contextual name for a form
+	 * field or request variable. Calls {@link RequestContext::getName()} with the
+	 * passed $name.
+	 *
+ 	 * Returns the full contextual name of a field or variable. If passed "test",
+	 * it may return something like "context1.context2.test". This function is useful
+	 * when creating HTML forms. 
+	 *
+	 * @param string $name
+	 * @return string
+	 * @access public
+	 */
+	function name($name) {
+		$harmoni =& Harmoni::instance();
+		return $harmoni->request->getName($name);
+	}
+	
+	/**
+	 * A quick shortcut function to get the value of the variable in the current context.
+	 * Calls {@link RequestContext::get()} with the passed $key.
+	 *
+	 * Returns the string-value of the $key passsed. It will first check for request
+	 * data under that name, then context data. The key passed will be located
+	 * within the current namespace. If you pass a name like "context1/context2/name",
+	 * the RequestContext uses it as a context-insensitive name (ie, you are specifying
+	 * the absolute namespace). 
+	 *
+	 * @return string
+	 * @param string $key
+	 * @access public
+	 */
+	function value($key) {
+		$harmoni =& Harmoni::instance();
+		return $harmoni->request->get($name);
+	}
+	
+
+/*********************************************************
+ * Instance Vars
+ *********************************************************/
+ 
 	/**
 	 * @access private
 	 * @var array $_namespaces
@@ -42,6 +89,11 @@ class RequestContext {
 	 * @var object RequestHandler $_requestHandler
 	 */
 	var $_requestHandler;
+	
+	
+/*********************************************************
+ * Instance Methods
+ *********************************************************/
 	
 	/**
 	 * Constructor.
@@ -326,29 +378,6 @@ class RequestContext {
 			throwError( new Error("Namespaces and field names cannot contain \"".REQUEST_HANDLER_CONTEXT_DELIMETER."\"s!", "RequestHandler", true));
 		}
 	}
-}
-
-/**
- * A quick shortcut function to get the expanded contextual name for a form
- * field or request variable. Calls {@link RequestContext::getName()} with the
- * passed $name.
- * @package harmoni.architecture.request
- * @access public
- */
-function _n($name) {
-	$harmoni =& Harmoni::instance();
-	return $harmoni->request->getName($name);
-}
-
-/**
- * A quick shortcut function to get the value of the variable in the current context. Calls {@link RequestContext::get()} with the
- * passed $name.
- * @package harmoni.architecture.request
- * @access public
- */
-function _v($name) {
-	$harmoni =& Harmoni::instance();
-	return $harmoni->request->get($name);
 }
 
 ?>
