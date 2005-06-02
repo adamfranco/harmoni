@@ -6,11 +6,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.3 2005/06/02 18:07:40 gabeschine Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.4 2005/06/02 18:42:25 adamfranco Exp $
  */ 
  
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
-require_once(HARMONI."architecture/request/URLWriter.interface.php");
+require_once(HARMONI."architecture/request/URLWriter.abstract.php");
 
 /**
  * The job of a RequestHandler is twofold:
@@ -25,7 +25,7 @@ require_once(HARMONI."architecture/request/URLWriter.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.3 2005/06/02 18:07:40 gabeschine Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.4 2005/06/02 18:42:25 adamfranco Exp $
  */
 
 class GETMethodRequestHandler extends RequestHandler {
@@ -79,74 +79,12 @@ class GETMethodRequestHandler extends RequestHandler {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.3 2005/06/02 18:07:40 gabeschine Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.4 2005/06/02 18:42:25 adamfranco Exp $
  */
 
-class GETMethodURLWriter extends URLWriter {
-
-	var $_module;
-	var $_action;
-	var $_vars;
-	
-	function GETMethodURLWriter() {
-		$this->_vars = array();
-		$this->_module = $this->_action = "";
-	}
-
-	/**
-	 * Sets the module and action to request in this URL.
-	 * @param string $module
-	 * @param string $action
-	 * @return void
-	 * @access public
-	 */
-	function setModuleAction($module, $action) {
-		$this->_module = $module;
-		$this->_action = $action;
-	}
-	
-//	function setContextData($data);
-	
-	
-	/**
-	 * Takes an associative array of name/value pairs and sets the internal data
-	 * to those values. The method is used internally by the {@link RequestContext}
-	 * only and should not be called otherwise.
-	 * @param array $array
-	 * @access public
-	 * @return void
-	 */
-	function batchSetValues($array) {
-		foreach ($array as $key=>$val) {
-			$this->_vars[$key] = $val;
-		}	
-	}
-
-	/**
-	 * Takes an associative array of name/value pairs and sets the internal
-	 * data to those values, replacing any values that already exist.
-	 * @param array $array An associative array.
-	 * @return void
-	 * @access public
-	 */
-	function setValues($array) {
-		foreach ($array as $key=>$val) {
-			$this->setValue($key, $val);
-		}
-	}
-	
-	/**
-	 * Sets a single value in the internal data.
-	 * @param string $key
-	 * @param string $value
-	 * @return void
-	 * @access public
-	 */
-	function setValue($key, $value) {
-		$key = _n($key);
-		$this->_vars[$key] = $value;
-	}
-	
+class GETMethodURLWriter 
+	extends URLWriter 
+{
 	/** 
 	 * The following function has many forms, and due to PHP's lack of
 	 * method overloading they are all contained within the same class
