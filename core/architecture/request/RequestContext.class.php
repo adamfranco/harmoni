@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.7 2005/06/02 20:10:36 gabeschine Exp $
+ * @version $Id: RequestContext.class.php,v 1.8 2005/06/02 20:19:47 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "!");
@@ -311,8 +311,10 @@ class RequestContext {
 	 * @return string
 	 */
 	function _mkFullName($key) {
-		$pre = $this->_currentNamespace==null?"":$this->_currentNamespace.REQUEST_HANDLER_CONTEXT_DELIMETER;
-		return $pre.$key;
+		if ($this->_currentNamespace == null) 	
+			return $key;
+		else
+			return $this->_currentNamespace.REQUEST_HANDLER_CONTEXT_DELIMETER.$key;
 	}
 	
 	/**

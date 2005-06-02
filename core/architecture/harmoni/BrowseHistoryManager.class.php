@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BrowseHistoryManager.class.php,v 1.1 2005/06/01 17:58:19 gabeschine Exp $
+ * @version $Id: BrowseHistoryManager.class.php,v 1.2 2005/06/02 20:20:31 adamfranco Exp $
  **/
 
 class BrowseHistoryManager {
@@ -35,8 +35,10 @@ class BrowseHistoryManager {
 		if ($arg == null) {
 			$harmoni =& Harmoni::instance();
 			$url = $harmoni->request->quickURL();
-		} else if (is_string($arg)) $url = $arg;
-		else if (is_object($arg)) $url = $arg->write(); // a URLWriter object
+		} else if (is_string($arg))
+			$url = $arg;
+		else if (is_object($arg)) 
+			$url = $arg->write(); // a URLWriter object
 		
 		
 		$_SESSION['__returnURL'][$operation] = $url;
