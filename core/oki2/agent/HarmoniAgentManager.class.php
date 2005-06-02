@@ -47,7 +47,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.22 2005/05/19 17:25:48 thebravecowboy Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.23 2005/06/02 21:12:32 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -160,17 +160,20 @@ class HarmoniAgentManager
 		
 		$dbIndex =& $configuration->getProperty('database_index');
 		$dbName =& $configuration->getProperty('database_name');
-		
-		//assigns the intitial flavor of agent.  This is set with the configuration 
-		$this->_agentFlavor =& $configuration->getProperty('defaultAgentFlavor');
+		$agentFlavor =& $configuration->getProperty('defaultAgentFlavor');
 		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		ArgumentValidator::validate($dbName, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($agentFlavor, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
 		$this->_sharedDB = $dbName;
+		$this->_agentFlavor = $agentFlavor;
+		
+		//assigns the intitial flavor of agent.  This is set with the configuration 
+		$this->_agentFlavor =& $agentFlavor;
 		
 		// initialize our anonymous agent and everyone group.
 		$this->_anonymous =& new AnonymousAgent($this->_dbIndex, $this->_sharedDB);
