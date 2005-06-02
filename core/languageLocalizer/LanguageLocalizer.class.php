@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.class.php,v 1.18 2005/06/02 20:50:58 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.19 2005/06/02 21:00:30 adamfranco Exp $
  */
 class LanguageLocalizer {
 	/**
@@ -372,7 +372,7 @@ if (!function_exists("gettext")) {
 			$_SESSION['__fake_text_domain'] = $string;
 		}
 		
-		if (isset($_SESSION['__fake_text_domain'])
+		if (isset($_SESSION['__fake_text_domain']))
 			return $_SESSION['__fake_text_domain'];
 		else
 			return "en_US";
