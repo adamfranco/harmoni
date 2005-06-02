@@ -11,7 +11,7 @@ require_once(OKI2."/osid/shared/Type.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniType.class.php,v 1.9 2005/06/01 18:48:46 adamfranco Exp $
+ * @version $Id: HarmoniType.class.php,v 1.10 2005/06/02 19:25:32 adamfranco Exp $
  */
 
 class HarmoniType
@@ -43,10 +43,10 @@ class HarmoniType
 	 * @since 6/1/05
 	 * @static
 	 */
-	function &stringToType($aString, $glue="::") {
-		ArgumentValidator::validate($string, StringValidatorRule::getRule());
+	function &stringToType($aString, $glue = "::") {
+		ArgumentValidator::validate($aString, StringValidatorRule::getRule());
 		
-		$parts = explode($glue, $string);
+		$parts = explode($glue, $aString);
 		
 		return new Type($parts[0], $parts[1], $parts[2]);
 	}
