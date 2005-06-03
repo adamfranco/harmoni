@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.9 2005/06/02 21:31:45 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.10 2005/06/03 21:02:08 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "!");
@@ -25,19 +25,19 @@ class RequestContext {
 	/**
 	 * A quick shortcut function to get the expanded contextual name for a form
 	 * field or request variable. Calls {@link RequestContext::getName()} with the
-	 * passed $name.
+	 * passed $key.
 	 *
  	 * Returns the full contextual name of a field or variable. If passed "test",
 	 * it may return something like "context1.context2.test". This function is useful
 	 * when creating HTML forms. 
 	 *
-	 * @param string $name
+	 * @param string $key
 	 * @return string
 	 * @access public
 	 */
-	function name($name) {
+	function name($key) {
 		$harmoni =& Harmoni::instance();
-		return $harmoni->request->getName($name);
+		return $harmoni->request->getName($key);
 	}
 	
 	/**
@@ -56,7 +56,7 @@ class RequestContext {
 	 */
 	function value($key) {
 		$harmoni =& Harmoni::instance();
-		return $harmoni->request->get($name);
+		return $harmoni->request->get($key);
 	}
 	
 
