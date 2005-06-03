@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaField.class.php,v 1.11 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: SchemaField.class.php,v 1.12 2005/06/03 13:40:16 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaField {
@@ -81,7 +81,7 @@ class SchemaField {
 		// first check if we're already attached to a Schema.
 		// if so, we're gonna dump
 		if ($this->_associated) {
-			throwError( new Error( "I'm (label '".$this->_label."') already associated with Schema type '".OKITypeToString($this->_schema->getType())."'. You shouldn't be trying to add me to multiple Schemas. Bad form.","DataManager",true));
+			throwError( new Error( "I'm (label '".$this->_label."') already associated with Schema type '".HarmoniType::typeToString($this->_schema->getType())."'. You shouldn't be trying to add me to multiple Schemas. Bad form.","DataManager",true));
 			return false;
 		}
 		
@@ -174,7 +174,7 @@ class SchemaField {
 			// synchronized into the database.
 			throwError( new Error("Could not commit() to database because either: 1) we don't have a local ID, 
 			meaning we were not meant to be synchronized with the database, or 2) the Schema to which we 
-			belong is not linked with the database. (label: ".$this->_label.", schema type: ".OKITypeToString($this->_schema->getType()).")",
+			belong is not linked with the database. (label: ".$this->_label.", schema type: ".HarmoniType::typeToString($this->_schema->getType()).")",
 			"DataManager",true));
 			return null;
 		}

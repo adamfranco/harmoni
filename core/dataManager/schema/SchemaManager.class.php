@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.19 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.20 2005/06/03 13:40:16 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
@@ -82,7 +82,7 @@ class SchemaManager {
 			
 			$this->_typeIDs[$this->_mkHash($type)] = $a['id'];
 			
-			debug::output("Found type ID ".$a['id']." of type '".OKITypeToString($type)."', revision ".$a['revision'],DEBUG_SYS2,"DataManager");
+			debug::output("Found type ID ".$a['id']." of type '".HarmoniType::typeToString($type)."', revision ".$a['revision'],DEBUG_SYS2,"DataManager");
 			unset($type);
 		}
 		
@@ -218,12 +218,12 @@ class SchemaManager {
 	 * @access private
 	 */
 	function &_addSchema(&$type, $revision) {
-		debug::output("Adding Schema type '".OKITypeToString($type)."' to database.",DEBUG_SYS1,"DataManager");
+		debug::output("Adding Schema type '".HarmoniType::typeToString($type)."' to database.",DEBUG_SYS1,"DataManager");
 		if ($id = $this->getIDByType($type)) {
 			throwError( new Error(
 				"A Schema for this Type already exists, so the existing one has been returned.",
 				"DataManager",false));
-			debug::output("Returning existing Schema for '".OKITypeToString($type)."'",DEBUG_SYS5, "DataManager");
+			debug::output("Returning existing Schema for '".HarmoniType::typeToString($type)."'",DEBUG_SYS5, "DataManager");
 			return $this->_schemas[$id];
 		}
 		
@@ -255,7 +255,7 @@ class SchemaManager {
 		$this->_schemas[$newID->getIdString()] =& $newSchema;
 		$this->_types[$newID->getIdString()] =& $type;
 		$this->_typeIDs[$this->_mkHash($type)] = $newID->getIdString();
-		debug::output("Created new Schema object for '".OKITypeToString($type)."', revision $revision.",DEBUG_SYS5,"DataManager");
+		debug::output("Created new Schema object for '".HarmoniType::typeToString($type)."', revision $revision.",DEBUG_SYS5,"DataManager");
 		return $newSchema;
 	}
 	
@@ -278,7 +278,7 @@ class SchemaManager {
 	function &getSchemaByType(&$type) {
 		if (!($id = $this->getIDByType($type))) {
 			throwError( new Error(
-				"No Schema exists for type '".OKITypeToString($type)."'.",
+				"No Schema exists for type '".HarmoniType::typeToString($type)."'.",
 				"DataManager",true));
 			return false;
 		}
@@ -341,7 +341,7 @@ class SchemaManager {
 		
 		$type =& $new->getType();
 		
-		debug::output("Attempting to synchronize Schema type '".OKITypeToString($type)."' with
+		debug::output("Attempting to synchronize Schema type '".HarmoniType::typeToString($type)."' with
 		the database.",DEBUG_SYS1,"DataManager");
 		
 		// check if we already have a definition for this type. if we don't, add a new one.
@@ -427,7 +427,7 @@ class SchemaManager {
 			if ($newType != $oldType) {
 				// go PSYCHO!!!!
 				throwError( new Error(
-					"While synchronizing Schema '".OKITypeToString($this->_type)."', it appears that the
+					"While synchronizing Schema '".HarmoniType::typeToString($this->_type)."', it appears that the
 					field type for label '$label' is different from what we have stored. It is not possible
 					to synchronize without potential data loss. Aborting.","DataManager",true));
 				return false;

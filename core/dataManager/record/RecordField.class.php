@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordField.class.php,v 1.11 2005/01/28 19:34:33 adamfranco Exp $
+ * @version $Id: RecordField.class.php,v 1.12 2005/06/03 13:40:15 adamfranco Exp $
  **/
 class RecordField {
 	
@@ -192,7 +192,7 @@ class RecordField {
 			$label = $this->_myLabel;
 			throwError ( new Error(
 			"Field label '$label' can not add a new value because it does not allow multiple
-				values. In Schema ".OKITypeToString($this->_parent->_schema->getType()).".",
+				values. In Schema ".HarmoniType::typeToString($this->_parent->_schema->getType()).".",
 			"Record",true));
 			return false;
 		}

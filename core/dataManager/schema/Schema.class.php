@@ -13,7 +13,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schema.class.php,v 1.12 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: Schema.class.php,v 1.13 2005/06/03 13:40:15 adamfranco Exp $
  * @author Gabe Schine
  */
 class Schema {
@@ -111,7 +111,7 @@ class Schema {
 		
 		// if we already have a field labeled $label we die
 		if (isset($this->_fields[$label]))
-			throwError( new Error("Already have a field with label '$label' defined in Schema '".OKITypeToString($this->_type)."'. If you feel this is in error, remember that previously deleted SchemaFields retain their label so as to avoid data fragmentation.","DataManager",true));
+			throwError( new Error("Already have a field with label '$label' defined in Schema '".HarmoniType::typeToString($this->_type)."'. If you feel this is in error, remember that previously deleted SchemaFields retain their label so as to avoid data fragmentation.","DataManager",true));
 		
 		// associate this field definition with this Schema
 		$field->associate($this);
@@ -138,7 +138,7 @@ class Schema {
 	function load() {
 		// load our fields from the database
 		if ($this->loaded()) {
-//			throwError( new Error("Already loaded from the database for type ".OKITypeToString($this->_type).".","DataSetTypeDefinition",true));
+//			throwError( new Error("Already loaded from the database for type ".HarmoniType::typeToString($this->_type).".","DataSetTypeDefinition",true));
 			return true;
 		}
 
@@ -147,12 +147,12 @@ class Schema {
 			$schemaManager =& Services::getService("SchemaManager");
 			$id = $schemaManager->getIDByType($this->getType());
 		} else {
-			throwError( new Error("The Schema object of type '".OKITypeToString($this->_type)."'
+			throwError( new Error("The Schema object of type '".HarmoniType::typeToString($this->_type)."'
 				was not meant to interface with the database.","DataManager",true));
 			return false;
 		}
 		if (!$id) {
-			throwError( new Error("The Schema object of type '".OKITypeToString($this->getType())."' cannot be loaded because it does not have an associated database ID!","DataManager",true));
+			throwError( new Error("The Schema object of type '".HarmoniType::typeToString($this->getType())."' cannot be loaded because it does not have an associated database ID!","DataManager",true));
 		}
 
 		$query =& new SelectQuery;
@@ -250,7 +250,7 @@ class Schema {
 	*/
 	function &getField($label) {
 		if (!isset($this->_fields[$label])) {
-			throwError(new Error("I don't have a field labeled '$label'. I'm of type '".OKITypeToString($this->_type)."'.","DataManager",true));
+			throwError(new Error("I don't have a field labeled '$label'. I'm of type '".HarmoniType::typeToString($this->_type)."'.","DataManager",true));
 			return false;
 		}
 		

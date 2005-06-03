@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.21 2005/04/26 22:23:08 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.22 2005/06/03 13:40:15 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -511,7 +511,7 @@ class RecordManager {
 	function &createRecord( &$type, $verControl = false ) {
 		$schemaManager =& Services::getService("SchemaManager");
 		if (!$schemaManager->schemaExists($type)) {
-			throwError ( new Error("could not create new Record of type ".OKITypeToString($type).
+			throwError ( new Error("could not create new Record of type ".HarmoniType::typeToString($type).
 			" because the requested type does not seem to be registered
 			with the SchemaManager.","RecordManager",true));
 		}
@@ -520,7 +520,7 @@ class RecordManager {
 		$schema =& $schemaManager->getSchemaByType($type);
 		// load from the DB
 		$schema->load();
-		debug::output("Creating new Record of type '".OKITypeToString($type)."', which allows fields: ".implode(", ",$schema->getAllLabels()),DEBUG_SYS4,"DataManager");
+		debug::output("Creating new Record of type '".HarmoniType::typeToString($type)."', which allows fields: ".implode(", ",$schema->getAllLabels()),DEBUG_SYS4,"DataManager");
 		$newRecord =& new Record($schema, $verControl);
 		$newRecord->setFetchMode(RECORD_FULL);
 		return $newRecord;

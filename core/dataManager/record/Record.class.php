@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.23 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.24 2005/06/03 13:40:15 adamfranco Exp $
 */
 class Record {
 	
@@ -123,7 +123,7 @@ class Record {
 	
 	function _checkLabel($label) {
 		if (!$this->_schema->fieldExists($label)) {
-			throwError(new FieldNotFoundError($label,OKITypeToString($this->_schema->getType())));
+			throwError(new FieldNotFoundError($label,HarmoniType::typeToString($this->_schema->getType())));
 			return false;
 		}
 		return true;
