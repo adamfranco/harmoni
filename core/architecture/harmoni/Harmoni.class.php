@@ -28,7 +28,7 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.43 2005/06/01 17:58:19 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.44 2005/06/03 14:44:25 adamfranco Exp $
  **/
 class Harmoni {
 
@@ -383,19 +383,17 @@ class Harmoni {
 		// That's it! program finished!
 
 		ob_start();
-		$result =& $this->ActionHandler->execute($module, $action);
-		$printedContents = ob_get_contents();
+		$this->result =& $this->ActionHandler->execute($module, $action);
+		$this->printedResult = ob_get_contents();
 		ob_end_clean();
 
 		$lastExecutedAction = $this->ActionHandler->lastExecutedAction();
 
-		$this->result =& $result;
-
 		// if we have a post-process action, let's try executing it.
-		if (isset($this->_postProcessAction) && !$this->_isActionInArray($lastExecutedAction, $this->_postProcessIgnoreList)) {
-			$newResult =& $this->ActionHandler->executePair($this->_postProcessAction);
-			$this->result =& $newResult;
-			$result =& $newResult;
+		if (isset($this->_postProcessAction) && 
+			!$this->_isActionInArray($lastExecutedAction, $this->_postProcessIgnoreList)) 
+		{
+			$this->result =& $this->ActionHandler->executePair($this->_postProcessAction);
 		}
 		
 		// check if we have any post-exec actions. if so, execute them
@@ -405,7 +403,7 @@ class Harmoni {
 			}
 		}
 
-		$this->_outputHandler->output($result, $printedContents);
+		$this->_outputHandler->output($this->result, $this->printedResult);
 	}
 	
 	/**
