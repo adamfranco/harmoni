@@ -47,7 +47,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.23 2005/06/02 21:12:32 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.24 2005/06/03 19:39:14 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -803,11 +803,7 @@ class HarmoniAgentManager
 		$query->setValues($values);
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		
-		$groupIdString = $queryResult->getLastAutoIncrementValue();
-		$idManager =& Services::getService("Id");
-		$groupId =& $idManager->getId($groupIdString);
-		
+				
 		// 3. Store the properties of the group.
 		
 		$propertyManager =& Services::getService("Property");
@@ -993,7 +989,9 @@ class HarmoniAgentManager
 		$this->_loadGroups($where);
 		
 		if (!isset($this->_groupsCache[$idValue]))
-			throwError(new Error(AgentException::UNKNOWN_ID(),"AgentManager",true));
+			throwError(new Error(AgentException::UNKNOWN_ID()
+				." for group, '".$id->getIdString()."'.", 
+				"AgentManager", true));
 		
 		return $this->_groupsCache[$idValue];
 	}
