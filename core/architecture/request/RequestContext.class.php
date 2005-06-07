@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.10 2005/06/03 21:02:08 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.11 2005/06/07 14:42:22 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "!");
@@ -173,6 +173,23 @@ class RequestContext {
 		
 		$url->batchSetValues($this->_contextData);
 		
+		return $url;
+	}
+	
+	/**
+	 * Returns a new {@link URLWriter} from the {@link RequestHandler}, assigning
+	 * the module/action passed or keeping the current module/action. As well, 
+	 * mkFullURL passes through all Request and Context data through to the resulting
+	 * Url.
+	 *
+	 * @param optional string $module
+	 * @param optional string $action
+	 * @return ref object URLWriter
+	 * @since 6/7/05
+	 */
+	function &mkFullURL ($module = null, $action = null ) {
+		$url =& $this->mkURL($module, $action);
+		$url->batchSetValues($this->_requestData);
 		return $url;
 	}
 	

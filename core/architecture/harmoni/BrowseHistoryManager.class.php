@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BrowseHistoryManager.class.php,v 1.2 2005/06/02 20:20:31 adamfranco Exp $
+ * @version $Id: BrowseHistoryManager.class.php,v 1.3 2005/06/07 14:41:28 adamfranco Exp $
  **/
 
 class BrowseHistoryManager {
@@ -57,6 +57,15 @@ class BrowseHistoryManager {
 		exit();
 	}
 	
+	/**
+	 * Answer a marked url
+	 * 
+	 * @param string $operation The name of the operation under which the URL
+	 * is stored. 
+	 * @return object URLWriter
+	 * @access public
+	 * @since 6/7/05
+	 */
 	function getReturnURL($operation) {
 		if (isset($_SESSION['__returnURL'][$operation])) {
 			$url = $_SESSION['__returnURL'][$operation];

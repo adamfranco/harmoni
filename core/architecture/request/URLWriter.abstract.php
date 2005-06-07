@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: URLWriter.abstract.php,v 1.3 2005/06/07 14:12:49 gabeschine Exp $
+ * @version $Id: URLWriter.abstract.php,v 1.4 2005/06/07 14:42:23 adamfranco Exp $
  */
 
 class URLWriter {
@@ -47,7 +47,8 @@ class URLWriter {
 	 */
 	function batchSetValues($array) {
 		foreach ($array as $key=>$val) {
-			$this->_vars[$key] = $val;
+			if (!in_array($key, array("module", "action")))
+				$this->_vars[$key] = $val;
 		}	
 	}
 
