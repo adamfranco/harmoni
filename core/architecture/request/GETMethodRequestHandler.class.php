@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.4 2005/06/02 18:42:25 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.5 2005/06/07 14:12:48 gabeschine Exp $
  */ 
  
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.4 2005/06/02 18:42:25 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.5 2005/06/07 14:12:48 gabeschine Exp $
  */
 
 class GETMethodRequestHandler extends RequestHandler {
@@ -79,7 +79,7 @@ class GETMethodRequestHandler extends RequestHandler {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.4 2005/06/02 18:42:25 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.5 2005/06/07 14:12:48 gabeschine Exp $
  */
 
 class GETMethodURLWriter 
@@ -107,7 +107,7 @@ class GETMethodURLWriter
 		
 		if ($num > 1 && $num % 2 == 0) {
 			for($i = 0; $i < $num; $i+=2) {
-				$this->_vars[$args[$i]] = $args[$i+1];
+				$this->_vars[RequestContext::name($args[$i])] = $args[$i+1];
 			}
 		} else if ($num == 1 && is_array($args[0])) {
 			$this->setValues($args[0]);

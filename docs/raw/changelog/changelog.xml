@@ -3,12 +3,20 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.79 2005/04/22 17:28:14 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.80 2005/06/07 14:14:56 gabeschine Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.4.0" date="The Nebulous Future">
+		<new author='adam'>
+			Added URL-writing functionality as well as centralized processing
+			of request-related variables from/to the browser into a family
+			of classes related to the RequestHandler. 
+
+			All 'communication' between the browser and the program is now
+			abstracted and can be subsequently changed transparently.
+		</new>
 		<change author='adam'>
 			In order to allow for globally unique ids from the IdManager, the
 			IdManager now allows for an Id prefix to place on ids. The prefix 

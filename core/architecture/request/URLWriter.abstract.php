@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: URLWriter.abstract.php,v 1.2 2005/06/02 21:31:45 adamfranco Exp $
+ * @version $Id: URLWriter.abstract.php,v 1.3 2005/06/07 14:12:49 gabeschine Exp $
  */
 
 class URLWriter {
@@ -79,7 +79,9 @@ class URLWriter {
 	/** 
 	 * The following function has many forms, and due to PHP's lack of
 	 * method overloading they are all contained within the same class
-	 * method. 
+	 * method. Any keys/names for paremeters should be translated into
+	 * their contextual equivalents by contacting the {@link RequestContext}
+	 * object.
 	 * 
 	 * write()
 	 * write(array $vars)
