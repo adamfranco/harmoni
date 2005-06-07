@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.11 2005/06/07 14:42:22 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.12 2005/06/07 16:03:16 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "!");
@@ -154,24 +154,36 @@ class RequestContext {
 	 * the module/action passed or keeping the current module/action.
 	 * @param optional string $module
 	 * @param optional string $action
+	 * @param optional array $variables
 	 * @return ref object URLWriter
 	 * @access public
 	 */
-	function &mkURL($module = null, $action = null) {
+	function &mkURL($module = null, $action = null, $variables = null ) {
+		
 		// create a new URLWriter from the RequestHandler
 		$this->_checkForHandler();
 		$url =& $this->_requestHandler->createURLWriter();
+		
+		
+		// Set the Module and Action
 		if ($module != null && $action != null) {
 			$url->setModuleAction($module, $action);
 		} else {
 			$harmoni =& Harmoni::instance();
 			list($module, $action) = explode(".",$harmoni->getCurrentAction());
-			if (!$module) list($module, $action) = explode(".",$this->getRequestedModuleAction());
+			if (!$module) 
+				list($module, $action) = explode(".",$this->getRequestedModuleAction());
 
 			$url->setModuleAction($module, $action);
 		}
 		
+		// Add the current context data.
 		$url->batchSetValues($this->_contextData);
+		
+		// Addition $variables passed
+		if (is_array($variables)) {
+			$url->setValues($variables);
+		}
 		
 		return $url;
 	}
@@ -187,7 +199,7 @@ class RequestContext {
 	 * @return ref object URLWriter
 	 * @since 6/7/05
 	 */
-	function &mkFullURL ($module = null, $action = null ) {
+	function &mkURLWithPassthrough ( $module = null, $action = null ) {
 		$url =& $this->mkURL($module, $action);
 		$url->batchSetValues($this->_requestData);
 		return $url;
@@ -210,21 +222,17 @@ class RequestContext {
 	function quickURL(/* variable-length argument list */) {
 		$num = func_num_args();
 		$args = func_get_args();
-		$url =& $this->mkURL();
-		if ($num == 2) {
-			$url->setModuleAction($args[0], $args[1]);
-		}
 		
-		if ($num == 3 && is_array($args[2])) {
-			$url->setModuleAction($args[0], $args[1]);
-			$url->setValues($args[2]);
-		}
-		
+		// Special Case, only an array of variables is passed
 		if ($num == 1 && is_array($args[0])) {
+			$url =& $this->mkURL();
 			$url->setValues($args[0]);
-		}
+		} 
 		
-		if ($num == 0) { /* do nothing */ }
+		// Normal Case
+		else {
+			$url =& $this->mkURL($args[0], $args[1], $args[2]);
+		}
 		
 		return $url->write();
 	}
