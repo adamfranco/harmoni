@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IntegerRangeValidatorRule.class.php,v 1.6 2005/06/01 17:58:58 gabeschine Exp $
+ * @version $Id: IntegerRangeValidatorRule.class.php,v 1.7 2005/06/09 20:37:29 gabeschine Exp $
  */ 
 class IntegerRangeValidatorRule
 	extends ValidatorRuleInterface 
@@ -51,6 +51,7 @@ class IntegerRangeValidatorRule
 	function check( & $val ) {
 //		if (!(is_integer($val) || $val === 0))
 //			return false;
+//		print "checking $val against $this->_min to $this->_max<br>";
 		return ($val >= $this->_min && $val <= $this->_max);
 	}
 	
@@ -76,7 +77,7 @@ class IntegerRangeValidatorRule
 			$GLOBALS['validator_rules'] = array();
 		
 		$class = __CLASS__;
-		$ruleKey = $class."(".$this->_min.", ".$this->_max.")";
+		$ruleKey = $class."(".$min.", ".$max.")";
 		if (!isset($GLOBALS['validator_rules'][$ruleKey]))
 			$GLOBALS['validator_rules'][$ruleKey] =& new $class($min, $max);
 		

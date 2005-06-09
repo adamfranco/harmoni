@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.22 2005/06/03 13:40:15 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.23 2005/06/09 20:37:28 gabeschine Exp $
  *
  * @author Gabe Schine
  */
@@ -235,7 +235,7 @@ class RecordManager {
 	* criteria. If not specified, will fetch all IDs.
 	*/
 	function &fetchRecords( $IDs, $mode = RECORD_CURRENT, $limitResults = null ) {
-		ArgumentValidator::validate($IDs, ArrayValidatorRuleWithRule::getRule(StringValidatorRule::getRule()));
+		ArgumentValidator::validate($IDs, ArrayValidatorRuleWithRule::getRule(OrValidatorRule::getRule(StringValidatorRule::getRule(), IntegerValidatorRule::getRule())));
 		ArgumentValidator::validate($mode, IntegerValidatorRule::getRule());
 		$IDs = array_unique($IDs);
 
@@ -387,7 +387,7 @@ class RecordManager {
 			$resultIds[] = $a["record_id"];
 		}
 		
-		$ids = $criteria->postProcess(array_keys($resultIds));
+		$ids = $criteria->postProcess($resultIds);
 		return array_unique($ids);
 	}
 	
