@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.18 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.19 2005/06/09 21:31:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -64,7 +64,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.18 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.19 2005/06/09 21:31:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -72,6 +72,10 @@ require_once("Magnitude.class.php");
 class DateAndTime 
 	extends Magnitude
 {
+
+/*********************************************************
+ * Instance Variables
+ *********************************************************/
 
 	/**
 	 * @var integer $jdn; JulianDateNumber 

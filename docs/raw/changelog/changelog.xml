@@ -3,13 +3,32 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.80 2005/06/07 14:14:56 gabeschine Exp $
+ @version $Id: changelog.xml,v 1.81 2005/06/09 21:31:44 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.4.0" date="The Nebulous Future">
 		<new author='adam'>
+			Added the chronology library, a PHP implemenation of the Squeak (Smalltalk) 
+			Kernel-Chronology package and aims to serve as a general PHP 
+			class-library for handling, comparing, and operating on chronological 
+			objects. The original Smalltalk implementation is licensed under the 
+			Squeak License http://squeak.org/download/license.html.
+			
+			This library includes classes that represent instants in time 
+			(DateAndTime, TimeStamp), lengths of time (Duration), spans of time 
+			anchored at certain instants (Timespan, Year, Month, Week, Date), as 
+			well as recuring instants across a span of time (Schedule).
+			
+			This library has been designed to support all possible dates, times, and 
+			durations, not just those since the UNIX epoch (1970). dates can have 
+			positive years (C.E./A.D.) or negative years (B.C.E./B.C.) and Durations 
+			have been tested to support lengths of time up to +/- 4 billion years with 
+			second-precision. Beyond 4 billion years to the limit of testing (50 billion 
+			years) Durations have hour-precision.
+		</new>
+		<new author='gabe'>
 			Added URL-writing functionality as well as centralized processing
 			of request-related variables from/to the browser into a family
 			of classes related to the RequestHandler. 
