@@ -7,6 +7,7 @@ require_once(HARMONI."oki2/agent/HarmoniAgent.class.php");
 require_once(HARMONI."oki2/agent/HarmoniEditableAgent.class.php");
 require_once(HARMONI."oki2/agent/AnonymousAgent.class.php");
 require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
+require_once(HARMONI."oki2/agent/UsersGroup.class.php");
 require_once(HARMONI."oki2/agent/HarmoniAgentIterator.class.php");
 require_once(HARMONI."oki2/agent/HarmoniGroup.class.php");
 require_once(HARMONI."oki2/agent/AgentSearches/TokenSearch.class.php");
@@ -47,7 +48,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.24 2005/06/03 19:39:14 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.25 2005/06/09 17:21:38 gabeschine Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -178,8 +179,10 @@ class HarmoniAgentManager
 		// initialize our anonymous agent and everyone group.
 		$this->_anonymous =& new AnonymousAgent($this->_dbIndex, $this->_sharedDB);
 		$this->_everyone =& new EveryoneGroup($this->_dbIndex, $this->_sharedDB);
+		$this->_users =& new UsersGroup($this->_dbIndex, $this->_sharedDB);
 		$this->_agentsCache["0"] =& $this->_anonymous;
 		$this->_groupsCache["-1"] =& $this->_everyone;
+		$this->_groupsCache["-2"] =& $this->_users;
 		
 		// initialize our Agent Search Types
 		$this->_agentSearches = array ();

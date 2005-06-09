@@ -28,7 +28,7 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.44 2005/06/03 14:44:25 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.45 2005/06/09 17:20:54 gabeschine Exp $
  **/
 class Harmoni {
 
@@ -218,7 +218,6 @@ class Harmoni {
 		ereg("(.+)\.(.+)",$action,$r);
 		$reqMod = $r[1];
 		$reqAct = $r[2];
-		
 		foreach ($array as $pair) {
 			ereg("(.+)\.(.+)",$pair,$r);
 			$mod = $r[1];
@@ -388,7 +387,7 @@ class Harmoni {
 		ob_end_clean();
 
 		$lastExecutedAction = $this->ActionHandler->lastExecutedAction();
-
+		
 		// if we have a post-process action, let's try executing it.
 		if (isset($this->_postProcessAction) && 
 			!$this->_isActionInArray($lastExecutedAction, $this->_postProcessIgnoreList)) 
