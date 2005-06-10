@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.24 2005/06/03 13:40:15 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.25 2005/06/10 13:46:55 gabeschine Exp $
 */
 class Record {
 	
@@ -313,6 +313,17 @@ class Record {
 		$this->_checkLabel($label);
 		
 		return $this->_fields[$label]->numValues();
+	}
+	
+	/**
+	* Returns the number of active values we have set for $label.
+	* @return int
+	* @param string $label
+	*/
+	function numActiveValues($label) {
+		$this->_checkLabel($label);
+		
+		return $this->_fields[$label]->numActiveValues();
 	}
 	
 	/**

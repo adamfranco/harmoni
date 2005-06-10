@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/Tag.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.9 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.10 2005/06/10 13:46:55 gabeschine Exp $
 */
 class TagManager {
 	
@@ -50,11 +50,12 @@ class TagManager {
 		$query->setColumns(array("id","fk_record","date"));
 		
 		$idManager =& Services::getService("Id");
+		$dbHandler =& Services::getService("DBHandler");
 		
 		$newID =& $idManager->createId();
 		$query->addRowOfValues(array(
 				$newID->getIdString(),
-				$dataSetID,
+				$id,
 				$dbHandler->toDBDate($date,DATAMANAGER_DBID)));
 		
 		$query2 =& new InsertQuery;
@@ -203,7 +204,7 @@ class TagManager {
 			$result->advanceRow();
 			
 			$newTag =& new Tag($id, 
-					$dbHandler->fromDBDate($a["dataset_tag_date"], DATAMANAGER_DBID), $a["id"]);
+					$dbHandler->fromDBDate($a["date"], DATAMANAGER_DBID), $a["id"]);
 			
 			$tags[$a["id"]] =& $newTag;
 		}

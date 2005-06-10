@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordSet.class.php,v 1.5 2005/01/19 21:09:42 adamfranco Exp $
+ * @version $Id: RecordSet.class.php,v 1.6 2005/06/10 13:46:55 gabeschine Exp $
  */
 class RecordSet {
 	
@@ -180,7 +180,7 @@ class RecordSet {
 		$dates = array();
 		$dateStrings = array();
 		foreach ($this->getRecordIDs() as $id) {
-			$tags =& $tagManager->getTagDescriptors($id);
+			$tags =& $tagManager->fetchTagDescriptors($id);
 			foreach (array_keys($tags) as $key) {
 				$date =& $tags[$key]->getDate();
 				$str = $date->toString();
@@ -207,8 +207,6 @@ class RecordSet {
 		// then, we activate that tag on the Record and commit it to the database
 		$tagManager =& Services::getService("TagManager");
 		
-		$this->fetchRecords(true); // get all our records read-write
-		
 		for ($i = 0; $i < count($this->_records); $i++) {
 			$id = $this->_records[$i]->getID();
 			if (!$id) continue;
@@ -218,14 +216,16 @@ class RecordSet {
 			$separation = 0;
 			foreach (array_keys($tags) as $key) {
 				$tagDate =& $tags[$key]->getDate();
-				if (($sep = DateTime::compare($tagDate, $date)) <= 0 && $sep < $separation) {
-					$separation = $sep;
+				if (($sep = DateTime::compare($date, $tagDate)) <= 0 && abs($sep) <= $separation) {
+//					print "-> for record $id, new best is " . $tagDate->toString() . " with sep = $sep<br/>";
+					$separation = abs($sep);
 					$closest =& $tags[$key];
 				}
 			}
 			
 			if ($closest) {
 				// we're going to activate the tag, then commit the Record
+				$d =& $closest->getDate();
 				$this->_records[$i]->activateTag($closest);
 				$this->_records[$i]->commit();
 			}
