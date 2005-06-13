@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordField.class.php,v 1.12 2005/06/03 13:40:15 adamfranco Exp $
+ * @version $Id: RecordField.class.php,v 1.13 2005/06/13 17:42:56 gabeschine Exp $
  **/
 class RecordField {
 	
@@ -51,6 +51,7 @@ class RecordField {
 		if ($row['record_field_index'] != NULL) {
 			$i = $row['record_field_index'];
 			if (!isset($this->_values[$i])) {
+//				print "importing index $i : " . print_r($row, 1) . "<br>";
 				$this->_values[$i] =& new RecordFieldValue($this,$i);
 			}
 			$this->_values[$i]->takeRow($row);
@@ -300,7 +301,9 @@ class RecordField {
 	function numActiveValues() {
 		$this->_parent->makeCurrent();
 		$count = 0;
-		for($i=0; $i<$this->numValues(); $i++) {
+//		print_r($this->getIndices());
+		foreach ($this->getIndices() as $i) {
+//			print "class $i: " . gettype($this->_values[$i]);
 			if ($this->_values[$i]->hasActiveValue()) $count++;
 		}
 		return $count;
