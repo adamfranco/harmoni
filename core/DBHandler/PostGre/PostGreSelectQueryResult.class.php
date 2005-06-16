@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.7 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResult.class.php,v 1.8 2005/06/16 18:19:04 gabeschine Exp $
  */
  
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.7 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResult.class.php,v 1.8 2005/06/16 18:19:04 gabeschine Exp $
  */
 class PostGreSelectQueryResult 
 	extends SelectQueryResultInterface 
@@ -275,6 +275,15 @@ class PostGreSelectQueryResult
 		return $result;
 	}
 
+	
+	/**
+	 * Frees the memory for this result.
+	 * @access public
+	 * @return void
+	 */
+	function free() {
+		pg_free_result($this->_resourceId);
+	}
 	
 }
 

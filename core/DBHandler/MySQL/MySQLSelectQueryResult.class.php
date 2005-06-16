@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.9 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.10 2005/06/16 18:19:03 gabeschine Exp $
  */
  
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.9 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.10 2005/06/16 18:19:03 gabeschine Exp $
  */
 class MySQLSelectQueryResult extends SelectQueryResultInterface {
 
@@ -340,6 +340,15 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 		    $this->_boundVars[$field] = null;
 		    unset($this->_boundVars[$field]);
 		}
+	}
+	
+	/**
+	 * Frees the memory for this result.
+	 * @access public
+	 * @return void
+	 */
+	function free() {
+		mysql_free_result($this->_resourceId);
 	}
 
 }

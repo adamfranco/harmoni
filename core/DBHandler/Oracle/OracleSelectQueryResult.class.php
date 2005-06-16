@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleSelectQueryResult.class.php,v 1.6 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: OracleSelectQueryResult.class.php,v 1.7 2005/06/16 18:19:04 gabeschine Exp $
  */
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
 
@@ -18,7 +18,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleSelectQueryResult.class.php,v 1.6 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: OracleSelectQueryResult.class.php,v 1.7 2005/06/16 18:19:04 gabeschine Exp $
  */
 class OracleSelectQueryResult 
 	extends SelectQueryResultInterface 
@@ -272,6 +272,15 @@ class OracleSelectQueryResult
 		return $result;
 	}
 
+	
+	/**
+	 * Frees the memory for this result.
+	 * @access public
+	 * @return void
+	 */
+	function free() {
+		ocifreestatement($this->_resourceId);
+	}
 	
 }
 
