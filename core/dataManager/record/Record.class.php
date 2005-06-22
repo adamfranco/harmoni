@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.25 2005/06/10 13:46:55 gabeschine Exp $
+ * @version $Id: Record.class.php,v 1.26 2005/06/22 18:19:35 gabeschine Exp $
 */
 class Record {
 	
@@ -93,6 +93,21 @@ class Record {
 	function getIndices($label)
 	{
 		return $this->_fields[$label]->getIndices();
+	}
+	
+	/**
+	 * Returns the indices (indexes) of each value for the given field. Can then be retrieved with any getValue-type function.
+	 * @access public
+	 * @param string $label
+	 * @return array An array of integers
+	 */
+	function getActiveIndices($label)
+	{
+		$array = array();
+		foreach ($this->getIndices($label) as $index) {
+			if (!$this->deleted($label, $index)) $array[] = $index;
+		}
+		return $array;
 	}
 	
 	/**

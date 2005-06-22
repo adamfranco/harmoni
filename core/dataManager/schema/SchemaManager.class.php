@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.20 2005/06/03 13:40:16 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.21 2005/06/22 18:21:03 gabeschine Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
@@ -388,7 +388,7 @@ class SchemaManager {
 		}
 		*/
 		
-		$allLabels = array_unique(array_merge( $new->getAllLabels(), $old->getAllLabels() ));
+		$allLabels = array_unique(array_merge( $new->getAllLabels(true), $old->getAllLabels(true) ));
 		
 		debug::output("Merged labels: ".implode(", ",$allLabels),DEBUG_SYS5,"DataManager");
 		
@@ -440,10 +440,12 @@ class SchemaManager {
 			if ($oldActive != $newActive) {
 				if ($oldActive && !$newActive) {
 					$oldField->delete();
+					debug::output("Label '$label' is no longer active.", DEBUG_SYS5, "DataManager");
 				}
 				if (!$oldActive && $newActive) {
 					$oldField->setActiveFlag(true);
 					$oldField->update();
+					debug::output("Label '$label' is to be reactivated.", DEBUG_SYS5, "DataManager");
 				}
 			}
 
