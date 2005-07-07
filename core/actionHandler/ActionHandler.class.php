@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.16 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: ActionHandler.class.php,v 1.17 2005/07/07 18:31:38 adamfranco Exp $
  */
 
 //require_once(HARMONI."actionHandler/ActionHandler.interface.php");
@@ -71,7 +71,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.16 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: ActionHandler.class.php,v 1.17 2005/07/07 18:31:38 adamfranco Exp $
  */
 class ActionHandler {
 	/**
@@ -229,7 +229,7 @@ class ActionHandler {
 			
 			return $this->_executePair($forward);
 		}
-		if ($this->_threads[$_pair]) {
+		if (isset($this->_threads[$_pair])) {
 			// we have a subsequent action defined...
 			// if we failed and there's a fail defined
 			if (!$result && ($failAction = $this->_threads[$_pair][0])) {

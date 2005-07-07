@@ -11,7 +11,7 @@ require_once(HARMONI."oki2/hierarchy/tree/TreeNode.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tree.class.php,v 1.9 2005/03/29 22:58:24 adamfranco Exp $
+ * @version $Id: Tree.class.php,v 1.10 2005/07/07 18:31:40 adamfranco Exp $
  * @since Created: 8/30/2003
  */
 class Tree extends TreeInterface {
@@ -197,7 +197,7 @@ class Tree extends TreeInterface {
 		
 		$cacheKey = $node->getId()."::".(($down)?"TRUE":"FALSE")."::".$levels;
 		
-		if (!$this->_traversalCache[$cacheKey]) {
+		if (!isset($this->_traversalCache[$cacheKey])) {
 			$this->_traversalCache[$cacheKey] = array();
 
 			$this->_traverse($this->_traversalCache[$cacheKey], $node, $down, $levels, $levels);

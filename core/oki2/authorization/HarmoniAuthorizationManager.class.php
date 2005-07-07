@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.14 2005/04/12 19:29:27 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.15 2005/07/07 18:31:39 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -1449,7 +1449,9 @@ class HarmoniAuthorizationManager
 		
 		// Check our cache first and only do the search if we don't have
 		// the ancestors yet.
-		if (!is_array($this->_groupAncestorsCache[$agentOrGroupIdString])) {
+		if (!isset($this->_groupAncestorsCache[$agentOrGroupIdString]) 
+			|| !is_array($this->_groupAncestorsCache[$agentOrGroupIdString])) 
+		{
 			$groupIds = array();
 			
 			$agentManager =& Services::getService("Agent");

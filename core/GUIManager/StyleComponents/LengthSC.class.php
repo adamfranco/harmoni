@@ -26,7 +26,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LengthSC.class.php,v 1.8 2005/03/29 19:44:10 adamfranco Exp $
+ * @version $Id: LengthSC.class.php,v 1.9 2005/07/07 18:30:15 adamfranco Exp $
  */
 class LengthSC extends StyleComponent {
 
@@ -78,7 +78,7 @@ class CSSLengthValidatorRule extends ValidatorRuleInterface {
 			$GLOBALS['validator_rules'] = array();
 		
 		$class = __CLASS__;
-		if (!$GLOBALS['validator_rules'][$class])
+		if (!isset($GLOBALS['validator_rules'][$class]))
 			$GLOBALS['validator_rules'][$class] =& new $class;
 		
 		return $GLOBALS['validator_rules'][$class];

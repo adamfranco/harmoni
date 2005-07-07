@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.12 2005/06/07 16:03:16 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.13 2005/07/07 18:31:39 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "!");
@@ -231,6 +231,15 @@ class RequestContext {
 		
 		// Normal Case
 		else {
+			if (!isset($args[0]))
+				$args[0] = NULL;
+
+			if (!isset($args[1]))
+				$args[1] = NULL;
+
+			if (!isset($args[2]))
+				$args[2] = NULL;
+			
 			$url =& $this->mkURL($args[0], $args[1], $args[2]);
 		}
 		

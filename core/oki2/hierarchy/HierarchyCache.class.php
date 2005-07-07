@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.16 2005/04/26 21:50:38 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.17 2005/07/07 18:31:39 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -376,7 +376,7 @@ class HierarchyCache {
 
 		$this->_nodeQuery->resetWhere();
 		$this->_nodeQuery->addWhere($where);
-		$this->_nodeQuery->addWhere($db."node.fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
+		$this->_nodeQuery->addWhere($this->_hyDB."."."node.fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
 
 		$nodeQueryResult =& $dbHandler->query($this->_nodeQuery, $this->_dbIndex);
 		
@@ -562,6 +562,7 @@ class HierarchyCache {
 		// if the node has not been already cached, do it
 		if (!$this->_isCached($idValue)) {
 			// now fetch the node from the database
+			$db = $this->_hyDB.".";
 			$nodes =& $this->getNodesFromDB($db."node.node_id = '".addslashes($idValue)."'");
 			
 			// must be only one node
@@ -874,7 +875,7 @@ class HierarchyCache {
 		foreach (array_keys($treeNodes) as $i => $key) {
 			$node =& $this->_cache[$key][0];
 			$nodeId =& $node->getId();
-			if (!$this->_infoCache[$nodeId->getIdString()]) {
+			if (!isset($this->_infoCache[$nodeId->getIdString()])) {
 				$this->_infoCache[$nodeId->getIdString()] 
 					=& new HarmoniTraversalInfo($nodeId,
 												  $node->getDisplayName(),

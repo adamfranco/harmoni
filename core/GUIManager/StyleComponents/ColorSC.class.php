@@ -22,7 +22,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ColorSC.class.php,v 1.7 2005/03/29 19:44:10 adamfranco Exp $
+ * @version $Id: ColorSC.class.php,v 1.8 2005/07/07 18:30:14 adamfranco Exp $
  */
 class ColorSC extends StyleComponent {
 
@@ -99,7 +99,7 @@ class CSSColorValidatorRule extends ValidatorRuleInterface {
 			$GLOBALS['validator_rules'] = array();
 		
 		$class = __CLASS__;
-		if (!$GLOBALS['validator_rules'][$class])
+		if (!isset($GLOBALS['validator_rules'][$class]))
 			$GLOBALS['validator_rules'][$class] =& new $class;
 		
 		return $GLOBALS['validator_rules'][$class];

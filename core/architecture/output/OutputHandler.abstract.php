@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OutputHandler.abstract.php,v 1.4 2005/04/07 19:41:34 adamfranco Exp $
+ * @version $Id: OutputHandler.abstract.php,v 1.5 2005/07/07 18:31:38 adamfranco Exp $
  */ 
  
  require_once(OKI2."/osid/OsidManager.php");
@@ -20,11 +20,26 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OutputHandler.abstract.php,v 1.4 2005/04/07 19:41:34 adamfranco Exp $
+ * @version $Id: OutputHandler.abstract.php,v 1.5 2005/07/07 18:31:38 adamfranco Exp $
  */
 class OutputHandler 
 	extends OsidManager
 {
+
+/*********************************************************
+ * Instance Variables
+ *********************************************************/
+
+	/**
+	 * @var string $_head; The head content 
+	 * @access private
+	 * @since 7/7/05
+	 */
+	var $_head;
+
+/*********************************************************
+ * Instance Methods
+ *********************************************************/
 	
 	/**
 	 * Assign the configuration of this Manager. Valid configuration options are as
