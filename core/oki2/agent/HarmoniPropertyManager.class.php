@@ -35,7 +35,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniPropertyManager.class.php,v 1.1 2005/05/19 17:25:48 thebravecowboy Exp $
+ * @version $Id: HarmoniPropertyManager.class.php,v 1.2 2005/07/07 21:29:59 adamfranco Exp $
  *
  * @author Ben Gore
  */
@@ -120,7 +120,6 @@ class HarmoniPropertyManager
 		$current_property_type = null;//for distinguishing whether the type retrieved is new or not.  Obviously, the first one is
 		$propertiesArray = array();//for storing each property object of type
 		
-		$dbName .= ".";	
 		$dbHandler =& Services::getService("DBHandler");
 		
 		//select the properties associated with this object (usually an agent)

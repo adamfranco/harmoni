@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.22 2005/04/12 21:46:00 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.23 2005/07/07 21:29:59 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -475,7 +475,7 @@ class HarmoniRepositoryManager
 	function &getRepository ( &$repositoryId ) { 
 		ArgumentValidator::validate($repositoryId, ExtendsValidatorRule::getRule("Id"));
 		
-		if (!$this->_createdRepositories[$repositoryId->getIdString()]) {
+		if (!isset($this->_createdRepositories[$repositoryId->getIdString()])) {
 			// Get the node for this dr to make sure its availible
 			if (!$node = $this->_hierarchy->getNode($repositoryId))
 				throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));

@@ -48,7 +48,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.25 2005/06/09 17:21:38 gabeschine Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.26 2005/07/07 21:29:58 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -506,7 +506,8 @@ class HarmoniAgentManager
 		// check the cache
 		if (isset($this->_agentsCache[$idValue]))
 			return $this->_agentsCache[$idValue];
-			
+		
+		$db = $this->_sharedDB.".";
 		$where = $db."agent.agent_id = '".addslashes($idValue)."'";
 
 		$this->_loadAgents($where);
@@ -986,7 +987,9 @@ class HarmoniAgentManager
 		// check the cache
 		if (isset($this->_groupsCache[$idValue]))
 			return $this->_groupsCache[$idValue];
-
+		
+		$db = $this->_sharedDB.".";
+		
 		$where = $db."subgroup0.groups_id = '".addslashes($idValue)."'";
 
 		$this->_loadGroups($where);
@@ -1434,7 +1437,7 @@ class HarmoniAgentManager
 		// The first part of the left join
 		$joinc = $db."subgroup0.groups_id = ".$db."subgroup1.fk_parent";
 		$query->addTable($db."j_groups_groups", LEFT_JOIN, $joinc, "subgroup1");
-		$query->addColumn("fk_child", "subgroup".($level+1)."_id", "subgroup1");
+		$query->addColumn("fk_child", "subgroup1_id", "subgroup1");
 		
 		// now left join with itself.
 		// maximum number of joins is 31, we've used 3 already, so there are 28 left

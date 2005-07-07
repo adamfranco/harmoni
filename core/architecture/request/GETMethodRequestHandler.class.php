@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.5 2005/06/07 14:12:48 gabeschine Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.6 2005/07/07 21:29:04 adamfranco Exp $
  */ 
  
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.5 2005/06/07 14:12:48 gabeschine Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.6 2005/07/07 21:29:04 adamfranco Exp $
  */
 
 class GETMethodRequestHandler extends RequestHandler {
@@ -60,8 +60,15 @@ class GETMethodRequestHandler extends RequestHandler {
 	 * @access public
 	 */
 	function getRequestedModuleAction() {
-		$mod = $_REQUEST["module"];
-		$act = $_REQUEST["action"];
+		if (isset($_REQUEST["module"]))
+			$mod = $_REQUEST["module"];
+		else
+			$mod = NULL;
+		
+		if (isset($_REQUEST["action"]))
+			$act = $_REQUEST["action"];
+		else
+			$act = NULL;
 		
 		return $mod .".". $act;
 	}
@@ -79,7 +86,7 @@ class GETMethodRequestHandler extends RequestHandler {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.5 2005/06/07 14:12:48 gabeschine Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.6 2005/07/07 21:29:04 adamfranco Exp $
  */
 
 class GETMethodURLWriter 

@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.22 2005/04/12 21:46:00 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.23 2005/07/07 21:29:59 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -55,6 +55,7 @@ class HarmoniRepository
 	var $_configuration;
 	var $_searchTypes;
 	var $_node;
+	var $_type;
 	var $_hierarchy;
 	var $_createdAssets;
 	
@@ -717,7 +718,7 @@ class HarmoniRepository
 		$schemaIDs =& $schemaMgr->getAllSchemaIDs();
 		foreach ($schemaIDs as $id) {
 			// Check that we have created an RecordStructure with the ID
-			if (!$this->_createdRecordStructures[$id]) {
+			if (!isset($this->_createdRecordStructures[$id])) {
 				// If not, create the RecordStructure
 				$schema =& $schemaMgr->getSchemaByID($id);
 				$this->_createdRecordStructures[$id] =& new HarmoniRecordStructure(
