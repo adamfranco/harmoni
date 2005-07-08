@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.23 2005/07/07 21:29:59 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.24 2005/07/08 14:08:38 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -680,7 +680,7 @@ class HarmoniRepository
 	 */
 	function &getRecordStructure( & $infoStructureId ) {
 		// Check that we have created an infoStructure with the ID
-		if (!$this->_createdRecordStructures[$infoStructureId->getIdString()]) {
+		if (!isset($this->_createdRecordStructures[$infoStructureId->getIdString()])) {
 			// If not, create the infoStructure
 			$schemaMgr =& Services::getService("SchemaManager");
 			$schema =& $schemaMgr->getSchemaByID($infoStructureId->getIdString());
