@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Dearchiver.class.php,v 1.1 2005/06/28 18:15:48 ndhungel Exp $
+ * @version $Id: Dearchiver.class.php,v 1.2 2005/07/08 18:41:48 ndhungel Exp $
  *
  * @link http://sourceforge.net/projects/concerto
  */ 
@@ -19,11 +19,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Dearchiver.class.php,v 1.1 2005/06/28 18:15:48 ndhungel Exp $
+ * @version $Id: Dearchiver.class.php,v 1.2 2005/07/08 18:41:48 ndhungel Exp $
  */
 
 require_once("Archive/Tar.php");
-require_once(HARMONI."core/utilities/mkdirr.fcn.php");
+require_once(HARMONI."utilities/mkdirr.function.php");
 
 class Dearchiver {
 	
