@@ -5,10 +5,44 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.16 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.17 2005/07/11 14:34:31 adamfranco Exp $
  */
+ 
+/**
+ * A constant for the MySQL database type.
+ * @const MYSQL A constant for the MySQL database type.
+ * @access public
+ * @package harmoni.dbc
+ */
+define("MYSQL", 1);
 
-require_once(HARMONI.'DBHandler/DBHandler.interface.php');
+
+/**
+ * A constant for the POSTGRE_SQL database type.
+ * @const POSTGRE_SQL A constant for the POSTGRE_SQL database type.
+ * @access public
+ * @package harmoni.dbc
+ */
+define("POSTGRE_SQL", 2);
+
+
+/**
+ * A constant for the ORACLE database type.
+ * @const ORACLE A constant for the ORACLE database type.
+ * @access public
+ * @package harmoni.dbc
+ */
+define("ORACLE", 3);
+
+
+/**
+ * A constant for the SQLSERVER database type.
+ * @const SQLSERVER A constant for the SQLSERVER database type.
+ * @access public
+ * @package harmoni.dbc
+ */
+define("SQLSERVER", 4);
+
 require_once(HARMONI."DBHandler/SelectQuery.class.php");
 require_once(HARMONI."DBHandler/UpdateQuery.class.php");
 require_once(HARMONI."DBHandler/DeleteQuery.class.php");
@@ -34,10 +68,10 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.16 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.17 2005/07/11 14:34:31 adamfranco Exp $
  */
 
-class DBHandler extends DBHandlerInterface { 
+class DBHandler { 
 	
 	/**
 	 * An array of all databases.
