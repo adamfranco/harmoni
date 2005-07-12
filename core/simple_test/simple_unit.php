@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_unit.php,v 1.2 2005/01/19 16:33:26 adamfranco Exp $
+    // $Id: simple_unit.php,v 1.3 2005/07/12 19:39:00 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -174,6 +174,28 @@
             $is_ref = ($first === $second);
             $first = $temp;
             $this->assertTrue($is_ref, $message);
+        }
+        
+         /**
+         *    Will trigger a pass if both parameters do not refer
+         *    to the same object. Fail otherwise.
+         *    @param $first          Object reference to check.
+         *    @param $second         Hopefully the same object.
+         *    @param $message        Message to display.
+         *    @access public
+         */
+        function assertNotReference(&$first, &$second, $message = "") {
+            if ($message == "") {
+                $message =
+                        "[" . $this->_renderVariable($first) .
+                        "] and [" . $this->_renderVariable($second) .
+                        "] should reference the same object";
+            }
+            $temp = $first;
+            $first = uniqid("test");
+            $is_ref = ($first === $second);
+            $first = $temp;
+            $this->assertFalse($is_ref, $message);
         }
         
         /**
