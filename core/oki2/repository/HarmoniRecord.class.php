@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.11 2005/04/06 16:13:43 adamfranco Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.12 2005/07/12 18:12:19 ndhungel Exp $ 
  */
 
 class HarmoniRecord 
@@ -195,7 +195,7 @@ class HarmoniRecord
 			if (count($allRecordFieldValues)) {
 				foreach (array_keys($allRecordFieldValues) as $key) {
 					if ($activeValue =& $allRecordFieldValues[$key]->getActiveVersion()
-						&& !$this->_createdParts[$activeValue->getId()])
+						&& !isset($this->_createdParts[$activeValue->getId()]))
 						$this->_createdParts[$activeValue->getId()] =& new HarmoniPart(
 													$partStructure, $allRecordFieldValues[$key]);
 				}

@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.14 2005/04/11 20:56:06 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.15 2005/07/12 18:11:07 ndhungel Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -75,7 +75,7 @@ class HarmoniAuthenticationManager
 	 * @return void
 	 */
 	function HarmoniAuthenticationManager () {
-		if (!is_array($_SESSION['__AuthenticatedAgents'])) {
+		if (!isset($_SESSION['__AuthenticatedAgents']) || !is_array($_SESSION['__AuthenticatedAgents'])) {
 			$_SESSION['__AuthenticatedAgents'] = array();
 		}
 		
