@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.17 2005/04/12 18:48:09 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.18 2005/07/12 16:57:05 ndhungel Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.17 2005/04/12 18:48:09 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.18 2005/07/12 16:57:05 ndhungel Exp $ 
  */
 
 class HarmoniAsset
@@ -348,7 +348,7 @@ class HarmoniAsset
      */
     function getEffectiveDate () { 
 	
-		if (!$this->_effectiveDate) {
+		if (!isset($this->_effectiveDate)) {
 			$this->_loadDates();
 		}
 		
@@ -986,7 +986,7 @@ class HarmoniAsset
 		
 		// Check to see if the record is in our cache.
 		// If so, return it. If not, create it, then return it.
-		if (!$this->_createdRecords[$recordId->getIdString()]) {
+		if (!isset($this->_createdRecords[$recordId->getIdString()])) {
 			
 			// Check for the record in our non-datamanager records;
 		
@@ -1034,7 +1034,7 @@ class HarmoniAsset
 				
 				// Get the record structure.
 				$schema =& $record->getSchema();
-				if (!$this->_createdRecordStructures[$schema->getID()]) {
+				if (!isset($this->_createdRecordStructures[$schema->getID()])) {
 					$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure($schema);
 				}
 				

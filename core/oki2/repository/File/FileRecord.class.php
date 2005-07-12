@@ -27,7 +27,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.12 2005/04/06 16:15:31 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.13 2005/07/12 16:59:02 ndhungel Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -123,18 +123,23 @@ class FileRecord
 	 */
 	function &createPart(& $partStructureId, & $value) {
 		$found = FALSE;
+		foreach($this->_parts as $key => $value){
+			if($partStructureId->isEqual($value->getId()))
+			break;
+			$found=TRUE;
+/*
 		while ($parts->hasNext()) {
 			$part =& $parts->next();
 			if ($partStructureId->isEqual($part->getId())) {
 				break;
 				$found = TRUE;
 			}
-		}
+*/		}
 		
 		if (!$found)
 			throwError(new Error(RepositoryException::UNKNOWN_ID(), "FileRecord", true));
 		
-		$partIdString = $partId->getIdString();
+		$partIdString = $partStructureId->getIdString();
 		
 //		if (is_object($this->_parts[$partIdString]))
 //			throwError(new Error(PERMISSION_DENIED.": Can't add another field to a

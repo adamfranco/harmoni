@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.24 2005/07/08 14:08:38 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.25 2005/07/12 16:57:05 ndhungel Exp $ 
  */
 
 class HarmoniRepository
@@ -848,7 +848,7 @@ class HarmoniRepository
 	 * @access public
 	 */
 	function &getAsset ( &$assetId ) { 
-		if (!$this->_createdAssets[$assetId->getIdString()]) {
+		if (!isset($this->_createdAssets[$assetId->getIdString()])) {
 			// Get the node for this asset to make sure its availible
 			if (!$this->_hierarchy->getNode($assetId))
 				throwError(new Error(UNKNOWN_ID, "Repository", 1));
