@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_unit.php,v 1.3 2005/07/12 19:39:00 adamfranco Exp $
+    // $Id: simple_unit.php,v 1.4 2005/07/12 19:45:01 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -189,7 +189,7 @@
                 $message =
                         "[" . $this->_renderVariable($first) .
                         "] and [" . $this->_renderVariable($second) .
-                        "] should reference the same object";
+                        "] should not reference the same object";
             }
             $temp = $first;
             $first = uniqid("test");
