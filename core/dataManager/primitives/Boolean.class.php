@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Boolean.class.php,v 1.4 2005/04/12 18:48:04 adamfranco Exp $
+ * @version $Id: Boolean.class.php,v 1.5 2005/07/13 20:16:31 adamfranco Exp $
  */
 class Boolean extends Primitive /* = implements Primitive */ {
 	
@@ -29,27 +29,6 @@ class Boolean extends Primitive /* = implements Primitive */ {
 	}
 	
 	/**
-	 * Returns the data in a string format.
-	 * @access public
-	 * @return string
-	 */
-	function toString()
-	{
-		return $this->_bool?"true":"false";
-	}
-	
-	/**
-	 * Returns true if the object passed is of the same data type with the same value. False otherwise.
-	 * @param ref object $object A {@link Primitive} to compare.
-	 * @access public
-	 * @return boolean
-	 */
-	function isEqual(&$object)
-	{
-		return $this->_bool===$object->getBooleanValue()?true:false;
-	}
-	
-	/**
 	 * "Adopts" the value of the given {@link Primitive} into this one, assuming it is of the same class.
 	 * @param ref object $object The {@link Primitive} to take values from.
 	 * @access public
@@ -61,13 +40,31 @@ class Boolean extends Primitive /* = implements Primitive */ {
 	}
 	
 	/**
-	 * Returns a new {@link Primitive} of the same class with the same value.
-	 * @access public
-	 * @return ref object
-	 */
-	function &replicate()
-	{
-		return new Boolean($this->_bool);
+ 	 * Answer a String whose characters are a description of the receiver.
+ 	 * Override this method as needed to provide a better representation
+ 	 * 
+ 	 * @return string
+ 	 * @access public
+ 	 * @since 7/11/05
+ 	 */
+ 	function printableString () {
+		return $this->_bool?"true":"false";
 	}
 	
+	/**
+ 	 * Answer whether the receiver and the argument are the same.
+ 	 * If = is redefined in any subclass, consider also redefining the 
+	 * message hash.
+ 	 * 
+ 	 * @param object $anObject
+ 	 * @return boolean
+ 	 * @access public
+ 	 * @since 7/11/05
+ 	 */
+ 	function isEqualTo ( &$anObject ) {
+ 		if (!method_exists($anObject, 'getBooleanValue'))
+ 			return false;
+ 			
+		return ($this->_bool===$object->getBooleanValue())?true:false;
+	}	
 }

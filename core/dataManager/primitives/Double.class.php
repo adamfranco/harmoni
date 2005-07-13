@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/primitives/Float.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Double.class.php,v 1.4 2005/04/12 18:48:04 adamfranco Exp $
+ * @version $Id: Double.class.php,v 1.5 2005/07/13 20:16:31 adamfranco Exp $
  */
 class Double extends Float {
 
@@ -28,15 +28,20 @@ class Double extends Float {
 		return $this->getFloatValue();
 	}
 	
-	
 	/**
-	 * Returns true if the object passed is of the same data type with the same value. False otherwise.
-	 * @param ref object $object A {@link Primitive} to compare.
-	 * @access public
-	 * @return boolean
-	 */
-	function isEqual(&$object)
-	{
+ 	 * Answer whether the receiver and the argument are the same.
+ 	 * If = is redefined in any subclass, consider also redefining the 
+	 * message hash.
+ 	 * 
+ 	 * @param object $anObject
+ 	 * @return boolean
+ 	 * @access public
+ 	 * @since 7/11/05
+ 	 */
+ 	function isEqualTo ( &$anObject ) {
+ 		if (!method_exists($anObject, 'getDoubleValue'))
+ 			return false;
+ 		
 		return $this->_float==$object->getDoubleValue()?true:false;
 	}
 	
@@ -49,16 +54,5 @@ class Double extends Float {
 	function adoptValue(&$object)
 	{
 		$this->_float = $object->getDoubleValue();
-	}
-	
-	/**
-	 * Returns a new {@link Primitive} of the same class with the same value.
-	 * @access public
-	 * @return ref object
-	 */
-	function &replicate()
-	{
-		return new Double($this->_float);
-	}
-	
+	}	
 }

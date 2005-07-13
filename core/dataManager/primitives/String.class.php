@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: String.class.php,v 1.4 2005/04/12 18:48:04 adamfranco Exp $
+ * @version $Id: String.class.php,v 1.5 2005/07/13 20:16:32 adamfranco Exp $
  */
 class String extends Primitive /* = implements Primitive */ {
 	
@@ -19,24 +19,32 @@ class String extends Primitive /* = implements Primitive */ {
 	}
 	
 	/**
-	 * Returns the data in a string format.
-	 * @access public
-	 * @return string
-	 */
-	function toString()
-	{
+ 	 * Answer a String whose characters are a description of the receiver.
+ 	 * Override this method as needed to provide a better representation
+ 	 * 
+ 	 * @return string
+ 	 * @access public
+ 	 * @since 7/11/05
+ 	 */
+ 	function printableString () {
 		return $this->_string;
 	}
 	
 	/**
-	 * Returns true if the object passed is of the same data type with the same value. False otherwise.
-	 * @param ref object $object A {@link Primitive} to compare.
-	 * @access public
-	 * @return boolean
-	 */
-	function isEqual(&$object)
-	{
-		return strcmp($object->toString(), $this->toString())==0?true:false;
+ 	 * Answer whether the receiver and the argument are the same.
+ 	 * If = is redefined in any subclass, consider also redefining the 
+	 * message hash.
+ 	 * 
+ 	 * @param object $anObject
+ 	 * @return boolean
+ 	 * @access public
+ 	 * @since 7/11/05
+ 	 */
+ 	function isEqualTo ( &$anObject ) {
+ 		if (!method_exists($anObject, 'asString'))
+ 			return false;
+ 			
+		return strcmp($object->asString(), $this->asString())==0?true:false;
 	}
 	
 	/**
@@ -48,16 +56,5 @@ class String extends Primitive /* = implements Primitive */ {
 	function adoptValue(&$object)
 	{
 		$this->_string = $object->toString();
-	}
-	
-	/**
-	 * Returns a new {@link Primitive} of the same class with the same value.
-	 * @access public
-	 * @return ref object
-	 */
-	function &replicate()
-	{
-		return new String($this->_string);
-	}
-	
+	}	
 }
