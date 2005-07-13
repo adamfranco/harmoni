@@ -1,5 +1,7 @@
 <?
 
+require_once(HARMONI."utilities/Magnitude.class.php");
+
 /**
  * A simple Integer data type.
  *
@@ -8,9 +10,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Integer.class.php,v 1.5 2005/07/13 20:16:31 adamfranco Exp $
+ * @version $Id: Integer.class.php,v 1.6 2005/07/13 21:00:29 adamfranco Exp $
  */
-class Integer extends Primitive /* = implements Primitive */ {
+class Integer 
+	extends Magnitude
+{
 	
 	var $_int;
 
@@ -41,6 +45,21 @@ class Integer extends Primitive /* = implements Primitive */ {
 	}
 	
 	/**
+	 * Test if this is less than aMagnitude.
+	 * 
+	 * @param object Magnitude $aMagnitude
+	 * @return boolean
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function isLessThan ( &$aMagnitude ) {
+		if (!method_exists($anObject, 'getFloatValue'))
+ 			return false;
+ 		
+ 		return ($this->_int < $object->getFloatValue())?true:false;
+	}
+	
+	/**
  	 * Answer whether the receiver and the argument are the same.
  	 * If = is redefined in any subclass, consider also redefining the 
 	 * message hash.
@@ -55,16 +74,5 @@ class Integer extends Primitive /* = implements Primitive */ {
  			return false;
  			
 		return $this->_int==$object->getIntegerValue()?true:false;
-	}
-	
-	/**
-	 * "Adopts" the value of the given {@link Primitive} into this one, assuming it is of the same class.
-	 * @param ref object $object The {@link Primitive} to take values from.
-	 * @access public
-	 * @return void
-	 */
-	function adoptValue(&$object)
-	{
-		$this->_int = $object->getIntegerValue();
 	}	
 }

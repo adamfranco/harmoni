@@ -1,5 +1,7 @@
 <?
 
+require_once(HARMONI."utilities/SObject.class.php");
+
 /**
  * A simple Boolean data type.
  *
@@ -8,9 +10,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Boolean.class.php,v 1.5 2005/07/13 20:16:31 adamfranco Exp $
+ * @version $Id: Boolean.class.php,v 1.6 2005/07/13 21:00:29 adamfranco Exp $
  */
-class Boolean extends Primitive /* = implements Primitive */ {
+class Boolean 
+	extends SObject
+{
 	
 	var $_bool;
 
@@ -26,17 +30,6 @@ class Boolean extends Primitive /* = implements Primitive */ {
 	function getBooleanValue()
 	{
 		return $this->_bool;
-	}
-	
-	/**
-	 * "Adopts" the value of the given {@link Primitive} into this one, assuming it is of the same class.
-	 * @param ref object $object The {@link Primitive} to take values from.
-	 * @access public
-	 * @return void
-	 */
-	function adoptValue(&$object)
-	{
-		$this->_bool = $object->getBooleanValue();
 	}
 	
 	/**

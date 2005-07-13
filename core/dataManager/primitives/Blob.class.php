@@ -8,9 +8,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Blob.class.php,v 1.5 2005/07/13 20:16:31 adamfranco Exp $
+ * @version $Id: Blob.class.php,v 1.6 2005/07/13 21:00:28 adamfranco Exp $
  */
-class Blob extends String {
+class Blob 
+	extends String 
+{
 
 	function Blob($string="") {
 		$this->_string = $string;

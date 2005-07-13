@@ -1,5 +1,7 @@
 <?
 
+require_once(HARMONI."utilities/Magnitude.class.php");
+
 /**
  * A simple Float data type.
  *
@@ -8,9 +10,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Float.class.php,v 1.5 2005/07/13 20:16:31 adamfranco Exp $
+ * @version $Id: Float.class.php,v 1.6 2005/07/13 21:00:29 adamfranco Exp $
  */
-class Float extends Primitive /* = implements Primitive */ {
+class Float 
+	extends Magnitude
+{
 	
 	var $_float;
 
@@ -38,6 +42,21 @@ class Float extends Primitive /* = implements Primitive */ {
  	 */
  	function printableString () {
 		return (string) $this->_float;
+	}
+	
+	/**
+	 * Test if this is less than aMagnitude.
+	 * 
+	 * @param object Magnitude $aMagnitude
+	 * @return boolean
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function isLessThan ( &$aMagnitude ) {
+		if (!method_exists($anObject, 'getFloatValue'))
+ 			return false;
+ 		
+ 		return ($this->_float < $object->getFloatValue())?true:false;
 	}
 	
 	/**

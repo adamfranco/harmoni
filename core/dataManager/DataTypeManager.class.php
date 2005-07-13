@@ -1,7 +1,6 @@
 <?php
 
 require_once(HARMONI."utilities/recast.function.php");
-require_once(HARMONI."dataManager/Primitive.interface.php");
 require_once(HARMONI."dataManager/StorablePrimitive.interface.php");
 require_once(HARMONI."dataManager/primitives/inc.php");
 require_once(HARMONI."dataManager/storablePrimitives/inc.php");
@@ -16,7 +15,7 @@ require_once(HARMONI."dataManager/storablePrimitives/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataTypeManager.class.php,v 1.10 2005/07/13 19:55:20 adamfranco Exp $
+ * @version $Id: DataTypeManager.class.php,v 1.11 2005/07/13 21:00:27 adamfranco Exp $
  *
  * @author Gabe Schine
  */

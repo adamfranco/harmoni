@@ -1,5 +1,7 @@
 <?
 
+require_once(HARMONI."utilities/SObject.class.php");
+
 /**
  * A simple String data type.
  *
@@ -8,9 +10,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: String.class.php,v 1.6 2005/07/13 20:44:09 adamfranco Exp $
+ * @version $Id: String.class.php,v 1.7 2005/07/13 21:00:29 adamfranco Exp $
  */
-class String extends Primitive /* = implements Primitive */ {
+class String 
+	extends SObject 
+{
 	
 	var $_string;
 
@@ -46,15 +50,4 @@ class String extends Primitive /* = implements Primitive */ {
  			
 		return strcmp($object->asString(), $this->asString())==0?true:false;
 	}
-	
-	/**
-	 * "Adopts" the value of the given {@link Primitive} into this one, assuming it is of the same class.
-	 * @param ref object $object The {@link Primitive} to take values from.
-	 * @access public
-	 * @return void
-	 */
-	function adoptValue(&$object)
-	{
-		$this->_string = $object->asString();
-	}	
 }
