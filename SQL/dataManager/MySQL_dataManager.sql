@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_dataManager.sql,v 1.13 2005/04/21 21:37:21 adamfranco Exp $
+-- @version $Id: MySQL_dataManager.sql,v 1.14 2005/07/13 18:40:25 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -228,9 +228,13 @@ CREATE TABLE dm_tag_map (
 -- Table structure for table `dm_time`
 -- 
 
+
 CREATE TABLE dm_time (
   id varchar(75) NOT NULL default '0',
-  data bigint(20) unsigned NOT NULL default '0',
-  PRIMARY KEY  (id)
+  jdn bigint(20) NOT NULL default '0',
+  seconds int(11) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  KEY jdn (jdn),
+  KEY jdn_sec (jdn,seconds)
 ) TYPE=MyISAM;
         
