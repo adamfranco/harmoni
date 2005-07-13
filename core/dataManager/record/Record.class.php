@@ -33,13 +33,13 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.28 2005/07/13 20:44:09 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.29 2005/07/13 21:15:56 gabeschine Exp $
 */
 class Record {
 	
 	var $_myID;
-	var $_active;
 	
+	var $_delete;
 	var $_schema;
 	var $_versionControlled;
 	var $_fields;
@@ -58,13 +58,12 @@ class Record {
 		$this->_schema =& $schema;
 		$this->_fields = array();
 		$this->_versionControlled = $verControl;
-		$this->_active = true;
 		$this->_fetchMode = -1;
 		$this->_fetchedValueIDs = array();
 		
 		$this->_myID = null;
 		
-		$this->_creationDate =& DateAndTime::now();
+		$this->_delete = false;
 		
 		// set up the individual fields
 		foreach ($schema->getAllLabels(true) as $label) {
@@ -88,11 +87,12 @@ class Record {
 	 * Returns the indices (indexes) of each value for the given field. Can then be retrieved with any getValue-type function.
 	 * @access public
 	 * @param string $label
+	 * @param optional boolean $includeInactive Includes the inactive values for 'label'. Default: false
 	 * @return array An array of integers
 	 */
-	function getIndices($label)
+	function getIndices($label, $includeInactive = false)
 	{
-		return $this->_fields[$label]->getIndices();
+		return $this->_fields[$label]->getIndices($includeInactive);
 	}
 	
 	/**
@@ -100,6 +100,7 @@ class Record {
 	 * @access public
 	 * @param string $label
 	 * @return array An array of integers
+	 * @deprecated use getIndices().
 	 */
 	function getActiveIndices($label)
 	{
@@ -174,7 +175,7 @@ class Record {
 	}
 	
 	/**
-	 * Returns the active {@link Primitive} value for the given $index under $label.
+	 * Returns the active {@link SObject} value for the given $index under $label.
 	 * @param string $label
 	 * @param optional integer $index defaults to 0
 	 * @access public
@@ -187,7 +188,7 @@ class Record {
 	}
 	
 	/**
-	 * Returns the active value for a label/index by calling $function on the {@link Primitive} that is returned.
+	 * Returns the active value for a label/index by calling $function on the {@link SObject} that is returned.
 	 * @param string $function The function to call.
 	 * @param string $label The label.
 	 * @param optional int $index defaults to 0
@@ -350,11 +351,12 @@ class Record {
 	}
 	
 	/**
-	 * Returns if this DataSet is active or not.
+	 * Returns if this Record is active or not.
 	 * @return bool
+	 * @deprecated always returns true
 	 */
 	function isActive() {
-		return $this->_active;
+		return true;
 	}
 
 	/**
@@ -400,7 +402,7 @@ class Record {
 	}
 	
 	/**
-	* Sets the value of $index under $label to $obj where $obj is a {@link Primitive}.
+	* Sets the value of $index under $label to $obj where $obj is a {@link SObject}.
 	* @return bool
 	* @param string $label
 	* @param ref object $obj
@@ -441,9 +443,8 @@ class Record {
 			$query =& new UpdateQuery();
 			
 			$query->setTable("dm_record");
-			$query->setColumns(array("active","ver_control"));
+			$query->setColumns(array("ver_control"));
 			$query->setValues(array(
-				($this->_active)?1:0,
 				($this->_versionControlled)?1:0
 				));
 			$query->setWhere("id='".addslashes($this->_myID)."'");
@@ -460,12 +461,11 @@ class Record {
 			
 			$query =& new InsertQuery();
 			$query->setTable("dm_record");
-			$query->setColumns(array("id","fk_schema","created","active","ver_control"));
+			$query->setColumns(array("id","fk_schema","created","ver_control"));
 			$query->addRowOfValues(array(
 				"'".addslashes($this->_myID)."'",
 				"'".addslashes($this->_schema->getID())."'",
 				$dbHandler->toDBDate($this->_creationDate,DATAMANAGER_DBID),
-				($this->_active)?1:0,
 				($this->_versionControlled)?1:0
 				));
 		}
@@ -492,7 +492,7 @@ class Record {
 			$tagMgr =& Services::getService("TagManager");
 			
 			// if we are no good any more, delete ourselves completely
-			if (!$constraint->checkRecord($this)) {
+			if ($this->_delete) {
 				// now, remove any tags from the DB that have to do with us, since they will no longer
 				// be valid.
 				$tagMgr->pruneTags($this);
@@ -604,10 +604,10 @@ class Record {
 	* Changes this Records active flag.
 	* @param boolean $bool The new value.
 	* @return void
+	* @deprecated does nothing
 	*/
 	function setActiveFlag($bool) {
-		ArgumentValidator::validate($bool, BooleanValidatorRule::getRule());
-		$this->_active = $bool;
+		// does nothing
 	}
 	
 	/**
@@ -732,15 +732,15 @@ class Record {
 	}
 	
 	/**
-	 * Deletes this record (de-activeates it). If $prune=true, it will also be removed from the database upon commit().
-	 * @param optional bool $prune If set to TRUE will remove all records from the database upon commit().
+	 * Deletes the record entirely from the database upon calling commit().
 	 * @access public
 	 * @return void
 	 */
-	function delete($prune=false)
+	function delete()
 	{
-		$this->setActiveFlag(false);
-		if ($prune) $this->prune(new PruneAllVersionConstraint());
+		$this->_delete = true;
+		// also remove all of our data
+		$this->prune(new PruneAllVersionConstraint());
 	}
 
 }

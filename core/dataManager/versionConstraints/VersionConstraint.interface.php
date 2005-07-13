@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: VersionConstraint.interface.php,v 1.2 2005/01/19 21:09:59 adamfranco Exp $
+ * @version $Id: VersionConstraint.interface.php,v 1.3 2005/07/13 21:17:44 gabeschine Exp $
  */
 class VersionConstraint {
 	
@@ -32,11 +32,12 @@ class VersionConstraint {
 	function checkTags(&$record) { }
 	
 	/**
-	 * Takes a {@link Record} and returns if it is still valid or should be delete. TRUE if it's still OK.
+	 * Takes a {@link Record} and returns if it is still valid or should be deleted. TRUE if it's still OK.
 	 * NOTE: if a Record is flagged for deletion and the children are not, then
 	 * there's gonna be broken data in the database.
 	 * @param ref object $record
 	 * @return bool
+	 * @deprecated no longer used - Jul 13, 2005
 	 */
 	function checkRecord(&$record) { }
 	

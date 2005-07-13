@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.16 2005/07/13 19:59:42 adamfranco Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.17 2005/07/13 21:15:56 gabeschine Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -45,7 +45,7 @@ class RecordFieldData {
 		
 		$date = $this->_date; // in PHP4 this will replicate the DateAndTime
 		$newObj->setDate($date);
-		$newObj->setValueFromPrimitive($this->_primitive->replicate());
+		$newObj->setValueFromPrimitive($this->_primitive->deepCopy());
 		
 		$newObj->update();
 		
@@ -132,6 +132,15 @@ class RecordFieldData {
 		$this->_prune = true;
 		// if we're pruning, there's no point in updating the DB
 		$this->_update = false;
+	}
+	
+	/**
+	 * Unflags us for deletion from the DB.
+	 * @return void
+	 * @access public
+	 */
+	function cancelPrune() {
+		$this->_prune = false;
 	}
 	
 	/**
@@ -280,8 +289,7 @@ class RecordFieldData {
 	 * @access public
 	 */
 	function takeValueFromPrimitive(&$object) {
-		if (!$this->_primitive) $this->setValueFromPrimitive($object);
-		else $this->_primitive->adoptValue($object);
+		$this->setValueFromPrimitive($object);
 	}
 	
 	/**
@@ -292,6 +300,7 @@ class RecordFieldData {
 	 */
 	function setValueFromPrimitive(&$object) {
 		$this->_primitive =& $object;
+		$this->_recast = false;
 	}
 	
 	/**

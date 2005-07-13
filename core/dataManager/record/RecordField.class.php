@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordField.class.php,v 1.13 2005/06/13 17:42:56 gabeschine Exp $
+ * @version $Id: RecordField.class.php,v 1.14 2005/07/13 21:15:56 gabeschine Exp $
  **/
 class RecordField {
 	
@@ -59,13 +59,23 @@ class RecordField {
 	}
 	
 	/**
-	 * Returns the indices for a multi-valued field.
+	 * Returns the indices for a multi-valued field. Will only return those values that are active (for version-controlled Records).
+	 * @param optional boolean $includeInactive Includes inactive indices as well.
 	 * @access public
 	 * @return array
 	 */
-	function getIndices()
+	function getIndices($includeInactive = false)
 	{
-		return array_keys($this->_values);
+		if ($includeInactive)
+			return array_keys($this->_values);
+		
+		$array = array();
+		foreach (array_keys($this->_values) as $key) {
+			if (!$this->deleted($key))
+				$array[] = $key;
+		}
+		
+		return $array;
 	}
 	
 	/**
@@ -103,7 +113,7 @@ class RecordField {
 		
 		$pruned = array();
 		
-		foreach ($this->getIndices() as $i) {
+		foreach ($this->getIndices(true) as $i) {
 			if ($this->_values[$i]->willPruneAll()) $pruned[] = $i;
 			$this->_values[$i]->commit();
 		}
@@ -122,7 +132,7 @@ class RecordField {
 		$this->_parent->makeFull();
 		// just step through each ValueVersions object and call prune()
 		$j = 0;
-		foreach ($this->getIndices() as $i) {
+		foreach ($this->getIndices(true) as $i) {
 			$this->_values[$i]->prune($versionConstraint);
 			
 			// now, if we are pruning and we will completely remove an index within this field,
@@ -180,7 +190,7 @@ class RecordField {
 	/**
 	* Adds $value to a new index within this label, assuming it allows multiple values.
 	* @return bool
-	* @param ref object $value A {@link Primitive} object.
+	* @param ref object $value A {@link SObject} object.
 	*/
 	function addValueFromPrimitive(&$value) {
 		// make sure that we have all our values & indices represented before trying to add a new one
@@ -208,7 +218,7 @@ class RecordField {
 	
 	function _getNextAvailableIndex() {
 		for($i=0; true; $i++) {
-			if (!in_array($i,$this->getIndices())) return $i;
+			if (!in_array($i,$this->getIndices(true))) return $i;
 		}
 		print "<b>Eh? We can't find a new index?</b><br />";
 		printDebugBacktrace(); exit();
@@ -252,7 +262,11 @@ class RecordField {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
 		
-		return $this->_values[$index]->setActiveFlag(false);
+		// if we are version-controlled, just unset the active flag.
+		// otherwise, we will actually delete the value from the db.
+		// this functionality is actually handled by RecordFieldValue
+		$this->_values[$index]->setActiveFlag(false);
+		return true;
 	}	
 	
 	/**
@@ -268,7 +282,8 @@ class RecordField {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
 		
-		return $this->_values[$index]->setActiveFlag(true);
+		$this->_values[$index]->setActiveFlag(true);
+		return true;
 	}
 	
 	/**

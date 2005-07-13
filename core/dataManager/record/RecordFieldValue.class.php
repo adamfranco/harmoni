@@ -17,7 +17,7 @@ define("NEW_VERSION","new");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldValue.class.php,v 1.14 2005/07/13 17:41:12 adamfranco Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.15 2005/07/13 21:15:56 gabeschine Exp $
  *
  * @author Gabe Schine
  */
@@ -179,7 +179,7 @@ class RecordFieldValue {
 	* "Sets" the value of this specific index to $value. If the Record is version controlled, a new
 	* version is added. Otherwise, the current active version is modified.
 	* @return bool
-	* @param ref object $value A {@link Primitive} object.
+	* @param ref object $value A {@link SObject} object.
 	*/
 	function setValueFromPrimitive(&$value) {
 		// if we're version controlled, we're adding a new version
@@ -311,6 +311,7 @@ class RecordFieldValue {
 		
 		$ver =& $this->getNewestVersion();
 		$ver->setActiveFlag(true);
+		$ver->cancelPrune(); // if we told it to prune.
 		$ver->update(); // update to DB on commit()
 	}
 	
