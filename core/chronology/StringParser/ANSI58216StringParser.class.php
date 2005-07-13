@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ANSI58216StringParser.class.php,v 1.2 2005/05/27 14:36:06 adamfranco Exp $
+ * @version $Id: ANSI58216StringParser.class.php,v 1.3 2005/07/13 13:34:04 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -39,7 +39,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ANSI58216StringParser.class.php,v 1.2 2005/05/27 14:36:06 adamfranco Exp $
+ * @version $Id: ANSI58216StringParser.class.php,v 1.3 2005/07/13 13:34:04 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -121,10 +121,14 @@ $
 		//     [4] => 12
 		//     [5] => 06.10
 		
-		$this->setDay($matches[1].$matches[2]);
-		$this->setHour($matches[1].$matches[3]);
-		$this->setMinute($matches[1].$matches[4]);
-		$this->setSecond($matches[1].$matches[5]);
+		if (isset($matches[2]))
+			$this->setDay($matches[1].$matches[2]);
+		if (isset($matches[3]))
+			$this->setHour($matches[1].$matches[3]);
+		if (isset($matches[4]))
+			$this->setMinute($matches[1].$matches[4]);
+		if (isset($matches[5]))
+			$this->setSecond($matches[1].$matches[5]);
 	}
 	
 	/**

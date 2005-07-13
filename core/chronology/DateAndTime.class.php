@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.19 2005/06/09 21:31:44 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.20 2005/07/13 13:33:24 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -64,7 +64,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.19 2005/06/09 21:31:44 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.20 2005/07/13 13:33:24 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -237,7 +237,7 @@ class DateAndTime
 	 * @static
 	 */
 	function &midnight ( $class = 'DateAndTime' ) {
-		eval('$result =& '.$class.'::now('.$class.');');
+		eval('$result =& '.$class.'::now("'.$class.'");');
 		return $result->atMidnight();
 	}
 	
@@ -607,7 +607,7 @@ class DateAndTime
 		$p = intval(($monthIndex - 14) / 12);
 		$q = $anIntYear + 4800 + $p;
 		$r = $monthIndex - 2 - (12 * $p);
-		$s = intval(($anIntYear + 4900 + p) / 100);
+		$s = intval(($anIntYear + 4900 + $p) / 100);
 		
 		$julianDayNumber = 		intval((1461 * $q) / 4)
 							+ 	intval((367 * $r) / 12)
@@ -718,7 +718,7 @@ class DateAndTime
 	 */
 	function &atMidnight () {
 		eval('$result =& '.get_class($this).'::withYearMonthDay($this->year(),
-				$this->month(), $this->dayOfMonth(), '.get_class($this).');');
+				$this->month(), $this->dayOfMonth(), "'.get_class($this).'");');
 		return $result;
 	}
 	

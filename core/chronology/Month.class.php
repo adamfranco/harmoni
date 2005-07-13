@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.10 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.11 2005/07/13 13:33:24 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -34,7 +34,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.10 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.11 2005/07/13 13:33:24 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -350,7 +350,7 @@ class Month
 		eval('$result =& '.get_class($this).'::startingDuration(
  			$this->start->minus(Duration::withDays(1)),
  			$this->duration,
- 			'.get_class($this).');');
+ 			"'.get_class($this).'");');
  		return $result;
 	}
 	

@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.10 2005/05/25 21:42:17 adamfranco Exp $
+ * @version $Id: test.php,v 1.11 2005/07/13 13:34:04 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -39,7 +39,7 @@
 	$test->addTestFile(dirname(__FILE__).'/TimespanTestCase.class.php');
 	$test->addTestFile(dirname(__FILE__).'/YearTestCase.class.php');
 	$test->addTestFile(dirname(__FILE__).'/WeekTestCase.class.php');
-	
+	$test->addTestFile(dirname(__FILE__).'/SObjectTestCase.class.php');
 	
 	$test->addTestFile(dirname(__FILE__).'/../StringParser/tests/test.php');
 	

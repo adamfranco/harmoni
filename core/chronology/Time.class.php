@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.7 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.8 2005/07/13 13:33:24 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -41,7 +41,7 @@ require_once("Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.7 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.8 2005/07/13 13:33:24 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -294,9 +294,9 @@ class Time
 	 */
 	function string12 ( $showSeconds = TRUE ) {
 		if ($this->hour() > 12)
-			$result .= $this->hour() - 12;
+			$result = $this->hour() - 12;
 		else
-			$result .= $this->hour();
+			$result = $this->hour();
 		
 		$result .= ':';
 		$result .= str_pad(abs($this->minute()), 2, '0', STR_PAD_LEFT);
@@ -323,7 +323,7 @@ class Time
 	 * @since 5/20/05
 	 */
 	function string24 ( $showSeconds = TRUE ) {
-		$result .= str_pad(abs($this->hour()), 2, '0', STR_PAD_LEFT);
+		$result = str_pad(abs($this->hour()), 2, '0', STR_PAD_LEFT);
 		$result .= ':';
 		$result .= str_pad(abs($this->minute()), 2, '0', STR_PAD_LEFT);
 		

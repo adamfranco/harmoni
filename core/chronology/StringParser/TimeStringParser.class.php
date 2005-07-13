@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStringParser.class.php,v 1.2 2005/05/27 14:36:06 adamfranco Exp $
+ * @version $Id: TimeStringParser.class.php,v 1.3 2005/07/13 13:34:04 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -27,7 +27,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStringParser.class.php,v 1.2 2005/05/27 14:36:06 adamfranco Exp $
+ * @version $Id: TimeStringParser.class.php,v 1.3 2005/07/13 13:34:04 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -99,13 +99,16 @@ $
 		// [3] => 10
 		// [4] => pm
 		
-		if (strtolower($matches[4]) == 'pm' && $matches[1] < 13)
+		if (isset($matches[4]) && strtolower($matches[4]) == 'pm' && $matches[1] < 13)
 			$this->setHour($matches[1] + 12);
 		else
 			$this->setHour($matches[1]);
-			
-		$this->setMinute($matches[2]);
-		$this->setSecond($matches[3]);
+		
+		if (isset($matches[2]))
+			$this->setMinute($matches[2]);
+		
+		if (isset($matches[3]))
+			$this->setSecond($matches[3]);
 	}
 }
 

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParser.class.php,v 1.2 2005/05/24 23:09:17 adamfranco Exp $
+ * @version $Id: ISO8601StringParser.class.php,v 1.3 2005/07/13 13:34:04 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -29,7 +29,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParser.class.php,v 1.2 2005/05/24 23:09:17 adamfranco Exp $
+ * @version $Id: ISO8601StringParser.class.php,v 1.3 2005/07/13 13:34:04 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -150,18 +150,36 @@ $
 		//     [9] => 04
 		//     [10] => 00
 		
-		$this->setYear($matches[1]);
-		$this->setMonth($matches[2]);
-		$this->setDay($matches[3]);
-		$this->setHour($matches[4]);
-		$this->setMinute($matches[5]);
-		$this->setSecond($matches[6]);
-		if ($matches[7] == 'Z') {
+		if (isset($matches[1]))
+			$this->setYear($matches[1]);
+		
+		if (isset($matches[2]))
+			$this->setMonth($matches[2]);
+		
+		if (isset($matches[3]))
+			$this->setDay($matches[3]);
+		
+		if (isset($matches[4]))
+			$this->setHour($matches[4]);
+		
+		if (isset($matches[5]))
+			$this->setMinute($matches[5]);
+		
+		if (isset($matches[6]))
+			$this->setSecond($matches[6]);
+		
+		if (isset($matches[7]) && $matches[7] == 'Z') {
 			$this->setOffsetHour(0);
 			$this->setOffsetMinute(0);
-		} else if ($matches[7]) {
-			$this->setOffsetHour(intval($matches[8].$matches[9]));
-			$this->setOffsetMinute(intval($matches[8].$matches[10]));
+		} else if (isset($matches[7])) {
+			$sign = $matches[8];
+			$hour = $matches[9];
+			if (isset($matches[10]))
+				$minute = $matches[10];
+			else
+				$minute = 0;
+			$this->setOffsetHour(intval($sign.$hour));
+			$this->setOffsetMinute(intval($sign.$minute));
 		}
 	}
 }
