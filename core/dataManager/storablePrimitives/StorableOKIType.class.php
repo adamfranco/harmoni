@@ -8,12 +8,51 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableOKIType.class.php,v 1.7 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: StorableOKIType.class.php,v 1.8 2005/07/13 19:56:15 adamfranco Exp $
  */
-class StorableOKIType extends OKIType /* implements StorablePrimitive */ {
+class StorableOKIType 
+	extends Type 
+	/* implements StorablePrimitive */ 
+{
 
-	function StorableOKIType() {}
+/*********************************************************
+ * Class Methods
+ *********************************************************/
+
+	/**
+	 * Takes a single database row, which would contain the columns added by alterQuery()
+	 * and extracts the values to setup the object with the appropriate data.
+	 * @param array $dbRow
+	 * @access public
+	 * @return object StorableOKIType
+	 */
+	function &populate( $dbRow ) {
+		return new StorableOKIType(	$dbRow["okitype_domain"], 
+									$dbRow["okitype_authority"],
+									$dbRow["okitype_keyword"]);
+	}
 	
+	/**
+	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
+	 * {@link Primitive} value that is passed. It is used when searching for datasets that contain a certain
+	 * field=value pair.
+	 * @param ref object $value The {@link Primitive} object to search for.
+	 * @param int $searchType One of the SEARCH_TYPE_* constants, defining what type of search this should be (ie, equals, 
+	 * contains, greater than, less than, etc)
+	 * @return string or NULL if no searching is allowed.
+	 * @static
+	 */
+	function makeSearchString(&$type, $searchType = SEARCH_TYPE_EQUALS) {
+		if ($searchType == SEARCH_TYPE_EQUALS) return "(dm_okitype.domain='".addslashes($type->getDomain())."' AND ".
+		 "dm_okitype.authority='".addslashes($type->getAuthority())."' AND ".
+		 "dm_okitype.keyword='".addslashes($type->getKeyword())."')";
+		 return null;
+	}
+
+/*********************************************************
+ * Instance Methods
+ *********************************************************/
+ 	
 	/**
 	 * Inserts a new row into the Database with the data contained in the object.
 	 * @param integer $dbID The {@link DBHandler} database ID to query.
@@ -85,33 +124,6 @@ class StorableOKIType extends OKIType /* implements StorablePrimitive */ {
 		$query->addColumn("domain","okitype_domain","dm_okitype");
 		$query->addColumn("authority","okitype_authority","dm_okitype");
 		$query->addColumn("keyword","okitype_keyword","dm_okitype");
-	}
-	
-	/**
-	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
-	 * {@link Primitive} value that is passed. It is used when searching for datasets that contain a certain
-	 * field=value pair.
-	 * @param ref object $value The {@link Primitive} object to search for.
-	 * @param int $searchType One of the SEARCH_TYPE_* constants, defining what type of search this should be (ie, equals, 
-	 * contains, greater than, less than, etc)
-	 * @return string or NULL if no searching is allowed.
-	 */
-	function makeSearchString(&$type, $searchType = SEARCH_TYPE_EQUALS) {
-		if ($searchType == SEARCH_TYPE_EQUALS) return "(dm_okitype.domain='".addslashes($type->getDomain())."' AND ".
-		 "dm_okitype.authority='".addslashes($type->getAuthority())."' AND ".
-		 "dm_okitype.keyword='".addslashes($type->getKeyword())."')";
-		 return null;
-	}
-	
-	/**
-	 * Takes a single database row, which would contain the columns added by alterQuery()
-	 * and extracts the values to setup the object with the appropriate data.
-	 * @param array $dbRow
-	 * @access public
-	 * @return void
-	 */
-	function populate( $dbRow ) {
-		parent::OKIType($dbRow["okitype_domain"], $dbRow["okitype_authority"], $dbRow["okitype_keyword"]);
 	}
 	
 	/**

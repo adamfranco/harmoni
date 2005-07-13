@@ -10,9 +10,46 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableBlob.class.php,v 1.3 2005/01/19 21:09:43 adamfranco Exp $
+ * @version $Id: StorableBlob.class.php,v 1.4 2005/07/13 19:56:15 adamfranco Exp $
  */
-class StorableBlob extends StorableStringAbstract /* implements StorablePrimitive */ {
+class StorableBlob 
+	extends StorableStringAbstract 
+	/* implements StorablePrimitive */ 
+{
+
+/*********************************************************
+ * Class Methods
+ *********************************************************/
+ 
+ 	/**
+	 * Takes a single database row, which would contain the columns added by alterQuery()
+	 * and extracts the values to setup the object with the appropriate data.
+	 * @param array $dbRow
+	 * @access public
+	 * @return object StorableBlob
+	 * @static
+	 */
+	function &populate( $dbRow ) {
+		$blob =& new StorableBlob;
+		$blob->_setValue($dbRow["blob_data"]);
+		return $blob;
+	}
+ 
+ /*********************************************************
+  * Instance Methods
+  *********************************************************/
+		
+	/**
+	 * Set the value
+	 * 
+	 * @param $value
+	 * @return void
+	 * @access private
+	 * @since 7/13/05
+	 */
+	function _setValue ($value) {
+		$this->_string = (string) $value;
+	}
 
 	function StorableBlob() {
 		$this->_table = "dm_blob";
@@ -29,17 +66,6 @@ class StorableBlob extends StorableStringAbstract /* implements StorablePrimitiv
 	function alterQuery( &$query ) {
 		$query->addTable("dm_blob",LEFT_JOIN,"dm_blob.id = fk_data");
 		$query->addColumn("data","blob_data","dm_blob");
-	}
-	
-	/**
-	 * Takes a single database row, which would contain the columns added by alterQuery()
-	 * and extracts the values to setup the object with the appropriate data.
-	 * @param array $dbRow
-	 * @access public
-	 * @return void
-	 */
-	function populate( $dbRow ) {
-		$this->_string = (string) $dbRow["blob_data"];
 	}
 	
 	function getBlobValue() {

@@ -8,10 +8,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableString.abstract.php,v 1.6 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: StorableString.abstract.php,v 1.7 2005/07/13 19:56:15 adamfranco Exp $
  */
 class StorableStringAbstract extends String /* implements StorablePrimitive */ {
-	
+
+/*********************************************************
+ * Instance Methods
+ *********************************************************/
+ 
 	var $_table;
 	
 	/**
@@ -66,25 +70,6 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 			return false;
 		}
 		return true;
-	}
-	
-	/**
-	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
-	 * {@link Primitive} value that is passed. It is used when searching for datasets that contain a certain
-	 * field=value pair.
-	 * @param ref object $value The {@link Primitive} object to search for.
-	 * @param int $searchType One of the SEARCH_TYPE_* constants, defining what type of search this should be (ie, equals, 
-	 * contains, greater than, less than, etc)
-	 * @return string or NULL if no searching is allowed.
-	 */
-	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
-		if ($searchType == SEARCH_TYPE_EQUALS) {
-			return $this->_table.".data='".addslashes($value->toString())."'";
-		}
-		if ($searchType == SEARCH_TYPE_CONTAINS) {
-			return $this->_table.".data LIKE '%".addslashes($value->toString())."%'";
-		}
-		return null;
 	}
 	
 	/**

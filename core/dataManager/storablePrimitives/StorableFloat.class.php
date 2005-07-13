@@ -8,11 +8,75 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableFloat.class.php,v 1.7 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: StorableFloat.class.php,v 1.8 2005/07/13 19:56:15 adamfranco Exp $
  */
-class StorableFloat extends Double /* implements StorablePrimitive */ {
+class StorableFloat 
+	extends Double 
+	/* implements StorablePrimitive */ 
+{
+
+/*********************************************************
+ * Class Methods
+ *********************************************************/
+ 
+ 	/**
+	 * Takes a single database row, which would contain the columns added by alterQuery()
+	 * and extracts the values to setup the object with the appropriate data.
+	 * @param array $dbRow
+	 * @access public
+	 * @return object StorableFloat
+	 * @static
+	 */
+	function &populate( $dbRow ) {
+		$float =& new StorableFloat;
+		$float->_setValue($dbRow["float_data"]);
+		return $float;
+	}
 	
-	function StorableFloat() { }
+	/**
+	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
+	 * {@link Primitive} value that is passed. It is used when searching for datasets that contain a certain
+	 * field=value pair.
+	 * @param ref object $value The {@link Primitive} object to search for.
+	 * @param int $searchType One of the SEARCH_TYPE_* constants, defining what type of search this should be (ie, equals, 
+	 * contains, greater than, less than, etc)
+	 * @return string or NULL if no searching is allowed.
+	 * @static
+	 */
+	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
+		if ($searchType == SEARCH_TYPE_EQUALS) {
+			return "dm_float.data = ".$value->getDoubleValue();
+		}
+		if ($searchType == SEARCH_TYPE_GREATER_THAN) {
+			return "dm_float.data > ".$value->getDoubleValue();
+		}
+		if ($searchType == SEARCH_TYPE_LESS_THAN) {
+			return "dm_float.data < ".$value->getDoubleValue();
+		}
+		if ($searchType == SEARCH_TYPE_GREATER_THAN_OR_EQUALS) {
+			return "dm_float.data >= ".$value->getDoubleValue();
+		}
+		if ($searchType == SEARCH_TYPE_LESS_THAN_OR_EQUALS) {
+			return "dm_float.data <= ".$value->getDoubleValue();
+		}
+		return null;
+	}
+ 
+ /*********************************************************
+  * Instance Methods
+  *********************************************************/
+		
+	/**
+	 * Set the value
+	 * 
+	 * @param $value
+	 * @return void
+	 * @access private
+	 * @since 7/13/05
+	 */
+	function _setValue ($value) {
+		$this->_float = (double) $value;
+	}
 	
 	/**
 	 * Inserts a new row into the Database with the data contained in the object.
@@ -79,45 +143,6 @@ class StorableFloat extends Double /* implements StorablePrimitive */ {
 	function alterQuery( &$query ) {
 		$query->addTable("dm_float",LEFT_JOIN,"dm_float.id = fk_data");
 		$query->addColumn("data","float_data","dm_float");
-	}
-	
-	/**
-	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
-	 * {@link Primitive} value that is passed. It is used when searching for datasets that contain a certain
-	 * field=value pair.
-	 * @param ref object $value The {@link Primitive} object to search for.
-	 * @param int $searchType One of the SEARCH_TYPE_* constants, defining what type of search this should be (ie, equals, 
-	 * contains, greater than, less than, etc)
-	 * @return string or NULL if no searching is allowed.
-	 */
-	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
-		if ($searchType == SEARCH_TYPE_EQUALS) {
-			return "dm_float.data = ".$value->getDoubleValue();
-		}
-		if ($searchType == SEARCH_TYPE_GREATER_THAN) {
-			return "dm_float.data > ".$value->getDoubleValue();
-		}
-		if ($searchType == SEARCH_TYPE_LESS_THAN) {
-			return "dm_float.data < ".$value->getDoubleValue();
-		}
-		if ($searchType == SEARCH_TYPE_GREATER_THAN_OR_EQUALS) {
-			return "dm_float.data >= ".$value->getDoubleValue();
-		}
-		if ($searchType == SEARCH_TYPE_LESS_THAN_OR_EQUALS) {
-			return "dm_float.data <= ".$value->getDoubleValue();
-		}
-		return null;
-	}
-	
-	/**
-	 * Takes a single database row, which would contain the columns added by alterQuery()
-	 * and extracts the values to setup the object with the appropriate data.
-	 * @param array $dbRow
-	 * @access public
-	 * @return void
-	 */
-	function populate( $dbRow ) {
-		$this->_float = (double) $dbRow["float_data"];
 	}
 	
 	/**

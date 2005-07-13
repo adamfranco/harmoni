@@ -10,7 +10,7 @@ require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FieldValueSearch.class.php,v 1.6 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: FieldValueSearch.class.php,v 1.7 2005/07/13 19:56:15 adamfranco Exp $
  */
 class FieldValueSearch extends SearchCriteria {
 	
@@ -49,10 +49,8 @@ class FieldValueSearch extends SearchCriteria {
 			for field '$this->_label'; a '".$field->getType()."' is required.","FieldValueSearch",true));
 		}
 		
-		// ok, looks good.
-		$tmpObj =& $typeMgr->newStorablePrimitive($field->getType());
-		
-		$string = $tmpObj->makeSearchString($this->_value, $this->_comparison);
+		$class =& $dataTypeManager->storablePrimitiveClassForType($field->getType());
+		eval('$string = '.$class.'::makeSearchString($this->_value, $this->_comparison);');
 		
 		return "(dm_record_field.fk_schema_field='".addslashes($def->getFieldID($this->_label))."' AND ".$string." AND dm_record_field.active=1)";
 	}

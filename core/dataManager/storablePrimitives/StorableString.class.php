@@ -10,10 +10,67 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableString.class.php,v 1.2 2005/01/19 21:09:43 adamfranco Exp $
+ * @version $Id: StorableString.class.php,v 1.3 2005/07/13 19:56:15 adamfranco Exp $
  */
-class StorableString extends StorableStringAbstract /* implements StorablePrimitive */ {
+class StorableString 
+	extends StorableStringAbstract 
+	/* implements StorablePrimitive */ 
+{
 
+/*********************************************************
+ * Class Methods
+ *********************************************************/
+ 
+ 	/**
+	 * Takes a single database row, which would contain the columns added by alterQuery()
+	 * and extracts the values to setup the object with the appropriate data.
+	 * @param array $dbRow
+	 * @access public
+	 * @return object StorableString
+	 * @static
+	 */
+	function &populate( $dbRow ) {
+		$string =& new StorableString;
+		$string->_setValue($dbRow["string_data"]);
+		return $string;
+	}
+	
+	/**
+	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
+	 * {@link Primitive} value that is passed. It is used when searching for datasets that contain a certain
+	 * field=value pair.
+	 * @param ref object $value The {@link Primitive} object to search for.
+	 * @param int $searchType One of the SEARCH_TYPE_* constants, defining what type of search this should be (ie, equals, 
+	 * contains, greater than, less than, etc)
+	 * @return string or NULL if no searching is allowed.
+	 * @static
+	 */
+	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
+		if ($searchType == SEARCH_TYPE_EQUALS) {
+			return "dm_string.data='".addslashes($value->toString())."'";
+		}
+		if ($searchType == SEARCH_TYPE_CONTAINS) {
+			return "dm_string.data LIKE '%".addslashes($value->toString())."%'";
+		}
+		return null;
+	}
+ 
+ /*********************************************************
+  * Instance Methods
+  *********************************************************/
+		
+	/**
+	 * Set the value
+	 * 
+	 * @param $value
+	 * @return void
+	 * @access private
+	 * @since 7/13/05
+	 */
+	function _setValue ($value) {
+		$this->_string = (string) $value;
+	}
+	
 	function StorableString() {
 		$this->_table = "dm_string";
 	}
@@ -29,17 +86,6 @@ class StorableString extends StorableStringAbstract /* implements StorablePrimit
 	function alterQuery( &$query ) {
 		$query->addTable("dm_string",LEFT_JOIN,"dm_string.id = fk_data");
 		$query->addColumn("data","string_data","dm_string");
-	}
-	
-	/**
-	 * Takes a single database row, which would contain the columns added by alterQuery()
-	 * and extracts the values to setup the object with the appropriate data.
-	 * @param array $dbRow
-	 * @access public
-	 * @return void
-	 */
-	function populate( $dbRow ) {
-		$this->_string = (string) $dbRow["string_data"];
 	}
 	
 }

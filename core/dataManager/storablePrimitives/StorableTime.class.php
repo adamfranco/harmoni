@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableTime.class.php,v 1.12 2005/07/13 19:09:43 ndhungel Exp $
+ * @version $Id: StorableTime.class.php,v 1.13 2005/07/13 19:56:15 adamfranco Exp $
  */
 class StorableTime 
 	extends DateAndTime /* implements StorablePrimitive */ 
@@ -28,7 +28,7 @@ class StorableTime
 	 *
 	 * @param array $dbRow
 	 * @access public
-	 * @return void
+	 * @return object StorableTime
 	 * @static
 	 */
 	function &populate( $dbRow ) {
@@ -42,6 +42,41 @@ class StorableTime
 		// Convert the time to the local offset, maintain equivalent time to the 
 		// UTC version
 		return $date->asLocal();
+	}
+	
+	/**
+	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
+	 * {@link Primitive} value that is passed. It is used when searching for datasets that contain a certain
+	 * field=value pair.
+	 * @param ref object $value The {@link Primitive} object to search for.
+	 * @param int $searchType One of the SEARCH_TYPE_* constants, defining what type of search this should be (ie, equals, 
+	 * contains, greater than, less than, etc)
+	 * @return string or NULL if no searching is allowed.
+	 * @static
+	 */
+	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
+		// Convert to UTC
+		$utc =& $this->asUTC();
+		$utcTime =& $utc->asTime();
+		$jdn = $utc->julianDayNumber();
+		$seconds = $utcTime->asSeconds();
+		
+		if ($searchType == SEARCH_TYPE_EQUALS) {
+			return "(dm_time.jdn=$jdn AND dm_time.seconds=$seconds)";
+		}
+		if ($searchType == SEARCH_TYPE_LESS_THAN) {
+			return "(dm_time.jdn<$jdn OR (dm_time.jdn=$jdn AND dm_time.seconds<$seconds))";
+		}
+		if ($searchType == SEARCH_TYPE_GREATER_THAN) {
+			return "(dm_time.jdn>$jdn OR (dm_time.jdn=$jdn AND dm_time.seconds>$seconds))";
+		}
+		if ($searchType == SEARCH_TYPE_GREATER_THAN_OR_EQUALS) {
+			return "(dm_time.jdn>$jdn OR (dm_time.jdn=$jdn AND dm_time.seconds>=$seconds))";
+		}
+		if ($searchType == SEARCH_TYPE_LESS_THAN_OR_EQUALS) {
+			return "(dm_time.jdn<$jdn OR (dm_time.jdn=$jdn AND dm_time.seconds<=$seconds))";
+		}
+		return null;
 	}
 	
 /*********************************************************
@@ -516,40 +551,6 @@ class StorableTime
 			return false;
 		}
 		return true;
-	}
-	
-	/**
-	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
-	 * {@link Primitive} value that is passed. It is used when searching for datasets that contain a certain
-	 * field=value pair.
-	 * @param ref object $value The {@link Primitive} object to search for.
-	 * @param int $searchType One of the SEARCH_TYPE_* constants, defining what type of search this should be (ie, equals, 
-	 * contains, greater than, less than, etc)
-	 * @return string or NULL if no searching is allowed.
-	 */
-	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
-		// Convert to UTC
-		$utc =& $this->asUTC();
-		$utcTime =& $utc->asTime();
-		$jdn = $utc->julianDayNumber();
-		$seconds = $utcTime->asSeconds();
-		
-		if ($searchType == SEARCH_TYPE_EQUALS) {
-			return "(".$this->_table.".jdn=$jdn AND ".$this->_table.".seconds=$seconds)";
-		}
-		if ($searchType == SEARCH_TYPE_LESS_THAN) {
-			return "(".$this->_table.".jdn<$jdn OR (".$this->_table.".jdn=$jdn AND ".$this->_table.".seconds<$seconds))";
-		}
-		if ($searchType == SEARCH_TYPE_GREATER_THAN) {
-			return "(".$this->_table.".jdn>$jdn OR (".$this->_table.".jdn=$jdn AND ".$this->_table.".seconds>$seconds))";
-		}
-		if ($searchType == SEARCH_TYPE_GREATER_THAN_OR_EQUALS) {
-			return "(".$this->_table.".jdn>$jdn OR (".$this->_table.".jdn=$jdn AND ".$this->_table.".seconds>=$seconds))";
-		}
-		if ($searchType == SEARCH_TYPE_LESS_THAN_OR_EQUALS) {
-			return "(".$this->_table.".jdn<$jdn OR (".$this->_table.".jdn=$jdn AND ".$this->_table.".seconds<=$seconds))";
-		}
-		return null;
 	}
 	
 	/**

@@ -8,12 +8,74 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableInteger.class.php,v 1.7 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: StorableInteger.class.php,v 1.8 2005/07/13 19:56:15 adamfranco Exp $
  */
-class StorableInteger extends Integer /* implements StorablePrimitive */ {
+class StorableInteger 
+	extends Integer 
+	/* implements StorablePrimitive */ 
+{
 
-	function StorableInteger() {
-		// do nothing.
+/*********************************************************
+ * Class Methods
+ *********************************************************/
+ 
+ 	/**
+	 * Takes a single database row, which would contain the columns added by alterQuery()
+	 * and extracts the values to setup the object with the appropriate data.
+	 * @param array $dbRow
+	 * @access public
+	 * @return object StorableInteger
+	 * @static
+	 */
+	function &populate( $dbRow ) {
+		$integer =& new StorableInteger;
+		$integer->_setValue($dbRow["integer_data"]);
+		return $integer;
+	}
+	
+	/**
+	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
+	 * {@link Primitive} value that is passed. It is used when searching for datasets that contain a certain
+	 * field=value pair.
+	 * @param ref object $value The {@link Primitive} object to search for.
+	 * @param int $searchType One of the SEARCH_TYPE_* constants, defining what type of search this should be (ie, equals, 
+	 * contains, greater than, less than, etc)
+	 * @return string or NULL if no searching is allowed.
+	 * @static
+	 */
+	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
+		if ($searchType == SEARCH_TYPE_EQUALS) {
+			return "dm_integer.data = ".$value->getIntegerValue();
+		}
+		if ($searchType == SEARCH_TYPE_GREATER_THAN) {
+			return "dm_integer.data > ".$value->getIntegerValue();
+		}
+		if ($searchType == SEARCH_TYPE_LESS_THAN) {
+			return "dm_integer.data < ".$value->getIntegerValue();
+		}
+		if ($searchType == SEARCH_TYPE_GREATER_THAN_OR_EQUALS) {
+			return "dm_integer.data >= ".$value->getIntegerValue();
+		}
+		if ($searchType == SEARCH_TYPE_LESS_THAN_OR_EQUALS) {
+			return "dm_integer.data <= ".$value->getIntegerValue();
+		}
+		return null;
+	}
+ 
+ /*********************************************************
+  * Instance Methods
+  *********************************************************/
+  	
+  	/**
+	 * Set the value
+	 * 
+	 * @param $value
+	 * @return void
+	 * @access private
+	 * @since 7/13/05
+	 */
+	function _setValue ($value) {
+		$this->_int = (integer) $value;
 	}
 	
 	/**
@@ -81,45 +143,6 @@ class StorableInteger extends Integer /* implements StorablePrimitive */ {
 	function alterQuery( &$query ) {
 		$query->addTable("dm_integer",LEFT_JOIN,"dm_integer.id = fk_data");
 		$query->addColumn("data","integer_data","dm_integer");
-	}
-	
-	/**
-	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
-	 * {@link Primitive} value that is passed. It is used when searching for datasets that contain a certain
-	 * field=value pair.
-	 * @param ref object $value The {@link Primitive} object to search for.
-	 * @param int $searchType One of the SEARCH_TYPE_* constants, defining what type of search this should be (ie, equals, 
-	 * contains, greater than, less than, etc)
-	 * @return string or NULL if no searching is allowed.
-	 */
-	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
-		if ($searchType == SEARCH_TYPE_EQUALS) {
-			return "dm_integer.data = ".$value->getIntegerValue();
-		}
-		if ($searchType == SEARCH_TYPE_GREATER_THAN) {
-			return "dm_integer.data > ".$value->getIntegerValue();
-		}
-		if ($searchType == SEARCH_TYPE_LESS_THAN) {
-			return "dm_integer.data < ".$value->getIntegerValue();
-		}
-		if ($searchType == SEARCH_TYPE_GREATER_THAN_OR_EQUALS) {
-			return "dm_integer.data >= ".$value->getIntegerValue();
-		}
-		if ($searchType == SEARCH_TYPE_LESS_THAN_OR_EQUALS) {
-			return "dm_integer.data <= ".$value->getIntegerValue();
-		}
-		return null;
-	}
-	
-	/**
-	 * Takes a single database row, which would contain the columns added by alterQuery()
-	 * and extracts the values to setup the object with the appropriate data.
-	 * @param array $dbRow
-	 * @access public
-	 * @return void
-	 */
-	function populate( $dbRow ) {
-		$this->_int = (integer) $dbRow["integer_data"];
 	}
 	
 	/**

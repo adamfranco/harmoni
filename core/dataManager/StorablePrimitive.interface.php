@@ -8,9 +8,39 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorablePrimitive.interface.php,v 1.3 2005/01/19 21:09:41 adamfranco Exp $
+ * @version $Id: StorablePrimitive.interface.php,v 1.4 2005/07/13 19:55:20 adamfranco Exp $
  */
 class StorablePrimitive {
+	
+/*********************************************************
+ * Class Methods
+ *********************************************************/
+ 
+ 	/**
+	 * Takes a single database row, which would contain the columns added by alterQuery()
+	 * and extracts the values to setup the object with the appropriate data.
+	 * @param array $dbRow
+	 * @access public
+	 * @return object StorablePrimitive
+	 * @static
+	 */
+	function &populate( $dbRow ) { }
+	
+	/**
+	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
+	 * {@link Primitive} value that is passed. It is used when searching for datasets that contain a certain
+	 * field=value pair.
+	 * @param ref object $value The {@link Primitive} object to search for.
+	 * @param int $searchType One of the SEARCH_TYPE_* constants, defining what type of search this should be (ie, equals, 
+	 * contains, greater than, less than, etc)
+	 * @return string or NULL if no searching is allowed.
+	 * @static
+	 */
+	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) { }
+	
+/*********************************************************
+ * Instance Methods
+ *********************************************************/
 
 	/**
 	 * Inserts a new row into the Database with the data contained in the object.
@@ -39,26 +69,6 @@ class StorablePrimitive {
 	 * @return void
 	 */
 	function alterQuery( &$query ) { }
-	
-	/**
-	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
-	 * {@link Primitive} value that is passed. It is used when searching for datasets that contain a certain
-	 * field=value pair.
-	 * @param ref object $value The {@link Primitive} object to search for.
-	 * @param int $searchType One of the SEARCH_TYPE_* constants, defining what type of search this should be (ie, equals, 
-	 * contains, greater than, less than, etc)
-	 * @return string or NULL if no searching is allowed.
-	 */
-	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) { }
-	
-	/**
-	 * Takes a single database row, which would contain the columns added by alterQuery()
-	 * and extracts the values to setup the object with the appropriate data.
-	 * @param array $dbRow
-	 * @access public
-	 * @return void
-	 */
-	function populate( $dbRow ) { }
 	
 	/**
 	 * Deletes the data row from the appropriate table.
