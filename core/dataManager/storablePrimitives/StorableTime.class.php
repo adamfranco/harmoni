@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableTime.class.php,v 1.11 2005/07/13 18:41:32 adamfranco Exp $
+ * @version $Id: StorableTime.class.php,v 1.12 2005/07/13 19:09:43 ndhungel Exp $
  */
 class StorableTime 
 	extends DateAndTime /* implements StorablePrimitive */ 
@@ -37,7 +37,7 @@ class StorableTime
 		$date =& $date->plus($timeComponent);
 		
 		// The date in the DB was UTC, so be sure to set the offset to zero here.
-		$date =& $date->withOffset(Duration::zero()));
+		$date =& $date->withOffset(Duration::zero());
 		
 		// Convert the time to the local offset, maintain equivalent time to the 
 		// UTC version

@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.class.php,v 1.19 2005/06/02 21:00:30 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.20 2005/07/13 19:09:58 ndhungel Exp $
  */
 class LanguageLocalizer {
 	/**
@@ -257,7 +257,7 @@ class LanguageLocalizer {
 	 * @return array
 	 */
 	function getLanguages($includeCountries = TRUE) {
-		if (!$_SESSION['__AvailibleLanguages']) {
+		if (!isset($_SESSION['__AvailibleLanguages'])) {
 			$langfile = HARMONI.'languageLocalizer/iso639-utf8.txt';
 			$countryfile = HARMONI.'languageLocalizer/countries.txt';
 			
