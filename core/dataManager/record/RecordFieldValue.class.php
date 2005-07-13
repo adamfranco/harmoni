@@ -17,7 +17,7 @@ define("NEW_VERSION","new");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldValue.class.php,v 1.12 2005/04/12 18:48:08 adamfranco Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.13 2005/07/13 17:36:06 ndhungel Exp $
  *
  * @author Gabe Schine
  */
@@ -79,7 +79,7 @@ class RecordFieldValue {
 		// before we commit, if we have a newVersion and an oldVersion,
 		// let's check to see if their values are equal. if they are, 
 		// we can scrap the new version to save on DB space.
-		if ($this->_versions[NEW_VERSION] && $this->_oldVersion) {
+		if (isset($this->_versions[NEW_VERSION]) && isset($this->_oldVersion)) {
 			$oldVal =& $this->_oldVersion->getPrimitive();
 			$newVal =& $this->_versions[NEW_VERSION]->getPrimitive();
 			
