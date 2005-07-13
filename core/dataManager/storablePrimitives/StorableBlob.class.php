@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableBlob.class.php,v 1.4 2005/07/13 19:56:15 adamfranco Exp $
+ * @version $Id: StorableBlob.class.php,v 1.5 2005/07/13 19:59:42 adamfranco Exp $
  */
 class StorableBlob 
 	extends StorableStringAbstract 
@@ -29,7 +29,7 @@ class StorableBlob
 	 * @return object StorableBlob
 	 * @static
 	 */
-	function &populate( $dbRow ) {
+	function &createAndPopulate( $dbRow ) {
 		$blob =& new StorableBlob;
 		$blob->_setValue($dbRow["blob_data"]);
 		return $blob;

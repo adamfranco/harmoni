@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableString.class.php,v 1.3 2005/07/13 19:56:15 adamfranco Exp $
+ * @version $Id: StorableString.class.php,v 1.4 2005/07/13 19:59:42 adamfranco Exp $
  */
 class StorableString 
 	extends StorableStringAbstract 
@@ -29,7 +29,7 @@ class StorableString
 	 * @return object StorableString
 	 * @static
 	 */
-	function &populate( $dbRow ) {
+	function &createAndPopulate( $dbRow ) {
 		$string =& new StorableString;
 		$string->_setValue($dbRow["string_data"]);
 		return $string;

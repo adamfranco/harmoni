@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableTime.class.php,v 1.13 2005/07/13 19:56:15 adamfranco Exp $
+ * @version $Id: StorableTime.class.php,v 1.14 2005/07/13 19:59:42 adamfranco Exp $
  */
 class StorableTime 
 	extends DateAndTime /* implements StorablePrimitive */ 
@@ -31,7 +31,7 @@ class StorableTime
 	 * @return object StorableTime
 	 * @static
 	 */
-	function &populate( $dbRow ) {
+	function &createAndPopulate( $dbRow ) {
 		$date =& StorableTime::withJulianDayNumber($dbRow["time_jdn"]);
 		$timeComponent =& Duration::withSeconds($dbRow["time_seconds"]);
 		$date =& $date->plus($timeComponent);

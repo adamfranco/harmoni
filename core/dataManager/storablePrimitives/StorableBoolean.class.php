@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableBoolean.class.php,v 1.8 2005/07/13 19:56:15 adamfranco Exp $
+ * @version $Id: StorableBoolean.class.php,v 1.9 2005/07/13 19:59:42 adamfranco Exp $
  */
 class StorableBoolean 
 	extends Boolean 
@@ -27,7 +27,7 @@ class StorableBoolean
 	 * @return object StorableBoolean
 	 * @static
 	 */
-	function &populate( $dbRow ) {
+	function &createAndPopulate( $dbRow ) {
 		$boolean =& new StorableBoolean;
 		$boolean->_setValue($dbRow["boolean_data"]);
 		return $boolean;

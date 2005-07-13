@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorablePrimitive.interface.php,v 1.4 2005/07/13 19:55:20 adamfranco Exp $
+ * @version $Id: StorablePrimitive.interface.php,v 1.5 2005/07/13 19:59:41 adamfranco Exp $
  */
 class StorablePrimitive {
 	
@@ -24,7 +24,7 @@ class StorablePrimitive {
 	 * @return object StorablePrimitive
 	 * @static
 	 */
-	function &populate( $dbRow ) { }
+	function &createAndPopulate( $dbRow ) { }
 	
 	/**
 	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
