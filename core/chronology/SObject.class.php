@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObject.class.php,v 1.2 2005/07/13 13:33:24 adamfranco Exp $
+ * @version $Id: SObject.class.php,v 1.3 2005/07/13 20:43:39 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -25,7 +25,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObject.class.php,v 1.2 2005/07/13 13:33:24 adamfranco Exp $
+ * @version $Id: SObject.class.php,v 1.3 2005/07/13 20:43:39 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -74,6 +74,21 @@ class SObject {
  	 */
  	function isEqualTo ( &$anObject ) {
  		return ($this === $anObject);
+ 	}
+ 	
+ 	/**
+ 	 * Answer whether the receiver and the argument are the same.
+ 	 * 
+ 	 * WARNING: This method is here for convience. DO NOT OVERRIDE.
+ 	 * OVERRIDE isEqualTo() instead.
+ 	 * 
+ 	 * @param object $anObject
+ 	 * @return boolean
+ 	 * @access public
+ 	 * @since 7/11/05
+ 	 */
+ 	function isEqual ( &$anObject ) {
+ 		return $this->isEqualTo($anObject);
  	}
  	
  	/**

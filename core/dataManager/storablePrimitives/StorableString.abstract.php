@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableString.abstract.php,v 1.7 2005/07/13 19:56:15 adamfranco Exp $
+ * @version $Id: StorableString.abstract.php,v 1.8 2005/07/13 20:44:10 adamfranco Exp $
  */
 class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 
@@ -32,7 +32,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 		$query->setTable($this->_table);
 		$query->setColumns(array("id","data"));
 		
-		$query->addRowOfValues(array("'".addslashes($newID->getIdString())."'", "'".addslashes($this->toString())."'"));
+		$query->addRowOfValues(array("'".addslashes($newID->getIdString())."'", "'".addslashes($this->asString())."'"));
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, $dbID);
@@ -60,7 +60,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 		$query->setColumns(array("data"));
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
-		$query->setValues(array("'".addslashes($this->toString())."'"));
+		$query->setValues(array("'".addslashes($this->asString())."'"));
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, $dbID);

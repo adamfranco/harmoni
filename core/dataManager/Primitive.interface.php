@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Primitive.interface.php,v 1.4 2005/07/13 17:41:11 adamfranco Exp $
+ * @version $Id: Primitive.interface.php,v 1.5 2005/07/13 20:44:09 adamfranco Exp $
  */
 class Primitive
 	extends SObject
@@ -27,29 +27,6 @@ class Primitive
 	function adoptValue(&$object)
 	{
 		
-	}
-	
-	/**
-	 * Returns the data in a string format.
-	 * @access public
-	 * @return string
-	 * @deprecated
-	 */
-	function toString()
-	{
-		return $this->printableString();
-	}
-	
-	/**
-	 * Returns true if the object passed is of the same data type with the same value. False otherwise.
-	 * @param ref object $object A {@link Primitive} to compare.
-	 * @access public
-	 * @return boolean
-	 * @deprecated
-	 */
-	function isEqual(&$object)
-	{
-		return $this->isEqualTo($object);
 	}
 	
 	/**

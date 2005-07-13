@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.27 2005/07/13 17:41:12 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.28 2005/07/13 20:44:09 adamfranco Exp $
 */
 class Record {
 	
@@ -213,7 +213,7 @@ class Record {
 		$val =& $actVer->getPrimitive();
 		if (!$val) return null;
 		
-		return $val->toString();
+		return $val->asString();
 	}
 	
 	/**
@@ -678,13 +678,13 @@ class Record {
 				foreach ($this->getIndices($label) as $i) {
 					$value =& $this->getCurrentValue($label,$i);
 					$primitive =& $value->getPrimitive();
-					$array[$label][] = $primitive->toString();
+					$array[$label][] = $primitive->asString();
 				}
 			} else {
 				if ($this->numValues($label)) {
 					$value =& $this->getCurrentValue($label);
 					$primitive =& $value->getPrimitive();
-					$array[$label] = $primitive->toString();
+					$array[$label] = $primitive->asString();
 				}
 			}
 		}

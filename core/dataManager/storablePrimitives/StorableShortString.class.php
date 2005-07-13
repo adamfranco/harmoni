@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableShortString.class.php,v 1.5 2005/07/13 19:59:42 adamfranco Exp $
+ * @version $Id: StorableShortString.class.php,v 1.6 2005/07/13 20:44:10 adamfranco Exp $
  */
 class StorableShortString
 	extends StorableStringAbstract 
@@ -47,10 +47,10 @@ class StorableShortString
 	 */
 	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
 		if ($searchType == SEARCH_TYPE_EQUALS) {
-			return "dm_shortstring.data='".addslashes($value->toString())."'";
+			return "dm_shortstring.data='".addslashes($value->asString())."'";
 		}
 		if ($searchType == SEARCH_TYPE_CONTAINS) {
-			return "dm_shortstring.data LIKE '%".addslashes($value->toString())."%'";
+			return "dm_shortstring.data LIKE '%".addslashes($value->asString())."%'";
 		}
 		return null;
 	}

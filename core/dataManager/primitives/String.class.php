@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: String.class.php,v 1.5 2005/07/13 20:16:32 adamfranco Exp $
+ * @version $Id: String.class.php,v 1.6 2005/07/13 20:44:09 adamfranco Exp $
  */
 class String extends Primitive /* = implements Primitive */ {
 	
@@ -55,6 +55,6 @@ class String extends Primitive /* = implements Primitive */ {
 	 */
 	function adoptValue(&$object)
 	{
-		$this->_string = $object->toString();
+		$this->_string = $object->asString();
 	}	
 }

@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordSet.class.php,v 1.7 2005/07/13 17:41:12 adamfranco Exp $
+ * @version $Id: RecordSet.class.php,v 1.8 2005/07/13 20:44:10 adamfranco Exp $
  */
 class RecordSet {
 	
@@ -219,7 +219,7 @@ class RecordSet {
 				if ($tagDate->isLessThanOrEqualTo($date) 
 					&& ($closestDate == null || $tagDate->isGreaterThan($closestDate))) 
 				{
-//					print "-> for record $id, new best is " . $tagDate->toString() . " with sep = $sep<br/>";
+//					print "-> for record $id, new best is " . $tagDate->asString() . " with sep = $sep<br/>";
 					$closestDate =& $tagDate;
 					$closest =& $tags[$key];
 				}
