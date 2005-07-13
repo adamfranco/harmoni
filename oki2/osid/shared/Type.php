@@ -1,6 +1,6 @@
 <?php 
 
-require_once(HARMONI."utilities/SObject.class.php");
+require_once(HARMONI."Primitives/Objects/SObject.class.php");
  
 /**
  * The Type class captures the fundamental concept of categorizing an object.

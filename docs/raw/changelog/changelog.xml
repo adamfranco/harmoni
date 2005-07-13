@@ -3,12 +3,20 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.83 2005/07/13 21:20:48 gabeschine Exp $
+ @version $Id: changelog.xml,v 1.84 2005/07/13 21:38:10 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.4.0" date="The Nebulous Future">
+		<change author='adam'>
+			The Chronology Library as well as the dataManager primitives have now
+			been moved to core/Primitives and generalized.
+		</change>
+		<change author='adam'>
+			The Time and DateTime classes have been removed and their functionality
+			replaced by the new Chronology DateAndTime class.
+		</change>
 		<change author='gabe'>
 			DataManager:
 			

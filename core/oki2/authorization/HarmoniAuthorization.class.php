@@ -1,7 +1,7 @@
 <?php
 
 require_once(OKI2."/osid/authorization/Authorization.php");
-require_once(HARMONI."chronology/include.php");
+require_once(HARMONI."Primitives/Chronology/include.php");
 
 /**
  * Authorization indicates what an agentId can do a Function in a Qualifier
@@ -16,7 +16,7 @@ require_once(HARMONI."chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.15 2005/07/13 17:41:13 adamfranco Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.16 2005/07/13 21:38:09 adamfranco Exp $
  */
 class HarmoniAuthorization 
 	extends Authorization 

@@ -3,9 +3,9 @@
  * @package harmoni.datamanager.primitives
  */
  
-require_once(HARMONI."dataManager/primitives/Boolean.class.php");
-require_once(HARMONI."dataManager/primitives/Double.class.php");
-require_once(HARMONI."dataManager/primitives/Float.class.php");
-require_once(HARMONI."dataManager/primitives/Integer.class.php");
-require_once(HARMONI."dataManager/primitives/String.class.php");
-require_once(HARMONI."dataManager/primitives/Blob.class.php");
+require_once(HARMONI."Primitives/Objects/Boolean.class.php");
+require_once(HARMONI."Primitives/Numbers/Double.class.php");
+require_once(HARMONI."Primitives/Numbers/Float.class.php");
+require_once(HARMONI."Primitives/Numbers/Integer.class.php");
+require_once(HARMONI."Primitives/Collections-Text/String.class.php");
+require_once(HARMONI."Primitives/Collections-Text/Blob.class.php");

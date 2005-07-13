@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.18 2005/07/13 17:41:10 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.19 2005/07/13 21:38:06 adamfranco Exp $
  */
  
 /**
@@ -54,7 +54,7 @@ require_once(HARMONI.'DBHandler/Oracle/OracleDatabase.class.php');
 require_once(HARMONI.'DBHandler/SQLUtils.static.php');
 require_once(HARMONI.'utilities/Queue.class.php');
 
-require_once(HARMONI."chronology/include.php");
+require_once(HARMONI."Primitives/Chronology/include.php");
 
 
 /**
@@ -68,7 +68,7 @@ require_once(HARMONI."chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.18 2005/07/13 17:41:10 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.19 2005/07/13 21:38:06 adamfranco Exp $
  */
 
 class DBHandler { 
