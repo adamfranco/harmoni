@@ -1,4 +1,6 @@
 <?php 
+
+require_once(HARMONI."utilities/SObject.class.php");
  
 /**
  * The Type class captures the fundamental concept of categorizing an object.
@@ -51,7 +53,7 @@
  * @package org.osid.shared
  */
 class Type
-    extends stdClass
+    extends SObject
 {
     /**
      * 
@@ -61,7 +63,7 @@ class Type
      * 
      * @access public
      */
-    function isEqual ( &$type2 )
+    function isEqualTo ( &$type2 )
     {
         if ((null != $type2) && (null != $type2->getDomain()) &&
                 (null != $type2->getAuthority()) && (null != $type2->getKeyword()) &&
@@ -74,6 +76,19 @@ class Type
         }
 
         return false;
+    }
+    
+    /**
+     * 
+     * @param object Type $type2
+     *  
+     * @return boolean
+     * 
+     * @access public
+     */
+    function isEqual ( &$type2 )
+    {
+        return $this->isEqualTo($type2);
     }
 
     /**
@@ -149,6 +164,17 @@ class Type
         $this->authority = $authority;
         $this->keyword = $keyword;
         $this->description = $description;
+    }
+    
+    /**
+     * Return a printable string
+     * 
+     * @return string
+     * @access public
+     * @since 7/13/05
+     */
+    function printableString () {
+    	return $this->getDomain()."::".$this->getAuthority()."::".$this->getKeyword();
     }
 }
 
