@@ -6,13 +6,13 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.20 2005/07/13 13:33:24 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.21 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
 
-require_once("Magnitude.class.php");
+require_once(dirname(__FILE__)."/Magnitude.class.php");
 
 
 /**
@@ -64,7 +64,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.20 2005/07/13 13:33:24 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.21 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -1535,14 +1535,14 @@ class DateAndTime
 	}
 }
 
-require_once("ChronologyConstants.class.php");
-require_once("Date.class.php");
-require_once("Duration.class.php");
-require_once("Month.class.php");
-require_once("Time.class.php");
-require_once("TimeStamp.class.php");
-require_once("TimeZone.class.php");
-require_once("Week.class.php");
-require_once("Year.class.php");
+require_once(dirname(__FILE__)."/ChronologyConstants.class.php");
+require_once(dirname(__FILE__)."/Date.class.php");
+require_once(dirname(__FILE__)."/Duration.class.php");
+require_once(dirname(__FILE__)."/Month.class.php");
+require_once(dirname(__FILE__)."/Time.class.php");
+require_once(dirname(__FILE__)."/TimeStamp.class.php");
+require_once(dirname(__FILE__)."/TimeZone.class.php");
+require_once(dirname(__FILE__)."/Week.class.php");
+require_once(dirname(__FILE__)."/Year.class.php");
 
 ?>

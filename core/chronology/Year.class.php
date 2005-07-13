@@ -6,13 +6,13 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.9 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.10 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
  
-require_once("Timespan.class.php");
+require_once(dirname(__FILE__)."/Timespan.class.php");
 
 /**
  * I am a Timespan that represents a Year.
@@ -33,7 +33,7 @@ require_once("Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.9 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.10 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

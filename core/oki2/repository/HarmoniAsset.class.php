@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.18 2005/07/12 16:57:05 ndhungel Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.19 2005/07/13 17:41:13 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.18 2005/07/12 16:57:05 ndhungel Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.19 2005/07/13 17:41:13 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -41,6 +41,9 @@ class HarmoniAsset
 	var $_recordIDs;
 	var $_createdRecords;
 	var $_createdRecordStructures;
+	
+	var $_effectiveDate;
+	var $_expirationDate;
 	
 	/**
 	 * Constructor
@@ -330,7 +333,7 @@ class HarmoniAsset
 	/**
      * Get the date at which this Asset is effective.
      *  
-     * @return int
+     * @return object DateAndTime
      * 
      * @throws object RepositoryException An exception with one of
      *         the following messages defined in
@@ -358,7 +361,7 @@ class HarmoniAsset
 	/**
      * Update the date at which this Asset is effective.
      * 
-     * @param int $effectiveDate
+     * @param object DateAndTime $effectiveDate OR NULL
      * 
      * @throws object RepositoryException An exception with one of
      *         the following messages defined in
@@ -378,12 +381,15 @@ class HarmoniAsset
      * @access public
      */
     function updateEffectiveDate ( $effectiveDate ) { 
-		ArgumentValidator::validate($effectiveDate, ExtendsValidatorRule::getRule("Time"));
+		ArgumentValidator::validate($effectiveDate,
+			OrValidatorRule::getRule(
+				NullValidatorRule::getRule(),
+				HasMethodsValidatorRule::getRule("asDateAndTime")));
 		
 		// Make sure that we have dates from the DB if they exist.
 		$this->_loadDates();
 		// Update our date in preparation for DB updating
-		$this->_effectiveDate->adoptValue($effectiveDate);
+		$this->_effectiveDate =& $effectiveDate;
 		// Store the dates
 		$this->_storeDates();
 	}
@@ -391,7 +397,7 @@ class HarmoniAsset
 	 /**
      * Get the date at which this Asset expires.
      *  
-     * @return int
+     * @return object DateAndTime
      * 
      * @throws object RepositoryException An exception with one of
      *         the following messages defined in
@@ -419,7 +425,7 @@ class HarmoniAsset
     /**
      * Update the date at which this Asset expires.
      * 
-     * @param int $expirationDate
+     * @param object DateAndTime $expirationDate
      * 
      * @throws object RepositoryException An exception with one of
      *         the following messages defined in
@@ -439,12 +445,15 @@ class HarmoniAsset
      * @access public
      */
     function updateExpirationDate ( $expirationDate ) { 
-		ArgumentValidator::validate($expirationDate, ExtendsValidatorRule::getRule("Time"));
-		
+		ArgumentValidator::validate($effectiveDate,
+			OrValidatorRule::getRule(
+				NullValidatorRule::getRule(),
+				HasMethodsValidatorRule::getRule("asDateAndTime")));
+			
 		// Make sure that we have dates from the DB if they exist.
 		$this->_loadDates();
 		// Update our date in preparation for DB updating
-		$this->_expirationDate->adoptValue($expirationDate);
+		$this->_effectiveDate =& $effectiveDate;
 		// Store the dates
 		$this->_storeDates();
 	}
@@ -1482,9 +1491,21 @@ class HarmoniAsset
 		}
 		
 		$columns = array("asset_id", "effective_date", "expiration_date");
-		$values = array($id->getIdString(), 
-						$dbHandler->toDBDate($this->_effectiveDate, $this->_dbIndex), 
-						$dbHandler->toDBDate($this->_expirationDate, $this->_dbIndex));
+
+		$values = array();
+		$values[] = $id->getIdString();
+		
+		if (is_object($this->_effectiveDate))
+			$values[] = $dbHandler->toDBDate($this->_effectiveDate, $this->_dbIndex);
+		else
+			$values[] = 'NULL';
+			
+		if (is_object($this->_expirationDate))
+			$values[] = $dbHandler->toDBDate($this->_expirationDate, $this->_dbIndex);
+		else
+			$values[] = 'NULL';
+			
+			
 		$query->setColumns($columns);
 		$query->setValues($values);
 		$query->setTable("dr_asset_info");
@@ -1514,15 +1535,14 @@ class HarmoniAsset
 		
 		// If we have stored dates for this asset set them
 		if ($result->getNumberOfRows()) {
-			$this->_effectiveDate =& new Time($dbHandler->fromDBDate($result->field("effective_date"), $this->_dbIndex));
-			$this->_expirationDate =& new Time($dbHandler->fromDBDate($result->field("expiration_date"), $this->_dbIndex));
+			$this->_effectiveDate =& $dbHandler->fromDBDate($result->field("effective_date"), $this->_dbIndex);
+			$this->_expirationDate =& $dbHandler->fromDBDate($result->field("expiration_date"), $this->_dbIndex);
 			$this->_datesInDB = TRUE;
 		} 
 		
-		// Otherwise, just create some zeroed objects to return
 		else {
-			$this->_effectiveDate =& new Time;
-			$this->_expirationDate =& new Time;
+			$this->_effectiveDate = NULL;
+			$this->_expirationDate = NULL;
 			$this->_datesInDB = FALSE;
 		}
 	}

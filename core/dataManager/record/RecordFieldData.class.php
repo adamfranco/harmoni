@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.13 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.14 2005/07/13 17:41:12 adamfranco Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -28,7 +28,7 @@ class RecordFieldData {
 	var $_recast = false;
 	
 	function RecordFieldData(&$parent, $active=false) {
-		$this->_date =& DateTime::now();
+		$this->_date =& DateAndTime::now();
 		$this->_active = $active;
 		
 		$this->_parent =& $parent;
@@ -43,7 +43,7 @@ class RecordFieldData {
 	function &replicate(&$parent) {
 		$newObj =& new RecordFieldData($parent, $this->_active);
 		
-		$date = $this->_date; // in PHP4 this will replicate the DateTime
+		$date = $this->_date; // in PHP4 this will replicate the DateAndTime
 		$newObj->setDate($date);
 		$newObj->setValueFromPrimitive($this->_primitive->replicate());
 		
@@ -305,7 +305,7 @@ class RecordFieldData {
 	
 	/**
 	 * Returns the created/modified timestamp of this specific version.
-	 * @return ref object A {@link DataTime} object.
+	 * @return ref object A {@link DateAndTime} object.
 	 * @access public
 	 */
 	function &getDate() {
@@ -314,13 +314,14 @@ class RecordFieldData {
 	
 	/**
 	 * Sets the date reflected within our local variables to $date.
-	 * @param ref object A {@link DateTime} object.
+	 * @param ref object A {@link DateAndTime} object.
 	 * @return void
 	 * @access public
 	 */
 	function setDate(&$date) {
-		ArgumentValidator::validate($date, ExtendsValidatorRule::getRule("DateTime"));
-		$this->_date =& $date;
+		ArgumentValidator::validate($date,
+			HasMethodsValidatorRule::getRule("asDateAndTime"));
+		$this->_date =& $date->asDateAndTime();
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 <?php
 
 require_once(OKI2."/osid/authorization/Authorization.php");
-require_once(HARMONI."utilities/DateTime.class.php");
+require_once(HARMONI."chronology/include.php");
 
 /**
  * Authorization indicates what an agentId can do a Function in a Qualifier
@@ -16,7 +16,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.14 2005/04/12 21:07:47 adamfranco Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.15 2005/07/13 17:41:13 adamfranco Exp $
  */
 class HarmoniAuthorization 
 	extends Authorization 
@@ -105,9 +105,8 @@ class HarmoniAuthorization
 		ArgumentValidator::validate($agentId, $extendsRule, true);
 		ArgumentValidator::validate($functionId, $extendsRule, true);
 		ArgumentValidator::validate($qualifierId, $extendsRule, true);
-		$intRule =& IntegerValidatorRule::getRule();
-		ArgumentValidator::validate($effectiveDate, OptionalRule::getRule($intRule), true);
-		ArgumentValidator::validate($expirationDate, OptionalRule::getRule($intRule), true);
+		ArgumentValidator::validate($effectiveDate, OptionalRule::getRule(HasMethodsValidatorRule::getRule('asDateAndTime')), true);
+		ArgumentValidator::validate($expirationDate, OptionalRule::getRule(HasMethodsValidatorRule::getRule('asDateAndTime')), true);
 		ArgumentValidator::validate($explicit, BooleanValidatorRule::getRule(), true);
 		ArgumentValidator::validate($cache, ExtendsValidatorRule::getRule("AuthorizationCache"), true);
 		// ** end of parameter validation
@@ -124,9 +123,9 @@ class HarmoniAuthorization
 		$this->_functionId =& $functionId;
 		$this->_qualifierId =& $qualifierId;
 		if (isset($effectiveDate))
-			$this->_effectiveDate = $effectiveDate;
+			$this->_effectiveDate =& $effectiveDate;
 		if (isset($expirationDate))
-			$this->_expirationDate = $expirationDate;
+			$this->_expirationDate =& $expirationDate;
 		$this->_explicit = $explicit;
 		$this->_cache =& $cache;
 	}
@@ -325,15 +324,17 @@ class HarmoniAuthorization
 	 * @access public
 	 */
 	function isActiveNow () { 
-		if (!isset($this->_effectiveDate) || !isset($this->_expirationDate))
+		if (!is_object($this->_effectiveDate) || !is_object($this->_expirationDate))
 			// a non-dated Authorization is always active
 			return true;
 		
 		// if current time is after the effective date and before the expiration
 		// date, then the Authorization is active.
-		if ($this->_effectiveDate >= time() && time() < $this->_expirationDate)
+		if ($this->_effectiveDate->isLessThanOrEqualTo(DateAndTime::now()) 
+			&& $this->_expirationDate->isGreaterThan(DateAndTime::now()))
+		{
 			return true;
-		else
+		} else
 			return false;
 	}
 
@@ -366,7 +367,7 @@ class HarmoniAuthorization
 	/**
 	 * Modify the date when this Authorization starts being effective.
 	 * 
-	 * @param int $expirationDate
+	 * @param object DateAndTime $expirationDate
 	 * 
 	 * @throws object AuthorizationException An exception with
 	 *		   one of the following messages defined in
@@ -386,28 +387,29 @@ class HarmoniAuthorization
 	 * 
 	 * @access public
 	 */
-	function updateExpirationDate ( $expirationDate ) { 
+	function updateExpirationDate ( &$expirationDate ) { 
 		if (!$this->isExplicit()) {
 			$str = "Cannot modify an implicit Authorization.";
-			throwError(new Error(AuthorizationException::OPERATION_FAILED(), "Authorization", true));
+			throwError(new Error(AuthorizationException::OPERATION_FAILED(), 
+				"Authorization", true));
 		}
 		
 		// ** parameter validation
-		ArgumentValidator::validate($expirationDate, IntegerValidatorRule::getRule(), true);
+		ArgumentValidator::validate($expirationDate, 
+			HasMethodsValidatorRule::getRule("asDateAndTime"), true);
 		// ** end of parameter validation
 
 		// make sure effective date is before expiration date
-		if ($this->_effectiveDate > $expirationDate) {
-			throwError(new Error(AuthorizationException::EFFECTIVE_PRECEDE_EXPIRATION(), "Authorization", true));
+		if ($this->_effectiveDate->isGreaterThan($expirationDate)) {
+			throwError(new Error(AuthorizationException::EFFECTIVE_PRECEDE_EXPIRATION(), 
+				"Authorization", true));
 		}
 
-		if ($this->_expirationDate == $expirationDate)
+		if ($this->_expirationDate->isEqualTo($expirationDate))
 			return; // nothing to update
 
 		// update the object
 		$this->_expirationDate = $expirationDate;
-		$expirationDateTime =& new DateTime;
-		$expirationDateTime->setDate($this->_expirationDate);
 
 		// update the database
 		$dbHandler =& Services::getService("DatabaseManager");
@@ -419,7 +421,7 @@ class HarmoniAuthorization
 		$where = "{$dbPrefix}.authorization_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$dbPrefix}.authorization_expiration_date"));
-		$timestamp = $dbHandler->toDBDate($expirationDateTime, $this->_cache->_dbIndex);
+		$timestamp = $dbHandler->toDBDate($expirationDate, $this->_cache->_dbIndex);
 		$query->setValues(array("'$timestamp'"));
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
@@ -432,7 +434,7 @@ class HarmoniAuthorization
 	/**
 	 * the date when this Authorization stops being effective.
 	 * 
-	 * @param int $effectiveDate
+	 * @param object DateAndTime $effectiveDate
 	 * 
 	 * @throws object AuthorizationException An exception with
 	 *		   one of the following messages defined in
@@ -452,28 +454,29 @@ class HarmoniAuthorization
 	 * 
 	 * @access public
 	 */
-	function updateEffectiveDate ( $effectiveDate ) { 
+	function updateEffectiveDate ( &$effectiveDate ) { 
 		if (!$this->isExplicit()) {
 			// "Cannot modify an implicit Authorization."
-			throwError(new Error(AuthorizationException::OPERATION_FAILED(), "Authorization", true));
+			throwError(new Error(AuthorizationException::OPERATION_FAILED(), 
+				"Authorization", true));
 		}
 		
 		// ** parameter validation
-		ArgumentValidator::validate($effectiveDate, IntegerValidatorRule::getRule(), true);
+		ArgumentValidator::validate($effectiveDate, 
+			HasMethodsValidatorRule::getRule("asDateAndTime"), true);
 		// ** end of parameter validation
 
 		// make sure effective date is before expiration date
-		if ($effectiveDate > $this->_expirationDate) {
-			throwError(new Error(AuthorizationException::EFFECTIVE_PRECEDE_EXPIRATION(), "Authorization", true));
+		if ($effectiveDate->isGreaterThan($this->_expirationDate)) {
+			throwError(new Error(AuthorizationException::EFFECTIVE_PRECEDE_EXPIRATION(), 
+				"Authorization", true));
 		}
 
-		if ($this->_effectiveDate == $effectiveDate)
+		if ($this->_effectiveDate->isEqualTo($effectiveDate))
 			return; // nothing to update
 
 		// update the object
-		$this->_effectiveDate = $effectiveDate;
-		$effectiveDateTime =& new DateTime;
-		$effectiveDateTime->setDate($this->_effectiveDate);
+		$this->_effectiveDate =& $effectiveDate;
 
 		// update the database
 		$dbHandler =& Services::getService("DatabaseManager");
@@ -485,7 +488,7 @@ class HarmoniAuthorization
 		$where = "{$dbPrefix}.authorization_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$dbPrefix}.authorization_effective_date"));
-		$timestamp = $dbHandler->toDBDate($effectiveDateTime, $this->_cache->_dbIndex);
+		$timestamp = $dbHandler->toDBDate($effectiveDate, $this->_cache->_dbIndex);
 		$query->setValues(array("'$timestamp'"));
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);

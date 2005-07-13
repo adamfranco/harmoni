@@ -6,13 +6,13 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.5 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.6 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
  
-require_once("SObject.class.php");
+require_once(dirname(__FILE__)."/SObject.class.php");
 
 /**
  * Magnitude has methods for dealing with linearly ordered collections.
@@ -30,7 +30,7 @@ require_once("SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.5 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.6 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

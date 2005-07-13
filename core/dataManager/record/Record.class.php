@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.26 2005/06/22 18:19:35 gabeschine Exp $
+ * @version $Id: Record.class.php,v 1.27 2005/07/13 17:41:12 adamfranco Exp $
 */
 class Record {
 	
@@ -64,7 +64,7 @@ class Record {
 		
 		$this->_myID = null;
 		
-		$this->_creationDate =& DateTime::now();
+		$this->_creationDate =& DateAndTime::now();
 		
 		// set up the individual fields
 		foreach ($schema->getAllLabels(true) as $label) {
@@ -310,7 +310,7 @@ class Record {
 	}
 	
 	/**
-	 * Returns the {@link DateTime} object specifying when this Record was created.
+	 * Returns the {@link DateAndTime} object specifying when this Record was created.
 	 * @access public
 	 * @return ref object
 	 */
@@ -533,7 +533,7 @@ class Record {
 	/**
 	* Uses the {@link TagManager} service to add a tag of the current state (in the DB) of this Record.
 	* @return void
-	* @param optional object $date An optional {@link DateTime} to specify the date that should be attached to the tag instead of the current date/time.
+	* @param optional object $date An optional {@link DateAndTime} to specify the date that should be attached to the tag instead of the current date/time.
 	*/
 	function tag($date=null) {
 		$this->makeCurrent();
@@ -544,7 +544,7 @@ class Record {
 	/**
 	* Calls both commit() and tag().
 	* @return void
-	* @param optional object $date An optional {@link DateTime} object for tagging. If specified, it will use $date instead of the current date and time.
+	* @param optional object $date An optional {@link DateAndTime} object for tagging. If specified, it will use $date instead of the current date and time.
 	*/
 	function commitAndTag($date=null) {
 		$this->commit();

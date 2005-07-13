@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Database.interface.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: Database.interface.php,v 1.7 2005/07/13 17:41:10 adamfranco Exp $
  */
  
 class DatabaseInterface {
@@ -95,24 +95,24 @@ class DatabaseInterface {
 	
 	
 	/**
-	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
+	 * Converts a DateAndTime object to a proper datetime/timestamp/time representation 
 	 * for this Database.
 	 * @access public
-	 * @param ref object dateTime The DateTime object to convert.
+	 * @param ref object DateAndTime The DateAndTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate(& $dateTime) {
+	function toDBDate(& $dateAndTime) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
 	
 	/**
 	 * Converts a database datetime/timestamp/time value (that has been fetched
-	 * from the db) to a DateTime object.
+	 * from the db) to a DateAndTime object.
 	 * @access public
 	 * @param mixed A database datetime/timestamp/time value (that has been fetched
 	 * from the db).
-	 * @return ref object The DateTime object.
+	 * @return ref object The DateAndTime object.
 	 */
 	function &fromDBDate($value) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");

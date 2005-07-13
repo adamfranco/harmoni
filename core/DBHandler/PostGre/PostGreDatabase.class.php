@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.9 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.10 2005/07/13 17:41:11 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/Database.interface.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.9 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.10 2005/07/13 17:41:11 adamfranco Exp $
  **/
  
 class PostGreDatabase extends DatabaseInterface {
@@ -412,63 +412,68 @@ class PostGreDatabase extends DatabaseInterface {
 	
 	
 	/**
-	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
+	 * Converts a DateAndTime object to a proper datetime/timestamp/time representation 
 	 * for this Database.
+	 *
+	 * The easiest way to convert is to create a string in the following 
+	 * format: 
+	 * 'YYYY-MM-DD HH:MM:SS', i.e. 1999-01-08 04:05:06
+	 * You can pass this to a PostGre date or timestamp column types
+	 * and it gets parsed automatically by PostGre.
+	 *
 	 * @access public
-	 * @param ref object dateTime The DateTime object to convert.
+	 * @param ref object DateAndTime The DateAndTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate(& $dateTime) {
-		/**
-		 * The easiest way to convert is to create a string in the following 
-		 * format: 
-		 * 'YYYY-MM-DD HH:MM:SS', i.e. 1999-01-08 04:05:06
-		 * You can pass this to a PostGre date or timestamp column types
-		 * and it gets parsed automatically by PostGre.
-		 */
-		$string = sprintf("%s-%02d-%02d %02d:%02d:%02d",$dateTime->getYear(),
-							$dateTime->getMonth(), $dateTime->getDay(),
-							$dateTime->getHours(), $dateTime->getMinutes(),
-							$dateTime->getSeconds());
+	function toDBDate(& $dateAndTime) {
+		$dateAndTime =& $dateAndTime->asDateAndTime();
+		$string = sprintf("%s-%02d-%02d %02d:%02d:%02d", $dateAndTime->year(),
+							$dateAndTime->month(), $dateAndTime->dayOfMonth(),
+							$dateAndTime->hour24(), $dateAndTime->minute(),
+							$dateAndTime->second());
 		return $string;
 	}
 	
 	
 	/**
 	 * Converts a database datetime/timestamp/time value (that has been fetched
-	 * from the db) to a DateTime object.
+	 * from the db) to a DateAndTime object.
+	 *
+	 * Depending on the server configuration PostGre retrieves date/time
+	 * types as 4 different formats. (format could be set with SET DateStyle
+	 * ). The default formatting is 'ISO'. Note that timestamp column types 
+	 * return the full string. Date column types only return the date (no time).
+	 *
+	 * Style 			Description 						Example 
+	 * 'ISO' 			ISO-8601 standard 			1997-12-17 07:37:16-08 
+	 * 'SQL' 			Traditional style 		12/17/1997 07:37:16.00 PST 
+	 * 'PostgreSQL' 	Original style 			Wed Dec 17 07:37:16 1997 PST 
+	 * 'German' 		Regional style 			17.12.1997 07:37:16.00 PST 
+	 *
 	 * @access public
 	 * @param mixed A database datetime/timestamp/time value (that has been fetched
 	 * from the db).
-	 * @return ref object The DateTime object.
+	 * @return ref object The DateAndTime object.
 	 */
 	function &fromDBDate($value) {
-		/**
-		 * Depending on the server configuration PostGre retrieves date/time
-		 * types as 4 different formats. (format could be set with SET DateStyle
-		 * ). The default formatting is 'ISO'. Note that timestamp column types 
-		 * return the full string. Date column types only return the date (no time).
-		 *
-		 * Style 			Description 						Example 
-		 * 'ISO' 			ISO-8601 standard 			1997-12-17 07:37:16-08 
-		 * 'SQL' 			Traditional style 		12/17/1997 07:37:16.00 PST 
-		 * 'PostgreSQL' 	Original style 			Wed Dec 17 07:37:16 1997 PST 
-		 * 'German' 		Regional style 			17.12.1997 07:37:16.00 PST 
-		 * 
-		 * Parse with regular expressions, create and return the appropriate
-		 * DateTime object.
-		 */
-		if (ereg("([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})-([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5],$r[6]); // ISO
-		if (ereg("([0-9]{2})/([0-9]{2})/([0-9]{4}) ([0-9]{2}):([0-9]{2}):([0-9]{2}).([0-9]{2}) ...",$value,$r))
-		 	return new DateTime($r[3],$r[1],$r[2],$r[4],$r[5],$r[6]); // SQL
-		if (ereg("(...) (...) ([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2}) ([0-9]{4})",$value,$r)) {
+		if (in_array($value, array(NULL, '', '0000-00-00 00:00:00')))
+			return NULL;
+	
+		// Postgre
+		if (ereg("([a-zA-Z]{3}) ([a-zA-Z]{3}) ([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2}) ([0-9]{4})",$value,$r)) {
 		 	$months = array("Jan"=>1,"Feb"=>2,"Mar"=>3,"Apr"=>4,"May"=>5,"Jun"=>6,"Jul"=>7,
 							"Aug"=>8,"Sep"=>9,"Oct"=>10,"Nov"=>11,"Dec"=>12);
-			return new DateTime($r[7],$months[$r[2]],$r[3],$r[4],$r[5],$r[6]); // Postgre
+			return DateAndTime::withYearMonthDayHourMinuteSecond(
+				$r[7], $months[$r[2]], $r[3], $r[4], $r[5], $r[6]);
 		}
+		
+		// German
 		if (ereg("([0-9]{2})\.([0-9]{2})\.([0-9]{4}) ([0-9]{2}):([0-9]{2}):([0-9]{2}).([0-9]{2}) ...",$value,$r))
-		 	return new DateTime($r[3],$r[2],$r[1],$r[4],$r[5],$r[6]); // German
+			return DateAndTime::withYearMonthDayHourMinuteSecond(
+				$r[3], $r[2], $r[1], $r[4], $r[5], $r[6]);
+		
+		// ISO/SQL
+		return DateAndTime::fromString($value);
 	}
 	
 	/**

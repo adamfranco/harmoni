@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/Tag.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.10 2005/06/10 13:46:55 gabeschine Exp $
+ * @version $Id: TagManager.class.php,v 1.11 2005/07/13 17:41:12 adamfranco Exp $
 */
 class TagManager {
 	
@@ -19,7 +19,7 @@ class TagManager {
 	 * Takes a {@link Record} and an optional date and creates a {@link Tag} in the database based
 	 * on the current active versions of values within the {@link Record}.
 	 * @param ref object $record The {@link Record} to be tagged.
-	 * @param optional object $date An optional {@link DateTime} object to attach to the tag instead of the current date/time.
+	 * @param optional object $date An optional {@link DateAndTime} object to attach to the tag instead of the current date/time.
 	 * @return int The new tag's ID in the database.
 	 * @access public
 	 */
@@ -28,7 +28,7 @@ class TagManager {
 		if (!$record->isVersionControlled()) return null;
 		
 		$id = $record->getID();
-		if (!$date) $date =& DateTime::now();
+		if (!$date) $date =& DateAndTime::now();
 		
 		// spider through the record and get the IDs of the active versions.
 		$ids = array();

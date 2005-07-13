@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.25 2005/07/12 16:57:05 ndhungel Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.26 2005/07/13 17:41:13 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -876,7 +876,7 @@ class HarmoniRepository
 	 * to support Asset versioning.
 	 * 
 	 * @param object Id $assetId
-	 * @param int $date
+	 * @param object DateAndTime $date
 	 *	
 	 * @return object Asset
 	 * 
@@ -900,7 +900,7 @@ class HarmoniRepository
 	 */
 	function &getAssetByDate ( &$assetId, $date ) { 
 		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
-		ArgumentValidator::validate($date, ExtendsValidatorRule::getRule("DateTime"));
+		ArgumentValidator::validate($date, HasMethodsValidatorRule::getRule("asDateAndTime"));
 		
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
 		

@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/record/RecordSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableRecordSet.class.php,v 1.9 2005/06/10 13:46:55 gabeschine Exp $
+ * @version $Id: StorableRecordSet.class.php,v 1.10 2005/07/13 17:41:12 adamfranco Exp $
  */
 class StorableRecordSet extends RecordSet {
 	
@@ -211,7 +211,7 @@ class StorableRecordSet extends RecordSet {
 	
 	/**
 	 * Returns all of the {@link Record}s within this Set to the state they were in on the given date.
-	 * @param ref object $date A {@link DateTime} object.
+	 * @param ref object $date A {@link DateAndTime} object.
 	 * @access public
 	 * @return boolean
 	 */

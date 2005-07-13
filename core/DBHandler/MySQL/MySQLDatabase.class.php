@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.24 2005/06/13 17:41:51 gabeschine Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.25 2005/07/13 17:41:10 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.24 2005/06/13 17:41:51 gabeschine Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.25 2005/07/13 17:41:10 adamfranco Exp $
  */
  
 class MySQLDatabase extends DatabaseInterface {
@@ -377,76 +377,64 @@ class MySQLDatabase extends DatabaseInterface {
 	
 	
 	/**
-	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
+	 * Converts a DateAndTime object to a proper datetime/timestamp/time representation 
 	 * for this Database.
+	 *
+	 * The easiest way to convert is to create an integer (or a string,
+	 * choose which one you think is better, MySQL accepts both, but make
+	 * sure to document) in the following format: YYYYMMDDHHMMSS.
+	 * You can pass this to a MySQL datetime or timestamp column types
+	 * and it gets parsed automatically by MySQL.
+	 *
 	 * @access public
-	 * @param ref object dateTime The DateTime object to convert.
+	 * @param ref object DateAndTime The DateAndTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate(& $dateTime) {
-		/**
-		 * The easiest way to convert is to create an integer (or a string,
-		 * choose which one you think is better, MySQL accepts both, but make
-		 * sure to document) in the following format: YYYYMMDDHHMMSS.
-		 * You can pass this to a MySQL datetime or timestamp column types
-		 * and it gets parsed automatically by MySQL.
-		 */
-		$string = sprintf("%s%02d%02d%02d%02d%02d",$dateTime->getYear(),
-							$dateTime->getMonth(), $dateTime->getDay(),
-							$dateTime->getHours(), $dateTime->getMinutes(),
-							$dateTime->getSeconds());
+	function toDBDate(& $dateAndTime) {
+		$dateAndTime =& $dateAndTime->asDateAndTime();
+		$string = sprintf("%s%02d%02d%02d%02d%02d", $dateAndTime->year(),
+							$dateAndTime->month(), $dateAndTime->dayOfMonth(),
+							$dateAndTime->hour24(), $dateAndTime->minute(),
+							$dateAndTime->second());
 		return $string;
 	}
 	
 	
 	/**
 	 * Converts a database datetime/timestamp/time value (that has been fetched
-	 * from the db) to a DateTime object.
+	 * from the db) to a DateAndTime object.
+	 *
+	 * Depending whether the value was fecthed from a datetime, date or 
+	 * timestamp column, $value could have the following two formats:
+	 * 'YYYY-MM-DD HH:MM:SS' for datetime
+	 * 'YYYY-MM-DD' for date
+	 * For a timestamp, $value could be any of the following depending on
+	 * the column size.
+	 * TIMESTAMP(14)  YYYYMMDDHHMMSS  
+	 * TIMESTAMP(12)  YYMMDDHHMMSS  	- NOT SUPPORTED
+	 * TIMESTAMP(10)  YYMMDDHHMM  		- NOT SUPPORTED
+	 * TIMESTAMP(8)  YYYYMMDD  
+	 * TIMESTAMP(6)  YYMMDD  			- NOT SUPPORTED
+	 * TIMESTAMP(4)  YYMM  				- NOT SUPPORTED
+	 * TIMESTAMP(2)  YY  				- NOT SUPPORTED
+	 *
+	 * From MySQL version 4.1, TIMESTAMP is returned as 
+	 * a string with the format 'YYYY-MM-DD HH:MM:SS' and different timestamp 
+	 * lengths are no longer supported.
+	 *
+	 * WARNING: Due to the ambiguity of 2-digit years, timestamp formats that
+	 * use 2-digit years are not supported.
+	 *
 	 * @access public
 	 * @param mixed A database datetime/timestamp/time value (that has been fetched
 	 * from the db).
-	 * @return ref object The DateTime object.
+	 * @return ref object The DateAndTime object.
 	 */
 	function &fromDBDate($value) {
-		/**
-		 * Depending whether the value was fecthed from a datetime, date or 
-		 * timestamp column, $value could have the following two formats:
-		 * 'YYYY-MM-DD HH:MM:SS' for datetime
-		 * 'YYYY-MM-DD' for date
-		 * For a timestamp, $value could be any of the following depending on
-		 * the column size.
-		 * TIMESTAMP(14)  YYYYMMDDHHMMSS  
-		 * TIMESTAMP(12)  YYMMDDHHMMSS  
-		 * TIMESTAMP(10)  YYMMDDHHMM  
-		 * TIMESTAMP(8)  YYYYMMDD  
-		 * TIMESTAMP(6)  YYMMDD  
-		 * TIMESTAMP(4)  YYMM  
-		 * TIMESTAMP(2)  YY  
-		 * (Warning: From MySQL version 4.1, TIMESTAMP is returned as 
-		 * a string with the format 'YYYY-MM-DD HH:MM:SS' and different timestamp 
-		 * lengths are no longer supported.)
-		 *
-		 * Parse with regular expressions, create and return the appropriate
-		 * DateTime object.
-		 */
-		if (ereg("([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5],$r[6]);
-		if (ereg("([0-9]{4})-([0-9]{2})-([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3]);
-		if (ereg("([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5],$r[6]);
-		if (ereg("([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5],$r[6]);
-		if (ereg("([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3],$r[4],$r[5]);
-		if (ereg("([0-9]{4})([0-9]{2})([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3]);
-		if (ereg("([0-9]{2})([0-9]{2})([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2],$r[3]);
-		if (ereg("([0-9]{2})([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1],$r[2]);
-		if (ereg("([0-9]{2})",$value,$r))
-		 	return new DateTime($r[1]);
+		if (in_array($value, array(NULL, '', '0000-00-00 00:00:00')))
+			return NULL;
+		else
+			return DateAndTime::fromString($value);
 	}
 	
 	/**

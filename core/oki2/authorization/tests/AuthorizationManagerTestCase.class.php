@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationManagerTestCase.class.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: AuthorizationManagerTestCase.class.php,v 1.7 2005/07/13 17:41:13 adamfranco Exp $
  */
  
 require_once(HARMONI.'oki/authorization/HarmoniAuthorizationManager.class.php');
@@ -21,7 +21,7 @@ require_once(HARMONI.'oki/authorization/DefaultFunctionType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationManagerTestCase.class.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: AuthorizationManagerTestCase.class.php,v 1.7 2005/07/13 17:41:13 adamfranco Exp $
  */
  
 class DoboTemp {
@@ -97,8 +97,8 @@ class HarmoniAuthorizationManagerTestCase extends UnitTestCase {
 		$agentId =& new HarmoniId("3827");
 		$functionId =& new HarmoniId("501");
 		$qualifierId =& new HarmoniId("6799");
-		$date1 =& new DateTime(1987, 10, 24);
-		$date2 =& new DateTime(2014, 6, 25);
+		$date1 =& DateAndTime::withYearMonthDay(1987, 10, 24);
+		$date2 =& DateAndTime::withYearMonthDay(2014, 6, 25);
 
 		$authorization =& $this->manager->createDatedAuthorization($agentId, 
 													$functionId, $qualifierId,

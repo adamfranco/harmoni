@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordSet.class.php,v 1.6 2005/06/10 13:46:55 gabeschine Exp $
+ * @version $Id: RecordSet.class.php,v 1.7 2005/07/13 17:41:12 adamfranco Exp $
  */
 class RecordSet {
 	
@@ -169,7 +169,7 @@ class RecordSet {
 	}
 	
 	/**
-	 * Returns an array of merged tag-dates (as {@link DateTime} objects) which can be used to setup our Records as they were on a specific date.
+	 * Returns an array of merged tag-dates (as {@link DateAndTime} objects) which can be used to setup our Records as they were on a specific date.
 	 * @access public
 	 * @return array
 	 */
@@ -183,7 +183,7 @@ class RecordSet {
 			$tags =& $tagManager->fetchTagDescriptors($id);
 			foreach (array_keys($tags) as $key) {
 				$date =& $tags[$key]->getDate();
-				$str = $date->toString();
+				$str = $date->asString();
 				if (!in_array($str, $dateStrings)) {
 					$dateStrings[] = $str;
 					$dates[] =& $date;
@@ -196,7 +196,7 @@ class RecordSet {
 	
 	/**
 	 * Returns all of the {@link Record}s within this Set to the state they were in on the given date.
-	 * @param ref object $date A {@link DateTime} object.
+	 * @param ref object $date A {@link DateAndTime} object.
 	 * @access public
 	 * @return boolean
 	 */
@@ -213,12 +213,14 @@ class RecordSet {
 			$tags =& $tagManager->fetchTags($id);
 			
 			$closest = null;
-			$separation = 0;
+			$closestDate = null;
 			foreach (array_keys($tags) as $key) {
 				$tagDate =& $tags[$key]->getDate();
-				if (($sep = DateTime::compare($date, $tagDate)) <= 0 && abs($sep) <= $separation) {
+				if ($tagDate->isLessThanOrEqualTo($date) 
+					&& ($closestDate == null || $tagDate->isGreaterThan($closestDate))) 
+				{
 //					print "-> for record $id, new best is " . $tagDate->toString() . " with sep = $sep<br/>";
-					$separation = abs($sep);
+					$closestDate =& $tagDate;
 					$closest =& $tags[$key];
 				}
 			}

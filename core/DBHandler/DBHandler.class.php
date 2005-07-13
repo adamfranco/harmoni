@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.17 2005/07/11 14:34:31 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.18 2005/07/13 17:41:10 adamfranco Exp $
  */
  
 /**
@@ -54,7 +54,7 @@ require_once(HARMONI.'DBHandler/Oracle/OracleDatabase.class.php');
 require_once(HARMONI.'DBHandler/SQLUtils.static.php');
 require_once(HARMONI.'utilities/Queue.class.php');
 
-require_once(HARMONI."utilities/DateTime.class.php");
+require_once(HARMONI."chronology/include.php");
 
 
 /**
@@ -68,7 +68,7 @@ require_once(HARMONI."utilities/DateTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.17 2005/07/11 14:34:31 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.18 2005/07/13 17:41:10 adamfranco Exp $
  */
 
 class DBHandler { 
@@ -384,32 +384,33 @@ class DBHandler {
 
 	
 	/**
-	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
-	 * for the specified database object.
+	 * Converts a DateAndTime object to a proper datetime/timestamp/time representation 
+	 * for the specified database object. $dateAndTime must implement asDateAndTime().
 	 * @access public
-	 * @param ref object dateTime The DateTime object to convert.
+	 * @param ref object DateAndTime The DateAndTime object to convert.
 	 * @param integer dbIndex The index of the database to use (0 by default).
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate(& $dateTime, $dbIndex = 0) {
+	function toDBDate(& $dateAndTime, $dbIndex = 0) {
 		// ** parameter validation
-		$extendsRule =& ExtendsValidatorRule::getRule("DateTime");
-		ArgumentValidator::validate($dateTime, $extendsRule, true);
+		ArgumentValidator::validate($dateAndTime, 
+			HasMethodsValidatorRule::getRule("asDateAndTime"), true);
+		
 		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
 			
-		return $this->_databases[$dbIndex]->toDBDate($dateTime);
+		return $this->_databases[$dbIndex]->toDBDate($dateAndTime);
 	}
 	
 	
 	/**
 	 * Converts a database datetime/timestamp/time value (that has been fetched
-	 * from the db) to a DateTime object.
+	 * from the db) to a DateAndTime object.
 	 * @access public
 	 * @param mixed A database datetime/timestamp/time value (that has been fetched
 	 * from the db).
 	 * @param integer dbIndex The index of the database to use (0 by default).
-	 * @return ref object The DateTime object.
+	 * @return ref object The DateAndTime object.
 	 */
 	function &fromDBDate($value, $dbIndex = 0) {
 		// ** parameter validation

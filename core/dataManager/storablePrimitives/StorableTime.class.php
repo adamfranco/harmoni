@@ -8,9 +8,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableTime.class.php,v 1.9 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: StorableTime.class.php,v 1.10 2005/07/13 17:41:12 adamfranco Exp $
  */
-class StorableTime extends Time /* implements StorablePrimitive */ {
+class StorableTime 
+	extends DateAndTime /* implements StorablePrimitive */ 
+{
 	
 	var $_table;
 

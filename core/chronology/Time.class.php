@@ -6,18 +6,18 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.8 2005/07/13 13:33:24 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.9 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
 
-require_once("ChronologyConstants.class.php");
-require_once("Magnitude.class.php");
-require_once("Month.class.php");
-require_once("TimeZone.class.php");
-require_once("Week.class.php");
-require_once("Year.class.php");
+require_once(dirname(__FILE__)."/ChronologyConstants.class.php");
+require_once(dirname(__FILE__)."/Magnitude.class.php");
+require_once(dirname(__FILE__)."/Month.class.php");
+require_once(dirname(__FILE__)."/TimeZone.class.php");
+require_once(dirname(__FILE__)."/Week.class.php");
+require_once(dirname(__FILE__)."/Year.class.php");
 
 /**
  * This represents a period of time.
@@ -41,7 +41,7 @@ require_once("Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.8 2005/07/13 13:33:24 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.9 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

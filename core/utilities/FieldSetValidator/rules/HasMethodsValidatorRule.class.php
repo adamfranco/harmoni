@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HasMethodsValidatorRule.class.php,v 1.4 2005/06/01 17:58:58 gabeschine Exp $
+ * @version $Id: HasMethodsValidatorRule.class.php,v 1.5 2005/07/13 17:41:14 adamfranco Exp $
  */ 
 class HasMethodsValidatorRule
 	extends ValidatorRuleInterface 
@@ -91,7 +91,7 @@ class HasMethodsValidatorRule
 	 * @since 3/29/05
 	 */
 	function getRuleKey () {
-		return get_class($this)."(".strtolower($methodName).")";
+		return get_class($this)."(".strtolower(implode(', ', $this->_methods)).")";
 	}
 }
 

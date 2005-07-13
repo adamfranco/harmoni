@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationTestCase.class.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: AuthorizationTestCase.class.php,v 1.7 2005/07/13 17:41:13 adamfranco Exp $
  */
  
 require_once(HARMONI.'oki/authorization/HarmoniAuthorization.class.php');
@@ -23,7 +23,7 @@ require_once(HARMONI.'oki/authorization/DefaultFunctionType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationTestCase.class.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: AuthorizationTestCase.class.php,v 1.7 2005/07/13 17:41:13 adamfranco Exp $
  */
 class HarmoniAuthorizationTestCase extends UnitTestCase {
 
@@ -48,8 +48,8 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 		$this->agentId =& new HarmoniId("3826");
 		$this->functionId =& new HarmoniId("501");
 		$this->qualifierId =& new HarmoniId("6796");
-		$this->date1 =& new DateTime(1981, 10, 24);
-		$this->date2 =& new DateTime(2015, 6, 25);
+		$this->date1 =& DateAndTime::withYearMonthDay(1981, 10, 24);
+		$this->date2 =& DateAndTime::withYearMonthDay(2015, 6, 25);
 		
 		$this->authorization =& $this->manager->createDatedAuthorization($this->agentId, 
 													$this->functionId, $this->qualifierId,
@@ -68,10 +68,10 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 	function test_is_active() {
 		$this->assertTrue($this->authorization->isActiveNow());
 
-		$this->authorization->_effectiveDate =& new DateTime(2014, 6, 12);
+		$this->authorization->_effectiveDate =& DateAndTime::withYearMonthDay(2014, 6, 12);
 		$this->assertFalse($this->authorization->isActiveNow());
 
-		$this->authorization->_expirationDate =& new DateTime(2004, 6, 1);
+		$this->authorization->_expirationDate =& DateAndTime::withYearMonthDay(2004, 6, 1);
 		$this->assertFalse($this->authorization->isActiveNow());
 
 	}
@@ -84,16 +84,16 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 
 
 	function test_updates() {
-		$dateTime =& DateTime::now();
+		$dateTime =& DateAndTime::now();
 
 		$this->authorization->updateExpirationDate($dateTime);
 		$this->assertReference($dateTime, $this->authorization->getExpirationDate());
 		$this->assertFalse($this->authorization->isActiveNow());
 
-		$dateTime =& DateTime::now();
+		$dateTime =& DateAndTime::now();
 
 		$this->authorization->updateEffectiveDate($dateTime);
-		$this->authorization->updateExpirationDate(new DateTime(2030, 10, 10));
+		$this->authorization->updateExpirationDate(DateAndTime::withYearMonthDay(2030, 10, 10));
 		$this->assertReference($dateTime, $this->authorization->getEffectiveDate());
 		$this->assertTrue($this->authorization->isActiveNow());
 	}

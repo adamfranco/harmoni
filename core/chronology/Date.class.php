@@ -6,14 +6,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.8 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.9 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
  
-require_once("Timespan.class.php");
-require_once("DateAndTime.class.php");
+require_once(dirname(__FILE__)."/Timespan.class.php");
+require_once(dirname(__FILE__)."/DateAndTime.class.php");
 
 /**
  * Instances of Date are Timespans with duration of 1 day.
@@ -40,7 +40,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.8 2005/05/27 14:35:51 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.9 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

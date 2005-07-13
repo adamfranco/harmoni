@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.16 2005/04/12 21:07:47 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.17 2005/07/13 17:41:12 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -83,8 +83,8 @@ class AuthorizationCache {
 	 * @param ref object agentId who is authorized to perform this Function for this Qualifer and its descendants
 	 * @param ref object functionId the Id of the Function for this Authorization
 	 * @param ref object qualifierId the Id of the Qualifier for this Authorization
-	 * @param integer effectiveDate when the Authorization becomes effective
-	 * @param integer expirationDate when the Authorization stops being effective
+	 * @param object DateAndTime effectiveDate when the Authorization becomes effective
+	 * @param object DateAndTime expirationDate when the Authorization stops being effective
 	 * @return ref object Authorization
 	 **/
 	function &createAuthorization(& $agentId, & $functionId, & $qualifierId, $effectiveDate = NULL, $expirationDate = NULL) {
@@ -128,16 +128,21 @@ class AuthorizationCache {
 		$values[] = "'".addslashes($agentId->getIdString())."'";
 		$values[] = "'".addslashes($functionId->getIdString())."'";
 		$values[] = "'".addslashes($qualifierId->getIdString())."'";
+		
 		if ($dated) {
-			$effectiveDateTime = new DateTime;
-			$effectiveDateTime->setDate($effectiveDate);
-			$timestamp = $dbHandler->toDBDate($effectiveDateTime, $this->_dbIndex);
-			$values[] = "'".addslashes($timestamp)."'";
-			$expirationDateTime = new DateTime;
-			$expirationDateTime->setDate($expirationDate);
-			$timestamp = $dbHandler->toDBDate($expirationDateTime, $this->_dbIndex);
-			$values[] = "'".addslashes($timestamp)."'";
+			if (is_object($effectiveDate))
+				$values[] = "'".addslashes(
+					$dbHandler->toDBDate($effectiveDate, $this->_dbIndex))."'";
+			else
+				$values[] = "NULL";
+			
+			if (is_object($expirationDate))
+				$values[] = "'".addslashes(
+					$dbHandler->toDBDate($expirationDate, $this->_dbIndex))."'";
+			else
+				$values[] = "NULL";
 		}
+		
 		$query->setValues($values);
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -863,16 +868,8 @@ class AuthorizationCache {
 				$agentId =& $idManager->getId($row['aId']);
 				$functionId =& $idManager->getId($row['fId']);
 				$explicitQualifierId =& $idManager->getId($row['qId']);
-				$effectiveDateTime =& $dbHandler->fromDBDate($row['eff_date'], $this->_dbIndex);
-				if ($effectiveDateTime != NULL)
-					$effectiveDate = $effectiveDateTime->toTimestamp();
-				else
-					$effectiveDate = NULL;
-				$expirationDateTime =& $dbHandler->fromDBDate($row['exp_date'], $this->_dbIndex);
-				if ($expirationDateTime != NULL)
-					$expirationDate = $expirationDateTime->toTimestamp();
-				else
-					$expirationDate = NULL;
+				$effectiveDate =& $dbHandler->fromDBDate($row['eff_date'], $this->_dbIndex);
+				$expirationDate =& $dbHandler->fromDBDate($row['exp_date'], $this->_dbIndex);
 				
 				// create the explicit authorization (each explicit authorization
 				// has a corresponding row in the authorization db table)

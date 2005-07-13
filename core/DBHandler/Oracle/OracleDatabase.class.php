@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.8 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.9 2005/07/13 17:41:11 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.8 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.9 2005/07/13 17:41:11 adamfranco Exp $
  */
 class OracleDatabase 
 	extends DatabaseInterface 
@@ -412,13 +412,15 @@ class OracleDatabase
 	
 	
 	/**
-	 * Converts a DateTime object to a proper datetime/timestamp/time representation 
+	 * Converts a DateAndTime object to a proper datetime/timestamp/time representation 
 	 * for this Database.
+	 *
 	 * @access public
-	 * @param ref object dateTime The DateTime object to convert.
+	 * @param ref object dateAndTime The DateAndTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate(& $dateTime) {
+	function toDBDate(& $dateAndTime) {
+		$dateAndTime =& $dateAndTime->asDateAndTime();
 		/*
 		 * NOT SURE HOW TO DO THIS FOR ORACLE
 		 */
@@ -427,16 +429,18 @@ class OracleDatabase
 	
 	/**
 	 * Converts a database datetime/timestamp/time value (that has been fetched
-	 * from the db) to a DateTime object.
+	 * from the db) to a DateAndTime object.
+	 *
 	 * @access public
 	 * @param mixed A database datetime/timestamp/time value (that has been fetched
 	 * from the db).
-	 * @return ref object The DateTime object.
+	 * @return ref object The DateAndTime object.
 	 */
 	function &fromDBDate($value) {
 		/*
 		 * NOT SURE HOW TO DO THIS FOR ORACLE
 		 */
+		 return DateAndTime::fromString($value);
 	}
 	
 	/**

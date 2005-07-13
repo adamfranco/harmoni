@@ -6,13 +6,13 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.12 2005/05/27 20:01:50 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.13 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
  
-require_once("DateAndTime.class.php");
+require_once(dirname(__FILE__)."/DateAndTime.class.php");
 
 /**
  * This represents a duration of 0 length that marks a particular point in time.
@@ -60,7 +60,7 @@ require_once("DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.12 2005/05/27 20:01:50 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.13 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

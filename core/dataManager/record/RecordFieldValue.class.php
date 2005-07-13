@@ -17,7 +17,7 @@ define("NEW_VERSION","new");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldValue.class.php,v 1.13 2005/07/13 17:36:06 ndhungel Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.14 2005/07/13 17:41:12 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -208,7 +208,7 @@ class RecordFieldValue {
 			return true;
 
 		$actVer->takeValueFromPrimitive($value);
-		$actVer->setDate(DateTime::now());
+		$actVer->setDate(DateAndTime::now());
 		
 		// now tell actVer to update the DB on commit()
 		$actVer->update();
@@ -336,7 +336,8 @@ class RecordFieldValue {
 			foreach ($this->getVersionIDs() as $ver) {
 				$version =& $this->getVersion($ver);
 				
-				if ($newest == null || (DateTime::compare($newest->getDate(), $version->getDate()) > 0)) {
+				$versionDate =& $version->getDate();
+				if ($newest == null || $versionDate->isGreaterThan($newest->getDate())) {
 					$newest =& $version;
 				}
 			}

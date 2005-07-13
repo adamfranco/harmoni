@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.5 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.6 2005/07/13 17:41:12 adamfranco Exp $
  */
 class Tag {
 	
@@ -53,7 +53,7 @@ class Tag {
 	}
 	
 	/**
-	 * Returns the {@link DateTime} timestamp of this tag.
+	 * Returns the {@link DateAndTime} timestamp of this tag.
 	 * @return ref object
 	 * @access public
 	 */

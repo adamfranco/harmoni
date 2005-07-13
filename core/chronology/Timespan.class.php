@@ -6,13 +6,13 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.14 2005/07/13 13:33:24 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.15 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */ 
 
-require_once("Magnitude.class.php");
+require_once(dirname(__FILE__)."/Magnitude.class.php");
 
 /**
  * Timespan represents a duration starting at a specific DateAndTime.
@@ -32,7 +32,7 @@ require_once("Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.14 2005/07/13 13:33:24 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.15 2005/07/13 17:41:11 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -860,6 +860,6 @@ class Timespan
 	}
 }
 
-require_once("DateAndTime.class.php");
+require_once(dirname(__FILE__)."/DateAndTime.class.php");
 
 ?>
