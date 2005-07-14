@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableBoolean.class.php,v 1.9 2005/07/13 19:59:42 adamfranco Exp $
+ * @version $Id: StorableBoolean.class.php,v 1.10 2005/07/14 16:23:21 adamfranco Exp $
  */
 class StorableBoolean 
 	extends Boolean 
@@ -45,7 +45,7 @@ class StorableBoolean
 	 */
 	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
 		if ($searchType == SEARCH_TYPE_EQUALS) {
-			return "dm_boolean.data = ".($value->getBooleanValue()?"1":"0");
+			return "dm_boolean.data = ".($value->value()?"1":"0");
 		}
 		return null;
 	}
@@ -80,7 +80,7 @@ class StorableBoolean
 		$query->setTable("dm_boolean");
 		$query->setColumns(array("id","data"));
 		
-		$query->addRowOfValues(array("'".addslashes($newID->getIdString())."'", $this->getBooleanValue()?1:0));
+		$query->addRowOfValues(array("'".addslashes($newID->getIdString())."'", $this->value()?1:0));
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, $dbID);
@@ -108,7 +108,7 @@ class StorableBoolean
 		$query->setColumns(array("data"));
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
-		$query->setValues(array($this->getBooleanValue()?1:0));
+		$query->setValues(array($this->value()?1:0));
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, $dbID);

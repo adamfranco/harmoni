@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Boolean.class.php,v 1.1 2005/07/13 21:38:07 adamfranco Exp $
+ * @version $Id: Boolean.class.php,v 1.2 2005/07/14 16:23:21 adamfranco Exp $
  */
 class Boolean 
 	extends SObject
@@ -28,7 +28,7 @@ class Boolean
 	 * @access public
 	 * @return boolean
 	 */
-	function getBooleanValue()
+	function value()
 	{
 		return $this->_bool;
 	}
@@ -56,9 +56,9 @@ class Boolean
  	 * @since 7/11/05
  	 */
  	function isEqualTo ( &$anObject ) {
- 		if (!method_exists($anObject, 'getBooleanValue'))
+ 		if (!method_exists($anObject, 'value'))
  			return false;
  			
-		return ($this->_bool===$object->getBooleanValue())?true:false;
+		return ($this->_bool===$object->value())?true:false;
 	}	
 }

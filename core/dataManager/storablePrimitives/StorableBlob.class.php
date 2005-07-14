@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableBlob.class.php,v 1.5 2005/07/13 19:59:42 adamfranco Exp $
+ * @version $Id: StorableBlob.class.php,v 1.6 2005/07/14 16:23:21 adamfranco Exp $
  */
 class StorableBlob 
 	extends StorableStringAbstract 
@@ -68,7 +68,7 @@ class StorableBlob
 		$query->addColumn("data","blob_data","dm_blob");
 	}
 	
-	function getBlobValue() {
+	function value() {
 		return $this->_string;
 	}
 	

@@ -1,32 +1,75 @@
 <?
 
-require_once(dirname(__FILE__)."/Float.class.php");
-
 /**
- * A simple Double data type.
- *
- * @package harmoni.datamanager.primitives
+ * @since 7/14/05
+ * @package harmoni.primitives.numbers
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Double.class.php,v 1.1 2005/07/13 21:38:07 adamfranco Exp $
+ * @version $Id: Double.class.php,v 1.2 2005/07/14 16:23:21 adamfranco Exp $
+ */ 
+
+require_once(dirname(__FILE__)."/Float.class.php");
+
+/**
+ * A simple Float data type.
+ *
+ * @package harmoni.primitives.numbers
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Double.class.php,v 1.2 2005/07/14 16:23:21 adamfranco Exp $
  */
 class Double 
-	extends Float 
+	extends Float
 {
+	
+/*********************************************************
+ * Class Methods - Instance Creation
+ *********************************************************/
 
-	function Double($value=0) {
-		parent::Float($value);
+	/**
+	 * Answer a new object with the value specified
+	 * 
+	 * @param mixed $value
+	 * @param optional string $class The class to instantiate. Do NOT use outside 
+	 *		of this package.
+	 * @return object Double
+	 * @access public
+	 * @since 7/14/05
+	 */
+	function &withValue ( $value, $class = 'Double') {
+		return parent::withValue($value, $class);
 	}
 	
 	/**
-	 * Returns the Double value of this object.
+	 * Answer a new object with the value zero
+	 * 
+	 * @param optional string $class The class to instantiate. Do NOT use outside 
+	 *		of this package.
+	 * @return object Double
 	 * @access public
-	 * @return double
+	 * @since 7/14/05
 	 */
-	function getDoubleValue()
-	{
-		return $this->getFloatValue();
+	function &zero ( $class = 'Double') {
+		return parent::zero($class);
+	}
+	
+/*********************************************************
+ * Instance Methods - Private
+ *********************************************************/
+	
+	/**
+	 * Set the internal value to a PHP primitive.
+	 * 
+	 * @param mixed $value
+	 * @return void
+	 * @access private
+	 * @since 7/14/05
+	 */
+	function _setValue ( $value ) {
+		$this->_value = doubleval($value);
 	}
 }

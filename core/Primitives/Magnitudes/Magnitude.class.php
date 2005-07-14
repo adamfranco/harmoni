@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.1 2005/07/13 21:38:07 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.2 2005/07/14 16:23:20 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -30,7 +30,7 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.1 2005/07/13 21:38:07 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.2 2005/07/14 16:23:20 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -49,7 +49,7 @@ class Magnitude
 	 */
 	function isLessThan ( &$aMagnitude ) {
 		die("Method ".__FUNCTION__." in class ".__CLASS__
-		." should have been overridden by a child class.");
+			." should have been overridden by a child class.");
 	}
 	
 	/**

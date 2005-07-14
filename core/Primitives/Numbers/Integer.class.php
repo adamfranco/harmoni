@@ -1,79 +1,127 @@
 <?
 
-require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
-
-
 /**
- * A simple Integer data type.
- *
- * @package harmoni.datamanager.primitives
+ * @since 7/14/05
+ * @package harmoni.primitives.numbers
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Integer.class.php,v 1.1 2005/07/13 21:38:07 adamfranco Exp $
+ * @version $Id: Integer.class.php,v 1.2 2005/07/14 16:23:21 adamfranco Exp $
+ */ 
+
+require_once(dirname(__FILE__)."/Number.class.php");
+
+/**
+ * A simple Integer data type.
+ *
+ * @package harmoni.primitives.numbers
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Integer.class.php,v 1.2 2005/07/14 16:23:21 adamfranco Exp $
  */
 class Integer 
-	extends Magnitude
+	extends Number
 {
 	
-	var $_int;
+/*********************************************************
+ * Class Methods - Instance Creation
+ *********************************************************/
 
-	function Integer($value=0) {
-		$this->_int = (int) $value;
-	}
-	
 	/**
-	 * Returns the integer value.
-	 * @access public
-	 * @return int
-	 */
-	function getIntegerValue()
-	{
-		return $this->_int;
-	}
-	
-	/**
- 	 * Answer a String whose characters are a description of the receiver.
- 	 * Override this method as needed to provide a better representation
- 	 * 
- 	 * @return string
- 	 * @access public
- 	 * @since 7/11/05
- 	 */
- 	function printableString () {
-		return (string) $this->_int;
-	}
-	
-	/**
-	 * Test if this is less than aMagnitude.
+	 * Answer a new object with the value specified
 	 * 
-	 * @param object Magnitude $aMagnitude
-	 * @return boolean
+	 * @param mixed $value
+	 * @param optional string $class The class to instantiate. Do NOT use outside 
+	 *		of this package.
+	 * @return object Integer
 	 * @access public
-	 * @since 5/4/05
+	 * @since 7/14/05
 	 */
-	function isLessThan ( &$aMagnitude ) {
-		if (!method_exists($anObject, 'getFloatValue'))
- 			return false;
- 		
- 		return ($this->_int < $object->getFloatValue())?true:false;
+	function &withValue ( $value, $class = 'Integer') {
+		return parent::withValue($value, $class);
 	}
 	
 	/**
- 	 * Answer whether the receiver and the argument are the same.
- 	 * If = is redefined in any subclass, consider also redefining the 
-	 * message hash.
- 	 * 
- 	 * @param object $anObject
- 	 * @return boolean
- 	 * @access public
- 	 * @since 7/11/05
- 	 */
- 	function isEqualTo ( &$anObject ) {
- 		if (!method_exists($anObject, 'getIntegerValue'))
- 			return false;
- 			
-		return $this->_int==$object->getIntegerValue()?true:false;
-	}	
+	 * Answer a new object with the value zero
+	 * 
+	 * @param optional string $class The class to instantiate. Do NOT use outside 
+	 *		of this package.
+	 * @return object Integer
+	 * @access public
+	 * @since 7/14/05
+	 */
+	function &zero ( $class = 'Integer') {
+		return parent::zero($class);
+	}
+		
+/*********************************************************
+ * Instance Methods - Arithmatic
+ *********************************************************/
+	
+	/**
+	 * Answer the sum of the receiver and aNumber.
+	 * 
+	 * @param object Number $aNumber
+	 * @return object Number
+	 * @access public
+	 * @since 7/14/05
+	 */
+	function &plus ( &$aNumber ) {
+		if (!(strtolower($class) == strtolower('Integer')
+			|| is_subclass_of(new $class, 'Integer')))
+		{
+			return Integer::withValue($this->value() + $aNumber->value());
+		} else {
+			return Float::withValue($this->value() + $aNumber->value());
+		}
+	}
+	
+	/**
+	 * Answer the result of multiplying the receiver and aNumber.
+	 * 
+	 * @param object Number $aNumber
+	 * @return object Number
+	 * @access public
+	 * @since 7/14/05
+	 */
+	function &multipliedBy ( &$aNumber ) {
+		if (!(strtolower($class) == strtolower('Integer')
+			|| is_subclass_of(new $class, 'Integer')))
+		{
+			return Integer::withValue($this->value() * $aNumber->value());
+		} else {
+			return Float::withValue($this->value() * $aNumber->value());
+		}
+	}
+	
+	/**
+	 * Answer the result of dividing the receiver and aNumber.
+	 * 
+	 * @param object Number $aNumber
+	 * @return object Number
+	 * @access public
+	 * @since 7/14/05
+	 */
+	function &dividedBy ( &$aNumber ) {
+		return Float::withValue($this->value() / $aNumber->value());
+	}
+	
+/*********************************************************
+ * Instance Methods - Private
+ *********************************************************/
+	
+	/**
+	 * Set the internal value to a PHP primitive.
+	 * 
+	 * @param mixed $value
+	 * @return void
+	 * @access private
+	 * @since 7/14/05
+	 */
+	function _setValue ( $value ) {
+		$this->_value = intval($value);
+	}
 }

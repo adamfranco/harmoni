@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableFloat.class.php,v 1.9 2005/07/13 19:59:42 adamfranco Exp $
+ * @version $Id: StorableFloat.class.php,v 1.10 2005/07/14 16:23:21 adamfranco Exp $
  */
 class StorableFloat 
 	extends Double 
@@ -45,19 +45,19 @@ class StorableFloat
 	 */
 	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
 		if ($searchType == SEARCH_TYPE_EQUALS) {
-			return "dm_float.data = ".$value->getDoubleValue();
+			return "dm_float.data = ".$value->value();
 		}
 		if ($searchType == SEARCH_TYPE_GREATER_THAN) {
-			return "dm_float.data > ".$value->getDoubleValue();
+			return "dm_float.data > ".$value->value();
 		}
 		if ($searchType == SEARCH_TYPE_LESS_THAN) {
-			return "dm_float.data < ".$value->getDoubleValue();
+			return "dm_float.data < ".$value->value();
 		}
 		if ($searchType == SEARCH_TYPE_GREATER_THAN_OR_EQUALS) {
-			return "dm_float.data >= ".$value->getDoubleValue();
+			return "dm_float.data >= ".$value->value();
 		}
 		if ($searchType == SEARCH_TYPE_LESS_THAN_OR_EQUALS) {
-			return "dm_float.data <= ".$value->getDoubleValue();
+			return "dm_float.data <= ".$value->value();
 		}
 		return null;
 	}
@@ -92,7 +92,7 @@ class StorableFloat
 		$query->setTable("dm_float");
 		$query->setColumns(array("id","data"));
 		
-		$query->addRowOfValues(array("'".addslashes($newID->getIdString())."'", $this->getDoubleValue()));
+		$query->addRowOfValues(array("'".addslashes($newID->getIdString())."'", $this->value()));
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, $dbID);
@@ -120,7 +120,7 @@ class StorableFloat
 		$query->setColumns(array("data"));
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
-		$query->setValues(array($this->getDoubleValue()));
+		$query->setValues(array($this->value()));
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, $dbID);
