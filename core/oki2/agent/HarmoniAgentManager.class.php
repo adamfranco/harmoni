@@ -48,7 +48,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.26 2005/07/07 21:29:58 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.27 2005/07/14 20:15:05 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -1579,7 +1579,7 @@ class HarmoniAgentManager
 					
 					foreach($agentIdsInSubgroup as $agentIdString) {
 						
-						if($this->_agentsCache[$agentIdString]){
+						if(isset($this->_agentsCache[$agentIdString])){
 							$group->attach($this->_agentsCache[$agentIdString]);
 						}
 					}

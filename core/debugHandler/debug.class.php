@@ -12,7 +12,7 @@ require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: debug.class.php,v 1.15 2005/04/13 22:17:50 adamfranco Exp $
+ * @version $Id: debug.class.php,v 1.16 2005/07/14 20:15:04 adamfranco Exp $
  *
  * @static
  **/
@@ -63,7 +63,7 @@ class debug {
 	function printAll($debugPrinter = null) {
 		// ** parameter validation
 		$extendsRule =& ExtendsValidatorRule::getRule("DebugHandlerPrinter");
-		ArgumentValidator::validate($id, OptionalRule::getRule($extendsRule), true);
+		ArgumentValidator::validate($debugPrinter, OptionalRule::getRule($extendsRule), true);
 		// ** end of parameter validation
 	
 		if (is_null($debugPrinter))
