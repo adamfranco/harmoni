@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.16 2005/04/11 19:05:39 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.17 2005/07/14 19:36:01 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -157,6 +157,7 @@ class HarmoniHierarchyManager
 	 * @param string $description
 	 * @param boolean $allowsMultipleParents
 	 * @param boolean $allowsRecursion
+	 * @param optional object Id $id WARNING: NOT IN OSID
 	 *	
 	 * @return object Hierarchy
 	 * 
@@ -178,12 +179,15 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function &createHierarchy ( $displayName, &$nodeTypes, $description, $allowsMultipleParents, $allowsRecursion ) { 
+	function &createHierarchy ( $displayName, &$nodeTypes, $description, $allowsMultipleParents, $allowsRecursion, $id = NULL ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($allowsMultipleParents, BooleanValidatorRule::getRule(), true);
 		ArgumentValidator::validate($allowsRecursion, BooleanValidatorRule::getRule(), true);
+		ArgumentValidator::validate($id, OptionalRule::getRule(
+			ExtendsValidatorRule::getRule("Id")), true);
+		
 		// ** end of parameter validation
 
 		// check for supported hierarchies
@@ -194,8 +198,10 @@ class HarmoniHierarchyManager
 		$db = $this->_hyDB.".";
 
 		// Create an Id for the Hierarchy
-		$idManager =& Services::getService("Id");
-		$id =& $idManager->createId();
+		if (!is_object($id)) {
+			$idManager =& Services::getService("Id");
+			$id =& $idManager->createId();
+		}
 		$idValue = $id->getIdString();
 		
 		// Create a new hierarchy and insert it into the database
