@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.26 2005/07/13 17:41:13 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.27 2005/07/14 20:53:31 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -300,21 +300,23 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &createAsset ( $displayName, $description, &$assetType ) { 
+	function &createAsset ( $displayName, $description, &$assetType, $id = NULL ) { 
 		// Get our id for the parent id
 		$repositoryId =& $this->_node->getId();
 		
 		// Create an Id for the new Asset
-		$IDManager =& Services::getService("Id");
-		$newId =& $IDManager->createId();
+		if (!is_object($id)) {
+			$IDManager =& Services::getService("Id");
+			$id =& $IDManager->createId();
+		}
 		
 		// Add this DR's root node to the hierarchy.
-		$node =& $this->_hierarchy->createNode($newId, $repositoryId, $assetType, $displayName, $description);
+		$node =& $this->_hierarchy->createNode($id, $repositoryId, $assetType, $displayName, $description);
 		
 		// Create the asset with its new ID and cache it.
-		$this->_createdAssets[$newId->getIdString()] =& new HarmoniAsset($this->_hierarchy, $this, $newId, $this->_configuration);
+		$this->_createdAssets[$id->getIdString()] =& new HarmoniAsset($this->_hierarchy, $this, $id, $this->_configuration);
 		
-		return $this->_createdAssets[$newId->getIdString()];
+		return $this->_createdAssets[$id->getIdString()];
 	}
 
 	 /**

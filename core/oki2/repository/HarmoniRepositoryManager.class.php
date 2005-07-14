@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.23 2005/07/07 21:29:59 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.24 2005/07/14 20:53:31 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -199,15 +199,17 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function &createRepository ( $displayName, $description, &$repositoryType ){
+	function &createRepository ( $displayName, $description, &$repositoryType, $id = NULL ){
 		// Argument Validation
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 		ArgumentValidator::validate($repositoryType, ExtendsValidatorRule::getRule("Type"));
 		
 		// Create an Id for the digital Repository Node
-		$idManager =& Services::getService("Id");
-		$newId =& $idManager->createId();
+		if (!is_object($id)) {
+			$IDManager =& Services::getService("Id");
+			$id =& $IDManager->createId();
+		}
 		
 		// Store the type passed in our own table as we will be using
 		// a special type, "_repositoryKeyType", as definition of which
@@ -252,7 +254,7 @@ class HarmoniRepositoryManager
 							"fk_dr_type",
 						));
 		$query->setValues(array(
-							"'".addslashes($newId->getIdString())."'",
+							"'".addslashes($id->getIdString())."'",
 							"'".addslashes($typeId)."'",
 						));
 		
@@ -263,19 +265,19 @@ class HarmoniRepositoryManager
 		// If we don't have a default parent specified, create
 		// it as a root node
 		if ($this->_defaultParentId == NULL) {
-			$node =& $this->_hierarchy->createRootNode($newId, 
+			$node =& $this->_hierarchy->createRootNode($id, 
 						$this->_repositoryKeyType, $displayName, $description);
 		} 
 		// If we have a default parent specified, create the
 		// Node as a child of that.
 		else {
-			$node =& $this->_hierarchy->createNode($newId, 
+			$node =& $this->_hierarchy->createNode($id, 
 						$this->_defaultParentId, 
 						$this->_repositoryKeyType, $displayName, $description);
 		}
 		
-		$this->_createdRepositories[$newId->getIdString()] =& new HarmoniRepository ($this->_hierarchy, $newId, $this->_configuration);
-		return  $this->_createdRepositories[$newId->getIdString()];
+		$this->_createdRepositories[$id->getIdString()] =& new HarmoniRepository ($this->_hierarchy, $id, $this->_configuration);
+		return  $this->_createdRepositories[$id->getIdString()];
 	}
 
 	  /**
