@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.17 2005/07/13 17:41:12 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.18 2005/07/14 20:52:46 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -546,7 +546,7 @@ class AuthorizationCache {
 			$nodeId =& $node->getId();
 			
 			// Make sure that we have a qualifier for this node.
-			if (!$this->_qualifiers[$nodeId->getIdString()]) {
+			if (!isset($this->_qualifiers[$nodeId->getIdString()])) {
 				$this->_qualifiers[$nodeId->getIdString()] =& new HarmoniQualifier($node, $this);
 			}
 			
