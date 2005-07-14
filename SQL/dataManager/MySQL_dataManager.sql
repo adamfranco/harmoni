@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_dataManager.sql,v 1.14 2005/07/13 18:40:25 adamfranco Exp $
+-- @version $Id: MySQL_dataManager.sql,v 1.15 2005/07/14 14:08:40 gabeschine Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -92,7 +92,6 @@ CREATE TABLE dm_record (
   id varchar(75) NOT NULL default '0',
   fk_schema varchar(75) NOT NULL default '0',
   created datetime NOT NULL default '0000-00-00 00:00:00',
-  active tinyint(1) unsigned NOT NULL default '0',
   ver_control tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY fk_schema (fk_schema)
