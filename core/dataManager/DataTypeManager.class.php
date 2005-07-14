@@ -15,7 +15,7 @@ require_once(HARMONI."dataManager/storablePrimitives/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataTypeManager.class.php,v 1.11 2005/07/13 21:00:27 adamfranco Exp $
+ * @version $Id: DataTypeManager.class.php,v 1.12 2005/07/14 14:07:00 gabeschine Exp $
  *
  * @author Gabe Schine
  */
@@ -88,7 +88,7 @@ class DataTypeManager {
 	 * @access public
 	 * @return string
 	 */
-	function &storablePrimitiveClassForType($type)
+	function storablePrimitiveClassForType($type)
 	{
 		$type = strtolower($type);
 		if (!$this->typeRegistered($type)) {
@@ -102,7 +102,7 @@ class DataTypeManager {
 	}
 	
 	/**
-	 * Recasts a {@link Primitive} to its associated {@link StorablePrimitive} class and returns the new object.
+	 * Recasts a {@link SObject} to its associated {@link StorablePrimitive} class and returns the new object.
 	 * @param ref object $primitive
 	 * @param string $type The type of data contained in the primitive (ie, "integer" or "string")
 	 * @access public
