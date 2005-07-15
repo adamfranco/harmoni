@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Oracle_SQLGenerator.class.php,v 1.8 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: Oracle_SQLGenerator.class.php,v 1.9 2005/07/15 22:25:05 gabeschine Exp $
  */
  
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Oracle_SQLGenerator.class.php,v 1.8 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: Oracle_SQLGenerator.class.php,v 1.9 2005/07/15 22:25:05 gabeschine Exp $
  */
 class Oracle_SQLGenerator 
 	extends SQLGeneratorInterface 
@@ -135,7 +135,7 @@ class Oracle_SQLGenerator
 			
 			// make sure that the number of fields matches the number of columns
 			if (count($rowOfValues) != count($query->_columns)) {
-				$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
+				$description = "Cannot generate SQL string for this Query object due to invalid query setup - the number of columns to add does not match the number of values given.";
 				throwError(new Error($description, "DBHandler", false));
 				return null;
 			}

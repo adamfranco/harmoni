@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Database.interface.php,v 1.7 2005/07/13 17:41:10 adamfranco Exp $
+ * @version $Id: Database.interface.php,v 1.8 2005/07/15 22:25:33 gabeschine Exp $
  */
  
 class DatabaseInterface {
@@ -61,7 +61,12 @@ class DatabaseInterface {
 	 */
 	function isConnected() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
-
+	/**
+	 * Returns a list of the tables that exist in the currently connected database.
+	 * @return array
+	 * @access public
+	 */
+	function getTableList() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 	
 	/**
 	 * Returns the total number of successful queries executed since the last call to connect().
@@ -96,7 +101,8 @@ class DatabaseInterface {
 	
 	/**
 	 * Converts a DateAndTime object to a proper datetime/timestamp/time representation 
-	 * for this Database.
+	 * for this Database. This function must return a string including quotes if necessary
+	 * for this specific database type.
 	 * @access public
 	 * @param ref object DateAndTime The DateAndTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
@@ -160,6 +166,15 @@ class DatabaseInterface {
 	 * @since 3/9/05
 	 */
 	function rollbackTransaction () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
+	 * Returns a short string name for this database type. Example: 'MySQL'
+	 * @access public
+	 * @return string
+	 */
+	function getStringName() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 }

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.9 2005/07/13 17:41:11 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.10 2005/07/15 22:25:14 gabeschine Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.9 2005/07/13 17:41:11 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.10 2005/07/15 22:25:14 gabeschine Exp $
  */
 class OracleDatabase 
 	extends DatabaseInterface 
@@ -92,23 +92,22 @@ class OracleDatabase
 
 	/**
 	 * Creates a new database connection.
-	 * @param string $dbHost The hostname for the database, i.e. myserver.mydomain.edu.
-	 * @param string $dbName The name of the default database to use.
+	 * @param string $dbName The TNS name of the database to use (found in tnsnames.ora file).
 	 * @param string $dbUser The username with which to connect to the database.
 	 * @param string $dbPass The password for $_dbUser with which to connect to the database.
 	 * @return integer $dbIndex The index of the new database
 	 * @access public
 	 */
-	function OracleDatabase($dbHost, $dbName, $dbUser, $dbPass) {
+	function OracleDatabase($dbName, $dbUser, $dbPass) {
 		// ** parameter validation
 		$stringRule =& StringValidatorRule::getRule();
-		ArgumentValidator::validate($dbHost, $stringRule, true);
+		//ArgumentValidator::validate($dbHost, $stringRule, true);
 		ArgumentValidator::validate($dbName, $stringRule, true);
 		ArgumentValidator::validate($dbUser, $stringRule, true);
 		ArgumentValidator::validate($dbPass, $stringRule, true);
 		// ** end of parameter validation
 
-		$this->_dbHost = $dbHost;
+		//$this->_dbHost = $dbHost;
 		$this->_dbName = $dbName;
 		$this->_dbUser = $dbUser;
 		$this->_dbPass = $dbPass;
@@ -116,7 +115,37 @@ class OracleDatabase
 	    $this->_successfulQueries = 0;
 	    $this->_failedQueries = 0;
 	}
+	
+	/**
+	 * Returns a short string name for this database type. Example: 'MySQL'
+	 * @access public
+	 * @return string
+	 */
+	function getStringName() {
+		return "Oracle";
+	}
 
+	/**
+	 * Returns a list of the tables that exist in the currently connected database.
+	 * @return array
+	 * @access public
+	 */
+	function getTableList() {
+		$query =& new SelectQuery();
+		$query->addTable("all_tables");
+		$query->addColumn("table_name");
+		$res =& $this->query($query);
+		
+		$list = array();
+		while($res->hasMoreRows()) {
+			$list[] = $res->field(0);
+			$res->advanceRow();
+		}
+		
+		$res->free();
+		return $list;
+	}
+	
 
 	/**
 	 * Connects to the database.
@@ -128,15 +157,8 @@ class OracleDatabase
 		// if connected, need to disconnect first
 		if ($this->isConnected()) 
 			return false;
-			
-		// attempt to connect
-		$conStr = "";
-		$conStr .= " host = ".$this->_dbHost;
-		$conStr .= " user = ".$this->_dbUser;
-		$conStr .= " password = ".$this->_dbPass;
-		$conStr .= " dbname = ".$this->_dbName;
 		
-		$linkId = pg_connect($conStr);
+		$linkId = ocilogon($this->_dbUser, $this->_dbPass, $this->_dbName);
 		
 		// see if successful
 		if ($linkId) {
@@ -165,15 +187,9 @@ class OracleDatabase
 		// if connected, need to disconnect first
 		if ($this->isConnected()) 
 			return false;
-			
-		// attempt to connect
-		$conStr = "";
-		$conStr .= " host = ".$this->_dbHost;
-		$conStr .= " user = ".$this->_dbUser;
-		$conStr .= " password = ".$this->_dbPass;
-		$conStr .= " dbname = ".$this->_dbName;
+
 		
-		$linkId = pg_pconnect($conStr);
+		$linkId = ociplogon($this->_dbUser, $this->_dbPass, $this->_dbName);
 		
 		// see if successful
 		if ($linkId) {
@@ -297,14 +313,16 @@ class OracleDatabase
 		
 		foreach ($queries as $q) {
 			// attempt to execute the query
-			$resourceId = pg_query($this->_linkId, $q);
+			$resourceId = ociparse($this->_linkId, $q);
 		
 			if ($resourceId === false) {
 			    $this->_failedQueries++;
 				throwError(new Error(pg_last_error($this->_linkId), "DBHandler", false));
 			}
-			else
+			else {
 			    $this->_successfulQueries++;
+			    ociexecute($resourceId);
+			}
 		}
 		
 		if ($count > 1)
@@ -327,7 +345,7 @@ class OracleDatabase
 			return false;
 			
 		// attempt to disconnect
-		$isSuccessful = pg_close($this->_linkId);
+		$isSuccessful = ocilogoff($this->_linkId);
 		if ($isSuccessful)
 			$this->_linkId = false;
 		
@@ -343,8 +361,7 @@ class OracleDatabase
 	 * @return boolean True if there is an open connection to the database; False, otherwise.
 	 */
 	function isConnected() {
-		$isConnected = ($this->_linkId !== false);
-		return $isConnected;
+		return ($this->_linkId !== false);
 	}
 
 
@@ -383,30 +400,10 @@ class OracleDatabase
 	 */
 	function selectDatabase($database) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
-		ArgumentValidator::validate($database, $stringRule, true);
-		// ** end of parameter validation
-		
-		$this->disconnect();
-	
-		$conStr = "";
-		$conStr .= " host = ".$this->_dbHost;
-		$conStr .= " user = ".$this->_dbUser;
-		$conStr .= " password = ".$this->_dbPass;
-		$conStr .= " dbname = ".$database;
-		
-		$linkId = pg_pconnect($conStr);
-		
-		// see if successful
-		if ($linkId) {
-		    $this->_linkId = $linkId;
-			return true;
-		}
-		else {
-			throwError(new Error("Cannot connect to database.", "DBHandler", false));
-		    $this->_linkId = false;
-			return false;						
-		}
+		throwError(
+			new Error("Oracle database connections cannot change the database once connected!", "Oracle", false));
+			
+		return false;
 	}
 
 	
@@ -420,10 +417,12 @@ class OracleDatabase
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
 	function toDBDate(& $dateAndTime) {
-		$dateAndTime =& $dateAndTime->asDateAndTime();
-		/*
-		 * NOT SURE HOW TO DO THIS FOR ORACLE
-		 */
+		$dt =& $dateAndTime->asDateAndTime();
+		$string = sprintf("%s/%02d/%02d %02d:%02d:%02d", $dt->year(),
+							$dt->month(), $dt->dayOfMonth(),
+							$dt->hour24(), $dt->minute(),
+							$dt->second());
+		return "to_date('$string', 'yyyy/mm/dd hh24:mi:ss')";
 	}
 	
 	

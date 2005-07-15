@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.10 2005/07/13 17:41:11 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.11 2005/07/15 22:25:33 gabeschine Exp $
  */
 require_once(HARMONI."DBHandler/Database.interface.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.10 2005/07/13 17:41:11 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.11 2005/07/15 22:25:33 gabeschine Exp $
  **/
  
 class PostGreDatabase extends DatabaseInterface {
@@ -116,7 +116,37 @@ class PostGreDatabase extends DatabaseInterface {
 	    $this->_failedQueries = 0;
 	}
 
+	/**
+	 * Returns a short string name for this database type. Example: 'MySQL'
+	 * @access public
+	 * @return string
+	 */
+	function getStringName() {
+		return "PostGre";
+	}
 
+	/**
+	 * Returns a list of the tables that exist in the currently connected database.
+	 * @return array
+	 * @access public
+	 */
+	function getTableList() {
+		$query =& new SelectQuery();
+		$query->addTable("pg_class");
+		$query->addColumn("relname");
+		$query->setWhere("relname NOT LIKE 'pg_%' AND relkind = 'r'");
+		$res =& $this->query($query);
+		
+		$list = array();
+		while($res->hasMoreRows()) {
+			$list[] = $res->field(0);
+			$res->advanceRow();
+		}
+		
+		$res->free();
+		return $list;
+	}
+	
 	/**
 	 * Connects to the database.
 	 * Connects to the database.
@@ -431,7 +461,7 @@ class PostGreDatabase extends DatabaseInterface {
 							$dateAndTime->month(), $dateAndTime->dayOfMonth(),
 							$dateAndTime->hour24(), $dateAndTime->minute(),
 							$dateAndTime->second());
-		return $string;
+		return "'".$string."'";
 	}
 	
 	

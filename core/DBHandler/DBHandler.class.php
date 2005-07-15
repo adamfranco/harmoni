@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.19 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.20 2005/07/15 22:25:33 gabeschine Exp $
  */
  
 /**
@@ -68,7 +68,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.19 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.20 2005/07/15 22:25:33 gabeschine Exp $
  */
 
 class DBHandler { 
@@ -215,6 +215,19 @@ class DBHandler {
 	}
 
 	/**
+	 * Returns a list of the tables that exist in the database referenced by $index.
+	 * @param optional integer $index
+	 * @return array
+	 * @access public
+	 */
+	function getTableList($index=0) {
+		$this->_validateDBIndex($index);
+		
+		return $this->_databases[$index]->getTableList();
+	}
+	
+
+	/**
 	 * Run a database query based on the Query object and return a QueryResult object.
 	 * @param object QueryInterface A query object which holds the query to run.
 	 * @param integer $dbIndex The index of the database on which to run the query. Default is 0, the database created on handler instantiation.
@@ -257,6 +270,16 @@ class DBHandler {
 		return $resultQueue;
 	}
 	
+	/**
+	 * Returns the short string name of the database index passed.
+	 * @access public
+	 * @return string
+	 */
+	function getStringName($dbIndex=0) {
+		$this->_validateDBIndex($dbIndex);
+		
+		return $this->_databases[$dbIndex]->getStringName();
+	}
 	
 	/**
 	 * Gets the total number of queries that have been run so far.

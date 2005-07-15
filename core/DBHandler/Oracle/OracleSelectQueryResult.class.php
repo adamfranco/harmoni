@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleSelectQueryResult.class.php,v 1.7 2005/06/16 18:19:04 gabeschine Exp $
+ * @version $Id: OracleSelectQueryResult.class.php,v 1.8 2005/07/15 22:25:14 gabeschine Exp $
  */
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
 
@@ -18,12 +18,15 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleSelectQueryResult.class.php,v 1.7 2005/06/16 18:19:04 gabeschine Exp $
+ * @version $Id: OracleSelectQueryResult.class.php,v 1.8 2005/07/15 22:25:14 gabeschine Exp $
  */
 class OracleSelectQueryResult 
 	extends SelectQueryResultInterface 
 {
 
+	/**
+	 * @var integer $_numRows The number of rows selected.
+	 */
 
 	/**
      * The index of the current row in the result.
@@ -81,9 +84,12 @@ class OracleSelectQueryResult
 		$this->_currentRow[NUMERIC] = array();
 		$this->_currentRow[ASSOC] = array();
 		
+		$this->_numRows = ocifetchstatement($this->_resourceId);
+		ociexecute($this->_resourceId);
+		
 		// if we have at least one row in the result, fetch its array
 		if ($this->hasMoreRows()) {
-			$this->_currentRow[BOTH] = pg_fetch_array($this->_resourceId);
+			ocifetchinto($this->_resourceId, $this->_currentRow[BOTH], OCI_ASSOC+OCI_NUM+OCI_RETURN_LOBS);
 			foreach ($this->_currentRow[BOTH] as $key => $value)
 				if (is_int($key))
 				    $this->_currentRow[NUMERIC][$key] = $value;
@@ -146,7 +152,7 @@ class OracleSelectQueryResult
 		// now, advance
 		$this->_currentRowIndex++;
 
-		$this->_currentRow[BOTH] = pg_fetch_array($this->_resourceId);
+		ocifetchinto($this->_resourceId, $this->_currentRow[BOTH], OCI_NUM+OCI_ASSOC+OCI_RETURN_LOBS);
 		foreach ($this->_currentRow[BOTH] as $key => $value)
 			if (is_int($key))
 			    $this->_currentRow[NUMERIC][$key] = $value;
@@ -195,7 +201,7 @@ class OracleSelectQueryResult
 	 * @return integer The number of fields.
 	 **/
 	function getNumberOfFields() {
-		return pg_num_fields($this->_resourceId);
+		return ocinumcols($this->_resourceId);
 	}
 	
 
@@ -240,7 +246,7 @@ class OracleSelectQueryResult
 	 * @return integer Number of rows that were processed by the query.
 	 */ 
 	function getNumberOfRows() {
-		return pg_num_rows($this->_resourceId);
+		return $this->_numRows;
 	}
 
 	
@@ -263,13 +269,18 @@ class OracleSelectQueryResult
 			$str = "\$rowNumber must be in the range 0..(getNumberOfRows()-1)";
 			throwError(new Error($str, "DBHandler", true));
 		}
-		    
-		$result = pg_result_seek($this->_resourceId, $rowNumber);
 		
-		if ($result === true)
-			$this->_currentRowIndex = $rowNumber;
+		$ok = true;
+		while($this->_currentRowIndex < $rowNumer) {
+			if (!$this->advanceRow()) {
+				$ok = false;
+				break;
+			}
+		}
+		
+		//$result = pg_result_seek($this->_resourceId, $rowNumber);
 		    
-		return $result;
+		return $ok;
 	}
 
 	

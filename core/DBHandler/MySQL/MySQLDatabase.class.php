@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.25 2005/07/13 17:41:10 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.26 2005/07/15 22:25:33 gabeschine Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.25 2005/07/13 17:41:10 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.26 2005/07/15 22:25:33 gabeschine Exp $
  */
  
 class MySQLDatabase extends DatabaseInterface {
@@ -124,8 +124,39 @@ class MySQLDatabase extends DatabaseInterface {
 	    $this->_failedQueries = 0;
 	    $this->_startedTransactions = 0;
 	}
+	
+	/**
+	 * Returns a short string name for this database type. Example: 'MySQL'
+	 * @access public
+	 * @return string
+	 */
+	function getStringName() {
+		return "MySQL";
+	}
 
-
+	/**
+	 * Returns a list of the tables that exist in the currently connected database.
+	 * @return array
+	 * @access public
+	 */
+	function getTableList() {
+		$query =& new GenericSQLQuery();
+		$query->addSQLQuery("SHOW TABLES");
+		$r =& $this->query($query);
+		$res =& $r->returnAsSelectQueryResult();
+		
+		$list = array();
+		while($res->hasMoreRows()) {
+			$list[] = $res->field(0);
+			$res->advanceRow();
+		}
+		
+		$res->free();
+		
+		return $list;
+	}
+	
+	
 	/**
 	 * Connects to the database.
 	 * Connects to the database.
@@ -391,12 +422,12 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
 	function toDBDate(& $dateAndTime) {
-		$dateAndTime =& $dateAndTime->asDateAndTime();
-		$string = sprintf("%s%02d%02d%02d%02d%02d", $dateAndTime->year(),
-							$dateAndTime->month(), $dateAndTime->dayOfMonth(),
-							$dateAndTime->hour24(), $dateAndTime->minute(),
-							$dateAndTime->second());
-		return $string;
+		$dt =& $dateAndTime->asDateAndTime();
+		$string = sprintf("%s%02d%02d%02d%02d%02d", $dt->year(),
+							$dt->month(), $dt->dayOfMonth(),
+							$dt->hour24(), $dt->minute(),
+							$dt->second());
+		return "'".$string."'";
 	}
 	
 	

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDeleteQueryResult.class.php,v 1.5 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: OracleDeleteQueryResult.class.php,v 1.6 2005/07/15 22:25:13 gabeschine Exp $
  */
 require_once(HARMONI."DBHandler/DeleteQueryResult.interface.php");
 
@@ -18,7 +18,7 @@ require_once(HARMONI."DBHandler/DeleteQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDeleteQueryResult.class.php,v 1.5 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: OracleDeleteQueryResult.class.php,v 1.6 2005/07/15 22:25:13 gabeschine Exp $
  */
 class OracleDeleteQueryResult 
 	extends DeleteQueryResultInterface 
@@ -54,7 +54,7 @@ class OracleDeleteQueryResult
 
 		$this->_resourceId = $resourceId;
 		
-		$this->_numberOfRows = pg_affected_rows($this->_resourceId);
+		$this->_numberOfRows = ocirowcount($this->_resourceId);
 	}
 
 
