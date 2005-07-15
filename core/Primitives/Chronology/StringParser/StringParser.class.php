@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.2 2005/07/15 21:40:39 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -54,7 +54,7 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.2 2005/07/15 21:40:39 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -79,6 +79,7 @@ class StringParser
 		// Go through our parsers and try to find one that understands the format.
 		$parserClasses = array(	
 			'ISO8601StringParser',
+			'ISO8601TimeStringParser',
 			'DayMonthNameYearStringParser',
 			'MonthNameDayYearStringParser',
 			'MonthNumberDayYearStringParser',
@@ -450,6 +451,7 @@ require_once(dirname(__FILE__)."/TwoDigitYearStringParser.class.php");
 
 require_once(dirname(__FILE__)."/ANSI58216StringParser.class.php");
 require_once(dirname(__FILE__)."/ISO8601StringParser.class.php");
+require_once(dirname(__FILE__)."/ISO8601TimeStringParser.class.php");
 require_once(dirname(__FILE__)."/DayMonthNameYearStringParser.class.php");
 require_once(dirname(__FILE__)."/MonthNameDayYearStringParser.class.php");
 require_once(dirname(__FILE__)."/MonthNumberDayYearStringParser.class.php");
