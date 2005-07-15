@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.17 2005/07/07 18:31:39 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.18 2005/07/15 17:40:56 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -669,7 +669,7 @@ class HierarchyCache {
 				// see if node in current row is in the cache
 				$parentIdValue = $row['id'];
 				// if not create it and cache it
-				if (!$this->_isCached[$parentIdValue]) {
+				if (!$this->_isCached($parentIdValue)) {
 					$parentId =& $idManager->getId($parentIdValue);
 					$parentType =& new HarmoniType($row['domain'], $row['authority'], 
 												  $row['keyword'], $row['type_description']);
@@ -786,7 +786,7 @@ class HierarchyCache {
 				// see if node in current row is in the cache
 				$childIdValue = $row['id'];
 				// if not create it and cache it
-				if (!$this->_isCached[$childIdValue]) {
+				if (!$this->_isCached($childIdValue)) {
 					$childId =& $idManager->getId($childIdValue);
 					$childType =& new HarmoniType($row['domain'], $row['authority'], 
 												  $row['keyword'], $row['type_description']);
