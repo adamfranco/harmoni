@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MIMETypes.class.php,v 1.6 2005/04/04 18:02:04 adamfranco Exp $
+ * @version $Id: MIMETypes.class.php,v 1.7 2005/07/15 22:25:49 gabeschine Exp $
  */
 class MIMETypes {
 
@@ -26,6 +26,7 @@ class MIMETypes {
 			"css"	=> "css",
 			"html"	=> "html",
 			"htm"	=> "html",
+			"xhtml"	=> "xhtml+xml",
 			"lyx"	=> "x-lyx",
 			"txt"	=> "plain",
 			"rtf"	=> "richtext",
@@ -85,9 +86,9 @@ class MIMETypes {
 			"mpa2"	=> "x-mpeg-2",
 			"mp2"	=> "x-mpeg-2",
 			"mp3"	=> "x-mpeg-3",
-			"mid"	=> "audio/midi",
-			"midi"	=> "audio/midi",
-			"mmid"	=> "audio/midi",
+			"mid"	=> "midi",
+			"midi"	=> "midi",
+			"mmid"	=> "midi",
 			"es"	=> "echospeech",
 			"vox"	=> "voxware"
 		);
@@ -280,6 +281,7 @@ class MIMETypes {
 	 * @return string
 	 * @access public
 	 * @since 10/20/04
+	 * @static
 	 */
 	function getMIMETypeForExtension ( $extension ) {
 		trim($extension, ".");
