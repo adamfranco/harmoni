@@ -3,12 +3,27 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.84 2005/07/13 21:38:10 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.85 2005/07/15 17:47:22 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.4.0" date="The Nebulous Future">
+		<fix author='adam'>
+			Repaired many PHP notices.
+		</fix>
+		<fix author='gabe'>
+			Repaired many PHP notices.
+		</fix>
+		<fix author='niraj'>
+			Repaired many PHP notices.
+		</fix>
+		<fix author='adam'>
+			The hierarchy cache had a problem where _isCached() was called as a property
+			instead of a method, square brackets [] versus parenthasis (), and was breaking
+			the cache by creating nodes that were listed as children of other nodes, but did
+			not have their parents listed.
+		</fix>
 		<change author='adam'>
 			The Chronology Library as well as the dataManager primitives have now
 			been moved to core/Primitives and generalized.
