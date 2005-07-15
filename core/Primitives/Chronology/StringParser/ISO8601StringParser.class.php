@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParser.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: ISO8601StringParser.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -29,7 +29,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParser.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: ISO8601StringParser.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -57,70 +57,77 @@ class ISO8601StringParser
 	(?:										# The date component
 		([0-9]{4})							# Four-digit year
 		
-		-?									# Optional Hyphen
+		[\-\/]?									# Optional Hyphen
 		
-		(									# Two-digit month
+		(?:									# Two-digit month
+			(
 			(?:  0[1-9])
 			|
 			(?:  1[0-2])
-		)?
-		
-		-?									# Optional Hyphen
-		
-		(									# Two-digit day
-			(?:  0[1-9])
-			|
-			(?:  1|2[0-9])
-			|
-			(?:  3[0-1])
-		)?
-	)?
-	
-	
-	[\sT]?									# Optional delimiter
-
-#-----------------------------------------------------------------------------		
-	(?:										# The time component
-	
-		(									# Two-digit hour
-			(?:  [0-1][0-9])
-			|
-			(?: 2[0-4])
-		)
-		
-		:?									# Optional Colon
-		
-		([0-5][0-9])?						# Two-digit minute
-		
-		:?									# Optional Colon
-		
-		(									# Two-digit second 
-			[0-5][0-9]
-			(?: \.[0-9]+)?						# followed by an optional decimal.
-		)?
-
-#-----------------------------------------------------------------------------
-		(									# Offset component
-		
-			Z								# Zero offset (UTC)
-			|								# OR
-			(?:								# Offset from UTC
-				([+\-])						# Sign of the offset
-			
-				(							# Two-digit offset hour
-					(?:  [0-1][0-9])
-					|
-					(?:  2[0-4])
-				)			
-	
-				:?							# Optional Colon
-				
-				([0-5][0-9])?				# Two-digit offset minute
 			)
+		
+			[\-\/]?									# Optional Hyphen
+			
+			(?:									# Two-digit day
+				(
+				(?:  0[1-9])
+				|
+				(?:  (?: 1|2)[0-9])
+				|
+				(?:  3[0-1])
+				)
+				
+		
+		
+				[\sT]?									# Optional delimiter
+			
+			#-----------------------------------------------------------------------------		
+				(?:										# The time component
+				
+					(									# Two-digit hour
+						(?:  [0-1][0-9])
+						|
+						(?: 2[0-4])
+					)
+					
+					(?:
+						:?									# Optional Colon
+						
+						([0-5][0-9])?						# Two-digit minute
+						
+						(?:
+							:?									# Optional Colon
+							
+							(									# Two-digit second 
+								[0-5][0-9]
+								(?: \.[0-9]+)?						# followed by an optional decimal.
+							)?
+					
+					#-----------------------------------------------------------------------------
+							(									# Offset component
+							
+								Z								# Zero offset (UTC)
+								|								# OR
+								(?:								# Offset from UTC
+									([+\-])						# Sign of the offset
+								
+									(							# Two-digit offset hour
+										(?:  [0-1][0-9])
+										|
+										(?:  2[0-4])
+									)			
+						
+									:?							# Optional Colon
+									
+									([0-5][0-9])?				# Two-digit offset minute
+								)
+							)?
+						)?
+					)?
+				)?
+			)?
 		)?
 	)?
-
-
 
 $
 /x";
@@ -149,7 +156,7 @@ $
 		//     [8] => -
 		//     [9] => 04
 		//     [10] => 00
-		
+
 		if (isset($matches[1]))
 			$this->setYear($matches[1]);
 		

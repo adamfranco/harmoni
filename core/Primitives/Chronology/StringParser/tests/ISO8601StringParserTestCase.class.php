@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParserTestCase.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: ISO8601StringParserTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -13,6 +13,7 @@
  */
 
 require_once(dirname(__FILE__)."/../ISO8601StringParser.class.php");
+require_once(dirname(__FILE__)."/../ISO8601TimeStringParser.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -26,7 +27,7 @@ require_once(dirname(__FILE__)."/../ISO8601StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParserTestCase.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: ISO8601StringParserTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -185,7 +186,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601StringParser(
+		$parser =& new ISO8601TimeStringParser(
 			'15:25:10Z');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), NULL);
@@ -198,7 +199,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), 0);
 		$this->assertEqual($parser->offsetSecond(), 0);
 		
-		$parser =& new ISO8601StringParser(
+		$parser =& new ISO8601TimeStringParser(
 			'15:25:10');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), NULL);
@@ -211,7 +212,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601StringParser(
+		$parser =& new ISO8601TimeStringParser(
 			'T152510');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), NULL);
@@ -224,7 +225,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601StringParser(
+		$parser =& new ISO8601TimeStringParser(
 			'T152510.375');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), NULL);

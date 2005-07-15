@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601TimeStringParser.class.php,v 1.1 2005/07/15 21:40:39 adamfranco Exp $
+ * @version $Id: ISO8601TimeStringParser.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -29,12 +29,12 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601TimeStringParser.class.php,v 1.1 2005/07/15 21:40:39 adamfranco Exp $
+ * @version $Id: ISO8601TimeStringParser.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
-class ISO8601StringParser 
+class ISO8601TimeStringParser 
 	extends RegexStringParser {
 	
 /*********************************************************

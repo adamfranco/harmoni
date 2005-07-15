@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: String.class.php,v 1.1 2005/07/13 21:38:07 adamfranco Exp $
+ * @version $Id: String.class.php,v 1.2 2005/07/15 21:56:29 gabeschine Exp $
  */
 class String 
 	extends SObject 
@@ -36,6 +36,18 @@ class String
 	}
 	
 	/**
+	 * Instantiates a new String object with the passed value.
+	 * @param string $value
+	 * @return ref object
+	 * @access public
+	 * @static
+	 */
+	function &withValue($value) {
+		$string =& new String($value);
+		return $string;
+	}
+	
+	/**
  	 * Answer whether the receiver and the argument are the same.
  	 * If = is redefined in any subclass, consider also redefining the 
 	 * message hash.
@@ -49,6 +61,6 @@ class String
  		if (!method_exists($anObject, 'asString'))
  			return false;
  			
-		return strcmp($object->asString(), $this->asString())==0?true:false;
+		return strcmp($anObject->asString(), $this->asString())==0?true:false;
 	}
 }

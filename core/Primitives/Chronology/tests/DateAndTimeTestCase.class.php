@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/../DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeTestCase.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: DateAndTimeTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -165,6 +165,9 @@ class DateAndTimeTestCase extends UnitTestCase {
 			DateAndTime::fromString('08/20/2005 3:25:10 pm')));
 		$this->assertTrue($dateAndTime->isEqualTo(
 			DateAndTime::fromString('August 20, 2005 3:25:10 pm')));
+			
+		$this->assertTrue($dateAndTime->isEqualTo(
+			DateAndTime::fromString('2005/08/20 15:25:10')));
 			
 		
 		$dateAndTime =& DateAndTime::withYearMonthDayHourMinuteSecond(

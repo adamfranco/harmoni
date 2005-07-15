@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Number.class.php,v 1.1 2005/07/14 16:23:21 adamfranco Exp $
+ * @version $Id: Number.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  */ 
  
 require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Number.class.php,v 1.1 2005/07/14 16:23:21 adamfranco Exp $
+ * @version $Id: Number.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  */
 class Number 
 	extends Magnitude
@@ -63,7 +63,7 @@ class Number
 	 */
 	function &withValue ( $value, $class = 'Number') {
 		// Validate our passed class name.
-		if (is_subclass_of(new $class, 'Number'))
+		if (!is_subclass_of(new $class, 'Number'))
 		{
 			die("Class, '$class', is not a subclass of 'Number'.");
 		}
@@ -313,7 +313,7 @@ class Number
  	 * @since 7/14/05
  	 */
  	function &asDouble () {
- 		return Double::withValue(doubleval($this->getValue()));
+ 		return Double::withValue(doubleval($this->value()));
  	}
  	
  	/**
@@ -324,7 +324,7 @@ class Number
  	 * @since 7/14/05
  	 */
  	function &asFloat () {
- 		return Float::withValue(floatval($this->getValue()));
+ 		return Float::withValue(floatval($this->value()));
  	}
  	
  	/**

@@ -5,14 +5,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  * @since 5/3/05
  */
 
-require_once(dirname(__FILE__)."/../SObject.class.php");
+require_once(HARMONI."/Primitives/Objects/SObject.class.php");
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -356,7 +356,7 @@ class SObjectTestCase extends UnitTestCase {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  */
 class TestPerson 
 	extends SObject 
@@ -387,7 +387,7 @@ class TestPerson
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  */
 class OctopusObject 
 	extends SObject 
@@ -441,7 +441,7 @@ class OctopusObject
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
  */
 class DogObject 
 	extends SObject 
