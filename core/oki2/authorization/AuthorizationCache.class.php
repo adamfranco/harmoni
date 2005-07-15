@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.18 2005/07/14 20:52:46 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.19 2005/07/15 17:47:22 gabeschine Exp $
  */
 class AuthorizationCache {
 
@@ -131,14 +131,14 @@ class AuthorizationCache {
 		
 		if ($dated) {
 			if (is_object($effectiveDate))
-				$values[] = "'".addslashes(
-					$dbHandler->toDBDate($effectiveDate, $this->_dbIndex))."'";
+				$values[] = 
+					$dbHandler->toDBDate($effectiveDate, $this->_dbIndex);
 			else
 				$values[] = "NULL";
 			
 			if (is_object($expirationDate))
-				$values[] = "'".addslashes(
-					$dbHandler->toDBDate($expirationDate, $this->_dbIndex))."'";
+				$values[] = 
+					$dbHandler->toDBDate($expirationDate, $this->_dbIndex);
 			else
 				$values[] = "NULL";
 		}

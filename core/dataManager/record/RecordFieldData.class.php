@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.17 2005/07/13 21:15:56 gabeschine Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.18 2005/07/15 17:47:21 gabeschine Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -191,7 +191,7 @@ class RecordFieldData {
 				$query->setWhere("id='".addslashes($this->_myID)."'");
 				$query->setColumns(array("value_index","active", "modified"));
 				$query->setValues(array($this->_parent->getIndex(),($this->_active)?1:0,
-										"'".$dbHandler->toDBDate($this->_date,DATAMANAGER_DBID)."'"));
+										$dbHandler->toDBDate($this->_date,DATAMANAGER_DBID)));
 			} else {
 				// we have to insert a new one
 				$query =& new InsertQuery();
@@ -224,7 +224,7 @@ class RecordFieldData {
 				$this->_parent->getIndex(),
 				"'".addslashes($this->_dataID)."'",
 				($this->_active)?1:0,
-				"'".$dbHandler->toDBDate($this->_date,DATAMANAGER_DBID)."'"
+				$dbHandler->toDBDate($this->_date,DATAMANAGER_DBID)
 				));
 			}
 			

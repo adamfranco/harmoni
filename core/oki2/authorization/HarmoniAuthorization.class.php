@@ -16,7 +16,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.16 2005/07/13 21:38:09 adamfranco Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.17 2005/07/15 17:47:22 gabeschine Exp $
  */
 class HarmoniAuthorization 
 	extends Authorization 
@@ -422,7 +422,7 @@ class HarmoniAuthorization
 		$query->setWhere($where);
 		$query->setColumns(array("{$dbPrefix}.authorization_expiration_date"));
 		$timestamp = $dbHandler->toDBDate($expirationDate, $this->_cache->_dbIndex);
-		$query->setValues(array("'$timestamp'"));
+		$query->setValues(array($timestamp));
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -489,7 +489,7 @@ class HarmoniAuthorization
 		$query->setWhere($where);
 		$query->setColumns(array("{$dbPrefix}.authorization_effective_date"));
 		$timestamp = $dbHandler->toDBDate($effectiveDate, $this->_cache->_dbIndex);
-		$query->setValues(array("'$timestamp'"));
+		$query->setValues(array($timestamp));
 		
 		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
