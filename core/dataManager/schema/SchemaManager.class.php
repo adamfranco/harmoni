@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.22 2005/07/18 14:45:23 gabeschine Exp $
+ * @version $Id: SchemaManager.class.php,v 1.23 2005/07/18 18:57:15 gabeschine Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
@@ -224,7 +224,7 @@ class SchemaManager {
 	 * @access public
 	 */
 	function getAllSchemaIDs() {
-		return array_values($this->_schemas);
+		return array_keys($this->_schemas);
 	}
 	
 	/**
