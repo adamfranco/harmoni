@@ -3,12 +3,39 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.86 2005/07/18 13:57:41 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.87 2005/07/18 14:45:27 gabeschine Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.4.0" date="The Nebulous Future">
+		<change author='gabe'>
+			Updated DR module to use new DataManager.
+		</change>
+		<fix author='gabe'>
+			Fixed a number of bugs in the Primitive and StorablePrimitive classes.
+		</fix>
+		<fix author='gabe'>
+			Fixed ISO date and time string parsers.
+		</fix>
+		<new author='gabe'>
+			DBHandler and Databases now implement a getTableList() function.
+		</new>
+		<new author='gabe'>
+			Implemented (but did not yet test) Oracle database connectivity.
+		</new>
+		<change author='gabe'>
+			Changed DBHandler's toDBDate functionality to automatically format and include
+			quotations if necessary for the specific DB type. This became a problem
+			for Oracle databases where a function call is necessary for date storage.
+		</change>
+		<new author='gabe'>
+			Added getStringName() to the Database interface and added a method in the DBHandler to allows access
+			to the string name based on the database index.
+		</new>
+		<change author='gabe'>
+			All DataManager database queries now free() their results after processing.
+		</change>
 		<new author='adam'>
 			GUIManager now allows for the setting of pre and post HTML. These are 
 			HTML tags that need to surround a compontent. This is primarily used to 
@@ -99,7 +126,7 @@
 			string ids as well as integer ids.
 		</change>
 	</version>
-	<version number="0.3.3" date="The Nebulous Future">
+	<version number="0.3.3" date="Never Released">
 		<fix author='adam'>
 			Fixed some more PHP warnings.
 		</fix>

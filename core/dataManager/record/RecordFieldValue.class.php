@@ -17,7 +17,7 @@ define("NEW_VERSION","new");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldValue.class.php,v 1.15 2005/07/13 21:15:56 gabeschine Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.16 2005/07/18 14:45:20 gabeschine Exp $
  *
  * @author Gabe Schine
  */
@@ -189,7 +189,7 @@ class RecordFieldValue {
 			// which means, we add a new RecordFieldValue with a *replicate*
 			// of the primitive, so that it gets added to the DB.
 			$newVer =& $this->newRecordFieldData();
-			$newVer->setValueFromPrimitive($value->replicate());
+			$newVer->setValueFromPrimitive($value->copy());
 			
 			// all done (we hope)
 			return true;
@@ -311,7 +311,6 @@ class RecordFieldValue {
 		
 		$ver =& $this->getNewestVersion();
 		$ver->setActiveFlag(true);
-		$ver->cancelPrune(); // if we told it to prune.
 		$ver->update(); // update to DB on commit()
 	}
 	
@@ -374,6 +373,7 @@ class RecordFieldValue {
 	*/
 	function &replicate(&$parent) {
 		$newObj =& new RecordFieldValue($parent, $this->_myIndex);
+		$this->_parent->_parent->makeFull();
 		
 		foreach ($this->getVersionIDs() as $verID) {
 			$ver =& $this->getVersion($verID);

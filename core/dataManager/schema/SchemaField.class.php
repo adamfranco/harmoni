@@ -9,15 +9,17 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaField.class.php,v 1.12 2005/06/03 13:40:16 adamfranco Exp $
+ * @version $Id: SchemaField.class.php,v 1.13 2005/07/18 14:45:23 gabeschine Exp $
  * @author Gabe Schine
  */
 class SchemaField {
 	
+	var $_id;
 	var $_schema;
-	var $_label;
+	var $_displayName;
 	var $_type;
 	var $_mult;
+	var $_label;
 	var $_required;
 	var $_description;
 	var $_associated;
@@ -29,24 +31,27 @@ class SchemaField {
 	
 	/**
 	 * Constructor
-	 * @param string $label the field's label
+	 * @param string $label the unique label for this field.
+	 * @param string $name the field's display name
 	 * @param string $type The string name as registered with the {@link DataTypeManager} of the data type (ie, "string", "integer", "boolean", etc)
 	 * @param optional string $description a description for this field
 	 * @param optional boolean $mult flag specifying if multiple values are allowed
 	 * @param optional boolean $required flag specifying if we will disallow a database commit without at least one value for this field
 	 * @param optional boolean $active flag specifying if this field is to be used or no.
 	 */
-	function SchemaField( $label, $type, $description="", $mult=false, $required=false, $active=true ) {
+	function SchemaField( $label, $name, $type, $description="", $mult=false, $required=false, $active=true ) {
 		ArgumentValidator::validate($mult, BooleanValidatorRule::getRule());
 		ArgumentValidator::validate($type, StringValidatorRule::getRule());
 		ArgumentValidator::validate($label, StringValidatorRule::getRule());
+		ArgumentValidator::validate($name, StringValidatorRule::getRule());
 		ArgumentValidator::validate($required, BooleanValidatorRule::getRule());
 		ArgumentValidator::validate($active, BooleanValidatorRule::getRule());
-		$this->_myID = null;
+		$this->_id = null;
 		$this->_associated = false;
 		$this->_mult = $mult;
 		$this->_required = $required;
 		$this->_description = $description;
+		$this->_displayName = $name;
 		$this->_type = $type;
 		$this->_label = $label;
 		$this->_active = $active;
@@ -58,6 +63,8 @@ class SchemaField {
 		$this->_schema = null;
 		
 		$this->_idManager =& Services::getService("Id");
+		
+//		print "first time name: ".$this->_displayName."<br>";
 		
 		// let's do a quick check and make sure that this type is registered
 //		$typeMgr =& Services::getService("DataTypeManager");
@@ -87,6 +94,17 @@ class SchemaField {
 		
 		$this->_associated = true;
 		$this->_schema =& $schema;
+		
+		$this->_id = $schema->getID() . "." . $this->_label;
+	}
+	
+	/**
+	 * Returns this field's ID (assuming it has been associated with a Schema)
+	 * @return string
+	 * @access public
+	 */
+	function getID() {
+		return $this->_id;
 	}
 	
 	/**
@@ -144,14 +162,12 @@ class SchemaField {
 	}
 	
 	/**
-	 * Sets the text-label.
-	 * @param string $label
+	 * Returns our display name.
+	 * @return string
 	 * @access public
-	 * @return void
 	 */
-	function setLabel($label)
-	{
-		$this->_label = $label;
+	function getDisplayName() {
+		return $this->_displayName;
 	}
 	
 	/**
@@ -182,23 +198,14 @@ class SchemaField {
 		$dbHandler =& Services::getService("DatabaseManager");
 		
 		if ($this->_addToDB) {
-			if ($id) {
-				throwError (new Error("Can't add new SchemaField to database (label: ".$this->_label.", type: ".$this->_type
-				.") because it seems it's already in the database with id ".$id,"DataManager",true));
-				return null;
-			}
 			$query = new InsertQuery();
 			$query->setTable("dm_schema_field");
-			$query->setColumns(array("id","fk_schema","label","mult","fieldtype","active","required","description"));
-			
-			$newID =& $this->_idManager->createId();
-			
-			$schemaID = $this->_schema->getID();
+			$query->setColumns(array("id","fk_schema","name","mult","fieldtype","active","required","description"));
 			
 			$query->addRowOfValues(array(
-					"'".addslashes($newID->getIdString())."'",
-					"'".addslashes($schemaID)."'",
-					"'".addslashes($this->_label)."'",
+					"'".addslashes($id)."'",
+					"'".addslashes($this->_schema->getID())."'",
+					"'".addslashes($this->_displayName)."'",
 					(($this->_mult)?1:0),
 					"'".addslashes($this->_type)."'",
 					1,
@@ -214,18 +221,18 @@ class SchemaField {
 				return false;
 			}
 			
-			return $newID->getIdString();
+			return $id;
 		}
 		
 		if ($this->_update) {
 			// do some updating
 			$query = new UpdateQuery();
 			$query->setTable("dm_schema_field");
-			$query->setColumns(array("label","mult","active","required","description"));
+			$query->setColumns(array("name","mult","active","required","description"));
 			$query->setWhere("id='".addslashes($id)."'");
 			
 			$query->setValues(array(
-					"'".addslashes($this->_label)."'",
+					"'".addslashes($this->_displayName)."'",
 					(($this->_mult)?1:0),
 					(($this->_active)?1:0),
 					($this->_required?1:0),
@@ -302,7 +309,7 @@ class SchemaField {
 	 * @access public
 	 */
 	function &replicate() {
-		$newField =& new SchemaField($this->_label, $this->_type, $this->_description, $this->_mult, $this->_required );
+		$newField =& new SchemaField($this->_label, $this->_displayName,  $this->_type, $this->_description, $this->_mult, $this->_required );
 		return $newField;
 	}
 	
@@ -327,9 +334,19 @@ class SchemaField {
 	 * @access public
 	 * @return void
 	 */
-	function setDescription($description)
+	function updateDescription($description)
 	{
 		$this->_description = $description;
+	}
+	
+	/**
+	 * Sets this field's display name.
+	 * @param string $name
+	 * @access public
+	 * @return void
+	 */
+	function updateDisplayName($name) {
+		$this->_displayName = $name;
 	}
 }
 

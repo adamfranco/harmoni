@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.19 2005/07/13 17:41:13 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.20 2005/07/18 14:45:26 gabeschine Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.19 2005/07/13 17:41:13 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.20 2005/07/18 14:45:26 gabeschine Exp $ 
  */
 
 class HarmoniAsset
@@ -241,7 +241,7 @@ class HarmoniAsset
  		$recordMgr =& Services::getService("RecordManager");
  		
  		// Ready our type for comparisson
- 		$contentType =& new HarmoniType("Repository", "Harmoni",  "AssetContent");
+ 		$contentType = "edu.middlebury.harmoni.repository.asset_content";
  		$myId =& $this->_node->getId();
  		
  		// Get the content DataSet.
@@ -252,10 +252,9 @@ class HarmoniAsset
 		$contentRecord =& $contentRecords[0];
 		
  		if (!$contentRecord) {
- 			return new Blob;
+ 			return new Blob();
  		} else {
- 			$recordFieldData =& $contentRecord->getCurrentValue("Content");
- 			return $recordFieldData->getPrimitive();
+ 			return $contentRecord->getValue("Content");
  		}
 	}
 
@@ -286,7 +285,7 @@ class HarmoniAsset
  		$recordMgr =& Services::getService("RecordManager");
  		
  		// Ready our type for comparisson
- 		$contentType =& new HarmoniType("Repository", "Harmoni",  "AssetContent");
+ 		$contentType = "edu.middlebury.harmoni.repository.asset_content";
  		$myId =& $this->_node->getId();
  		
  		// Get the content DataSet.
@@ -303,15 +302,15 @@ class HarmoniAsset
  		} else {
 			// Set up and create our new record
 			$schemaMgr =& Services::getService("SchemaManager");
-			$contentSchema =& $schemaMgr->getSchemaByType($contentType);
+			$contentSchema =& $schemaMgr->getSchemaByID($contentType);
 			$contentSchema->load();
-			printpre($contentSchema->getAllLabels());
+//			printpre($contentSchema->getAllLabels());
 			
 			// Decide if we want to version-control this field.
 			$versionControl = $this->_versionControlAll;
 			if (!$versionControl) {
 				foreach ($this->_versionControlTypes as $key => $val) {
-					if ($contentType->isEqual($this->_versionControlTypes[$key])) {
+					if ($contentType == $this->_versionControlTypes[$key]) {
 						$versionControl = TRUE;
 						break;
 					}
@@ -382,8 +381,7 @@ class HarmoniAsset
      */
     function updateEffectiveDate ( $effectiveDate ) { 
 		ArgumentValidator::validate($effectiveDate,
-			OrValidatorRule::getRule(
-				NullValidatorRule::getRule(),
+			OptionalRule::getRule(
 				HasMethodsValidatorRule::getRule("asDateAndTime")));
 		
 		// Make sure that we have dates from the DB if they exist.
@@ -445,15 +443,14 @@ class HarmoniAsset
      * @access public
      */
     function updateExpirationDate ( $expirationDate ) { 
-		ArgumentValidator::validate($effectiveDate,
-			OrValidatorRule::getRule(
-				NullValidatorRule::getRule(),
+		ArgumentValidator::validate($expirationDate,
+			OptionalRule::getRule(
 				HasMethodsValidatorRule::getRule("asDateAndTime")));
 			
 		// Make sure that we have dates from the DB if they exist.
 		$this->_loadDates();
 		// Update our date in preparation for DB updating
-		$this->_effectiveDate =& $effectiveDate;
+		$this->_expirationDate =& $expirationDate;
 		// Store the dates
 		$this->_storeDates();
 	}
@@ -680,21 +677,22 @@ class HarmoniAsset
 			
 			// 	get the type for the new data set.
 			$schemaMgr =& Services::getService("SchemaManager");
-			$type =& $schemaMgr->getSchemaTypeByID($recordStructureId->getIdString());
+			$schemaID = $recordStructureId->getIdString();
+//			$type =& $schemaMgr->getSchemaByID($recordStructureId->getIdString());
 			
 			// Set up and create our new dataset
 			// Decide if we want to version-control this field.
 				$versionControl = $this->_versionControlAll;
 				if (!$versionControl) {
 					foreach ($this->_versionControlTypes as $key => $val) {
-						if ($type->isEqual($this->_versionControlTypes[$key])) {
+						if ($schemaID == $this->_versionControlTypes[$key]) {
 							$versionControl = TRUE;
 							break;
 						}
 					}
 				}
 				
-				$newRecord =& $recordMgr->createRecord($type, $versionControl);
+				$newRecord =& $recordMgr->createRecord($schemaID, $versionControl);
 			
 			// The ignoreMandatory Allows this record to be created without checking for
 			// values on mandatory fields. These constraints should be checked when
@@ -784,6 +782,8 @@ class HarmoniAsset
 				$dbHandler->query($query, $this->_dbIndex);
 				$result->advanceRow();
 			}
+			
+			$result->free();
 		} 
 		
 		// Otherwise use the data manager
@@ -802,7 +802,7 @@ class HarmoniAsset
 			$records =& $otherSet->getRecords();
 			
 			// Add all of DataSets (Records) of the specified RecordStructure and Asset
-			// to our DataSetGroup.
+			// to our RecordSet.
 			foreach (array_keys($records) as $key) {
 				// Get the ID of the current DataSet's TypeDefinition
 				$schema =& $records[$key]->getSchema();
@@ -811,7 +811,7 @@ class HarmoniAsset
 				// If the current DataSet's DataSetTypeDefinition's ID is the same as
 				// the RecordStructure ID that we are looking for, add that dataSet to our
 				// DataSetGroup.
-				if ($receordStructureId->isEqual($schemaId)) {
+				if ($recordStructureId->isEqual($schemaId)) {
 					$mySet->add($records[$key]);
 				}
 			}
@@ -953,7 +953,7 @@ class HarmoniAsset
 			if (count($setsContaining) == 1 && $setsContaining[0] == $myId->getIdString()) {
 				$myRecordSet->removeRecord($record);
 				$myRecordSet->commit(TRUE);
-				$record->delete(TRUE);
+				$record->delete();
 				$record->commit(TRUE);
 			}
 			// If this record is used by other assets, remove the record from this set, 
@@ -1201,6 +1201,8 @@ class HarmoniAsset
 				
 				$result->advanceRow();
 			}
+			
+			$result->free();
 		}
 		
 		// Create an iterator and return it.
@@ -1326,8 +1328,8 @@ class HarmoniAsset
 		$recordStructures =& $this->_repository->getRecordStructures();
 
 		// Get the id of the Content DataSetTypeDef
-		$contentType =& new HarmoniType("Repository", "Harmoni", "AssetContent");
-		$contentTypeId =& $idManager->getId($schemaMgr->getIDByType($contentType));
+		$contentType = "edu.middlebury.harmoni.repository.asset_content";
+		$contentTypeId =& $idManager->getId($contentType);
 		
 		while ($recordStructures->hasNext()) {
 			$structure =& $recordStructures->next();
@@ -1482,7 +1484,7 @@ class HarmoniAsset
 		// If we have stored dates for this asset set them
 		if ($this->_datesInDB) {
 			$query =& new UpdateQuery;
-			$query->setWhere("asset_id='".$id->getIdString()."'");
+			$query->setWhere("asset_id='".addslashes($id->getIdString())."'");
 		} 
 		
 		// Otherwise, insert Them
@@ -1493,7 +1495,7 @@ class HarmoniAsset
 		$columns = array("asset_id", "effective_date", "expiration_date");
 
 		$values = array();
-		$values[] = $id->getIdString();
+		$values[] = "'".addslashes($id->getIdString())."'";
 		
 		if (is_object($this->_effectiveDate))
 			$values[] = $dbHandler->toDBDate($this->_effectiveDate, $this->_dbIndex);
@@ -1545,6 +1547,8 @@ class HarmoniAsset
 			$this->_expirationDate = NULL;
 			$this->_datesInDB = FALSE;
 		}
+		
+		$result->free();
 	}
 	
 	

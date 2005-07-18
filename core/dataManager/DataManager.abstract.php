@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataManager.abstract.php,v 1.14 2005/04/12 20:44:52 adamfranco Exp $
+ * @version $Id: DataManager.abstract.php,v 1.15 2005/07/18 14:45:25 gabeschine Exp $
  */
  
 require_once(HARMONI."dataManager/schema/SchemaManager.class.php");
@@ -20,14 +20,14 @@ require_once(HARMONI."dataManager/versionConstraints/include.php");
 
 /**
  * The HarmoniDataManager class is used purely to setup the services required to use the
- * other DataManager classes such as the {@link DataSetTypeManager} or the {@link DataSetManager}.
+ * other DataManager classes such as the {@link DataSetTypeManager} or the {@link RecordManager}.
  *
  * @package harmoni.datamanager
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataManager.abstract.php,v 1.14 2005/04/12 20:44:52 adamfranco Exp $
+ * @version $Id: DataManager.abstract.php,v 1.15 2005/07/18 14:45:25 gabeschine Exp $
  *
  * @author Gabe Schine
  * @abstract

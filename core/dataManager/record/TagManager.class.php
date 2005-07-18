@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/Tag.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.11 2005/07/13 17:41:12 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.12 2005/07/18 14:45:20 gabeschine Exp $
 */
 class TagManager {
 	
@@ -33,8 +33,8 @@ class TagManager {
 		// spider through the record and get the IDs of the active versions.
 		$ids = array();
 		$schema =& $record->getSchema();
-		foreach ($schema->getAllLabels() as $label) {
-			$values =& $record->getAllRecordFieldValues($label);
+		foreach ($schema->getAllIDs() as $id) {
+			$values =& $record->getRecordFieldValues($id);
 			foreach (array_keys($values) as $key) {
 				if ($values[$key]->hasActiveValue()) {
 					$actVer =& $values[$key]->getActiveVersion();
@@ -98,6 +98,8 @@ class TagManager {
 			$ids[] = "fk_tag='".addslashes($res->field(0))."'";
 			$res->advanceRow();
 		}
+		
+		$res->free();
 		
 		if (!count($ids)) return;
 		
@@ -209,6 +211,7 @@ class TagManager {
 			$tags[$a["id"]] =& $newTag;
 		}
 		
+		$result->free();
 		return $tags;
 	}
 	
@@ -232,7 +235,7 @@ class TagManager {
 		$query->addColumn("value_index","record_field_index","dm_record_field");
 		$query->addColumn("id","record_field_id","dm_record_field");
 		
-		$query->addColumn("label","schema_field_label","dm_schema_field");
+		$query->addColumn("id","schema_field_id","dm_schema_field");
 		
 		$query->setWhere("dm_tag.fk_record='".addslashes($id)."'");
 		
@@ -256,6 +259,8 @@ class TagManager {
 			$tagRows[$tagID][] = $a;
 			if (!isset($dates[$tagID])) $dates[$tagID] =& $dbHandler->fromDBDate($a["tag_date"], DATAMANAGER_DBID);
 		}
+		
+		$result->free();
 		
 		$tags = array();
 		foreach (array_keys($tagRows) as $tagID) {
@@ -290,6 +295,8 @@ class TagManager {
 			$ids[] = $res->field(0);
 			$res->advanceRow();
 		}
+		
+		$res->free();
 		
 		// now delete the datasets
 		$query =& new DeleteQuery;

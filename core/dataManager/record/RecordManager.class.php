@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.23 2005/06/09 20:37:28 gabeschine Exp $
+ * @version $Id: RecordManager.class.php,v 1.24 2005/07/18 14:45:19 gabeschine Exp $
  *
  * @author Gabe Schine
  */
@@ -48,7 +48,7 @@ class RecordManager {
 	
 	/**
 	 * Returns a {@link RecordSet} object associated with the numeric ID.
-	 * @param int $groupID The DataSetGroup ID.
+	 * @param int $groupID The RecordSet ID.
 	 * @param optional bool $dontLoad If set to TRUE will not attempt to load the RecordSet, only return it if it's already loaded.
 	 * @return ref object OR NULL if not found.
 	 */
@@ -149,6 +149,8 @@ class RecordManager {
 			$result->advanceRow();
 		}
 		
+		$result->free();
+		
 		return $groupIds;
 	}
 	
@@ -176,7 +178,6 @@ class RecordManager {
 			$query->addTable("dm_record", LEFT_JOIN, "dm_record_set.fk_record=dm_record.id");
 			$query->addColumn("id","","dm_record_set");
 			$query->addColumn("fk_record","","dm_record_set");
-			$query->addColumn("active","","dm_record");
 			$query->setWhere(implode(" OR ",$wheres));
 			
 			$dbHandler =& Services::getService("DatabaseManager");
@@ -194,6 +195,8 @@ class RecordManager {
 				
 				$newSet->takeRow($a);
 			}
+			
+			$result->free();
 		}
 		
 		// now, if some of the IDs didn't exist in the DB, we'll create new ones.
@@ -319,13 +322,15 @@ class RecordManager {
 					$schemaManager =& Services::getService("SchemaManager");
 					$schema =& $schemaManager->getSchemaByID($type);
 					$schema->load();
-					$records[$id] =& new Record($schema, $vcontrol?true:false);
+					$records[$id] =& new Record($schema, $vcontrol?true:false, $mode);
 					if ($this->_cacheMode) $this->_recordCache[$id] =& $records[$id];
 				}
 				
 				$records[$id]->takeRow($a);
 				unset($a);
 			}
+			
+			$result->free();
 			
 		}				
 
@@ -387,6 +392,8 @@ class RecordManager {
 			$resultIds[] = $a["record_id"];
 		}
 		
+		$result->free();
+		
 		$ids = $criteria->postProcess($resultIds);
 		return array_unique($ids);
 	}
@@ -408,10 +415,9 @@ class RecordManager {
 	 * @param optional bool $prune Set to TRUE if you want the Record to actually be pruned from the database and not just deactivated.
 	 */
 	function &deleteRecord ( $id, $prune=false ) {
-		$mode = $prune?RECORD_FULL:RECORD_NODATA;
+		$mode = RECORD_FULL;
 		$record =& $this->fetchRecord( $id, $mode );
-		$record->setActiveFlag(false);
-		if ($prune) $record->prune( new PruneAllVersionConstraint() );
+		$record->delete();
 		$record->commit();
 	}
 	
@@ -420,6 +426,8 @@ class RecordManager {
 	 * set and not shared with other record sets.
 	 * 
 	 * @param int $id The Id of the set to delete.
+	 * @param optional boolean $prune If TRUE will make sure that the Records are removed
+	 * from the database.
 	 * @return void
 	 * @access public
 	 * @since 10/6/04
@@ -441,7 +449,6 @@ class RecordManager {
 				&& $setsContaing[0] == $id)
 			{
 				$this->deleteRecord($record->getID(), $prune);
-				$record->commit();
 			}
 		}
 		
@@ -491,13 +498,12 @@ class RecordManager {
 			
 			/* dm_schema_field table */
 			$query->addColumn("id","schema_field_id","dm_schema_field");
-			$query->addColumn("label","schema_field_label","dm_schema_field");
+//			$query->addColumn("label","schema_field_label","dm_schema_field");
 		}
 		
 		/* dm_record table */
 		$query->addColumn("id","record_id","dm_record");
 		$query->addColumn("created","record_created","dm_record");
-		$query->addColumn("active","record_active","dm_record");
 		$query->addColumn("ver_control","record_ver_control","dm_record");
 		$query->addColumn("fk_schema","","dm_record"); //specify table to avoid ambiguity
 	}
@@ -505,34 +511,32 @@ class RecordManager {
 	/**
 	* Returns a new {@link Record} object that can be inserted into the database.
 	* @return ref object
-	* @param ref object $type The {@link HarmoniType} object that refers to the Schema to associated this Record with.
+	* @param string $type The Schema type/ID that refers to the Schema to associate this Record with.
 	* @param optional bool $verControl Specifies if the Record should be created with Version Control. Default=no.
 	*/
-	function &createRecord( &$type, $verControl = false ) {
+	function &createRecord( $type, $verControl = false ) {
 		$schemaManager =& Services::getService("SchemaManager");
 		if (!$schemaManager->schemaExists($type)) {
-			throwError ( new Error("could not create new Record of type ".HarmoniType::typeToString($type).
+			throwError ( new Error("could not create new Record of type ".$type.
 			" because the requested type does not seem to be registered
 			with the SchemaManager.","RecordManager",true));
 		}
 		
 		// ok, let's make a new one.
-		$schema =& $schemaManager->getSchemaByType($type);
+		$schema =& $schemaManager->getSchemaByID($type);
 		// load from the DB
 		$schema->load();
-		debug::output("Creating new Record of type '".HarmoniType::typeToString($type)."', which allows fields: ".implode(", ",$schema->getAllLabels()),DEBUG_SYS4,"DataManager");
+		debug::output("Creating new Record of type '".$type."', which allows fields: ".implode(", ",$schema->getAllIDs()),DEBUG_SYS4,"DataManager");
 		$newRecord =& new Record($schema, $verControl);
-		$newRecord->setFetchMode(RECORD_FULL);
 		return $newRecord;
 	}
 	
 	/**
 	* @return array
-	* @param ref object $type The {@link HarmoniType} to look for.
-	* @param optional boolean $activeOnly Will only return active Records [default=false]
+	* @param string $type The Schema type to look for.
 	* Returns an array of Record IDs that are of the Schema type $type.
 	*/
-	function getRecordIDsByType(&$type, $activeOnly=false) {
+	function getRecordIDsByType($type) {
 		// we're going to get all the IDs that match a given type.
 		
 		$query =& new SelectQuery();
@@ -541,10 +545,7 @@ class RecordManager {
 		
 		$query->addColumn("id","","dm_record");
 		
-		$query->setWhere("dm_schema.domain='".addslashes($type->getDomain())."' AND ".
-						"dm_schema.authority='".addslashes($type->getAuthority())."' AND ".
-						"dm_schema.keyword='".addslashes($type->getKeyword())."'".
-						($activeOnly?" AND dm_record.active=1":""));
+		$query->setWhere("dm_schema.id='".addslashes($type)."'");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		
@@ -560,6 +561,8 @@ class RecordManager {
 			$array[] = $result->field(0);
 			$result->advanceRow();
 		}
+		
+		$result->free();
 		
 		return $array;
 	}	

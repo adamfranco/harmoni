@@ -10,7 +10,7 @@ require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaSearch.class.php,v 1.5 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: SchemaSearch.class.php,v 1.6 2005/07/18 14:45:24 gabeschine Exp $
  */
 class SchemaSearch extends SearchCriteria {
 	
@@ -18,10 +18,15 @@ class SchemaSearch extends SearchCriteria {
 	
 	/**
 	 * The constructor.
-	 * @param ref object $theType The {@link HarmoniType} that describes the {@link Schema}.
+	 * @param string $id The id that describes the {@link Schema}.
 	 */
-	function SchemaSearch( &$theType ) {
-		$this->_type = $theType;
+	function SchemaSearch( $id ) {
+		throwError(
+			new Error(
+				"SchemaSearch has been deprecated. Use RecordManager::getRecordIDsByType().",
+				"RecordManager",
+				true
+			));
 	}
 	
 	function returnSearchString() {

@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.6 2005/07/13 17:41:12 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.7 2005/07/18 14:45:19 gabeschine Exp $
  */
 class Tag {
 	
@@ -39,14 +39,14 @@ class Tag {
 	 */
 	function populate( $arrayOfRows ) {
 		foreach ($arrayOfRows as $row) {
-			$label = $row["schema_field_label"];
+			$id = $row["schema_field_id"];
 			$index = $row["record_field_index"];
 			$verID = $row["record_field_id"];
 			
-			if (isset($this->_mappings[$label][$index])) throwError ( new Error(
+			if (isset($this->_mappings[$id][$index])) throwError ( new Error(
 				"While creating Tag mappings, we already have a mapping for $label -> $index. What's going on?","Tag",true));
 			
-			$this->_mappings[$label][$index] = $verID;
+			$this->_mappings[$id][$index] = $verID;
 		}
 		
 		$this->_loaded = true;
@@ -63,23 +63,23 @@ class Tag {
 	
 	/**
 	 * Returns the specific version of a value that was active when this tag was created.
-	 * @param string $label The field label to look for.
+	 * @param string $id The field id to look for.
 	 * @param int $index The specific index within that label to look for.
 	 * @return int The version ID.
 	 * @access public
 	 */
-	function getMapping($label, $index) {
-		return $this->_mappings[$label][$index]?$this->_mappings[$label][$index]:null;
+	function getMapping($id, $index) {
+		return $this->_mappings[$id][$index]?$this->_mappings[$id][$index]:null;
 	}
 	
 	/**
-	 * Checks whether a mapping for this $label was defined when the tag was created.
+	 * Checks whether a mapping for this $id was defined when the tag was created.
 	 * @return bool
-	 * @param string $label
+	 * @param string $id
 	 * @access public
 	 */
-	function haveMappings($label) {
-		return isset($this->_mappings[$label])?true:false;
+	function haveMappings($id) {
+		return isset($this->_mappings[$id]);
 	}
 	
 	/**
@@ -114,7 +114,7 @@ class Tag {
 		$query->addColumn("index","record_field_index","dm_record_field");
 		$query->addColumn("id","record_field_id","dm_record_field");
 		
-		$query->addColumn("label","schema_field_label","dm_schema_field");
+		$query->addColumn("id","schema_field_id","dm_schema_field");
 		
 		$query->setWhere("fk_tag='".addslashes($this->_myID)."'");
 		
@@ -131,6 +131,8 @@ class Tag {
 			
 			$tagRows[] = $a;
 		}
+		
+		$result->free();
 		
 		$this->populate($tagRows);
 		return true;

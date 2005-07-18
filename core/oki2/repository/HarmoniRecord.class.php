@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.12 2005/07/12 18:12:19 ndhungel Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.13 2005/07/18 14:45:26 gabeschine Exp $ 
  */
 
 class HarmoniRecord 
@@ -95,18 +95,19 @@ class HarmoniRecord
 	 * @access public
 	 */
 	function &createPart ( &$partStructureId, &$value ) { 
-		ArgumentValidator::validate($value, ExtendsValidatorRule::getRule("Primitive"));
+		ArgumentValidator::validate($value, ExtendsValidatorRule::getRule("SObject"));
 		$partID = $partStructureId->getIdString();
 		
 		// we need to find the label associated with this ID
 		$schema =& $this->_record->getSchema();
-		foreach ($schema->getAllLabels() as $label) {
-			$part =& $schema->getField($label);
-			if ($partID == $schema->getFieldID($label)) break;
+		foreach ($schema->getAllIDs() as $id) {
+			$part =& $schema->getField($id);
+			if ($partID == $id) break;
 		}
+		$label = $schema->getFieldLabelFromID($id);
 		$this->_record->makeFull(); // make sure we have a full data representation.
 		// If the value is deleted, add a new version to it.
-		if ($this->_record->numValues($label) && $this->_record->deleted($label)) {
+		if ($this->_record->numValues($label, true) && $this->_record->isValueDeleted($label)) {
 			$this->_record->undeleteValue($label);
 			$this->_record->setValue($label, $value);
 		
@@ -159,8 +160,10 @@ class HarmoniRecord
 			$label = $r[2];
 			$index = $r[3];
 			
-			$this->_record->deleteValue($label, $index);
-			$this->_record->commit(TRUE);
+			if ($this->_record->getID() == $recordId) {
+				$this->_record->deleteValue($label, $index);
+				$this->_record->commit(TRUE);
+			}
 		} else {
 			throwError(new Error(RepositoryException::UNKNOWN_ID().": $string", "HarmoniPart", true));
 		}
@@ -190,13 +193,15 @@ class HarmoniRecord
 		$partStructures =& $this->_recordStructure->getPartStructures();
 		while ($partStructures->hasNext()) {
 			$partStructure =& $partStructures->next();
-			$allRecordFieldValues =& $this->_record->getAllRecordFieldValues($partStructure->getDisplayName());
+			$id = $partStructure->getId();
+			$idString = $id->getIdString();
+			$allRecordFieldValues =& $this->_record->getRecordFieldValues($idString);
 			// Create an Part for each valueVersionObj
 			if (count($allRecordFieldValues)) {
 				foreach (array_keys($allRecordFieldValues) as $key) {
 					if ($activeValue =& $allRecordFieldValues[$key]->getActiveVersion()
-						&& !isset($this->_createdParts[$activeValue->getId()]))
-						$this->_createdParts[$activeValue->getId()] =& new HarmoniPart(
+						&& !isset($this->_createdParts[$activeValue->getID()]))
+						$this->_createdParts[$activeValue->getID()] =& new HarmoniPart(
 													$partStructure, $allRecordFieldValues[$key]);
 				}
 			}

@@ -15,7 +15,7 @@ require_once(HARMONI."dataManager/storablePrimitives/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataTypeManager.class.php,v 1.12 2005/07/14 14:07:00 gabeschine Exp $
+ * @version $Id: DataTypeManager.class.php,v 1.13 2005/07/18 14:45:25 gabeschine Exp $
  *
  * @author Gabe Schine
  */
@@ -83,7 +83,25 @@ class DataTypeManager {
 	}
 	
 	/**
-	 * Returns the class that is associated with the given $name.
+	 * Returns the primitive class that is associated with the given $type.
+	 * @param string $type
+	 * @return string
+	 * @access public
+	 */
+	function primitiveClassForType($type) {
+		$type = strtolower($type);
+		if (!$this->typeRegistered($type)) {
+			throwError( new Error("Could not create new DataType object for '$type' because it doesn't seem to be registered.",
+			"DataTypeManager",true));
+		}
+		
+		$class = $this->_registeredTypes[$type]["primitive"];
+		
+		return $class;
+	}
+	
+	/**
+	 * Returns the storable-primitive class that is associated with the given $name.
 	 * @param string $type The type-string of the primitive (such as "integer").
 	 * @access public
 	 * @return string

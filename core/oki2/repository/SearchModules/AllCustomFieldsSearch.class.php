@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AllCustomFieldsSearch.class.php,v 1.5 2005/04/07 16:33:30 adamfranco Exp $
+ * @version $Id: AllCustomFieldsSearch.class.php,v 1.6 2005/07/18 14:45:24 gabeschine Exp $
  */
 
 class AllCustomFieldsSearch
@@ -45,34 +45,32 @@ class AllCustomFieldsSearch
 		$schemaMgr =& Services::getService("SchemaManager");
 		$drMgr =& Services::getService("DR");
 		
-		$schemaTypes =& $schemaMgr->getAllSchemaTypes();
+		$schemaTypes = $schemaMgr->getAllSchemaIDs();
 		
 		$excludedFieldTypes = array("time");
-		$assetContentType =& new HarmoniType("DR", "Harmoni", "AssetContent");
+		$assetContentType = "edu.middlebury.harmoni.repository.asset_content";
 		
 		// Create the search criteria object
-		$criteria =& new AndSearch();
-		$criteria->addCriteria(new ActiveRecordsSearch());
-		$fieldCriteria =& new OrSearch();
-		$criteria->addCriteria($fieldCriteria);
+		$criteria =& new OrSearch();
 		
-		while ($schemaTypes->hasNext()) {
-			$schemaType =& $schemaTypes->next();
-			if (!$schemaType->isEqual($assetContentType)) {
+		foreach ($schemaTypes as $schemaType) {
+			if ($schemaType == $assetContentType) {
 				
-				$schema =& $schemaMgr->getSchemaByType($schemaType);
+				$schema =& $schemaMgr->getSchemaByID($schemaType);
 				$schema->load();
-				$labels = $schema->getAllLabels();
+				$ids = $schema->getAllIDs();
 				
-				foreach ($labels as $label) {
-					$fieldType = $schema->getFieldType($label);
+				foreach ($ids as $id) {
+					$fieldType = $schema->getFieldType($id);
 					
 					if (!in_array($fieldType, $excludedFieldTypes)) {
 						// Make a value appropriate to the field type.
-						$searchValue = new $fieldType($searchCriteria);
+						$dtM =& Services::getService("DataTypeManager");
+						$class = $dtM->primitiveClassForType($fieldType);
+						eval('$searchValue =& '.$class.'::withValue('.addslashes($searchCriteria).');');
 						
 						// add to the field criteria for this schematype/label				
-						$fieldCriteria->addCriteria(new FieldValueSearch($schemaType, $label, $searchValue, SEARCH_TYPE_CONTAINS));
+						$criteria->addCriteria(new FieldValueSearch($schemaType, $label, $searchValue, SEARCH_TYPE_CONTAINS));
 					}
 				}
 			}

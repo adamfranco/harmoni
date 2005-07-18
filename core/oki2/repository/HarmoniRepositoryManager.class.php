@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.24 2005/07/14 20:53:31 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.25 2005/07/18 14:45:26 gabeschine Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -68,29 +68,33 @@ class HarmoniRepositoryManager
 		$this->_createdRepositories = array();
 
 		$schemaMgr =& Services::getService("SchemaManager");
-		$recordType = new HarmoniType("Repository", "Harmoni", "AssetContent", "A RecordStructure for the generic content of an asset.");
+		$ids =& Services::getService("Id");
+		$recordType = "edu.middlebury.harmoni.repository.asset_content";
+		$recordDesc = "A RecordStructure for the generic content of an asset.";
 		
 		if (!$schemaMgr->schemaExists($recordType)) {
 			// Create the Schema
-			$schema =& new Schema($recordType);
+			$schema =& new Schema($recordType, "Repository Asset Content", 1, $recordDesc);
+			$schema->addField(new SchemaField("Content", "Content", "blob", "The binary content of the Asset"));
 			$schemaMgr->synchronize($schema);
 			
 			// The SchemaManager only allows you to use Schemas created by it for use with Records.
-			$schema =& $schemaMgr->getSchemaByType($recordType);
+			$schema =& $schemaMgr->getSchemaByID($recordType);
 			debug::output("RecordStructure is being created from Schema with Id: '".$schema->getID()."'");
 			
 			$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure(
 																	$schema);
 			// Add the parts to the schema
-			$partStructureType = new Type("Repository", "Harmoni", "Blob", "");
-			$this->_createdRecordStructures[$schema->getID()]->createPartStructure(
-																"Content",
-																"The binary content of the Asset",
-																$partStructureType,
-																FALSE,
-																FALSE,
-																FALSE
-																);
+//			$partStructureType = new Type("Repository", "Harmoni", "Blob", "");
+//			$this->_createdRecordStructures[$schema->getID()]->createPartStructure(
+//																"Content",
+//																"The binary content of the Asset",
+//																$partStructureType,
+//																FALSE,
+//																FALSE,
+//																FALSE,
+//																$ids->getId("edu.middlebury.harmoni.repository.asset_content.Content")
+//																);
 		}
 	}
 	
@@ -443,6 +447,8 @@ class HarmoniRepositoryManager
 			$result->advanceRow();
 		}
 		
+		$result->free();
+		
 		// create a repositoryIterator with all fo the repositories in the createdRepositories array
 		$repositoryIterator =& new HarmoniRepositoryIterator($rs);
 		
@@ -752,6 +758,8 @@ class HarmoniRepositoryManager
 											$result->field("type_description"));
 			$result->advanceRow();
 		} 
+		
+		$result->free();
 		
 		return new HarmoniTypeIterator($types);
 	}

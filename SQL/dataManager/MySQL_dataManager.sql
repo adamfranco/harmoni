@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_dataManager.sql,v 1.15 2005/07/14 14:08:40 gabeschine Exp $
+-- @version $Id: MySQL_dataManager.sql,v 1.16 2005/07/18 14:45:27 gabeschine Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -140,13 +140,10 @@ CREATE TABLE dm_record_set (
 
 CREATE TABLE dm_schema (
   id varchar(75) NOT NULL default '0',
-  domain varchar(100) NOT NULL default '',
-  authority varchar(100) NOT NULL default '',
-  keyword varchar(100) NOT NULL default '',
+  displayname varchar(100) NOT NULL,
   description tinytext NOT NULL,
   revision int(8) unsigned NOT NULL default '0',
-  PRIMARY KEY  (id),
-  UNIQUE KEY unique_key (domain,authority,keyword)
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 -- --------------------------------------------------------
@@ -158,15 +155,14 @@ CREATE TABLE dm_schema (
 CREATE TABLE dm_schema_field (
   id varchar(75) NOT NULL default '0',
   fk_schema varchar(75) NOT NULL default '0',
-  label varchar(255) NOT NULL default '',
+  name varchar(255) NOT NULL default '',
   mult tinyint(1) unsigned NOT NULL default '0',
   fieldtype varchar(255) NOT NULL default '',
   active tinyint(1) unsigned NOT NULL default '0',
   required tinyint(1) unsigned NOT NULL default '0',
   description tinytext NOT NULL,
   PRIMARY KEY  (id),
-  KEY fk_schema (fk_schema),
-  KEY label (label)
+  KEY fk_schema (fk_schema)
 ) TYPE=MyISAM;
 
 -- --------------------------------------------------------

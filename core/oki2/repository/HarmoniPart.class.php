@@ -19,7 +19,7 @@ require(OKI2."osid/repository/Part.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.9 2005/03/29 19:44:27 adamfranco Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.10 2005/07/18 14:45:26 gabeschine Exp $ 
  */
 class HarmoniPart 
 	extends Part
@@ -243,7 +243,7 @@ class HarmoniPart
 		
 		if ($actValue) return $actValue->getPrimitive();
 		
-		return null;
+		return ($null=null);
 	}
 
 	
@@ -270,7 +270,7 @@ class HarmoniPart
 	 */
 	function updateValue ( &$value ) { 
 	
-		ArgumentValidator::validate($value, ExtendsValidatorRule::getRule("Primitive"));
+		ArgumentValidator::validate($value, ExtendsValidatorRule::getRule("SObject"));
 		// Get the type for the field.
 		$this->_recordFieldValue->setValueFromPrimitive($value);
 		$this->_recordFieldValue->commit();

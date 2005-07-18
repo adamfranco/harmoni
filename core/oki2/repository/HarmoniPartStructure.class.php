@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.6 2005/01/27 17:00:37 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.7 2005/07/18 14:45:26 gabeschine Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -55,7 +55,7 @@ class HarmoniPartStructure extends PartStructure
 	 * @access public
 	 */
 	function getDisplayName () { 
-		return $this->_schemaField->getLabel();
+		return $this->_schemaField->getDisplayName();
 	}
 
 
@@ -81,7 +81,9 @@ class HarmoniPartStructure extends PartStructure
 	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		$this->_schemaField->updateDisplayName($displayName);
+		$this->_schemaField->update();
+		$this->_schemaField->commit();
 	} 
 	
 	/**
@@ -158,9 +160,7 @@ class HarmoniPartStructure extends PartStructure
 	function &getId () { 
 		$idManager =& Services::getService("Id");
 		return $idManager->getId(
-			$this->_recordStructure->_schema->getFieldID(
-				$this->_schemaField->getLabel()
-			)
+			$this->_schemaField->getID()
 		);
 	}
 
@@ -313,7 +313,7 @@ class HarmoniPartStructure extends PartStructure
 	 * @access public
 	 */
 	function validatePart ( &$part ) { 
-		// we can check if the part (ie, ValueVersions) has values of the right type.
+		// we can check if the part (ie, RecordFieldValue) has values of the right type.
 		// @todo
 		
 		return true;

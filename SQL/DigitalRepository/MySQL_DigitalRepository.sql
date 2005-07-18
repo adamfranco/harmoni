@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_DigitalRepository.sql,v 1.6 2005/04/20 21:07:43 adamfranco Exp $
+-- @version $Id: MySQL_DigitalRepository.sql,v 1.7 2005/07/18 14:45:25 gabeschine Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -14,8 +14,8 @@
 
 CREATE TABLE dr_asset_info (
   asset_id varchar(75) NOT NULL default '0',
-  effective_date datetime NOT NULL default '0000-00-00 00:00:00',
-  expiration_date datetime NOT NULL default '0000-00-00 00:00:00',
+  effective_date datetime default '0000-00-00 00:00:00',
+  expiration_date datetime default '0000-00-00 00:00:00',
   PRIMARY KEY  (asset_id)
 ) TYPE=MyISAM;
 

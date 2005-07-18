@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordField.class.php,v 1.14 2005/07/13 21:15:56 gabeschine Exp $
+ * @version $Id: RecordField.class.php,v 1.15 2005/07/18 14:45:19 gabeschine Exp $
  **/
 class RecordField {
 	
@@ -71,7 +71,7 @@ class RecordField {
 		
 		$array = array();
 		foreach (array_keys($this->_values) as $key) {
-			if (!$this->deleted($key))
+			if (!$this->isIndexDeleted($key))
 				$array[] = $key;
 		}
 		
@@ -138,12 +138,7 @@ class RecordField {
 			// now, if we are pruning and we will completely remove an index within this field,
 			// we need to re-index the fields and make sure they update.
 			// so, if the field is going to have an active value, then we're going to re-index it (???? or always?)
-			if ($this->_values[$i]->setIndex($j++)) {
-				foreach ($this->_values[$i]->getVersionIDs() as $verID) {
-					$ver =& $this->_values[$i]->getVersion($verID);
-					$ver->update();
-				}
-			}
+			$this->_values[$i]->setIndex($j++);
 		}
 	}
 	
@@ -158,15 +153,6 @@ class RecordField {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
 		return $this->_values[$index];
-	}
-	
-	/**
-	* Returns an array of {@link RecordFieldValue} objects set for each index.
-	* @return array
-	*/
-	function &getAllRecordFieldValues() {
-		$this->_parent->makeCurrent();
-		return $this->_values;
 	}
 	
 	/**
@@ -199,11 +185,11 @@ class RecordField {
 
 		// if we are one-value only and we already have a value, throw an error.
 		// allow addValue() if we don't have any values yet.
-		if (!$this->_schemaField->getMultFlag() && $this->numValues()) {
+		if (!$this->_schemaField->getMultFlag() && $this->numValues(true)) {
 			$label = $this->_myLabel;
 			throwError ( new Error(
 			"Field label '$label' can not add a new value because it does not allow multiple
-				values. In Schema ".HarmoniType::typeToString($this->_parent->_schema->getType()).".",
+				values. In Schema ".$this->_parent->getSchemaID().".",
 			"Record",true));
 			return false;
 		}
@@ -229,7 +215,7 @@ class RecordField {
 	* add a new version rather than set the existing value.
 	* @return bool
 	* @param int $index
-	* @param ref object $value A {@link Primitive} object.
+	* @param ref object $value A {@link SObject} object.
 	*/
 	function setValueFromPrimitive($index, &$value) {
 		$this->_parent->makeFull();
@@ -292,7 +278,7 @@ class RecordField {
 	 * @access public
 	 * @return bool
 	 */
-	function deleted($index)
+	function isIndexDeleted($index)
 	{
 		$this->_parent->makeFull();
 		
@@ -306,24 +292,19 @@ class RecordField {
 	/**
 	* Returns the number of values for this label we have set.
 	* @return int
+	* @access public
+	* @param optional boolean $includeInactive if TRUE will include inactive values in the count.
 	*/
-	function numValues() { return count($this->_values); }
-	
-	/**
-	 * Returns the number of ACTIVE values for this label.
-	 * @return int
-	 */
-	function numActiveValues() {
-		$this->_parent->makeCurrent();
-		$count = 0;
-//		print_r($this->getIndices());
-		foreach ($this->getIndices() as $i) {
-//			print "class $i: " . gettype($this->_values[$i]);
-			if ($this->_values[$i]->hasActiveValue()) $count++;
+	function numValues($includeInactive = false) { 
+		if ($includeInactive) {
+			$this->_parent->makeFull(); 
+			return count($this->_values);
 		}
-		return $count;
+		
+		$this->_parent->makeCurrent();
+		return count($this->getIndices());		
 	}
-	
+
 	/**
 	* Returns the number of versions we have set for specific $index.
 	* @return int

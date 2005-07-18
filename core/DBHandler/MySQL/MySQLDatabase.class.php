@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.26 2005/07/15 22:25:33 gabeschine Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.27 2005/07/18 14:45:27 gabeschine Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.26 2005/07/15 22:25:33 gabeschine Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.27 2005/07/18 14:45:27 gabeschine Exp $
  */
  
 class MySQLDatabase extends DatabaseInterface {
@@ -96,6 +96,12 @@ class MySQLDatabase extends DatabaseInterface {
 	 */ 
 	var $_failedQueries;
 	
+	/**
+	 * TRUE if this database supports transactions.
+	 * @var boolean $_supportsTransactions
+	 * @access private
+	 */
+	var $_supportsTransactions = null;
 
 	/**
 	 * Creates a new database connection.
@@ -476,7 +482,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @since 3/9/05
 	 */
 	function supportsTransactions () {
-		if ($this->_supportsTransactions === NULL) {
+		if ($this->_supportsTransactions == NULL) {
 			$versionString = mysql_get_server_info($this->_linkId);
 			if(!preg_match("/^([0-9]+).([0-9]+).([0-9]+)/", $versionString, $matches))
 				$this->_supportsTransactions = FALSE;

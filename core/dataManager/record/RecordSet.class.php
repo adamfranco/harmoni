@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordSet.class.php,v 1.8 2005/07/13 20:44:10 adamfranco Exp $
+ * @version $Id: RecordSet.class.php,v 1.9 2005/07/18 14:45:19 gabeschine Exp $
  */
 class RecordSet {
 	
@@ -116,18 +116,17 @@ class RecordSet {
 	
 	/**
 	 * Returns an array of {@link Records} of the passed {@link Schema} {@link HarmoniType Type}.
-	 * @param ref object $type A {@link HarmoniType} object linked with a {@link Schema}.
+	 * @param string $id A type/ID string linked with a {@link Schema}.
 	 * @access public
 	 * @return ref array
 	 */
-	function &getRecordsByType(&$type)
+	function &getRecordsByType($id)
 	{
 		$records =& $this->getRecords();
 		
 		$return = array();
 		for ($i = 0; $i < count($records); $i++) {
-			$schema =& $records[$i]->getSchema();
-			if ($type->isEqual($schema->getType())) {
+			if ($id == $records[$i]->getSchemaID()) {
 				$return[] =& $records[$i];
 			}
 		}

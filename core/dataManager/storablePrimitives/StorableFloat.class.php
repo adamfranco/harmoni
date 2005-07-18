@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableFloat.class.php,v 1.10 2005/07/14 16:23:21 adamfranco Exp $
+ * @version $Id: StorableFloat.class.php,v 1.11 2005/07/18 14:45:25 gabeschine Exp $
  */
 class StorableFloat 
 	extends Double 
@@ -75,7 +75,7 @@ class StorableFloat
 	 * @since 7/13/05
 	 */
 	function _setValue ($value) {
-		$this->_float = (double) $value;
+		$this->_value = (double) $value;
 	}
 	
 	/**

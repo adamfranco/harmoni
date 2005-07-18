@@ -13,12 +13,15 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schema.class.php,v 1.13 2005/06/03 13:40:15 adamfranco Exp $
+ * @version $Id: Schema.class.php,v 1.14 2005/07/18 14:45:24 gabeschine Exp $
  * @author Gabe Schine
  */
 class Schema {
 	
-	var $_type;
+	var $_id;
+	
+	var $_displayName;
+	var $_description;
 	
 	var $_loaded;
 	
@@ -30,14 +33,16 @@ class Schema {
 	var $_isCreatedByManager;
 	
 	/**
-	 * @param ref object $type A {@link HarmoniType} object. Differentiates this Schema from others - like its unique identifier.
+	 * @param string $id A unique type/ID string. Differentiates this Schema from others.
+	 * @param string $displayName This Schema's display name.
 	 * @param int $revision The internal revision number. Useful for keeping track if the Schema definition in the database matches that which you need.
+	 * @param optional string $description A description.
 	 */
-	function Schema(&$type, $revision=1) {
-		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"));
-
-		$this->_type =& $type;
+	function Schema($id, $displayName, $revision=1, $description="") {
+		$this->_id = $id;
+		$this->_displayName = $displayName;
 		$this->_revision = $revision;
+		$this->_description = $description;
 		
 		$this->_loaded = false;
 		$this->_fields = array();
@@ -69,11 +74,49 @@ class Schema {
 	}
 	
 	/**
-	* Returns the {@link HarmoniType} object associated with this definition.
+	* Returns the type/ID associated with this definition.
 	* @return ref object
 	*/
-	function &getType() {
-		return $this->_type;
+	function getID() {
+		return $this->_id;
+	}
+	
+	/**
+	 * Returns the display name.
+	 * @return string
+	 * @access public
+	 */
+	function getDisplayName() {
+		return $this->_displayName;
+	}
+	
+	/**
+	 * Returns the description.
+	 * @return string
+	 * @access public
+	 */
+	function getDescription() {
+		return $this->_description;
+	}
+	
+	/**
+	 * Sets the description.
+	 * @param string $description
+	 * @return void
+	 * @access public
+	 */
+	function updateDescription($description) {
+		$this->_description = $description;
+	}
+	
+	/**
+	 * Sets the display name.
+	 * @param string $name
+	 * @return void
+	 * @access public
+	 */
+	function updateDisplayName($name) {
+		$this->_displayName = $name;
 	}
 	
 	/**
@@ -107,28 +150,17 @@ class Schema {
 	function _addField(&$field) {
 		ArgumentValidator::validate($field, ExtendsValidatorRule::getRule("SchemaField"));
 		
-		$label = $field->getLabel();
+		$id = $this->getID() . "." . $field->getLabel();
 		
 		// if we already have a field labeled $label we die
-		if (isset($this->_fields[$label]))
-			throwError( new Error("Already have a field with label '$label' defined in Schema '".HarmoniType::typeToString($this->_type)."'. If you feel this is in error, remember that previously deleted SchemaFields retain their label so as to avoid data fragmentation.","DataManager",true));
+		if (isset($this->_fields[$id]))
+			throwError( new Error("Already have a field with ID '$id' defined in Schema '".$this->getID()."'. If you feel this is in error, remember that previously deleted SchemaFields retain their id so as to avoid data fragmentation.","DataManager",true));
 		
 		// associate this field definition with this Schema
 		$field->associate($this);
 		
 		// add it to our list of fields
-		$this->_fields[$label] =& $field;
-	}
-	
-	/**
-	 * Returns our ID in the database.
-	 * @access public
-	 * @return int
-	 */
-	function getID()
-	{
-		$schemaManager =& Services::getService("SchemaManager");
-		return $schemaManager->getIDByType($this->getType());
+		$this->_fields[$id] =& $field;
 	}
 	
 	/**
@@ -143,28 +175,22 @@ class Schema {
 		}
 
 		// attempt to get our ID from the SchemaManager
-		if ($this->_isCreatedByManager) {
-			$schemaManager =& Services::getService("SchemaManager");
-			$id = $schemaManager->getIDByType($this->getType());
-		} else {
+		if (!$this->_isCreatedByManager) {
 			throwError( new Error("The Schema object of type '".HarmoniType::typeToString($this->_type)."'
 				was not meant to interface with the database.","DataManager",true));
 			return false;
-		}
-		if (!$id) {
-			throwError( new Error("The Schema object of type '".HarmoniType::typeToString($this->getType())."' cannot be loaded because it does not have an associated database ID!","DataManager",true));
 		}
 
 		$query =& new SelectQuery;
 		$query->addTable("dm_schema_field");
 		$query->addColumn("id","","dm_schema_field");
-		$query->addColumn("label","","dm_schema_field");
+		$query->addColumn("name","","dm_schema_field");
 		$query->addColumn("mult","","dm_schema_field");
 		$query->addColumn("required","","dm_schema_field");
 		$query->addColumn("active","","dm_schema_field");
 		$query->addColumn("fieldtype","","dm_schema_field");
 		$query->addColumn("description","","dm_schema_field");
-		$query->setWhere("fk_schema='".addslashes($id)."'");
+		$query->setWhere("fk_schema='".addslashes($this->_id)."'");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
@@ -178,6 +204,8 @@ class Schema {
 			$result->advanceRow();
 		}
 		
+		$result->free();
+		
 		$this->populate($rows);
 		return true;
 	}
@@ -189,14 +217,14 @@ class Schema {
 	*/
 	function populate($arrayOfRows) {
 		foreach ($arrayOfRows as $a) {
-			$newField =& new SchemaField($a['label'],$a['fieldtype'],
+			$label = str_replace($this->getID() . ".", "", $a['id']);
+			$newField =& new SchemaField($label,$a['name'],$a['fieldtype'],
 					$a['description'],
 					(($a['mult'])?true:false),
 					($a['required']?true:false),
 					(($a['active'])?true:false)
 					);
 			$this->_addField($newField);
-			$this->_fieldIDs[$a['label']] = $a['id'];
 			unset($newField);
 		}
 		
@@ -226,48 +254,89 @@ class Schema {
 	* @return void
 	* @param string $label The string label of the field to delete.
 	*/
-	function deleteField($label) {
-		unset($this->_fields[$label], $this->_fieldIDs[$label]);
+	function deleteFieldByLabel($label) {
+		unset($this->_fields[$this->getID() . "." . $label]);
 	}
 	
 	/**
-	* Returns a list of labels defined.
+	 * Removes the definition for field $id from the Schema.
+	 * @param string $id
+	 * @return void
+	 */
+	function deleteField($id) {
+		unset($this->_fields[$id]);
+	}
+	
+	/**
+	 * Returns the label of a field given its ID.
+	 * @param string $id
+	 * @return string
+	 * @access public
+	 */
+	function getFieldLabelFromID($id) {
+		$label = str_replace($this->getID() . ".", "", $id);
+		if (!isset($this->_fields[$id])) {
+			throwError(new Error("Schema::getFieldLabelFromID($id) - could not find a field corresponding to id.", "DataManager", true));
+		}
+		return $label;
+	}
+	
+	/**
+	 * Returns the ID of a field given its label.
+	 * @param string $label
+	 * @return string
+	 * @access public
+	 */
+	function getFieldIDFromLabel($label) {
+		$id = $this->getID() . "." . $label;
+		if (!isset($this->_fields[$id])) {
+			throwError(new Error("Schema::getFieldIDFromLabel($label) - could not find a field corresponding to label.", "DataManager", true));
+		}
+		return $id;
+	}
+	/**
+	* Returns a list of ids defined.
 	* @return array
 	* @param optional bool $includeInactive If TRUE will also return fields that are inactive (deleted from the definition).
 	*/
-	function getAllLabels( $includeInactive = false ) {
+	function getAllIDs( $includeInactive = false ) {
 		$array = array();
-		foreach (array_keys($this->_fields) as $label) {
-			if ($includeInactive || $this->_fields[$label]->isActive()) $array[] = $label;
+		foreach (array_keys($this->_fields) as $id) {
+			if ($includeInactive || $this->_fields[$id]->isActive()) $array[] = $id;
 		}
 		return $array;
 	}
 	
 	/**
-	* Returns the {@link SchemaField} object for $label.
-	* @return ref object
-	* @param string $label
-	*/
-	function &getField($label) {
-		if (!isset($this->_fields[$label])) {
-			throwError(new Error("I don't have a field labeled '$label'. I'm of type '".HarmoniType::typeToString($this->_type)."'.","DataManager",true));
-			return false;
+	 * Returns a list of labels defined (similar to getAllIDs())
+	 * @return array
+	 * @param optional bool $includeInactive if TRUE will also return fields that are inactive in this Schema
+	 */
+	function getAllLabels( $includeInactive = false ) {
+		$array = array();
+		foreach (array_keys($this->_fields) as $id) {
+			if ($includeInactive || $this->_fields[$id]->isActive()) {
+				$label = str_replace($this->getID().".", "", $id);
+				$array[] = $label;
+			}
 		}
-		
-		return $this->_fields[$label];
+		return $array;
 	}
 	
 	/**
-	 * Returns the ID in the database associated with a given field label.
-	 * @param string $label 
-	 * @access public
-	 * @return int
-	 */
-	function getFieldID($label)
-	{
-		return $this->_fieldIDs[$label];
+	* Returns the {@link SchemaField} object for $id.
+	* @return ref object
+	* @param string $id
+	*/
+	function &getField($id) {
+		if (!isset($this->_fields[$id])) {
+			throwError(new Error("I don't have a field id '$id'. I'm of type '".$this->getID()."'.","DataManager",true));
+			return false;
+		}
+		
+		return $this->_fields[$id];
 	}
-	
+
 	/**
 	* Spiders through all the fields and commits them to the database. Is called from {@link SchemaManager::synchronize()}.
 	* @return void
@@ -275,57 +344,65 @@ class Schema {
 	*/
 	function commitAllFields() {
 		// go through all our fields and call commit();
-		foreach ($this->getAllLabels() as $label) {
-			$this->_fieldIDs[$label] = $this->_fields[$label]->commit($this->_fieldIDs[$label]);
+		foreach ($this->getAllIDs() as $id) {
+			$this->_fields[$id]->commit($id);
 		}
 	}
 	
 	/**
-	* Returns if the field $label is defined.
+	* Returns if the field $id is defined.
 	* @return boolean
-	* @param string $label
+	* @param string $id
 	*/
-	function fieldExists($label) {
-		return (isset($this->_fields[$label]))?true:false;
+	function fieldExists($id) {
+		return isset($this->_fields[$id]);
 	}
 	
 	/**
-	* Returns the DataType for field referenced by $label.
-	* @return string
-	* @param string $label
-	*/
-	function getFieldType($label) {
-		if (!$this->fieldExists($label)) return false;
-		
-		return $this->_fields[$label]->getType();
-	}
-	
-	/**
-	 * Returns the {@link SchemaField} associated with the ID passed.
-	 * @param int $id
-	 * @access public
-	 * @return ref object
+	 * Returns if the field $label is defined.
+	 * @return boolean
+	 * @param string $label The field's label.
 	 */
-	function getFieldByID($id)
-	{
-		// find the label
-		foreach (array_keys($this->_fields) as $label) {
-			if ($this->getFieldID($label) == $id) return $this->_fields[$label];
-		}
+	function fieldExistsByLabel($label) {
+		$id = $this->getID().".".$label;
+		return $this->fieldExists($id);
+	}
+	
+	/**
+	* Returns the DataType for field referenced by $id.
+	* @return string
+	* @param string $id
+	*/
+	function getFieldType($id) {
+		if (!$this->fieldExists($id)) return false;
 		
-		return null;
+		return $this->_fields[$id]->getType();
 	}
 	
 	/**
 	 * Returns the description of a field.
-	 * @param string $label The label of the field.
+	 * @param string $id The label of the field.
 	 * @access public
 	 * @return string
 	 */
-	function getFieldDescription($label)
+	function getFieldDescription($id)
 	{
-		if ($this->fieldExists($label)) {
-			return $this->_fields[$label]->getDescription();
+		if ($this->fieldExists($id)) {
+			return $this->_fields[$id]->getDescription();
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns the display name of a field.
+	 * @param string $id
+	 * @access public
+	 * @return void
+	 */
+	function getFieldDisplayName($id) 
+	{
+		if ($this->fieldExists($id)) {
+			return $this->_fields[$id]->getDisplayName();
 		}
 		return null;
 	}

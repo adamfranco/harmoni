@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.29 2005/07/13 21:15:56 gabeschine Exp $
+ * @version $Id: Record.class.php,v 1.30 2005/07/18 14:45:19 gabeschine Exp $
 */
 class Record {
 	
@@ -51,22 +51,39 @@ class Record {
 	var $_prune;
 	var $_pruneConstraint;
 	
-	function Record(&$schema, $verControl=false) {
+	/**
+	 * Constructor
+	 * @param mixed $schema Either a {@link Schema} object or a string ID of the schema to use.
+	 * @param optional boolean $verControl If set to TRUE this Record will use version-control.
+	 * @param optional int $fetchMode USED INTERNALLY
+	 */
+	function Record($schema, $verControl=false, $fetchMode = RECORD_FULL) {
 		ArgumentValidator::validate($verControl, BooleanValidatorRule::getRule());
-		ArgumentValidator::validate($schema, ExtendsValidatorRule::getRule("Schema"));
-
+//		ArgumentValidator::validate($schema, ExtendsValidatorRule::getRule("Schema"));
+		
+		if (is_object($schema)) {
+			$schemaID = $schema->getID();
+		} else $schemaID = $schema; // it's a string (we hope)
+		
+		$schemaManager =& Services::getService("SchemaManager");
+		
+		$schema =& $schemaManager->getSchemaByID($schemaID);
+		$schema->load();
+		
 		$this->_schema =& $schema;
 		$this->_fields = array();
 		$this->_versionControlled = $verControl;
-		$this->_fetchMode = -1;
+		$this->_fetchMode = $fetchMode;
 		$this->_fetchedValueIDs = array();
+		
+		$this->_creationDate =& DateAndTime::now();
 		
 		$this->_myID = null;
 		
 		$this->_delete = false;
 		
 		// set up the individual fields
-		foreach ($schema->getAllLabels(true) as $label) {
+		foreach ($schema->getAllIDs(true) as $label) {
 			$def =& $schema->getField($label);
 			$this->_fields[$label] =& new RecordField($def, $this);
 			unset($def);
@@ -92,7 +109,9 @@ class Record {
 	 */
 	function getIndices($label, $includeInactive = false)
 	{
-		return $this->_fields[$label]->getIndices($includeInactive);
+		$this->_checkLabel($label);
+		$id = $this->_getFieldID($label);
+		return $this->_fields[$id]->getIndices($includeInactive);
 	}
 	
 	/**
@@ -104,11 +123,7 @@ class Record {
 	 */
 	function getActiveIndices($label)
 	{
-		$array = array();
-		foreach ($this->getIndices($label) as $index) {
-			if (!$this->deleted($label, $index)) $array[] = $index;
-		}
-		return $array;
+		return $this->getIndices($label);
 	}
 	
 	/**
@@ -122,11 +137,11 @@ class Record {
 	}
 	
 	/**
-	 * Returns the OKI type associated with this Record.
-	 * @return ref object
+	 * Returns the Schema ID associated with this Record.
+	 * @return string
 	 */
-	function &getType() {
-		return $this->_schema->getType();
+	function &getSchemaID() {
+		return $this->_schema->getID();
 	}
 	
 	/**
@@ -138,8 +153,8 @@ class Record {
 	}
 	
 	function _checkLabel($label) {
-		if (!$this->_schema->fieldExists($label)) {
-			throwError(new FieldNotFoundError($label,HarmoniType::typeToString($this->_schema->getType())));
+		if (!$this->_schema->fieldExistsByLabel($label)) {
+			throwError(new FieldNotFoundError($label,$this->_schema->getID()));
 			return false;
 		}
 		return true;
@@ -148,43 +163,55 @@ class Record {
 	/**
 	 * Re-indexes all the values in a multi-valued field so that they increment by 1 started at 0. 
 	 * @access public
+	 * @param string $label The field's label.
 	 * @return void
 	 */
 	function reIndex($label)
 	{
 		$this->_checkLabel($label);
 		
-		$this->_fields[$label]->reIndex();
+		$this->_fields[$this->_getFieldID($label)]->reIndex();
 	}
 	
 	/**
-	* Returns the active {@link RecordFieldData} object for value $index under $label.
+	 * Returns the full ID of a field, given a label.
+	 * @return string
+	 * @access private
+	 * @param string $label
+	 */
+	function _getFieldID($label) {
+		return $this->_schema->getFieldIDFromLabel($label);
+	}
+	
+	/**
+	 * Returns a field's label given its ID.
+	 * @return string
+	 * @access private
+	 * @param string $id
+	 */
+	function _getFieldLabel($id) {
+		return $this->_schema->getFieldLabelFromID($id);
+	}
+	
+	/**
+	* Returns the active {@link SObject} value object for $index under $label.
 	* @return ref object
 	* @param string $label
 	* @param optional int $index default=0.
 	*/
-	function &getCurrentValue($label, $index=0) {
+	function &getValue($label, $index=0) {
 		$this->_checkLabel($label);
 		
-		$versions =& $this->getRecordFieldValue($label, $index);
+		$id = $this->_getFieldID($label);
+		
+		$versions =& $this->_fields[$id]->getRecordFieldValue($index);
 		
 		if ($versions->hasActiveValue())
-			return $versions->getActiveVersion();
+			$ver =& $versions->getActiveVersion();
 		else
-			return $versions->getNewestVersion();
-	}
-	
-	/**
-	 * Returns the active {@link SObject} value for the given $index under $label.
-	 * @param string $label
-	 * @param optional integer $index defaults to 0
-	 * @access public
-	 * @return ref object
-	 */
-	function &getCurrentValuePrimitive($label, $index=0)
-	{
-		$value =& $this->getCurrentValue($label, $index);
-		return $value->getPrimitive();
+			$ver =& $versions->getNewestVersion();
+			
+		return $ver->getPrimitive();
 	}
 	
 	/**
@@ -195,9 +222,9 @@ class Record {
 	 * @access public
 	 * @return ref mixed
 	 */
-	function &getCurrentValueByFunction($function, $label, $index=0)
+	function &getValueByFunction($function, $label, $index=0)
 	{
-		$prim =& $this->getCurrentValuePrimitive($label, $index);
+		$prim =& $this->getCurrentValue($label, $index);
 		return $prim->$function();
 	}
 	
@@ -211,10 +238,7 @@ class Record {
 		$actVer =& $this->getCurrentValue($label, $index);
 		if (!$actVer) return null;
 		
-		$val =& $actVer->getPrimitive();
-		if (!$val) return null;
-		
-		return $val->asString();
+		return $actVer->asString();
 	}
 	
 	/**
@@ -232,24 +256,48 @@ class Record {
 	}
 	
 	/**
-	* Returns the {@link RecordFieldValue} object associated with $index under $label.
-	* @return ref object
-	* @param string $label
-	* @param optional int $index default=0.
-	*/
-	function &getRecordFieldValue($label, $index=0) {
+	 * Returns an array of {@link RecordFieldData} objects corresponding to the different
+	 * versions available for a given $label/$index - useful for version-controlled Records.
+	 * @access public
+	 * @param string $label
+	 * @param optional integer $index
+	 * @return ref array An array keyed by version ID.
+	 */
+	function &getVersions($label, $index=0) {
 		$this->_checkLabel($label);
-		return $this->_fields[$label]->getRecordFieldValue($index);
+		$id = $this->_getFieldID($label);
+		
+		$ids = $this->_fields[$id]->getVersionIDs($index);
+		
+		$array = array();
+		foreach ($ids as $verID) {
+			$array[$verID] =& $this->_fields[$id]->getVersion($verID);
+		}
+		
+		return $array;
 	}
 	
 	/**
-	* Returns an array of {@link RecordFieldValue} objects for all indexes under $label.
-	* @return ref array
-	* @param string $label
-	*/
-	function &getAllRecordFieldValues($label) {
-		$this->_checkLabel($label);
-		return $this->_fields[$label]->getAllRecordFieldValues();
+	 * Returns all the {@link RecordFieldValue}s objects associated with a field by id.
+	 * @param string $id The field's unique ID
+	 * @return ref array 
+	 * @access public
+	 */
+	function &getRecordFieldValues($id) {
+		$this->_checkLabel($this->_getFieldLabel($id));
+		return $this->_fields[$id];
+	}
+	
+	/**
+	 * Returns the {@link RecordFieldValue} associated with a field by id.
+	 * @param string $id The field's unique ID
+	 * @param optional integer $index
+	 * @return ref object
+	 * @access public
+	 */
+	function &getRecordFieldValue($id, $index=0) {
+		$this->_checkLabel($this->_getFieldLabel($id));
+		return $this->_fields[$id]->getRecordFieldValue($index);
 	}
 	
 	/**
@@ -297,14 +345,15 @@ class Record {
 		
 		// now, we need to check if we've already accounted for this specific value from the database
 		if (in_array($row['record_field_id'], $this->_fetchedValueIDs)) return;
-		$label = $row['schema_field_label'];
+		$fieldID = $row['schema_field_id'];
+		$label = $this->_getFieldLabel($fieldID);
 
-		if (!isset($this->_fields[$label])) {
+		if (!isset($this->_fields[$fieldID])) {
 			throwError( new Error("Could not populate Record with label '$label' because it doesn't
 				seem to be defined in the Schema.","record",true));
 		}
 		
-		$this->_fields[$label]->takeRow($row);
+		$this->_fields[$fieldID]->takeRow($row);
 		
 		$this->_fetchedValueIDs[] = $row['record_field_id'];
 		
@@ -324,22 +373,12 @@ class Record {
 	* Returns the number of values we have set for $label.
 	* @return int
 	* @param string $label
+	* @param optional boolean $includeInactive If TRUE will include inactive values as well.
 	*/
-	function numValues($label) {
+	function numValues($label, $includeInactive = false) {
 		$this->_checkLabel($label);
 		
-		return $this->_fields[$label]->numValues();
-	}
-	
-	/**
-	* Returns the number of active values we have set for $label.
-	* @return int
-	* @param string $label
-	*/
-	function numActiveValues($label) {
-		$this->_checkLabel($label);
-		
-		return $this->_fields[$label]->numActiveValues();
+		return $this->_fields[$this->_getFieldID($label)]->numValues($includeInactive);
 	}
 	
 	/**
@@ -351,12 +390,12 @@ class Record {
 	}
 	
 	/**
-	 * Returns if this Record is active or not.
+	 * Returns if this Record is about to be deleted or not.
 	 * @return bool
-	 * @deprecated always returns true
+	 * @access public
 	 */
 	function isActive() {
-		return true;
+		return !$this->_delete;
 	}
 
 	/**
@@ -370,7 +409,7 @@ class Record {
 	{
 		$this->_checkLabel($label);
 		
-		$this->_fields[$label]->deleteValue($index);
+		$this->_fields[$this->_getFieldID($label)]->deleteValue($index);
 	}
 	
 	/**
@@ -384,7 +423,7 @@ class Record {
 	{
 		$this->_checkLabel($label);
 		
-		$this->_fields[$label]->undeleteValue($index);
+		$this->_fields[$this->_getFieldID($label)]->undeleteValue($index);
 	}
 	
 	/**
@@ -394,15 +433,15 @@ class Record {
 	 * @access public
 	 * @return bool
 	 */
-	function deleted($label, $index = 0)
+	function isValueDeleted($label, $index = 0)
 	{
 		$this->_checkLabel($label);
 		
-		return $this->_fields[$label]->deleted($index);
+		return $this->_fields[$this->_getFieldID($label)]->isIndexDeleted($index);
 	}
 	
 	/**
-	* Sets the value of $index under $label to $obj where $obj is a {@link SObject}.
+	* Sets the value of $index under $label to $obj where $obj is an {@link SObject}.
 	* @return bool
 	* @param string $label
 	* @param ref object $obj
@@ -410,10 +449,11 @@ class Record {
 	*/
 	function setValue($label, &$obj, $index=0) {
 		$this->_checkLabel($label);
+		$id = $this->_getFieldID($label);
 		if ($index == NEW_VALUE) {
-			return $this->_fields[$label]->addValueFromPrimitive($obj);
+			return $this->_fields[$id]->addValueFromPrimitive($obj);
 		}
-		return $this->_fields[$label]->setValueFromPrimitive($index, $obj);
+		return $this->_fields[$id]->setValueFromPrimitive($index, $obj);
 	}
 	
 	/**
@@ -425,62 +465,65 @@ class Record {
 	function commit($ignoreMandatory=false) {
 		// the first thing we're gonna do is check to make sure that all our required fields
 		// have at least one value.
-		foreach ($this->_schema->getAllLabels() as $label) {
-			$fieldDef =& $this->_schema->getField($label);
-			if ($fieldDef->isRequired() && ($this->_fields[$label]->numValues() == 0 ||
-					$this->_fields[$label]->numActiveValues() == 0) && !$ignoreMandatory) {
-				throwError(new Error("Could not commit Record to database because the required field '$label' does
-				not have any values!","Record",true));
+		if (!$this->_delete) {
+			foreach ($this->_schema->getAllIDs() as $id) {
+				$fieldDef =& $this->_schema->getField($id);
+				if ($fieldDef->isRequired() && ($this->_fields[$id]->numValues(true) == 0 ||
+						$this->_fields[$id]->numValues() == 0) && !$ignoreMandatory) {
+					throwError(new Error("Could not commit Record to database because the required field '$id' does
+					not have any values!","Record",true));
+					return false;
+				}
+			}
+		
+			
+			// Get the DBHandler
+			$dbHandler =& Services::getService("DatabaseManager");
+			
+			if ($this->_myID) {
+				// we're already in the database
+				$query =& new UpdateQuery();
+				
+				$query->setTable("dm_record");
+				$query->setColumns(array("ver_control"));
+				$query->setValues(array(
+					($this->_versionControlled)?1:0
+					));
+				$query->setWhere("id='".addslashes($this->_myID)."'");
+	
+				// execute the query;
+				$result =& $dbHandler->query($query,DATAMANAGER_DBID);
+				
+			} else {
+				// we'll have to make a new entry
+				$schemaManager =& Services::getService("SchemaManager");
+				
+				$id =& $this->_idManager->createId();
+				$this->_myID = $id->getIdString();
+				
+				$query =& new InsertQuery();
+				$query->setTable("dm_record");
+				$query->setColumns(array("id","fk_schema","created","ver_control"));
+				$query->addRowOfValues(array(
+					"'".addslashes($this->_myID)."'",
+					"'".addslashes($this->_schema->getID())."'",
+					$dbHandler->toDBDate($this->_creationDate,DATAMANAGER_DBID),
+					($this->_versionControlled)?1:0
+					));
+			}
+			
+			// execute the query;		
+			$result =& $dbHandler->query($query,DATAMANAGER_DBID);
+			
+			if (!$result) {
+				throwError( new UnknownDBError("Record") );
 				return false;
 			}
 		}
 		
-		// Get the DBHandler
-		$dbHandler =& Services::getService("DatabaseManager");
-		
-		if ($this->_myID) {
-			// we're already in the database
-			$query =& new UpdateQuery();
-			
-			$query->setTable("dm_record");
-			$query->setColumns(array("ver_control"));
-			$query->setValues(array(
-				($this->_versionControlled)?1:0
-				));
-			$query->setWhere("id='".addslashes($this->_myID)."'");
-
-			// execute the query;
-			$result =& $dbHandler->query($query,DATAMANAGER_DBID);
-			
-		} else {
-			// we'll have to make a new entry
-			$schemaManager =& Services::getService("SchemaManager");
-			
-			$id =& $this->_idManager->createId();
-			$this->_myID = $id->getIdString();
-			
-			$query =& new InsertQuery();
-			$query->setTable("dm_record");
-			$query->setColumns(array("id","fk_schema","created","ver_control"));
-			$query->addRowOfValues(array(
-				"'".addslashes($this->_myID)."'",
-				"'".addslashes($this->_schema->getID())."'",
-				$dbHandler->toDBDate($this->_creationDate,DATAMANAGER_DBID),
-				($this->_versionControlled)?1:0
-				));
-		}
-		
-		// execute the query;		
-		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
-		
-		if (!$result) {
-			throwError( new UnknownDBError("Record") );
-			return false;
-		}
-		
 		// now let's cycle through our FieldValues and commit them
-		foreach ($this->_schema->getAllLabels() as $label) {
-			$this->_fields[$label]->commit();
+		foreach ($this->_schema->getAllIDs() as $id) {
+			$this->_fields[$id]->commit();
 		}
 		
 		if ($this->_prune) {
@@ -572,10 +615,11 @@ class Record {
 		
 		$newSet =& new Record($this->_schema, $this->_versionControlled);
 		// @todo
-		foreach ($this->_schema->getAllLabels() as $label) {
-			for($i=0;$i<$this->numValues($label); $i++) {
-				$newSet->_fields[$label]->_values[$i] =& $this->_fields[$label]->_values[$i]->replicate($newSet->_fields[$label]);
-				$newSet->_fields[$label]->_numValues++;
+		foreach ($this->_schema->getAllIDs() as $id) {
+			$label = $this->_getFieldLabel($id);
+			foreach($this->getIndices($label, true) as $i) {
+				$newSet->_fields[$id]->_values[$i] =& $this->_fields[$id]->_values[$i]->replicate($newSet->_fields[$id]);
+				$newSet->_fields[$id]->_numValues++;
 			}
 		}
 		
@@ -595,8 +639,8 @@ class Record {
 		$this->_prune=true;
 		
 		// just step through each FieldValues object and call prune()
-		foreach ($this->_schema->getAllLabels(true) as $label) {
-			$this->_fields[$label]->prune($versionConstraint);
+		foreach ($this->_schema->getAllIDs(true) as $id) {
+			$this->_fields[$id]->prune($versionConstraint);
 		}
 	}
 	
@@ -627,16 +671,17 @@ class Record {
 		
 		$this->makeFull();
 		
-		foreach ($this->_schema->getAllLabels(true) as $label) {
+		foreach ($this->_schema->getAllIDs(true) as $id) {
 			// if the tag doesn't have any mappings for $label, skip it
 //			if (!$tag->haveMappings($label)) continue;
-			for ($i=0; $i<$this->numValues($label); $i++) {
-				$newVerID = $tag->getMapping($label, $i);
+			$label = $this->_getFieldLabel($id);
+			foreach ($this->getIndices($label, true) as $i) {
+				$newVerID = $tag->getMapping($id, $i);
 				
 				// go through each version and deactivate all versions unless they are active and $verID
-				$vers =& $this->getRecordFieldValue($label, $i);
-				foreach ($vers->getVersionIDs() as $verID) {
-					$verObj =& $vers->getVersion($verID);
+				$vers =& $this->getVersions($label, $i);
+				foreach (array_keys($vers) as $verID) {
+					$verObj =& $vers[$verID];
 					
 					// if it's our active vers in the Tag, activate it
 					if ($verID == $newVerID) {
@@ -670,21 +715,20 @@ class Record {
 		$array = array();
 		$array["__id"] = $this->getID();
 		
-		$labels = $this->_schema->getAllLabels();
-		foreach ($labels as $label) {
-			$field = $this->_fields[$label]->getSchemaField();
+		$ids = $this->_schema->getAllIDs();
+		foreach ($ids as $id) {
+			$field = $this->_fields[$id]->getSchemaField();
+			$label = $this->_getFieldLabel($id);
 			if ($field->getMultFlag()) {
 				$array[$label] = array();
 				foreach ($this->getIndices($label) as $i) {
-					$value =& $this->getCurrentValue($label,$i);
-					$primitive =& $value->getPrimitive();
-					$array[$label][] = $primitive->asString();
+					$value =& $this->getValue($label,$i);
+					$array[$label][] = $value->asString();
 				}
 			} else {
 				if ($this->numValues($label)) {
-					$value =& $this->getCurrentValue($label);
-					$primitive =& $value->getPrimitive();
-					$array[$label] = $primitive->asString();
+					$value =& $this->getValue($label);
+					$array[$label] = $value->asString();
 				}
 			}
 		}
@@ -739,6 +783,7 @@ class Record {
 	function delete()
 	{
 		$this->_delete = true;
+		$this->makeFull();
 		// also remove all of our data
 		$this->prune(new PruneAllVersionConstraint());
 	}

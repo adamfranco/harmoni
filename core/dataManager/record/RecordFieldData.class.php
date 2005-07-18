@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.18 2005/07/15 17:47:21 gabeschine Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.19 2005/07/18 14:45:19 gabeschine Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -71,7 +71,7 @@ class RecordFieldData {
 		$this->_active = $active;
 		
 		// if for some reason we are going to be pruned, and the new active flag is true, let's not prune
-		if ($active===true) $this->_prune = false;
+		if ($active===true) $this->cancelPrune();
 	}
 	
 	/**
@@ -129,6 +129,7 @@ class RecordFieldData {
 	 * @access public
 	 */
 	function prune() {
+//		$this->_active = false;
 		$this->_prune = true;
 		// if we're pruning, there's no point in updating the DB
 		$this->_update = false;
@@ -183,6 +184,7 @@ class RecordFieldData {
 			else
 				$this->_primitive->update(DATAMANAGER_DBID,$this->_dataID);
 			
+			$this->_date =& DateAndTime::now();
 			
 			if ($this->_myID) {
 				// we're already in the DB. just update the entry
@@ -220,7 +222,7 @@ class RecordFieldData {
 				$query->addRowOfValues(array(
 				"'".addslashes($this->_myID)."'",
 				"'".addslashes($this->_parent->_parent->_parent->getID())."'",
-				"'".addslashes($schema->getFieldID($schemaField->getLabel()))."'",
+				"'".addslashes($schemaField->getID())."'",
 				$this->_parent->getIndex(),
 				"'".addslashes($this->_dataID)."'",
 				($this->_active)?1:0,

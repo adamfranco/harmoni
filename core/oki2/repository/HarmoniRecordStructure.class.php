@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.17 2005/07/12 16:57:05 ndhungel Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.18 2005/07/18 14:45:26 gabeschine Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -61,9 +61,7 @@ class HarmoniRecordStructure
 	 * @access public
 	 */
 	function getDisplayName () { 
-		$type =& $this->_schema->getType();
-		
-		return $type->getKeyword();
+		return $this->_schema->getDisplayName();
 	}
 
 	/**
@@ -109,9 +107,7 @@ class HarmoniRecordStructure
 	 * @access public
 	 */
 	function getDescription () { 
-		$type =& $this->_schema->getType();
-		
-		return $type->getDescription();
+		return $this->_schema->getDescription();
 	}
 
 	/**
@@ -147,7 +143,7 @@ class HarmoniRecordStructure
 	function &getPartStructure(& $partId) {
 		if (!isset($this->_createdParts[$partId->getIdString()])) {
 			$this->_schema->load();
-			$this->_createdParts[$partId->getIdString()] =& new HarmoniPartStructure($this, $this->_schema->getFieldById($partId->getIdString()));
+			$this->_createdParts[$partId->getIdString()] =& new HarmoniPartStructure($this, $this->_schema->getField($partId->getIdString()));
 		}
 		
 		return $this->_createdParts[$partId->getIdString()];
@@ -176,10 +172,10 @@ class HarmoniRecordStructure
 	function &getPartStructures () { 
 		$this->_schema->load();
 		$array = array();
-		foreach ($this->_schema->getAllLabels() as $label) {
-			$fieldDef =& $this->_schema->getField($label);
-			if (!isset($this->_createdParts[$this->_schema->getFieldID($label)]))
-				 $this->_createdParts[$this->_schema->getFieldID($label)] =& new HarmoniPartStructure($this, $fieldDef);
+		foreach ($this->_schema->getAllIDs() as $id) {
+			$fieldDef =& $this->_schema->getField($id);
+			if (!isset($this->_createdParts[$id]))
+				 $this->_createdParts[$id] =& new HarmoniPartStructure($this, $fieldDef);
 		}
 		
 		return new HarmoniRecordStructureIterator($this->_createdParts);
@@ -206,7 +202,7 @@ class HarmoniRecordStructure
 	 * @access public
 	 */
 	function getSchema () { 
-		return "Harmoni DataManager User-defined Schema";
+		return "Harmoni DataManager User-defined Schema: ".$this->_schema->getID();
 	}
 
 	/**
@@ -328,23 +324,37 @@ class HarmoniRecordStructure
 	 * @param boolean $isMandatory	True if the PartStructure is Mandatory.
 	 * @param boolean $isRepeatable True if the PartStructure is Repeatable.
 	 * @param boolean $isPopulatedByDR	True if the PartStructure is PopulatedBy the DR.
+	 * @param optional object $id			An optional {@link HarmoniId} object for this part structure.
 	 *
 	 * @return object PartStructure The newly created PartStructure.
 	 */
-	function createPartStructure($displayName, $description, &$partType, $isMandatory, $isRepeatable, $isPopulatedByRepository) {
+	function createPartStructure($displayName, $description, &$partType, $isMandatory, $isRepeatable, $isPopulatedByRepository, $id=null) {
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 		ArgumentValidator::validate($partType, ExtendsValidatorRule::getRule("Type"));
 		ArgumentValidator::validate($isMandatory, BooleanValidatorRule::getRule());
 		ArgumentValidator::validate($isRepeatable, BooleanValidatorRule::getRule());
 		ArgumentValidator::validate($isPopulatedByRepository, BooleanValidatorRule::getRule());
-				
-		$fieldDef =& new SchemaField($displayName, $partType->getKeyword(), $description, $isRepeatable, $isMandatory);
+		
+		if ($id == null) {
+			$idManager =& Services::getService("Id");
+			$id =& $idManager->createId();
+			$label = $id->getIdString();
+		} else {
+			// check if this ID follows our Schema's ID
+			if (strpos($id->getIdString(), $this->_schema->getID()) != 0) {
+				throwError(new Error("Could not create PartStructure -- the passed ID does not conform to the Schema's internal ID: ".$this->_schema->getID(), "Repository", true));
+			}
+			
+			$label = str_replace($this->_schema->getID() . ".", "", $id->getIdString());
+		}
+		$fieldDef =& new SchemaField($label, $displayName, $partType->getKeyword(), $description, $isRepeatable, $isMandatory);
 		$this->_schema->addField($fieldDef);
-		$fieldDef->addToDB();
-		$this->_schema->commitAllFields();
+		$sm =& Services::getService("SchemaManager");
+		$sm->synchronize($this->_schema);
+		$this->_schema =& $sm->getSchemaByID($this->_schema->getID());
 
-		$idString =& $this->_schema->getFieldId($displayName);
+		$idString =& $this->_schema->getFieldIDFromLabel($label);
 		
 		$this->_createdParts[$idString] =& new HarmoniPartStructure($this,
 																$fieldDef);

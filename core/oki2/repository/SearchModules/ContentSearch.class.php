@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ContentSearch.class.php,v 1.5 2005/04/07 16:33:30 adamfranco Exp $
+ * @version $Id: ContentSearch.class.php,v 1.6 2005/07/18 14:45:24 gabeschine Exp $
  */
 
 require_once(dirname(__FILE__)."/SearchModule.interface.php");
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ContentSearch.class.php,v 1.5 2005/04/07 16:33:30 adamfranco Exp $
+ * @version $Id: ContentSearch.class.php,v 1.6 2005/07/18 14:45:24 gabeschine Exp $
  */
 
 class ContentSearch
@@ -50,9 +50,7 @@ class ContentSearch
 		$matchingIds = array();
 		
 		// Get All the assets
-		$criteria =& new AndSearch();
-		$criteria->addCriteria(new ActiveRecordsSearch());
-		$criteria->addCriteria(new FieldValueSearch(new HarmoniType("DR", "Harmoni", "AssetContent", ""),"Content", new Blob($searchCriteria), SEARCH_TYPE_CONTAINS));
+		$criteria =& new FieldValueSearch("edu.middlebury.harmoni.repository.asset_content","Content", new Blob($searchCriteria), SEARCH_TYPE_CONTAINS);
 		
 		$recordMgr =& Services::getService("RecordManager");
 		$recordIDs = $recordMgr->getRecordIDsBySearch($criteria);

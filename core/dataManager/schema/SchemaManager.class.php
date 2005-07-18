@@ -11,26 +11,19 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.21 2005/06/22 18:21:03 gabeschine Exp $
+ * @version $Id: SchemaManager.class.php,v 1.22 2005/07/18 14:45:23 gabeschine Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
 	
-	var $_types;
 	var $_schemas;
-	var $_typeIDs;
-	
-	var $_hashSeparator;
 	
 	/**
 	* Constructor.
-	* @param int $dbID The {@link DBHandler} connection ID to use for data type storage.
-	* @param ref object $preloadTypes A {@link HarmoniTypeIterator} containing a number of {@link HarmoniType}s to
+	* @param array $preloadTypes An array containing a number of {@link Schema} type IDs to
 	* pre-load structure data for. This will avoid queries later on.
 	*/
-	function SchemaManager( &$preloadTypes ) {
-		$this->_types = array();
-		$this->_typeIDs = array();
+	function SchemaManager( $preloadTypes ) {
 		$this->_schemas = array();
 		
 		// talk to the DB
@@ -44,10 +37,10 @@ class SchemaManager {
 	/**
 	* Fetches from the DB a list of registered DataSetTypes.
 	* @return void
-	* @param ref object $preloadTypes A {@link HarmoniTypeIterator} containing a number of {@link HarmoniType}s to
-	* pre-load structure data for. This will avoid queries later on.
+	* @param array $preloadTypes An array containing a number of {@link Schema} type IDs to
+	* load structure data for. This will avoid queries later on.
 	*/
-	function loadTypes(&$preloadTypes) {
+	function loadTypes($preloadTypes) {
 		debug::output("Fetching all our known Schemas from the database.",DEBUG_SYS1, "DataManager");
 		
 		// let's get all our known types
@@ -55,9 +48,7 @@ class SchemaManager {
 		
 		$query->addTable("dm_schema");
 		$query->addColumn("id","","dm_schema");
-		$query->addColumn("domain","","dm_schema");
-		$query->addColumn("authority","","dm_schema");
-		$query->addColumn("keyword","","dm_schema");
+		$query->addColumn("displayname","","dm_schema");
 		$query->addColumn("description","","dm_schema");
 		$query->addColumn("revision","","dm_schema");
 		
@@ -69,20 +60,10 @@ class SchemaManager {
 			$a = $result->getCurrentRow();
 			$result->advanceRow();
 			
-			$type =& new HarmoniType(
-					$a['domain'],
-					$a['authority'],
-					$a['keyword'],
-					$a['description']);
-			
-			$this->_schemas[$a['id']] =& new Schema( $type, $a['revision']);
+			$this->_schemas[$a['id']] =& new Schema( $a['id'], $a['displayname'], $a['revision'], $a['description']);
 			$this->_schemas[$a['id']]->setManagerFlag();
 			
-			$this->_types[$a['id']] =& $type;
-			
-			$this->_typeIDs[$this->_mkHash($type)] = $a['id'];
-			
-			debug::output("Found type ID ".$a['id']." of type '".HarmoniType::typeToString($type)."', revision ".$a['revision'],DEBUG_SYS2,"DataManager");
+			debug::output("Found type ID ".$a['id'].", revision ".$a['revision'],DEBUG_SYS2,"DataManager");
 			unset($type);
 		}
 		
@@ -94,32 +75,24 @@ class SchemaManager {
 	
 	/**
 	* Will load the data structures for multiple {@link Schema}s.
-	* @param ref object A {@link HarmoniTypeIterator} containing the list of types to be loaded.
+	* @param ref object An array containing the list of types IDs to be loaded.
 	* @return void
 	* @access public
 	*/
-	function loadMultiple(&$preloadTypes) {
-		$ids = array();
-		while ($preloadTypes->hasNext()) {
-			$type =& $preloadTypes->next();
-			$id = $this->getIDByType($type);
-			if (!$id) continue;
-			$obj =& $this->getSchemaByType($type);
-			if ($obj->loaded()) continue;
-			$ids[] = $id;
-		}
+	function loadMultiple($preloadTypes) {
+		$ids = $preloadTypes;
 		
 		if (count($ids)) {
 			// let's do it
 			$query =& new SelectQuery;
 			$query->addTable("dm_schema_field");
-			$query->addColumn("id");
-			$query->addColumn("label");
-			$query->addColumn("mult");
-			$query->addColumn("required");
-			$query->addColumn("active");
-			$query->addColumn("fieldtype");
-			$query->addColumn("fk_schema");
+			$query->addColumn("id", "id", "dm_schema_field");
+			$query->addColumn("name", "label", "dm_schema_field");
+			$query->addColumn("mult", "mult", "dm_schema_field");
+			$query->addColumn("required", "required", "dm_schema_field");
+			$query->addColumn("active", "active", "dm_schema_field");
+			$query->addColumn("fieldtype", "fieldtype", "dm_schema_field");
+			$query->addColumn("fk_schema", "fk_schema", "dm_schema_field");
 			
 			$wheres = array();
 			foreach ($ids as $id) {
@@ -146,7 +119,7 @@ class SchemaManager {
 			
 			// now distribute the rows among their respective objects
 			foreach (array_keys($rows) as $id) {
-				$obj =& $this->getSchemaByID($id);
+				$obj =& $this->getSchema($id);
 				if (!$obj->loaded()) $obj->populate($rows[$id]);
 			}
 		}
@@ -157,88 +130,50 @@ class SchemaManager {
 	* @return integer
 	*/
 	function numberOfTypes() {
-		return count($this->_types);
-	}
-	
-	/**
-	* Creates a hash of the OKI type for keying a type to an ID in a hash array. The hashes should be unique.
-	* @return string The hash as a string.
-	* @param mixed $type Either an OKI Type object or the Domain string.
-	* @param optional string $auth The Authority.
-	* @param optional string $key The Keyword.
-	*/
-	function _mkHash($type, $auth=null, $key=null) {
-		if (!$this->_hashSeparator)
-			$this->_hashSeparator = time();
-		
-		$parts = array();
-		
-		if (is_object($type)) {
-			ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"));
-			$parts[] = $type->getDomain();
-			$parts[] = $type->getAuthority();
-			$parts[] = $type->getKeyword();
-		} else if ($type && $auth && $key) {
-			$parts[] = $type;
-			$parts[] = $auth;
-			$parts[] = $key;
-		} else return "";
-		return implode($this->_hashSeparator, $parts);
-	}
-	
-	/**
-	 * Returns the ID for the Schema of $type.
-	 * @param ref object $type A {@link HarmoniType} object.
-	 * @return integer
-	 * @access public
-	 */
-	function getIDByType(&$type) {
-		$hash = $this->_mkHash($type);
-		return (isset($this->_typeIDs[$hash]))?$this->_typeIDs[$hash]:null;
+		return count($this->_schemas);
 	}
 	
 	/**
 	 * Returns a new {@link Schema} object of $type.
-	 * @param ref object $type A {@link HarmoniType} object.
+	 * @param string $type A DNS-style unique ID. Example: "edu.middlebury.schemas.person"
+	 * @param string $displayName This Schema's display name. 
 	 * @param optional int $revision The revision of this schema, useful for updating data structures. (default=1)
+	 * @param optional string $description A longer description of this Schema.
 	 * @return ref object The new Schema object.
 	 * @access public
 	 */
-	function &createSchema(&$type, $revision=1) {
-		$newDef =& new Schema( $type, $revision );
+	function &createSchema($type, $displayName, $revision=1, $description='') {
+		$newDef =& new Schema( $type, $displayName, $revision, $description );
 		return $newDef;
 	}
 	
 	/**
 	 * Adds a {@link Schema} to the list of registered types, and
 	 * makes sure that it is reference in the database as well.
-	 * @param ref object $type A {@link HarmoniType} object.
-	 * @param int $revision The revision number of this schema.
+	 * @param string $type A DNS-style unique ID. Example: "edu.middlebury.schemas.person"
+	 * @param string $displayName This Schema's display name. 
+	 * @param int $revision The revision of this schema, useful for updating data structures. (default=1)
+	 * @param string $description A longer description of this Schema.
 	 * @return ref object The new Schema object.
 	 * @access private
 	 */
-	function &_addSchema(&$type, $revision) {
-		debug::output("Adding Schema type '".HarmoniType::typeToString($type)."' to database.",DEBUG_SYS1,"DataManager");
-		if ($id = $this->getIDByType($type)) {
+	function &_addSchema($type, $displayName, $revision, $description) {
+		debug::output("Adding Schema type '".$type."' to database.",DEBUG_SYS1,"DataManager");
+		if ($this->schemaExists($type)) {
 			throwError( new Error(
 				"A Schema for this Type already exists, so the existing one has been returned.",
 				"DataManager",false));
-			debug::output("Returning existing Schema for '".HarmoniType::typeToString($type)."'",DEBUG_SYS5, "DataManager");
+			debug::output("Returning existing Schema for '".$type."'",DEBUG_SYS5, "DataManager");
 			return $this->_schemas[$id];
 		}
 		
-		// add somethin' to the database
-		$newID =& $this->_idService->createId();
-		
 		$query =& new InsertQuery;
 		$query->setTable("dm_schema");
-		$query->setColumns(array("id","domain","authority","keyword","description", "revision"));
+		$query->setColumns(array("id","displayname","description", "revision"));
 		$query->addRowOfValues( array(
-			"'".addslashes($newID->getIdString())."'",
-			"'".addslashes($type->getDomain())."'",
-			"'".addslashes($type->getAuthority())."'",
-			"'".addslashes($type->getKeyword())."'",
-			"'".addslashes($type->getDescription())."'",
+			"'".addslashes($type)."'",
+			"'".addslashes($displayName)."'",
+			"'".addslashes($description)."'",
 			$revision
 		));
 		
@@ -248,46 +183,28 @@ class SchemaManager {
 			throwError( new UnknownDBError("DataManager") );
 		}
 		
-		$newSchema =& new Schema( $type, $revision);
+		$newSchema =& new Schema( $type, $displayName, $revision, $description);
 		$newSchema->setManagerFlag();
 
 		// add it to our local arrays
-		$this->_schemas[$newID->getIdString()] =& $newSchema;
-		$this->_types[$newID->getIdString()] =& $type;
-		$this->_typeIDs[$this->_mkHash($type)] = $newID->getIdString();
-		debug::output("Created new Schema object for '".HarmoniType::typeToString($type)."', revision $revision.",DEBUG_SYS5,"DataManager");
+		$this->_schemas[$type] =& $newSchema;
+		debug::output("Created new Schema object for '".$type."', revision $revision.",DEBUG_SYS5,"DataManager");
 		return $newSchema;
 	}
 	
 	/**
 	 * Returns TRUE/FALSE if we have a Schema for type $type.
-	 * @param ref object $type A {@link HarmoniType} object.
+	 * @param string $type A unique type/ID string.
 	 * @return boolean
 	 * @access public
 	 */
-	function schemaExists(&$type) {
-		return (isset($this->_typeIDs[$this->_mkHash($type)]))?true:false;
-	}
-	
-	/**
-	 * Returns the {@link Schema} object corresponding to $type.
-	 * @param ref object $type A {@link HarmoniType} object.
-	 * @return ref object The {@link Schema} object.
-	 * @access public
-	 */
-	function &getSchemaByType(&$type) {
-		if (!($id = $this->getIDByType($type))) {
-			throwError( new Error(
-				"No Schema exists for type '".HarmoniType::typeToString($type)."'.",
-				"DataManager",true));
-			return false;
-		}
-		return $this->_schemas[$id];
+	function schemaExists($type) {
+		return (isset($this->_schemas[$type]))?true:false;
 	}
 	
 	/**
 	 * Returns the {@link Schema} object corresponding to $id.
-	 * @param integer $id The DataBase ID of the definition.
+	 * @param integer $id The ID of the definition.
 	 * @return ref object The schema.
 	 * @access public
 	 */
@@ -301,32 +218,13 @@ class SchemaManager {
 		return $this->_schemas[$id];
 	}
 	
-	/**
-	 * Returns an iterator of all the registered {@link Schema} types.
-	 * @return ref object A {@link HarmoniTypeIterator}
-	 * @access public
-	 */
-	function &getAllSchemaTypes() {
-		return new HarmoniTypeIterator($this->_types);
-	}
-	
 	/** 
 	 * Returns an array of all registered {@link Schema} IDs.
 	 * @return array
 	 * @access public
 	 */
 	function getAllSchemaIDs() {
-		return array_values($this->_typeIDs);
-	}
-	
-	/**
-	 * Returns the Type object associated with database $id.
-	 * @param integer $id The Database ID.
-	 * @return ref object The {@link HarmoniType} object.
-	 * @access public
-	 */
-	function &getSchemaTypeByID( $id ) {
-		return $this->_types[$id];
+		return array_values($this->_schemas);
 	}
 	
 	/**
@@ -339,17 +237,17 @@ class SchemaManager {
 	function synchronize(&$new) {
 		ArgumentValidator::validate($new, ExtendsValidatorRule::getRule("Schema"));
 		
-		$type =& $new->getType();
+		$id =& $new->getID();
 		
-		debug::output("Attempting to synchronize Schema type '".HarmoniType::typeToString($type)."' with
+		debug::output("Attempting to synchronize Schema type '".$id."' with
 		the database.",DEBUG_SYS1,"DataManager");
 		
 		// check if we already have a definition for this type. if we don't, add a new one.
-		if (!$this->schemaExists($type)) {
-			$old =& $this->_addSchema($type, $new->getRevision());
+		if (!$this->schemaExists($id)) {
+			$old =& $this->_addSchema($id, $new->getDisplayName(), $new->getRevision(), $new->getDescription());
 			debug::output("Creating new Schema in the database.",DEBUG_SYS3,"DataManager");
 		} else {
-			$old =& $this->getSchemaByType($type);
+			$old =& $this->getSchemaByID($id);
 			// make sure $oldDef has all its data loaded
 			$old->load();
 			debug::output("Using database version for synchronization.",DEBUG_SYS3,"DataManger");
@@ -360,13 +258,12 @@ class SchemaManager {
 		
 		compare revision numbers, and update them appropriately. do this last.
 		
-		get all labels, from both old def (from DB) and new def, store in $label[]
+		get all field ids, from both old def (from DB) and new def, store in $ids[]
 		
-		For each $label {
+		For each $ids {
 			if the field doesn't exist, add it to the DB
 			if the field does exist {
-				...in database, but not in new, delete it, including all values in datasets
-					that reference the field
+				...in database, but not in new, delete it
 				...in both new def and db {
 					if mult value has changed ...
 						... from yes to no, make the change.
@@ -374,27 +271,29 @@ class SchemaManager {
 					if versionControl has changed ...
 						... shouldn't be a problem -- just make the change
 					if field type has changed ...
-						... --> should we just not allow this?
-						... if values already exist (even inactive ones), throw a huge ugly error.
-						... otherwise, make the change but throw a warning too.
+						... NOT ALLOWED!
 					if active flag has changed ...
 						... from yes to no, delete the old
 						... from no to yes, re-activate the old
 					if required flag has changed ...
 						... from yes to no, ok, update it
 						... from no to yes, throw an error. we can't validate all datasets
+					if display name has changed
+						... change it
+					if desc has changed
+						... change it
 				}
 			}
 		}
 		*/
 		
-		$allLabels = array_unique(array_merge( $new->getAllLabels(true), $old->getAllLabels(true) ));
+		$allLabels = array_unique(array_merge( $new->getAllIDs(true), $old->getAllIDs(true) ));
 		
-		debug::output("Merged labels: ".implode(", ",$allLabels),DEBUG_SYS5,"DataManager");
+		debug::output("Merged ids: ".implode(", ",$allLabels),DEBUG_SYS5,"DataManager");
 		
 		foreach ($allLabels as $label) {
 			// now we're going to go through the logic above in the comment
-			debug::output("Checking label '$label' ...", DEBUG_SYS5, "DataManager");
+			debug::output("Checking id '$label' ...", DEBUG_SYS5, "DataManager");
 			// if the field exists in new and not in old, add it to old, and flag it to add to DB
 			if (!$old->fieldExists($label) && $new->fieldExists($label)) {
 				$field =& $new->getField($label);
@@ -427,8 +326,8 @@ class SchemaManager {
 			if ($newType != $oldType) {
 				// go PSYCHO!!!!
 				throwError( new Error(
-					"While synchronizing Schema '".HarmoniType::typeToString($this->_type)."', it appears that the
-					field type for label '$label' is different from what we have stored. It is not possible
+					"While synchronizing Schema '".$this->_type."', it appears that the
+					field type for id '$label' is different from what we have stored. It is not possible
 					to synchronize without potential data loss. Aborting.","DataManager",true));
 				return false;
 			}
@@ -440,12 +339,12 @@ class SchemaManager {
 			if ($oldActive != $newActive) {
 				if ($oldActive && !$newActive) {
 					$oldField->delete();
-					debug::output("Label '$label' is no longer active.", DEBUG_SYS5, "DataManager");
+					debug::output("ID '$label' is no longer active.", DEBUG_SYS5, "DataManager");
 				}
 				if (!$oldActive && $newActive) {
 					$oldField->setActiveFlag(true);
 					$oldField->update();
-					debug::output("Label '$label' is to be reactivated.", DEBUG_SYS5, "DataManager");
+					debug::output("ID '$label' is to be reactivated.", DEBUG_SYS5, "DataManager");
 				}
 			}
 
@@ -474,7 +373,15 @@ class SchemaManager {
 			$oldDesc = $oldField->getDescription();
 			$newDesc = $newField->getDescription();
 			if ($oldDesc != $newDesc) {
-				$oldField->setDescription($newDesc);
+				$oldField->updateDescription($newDesc);
+				$oldField->update();
+			}
+			
+			// check the display name
+			$oldName = $oldField->getDisplayName();
+			$newName = $newField->getDisplayName();
+			if ($oldName != $newName) {
+				$oldField->updateDisplayName($newName);
 				$oldField->update();
 			}
 
@@ -497,22 +404,22 @@ class SchemaManager {
 		
 		// now that we're done syncrhonizing $newDef with $oldDef, let's commit everything to the DB
 		$old->commitAllFields();
+				
+		// lastly, update the row in the table for this schema
+		// change the database.
+		$query =& new UpdateQuery();
+		$query->setTable("dm_schema");
+		$query->setWhere("id='".addslashes($old->getID())."'");
+		$query->setColumns(array("revision", "displayname", "description"));
+		$query->setValues(array($new->getRevision(),
+						"'".addslashes($old->getDisplayName())."'",
+						"'".addslashes($old->getDescription())."'"));
 		
-		// lastly, compare the revision numbers of the two definitions
-		if ($old->getRevision() != $new->getRevision()) {
-			// change the database.
-			$query =& new UpdateQuery();
-			$query->setTable("dm_schema");
-			$query->setWhere("id='".addslashes($old->getID())."'");
-			$query->setColumns(array("revision"));
-			$query->setValues(array($new->getRevision()));
-			
-			$dbHandler=& Services::getService("DatabaseManager");
-			$dbHandler->query($query,DATAMANAGER_DBID);
-		}
+		$dbHandler=& Services::getService("DatabaseManager");
+		$dbHandler->query($query,DATAMANAGER_DBID);
 		
 		$old->loaded(true);
-		
+				
 		debug::output("... synchronization finished.",DEBUG_SYS2,"DataManager");
 	}
 
@@ -526,25 +433,25 @@ class SchemaManager {
 	 */
 	function generatePHPCode(&$schema, $varName) {
 		$v = $varName;
-		$t =& $schema->getType();
+		$t = $schema->getID();
 		$c = '';
 		$c .= "\$$v =& new Schema(";
-		$c .= "\n\tnew HarmoniType(";
-		$c .= "\n\t\t\"".addslashes($t->getDomain())."\",";
-		$c .= "\n\t\t\"".addslashes($t->getAuthority())."\",";
-		$c .= "\n\t\t\"".addslashes($t->getKeyword())."\",";
-		$c .= "\n\t\t\"".addslashes($t->getDescription())."\"\n\t),";
-		$c .= "\n\t".$schema->getRevision()."\n);";
+		$c .= "\n\t\"".addslashes($t)."\",";
+		$c .= "\n\t\"".addslashes($schema->getDisplayName())."\",";
+		$c .= "\n\t".$schema->getRevision().",";
+		$c .= "\n\t\"".addslashes($schema->getDescription)."\",";
+		$c .= "\n);";
 
 		$c .= "\n\n";
 
 		// now add the fields
-		$labels = $schema->getAllLabels(true);
+		$labels = $schema->getAllIDs(true);
 		foreach ($labels as $label) {
 			$f =& $schema->getField($label);
 			$c .= "\$".$v."->addField(\n";
 			$c .= "\tnew SchemaField(\n";
 			$c .= "\t\t\"$label\",\n";
+			$c .= "\t\t\"".addslashes($f->getDisplayName)."\",\n";
 			$c .= "\t\t\"".$f->getType()."\",\n";
 			$c .= "\t\t\"".addslashes($f->getDescription())."\",\n";
 			$c .= "\t\t".($f->getMultFlag()?"true":"false").",\n";

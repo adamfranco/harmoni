@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableTime.class.php,v 1.14 2005/07/13 19:59:42 adamfranco Exp $
+ * @version $Id: StorableTime.class.php,v 1.15 2005/07/18 14:45:25 gabeschine Exp $
  */
 class StorableTime 
 	extends DateAndTime /* implements StorablePrimitive */ 
@@ -498,7 +498,7 @@ class StorableTime
 		
 		$query =& new InsertQuery();
 		$query->setTable($this->_table);
-		$query->setColumns(array("id","jnd", "seconds"));
+		$query->setColumns(array("id","jdn", "seconds"));
 		$dbHandler =& Services::getService("DatabaseManager");
 		
 		// Convert to UTC for storage
@@ -507,8 +507,8 @@ class StorableTime
 		
 		$query->addRowOfValues(array(
 			"'".addslashes($newID->getIdString())."'",
-			".".addslashes($utc->julianDayNumber())."'",
-			".".addslashes($utcTime->asSeconds())."'"));
+			"'".addslashes($utc->julianDayNumber())."'",
+			"'".addslashes($utcTime->asSeconds())."'"));
 		
 		$result =& $dbHandler->query($query, $dbID);
 		if (!$result || $result->getNumberOfRows() != 1) {
@@ -532,16 +532,16 @@ class StorableTime
 		
 		$query =& new UpdateQuery();
 		$query->setTable($this->_table);
-		$query->setColumns(array("jnd", "seconds"));
+		$query->setColumns(array("jdn", "seconds"));
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
 		// Convert to UTC for storage
 		$utc =& $this->asUTC();
 		$utcTime =& $utc->asTime();
 		
-		$query->addRowOfValues(array(
-			".".addslashes($utc->julianDayNumber())."'",
-			".".addslashes($utcTime->asSeconds())."'"));
+		$query->setValues(array(
+			"'".addslashes($utc->julianDayNumber())."'",
+			"'".addslashes($utcTime->asSeconds())."'"));
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, $dbID);
