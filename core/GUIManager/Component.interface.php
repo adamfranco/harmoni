@@ -73,7 +73,7 @@ define("OTHER", 13);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.interface.php,v 1.9 2005/02/07 21:38:13 adamfranco Exp $
+ * @version $Id: Component.interface.php,v 1.10 2005/07/18 13:57:39 adamfranco Exp $
  */
 class ComponentInterface {
 
@@ -154,6 +154,19 @@ class ComponentInterface {
 	}
 	
 	/**
+	 * Set pre HTML code that needs to surround this compontent. This is used to
+	 * properly nest form-tags around tables/divs to generate valid XHTML.
+	 * 
+	 * @param string $html
+	 * @return void
+	 * @access public
+	 * @since 7/15/05
+	 */
+	function setPreHTML ( $html ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
 	 * Returns any post HTML code that needs to be printed. This method should be called
 	 * at the end of <code>render()</code>.
 	 * @access public
@@ -165,6 +178,19 @@ class ComponentInterface {
 	 * @return string The HTML string.
 	 **/
 	function getPostHTML(& $theme, $tabs = "") {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
+	 * Set post HTML code that needs to surround this compontent. This is used to
+	 * properly nest form-tags around tables/divs to generate valid XHTML.
+	 * 
+	 * @param string $html
+	 * @return void
+	 * @access public
+	 * @since 7/15/05
+	 */
+	function setPostHTML ( $html ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 

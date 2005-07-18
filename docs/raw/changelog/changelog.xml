@@ -3,12 +3,17 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.85 2005/07/15 17:47:22 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.86 2005/07/18 13:57:41 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.4.0" date="The Nebulous Future">
+		<new author='adam'>
+			GUIManager now allows for the setting of pre and post HTML. These are 
+			HTML tags that need to surround a compontent. This is primarily used to 
+			properly nest form-tags around tables/divs to generate valid XHTML.
+		</new>
 		<fix author='adam'>
 			Repaired many PHP notices.
 		</fix>

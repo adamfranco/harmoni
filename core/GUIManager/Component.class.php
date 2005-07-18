@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.class.php,v 1.13 2005/03/29 19:44:09 adamfranco Exp $
+ * @version $Id: Component.class.php,v 1.14 2005/07/18 13:57:39 adamfranco Exp $
  */
 class Component extends ComponentInterface {
 
@@ -53,6 +53,22 @@ class Component extends ComponentInterface {
 	 * @access private
 	 */
 	var $_index;
+	
+	/**
+	 * @var string $_preHTML; HTML text to surround the component. Useful for
+	 *			properly nexting form tags.
+	 * @access private
+	 * @since 7/15/05
+	 */
+	var $_preHTML;
+	
+	/**
+	 * @var string $_postHTML; HTML text to surround the component. Useful for
+	 *			properly nexting form tags.
+	 * @access private
+	 * @since 7/15/05
+	 */
+	var $_postHTML;
 	
 	/**
 	 * The constructor.
@@ -194,23 +210,42 @@ class Component extends ComponentInterface {
 	 * @return string The HTML string.
 	 **/
 	function getPreHTML(& $theme, $tabs = "") {
+		ob_start();
+		
+		// print any surrounding form-tags, etc.
+		print $tabs.$this->_preHTML."\n";
+		
 		// print any HTML code for this component type that is part of the given theme
-		$html = $theme->getPreHTMLForComponentType($this->_type, $this->_index);
-		echo $html;
+		print $theme->getPreHTMLForComponentType($this->_type, $this->_index);
 		
 		$styleCollections = array_merge($this->_styleCollections, 
 										$theme->getStylesForComponentType($this->_type, $this->_index));
 	
-		if (count($styleCollections) == 0)
-			return "";
-		else {
+		if (count($styleCollections) != 0) {
 			// get the class selectors of all style collections
 			$classSelectors = "";
 			foreach (array_keys($styleCollections) as $key)
 				$classSelectors .= $styleCollections[$key]->getClassSelector()." ";
 
-			return $tabs."<div class=\"$classSelectors\">\n";
+			print  $tabs."<div class=\"$classSelectors\">\n";
 		}
+		
+		$preHTML = ob_get_contents();
+		ob_end_clean();
+		return $preHTML;
+	}
+	
+	/**
+	 * Set pre HTML code that needs to surround this compontent. This is used to
+	 * properly nest form-tags around tables/divs to generate valid XHTML.
+	 * 
+	 * @param string $html
+	 * @return void
+	 * @access public
+	 * @since 7/15/05
+	 */
+	function setPreHTML ( $html ) {
+		$this->_preHTML = $html;
 	}
 	
 	/**
@@ -225,17 +260,36 @@ class Component extends ComponentInterface {
 	 * @return string The HTML string.
 	 **/
 	function getPostHTML(& $theme, $tabs = "") {
+		ob_start();
+		
 		$styleCollections = array_merge($this->_styleCollections, 
 										$theme->getStylesForComponentType($this->_type, $this->_index));
 
-		if (count($styleCollections) == 0)
-			return "";
-		else
-			return $tabs."</div>\n";
+		if (count($styleCollections) != 0)
+			print $tabs."</div>\n";
 			
 		// print any HTML code for this component type that is part of the given theme
-		$html = $theme->getPostHTMLForComponentType($this->_type, $this->_index);
-		echo $html;
+		print $theme->getPostHTMLForComponentType($this->_type, $this->_index);
+		
+		// print any surrounding form-tags, etc.
+		print $tabs.$this->_postHTML;
+		
+		$postHTML = ob_get_contents();
+		ob_end_clean();
+		return $postHTML;
+	}
+	
+	/**
+	 * Set post HTML code that needs to surround this compontent. This is used to
+	 * properly nest form-tags around tables/divs to generate valid XHTML.
+	 * 
+	 * @param string $html
+	 * @return void
+	 * @access public
+	 * @since 7/15/05
+	 */
+	function setPostHTML ( $html ) {
+		$this->_postHTML = $html;
 	}
 
 	/**
