@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.17 2005/07/07 18:31:38 adamfranco Exp $
+ * @version $Id: ActionHandler.class.php,v 1.18 2005/07/18 21:41:25 gabeschine Exp $
  */
 
 //require_once(HARMONI."actionHandler/ActionHandler.interface.php");
@@ -14,6 +14,8 @@ require_once(HARMONI."actionHandler/DottedPairValidatorRule.class.php");
 require_once(HARMONI."actionHandler/actionSources/ClassesActionSource.class.php");
 require_once(HARMONI."actionHandler/actionSources/FlatFileActionSource.class.php");
 require_once(HARMONI."actionHandler/actionSources/ClassMethodsActionSource.class.php");
+
+require_once(HARMONI."architecture/events/EventTrigger.abstract.php");
 
 /**
  * @const integer MODULES_FOLDERS Specifies that modules are stored in folders. 
@@ -71,9 +73,9 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.17 2005/07/07 18:31:38 adamfranco Exp $
+ * @version $Id: ActionHandler.class.php,v 1.18 2005/07/18 21:41:25 gabeschine Exp $
  */
-class ActionHandler {
+class ActionHandler extends EventTrigger {
 	/**
 	 * @access private
 	 * @var object $_harmoni A reference to the {@link Harmoni} object.
@@ -148,12 +150,12 @@ class ActionHandler {
 		if ($this->_executing) {
 			if ($test->check($module) && !$action) {
 				$this->_forwardToAction = $module;
-				return;
 			}
 			if ($module && $action) {
 				$this->_forwardToAction = $module . "." . $action;
-				return;
 			}
+			$this->triggerEvent("edu.middlebury.harmoni.actionhandler.action_forwarded", $this, array("from"=>$this->_executing, "to"=>$this->_forwardToAction));
+			return;
 			throwError( new Error("ActionHandler::forward($module, $action) - could not proceed. The action does not seem to be valid.","ActionHandler",true));
 		}
 		throwError( new Error("ActionHandler::forward($module, $action) - could not proceed. The ActionHandler is not currently executing any actions.","ActionHandler",true));
@@ -171,7 +173,7 @@ class ActionHandler {
 	 **/
 	function &execute($module, $action) {
 		
-		$this->_executing = true;
+		$this->_executing = $module.".".$action;
 		$result =& $this->_execute($module, $action);
 		$this->_executing = false;
 		
@@ -218,6 +220,8 @@ class ActionHandler {
 		
 		// we've now executed this action -- add it to the array
 		$this->_actionsExecuted[] = $_pair;
+		
+		$this->triggerEvent("edu.middlebury.harmoni.actionhandler.action_executed", $this, array("action"=>$_pair));
 		
 		// now that we have our $result, let's check if we should do anything
 		// else or just return back to our caller.

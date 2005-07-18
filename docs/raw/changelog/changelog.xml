@@ -3,14 +3,31 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.87 2005/07/18 14:45:27 gabeschine Exp $
+ @version $Id: changelog.xml,v 1.88 2005/07/18 21:41:25 gabeschine Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.4.0" date="The Nebulous Future">
+		<new author='gabe'>
+			Added EventListener and EventTrigger to allow easy extensions of our code later.
+		</new>
+		<change author='gabe'>
+			DataManager: can now store with a Schema definition an arbitrary set of parameters
+			for whatever is useful. Updated the Repository to use this method of storing extra
+			data.
+		</change>
+		<new author='gabe' ref='102459' reftype='task'>
+			Added task-manager linkability to the changelog.
+		</new>
+		<change author='gabe'>
+			Added retrieval of $_FILES-type data to the RequestContext and RequestHandler classes.
+		</change>
 		<change author='gabe'>
 			Updated DR module to use new DataManager.
+		</change>
+		<change author='gabe' ref='890779' reftype='bug'>
+			DataManager now uses unique ids to reference fields instead of purely by label. 
 		</change>
 		<fix author='gabe'>
 			Fixed a number of bugs in the Primitive and StorablePrimitive classes.
@@ -21,7 +38,7 @@
 		<new author='gabe'>
 			DBHandler and Databases now implement a getTableList() function.
 		</new>
-		<new author='gabe'>
+		<new author='gabe' ref='102448' reftype='task'>
 			Implemented (but did not yet test) Oracle database connectivity.
 		</new>
 		<change author='gabe'>
@@ -33,7 +50,7 @@
 			Added getStringName() to the Database interface and added a method in the DBHandler to allows access
 			to the string name based on the database index.
 		</new>
-		<change author='gabe'>
+		<change author='gabe' ref='116890' reftype='task'>
 			All DataManager database queries now free() their results after processing.
 		</change>
 		<new author='adam'>
@@ -321,13 +338,13 @@
 		<new author='gabe'>
 			DateTime::toString() now has optional parameter to return a shorter M/D/Y for the date instead of Month DD, YYYY.
 		</new>
-		<fix author='adam' task='102450'>
+		<fix author='adam' ref='102455' reftype='task'>
 			AuthN queries now have slashes added to dbc query values.
 		</fix>
-		<fix author='adam' task='102449'>
+		<fix author='adam' ref='102455' reftype='task'>
 			Shared queries now have slashes added to query values.
 		</fix>
-		<fix author='adam' task='102455'>
+		<fix author='adam' ref='102455' reftype='task'>
 			Globally added addslashes() calls to quoted values in query strings.
 		</fix>
 		<change author='adam'>
@@ -730,8 +747,8 @@
 	</authors>
 	<groupid>82873</groupid>
 	<reftypes>
-		<reftype name="bug">567473</reftype>
-		<reftype name="fr">567476</reftype>
-		<reftype name="task"></reftype>
+		<reftype name="bug">http://sourceforge.net/tracker/index.php?func=detail&amp;group_id=82873&amp;atid=567473&amp;aid=</reftype>
+		<reftype name="fr">http://sourceforge.net/tracker/index.php?func=detail&amp;group_id=82873&amp;atid=567476&amp;aid=</reftype>
+		<reftype name="task">http://sourceforge.net/pm/task.php?func=detailtask&amp;group_id=82873&amp;group_project_id=37898&amp;project_task_id=</reftype>
 	</reftypes>
 </changelog>

@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog-simplehtml.xsl,v 1.2 2005/04/07 16:33:50 adamfranco Exp $
+ @version $Id: changelog-simplehtml.xsl,v 1.3 2005/07/18 21:41:25 gabeschine Exp $
  -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -81,10 +81,10 @@
 		<xsl:choose>
 			<xsl:when test="@reftype">
 				<xsl:variable name="reftype" select="@reftype" />
-				<xsl:variable name="trackerid" select="//reftypes/reftype[@name = $reftype]" />
+				<xsl:variable name="refurl" select="//reftypes/reftype[@name = $reftype]" />
         		<a>
         			<xsl:attribute name="href">
-        				http://sourceforge.net/tracker/index.php?func=detail&amp;aid=<xsl:value-of select="@ref" />&amp;group_id=<xsl:value-of select="//groupid" />&amp;atid=<xsl:value-of select="$trackerid" />
+        				<xsl:value-of select="$refurl" /><xsl:value-of select="@ref" />
         			</xsl:attribute>
         			#<xsl:value-of select="@ref" />
         		</a>
