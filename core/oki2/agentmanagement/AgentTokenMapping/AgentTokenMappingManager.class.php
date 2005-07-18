@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.7 2005/04/07 19:41:56 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.8 2005/07/18 20:46:23 adamfranco Exp $
  */ 
  
  require_once(dirname(__FILE__)."/AgentTokenMapping.class.php");
@@ -36,7 +36,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.7 2005/04/07 19:41:56 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.8 2005/07/18 20:46:23 adamfranco Exp $
  */
 class AgentTokenMappingManager
 	extends OsidManager
@@ -527,7 +527,7 @@ class AgentTokenMappingManager
 				$row['keyword']."::".
 				$row['description'];
 			
-			if (!$types[$typeString])
+			if (!isset($types[$typeString]))
 				$types[$typeString] =& new Type (
 					$row['domain'], 
 					$row['authority'], 
