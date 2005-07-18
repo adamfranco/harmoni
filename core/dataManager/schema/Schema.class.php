@@ -13,7 +13,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schema.class.php,v 1.15 2005/07/18 20:00:53 gabeschine Exp $
+ * @version $Id: Schema.class.php,v 1.16 2005/07/18 21:01:18 gabeschine Exp $
  * @author Gabe Schine
  */
 class Schema {
@@ -41,7 +41,7 @@ class Schema {
 	 * @param optional string $description A description.
 	 * @param optional mixed $otherParameters Other parameters to associated with this Schema. Can be anything. 
 	 */
-	function Schema($id, $displayName, $revision=1, $description="", $otherParameters) {
+	function Schema($id, $displayName, $revision=1, $description="", $otherParameters=null) {
 		$this->_id = $id;
 		$this->_displayName = $displayName;
 		$this->_revision = $revision;
