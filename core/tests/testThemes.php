@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: testThemes.php,v 1.5 2005/04/07 16:33:30 adamfranco Exp $
+ * @version $Id: testThemes.php,v 1.6 2005/07/18 21:15:49 adamfranco Exp $
  */
 
 // include all required files.
@@ -35,13 +35,13 @@ $leftMenu =& new Menu;
 $topMenu->addItem(new HeaderMenuItem("Top Menu:"));
 $topMenu->addItem(new LinkMenuItem("Link1","http://www.middlebury.edu"));
 $topMenu->addItem(new LinkMenuItem("New window","http://google.com",false,"_blank"));
-$topMenu->addItem(new LinkMenuItem("JavaScript Alert","#",false,null,"onClick='alert(\"testing\")'","style='text-decoration:none' "));
+$topMenu->addItem(new LinkMenuItem("JavaScript Alert","#",false,null,"onclick='alert(\"testing\")'","style='text-decoration:none' "));
 
 // add links to the left menu
 $leftMenu->addItem(new HeaderMenuItem("Left Menu"));
 $leftMenu->addItem(new LinkMenuItem("Link1","http://www.middlebury.edu"));
 $leftMenu->addItem(new LinkMenuItem("New window","http://google.com",false,"_blank"));
-$leftMenu->addItem(new LinkMenuItem("JavaScript Alert","#",false,null,"onClick='alert(\"testing\")'","style='text-decoration:none' "));
+$leftMenu->addItem(new LinkMenuItem("JavaScript Alert","#",false,null,"onclick='alert(\"testing\")'","style='text-decoration:none' "));
 
 // add the menus to their respective layouts
 $topMenuLayout->setComponent(0,$topMenu);
