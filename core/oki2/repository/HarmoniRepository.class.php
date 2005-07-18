@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.28 2005/07/18 14:45:26 gabeschine Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.29 2005/07/18 20:02:20 gabeschine Exp $ 
  */
 
 class HarmoniRepository
@@ -1121,20 +1121,24 @@ class HarmoniRepository
 	 * @param string $description
 	 * @param string $format
 	 * @param string $schema
+	 * @param optional object $id
 	 * @return object RecordStructure
 	 * @access public
 	 * @since 2/17/05
 	 */
-	function &createRecordStructure($displayName, $description, $format, $schema) {
-		$recordType = new HarmoniType($format, $schema, $displayName, $description);
+	function &createRecordStructure($displayName, $description, $format, $schema, $id=null) {
 		$schemaMgr =& Services::getService("SchemaManager");
 		
+		if ($id == null) {
+			$idMgr =& Services::getService("Id");
+			$id =& $idMgr->createId();
+		}
 		// Create the Schema
-		$schema =& new Schema($recordType);
+		$schema =& new Schema($id->getIdString(), $displayName, 1, $description, array("format"=>$format, "schema"=>$schema));
 		$schemaMgr->synchronize($schema);
 		
 		// The SchemaManager only allows you to use Schemas created by it for use with Records.
-		$schema =& $schemaMgr->getSchemaByType($recordType);
+		$schema =& $schemaMgr->getSchemaByID($id->getIdString());
 		//debug::output("RecordStructure is being created from Schema with Id: '".$schema->getID()."'");
 		
 		$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure(

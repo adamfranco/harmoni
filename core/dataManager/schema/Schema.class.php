@@ -13,7 +13,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schema.class.php,v 1.14 2005/07/18 14:45:24 gabeschine Exp $
+ * @version $Id: Schema.class.php,v 1.15 2005/07/18 20:00:53 gabeschine Exp $
  * @author Gabe Schine
  */
 class Schema {
@@ -32,17 +32,21 @@ class Schema {
 	
 	var $_isCreatedByManager;
 	
+	var $_otherParameters;
+	
 	/**
 	 * @param string $id A unique type/ID string. Differentiates this Schema from others.
 	 * @param string $displayName This Schema's display name.
 	 * @param int $revision The internal revision number. Useful for keeping track if the Schema definition in the database matches that which you need.
 	 * @param optional string $description A description.
+	 * @param optional mixed $otherParameters Other parameters to associated with this Schema. Can be anything. 
 	 */
-	function Schema($id, $displayName, $revision=1, $description="") {
+	function Schema($id, $displayName, $revision=1, $description="", $otherParameters) {
 		$this->_id = $id;
 		$this->_displayName = $displayName;
 		$this->_revision = $revision;
 		$this->_description = $description;
+		$this->_otherParameters = $otherParameters;
 		
 		$this->_loaded = false;
 		$this->_fields = array();
@@ -60,6 +64,27 @@ class Schema {
 	function setManagerFlag()
 	{
 		$this->_isCreatedByManager = true;
+	}
+	
+	/**
+	 * Updates the other parameters associated with this Schema. The parameters can be anything
+	 * that may be useful.
+	 * @param mixed $otherParameters
+	 * @access public
+	 * @return void
+	 */
+	function updateOtherParameters ($otherParameters) {
+		$this->_otherParameters = $otherParameters;
+	}
+	
+	/**
+	 * Returns the other parameters associated with this Schema. It may be NULL or whatever
+	 * was set at Schema creation time.
+	 * @access public
+	 * @return mixed
+	 */
+	function getOtherParameters () {
+		return $this->_otherParameters;
 	}
 	
 	/**

@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.23 2005/07/18 18:57:15 gabeschine Exp $
+ * @version $Id: SchemaManager.class.php,v 1.24 2005/07/18 20:00:53 gabeschine Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
@@ -51,6 +51,7 @@ class SchemaManager {
 		$query->addColumn("displayname","","dm_schema");
 		$query->addColumn("description","","dm_schema");
 		$query->addColumn("revision","","dm_schema");
+		$query->addColumn("other_params","","dm_schema");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
@@ -60,7 +61,7 @@ class SchemaManager {
 			$a = $result->getCurrentRow();
 			$result->advanceRow();
 			
-			$this->_schemas[$a['id']] =& new Schema( $a['id'], $a['displayname'], $a['revision'], $a['description']);
+			$this->_schemas[$a['id']] =& new Schema( $a['id'], $a['displayname'], $a['revision'], $a['description'], unserialize($a['other_params']));
 			$this->_schemas[$a['id']]->setManagerFlag();
 			
 			debug::output("Found type ID ".$a['id'].", revision ".$a['revision'],DEBUG_SYS2,"DataManager");
@@ -410,10 +411,11 @@ class SchemaManager {
 		$query =& new UpdateQuery();
 		$query->setTable("dm_schema");
 		$query->setWhere("id='".addslashes($old->getID())."'");
-		$query->setColumns(array("revision", "displayname", "description"));
+		$query->setColumns(array("revision", "displayname", "description", "other_params"));
 		$query->setValues(array($new->getRevision(),
 						"'".addslashes($old->getDisplayName())."'",
-						"'".addslashes($old->getDescription())."'"));
+						"'".addslashes($old->getDescription())."'",
+						"'".addslashes(serialize($old->getOtherParameters()))."'"));
 		
 		$dbHandler=& Services::getService("DatabaseManager");
 		$dbHandler->query($query,DATAMANAGER_DBID);

@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.18 2005/07/18 14:45:26 gabeschine Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.19 2005/07/18 20:02:21 gabeschine Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -202,6 +202,8 @@ class HarmoniRecordStructure
 	 * @access public
 	 */
 	function getSchema () { 
+		$other = $this->_schema->getOtherParameters();
+		if (isset($other['schema'])) return $other['schema'];
 		return "Harmoni DataManager User-defined Schema: ".$this->_schema->getID();
 	}
 
@@ -250,6 +252,8 @@ class HarmoniRecordStructure
 	 * @access public
 	 */
 	function getFormat () { 
+		$other = $this->_schema->getOtherParameters();
+		if (isset($other['format'])) return $other['format'];
 		return "DataManagerPrimatives";
 	}
 	
