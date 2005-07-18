@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestHandler.interface.php,v 1.1 2005/05/31 17:17:25 gabeschine Exp $
+ * @version $Id: RequestHandler.interface.php,v 1.2 2005/07/18 15:39:56 gabeschine Exp $
  */ 
 
 /**
@@ -22,7 +22,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestHandler.interface.php,v 1.1 2005/05/31 17:17:25 gabeschine Exp $
+ * @version $Id: RequestHandler.interface.php,v 1.2 2005/07/18 15:39:56 gabeschine Exp $
  */
 
 class RequestHandler {
@@ -36,6 +36,17 @@ class RequestHandler {
 	 * @access public
 	 */
 	function getRequestVariables() {
+		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
+	}
+	
+	/**
+	 * Returns an associative array of file upload data. This will usually come from
+	 * the $_FILES superglobal.
+	 * 
+	 * @return array
+	 * @access public
+	 */
+	function getFileVariables() {
 		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
 	}
 	

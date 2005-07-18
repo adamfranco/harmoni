@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.6 2005/07/07 21:29:04 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.7 2005/07/18 15:39:56 gabeschine Exp $
  */ 
  
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.6 2005/07/07 21:29:04 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.7 2005/07/18 15:39:56 gabeschine Exp $
  */
 
 class GETMethodRequestHandler extends RequestHandler {
@@ -40,6 +40,17 @@ class GETMethodRequestHandler extends RequestHandler {
 	 */
 	function getRequestVariables() {
 		return $_REQUEST;
+	}
+	
+	/**
+	 * Returns an associative array of file upload data. This will usually come from
+	 * the $_FILES superglobal.
+	 * 
+	 * @return array
+	 * @access public
+	 */
+	function getFileVariables() {
+		return $_FILES;
 	}
 	
 	/**
@@ -86,7 +97,7 @@ class GETMethodRequestHandler extends RequestHandler {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.6 2005/07/07 21:29:04 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.7 2005/07/18 15:39:56 gabeschine Exp $
  */
 
 class GETMethodURLWriter 

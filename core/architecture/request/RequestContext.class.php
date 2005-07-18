@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.13 2005/07/07 18:31:39 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.14 2005/07/18 15:39:56 gabeschine Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "!");
@@ -86,6 +86,11 @@ class RequestContext {
 	var $_requestData;
 	/**
 	 * @access private
+	 * @var array $_fileData
+	 */
+	var $_fileData;
+	/**
+	 * @access private
 	 * @var object RequestHandler $_requestHandler
 	 */
 	var $_requestHandler;
@@ -136,6 +141,8 @@ class RequestContext {
 				$this->_requestData[$key] = $value;
 			}
 		}
+		
+		$this->_fileData = $this->_requestHandler->getFileVariables();
 	}
 	
 	/**
@@ -351,7 +358,7 @@ class RequestContext {
 	 * within the current namespace. If you pass a name like "context1/context2/name",
 	 * the RequestContext uses it as a context-insensitive name (ie, you are specifying
 	 * the absolute namespace). 
-	 * @return string
+	 * @return mixed Either a string, in the case of a regular key, or an array in the case of a file.
 	 * @param string $key
 	 * @access public
 	 */
@@ -360,6 +367,7 @@ class RequestContext {
 		// then check our context data, lastly return NULL
 		$nKey = $this->_mkFullName($key);
 		if (isset($this->_requestData[$nKey])) return $this->_requestData[$nKey];
+		if (isset($this->_fileData[$nKey])) return $this->_fileData[$nKey];
 		if (isset($this->_contextData[$nKey])) return $this->_contextData[$nKey];
 		return null;
 	}
@@ -372,7 +380,7 @@ class RequestContext {
 	function getKeys() {
 		$pre = $this->_currentNamespace;
 		$array = array();
-		$keys = array_unique(array_merge(array_keys($this->_requestData), array_keys($this->_contextData)));
+		$keys = array_unique(array_merge(array_keys($this->_fileData), array_merge(array_keys($this->_requestData), array_keys($this->_contextData))));
 		foreach ($keys as $key) {
 			if (ereg("^$pre\\".REQUEST_HANDLER_CONTEXT_DELIMETER."([^".REQUEST_HANDLER_CONTEXT_DELIMETER."]+)", $key, $r)) {
 				$array[] = $r[1];
