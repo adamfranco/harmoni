@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.24 2005/07/18 20:00:53 gabeschine Exp $
+ * @version $Id: SchemaManager.class.php,v 1.25 2005/07/18 20:42:11 gabeschine Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
@@ -61,7 +61,8 @@ class SchemaManager {
 			$a = $result->getCurrentRow();
 			$result->advanceRow();
 			
-			$this->_schemas[$a['id']] =& new Schema( $a['id'], $a['displayname'], $a['revision'], $a['description'], unserialize($a['other_params']));
+			$otherParams = $a['other_params']?unserialize($a['other_params']):null;
+			$this->_schemas[$a['id']] =& new Schema( $a['id'], $a['displayname'], $a['revision'], $a['description'], $otherParams);
 			$this->_schemas[$a['id']]->setManagerFlag();
 			
 			debug::output("Found type ID ".$a['id'].", revision ".$a['revision'],DEBUG_SYS2,"DataManager");
