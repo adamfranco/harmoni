@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.31 2005/07/19 16:23:11 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.32 2005/07/19 20:30:13 ndhungel Exp $
 */
 class Record {
 	
@@ -498,8 +498,8 @@ class Record {
 				// we'll have to make a new entry
 				$schemaManager =& Services::getService("SchemaManager");
 				
-				$id =& $this->_idManager->createId();
-				$this->_myID = $id->getIdString();
+				$newID =& $this->_idManager->createId();
+				$this->_myID = $newID->getIdString();
 				
 				$query =& new InsertQuery();
 				$query->setTable("dm_record");

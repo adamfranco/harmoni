@@ -41,7 +41,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdManager.class.php,v 1.18 2005/07/13 17:37:38 ndhungel Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.19 2005/07/19 20:32:31 ndhungel Exp $
  */
 
 class HarmoniIdManager
@@ -247,14 +247,14 @@ class HarmoniIdManager
 	 * @access public
 	 */
 	function &getId ( $idString ) { 
-		if (isset($this->_ids[$idString]))
+		if (isset($this->_ids[$idString])) {
 			return $this->_ids[$idString];
-	
+		}
+			
 		$id =& new HarmoniId($idString);
 			
 		// cache the id
 		$this->_ids[$idString] =& $id;
-
 		return $id;
 	}
 }
