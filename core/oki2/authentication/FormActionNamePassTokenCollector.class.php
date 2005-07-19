@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FormActionNamePassTokenCollector.class.php,v 1.2 2005/04/11 18:27:39 adamfranco Exp $
+ * @version $Id: FormActionNamePassTokenCollector.class.php,v 1.3 2005/07/19 15:57:51 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/BasicFormNamePassTokenCollector.class.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/BasicFormNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FormActionNamePassTokenCollector.class.php,v 1.2 2005/04/11 18:27:39 adamfranco Exp $
+ * @version $Id: FormActionNamePassTokenCollector.class.php,v 1.3 2005/07/19 15:57:51 adamfranco Exp $
  */
 class FormActionNamePassTokenCollector
 	extends BasicFormNamePassTokenCollector
@@ -37,7 +37,7 @@ class FormActionNamePassTokenCollector
 		if (count($_GET) && !ereg("\?", $url)) {
 			$url .= "?";
 			foreach ($_GET as $name => $value) {
-				$url .= "&".$name."=".$value;
+				$url .= "&amp;".$name."=".$value;
 			}
 		}
 		
@@ -51,7 +51,7 @@ class FormActionNamePassTokenCollector
 	 * @since 3/16/05
 	 */
 	function prompt () {
-		header("Location: ".$this->_url);
+		RequestContext::locationHeader($this->_url);
 	}
 }
 

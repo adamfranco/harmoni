@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.14 2005/07/18 15:39:56 gabeschine Exp $
+ * @version $Id: RequestContext.class.php,v 1.15 2005/07/19 15:57:45 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "!");
@@ -57,6 +57,20 @@ class RequestContext {
 	function value($key) {
 		$harmoni =& Harmoni::instance();
 		return $harmoni->request->get($key);
+	}
+	
+	/**
+	 * Send a properly formatted location header. XHTML specifies that the 
+	 * ampersand character, '&' be replaced with '&amp;'. Location headers however
+	 * fail to redirect with '&amp;'. This method properly formats location headers.
+	 * 
+	 * @param string $url
+	 * @return void
+	 * @access public
+	 * @since 7/19/05
+	 */
+	function locationHeader ( $url ) {
+		header("Location: ".str_replace("&amp;", "&", $url));
 	}
 	
 

@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BrowseHistoryManager.class.php,v 1.3 2005/06/07 14:41:28 adamfranco Exp $
+ * @version $Id: BrowseHistoryManager.class.php,v 1.4 2005/07/19 15:56:37 adamfranco Exp $
  **/
 
 class BrowseHistoryManager {
@@ -53,7 +53,7 @@ class BrowseHistoryManager {
 	 * @access public
 	 */
 	function goBack($operation) {
-		header("Location: " . $this->getReturnURL($operation));
+		RequestContext::locationHeader($this->getReturnURL($operation));
 		exit();
 	}
 	

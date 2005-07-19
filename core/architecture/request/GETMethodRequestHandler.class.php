@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.9 2005/07/19 14:52:26 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.10 2005/07/19 15:57:30 adamfranco Exp $
  */ 
  
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.9 2005/07/19 14:52:26 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.10 2005/07/19 15:57:30 adamfranco Exp $
  */
 
 class GETMethodRequestHandler extends RequestHandler {
@@ -97,7 +97,7 @@ class GETMethodRequestHandler extends RequestHandler {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.9 2005/07/19 14:52:26 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.10 2005/07/19 15:57:30 adamfranco Exp $
  */
 
 class GETMethodURLWriter 
@@ -140,7 +140,7 @@ class GETMethodURLWriter
 			$pairs[] = $key . "=" . urlencode($val);
 		}
 		
-		$url .= "?" . implode("&", $pairs);
+		$url .= "?" . implode("&amp;", $pairs);
 		
 		return $url;
 	}
