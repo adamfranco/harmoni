@@ -13,10 +13,10 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schema.class.php,v 1.16 2005/07/18 21:01:18 gabeschine Exp $
+ * @version $Id: Schema.class.php,v 1.17 2005/07/19 18:51:36 ndhungel Exp $
  * @author Gabe Schine
  */
-class Schema {
+class Schema extends SObject {
 	
 	var $_id;
 	
@@ -430,6 +430,21 @@ class Schema {
 			return $this->_fields[$id]->getDisplayName();
 		}
 		return null;
+	}
+	
+	/**
+	 * bla! - deepCopy baby!
+	 * @return ref object
+	 * @access public
+	 */
+	function & deepCopy() {
+		$schema =& new Schema($this->getID(), $this->getDisplayName(), $this->getRevision(), $this->getDescription(), $this->getOtherParameters());
+		foreach (array_keys($this->_fields) as $key) {
+			$field =& $this->_fields[$key];
+			$newField =& $field->replicate();
+			$schema->addField($newField);
+		}
+		return $schema;
 	}
 }
 
