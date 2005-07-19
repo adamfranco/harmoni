@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.30 2005/07/18 14:45:19 gabeschine Exp $
+ * @version $Id: Record.class.php,v 1.31 2005/07/19 16:23:11 adamfranco Exp $
 */
 class Record {
 	
@@ -463,6 +463,9 @@ class Record {
 	* @return bool
 	*/
 	function commit($ignoreMandatory=false) {
+		// Get the DBHandler
+		$dbHandler =& Services::getService("DatabaseManager");
+			
 		// the first thing we're gonna do is check to make sure that all our required fields
 		// have at least one value.
 		if (!$this->_delete) {
@@ -476,9 +479,6 @@ class Record {
 				}
 			}
 		
-			
-			// Get the DBHandler
-			$dbHandler =& Services::getService("DatabaseManager");
 			
 			if ($this->_myID) {
 				// we're already in the database
