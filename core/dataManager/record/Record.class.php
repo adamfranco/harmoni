@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.32 2005/07/19 20:30:13 ndhungel Exp $
+ * @version $Id: Record.class.php,v 1.33 2005/07/20 15:59:15 cws-midd Exp $
 */
 class Record {
 	
@@ -285,7 +285,11 @@ class Record {
 	 */
 	function &getRecordFieldValues($id) {
 		$this->_checkLabel($this->_getFieldLabel($id));
-		return $this->_fields[$id];
+		$array = array();
+		foreach ($this->getIndices($this->_getFieldLabel($id)) as $index) {
+			$array[] =& $this->_fields[$id]->getRecordFieldValue($index);
+		}
+		return $array;
 	}
 	
 	/**
