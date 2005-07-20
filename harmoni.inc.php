@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: harmoni.inc.php,v 1.37 2005/05/31 19:11:49 gabeschine Exp $
+ * @version $Id: harmoni.inc.php,v 1.38 2005/07/20 13:54:07 gabeschine Exp $
  */
 
  /* :: start the output buffer, if it's not already :: */
@@ -87,6 +87,8 @@ require_once(HARMONIBASE."config/services.cfg.php");
 require_once(HARMONI."utilities/TemplateFactory.class.php");
 require_once(HARMONI."utilities/StringFunctions.class.php");
 require_once(HARMONI."utilities/MIMETypes.class.php");
+require_once(HARMONI."architecture/events/EventTrigger.class.php");
+require_once(HARMONI."architecture/events/EventListener.interface.php");
 
 
 ?>
