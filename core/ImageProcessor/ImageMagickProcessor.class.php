@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageMagickProcessor.class.php,v 1.6 2005/01/28 19:33:40 adamfranco Exp $
+ * @version $Id: ImageMagickProcessor.class.php,v 1.7 2005/07/21 19:57:58 adamfranco Exp $
  */
 
 class ImageMagickProcessor {
@@ -323,7 +323,7 @@ class ImageMagickProcessor {
 			fclose($handle);
 			
 			// Create the thumbnail.
-			$convertString = "convert ";
+			$convertString = $this->_ImageMagickPath."/convert ";
 			if ($size)
 				$convertString .= "-size ".$size."x".$size." ";
 			$convertString .= $sourcePath." ";
@@ -331,13 +331,16 @@ class ImageMagickProcessor {
 				$convertString .= " -resize ".$size."x".$size." ";
 			$convertString .= $destPath;
 			
-			$text = exec($convertString, $ouput, $exitCode);
+			$text = exec($convertString, $output, $exitCode);
 			
 			if ($exitCode) {
+				print "Convert Failed: '$convertString'";
+				print "\n<br />".$text." ";
+				print "Exit Code: ".$exitCode;
+				exit;
 				unlink($sourcePath);
 				unlink($destPath);
 //				throwError(new Error("Convert Failed: '$convertString' $text ", "ImageProcessor", true));
-				print "Convert Failed: '$convertString'";
 				exit;
 			} else {			
 				// read the thumbnail data.
