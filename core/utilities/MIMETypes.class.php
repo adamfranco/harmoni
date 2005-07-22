@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MIMETypes.class.php,v 1.9 2005/07/22 18:10:54 adamfranco Exp $
+ * @version $Id: MIMETypes.class.php,v 1.8 2005/07/22 18:09:58 adamfranco Exp $
  */
 class MIMETypes {
 
@@ -317,7 +317,7 @@ class MIMETypes {
 	function getExtensionForMIMEType ( $type ) {
 		$parts = explode("/", $type);
 		$type = $parts[0];
-		if (isset($parts[1]))
+		if ($parts[1])
 			$subType = $parts[1];
 		else
 			$subType = NULL;
