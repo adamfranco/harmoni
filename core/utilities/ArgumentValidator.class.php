@@ -15,7 +15,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ArgumentValidator.class.php,v 1.5 2005/02/14 19:19:42 thebravecowboy Exp $
+ * @version $Id: ArgumentValidator.class.php,v 1.6 2005/07/22 15:33:59 adamfranco Exp $
  */
 class ArgumentValidator {
 
@@ -52,7 +52,10 @@ class ArgumentValidator {
 			$debugBacktrace = debug_backtrace();
 			$class = $debugBacktrace[1]["class"];
 			$function = $debugBacktrace[1]["function"];
-			$arguments = $debugBacktrace[1]["args"];
+			if (isset($debugBacktrace[1]["args"]))
+				$arguments = $debugBacktrace[1]["args"];
+			else
+				$arguments = array();
 						
 			$description .= $class."::".$function;
 			// print the arguments using the ArgumentRenderer
