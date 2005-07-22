@@ -27,7 +27,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.14 2005/07/13 17:37:44 ndhungel Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.15 2005/07/22 17:07:42 adamfranco Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -339,54 +339,38 @@ class FileRecord
 			return FALSE;
 	}
 	
-// 	/**
-// 	 * Used with storeFromRecord to convert from one file storage 
-// 	 * system to another.
-// 	 *
-// 	 * WARNING: NOT IN OSID
-// 	 * 
-// 	 * @param object FileRecord $fileRecord
-// 	 * @return void
-// 	 * @access public
-// 	 * @since 2/17/05
-// 	 */
-// 	function storeToRecord (& $fileRecord ) {
-// 		$fileRecord->storeFromFileRecord($this);
-// 	}
-// 	
-// 	/**
-// 	 * Used with storeToRecord to convert from one
-// 	 * file storage system to another.
-// 	 *
-// 	 * WARNING: NOT IN OSID
-// 	 * 
-// 	 * @param object FileRecord $fileRecord
-// 	 * @return void
-// 	 * @access public
-// 	 * @since 2/17/05
-// 	 */
-// 	function storeFromeRecord (& $fileRecord) {
-// 		$this->_copyPartsValues($fileRecord);
-// 	}
-// 	
-// 	/**
-// 	 * Used by the storeToRecord methods to copy the necessary data.
-// 	 * 
-// 	 * @param object FileRecord $fileRecord
-// 	 * @return void
-// 	 * @access private
-// 	 * @since 2/17/05
-// 	 */
-// 	function _copyPartsValues ( &$fileRecord ) {
-// 		$origParts =& $fileRecord->getParts();
-// 		while ($origParts->hasNextPart()) {
-// 			$origPart =& $origParts->nextParts();
-// 			$origPartStructure =& $origPart->getPartStructure();
-// 			$origPartStructureId =& $origPartStructure->getId();
-// 			
-// 			$this->_parts[$origPartStructureId->getIdString()]
-// 								->updateValue($origPart->getValue());
-// 		}
-// 	}	
+	/**
+     * Get the Parts of the Records for this Asset that are based on this
+     * RecordStructure PartStructure's unique Id.
+     *
+     * WARNING: NOT IN OSID (as of July 2005)
+     * 
+     * @param object Id $partStructureId
+     *  
+     * @return object PartIterator
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+     * 
+     * @access public
+     */
+    function &getPartsByPartStructure ( &$partStructureId ) {
+    	$partArray = array();
+    	$partArray[] =& $this->_parts[$partStructureId->getIdString()];
+		$partsIterator =& new HarmoniIterator($partArray);
+		return $partsIterator;
+    }	
 	
 }

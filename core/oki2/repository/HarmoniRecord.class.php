@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.14 2005/07/19 21:05:01 ndhungel Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.15 2005/07/22 17:05:59 adamfranco Exp $ 
  */
 
 class HarmoniRecord 
@@ -247,4 +247,58 @@ class HarmoniRecord
 	function &getRecordStructure () { 
 		return $this->_recordStructure;
 	}
+	
+	/**
+     * Get the Parts of the Records for this Asset that are based on this
+     * RecordStructure PartStructure's unique Id.
+     *
+     * WARNING: NOT IN OSID (as of July 2005)
+     * 
+     * @param object Id $partStructureId
+     *  
+     * @return object PartIterator
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+     * 
+     * @access public
+     */
+    function &getPartsByPartStructure ( &$partStructureId ) {
+    	$partStructure =& $this->_recordStructure->getPartStructure($partStructureId);
+		$partStructureId = $partStructure->getId();
+		$idString = $partStructureId->getIdString();		
+		
+		$partsToReturn = array();
+		
+		// Create an Part for each valueVersionObj
+		$allRecordFieldValues =& $this->_record->getRecordFieldValues($idString);
+		if (count($allRecordFieldValues)) {
+			foreach (array_keys($allRecordFieldValues) as $key) {
+				if ($activeValue =& $allRecordFieldValues[$key]->getActiveVersion()) {
+					if (!isset($this->_createdParts[$activeValue->getID()])) {
+						$this->_createdParts[$activeValue->getID()] =& new HarmoniPart(
+												$partStructure, $allRecordFieldValues[$key]);
+					}
+					
+					$partsToReturn =& $this->_createdParts[$activeValue->getID()];
+				}
+				
+			}
+		}
+		
+		$partsIterator =& new HarmoniIterator($partsToReturn);
+		return $partsIterator;
+    }
 }
