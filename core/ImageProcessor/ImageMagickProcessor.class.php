@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageMagickProcessor.class.php,v 1.7 2005/07/21 19:57:58 adamfranco Exp $
+ * @version $Id: ImageMagickProcessor.class.php,v 1.8 2005/07/22 18:08:40 adamfranco Exp $
  */
 
 class ImageMagickProcessor {
@@ -178,7 +178,7 @@ class ImageMagickProcessor {
 		$mime =& Services::getService("MIME");
 		$extension = $mime->getExtensionForMIMEType($format);
 		
-		if ($this->_formatConversions[$extension])
+		if (isset($this->_formatConversions[$extension]))
 			return TRUE;
 		else
 			return FALSE;
