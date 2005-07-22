@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.class.php,v 1.20 2005/07/13 19:09:58 ndhungel Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.21 2005/07/22 20:29:19 gabeschine Exp $
  */
 class LanguageLocalizer {
 	/**
@@ -354,6 +354,17 @@ if (!function_exists("gettext")) {
 	 *
 	 */
 	function gettext ( $string ) {
+		return $string;
+	}
+	
+	/**
+	 * Returns the passed string unchanged.
+	 * @param string $domain
+	 * @param string $string
+	 * @access public
+	 * @return string
+	 */
+	function dgettext ($domain, $string) {
 		return $string;
 	}
 	
