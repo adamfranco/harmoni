@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Dearchiver.class.php,v 1.2 2005/07/08 18:41:48 ndhungel Exp $
+ * @version $Id: Dearchiver.class.php,v 1.3 2005/07/25 20:21:49 ndhungel Exp $
  *
  * @link http://sourceforge.net/projects/concerto
  */ 
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Dearchiver.class.php,v 1.2 2005/07/08 18:41:48 ndhungel Exp $
+ * @version $Id: Dearchiver.class.php,v 1.3 2005/07/25 20:21:49 ndhungel Exp $
  */
 
 require_once("Archive/Tar.php");
@@ -115,17 +115,21 @@ class Dearchiver {
 			case "tar":
 				$tar = new Archive_Tar($filename);
 				$tar->extract($path);
+				unlink($filename);
 				break;
 			case "tar.gz":
 				$tar = new Archive_Tar($filename, "gz");
 				$tar->extract($path);
+				unlink($filename);
 				break;
 			case "tar.bz2":
 				$tar = new Archive_Tar($filename, "bz2");
 				$tar->extract($path);
+				unlink($filename);
 				break;
 			case "zip":
 				unzip(dirname($filename), basename($filename), $path, 0700);
+				unlink($filename);
 				break;
 			case "gz":
 				$file = gzopen($filename, "rb");
@@ -136,6 +140,7 @@ class Dearchiver {
 				}
 				gzclose($file);
 				fclose($outFile);
+				unlink($filename);
 				break;
 			case "bz2":
 				$file = bzopen($filename, "rb");
@@ -144,6 +149,7 @@ class Dearchiver {
 					fwrite($outFile, $buffer, 4096);
 					fclose($outFile);
 				bzclose($file);
+				unlink($filename);
 				break;
 			default:
 				//throwError(new Error("Invalid File Type: ".$fileType);
