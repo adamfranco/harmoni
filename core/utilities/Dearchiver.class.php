@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Dearchiver.class.php,v 1.3 2005/07/25 20:21:49 ndhungel Exp $
+ * @version $Id: Dearchiver.class.php,v 1.4 2005/07/26 21:27:41 cws-midd Exp $
  *
  * @link http://sourceforge.net/projects/concerto
  */ 
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Dearchiver.class.php,v 1.3 2005/07/25 20:21:49 ndhungel Exp $
+ * @version $Id: Dearchiver.class.php,v 1.4 2005/07/26 21:27:41 cws-midd Exp $
  */
 
 require_once("Archive/Tar.php");
@@ -105,6 +105,7 @@ class Dearchiver {
 	* Uncompresses the archive appropriate to its filetype to the given path.
 	 * 
 	 * @param string $filename
+	 * @return boolean
 	 * @access public
 	 * @since 06/10/05
 	 *
@@ -152,9 +153,9 @@ class Dearchiver {
 				unlink($filename);
 				break;
 			default:
-				//throwError(new Error("Invalid File Type: ".$fileType);
-				die("Invalid File Type: ".$fileType);
+				return false;
 		}
+		return true;
 	}
 }
 ?>
