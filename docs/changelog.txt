@@ -6,9 +6,17 @@ Name: Harmoni ChangeLog
 v. 0.4.0 (The Nebulous Future)
 ----------------------------------------------------
 		
+	* New feature: Added EventListener and EventTrigger to allow easy extensions of our code later. (Gabe Schine)
+		
+	* Change: DataManager: can now store with a Schema definition an arbitrary set of parameters for whatever is useful. Updated the Repository to use this method of storing extra data. (Gabe Schine)
+		
+	* New feature: #102459 Added task-manager linkability to the changelog. (Gabe Schine)
+		
 	* Change: Added retrieval of $_FILES-type data to the RequestContext and RequestHandler classes. (Gabe Schine)
 		
 	* Change: Updated DR module to use new DataManager. (Gabe Schine)
+		
+	* Change: #890779 DataManager now uses unique ids to reference fields instead of purely by label. (Gabe Schine)
 		
 	* Bug Fix: Fixed a number of bugs in the Primitive and StorablePrimitive classes. (Gabe Schine)
 		
@@ -22,7 +30,7 @@ v. 0.4.0 (The Nebulous Future)
 		
 	* New feature: Added getStringName() to the Database interface and added a method in the DBHandler to allows access to the string name based on the database index. (Gabe Schine)
 		
-	* Change: All DataManager database queries now free() their results after processing. (Gabe Schine)
+	* Change: #116890 All DataManager database queries now free() their results after processing. (Gabe Schine)
 		
 	* New feature: GUIManager now allows for the setting of pre and post HTML. These are HTML tags that need to surround a compontent. This is primarily used to properly nest form-tags around tables/divs to generate valid XHTML. (Adam Franco)
 		
@@ -159,11 +167,11 @@ v. 0.2.0 (2004-10-26)
 		
 	* New feature: DateTime::toString() now has optional parameter to return a shorter M/D/Y for the date instead of Month DD, YYYY. (Gabe Schine)
 		
-	* Bug Fix: AuthN queries now have slashes added to dbc query values. (Adam Franco)
+	* Bug Fix: #102455 AuthN queries now have slashes added to dbc query values. (Adam Franco)
 		
-	* Bug Fix: Shared queries now have slashes added to query values. (Adam Franco)
+	* Bug Fix: #102455 Shared queries now have slashes added to query values. (Adam Franco)
 		
-	* Bug Fix: Globally added addslashes() calls to quoted values in query strings. (Adam Franco)
+	* Bug Fix: #102455 Globally added addslashes() calls to quoted values in query strings. (Adam Franco)
 		
 	* Change: Fixed LoginHandler problem which was preventing the use of custom callback functions. (Adam Franco)
 		
