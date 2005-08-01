@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.25 2005/07/18 14:45:26 gabeschine Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.26 2005/08/01 19:04:35 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -306,7 +306,6 @@ class HarmoniRepositoryManager
      * 
      * @access public
      */
-     
 	function deleteRepository(& $repositoryId) {
 		$repository =& $this->getRepository($repositoryId);
 		
@@ -354,30 +353,30 @@ class HarmoniRepositoryManager
 		unset($this->_createdRepositories[$repositoryId->getIdString()]);
 	}
 
-/**
- * Get all the Repositories.  Iterators return a set, one at a time.
- *  
- * @return object RepositoryIterator
- * 
- * @throws object RepositoryException An exception with one of
- *         the following messages defined in
- *         org.osid.repository.RepositoryException may be thrown: {@link
- *         org.osid.repository.RepositoryException#OPERATION_FAILED
- *         OPERATION_FAILED}, {@link
- *         org.osid.repository.RepositoryException#PERMISSION_DENIED
- *         PERMISSION_DENIED}, {@link
- *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
- *         CONFIGURATION_ERROR}, {@link
- *         org.osid.repository.RepositoryException#UNIMPLEMENTED
- *         UNIMPLEMENTED}, {@link
- *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
- *         CONFIGURATION_ERROR}, {@link
- *         org.osid.repository.RepositoryException#UNIMPLEMENTED
- *         UNIMPLEMENTED}
- * 
- * @access public
- */
-  function &getRepositories () { 
+	/**
+	 * Get all the Repositories.  Iterators return a set, one at a time.
+	 *  
+	 * @return object RepositoryIterator
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *         the following messages defined in
+	 *         org.osid.repository.RepositoryException may be thrown: {@link
+	 *         org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *         OPERATION_FAILED}, {@link
+	 *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *         PERMISSION_DENIED}, {@link
+	 *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *         CONFIGURATION_ERROR}, {@link
+	 *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *         UNIMPLEMENTED}, {@link
+	 *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *         CONFIGURATION_ERROR}, {@link
+	 *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *         UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function &getRepositories () { 
 		$nodes =& $this->_hierarchy->getNodesByType($this->_repositoryKeyType);
 		while ($nodes->hasNext()) {
 			$node =& $nodes->next();
@@ -393,33 +392,32 @@ class HarmoniRepositoryManager
 	}
 
 
- /**
- * Get all the Repositories of the specified Type.  Iterators return a set,
- * one at a time.
- * 
- * @param object Type $repositoryType
- *  
- * @return object RepositoryIterator
- * 
- * @throws object RepositoryException An exception with one of
- *         the following messages defined in
- *         org.osid.repository.RepositoryException may be thrown: {@link
- *         org.osid.repository.RepositoryException#OPERATION_FAILED
- *         OPERATION_FAILED}, {@link
- *         org.osid.repository.RepositoryException#PERMISSION_DENIED
- *         PERMISSION_DENIED}, {@link
- *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
- *         CONFIGURATION_ERROR}, {@link
- *         org.osid.repository.RepositoryException#UNIMPLEMENTED
- *         UNIMPLEMENTED}, {@link
- *         org.osid.repository.RepositoryException#NULL_ARGUMENT
- *         NULL_ARGUMENT}, {@link
- *         org.osid.repository.RepositoryException#UNKNOWN_TYPE
- *         UNKNOWN_TYPE}
- * 
- * @access public
- */
-
+	/**
+	 * Get all the Repositories of the specified Type.  Iterators return a set,
+	 * one at a time.
+	 * 
+	 * @param object Type $repositoryType
+	 *  
+	 * @return object RepositoryIterator
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *         the following messages defined in
+	 *         org.osid.repository.RepositoryException may be thrown: {@link
+	 *         org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *         OPERATION_FAILED}, {@link
+	 *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *         PERMISSION_DENIED}, {@link
+	 *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *         CONFIGURATION_ERROR}, {@link
+	 *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *         UNIMPLEMENTED}, {@link
+	 *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *         NULL_ARGUMENT}, {@link
+	 *         org.osid.repository.RepositoryException#UNKNOWN_TYPE
+	 *         UNKNOWN_TYPE}
+	 * 
+	 * @access public
+	 */
   function &getRepositoriesByType ( &$repositoryType ) { 
 		ArgumentValidator::validate($repositoryType, ExtendsValidatorRule::getRule("Type"));
 		
@@ -455,31 +453,30 @@ class HarmoniRepositoryManager
 		return $repositoryIterator;
 	}
 
-	 /**
-   * Get the Repository with the specified unique Id.
-   * 
-   * @param object Id $repositoryId
-   *  
-   * @return object Repository
-   * 
-   * @throws object RepositoryException An exception with one of
-   *         the following messages defined in
-   *         org.osid.repository.RepositoryException may be thrown: {@link
-   *         org.osid.repository.RepositoryException#OPERATION_FAILED
-   *         OPERATION_FAILED}, {@link
-   *         org.osid.repository.RepositoryException#PERMISSION_DENIED
-   *         PERMISSION_DENIED}, {@link
-   *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
-   *         CONFIGURATION_ERROR}, {@link
-   *         org.osid.repository.RepositoryException#UNIMPLEMENTED
-   *         UNIMPLEMENTED}, {@link
-   *         org.osid.repository.RepositoryException#NULL_ARGUMENT
-   *         NULL_ARGUMENT}, {@link
-   *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
-   * 
-   * @access public
-   */
-   
+	/**
+	 * Get the Repository with the specified unique Id.
+	 * 
+	 * @param object Id $repositoryId
+	 *  
+	 * @return object Repository
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *         the following messages defined in
+	 *         org.osid.repository.RepositoryException may be thrown: {@link
+	 *         org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *         OPERATION_FAILED}, {@link
+	 *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *         PERMISSION_DENIED}, {@link
+	 *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *         CONFIGURATION_ERROR}, {@link
+	 *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *         UNIMPLEMENTED}, {@link
+	 *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *         NULL_ARGUMENT}, {@link
+	 *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+	 * 
+	 * @access public
+	 */
 	function &getRepository ( &$repositoryId ) { 
 		ArgumentValidator::validate($repositoryId, ExtendsValidatorRule::getRule("Id"));
 		
@@ -499,30 +496,30 @@ class HarmoniRepositoryManager
 		return $this->_createdRepositories[$repositoryId->getIdString()];
 	}
 
- /**
- * Get the Asset with the specified unique Id.
- * 
- * @param object Id $assetId
- *  
- * @return object Asset
- * 
- * @throws object RepositoryException An exception with one of
- *         the following messages defined in
- *         org.osid.repository.RepositoryException may be thrown: {@link
- *         org.osid.repository.RepositoryException#OPERATION_FAILED
- *         OPERATION_FAILED}, {@link
- *         org.osid.repository.RepositoryException#PERMISSION_DENIED
- *         PERMISSION_DENIED}, {@link
- *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
- *         CONFIGURATION_ERROR}, {@link
- *         org.osid.repository.RepositoryException#UNIMPLEMENTED
- *         UNIMPLEMENTED}, {@link
- *         org.osid.repository.RepositoryException#NULL_ARGUMENT
- *         NULL_ARGUMENT}, {@link
- *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
- * 
- * @access public
- */
+	/**
+	 * Get the Asset with the specified unique Id.
+	 * 
+	 * @param object Id $assetId
+	 *  
+	 * @return object Asset
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *         the following messages defined in
+	 *         org.osid.repository.RepositoryException may be thrown: {@link
+	 *         org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *         OPERATION_FAILED}, {@link
+	 *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *         PERMISSION_DENIED}, {@link
+	 *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *         CONFIGURATION_ERROR}, {@link
+	 *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *         UNIMPLEMENTED}, {@link
+	 *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *         NULL_ARGUMENT}, {@link
+	 *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+	 * 
+	 * @access public
+	 */
 	function &getAsset ( &$assetId ) { 
 		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
@@ -592,7 +589,6 @@ class HarmoniRepositoryManager
    * 
    * @access public
    */
-
   function &getAssetDates ( &$assetId ) { 
 		// figure out which Repository it is in.
 		if (! $repositoryId =& $this->_getAssetRepository($assetId))
@@ -604,39 +600,39 @@ class HarmoniRepositoryManager
 		return $repository->getAssetDates($assetId, $date);
 	}
 
-	 /**
-   * Perform a search of the specified Type and get all the Assets that
-   * satisfy the SearchCriteria.  The search is performed for all specified
-   * Repositories.  Iterators return a set, one at a time.
-   * 
-   * @param object Repository[] $repositories
-   * @param object mixed $searchCriteria (original type: java.io.Serializable)
-   * @param object Type $searchType
-   * @param object Properties $searchProperties
-   *  
-   * @return object AssetIterator
-   * 
-   * @throws object RepositoryException An exception with one of
-   *         the following messages defined in
-   *         org.osid.repository.RepositoryException may be thrown: {@link
-   *         org.osid.repository.RepositoryException#OPERATION_FAILED
-   *         OPERATION_FAILED}, {@link
-   *         org.osid.repository.RepositoryException#PERMISSION_DENIED
-   *         PERMISSION_DENIED}, {@link
-   *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
-   *         CONFIGURATION_ERROR}, {@link
-   *         org.osid.repository.RepositoryException#UNIMPLEMENTED
-   *         UNIMPLEMENTED}, {@link
-   *         org.osid.repository.RepositoryException#NULL_ARGUMENT
-   *         NULL_ARGUMENT}, {@link
-   *         org.osid.repository.RepositoryException#UNKNOWN_TYPE
-   *         UNKNOWN_TYPE}, {@link
-   *         org.osid.repository.RepositoryException#UNKNOWN_REPOSITORY
-   *         UNKNOWN_REPOSITORY}
-   * 
-   * @access public
-   */
-  function &getAssetsBySearch ( &$repositories, &$searchCriteria, &$searchType, &$searchProperties ) { 
+	/**
+	 * Perform a search of the specified Type and get all the Assets that
+	 * satisfy the SearchCriteria.  The search is performed for all specified
+	 * Repositories.  Iterators return a set, one at a time.
+	 * 
+	 * @param object Repository[] $repositories
+	 * @param object mixed $searchCriteria (original type: java.io.Serializable)
+	 * @param object Type $searchType
+	 * @param object Properties $searchProperties
+	 *  
+	 * @return object AssetIterator
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *         the following messages defined in
+	 *         org.osid.repository.RepositoryException may be thrown: {@link
+	 *         org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *         OPERATION_FAILED}, {@link
+	 *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *         PERMISSION_DENIED}, {@link
+	 *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *         CONFIGURATION_ERROR}, {@link
+	 *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *         UNIMPLEMENTED}, {@link
+	 *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *         NULL_ARGUMENT}, {@link
+	 *         org.osid.repository.RepositoryException#UNKNOWN_TYPE
+	 *         UNKNOWN_TYPE}, {@link
+	 *         org.osid.repository.RepositoryException#UNKNOWN_REPOSITORY
+	 *         UNKNOWN_REPOSITORY}
+	 * 
+	 * @access public
+	 */
+	function &getAssetsBySearch ( &$repositories, &$searchCriteria, &$searchType, &$searchProperties ) { 
       die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
   } 
 	
@@ -684,60 +680,59 @@ class HarmoniRepositoryManager
 	}
 	
 	/**
-   * Create in a Repository a copy of an Asset.  The Id, AssetType, and
-   * Repository for the new Asset is set by the implementation.  All Records
-   * are similarly copied.
-   * 
-   * @param object Repository $repository
-   * @param object Id $assetId
-   *  
-   * @return object Id
-   * 
-   * @throws object RepositoryException An exception with one of
-   *         the following messages defined in
-   *         org.osid.repository.RepositoryException may be thrown: {@link
-   *         org.osid.repository.RepositoryException#OPERATION_FAILED
-   *         OPERATION_FAILED}, {@link
-   *         org.osid.repository.RepositoryException#PERMISSION_DENIED
-   *         PERMISSION_DENIED}, {@link
-   *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
-   *         CONFIGURATION_ERROR}, {@link
-   *         org.osid.repository.RepositoryException#UNIMPLEMENTED
-   *         UNIMPLEMENTED}, {@link
-   *         org.osid.repository.RepositoryException#NULL_ARGUMENT
-   *         NULL_ARGUMENT}, {@link
-   *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
-   * 
-   * @access public
-   */
-  function &copyAsset ( &$repository, &$assetId ) { 
+	 * Create in a Repository a copy of an Asset.  The Id, AssetType, and
+	 * Repository for the new Asset is set by the implementation.  All Records
+	 * are similarly copied.
+	 * 
+	 * @param object Repository $repository
+	 * @param object Id $assetId
+	 *  
+	 * @return object Id
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *         the following messages defined in
+	 *         org.osid.repository.RepositoryException may be thrown: {@link
+	 *         org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *         OPERATION_FAILED}, {@link
+	 *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *         PERMISSION_DENIED}, {@link
+	 *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *         CONFIGURATION_ERROR}, {@link
+	 *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *         UNIMPLEMENTED}, {@link
+	 *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *         NULL_ARGUMENT}, {@link
+	 *         org.osid.repository.RepositoryException#UNKNOWN_ID UNKNOWN_ID}
+	 * 
+	 * @access public
+	 */
+	function &copyAsset ( &$repository, &$assetId ) { 
 		$asset =& $repository->getAsset($assetId);
 		return $repository->copyAsset( $asset );
 	}
 
 	/**
-   * Get all the RepositoryTypes in this RepositoryManager. RepositoryTypes
-   * are used to categorize Repositories.  Iterators return a set, one at a
-   * time.
-   *  
-   * @return object TypeIterator
-   * 
-   * @throws object RepositoryException An exception with one of
-   *         the following messages defined in
-   *         org.osid.repository.RepositoryException may be thrown: {@link
-   *         org.osid.repository.RepositoryException#OPERATION_FAILED
-   *         OPERATION_FAILED}, {@link
-   *         org.osid.repository.RepositoryException#PERMISSION_DENIED
-   *         PERMISSION_DENIED}, {@link
-   *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
-   *         CONFIGURATION_ERROR}, {@link
-   *         org.osid.repository.RepositoryException#UNIMPLEMENTED
-   *         UNIMPLEMENTED}
-   * 
-   * @access public
-   */
-   
-   function &getRepositoryTypes () { 
+	 * Get all the RepositoryTypes in this RepositoryManager. RepositoryTypes
+	 * are used to categorize Repositories.  Iterators return a set, one at a
+	 * time.
+	 *  
+	 * @return object TypeIterator
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *         the following messages defined in
+	 *         org.osid.repository.RepositoryException may be thrown: {@link
+	 *         org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *         OPERATION_FAILED}, {@link
+	 *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *         PERMISSION_DENIED}, {@link
+	 *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *         CONFIGURATION_ERROR}, {@link
+	 *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *         UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function &getRepositoryTypes () { 
 		$types = array();
 		
 		$query =& new SelectQuery;
@@ -768,32 +763,31 @@ class HarmoniRepositoryManager
  * Private Functions:	
  ******************************************************************************/
  
- function _getAssetRepository (& $assetId) {
- 	$node =& $this->_hierarchy->getNode($assetId);
- 	
- 	// If we have reached the top of the hierarchy and don't have a parent that
- 	// is of the Repository type, then we aren't in a Repository and are therefore unknown
- 	// to the RepositoryManager.
- 	
-	 if ($node->isRoot())
- 		return FALSE;
- 	
- 	// Get the parent and return its ID if it is a root node (repositories are root nodes).
- 	$parents =& $node->getParents();
- 	
- 	// Make sure that we have Parents
- 	if (!$parents->hasNext())
- 		return FALSE;
- 	
- 	// assume a single-parent hierarchy
- 	$parent =& $parents->next();
- 	
- 	if ($this->_repositoryKeyType->isEqual($parent->getType()))
- 		return $parent->getId();
- 	else
- 		return $this->_getAssetRepository( $parent->getId() );
- }
-
+	function _getAssetRepository (& $assetId) {
+		$node =& $this->_hierarchy->getNode($assetId);
+		
+		// If we have reached the top of the hierarchy and don't have a parent that
+		// is of the Repository type, then we aren't in a Repository and are therefore unknown
+		// to the RepositoryManager.
+		
+		if ($node->isRoot())
+			return FALSE;
+		
+		// Get the parent and return its ID if it is a root node (repositories are root nodes).
+		$parents =& $node->getParents();
+		
+		// Make sure that we have Parents
+		if (!$parents->hasNext())
+			return FALSE;
+		
+		// assume a single-parent hierarchy
+		$parent =& $parents->next();
+		
+		if ($this->_repositoryKeyType->isEqual($parent->getType()))
+			return $parent->getId();
+		else
+			return $this->_getAssetRepository( $parent->getId() );
+		}
 }
 
 
