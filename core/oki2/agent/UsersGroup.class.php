@@ -17,7 +17,7 @@ require_once(dirname(__FILE__)."/HarmoniAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.1 2005/06/09 17:21:38 gabeschine Exp $
+ * @version $Id: UsersGroup.class.php,v 1.2 2005/08/01 20:02:49 adamfranco Exp $
  */
 class UsersGroup
 	extends HarmoniGroup
@@ -34,7 +34,7 @@ class UsersGroup
 		$idManager =& Services::getService("Id");
 		$id =& $idManager->getId("-2");
 		
-		$type =& new Type("Agents", "Harmoni", "Any/Anonymous", 
+		$type =& new Type("Agents", "edu.middlebury.harmoni", "Any/Anonymous", 
 			_("Special group for only users that can be authenticated."));
 		
 		$propertiesArray = array();
@@ -273,7 +273,7 @@ class UsersGroup
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.1 2005/06/09 17:21:38 gabeschine Exp $
+ * @version $Id: UsersGroup.class.php,v 1.2 2005/08/01 20:02:49 adamfranco Exp $
  */
 
 class UsersGroupIterator extends HarmoniAgentIterator {

@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: MimeTypePartStructure.class.php,v 1.2 2005/01/26 22:44:11 adamfranco Exp $ 
+ * @version $Id: MimeTypePartStructure.class.php,v 1.3 2005/08/01 20:04:23 adamfranco Exp $ 
  */
 class MimeTypePartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -98,7 +98,7 @@ class MimeTypePartStructure extends PartStructure
 	 */
 	function &getType() {
 		if (!isset($this->_type)) {
-			$this->_type =& new HarmoniType("Repository", "Harmoni", "string");
+			$this->_type =& new HarmoniType("Repository", "edu.middlebury.harmoni", "string");
 		}
 		
 		return $this->_type;

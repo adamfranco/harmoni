@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.7 2005/07/18 14:45:26 gabeschine Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.8 2005/08/01 20:04:20 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -132,7 +132,7 @@ class HarmoniPartStructure extends PartStructure
 	function &getType () { 
 		if (!isset($this->_type)) {
 			$type = $this->_schemaField->getType();
-			$this->_type =& new HarmoniType("Repository", "Harmoni", $type);
+			$this->_type =& new HarmoniType("Repository", "edu.middlebury.harmoni", $type);
 		}
 		
 		return $this->_type;

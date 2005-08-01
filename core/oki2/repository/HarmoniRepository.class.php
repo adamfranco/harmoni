@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.29 2005/07/18 20:02:20 gabeschine Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.30 2005/08/01 20:04:20 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -79,7 +79,7 @@ class HarmoniRepository
 		$this->_registerSearchTypes();
 		
 		// Define the type to use as a key for Identifying DRs
-		$this->_repositoryKeyType =& new HarmoniType("Repository", "Harmoni", 
+		$this->_repositoryKeyType =& new HarmoniType("Repository", "edu.middlebury.harmoni", 
 							"Repository", "Nodes with this type are by definition Repositories.");
 		
 		// Set up an array of created RecordStructures so we can pass out references to them.
@@ -1235,21 +1235,21 @@ class HarmoniRepository
 		
 		// classname => type obj
 		
-		$this->_searchTypes["AssetTypeSearch"] =& new HarmoniType("Repository","Harmoni","AssetType", "Select all asset's of the specified Type.");
+		$this->_searchTypes["AssetTypeSearch"] =& new HarmoniType("Repository","edu.middlebury.harmoni","AssetType", "Select all asset's of the specified Type.");
 		
-		$this->_searchTypes["RootAssetSearch"] =& new HarmoniType("Repository","Harmoni","RootAssets", "Search for just the 'root' 
+		$this->_searchTypes["RootAssetSearch"] =& new HarmoniType("Repository","edu.middlebury.harmoni","RootAssets", "Search for just the 'root' 
 											or 'top level' assets which are not assets of other assets.");
 		
-		$this->_searchTypes["DisplayNameSearch"] =& new HarmoniType("Repository","Harmoni","DisplayName", "Search with a regular expression
+		$this->_searchTypes["DisplayNameSearch"] =& new HarmoniType("Repository","edu.middlebury.harmoni","DisplayName", "Search with a regular expression
 												string in the Asset DisplayName.");
 
-		$this->_searchTypes["DescriptionSearch"] =& new HarmoniType("Repository","Harmoni","Description", "Search with a regular expression
+		$this->_searchTypes["DescriptionSearch"] =& new HarmoniType("Repository","edu.middlebury.harmoni","Description", "Search with a regular expression
 												string in the Asset Description.");
 
-		$this->_searchTypes["ContentSearch"] =& new HarmoniType("Repository","Harmoni","Content", "Search with a regular expression
+		$this->_searchTypes["ContentSearch"] =& new HarmoniType("Repository","edu.middlebury.harmoni","Content", "Search with a regular expression
 												string in the Asset Content.");
 
-		$this->_searchTypes["AllCustomFieldsSearch"] =& new HarmoniType("Repository","Harmoni","AllCustomStructures", "Search with a regular expression
+		$this->_searchTypes["AllCustomFieldsSearch"] =& new HarmoniType("Repository","edu.middlebury.harmoni","AllCustomStructures", "Search with a regular expression
 								string in the custom RecordStructures for each Asset.");
 	}
 

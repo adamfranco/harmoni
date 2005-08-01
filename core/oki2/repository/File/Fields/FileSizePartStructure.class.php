@@ -21,7 +21,7 @@ require_once(OKI2."/osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePartStructure.class.php,v 1.4 2005/01/27 16:12:18 adamfranco Exp $ 
+ * @version $Id: FileSizePartStructure.class.php,v 1.5 2005/08/01 20:04:23 adamfranco Exp $ 
  */
 class FileSizePartStructure 
 	extends PartStructure
@@ -100,7 +100,7 @@ class FileSizePartStructure
 	 */
 	function &getType() {
 		if (!isset($this->_type)) {
-			$this->_type =& new HarmoniType("Repository", "Harmoni", "integer");
+			$this->_type =& new HarmoniType("Repository", "edu.middlebury.harmoni", "integer");
 		}
 		
 		return $this->_type;

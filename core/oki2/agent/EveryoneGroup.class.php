@@ -16,7 +16,7 @@ require_once(dirname(__FILE__)."/HarmoniGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EveryoneGroup.class.php,v 1.2 2005/05/19 17:25:48 thebravecowboy Exp $
+ * @version $Id: EveryoneGroup.class.php,v 1.3 2005/08/01 20:02:48 adamfranco Exp $
  */
 class EveryoneGroup
 	extends HarmoniGroup
@@ -33,7 +33,7 @@ class EveryoneGroup
 		$idManager =& Services::getService("Id");
 		$id =& $idManager->getId("-1");
 		
-		$type =& new Type("Agents", "Harmoni", "Any/Anonymous", 
+		$type =& new Type("Agents", "edu.middlebury.harmoni", "Any/Anonymous", 
 			_("Special users that can represent anyone or unknown users."));
 		
 		$propertiesArray = array();

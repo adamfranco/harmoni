@@ -48,7 +48,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.27 2005/07/14 20:15:05 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.28 2005/08/01 20:02:48 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -186,12 +186,12 @@ class HarmoniAgentManager
 		
 		// initialize our Agent Search Types
 		$this->_agentSearches = array ();
-		$this->_agentSearches["Agent & Group Search::Middlebury::TokenSearch"] =&
+		$this->_agentSearches["Agent & Group Search::edu.middlebury.harmoni::TokenSearch"] =&
 			new TokenSearch;
 		
 		// initialize our Group Search Types
 		$this->_groupSearches = array ();
-		$this->_groupSearches["Agent & Group Search::Middlebury::AncestorGroups"] =&
+		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::AncestorGroups"] =&
 			new AncestorGroupSearch ($this->_dbIndex);
 	}
 

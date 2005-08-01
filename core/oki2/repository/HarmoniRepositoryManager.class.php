@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.26 2005/08/01 19:04:35 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.27 2005/08/01 20:04:21 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -61,7 +61,7 @@ class HarmoniRepositoryManager
 		
 		
 		// Define the type to use as a key for Identifying repositories
-		$this->_repositoryKeyType =& new HarmoniType("Repository", "Harmoni", 
+		$this->_repositoryKeyType =& new HarmoniType("Repository", "edu.middlebury.harmoni", 
 							"Repository", "Nodes with this type are by definition Repositories.");
 		
 		// Cache any created repositories so that we can pass out references to them.
@@ -85,7 +85,7 @@ class HarmoniRepositoryManager
 			$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure(
 																	$schema);
 			// Add the parts to the schema
-//			$partStructureType = new Type("Repository", "Harmoni", "Blob", "");
+//			$partStructureType = new Type("Repository", "edu.middlebury.harmoni", "Blob", "");
 //			$this->_createdRecordStructures[$schema->getID()]->createPartStructure(
 //																"Content",
 //																"The binary content of the Asset",

@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDataPartStructure.class.php,v 1.3 2005/01/27 16:12:18 adamfranco Exp $ 
+ * @version $Id: ThumbnailDataPartStructure.class.php,v 1.4 2005/08/01 20:04:23 adamfranco Exp $ 
  */
 class ThumbnailDataPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -98,7 +98,7 @@ class ThumbnailDataPartStructure extends PartStructure
 	 */
 	function &getType() {
 		if (!isset($this->_type)) {
-			$this->_type =& new HarmoniType("Repository", "Harmoni", "blob");
+			$this->_type =& new HarmoniType("Repository", "edu.middlebury.harmoni", "blob");
 		}
 		
 		return $this->_type;

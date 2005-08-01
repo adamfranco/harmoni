@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.20 2005/07/19 18:52:45 ndhungel Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.21 2005/08/01 20:04:20 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -378,7 +378,7 @@ class HarmoniRecordStructure
 		
 		$typeMgr =& Services::getService("DataTypeManager");
 		foreach ($typeMgr->getRegisteredTypes() as $dataType) {
-			$types[] =& new HarmoniType ("Repository","Harmoni",$dataType);
+			$types[] =& new HarmoniType ("Repository","edu.middlebury.harmoni",$dataType);
 		}
 		
 		$typeIterator =& new HarmoniTypeIterator($types);

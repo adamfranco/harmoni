@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.15 2005/07/12 18:11:07 ndhungel Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.16 2005/08/01 20:04:19 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -450,7 +450,7 @@ class HarmoniAuthenticationManager
 			$agentManager =& Services::getService("Agent");
 			$agent =& $agentManager->createAgent(
 				$authNTokens->getIdentifier(),
-				new Type ("Authentication", "Harmoni", "User"),
+				new Type ("Authentication", "edu.middlebury.harmoni", "User"),
 				$properties);
 				
 			// Create the mapping

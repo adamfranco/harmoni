@@ -21,7 +21,7 @@ require_once(OKI2."/osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPartStructure.class.php,v 1.3 2005/01/26 22:44:10 adamfranco Exp $ 
+ * @version $Id: FileDataPartStructure.class.php,v 1.4 2005/08/01 20:04:22 adamfranco Exp $ 
  */
 class FileDataPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -100,7 +100,7 @@ class FileDataPartStructure extends PartStructure
 	 */
 	function &getType() {
 		if (!isset($this->_type)) {
-			$this->_type =& new HarmoniType("Repository", "Harmoni", "blob");
+			$this->_type =& new HarmoniType("Repository", "edu.middlebury.harmoni", "blob");
 		}
 		
 		return $this->_type;
