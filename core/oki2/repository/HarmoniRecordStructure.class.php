@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.21 2005/08/01 20:04:20 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.22 2005/08/03 17:36:41 gabeschine Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -332,7 +332,7 @@ class HarmoniRecordStructure
 	 *
 	 * @return object PartStructure The newly created PartStructure.
 	 */
-	function createPartStructure($displayName, $description, &$partType, $isMandatory, $isRepeatable, $isPopulatedByRepository, $id=null) {
+	function createPartStructure($displayName, $description, &$partType, $isMandatory, $isRepeatable, $isPopulatedByRepository, $theid=null) {
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 		ArgumentValidator::validate($partType, ExtendsValidatorRule::getRule("Type"));
@@ -340,12 +340,13 @@ class HarmoniRecordStructure
 		ArgumentValidator::validate($isRepeatable, BooleanValidatorRule::getRule());
 		ArgumentValidator::validate($isPopulatedByRepository, BooleanValidatorRule::getRule());
 		
-		if ($id == null) {
+		if ($theid == null) {
 			$idManager =& Services::getService("Id");
 			$id =& $idManager->createId();
 			$label = $id->getIdString();
 		} else {
 			// check if this ID follows our Schema's ID
+			$id =& $theid;
 			if (strpos($id->getIdString(), $this->_schema->getID()) != 0) {
 				throwError(new Error("Could not create PartStructure -- the passed ID does not conform to the Schema's internal ID: ".$this->_schema->getID(), "Repository", true));
 			}

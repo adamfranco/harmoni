@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/OrderedSet.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.12 2005/04/21 21:37:48 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.13 2005/08/03 17:36:42 gabeschine Exp $
  * @author Adam Franco
  */
  
@@ -47,13 +47,12 @@ class OrderedSet
 	/**
 	 * Constructor.
 	 * @param object Id $setId The Id of this set.
- 	 * @param optional integer $dbIndex The index of the database connection which has
+ 	 * @param integer $dbIndex The index of the database connection which has
 	 * 		tables in which to store the set.
 	 */
-	function OrderedSet ( & $setId, $dbIndex = NULL ) {
+	function OrderedSet ( & $setId, $dbIndex ) {
 		ArgumentValidator::validate($setId, ExtendsValidatorRule::getRule("Id"), true);
-//		if ($dbIndex !== NULL)
-			ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
+		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		
 		// Create our internal array
 		$this->_items = array();

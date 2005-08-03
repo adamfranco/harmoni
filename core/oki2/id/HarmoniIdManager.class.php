@@ -41,7 +41,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdManager.class.php,v 1.19 2005/07/19 20:32:31 ndhungel Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.20 2005/08/03 17:36:43 gabeschine Exp $
  */
 
 class HarmoniIdManager
@@ -54,46 +54,6 @@ class HarmoniIdManager
 	 * @access private
 	 */
 	var $_dbIndex;
-
-	
-	/**
-	 * The name of the shared database.
-	 * @var string _sharedD 
-	 * @access private
-	 */
-	var $_sharedDB;
-	
-	
-	/**
-	 * An array that will store the cached agent objects.
-	 * @var array _agentsCache 
-	 * @access private
-	 */
-	var $_agentsCache;
-	
-	
-	/**
-	 * An array that will store the cached group objects.
-	 * @var array _groupsCache 
-	 * @access private
-	 */
-	var $_groupsCache;
-	
-	
-	/**
-	 * Will be set to true if all agents have been cached;
-	 * @var boolean _allAgentsCached 
-	 * @access private
-	 */
-	var $_allAgentsCached;
-	
-	
-	/**
-	 * Will be set to true if all groups have been cached;
-	 * @var boolean _allAgentsCached 
-	 * @access private
-	 */
-	var $_allGroupsCached;
 	
 	
 	/**
@@ -115,7 +75,7 @@ class HarmoniIdManager
 		$this->_prefix = '';
 	}
 	
-		/**
+	/**
 	 * Assign the configuration of this Manager. Valid configuration options are as
 	 * follows:
 	 *	database_index			integer
@@ -199,7 +159,7 @@ class HarmoniIdManager
 	 * 
 	 * @access public
 	 */
-	function &createId () { 
+	function createId () { 
 		debug::output("Attempting to generate new id.", 20, "IdManager");
 		$dbHandler =& Services::getService("DatabaseManager");
 		
@@ -221,7 +181,7 @@ class HarmoniIdManager
 		$id =& new HarmoniId($newID);
 		
 		// cache the id
-		$this->_ids[$newID] =& $id;
+//		$this->_ids[$newID] = $id;
 		
 		return $id;
 	}
@@ -246,15 +206,16 @@ class HarmoniIdManager
 	 * 
 	 * @access public
 	 */
-	function &getId ( $idString ) { 
-		if (isset($this->_ids[$idString])) {
-			return $this->_ids[$idString];
-		}
+	function getId ( $idString ) { 
+//		if (isset($this->_ids[$idString])) {
+//			print "id:". $idString." and ".$this->_ids[$idString]->getIdString()."<br/>";
+//			return $this->_ids[$idString];
+//		}
 			
-		$id =& new HarmoniId($idString);
+		$id = new HarmoniId($idString);
 			
 		// cache the id
-		$this->_ids[$idString] =& $id;
+//		$this->_ids[$idString] = $id;
 		return $id;
 	}
 }

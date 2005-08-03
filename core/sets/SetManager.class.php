@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SetManager.class.php,v 1.10 2005/04/04 18:02:02 adamfranco Exp $
+ * @version $Id: SetManager.class.php,v 1.11 2005/08/03 17:36:41 gabeschine Exp $
  */
 class SetManager {
 	
@@ -111,7 +111,6 @@ class SetManager {
 	 */
 	function &getSet ( & $id ) {
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
-		
 		if (!isset($this->_sets[$id->getIdString()])) {
 			$this->_sets[$id->getIdString()] =& new OrderedSet($id, $this->_dbIndex);
 		}
