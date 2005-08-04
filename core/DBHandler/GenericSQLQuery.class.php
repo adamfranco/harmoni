@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GenericSQLQuery.class.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: GenericSQLQuery.class.php,v 1.7 2005/08/04 13:47:29 adamfranco Exp $
  */
 require_once("GenericSQLQuery.interface.php");
 
@@ -21,7 +21,7 @@ require_once("GenericSQLQuery.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GenericSQLQuery.class.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: GenericSQLQuery.class.php,v 1.7 2005/08/04 13:47:29 adamfranco Exp $
  */
 
 class GenericSQLQuery extends GenericSQLQueryInterface {
@@ -40,8 +40,9 @@ class GenericSQLQuery extends GenericSQLQueryInterface {
 	 * @access public
 	 */
 	function GenericSQLQuery($sql=null) {
-		if ($sql) $this->addSQLQuery($sql);
 		$this->reset();
+		if ($sql) 
+			$this->addSQLQuery($sql);
 	}
 
 	
