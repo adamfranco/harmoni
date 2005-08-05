@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.9 2005/06/09 17:21:38 gabeschine Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.10 2005/08/05 18:32:45 gabeschine Exp $
  */
 
 class AncestorGroupSearch
@@ -68,15 +68,15 @@ class AncestorGroupSearch
 		$groupIds = array();
 		
 		// Add the Everyone Group
-		$groupIds[] = "-1";
+		$groupIds[] = "edu.middlebury.agents.everyone";
 		
 		// Add the Users Group, only if we are not searching for either Anonymous (0)
 		// or Everyone (-1)
-		$ignore = array("0","-1"); $ok = true;
+		$ignore = array("edu.middlebury.agents.anonymous","edu.middlebury.agents.everyone"); $ok = true;
 		foreach ($ignore as $idString) {
 			if ($idString == $groupOrAgentId) $ok = false;
 		}
-		if ($ok) $groupIds[] = "-2";
+		if ($ok) $groupIds[] = "edu.middlebury.agents.users";
 		
 		// first look in the group_agent table to see if our requested Id is
 		// an agent and if so what groups it is a member of. If these exist,

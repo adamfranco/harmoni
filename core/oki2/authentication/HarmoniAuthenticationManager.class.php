@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.16 2005/08/01 20:04:19 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.17 2005/08/05 18:32:45 gabeschine Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -325,7 +325,7 @@ class HarmoniAuthenticationManager
 		
 		// Otherwise return Id == 0 for the "anonymous user"
 		} else {
-			return $idManager->getId("0");
+			return $idManager->getId("edu.middlebury.agents.anonymous");
 		}
 	}
 

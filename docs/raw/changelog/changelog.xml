@@ -3,12 +3,15 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.88 2005/07/18 21:41:25 gabeschine Exp $
+ @version $Id: changelog.xml,v 1.89 2005/08/05 18:32:45 gabeschine Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.4.0" date="The Nebulous Future">
+		<change author='gabe'>
+			Changed OKI agent management to use new Everyone/Anonymous/Users IDs.
+		</change>
 		<new author='gabe'>
 			Added EventListener and EventTrigger to allow easy extensions of our code later.
 		</new>

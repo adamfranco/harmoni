@@ -48,7 +48,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.28 2005/08/01 20:02:48 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.29 2005/08/05 18:32:44 gabeschine Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -180,9 +180,9 @@ class HarmoniAgentManager
 		$this->_anonymous =& new AnonymousAgent($this->_dbIndex, $this->_sharedDB);
 		$this->_everyone =& new EveryoneGroup($this->_dbIndex, $this->_sharedDB);
 		$this->_users =& new UsersGroup($this->_dbIndex, $this->_sharedDB);
-		$this->_agentsCache["0"] =& $this->_anonymous;
-		$this->_groupsCache["-1"] =& $this->_everyone;
-		$this->_groupsCache["-2"] =& $this->_users;
+		$this->_agentsCache["edu.middlebury.agents.anonymous"] =& $this->_anonymous;
+		$this->_groupsCache["edu.middlebury.agents.everyone"] =& $this->_everyone;
+		$this->_groupsCache["edu.middlebury.agents.users"] =& $this->_users;
 		
 		// initialize our Agent Search Types
 		$this->_agentSearches = array ();
