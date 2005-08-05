@@ -1,30 +1,33 @@
 <?php
 
-require_once(dirname(__FILE__)."/OrderedSet.interface.php");
+/**
+ * @package harmoni.sets
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: OrderedSet.class.php,v 1.14 2005/08/05 16:22:30 adamfranco Exp $
+ */ 
+
+require_once(HARMONI."Primitives/Objects/SObject.class.php");
 
 /**
- * The Set provides an implementation of the set interface that stores the
- * sets of ids in a database. Note: Nothing should be implied in the order that
- * the ids are returned.
- * Sets provide for the easy storage of groups of ids.
+ * The OrderedSet provides an easy way to manage a group of Ids.
+ * This set is not persistant. Please see the {@link TempOrderedSet} and the
+ * {@link PersistentOrderedSet} for persisting sets.
  *
  * @package  harmoni.sets
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.13 2005/08/03 17:36:42 gabeschine Exp $
+ * @version $Id: OrderedSet.class.php,v 1.14 2005/08/05 16:22:30 adamfranco Exp $
  * @author Adam Franco
  */
  
 class OrderedSet 
-	extends OrderedSetInterface {
-	
-	/**
-	 * @var int $_dbIndex The dbIndex where this set is stored.
-	 * @access private
-	 */
-	var $_dbIndex;
+	extends SObject
+{
 	
 	/**
 	 * @var int $_i The current posititon.
@@ -47,55 +50,27 @@ class OrderedSet
 	/**
 	 * Constructor.
 	 * @param object Id $setId The Id of this set.
- 	 * @param integer $dbIndex The index of the database connection which has
-	 * 		tables in which to store the set.
 	 */
-	function OrderedSet ( & $setId, $dbIndex ) {
+	function OrderedSet ( &$setId ) {
 		ArgumentValidator::validate($setId, ExtendsValidatorRule::getRule("Id"), true);
-		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		
 		// Create our internal array
 		$this->_items = array();
 		$this->_setId =& $setId;
-		$this->_dbIndex = $dbIndex;
 		$this->_i = -1;
 		
-		// populate our array with any previously stored items.
-		$query =& new SelectQuery;
-		$query->addColumn("sets.item_order", "item_order");
-		$query->addColumn("sets.item_id", "item_id");
-		$query->addTable("sets");
-		$query->addWhere("sets.id = '".addslashes($this->_setId->getIdString())."'");
-		$query->addOrderBy("sets.item_order");
-		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query, $this->_dbIndex);
-		
-		$i = 0;
-		$oldItems = array();
-		while ($result->hasMoreRows()) {
-			// Add the items to our array
-			$this->_items[$i] = $result->field("item_id");
-			
-			// Store an array of the order-key/value relationships to reference
-			// when updating any inconsistancies in order numbering.
-			$oldItems[$result->field("item_order")] = $result->field("item_id");
-									
-			$i++;
-			$result->advanceRow();
-		}
-		
-
-		// Make sure that we have our set is filled from 0 to count()
-		reset($oldItems);
-		$this->_updateOrders($oldItems);
-		
-		// get a reference to the shared manager so we don't have to keep getting
-		// it.
-		if (OKI_VERSION > 1)
-			$this->_idManager =& Services::getService("Id");
-		else
-			$this->_idManager =& Services::getService("Shared");
+		$this->_idManager =& Services::getService("Id");
+	}
+	
+	/**
+	 * Answer the id of this set
+	 * 
+	 * @return object Id
+	 * @access public
+	 * @since 8/5/05
+	 */
+	function &getId () {
+		return $this->_setId;
 	}
 	
 	/**
@@ -152,18 +127,6 @@ class OrderedSet
 		// Add the item to our internal list
 		$position = $this->count();
 		$this->_items[$position] = $id->getIdString();
-		$key = array_search($id->getIdString(), $this->_items);
-		
-		// Add the item to the database
-		$query =& new InsertQuery;
-		$query->setTable("sets");
-		$columns = array("sets.id", "sets.item_id", "sets.item_order");
-		$values = array("'".addslashes($this->_setId->getIdString())."'", "'".addslashes($id->getIdString())."'", "'".$position."'");
-		$query->setColumns($columns);
-		$query->setValues($values);
-		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$dbHandler->query($query, $this->_dbIndex);
 	}
 	
 	/**
@@ -183,18 +146,6 @@ class OrderedSet
 		
 		// Remove the item from our internal list
 		unset ($this->_items[$this->count()-1]);
-		
-		// update the database with the new order keys.
-		$this->_updateOrders($savedItems);
-		
-		// Remove the item from the database
-		$query =& new DeleteQuery;
-		$query->setTable("sets");
-		$query->addWhere("sets.id='".addslashes($this->_setId->getIdString())."'");
-		$query->addWhere("sets.item_id='".addslashes($id->getIdString())."'");
-		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$dbHandler->query($query, $this->_dbIndex);
 	}
 	
 	/**
@@ -203,14 +154,6 @@ class OrderedSet
 	 * @return void
 	 */
 	function removeAllItems () {
-		// Remove the item from the database
-		$query =& new DeleteQuery;
-		$query->setTable("sets");
-		$query->addWhere("sets.id='".addslashes($this->_setId->getIdString())."'");
-				
-		$dbHandler =& Services::getService("DatabaseManager");
-		$dbHandler->query($query, $this->_dbIndex);
-		
 		// Create our internal array
 		$this->_items = array();
 		$this->_i = -1;
@@ -251,7 +194,6 @@ class OrderedSet
 			&& $position >= 0
 			&& $position < $this->count()) {
 			
-			$oldOrder = $this->_items;
 			$previousPosition = $this->getPosition($id);
 			
 			if ($position < $previousPosition) {
@@ -265,8 +207,6 @@ class OrderedSet
 			}
 			
 			$this->_items[$position] = $id->getIdString();
-			
- 			$this->_updateOrders($oldOrder);
 		}
 		
 		if ($position < 0 || $position >= $this->count()) {
@@ -284,12 +224,9 @@ class OrderedSet
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		if (($position = $this->getPosition($id)) > 0) {
-			$oldOrder = $this->_items;
 			$itemBefore = $this->_items[$position-1];
 			$this->_items[$position-1] = $id->getIdString();
 			$this->_items[$position] = $itemBefore;
-			
-			$this->_updateOrders($oldOrder);
 		}
 	}
 	
@@ -303,40 +240,9 @@ class OrderedSet
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		if (($position = $this->getPosition($id)) < ($this->count() - 1)) {
-			$oldOrder = $this->_items;
 			$itemAfter = $this->_items[$position + 1];
 			$this->_items[$position + 1] = $id->getIdString();
 			$this->_items[$position] = $itemAfter;
-			
-			$this->_updateOrders($oldOrder);
-		}
-	}
-	
-	/**
-	 * Update the orders of the ids in the database.
-	 * @param array $oldOrders The previous orders to compare so that only 
-	 *		updates will be done to changed orders.
-	 * @access private
-	 * @return void
-	 */
-	function _updateOrders ( $oldOrders ) {
-		$dbHandler =& Services::getService("DatabaseManager");
-
-		foreach ($this->_items as $key => $val) {
-			// If the old key-value pairs don't match the current ones, 
-			// update that row
-			if ($oldOrders[$key] != $val) {
-				$query =& new UpdateQuery;
-				$query->setTable("sets");
-				$columns = array("sets.item_order");
-				$query->setColumns($columns);
-				$values = array($key);
-				$query->setValues($values);
-				$query->addWhere("sets.id = '".addslashes($this->_setId->getIdString())."'");
-				$query->addWhere("sets.item_id = '".addslashes($val)."'");
-				
-				$dbHandler->query($query);
-			}
 		}
 	}
 }

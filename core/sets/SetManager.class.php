@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__)."/OrderedSet.class.php");
+require_once(dirname(__FILE__)."/PersistentOrderedSet.class.php");
 
 /**
  * The SetManager maintains a configuration and retreives Sets with that 
@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SetManager.class.php,v 1.11 2005/08/03 17:36:41 gabeschine Exp $
+ * @version $Id: SetManager.class.php,v 1.12 2005/08/05 16:22:31 adamfranco Exp $
  */
 class SetManager {
 	
@@ -25,7 +25,7 @@ class SetManager {
 	 * @var array $_sets; An array of created Set objects 
 	 * @access private
 	 */
-	var $_sets;
+	var $_persistentSets;
 	
 	/**
 	 * The constructor
@@ -35,7 +35,12 @@ class SetManager {
 	 * @since 6/28/04
 	 */
 	function SetManager () {
-		$this->_sets = array ();
+		$this->_persistentSets = array ();
+		if (!isset($_SESSION['__temporarySets']) 
+			|| !is_array($_SESSION['__temporarySets']))
+		{
+			$_SESSION['__temporarySets'] = array();
+		}
 	}
 	
 
@@ -109,13 +114,14 @@ class SetManager {
 	 * @access public
 	 * @since 6/28/04
 	 */
-	function &getSet ( & $id ) {
+	function &getPersistentSet ( & $id ) {
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
-		if (!isset($this->_sets[$id->getIdString()])) {
-			$this->_sets[$id->getIdString()] =& new OrderedSet($id, $this->_dbIndex);
+		if (!isset($this->_persistentSets[$id->getIdString()])) {
+			$this->_persistentSets[$id->getIdString()] =& new PersistentOrderedSet(
+															$id, $this->_dbIndex);
 		}
 		
-		return $this->_sets[$id->getIdString()];
+		return $this->_persistentSets[$id->getIdString()];
 	}
 	
 	/**
@@ -126,11 +132,65 @@ class SetManager {
 	 * @access public
 	 * @since 6/28/04
 	 */
-	function deleteSet ( & $id ) {
-		$set =& $this->getSet($id);
+	function deletePersistentSet ( & $id ) {
+		$set =& $this->getPersistentSet($id);
 		$set->removeAllItems();
 	}
-
+	
+	/**
+	 * Get a Set object of the specified Id. The Set does not have to have been
+	 * created previously and any changes to the set will be persisted 
+	 * automatically for the remainder of the SESSION.
+	 * 
+	 * @param object Id $id The Id of the set to get.
+	 * @return object SetInterface
+	 * @access public
+	 * @since 6/28/04
+	 */
+	function &getTemporarySet ( & $id ) {
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
+		if (!isset($_SESSION['__temporarySets'][$id->getIdString()])) {
+			$_SESSION['__temporarySets'][$id->getIdString()] =& new OrderedSet($id);
+		}
+		
+		return $_SESSION['__temporarySets'][$id->getIdString()];
+	}
+	
+	/**
+	 * Remove all of the items from the set, thereby deleting it.
+	 * 
+	 * @param object Id $id The Id of the Set to delete.
+	 * @return void
+	 * @access public
+	 * @since 6/28/04
+	 */
+	function deleteTemporarySet ( & $id ) {
+		$set =& $this->getTemporarySet($id);
+		$set->removeAllItems();
+	}
+	
+	/**
+	 * Persist a Set and return the new persistent version of it. If A persistent
+	 * Set of the same Id already exists, the new one will replace it.
+	 * 
+	 * @param object OrderedSet $set
+	 * @return object PersistentOrderedSet
+	 * @access public
+	 * @since 8/5/05
+	 */
+	function &persist ( &$set ) {
+		$persistentSet =& $this->getPersistentSet($set->getId());
+		
+		if ($persistentSet->isNotEqualTo($set)) {
+			$persistentSet->removeAllItems();
+			
+			$set->reset();
+			while($set->hasNext()) {
+				$persistentSet->addItem($set->next());
+			}
+		}
+		return $persistentSet;
+	}
 }
 
 ?>
