@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+/**
+ * This DTD defines a document for use in importing image files containing EXIF
+ * data. The "importSchema" defined here-in itself defines an association between
+ * RecordStructures and their component PartStructures in the Repository, and the EXIF
+ * elements whose values will be imported into those PartStructures.
+ *
+ * The importSchema can pull EXIF elements multiple times in order to populate
+ * multiple PartStructures within a single RecordStructure, as well as those within 
+ * multiple RecordStructures.
+ *
+ * @package harmoni.dtds
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ * @version $Id: ExifImportSchema.dtd,v 1.1 2005/08/08 16:42:50 adamfranco Exp $
+ *
+ */
+ -->
+
+<!DOCTYPE ExifImportSchema [
+	<!ELEMENT ExifImportSchema 		(recordStructure*)>
+	<!ELEMENT recordStructure 	(id,name,partStructure*)>
+	<!ELEMENT id				(#PCDATA)>
+	<!ELEMENT name				(#PCDATA)>
+	<!ELEMENT partStructure		(id,name,value)>
+	<!ELEMENT value				(exifElement|text)*>
+	<!ELEMENT exifElement		(#PCDATA)>
+	<!ELEMENT text				(#PCDATA)>
+]>
