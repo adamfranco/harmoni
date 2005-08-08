@@ -7,7 +7,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_shared.sql,v 1.9 2005/05/19 17:25:48 thebravecowboy Exp $
+-- @version $Id: MySQL_shared.sql,v 1.10 2005/08/08 22:35:16 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -19,7 +19,9 @@ CREATE TABLE shared_properties (
   id int(10) unsigned NOT NULL auto_increment,
   fk_type int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -32,7 +34,9 @@ CREATE TABLE shared_property (
   property_key varchar(255) NOT NULL default '',
   property_value text NOT NULL,
   PRIMARY KEY  (fk_properties,property_key)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -50,5 +54,7 @@ CREATE TABLE type (
   KEY domain (type_domain),
   KEY authority (type_authority),
   KEY keyword (type_keyword)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
         

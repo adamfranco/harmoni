@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_dataManager.sql,v 1.17 2005/07/18 20:58:37 gabeschine Exp $
+-- @version $Id: MySQL_dataManager.sql,v 1.18 2005/08/08 22:35:16 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -16,7 +16,9 @@ CREATE TABLE dm_blob (
   id varchar(75) NOT NULL default '0',
   data blob NOT NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -28,7 +30,9 @@ CREATE TABLE dm_boolean (
   id varchar(75) NOT NULL default '0',
   data tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -40,7 +44,9 @@ CREATE TABLE dm_float (
   id varchar(75) NOT NULL default '0',
   data double NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -54,7 +60,9 @@ CREATE TABLE dm_fuzzydate (
   range bigint(20) unsigned NOT NULL default '0',
   string varchar(255) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -66,7 +74,9 @@ CREATE TABLE dm_integer (
   id varchar(75) NOT NULL default '0',
   data bigint(20) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -80,7 +90,9 @@ CREATE TABLE dm_okitype (
   authority varchar(255) NOT NULL default '',
   keyword varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -95,7 +107,9 @@ CREATE TABLE dm_record (
   ver_control tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY fk_schema (fk_schema)
-) TYPE=MyISAM;
+)
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -116,7 +130,9 @@ CREATE TABLE dm_record_field (
   KEY fk_schema_field (fk_schema_field),
   KEY fk_data (fk_data),
   KEY active (active)
-) TYPE=MyISAM;
+)
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -130,7 +146,9 @@ CREATE TABLE dm_record_set (
   PRIMARY KEY  (fk_record,id),
   KEY id (id),
   KEY fk_record (fk_record)
-) TYPE=MyISAM;
+)
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -145,7 +163,9 @@ CREATE TABLE dm_schema (
   revision int(8) unsigned NOT NULL default '0',
   other_params blob,
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -164,7 +184,9 @@ CREATE TABLE dm_schema_field (
   description tinytext NOT NULL,
   PRIMARY KEY  (id),
   KEY fk_schema (fk_schema)
-) TYPE=MyISAM;
+)
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -176,7 +198,9 @@ CREATE TABLE dm_shortstring (
   id varchar(75) NOT NULL default '0',
   data varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+)
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -188,7 +212,9 @@ CREATE TABLE dm_string (
   id varchar(75) NOT NULL default '0',
   data text NOT NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -203,7 +229,9 @@ CREATE TABLE dm_tag (
   PRIMARY KEY  (id),
   KEY fk_record (fk_record),
   KEY date (date)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -216,7 +244,9 @@ CREATE TABLE dm_tag_map (
   fk_record_field bigint(20) unsigned NOT NULL default '0',
   KEY fk_tag (fk_tag),
   KEY fk_record_field (fk_record_field)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -232,5 +262,7 @@ CREATE TABLE dm_time (
   PRIMARY KEY  (id),
   KEY jdn (jdn),
   KEY jdn_sec (jdn,seconds)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
         

@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_hierarchy.sql,v 1.6 2005/04/20 21:07:43 adamfranco Exp $
+-- @version $Id: MySQL_hierarchy.sql,v 1.7 2005/08/08 22:35:16 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -20,7 +20,9 @@ CREATE TABLE hierarchy (
   PRIMARY KEY  (hierarchy_id),
   KEY hierarchy_display_name (hierarchy_display_name),
   KEY hierarchy_multiparent (hierarchy_multiparent)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -34,7 +36,9 @@ CREATE TABLE j_node_node (
   PRIMARY KEY  (fk_parent,fk_child),
   KEY fk_parent (fk_parent),
   KEY fk_child (fk_child)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -52,5 +56,7 @@ CREATE TABLE node (
   KEY node_display_name (node_display_name),
   KEY fk_hierarchy (fk_hierarchy),
   KEY fk_type (fk_type)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
         

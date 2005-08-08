@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_DigitalRepository.sql,v 1.7 2005/07/18 14:45:25 gabeschine Exp $
+-- @version $Id: MySQL_DigitalRepository.sql,v 1.8 2005/08/08 22:35:16 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -17,7 +17,9 @@ CREATE TABLE dr_asset_info (
   effective_date datetime default '0000-00-00 00:00:00',
   expiration_date datetime default '0000-00-00 00:00:00',
   PRIMARY KEY  (asset_id)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -30,7 +32,9 @@ CREATE TABLE dr_asset_record (
   FK_record varchar(75) NOT NULL default '0',
   structure_id varchar(75) NOT NULL default '',
   PRIMARY KEY  (structure_id,FK_asset,FK_record)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -44,7 +48,9 @@ CREATE TABLE dr_file (
   FK_mime_type int(10) unsigned default NULL,
   size int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -56,7 +62,9 @@ CREATE TABLE dr_file_data (
   FK_file varchar(75) NOT NULL default '0',
   data longblob NOT NULL,
   PRIMARY KEY  (FK_file)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -68,7 +76,9 @@ CREATE TABLE dr_mime_type (
   id int(10) unsigned NOT NULL auto_increment,
   type varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -81,7 +91,9 @@ CREATE TABLE dr_repository_type (
   fk_dr_type int(11) NOT NULL default '0',
   PRIMARY KEY  (repository_id),
   KEY fk_dr_type (fk_dr_type)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -94,7 +106,9 @@ CREATE TABLE dr_thumbnail (
   FK_mime_type int(10) unsigned default NULL,
   data mediumblob NOT NULL,
   PRIMARY KEY  (FK_file)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -110,4 +124,6 @@ CREATE TABLE dr_type (
   type_description text NOT NULL,
   PRIMARY KEY  (type_id),
   UNIQUE KEY uniq (type_domain,type_authority,type_keyword)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;

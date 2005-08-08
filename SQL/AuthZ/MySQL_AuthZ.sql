@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_AuthZ.sql,v 1.4 2005/04/20 21:07:42 adamfranco Exp $
+-- @version $Id: MySQL_AuthZ.sql,v 1.5 2005/08/08 22:35:16 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -26,7 +26,9 @@ CREATE TABLE az_authorization (
   KEY fk_qualifier (fk_qualifier),
   KEY authorization_effective_date (authorization_effective_date),
   KEY authorization_expiration_date (authorization_expiration_date)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -44,4 +46,6 @@ CREATE TABLE az_function (
   KEY function_display_name (function_reference_name),
   KEY fk_qualifier_hierarchy_id (fk_qualifier_hierarchy),
   KEY fk_type (fk_type)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
