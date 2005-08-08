@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Dearchiver.class.php,v 1.4 2005/07/26 21:27:41 cws-midd Exp $
+ * @version $Id: Dearchiver.class.php,v 1.5 2005/08/08 13:50:13 cws-midd Exp $
  *
  * @link http://sourceforge.net/projects/concerto
  */ 
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Dearchiver.class.php,v 1.4 2005/07/26 21:27:41 cws-midd Exp $
+ * @version $Id: Dearchiver.class.php,v 1.5 2005/08/08 13:50:13 cws-midd Exp $
  */
 
 require_once("Archive/Tar.php");
@@ -129,7 +129,8 @@ class Dearchiver {
 				unlink($filename);
 				break;
 			case "zip":
-				unzip(dirname($filename), basename($filename), $path, 0700);
+				$this->unzip(dirname($filename), basename($filename), $path,
+					0700);
 				unlink($filename);
 				break;
 			case "gz":
