@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: MySQL_Agent.sql,v 1.6 2005/05/19 17:25:06 thebravecowboy Exp $
+-- @version $Id: MySQL_Agent.sql,v 1.7 2005/08/09 15:06:04 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -21,7 +21,9 @@ CREATE TABLE agent (
   PRIMARY KEY  (agent_id),
   KEY agent_display_name (agent_display_name),
   KEY fk_type (fk_type)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 -- 
@@ -37,7 +39,9 @@ CREATE TABLE `agent_properties` (
   PRIMARY KEY  (`property_id`),
   KEY `fk_object_id` (`fk_object_id`),
   KEY `fk_type_id` (`fk_type_id`)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 
 -- --------------------------------------------------------
@@ -54,7 +58,9 @@ CREATE TABLE groups (
   PRIMARY KEY  (groups_id),
   KEY agent_display_name (groups_display_name),
   KEY fk_type (fk_type)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -66,7 +72,9 @@ CREATE TABLE j_groups_agent (
   fk_groups varchar(75) NOT NULL default '0',
   fk_agent varchar(75) NOT NULL default '0',
   PRIMARY KEY  (fk_groups,fk_agent)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -78,5 +86,7 @@ CREATE TABLE j_groups_groups (
   fk_parent varchar(75) NOT NULL default '0',
   fk_child varchar(75) NOT NULL default '0',
   PRIMARY KEY  (fk_parent,fk_child)
-) TYPE=MyISAM;
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
         
