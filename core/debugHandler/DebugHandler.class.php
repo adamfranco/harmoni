@@ -101,7 +101,7 @@ define("DEBUG_SYS5",15);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DebugHandler.class.php,v 1.8 2005/04/04 19:57:42 adamfranco Exp $
+ * @version $Id: DebugHandler.class.php,v 1.9 2005/08/10 21:10:24 adamfranco Exp $
  **/
 
 class DebugHandler {
@@ -124,7 +124,7 @@ class DebugHandler {
 	 **/
 	function DebugHandler() {
 		$this->_queue = array();
-		$this->_outputLevel = 20;
+		$this->_outputLevel = 0;
 	}
 	
 	/**
