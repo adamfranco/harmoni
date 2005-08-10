@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.10 2005/08/05 18:32:45 gabeschine Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.11 2005/08/10 21:38:33 adamfranco Exp $
  */
 
 class AncestorGroupSearch
@@ -101,11 +101,14 @@ class AncestorGroupSearch
 				$result->advanceRow();
 			}
 		}
+		
+		
 		// If we don't have any rows returned, then the Id is that of
 		// a group or is unknown. Just add the passed Id as the one to check.
 		else {
 			$groupsToCheck[] = addslashes($groupOrAgentId);
 		}
+		$result->free();
 		
 		// Now go through join the possible ancestors onto our starting groups.
 		// These ancestors will then be added to our final list.
@@ -145,6 +148,7 @@ class AncestorGroupSearch
 			
 			$result->advanceRow();
 		}
+		$result->free();
 		
 		// Filter out duplicates and our starting id
 		$groupIds = array_unique($groupIds);

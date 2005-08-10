@@ -48,7 +48,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.30 2005/08/10 21:18:59 gabeschine Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.31 2005/08/10 21:38:33 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -384,6 +384,7 @@ class HarmoniAgentManager
 		if ($queryResult->getNumberOfRows() > 1)
 			throwError(new Error(AgentException::OPERATION_FAILED() ,"AgentManager",true));
 		$typeIdValue = $queryResult->field("type_id");
+		$queryResult->free();
 		
 		//remove the properties of the agent from the database
 		$propertyManager->deleteAllProperties($idValue);
@@ -468,6 +469,8 @@ class HarmoniAgentManager
 												  // vars pointing to this one
 			unset($this->_agentsCache[$idValue]);
 		}
+		
+		$groupsResult->free();
 	}
 
 	/**
@@ -672,6 +675,7 @@ class HarmoniAgentManager
 
 			$queryResult->advanceRow();
 		}
+		$queryResult->free();
 		
 		$result =& new HarmoniTypeIterator($types);
 		return $result;
@@ -768,9 +772,12 @@ class HarmoniAgentManager
 		$query->addWhere($where);
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		if ($queryResult->getNumberOfRows() > 0) // if the type is already in the database
+		if ($queryResult->getNumberOfRows() > 0) {// if the type is already in the database
 			$typeIdValue = $queryResult->field("id"); // get the id
-		else { // if not, insert it
+			$queryResult->free();
+		} else { // if not, insert it
+			$queryResult->free();
+			
 			$query =& new InsertQuery();
 			$query->setTable($db."type");
 			$columns = array();
@@ -872,6 +879,7 @@ class HarmoniAgentManager
 		if ($queryResult->getNumberOfRows() > 1)
 			throwError(new Error(AgentException::OPERATION_FAILED() ,"AgentManager",true));
 		$typeIdValue = $queryResult->field("type_id");
+		$queryResult->free();
 		
 		//3. Delete all properties associated with this id
 		$propertyManager->deleteAllProperties($idValue);
@@ -952,6 +960,7 @@ class HarmoniAgentManager
 												  // vars pointing to this one
 			unset($this->_groupsCache[$idValue]);
 		}
+		$groupsResult->free();
 	}
 
 	/**
@@ -1161,6 +1170,7 @@ class HarmoniAgentManager
 
 			$queryResult->advanceRow();
 		}
+		$queryResult->free();
 		
 		$result =& new HarmoniTypeIterator($types);
 		return $result;
@@ -1395,6 +1405,7 @@ class HarmoniAgentManager
 				}
 			}
 		}
+		$queryResult->free();
 		
 		// Only specify that we are fully cached if we didn't limit the
 		// results
@@ -1461,8 +1472,10 @@ class HarmoniAgentManager
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
-		if ($queryResult->getNumberOfRows() == 0)
+		if ($queryResult->getNumberOfRows() == 0) {
+			$queryResult->free();
 			return;
+		}
 
 		// Now, here is what we need to do.
 		// First of all, in the end, we want to have a Group object, with all 
@@ -1559,6 +1572,9 @@ class HarmoniAgentManager
 					$$propertiesArrayName =& $propertyManager->retrieveProperties($value);
 													
 					$subqueryResult->advanceRow();
+
+// @todo Free the result if we can
+//					$subqueryResult->free();
 					
 					
 //					printpre($$propertiesArrayName);
@@ -1598,7 +1614,8 @@ class HarmoniAgentManager
 			$queryResult->advanceRow();
 		
 		}
-
+		$queryResult->free();
+		
 //		echo "<pre>\n";
 //		print_r($this->_groupsCache);
 //		print_r($this->_agentsCache);
@@ -1668,6 +1685,7 @@ class HarmoniAgentManager
 			$result =& $dbc->query($query, $this->_dbIndex);
 			$typeId = $result->getLastAutoIncrementValue();
 		}
+		$result->free();
 		
 		return $typeId;
 	}

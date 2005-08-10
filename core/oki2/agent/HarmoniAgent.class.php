@@ -17,7 +17,7 @@ require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.14 2005/05/19 17:25:48 thebravecowboy Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.15 2005/08/10 21:38:33 adamfranco Exp $
  */
 class HarmoniAgent 
 	extends Agent
@@ -328,7 +328,9 @@ class HarmoniAgent
 		$query->setWhere($where);
 
 		$queryResult =& $dbHandler->query($query, $agent->getDBIndex());
-		if ($queryResult->getNumberOfRows() == 1)
+		$num = $queryResult->getNumberOfRows();
+		$queryResult->free();
+		if ($num == 1)
 			return true;
 		else
 			return false;

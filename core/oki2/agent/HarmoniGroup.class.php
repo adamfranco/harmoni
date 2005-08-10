@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.16 2005/05/19 17:25:48 thebravecowboy Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.17 2005/08/10 21:38:33 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
@@ -550,7 +550,9 @@ class HarmoniGroup
 		echo "</pre>\n";
 		
 		$queryResult =& $dbHandler->query($query, $group->getDBIndex());
-		if ($queryResult->getNumberOfRows() == 1)
+		$num = $queryResult->getNumberOfRows();
+		$queryResult->free();
+		if ($num == 1)
 			return true;
 		else
 			return false;
