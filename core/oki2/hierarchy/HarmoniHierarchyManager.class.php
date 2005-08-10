@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.17 2005/07/14 19:36:01 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.18 2005/08/10 21:20:10 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -362,6 +362,7 @@ class HarmoniHierarchyManager
 			$hierarchies[$idValue] =& $hierarchy;
 			$queryResult->advanceRow();
 		}
+		$queryResult->free();
 		
 		return new HarmoniHierarchyIterator($hierarchies);
 	}

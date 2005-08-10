@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.14 2005/04/04 18:23:47 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.15 2005/08/10 21:20:10 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
@@ -571,6 +571,7 @@ class HarmoniHierarchy
 
 			$queryResult->advanceRow();
 		}
+		$queryResult->free();
 		
 		$result =& new HarmoniTypeIterator($types);
 		return $result;

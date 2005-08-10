@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.18 2005/07/15 17:40:56 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.19 2005/08/10 21:20:10 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -484,6 +484,7 @@ class HierarchyCache {
 		
 			$nodeQueryResult->advanceRow();
 		}
+		$nodeQueryResult->free();
 		
 		return $result;
 	}
@@ -693,6 +694,7 @@ class HierarchyCache {
 			
 			// finish caching
 			$this->_cache[$idValue][2] = 1; // parents have been cached
+			$queryResult->free();
 		}
 		
 		// now that all nodes are cached, just return all children
@@ -806,6 +808,7 @@ class HierarchyCache {
 			
 			// finish caching
 			$this->_cache[$idValue][1] = 1; // children have been cached
+			$queryResult->free();
 		}		
 		
 		
@@ -941,8 +944,10 @@ class HierarchyCache {
 		// execute the query
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
-		if ($queryResult->getNumberOfRows() == 0)
+		if ($queryResult->getNumberOfRows() == 0) {
+			$queryResult->free();
 			return;
+		}
 			
 		// note that the query only returns ids of nodes; thus, for each id,
 		// we would need to fetch the actual node information from the node table.
@@ -1041,6 +1046,7 @@ class HierarchyCache {
 
 			$queryResult->advanceRow();
 		}
+		$queryResult->free();
 	}
 	
 	
@@ -1099,8 +1105,10 @@ class HierarchyCache {
 		// execute the query
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
-		if ($queryResult->getNumberOfRows() == 0)
+		if ($queryResult->getNumberOfRows() == 0) {
+			$queryResult->free();
 			return;
+		}
 			
 		// note that the query only returns ids of nodes; thus, for each id,
 		// we would need to fetch the actual node information from the node table.
@@ -1201,6 +1209,7 @@ class HierarchyCache {
 
 			$queryResult->advanceRow();
 		}
+		$queryResult->free();
 	}
 	
 	
@@ -1273,6 +1282,7 @@ class HierarchyCache {
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 			$typeIdValue = $queryResult->getLastAutoIncrementValue();
 		}
+		$queryResult->free();
 		
 		// 2. Now that we know the id of the type, insert the node itself
 		$query =& new InsertQuery();
@@ -1390,6 +1400,7 @@ class HierarchyCache {
 		if ($queryResult->getNumberOfRows() > 1)
 			throwError(new Error(HierarchyException::OPERATION_FAILED() ,"HierarchyCache",true));
 		$typeIdValue = $queryResult->field("type_id");
+		$queryResult->free();
 		
 		// 2. Now delete the node
 		$query =& new DeleteQuery();
@@ -1408,6 +1419,7 @@ class HierarchyCache {
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		$num = $queryResult->field("num");
+		$queryResult->free();
 		if ($num == 0) { // if no other nodes use this type, then delete the type
 			$query =& new DeleteQuery();
 			$query->setTable($db."type");
