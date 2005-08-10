@@ -176,6 +176,39 @@ class Type
     function printableString () {
     	return $this->getDomain()."::".$this->getAuthority()."::".$this->getKeyword();
     }
+
+    /**
+     * Convert an OKI Type to a delimited string
+     * 
+     * @param object Type $aType
+     * @param string $glue
+     * @return string
+     * @access public
+     * @since 6/1/05
+     * @static
+     */
+     function typeToString(&$aType, $glue="::") {
+    	ArgumentValidator::validate($aType, ExtendsValidatorRule::getRule("Type"));
+    	return $aType->getDomain() . $glue . $aType->getAuthority() . $glue . $aType->getKeyword();
+    }
+
+    /**
+     * Convert a delimited string to an OKI Type
+     * 
+     * @param string $aString
+     * @param string $glue
+     * @return object Type
+     * @access public
+     * @since 6/1/05
+     * @static
+     */
+    function &stringToType($aString, $glue = "::") {
+    	ArgumentValidator::validate($aString, StringValidatorRule::getRule());
+
+    	$parts = explode($glue, $aString);
+
+    	return new Type($parts[0], $parts[1], $parts[2]);
+    }
 }
 
 ?>
