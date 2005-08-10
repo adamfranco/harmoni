@@ -17,7 +17,7 @@ require_once(dirname(__FILE__)."/HarmoniAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.3 2005/08/05 18:32:44 gabeschine Exp $
+ * @version $Id: UsersGroup.class.php,v 1.4 2005/08/10 13:25:21 gabeschine Exp $
  */
 class UsersGroup
 	extends HarmoniGroup
@@ -177,7 +177,7 @@ class UsersGroup
 		$agentManager =& Services::getService("Agent");
 		$ids =& Services::getService("Id");
 		
-		$everyoneGroup =& $agentManager->getGroup($ids->getId("-1"));
+		$everyoneGroup =& $agentManager->getGroup($ids->getId("edu.middlebury.agents.everyone"));
 		
 		$agents=&$everyoneGroup->getMembers($includeSubgroups);
 		
@@ -210,7 +210,7 @@ class UsersGroup
 		$agentManager =& Services::getService("Agent");
 		$ids =& Services::getService("Id");
 		$myId =& $this->getId();
-		$everyoneId =& $ids->getId("-1");
+		$everyoneId =& $ids->getId("edu.middlebury.agents.everyone");
 		
 		//Filter out ourself
 		$groupIterator =& $agentManager->getGroups();
@@ -252,7 +252,7 @@ class UsersGroup
 		// we are going to ignore the Everyone group and the Anonymous agent
 		// otherwise they are in the group
 		$ids =& Services::getService("Id");
-		$ignore = array("-2","-1","0");
+		$ignore = array("edu.middlebury.agents.users","edu.middlebury.agents.everyone","edu.middlebury.agents.anonymous");
 		foreach ($igonre as $id) {
 			$rId =& $ids->getId($id);
 			if ($rId->isEqual($memberOrGroup->getId())) return false;
@@ -273,7 +273,7 @@ class UsersGroup
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.3 2005/08/05 18:32:44 gabeschine Exp $
+ * @version $Id: UsersGroup.class.php,v 1.4 2005/08/10 13:25:21 gabeschine Exp $
  */
 
 class UsersGroupIterator extends HarmoniAgentIterator {

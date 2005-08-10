@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.15 2005/07/22 17:05:59 adamfranco Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.16 2005/08/10 13:25:21 gabeschine Exp $ 
  */
 
 class HarmoniRecord 
@@ -115,7 +115,7 @@ class HarmoniRecord
 		// throw an error.
 		} else if (!$part->getMultFlag() 
 			&& $this->_record->numValues($label) 
-			&& $this->_record->getCurrentValue($label)) {
+			&& $this->_record->getValue($label)) {
 			
 			throwError(new Error(RepositoryException::PERMISSION_DENIED().": Can't add another field to a
 			non-multi-valued part.", "HarmoniRecord", true));
@@ -127,7 +127,7 @@ class HarmoniRecord
 			
 		$this->_record->commit(TRUE);
 		
-		return new HarmoniPart(new HarmoniPart($this->_recordStructure, $field),
+		return new HarmoniPart(new HarmoniPartStructure($this->_recordStructure, $part),
 			$this->_record->getRecordFieldValue($id, $this->_record->numValues($label)-1));
 	}
 
@@ -155,7 +155,7 @@ class HarmoniRecord
 	 */
 	function deletePart ( &$partId ) { 
 		$string = $partId->getIdString();
-		if (ereg("([0-9]+)::(.+)::([0-9]+)",$string,$r)) {
+		if (ereg("(.+)::(.+)::([0-9]+)",$string,$r)) {
 			$recordId = $r[1];
 			$label = $r[2];
 			$index = $r[3];
@@ -292,7 +292,7 @@ class HarmoniRecord
 												$partStructure, $allRecordFieldValues[$key]);
 					}
 					
-					$partsToReturn =& $this->_createdParts[$activeValue->getID()];
+					$partsToReturn[] =& $this->_createdParts[$activeValue->getID()];
 				}
 				
 			}

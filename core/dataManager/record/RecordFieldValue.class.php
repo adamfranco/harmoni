@@ -17,7 +17,7 @@ define("NEW_VERSION","new");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldValue.class.php,v 1.16 2005/07/18 14:45:20 gabeschine Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.17 2005/08/10 13:25:21 gabeschine Exp $
  *
  * @author Gabe Schine
  */
@@ -30,6 +30,8 @@ class RecordFieldValue {
 	
 	var $_versions;
 	var $_oldVersion;
+	
+	var $_id;
 	
 	function RecordFieldValue (&$parent, $myIndex) {
 		$this->_parent =& $parent;
@@ -399,7 +401,7 @@ class RecordFieldValue {
 	 * @return ref object Id The id of this object.
 	 */
 	function getId() {
-		if (!$this->_id) {
+		if (!isset($this->_id)) {
 			if (OKI_VERSION > 1)
 				$idManager =& Services::getService("Id");
 			else

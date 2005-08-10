@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: throw.inc.php,v 1.10 2005/04/12 18:09:32 adamfranco Exp $
+ * @version $Id: throw.inc.php,v 1.11 2005/08/10 13:25:21 gabeschine Exp $
  */
 
 /**
@@ -91,13 +91,13 @@ function printUserErrors() {
  	$result='';
  	
  	if (is_array($traceArray)) {
- 		foreach($traceArray as $trace){
+ 		foreach($traceArray as $trace) {
  			/* each $traceArray element represents a step in the call hiearchy. Print them from bottom up. */
  			$file = basename($trace['file']);
  			$line = $trace['line'];
  			$function = $trace['function'];
- 			$class = $trace['class'];
- 			$type = $trace['type'];
+ 			$class = isset($trace['class'])?$trace['class']:'';
+ 			$type = isset($trace['type'])?$trace['type']:'';
  			$args = ArgumentRenderer::renderManyArguments($trace['args'], false, false);
 
  			$result .= "in <b>$file:$line</b> $class$type$function($args)<br />\n";

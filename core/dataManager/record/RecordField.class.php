@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordField.class.php,v 1.15 2005/07/18 14:45:19 gabeschine Exp $
+ * @version $Id: RecordField.class.php,v 1.16 2005/08/10 13:25:21 gabeschine Exp $
  **/
 class RecordField {
 	
@@ -20,6 +20,8 @@ class RecordField {
 	var $_parent;
 	var $_schemaField;
 	var $_myLabel;
+	
+	var $_id;
 	
 	function RecordField( &$schemaField, &$parent ) {
 		$this->_myLabel = $schemaField->getLabel();
@@ -119,7 +121,7 @@ class RecordField {
 		}
 		
 		foreach ($pruned as $i) {
-			unset ($this->_values[$i]);
+				unset ($this->_values[$i]);
 		}
 	}
 	
@@ -367,7 +369,7 @@ class RecordField {
 	 * @return ref object Id The id of this RecordField object.
 	 */
 	function &getId() {
-		if (!$this->_id) {
+		if (!isset($this->_id)) {
 			if (OKI_VERSION > 1)
 				$idManager =& Services::getService("Id");
 			else
