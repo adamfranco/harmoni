@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.33 2005/07/20 15:59:15 cws-midd Exp $
+ * @version $Id: Record.class.php,v 1.34 2005/08/10 21:05:41 adamfranco Exp $
 */
 class Record {
 	
@@ -494,9 +494,6 @@ class Record {
 					($this->_versionControlled)?1:0
 					));
 				$query->setWhere("id='".addslashes($this->_myID)."'");
-	
-				// execute the query;
-				$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 				
 			} else {
 				// we'll have to make a new entry
