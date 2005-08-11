@@ -11,13 +11,17 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Boolean.class.php,v 1.3 2005/07/21 14:18:49 cws-midd Exp $
+ * @version $Id: Boolean.class.php,v 1.4 2005/08/11 20:10:30 adamfranco Exp $
  */
 class Boolean 
 	extends SObject
 {
 	
 	var $_bool;
+	
+/*********************************************************
+ * Class Methods - Virtual Constructors
+ *********************************************************/
 
 	/**
 	 * Instantiates a new Boolean object with the passed value.
@@ -31,7 +35,36 @@ class Boolean
 		return $temp;
 	}
 	
+	/**
+	 * Instantiates a new Boolean object with the value, false.
+	 * 
+	 * @return object Boolean
+	 * @access public
+	 * @since 8/11/05
+	 * @static
+	 */
+	function &false () {
+		$temp =& new Boolean(false);
+		return $temp;
+	}
 	
+	/**
+	 * Instantiates a new Boolean object with the value, true.
+	 * 
+	 * @return object Boolean
+	 * @access public
+	 * @since 8/11/05
+	 * @static
+	 */
+	function &true () {
+		$temp =& new Boolean(true);
+		return $temp;
+	}
+
+/*********************************************************
+ * Instance Methods
+ *********************************************************/
+
 	function Boolean($value=true) {
 		$this->_bool = (bool) $value;
 	}
