@@ -48,7 +48,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.31 2005/08/10 21:38:33 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.32 2005/08/11 14:54:20 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -1666,9 +1666,12 @@ class HarmoniAgentManager
 		// If we have a type id already, use that
 		if ($result->getNumberOfRows()) {
 			$typeId = $result->field("type_id");
+			$result->free();
 		} 
 		// otherwise insert a new one.
 		else {
+			$result->free();
+			
 			$query =& new InsertQuery;
 			$query->setTable("type");
 			$query->setColumns(array(
@@ -1685,7 +1688,6 @@ class HarmoniAgentManager
 			$result =& $dbc->query($query, $this->_dbIndex);
 			$typeId = $result->getLastAutoIncrementValue();
 		}
-		$result->free();
 		
 		return $typeId;
 	}

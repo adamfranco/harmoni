@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.19 2005/08/10 21:20:10 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.20 2005/08/11 14:54:20 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -1261,9 +1261,12 @@ class HierarchyCache {
 		$query->addWhere($where);
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		if ($queryResult->getNumberOfRows() > 0) // if the type is already in the database
+		if ($queryResult->getNumberOfRows() > 0) {// if the type is already in the database
 			$typeIdValue = $queryResult->field("id"); // get the id
-		else { // if not, insert it
+			$queryResult->free();
+		} else { // if not, insert it
+			$queryResult->free();
+			
 			$query =& new InsertQuery();
 			$query->setTable($db."type");
 			$columns = array();
@@ -1282,7 +1285,6 @@ class HierarchyCache {
 			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 			$typeIdValue = $queryResult->getLastAutoIncrementValue();
 		}
-		$queryResult->free();
 		
 		// 2. Now that we know the id of the type, insert the node itself
 		$query =& new InsertQuery();
