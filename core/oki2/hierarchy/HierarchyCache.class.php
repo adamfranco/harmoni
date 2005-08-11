@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.21 2005/08/11 17:58:39 cws-midd Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.22 2005/08/11 21:52:10 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -877,6 +877,14 @@ class HierarchyCache {
 		$result = array();
 		foreach (array_keys($treeNodes) as $i => $key) {
 			$node =& $this->_cache[$key][0];
+
+			// If the node was deleted, but the cache still has a key for it, 
+			// continue.
+			if (!is_object($node)) {
+				continue;
+//				throwError(new Error("Missing node object", "Hierarchy Cache"));
+			}
+
 			$nodeId =& $node->getId();
 			if (!isset($this->_infoCache[$nodeId->getIdString()])) {
 				$this->_infoCache[$nodeId->getIdString()] 
