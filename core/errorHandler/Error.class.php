@@ -11,7 +11,7 @@ require_once(HARMONI."errorHandler/Error.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Error.class.php,v 1.5 2005/01/19 21:10:00 adamfranco Exp $
+ * @version $Id: Error.class.php,v 1.6 2005/08/11 21:51:21 adamfranco Exp $
  */
 
 class Error extends ErrorInterface {
@@ -31,7 +31,7 @@ class Error extends ErrorInterface {
 	 * @access public
 	 */
 
-    function Error($description,$type = "",$isFatal = false) {
+    function Error($description,$type = "",$isFatal = true) {
 		$this->_description = $description;
 		$this->_type = $type;
 		$this->_isFatal = $isFatal;
