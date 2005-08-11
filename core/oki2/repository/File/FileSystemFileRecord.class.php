@@ -25,7 +25,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSystemFileRecord.class.php,v 1.4 2005/04/04 18:23:56 adamfranco Exp $ 
+ * @version $Id: FileSystemFileRecord.class.php,v 1.5 2005/08/11 17:58:39 cws-midd Exp $ 
  */
 class FileSystemFileRecord 
 	extends FileRecord
@@ -160,6 +160,7 @@ class FileSystemFileRecord
 		$file = $this->_parts['FILE_DATA']->_getFilePath();
 		
 		if (!$result->getNumberOfRows() && !file_exists($file)) {
+			$result->free();
 			return TRUE;
 		}
 		
@@ -170,6 +171,7 @@ class FileSystemFileRecord
 			if ($result->field($field))
 				$countValues++;
 		}
+		$result->free();
 		
 		if (file_exists($file))
 			$countValues++;

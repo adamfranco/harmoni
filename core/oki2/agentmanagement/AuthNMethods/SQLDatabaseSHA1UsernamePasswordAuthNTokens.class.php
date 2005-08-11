@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseSHA1UsernamePasswordAuthNTokens.class.php,v 1.5 2005/04/07 19:42:13 adamfranco Exp $
+ * @version $Id: SQLDatabaseSHA1UsernamePasswordAuthNTokens.class.php,v 1.6 2005/08/11 17:58:38 cws-midd Exp $
  */ 
 
 require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseSHA1UsernamePasswordAuthNTokens.class.php,v 1.5 2005/04/07 19:42:13 adamfranco Exp $
+ * @version $Id: SQLDatabaseSHA1UsernamePasswordAuthNTokens.class.php,v 1.6 2005/08/11 17:58:38 cws-midd Exp $
  */
 class SQLDatabaseSHA1UsernamePasswordAuthNTokens
 	extends UsernamePasswordAuthNTokens
@@ -51,6 +51,7 @@ class SQLDatabaseSHA1UsernamePasswordAuthNTokens
 									"encryptedPassword");
 		$passwordResult = & $dbc->query($passwordQuery, $dbId);
 		$this->_tokens['password'] = $passwordResult->field("encryptedPassword");
+		$passwordResult->free();
 	}
 	
 }

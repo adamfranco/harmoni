@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailMimeTypePart.class.php,v 1.7 2005/04/04 18:23:59 adamfranco Exp $
+ * @version $Id: ThumbnailMimeTypePart.class.php,v 1.8 2005/08/11 17:58:39 cws-midd Exp $
  */
 class ThumbnailMimeTypePart extends Part
 //	extends java.io.Serializable
@@ -187,6 +187,7 @@ class ThumbnailMimeTypePart extends Part
 				$this->_type = 0;
 			else
 				$this->_type = $result->field("type");
+			$result->free();
 		}
 		
 		return $this->_type;
@@ -242,6 +243,7 @@ class ThumbnailMimeTypePart extends Part
 			} else {
 				$mimeId = "'".$result->field("id")."'";
 			}
+			$result->free();
 		} 
 		// If we don't have an Id, set the key to NULL.
 		else {

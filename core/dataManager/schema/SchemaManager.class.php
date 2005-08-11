@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.26 2005/08/03 17:36:12 gabeschine Exp $
+ * @version $Id: SchemaManager.class.php,v 1.27 2005/08/11 17:58:37 cws-midd Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
@@ -68,6 +68,7 @@ class SchemaManager {
 			debug::output("Found type ID ".$a['id'].", revision ".$a['revision'],DEBUG_SYS2,"DataManager");
 			unset($type);
 		}
+		$result->free();
 		
 		// now let's preload
 		if ($preloadTypes) {
@@ -116,6 +117,7 @@ class SchemaManager {
 				if (!isset($rows[$theID])) $rows[$theID] = array();
 				$rows[$theID][] = $row;
 			}
+			$res->free();
 			
 //			printpre($rows);
 			

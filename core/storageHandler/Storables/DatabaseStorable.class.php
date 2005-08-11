@@ -12,7 +12,7 @@ require_once(HARMONI.'storageHandler/Storables/DatabaseStorableDataContainer.cla
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DatabaseStorable.class.php,v 1.5 2005/04/04 18:24:00 adamfranco Exp $
+ * @version $Id: DatabaseStorable.class.php,v 1.6 2005/08/11 17:58:40 cws-midd Exp $
  */
 
 class DatabaseStorable extends AbstractStorable {
@@ -65,6 +65,8 @@ class DatabaseStorable extends AbstractStorable {
 		
 		$data = $result->field($this->_parameters->get("dataColumn"));
 
+		$result->free();
+
 		return $data;
 	}
 
@@ -96,6 +98,8 @@ class DatabaseStorable extends AbstractStorable {
 		$result =& $dbHandler->query($query,$this->_parameters->get("dbIndex"));
 
 		$data = $result->field($selectColumn);
+
+		$result->free();
 
 		if($selectColumn == $dataColumn)
 			$data = strlen((string)$data);

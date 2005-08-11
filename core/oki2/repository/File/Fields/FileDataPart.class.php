@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPart.class.php,v 1.7 2005/04/04 18:23:57 adamfranco Exp $
+ * @version $Id: FileDataPart.class.php,v 1.8 2005/08/11 17:58:39 cws-midd Exp $
  */
  
 class FileDataPart 
@@ -186,6 +186,7 @@ class FileDataPart
 				$this->_data = "";
 			else
 				$this->_data = base64_decode($result->field("data"));
+			$result->free();		
 		}
 		
 		return $this->_data;
@@ -244,7 +245,7 @@ class FileDataPart
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
 									"'".base64_encode($value)."'"));
 		}
-		
+		$result->free();
 //		printpre($query);
 //		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		
@@ -274,7 +275,7 @@ class FileDataPart
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
 									"'".strlen($value)."'"));
 		}
-		
+		$result->free();
 		// run the query
 		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 	}

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.9 2005/04/07 19:42:13 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.10 2005/08/11 17:58:38 cws-midd Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.9 2005/04/07 19:42:13 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.10 2005/08/11 17:58:38 cws-midd Exp $
  */
 class SQLDatabaseAuthNMethod
 	extends AuthNMethod
@@ -122,10 +122,14 @@ class SQLDatabaseAuthNMethod
 			$passwordField."='".addslashes($authNTokens->getPassword())."'", _AND);
 		$result = & $dbc->query($query, $dbId);
 		
-		if ($result->field("count") == 1)
+		if ($result->field("count") == 1) {
+			$result->free();
 			return TRUE;
-		else if ($result->field("count") == 0)
+		}
+		else if ($result->field("count") == 0) {
+			$result->free();
 			return FALSE;
+		}
 		else
 			throwError( new Error("Authorization Error: "
 							.$result->field("count")
@@ -157,10 +161,14 @@ class SQLDatabaseAuthNMethod
 			$usernameField."='".addslashes($authNTokens->getUsername())."'");
 		$result = & $dbc->query($query, $dbId);
 		
-		if ($result->field("count") == 1)
+		if ($result->field("count") == 1) {
+			$result->free();
 			return TRUE;
-		else if ($result->field("count") == 0)
+		}
+		else if ($result->field("count") == 0) {
+			$result->free();
 			return FALSE;
+		}
 		else
 			throwError( new Error("Authorization Error: "
 							.$result->field("count")
@@ -213,9 +221,12 @@ class SQLDatabaseAuthNMethod
 				$value = $result->field($fieldName);
 				$properties->addProperty($propertyKey, $value);
 				unset($value);
-			}	
-		} else if ($result->getNumberOfRows() == 0)
+			}
+			$result->free();
+		} else if ($result->getNumberOfRows() == 0) {
+			$result->free();
 			return;
+		}
 		else
 			throwError( new Error("Authorization Error: "
 							.$result->getNumberOfRows()
@@ -269,6 +280,8 @@ class SQLDatabaseAuthNMethod
 			$tokens[] =& $this->createTokensForIdentifier($result->field($usernameField));
 			$result->advanceRow();
 		}
+		
+		$result->free();
 		
 		return new HarmoniObjectIterator($tokens);
 	}

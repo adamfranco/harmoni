@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.27 2005/08/01 20:04:21 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.28 2005/08/11 17:58:39 cws-midd Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -231,7 +231,9 @@ class HarmoniRepositoryManager
 		
 		if ($result->getNumberOfRows()) {
 			$typeId = $result->field("type_id");
+			$result->free();
 		} else {
+			$result->free();
 			$query =& new InsertQuery;
 			$query->setTable("dr_type");
 			$query->setColumns(array(

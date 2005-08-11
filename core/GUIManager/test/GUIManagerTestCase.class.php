@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManagerTestCase.class.php,v 1.9 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: GUIManagerTestCase.class.php,v 1.10 2005/08/11 17:58:36 cws-midd Exp $
  */
 require_once(HARMONI."GUIManager/GUIManager.class.php");
 require_once(HARMONI."GUIManager/Theme.class.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManagerTestCase.class.php,v 1.9 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: GUIManagerTestCase.class.php,v 1.10 2005/08/11 17:58:36 cws-midd Exp $
  */
 
     class GUIManagerTestCase extends UnitTestCase {
@@ -118,7 +118,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 			$affectedRows = $queryResult->getNumberOfRows();
 			$this->assertIdentical($affectedRows,0);
 			
-			
+			$queryResult->free();
 			
 		}
 		

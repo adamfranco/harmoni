@@ -27,7 +27,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.15 2005/07/22 17:07:42 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.16 2005/08/11 17:58:39 cws-midd Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -322,6 +322,7 @@ class FileRecord
 		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		if (!$result->getNumberOfRows()) {
+			$result->free();
 			return TRUE;
 		}
 		
@@ -332,6 +333,7 @@ class FileRecord
 			if ($result->field($field))
 				$countValues++;
 		}
+		$result->free();
 		
 		if ($countValues <= 1)
 			return TRUE;

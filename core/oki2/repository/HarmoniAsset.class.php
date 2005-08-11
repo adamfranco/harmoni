@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.20 2005/07/18 14:45:26 gabeschine Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.21 2005/08/11 17:58:39 cws-midd Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.20 2005/07/18 14:45:26 gabeschine Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.21 2005/08/11 17:58:39 cws-midd Exp $ 
  */
 
 class HarmoniAsset
@@ -1051,6 +1051,7 @@ class HarmoniAsset
 				$this->_createdRecords[$recordId->getIdString()] =& new HarmoniRecord (
 								$this->_createdRecordStructures[$schema->getID()], $record);
 			}
+			$result->free();
 		}
 		
 		return $this->_createdRecords[$recordId->getIdString()];
@@ -1120,7 +1121,7 @@ class HarmoniAsset
 			
 			$result->advanceRow();
 		}
-		
+		$result->free();
 		// Create an iterator and return it.
 		$recordIterator =& new HarmoniRecordIterator($records);
 		

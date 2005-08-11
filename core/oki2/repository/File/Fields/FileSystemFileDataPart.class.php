@@ -17,7 +17,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSystemFileDataPart.class.php,v 1.3 2005/04/04 18:23:59 adamfranco Exp $
+ * @version $Id: FileSystemFileDataPart.class.php,v 1.4 2005/08/11 17:58:39 cws-midd Exp $
  */
  
 class FileSystemFileDataPart 
@@ -119,7 +119,7 @@ class FileSystemFileDataPart
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
 									"'".strlen($value)."'"));
 		}
-		
+		$result->free();
 		// run the query
 		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 	}

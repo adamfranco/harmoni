@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.19 2005/07/15 17:47:22 gabeschine Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.20 2005/08/11 17:58:38 cws-midd Exp $
  */
 class AuthorizationCache {
 
@@ -206,9 +206,10 @@ class AuthorizationCache {
 		$query->addWhere($where);
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		if ($queryResult->getNumberOfRows() > 0) // if the type is already in the database
+		if ($queryResult->getNumberOfRows() > 0) {// if the type is already in the database
 			$functionTypeIdValue = $queryResult->field("id"); // get the id
-		else { // if not, insert it
+			$queryResult->free();
+		} else { // if not, insert it
 			$query =& new InsertQuery();
 			$query->setTable($db."type");
 			$columns = array();
@@ -367,7 +368,7 @@ class AuthorizationCache {
 
 			$queryResult->advanceRow();
 		}
-		
+		$queryResult->free();
 		return new HarmoniTypeIterator($types);
 	}
 
@@ -434,6 +435,7 @@ class AuthorizationCache {
 			$functions[] =& $function;
 			$queryResult->advanceRow();
 		}
+		$queryResult->free();
 		
 		return new HarmoniFunctionIterator($functions);
 	}
@@ -475,11 +477,13 @@ class AuthorizationCache {
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() != 1) {
+			$queryResult->free();
 			$str = "Exactly one row must have been returned";
 			throwError($str, "authorization", true);
 		}
 		
 		$row = $queryResult->getCurrentRow();
+		$queryResult->free();
 		$type =& new HarmoniType($row['domain'], $row['authority'], 
 								 $row['keyword'], $row['type_description']);
 		
@@ -964,6 +968,7 @@ class AuthorizationCache {
 			
 			$queryResult->advanceRow();
 		}
+		$queryResult->free();
 		
 		return $authorizations;
 	}

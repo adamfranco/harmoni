@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PersistentOrderedSet.class.php,v 1.1 2005/08/05 16:22:31 adamfranco Exp $
+ * @version $Id: PersistentOrderedSet.class.php,v 1.2 2005/08/11 17:58:39 cws-midd Exp $
  * @author Adam Franco
  */
  
@@ -64,7 +64,7 @@ class PersistentOrderedSet
 			$i++;
 			$result->advanceRow();
 		}
-		
+		$result->free();
 
 		// Make sure that we have our set is filled from 0 to count()
 		reset($oldItems);

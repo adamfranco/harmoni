@@ -33,7 +33,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FontFamilySP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager2.class.php,v 1.5 2005/04/04 18:23:22 adamfranco Exp $
+ * @version $Id: GUIManager2.class.php,v 1.6 2005/08/11 17:58:35 cws-midd Exp $
  */
 class GUIManager {
 	
@@ -144,14 +144,12 @@ class GUIManager {
 			}
 			else 
 					$this->_theme->addStyleForComponentType($styleCollection, $array["componentType"], $array["componentIndex"]);
-			
-			
+						
 			$styleCollectionsTableResult->advanceRow();
-				
-			
-			
+	
 		}
 		
+		$styleCollectionsTableResult->free();
 	return $this->_theme;
 		}
 	
@@ -193,6 +191,7 @@ class GUIManager {
 			$stylePropertiesTableResult->advanceRow();
 		
 		}
+		$stylePropertiesTableResult->free();
 		
 		return $propertiesArray;
 		}
@@ -226,6 +225,7 @@ class GUIManager {
 		$componentsArray[]=$array["styleComponent"];
 		$styleComponentsTableResult->advanceRow();
 		}
+		$styleComponentsTableResult->free();
 		
 		return $componentsArray;
 		
@@ -260,7 +260,7 @@ class GUIManager {
 			$styleComponentArray =$styleComponentResult->getCurrentRow();
 			$styleComponent_id =$styleComponentArray["styleComponent_id"];
 			
-			
+			$styleComponentResult->free();
 			
 			$this->updateStyleComponentWithId($styleComponent_id, $value);
 }
@@ -349,11 +349,12 @@ class GUIManager {
 			while($styleComponentTableResult->hasMoreRows()){
 			$styleComponentTableArray =$styleComponentTableResult->getCurrentRow();
 			if($styleComponentTableArray["fk_styleProperty_id"]==$stylePropertyId && $styleComponentTableArray["styleComponent"]==$value){
+				$styleComponentTableResult->free();
 				throwError(new Error("This styleComponent already exists in the specified styleProperty", "GUIManager",true));
 			}
 			$styleComponentTableResult->advanceRow();
 			}
-			
+			$styleComponentTableResult->free();
 				
 			
 			$query =& new InsertQuery;
@@ -361,12 +362,7 @@ class GUIManager {
 			$query->setColumns(array("fk_styleProperty_id","styleComponent", "argsorder"));
 			$query->addRowOfValues(array("'$stylePropertyId'","'$value'","'$order'"));
 			$this->_dbHandler->query($query, $this->_dbIndex);
-			
-			
-			
-			
-			
-			
+
 		}
 		
 		
@@ -392,7 +388,7 @@ class GUIManager {
 			$styleCollectionIdResult =& $this->_dbHandler->query($query2, $this->_dbIndex);
 			$styleCollectionIdArray =$styleCollectionIdResult->getCurrentRow();
 			$styleCollectionId = $styleCollectionIdArray["styleCollection_id"];
-		
+			$styleCollectionIdResult->free();
 			
 			/* Check whether the StyleProperty already exists in the */
 			/* specified StyleCollection*/
@@ -410,6 +406,7 @@ class GUIManager {
 			}
 			$stylePropertyTableResult->advanceRow();
 			}
+			$stylePropertyTableResult->free();
 			
 			$query3 =& new InsertQuery;
 			$query3->setTable("StyleProperties");
@@ -453,7 +450,7 @@ class GUIManager {
 			}
 			$styleCollectionTableResult->advanceRow();
 			}
-			
+			$styleCollectionTableResult->free();
 			
 			$query2=& new InsertQuery;
 			$query2->setTable("StyleCollections");

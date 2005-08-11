@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.21 2005/04/12 18:21:33 adamfranco Exp $
+ * @version $Id: GUIManager.class.php,v 1.22 2005/08/11 17:58:35 cws-midd Exp $
  */
 class GUIManager 
 	extends GUIManagerAbstract 
@@ -458,6 +458,7 @@ class GUIManager
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() != 1) {
+			$queryResult->free();
 			$err = "None or more than one theme states were returned.";
 			throwError(new Error($err, "GUIManager", true));
 		}
@@ -465,7 +466,7 @@ class GUIManager
 		$queryResult->bindField("theme", $themeName);
 		$queryResult->bindField("state", $themeState);
 		$row = $queryResult->getCurrentrow();
-		
+		$queryResult->free();
 		if (strtolower($themeName) != strtolower(get_class($theme))) {
 			$err = "Attempted to load an incomptaible theme state (the theme state was saved for a different theme class).";
 			throwError(new Error($err, "GUIManager", true));

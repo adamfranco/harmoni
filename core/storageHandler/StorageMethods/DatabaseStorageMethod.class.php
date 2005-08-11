@@ -16,7 +16,7 @@ require_once(HARMONI.'storageHandler/Storable.abstract.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DatabaseStorageMethod.class.php,v 1.6 2005/04/04 18:24:01 adamfranco Exp $
+ * @version $Id: DatabaseStorageMethod.class.php,v 1.7 2005/08/11 17:58:40 cws-midd Exp $
  */
 
 class DatabaseStorageMethod extends StorageMethodInterface {
@@ -172,10 +172,13 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 		}
 		$result =& $this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
 
-		if($result->getNumberOfRows()>0)
+		if($result->getNumberOfRows()>0) {
+			$result->free();	
 			return true;
-		else
+		} else {
+			$result->free();
 			return false;
+		}
 	}
 
     /**
@@ -211,7 +214,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 			$totalsize += $storable->getSize();
 			$result->advanceRow();
 		}
-
+		$result->free();
 		return $totalsize;
 	}
 
@@ -258,7 +261,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 			$storables[] =& $this->retrieve($path_value,$name_value);
 			$result->advanceRow();
 		}
-
+		$result->free();
 		return $storables;
 	}
 
@@ -282,8 +285,12 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 			$query->addWhere($this->_parameters->get("pathColumn")." = '$path'");
 
 		$result =& $this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
-
-		return $result->getNumberOfRows();
+		
+		$numRows = $result->getNumberOfRows();
+		
+		$result->free();
+		
+		return $numRows;
 	}
 
 }

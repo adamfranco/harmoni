@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.18 2005/08/10 21:20:10 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.19 2005/08/11 17:58:39 cws-midd Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -283,10 +283,12 @@ class HarmoniHierarchyManager
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
-		if ($queryResult->getNumberOfRows() != 1) 
+		if ($queryResult->getNumberOfRows() != 1) {
+			$queryResult->free();
 			throwError(new Error(HierarchyException::UNKNOWN_ID(), "Hierarchy", 1));
-		
+		}		
 		$row = $queryResult->getCurrentrow();
+		$queryResult->free();
 
 		$idValue =& $row['id'];
 		$idManager =& Services::getService("Id");
@@ -412,6 +414,8 @@ class HarmoniHierarchyManager
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		$row = $queryResult->getCurrentRow();
+		$queryResult->free();
+
 		// if the hierarchy contains any nodes, cannot delete
 		if ($row['num'] > 0) {
 			throwError(new Error(HierarchyException::HIERARCHY_NOT_EMPTY(), "Hierarchy", true));
@@ -492,11 +496,13 @@ class HarmoniHierarchyManager
 		$nodeQueryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
 		if ($nodeQueryResult->getNumberOfRows() != 1) {
+			$nodeQueryResult->free();
 			throwError(new Error(HierarchyException::OPERATION_FAILED()." Could not find node of id, '".$id->getIdString()."'.", 
 				"Hierarchy", true));
 		}
 		
 		$nodeRow = $nodeQueryResult->getCurrentRow();
+		$nodeQueryResult->free();
 
 		$idManager =& Services::getService("Id");
 

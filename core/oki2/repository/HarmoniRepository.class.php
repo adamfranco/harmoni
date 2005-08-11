@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.31 2005/08/03 17:36:39 gabeschine Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.32 2005/08/11 17:58:39 cws-midd Exp $ 
  */
 
 class HarmoniRepository
@@ -228,9 +228,11 @@ class HarmoniRepository
 												$result->field("type_authority"),
 												$result->field("type_keyword"),
 												$result->field("type_description"));
+				$result->free();
 			} 
 			// Otherwise, throw an error
 			else {
+				$result->free();
 				throwError(new Error(RepositoryException::OPERATION_FAILED(), "Repository", 1));
 			}
 		}

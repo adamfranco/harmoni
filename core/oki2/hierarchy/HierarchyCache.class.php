@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.20 2005/08/11 14:54:20 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.21 2005/08/11 17:58:39 cws-midd Exp $
  **/
 
 class HierarchyCache {
@@ -1266,7 +1266,7 @@ class HierarchyCache {
 			$queryResult->free();
 		} else { // if not, insert it
 			$queryResult->free();
-			
+
 			$query =& new InsertQuery();
 			$query->setTable($db."type");
 			$columns = array();
@@ -1397,10 +1397,14 @@ class HierarchyCache {
 		$query->addWhere($db."node.node_id = '".addslashes($idValue)."'");
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		if ($queryResult->getNumberOfRows() == 0)
+		if ($queryResult->getNumberOfRows() == 0) {
+			$queryResult->free();
 			throwError(new Error(HierarchyException::OPERATION_FAILED(),"HierarchyCache",true));
-		if ($queryResult->getNumberOfRows() > 1)
+		}
+		if ($queryResult->getNumberOfRows() > 1) {
+			$queryResult->free();		
 			throwError(new Error(HierarchyException::OPERATION_FAILED() ,"HierarchyCache",true));
+		}
 		$typeIdValue = $queryResult->field("type_id");
 		$queryResult->free();
 		

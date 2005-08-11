@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.8 2005/07/18 20:46:23 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.9 2005/08/11 17:58:37 cws-midd Exp $
  */ 
  
  require_once(dirname(__FILE__)."/AgentTokenMapping.class.php");
@@ -36,7 +36,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.8 2005/07/18 20:46:23 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.9 2005/08/11 17:58:37 cws-midd Exp $
  */
 class AgentTokenMappingManager
 	extends OsidManager
@@ -225,7 +225,7 @@ class AgentTokenMappingManager
 				"id='".addslashes($typeKey)."'");
 			$result =& $dbc->query($query, $this->_dbId);
 		}
-		
+		$result->free();
 		$dbc->commitTransaction($this->_dbId);
 	}
 	
@@ -384,10 +384,14 @@ class AgentTokenMappingManager
 		
 		$result =& $dbc->query($query, $this->_dbId);
 		
-		if ($result->getNumberOfRows() == 1)
+		if ($result->getNumberOfRows() == 1) {
+			$result->free();
 			return TRUE;
-		if ($result->getNumberOfRows() == 0)
+		}
+		if ($result->getNumberOfRows() == 0) {
+			$result->free();
 			return FALSE;
+		}
 		else
 			throwError( new Error("Invalid number of results: ".$result->getNumberOfRows(),
 									 "AgentTokenMappingManager", true));
@@ -433,10 +437,14 @@ class AgentTokenMappingManager
 		
 		$result =& $dbc->query($query, $this->_dbId);
 		
-		if ($result->getNumberOfRows() == 1)
+		if ($result->getNumberOfRows() == 1) {
+			$result->free();
 			return TRUE;
-		if ($result->getNumberOfRows() == 0)
+		}
+		if ($result->getNumberOfRows() == 0) {
+			$result->free();
 			return FALSE;
+		}
 		else
 			throwError( new Error("Invalid number of results: ".$result->getNumberOfRows(),
 									 "AgentTokenMappingManager", true));
@@ -487,6 +495,7 @@ class AgentTokenMappingManager
 		
 		// Otherwise, insert the type and return the new key.
 		else {
+			$result->free();
 			$query =& new InsertQuery;
 			$query->setTable($this->_typeTable);
 			$query->setColumns(

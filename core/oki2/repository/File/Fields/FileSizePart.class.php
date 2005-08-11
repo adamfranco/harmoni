@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePart.class.php,v 1.5 2005/04/04 18:23:58 adamfranco Exp $
+ * @version $Id: FileSizePart.class.php,v 1.6 2005/08/11 17:58:39 cws-midd Exp $
  */
 class FileSizePart 
 	extends Part
@@ -184,6 +184,7 @@ class FileSizePart
 				$this->_size = 0;
 			else
 				$this->_size = $result->field("size");
+			$result->free();
 		}
 		
 		return $this->_size;

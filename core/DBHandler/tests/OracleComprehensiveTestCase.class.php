@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleComprehensiveTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: OracleComprehensiveTestCase.class.php,v 1.5 2005/08/11 17:58:35 cws-midd Exp $
  */
     require_once(HARMONI.'DBHandler/Oracle/OracleDatabase.class.php');
 
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleComprehensiveTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: OracleComprehensiveTestCase.class.php,v 1.5 2005/08/11 17:58:35 cws-midd Exp $
  */
 
     class OracleComprehensiveTestCase extends UnitTestCase {
@@ -129,6 +129,8 @@
 			$this->assertIdentical((int)$result->field("dm98_id"), $lastId + 3);
 			$this->assertIdentical($result->field("dm98_value"), "Astrogirl");
 			
+			$result->free();
+			
 			$query =& new UpdateQuery();
 			$query->setTable("test1");
 			$query->setColumns(array("value"));
@@ -146,6 +148,8 @@
 			$this->assertIdentical($result->getNumberOfRows(), 1);
 			$this->assertIdentical($result->field("value"), "I changed you MF!");
 			
+			$result->free();
+			
 			$query =& new DeleteQuery();
 			$query->setTable("test1");
 			$query->addWhere("id = ".$lastId);
@@ -159,6 +163,7 @@
 			$query->addWhere("test1.id = ".$lastId);
 			$result =& $this->db->query($query);
 			$this->assertIdentical($result->getNumberOfRows(), 0);
+			$result->free();
 		}
 
     }

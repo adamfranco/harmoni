@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileNamePart.class.php,v 1.6 2005/04/04 18:23:57 adamfranco Exp $
+ * @version $Id: FileNamePart.class.php,v 1.7 2005/08/11 17:58:39 cws-midd Exp $
  */
 class FileNamePart extends Part
 //	extends java.io.Serializable
@@ -184,6 +184,7 @@ class FileNamePart extends Part
 				$this->_name = "";
 			else
 				$this->_name = $result->field("filename");
+			$result->free();
 		}
 		
 		return $this->_name;
@@ -242,7 +243,7 @@ class FileNamePart extends Part
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
 									"'".addslashes($this->_name)."'"));
 		}
-		
+		$result->free();
 		// run the query
 		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 	}

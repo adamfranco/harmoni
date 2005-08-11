@@ -35,7 +35,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniPropertyManager.class.php,v 1.2 2005/07/07 21:29:59 adamfranco Exp $
+ * @version $Id: HarmoniPropertyManager.class.php,v 1.3 2005/08/11 17:58:37 cws-midd Exp $
  *
  * @author Ben Gore
  */
@@ -149,6 +149,7 @@ class HarmoniPropertyManager
 			
 			$result->advanceRow();//the next row
 		}
+		$result->free();
 	
 		return $propertiesArray;//return the properties
 	}
@@ -239,9 +240,11 @@ class HarmoniPropertyManager
 		// If we have a type id already, use that
 		if ($result->getNumberOfRows()) {
 			$typeId = $result->field("type_id");
+			$result->free();
 		} 
 		// otherwise insert a new one.
 		else {
+			$result->free();
 			$query =& new InsertQuery;
 			$query->setTable("type");
 			$query->setColumns(array(

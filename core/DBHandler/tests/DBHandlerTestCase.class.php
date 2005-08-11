@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandlerTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: DBHandlerTestCase.class.php,v 1.5 2005/08/11 17:58:35 cws-midd Exp $
  */
     require_once(HARMONI.'DBHandler/DBHandler.class.php');
 
@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandlerTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: DBHandlerTestCase.class.php,v 1.5 2005/08/11 17:58:35 cws-midd Exp $
  */
 
     class DBHandlerTestCase extends UnitTestCase {
@@ -100,6 +100,7 @@
  			$names = $result->getFieldNames();
  			$this->assertTrue(in_array("test1_value",$names));
  			$this->assertEqual("This is the value",$result->field("test1_value"));
+ 			$result->free();
 		}
 		
 		/**
@@ -136,6 +137,7 @@
 			$this->assertEqual("20",$result->field("test1_id"));
 			$this->assertEqual("This is the value",$result->field("test1_value"));
 
+			$result->free();
 			// test the second result
 			$result =& $resultQueue->next();
 			$this->assertEqual($result->getNumberOfRows(),20);
@@ -144,6 +146,8 @@
 			$this->assertTrue(in_array("test1_value",$names));
 			$this->assertEqual("21",$result->field("test1_id"));
 			$this->assertEqual("This is the value",$result->field("test1_value"));
+			$result->free();
+			
 		}
 		
 		function test_connect_and_disconnect() {
@@ -195,6 +199,11 @@
 			$this->assertEqual($this->dbhandler->getTotalNumberOfQueries(), 3);
 			$this->assertEqual($this->dbhandler->getTotalNumberOfSuccessfulQueries(), 2);
 			$this->assertEqual($this->dbhandler->getTotalNumberOfFailedQueries(), 1);
+			
+			while ($resultQueue->hasNext()) {
+				$results  =& $resultQueue->next();
+				$results->free();
+			}
 		}
 		
 		// test SELECT, INSERT, DELETE, and UPDATE queries.
@@ -259,5 +268,6 @@
 			$this->assertEqual($this->dbhandler->getTotalNumberOfSuccessfulQueries(), 5);
 			$this->assertEqual($this->dbhandler->getTotalNumberOfFailedQueries(), 0);
 			$this->assertEqual("'".$result->field("value")."'", $value);
+			$result->free();
 		}
 	}

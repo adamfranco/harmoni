@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDataPart.class.php,v 1.5 2005/04/04 18:23:59 adamfranco Exp $
+ * @version $Id: ThumbnailDataPart.class.php,v 1.6 2005/08/11 17:58:39 cws-midd Exp $
  */
 class ThumbnailDataPart extends Part
 //	extends java.io.Serializable
@@ -185,6 +185,7 @@ class ThumbnailDataPart extends Part
 				$this->_data = "";
 			else
 				$this->_data = base64_decode($result->field("data"));
+			$result->free();
 		}
 		
 		return $this->_data;
@@ -244,7 +245,7 @@ class ThumbnailDataPart extends Part
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
 									"'".base64_encode($value)."'"));
 		}
-		
+		$result->free();
 //		printpre($query);
 //		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		
