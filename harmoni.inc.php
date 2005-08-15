@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: harmoni.inc.php,v 1.39 2005/07/20 14:11:09 gabeschine Exp $
+ * @version $Id: harmoni.inc.php,v 1.40 2005/08/15 21:44:54 adamfranco Exp $
  */
 
  /* :: start the output buffer, if it's not already :: */
@@ -76,6 +76,7 @@ require_once(HARMONI."services/Services.class.php");
  * @var object Services $__services__ The global Services object.
  **/
 $__services__ =& new Services();
+$GLOBALS[SERVICES_OBJECT] =& $__services__;
 
 /* :: load the Services registration config file :: */
 require_once(HARMONIBASE."config/services.cfg.php");
