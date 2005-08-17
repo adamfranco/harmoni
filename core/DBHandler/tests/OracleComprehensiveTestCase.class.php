@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleComprehensiveTestCase.class.php,v 1.5 2005/08/11 17:58:35 cws-midd Exp $
+ * @version $Id: OracleComprehensiveTestCase.class.php,v 1.6 2005/08/17 19:46:59 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/Oracle/OracleDatabase.class.php');
 
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleComprehensiveTestCase.class.php,v 1.5 2005/08/11 17:58:35 cws-midd Exp $
+ * @version $Id: OracleComprehensiveTestCase.class.php,v 1.6 2005/08/17 19:46:59 adamfranco Exp $
  */
 
     class OracleComprehensiveTestCase extends UnitTestCase {
@@ -37,7 +37,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->db =& new OracleDatabase("devo.middlebury.edu", "harmoniTest", "test", "test");
+			$this->db =& new OracleDatabase("localhost", "harmoniTest", "test", "test");
 			$this->db->connect();
         }
 		

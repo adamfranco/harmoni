@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleSelectQueryResultTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: OracleSelectQueryResultTestCase.class.php,v 1.5 2005/08/17 19:46:59 adamfranco Exp $
  */
  
 require_once(HARMONI . 'DBHandler/Oracle/OracleDatabase.class.php');
@@ -20,7 +20,7 @@ require_once(HARMONI . 'DBHandler/Oracle/OracleDatabase.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleSelectQueryResultTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: OracleSelectQueryResultTestCase.class.php,v 1.5 2005/08/17 19:46:59 adamfranco Exp $
  */
 
 class OracleSelectQueryResultTestCase extends UnitTestCase {
@@ -46,7 +46,7 @@ class OracleSelectQueryResultTestCase extends UnitTestCase {
 	{ 
 		// perhaps, initialize $obj here
 		// connect to some database and do a select query
-		$this->db =& new OracleDatabase("devo.middlebury.edu", "harmoniTest", "test", "test");
+		$this->db =& new OracleDatabase("localhost", "harmoniTest", "test", "test");
 		$this->db->connect();
 		$this->rid = $this->db->_query("SELECT * FROM test ORDER BY id LIMIT 4 OFFSET 100"); 
 		// create the query result

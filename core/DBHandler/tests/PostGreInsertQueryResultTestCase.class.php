@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.5 2005/08/17 19:46:59 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/PostGre/PostGreDatabase.class.php');
 
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.5 2005/08/17 19:46:59 adamfranco Exp $
  */
 
     class PostGreInsertQueryResultTestCase extends UnitTestCase {
@@ -40,7 +40,7 @@
 			// perhaps, initialize $obj here
 
 			// connect to some database and do a INSERT query
-			$this->db =& new PostGreDatabase("devo.middlebury.edu", "harmoniTest", "test", "test");
+			$this->db =& new PostGreDatabase("localhost", "harmoniTest", "test", "test");
 			$this->db->connect();
         }
 		

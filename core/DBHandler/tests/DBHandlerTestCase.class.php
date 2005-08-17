@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandlerTestCase.class.php,v 1.5 2005/08/11 17:58:35 cws-midd Exp $
+ * @version $Id: DBHandlerTestCase.class.php,v 1.6 2005/08/17 19:46:58 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/DBHandler.class.php');
 
@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandlerTestCase.class.php,v 1.5 2005/08/11 17:58:35 cws-midd Exp $
+ * @version $Id: DBHandlerTestCase.class.php,v 1.6 2005/08/17 19:46:58 adamfranco Exp $
  */
 
     class DBHandlerTestCase extends UnitTestCase {
@@ -39,7 +39,7 @@
         function setUp() {
 			// perhaps, initialize $obj here
 			$this->dbhandler =& new DBHandler();
-			$this->dbhandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");
+			$this->dbhandler->createDatabase(MYSQL,"localhost", "test", "test", "test");
         }
 		
         /**
@@ -58,7 +58,7 @@
 		function test_constructor() {
 			$database =& $this->dbhandler->_databases[0];
 			$this->assertIsA($database, "mysqldatabase");
-			$this->assertEqual("devo.middlebury.edu", $database->_dbHost);
+			$this->assertEqual("localhost", $database->_dbHost);
 			$this->assertEqual("test", $database->_dbName);
 			$this->assertEqual("test", $database->_dbUser);
 			$this->assertEqual("test", $database->_dbPass);
@@ -68,10 +68,10 @@
 		 * Test the addition of a new database.
 		 **/
 		function test_createdatabase() {
-			$mysql =& new MySQLDatabase("devo123.middlebury.edu", "test123", "test123", "test123");
+			$mysql =& new MySQLDatabase("slug123.middlebury.edu", "test123", "test123", "test123");
 			$databaseId = $this->dbhandler->addDatabase($mysql);
 			$this->assertEqual("mysqldatabase", get_class($this->dbhandler->_databases[$databaseId]));
-			$this->assertEqual("devo123.middlebury.edu", $this->dbhandler->_databases[$databaseId]->_dbHost);
+			$this->assertEqual("slug123.middlebury.edu", $this->dbhandler->_databases[$databaseId]->_dbHost);
 			$this->assertEqual("test123", $this->dbhandler->_databases[$databaseId]->_dbName);
 			$this->assertEqual("test123", $this->dbhandler->_databases[$databaseId]->_dbUser);
 			$this->assertEqual("test123", $this->dbhandler->_databases[$databaseId]->_dbPass);

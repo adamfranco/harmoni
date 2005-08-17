@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLComprehensiveTestCase.class.php,v 1.5 2005/08/11 17:58:35 cws-midd Exp $
+ * @version $Id: MySQLComprehensiveTestCase.class.php,v 1.6 2005/08/17 19:46:59 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/MySQL/MySQLDatabase.class.php');
 
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLComprehensiveTestCase.class.php,v 1.5 2005/08/11 17:58:35 cws-midd Exp $
+ * @version $Id: MySQLComprehensiveTestCase.class.php,v 1.6 2005/08/17 19:46:59 adamfranco Exp $
  */
 
     class MySQLComprehensiveTestCase extends UnitTestCase {
@@ -37,7 +37,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->db =& new MySQLDatabase("devo.middlebury.edu", "harmoniTest", "test", "test");
+			$this->db =& new MySQLDatabase("localhost", "test", "test", "test");
 			$this->db->connect();
         }
 		

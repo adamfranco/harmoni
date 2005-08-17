@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabaseTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: OracleDatabaseTestCase.class.php,v 1.5 2005/08/17 19:46:59 adamfranco Exp $
  */
  
     require_once(HARMONI.'DBHandler/Oracle/OracleDatabase.class.php');
@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabaseTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: OracleDatabaseTestCase.class.php,v 1.5 2005/08/17 19:46:59 adamfranco Exp $
  */
 
     class OracleDatabaseTestCase extends UnitTestCase {
@@ -38,7 +38,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->database =& new OracleDatabase("devo.middlebury.edu", "harmoniTest", "test", "test");
+			$this->database =& new OracleDatabase("localhost", "harmoniTest", "test", "test");
         }
 		
         /**
@@ -55,7 +55,7 @@
 		 * Tests the constructor.
 		 **/
 		function test_constructor() {
-			$this->assertEqual("devo.middlebury.edu", $this->database->_dbHost);
+			$this->assertEqual("localhost", $this->database->_dbHost);
 			$this->assertEqual("harmoniTest", $this->database->_dbName);
 			$this->assertEqual("test", $this->database->_dbUser);
 			$this->assertEqual("test", $this->database->_dbPass);
