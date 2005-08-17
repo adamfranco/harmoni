@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.6 2005/08/17 19:46:59 adamfranco Exp $
+ * @version $Id: test.php,v 1.7 2005/08/17 23:17:13 adamfranco Exp $
  */
  
     if (!defined('HARMONI')) {
@@ -53,6 +53,24 @@
 			$this->db->_query($string);
 		}
 	}
+	$this->db->disconnect();
+	
+	// connect to some database and set up our tables
+	$this->db =& new MySQLDatabase("localhost", "testB", "test", "test");
+	$this->db->connect();
+	
+	// Build our test database
+	$queryString = SQLUtils::parseSQLFile(dirname(__FILE__)."/testB.sql");
+	// break up the query string.
+	$queryStrings = explode(";", $queryString);
+	// Run each query
+	foreach ($queryStrings as $string) {
+		$string = trim($string);
+		if ($string) {
+			$this->db->_query($string);
+		}
+	}
+	$this->db->disconnect();
 
     $test =& new GroupTest('DBHandler tests');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLInsertQueryTestCase.class.php');
@@ -63,6 +81,7 @@
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLSelectQueryResultTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLInsertQueryResultTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLComprehensiveTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/MySQLConnectionTestCase.class.php');
 /*	
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleDeleteQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleUpdateQueryTestCase.class.php');

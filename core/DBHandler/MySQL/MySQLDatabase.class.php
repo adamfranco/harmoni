@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.27 2005/07/18 14:45:27 gabeschine Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.28 2005/08/17 23:17:12 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.27 2005/07/18 14:45:27 gabeschine Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.28 2005/08/17 23:17:12 adamfranco Exp $
  */
  
 class MySQLDatabase extends DatabaseInterface {
@@ -314,7 +314,10 @@ class MySQLDatabase extends DatabaseInterface {
 		    $queries = $query;
 		else if (is_string($query))
 		    $queries = array($query);
-		     
+		
+		// Make sure our database is selected
+		mysql_select_db($this->_dbName, $this->_linkId)  || throwError(new Error("Cannot select database, ".$this->_dbName." : ".mysql_error($this->_linkId), "DBHandler", true));
+		
 		foreach ($queries as $q) {
 			// attempt to execute the query
 			$resourceId = mysql_query($q, $this->_linkId);
