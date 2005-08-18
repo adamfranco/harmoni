@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.28 2005/08/17 23:17:12 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.29 2005/08/18 15:46:17 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.28 2005/08/17 23:17:12 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.29 2005/08/18 15:46:17 adamfranco Exp $
  */
  
 class MySQLDatabase extends DatabaseInterface {
@@ -77,6 +77,17 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @access private
 	 */ 
 	var $_linkId;
+	
+	/**
+	 * Persistant connections can not be closed or have a new link forced, so
+	 * this property is necessary for determining whether or not a mysql_select_db()
+	 * is needed before queries to ensure that the proper database is selected.
+	 * 
+	 * @var boolean $_isConnectionPersistant; 
+	 * @access private
+	 * @since 8/18/05
+	 */
+	var $_isConnectionPersistant;
 	
 	
 	/**
@@ -126,6 +137,7 @@ class MySQLDatabase extends DatabaseInterface {
 		$this->_dbUser = $dbUser;
 		$this->_dbPass = $dbPass;
 	    $this->_linkId = false;
+	    $this->_isConnectionPersistant = NULL;
 	    $this->_successfulQueries = 0;
 	    $this->_failedQueries = 0;
 	    $this->_startedTransactions = 0;
@@ -175,7 +187,11 @@ class MySQLDatabase extends DatabaseInterface {
 			return false;
 			
 		// attempt to connect
-		$linkId = mysql_connect($this->_dbHost, $this->_dbUser, $this->_dbPass);
+		// The final TRUE parameter forces a new connection, preventing the need
+		// for calling mysql_select_db() before every query to ensure the proper
+		// database is selected
+		$linkId = mysql_connect($this->_dbHost, $this->_dbUser, $this->_dbPass, true);
+		$this->_isConnectionPersistant = false;
 		
 		// see if successful
 		if ($linkId) {
@@ -210,6 +226,7 @@ class MySQLDatabase extends DatabaseInterface {
 		
 		// attempt to connect
 		$linkId = mysql_pconnect($this->_dbHost, $this->_dbUser, $this->_dbPass);
+		$this->_isConnectionPersistant = true;
 		
 		// see if successful
 		if ($linkId) {
@@ -315,8 +332,11 @@ class MySQLDatabase extends DatabaseInterface {
 		else if (is_string($query))
 		    $queries = array($query);
 		
-		// Make sure our database is selected
-		mysql_select_db($this->_dbName, $this->_linkId)  || throwError(new Error("Cannot select database, ".$this->_dbName." : ".mysql_error($this->_linkId), "DBHandler", true));
+		// If we have a persistant connection, it might be shared with other
+		// databases, so make sure our database is selected.
+		if ($this->_isConnectionPersistant == true) {
+			mysql_select_db($this->_dbName, $this->_linkId)  || throwError(new Error("Cannot select database, ".$this->_dbName." : ".mysql_error($this->_linkId), "DBHandler", true));
+		}
 		
 		foreach ($queries as $q) {
 			// attempt to execute the query
@@ -350,8 +370,10 @@ class MySQLDatabase extends DatabaseInterface {
 			
 		// attempt to disconnect
 		$isSuccessful = mysql_close($this->_linkId);
-		if ($isSuccessful)
+		if ($isSuccessful) {
 			$this->_linkId = false;
+			$this->_isConnectionPersistant = NULL;
+		}
 		
 		return $isSuccessful;
 	}

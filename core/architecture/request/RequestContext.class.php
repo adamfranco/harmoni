@@ -11,10 +11,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.15 2005/07/19 15:57:45 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.16 2005/08/18 15:46:18 adamfranco Exp $
  */
 
-define("REQUEST_HANDLER_CONTEXT_DELIMETER", "!");
+define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
 
 class RequestContext {
 
