@@ -1,13 +1,6 @@
 <?
 
-require_once(dirname(__FILE__)."/Fields/FileDataPartStructure.class.php");
-require_once(dirname(__FILE__)."/Fields/FileNamePartStructure.class.php");
-require_once(dirname(__FILE__)."/Fields/FileSizePartStructure.class.php");
-require_once(dirname(__FILE__)."/Fields/MimeTypePartStructure.class.php");
-require_once(dirname(__FILE__)."/Fields/DimensionsPartStructure.class.php");
-require_once(dirname(__FILE__)."/Fields/ThumbnailDataPartStructure.class.php");
-require_once(dirname(__FILE__)."/Fields/ThumbnailMimeTypePartStructure.class.php");
-require_once(HARMONI."/oki2/repository/HarmoniPartStructureIterator.class.php");
+require_once(OKI2."/osid/repository/PartStructure.php");
 
 /**
  * Each Asset has one of the AssetType supported by the Repository.	 There are
@@ -28,32 +21,22 @@ require_once(HARMONI."/oki2/repository/HarmoniPartStructureIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecordStructure.class.php,v 1.8 2005/08/19 20:16:48 adamfranco Exp $ 
+ * @version $Id: DimensionsPartStructure.class.php,v 1.1 2005/08/19 20:16:48 adamfranco Exp $ 
  */
-class HarmoniFileRecordStructure 
-	extends RecordStructure
+class DimensionsPartStructure 
+	extends PartStructure
 {
+
+	var $_partStructure;
+	var $_idString;
 	
-	var $_partStructures;
-	
-	function HarmoniFileRecordStructure() {
-		$this->_schema =& $schema;
-		
-		// create an array of created PartStructures so we can return references to
-		// them instead of always making new ones.
-		$this->_partStructures = array();
-		$this->_partStructures['FILE_DATA'] =& new FileDataPartStructure($this);
-		$this->_partStructures['FILE_NAME'] =& new FileNamePartStructure($this);
-		$this->_partStructures['MIME_TYPE'] =& new MimeTypePartStructure($this);
-		$this->_partStructures['FILE_SIZE'] =& new FileSizePartStructure($this);
-		$this->_partStructures['DIMENSIONS'] =& new DimensionsPartStructure($this, 'DIMENSIONS');
-		$this->_partStructures['THUMBNAIL_DATA'] =& new ThumbnailDataPartStructure($this);
-		$this->_partStructures['THUMBNAIL_MIME_TYPE'] =& new ThumbnailMimeTypePartStructure($this);
-		$this->_partStructures['THUMBNAIL_DIMENSIONS'] =& new DimensionsPartStructure($this,  'THUMBNAIL_DIMENSIONS');
+	function DimensionsPartStructure(&$partStructure, $idString) {
+		$this->_partStructure =& $partStructure;
+		$this->_idString = $idString;
 	}
 	
 	/**
-	 * Get the display name for this RecordStructure.
+	 * Get the display name for this PartStructure.
 	 *	
 	 * @return string
 	 * 
@@ -72,11 +55,11 @@ class HarmoniFileRecordStructure
 	 * @access public
 	 */
 	function getDisplayName() {
-		return "File";
+		return "Dimensions";
 	}
-	
+
 	/**
-	 * Get the description for this RecordStructure.
+	 * Get the description for this PartStructure.
 	 *	
 	 * @return string
 	 * 
@@ -95,11 +78,38 @@ class HarmoniFileRecordStructure
 	 * @access public
 	 */
 	function getDescription() {
-		return "A structure for storing binary files.";
+		return "The dimensions of the file if it is an image.";
+	}
+	
+	/**
+	 * Get the Type for this PartStructure.
+	 *	
+	 * @return object Type
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function &getType() {
+		if (!isset($this->_type)) {
+			$this->_type =& new HarmoniType("Repository", "edu.middlebury.harmoni", "array");
+		}
+		
+		return $this->_type;
 	}
 
 	/**
-	 * Get the unique Id for this RecordStructure.
+	 * Get the unique Id for this PartStructure.
 	 *	
 	 * @return object Id
 	 * 
@@ -119,11 +129,11 @@ class HarmoniFileRecordStructure
 	 */
 	function &getId() {
 		$idManager =& Services::getService("Id");
-		return $idManager->getId('FILE');
+		return $idManager->getId($this->_idString);
 	}
 
 	/**
-	 * Get all the PartStructures in the RecordStructure.  Iterators return a
+	 * Get all the PartStructures in the PartStructure.	 Iterators return a
 	 * set, one at a time.
 	 *	
 	 * @return object PartStructureIterator
@@ -142,19 +152,17 @@ class HarmoniFileRecordStructure
 	 * 
 	 * @access public
 	 */
-	function &getPartStructure(& $partStructureId) {
-		if ($this->_partStructures[$partStructureId->getIdString()]) {		
-			return $this->_partStructures[$partStructureId->getIdString()];
-		} else {
-			throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository :: FileRecordStructure", TRUE));
-		}
+	function &getPartStructure() {
+		$array = array();
+		return new HarmoniNodeIterator($array); // @todo replace with HarmoniPartStructureIterator
 	}
 
 	/**
-	 * Get all the PartStructures in the RecordStructure.  Iterators return a
-	 * set, one at a time.
+	 * Return true if this PartStructure is automatically populated by the
+	 * Repository; false otherwise.	 Examples of the kind of PartStructures
+	 * that might be populated are a time-stamp or the Agent setting the data.
 	 *	
-	 * @return object PartStructureIterator
+	 * @return boolean
 	 * 
 	 * @throws object RepositoryException An exception with one of
 	 *		   the following messages defined in
@@ -170,15 +178,14 @@ class HarmoniFileRecordStructure
 	 * 
 	 * @access public
 	 */
-	function &getPartStructures() {
-		return new HarmoniPartStructureIterator($this->_partStructures);
+	function isPopulatedByRepository() {
+		return TRUE;
 	}
 
 	/**
-	 * Get the schema for this RecordStructure.	 The schema is defined by the
-	 * implementation, e.g. Dublin Core.
+	 * Return true if this PartStructure is mandatory; false otherwise.
 	 *	
-	 * @return string
+	 * @return boolean
 	 * 
 	 * @throws object RepositoryException An exception with one of
 	 *		   the following messages defined in
@@ -194,15 +201,15 @@ class HarmoniFileRecordStructure
 	 * 
 	 * @access public
 	 */
-	function getSchema() {
-		return "Harmoni File Schema";
+	function isMandatory() {
+		return TRUE;
 	}
 
 	/**
-	 * Get the format for this RecordStructure.	 The format is defined by the
-	 * implementation, e.g. XML.
+	 * Return true if this PartStructure is repeatable; false otherwise. This
+	 * is determined by the implementation.
 	 *	
-	 * @return string
+	 * @return boolean
 	 * 
 	 * @throws object RepositoryException An exception with one of
 	 *		   the following messages defined in
@@ -218,18 +225,41 @@ class HarmoniFileRecordStructure
 	 * 
 	 * @access public
 	 */
-	function getFormat() {
-		return "Harmoni File";
+	function isRepeatable() {
+		return FALSE;
 	}
 
 	/**
-	 * Validate a Record against its RecordStructure.  Return true if valid;
-	 * false otherwise.	 The status of the Asset holding this Record is not
-	 * changed through this method.	 The implementation may throw an Exception
-	 * for any validation failures and use the Exception's message to identify
+	 * Get the RecordStructure associated with this PartStructure.
+	 *	
+	 * @return object RecordStructure
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function &getRecordStructure() {
+		return $this->_recordStructure;
+	}
+
+	/**
+	 * Validate a Part against its PartStructure.  Return true if valid; false
+	 * otherwise.  The status of the Asset holding this Record is not changed
+	 * through this method.	 The implementation may throw an Exception for any
+	 * validation failures and use the Exception's message to identify
 	 * specific causes.
 	 * 
-	 * @param object Record $record
+	 * @param object Part $part
 	 *	
 	 * @return boolean
 	 * 
@@ -249,43 +279,10 @@ class HarmoniFileRecordStructure
 	 * 
 	 * @access public
 	 */
-	function validateRecord(& $record) {
-		// all we can really do is make sure the DataSet behind the Record is of the correct
-		// type to match this RecordStructure (DataSetTypeDefinition).
+	function validatePart(& $part) {
+		// we can check if the Part (ie, ValueVersions) has values of the right type.
+		// @todo
 		
-		return true; // for now
+		return true;
 	}
-
-	/**
-	 * Create an PartStructure in this RecordStructure. 
-	 * 
-	 * WARNING: NOT IN OSID - This is not part of the 
-	 * Repository OSID at the time of this writing, but is needed for dynamically 
-	 * created RecordStructures/PartStructures.
-	 *
-	 * @param string $displayName	The DisplayName of the new RecordStructure.
-	 * @param string $description	The Description of the new RecordStructure.
-	 * @param object Type $type		One of the InfoTypes supported by this implementation.
-	 *								E.g. string, shortstring, blob, datetime, integer, float,
-	 *								
-	 * @param boolean $isMandatory	True if the PartStructure is Mandatory.
-	 * @param boolean $isRepeatable True if the PartStructure is Repeatable.
-	 * @param boolean $isPopulatedByDR	True if the PartStructure is PopulatedBy the DR.
-	 *
-	 * @return object PartStructure The newly created PartStructure.
-	 */
-	function createPartStructure($displayName, $description, & $partStructureType, $isMandatory, $isRepeatable, $isPopulatedByRepository) {
-		throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Repository :: FileRecordStructure", TRUE));
-	}
-
-	/**
-	 * Get the possible types for PartStructures.
-	 *
-	 * @return object TypeIterator The Types supported in this implementation.
-	 */
-	function getPartStructureTypes() {
-		$types = array();
-		return new HarmoniIterator($types);
-	}
-	
 }

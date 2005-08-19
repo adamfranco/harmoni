@@ -4,8 +4,10 @@ require_once(dirname(__FILE__)."/Fields/FileDataPart.class.php");
 require_once(dirname(__FILE__)."/Fields/FileNamePart.class.php");
 require_once(dirname(__FILE__)."/Fields/FileSizePart.class.php");
 require_once(dirname(__FILE__)."/Fields/MimeTypePart.class.php");
+require_once(dirname(__FILE__)."/Fields/DimensionsPart.class.php");
 require_once(dirname(__FILE__)."/Fields/ThumbnailDataPart.class.php");
 require_once(dirname(__FILE__)."/Fields/ThumbnailMimeTypePart.class.php");
+require_once(dirname(__FILE__)."/Fields/ThumbnailDimensionsPart.class.php");
 require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
 
 /**
@@ -27,7 +29,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.16 2005/08/11 17:58:39 cws-midd Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.17 2005/08/19 20:16:48 adamfranco Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -61,6 +63,11 @@ class FileRecord
 									$recordStructure->getPartStructure($idManager->getId('MIME_TYPE')),
 									$this->_id,
 									$this->_configuration);
+		$this->_parts['DIMENSIONS'] =& new DimensionsPart(
+									$recordStructure->getPartStructure($idManager->getId('DIMENSIONS')),
+									$this->_id,
+									$this->_configuration,
+									$this);
 		$this->_parts['THUMBNAIL_DATA'] =& new ThumbnailDataPart(
 									$recordStructure->getPartStructure($idManager->getId('THUMBNAIL_DATA')),
 									$this->_id,
@@ -69,6 +76,11 @@ class FileRecord
 									$recordStructure->getPartStructure($idManager->getId('THUMBNAIL_MIME_TYPE')),
 									$this->_id,
 									$this->_configuration);
+		$this->_parts['THUMBNAIL_DIMENSIONS'] =& new ThumbnailDimensionsPart(
+									$recordStructure->getPartStructure($idManager->getId('THUMBNAIL_DIMENSIONS')),
+									$this->_id,
+									$this->_configuration,
+									$this);
 	}
 
 	/**
