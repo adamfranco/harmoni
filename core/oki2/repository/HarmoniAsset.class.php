@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.21 2005/08/11 17:58:39 cws-midd Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.22 2005/08/19 20:55:53 cws-midd Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.21 2005/08/11 17:58:39 cws-midd Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.22 2005/08/19 20:55:53 cws-midd Exp $ 
  */
 
 class HarmoniAsset
@@ -1287,7 +1287,7 @@ class HarmoniAsset
      * @access public
      */
     function &getRecordStructures () { 
-		// cycle through all our DataSets, get their type and make an RecordStructure for each. 
+		// cycle through all our DataSets, get their type and make a RecordStructure for each. 
 		$recordStructures = array();
 		
 		$records =& $this->getRecords();
@@ -1408,8 +1408,8 @@ class HarmoniAsset
      * @access public
      */
     function &getPartValue ( &$partId ) { 
-
-		throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Repository :: Asset", TRUE));
+		$part =& $this->getPart($partId);
+		return $part->getValue();
 	}
 	
 	/**
@@ -1438,8 +1438,20 @@ class HarmoniAsset
      * @access public
      */
     function &getPartsByPartStructure ( &$partStructureId ) { 
-        throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Digital Repository :: Asset", TRUE));
-    } 
+		$returnParts = array();
+		$records =& $this->getRecords();
+		while ($records->hasNext()) {
+			$record =& $records->next();
+			$parts =& $record->getParts();
+			while ($parts->hasNext()) {
+				$part =& $parts->next();
+				$partStructure =& $part->getPartStructure();
+				if ($partStructureId->isEqual($partStructure->getId()))
+					$returnParts[] =& $part;
+			}
+		}
+    	return new HarmoniIterator($parts);
+    }
 	
 	/**
      * Get the Values of the Parts of the Records for this Asset that are based
@@ -1467,7 +1479,13 @@ class HarmoniAsset
      * @access public
      */
     function &getPartValuesByPartStructure ( &$partStructureId ) { 
-        throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Digital Repository :: Asset", TRUE));
+    	$partIterator =& $this->getPartsByPartStructure($partStructureId);
+    	$partValues = array();
+    	while ($partIterator->hasNext()) {
+    		$part =& $partIterator->next();
+    		$partValues[] =& $part->getValue();
+    	}
+    	return new HarmoniIterator($partValues);
     } 
 
 	/**
