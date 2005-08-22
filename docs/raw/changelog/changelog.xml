@@ -3,12 +3,16 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.89 2005/08/05 18:32:45 gabeschine Exp $
+ @version $Id: changelog.xml,v 1.90 2005/08/22 13:30:30 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.4.0" date="The Nebulous Future">
+		<change author='adam'>
+			The Repository FileRecord now provides access to height and width
+			information for images and thumbnails.
+		</change>
 		<change author='gabe'>
 			Changed OKI agent management to use new Everyone/Anonymous/Users IDs.
 		</change>
