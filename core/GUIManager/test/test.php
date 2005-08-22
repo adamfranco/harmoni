@@ -9,19 +9,17 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.11 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: test.php,v 1.12 2005/08/22 15:11:56 adamfranco Exp $
  */
 
 	define("LOAD_HIERARCHY", false);
 	define("LOAD_STORAGE",false);
-	define("LOAD_AUTHENTICATION",false);
 	define("LOAD_AUTHN",false);
 	define("LOAD_AGENTINFORMATION", false);
 	define("LOAD_DATAMANAGER", false);
 	define("LOAD_AUTHN", false);
 	define("LOAD_DR", false);
 	define("LOAD_SETS", false);
-	define("LOAD_THEMES", false);
 
     if (!defined('HARMONI')) {
         require_once("../../../harmoni.inc.php");

@@ -8,12 +8,9 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: test.php,v 1.7 2005/08/22 15:11:56 adamfranco Exp $
  */
 
-define("LOAD_DR", false);
-define("LOAD_STORAGE", false);
-define("LOAD_AUTHENTICATION", false);
 
 require_once dirname(__FILE__)."/../../../../core/utilities/Timer.class.php";
 $timer =& new Timer;
