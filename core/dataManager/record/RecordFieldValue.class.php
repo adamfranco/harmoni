@@ -17,7 +17,7 @@ define("NEW_VERSION","new");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldValue.class.php,v 1.17 2005/08/10 13:25:21 gabeschine Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.18 2005/08/22 15:05:25 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -402,10 +402,7 @@ class RecordFieldValue {
 	 */
 	function getId() {
 		if (!isset($this->_id)) {
-			if (OKI_VERSION > 1)
-				$idManager =& Services::getService("Id");
-			else
-				$idManager =& Services::getService("Shared");
+			$idManager =& Services::getService("Id");
 			
 			$FieldValuesId =& $this->_parent->getId();
 			$idString = $FieldValuesId->getIdString()."::".$this->_myIndex;

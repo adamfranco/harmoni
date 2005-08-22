@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: dobomode.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: dobomode.php,v 1.5 2005/08/22 15:05:25 adamfranco Exp $
  */
 
 // =============================================================================
@@ -23,7 +23,6 @@
 	define("LOAD_SETS", false);
 	define("LOAD_THEMES", false);
 	define("LOAD_SHARED", false);
-	define("OKI_VERSION", false);
 	
 	if (!defined('HARMONI')) {
 	    require_once("../../../harmoni.inc.php");

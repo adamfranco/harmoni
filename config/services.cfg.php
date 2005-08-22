@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: services.cfg.php,v 1.52 2005/05/19 17:25:48 thebravecowboy Exp $
+ * @version $Id: services.cfg.php,v 1.53 2005/08/22 15:05:24 adamfranco Exp $
  */
 
 /* :: what services should we load? you can disable some to save on startup time :: */
@@ -63,55 +63,41 @@ if (!defined("LOAD_LANG")) 			define("LOAD_LANG", true);
 
 
 
-/**
- * OKI OSID implementations:
- */
-if (!defined("OKI_VERSION")) 			define("OKI_VERSION", 2);
-
 
 /**
- * Version 2 implementations
+ * functionality affected: OKI Agent calls.
  */
-if (OKI_VERSION === 2) {
-	
-	/**
-	 * functionality affected: OKI Agent calls.
-	 */
-	if (!defined("LOAD_AGENT")) 				define("LOAD_AGENT", true);
+if (!defined("LOAD_AGENT")) 				define("LOAD_AGENT", true);
 
-	/**
-	 * functionality affected: OKI AuthN calls.
-	 */
-	if (!defined("LOAD_AUTHN")) 				define("LOAD_AUTHN", true);
-	
-	/**
-	 * functionality affected: OKI AuthN calls.
-	 */
-	if (!defined("LOAD_AGENT_MANAGEMENT")) 				define("LOAD_AGENT_MANAGEMENT", true);
-	
-	/**
-	 * functionality affected: OKI AuthZ calls.
-	 */
-	if (!defined("LOAD_AUTHZ")) 				define("LOAD_AUTHZ", true);
-	
-	/**
-	 * functionality affected: Hiearchy, Digital Repository.
-	 */
-	if (!defined("LOAD_HIERARCHY")) 			define("LOAD_HIERARCHY", true);
-	
-	/**
-	 * functionality affected: OKI Agent calls.
-	 */
-	if (!defined("LOAD_ID")) 				define("LOAD_ID", true);
-	
-	/**
-	 * functionality affected: Digital Repository.
-	 */
-	if (!defined("LOAD_REPOSITORY")) 			define("LOAD_REPOSITORY", true);
+/**
+ * functionality affected: OKI AuthN calls.
+ */
+if (!defined("LOAD_AUTHN")) 				define("LOAD_AUTHN", true);
 
-} else {
-	die ("Unknown OKI version, '".OKI_VERSION."'");
-}
+/**
+ * functionality affected: OKI AuthN calls.
+ */
+if (!defined("LOAD_AGENT_MANAGEMENT")) 				define("LOAD_AGENT_MANAGEMENT", true);
+
+/**
+ * functionality affected: OKI AuthZ calls.
+ */
+if (!defined("LOAD_AUTHZ")) 				define("LOAD_AUTHZ", true);
+
+/**
+ * functionality affected: Hiearchy, Digital Repository.
+ */
+if (!defined("LOAD_HIERARCHY")) 			define("LOAD_HIERARCHY", true);
+
+/**
+ * functionality affected: OKI Agent calls.
+ */
+if (!defined("LOAD_ID")) 				define("LOAD_ID", true);
+
+/**
+ * functionality affected: Digital Repository.
+ */
+if (!defined("LOAD_REPOSITORY")) 			define("LOAD_REPOSITORY", true);
 
 
 
@@ -297,75 +283,69 @@ if (LOAD_IMAGEPROCESSOR) {
 
 
 /**
- * Version 2 implementations
+ * load the AgentManager
  */
-if (OKI_VERSION == 2) {
+if (LOAD_AGENT) {
+	require_once(HARMONI."oki2/agent/HarmoniAgentManager.class.php");
+	Services::registerService("AgentManager","HarmoniAgentManager");
+	Services::createServiceAlias("AgentManager", "Agent");
+}
 	
-	/**
-	 * load the AgentManager
-	 */
-	if (LOAD_AGENT) {
-		require_once(HARMONI."oki2/agent/HarmoniAgentManager.class.php");
-		Services::registerService("AgentManager","HarmoniAgentManager");
-		Services::createServiceAlias("AgentManager", "Agent");
-	}
-		
-	/**
-	 * load the AuthNManager
-	 */
-	if (LOAD_AUTHN) {
-		require_once(HARMONI."oki2/authentication/HarmoniAuthenticationManager.class.php");
-		Services::registerService("AuthenticationManager","HarmoniAuthenticationManager");
-		Services::createServiceAlias("AuthenticationManager", "AuthN");
-	}
+/**
+ * load the AuthNManager
+ */
+if (LOAD_AUTHN) {
+	require_once(HARMONI."oki2/authentication/HarmoniAuthenticationManager.class.php");
+	Services::registerService("AuthenticationManager","HarmoniAuthenticationManager");
+	Services::createServiceAlias("AuthenticationManager", "AuthN");
+}
+
+/**
+ * load the AuthNManager
+ */
+if (LOAD_AGENT_MANAGEMENT) {
+	require_once(HARMONI."oki2/agentmanagement/AuthNMethods/AuthNMethodManager.class.php");
+	Services::registerService("AuthNMethodManager","AuthNMethodManager");
+	Services::createServiceAlias("AuthNMethodManager", "AuthNMethods");
+	require_once(HARMONI."oki2/agentmanagement/AgentTokenMapping/AgentTokenMappingManager.class.php");
+	Services::registerService("AgentTokenMappingManager","AgentTokenMappingManager");
+	Services::createServiceAlias("AgentTokenMappingManager", "AgentTokenMapping");
+}
+
+/**
+ * load the AuthZManager
+ */
+if (LOAD_AUTHZ) {
+	require_once(HARMONI."oki2/authorization/HarmoniAuthorizationManager.class.php");
+	Services::registerService("AuthorizationManager","HarmoniAuthorizationManager");
+	Services::createServiceAlias("AuthorizationManager", "AuthZ");
+}
+
+/**
+ * load the HierarchyManager.
+ */
+if (LOAD_HIERARCHY) {
+	require_once(HARMONI."oki2/hierarchy/HarmoniHierarchyManager.class.php");
+	Services::registerService("HierarchyManager","HarmoniHierarchyManager");
+	Services::createServiceAlias("HierarchyManager", "Hierarchy");
+}
+
+/**
+ * load the IdManager
+ */
+if (LOAD_ID) {
+	require_once(HARMONI."oki2/id/HarmoniIdManager.class.php");
+	Services::registerService("IdManager","HarmoniIdManager");
+	Services::createServiceAlias("IdManager", "Id");
+}
 	
-	/**
-	 * load the AuthNManager
-	 */
-	if (LOAD_AGENT_MANAGEMENT) {
-		require_once(HARMONI."oki2/agentmanagement/AuthNMethods/AuthNMethodManager.class.php");
-		Services::registerService("AuthNMethodManager","AuthNMethodManager");
-		Services::createServiceAlias("AuthNMethodManager", "AuthNMethods");
-		require_once(HARMONI."oki2/agentmanagement/AgentTokenMapping/AgentTokenMappingManager.class.php");
-		Services::registerService("AgentTokenMappingManager","AgentTokenMappingManager");
-		Services::createServiceAlias("AgentTokenMappingManager", "AgentTokenMapping");
-	}
-	
-	/**
-	 * load the AuthZManager
-	 */
-	if (LOAD_AUTHZ) {
-		require_once(HARMONI."oki2/authorization/HarmoniAuthorizationManager.class.php");
-		Services::registerService("AuthorizationManager","HarmoniAuthorizationManager");
-		Services::createServiceAlias("AuthorizationManager", "AuthZ");
-	}
-	
-	/**
-	 * load the HierarchyManager.
-	 */
-	if (LOAD_HIERARCHY) {
-		require_once(HARMONI."oki2/hierarchy/HarmoniHierarchyManager.class.php");
-		Services::registerService("HierarchyManager","HarmoniHierarchyManager");
-		Services::createServiceAlias("HierarchyManager", "Hierarchy");
-	}
-	
-	/**
-	 * load the IdManager
-	 */
-	if (LOAD_ID) {
-		require_once(HARMONI."oki2/id/HarmoniIdManager.class.php");
-		Services::registerService("IdManager","HarmoniIdManager");
-		Services::createServiceAlias("IdManager", "Id");
-	}
-		
-	/**
-	 * load the DigitalRepositoryManager.
-	 */
-	if (LOAD_REPOSITORY) {
-		require_once(HARMONI."oki2/repository/HarmoniRepositoryManager.class.php");
-		Services::registerService("RepositoryManager","HarmoniRepositoryManager");
-		Services::createServiceAlias("RepositoryManager", "Repository");
-	}
+/**
+ * load the DigitalRepositoryManager.
+ */
+if (LOAD_REPOSITORY) {
+	require_once(HARMONI."oki2/repository/HarmoniRepositoryManager.class.php");
+	Services::registerService("RepositoryManager","HarmoniRepositoryManager");
+	Services::createServiceAlias("RepositoryManager", "Repository");
 }
 
 ?>
