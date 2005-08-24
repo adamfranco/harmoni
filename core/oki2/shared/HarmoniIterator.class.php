@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIterator.class.php,v 1.6 2005/05/19 17:25:48 thebravecowboy Exp $
+ * @version $Id: HarmoniIterator.class.php,v 1.7 2005/08/24 14:21:53 cws-midd Exp $
  */
 class HarmoniIterator
 {
@@ -52,6 +52,29 @@ class HarmoniIterator
 			throwError(new Error(SharedException::NO_MORE_ITERATOR_ELEMENTS(), get_class($this), 1));
 		}
 	}
+
+	/**
+	 * Gives the number of items in the iterator
+	 *
+	 * @return int $count
+	 */
+	 function count () {
+	 	return count($this->_elements);
+	 }
+	 
+	/**
+	 * Skips the next $num indices in the iterator
+	 *
+	 * @param int $num
+	 * @return void
+	 */
+	 function skipNext($num) {
+	 	if (($this->_i + $num) < count($this->_elements)-1)
+		 	$this->_i += $num;
+	 	else
+	 		throwError(new Error(SharedException::NO_MORE_ITERATOR_ELEMENTS(),
+	 			get_class($this), true));
+	 }
 }
 
 ?>

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.1 2005/08/19 20:16:48 adamfranco Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.2 2005/08/24 14:21:53 cws-midd Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.1 2005/08/19 20:16:48 adamfranco Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.2 2005/08/24 14:21:53 cws-midd Exp $
  */
 class DimensionsPart 
 	extends Part
@@ -64,7 +64,7 @@ class DimensionsPart
 	 */
 	function &getId() {
 		$idManager =& Services::getService("Id");
-		$partStructureId =& $this->partStructure->getId();
+		$partStructureId =& $this->_partStructure->getId();
 		return $idManager->getId($this->_recordId->getIdString()
 					."-".$partStructureId->getIdString());
 	}
