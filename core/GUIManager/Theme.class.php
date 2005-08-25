@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.17 2005/04/06 14:15:40 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.18 2005/08/25 18:47:48 nstamato Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -568,7 +568,7 @@ class Theme extends ThemeInterface {
 	 * @return integer An integer id assigned to the given style property. The id 
 	 * only meaningful within the context of this Theme (i.e. this is not a system wide unique id).
 	 **/
-	function registerSP(& $sp, $postImportMethod) {
+	function registerSP(& $sp, $postImportMethod=NULL) {
 		// ** parameter validation
 		$rule =& ExtendsValidatorRule::getRule("StylePropertyInterface");
 		ArgumentValidator::validate($sp, $rule, true);
@@ -579,8 +579,9 @@ class Theme extends ThemeInterface {
 		$this->_registeredSPs[] =& $sp;
 		$id = count($this->_registeredSPs) - 1;
 		
-		if (isset($postImportMethod))
+		if (isset($postImportMethod)){
 			$this->_postImportMethods[$id] = $postImportMethod;
+		}
 		
 		return $id;
 	}

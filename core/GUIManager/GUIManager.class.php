@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.22 2005/08/11 17:58:35 cws-midd Exp $
+ * @version $Id: GUIManager.class.php,v 1.23 2005/08/25 18:47:48 nstamato Exp $
  */
 class GUIManager 
 	extends GUIManagerAbstract 
@@ -77,6 +77,7 @@ class GUIManager
 		$dbIndex =& $configuration->getProperty('database_index');
 		$dbName =& $configuration->getProperty('database_name');
 		$theme =& $configuration->getProperty('default_theme');
+		$id =& $configuration->getProperty('default_state_id');
 		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
@@ -87,6 +88,12 @@ class GUIManager
 		$this->_dbIndex = $dbIndex;
 		$this->_guiDB = $dbName;
 		$this->setTheme($theme);
+		
+		if (isset($id)){
+			//print "hello";
+			$this->loadThemeState($id,$theme);
+		}
+		
 	}
 
 	/**
@@ -329,7 +336,7 @@ class GUIManager
 	 * @param ref object theme The theme whose state needs to be saved.
 	 * @return ref object A HarmoniId objecting identifying the saved state uniquely.
 	 **/
-	function &saveThemeState(& $theme) {
+	function &saveThemeState(& $theme, $idValue) {
 		// ** parameter validation
 		ArgumentValidator::validate($theme, ExtendsValidatorRule::getRule("ThemeInterface"), true);
 		// ** end of parameter validation
@@ -345,12 +352,12 @@ class GUIManager
 		
 		// create the theme state to go into the database.
 		$themeState = serialize($exportData);
-		
+		/*
 		// 1. create an id for the theme state
 		$sharedManager =& Services::getService("Shared");
 		$id =& $sharedManager->createId();
 		$idValue = $id->getIdString();
-		
+		*/
 		// 2. now simply insert the theme state
 		$db = $this->_guiDB.".";
 		$dbHandler =& Services::getService("DatabaseManager");
@@ -418,8 +425,11 @@ class GUIManager
 		$values[] = "'".addslashes($themeState)."'";
 		$query->setValues($values);
 		$query->addWhere($db."gui.gui_id=$idValue");
-	
 		
+		echo "<pre>\n";
+		echo MySQL_SQLGenerator::generateSQLQuery($query);
+		echo "</pre>\n";
+		exit();
 		//run the query
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
