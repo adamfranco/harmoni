@@ -1,5 +1,7 @@
 <?
 
+require_once(HARMONI."Primitives/Objects/SObject.class.php");
+
 /**
  * A class for passing an arbitrary input array as an iterator.
  *
@@ -8,9 +10,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIterator.class.php,v 1.7 2005/08/24 14:21:53 cws-midd Exp $
+ * @version $Id: HarmoniIterator.class.php,v 1.8 2005/08/31 15:00:52 adamfranco Exp $
  */
 class HarmoniIterator
+	extends SObject
 {
 
 	/**
@@ -28,7 +31,7 @@ class HarmoniIterator
 	/**
 	 * Constructor
 	 */
-	function HarmoniIterator (& $elementArray) {
+	function HarmoniIterator (&$elementArray) {
 		if($elementArray===NULL){
 			$elementArray=array();
 		}
@@ -56,17 +59,19 @@ class HarmoniIterator
 	/**
 	 * Gives the number of items in the iterator
 	 *
-	 * @return int $count
+	 * @return int
+	 * @public
 	 */
 	 function count () {
 	 	return count($this->_elements);
 	 }
 	 
 	/**
-	 * Skips the next $num indices in the iterator
+	 * Skips the next $num items in the iterator
 	 *
 	 * @param int $num
 	 * @return void
+	 * @public
 	 */
 	 function skipNext($num) {
 	 	if (($this->_i + $num) < count($this->_elements)-1)
