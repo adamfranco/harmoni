@@ -27,7 +27,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontFamilySC.class.php,v 1.7 2005/03/29 19:44:10 adamfranco Exp $
+ * @version $Id: FontFamilySC.class.php,v 1.8 2005/09/01 20:23:34 nstamato Exp $
  */
 class FontFamilySC extends StyleComponent {
 
@@ -100,7 +100,7 @@ class CSSFontFamilyValidatorRule extends ValidatorRuleInterface {
 			$GLOBALS['validator_rules'] = array();
 		
 		$class = __CLASS__;
-		if (!$GLOBALS['validator_rules'][$class])
+		if (!isset($GLOBALS['validator_rules'][$class]))
 			$GLOBALS['validator_rules'][$class] =& new $class;
 		
 		return $GLOBALS['validator_rules'][$class];
