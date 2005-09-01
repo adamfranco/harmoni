@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.23 2005/08/25 18:47:48 nstamato Exp $
+ * @version $Id: GUIManager.class.php,v 1.24 2005/09/01 20:38:54 nstamato Exp $
  */
 class GUIManager 
 	extends GUIManagerAbstract 
@@ -90,7 +90,6 @@ class GUIManager
 		$this->setTheme($theme);
 		
 		if (isset($id)){
-			//print "hello";
 			$this->loadThemeState($id,$theme);
 		}
 		
@@ -426,10 +425,10 @@ class GUIManager
 		$query->setValues($values);
 		$query->addWhere($db."gui.gui_id=$idValue");
 		
-		echo "<pre>\n";
-		echo MySQL_SQLGenerator::generateSQLQuery($query);
-		echo "</pre>\n";
-		exit();
+		//echo "<pre>\n";
+		//echo MySQL_SQLGenerator::generateSQLQuery($query);
+		//echo "</pre>\n";
+		//exit();
 		//run the query
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
