@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.21 2005/09/02 17:39:15 gabeschine Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.22 2005/09/02 17:45:55 gabeschine Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -151,12 +151,11 @@ class RecordFieldData {
 	 */
 	function recastAsStorable()
 	{
+		if ($this->_recast) return;
 		$dataTypeManager =& Services::getService("DataTypeManager");
 		$recordField =& $this->_parent->getRecordField();
 		$schemaField =& $recordField->getSchemaField();
 		$type = $schemaField->getType();
-		
-		if (is_a($this->_primitive, $dataTypeManager->storablePrimitiveClassForType($type))) return;
 		
 		$newObj =& $dataTypeManager->recastAsStorablePrimitive($this->_primitive, $type);
 		if ($newObj) {
