@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.22 2005/09/02 17:45:55 gabeschine Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.23 2005/09/06 19:56:23 cws-midd Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -156,7 +156,6 @@ class RecordFieldData {
 		$recordField =& $this->_parent->getRecordField();
 		$schemaField =& $recordField->getSchemaField();
 		$type = $schemaField->getType();
-		
 		$newObj =& $dataTypeManager->recastAsStorablePrimitive($this->_primitive, $type);
 		if ($newObj) {
 			$this->_primitive =& $newObj;
@@ -183,7 +182,7 @@ class RecordFieldData {
 				$this->_dataID = $this->_primitive->insert(DATAMANAGER_DBID);
 			else
 				$this->_primitive->update(DATAMANAGER_DBID,$this->_dataID);
-			
+						
 			$this->_date =& DateAndTime::now();
 			
 			if ($this->_myID) {

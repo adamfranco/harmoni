@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PersistentOrderedSet.class.php,v 1.2 2005/08/11 17:58:39 cws-midd Exp $
+ * @version $Id: PersistentOrderedSet.class.php,v 1.3 2005/09/06 19:56:23 cws-midd Exp $
  * @author Adam Franco
  */
  
@@ -131,7 +131,8 @@ class PersistentOrderedSet
 		// Remove the item from the database
 		$query =& new DeleteQuery;
 		$query->setTable("sets");
-		$query->addWhere("sets.id='".addslashes($this->_setId->getIdString())."'");
+		$query->addWhere("sets.id='".addslashes(
+			$this->_setId->getIdString())."'");
 				
 		$dbHandler =& Services::getService("DatabaseManager");
 		$dbHandler->query($query, $this->_dbIndex);

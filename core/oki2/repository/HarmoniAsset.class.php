@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.23 2005/08/24 14:21:53 cws-midd Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.24 2005/09/06 19:56:23 cws-midd Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.23 2005/08/24 14:21:53 cws-midd Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.24 2005/09/06 19:56:23 cws-midd Exp $ 
  */
 
 class HarmoniAsset
@@ -565,6 +565,83 @@ class HarmoniAsset
 		
 		return $assetIterator;
     
+    }
+	
+	/**
+     * Get the parents of this asset, Iterators return a set one at a time.
+     *
+     * WARNING: NOT IN OSID 
+     *
+     * @return object AssetIterator
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @access public
+     */
+    function &getParents () { 
+    	$assets = array();
+		$parents =& $this->_node->getParents();
+		while ($parents->hasNext()) {
+			$parent =& $parents->next();
+			$assets[] =& $this->_repository->getAsset($parent->getId());
+		}
+		
+		// create an AssetIterator and return it
+		$assetIterator =& new HarmoniAssetIterator($assets);
+		
+		return $assetIterator;
+    }
+	
+	/**
+     * Get the parents of this asset, Iterators return a set one at a time.
+     *
+     * WARNING: NOT IN OSID 
+     *
+     * @param object Type $assetType
+     *  
+     * @return object AssetIterator
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_TYPE
+     *         UNKNOWN_TYPE}
+     * 
+     * @access public
+     */
+    function &getParentsByType ( &$assetType ) { 
+    	$assets = array();
+		$parents =& $this->_node->getParents();
+		while ($parents->hasNext()) {
+			$parent =& $parents->next();
+			if ($assetType->isEqual($parent->getType()))
+				$assets[] =& $this->_repository->getAsset($parent->getId());
+		}
+		
+		// create an AssetIterator and return it
+		$assetIterator =& new HarmoniAssetIterator($assets);
+		
+		return $assetIterator;
     }
 	
 	 /**
@@ -1481,6 +1558,7 @@ class HarmoniAsset
     function &getPartValuesByPartStructure ( &$partStructureId ) { 
     	$partIterator =& $this->getPartsByPartStructure($partStructureId);
     	$partValues = array();
+//		print $partStructureId->getIdString()."<br />";
     	while ($partIterator->hasNext()) {
     		$part =& $partIterator->next();
     		$partValues[] =& $part->getValue();

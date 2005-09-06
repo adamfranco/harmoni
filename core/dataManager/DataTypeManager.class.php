@@ -15,7 +15,7 @@ require_once(HARMONI."dataManager/storablePrimitives/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataTypeManager.class.php,v 1.13 2005/07/18 14:45:25 gabeschine Exp $
+ * @version $Id: DataTypeManager.class.php,v 1.14 2005/09/06 19:56:20 cws-midd Exp $
  *
  * @author Gabe Schine
  */
@@ -139,7 +139,9 @@ class DataTypeManager {
 		$newClass = $this->_registeredTypes[$type]["storable"];
 		$newObj =& recast($primitive, $newClass);
 		// now call the constructor in case any setup has to be done.
-		if (method_exists($newObj, $newClass)) $newObj->$newClass();
+		// ----> i (gabe) am not sure why this is here. it is intefering
+		// with re-casting and retaining values, so it cannot be used.
+//		if (method_exists($newObj, $newClass)) $newObj->$newClass();
 		return $newObj;
 	}
 	

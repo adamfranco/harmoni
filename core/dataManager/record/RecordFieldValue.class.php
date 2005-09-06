@@ -17,7 +17,7 @@ define("NEW_VERSION","new");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldValue.class.php,v 1.18 2005/08/22 15:05:25 adamfranco Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.19 2005/09/06 19:56:23 cws-midd Exp $
  *
  * @author Gabe Schine
  */
@@ -84,7 +84,6 @@ class RecordFieldValue {
 		if (isset($this->_versions[NEW_VERSION]) && isset($this->_oldVersion)) {
 			$oldVal =& $this->_oldVersion->getPrimitive();
 			$newVal =& $this->_versions[NEW_VERSION]->getPrimitive();
-			
 			if ($oldVal->isEqual($newVal)) {
 				// let's kill the new version
 				unset($this->_versions[NEW_VERSION]);
@@ -97,6 +96,7 @@ class RecordFieldValue {
 		$pruned = array();
 		
 		foreach ($this->getVersionIDs() as $ver) {
+			$verPrim =& $this->_versions[$ver]->getPrimitive();
 			if ($this->_versions[$ver]->willPrune()) $pruned[] = $ver;
 			$this->_versions[$ver]->commit();
 		}
@@ -184,6 +184,7 @@ class RecordFieldValue {
 	* @param ref object $value A {@link SObject} object.
 	*/
 	function setValueFromPrimitive(&$value) {
+
 		// if we're version controlled, we're adding a new version
 		// otherwise, we're just setting the existing (or only active) one.
 		if ($this->_parent->_parent->isVersionControlled()) {		// @todo This is referencing another object's private variables. Bad!! Fix this!
@@ -191,8 +192,8 @@ class RecordFieldValue {
 			// which means, we add a new RecordFieldValue with a *replicate*
 			// of the primitive, so that it gets added to the DB.
 			$newVer =& $this->newRecordFieldData();
-			$newVer->setValueFromPrimitive($value->copy());
-			
+			$clone =& $value->copy();
+			$newVer->setValueFromPrimitive($clone);
 			// all done (we hope)
 			return true;
 		}
