@@ -20,66 +20,13 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.17 2005/08/10 21:38:33 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.18 2005/09/07 21:17:57 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
 {
 
 
-	/**
-	 * The description of this Group.
-	 * @var string _description 
-	 * @access private
-	 */
-	var $_description;
-	
-	
-	/**
-	 * An array storing groups that are members of this group.
-	 * @var array _groups 
-	 * @access private
-	 */
-	var $_groups;
-	
-	
-	/**
-	 * An array storing agents that are members of this group.
-	 * @var array _agents 
-	 * @access private
-	 */
-	var $_agents;
-	
-	
-	/**
-	 * The constructor.
-	 * @param string displayName The display name.
-	 * @param object id The id.
-	 * @param object type The type.
-	 * @param string description The description.
-	 * @param integer dbIndex The database connection as returned by the DBHandler.
-	 * @param string sharedDB The name of the shared database.
-	 * @access public
-	 */
-	function HarmoniGroup($displayName, & $id, & $type, & $propertiesArray, $description, $dbIndex, $sharedDB) {
-		// ** parameter validation
-		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
-		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
-		ArgumentValidator::validate($propertiesArray, ArrayValidatorRuleWithRule::getRule(
-					OptionalRule::getRule(
-						ExtendsValidatorRule::getRule("Properties")
-					)
-				), true);
-		// ** end of parameter validation
-		
-		$this->HarmoniAgent($displayName, $id, $type, $propertiesArray, $dbIndex, $sharedDB);
-		
-		$this->_description = $description;
-
-		$this->_groups = array();
-		$this->_agents = array();
-	}
 		
 	/**
 	 * Get the Description of this Group.
@@ -100,7 +47,7 @@ class HarmoniGroup
 	 * @access public
 	 */
 	function getDescription () { 
-		return $this->_description;
+		return $this->_node->getDescription();
 	}
 
 	/**
@@ -124,35 +71,7 @@ class HarmoniGroup
 	 * @access public
 	 */
 	function updateDescription ( $description ) {
-		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
-		ArgumentValidator::validate($description, $stringRule, true);
-		// ** end of parameter validation
-		
-		if ($this->_description == $description)
-			return; // nothing to update
-
-		// update the object
-		$this->_description = $description;
-
-		// update the database
-		$dbHandler =& Services::getService("DatabaseManager");
-		$db = $this->_sharedDB.".";
-		
-		$query =& new UpdateQuery();
-		$query->setTable($db."groups");
-		$id =& $this->getId();
-		$idValue = $id->getIdString();
-		$where = "{$db}groups.groups_id = '{$idValue}'";
-		$query->setWhere($where);
-		$query->setColumns(array("{$db}groups.groups_description"));
-		$query->setValues(array("'".addslashes($description)."'"));
-		
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error(AgentException::UNKNOWN_ID(),"HarmoniGroup",true));
-		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error(AgentException::OPERATION_FAILED() ,"HarmoniGroup",true));
+		$this->_node->updateDescription($description);
 	}		
 
 	/**
@@ -179,121 +98,9 @@ class HarmoniGroup
 	 */
 	function add ( &$memberOrGroup ) { 
 		// ** parameter validation
-		$extend =& ExtendsValidatorRule::getRule("Agent"); // Group objects extend Agent
-		ArgumentValidator::validate($memberOrGroup, $extend, true);
+		ArgumentValidator::validate($memberOrGroup, ExtendsValidatorRule::getRule("Agent"), true);
 		// ** end of parameter validation
-
-		// update the database
-		$dbHandler =& Services::getService("DatabaseManager");
-		$db = $this->_sharedDB.".";
-
-		// we have to figure out whether the argument is an agent or a group
-		$isGroup = is_a($memberOrGroup, get_class($this));
-		
-		$id =& $memberOrGroup->getId();
-		$idValue = $id->getIdString();
-		if ($isGroup && !isset($this->_groups[$idValue])) {
-			// check to see for existence in database
-			// if the agent does not exist, then we are in trouble
-			// NOTE: this check is not really needed because
-			// all groups or agents must have been gotten either trough
-			// the create or get methods, which ensure database existence.
-//			if (!HarmoniGroup::exist($memberOrGroup))
-//				throwError(new Error("Cannot add the group, because it does not exist in the database.",
-//									 "SharedManager", true));
-//	
-			// update the join table
-			$query =& new InsertQuery();
-			$query->setTable($db."j_groups_groups");
-			$columns = array();
-			$columns[] = $db."j_groups_groups.fk_parent";
-			$columns[] = $db."j_groups_groups.fk_child";
-			$query->setColumns($columns);
-			$values = array();
-			$parentId =& $this->getId();
-			$childId =& $memberOrGroup->getId();
-			$values[] = "'".addslashes($parentId->getIdString())."'";
-			$values[] = "'".addslashes($childId->getIdString())."'";
-			$query->setValues($values);
-	
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-			if ($queryResult->getNumberOfRows() != 1)
-				throwError(new Error(AgentException::OPERATION_FAILED(),"HarmoniGroup",true));
-
-			// add in the object
-			$this->_groups[$id->getIdString()] =& $memberOrGroup;
-		}
-		elseif (!isset($this->_agents[$idValue])) {
-			// check to see for existence in database
-			// if the agent does not exist, then we are in trouble
-			// NOTE: this check is not really needed because
-			// all groups or agents must have been gotten either trough
-			// the create or get methods, which ensure database existence.
-//			if (!HarmoniAgent::exist($memberOrGroup))
-//				throwError(new Error("Cannot add the agent, because it does not exist in the database.",
-//									 "SharedManager", true));
-//
-			// update the join table
-			$query =& new InsertQuery();
-			$query->setTable($db."j_groups_agent");
-			$columns = array();
-			$columns[] = $db."j_groups_agent.fk_groups";
-			$columns[] = $db."j_groups_agent.fk_agent";
-			$query->setColumns($columns);
-			$values = array();
-			$parentId =& $this->getId();
-			$childId =& $memberOrGroup->getId();
-			$values[] = "'".addslashes($parentId->getIdString())."'";
-			$values[] = "'".addslashes($childId->getIdString())."'";
-			$query->setValues($values);
-	
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-			if ($queryResult->getNumberOfRows() != 1)
-				throwError(new Error(AgentException::OPERATION_FAILED(),"HarmoniGroup",true));
-
-			// add in the object
-			$this->_agents[$id->getIdString()] =& $memberOrGroup;
-		}
-	}
-
-	/**
-	 * An implementation-specific public method that does exactly the same as add(),
-	 * but does not insert into the database.
-	 * @access public
-	 * @param object memberOrGroup
-	 * @throws object AgentException An exception with one of the
-	 *		   following messages defined in org.osid.agent.AgentException may
-	 *		   be thrown:  {@link
-	 *		   org.osid.agent.AgentException#OPERATION_FAILED
-	 *		   OPERATION_FAILED}, {@link
-	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
-	 *		   PERMISSION_DENIED}, {@link
-	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
-	 *		   CONFIGURATION_ERROR}, {@link
-	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
-	 *		   {@link org.osid.agent.AgentException#ALREADY_ADDED
-	 *		   ALREADY_ADDED}, {@link
-	 *		   org.osid.agent.AgentException#NULL_ARGUMENT NULL_ARGUMENT}
-	 * 
-	 */
-	function attach(& $memberOrGroup) {
-		// ** parameter validation
-		$extend =& ExtendsValidatorRule::getRule("Agent"); // Group objects extend Agent
-		ArgumentValidator::validate($memberOrGroup, $extend, true);
-		// ** end of parameter validation
-
-		// we have to figure out whether the argument is an agent or a group
-		$isGroup = is_a($memberOrGroup, get_class($this));
-		
-		$id =& $memberOrGroup->getId();
-		$idValue = $id->getIdString();
-		
-		if ($isGroup && !isset($this->_groups[$idValue]))
-			// add in the object
-			$this->_groups[$id->getIdString()] =& $memberOrGroup;
-		elseif (!$isGroup && !isset($this->_agents[$idValue]))
-			// add in the object
-			$this->_agents[$id->getIdString()] =& $memberOrGroup;
+		$memberOrGroup->_node->addParent($this->getId());
 	}
 	
 	/**
@@ -320,52 +127,9 @@ class HarmoniGroup
 	 */
 	function remove ( &$memberOrGroup ) {
 		// ** parameter validation
-		$extend =& ExtendsValidatorRule::getRule("Agent"); // Group objects extend Agent
-		ArgumentValidator::validate($memberOrGroup, $extend, true);
+		ArgumentValidator::validate($memberOrGroup, ExtendsValidatorRule::getRule("Agent"), true);
 		// ** end of parameter validation
-
-		$dbHandler =& Services::getService("DatabaseManager");
-		$db = $this->_sharedDB.".";
-
-		// we have to figure out whether the argument is an agent or a group
-		$isGroup = is_a($memberOrGroup, get_class($this));
-		
-		$id =& $memberOrGroup->getId();
-		
-		if ($isGroup) {
-			if (isset($this->_groups[$id->getIdString()])) {
-				// remove from join table
-				$parentId =& $this->getId();
-				$childId =& $memberOrGroup->getId();
-				$query =& new DeleteQuery();
-				$query->setTable($db."j_groups_groups");
-				$query->addWhere($db."j_groups_groups.fk_parent = '".addslashes($parentId->getIdString())."'");
-				$query->addWhere($db."j_groups_groups.fk_child = '".addslashes($childId->getIdString())."'");
-				$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-				if ($queryResult->getNumberOfRows() != 1)
-					throwError(new Error(AgentException::OPERATION_FAILED(),"HarmoniGroup",true));
-				
-				// remove from object
-				// DO NOT SET TO NULL
-				unset($this->_groups[$id->getIdString()]);
-			}
-		}
-		else
-			if (isset($this->_agents[$id->getIdString()])) {
-				// remove from join table
-				$parentId =& $this->getId();
-				$childId =& $memberOrGroup->getId();
-				$query =& new DeleteQuery();
-				$query->setTable($db."j_groups_agent");
-				$query->addWhere($db."j_groups_agent.fk_groups = '".addslashes($parentId->getIdString())."'");
-				$query->addWhere($db."j_groups_agent.fk_agent = '".addslashes($childId->getIdString())."'");
-				$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-				if ($queryResult->getNumberOfRows() != 1)
-					throwError(new Error(AgentException::OPERATION_FAILED(),"HarmoniGroup",true));
-				
-				// remove from object
-				unset($this->_agents[$id->getIdString()]);
-			}
+		$memberOrGroup->_node->removeParent($this->getId());
 	}
 
 	
@@ -395,40 +159,18 @@ class HarmoniGroup
 		ArgumentValidator::validate($includeSubgroups, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$result = new HarmoniAgentIterator($this->_getMembers($includeSubgroups, true));
-		return $result;
-	}
-	
-	/**
-	 * A private recursive auxiliary function for the getMembers method.
-	 * @access private
-	 * @param boolean includeSubgroups
-	 * @param boolean agents If TRUE will return groups, if FALSE will return agents. 
-	 * @return array 
-	 * @throws object AgentException An exception with one of the
-	 *		   following messages defined in org.osid.agent.AgentException may
-	 *		   be thrown:  {@link
-	 *		   org.osid.agent.AgentException#OPERATION_FAILED
-	 *		   OPERATION_FAILED}, {@link
-	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
-	 *		   PERMISSION_DENIED}, {@link
-	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
-	 *		   CONFIGURATION_ERROR}, {@link
-	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
-	 */
-	function &_getMembers($recursive, $agents = TRUE) {
-		if ($agents){
-			$result = $this->_agents;
-		}else{
-			$result = $this->_groups;
-		}
+		if ($includeSubgroups)
+			$levels = Hierarchy::TRAVERSE_LEVELS_ALL();
+		else
+			$levels = 1;
+			
+		$traversalIterator =& $this->_hierarchy->traverse($this->getId(),
+			Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
+			$levels);
+			
+		$members =& new MembersOnlyFromTraversalIterator($traversalIterator);
 		
-		if ($recursive) {
-			foreach (array_keys($this->_groups) as $i => $key)
-				$result += $this->_groups[$key]->_getMembers($recursive, $agents);
-		}
-				
-		return $result;
+		return $members;
 	}
 
 	/**
@@ -458,8 +200,18 @@ class HarmoniGroup
 		ArgumentValidator::validate($includeSubgroups, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$result = new HarmoniAgentIterator($this->_getMembers($includeSubgroups, false));
-		return $result;
+		if ($includeSubgroups)
+			$levels = Hierarchy::TRAVERSE_LEVELS_ALL();
+		else
+			$levels = 1;
+			
+		$traversalIterator =& $this->_hierarchy->traverse($this->getId(),
+			Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
+			$levels);
+		
+		$groups =& new GroupsOnlyFromTraversalIterator($traversalIterator, $this->getId());
+		
+		return $groups;
 	}
 
 	/**
@@ -488,76 +240,29 @@ class HarmoniGroup
 	 */
 	function contains ( &$memberOrGroup, $searchSubgroups ) { 
 		// ** parameter validation
-		$extend =& ExtendsValidatorRule::getRule("Agent"); // Group objects extend Agent
-		ArgumentValidator::validate($memberOrGroup, $extend, true);
+		ArgumentValidator::validate($memberOrGroup, ExtendsValidatorRule::getRule("Agent"), true);
 		ArgumentValidator::validate($searchSubgroups, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
-
-		// we have to figure out whether the argument is an agent or a group
-		$isGroup = is_a($memberOrGroup, get_class($this));
 		
 		$id =& $memberOrGroup->getId();
 
-		// check if $memberOrGroup is in this group
-		if ($isGroup && ($this->_groups[$id->getIdString()] == $memberOrGroup))
-			return true;
-		elseif ($this->_agents[$id->getIdString()] == $memberOrGroup)
-			return true;
-			
-		// search recursively
-		if ($searchSubgroups)
-			foreach (array_keys($this->_groups) as $i => $key)
-				if ($this->_groups[$key]->contains($memberOrGroup, $searchSubgroups))
-					return true;
-
-		return false;
-	}
-	
-	/**
-	 * A method checking whether the specified group exist in the database.
-	 * 
-	 * WARNING: NOT IN OSID
-	 *
-	 * @access public
-	 * @static
-	 * @param boolean agentOrGroup TRUE, if <code>$memberOrGroup</code> is an agent; 
-	 *		FALSE, if it is a group.
-	 * @return boolean <code>tru</code> if it exists; <code>false</code> otherwise.
-	 **/
-	function exist(& $group, $agentOrGroup) {
-		$dbHandler =& Services::getService("DatabaseManager");
-		$query =& new SelectQuery();
-		
-		// get the id
-		$id =& $group->getId();
-		$idValue = $id->getIdString();
-
-		// string prefix
-		$db = $group->_sharedDB.".";
-		
-		// set the tables
-		$query->addTable($db."groups");
-		// set the columns to select
-		$query->addColumn("groups_id", "id");
-		// set where
-		$where = "groups_id = '".addslashes($idValue)."' AND ";
-		$where .= "groups_display_name = '".addslashes($group->getDisplayName())."' AND ";
-		$where .= "groups_description = '".addslashes($group->getDescription())."'";
-		$query->addWhere($where);
-
-		echo "<pre>\n";
-		echo MySQL_SQLGenerator::generateSQLQuery($query);
-		echo "</pre>\n";
-		
-		$queryResult =& $dbHandler->query($query, $group->getDBIndex());
-		$num = $queryResult->getNumberOfRows();
-		$queryResult->free();
-		if ($num == 1)
-			return true;
+		if ($includeSubgroups)
+			$levels = Hierarchy::TRAVERSE_LEVELS_ALL();
 		else
-			return false;
+			$levels = 1;
+			
+		$traversalIterator =& $this->_hierarchy->traverse($this->getId(),
+			Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
+			$levels);
+		
+		while ($traversalIterator->hasNext()) {
+			$info =& $traversalIterator->next();
+			if ($id->isEqual($info->getNodeId()))
+				return true;
+		}
+		
+		return FALSE;
 	}
-
 }
 
 ?>

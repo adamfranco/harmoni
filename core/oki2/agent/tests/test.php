@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: test.php,v 1.7 2005/09/07 21:17:58 adamfranco Exp $
  */
  
 require_once dirname(__FILE__)."/../../../../core/utilities/Timer.class.php";
@@ -32,14 +32,15 @@ $harmonyLoadupTimer->end();
 
 	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
 	$errorHandler =& Services::getService("ErrorHandler");
-	$dbHandler =& Services::getService("DatabaseManager");
-	$errorHandler->setDebugMode(TRUE);
+	$context =& new OsidContext;
+	$configuration =& new ConfigurationProperties;
+	Services::startManagerAsService("DatabaseManager", $context, $configuration);
 	
 	
-	$test =& new GroupTest('Shared Tests');
-	$test->addTestFile(HARMONI.'/oki/shared/tests/SharedManagerTestCase.class.php');
-	$test->addTestFile(HARMONI.'/oki/shared/tests/AgentTestCase.class.php');
-	$test->addTestFile(HARMONI.'/oki/shared/tests/GroupTestCase.class.php');
+	$test =& new GroupTest('Agent Tests');
+	$test->addTestFile(dirname(__FILE__).'/SharedManagerTestCase.class.php');
+	$test->addTestFile(dirname(__FILE__).'/AgentTestCase.class.php');
+	$test->addTestFile(dirname(__FILE__).'/GroupTestCase.class.php');
 
 	$test->attachObserver(new DoboTestHtmlDisplay());
 	$test->run();
@@ -50,11 +51,11 @@ print "\n<br />Harmoni Load Time: ".$harmonyLoadupTimer->printTime();
 print "\n<br />Overall Time: ".$timer->printTime();
 print "\n</p>";
 
-$num = $dbHandler->getTotalNumberOfQueries();
-debug::output("Total # of queries: ".$num,1,"DBHandler");
+// $num = $dbHandler->getTotalNumberOfQueries();
+// debug::output("Total # of queries: ".$num,1,"DBHandler");
 //debug::printAll();
-unset($dbHandler,$errorHandler, $userError);
-unset($num);
+// unset($dbHandler,$errorHandler, $userError);
+// unset($num);
 //	$errorHandler->printErrors(HIGH_DETAIL);
 //	print "<pre>";
 //	print_r($errorHandler);

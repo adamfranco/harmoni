@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.16 2005/08/01 20:04:20 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.17 2005/09/07 21:17:58 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -1491,10 +1491,10 @@ class HarmoniAuthorizationManager
 			}
 		}
 		
-		// Otherwise return Id == 0 for the "anonymous user"
+		// Otherwise return the "anonymous user"
 		if (!$isAuthenticated) {
 			$idManager =& Services::getService("Id");
-			$ids[] =& $idManager->getId("0");
+			$ids[] =& $idManager->getId("edu.middlebury.agents.anonymous");
 		}
 		
 		return $ids;

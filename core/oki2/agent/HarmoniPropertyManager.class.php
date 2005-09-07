@@ -35,7 +35,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniPropertyManager.class.php,v 1.3 2005/08/11 17:58:37 cws-midd Exp $
+ * @version $Id: HarmoniPropertyManager.class.php,v 1.4 2005/09/07 21:17:57 adamfranco Exp $
  *
  * @author Ben Gore
  */
@@ -116,7 +116,7 @@ class HarmoniPropertyManager
 	 * @access public
 	 */
 
-	function & retrieveProperties($object_id_string){
+	function &retrieveProperties($object_id_string){
 		$current_property_type = null;//for distinguishing whether the type retrieved is new or not.  Obviously, the first one is
 		$propertiesArray = array();//for storing each property object of type
 		
@@ -311,34 +311,7 @@ class HarmoniPropertyManager
 	 	}
 	 	
 	 	return $property;
-	 }
-	
-	/**
-	 * The start function is called when a service is created. Services may
-	 * want to do pre-processing setup before any users are allowed access to
-	 * them.
-	 * 
-	 * WARNING: NOT IN OSID
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function start() {
-	}
-	
-	/**
-	 * The stop function is called when a Harmoni service object is being destroyed.
-	 * Services may want to do post-processing such as content output or committing
-	 * changes to a database, etc.
-	 * 
-	 * WARNING: NOT IN OSID
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function stop() {
-	}
-	
+	 }	
 }
 
 ?>

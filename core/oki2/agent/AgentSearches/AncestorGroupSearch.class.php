@@ -11,12 +11,18 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.11 2005/08/10 21:38:33 adamfranco Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.12 2005/09/07 21:17:58 adamfranco Exp $
  */
 
 class AncestorGroupSearch
 	extends AgentSearchInterface {
 	
+	/**
+	 * @var object $_hierarchy;  
+	 * @access private
+	 * @since 8/30/05
+	 */
+	var $_hierarchy;
 	/**
 	 * Constructor
 	 * 
@@ -25,9 +31,8 @@ class AncestorGroupSearch
 	 * @access public
 	 * @since 12/1/04
 	 */
-	function AncestorGroupSearch ($dbIndex) {
-		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule());
-		$this->_dbIndex = $dbIndex;
+	function AncestorGroupSearch ( &$hierarchy) {
+		$this->_hierarchy =& $hierarchy;
 	}
 	
 	
@@ -63,107 +68,53 @@ class AncestorGroupSearch
 	function &getGroupsBySearch ( & $searchCriteria) {
 		ArgumentValidator::validate($searchCriteria, ExtendsValidatorRule::getRule("Id"));
 		
-		$groupOrAgentId = $searchCriteria->getIdString();
+		$agentManager =& Services::getService("Agent");
+		$traversalIterator =& $this->_hierarchy->traverse($searchCriteria,
+				Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_UP(), 
+				Hierarchy::TRAVERSE_LEVELS_ALL());
+				
+		$idManager =& Services::getService("Id");
+		$everyoneId =& $idManager->getId("edu.middlebury.agents.everyone");
 		
+		$levelToReturnTo = NULL;
 		$groupIds = array();
 		
-		// Add the Everyone Group
-		$groupIds[] = "edu.middlebury.agents.everyone";
-		
-		// Add the Users Group, only if we are not searching for either Anonymous (0)
-		// or Everyone (-1)
-		$ignore = array("edu.middlebury.agents.anonymous","edu.middlebury.agents.everyone"); $ok = true;
-		foreach ($ignore as $idString) {
-			if ($idString == $groupOrAgentId) $ok = false;
-		}
-		if ($ok) $groupIds[] = "edu.middlebury.agents.users";
-		
-		// first look in the group_agent table to see if our requested Id is
-		// an agent and if so what groups it is a member of. If these exist,
-		// add these to our final list and use these to start our join clause
-		$groupsToCheck = array();
-		
-		$dbHandler =& Services::getService("DatabaseManager");
-		
-		$query =& new SelectQuery();
-		$query->addColumn("fk_groups", "group_id");
-		$query->addTable("j_groups_agent");
-		$query->addWhere("fk_agent = '".addslashes($groupOrAgentId)."'");
-		
-		$result =& $dbHandler->query($query, $this->_dbIndex);
-		// if we have results, then our original Id was an agent,
-		// add the found Ids to our result list as well as to our
-		// list of groups to check.
-		if ($result->getNumberOfRows()) {
-			while ($row =& $result->getCurrentRow()) {
-				$groupIds[] = $row['group_id'];
-				$groupsToCheck[] = addslashes($row['group_id']);
-				$result->advanceRow();
-			}
-		}
-		
-		
-		// If we don't have any rows returned, then the Id is that of
-		// a group or is unknown. Just add the passed Id as the one to check.
-		else {
-			$groupsToCheck[] = addslashes($groupOrAgentId);
-		}
-		$result->free();
-		
-		// Now go through join the possible ancestors onto our starting groups.
-		// These ancestors will then be added to our final list.
-		$query =& new SelectQuery();
-		$query->addColumn("fk_child", "starting_group_id", "subgroup1");
-		$query->addColumn("fk_parent", "subgroup1_id", "subgroup1");
-		$query->addTable("j_groups_groups", NO_JOIN, "", "subgroup1");
-		
-		$list = implode("','", $groupsToCheck);
-		$list = "'".$list."'";
-		$query->addWhere("subgroup1.fk_child IN ($list)");
-		
-		// now left join with itself.
-		// maximum number of joins is 31, we've used 7 already, so there are 24 left
-		// bottom line: a maximum group hierarchy of 25 levels
-		for ($level = 1; $level <= 29; $level++) {
-			$joinc = "subgroup".($level).".fk_parent = subgroup".($level+1).".fk_child";
-			$query->addTable("j_groups_groups", LEFT_JOIN, $joinc, "subgroup".($level+1));
-			$query->addColumn("fk_child", "subgroup".($level+1)."_id", "subgroup".($level+1));
-		}
-		
-// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
-		$result =& $dbHandler->query($query, $this->_dbIndex);
-		
-		// Go through each ancestor path and add the ancestor Ids to our groupIds
-		// array.
-		while ($row =& $result->getCurrentRow()) {
-			// Go up the Ancestory path until we hit null.
-			$level = 1;
-			while ($row['subgroup'.$level."_id"] 
-					&& $row['subgroup'.$level."_id"] != "NULL"
-					&& $level < 29)
-			{
-				$groupIds[] = $row['subgroup'.$level."_id"];
-				$level++;
-			}
+		while ($traversalIterator->hasNext()) {
+			$traversalInfo =& $traversalIterator->next();
+			$nodeId =& $traversalInfo->getNodeId();
 			
-			$result->advanceRow();
+			// if we are within the agent/groups tree...
+			if ($levelToReturnTo == null
+				|| $traversalInfo->getLevel() > $levelToReturnTo) 
+			{
+				// Do not continue above the root of the agent/group tree, 'everyone'
+				if ($levelToReturnTo == null 
+					&& $everyoneId->isEqual($nodeId)) 
+				{
+					$levelToReturnTo = $traversalInfo->getLevel();
+				} else if ($traversalInfo->getLevel() > $levelToReturnTo) {
+					$levelToReturnTo = null;
+				}
+				
+				// Add the group id to our list.
+				if (!$searchCriteria->isEqual($nodeId)
+					&& $agentManager->isGroup($nodeId))
+				{
+					$groupIds[$nodeId->getIdString()] =& $nodeId;
+				}
+			}			
 		}
-		$result->free();
 		
-		// Filter out duplicates and our starting id
-		$groupIds = array_unique($groupIds);
-		$groupIds = array_diff($groupIds, array($groupOrAgentId));
-		
+				
 		// now create an array of the group objects to add to the iterator.
 		$agentManager =& Services::getService("Agent");
-		$idManager =& Services::getService("Id");
 		$groups = array();
-		foreach ($groupIds as $id) {
-			$groupId =& $idManager->getId($id);
+		foreach ($groupIds as $groupId) {
 			$groups[] =& $agentManager->getGroup($groupId);
 		}
 				
-		return new HarmoniIterator($groups);
+		$iterator =& new HarmoniIterator($groups);
+		return $iterator;
 	}
 }
 

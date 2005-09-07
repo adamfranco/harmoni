@@ -17,7 +17,7 @@ require_once(dirname(__FILE__)."/HarmoniAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.4 2005/08/10 13:25:21 gabeschine Exp $
+ * @version $Id: UsersGroup.class.php,v 1.5 2005/09/07 21:17:57 adamfranco Exp $
  */
 class UsersGroup
 	extends HarmoniGroup
@@ -273,7 +273,7 @@ class UsersGroup
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.4 2005/08/10 13:25:21 gabeschine Exp $
+ * @version $Id: UsersGroup.class.php,v 1.5 2005/09/07 21:17:57 adamfranco Exp $
  */
 
 class UsersGroupIterator extends HarmoniAgentIterator {
@@ -285,7 +285,7 @@ class UsersGroupIterator extends HarmoniAgentIterator {
 		$this->_iterator =& $agentIterator;
 		$this->_next = null;
 		$ids =& Services::getService("Id");
-		$this->_ignore =& $ids->getId("0");
+		$this->_ignore =& $ids->getId("edu.middlebury.agents.anonymous");
 		
 		$this->_getNext();
 	}

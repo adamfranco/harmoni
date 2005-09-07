@@ -17,91 +17,40 @@ require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.15 2005/08/10 21:38:33 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.16 2005/09/07 21:17:57 adamfranco Exp $
  */
 class HarmoniAgent 
 	extends Agent
 {
 
 	/**
-	 * The display name.
-	 * @var string _displayName 
-	 * @access private
+	 * The node that this group corresponds to.
+	 * @var object _node 
+	 * @access protected
 	 */
-	var $_displayName;
-	
+	var $_node;
 	
 	/**
-	 * The Id of this Agent.
-	 * @var object _Id 
+	 * @var object $_hierarchy;  
 	 * @access private
+	 * @since 8/30/05
 	 */
-	var $_id;
-	
-	
-	/**
-	 * The type of this Agent.
-	 * @var object _type 
-	 * @access private
-	 */
-	var $_type;
-	
-	
-	/**
-	 * The database connection as returned by the DBHandler.
-	 * @var integer _dbIndex 
-	 * @access private
-	 */
-	var $_dbIndex;
-
-	
-	/**
-	 * The name of the shared database.
-	 * @var string _sharedDB 
-	 * @access private
-	 */
-	var $_sharedDB;
-	
-	/**
-	 * An array of properties objects
-	 * @var array _propertiesArray
-	 * @access private
-	 */
-	var $_propertiesArray;
-	
-
+	var $_hierarchy;
 	
 	/**
 	 * The constructor.
-	 * @param string displayName The display name.
-	 * @param object id The id.
-	 * @param object type The type.
-	 * @param integer dbIndex The database connection as returned by the DBHandler.
-	 * @param string sharedDB The name of the shared database.
+	 * @param object Hierarchy $hierarchy
+	 * @param object Node $node
 	 * @access public
 	 */
-	function HarmoniAgent($displayName, & $id, & $type, & $propertiesArray, $dbIndex, $sharedDB) {
+	function HarmoniAgent($hierarchy, $node) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
-		ArgumentValidator::validate($displayName, $stringRule, true);
-		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
-		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
-		ArgumentValidator::validate($propertiesArray, ArrayValidatorRuleWithRule::getRule(
-					OptionalRule::getRule(
-						ExtendsValidatorRule::getRule("Properties")
-					)
-				), true);
-		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
-		ArgumentValidator::validate($sharedDB, $stringRule, true);
-		// ** end of parameter validation
+		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("Node"), true);
+		ArgumentValidator::validate($hierarchy, ExtendsValidatorRule::getRule("Hierarchy"), true);
 		
-		$this->_displayName = $displayName;
-		$this->_id =& $id;
-		$this->_type =& $type;
-		$this->_propertiesArray =& $propertiesArray;
-		$this->_dbIndex = $dbIndex;
-		$this->_sharedDB = $sharedDB;
-	}	
+		$this->_hierarchy =& $hierarchy;
+		$this->_node =& $node;
+	}
 	
 
 	/**
@@ -123,7 +72,7 @@ class HarmoniAgent
 	 * @access public
 	 */
 	function getDisplayName () { 
-		return $this->_displayName;
+		return $this->_node->getDisplayName();
 	}
 
 	/**
@@ -145,7 +94,7 @@ class HarmoniAgent
 	 * @access public
 	 */
 	function &getId () { 
-		return $this->_id;
+		return $this->_node->getId();
 	}
 
 	/**
@@ -167,7 +116,7 @@ class HarmoniAgent
 	 * @access public
 	 */
 	function &getType () { 
-		return $this->_type;
+		return $this->_node->getType();
 	}
 
 	/**
@@ -189,8 +138,10 @@ class HarmoniAgent
 	 * @access public
 	 */
 	function &getProperties () { 
-		
-		$iterator =& new HarmoniPropertiesIterator($this->_propertiesArray);
+		$propertyManager =& Services::getService("Property");
+		$iterator =& new HarmoniPropertiesIterator(
+			$propertyManager->retrieveProperties($this->getId()));
+			
 		return $iterator;
 	
 	}
@@ -219,16 +170,17 @@ class HarmoniAgent
 	 * @access public
 	 */
 	function &getPropertiesByType ( &$propertiesType ) { 
-		$array = array();
+		$propertyManager =& Services::getService("Property");
+		$propertiesArray =& $propertyManager->retrieveProperties($this->getId());
 		
 		//if we don't have an object of the type, we'll want to return Null so we know that
 		$propertiesOfType=null;
 		
-		foreach (array_keys($this->_propertiesArray) as $key) {
+		foreach (array_keys($propertiesArray) as $key) {
 			if ($propertiesType->isEqual(
-					$this->_propertiesArray[$key]->getType()))
+					$propertiesArray[$key]->getType()))
 			{
-				$propertiesOfType =& $this->_propertiesArray[$key];
+				$propertiesOfType =& $propertiesArray[$key];
 			}
 		}
 		
@@ -256,9 +208,11 @@ class HarmoniAgent
 	 */
 	function &getPropertyTypes () { 
 		$array = array();
+		$propertyManager =& Services::getService("Property");
+		$propertiesArray =& $propertyManager->retrieveProperties($this->getId());
 		
-		foreach (array_keys($this->_propertiesArray) as $key) {
-			$type =& $this->_propertiesArray[$key]->getType();
+		foreach (array_keys($propertiesArray) as $key) {
+			$type =& $propertiesArray[$key]->getType();
 			$typeString = $type->getDomain()
 							."::".$type->getAuthority()
 							."::".$type->getKeyword();
@@ -269,73 +223,6 @@ class HarmoniAgent
 		return $iterator;
 	
 	}	
-	
-	
-	/**
-	 * Gets the dbIndex of this group.
-	 * 
-	 * WARNING: NOT IN OSID
-	 *
-	 * @access public
-	 * @return integer The dbIndex.
-	 **/
-	function getDBIndex() {
-		return $this->_dbIndex;
-	}
-	
-	
-	/**
-	 * Gets the sharedDB of this group.
-	 * 
-	 * WARNING: NOT IN OSID
-	 *
-	 * @access public
-	 * @return integer The sharedDB.
-	 **/
-	function getSharedDB() {
-		return $this->_sharedDB;
-	}
-	
-
-	/**
-	 * A method checking whether the specified agent exist in the database.
-	 * 
-	 * WARNING: NOT IN OSID
-	 *
-	 * @access public
-	 * @static
-	 * @param object memberOrGroup The group or agent to check for existence.
-	 * @return boolean <code>tru</code> if it exists; <code>false</code> otherwise.
-	 **/
-	function exist(& $agent) {
-		$dbHandler =& Services::getService("DatabaseManager");
-		$query =& new SelectQuery();
-		
-		// get the id
-		$id =& $agent->getId();
-		$idValue = $id->getIdString();
-
-		// string prefix
-		$db = $agent->_sharedDB.".";
-		
-		// set the tables
-		$query->addTable($db."agent");
-		// set the columns to select
-		$query->addColumn("agent_id", "id");
-		// set where
-		$where = "agent_id = '".addslashes($idValue)."' AND ";
-		$where .= "agent_display_name = '".addslashes($agent->getDisplayName())."'";
-		$query->setWhere($where);
-
-		$queryResult =& $dbHandler->query($query, $agent->getDBIndex());
-		$num = $queryResult->getNumberOfRows();
-		$queryResult->free();
-		if ($num == 1)
-			return true;
-		else
-			return false;
-	}	
 }
-
 
 ?>

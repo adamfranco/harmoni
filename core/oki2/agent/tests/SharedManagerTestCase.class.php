@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SharedManagerTestCase.class.php,v 1.8 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: SharedManagerTestCase.class.php,v 1.9 2005/09/07 21:17:58 adamfranco Exp $
  */
 
 class SharedManagerTestCase extends UnitTestCase {
@@ -30,7 +30,7 @@ class SharedManagerTestCase extends UnitTestCase {
 		$dbHandler->pConnect($dbIndex);
 		unset($dbHandler); // done with that for now
 		
-		$this->manager =& new HarmoniSharedManager($dbIndex, "doboHarmoniTest");
+		$this->manager =& new HarmoniAgentManager($dbIndex, "doboHarmoniTest");
 	   }
 	
 	   /**

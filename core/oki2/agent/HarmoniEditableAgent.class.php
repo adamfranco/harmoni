@@ -15,37 +15,12 @@ require_once("HarmoniAgent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEditableAgent.class.php,v 1.1 2005/05/19 17:25:48 thebravecowboy Exp $
+ * @version $Id: HarmoniEditableAgent.class.php,v 1.2 2005/09/07 21:17:57 adamfranco Exp $
  */
 
 class HarmoniEditableAgent
 	extends HarmoniAgent
 {
-	var $_idString;	
-	
-	/***
-	 * Constructor for the editable agent.  Just calls the constructor
-	 * for the normal agent.
-	 *
-	 * @param string $displayName
-	 * @param object Id $id
-	 * @param object Type $type
-	 * @param array $propertiesArray
-	 * @param int $dbIndex
-	 * @param string $sharedDB
-	 *
-	 * @access public
-	 *
-	 * @return void
-	 */
-	 
-	
-	function HarmoniEditableAgent($displayName, & $id, & $type, & $propertiesArray, $dbIndex, $sharedDB){
-		//initialize the agent with the preexisting constructor
-		$this->HarmoniAgent($displayName, $id, $type, $propertiesArray, $dbIndex, $sharedDB);
-	
-		$this->_idString = $this->_id->getIdString();
-	}
 	
 	/***
 	 * changes the agent's display name to $newDisplayName
@@ -61,23 +36,8 @@ class HarmoniEditableAgent
 		//make sure its a string
 		ArgumentValidator::validate($newDisplayName, new StringValidatorRule(), true);
 		//set the display name in the object
-		$this->_displayName = $newDisplayName;
 		
-		//set the displa name in the DB
-		$dbHandler =& Services::getService("DBHandler");
-		$db = $this->_sharedDB.".";
-		$idString = $this->_id->getIdString();
-		
-		$query =& new UpdateQuery();
-		$query->setTable($db."agent");
-		$query->setColumns(array("agent_display_name"));
-		$query->setValues(array("'{$newDisplayName}'"));
-		$query->addWhere("agent_id='".$idString."'");
-		
-		$result =& $dbHandler->query($query, $this->_dbIndex);
-		
-		//return true or false on success or failure
-		return $result ? true : false;	
+		$this->_node->updateDisplayName($newDisplayName);
 	}
 	
 	/***
@@ -127,7 +87,7 @@ class HarmoniEditableAgent
 	 * @return boolean
 	 */
 	
-	function updateProperty(& $type, $key, & $value){
+	function updateProperty( &$type, $key, &$value ){
 		//get the properties object for Type		
 		$property =& $this->getPropertiesByType($type);
 		
@@ -140,7 +100,7 @@ class HarmoniEditableAgent
 		$propertyValue = $property->getProperty($key);
 		
 		//if the value is null, the key doesn't exist (cleared values are set to FALSE not NULL)
-		if($propertyValue===null){
+		if($propertyValue===null) {
 			return false;
 		}
 		
@@ -166,7 +126,7 @@ class HarmoniEditableAgent
 	 * @access public
 	 */
 	 
-	function deleteProperty(& $type, $key){
+	function deleteProperty( &$type, $key ) {
 		//the properties object hold properties of this type
 		$property =& $this->getPropertiesByType($type);
 		
@@ -215,7 +175,7 @@ class HarmoniEditableAgent
 	  * @access public
 	  */
 	  
-	  function clearAllProperties(){
+	  function clearAllProperties() {
 	  	$value = false;//indicating set but empty.  NULL would confuse things if the property key didn't exist (which would be a true null)
 	  	
 	  	//cycle through the properties
