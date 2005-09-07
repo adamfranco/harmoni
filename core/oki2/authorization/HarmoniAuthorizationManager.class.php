@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.17 2005/09/07 21:17:58 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.18 2005/09/07 21:41:04 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -177,7 +177,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function & createDatedAuthorization ( &$agentId, &$functionId, &$qualifierId, $effectiveDate, $expirationDate ) { 
+	function &createDatedAuthorization ( &$agentId, &$functionId, &$qualifierId, $effectiveDate, $expirationDate ) { 
 		$authorization =& $this->_cache->createAuthorization($agentId, $functionId, $qualifierId, $effectiveDate, $expirationDate);
 		return $authorization;
 	}
@@ -212,7 +212,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function & createAuthorization ( &$agentId, &$functionId, &$qualifierId ) { 
+	function &createAuthorization ( &$agentId, &$functionId, &$qualifierId ) { 
 		$authorization =& $this->_cache->createAuthorization($agentId, $functionId, $qualifierId);
 		return $authorization;
 	}
@@ -248,7 +248,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function & createFunction ( &$functionId, $displayName, $description, &$functionType, &$qualifierHierarchyId ) { 
+	function &createFunction ( &$functionId, $displayName, $description, &$functionType, &$qualifierHierarchyId ) { 
 		$function =& $this->_cache->createFunction($functionId, $displayName, $description, $functionType, $qualifierHierarchyId);
 		return $function;
 	}
@@ -288,7 +288,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function & createRootQualifier ( &$qualifierId, $displayName, $description, &$qualifierType, &$qualifierHierarchyId ) { 
+	function &createRootQualifier ( &$qualifierId, $displayName, $description, &$qualifierType, &$qualifierHierarchyId ) { 
 		$qualifier =& $this->_cache->createRootQualifier($qualifierId, $displayName, $description, $qualifierType, $qualifierHierarchyId);
 		return $qualifier;
 	}

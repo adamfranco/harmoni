@@ -17,7 +17,7 @@ require_once(dirname(__FILE__)."/HarmoniAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.5 2005/09/07 21:17:57 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.6 2005/09/07 21:41:04 adamfranco Exp $
  */
 class UsersGroup
 	extends HarmoniGroup
@@ -273,7 +273,7 @@ class UsersGroup
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.5 2005/09/07 21:17:57 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.6 2005/09/07 21:41:04 adamfranco Exp $
  */
 
 class UsersGroupIterator extends HarmoniAgentIterator {
@@ -304,7 +304,7 @@ class UsersGroupIterator extends HarmoniAgentIterator {
 		return $this->_next?true:false;
 	}
 	
-	function & next() {
+	function &next() {
 		if ($this->_next) {
 			$next =& $this->_next;
 			$this->_getNext();

@@ -29,7 +29,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuTheme.abstract.php,v 1.2 2005/03/29 19:44:09 adamfranco Exp $
+ * @version $Id: MenuTheme.abstract.php,v 1.3 2005/09/07 21:41:03 adamfranco Exp $
  **/
 class MenuThemeAbstract extends Theme /* implements MenuThemeInterface */ {
 	
@@ -81,7 +81,7 @@ class MenuThemeAbstract extends Theme /* implements MenuThemeInterface */ {
 	 * @return ref object The <code>Menu</code> object at the specified level, or <code>NULL</code>
 	 * if no menu was found.
 	 **/
-	function & getMenu($level) {
+	function &getMenu($level) {
 		// ** parameter validation
 		ArgumentValidator::validate($level > 0, TrueValidatorRule::getRule(), true);
 		// ** end of parameter validation		
