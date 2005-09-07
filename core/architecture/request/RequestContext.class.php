@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.16 2005/08/18 15:46:18 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.17 2005/09/07 20:46:27 gabeschine Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -396,7 +396,7 @@ class RequestContext {
 		$array = array();
 		$keys = array_unique(array_merge(array_keys($this->_fileData), array_merge(array_keys($this->_requestData), array_keys($this->_contextData))));
 		foreach ($keys as $key) {
-			if (ereg("^$pre\\".REQUEST_HANDLER_CONTEXT_DELIMETER."([^".REQUEST_HANDLER_CONTEXT_DELIMETER."]+)", $key, $r)) {
+			if (ereg("^$pre\\".REQUEST_HANDLER_CONTEXT_DELIMETER."(.+)", $key, $r)) {
 				$array[] = $r[1];
 			}
 		}

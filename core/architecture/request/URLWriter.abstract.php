@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: URLWriter.abstract.php,v 1.4 2005/06/07 14:42:23 adamfranco Exp $
+ * @version $Id: URLWriter.abstract.php,v 1.5 2005/09/07 20:46:27 gabeschine Exp $
  */
 
 class URLWriter {
@@ -75,6 +75,17 @@ class URLWriter {
 	function setValue($key, $value) {
 		$key = RequestContext::name($key);
 		$this->_vars[$key] = $value;
+	}
+	
+	/**
+	 * Calls {@link RequestContext::locationHeader} with this URL.
+	 *
+	 * @return void
+	 **/
+	function redirectBrowser()
+	{
+		$harmoni =& Harmoni::instance();
+		$harmoni->request->locationHeader($this->write());
 	}
 	
 	/** 
