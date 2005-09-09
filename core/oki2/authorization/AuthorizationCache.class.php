@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.20 2005/08/11 17:58:38 cws-midd Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.21 2005/09/09 21:32:54 gabeschine Exp $
  */
 class AuthorizationCache {
 
@@ -724,7 +724,7 @@ class AuthorizationCache {
 		ArgumentValidator::validate($groupIds, ArrayValidatorRuleWithRule::getRule(OptionalRule::getRule($rule)), true);
 		ArgumentValidator::validate($aId, OptionalRule::getRule($rule), true);
 		ArgumentValidator::validate($fId, OptionalRule::getRule($rule), true);
-		ArgumentValidator::validate($qId, $rule, true);
+		ArgumentValidator::validate($qId, OptionalRule::getRule($rule), true);
 		ArgumentValidator::validate($fType, OptionalRule::getRule(ExtendsValidatorRule::getRule("Type")), true);
 		ArgumentValidator::validate($isExplicit, BooleanValidatorRule::getRule(), true);
 		ArgumentValidator::validate($isActiveNow,BooleanValidatorRule::getRule(), true);
@@ -744,32 +744,37 @@ class AuthorizationCache {
 		// check all ancestors of given qualifier
 		$hierarchyManager =& Services::getService("Hierarchy");
 
-		$qualifierId =& $idManager->getId($qId);
-		$node =& $hierarchyManager->getNode($qualifierId);
-		$hierarchy =& $hierarchyManager->getHierarchyForNode($node);
+		if (isset($qId)) {
+			$qualifierId =& $idManager->getId($qId);
+			$node =& $hierarchyManager->getNode($qualifierId);
+			$hierarchy =& $hierarchyManager->getHierarchyForNode($node);
 		
-		// these are the ancestor nodes
-		$nodes =& $hierarchy->traverse($qualifierId, Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
-				Hierarchy::TRAVERSE_DIRECTION_UP(), Hierarchy::TRAVERSE_LEVELS_ALL());
+			if (!$isExplicit) {
+				// these are the ancestor nodes
+				$nodes =& $hierarchy->traverse($qualifierId, Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
+						Hierarchy::TRAVERSE_DIRECTION_UP(), Hierarchy::TRAVERSE_LEVELS_ALL());
 				
-		// now get the id of each node and store in array
-		while($nodes->hasNext()){
-			$info =& $nodes->next();
-			$id =& $info->getNodeId();
-			$qualifiers[] = $id->getIdString();
-		}
+				// now get the id of each node and store in array
+				while($nodes->hasNext()){
+					$info =& $nodes->next();
+					$id =& $info->getNodeId();
+					$qualifiers[] = $id->getIdString();
+				}
+			} else {
+				$qualifiers = array($qId);
+			}
 		
-		// we will need the parent nodes later
-		if (!$isExplicit) {
-			$parentsIterator = $node->getParents();
-			$parents = array();
-			while($parentsIterator->hasNext()) {
-				$parent =& $parentsIterator->next();
-				$id =& $parent->getId();
-				$parents[$id->getIdString()] = $id->getIdString();
+			// we will need the parent nodes later
+			if (!$isExplicit) {
+				$parentsIterator = $node->getParents();
+				$parents = array();
+				while($parentsIterator->hasNext()) {
+					$parent =& $parentsIterator->next();
+					$id =& $parent->getId();
+					$parents[$id->getIdString()] = $id->getIdString();
+				}
 			}
 		}
-		
 //		print_r($qualifiers);
 		
 		// setup the query
@@ -788,11 +793,16 @@ class AuthorizationCache {
 		// now include criteria
 		
 		// the qualifiers criteria
-		foreach (array_keys($qualifiers) as $key) {
-			$qualifiers[$key] = addslashes($qualifiers[$key]);
+		if (isset($qId)) {
+			foreach (array_keys($qualifiers) as $key) {
+				$qualifiers[$key] = addslashes($qualifiers[$key]);
+			}
+			$list = implode("','", $qualifiers);
+			$list = "'".$list."'";
+				
+			$where = $db."az_authorization.fk_qualifier IN ($list)";
+			$query->addWhere($where);
 		}
-		$list = implode("','", $qualifiers);
-		$list = "'".$list."'";
 		
 		if (count($groupIds)) {
 			$agentList = implode("','", $groupIds);
@@ -801,8 +811,6 @@ class AuthorizationCache {
 			$agentList = "'".$aId."'";
 		}
 		
-		$where = $db."az_authorization.fk_qualifier IN ($list)";
-		$query->addWhere($where);
 		// the agent criteria
 		if (isset($aId) || count($groupIds)) {
 //			$joinc = $db."az_authorization.fk_agent = ".$db."agent.agent_id";

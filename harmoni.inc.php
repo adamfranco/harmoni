@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: harmoni.inc.php,v 1.40 2005/08/15 21:44:54 adamfranco Exp $
+ * @version $Id: harmoni.inc.php,v 1.41 2005/09/09 21:32:54 gabeschine Exp $
  */
 
  /* :: start the output buffer, if it's not already :: */
@@ -46,9 +46,13 @@ define("OKI2",dirname(__FILE__).DIRECTORY_SEPARATOR."oki2".DIRECTORY_SEPARATOR);
  * they are off.
  *********************************************************/
 if (get_magic_quotes_gpc()) {
-   $_GET    = array_map('stripslashes', $_GET);
-   $_POST  = array_map('stripslashes', $_POST);
-   $_COOKIE = array_map('stripslashes', $_COOKIE);
+	function array_walk_stripslashes(&$val, $key) {
+		if (is_array($val)) array_walk($val, 'array_walk_stripslashes');
+		else $val = stripslashes($val);
+	}
+   array_walk($_GET, 'array_walk_stripslashes');
+   array_walk($_POST, 'array_walk_stripslashes');
+   array_walk($_COOKIE, 'array_walk_stripslashes');
 }
 
 

@@ -17,7 +17,7 @@ require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.16 2005/09/07 21:17:57 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.17 2005/09/09 21:32:54 gabeschine Exp $
  */
 class HarmoniAgent 
 	extends Agent
@@ -38,6 +38,13 @@ class HarmoniAgent
 	var $_hierarchy;
 	
 	/**
+	 * @var string $_idString
+	 * @access protected
+	 * @since 9/10/05
+	 */
+	var $_idString;
+	
+	/**
 	 * The constructor.
 	 * @param object Hierarchy $hierarchy
 	 * @param object Node $node
@@ -50,6 +57,10 @@ class HarmoniAgent
 		
 		$this->_hierarchy =& $hierarchy;
 		$this->_node =& $node;
+		
+		// set the local _idString
+		$id =& $this->getId();
+		$this->_idString = $id->getIdString();
 	}
 	
 
@@ -140,7 +151,7 @@ class HarmoniAgent
 	function &getProperties () { 
 		$propertyManager =& Services::getService("Property");
 		$iterator =& new HarmoniPropertiesIterator(
-			$propertyManager->retrieveProperties($this->getId()));
+			$propertyManager->retrieveProperties($this->_idString));
 			
 		return $iterator;
 	
@@ -171,7 +182,7 @@ class HarmoniAgent
 	 */
 	function &getPropertiesByType ( &$propertiesType ) { 
 		$propertyManager =& Services::getService("Property");
-		$propertiesArray =& $propertyManager->retrieveProperties($this->getId());
+		$propertiesArray =& $propertyManager->retrieveProperties($this->_idString);
 		
 		//if we don't have an object of the type, we'll want to return Null so we know that
 		$propertiesOfType=null;
@@ -209,7 +220,7 @@ class HarmoniAgent
 	function &getPropertyTypes () { 
 		$array = array();
 		$propertyManager =& Services::getService("Property");
-		$propertiesArray =& $propertyManager->retrieveProperties($this->getId());
+		$propertiesArray =& $propertyManager->retrieveProperties($this->_idString);
 		
 		foreach (array_keys($propertiesArray) as $key) {
 			$type =& $propertiesArray[$key]->getType();

@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.18 2005/09/07 21:41:04 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.19 2005/09/09 21:32:54 gabeschine Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -652,7 +652,8 @@ class HarmoniAuthorizationManager
 			}
 		}
 		
-		return new HarmoniIterator($types);
+		$i =& new HarmoniIterator($types);
+		return $i;
 	}
 
 	/**
@@ -843,7 +844,8 @@ class HarmoniAuthorizationManager
 				$agentIds[$agentId->getIdString()] =& $agentId;
 		}
 		
-		return new HarmoniIdIterator($agentIds);
+		$i =& new HarmoniIdIterator($agentIds);
+		return $i;
 	}
 
 	/**
@@ -896,7 +898,8 @@ class HarmoniAuthorizationManager
 			$authorizations =& array_merge($authorizations, $userAZs);
 		}
 		
-		return new HarmoniAuthorizationIterator($authorizations);
+		$i =& new HarmoniAuthorizationIterator($authorizations);
+		return $i;
 	}
 
 	/**
@@ -952,7 +955,8 @@ class HarmoniAuthorizationManager
 			$authorizations =& array_merge($authorizations, $userAZs);
 		}
 		
-		return new HarmoniAuthorizationIterator($authorizations);
+		$i =& new HarmoniAuthorizationIterator($authorizations);
+		return $i;
 	}
 
 	/**
@@ -1009,7 +1013,8 @@ class HarmoniAuthorizationManager
 			$authorizations =& array_merge($authorizations, $userAZs);
 		}
 		
-		return new HarmoniAuthorizationIterator($authorizations);
+		$i =& new HarmoniAuthorizationIterator($authorizations);
+		return $i;
 	}
 
 	/**
@@ -1068,7 +1073,8 @@ class HarmoniAuthorizationManager
 			$authorizations =& array_merge($authorizations, $userAZs);
 		}
 		
-		return new HarmoniAuthorizationIterator($authorizations);
+		$i =& new HarmoniAuthorizationIterator($authorizations);
+		return $i;
 	}
 
 	/**
@@ -1118,7 +1124,8 @@ class HarmoniAuthorizationManager
 												 true, 
 												 $isActiveNowOnly);
 		
-		return new HarmoniAuthorizationIterator($authorizations);	
+		$i =& new HarmoniAuthorizationIterator($authorizations);	
+		return $i;
 	}
 
 	/**
@@ -1171,7 +1178,34 @@ class HarmoniAuthorizationManager
 												 true, 
 												 $isActiveNowOnly);
 		
-		return new HarmoniAuthorizationIterator($authorizations);
+		$iter =& new HarmoniAuthorizationIterator($authorizations);
+		return $iter;
+	}
+	
+	/**
+	 * WARNING: NOT IN OSID!
+	 * 
+	 * Returns a list of all explicit authorizations for a given user across all functions and qualifiers.
+	 * @param ref object $agentId The agent's ID.
+	 * @param boolean $isActiveNowOnly Include only active authorizations.
+	 *
+	 * @return ref object Iterator
+	 **/
+	function &getAllExplicitAZsForAgent(&$agentId, $isActiveNowOnly)
+	{
+		// ** parameter validation
+		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
+		// ** end
+		
+		$authorizations =& $this->_cache->getAZs($agentId->getIdString(),
+												null,
+												null,
+												null,
+												true,
+												$isActiveNowOnly);
+		$iter =& new HarmoniAuthorizationIterator($authorizations);
+		return $iter;
 	}
 
 	/**
@@ -1227,7 +1261,8 @@ class HarmoniAuthorizationManager
 									 $isActiveNowOnly,
 									 $this->_getContainingGroupIdStrings($agentId));
 		
-		return new HarmoniAuthorizationIterator($authorizations);
+		$i =& new HarmoniAuthorizationIterator($authorizations);
+		return $i;
 	}
 
 	/**
@@ -1282,7 +1317,8 @@ class HarmoniAuthorizationManager
 									 $isActiveNowOnly,
 									 $this->_getContainingGroupIdStrings($agentId));
 		
-		return new HarmoniAuthorizationIterator($authorizations);
+		$i =& new HarmoniAuthorizationIterator($authorizations);
+		return $i;
 	}
 	
 	/**
@@ -1339,7 +1375,8 @@ class HarmoniAuthorizationManager
 												 true, 
 												 $implicitAuthorization->isActiveNow());
 												 
-		return new HarmoniAuthorizationIterator($authorizations);
+		$i =& new HarmoniAuthorizationIterator($authorizations);
+		return $i;
 	}
 	
 	/**
@@ -1372,7 +1409,8 @@ class HarmoniAuthorizationManager
 			$hierarchy =& $hierarchies->next();
 			$array[] =& $hierarchy->getId();
 		}
-		return new HarmoniIterator($array);
+		$i =& new HarmoniIterator($array);
+		return $i;
 	}
 	
 	/**
@@ -1434,7 +1472,7 @@ class HarmoniAuthorizationManager
 	function supportsMaintenance () { 
 		return TRUE;
 	} 
-
+	
 	/**
 	 * Get an array of the string Ids of the groups that contain the particular
 	 * Id.

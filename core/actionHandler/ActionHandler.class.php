@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.18 2005/07/18 21:41:25 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.19 2005/09/09 21:32:54 gabeschine Exp $
  */
 
 //require_once(HARMONI."actionHandler/ActionHandler.interface.php");
@@ -73,7 +73,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.18 2005/07/18 21:41:25 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.19 2005/09/09 21:32:54 gabeschine Exp $
  */
 class ActionHandler extends EventTrigger {
 	/**
@@ -215,7 +215,7 @@ class ActionHandler extends EventTrigger {
 		
 		if (!$executedAction) {
 			throwError ( new Error("ActionHandler::execute($module, $action) - could not proceed: no action source could find an
-				action to associated with this module/action pair.","ActionHandler",true));
+				action to associate with this module/action pair.","ActionHandler",true));
 		}
 		
 		// we've now executed this action -- add it to the array

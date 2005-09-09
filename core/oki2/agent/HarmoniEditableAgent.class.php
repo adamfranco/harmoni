@@ -15,7 +15,7 @@ require_once("HarmoniAgent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEditableAgent.class.php,v 1.2 2005/09/07 21:17:57 adamfranco Exp $
+ * @version $Id: HarmoniEditableAgent.class.php,v 1.3 2005/09/09 21:32:54 gabeschine Exp $
  */
 
 class HarmoniEditableAgent
@@ -143,56 +143,74 @@ class HarmoniEditableAgent
 		while($keys->hasNextObject()){
 			$tempKey = $keys->nextObject();
 			if($tempKey==$key){
-				$keyExists=true;
+				//remove the property from the object
+				$property->deleteProperty($key);
+
+				//property manager is for storing properties info in the DB
+				$propertyManager =& Services::getService("Property");
+
+				//store property				
+				return $propertyManager->storeProperties($this->_idString, $property);
 			}
 		}
-		
-		//if the key is right
-		if($keyExists){
-			//get the property value
-			//I don't think this is doing anything, but I can't remember so I'm leaving it--BG 5.19.2005
-			$propertyValue =& $property->getProperty($key);
-		
-			//remove the property from the object
-			$property->deleteProperty($key);
-			
-			//property manager is for storing properties info in the DB
-			$propertyManager =& Services::getService("Property");
-			
-			//store property				
-			return $propertyManager->storeProperties($this->_idString, $property);
-		}
+
 		//if we didn't have a key return false
 		return false;
 	}
 	
-	 /***
-	  * Clears the values (replaces them with false) but leaves the properties in
-	  * in existence.  The function above destroys them completely.
-	  *
-	  * @param string $object_id_string
-	  * @return void
-	  * @access public
-	  */
+	/***
+	 * Clears the values (replaces them with false) but leaves the properties in
+	 * in existence.  The function above destroys them completely.
+	 *
+	 * @return void
+	 * @access public
+	 */
 	  
-	  function clearAllProperties() {
-	  	$value = false;//indicating set but empty.  NULL would confuse things if the property key didn't exist (which would be a true null)
-	  	
-	  	//cycle through the properties
-	  	foreach($this->_propertiesArray as $property){
-	  		//keys for properties of this type
-	  		$keys = $property->getKeys();
-	  		//cycle through each key value pair
-	  		while($keys->hasNextObject()){
-	  			$key = $keys->nextObject();
-	  			//set value to false
-	  			$this->updateProperty($property->getType(), $key, $value);
-	  		}
-	  	}
-	  		  	  	
-	  	return;
-	  }
+	function clearAllProperties() {
+		$value = false;//indicating set but empty.  NULL would confuse things if the property key didn't exist (which would be a true null)
+		$properties =& $this->getProperties();
+		//cycle through the properties
+		while($properties->hasNext()){
+		$property =& $properties->next();
+			//keys for properties of this type
+			$keys = $property->getKeys();
+			//cycle through each key value pair
+			while($keys->hasNextObject()){
+				$key = $keys->nextObject();
+				//set value to false
+				$this->updateProperty($property->getType(), $key, $value);
+			}
+		}
+	 	 	
+		return;
+	}
 	
+	/***
+	 * Deletes the values for all the properties.
+	 *
+	 * @return void
+	 * @access public
+	 */
+	  
+	function deleteAllProperties() {
+		$properties =& $this->getProperties();
+		//cycle through the properties
+		while($properties->hasNext()){
+		$property =& $properties->next();
+			//keys for properties of this type
+			$keys = $property->getKeys();
+			//cycle through each key value pair
+			while($keys->hasNextObject()){
+				$key = $keys->nextObject();
+				//set value to false
+				$this->deleteProperty($property->getType(), $key);
+			}
+		}
+	 	 	
+		return;
+	}
+	
+
 }
 
 

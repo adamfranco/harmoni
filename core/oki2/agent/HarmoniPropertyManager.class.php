@@ -35,7 +35,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniPropertyManager.class.php,v 1.4 2005/09/07 21:17:57 adamfranco Exp $
+ * @version $Id: HarmoniPropertyManager.class.php,v 1.5 2005/09/09 21:32:54 gabeschine Exp $
  *
  * @author Ben Gore
  */
@@ -127,7 +127,7 @@ class HarmoniPropertyManager
 		$query->addTable($this->_sharedDB.".agent_properties");
 		$query->addTable($this->_sharedDB.".type", LEFT_JOIN, "agent_properties.fk_type_id=type.type_id");
 		$query->addColumn("*");
-		$query->addWhere("fk_object_id='$object_id_string'");
+		$query->addWhere("fk_object_id='".addslashes($object_id_string)."'");
 		$query->addOrderBy("fk_type_id");
 		
 		
@@ -145,7 +145,7 @@ class HarmoniPropertyManager
 	
 			}
 			
-			$propertiesArray[$current_property_type]->addProperty(		base64_decode($row['property_key']), base64_decode($row['property_value']));//we can now add the values to the property object
+			$propertiesArray[$current_property_type]->addProperty($row['property_key'], $row['property_value']);//we can now add the values to the property object
 			
 			$result->advanceRow();//the next row
 		}
@@ -197,7 +197,7 @@ class HarmoniPropertyManager
 			$query =& new InsertQuery();
 			$query->setTable($this->_sharedDB.".agent_properties");
 			$query->setColumns(array("fk_object_id","fk_type_id", "property_key", "property_value"));
-			$query->addRowOfValues(array("'".$object_id."'", $typeIdString, "'".base64_encode($key)."'", "'".base64_encode($propertyValue)."'"));
+			$query->addRowOfValues(array("'".addslashes($object_id)."'", $typeIdString, "'".addslashes($key)."'", "'".addslashes($propertyValue)."'"));
 		//	}
 			
 			$result =& $dbHandler->query($query, $this->_dbIndex);

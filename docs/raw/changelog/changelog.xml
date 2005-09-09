@@ -3,12 +3,18 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.90 2005/08/22 13:30:30 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.91 2005/09/09 21:32:54 gabeschine Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.4.0" date="The Nebulous Future">
+		<fix author='gabe'>
+			Fixed all functions returning references to newly created objects in HarmoniAuthorizationManager.
+		</fix>
+		<new author='gabe'>
+			Added new method getAllExplicitAZsForAgent() to HarmoniAuthorizationManager.
+		</new>
 		<change author='adam'>
 			The Repository FileRecord now provides access to height and width
 			information for images and thumbnails.

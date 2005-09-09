@@ -7,7 +7,7 @@ require_once(HARMONI."oki2/agent/HarmoniAgent.class.php");
 require_once(HARMONI."oki2/agent/HarmoniEditableAgent.class.php");
 // require_once(HARMONI."oki2/agent/UsersGroup.class.php");
 require_once(HARMONI."oki2/agent/HarmoniAgentIterator.class.php");
-require_once(HARMONI."oki2/agent/GroupsOnlyFromTraversalIterator.class.php");
+require_once(HARMONI."oki2/agent/GroupsFromNodesIterator.class.php");
 require_once(HARMONI."oki2/agent/MembersOnlyFromTraversalIterator.class.php");
 require_once(HARMONI."oki2/agent/HarmoniGroup.class.php");
 require_once(HARMONI."oki2/agent/AgentSearches/TokenSearch.class.php");
@@ -48,7 +48,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.33 2005/09/07 21:17:57 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.34 2005/09/09 21:32:54 gabeschine Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -250,7 +250,7 @@ class HarmoniAgentManager
 		$propertyManager =& Services::getService("Property");
 		//properties are grouped by type into typed properties objects which contain all key/value pairs of that type.  That's why there's an array of properties objects
 		foreach($propertiesArray as $property){
-			$propertyManager->storeProperties($agentId, $property);
+			$propertyManager->storeProperties($agentId->getIdString(), $property);
 		}
 				
 		// create the agent object to return
@@ -453,7 +453,7 @@ class HarmoniAgentManager
 	 * @access public
 	 */
 	function &getAgentTypes () { 		
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		$agents =& $this->getAgents();
 	}
 	
 	/**
@@ -530,7 +530,7 @@ class HarmoniAgentManager
 				
 		// 2. Store the properties of the group.
 		$propertyManager =& Services::getService("Property");
-		$propertiesId = $propertyManager->storeProperties($groupId, $properties);
+		$propertiesId = $propertyManager->storeProperties($groupId->getIdString(), $properties);
 						
 		// create the group object to return
 		$group =& new HarmoniGroup($hierarchy, $groupNode);
@@ -649,11 +649,11 @@ class HarmoniAgentManager
 	function &getGroups () { 
 		$hierarchyManager =& Services::getService("Hierarchy");
 		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
-		$groupIterator =& new GroupsOnlyFromTraversalIterator(
-			$hierarchy->traverse($this->_allGroupsId, Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
-				Hierarchy::TRAVERSE_DIRECTION_DOWN(), Hierarchy::TRAVERSE_LEVELS_ALL()),
-			$this->_allGroupsId);
-		return $groupIterator;
+		$node =& $hierarchy->getNode($this->_allGroupsId);
+		$children =& $node->getChildren();
+		
+		$i =& new GroupsFromNodesIterator($children);
+		return $i;
 	}
 	
 	/**
@@ -749,7 +749,18 @@ class HarmoniAgentManager
 	 * @access public
 	 */
 	function &getGroupTypes () { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		$groups =& $this->getGroups();
+		$types = array();
+		$seen = array();
+		while($groups->hasNext()) {
+			$group =& $groups->next();
+			$typeString = Type::typeToString($group->getType());
+			if (in_array($typeString, $seen)) continue;
+			$seen[] = $typeString;
+			$types[] =& $group->getType();
+		}
+		$i =& new HarmoniIterator($types);
+		return $i;
 	}
 	
 	/**
@@ -831,6 +842,23 @@ class HarmoniAgentManager
 		}
 		
 		return FALSE;
+	}
+
+
+	/**
+	 * Returns an {@link Agent} or {@link Group} object, depending on what type of agent the passed id refers to.
+	 *
+	 * WARNING: NOT IN OSID - This method is not part of the OSIDs as of Version 2.0
+	 *
+	 * @param ref object Id
+	 * @return ref object
+	 **/
+	function &getAgentOrGroup(&$id)
+	{
+		if ($this->isAgent($id)) return $this->getAgent($id);
+		if ($this->isGroup($id)) return $this->getGroup($id);
+		$null = null;
+		return $null;
 	}
 	
 	/**
