@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.22 2005/08/03 17:36:41 gabeschine Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.23 2005/09/16 18:36:10 cws-midd Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -84,7 +84,10 @@ class HarmoniRecordStructure
 	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		$schemaCopy =& $this->_schema->deepCopy();
+		$schemaCopy->updateDisplayName($displayName);
+		$schemaManager =& Services::getService("SchemaManager");
+		$schemaManager->synchronize($schemaCopy);
 	} 
 
 	 /**

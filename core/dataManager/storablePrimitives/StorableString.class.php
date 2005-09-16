@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableString.class.php,v 1.5 2005/07/13 20:44:10 adamfranco Exp $
+ * @version $Id: StorableString.class.php,v 1.6 2005/09/16 18:36:09 cws-midd Exp $
  */
 class StorableString 
 	extends StorableStringAbstract 
@@ -20,6 +20,17 @@ class StorableString
 /*********************************************************
  * Class Methods
  *********************************************************/
+
+	/**
+	 * Inserts a new row into the Database with the data contained in the object.
+	 * @param integer $dbID The {@link DBHandler} database ID to query.
+	 * @access public
+	 * @return integer Returns the new ID of the data stored.
+	 */
+	function insert($dbID) {
+		$this->_table = "dm_string";
+		return parent::insert($dbID);
+	}
  
  	/**
 	 * Takes a single database row, which would contain the columns added by alterQuery()

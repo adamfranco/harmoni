@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.24 2005/09/06 19:56:23 cws-midd Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.25 2005/09/16 18:36:10 cws-midd Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.24 2005/09/06 19:56:23 cws-midd Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.25 2005/09/16 18:36:10 cws-midd Exp $ 
  */
 
 class HarmoniAsset
@@ -194,6 +194,8 @@ class HarmoniAsset
      * Get the Id of the Repository in which this Asset resides.  This is set
      * by the Repository's createAsset method.
      *  
+     * WARNING::IMPLEMENTATION AND DOCUMENTATION DIFFER
+     *
      * @return object Id
      * 
      * @throws object RepositoryException An exception with one of

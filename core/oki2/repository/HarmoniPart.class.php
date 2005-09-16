@@ -19,7 +19,7 @@ require(OKI2."osid/repository/Part.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.11 2005/09/06 19:56:23 cws-midd Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.12 2005/09/16 18:36:10 cws-midd Exp $ 
  */
 class HarmoniPart 
 	extends Part
@@ -272,8 +272,7 @@ class HarmoniPart
 		ArgumentValidator::validate($value,
 			ExtendsValidatorRule::getRule("SObject"));
 		// Get the type for the field.
-		print "HP::uV: ";
-		printpre($value);
+
 		$this->_recordFieldValue->setValueFromPrimitive($value);
 		$this->_recordFieldValue->commit();
 	}

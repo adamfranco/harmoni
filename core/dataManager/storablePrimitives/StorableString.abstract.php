@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableString.abstract.php,v 1.8 2005/07/13 20:44:10 adamfranco Exp $
+ * @version $Id: StorableString.abstract.php,v 1.9 2005/09/16 18:36:09 cws-midd Exp $
  */
 class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 
@@ -40,7 +40,6 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 			throwError( new UnknownDBError("StorableString") );
 			return false;
 		}
-		
 		return $newID->getIdString();
 	}
 	
