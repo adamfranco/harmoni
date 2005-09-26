@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePart.class.php,v 1.6 2005/08/11 17:58:39 cws-midd Exp $
+ * @version $Id: FileSizePart.class.php,v 1.7 2005/09/26 20:27:48 cws-midd Exp $
  */
 class FileSizePart 
 	extends Part
@@ -91,7 +91,7 @@ class FileSizePart
 	 * 
 	 * @access public
 	 */
-	function &createPart(& $partStructuretId, & $value) {
+	function &createPart(& $partStructureId, & $value) {
 		throwError(
 			new Error(UNIMPLEMENTED, "HarmoniPart", true));
 	}

@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDataPart.class.php,v 1.6 2005/08/11 17:58:39 cws-midd Exp $
+ * @version $Id: ThumbnailDataPart.class.php,v 1.7 2005/09/26 20:27:48 cws-midd Exp $
  */
 class ThumbnailDataPart extends Part
 //	extends java.io.Serializable
@@ -90,7 +90,7 @@ class ThumbnailDataPart extends Part
 	 * 
 	 * @access public
 	 */
-	function &createPart(& $partStructuretId, & $value) {
+	function &createPart(& $partStructureId, & $value) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
