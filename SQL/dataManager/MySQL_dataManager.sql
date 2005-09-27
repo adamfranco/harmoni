@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_dataManager.sql,v 1.18 2005/08/08 22:35:16 adamfranco Exp $
+-- @version $Id: MySQL_dataManager.sql,v 1.19 2005/09/27 21:01:46 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -159,7 +159,7 @@ TYPE=InnoDB;
 CREATE TABLE dm_schema (
   id varchar(75) NOT NULL default '0',
   displayname varchar(100) NOT NULL,
-  description tinytext NOT NULL,
+  description text NOT NULL,
   revision int(8) unsigned NOT NULL default '0',
   other_params blob,
   PRIMARY KEY  (id)
@@ -181,7 +181,7 @@ CREATE TABLE dm_schema_field (
   fieldtype varchar(255) NOT NULL default '',
   active tinyint(1) unsigned NOT NULL default '0',
   required tinyint(1) unsigned NOT NULL default '0',
-  description tinytext NOT NULL,
+  description text NOT NULL,
   PRIMARY KEY  (id),
   KEY fk_schema (fk_schema)
 )
