@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableTime.class.php,v 1.15 2005/07/18 14:45:25 gabeschine Exp $
+ * @version $Id: StorableTime.class.php,v 1.16 2005/09/27 19:36:35 adamfranco Exp $
  */
 class StorableTime 
 	extends DateAndTime /* implements StorablePrimitive */ 
@@ -468,10 +468,6 @@ class StorableTime
  * Instance Methods
  *********************************************************/
 	
-	function StorableTime() {
-		$this->_table="dm_time";
-	}
-	
 	/**
 	 * Takes an existing {@link SelectQuery} and adds a table join and some columns so that
 	 * when it is executed the actual data can be retrieved from the row. The join condition must
@@ -497,7 +493,7 @@ class StorableTime
 		$newID =& $idManager->createId();
 		
 		$query =& new InsertQuery();
-		$query->setTable($this->_table);
+		$query->setTable("dm_time");
 		$query->setColumns(array("id","jdn", "seconds"));
 		$dbHandler =& Services::getService("DatabaseManager");
 		
@@ -531,7 +527,7 @@ class StorableTime
 		if (!$dataID) return false;
 		
 		$query =& new UpdateQuery();
-		$query->setTable($this->_table);
+		$query->setTable("dm_time");
 		$query->setColumns(array("jdn", "seconds"));
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
@@ -563,10 +559,9 @@ class StorableTime
 	function prune($dbID, $dataID) {
 		if (!$dataID) return;
 		// delete ourselves from our data table
-		$table = $this->_table;
 		
 		$query =& new DeleteQuery;
-		$query->setTable($table);
+		$query->setTable("dm_time");
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
