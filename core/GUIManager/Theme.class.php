@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.18 2005/08/25 18:47:48 nstamato Exp $
+ * @version $Id: Theme.class.php,v 1.19 2005/09/28 20:51:24 gabeschine Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -253,8 +253,9 @@ class Theme extends ThemeInterface {
 
 		// Frst of all, see if there are any registered styles for this
 		// component type at all.
+		$blank = array();
 		if (!isset($this->_componentStyles[$type]))
-			return array();
+			return $blank;
 
 	    // Now, we know there is at least one style collection for this
 		// component type. See, if there are any for the given index.

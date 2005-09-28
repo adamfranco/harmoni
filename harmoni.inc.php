@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: harmoni.inc.php,v 1.41 2005/09/09 21:32:54 gabeschine Exp $
+ * @version $Id: harmoni.inc.php,v 1.42 2005/09/28 20:51:24 gabeschine Exp $
  */
 
  /* :: start the output buffer, if it's not already :: */
@@ -46,6 +46,44 @@ define("OKI2",dirname(__FILE__).DIRECTORY_SEPARATOR."oki2".DIRECTORY_SEPARATOR);
  * they are off.
  *********************************************************/
 if (get_magic_quotes_gpc()) {
+	// but really throw an error
+	print '
+	<HTML>
+		<HEAD>
+			<TITLE>ERROR</TITLE>
+			<STYLE TYPE="text/css">
+				body {
+					background-color: #eee;
+					margin: 50px 150px 50px 150px;
+					padding: 30px;
+					color: #333;
+					font-family: Verdana;
+
+					border: 1px dotted #555;
+				}
+
+				body p {
+					font-size: 12px;
+					text-align: center;
+					color: #955;
+				}
+
+				body div {
+					font-size: 18px;
+					font-weight: normal;
+				}
+			</STYLE>
+		</HEAD>
+
+		<BODY>
+			<P>Harmoni could not be initialized for the following reason:</P>
+			<DIV>
+				PHP\'s config directive <b>magic_quotes_gpc</b> is set to <b>On</b> and should be <b>Off</b>.
+			</DIV>
+		</BODY>
+	</HTML>';
+	exit(1);
+	
 	function array_walk_stripslashes(&$val, $key) {
 		if (is_array($val)) array_walk($val, 'array_walk_stripslashes');
 		else $val = stripslashes($val);

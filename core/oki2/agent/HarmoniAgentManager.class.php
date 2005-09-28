@@ -48,7 +48,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.34 2005/09/09 21:32:54 gabeschine Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.35 2005/09/28 20:51:33 gabeschine Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -75,11 +75,11 @@ class HarmoniAgentManager
 	function HarmoniAgentManager() {
 		$idManager =& Services::getService("Id");
 		
-		$this->_everyoneId =& $idManager->getId("edu.middlebury.agents.everyone");
-		$this->_allGroupsId =& $idManager->getId("edu.middlebury.agents.all_groups");
-		$this->_allAgentsId =& $idManager->getId("edu.middlebury.agents.all_agents");
-		$this->_usersId =& $idManager->getId("edu.middlebury.agents.users");
-		$this->_anonymousId =& $idManager->getId("edu.middlebury.agents.anonymous");
+		$this->_everyoneId = $idManager->getId("edu.middlebury.agents.everyone");
+		$this->_allGroupsId = $idManager->getId("edu.middlebury.agents.all_groups");
+		$this->_allAgentsId = $idManager->getId("edu.middlebury.agents.all_agents");
+		$this->_usersId = $idManager->getId("edu.middlebury.agents.users");
+		$this->_anonymousId = $idManager->getId("edu.middlebury.agents.anonymous");
 	}
 	
 	/**
@@ -114,7 +114,7 @@ class HarmoniAgentManager
 		// ** end of parameter validation
 		
 		$idManager =& Services::getService("Id");
-		$this->_hierarchyId =& $idManager->getId($hierarchyId);
+		$this->_hierarchyId = $idManager->getId($hierarchyId);
 		$this->_agentFlavor = $agentFlavor;
 		
 		$hierarchyManager =& Services::getService("Hierarchy");

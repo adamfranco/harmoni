@@ -12,7 +12,7 @@ require_once (HARMONI."actionHandler/ActionSource.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ClassesActionSource.class.php,v 1.5 2005/04/26 21:52:36 adamfranco Exp $
+ * @version $Id: ClassesActionSource.class.php,v 1.6 2005/09/28 20:51:33 gabeschine Exp $
  */
 class ClassesActionSource 
 	extends ActionSource
@@ -113,7 +113,7 @@ class ClassesActionSource
 			throwError( new Error("ClassesActionSource::executeAction($module, $action) - could not proceed because the method '$method()' is not defined in the class '$action'!","ActionHandler", true));
 		}
 		
-		$result =& $class->$method($harmoni);
+		@($result =& $class->$method($harmoni));
 		
 		return $result;
 	}

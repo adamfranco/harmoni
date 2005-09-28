@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.19 2005/08/11 17:58:39 cws-midd Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.20 2005/09/28 20:51:34 gabeschine Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -292,7 +292,7 @@ class HarmoniHierarchyManager
 
 		$idValue =& $row['id'];
 		$idManager =& Services::getService("Id");
-		$id =& $idManager->getId($idValue);
+		$id = $idManager->getId($idValue);
 		$allowsMultipleParents = ($row['multiparent'] == '1');
 		
 		$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);

@@ -19,7 +19,7 @@ require_once(HARMONI."oki2/shared/HarmoniObjectIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniProperties.class.php,v 1.14 2005/05/19 17:25:48 thebravecowboy Exp $
+ * @version $Id: HarmoniProperties.class.php,v 1.15 2005/09/28 20:51:34 gabeschine Exp $
  */
 class HarmoniProperties
 	extends Properties
@@ -107,7 +107,8 @@ class HarmoniProperties
 			$keys[] = unserialize($key);
 		}
 		
-		return new HarmoniObjectIterator($keys);
+		$i =& new HarmoniObjectIterator($keys);
+		return $i;
 	}
 	
 	/**

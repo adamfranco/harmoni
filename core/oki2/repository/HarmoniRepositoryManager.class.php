@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.28 2005/08/11 17:58:39 cws-midd Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.29 2005/09/28 20:51:34 gabeschine Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -136,12 +136,12 @@ class HarmoniRepositoryManager
 		// Set up our hierarchy
 		$hierarchyManager =& Services::getService("Hierarchy");
 		$idManager =& Services::getService("Id");
-		$hierarchyId =& $idManager->getId($hierarchyIdString);
+		$hierarchyId = $idManager->getId($hierarchyIdString);
 		$this->_hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
 		
 		// Record what parent to store newly created repositories under
 		if ($defaultParentIdString) {
-			$this->_defaultParentId =& $idManager->getId($defaultParentIdString);
+			$this->_defaultParentId = $idManager->getId($defaultParentIdString);
 		} else {
 			$this->_defaultParentId = NULL;
 		}
