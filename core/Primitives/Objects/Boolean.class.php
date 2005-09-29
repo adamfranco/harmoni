@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Boolean.class.php,v 1.5 2005/08/15 21:44:08 adamfranco Exp $
+ * @version $Id: Boolean.class.php,v 1.6 2005/09/29 13:28:37 adamfranco Exp $
  */
 class Boolean 
 	extends SObject
@@ -106,5 +106,27 @@ class Boolean
  			return false;
  			
 		return ($this->_bool===$anObject->value())?true:false;
-	}	
+	}
+	
+	/**
+	 * Answer true if this object represents a 'true' value, false otherwise.
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 9/29/05
+	 */
+	function isTrue () {
+		return $this->_bool;
+	}
+	
+	/**
+	 * Answer true if this object represents a 'false' value, false otherwise.
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 9/29/05
+	 */
+	function isFalse () {
+		return $this->_bool?false:true;
+	}
 }
