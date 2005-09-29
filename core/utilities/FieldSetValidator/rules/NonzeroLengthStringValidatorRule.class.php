@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/StringValidatorRule.clas
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: NonzeroLengthStringValidatorRule.class.php,v 1.4 2005/06/01 17:58:58 gabeschine Exp $
+ * @version $Id: NonzeroLengthStringValidatorRule.class.php,v 1.5 2005/09/29 19:34:43 adamfranco Exp $
  */ 
 class NonzeroLengthStringValidatorRule
 	extends StringValidatorRule 
@@ -23,7 +23,7 @@ class NonzeroLengthStringValidatorRule
 	 * @return boolean TRUE, if the value is an string; FALSE if it is not.
 	 **/
 	function check( & $val ) {
-		return parent::check($val) && (count($val) > 0);
+		return parent::check($val) && (strlen($val) > 0);
 	}
 	
 	/**
