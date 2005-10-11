@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSize.class.php,v 1.1 2005/10/11 18:07:21 adamfranco Exp $
+ * @version $Id: ByteSize.class.php,v 1.2 2005/10/11 18:34:28 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Integer.class.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/Integer.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSize.class.php,v 1.1 2005/10/11 18:07:21 adamfranco Exp $
+ * @version $Id: ByteSize.class.php,v 1.2 2005/10/11 18:34:28 adamfranco Exp $
  */
 class ByteSize 
 	extends Integer
@@ -55,12 +55,38 @@ class ByteSize
  *********************************************************/
 
 	/**
+	 * Answer a new object with the string value specified.
+	 * 
+	 * @param string $stringValue String representation of the size
+	 * @param optional string $class The class to instantiate. Do NOT use outside 
+	 *		of this package.
+	 * @return object ByteSize
+	 * @access public
+	 * @since 7/14/05
+	 */
+	function &fromString ( $stringValue, $class = 'ByteSize') {
+		if (preg_match("/([0-9\.]+)\s*(B|kB|MB|GB|TB|PB|EB|ZB|YB)/i", 
+			$stringValue, $matches)) 
+		{
+			$suffixes = array("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB");
+			$bytes = $matches[1] * pow(2, 
+				(10 * array_search(strtoupper($matches[2]), $suffixes)));
+		} else {
+			print "not found, going with 0";
+			$bytes = 0;
+		}
+		
+		eval('$result =& '.$class.'::withValue($bytes, $class);');
+		return $result;
+	}
+	
+	/**
 	 * Answer a new object with the value specified
 	 * 
 	 * @param integer $value Integer number of Bytes
 	 * @param optional string $class The class to instantiate. Do NOT use outside 
 	 *		of this package.
-	 * @return object Integer
+	 * @return object ByteSize
 	 * @access public
 	 * @since 7/14/05
 	 */
@@ -73,7 +99,7 @@ class ByteSize
 	 * 
 	 * @param optional string $class The class to instantiate. Do NOT use outside 
 	 *		of this package.
-	 * @return object Integer
+	 * @return object ByteSize
 	 * @access public
 	 * @since 7/14/05
 	 */
@@ -132,6 +158,20 @@ class ByteSize
 /*********************************************************
  * Instance Methods - Accessing
  *********************************************************/
+ 	
+ 	/**
+	 * Answer the PHP primitive value of the reciever.
+	 * We need to store our internal representation as a float to allow for
+	 * very large integers, but we never want to return a decimal number of
+	 * bytes.
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 7/14/05
+	 */
+	function value () {
+		return round($this->_value, 0);
+	}
  	
  	/**
  	 * Answer the value as a multiple of 2^$power.
