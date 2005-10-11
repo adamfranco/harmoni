@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.16 2005/08/10 13:25:21 gabeschine Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.17 2005/10/11 15:33:33 cws-midd Exp $ 
  */
 
 class HarmoniRecord 
@@ -213,6 +213,25 @@ class HarmoniRecord
 		return $partIterator;
 	}
 
+	/**
+	 * Get the part from the record that matches the passed Id
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
+	 * @param object HarmoniId
+	 * @return object HarmoniPart
+	 * @access public
+	 * @since 10/10/05
+	 */
+	function &getPart ($id) {
+		$parts =& $this->getParts();
+		
+		while ($parts->hasNext()) {
+			$part =& $parts->next();
+			if ($part->getId() == $id)
+				return $part;
+		}
+	}
 	/**
 	 * Return true if this Record is multi-valued; false otherwise.	 This is determined by the implementation.
 	 * 

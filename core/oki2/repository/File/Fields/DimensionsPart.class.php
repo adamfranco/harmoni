@@ -5,7 +5,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.2 2005/08/24 14:21:53 cws-midd Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.3 2005/10/11 15:33:34 cws-midd Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.2 2005/08/24 14:21:53 cws-midd Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.3 2005/10/11 15:33:34 cws-midd Exp $
  */
 class DimensionsPart 
 	extends Part
@@ -221,7 +221,7 @@ class DimensionsPart
 	 */
 	function updateValue($value) {
 		throwError(
-			new Error(RepositoryException::PERMISSION_DENIED(), "FileSizePart", true));
+			new Error(RepositoryException::PERMISSION_DENIED(), "DimensionsPart", true));
 	}
 
 	/**
