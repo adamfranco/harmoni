@@ -3,12 +3,17 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.92 2005/09/28 20:51:34 gabeschine Exp $
+ @version $Id: changelog.xml,v 1.93 2005/10/12 20:32:30 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.4.0" date="The Nebulous Future">
+	<version number="0.4.0" date="2005-10-12">
+		<change author='adam'>
+			Groups and Agents are now stored in the hierarchy, allowing authorizations
+			to be placed on them as qualifiers. This allows for specific authorizations 
+			as to who can modify which groups or users.
+		</change>
 		<change author='gabe'>
 			Added a check for magic_quotes_gpc being Off in harmoni.inc.php.
 		</change>

@@ -3,7 +3,29 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.4.0</h2><h3>The Nebulous Future</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.4.0</h2><h3>2005-10-12</h3><ul>
+		<li/> Change:  
+			Groups and Agents are now stored in the hierarchy, allowing authorizations
+			to be placed on them as qualifiers. This allows for specific authorizations 
+			as to who can modify which groups or users.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Added a check for magic_quotes_gpc being Off in harmoni.inc.php.
+		 (<i>Gabe Schine</i>)
+		<li/> Bug Fix:
+	 
+			Fixed all functions returning references to newly created objects in HarmoniAuthorizationManager.
+		 (<i>Gabe Schine</i>)
+		<li/> New feature:  
+			Added new method getAllExplicitAZsForAgent() to HarmoniAuthorizationManager.
+		 (<i>Gabe Schine</i>)
+		<li/> Change:  
+			The Repository FileRecord now provides access to height and width
+			information for images and thumbnails.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Changed OKI agent management to use new Everyone/Anonymous/Users IDs.
+		 (<i>Gabe Schine</i>)
 		<li/> New feature:  
 			Added EventListener and EventTrigger to allow easy extensions of our code later.
 		 (<i>Gabe Schine</i>)

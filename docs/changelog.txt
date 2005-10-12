@@ -3,8 +3,20 @@
 Name: Harmoni ChangeLog
 
 
-v. 0.4.0 (The Nebulous Future)
+v. 0.4.0 (2005-10-12)
 ----------------------------------------------------
+		
+	* Change: Groups and Agents are now stored in the hierarchy, allowing authorizations to be placed on them as qualifiers. This allows for specific authorizations as to who can modify which groups or users. (Adam Franco)
+		
+	* Change: Added a check for magic_quotes_gpc being Off in harmoni.inc.php. (Gabe Schine)
+		
+	* Bug Fix: Fixed all functions returning references to newly created objects in HarmoniAuthorizationManager. (Gabe Schine)
+		
+	* New feature: Added new method getAllExplicitAZsForAgent() to HarmoniAuthorizationManager. (Gabe Schine)
+		
+	* Change: The Repository FileRecord now provides access to height and width information for images and thumbnails. (Adam Franco)
+		
+	* Change: Changed OKI agent management to use new Everyone/Anonymous/Users IDs. (Gabe Schine)
 		
 	* New feature: Added EventListener and EventTrigger to allow easy extensions of our code later. (Gabe Schine)
 		
