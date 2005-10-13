@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MIMETypes.class.php,v 1.8 2005/07/22 18:09:58 adamfranco Exp $
+ * @version $Id: MIMETypes.class.php,v 1.10 2005/10/13 13:57:16 adamfranco Exp $
  */
 class MIMETypes {
 
@@ -79,13 +79,11 @@ class MIMETypes {
 			"aiff"	=> "x-aiff",
 			"aifc"	=> "x-aiff",
 			"wav"	=> "x-wav",
-			"mpa"	=> "x-mpeg",
-			"abs"	=> "x-mpeg",
-			"mpega"	=> "x-mpeg",
-			"mp2a"	=> "x-mpeg-2",
-			"mpa2"	=> "x-mpeg-2",
-			"mp2"	=> "x-mpeg-2",
-			"mp3"	=> "x-mpeg-3",
+			"mpa"	=> "mpeg",
+			"abs"	=> "mpeg",
+			"mpega"	=> "mpeg",
+			"mp2a"	=> "mpeg",
+			"mp3"	=> "mpeg",		//	"x-mpeg-3" ?
 			"mid"	=> "midi",
 			"midi"	=> "midi",
 			"mmid"	=> "midi",
@@ -98,8 +96,10 @@ class MIMETypes {
 			"mpeg"	=> "mpeg",
 			"mpg"	=> "mpeg",
 			"mpe"	=> "mpeg",
-			"mpv2"	=> "mpeg-2",
-			"mp2v"	=> "mpeg-2",
+			"mpv2"	=> "mpeg",
+			"mp2v"	=> "mpeg",
+			"mpa2"	=> "mpeg",
+			"mp2"	=> "mpeg",
 			"qt"	=> "quicktime",
 			"mov"	=> "quicktime",
 			"moov"	=> "quicktime",
@@ -317,7 +317,7 @@ class MIMETypes {
 	function getExtensionForMIMEType ( $type ) {
 		$parts = explode("/", $type);
 		$type = $parts[0];
-		if ($parts[1])
+		if (isset($parts[1]))
 			$subType = $parts[1];
 		else
 			$subType = NULL;
