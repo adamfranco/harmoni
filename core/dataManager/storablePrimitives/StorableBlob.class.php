@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableBlob.class.php,v 1.6 2005/07/14 16:23:21 adamfranco Exp $
+ * @version $Id: StorableBlob.class.php,v 1.7 2005/10/13 20:55:09 adamfranco Exp $
  */
 class StorableBlob 
 	extends StorableStringAbstract 
@@ -38,6 +38,17 @@ class StorableBlob
  /*********************************************************
   * Instance Methods
   *********************************************************/
+  
+  	/**
+	 * Inserts a new row into the Database with the data contained in the object.
+	 * @param integer $dbID The {@link DBHandler} database ID to query.
+	 * @access public
+	 * @return integer Returns the new ID of the data stored.
+	 */
+	function insert($dbID) {
+		$this->_table = "dm_blob";
+		return parent::insert($dbID);
+	}
 		
 	/**
 	 * Set the value
