@@ -1,5 +1,7 @@
 <?php
 
+require_once(dirname(__FILE__)."/GroupsOnlyFromTraversalIterator.class.php");
+
 /**
  * Group contains members that are either Agents or other Groups.  There are
  * management methods for adding, removing, and getting members and Groups.
@@ -20,7 +22,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.18 2005/09/07 21:17:57 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.19 2005/10/13 15:35:59 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
