@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DescriptionSearch.class.php,v 1.6 2005/07/18 14:45:24 gabeschine Exp $
+ * @version $Id: DescriptionSearch.class.php,v 1.7 2005/10/13 20:55:35 adamfranco Exp $
  */
 
 require_once(dirname(__FILE__)."/SearchModule.interface.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DescriptionSearch.class.php,v 1.6 2005/07/18 14:45:24 gabeschine Exp $
+ * @version $Id: DescriptionSearch.class.php,v 1.7 2005/10/13 20:55:35 adamfranco Exp $
  */
 
 class DescriptionSearch
@@ -56,7 +56,7 @@ class DescriptionSearch
 		// Add their id to the array if the displayName matches
 		while ($assets->hasNext()) {
 			$asset =& $assets->next();
-			if (ereg($searchCriteria, $asset->getDescription()))
+			if (preg_match($searchCriteria, $asset->getDescription()))
 				$matchingIds[] =& $asset->getId();
 		}
 		
