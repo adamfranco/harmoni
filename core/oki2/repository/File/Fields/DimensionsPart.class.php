@@ -5,7 +5,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.4 2005/10/14 20:41:16 cws-midd Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.5 2005/10/14 20:45:02 cws-midd Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.4 2005/10/14 20:41:16 cws-midd Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.5 2005/10/14 20:45:02 cws-midd Exp $
  */
 class DimensionsPart 
 	extends Part
@@ -270,7 +270,6 @@ class DimensionsPart
 				$query->setValues(array("'".$this->_recordId->getIdString()."'",
 					"'".$this->_dimensions[0]."'",
 					"'".$this->_dimensions[1]."'"));
-				$query->addWhere("id = '".$this->_recordId->getIdString()."'");
 			}
 			$result->free();
 			
