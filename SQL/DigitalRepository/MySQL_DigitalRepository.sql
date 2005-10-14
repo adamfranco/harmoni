@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_DigitalRepository.sql,v 1.8 2005/08/08 22:35:16 adamfranco Exp $
+-- @version $Id: MySQL_DigitalRepository.sql,v 1.9 2005/10/14 20:41:16 cws-midd Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -47,6 +47,8 @@ CREATE TABLE dr_file (
   filename varchar(255) NOT NULL default '',
   FK_mime_type int(10) unsigned default NULL,
   size int(11) NOT NULL default '0',
+  width int(11) NULL default NULL,
+  height int(11) NULL default NULL,
   PRIMARY KEY  (id)
 ) 
 CHARACTER SET utf8

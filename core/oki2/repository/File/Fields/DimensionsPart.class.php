@@ -5,7 +5,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.3 2005/10/11 15:33:34 cws-midd Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.4 2005/10/14 20:41:16 cws-midd Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.3 2005/10/11 15:33:34 cws-midd Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.4 2005/10/14 20:41:16 cws-midd Exp $
  */
 class DimensionsPart 
 	extends Part
@@ -175,24 +175,47 @@ class DimensionsPart
 		// If we don't have the dimensions, fetch the mime type and data and try to
 		// populate the dimensions if appropriate.
 		if ($this->_dimensions === NULL) {
-			// Get the MIME type
-			$idManager =& Services::getService("Id");
-			$mimeTypeParts =& $this->_record->getPartsByPartStructure(
-				$idManager->getId("MIME_TYPE"));
-			$mimeTypePart =& $mimeTypeParts->next();
-			$mimeType = $mimeTypePart->getValue();
+			$dbHandler =& Services::getService("DatabaseManager");
 			
-			// Only try to get dimensions from image files
-			if (ereg("^image.*$", $mimeType)) {
-				
-				$dataParts =& $this->_record->getPartsByPartStructure(
-					$idManager->getId("FILE_DATA"));
-				$dataPart =& $dataParts->next();
-				$this->_dimensions = GetDataImageSize($dataPart->getValue());
-				
-			} else {
+			$query =& new SelectQuery;
+			$query->addTable("dr_file");
+			$query->addColumn("width");
+			$query->addColumn("height");
+			$query->addColumn("(height IS NOT NULL AND width IS NOT NULL)",
+				"dimensions_exist");
+			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+			
+			$result =& $dbHandler->query($query, 
+				$this->_configuration->getProperty("database_index"));
+			
+			if ($result->getNumberOfRows() == 0) {
 				$this->_dimensions = FALSE;
+			} else if ($result->field("dimensions_exist") == false) {
+				// Get the MIME type
+				$idManager =& Services::getService("Id");
+				$mimeTypeParts =& $this->_record->getPartsByPartStructure(
+					$idManager->getId("MIME_TYPE"));
+				$mimeTypePart =& $mimeTypeParts->next();
+				$mimeType = $mimeTypePart->getValue();
+				
+				// Only try to get dimensions from image files
+				if (ereg("^image.*$", $mimeType)) {					
+					$dataParts =& $this->_record->getPartsByPartStructure(
+						$idManager->getId("FILE_DATA"));
+					$dataPart =& $dataParts->next();
+					$this->_dimensions = 
+						GetDataImageSize($dataPart->getValue());
+					if (isset($this->_dimensions[2]))
+						unset($this->_dimensions[2]);
+					$this->updateValue($this->_dimensions);
+				} else
+					$this->_dimensions = FALSE;
+			} else {
+				$this->_width = $result->field("width");
+				$this->_height = $result->field("height");
+				$this->_dimensions = array($this->_width, $this->_height);
 			}
+			$result->free();
 		}
 		
 		return $this->_dimensions;
@@ -220,8 +243,40 @@ class DimensionsPart
 	 * @access public
 	 */
 	function updateValue($value) {
-		throwError(
-			new Error(RepositoryException::PERMISSION_DENIED(), "DimensionsPart", true));
+		if (is_array($value)) {
+			$this->_dimensions = $value;
+			
+			$dbHandler =& Services::getService("DatabaseManager");
+
+			$query =& new SelectQuery;
+			$query->addTable("dr_file");
+			$query->addColumn("COUNT(*)", "count");
+			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+			
+			$result =& $dbHandler->query($query, 
+				$this->_configuration->getProperty("database_index"));
+			
+			if ($result->field("count") > 0) {
+				$query =& new UpdateQuery;
+				$query->setTable("dr_file");
+				$query->setColumns(array("width", "height"));
+				$query->setValues(array("'".$this->_dimensions[0]."'",
+					"'".$this->_dimensions[1]."'"));
+				$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+			} else {
+				$query =& new InsertQuery;
+				$query->setTable("dr_file");
+				$query->setColumns(array("id", "width", "height"));
+				$query->setValues(array("'".$this->_recordId->getIdString()."'",
+					"'".$this->_dimensions[0]."'",
+					"'".$this->_dimensions[1]."'"));
+				$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+			}
+			$result->free();
+			
+			$dbHandler->query($query, 
+				$this->_configuration->getProperty("database_index"));
+		}
 	}
 
 	/**
