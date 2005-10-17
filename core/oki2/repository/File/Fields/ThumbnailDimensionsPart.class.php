@@ -5,7 +5,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDimensionsPart.class.php,v 1.1 2005/08/19 20:16:48 adamfranco Exp $
+ * @version $Id: ThumbnailDimensionsPart.class.php,v 1.2 2005/10/17 20:44:38 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,55 +21,34 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDimensionsPart.class.php,v 1.1 2005/08/19 20:16:48 adamfranco Exp $
+ * @version $Id: ThumbnailDimensionsPart.class.php,v 1.2 2005/10/17 20:44:38 adamfranco Exp $
  */
 class ThumbnailDimensionsPart 
 	extends DimensionsPart
 {
 
 	/**
-	 * Get the value for this Part.
-	 *	
-	 * @return object mixed (original type: java.io.Serializable)
+	 * Constructor
 	 * 
-	 * @throws object RepositoryException An exception with one of
-	 *		   the following messages defined in
-	 *		   org.osid.repository.RepositoryException may be thrown: {@link
-	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
-	 *		   OPERATION_FAILED}, {@link
-	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
-	 *		   PERMISSION_DENIED}, {@link
-	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
-	 *		   CONFIGURATION_ERROR}, {@link
-	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
-	 *		   UNIMPLEMENTED}
-	 * 
+	 * @param object PartStructure $partStructure
+	 * @param object Id $recordId
+	 * @param object Properties $configuration
+	 * @param object Record $record
+	 * @return object
 	 * @access public
+	 * @since 10/17/05
 	 */
-	function getValue() {
-		// If we don't have the dimensions, fetch the mime type and data and try to
-		// populate the dimensions if appropriate.
-		if ($this->_dimensions === NULL) {
-			// Get the MIME type
-			$idManager =& Services::getService("Id");
-			$mimeTypeParts =& $this->_record->getPartsByPartStructure(
-				$idManager->getId("THUMBNAIL_MIME_TYPE"));
-			$mimeTypePart =& $mimeTypeParts->next();
-			$mimeType = $mimeTypePart->getValue();
-			
-			// Only try to get dimensions from image files
-			if (ereg("^image.*$", $mimeType)) {
-				
-				$dataParts =& $this->_record->getPartsByPartStructure(
-					$idManager->getId("THUMBNAIL_DATA"));
-				$dataPart =& $dataParts->next();
-				$this->_dimensions = GetDataImageSize($dataPart->getValue());
-				
-			} else {
-				$this->_dimensions = FALSE;
-			}
-		}
+	function ThumbnailDimensionsPart ( &$partStructure, &$recordId, 
+		&$configuration, &$record ) 
+	{
+		$this->DimensionsPart($partStructure, $recordId, $configuration, $record);
 		
-		return $this->_dimensions;
+		$this->_table = "dr_thumbnail";
+		$this->_idColumn = "FK_file";
+// 		$this->_widthColumn = 'thumb_width';
+// 		$this->_heightColumn = 'thumb_height';
+		$idManager =& Services::getService("Id");
+		$this->_dataPartStructId =& $idManager->getId("FILE_DATA");
+		$this->_mimeTypePartStructId =& $idManager->getId("MIME_TYPE");
 	}
 }

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.5 2005/10/14 20:45:02 cws-midd Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.6 2005/10/17 20:44:38 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.5 2005/10/14 20:45:02 cws-midd Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.6 2005/10/17 20:44:38 adamfranco Exp $
  */
 class DimensionsPart 
 	extends Part
@@ -31,11 +31,30 @@ class DimensionsPart
 	var $_partStructure;
 	var $_dimensions;
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param object PartStructure $partStructure
+	 * @param object Id $recordId
+	 * @param object Properties $configuration
+	 * @param object Record $record
+	 * @return object
+	 * @access public
+	 * @since 10/17/05
+	 */
 	function DimensionsPart( &$partStructure, &$recordId, &$configuration, &$record ) {
 		$this->_recordId =& $recordId;
 		$this->_partStructure =& $partStructure;
 		$this->_configuration =& $configuration;
 		$this->_record =& $record;
+		
+		$this->_table = "dr_file";
+		$this->_idColumn = "id";
+		$this->_widthColumn = 'width';
+		$this->_heightColumn = 'height';
+		$idManager =& Services::getService("Id");
+		$this->_dataPartStructId =& $idManager->getId("FILE_DATA");
+		$this->_mimeTypePartStructId =& $idManager->getId("MIME_TYPE");
 		
 		// Set our dimensions to NULL, so that we can know if it has not been checked
 		// for yet. If we search for info, but don't have any, or the dimensions is
@@ -178,12 +197,12 @@ class DimensionsPart
 			$dbHandler =& Services::getService("DatabaseManager");
 			
 			$query =& new SelectQuery;
-			$query->addTable("dr_file");
-			$query->addColumn("width");
-			$query->addColumn("height");
+			$query->addTable($this->_table);
+			$query->addColumn($this->_widthColumn);
+			$query->addColumn($this->_heightColumn);
 			$query->addColumn("(height IS NOT NULL AND width IS NOT NULL)",
 				"dimensions_exist");
-			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+			$query->addWhere($this->_idColumn." = '".$this->_recordId->getIdString()."'");
 			
 			$result =& $dbHandler->query($query, 
 				$this->_configuration->getProperty("database_index"));
@@ -192,16 +211,15 @@ class DimensionsPart
 				$this->_dimensions = FALSE;
 			} else if ($result->field("dimensions_exist") == false) {
 				// Get the MIME type
-				$idManager =& Services::getService("Id");
 				$mimeTypeParts =& $this->_record->getPartsByPartStructure(
-					$idManager->getId("MIME_TYPE"));
+					$this->_mimeTypePartStructId);
 				$mimeTypePart =& $mimeTypeParts->next();
 				$mimeType = $mimeTypePart->getValue();
 				
 				// Only try to get dimensions from image files
 				if (ereg("^image.*$", $mimeType)) {					
 					$dataParts =& $this->_record->getPartsByPartStructure(
-						$idManager->getId("FILE_DATA"));
+						$this->_dataPartStructId);
 					$dataPart =& $dataParts->next();
 					$this->_dimensions = 
 						GetDataImageSize($dataPart->getValue());
@@ -211,8 +229,8 @@ class DimensionsPart
 				} else
 					$this->_dimensions = FALSE;
 			} else {
-				$this->_width = $result->field("width");
-				$this->_height = $result->field("height");
+				$this->_width = $result->field($this->_widthColumn);
+				$this->_height = $result->field($this->_heightColumn);
 				$this->_dimensions = array($this->_width, $this->_height);
 			}
 			$result->free();
@@ -249,24 +267,24 @@ class DimensionsPart
 			$dbHandler =& Services::getService("DatabaseManager");
 
 			$query =& new SelectQuery;
-			$query->addTable("dr_file");
+			$query->addTable($this->_table);
 			$query->addColumn("COUNT(*)", "count");
-			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+			$query->addWhere($this->_idColumn." = '".$this->_recordId->getIdString()."'");
 			
 			$result =& $dbHandler->query($query, 
 				$this->_configuration->getProperty("database_index"));
 			
 			if ($result->field("count") > 0) {
 				$query =& new UpdateQuery;
-				$query->setTable("dr_file");
-				$query->setColumns(array("width", "height"));
+				$query->setTable($this->_table);
+				$query->setColumns(array($this->_widthColumn, $this->_heightColumn));
 				$query->setValues(array("'".$this->_dimensions[0]."'",
 					"'".$this->_dimensions[1]."'"));
-				$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+				$query->addWhere($this->_idColumn." = '".$this->_recordId->getIdString()."'");
 			} else {
 				$query =& new InsertQuery;
-				$query->setTable("dr_file");
-				$query->setColumns(array("id", "width", "height"));
+				$query->setTable($this->_table);
+				$query->setColumns(array($this->_idColumn, $this->_widthColumn, $this->_heightColumn));
 				$query->setValues(array("'".$this->_recordId->getIdString()."'",
 					"'".$this->_dimensions[0]."'",
 					"'".$this->_dimensions[1]."'"));

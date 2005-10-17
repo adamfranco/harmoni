@@ -21,7 +21,7 @@ require_once(OKI2."/osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPartStructure.class.php,v 1.1 2005/08/19 20:16:48 adamfranco Exp $ 
+ * @version $Id: DimensionsPartStructure.class.php,v 1.2 2005/10/17 20:44:38 adamfranco Exp $ 
  */
 class DimensionsPartStructure 
 	extends PartStructure
@@ -78,7 +78,7 @@ class DimensionsPartStructure
 	 * @access public
 	 */
 	function getDescription() {
-		return "The dimensions of the file if it is an image.";
+		return "The dimensions of the file if it is an image or video.";
 	}
 	
 	/**

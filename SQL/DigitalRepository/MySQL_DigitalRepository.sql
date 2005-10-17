@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_DigitalRepository.sql,v 1.9 2005/10/14 20:41:16 cws-midd Exp $
+-- @version $Id: MySQL_DigitalRepository.sql,v 1.10 2005/10/17 20:44:38 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -107,6 +107,8 @@ CREATE TABLE dr_thumbnail (
   FK_file varchar(75) NOT NULL default '0',
   FK_mime_type int(10) unsigned default NULL,
   data mediumblob NOT NULL,
+  width int(11) default NULL,
+  height int(11) default NULL,
   PRIMARY KEY  (FK_file)
 ) 
 CHARACTER SET utf8
