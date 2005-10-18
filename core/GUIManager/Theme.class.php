@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.19 2005/09/28 20:51:24 gabeschine Exp $
+ * @version $Id: Theme.class.php,v 1.20 2005/10/18 20:12:16 adamfranco Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -495,12 +495,16 @@ class Theme extends ThemeInterface {
 
 		// If the Theme does has an assigned component then get all the style
 		// collection of the component and any subcomponents it might have.
-		if (isset($this->_component))
+		if (isset($this->_component)) {
 			$this->_getAllStyles($this->_component, $styleCollections);
+		}
 	
 		// Now convert the array of style collections to a string with CSS code.
 		foreach (array_keys($styleCollections) as $key) {
-			$css .= $styleCollections[$key]->getCSS($tabs);
+			if (is_string($styleCollections[$key]))
+				$css .= $styleCollections[$key];
+			else
+				$css .= $styleCollections[$key]->getCSS($tabs);
 			$css .= "\n";
 		}
 		
@@ -529,6 +533,11 @@ class Theme extends ThemeInterface {
 		if (!is_a($component, "Container"))
 			return; // base case
 		else {
+			// Get the styles for its layout
+			$layout =& $component->getLayout();
+			$result[] = $layout->getCSS();
+			
+			// Get the styles for its children
 			$subcomponents =& $component->getComponents();
 			foreach (array_keys($subcomponents) as $key)
 				$this->_getAllStyles($subcomponents[$key], $result);				
