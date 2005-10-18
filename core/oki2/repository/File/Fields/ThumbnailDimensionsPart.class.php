@@ -5,7 +5,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDimensionsPart.class.php,v 1.2 2005/10/17 20:44:38 adamfranco Exp $
+ * @version $Id: ThumbnailDimensionsPart.class.php,v 1.3 2005/10/18 15:19:11 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDimensionsPart.class.php,v 1.2 2005/10/17 20:44:38 adamfranco Exp $
+ * @version $Id: ThumbnailDimensionsPart.class.php,v 1.3 2005/10/18 15:19:11 adamfranco Exp $
  */
 class ThumbnailDimensionsPart 
 	extends DimensionsPart
@@ -48,7 +48,7 @@ class ThumbnailDimensionsPart
 // 		$this->_widthColumn = 'thumb_width';
 // 		$this->_heightColumn = 'thumb_height';
 		$idManager =& Services::getService("Id");
-		$this->_dataPartStructId =& $idManager->getId("FILE_DATA");
-		$this->_mimeTypePartStructId =& $idManager->getId("MIME_TYPE");
+		$this->_dataPartStructId =& $idManager->getId("THUMBNAIL_DATA");
+		$this->_mimeTypePartStructId =& $idManager->getId("THUMBNAIL_MIME_TYPE");
 	}
 }
