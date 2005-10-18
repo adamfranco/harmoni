@@ -17,7 +17,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: YLayout.class.php,v 1.5 2005/02/07 21:38:14 adamfranco Exp $
+ * @version $Id: YLayout.class.php,v 1.6 2005/10/18 21:05:27 adamfranco Exp $
  */
 class YLayout extends LayoutInterface {
 
@@ -42,7 +42,17 @@ class YLayout extends LayoutInterface {
 	 * recommended in order to produce a nicely formatted HTML output.
 	 **/
 	function render(& $container, & $theme, $tabs = "") {
+// 		$width = $container->getComponentWidth($key + 1);
+// 		$height = $container->getComponentHeight($key + 1);
+// 		if (isset($width)) $width = " width=\"$width\"";
+// 		if (isset($height)) $height = " height=\"$height\"";
+		$width = " width=\"100%\"";
+		$height = " height=\"100%\"";
+		
+		echo $tabs."<table border=\"0\" cellpadding=\"0px\" cellspacing=\"0px\"$width$height>\n";
+		
 		// Get the components
+		// render the component in separate table cell
 		$components =& $container->getComponents();
 		foreach (array_keys($components) as $key) {
 			$component =& $components[$key];
@@ -67,14 +77,13 @@ class YLayout extends LayoutInterface {
 				case BOTTOM: $valign =  " valign=\"bottom\""; break;
 			}
 			
-			// render the component in separate table cell
-			echo $tabs."<table border=\"0\" cellpadding=\"0px\" cellspacing=\"0px\"$width$height>\n";
+			
 			echo $tabs."\t<tr><td$halign$valign>\n";
 			$component->render($theme, $tabs."\t\t");
 			echo $tabs."\t</td></tr>\n";
-			echo $tabs."</table>\n";
 		}
-
+		
+		echo $tabs."</table>\n";
 	}
 	
 	/**
