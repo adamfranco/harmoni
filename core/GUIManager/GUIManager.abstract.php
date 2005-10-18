@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/Layout.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.abstract.php,v 1.2 2005/04/06 20:37:57 adamfranco Exp $
+ * @version $Id: GUIManager.abstract.php,v 1.3 2005/10/18 20:11:43 adamfranco Exp $
  */
 class GUIManagerAbstract
 	extends OutputHandler
@@ -47,6 +47,9 @@ class GUIManagerAbstract
 			$doctype =  $this->_configuration->getProperty('document_type');
 			$characterSet = $this->_configuration->getProperty('character_set');
 			$head = $this->getHead();
+			
+			$this->_theme->setComponent($returnedContent);
+			
 			$css = $this->_theme->getCSS("\t\t\t");
 			
 			header("Content-type: $doctype; charset=$characterSet");
@@ -67,7 +70,6 @@ $css
 		
 END;
 
-			$this->_theme->setComponent($returnedContent);
 			$this->_theme->printPage();
 			
 			print<<<END
