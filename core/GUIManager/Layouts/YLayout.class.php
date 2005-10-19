@@ -17,7 +17,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: YLayout.class.php,v 1.6 2005/10/18 21:05:27 adamfranco Exp $
+ * @version $Id: YLayout.class.php,v 1.7 2005/10/19 21:04:11 adamfranco Exp $
  */
 class YLayout extends LayoutInterface {
 
@@ -47,7 +47,7 @@ class YLayout extends LayoutInterface {
 // 		if (isset($width)) $width = " width=\"$width\"";
 // 		if (isset($height)) $height = " height=\"$height\"";
 		$width = " width=\"100%\"";
-		$height = " height=\"100%\"";
+		$height = " style='height: 100%'";
 		
 		echo $tabs."<table border=\"0\" cellpadding=\"0px\" cellspacing=\"0px\"$width$height>\n";
 		
