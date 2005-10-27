@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.23 2005/09/16 18:36:10 cws-midd Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.24 2005/10/27 18:58:24 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -144,6 +144,7 @@ class HarmoniRecordStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
 	function &getPartStructure(& $partId) {
+		ArgumentValidator::validate($partId, ExtendsValidatorRule::getRule("Id"));
 		if (!isset($this->_createdParts[$partId->getIdString()])) {
 			$this->_schema->load();
 			$this->_createdParts[$partId->getIdString()] =& new HarmoniPartStructure($this, $this->_schema->getField($partId->getIdString()));
