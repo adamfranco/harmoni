@@ -12,7 +12,7 @@ require_once (HARMONI."actionHandler/ActionSource.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ClassesActionSource.class.php,v 1.7 2005/09/30 21:10:17 adamfranco Exp $
+ * @version $Id: ClassesActionSource.class.php,v 1.8 2005/10/27 18:57:23 adamfranco Exp $
  */
 class ClassesActionSource 
 	extends ActionSource
@@ -105,7 +105,7 @@ class ClassesActionSource
 			throwError( new Error("ClassesActionSource::executeAction($module, $action) - could not proceed because the class name '$action' is not defined!","ActionHandler", true));
 		}
 		
-		$class = @new $actionClassname;
+		$class = new $actionClassname;
 		
 		$method = ACTIONS_CLASSES_METHOD;
 		
