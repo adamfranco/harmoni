@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.17 2005/08/05 18:32:45 gabeschine Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.18 2005/10/28 13:59:32 cws-midd Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -235,7 +235,7 @@ class HarmoniAuthenticationManager
 			}
 		}
 	}
-
+	
 	/**
 	 * Check the current authentication status of the user. If the method
 	 * returns true, the user is authenticated.	 If the method returns false,
@@ -276,7 +276,7 @@ class HarmoniAuthenticationManager
 	 */
 	function isUserAuthenticated ( &$authenticationType ) { 
 		$this->_checkType($authenticationType);
-			
+		
 		if(isset($_SESSION['__AuthenticatedAgents']
 			[$this->_getTypeString($authenticationType)]))
 		{
@@ -445,11 +445,11 @@ class HarmoniAuthenticationManager
 			$authNMethodManager =& Services::getService("AuthNMethods");
 			$authNMethod =& $authNMethodManager->getAuthNMethodForType($authenticationType);
 			$properties =& $authNMethod->getPropertiesForTokens($authNTokens);
-			
+			$dname = $authNMethod->getDisplayNameForTokens($authNTokens);
 			// Create the agent.
 			$agentManager =& Services::getService("Agent");
 			$agent =& $agentManager->createAgent(
-				$authNTokens->getIdentifier(),
+				$dname,
 				new Type ("Authentication", "edu.middlebury.harmoni", "User"),
 				$properties);
 				
@@ -480,6 +480,7 @@ class HarmoniAuthenticationManager
 		}
 		
 		$tokens = $tokenCollector->collectTokens();
+		
 		
 		// if we have tokens, create an AuthNTokens object for them.
 		if ($tokens) {

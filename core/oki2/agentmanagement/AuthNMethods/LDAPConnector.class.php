@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.6 2005/04/07 19:42:13 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.7 2005/10/28 13:59:27 cws-midd Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.6 2005/04/07 19:42:13 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.7 2005/10/28 13:59:27 cws-midd Exp $
  */
 class LDAPConnector {
 		
@@ -82,6 +82,7 @@ class LDAPConnector {
 	 **/
 	function _bind( $dn, $password ) {
 		$this->_bind = ldap_bind($this->_conn, $dn, $password);
+
 		if ($this->_bind) return true;
 		return false;
 	}
@@ -118,7 +119,14 @@ class LDAPConnector {
 	 * @return void 
 	 **/
 	function _connect() {
-		$this->_conn = ldap_connect($this->_configuration->getProperty("LDAPHost"),$this->_configuration->getProperty("LDAPPort")) or throwError(new Error("LDAPAuthenticationMethod::_connect() - could not connect to LDAP host <b>".$this->_configuration->getProperty("LDAPHost")."</b>!","LDAPAuthenticationMethod",true));
+		$this->_conn = 
+			ldap_connect($this->_configuration->getProperty("LDAPHost"),
+			$this->_configuration->getProperty("LDAPPort"));
+		if ($this->_conn == false)
+			throwError(new Error("LDAPAuthenticationMethod::_connect() - could 
+				not connect to LDAP host <b>".
+				$this->_configuration->getProperty("LDAPHost")."</b>!",
+				"LDAPAuthenticationMethod",true));
 	}
 	
 	/**
@@ -141,6 +149,9 @@ class LDAPConnector {
 	 **/
 	function authenticateDN( $dn, $password ) {
 		// connect to the LDAP server.
+		if ((!is_string($password)) || (strlen($password) < 1))
+			return false;
+			
 		$this->_connect();
 		
 		if ($this->_bind($dn,$password)) {// they're good!
@@ -149,6 +160,7 @@ class LDAPConnector {
 		}
 		
 		$this->_disconnect();
+
 		return false;
 	}
 	

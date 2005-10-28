@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.9 2005/04/07 19:42:12 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.10 2005/10/28 13:59:27 cws-midd Exp $
  */ 
 
 /**
@@ -32,7 +32,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.9 2005/04/07 19:42:12 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.10 2005/10/28 13:59:27 cws-midd Exp $
  */
 class AuthNMethod {
 	
@@ -360,6 +360,27 @@ class AuthNMethod {
 	function updatePropertiesForTokens ( &$authNTokens, &$newProperties ) {
 		throwError( new Error("AuthNMethod::updateTokens() should have been overridden in a child class.",
 									 "AuthNMethod", true));
+	}
+	
+	/**
+	 * Should return the 'display_name_property' value for tokens
+	 * 
+	 * @param object AuthNTokens
+	 * @return string
+	 * @access public
+	 * @since 10/25/05
+	 */
+	function getDisplayNameForTokens (&$authNTokens) {
+		if (!is_null(
+			$this->_configuration->getProperty("display_name_property"))) {
+			$property = 
+				$this->_configuration->getProperty("display_name_property");
+			$properties =& $this->getPropertiesForTokens($authNTokens);
+
+			if ($properties->getProperty($property) != NULL)
+				return $properties->getProperty($property);
+		}
+		return $authNTokens->getIdentifier();
 	}
 }
 
