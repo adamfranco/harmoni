@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.32 2005/08/11 17:58:39 cws-midd Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.33 2005/10/31 21:20:37 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -721,11 +721,18 @@ class HarmoniRepository
 		$schemaMgr =& Services::getService("SchemaManager");
 		$schemaIDs =& $schemaMgr->getAllSchemaIDs();
 		foreach ($schemaIDs as $id) {
-			// Check that we have created an RecordStructure with the ID
-			if (!isset($this->_createdRecordStructures[$id])) {
-				// If not, create the RecordStructure
-				$schema =& $schemaMgr->getSchemaByID($id);
-				$this->_createdRecordStructures[$id] =& new HarmoniRecordStructure(
+			// Make sure that this record structure is either a global one
+			// or particular to this repository
+			$repositoryId =& $this->getId();
+			$repositoryIdString = str_replace('.', '\.', $repositoryId->getIdString());
+			if ((preg_match("/^Repository::".$repositoryIdString."::.+/", $id)
+				|| !preg_match("/^Repository::.+::.+/", $id))
+				// Check that we have created an RecordStructure with the ID
+				&& !isset($this->_createdRecordStructures[$id]))
+			{
+					// If not, create the RecordStructure
+					$schema =& $schemaMgr->getSchemaByID($id);
+					$this->_createdRecordStructures[$id] =& new HarmoniRecordStructure(
 																$schema);
 			}
 		}
@@ -1124,11 +1131,14 @@ class HarmoniRepository
 	 * @param string $format
 	 * @param string $schema
 	 * @param optional object $id
+	 * @param boolean $isGlobal
 	 * @return object RecordStructure
 	 * @access public
 	 * @since 2/17/05
 	 */
-	function &createRecordStructure($displayName, $description, $format, $schema, $theID=null) {
+	function &createRecordStructure($displayName, $description, $format, $schema,
+		$theID=null, $isGlobal = FALSE) 
+	{
 		$schemaMgr =& Services::getService("SchemaManager");
 		
 		if ($theID == null) {
@@ -1137,13 +1147,23 @@ class HarmoniRepository
 		} else {
 			$id =& $theID;
 		}
+		
+		// Limit the Record Struture just to this repository if it is not
+		// specified as global.
+		if ($isGlobal)
+			$idString = $id->getIdString();
+		else {
+			$repositoryId =& $this->getId();
+			$idString = "Repository::".$repositoryId->getIdString()."::".$id->getIdString();
+		}
 
 		// Create the Schema
-		$tempSchema =& new Schema($id->getIdString(), $displayName, 1, $description, array("format"=>$format, "schema"=>$schema));
+		$tempSchema =& new Schema($idString, $displayName, 1, $description, 
+			array("format"=>$format, "schema"=>$schema));
 		$schemaMgr->synchronize($tempSchema);
 		
 		// The SchemaManager only allows you to use Schemas created by it for use with Records.
-		$schema =& $schemaMgr->getSchemaByID($id->getIdString());
+		$schema =& $schemaMgr->getSchemaByID($idString);
 		//debug::output("RecordStructure is being created from Schema with Id: '".$schema->getID()."'");
 		$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure(
 																$schema);
