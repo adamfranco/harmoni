@@ -29,7 +29,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.17 2005/08/19 20:16:48 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.18 2005/11/01 15:09:40 adamfranco Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -210,7 +210,7 @@ class FileRecord
 	 */
 	function deletePart(& $partId) {
 		$string = $partId->getIdString();
-		if (ereg("(.*)-(FILE_SIZE|FILE_NAME|FILE_DATA|MIME_TYPE|THUMBNAIL_DATA|THUMBNAIL_MIME_TYPE)",$string,$r)) {
+		if (ereg("(.*)-(".implode("|", array_keys($this->_parts)).")",$string,$r)) {
 			$recordId = $r[1];
 			$field = $r[2];
 			
