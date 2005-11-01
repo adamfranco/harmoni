@@ -35,7 +35,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniPropertyManager.class.php,v 1.5 2005/09/09 21:32:54 gabeschine Exp $
+ * @version $Id: HarmoniPropertyManager.class.php,v 1.6 2005/11/01 20:26:01 adamfranco Exp $
  *
  * @author Ben Gore
  */
@@ -104,7 +104,7 @@ class HarmoniPropertyManager
 	} 
 	
 	
-	/*******
+	/**
 	 * A public function that retrieves properties from the database associated 
 	 * with the object represented by object_id_string. Each individual type
 	 * has a separate object, which is placed in the array
@@ -154,7 +154,7 @@ class HarmoniPropertyManager
 		return $propertiesArray;//return the properties
 	}
 	
-	/*******
+	/**
 	 * A public function that stores all of the properties of the property 		
 	 * object sent to it.  
 	 * It deletes the old entries no matter what to avoid arduous checking to
@@ -265,7 +265,7 @@ class HarmoniPropertyManager
 		return $typeId;
 	}
 	
-	/***
+	/**
 	 * Delete all properties associated with an object
 	 * This is here partially to preserve the option of using non-editable agents
 	 * If that ceases to be an issue, this more properly belongs in
@@ -291,7 +291,7 @@ class HarmoniPropertyManager
 	
 	
 	
-	/***
+	/**
 	 * A public function to take a key/value array of properties as might be
 	 * gathered from a web form and turns it into a useable object
 	 * 
@@ -311,7 +311,51 @@ class HarmoniPropertyManager
 	 	}
 	 	
 	 	return $property;
-	 }	
+	 }
+	 
+	
+	/**
+	 * Answer an array of all of the property keys inexistance
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 11/1/05
+	 */
+	function getAllPropertyKeys(){
+		$propertyKeys = array();
+		$dbHandler =& Services::getService("DBHandler");
+		
+		//select the propertykeys
+		$query =& new SelectQuery();
+		$query->addTable($this->_sharedDB.".agent_properties");
+		
+		$query->addColumn("DISTINCT property_key");
+		
+// 		$query->addTable($this->_sharedDB.".type", LEFT_JOIN, "agent_properties.fk_type_id=type.type_id");
+		
+// 		$query->addColumn("property_key");
+// 		$query->addColumn("type_domain");
+// 		$query->addColumn("type_authority");
+// 		$query->addColumn("type_keyword");
+// 		$query->addColumn("type_description");
+		
+		$query->addOrderBy("property_key");
+		
+		
+		$result =& $dbHandler->query($query, $this->_dbIndex);
+		while($result->hasMoreRows()){
+			$propertyKeys[] = $result->field('property_key');
+// 			$propertyKeys[$result->field('property_key')] =& new Type(
+// 				$result->field('type_domain'),
+// 				$result->field('type_authority'),
+// 				$result->field('type_keyword'),
+// 				$result->field('type_description'));
+			$result->advanceRow();
+		}
+		$result->free();
+	
+		return $propertyKeys;//return the properties
+	}
 }
 
 ?>
