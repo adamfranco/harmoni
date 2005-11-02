@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.21 2005/09/09 21:32:54 gabeschine Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.22 2005/11/02 19:03:57 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -762,17 +762,6 @@ class AuthorizationCache {
 				}
 			} else {
 				$qualifiers = array($qId);
-			}
-		
-			// we will need the parent nodes later
-			if (!$isExplicit) {
-				$parentsIterator = $node->getParents();
-				$parents = array();
-				while($parentsIterator->hasNext()) {
-					$parent =& $parentsIterator->next();
-					$id =& $parent->getId();
-					$parents[$id->getIdString()] = $id->getIdString();
-				}
 			}
 		}
 //		print_r($qualifiers);
