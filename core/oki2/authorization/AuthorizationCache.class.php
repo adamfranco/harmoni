@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.22 2005/11/02 19:03:57 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.23 2005/11/02 21:26:16 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -706,7 +706,7 @@ class AuthorizationCache {
 	
 	/**
 	 * Auxilliary private function that returns Authorizations according to a
-	 * criteria. Null values are interpreted as wildmarks. Warning: $isExplicit = false
+	 * criteria. Null values are interpreted as wildmarks. Warning: $returnExplicitOnly = false
 	 * will increase the running time significantly - USE SPARINGLY!
 	 * @access public
 	 * @param string aId The string id of an agent.
@@ -714,11 +714,14 @@ class AuthorizationCache {
 	 * @param string qId The string id of a qualifier. This parameter can not be null
 	 * and used as a wildmark.
 	 * @param object fType The type of a function.
-	 * @param boolean isExplicit If True, only explicit Authorizations will be returned.
+	 * @param boolean returnExplicitOnly If True, only explicit Authorizations
+	 *		will be returned.
+	 * @param boolean searchUp If true, the ancester nodes of the qualifier will
+	 *		be checked as well
 	 * @param boolean isActiveNow If True, only active Authorizations will be returned.
 	 * @return ref object An AuthorizationIterator.
 	 **/
-	function &getAZs($aId, $fId, $qId, $fType, $isExplicit, $isActiveNow, $groupIds = array()) {
+	function &getAZs($aId, $fId, $qId, $fType, $returnExplicitOnly, $searchUp, $isActiveNow, $groupIds = array()) {
 		// ** parameter validation
 		$rule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($groupIds, ArrayValidatorRuleWithRule::getRule(OptionalRule::getRule($rule)), true);
@@ -726,17 +729,17 @@ class AuthorizationCache {
 		ArgumentValidator::validate($fId, OptionalRule::getRule($rule), true);
 		ArgumentValidator::validate($qId, OptionalRule::getRule($rule), true);
 		ArgumentValidator::validate($fType, OptionalRule::getRule(ExtendsValidatorRule::getRule("Type")), true);
-		ArgumentValidator::validate($isExplicit, BooleanValidatorRule::getRule(), true);
+		ArgumentValidator::validate($returnExplicitOnly, BooleanValidatorRule::getRule(), true);
 		ArgumentValidator::validate($isActiveNow,BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$idManager =& Services::getService("Id");
 		
-		// the parameter that influences the result most is $isExplicit
-		// 1) If $isExplicit is TRUE, then we only need to check for Authorizations
+		// the parameter that influences the result most is $returnExplicitOnly
+		// 1) If $returnExplicitOnly is TRUE, then we only need to check for Authorizations
 		// that have been explicitly created, i.e. no need to look for inherited 
 		// authorizations
-		// 2) If $isExplicit is FALSE, then we need to include inherited Authorizations
+		// 2) If $returnExplicitOnly is FALSE, then we need to include inherited Authorizations
 		// as well.
 		
 		// this array will store the ids of all qualifiers to be checked for authorizations
@@ -749,7 +752,7 @@ class AuthorizationCache {
 			$node =& $hierarchyManager->getNode($qualifierId);
 			$hierarchy =& $hierarchyManager->getHierarchyForNode($node);
 		
-			if (!$isExplicit) {
+			if ($searchUp) {
 				// these are the ancestor nodes
 				$nodes =& $hierarchy->traverse($qualifierId, Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
 						Hierarchy::TRAVERSE_DIRECTION_UP(), Hierarchy::TRAVERSE_LEVELS_ALL());
@@ -887,14 +890,14 @@ class AuthorizationCache {
 			// in decendents, but not appear in their AZs directly.
 			// Therefore, only add the explicit AZ if it is for the requested
 			// qualifier and agent if we are fetching more than just the explicitAZs.
-			if (($row['qId'] == $qId && $row['aId'] == $aId) || $isExplicit)
+			if (($row['qId'] == $qId && $row['aId'] == $aId) || $returnExplicitOnly)
 				$authorizations[] =& $authorization;
 
 			// now create the implicit authorizations
 			// the implicit authorizations will be created for all nodes
 			// on the hierarchy path(s) between the node with the explicit authorization
 			// and the node on which getAZs() was called.
-			if (!$isExplicit) {
+			if (!$returnExplicitOnly) {
 			
 				// if this is an AZ that is implicit because of a group instead
 				// of because of the hierarchy, create it.
