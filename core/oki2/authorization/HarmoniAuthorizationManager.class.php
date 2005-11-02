@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.20 2005/11/02 21:26:16 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.21 2005/11/02 22:39:52 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -1395,7 +1395,8 @@ class HarmoniAuthorizationManager
 					null, 									// ftype
 					true, 									// returnExplicitOnly
 					true,									// searchUp
-					$implicitAuthorization->isActiveNow());	// isActiveNow
+					$implicitAuthorization->isActiveNow(),
+					$this->_getContainingGroupIdStrings($agentId));	// isActiveNow
 		
 		// Make sure that we are only returning explicit AZs for implicit
 		// AZs, not other explicit AZs at this node. This means, only return

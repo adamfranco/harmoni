@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.23 2005/11/02 21:26:16 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.24 2005/11/02 22:39:52 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -855,8 +855,13 @@ class AuthorizationCache {
 		
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 		
-		// this array will store the authorizations that will be returned
+		// this array will store the authorizations that will be returned		
 		$authorizations = array();
+		
+		// we only want to create one implicitAZ for a given Agent/Function/Qualifier
+		// combo, so maintain a list of already created ones to skip
+		$createdImplicitAZs = array();
+		
 		// process all rows and create the explicit authorizations
 		while ($queryResult->hasMoreRows()) {
 			$row =& $queryResult->getCurrentRow();
@@ -897,13 +902,20 @@ class AuthorizationCache {
 			// the implicit authorizations will be created for all nodes
 			// on the hierarchy path(s) between the node with the explicit authorization
 			// and the node on which getAZs() was called.
-			if (!$returnExplicitOnly) {
+			if (!$returnExplicitOnly || $searchUp) {
 			
 				// if this is an AZ that is implicit because of a group instead
 				// of because of the hierarchy, create it.
 				if ($row['qId'] == $qId && $row['aId'] != $aId) {
 					$qualifierId =& $idManager->getId($qId);
-					$agentId =& $authorization->getAgentId();
+					
+					// If we are getting implicit AZs for a given agent, make sure
+					// that the implicit AZ has their Id.
+					if ($aId)
+						$agentId =& $idManager->getId($aId);
+					else
+						$agentId =& $authorization->getAgentId();
+					
 					$function =& $authorization->getFunction();
 					$functionId =& $function->getId();
 					$effectiveDate = $authorization->getEffectiveDate();
@@ -916,12 +928,19 @@ class AuthorizationCache {
 														$this, 
 														$effectiveDate, 
 														$expirationDate);
-					$authorizations[] =& $implicit;
+					
+					$azHash = $agentId->getIdString()
+								."::".$functionId->getIdString()
+								."::".$qualifierId->getIdString();
+					if (!in_array($azHash, $createdImplicitAZs)) {
+						$authorizations[] =& $implicit;
+						$createdImplicitAZs[] = $azHash;
+					}
 				}
 				
 				// Otherwise, do what is necessary to create the implicit qualifier
 				// based on the hierarchy
-				else {
+				else if (!$returnExplicitOnly) {
 					// how to get the nodes in question?
 					// answer: get the intersection of the following two sets of nodes:
 					// set 1: the nodes resulted when traversing up from node $qId (we
@@ -932,7 +951,13 @@ class AuthorizationCache {
 					$explicitQualifier =& $authorization->getQualifier();
 					$explicitQualifierId =& $explicitQualifier->getId();
 	
-					$agentId =& $authorization->getAgentId();
+					// If we are getting implicit AZs for a given agent, make sure
+					// that the implicit AZ has their Id.
+					if ($aId)
+						$agentId =& $idManager->getId($aId);
+					else
+						$agentId =& $authorization->getAgentId();
+						
 					$function =& $authorization->getFunction();
 					$functionId =& $function->getId();
 					$effectiveDate = $authorization->getEffectiveDate();
@@ -959,9 +984,18 @@ class AuthorizationCache {
 					if (isset($set2[$qId])) {
 						// create an implicit
 						$implicitQualifierId =& $idManager->getId($qId);
-						$implicit =& new HarmoniAuthorization(null, $agentId, $functionId, $implicitQualifierId,
-															  false, $this, $effectiveDate, $expirationDate);
-						$authorizations[] =& $implicit;
+						$implicit =& new HarmoniAuthorization(null, $agentId, 
+											$functionId, $implicitQualifierId,
+											false, $this, $effectiveDate, 
+											$expirationDate);
+						
+						$azHash = $agentId->getIdString()
+									."::".$functionId->getIdString()
+									."::".$implicitQualifierId->getIdString();
+						if (!in_array($azHash, $createdImplicitAZs)) {
+							$authorizations[] =& $implicit;
+							$createdImplicitAZs[] = $azHash;
+						}
 					}
 				}
 			}
