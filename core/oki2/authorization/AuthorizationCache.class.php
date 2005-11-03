@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.25 2005/11/03 17:04:15 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.26 2005/11/03 17:43:46 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -950,7 +950,7 @@ class AuthorizationCache {
 				// Otherwise, do what is necessary to create the implicit qualifier
 				// based on the hierarchy
 				
-				// If we have a $qid then our results must only be for it.
+				// If we have a $qid then our results must only have been for it.
 				// This means that if we got here, we have an authorization in
 				// an ancestor somewhere, so we can savly return an implicit AZ.
 				else if (!$returnExplicitOnly && $qId) {
@@ -989,13 +989,7 @@ class AuthorizationCache {
 				// to make implicit qualifiers for the decendents of the 
 				// explicit qualifier
 				else if (!$returnExplicitOnly) {
-					printpre("In third clause (AuthorizationCache)");
-					// how to get the nodes in question?
-					// answer: get the intersection of the following two sets of nodes:
-					// set 1: the nodes resulted when traversing up from node $qId (we
-					// already have those in $qualifiers)
-					// set 2: the nodes resulted when traversing down from the qualifier with 
-					// explicit authorization minus the latter itself
+// 					printpre("In third clause (AuthorizationCache)");
 	
 					$explicitQualifier =& $authorization->getQualifier();
 					$explicitQualifierId =& $explicitQualifier->getId();
@@ -1025,7 +1019,7 @@ class AuthorizationCache {
 						$id =& $info->getNodeId();
 						$set2[$id->getIdString()] = $id->getIdString();
 					}
-					printpre($set2);
+// 					printpre($set2);
 					
 					// now, for each node in $qualifiers, if it's in $set2 as well,
 					// then create an implicit authorization for it.
