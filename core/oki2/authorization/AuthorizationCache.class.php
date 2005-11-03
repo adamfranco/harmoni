@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.24 2005/11/02 22:39:52 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.25 2005/11/03 17:04:15 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -722,6 +722,7 @@ class AuthorizationCache {
 	 * @return ref object An AuthorizationIterator.
 	 **/
 	function &getAZs($aId, $fId, $qId, $fType, $returnExplicitOnly, $searchUp, $isActiveNow, $groupIds = array()) {
+// 		printpre (func_get_args());
 		// ** parameter validation
 		$rule =& StringValidatorRule::getRule();
 		ArgumentValidator::validate($groupIds, ArrayValidatorRuleWithRule::getRule(OptionalRule::getRule($rule)), true);
@@ -866,7 +867,7 @@ class AuthorizationCache {
 		while ($queryResult->hasMoreRows()) {
 			$row =& $queryResult->getCurrentRow();
 			
-//			printpre($row);
+// 			printpre($row);
 
 			$idValue = $row['id'];
 			$id =& $idManager->getId($idValue);
@@ -902,11 +903,19 @@ class AuthorizationCache {
 			// the implicit authorizations will be created for all nodes
 			// on the hierarchy path(s) between the node with the explicit authorization
 			// and the node on which getAZs() was called.
-			if (!$returnExplicitOnly || $searchUp) {
+			// If the row's qualifier and agent are what we asked for however,
+			// then the AZ is explicit and doesn't need an implicit AZ as well.
+			if ((!$returnExplicitOnly || $searchUp)
+				&& !($row['qId'] == $qId && $row['aId'] == $aId))
+			{
+// 				printpre("Building Implicit AZs...");
+// 				var_dump($returnExplicitOnly);
+// 				var_dump($searchUp);
 			
 				// if this is an AZ that is implicit because of a group instead
 				// of because of the hierarchy, create it.
 				if ($row['qId'] == $qId && $row['aId'] != $aId) {
+// 					printpre("In first clause (AuthorizationCache)");
 					$qualifierId =& $idManager->getId($qId);
 					
 					// If we are getting implicit AZs for a given agent, make sure
@@ -940,7 +949,47 @@ class AuthorizationCache {
 				
 				// Otherwise, do what is necessary to create the implicit qualifier
 				// based on the hierarchy
+				
+				// If we have a $qid then our results must only be for it.
+				// This means that if we got here, we have an authorization in
+				// an ancestor somewhere, so we can savly return an implicit AZ.
+				else if (!$returnExplicitOnly && $qId) {
+// 					printpre("In second clause (AuthorizationCache)");
+					
+					// If we are getting implicit AZs for a given agent, make sure
+					// that the implicit AZ has their Id.
+					if ($aId)
+						$agentId =& $idManager->getId($aId);
+					else
+						$agentId =& $authorization->getAgentId();
+						
+					$function =& $authorization->getFunction();
+					$functionId =& $function->getId();
+					$effectiveDate = $authorization->getEffectiveDate();
+					$expirationDate = $authorization->getExpirationDate();
+					
+					$implicitQualifierId =& $idManager->getId($qId);
+					$implicit =& new HarmoniAuthorization(null, $agentId, 
+										$functionId, $implicitQualifierId,
+										false, $this, $effectiveDate, 
+										$expirationDate);
+					
+					$azHash = $agentId->getIdString()
+								."::".$functionId->getIdString()
+								."::".$implicitQualifierId->getIdString();
+					if (!in_array($azHash, $createdImplicitAZs)) {
+						$authorizations[] =& $implicit;
+						$createdImplicitAZs[] = $azHash;
+					}
+					
+				} 
+				
+				// If we are are just asking for all authorizations, not with
+				// a particular qualifier, then we must build a hierarchy down
+				// to make implicit qualifiers for the decendents of the 
+				// explicit qualifier
 				else if (!$returnExplicitOnly) {
+					printpre("In third clause (AuthorizationCache)");
 					// how to get the nodes in question?
 					// answer: get the intersection of the following two sets of nodes:
 					// set 1: the nodes resulted when traversing up from node $qId (we
@@ -976,14 +1025,13 @@ class AuthorizationCache {
 						$id =& $info->getNodeId();
 						$set2[$id->getIdString()] = $id->getIdString();
 					}
+					printpre($set2);
 					
 					// now, for each node in $qualifiers, if it's in $set2 as well,
 					// then create an implicit authorization for it.
-					// Actually, we only want to create an implicit AZ for the
-					// requested node, not for its parents as well.
-					if (isset($set2[$qId])) {
+					foreach($qualifiers as $tmpQId) {
 						// create an implicit
-						$implicitQualifierId =& $idManager->getId($qId);
+						$implicitQualifierId =& $idManager->getId($tmpQId);
 						$implicit =& new HarmoniAuthorization(null, $agentId, 
 											$functionId, $implicitQualifierId,
 											false, $this, $effectiveDate, 
