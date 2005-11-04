@@ -29,7 +29,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.18 2005/11/01 15:09:40 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.19 2005/11/04 20:29:14 cws-midd Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -266,6 +266,28 @@ class FileRecord
 		$partIterator =& new HarmoniPartIterator($this->_parts);
 		
 		return $partIterator;
+	}
+
+	/**
+	 * Get the part from the record that matches the passed Id
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
+	 * @param object HarmoniId
+	 * @return object HarmoniPart
+	 * @access public
+	 * @since 10/10/05
+	 */
+	function &getPart ($id) {
+		$parts =& $this->getParts();
+		
+		while ($parts->hasNext()) {
+			$part =& $parts->next();
+			if ($part->getId() == $id)
+				return $part;
+		}
+		$false = false;
+		return $false;
 	}
 
 	/**

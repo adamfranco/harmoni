@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.17 2005/10/11 15:33:33 cws-midd Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.18 2005/11/04 20:29:14 cws-midd Exp $ 
  */
 
 class HarmoniRecord 
@@ -231,7 +231,10 @@ class HarmoniRecord
 			if ($part->getId() == $id)
 				return $part;
 		}
+		$false = false;
+		return $false;
 	}
+	
 	/**
 	 * Return true if this Record is multi-valued; false otherwise.	 This is determined by the implementation.
 	 * 
