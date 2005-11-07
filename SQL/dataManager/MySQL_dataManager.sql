@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_dataManager.sql,v 1.20 2005/11/04 20:29:14 cws-midd Exp $
+-- @version $Id: MySQL_dataManager.sql,v 1.21 2005/11/07 20:51:05 cws-midd Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -102,7 +102,7 @@ TYPE=InnoDB;
 
 CREATE TABLE dm_record (
   id varchar(75) NOT NULL default '0',
-  fk_schema varchar(75) NOT NULL default '0',
+  fk_schema varchar(255) NOT NULL default '0',
   created datetime NOT NULL default '0000-00-00 00:00:00',
   ver_control tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (id),
@@ -120,7 +120,7 @@ TYPE=InnoDB;
 CREATE TABLE dm_record_field (
   id varchar(75) NOT NULL default '0',
   fk_record varchar(75) NOT NULL default '0',
-  fk_schema_field varchar(75) NOT NULL default '0',
+  fk_schema_field varchar(255) NOT NULL default '0',
   value_index bigint(20) unsigned NOT NULL default '0',
   fk_data varchar(75) NOT NULL default '0',
   active tinyint(1) unsigned NOT NULL default '0',
@@ -175,7 +175,7 @@ TYPE=InnoDB;
 
 CREATE TABLE dm_schema_field (
   id varchar(255) NOT NULL default '0',
-  fk_schema varchar(75) NOT NULL default '0',
+  fk_schema varchar(255) NOT NULL default '0',
   name varchar(255) NOT NULL default '',
   mult tinyint(1) unsigned NOT NULL default '0',
   fieldtype varchar(255) NOT NULL default '',
