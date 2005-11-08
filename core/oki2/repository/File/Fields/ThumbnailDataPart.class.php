@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDataPart.class.php,v 1.7 2005/09/26 20:27:48 cws-midd Exp $
+ * @version $Id: ThumbnailDataPart.class.php,v 1.8 2005/11/08 20:55:36 cws-midd Exp $
  */
 class ThumbnailDataPart extends Part
 //	extends java.io.Serializable
@@ -169,7 +169,7 @@ class ThumbnailDataPart extends Part
 	 */
 	function getValue() {
 		// If we don't have the data, load it from the database.
-		if ($this->_data === NULL) {
+//		if ($this->_data === NULL) {
 			$dbHandler =& Services::getService("DatabaseManager");
 			
 			// Get the data from the database,
@@ -182,13 +182,15 @@ class ThumbnailDataPart extends Part
 			
 			// If no data was found, return an empty string.
 			if ($result->getNumberOfRows() == 0)
-				$this->_data = "";
+				$data = "";
+				//$this->_data = "";
 			else
-				$this->_data = base64_decode($result->field("data"));
+				$data = base64_decode($result->field("data"));
+				//$this->_data = base64_decode($result->field("data"));
 			$result->free();
-		}
+//		}
 		
-		return $this->_data;
+		return $data;// $this->_data;
 	}
 
 	/**

@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPart.class.php,v 1.8 2005/08/11 17:58:39 cws-midd Exp $
+ * @version $Id: FileDataPart.class.php,v 1.9 2005/11/08 20:55:36 cws-midd Exp $
  */
  
 class FileDataPart 
@@ -169,7 +169,7 @@ class FileDataPart
 	 */
 	function getValue() {
 		// If we don't have the data, load it from the database.
-		if ($this->_data === NULL) {
+//		if ($this->_data === NULL) {
 			$dbHandler =& Services::getService("DatabaseManager");
 			
 			// Get the data from the database,
@@ -183,13 +183,15 @@ class FileDataPart
 			
 			// If no data was found, return an empty string.
 			if ($result->getNumberOfRows() == 0)
-				$this->_data = "";
+				$data = "";
+//				$this->_data = "";
 			else
-				$this->_data = base64_decode($result->field("data"));
+				$data = base64_decode($result->field("data"));
+//				$this->_data = base64_decode($result->field("data"));
 			$result->free();		
-		}
+//		}
 		
-		return $this->_data;
+		return $data; //this->_data;
 	}
 	/**
 	 * Update the value for this Part.
