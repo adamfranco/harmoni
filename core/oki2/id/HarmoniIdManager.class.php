@@ -41,7 +41,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdManager.class.php,v 1.20 2005/08/03 17:36:43 gabeschine Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.21 2005/11/09 22:47:22 adamfranco Exp $
  */
 
 class HarmoniIdManager
@@ -174,6 +174,15 @@ class HarmoniIdManager
 		}
 		
 		$newID = $result->getLastAutoIncrementValue();
+		
+		// Clear out any values smaller than our last one to keep the table from 
+		// exploding size.
+		$query =& new DeleteQuery();
+		$query->setTable($this->_sharedDB.".id");
+		$query->setWhere("id_value < '".$newID."'");
+		$result =& $dbHandler->query($query,$this->_dbIndex);
+		
+		
 		$newID = $this->_prefix.strval($newID);
 		
 		debug::output("Successfully created new id '$newID'.",DEBUG_SYS5,"IdManager");
