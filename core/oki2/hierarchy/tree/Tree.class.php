@@ -11,7 +11,7 @@ require_once(HARMONI."oki2/hierarchy/tree/TreeNode.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tree.class.php,v 1.10 2005/07/07 18:31:40 adamfranco Exp $
+ * @version $Id: Tree.class.php,v 1.11 2005/11/09 21:02:27 adamfranco Exp $
  * @since Created: 8/30/2003
  */
 class Tree extends TreeInterface {
@@ -65,6 +65,13 @@ class Tree extends TreeInterface {
 		
 		$id = $node->getId();
 
+		// if node has not been cached then do so
+		if (!$this->nodeExists($id)) {
+			// add the node
+			$this->_nodes[$id] =& $node;
+			$this->_size++;
+		}
+
 		// if $parent is not null, i.e. $node will not be a root
 		if (!is_null($parent)) {
 			// make sure $parent is in the tree
@@ -75,14 +82,13 @@ class Tree extends TreeInterface {
 			
 			// now add $node as a child to $parent
 			$parent->addChild($node);
-		}
-		
-		// if node has not been cached then do so
-		if (!$this->nodeExists($id)) {
-			// add the node
-			$this->_nodes[$id] =& $node;
-			$this->_size++;
-		}
+
+			// clear the traversal caches as all ancestors of the parent will have
+			// to have their traverse-down caches rebuilt and the child and its
+			// decendents will all need their traverse-up caches rebuilt.
+			$this->clearTraverseUpCaches($node);
+			$this->clearTraverseDownCaches($parent);
+		}		
 	}
 
 	
@@ -195,39 +201,104 @@ class Tree extends TreeInterface {
 			throwError(new Error($str, "Hierarchy", true));
 		}
 		
-		$cacheKey = $node->getId()."::".(($down)?"TRUE":"FALSE")."::".$levels;
+		$cacheKey =  $this->getCacheKey($node, $down, $levels);
 		
 		if (!isset($this->_traversalCache[$cacheKey])) {
 			$this->_traversalCache[$cacheKey] = array();
 
 			$this->_traverse($this->_traversalCache[$cacheKey], $node, $down, $levels, $levels);
 		}
-
+		
 		return $this->_traversalCache[$cacheKey];
 	}
 	
+	/**
+	 * Clear the traverse up caches for the given node and all of its decendents
+	 * 
+	 * @param object Node $node
+	 * @return void
+	 * @access public
+	 * @since 11/9/05
+	 */
+	function clearTraverseUpCaches ( &$node ) {
+		$treeNodes =& $this->traverse($node, false, -1);
+		foreach (array_keys($treeNodes) as $i => $key) {
+			$decendentNode =& $this->getNode($key);
+			$this->clearTraversalCaches($decendentNode, false);
+		}
+	}
+	
+	/**
+	 * Clear the traverse down caches for the given node and all of its ancestors
+	 * 
+	 * @param object Node $node
+	 * @return void
+	 * @access public
+	 * @since 11/9/05
+	 */
+	function clearTraverseDownCaches ( &$node ) {
+		$treeNodes =& $this->traverse($node, true, -1);
+		foreach (array_keys($treeNodes) as $i => $key) {
+			$ancestorNode =& $this->getNode($key);
+			$this->clearTraversalCaches($ancestorNode, true);
+		}
+	}
+	
+	/**
+	 * Clear the traverse caches for the given node and direction
+	 * 
+	 * @param object Node $node
+	 * @param boolean $down
+	 * @return void
+	 * @access public
+	 * @since 11/9/05
+	 */
+	function clearTraversalCaches ( &$node, $down ) {
+		$regex = "/^".$this->getCacheKey($node, $down, '[\-0-9]+')."$/";
+		foreach(array_keys($this->_traversalCache) as $cacheKey) {
+			if (preg_match($regex, $cacheKey)) {
+// 				printpre("removing traversal cache: $cacheKey");
+				unset($this->_traversalCache[$cacheKey]);
+			}
+		}
+	}
+	
+	/**
+	 * Answer the traversal cacheKey for this node, direction, and levels
+	 * 
+	 * @param object Node $node
+	 * @param boolean $down
+	 * @param integer $levels
+	 * @return string
+	 * @access public
+	 * @since 11/9/05
+	 */
+	function getCacheKey ( &$node, $down, $levels ) {
+		return $node->getId()."::".(($down)?"TRUE":"FALSE")."::".$levels;
+	}
 	
 	/**
 	 * A private recursive function that performs a depth-first pre-order traversal.
 	 * @access private
 	 * @param ref array The array where to store the result. Will consists of all 
-	 * nodes in the tree visited in a pre-order manner.
+	 * 		nodes in the tree visited in a pre-order manner.
 	 * @param ref object node The node to be visited.
 	 * @param boolean down If <code>true</code>, this argument specifies that the traversal will
-	 * go down the children; if <code>false</code> then it will go up the parents.
+	 * 		go down the children; if <code>false</code> then it will go up the parents.
 	 * @param integer levels Specifies how many levels of nodes remain to be fetched. This
-	 * will be recursively decremented and at 0 the recursion will stop. If this is negative
-	 * then the recursion will go on until the last level is processed.
-	 * @@param integer startingLevels This is the original value of the levels. This
-	 * is needed in order to properly calculate the relative depth of each returned node.
+	 * 		will be recursively decremented and at 0 the recursion will stop. If this is negative
+	 *		then the recursion will go on until the last level is processed.
+	 * @param integer startingLevels This is the original value of the levels. This
+	 * 		is needed in order to properly calculate the relative depth of each returned node.
+	 * @param string $initiatingNodeId The node that initiated the traversal to this node
 	 * @return ref array An array of all nodes in the tree visited in a pre-order
-	 * manner. The keys of the array correspond to the nodes' ids.
-	 * Each element of the array is another array of two elements, the first
-	 * being the node itself, and the second being the depth of the node relative
-	 * to the starting node. Descendants are assigned increasingly positive levels; 
-	 * ancestors increasingly negative levels. 
+	 * 		manner. The keys of the array correspond to the nodes' ids.
+	 *		 Each element of the array is another array of two elements, the first
+	 * 		being the node itself, and the second being the depth of the node relative
+	 * 		to the starting node. Descendants are assigned increasingly positive levels; 
+	 * 		ancestors increasingly negative levels. 
 	 */
-	function &_traverse(& $result, & $node, $down, $levels, $startingLevel) {
+	function &_traverse(& $result, & $node, $down, $levels, $startingLevel, $initiatingNodeId = null) {
 		// visit the node
 		
 		// note: the node could possibly been have visited already (if it has
@@ -242,7 +313,26 @@ class Tree extends TreeInterface {
 		}
 		else if (abs($result[$node->getId()][1]) > abs($newLevel))
 			$result[$node->getId()][1] = $newLevel;
-
+		
+		
+		// Record which parents and children we have found to allow the hierarchy
+		// cache to build and store alternative views into the hierarchy for quicker
+		// retreival.
+		if (!is_null($initiatingNodeId)) {
+			if ($down) {
+				if (!isset($result[$node->getId()]['parents']))
+					$result[$node->getId()]['parents'] = array();
+				if (!in_array($initiatingNodeId, $result[$node->getId()]['parents']))
+					$result[$node->getId()]['parents'][] = $initiatingNodeId;
+			} else {
+				if (!isset($result[$node->getId()]['children']))
+					$result[$node->getId()]['children'] = array();
+				if (!in_array($initiatingNodeId, $result[$node->getId()]['children']))
+					$result[$node->getId()]['children'][] = $initiatingNodeId;
+			}
+		}
+		
+		
 		// base case 1 : all levels have been processed
 		if ($levels == 0)
 			return;
@@ -262,7 +352,7 @@ class Tree extends TreeInterface {
 			$nodes =& $node->getParents();
 		foreach (array_keys($nodes) as $i => $key)
 			// recurse for each node
-			$this->_traverse($result, $nodes[$key], $down, $levels - 1, $startingLevel);
+			$this->_traverse($result, $nodes[$key], $down, $levels - 1, $startingLevel, $node->getId());
 	}
 	
 

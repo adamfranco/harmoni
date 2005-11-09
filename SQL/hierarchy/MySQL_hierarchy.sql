@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_hierarchy.sql,v 1.7 2005/08/08 22:35:16 adamfranco Exp $
+-- @version $Id: MySQL_hierarchy.sql,v 1.8 2005/11/09 21:02:25 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -56,6 +56,24 @@ CREATE TABLE node (
   KEY node_display_name (node_display_name),
   KEY fk_hierarchy (fk_hierarchy),
   KEY fk_type (fk_type)
+) 
+CHARACTER SET utf8
+TYPE=InnoDB;
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `node_ancestory`
+-- 
+
+CREATE TABLE node_ancestory (
+  fk_node varchar(255) NOT NULL default '',
+  fk_ancestor varchar(255) default NULL,
+  level smallint(6) NOT NULL default '0',
+  fk_ancestors_child varchar(255) default NULL,
+  UNIQUE KEY fk_node (fk_node,fk_ancestor,fk_ancestors_child),
+  KEY fk_node_2 (fk_node)
 ) 
 CHARACTER SET utf8
 TYPE=InnoDB;
