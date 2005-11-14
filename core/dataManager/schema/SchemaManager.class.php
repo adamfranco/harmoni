@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.27 2005/08/11 17:58:37 cws-midd Exp $
+ * @version $Id: SchemaManager.class.php,v 1.28 2005/11/14 21:10:15 gabeschine Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
@@ -218,11 +218,6 @@ class SchemaManager {
 				"Could not find Schema with ID '$id'!","DataManager",true));
 		}
 		return $this->_schemas[$id];
-	}
-	
-	function &FUCK($tard) {
-		print "i got $tard";
-		return $this->_schemas[$tard];
 	}
 	
 	/** 

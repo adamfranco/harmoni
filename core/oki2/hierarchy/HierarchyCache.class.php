@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.23 2005/11/09 21:02:26 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.24 2005/11/14 21:10:16 gabeschine Exp $
  **/
 
 class HierarchyCache {
@@ -1082,7 +1082,7 @@ class HierarchyCache {
 		
 		$query =& new SelectQuery();
 		$query->addColumn("*");
-		$query->addTable($db."node_ancestory");
+		$query->addTable($db."node_ancestry");
 		$query->addTable($db."j_node_node", LEFT_JOIN, "fk_ancestor = fk_child");
 // 		$query->setGroupBy(array("fk_ancestor"));
 		$query->addOrderBy("level", DESCENDING);
@@ -1643,7 +1643,7 @@ class HierarchyCache {
 		// now that all nodes are cached, add their ids to the ancestor table for
 		// easy future searching.
 		$query =& new InsertQuery;
-		$query->setTable($db."node_ancestory");
+		$query->setTable($db."node_ancestry");
 		$query->setColumns(array("fk_node", "fk_ancestor", "level", "fk_ancestors_child"));
 		
 		$treeNode =& $this->_tree->getNode($idString);
@@ -1724,8 +1724,8 @@ class HierarchyCache {
 		
 		// Delete the old ancestory
 		$query =& new DeleteQuery;
-		$query->setTable($db."node_ancestory");
-		$query->addWhere($db."node_ancestory.fk_node = '".addslashes($idString)."'");
+		$query->setTable($db."node_ancestry");
+		$query->addWhere($db."node_ancestry.fk_node = '".addslashes($idString)."'");
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 // 		$queryResult->free();
 	}

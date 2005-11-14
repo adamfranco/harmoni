@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.23 2005/11/14 17:16:29 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.24 2005/11/14 21:10:15 gabeschine Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -514,9 +514,6 @@ class HarmoniAuthorizationManager
 		$dbIndex = $this->_configuration->getProperty('database_index');
 		$idManager =& Services::getService("Id");
 		
-		$timer =& new Timer;
-		$timer->start();
-		
 		$userIds =& $this->_getUserIds();
 		$agentIdStrings = array();
 		foreach (array_keys($userIds) as $key) {
@@ -578,7 +575,7 @@ class HarmoniAuthorizationManager
 		$query->addColumn("authorization_id");
 		$query->addColumn("fk_node");
 		$query->addTable("az_authorization");
-		$query->addTable("node_ancestory", LEFT_JOIN, "fk_qualifier = fk_ancestor");
+		$query->addTable("node_ancestry", LEFT_JOIN, "fk_qualifier = fk_ancestor");
 		$query->addWhere("fk_agent IN('".implode("', '", $agentIdStrings)."')");
 		
 // 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
@@ -601,8 +598,6 @@ class HarmoniAuthorizationManager
 		}
 		$result->free();
 		
-		$timer->end();
-// 		printf("CacheAZTime: %1.6f", $timer->printTime());
 		$this->_isUserAuthorizedCached = true;
 	}
 

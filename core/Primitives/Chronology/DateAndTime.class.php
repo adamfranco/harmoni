@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.2 2005/11/14 21:10:15 gabeschine Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.2 2005/11/14 21:10:15 gabeschine Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -1183,7 +1183,7 @@ class DateAndTime
 			$result .= '-';
 		} else {
 			if ($printLeadingSpaceToo)
-				$resul .= ' ';
+				$result .= ' ';
 		}
 		
 		$result .= str_pad(abs($year), 4, '0', STR_PAD_LEFT);
@@ -1192,6 +1192,27 @@ class DateAndTime
 		$result .= '-';
 		$result .= str_pad($day, 2, '0', STR_PAD_LEFT);
 		return $result;
+	}
+
+	/**
+	 * Print just the month, day, and year on aStream.
+	 *
+	 * @return string
+	 * @access public
+	 * @since 5/10/05
+	 */
+	function mdyString () {
+		$year = $this->year();
+		$month = $this->month();
+		$day = $this->dayOfMonth();
+		
+		$result = '';
+		
+		if ($year < 0) {
+			$year = '-'.$year;
+		}
+		
+		return "$month/$day/$year";
 	}
 	
 /*********************************************************

@@ -10,7 +10,7 @@ require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FieldValueSearch.class.php,v 1.8 2005/07/18 14:45:24 gabeschine Exp $
+ * @version $Id: FieldValueSearch.class.php,v 1.9 2005/11/14 21:10:15 gabeschine Exp $
  */
 class FieldValueSearch extends SearchCriteria {
 	
@@ -38,10 +38,10 @@ class FieldValueSearch extends SearchCriteria {
 		$mgr =& Services::getService("SchemaManager");
 		$typeMgr =& Services::getService("DataTypeManager");
 		
-		$def =& $mgr->getSchema($this->_schemaID);
+		$def =& $mgr->getSchemaByID($this->_schemaID);
 		$def->load();
 		
-		$fieldID = $this->_schemaID . "." . $this->_label;
+		$fieldID = $def->getFieldIDFromLabel($this->_label);
 		
 		$field =& $def->getField($fieldID);
 		
@@ -51,7 +51,7 @@ class FieldValueSearch extends SearchCriteria {
 			for field '$this->_label'; a '".$field->getType()."' is required.","FieldValueSearch",true));
 		}
 		
-		$class =& $dataTypeManager->storablePrimitiveClassForType($field->getType());
+		$class =& $typeMgr->storablePrimitiveClassForType($field->getType());
 		eval('$string = '.$class.'::makeSearchString($this->_value, $this->_comparison);');
 		
 		return "(dm_record_field.fk_schema_field='".addslashes($fieldID)."' AND ".$string." AND dm_record_field.active=1)";
