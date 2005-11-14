@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.21 2005/11/02 22:39:52 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.22 2005/11/14 17:15:02 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -71,7 +71,11 @@ class HarmoniAuthorizationManager
 	 * @access private
 	 */
 	var $_cache;
+	
 	var $_groupAncestorsCache;
+	var $_isUserAuthorizedCache;
+	var $_explicitAZsCache;
+	var $_isUserAuthorizedCached;
 	
 	
 	/**
@@ -81,6 +85,9 @@ class HarmoniAuthorizationManager
 	 */
 	function HarmoniAuthorizationManager() {
 		$this->_groupAncestorsCache = array();
+		$this->_isUserAuthorizedCache = array();
+		$this->_explicitAZsCache = array();
+		$this->_isUserAuthorizedCached = false;
 	}
 	
 	/**
@@ -483,10 +490,120 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function isUserAuthorized ( &$functionId, &$qualifierId ) { 
-		$authorizations =& $this->getAllUserAZs($functionId, $qualifierId, true);
+	function isUserAuthorized ( &$functionId, &$qualifierId ) {
+		if (!$this->_isUserAuthorizedCached)
+			$this->cacheIsUserAuthorized();
 		
-		return ($authorizations->hasNext());
+		return isset($this->_isUserAuthorizedCache
+				[$qualifierId->getIdString()]
+				[$functionId->getIdString()]);
+	}
+	
+	/**
+	 * Load all of the Authorizations for the user and cache them
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 11/10/05
+	 */
+	function cacheIsUserAuthorized () {
+		if ($this->_isUserAuthorizedCached)
+			return;
+		
+		$dbHandler =& Services::getService("DatabaseManager");
+		$dbIndex = $this->_configuration->getProperty('database_index');
+		$idManager =& Services::getService("Id");
+		
+		$timer =& new Timer;
+		$timer->start();
+		
+		$userIds =& $this->_getUserIds();
+		$agentIdStrings = array();
+		foreach (array_keys($userIds) as $key) {
+			$userId =& $userIds[$key];
+			$agentIdStrings[] =	$userId->getIdString();
+			$agentIdStrings = array_merge(
+				$agentIdStrings,	
+				$this->_getContainingGroupIdStrings($userId));
+		}
+		
+	// Explicit AZs
+		// Select and create all of the explicit AZs
+		$query =& new SelectQuery();
+		$query->addColumn("*");
+		$query->addTable("az_authorization");
+		$query->addWhere("fk_agent IN('".implode("', '", $agentIdStrings)."')");
+		
+		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		$result =& $dbHandler->query(
+						$query, 
+						$dbIndex);
+		
+		// Create the explicit AZs
+		while ($result->hasMoreRows()) {
+			$az =& new HarmoniAuthorization(
+						$result->field("authorization_id"),
+						$idManager->getId($result->field("fk_agent")),
+						$idManager->getId($result->field("fk_function")),
+						$idManager->getId($result->field("fk_qualifier")),
+						true,
+						$this->_cache,
+						$dbHandler->fromDBDate(
+								$result->field("authorization_effective_date"),
+								$dbIndex),
+						$dbHandler->fromDBDate(
+								$result->field("authorization_expiration_date"), 
+								$dbIndex));
+			
+			// cache in our explictAZ cache for referencing by implicit AZs
+			$this->_explicitAZsCache[$result->field("authorization_id")] =& $az;
+			
+			
+			// Set a boolean for the AZ.
+			if(!isset($this->_isUserAuthorizedCache[$result->field("fk_qualifier")]))
+				$this->_isUserAuthorizedCache[$result->field("fk_qualifier")] = array();
+			
+			$this->_isUserAuthorizedCache[$result->field("fk_qualifier")][$result->field("fk_function")] = true;
+			
+			
+			$result->advanceRow();
+		}
+		$result->free();
+		
+		
+	// Implicit AZs	
+		// We want to join all of the explicit AZs to all nodes who have the
+		// qulifier as an ancestor. These will be the implicit AZs
+		$query =& new SelectQuery();
+		$query->addColumn("authorization_id");
+		$query->addColumn("fk_node");
+		$query->addTable("az_authorization");
+		$query->addTable("node_ancestory", LEFT_JOIN, "fk_qualifier = fk_ancestor");
+		$query->addWhere("fk_agent IN('".implode("', '", $agentIdStrings)."')");
+		
+		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		$result =& $dbHandler->query(
+						$query, 
+						$this->_configuration->getProperty('database_index'));
+		
+		while ($result->hasMoreRows()) {			
+			$explicitAZ =& $this->_explicitAZsCache[$result->field("authorization_id")];
+			$explicitFunction =& $explicitAZ->getFunction();
+			$explicitFunctionId =& $explicitFunction->getId();
+			
+			// cache in our user AZ cache
+			if(!isset($this->_isUserAuthorizedCache[$result->field("fk_node")]))
+				$this->_isUserAuthorizedCache[$result->field("fk_node")] = array();
+			
+			$this->_isUserAuthorizedCache[$result->field("fk_node")][$explicitFunctionId->getIdString()] = true;
+			
+			$result->advanceRow();
+		}
+		$result->free();
+		
+		$timer->end();
+		printf("CacheAZTime: %1.6f", $timer->printTime());
+		$this->_isUserAuthorizedCached = true;
 	}
 
 	/**
@@ -1024,7 +1141,7 @@ class HarmoniAuthorizationManager
 		$i =& new HarmoniAuthorizationIterator($authorizations);
 		return $i;
 	}
-
+	
 	/**
 	 * Given a FunctionType and a qualifierId returns all Authorizations that
 	 * would allow the user to do Functions in the FunctionType with the
