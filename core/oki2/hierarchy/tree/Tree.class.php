@@ -11,7 +11,7 @@ require_once(HARMONI."oki2/hierarchy/tree/TreeNode.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tree.class.php,v 1.12 2005/11/10 20:20:42 adamfranco Exp $
+ * @version $Id: Tree.class.php,v 1.13 2005/11/14 21:14:54 adamfranco Exp $
  * @since Created: 8/30/2003
  */
 class Tree extends TreeInterface {
@@ -115,7 +115,7 @@ class Tree extends TreeInterface {
 	 * @param object node The node to delete.
 	 * @return void
 	 **/
-	function deleteNode(& $node) {
+	function deleteNode(& $node, $clearTraversal = false) {
 		// ** parameter validation
 		$extendsRule =& ExtendsValidatorRule::getRule("TreeNode");
 		ArgumentValidator::validate($node, $extendsRule, true);
@@ -129,6 +129,26 @@ class Tree extends TreeInterface {
 		// now delete it
 		unset($this->_nodes[$node->_id]);
 		$node = null;
+		
+		if ($clearTraversal) {
+			// clear the traversal caches as all ancestors of the parent will have
+			// to have their traverse-down caches rebuilt and the child and its
+			// decendents will all need their traverse-up caches rebuilt.
+// 			$this->clearTraverseUpCaches($node);
+// 			$this->clearTraverseDownCaches($parent);
+
+			// It appears that selectively clearing the caches is taking 
+			// significantly longer to do than just resetting the traversal
+			// caches for all nodes and rebuilding them as needed.
+			// In my tests on 700-Asset Repositories, the following load times 
+			// (when checking AZs) were found:
+			//		31.6s	clearing all
+			//		32.8s	clearing selective
+			// When no AZs were checked, the following load times were found:
+			//		16.5s	clearing all
+			//		25.9s	clearing selective
+			$this->_traversalCache = array();
+		}
 	}
 	
 

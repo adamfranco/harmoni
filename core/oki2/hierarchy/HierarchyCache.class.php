@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.24 2005/11/14 21:10:16 gabeschine Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.25 2005/11/14 21:14:54 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -283,7 +283,7 @@ class HierarchyCache {
 		// now add the new node as a parent
 		
 		// 1) update the cache
-		$this->_tree->addNode($childTreeNode, $parentTreeNode);
+		$this->_tree->addNode($childTreeNode, $parentTreeNode, true);
 
 		// 2) update the database
 		$db = $this->_hyDB.".";
@@ -361,6 +361,7 @@ class HierarchyCache {
 			throwError(new Error(HierarchyException::OPERATION_FAILED(),"HierarchyCache",true));
 		
 		// Update the ancestory table
+		$this->_tree->_traversalCache = array();
 		$this->rebuildSubtreeAncestory($child->getId());
 	}
 	
@@ -1658,6 +1659,7 @@ class HierarchyCache {
 					continue;
 					
 				$nodeId =& $node->getId();
+// 				printpre($nodeId->getIdString());
 	
 				if (!$nodeId->isEqual($id)) {
 					foreach ($treeNodes[$key]['children'] as $ancestorChildId) {
