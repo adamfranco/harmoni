@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.22 2005/11/14 17:15:02 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.23 2005/11/14 17:16:29 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -534,7 +534,7 @@ class HarmoniAuthorizationManager
 		$query->addTable("az_authorization");
 		$query->addWhere("fk_agent IN('".implode("', '", $agentIdStrings)."')");
 		
-		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		$result =& $dbHandler->query(
 						$query, 
 						$dbIndex);
@@ -581,7 +581,7 @@ class HarmoniAuthorizationManager
 		$query->addTable("node_ancestory", LEFT_JOIN, "fk_qualifier = fk_ancestor");
 		$query->addWhere("fk_agent IN('".implode("', '", $agentIdStrings)."')");
 		
-		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		$result =& $dbHandler->query(
 						$query, 
 						$this->_configuration->getProperty('database_index'));
@@ -602,7 +602,7 @@ class HarmoniAuthorizationManager
 		$result->free();
 		
 		$timer->end();
-		printf("CacheAZTime: %1.6f", $timer->printTime());
+// 		printf("CacheAZTime: %1.6f", $timer->printTime());
 		$this->_isUserAuthorizedCached = true;
 	}
 
