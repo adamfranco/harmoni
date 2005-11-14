@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.26 2005/11/03 17:43:46 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.27 2005/11/14 17:07:19 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -862,6 +862,7 @@ class AuthorizationCache {
 		// we only want to create one implicitAZ for a given Agent/Function/Qualifier
 		// combo, so maintain a list of already created ones to skip
 		$createdImplicitAZs = array();
+		$i = 0;
 		
 		// process all rows and create the explicit authorizations
 		while ($queryResult->hasMoreRows()) {
@@ -989,7 +990,10 @@ class AuthorizationCache {
 				// to make implicit qualifiers for the decendents of the 
 				// explicit qualifier
 				else if (!$returnExplicitOnly) {
-// 					printpre("In third clause (AuthorizationCache)");
+					printpre($row);
+					
+					
+					printpre("In third clause (AuthorizationCache)");
 	
 					$explicitQualifier =& $authorization->getQualifier();
 					$explicitQualifierId =& $explicitQualifier->getId();
@@ -1007,36 +1011,44 @@ class AuthorizationCache {
 					$expirationDate = $authorization->getExpirationDate();
 	
 					// this is set 2
-					$nodes =& $hierarchy->traverse($explicitQualifierId, Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
-							Hierarchy::TRAVERSE_DIRECTION_DOWN(), Hierarchy::TRAVERSE_LEVELS_ALL());
-							
-					// now get the id of each node and store in array
-					$set2 = array();
-					// skip the first node
-					$nodes->next();
-					while($nodes->hasNext()){
-						$info =& $nodes->next();
-						$id =& $info->getNodeId();
-						$set2[$id->getIdString()] = $id->getIdString();
-					}
-// 					printpre($set2);
+					$authZManager =& Services::getService("AuthZ");
+					$hierarchies =& $authZManager->getQualifierHierarchies();
 					
-					// now, for each node in $qualifiers, if it's in $set2 as well,
-					// then create an implicit authorization for it.
-					foreach($qualifiers as $tmpQId) {
-						// create an implicit
-						$implicitQualifierId =& $idManager->getId($tmpQId);
-						$implicit =& new HarmoniAuthorization(null, $agentId, 
-											$functionId, $implicitQualifierId,
-											false, $this, $effectiveDate, 
-											$expirationDate);
-						
-						$azHash = $agentId->getIdString()
-									."::".$functionId->getIdString()
-									."::".$implicitQualifierId->getIdString();
-						if (!in_array($azHash, $createdImplicitAZs)) {
-							$authorizations[] =& $implicit;
-							$createdImplicitAZs[] = $azHash;
+					while($hierarchies->hasNext()) {
+						$hierarchyId =& $hierarchies->next();
+						$hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
+$timer =& new Timer;
+$timer->start();						
+						$nodes =& $hierarchy->traverse(
+							$explicitQualifierId, 
+							Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
+							Hierarchy::TRAVERSE_DIRECTION_DOWN(),
+							Hierarchy::TRAVERSE_LEVELS_ALL());
+$timer->end();
+printf("LoadAZTime: %1.6f <br/>", $timer->printTime());
+								
+						// now get the id of each node and store in array
+						$set2 = array();
+						// skip the first node
+						$nodes->next();
+						while($nodes->hasNext()){
+							$info =& $nodes->next();
+							$nodeId =& $info->getNodeId();
+							$implicit =& new HarmoniAuthorization(null, $agentId, 
+												$functionId, $nodeId,
+												false, $this, $effectiveDate, 
+												$expirationDate);
+							$azHash = $agentId->getIdString()
+										."::".$functionId->getIdString()
+										."::".$nodeId->getIdString();
+// 							printpre($azHash);
+							// Weird bugs were happening, with $createdImplicitAZs
+							// but I can't figure out what is going on.
+							if (!in_array($azHash, $createdImplicitAZs)) {
+								$authorizations[] =& $implicit;
+// 								$createdImplicitAZs[] = $azHash;
+							}
+							
 						}
 					}
 				}
