@@ -15,7 +15,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ArgumentValidator.class.php,v 1.8 2005/11/15 21:14:17 adamfranco Exp $
+ * @version $Id: ArgumentValidator.class.php,v 1.9 2005/11/15 21:57:01 adamfranco Exp $
  */
 class ArgumentValidator {
 

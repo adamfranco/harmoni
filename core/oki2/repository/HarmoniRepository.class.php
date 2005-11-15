@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.33 2005/10/31 21:20:37 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.34 2005/11/15 21:57:01 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -428,7 +428,7 @@ class HarmoniRepository
 				}
 				
 				if (!$ignoreNodes)
-					$this->getAsset($assetId);
+					$this->getAsset($assetId, FALSE);
 			}
 		}
 		
@@ -838,6 +838,10 @@ class HarmoniRepository
 	 * Get the Asset with the specified unique Id.
 	 * 
 	 * @param object Id $assetId
+	 * @param option boolean $verifyExistance WARNING: not in OSID.
+	 *				This parameter is used to allow calls to getAsset() from 
+	 *				inside this implementation to avoid re-checking the existance
+	 *				of the asset as by their nature, that existance is ensured.
 	 *	
 	 * @return object Asset
 	 * 
@@ -858,19 +862,22 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getAsset ( &$assetId ) { 
+	function &getAsset ( &$assetId, $verifyExistance = TRUE) { 
 		if (!isset($this->_createdAssets[$assetId->getIdString()])) {
-			// Get the node for this asset to make sure its availible
-			if (!$this->_hierarchy->getNode($assetId))
-				throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository", 1));
 			
-			// Verify that the requested Asset is in this DR.
-			$repositoryMan =& Services::getService("Repository");
-			if (!$repositoryId = $repositoryMan->_getAssetRepository($assetId)
-				|| !$repositoryId->isEqual($this->getId()))
-			{
-				throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository", 1));
-			}		
+			if ($verifyExistance) {
+				// Get the node for this asset to make sure its availible
+				if (!$this->_hierarchy->getNode($assetId))
+					throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository", 1));
+				
+				// Verify that the requested Asset is in this DR.
+				$repositoryMan =& Services::getService("Repository");
+				if (!$repositoryId = $repositoryMan->_getAssetRepository($assetId)
+					|| !$repositoryId->isEqual($this->getId()))
+				{
+					throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository", 1));
+				}
+			}
 			
 			// create the asset and add it to the cache
 			$this->_createdAssets[$assetId->getIdString()] =& new HarmoniAsset($this->_hierarchy, $this, $assetId, $this->_configuration);
@@ -1006,7 +1013,7 @@ class HarmoniRepository
 			// get the assets for the resuting ids
 			$assets = array();
 			foreach ($assetIds as $key => $id) {
-				$assets[] =& $this->getAsset($assetIds[$key]);
+				$assets[] =& $this->getAsset($assetIds[$key], FALSE);
 			}
 			
 			// create an AssetIterator and return it
