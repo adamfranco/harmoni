@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.25 2005/11/14 21:27:25 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.26 2005/11/15 17:00:46 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -505,6 +505,7 @@ class HarmoniAuthorizationManager
 	
 	/**
 	 * Load all of the Authorizations for the user and cache them
+	 * WARNING: not in OSID
 	 * 
 	 * @return void
 	 * @access public
@@ -528,6 +529,8 @@ class HarmoniAuthorizationManager
 				$this->_getContainingGroupIdStrings($userId));
 		}
 		
+		$functions = array();	//used by Algorithm A
+		
 		$timer =& new Timer;
 		$timer->start();
 		
@@ -538,7 +541,7 @@ class HarmoniAuthorizationManager
 		$query->addTable("az_authorization");
 		$query->addWhere("fk_agent IN('".implode("', '", $agentIdStrings)."')");
 		
-		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		$result =& $dbHandler->query(
 						$query, 
 						$dbIndex);
@@ -562,6 +565,8 @@ class HarmoniAuthorizationManager
 			// cache in our explictAZ cache for referencing by implicit AZs
 			$this->_explicitAZsCache[$result->field("authorization_id")] =& $az;
 			
+			// Build a list of functions for AlogrithmA to use when setting implicitAZs
+			$functions[] = $result->field("fk_function");
 			
 			// Set a boolean for the AZ.
 			if(!isset($this->_isUserAuthorizedCache[$result->field("fk_qualifier")]))
@@ -575,7 +580,10 @@ class HarmoniAuthorizationManager
 		$result->free();
 		
 		
-	// Implicit AZs	
+	/*********************************************************
+	 * Implicit AZs	
+	 *********************************************************/
+		// Algorithm A:
 		// For this algorithm we will do a single traversal of the hierarchy
 		// and set implicit authorization bits on the way down as we pass
 		// explicit AZs.
@@ -583,13 +591,52 @@ class HarmoniAuthorizationManager
 // 		$hierarchies =& $hierarchyManager->getHierarchies();
 // 		while ($hierarchies->hasNext()) {
 // 			$hierarchy =& $hierarchies->next();
-// 			$rootNodes =& $hierarchy->
+// 			$rootNodes =& $hierarchy->getRootNodes();
+// 			while ($rootNodes->hasNext()) {
+// 				$rootNode =& $rootNodes->next();
+// 				
+// 				$rootNodeId =& $rootNode->getId();
+// // 				print "\n<h1>Traversing from RootNode: ".$rootNodeId->getIdString()."</h1>";
+// 				
+// 				$traversal =& $hierarchy->traverse(
+// 					$rootNode->getId(),
+// 					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
+// 					Hierarchy::TRAVERSE_DIRECTION_DOWN(),
+// 					Hierarchy::TRAVERSE_LEVELS_ALL());
+// 				
+// 				$explicitAZLevels = array();
+// 				
+// 				while ($traversal->hasNext()) {
+// 					$info =& $traversal->next();
+// 					$id =& $info->getNodeId();
+// 					$idString = $id->getIdString();
+// 					$level = $info->getLevel();
+// // 					printpre("<strong>$level\t$idString</strong>");
+// 					
+// 					foreach($functions as $functionId) {
+// 						if (!isset($explicitAZLevels[$functionId])) {
+// 							if (isset($this->_isUserAuthorizedCache[$idString][$functionId])) {
+// 								$explicitAZLevels[$functionId] = $level;
+// // 								printpre("\tFound Explicit $functionId at level $level");
+// 							}
+// 						} else {
+// 							if ($level <= $explicitAZLevels[$functionId]) {
+// 								unset($explicitAZLevels[$functionId]);
+// // 								printpre("\tUnsetting ExplicitAZ $functionId at $level");
+// 							} else {
+// 								$this->_isUserAuthorizedCache[$idString][$functionId] = true;
+// // 								printpre("\tSetting Implicit $functionId at level $level");
+// 							}
+// 						}
+// 					}
+// 				}
+// 			}
 // 		}
 		
 		
-
-		// We want to join all of the explicit AZs to all nodes who have the
-		// qulifier as an ancestor. These will be the implicit AZs
+		// Algorithm B:
+		// For this algorithm we want to join all of the explicit AZs to all 
+		// nodes who have the qulifier as an ancestor. These will be the implicit AZs
 		$query =& new SelectQuery();
 		$query->addColumn("authorization_id");
 		$query->addColumn("fk_node");
@@ -597,7 +644,7 @@ class HarmoniAuthorizationManager
 		$query->addTable("node_ancestry", LEFT_JOIN, "fk_qualifier = fk_ancestor");
 		$query->addWhere("fk_agent IN('".implode("', '", $agentIdStrings)."')");
 		
-		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		$result =& $dbHandler->query(
 						$query, 
 						$this->_configuration->getProperty('database_index'));
