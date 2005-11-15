@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.25 2005/11/14 21:14:54 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.26 2005/11/15 20:49:26 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -117,6 +117,13 @@ class HierarchyCache {
 	 * @since 3/28/05
 	 */
 	var $_infoCache;
+	
+	/**
+	 * @var object $_lastStructureUpdate; 
+	 * @access private
+	 * @since 11/15/05
+	 */
+	var $_lastStructureUpdate;
 
 
 	/**
@@ -124,14 +131,16 @@ class HierarchyCache {
 	 * @param string hierarchyId The id of the corresponding hierarchy.
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 * @param string hyDB The name of the hierarchy database.
+	 * @param object DateAndTime $lastStructureUpdate
 	 * @access protected
 	 */
-	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex, $hyDB) {
+	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex, $hyDB, &$lastStructureUpdate) {
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($allowsMultipleParents, BooleanValidatorRule::getRule(), true);
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		ArgumentValidator::validate($hyDB, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($lastStructureUpdate, ExtendsValidatorRule::getRule("DateAndTime"), true);
 		// ** end of parameter validation
 
 		$this->_tree = new Tree();
@@ -158,8 +167,20 @@ class HierarchyCache {
 		$this->_nodeQuery->addTable($db."type", INNER_JOIN, $joinc);
 		
 		$this->_infoCache = array();
+		
+		$this->_lastStructureUpdate =& $lastStructureUpdate;
 	}
 	
+	/**
+	 * Answer the time that the structure of the hierarchy was modified.
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 11/15/05
+	 */
+	function &getLastStructureUpdateTime () {
+		return $this->_lastStructureUpdate;
+	}
 	
 	/**
 	 * Determines whether a node has been cached down
@@ -308,8 +329,21 @@ class HierarchyCache {
 		if ($queryResult->getNumberOfRows() != 1)
 			throwError(new Error(HierarchyException::OPERATION_FAILED(),"HierarchyCache",true));
 		
+		
 		// Update the ancestory table
 		$this->rebuildSubtreeAncestory($child->getId());
+		
+		
+		// Update the hierarchy structure modification time
+		$query =& new UpdateQuery();
+		$query->setTable($db."hierarchy");
+		$query->setColumns(array("last_struct_mod_time"));
+		$query->setValues(array("NOW()"));
+		$query->addWhere("hierarchy_id = '".addslashes($this->_hierarchyId)."'");
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		$this->_lastStructureUpdate =& DateAndTime::now();
 	}
 	
 	
@@ -363,6 +397,17 @@ class HierarchyCache {
 		// Update the ancestory table
 		$this->_tree->_traversalCache = array();
 		$this->rebuildSubtreeAncestory($child->getId());
+		
+		// Update the hierarchy structure modification time
+		$query =& new UpdateQuery();
+		$query->setTable($db."hierarchy");
+		$query->setColumns(array("last_struct_mod_time"));
+		$query->setValues(array("NOW()"));
+		$query->addWhere("hierarchy_id = '".addslashes($this->_hierarchyId)."'");
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		$this->_lastStructureUpdate =& DateAndTime::now();
 	}
 	
 		
@@ -925,7 +970,7 @@ class HierarchyCache {
 		// the original value of levels
 		$originalLevels = $levels;
 		
-//		echo "<br /><br /><br /><b>=== Caching node # $idValue, $levels levels down</b><br />";
+// 		echo "<br /><br /><br /><b>=== Caching node # $idValue, $levels levels down</b><br />";
 		
 		// MySQL has a limit of 31 tables in a select query, thus essentially
 		// there is a limit to the max value of $levels.
@@ -957,10 +1002,16 @@ class HierarchyCache {
 //		echo "<pre>\n";
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
 //		echo "</pre>\n";
+
+// $timer1 =& new Timer;
+// $timer1->start();
 		
 		// execute the query
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		
+
+// $timer1->end();
+// printf("<br/>Traversal Query Time: %1.6f", $timer1->printTime());
+
 		if ($queryResult->getNumberOfRows() == 0) {
 			$queryResult->free();
 			return;
@@ -968,7 +1019,8 @@ class HierarchyCache {
 			
 		// note that the query only returns ids of nodes; thus, for each id,
 		// we would need to fetch the actual node information from the node table.
-		
+// $timer1 =& new Timer;
+// $timer1->start();
 		// for all rows returned by the query
 		while($queryResult->hasMoreRows()) {
 			$row = $queryResult->getCurrentRow();
@@ -996,7 +1048,7 @@ class HierarchyCache {
 						throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
 					}
 					
-					$displayName = $nodes[0]->getDisplayName();
+// 					$displayName = $nodes[0]->getDisplayName();
 //					echo "Creating node # <b>$nodeId - '$displayName'</b>, ";
 
 					// insert node into cache
@@ -1064,6 +1116,8 @@ class HierarchyCache {
 			$queryResult->advanceRow();
 		}
 		$queryResult->free();
+// $timer1->end();
+// printf("<br/>Traversal Processing Time: %1.6f", $timer1->printTime());
 	}
 	
 	
@@ -1484,6 +1538,18 @@ class HierarchyCache {
 								// this second argument
 		$this->_tree->addNode(new TreeNode($idValue), $nullValue);
 		
+		
+		// Update the hierarchy structure modification time
+		$query =& new UpdateQuery();
+		$query->setTable($db."hierarchy");
+		$query->setColumns(array("last_struct_mod_time"));
+		$query->setValues(array("NOW()"));
+		$query->addWhere("hierarchy_id = '".addslashes($this->_hierarchyId)."'");
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		$this->_lastStructureUpdate =& DateAndTime::now();
+		
 		return $node;		
 	}
 		
@@ -1597,6 +1663,17 @@ class HierarchyCache {
 		
 		// Delete the node's ancestory from the Ancestory table
 		$this->clearNodeAncestory($idValue);
+		
+		// Update the hierarchy structure modification time
+		$query =& new UpdateQuery();
+		$query->setTable($db."hierarchy");
+		$query->setColumns(array("last_struct_mod_time"));
+		$query->setValues(array("NOW()"));
+		$query->addWhere("hierarchy_id = '".addslashes($this->_hierarchyId)."'");
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		$this->_lastStructureUpdate =& DateAndTime::now();
 
 	}
 	

@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.15 2005/08/10 21:20:10 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.16 2005/11/15 20:49:26 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
@@ -51,8 +51,7 @@ class HarmoniHierarchy
 	 * @var string _description 
 	 * @access private
 	 */
-	var $_description;
-	
+	var $_description;	
 	
 	/**
 	 * Constructor.
@@ -708,6 +707,17 @@ class HarmoniHierarchy
 	 **/
 	function clearCache() {
 		$this->_cache->clearCache();
+	}
+	
+	/**
+	 * Answer the time that the structure of the hierarchy was modified.
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 11/15/05
+	 */
+	function &getLastStructureUpdateTime () {
+		return $this->_cache->getLastStructureUpdateTime();
 	}
 		
 }

@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.20 2005/09/28 20:51:34 gabeschine Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.21 2005/11/15 20:49:26 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -204,10 +204,6 @@ class HarmoniHierarchyManager
 		}
 		$idValue = $id->getIdString();
 		
-		// Create a new hierarchy and insert it into the database
-		$hierarchy =& new HarmoniHierarchy($id, $displayName, $description,
-										   new HierarchyCache($idValue, $allowsMultipleParents,
-															  $this->_dbIndex, $this->_hyDB));
 
 		$query =& new InsertQuery();
 		$query->setTable($db."hierarchy");
@@ -216,6 +212,7 @@ class HarmoniHierarchyManager
 		$columns[] = "hierarchy_display_name";
 		$columns[] = "hierarchy_description";
 		$columns[] = "hierarchy_multiparent";
+		$columns[] = "last_struct_mod_time";
 		$query->setColumns($columns);
 		$values = array();
 		$values[] = "'".addslashes($idValue)."'";
@@ -223,9 +220,15 @@ class HarmoniHierarchyManager
 		$values[] = "'".addslashes($description)."'";
 		$multiparent = ($allowsMultipleParents) ? '1' : '0';
 		$values[] = "'".$multiparent."'";
+		$values[] = "NOW()";
 		$query->setValues($values);
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// Create a new hierarchy and insert it into the database
+		$hierarchy =& new HarmoniHierarchy($id, $displayName, $description,
+			new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, 
+		   		$this->_hyDB, DateAndTime::now()));
 		
 		// then cache it
 		$this->_hierarchies[$idValue] =& $hierarchy;
@@ -278,6 +281,7 @@ class HarmoniHierarchyManager
 		$query->addColumn("hierarchy_display_name", "display_name", $db."hierarchy");
 		$query->addColumn("hierarchy_description", "description", $db."hierarchy");
 		$query->addColumn("hierarchy_multiparent", "multiparent", $db."hierarchy");
+		$query->addColumn("last_struct_mod_time", "last_struct_mod_time", $db."hierarchy");
 		$query->addTable($db."hierarchy");
 		$query->addWhere($db."hierarchy.hierarchy_id = '{$idValue}'");
 
@@ -295,7 +299,7 @@ class HarmoniHierarchyManager
 		$id = $idManager->getId($idValue);
 		$allowsMultipleParents = ($row['multiparent'] == '1');
 		
-		$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
+		$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB, $dbHandler->fromDBDate($row['last_struct_mod_time']));
 		
 		$hierarchy =& new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
 
@@ -335,6 +339,7 @@ class HarmoniHierarchyManager
 		$query->addColumn("hierarchy_display_name", "display_name", $db."hierarchy");
 		$query->addColumn("hierarchy_description", "description", $db."hierarchy");
 		$query->addColumn("hierarchy_multiparent", "multiparent", $db."hierarchy");
+		$query->addColumn("last_struct_mod_time", "last_struct_mod_time", $db."hierarchy");
 		$query->addTable($db."hierarchy");
 
 		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
@@ -355,7 +360,7 @@ class HarmoniHierarchyManager
 				$id =& $idManager->getId($idValue);
 				$allowsMultipleParents = ($row['multiparent'] == '1');
 		
-				$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
+				$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB, $dbHandler->fromDBDate($row['last_struct_mod_time']));
 						
 				$hierarchy =& new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
 				$this->_hierarchies[$idValue] =& $hierarchy;
