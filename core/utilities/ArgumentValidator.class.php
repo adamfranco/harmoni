@@ -15,7 +15,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ArgumentValidator.class.php,v 1.7 2005/08/03 17:36:38 gabeschine Exp $
+ * @version $Id: ArgumentValidator.class.php,v 1.8 2005/11/15 21:14:17 adamfranco Exp $
  */
 class ArgumentValidator {
 
@@ -34,6 +34,7 @@ class ArgumentValidator {
 	 * @static
 	 **/
 	function validate(&$argument, &$rule, $isFatal = true) {
+// 		return true;
 		// now make sure that $rule extends ValidatorRuleInterface object
 		if (!is_a($rule, "ValidatorRuleInterface")) {
 			$str = "Unable to recognize the ValidatorRule object. Possibly, an invalid argument was passed.";

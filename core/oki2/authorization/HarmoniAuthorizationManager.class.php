@@ -59,7 +59,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.26 2005/11/15 17:00:46 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.27 2005/11/15 21:14:13 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -72,11 +72,7 @@ class HarmoniAuthorizationManager
 	 */
 	var $_cache;
 	
-	var $_groupAncestorsCache;
-	var $_isUserAuthorizedCache;
-	var $_explicitAZsCache;
-	var $_isUserAuthorizedCached;
-	
+	var $_groupAncestorsCache;	
 	
 	/**
 	 * Constructor
@@ -85,9 +81,23 @@ class HarmoniAuthorizationManager
 	 */
 	function HarmoniAuthorizationManager() {
 		$this->_groupAncestorsCache = array();
-		$this->_isUserAuthorizedCache = array();
-		$this->_explicitAZsCache = array();
-		$this->_isUserAuthorizedCached = false;
+		
+		$userIds =& $this->_getUserIds();
+		$agentIdStrings = array();
+		foreach (array_keys($userIds) as $key) {
+			$userId =& $userIds[$key];
+			$agentIdStrings[] =	$userId->getIdString();
+			$agentIdStrings = array_merge(
+				$agentIdStrings,	
+				$this->_getContainingGroupIdStrings($userId));
+		}
+		
+		if(!isset($_SESSION['__isUserAuthorizedCached'])
+			|| !isset($_SESSION['__isUserAuthorizedCachedUser'])
+			|| $_SESSION['__isUserAuthorizedCachedUser'] != implode(", ", $agentIdStrings))
+		{
+			$_SESSION['__isUserAuthorizedCached'] = false;
+		}
 	}
 	
 	/**
@@ -221,6 +231,10 @@ class HarmoniAuthorizationManager
 	 */
 	function &createAuthorization ( &$agentId, &$functionId, &$qualifierId ) { 
 		$authorization =& $this->_cache->createAuthorization($agentId, $functionId, $qualifierId);
+		
+		// Flag our AZ cache to be rebuilt
+		$_SESSION['__isUserAuthorizedCached'] = FALSE;
+		
 		return $authorization;
 	}
 
@@ -367,6 +381,9 @@ class HarmoniAuthorizationManager
 	 */
 	function deleteAuthorization ( &$authorization ) { 
 		$this->_cache->deleteAuthorization($authorization);
+		
+		// Flag our AZ cache to be rebuilt
+		$_SESSION['__isUserAuthorizedCached'] = FALSE;
 	}
 
 	/**
@@ -491,16 +508,43 @@ class HarmoniAuthorizationManager
 	 * @access public
 	 */
 	function isUserAuthorized ( &$functionId, &$qualifierId ) {
-		$authorizations =& $this->getAllUserAZs($functionId, $qualifierId, true);
-		return ($authorizations->hasNext());
-		
+// 		$authorizations =& $this->getAllUserAZs($functionId, $qualifierId, true);
+// 		return ($authorizations->hasNext());
+				
 		// New version. Not fully working yet.
-		if (!$this->_isUserAuthorizedCached)
-			$this->cacheIsUserAuthorized();
+		if (!$this->_isUserAuthorizedCacheCurrent())
+			$this->_cacheIsUserAuthorized();
 		
-		return isset($this->_isUserAuthorizedCache
+		return isset($_SESSION
+				['__isUserAuthorizedCache']
 				[$qualifierId->getIdString()]
 				[$functionId->getIdString()]);
+	}
+	
+	/**
+	 * Answer True if the AZ cache is current
+	 *  
+	 *
+	 * @return boolean
+	 * @access public
+	 * @since 11/15/05
+	 */
+	function _isUserAuthorizedCacheCurrent () {
+		if (!$_SESSION['__isUserAuthorizedCached'])
+			return FALSE;
+		else {
+			$cacheCurrent = TRUE;	
+			
+			$hierarchyManager =& Services::getService("Hierarchy");
+			$hierarchies =& $hierarchyManager->getHierarchies();
+			while ($hierarchies->hasNext()) {
+				$hierarchy =& $hierarchies->next();
+				if ($_SESSION['__isUserAuthorizedCacheTime']->isLessThan($hierarchy->getLastStructureUpdateTime()))
+					$cacheCurrent = FALSE;
+			}
+			
+			return $cacheCurrent;
+		}
 	}
 	
 	/**
@@ -511,9 +555,8 @@ class HarmoniAuthorizationManager
 	 * @access public
 	 * @since 11/10/05
 	 */
-	function cacheIsUserAuthorized () {
-		if ($this->_isUserAuthorizedCached)
-			return;
+	function _cacheIsUserAuthorized () {
+		$_SESSION['__isUserAuthorizedCache'] = array();
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$dbIndex = $this->_configuration->getProperty('database_index');
@@ -531,8 +574,10 @@ class HarmoniAuthorizationManager
 		
 		$functions = array();	//used by Algorithm A
 		
-		$timer =& new Timer;
-		$timer->start();
+// 		$timer =& new Timer;
+// 		$timer->start();
+// 		
+// 		$startingQueries = $dbHandler->getTotalNumberOfQueries();
 		
 	// Explicit AZs
 		// Select and create all of the explicit AZs
@@ -563,16 +608,16 @@ class HarmoniAuthorizationManager
 								$dbIndex));
 			
 			// cache in our explictAZ cache for referencing by implicit AZs
-			$this->_explicitAZsCache[$result->field("authorization_id")] =& $az;
+			$explicitAZs[$result->field("authorization_id")] =& $az;
 			
 			// Build a list of functions for AlogrithmA to use when setting implicitAZs
 			$functions[] = $result->field("fk_function");
 			
 			// Set a boolean for the AZ.
-			if(!isset($this->_isUserAuthorizedCache[$result->field("fk_qualifier")]))
-				$this->_isUserAuthorizedCache[$result->field("fk_qualifier")] = array();
+			if(!isset($_SESSION['__isUserAuthorizedCache'][$result->field("fk_qualifier")]))
+				$_SESSION['__isUserAuthorizedCache'][$result->field("fk_qualifier")] = array();
 			
-			$this->_isUserAuthorizedCache[$result->field("fk_qualifier")][$result->field("fk_function")] = true;
+			$_SESSION['__isUserAuthorizedCache'][$result->field("fk_qualifier")][$result->field("fk_function")] = true;
 			
 			
 			$result->advanceRow();
@@ -598,11 +643,15 @@ class HarmoniAuthorizationManager
 // 				$rootNodeId =& $rootNode->getId();
 // // 				print "\n<h1>Traversing from RootNode: ".$rootNodeId->getIdString()."</h1>";
 // 				
+// 				$timer2 =& new Timer;
+// 				$timer2->start();
 // 				$traversal =& $hierarchy->traverse(
 // 					$rootNode->getId(),
 // 					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
 // 					Hierarchy::TRAVERSE_DIRECTION_DOWN(),
 // 					Hierarchy::TRAVERSE_LEVELS_ALL());
+// 				$timer2->end();
+// 				printf("<br/>CacheAZ Traversal Time: %1.6f", $timer2->printTime());
 // 				
 // 				$explicitAZLevels = array();
 // 				
@@ -615,7 +664,7 @@ class HarmoniAuthorizationManager
 // 					
 // 					foreach($functions as $functionId) {
 // 						if (!isset($explicitAZLevels[$functionId])) {
-// 							if (isset($this->_isUserAuthorizedCache[$idString][$functionId])) {
+// 							if (isset($_SESSION['__isUserAuthorizedCache'][$idString][$functionId])) {
 // 								$explicitAZLevels[$functionId] = $level;
 // // 								printpre("\tFound Explicit $functionId at level $level");
 // 							}
@@ -624,7 +673,7 @@ class HarmoniAuthorizationManager
 // 								unset($explicitAZLevels[$functionId]);
 // // 								printpre("\tUnsetting ExplicitAZ $functionId at $level");
 // 							} else {
-// 								$this->_isUserAuthorizedCache[$idString][$functionId] = true;
+// 								$_SESSION['__isUserAuthorizedCache'][$idString][$functionId] = true;
 // // 								printpre("\tSetting Implicit $functionId at level $level");
 // 							}
 // 						}
@@ -650,24 +699,27 @@ class HarmoniAuthorizationManager
 						$this->_configuration->getProperty('database_index'));
 		
 		while ($result->hasMoreRows()) {			
-			$explicitAZ =& $this->_explicitAZsCache[$result->field("authorization_id")];
+			$explicitAZ =& $explicitAZs[$result->field("authorization_id")];
 			$explicitFunction =& $explicitAZ->getFunction();
 			$explicitFunctionId =& $explicitFunction->getId();
 			
 			// cache in our user AZ cache
-			if(!isset($this->_isUserAuthorizedCache[$result->field("fk_node")]))
-				$this->_isUserAuthorizedCache[$result->field("fk_node")] = array();
+			if(!isset($_SESSION['__isUserAuthorizedCache'][$result->field("fk_node")]))
+				$_SESSION['__isUserAuthorizedCache'][$result->field("fk_node")] = array();
 			
-			$this->_isUserAuthorizedCache[$result->field("fk_node")][$explicitFunctionId->getIdString()] = true;
+			$_SESSION['__isUserAuthorizedCache'][$result->field("fk_node")][$explicitFunctionId->getIdString()] = true;
 			
 			$result->advanceRow();
 		}
 		$result->free();
 		
-		$timer->end();
-		printf("CacheAZTime: %1.6f", $timer->printTime());
+// 		$timer->end();
+// 		printf("<br/>CacheAZTime: %1.6f", $timer->printTime());
+// 		print "<br/>Num Queries: ".($dbHandler->getTotalNumberOfQueries() - $startingQueries);
 		
-		$this->_isUserAuthorizedCached = true;
+		$_SESSION['__isUserAuthorizedCacheTime'] =& DateAndTime::now();
+		$_SESSION['__isUserAuthorizedCached'] = true;
+		$_SESSION['__isUserAuthorizedCachedUser'] = implode(", ", $agentIdStrings);
 	}
 
 	/**
