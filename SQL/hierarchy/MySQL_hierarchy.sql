@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_hierarchy.sql,v 1.9 2005/11/14 21:10:14 gabeschine Exp $
+-- @version $Id: MySQL_hierarchy.sql,v 1.10 2005/11/15 21:37:29 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -12,17 +12,16 @@
 -- Table structure for table `hierarchy`
 -- 
 
-CREATE TABLE hierarchy (
-  hierarchy_id varchar(75) NOT NULL default '0',
-  hierarchy_display_name varchar(255) NOT NULL default '',
-  hierarchy_description text NOT NULL,
-  hierarchy_multiparent enum('0','1') NOT NULL default '1',
-  PRIMARY KEY  (hierarchy_id),
-  KEY hierarchy_display_name (hierarchy_display_name),
-  KEY hierarchy_multiparent (hierarchy_multiparent)
-) 
-CHARACTER SET utf8
-TYPE=InnoDB;
+CREATE TABLE `hierarchy` (
+  `hierarchy_id` varchar(75) NOT NULL default '0',
+  `hierarchy_display_name` varchar(255) NOT NULL default '',
+  `hierarchy_description` text NOT NULL,
+  `hierarchy_multiparent` enum('0','1') NOT NULL default '1',
+  `last_struct_mod_time` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`hierarchy_id`),
+  KEY `hierarchy_display_name` (`hierarchy_display_name`),
+  KEY `hierarchy_multiparent` (`hierarchy_multiparent`)
+) TYPE=InnoDB;
 
 -- --------------------------------------------------------
 
