@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.25 2005/09/16 18:36:10 cws-midd Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.26 2005/11/17 19:30:34 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.25 2005/09/16 18:36:10 cws-midd Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.26 2005/11/17 19:30:34 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -1240,25 +1240,6 @@ class HarmoniAsset
 		$idManager =& Services::getService("Id");		
 		$records = array();
 		
-		// Get the records from the data manager.
-		if ($recordSet =& $recordMgr->fetchRecordSet($id->getIdString())) {
-			// fetching as editable since we don't know if it will be edited.
-			$recordSet->loadRecords();
-			$dmRecords =& $recordSet->getRecords();
-	
-			// create  records for each dataSet as needed.
-			foreach (array_keys($dmRecords) as $key) {
-				$recordIdString = $dmRecords[$key]->getID();
-				$recordId =& $idManager->getId($recordIdString);
-				$record =& $this->getRecord($recordId);
-				$structure =& $record->getRecordStructure();
-				
-				// Add the record to our array
-				if ($recordStructureId->isEqual($structure->getId()))
-					$records[] =& $record;
-			}
-		}
-		
 		// Get our non-datamanager records
 		if (in_array($recordStructureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
 		{
@@ -1283,6 +1264,24 @@ class HarmoniAsset
 			}
 			
 			$result->free();
+		}
+		// Get the records from the data manager.
+		else if ($recordSet =& $recordMgr->fetchRecordSet($id->getIdString())) {
+			// fetching as editable since we don't know if it will be edited.
+			$recordSet->loadRecords();
+			$dmRecords =& $recordSet->getRecords();
+	
+			// create  records for each dataSet as needed.
+			foreach (array_keys($dmRecords) as $key) {
+				$recordIdString = $dmRecords[$key]->getID();
+				$recordId =& $idManager->getId($recordIdString);
+				$record =& $this->getRecord($recordId);
+				$structure =& $record->getRecordStructure();
+				
+				// Add the record to our array
+				if ($recordStructureId->isEqual($structure->getId()))
+					$records[] =& $record;
+			}
 		}
 		
 		// Create an iterator and return it.
