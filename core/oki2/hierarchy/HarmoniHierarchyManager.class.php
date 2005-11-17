@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.21 2005/11/15 20:49:26 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.22 2005/11/17 16:21:29 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -74,6 +74,13 @@ class HarmoniHierarchyManager
 	 */
 	var $_hierarchies;
 	
+	/**
+	 * TRUE if all hiearchies are cached.
+	 * @var array _hierarchies 
+	 * @access private
+	 */
+	var $_allHierarchiesCached;
+	
 	
 	/**
 	 * Constructor
@@ -84,6 +91,7 @@ class HarmoniHierarchyManager
 	 */
 	function HarmoniHierarchyManager () {
 		$this->_hierarchies = array();
+		$this->_allHierarchiesCached = FALSE;
 	}
 	
 	/**
@@ -330,48 +338,47 @@ class HarmoniHierarchyManager
 	 * @access public
 	 */
 	function &getHierarchies () { 
-
-		$dbHandler =& Services::getService("DatabaseManager");
-		$db = $this->_hyDB.".";
-		
-		$query =& new SelectQuery();
-		$query->addColumn("hierarchy_id", "id", $db."hierarchy");
-		$query->addColumn("hierarchy_display_name", "display_name", $db."hierarchy");
-		$query->addColumn("hierarchy_description", "description", $db."hierarchy");
-		$query->addColumn("hierarchy_multiparent", "multiparent", $db."hierarchy");
-		$query->addColumn("last_struct_mod_time", "last_struct_mod_time", $db."hierarchy");
-		$query->addTable($db."hierarchy");
-
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		
-		$hierarchies = array();
-		
-		$idManager =& Services::getService("Id");
-
-		while ($queryResult->hasMoreRows()) {
-			$row = $queryResult->getCurrentrow();
-	
-			$idValue =& $row['id'];
+		if(!$this->_allHierarchiesCached) {
+			$dbHandler =& Services::getService("DatabaseManager");
+			$db = $this->_hyDB.".";
 			
-			// check the cache
-			if (isset($this->_hierarchies[$idValue]))
-				$hierarchy =& $this->_hierarchies[$idValue];
-			else {
-				$id =& $idManager->getId($idValue);
-				$allowsMultipleParents = ($row['multiparent'] == '1');
-		
-				$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB, $dbHandler->fromDBDate($row['last_struct_mod_time']));
-						
-				$hierarchy =& new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
-				$this->_hierarchies[$idValue] =& $hierarchy;
-			}
+			$query =& new SelectQuery();
+			$query->addColumn("hierarchy_id", "id", $db."hierarchy");
+			$query->addColumn("hierarchy_display_name", "display_name", $db."hierarchy");
+			$query->addColumn("hierarchy_description", "description", $db."hierarchy");
+			$query->addColumn("hierarchy_multiparent", "multiparent", $db."hierarchy");
+			$query->addColumn("last_struct_mod_time", "last_struct_mod_time", $db."hierarchy");
+			$query->addTable($db."hierarchy");
 	
-			$hierarchies[$idValue] =& $hierarchy;
-			$queryResult->advanceRow();
-		}
-		$queryResult->free();
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			
+			$hierarchies = array();
+			
+			$idManager =& Services::getService("Id");
+	
+			while ($queryResult->hasMoreRows()) {
+				$row = $queryResult->getCurrentrow();
 		
-		return new HarmoniHierarchyIterator($hierarchies);
+				$idValue =& $row['id'];
+				
+				// check the cache
+				if (!isset($this->_hierarchies[$idValue])) {
+					$id =& $idManager->getId($idValue);
+					$allowsMultipleParents = ($row['multiparent'] == '1');
+			
+					$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB, $dbHandler->fromDBDate($row['last_struct_mod_time']));
+							
+					$hierarchy =& new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
+					$this->_hierarchies[$idValue] =& $hierarchy;
+				}
+		
+				$queryResult->advanceRow();
+			}
+			$queryResult->free();
+			$this->_allHierarchiesCached = true;
+		}		
+		
+		return new HarmoniHierarchyIterator($this->_hierarchies);
 	}
 
 	
