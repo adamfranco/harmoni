@@ -29,7 +29,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.19 2005/11/04 20:29:14 cws-midd Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.20 2005/11/18 21:26:05 adamfranco Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -39,6 +39,7 @@ class FileRecord
 	var $_recordStructure;
 	
 	var $_parts;
+	var $_partsLoaded;
 	
 	function FileRecord( &$recordStructure, & $id, &$configuration ) {
 		$this->_id =& $id;
@@ -81,6 +82,8 @@ class FileRecord
 									$this->_id,
 									$this->_configuration,
 									$this);
+		
+		$this->_partsLoaded = false;
 	}
 
 	/**
@@ -262,6 +265,8 @@ class FileRecord
 	 * @access public
 	 */
 	function &getParts() {
+		$this->_loadParts();
+		
 		// Create an iterator and return it.
 		$partIterator =& new HarmoniPartIterator($this->_parts);
 		
@@ -336,7 +341,7 @@ class FileRecord
 	 * @access private
 	 * @since 10/25/04
 	 */
-	function _isLastPart ($idString) {
+	function _isLastPart ($idString) {		
 		$dbHandler =& Services::getService("DatabaseManager");
 	
 		// Check to see if the data is in the database
@@ -403,10 +408,53 @@ class FileRecord
      * @access public
      */
     function &getPartsByPartStructure ( &$partStructureId ) {
+    	$this->_loadParts();
+    	
     	$partArray = array();
     	$partArray[] =& $this->_parts[$partStructureId->getIdString()];
 		$partsIterator =& new HarmoniIterator($partArray);
 		return $partsIterator;
-    }	
+    }
+    
+    /**
+     * Do a single query to load all of the small-valued parts for the record;
+     * that is, everything but the file and thumb data.
+     * 
+     * @return void
+     * @access private
+     * @since 11/17/05
+     */
+    function _loadParts () {
+		if ($this->_partsLoaded)
+			return;
+		
+    	$dbHandler =& Services::getService("DBHandler");
+    	
+    	$query =& new SelectQuery;
+		$query->addTable("dr_file");
+		$query->addTable("dr_thumbnail", LEFT_JOIN, "dr_file.id = dr_thumbnail.FK_file");
+		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_file.FK_mime_type = file_mime_type.id", "file_mime_type");
+		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_thumbnail.FK_mime_type = thumbnail_mime_type.id", "thumbnail_mime_type");
+		$query->addColumn("filename");
+		$query->addColumn("size");
+		$query->addColumn("dr_file.width", "file_width");
+		$query->addColumn("dr_file.height", "file_height");
+		$query->addColumn("file_mime_type.type", "file_type");
+		$query->addColumn("thumbnail_mime_type.type", "thumbnail_type");
+		$query->addColumn("dr_thumbnail.width", "thumb_width");
+		$query->addColumn("dr_thumbnail.height", "thumb_height");
+		$query->addWhere("dr_file.id = '".$this->_id->getIdString()."'");
+		
+		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		
+		$this->_parts['FILE_NAME']->_updateValue($result->field('filename'));
+		$this->_parts['FILE_SIZE']->_updateValue($result->field('size'));
+		$this->_parts['MIME_TYPE']->_updateValue($result->field('file_type'));
+		$this->_parts['DIMENSIONS']->_updateValue(array($result->field('file_width'), $result->field('file_height')));
+		$this->_parts['THUMBNAIL_MIME_TYPE']->_updateValue($result->field('thumbnail_type'));
+		$this->_parts['THUMBNAIL_DIMENSIONS']->_updateValue(array($result->field('thumb_width'), $result->field('thumb_height')));
+		
+		$this->_partsLoaded = true;
+    }
 	
 }

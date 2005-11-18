@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileNamePart.class.php,v 1.7 2005/08/11 17:58:39 cws-midd Exp $
+ * @version $Id: FileNamePart.class.php,v 1.8 2005/11/18 21:26:06 adamfranco Exp $
  */
 class FileNamePart extends Part
 //	extends java.io.Serializable
@@ -269,5 +269,17 @@ class FileNamePart extends Part
 	 */
 	function &getPartStructure() {
 		return $this->_partStructure;
+	}
+	
+	/**
+	 * Allow the file record to update the fetch from its own queries
+	 * 
+	 * @param string $value
+	 * @return void
+	 * @access private
+	 * @since 11/17/05
+	 */
+	function _updateValue ( $value ) {
+		$this->_name = $value;
 	}
 }

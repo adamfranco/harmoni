@@ -5,7 +5,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.6 2005/10/17 20:44:38 adamfranco Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.7 2005/11/18 21:26:06 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.6 2005/10/17 20:44:38 adamfranco Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.7 2005/11/18 21:26:06 adamfranco Exp $
  */
 class DimensionsPart 
 	extends Part
@@ -317,5 +317,21 @@ class DimensionsPart
 	 */
 	function &getPartStructure() {
 		return $this->_partStructure;
+	}
+	
+	/**
+	 * Allow the file record to update the fetch from its own queries
+	 * 
+	 * @param array $value
+	 * @return void
+	 * @access private
+	 * @since 11/17/05
+	 */
+	function _updateValue ( $value ) {
+		if ($value[0] && $value[1]) {
+			$this->_dimensions = $value;
+			$this->_width = $value[0];
+			$this->_height = $value[1];
+		}		
 	}
 }

@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePart.class.php,v 1.7 2005/09/26 20:27:48 cws-midd Exp $
+ * @version $Id: FileSizePart.class.php,v 1.8 2005/11/18 21:26:06 adamfranco Exp $
  */
 class FileSizePart 
 	extends Part
@@ -237,5 +237,17 @@ class FileSizePart
 	 */
 	function &getPartStructure() {
 		return $this->_partStructure;
+	}
+	
+	/**
+	 * Allow the file record to update the fetch from its own queries
+	 * 
+	 * @param string $value
+	 * @return void
+	 * @access private
+	 * @since 11/17/05
+	 */
+	function _updateValue ( $value ) {
+		$this->_size = $value;
 	}
 }
