@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollection.class.php,v 1.9 2005/03/29 19:44:09 adamfranco Exp $
+ * @version $Id: StyleCollection.class.php,v 1.10 2005/11/28 22:41:42 adamfranco Exp $
  */
 class StyleCollection extends StyleCollectionInterface {
 
@@ -67,6 +67,24 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @access private
 	 */
 	var $_SPs;
+	
+	/**
+	 * HTML to place around the the component's content.
+	 *
+	 * @var string $_preHTML;  
+	 * @access private
+	 * @since 11/22/05
+	 */
+	var $_preHTML = "";
+	
+	/**
+	 * HTML to place around the the component's content.
+	 *
+	 * @var string $_preHTML;  
+	 * @access private
+	 * @since 11/22/05
+	 */
+	var $_postHTML = "";
 
 	/**
 	 * The constructor.
@@ -197,6 +215,88 @@ class StyleCollection extends StyleCollectionInterface {
 		unset($this->_SPs[$sp->getName()]);
 		
 		return $result;
+	}
+	
+	/**
+	 * Return HTML to nested inside of the component's block. This includes
+	 * things such as corner images.
+	 *
+	 * See the example below:
+	 * 	<pre>
+	 * 	<div class='block3'>
+	 *
+	 *		<!-- preHTML start -->
+	 *		<div class="content">
+     *  		<img class="borderTL" src="images/block3_TL.gif" width="14" height="14" />
+     *  		<img class="borderTR" src="images/block3_TR.gif" width="14" height="14" />
+     *		<!-- preHTML end -->
+     *		
+     *			<h1>Hello world! (this is when my component renders itself)</h1>
+     *
+     *		<!-- postHTML start -->
+	 *			<div class="roundedCornerSpacer">&nbsp;</div>
+	 *		</div>
+	 *	    <div class="bottomCorners">
+     *  		<img class="borderBL" src="images/block3_BL.gif" width="14" height="14" />
+     *  		<img class="borderBR" src="images/block3_BR.gif" width="14" height="14" />
+     *		</div>
+     *		<!-- postHTML end -->
+     *
+     *	</div>
+     *	</pre>
+	 * 
+	 * @param string $tabs
+	 * @return string
+	 * @access public
+	 * @since 11/22/05
+	 */
+	function getPreHTML ($tabs) {
+		$html = "";
+		foreach (array_keys($this->_SPs) as $key)
+			$html .= $this->_SPs[$key]->getPreHTML($tabs);
+
+		return $html;
+	}
+	
+	/**
+	 * Return HTML to nested inside of the component's block. This includes
+	 * things such as corner images.
+	 *
+	 * See the example below:
+	 * 	<pre>
+	 * 	<div class='block3'>
+	 *
+	 *		<!-- preHTML start -->
+	 *		<div class="content">
+     *  		<img class="borderTL" src="images/block3_TL.gif" width="14" height="14" />
+     *  		<img class="borderTR" src="images/block3_TR.gif" width="14" height="14" />
+     *		<!-- preHTML end -->
+     *		
+     *			<h1>Hello world! (this is when my component renders itself)</h1>
+     *
+     *		<!-- postHTML start -->
+	 *			<div class="roundedCornerSpacer">&nbsp;</div>
+	 *		</div>
+	 *	    <div class="bottomCorners">
+     *  		<img class="borderBL" src="images/block3_BL.gif" width="14" height="14" />
+     *  		<img class="borderBR" src="images/block3_BR.gif" width="14" height="14" />
+     *		</div>
+     *		<!-- postHTML end -->
+     *
+     *	</div>
+     *	</pre>
+	 * 
+	 * @param string $tabs
+	 * @return string
+	 * @access public
+	 * @since 11/22/05
+	 */
+	function getPostHTML ($tabs) {
+		$html = "";
+		foreach (array_reverse(array_keys($this->_SPs), true) as $key)
+			$html .= $this->_SPs[$key]->getPostHTML($tabs);
+
+		return $html;
 	}
 	
 }

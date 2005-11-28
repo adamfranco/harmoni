@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleProperty.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleProperty.class.php,v 1.6 2005/03/29 19:44:09 adamfranco Exp $
+ * @version $Id: StyleProperty.class.php,v 1.7 2005/11/28 22:41:42 adamfranco Exp $
  */
 class StyleProperty extends StylePropertyInterface {
 
@@ -148,6 +148,80 @@ class StyleProperty extends StylePropertyInterface {
 	 **/
 	function getSCs() {
 		return $this->_SCs;
+	}
+	
+		/**
+	 * Return HTML to nested inside of the component's block. This includes
+	 * things such as corner images.
+	 *
+	 * See the example below:
+	 * 	<pre>
+	 * 	<div class='block3'>
+	 *
+	 *		<!-- preHTML start -->
+	 *		<div class="content">
+     *  		<img class="borderTL" src="images/block3_TL.gif" width="14" height="14" />
+     *  		<img class="borderTR" src="images/block3_TR.gif" width="14" height="14" />
+     *		<!-- preHTML end -->
+     *		
+     *			<h1>Hello world! (this is when my component renders itself)</h1>
+     *
+     *		<!-- postHTML start -->
+	 *			<div class="roundedCornerSpacer">&nbsp;</div>
+	 *		</div>
+	 *	    <div class="bottomCorners">
+     *  		<img class="borderBL" src="images/block3_BL.gif" width="14" height="14" />
+     *  		<img class="borderBR" src="images/block3_BR.gif" width="14" height="14" />
+     *		</div>
+     *		<!-- postHTML end -->
+     *
+     *	</div>
+     *	</pre>
+	 * 
+	 * @param string $tabs
+	 * @return string
+	 * @access public
+	 * @since 11/22/05
+	 */
+	function getPreHTML ($tabs) {
+		return "";
+	}
+	
+	/**
+	 * Return HTML to nested inside of the component's block. This includes
+	 * things such as corner images.
+	 *
+	 * See the example below:
+	 * 	<pre>
+	 * 	<div class='block3'>
+	 *
+	 *		<!-- preHTML start -->
+	 *		<div class="content">
+     *  		<img class="borderTL" src="images/block3_TL.gif" width="14" height="14" />
+     *  		<img class="borderTR" src="images/block3_TR.gif" width="14" height="14" />
+     *		<!-- preHTML end -->
+     *		
+     *			<h1>Hello world! (this is when my component renders itself)</h1>
+     *
+     *		<!-- postHTML start -->
+	 *			<div class="roundedCornerSpacer">&nbsp;</div>
+	 *		</div>
+	 *	    <div class="bottomCorners">
+     *  		<img class="borderBL" src="images/block3_BL.gif" width="14" height="14" />
+     *  		<img class="borderBR" src="images/block3_BR.gif" width="14" height="14" />
+     *		</div>
+     *		<!-- postHTML end -->
+     *
+     *	</div>
+     *	</pre>
+	 * 
+	 * @param string $tabs
+	 * @return string
+	 * @access public
+	 * @since 11/22/05
+	 */
+	function getPostHTML ($tabs) {
+		return "";
 	}
 }
 

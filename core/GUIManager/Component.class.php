@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.class.php,v 1.14 2005/07/18 13:57:39 adamfranco Exp $
+ * @version $Id: Component.class.php,v 1.15 2005/11/28 22:41:42 adamfranco Exp $
  */
 class Component extends ComponentInterface {
 
@@ -224,10 +224,16 @@ class Component extends ComponentInterface {
 		if (count($styleCollections) != 0) {
 			// get the class selectors of all style collections
 			$classSelectors = "";
-			foreach (array_keys($styleCollections) as $key)
+			$styleCollectionPreHTML = "";
+			foreach (array_keys($styleCollections) as $key) {
 				$classSelectors .= $styleCollections[$key]->getClassSelector()." ";
+				$styleCollectionPreHTML = 
+					$styleCollectionPreHTML
+					.$styleCollections[$key]->getPreHTML($tabs."\t");
+			}
 
 			print  $tabs."<div class=\"$classSelectors\">\n";
+			print $styleCollectionPreHTML;
 		}
 		
 		$preHTML = ob_get_contents();
@@ -265,8 +271,18 @@ class Component extends ComponentInterface {
 		$styleCollections = array_merge($this->_styleCollections, 
 										$theme->getStylesForComponentType($this->_type, $this->_index));
 
-		if (count($styleCollections) != 0)
+		if (count($styleCollections) != 0) {
+			$styleCollectionPostHTML = "";
+			foreach (array_keys($styleCollections) as $key) {
+				$styleCollectionPostHTML = 
+					$styleCollections[$key]->getPostHTML($tabs."\t")
+					.$styleCollectionPostHTML;
+			}
+
+			print $styleCollectionPostHTML;
+			
 			print $tabs."</div>\n";
+		}
 			
 		// print any HTML code for this component type that is part of the given theme
 		print $theme->getPostHTMLForComponentType($this->_type, $this->_index);
