@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CornersStyleCollection.class.php,v 1.1 2005/11/28 22:41:42 adamfranco Exp $
+ * @version $Id: CornersStyleCollection.class.php,v 1.2 2005/11/29 19:27:49 adamfranco Exp $
  */
 class CornersStyleCollection 
 	extends StyleCollection 
@@ -69,15 +69,20 @@ class CornersStyleCollection
 	 * 
 	 * @param string $position
 	 * @param string $url
+	 * @param optional int $height
+	 * @param optional int $width
 	 * @return void
 	 * @access public
 	 * @since 11/28/05
 	 */
-	function setBorderUrl ($position, $url) {
+	function setBorderUrl ($position, $url, $height = 15, $width = 15) {
 		if (!in_array($position, $this->_positions))
 			throwError(new Error("Invalid Position, $position"));
 		
 		$this->_urls[$position] = $url;
+		$this->_heights[$position] = $height;
+		$this->_widths[$position] = $width;
+		
 	}
 	
 	/**

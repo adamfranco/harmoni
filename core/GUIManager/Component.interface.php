@@ -62,6 +62,52 @@ define("MENU_ITEM_HEADING", 12);
  * @package harmoni.gui
  */
 define("OTHER", 13);
+
+
+/*********************************************************/
+
+/**
+ * A constant defining the BLOCK indexes.
+ * @const integer BACKGROUND_BLOCK
+ * @package harmoni.gui
+ */
+define("BACKGROUND_BLOCK", 1);
+
+/**
+ * A constant defining the BLOCK indexes.
+ * @const integer STANDARD_BLOCK
+ * @package harmoni.gui
+ */
+define("STANDARD_BLOCK", 2);
+
+/**
+ * A constant defining the BLOCK indexes.
+ * @const integer EMPHASIZED_BLOCK
+ * @package harmoni.gui
+ */
+define("EMPHASIZED_BLOCK", 3);
+
+/**
+ * A constant defining the BLOCK indexes.
+ * @const integer WIZARD_BLOCK
+ * @package harmoni.gui
+ */
+define("WIZARD_BLOCK", 3);
+
+/**
+ * A constant defining the BLOCK indexes.
+ * @const integer HIGHLIT_BLOCK
+ * @package harmoni.gui
+ */
+define("HIGHLIT_BLOCK", 4);
+
+/**
+ * A constant defining the BLOCK indexes.
+ * @const integer ALERT_BLOCK
+ * @package harmoni.gui
+ */
+define("ALERT_BLOCK", 4);
+
  
 /**
  * <code>Components</code> are the basic units that can be displayed on
@@ -73,7 +119,7 @@ define("OTHER", 13);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.interface.php,v 1.10 2005/07/18 13:57:39 adamfranco Exp $
+ * @version $Id: Component.interface.php,v 1.11 2005/11/29 19:27:49 adamfranco Exp $
  */
 class ComponentInterface {
 
