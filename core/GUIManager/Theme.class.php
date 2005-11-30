@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.20 2005/10/18 20:12:16 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.21 2005/11/30 18:48:07 adamfranco Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -235,7 +235,7 @@ class Theme extends ThemeInterface {
 	 * The style collections would be normally set by the 
 	 * <code>setStyleForComponentType()</code> method in the Theme constructor.
 	 * @access public
-	 * @param integer type The type of the component. One of BLANK, HEADING, FOOTER,
+	 * @param integer type The type of the component. One of BLANK, HEADING, HEADER, FOOTER,
 	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @param integer index The index that will determine which style collections
 	 * to return. If the given index is greater than the maximum registered index
@@ -244,7 +244,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function &getStylesForComponentType($type, $index) {
 		// ** parameter validation
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
@@ -279,7 +279,7 @@ class Theme extends ThemeInterface {
 	 * Registers the specified style collection with the given component type.
 	 * @access public
 	 * @param ref object styleCollection The style collection to add.
-	 * @param integer type The type of the component. One of BLANK, HEADING, FOOTER,
+	 * @param integer type The type of the component. One of BLANK, HEADING, HEADER, FOOTER,
 	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @param integer index The index with which to register the style collection.
 	 * For a description of the role of indices, see the documentation of
@@ -289,7 +289,7 @@ class Theme extends ThemeInterface {
 		// ** parameter validation
 		$rule =& ExtendsValidatorRule::getRule("StyleCollectionInterface");
 		ArgumentValidator::validate($styleCollection, $rule, true);
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
@@ -318,7 +318,7 @@ class Theme extends ThemeInterface {
 	 * <code>addStyleForComponentType()</code> and <code>getStylesForComponentType()</code>.
 	 * @access public
 	 * @param string html The HTML code to use.
-	 * @param integer type The type of the component. One of BLANK, HEADING, FOOTER,
+	 * @param integer type The type of the component. One of BLANK, HEADING, HEADER, FOOTER,
 	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @param integer index The index with which to register the HTML string.
 	 * For a description of the role of indices, see the documentation of
@@ -327,7 +327,7 @@ class Theme extends ThemeInterface {
 	function setPreHTMLForComponentType($html, $type, $index) {
 		// ** parameter validation
 		ArgumentValidator::validate($html, StringValidatorRule::getRule(), true);
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
@@ -343,7 +343,7 @@ class Theme extends ThemeInterface {
 	 * and PostHTML get/set methods is discouraged - use styles instead: see 
 	 * <code>addStyleForComponentType()</code> and <code>getStylesForComponentType()</code>.
 	 * @access public
-	 * @param integer type The type of the component. One of BLANK, HEADING, FOOTER,
+	 * @param integer type The type of the component. One of BLANK, HEADING, HEADER, FOOTER,
 	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @param integer index The index that will determine which HTML string to return
 	 * If the given index is greater than the maximal registered index
@@ -352,7 +352,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function getPreHTMLForComponentType($type, $index) {
 		// ** parameter validation
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
@@ -389,7 +389,7 @@ class Theme extends ThemeInterface {
 	 * <code>addStyleForComponentType()</code> and <code>getStylesForComponentType()</code>.
 	 * @access public
 	 * @param string html The HTML code to use.
-	 * @param integer type The type of the component. One of BLANK, HEADING, FOOTER,
+	 * @param integer type The type of the component. One of BLANK, HEADING, HEADER, FOOTER,
 	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @param integer index The index with which to register the HTML string.
 	 * For a description of the role of indices, see the documentation of
@@ -398,7 +398,7 @@ class Theme extends ThemeInterface {
 	function setPostHTMLForComponentType($html, $type, $index) {
 		// ** parameter validation
 		ArgumentValidator::validate($html, StringValidatorRule::getRule(), true);
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
@@ -414,7 +414,7 @@ class Theme extends ThemeInterface {
 	 * and PostHTML get/set methods is discouraged - use styles instead: see 
 	 * <code>addStyleForComponentType()</code> and <code>getStylesForComponentType()</code>.
 	 * @access public
-	 * @param integer type The type of the component. One of BLANK, HEADING, FOOTER,
+	 * @param integer type The type of the component. One of BLANK, HEADING, HEADER, FOOTER,
 	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @param integer index The index that will determine which HTML string to return
 	 * If the given index is greater than the maximal registered index
@@ -423,7 +423,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function getPostHTMLForComponentType($type, $index) {
 		// ** parameter validation
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);

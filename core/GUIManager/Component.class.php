@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.class.php,v 1.15 2005/11/28 22:41:42 adamfranco Exp $
+ * @version $Id: Component.class.php,v 1.16 2005/11/30 18:48:07 adamfranco Exp $
  */
 class Component extends ComponentInterface {
 
@@ -76,7 +76,7 @@ class Component extends ComponentInterface {
 	 * @param string content This is an arbitrary string that will be printed,
 	 * whenever the user calls the <code>render()</code> method. If <code>null</code>,
 	 * then the component will have no content.
-	 * @param integer type The type of this component. One of BLANK, HEADING, FOOTER,
+	 * @param integer type The type of this component. One of BLANK, HEADING, HEADER, FOOTER,
 	 * BLOCK, MENU, MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER.
 	 * @param integer index The index of this component. The index has no semantic meaning: 
 	 * you can think of the index as 'level' of the component. Alternatively, 
@@ -93,7 +93,7 @@ class Component extends ComponentInterface {
 		// ** parameter validation
 		$rule =& OptionalRule::getRule(StringValidatorRule::getRule());
 		ArgumentValidator::validate($content, $rule, true);
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, FOOTER, BLOCK, MENU, 
+		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);

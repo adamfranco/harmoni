@@ -13,6 +13,14 @@ define("BLANK", 13);
  * @package harmoni.gui
  */
 define("HEADING", 6);
+
+
+/**
+ * A constant defining the HEADING component type.
+ * @const integer HEADING
+ * @package harmoni.gui
+ */
+define("HEADER", 15);
  
 /**
  * A constant defining the FOOTER component type.
@@ -119,7 +127,7 @@ define("ALERT_BLOCK", 4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.interface.php,v 1.11 2005/11/29 19:27:49 adamfranco Exp $
+ * @version $Id: Component.interface.php,v 1.12 2005/11/30 18:48:07 adamfranco Exp $
  */
 class ComponentInterface {
 
