@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.18 2005/11/04 20:29:14 cws-midd Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.19 2005/12/05 23:08:42 adamfranco Exp $ 
  */
 
 class HarmoniRecord 
@@ -100,10 +100,18 @@ class HarmoniRecord
 		
 		// we need to find the label associated with this ID
 		$schema =& $this->_record->getSchema();
+		$found = false;
 		foreach ($schema->getAllIDs() as $id) {
-			$part =& $schema->getField($id);
-			if ($partID == $id) break;
+			if ($partID == $id) {
+				$found = true;
+				$part =& $schema->getField($id);
+				break;
+			}
 		}
+		if (!$found) {
+			throwError(new Error(RepositoryException::UNKNOWN_ID().": $partID.", "HarmoniRecord", true));
+		}
+		
 		$label = $schema->getFieldLabelFromID($id);
 		$this->_record->makeFull(); // make sure we have a full data representation.
 		// If the value is deleted, add a new version to it.

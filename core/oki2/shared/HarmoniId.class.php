@@ -18,7 +18,7 @@ require_once(OKI2."/osid/shared/Id.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniId.class.php,v 1.7 2005/09/29 19:35:11 adamfranco Exp $
+ * @version $Id: HarmoniId.class.php,v 1.8 2005/12/05 23:08:46 adamfranco Exp $
  */
 class HarmoniId 
 	extends Id 
@@ -62,6 +62,18 @@ class HarmoniId
 	function getIdString () { 
 		return $this->_id;
 	}
+	
+	/**
+ 	 * Answer a String whose characters are a description of the receiver.
+ 	 * Override this method as needed to provide a better representation
+ 	 * 
+ 	 * @return string
+ 	 * @access public
+ 	 * @since 7/11/05
+ 	 */
+ 	function printableString () {
+ 		return $this->getIdString();
+ 	}
 
 	/**
 	 * Tests if an unique Id equals this unique Id.
