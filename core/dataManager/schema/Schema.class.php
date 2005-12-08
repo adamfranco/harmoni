@@ -13,7 +13,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schema.class.php,v 1.18 2005/09/07 21:41:03 adamfranco Exp $
+ * @version $Id: Schema.class.php,v 1.19 2005/12/08 20:12:30 adamfranco Exp $
  * @author Gabe Schine
  */
 class Schema extends SObject {
@@ -320,11 +320,21 @@ class Schema extends SObject {
 		return $id;
 	}
 	/**
-	* Returns a list of ids defined.
+	* Returns a list of field ids defined.
+	* @return array
+	* @param optional bool $includeInactive If TRUE will also return fields that are inactive (deleted from the definition).
+	* @deprecated Use getAllFieldIDs() instead.
+	*/
+	function getAllIDs( $includeInactive = false ) {
+		return $this->getAllFieldIDs($includeInactive);
+	}
+	
+	/**
+	* Returns a list of field ids defined.
 	* @return array
 	* @param optional bool $includeInactive If TRUE will also return fields that are inactive (deleted from the definition).
 	*/
-	function getAllIDs( $includeInactive = false ) {
+	function getAllFieldIDs( $includeInactive = false ) {
 		$array = array();
 		foreach (array_keys($this->_fields) as $id) {
 			if ($includeInactive || $this->_fields[$id]->isActive()) $array[] = $id;

@@ -21,7 +21,6 @@ require_once(dirname(__FILE__)."/SearchModules/ContentSearch.class.php");
 require_once(dirname(__FILE__)."/SearchModules/DescriptionSearch.class.php");
 require_once(dirname(__FILE__)."/SearchModules/DisplayNameSearch.class.php");
 require_once(dirname(__FILE__)."/SearchModules/RootAssetSearch.class.php");
-require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php");
 
 /**
  * Repository manages Assets of various Types and information about the Assets.
@@ -46,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.35 2005/12/08 17:09:57 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.36 2005/12/08 20:12:41 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -1266,8 +1265,7 @@ class HarmoniRepository
 		$this->_searchTypes = array();
 		
 		// classname => type obj
-		$this->_searchTypes["KeywordSearch"] =& new HarmoniType("Repository","edu.middlebury.harmoni","Keyword", "Search with a regular expression
-												string for keywords.");
+		$this->_searchTypes["KeywordSearch"] =& new HarmoniType("Repository","edu.middlebury.harmoni","Keyword", "Search with a 				string for keywords.");
 		
 		$this->_searchTypes["AssetTypeSearch"] =& new HarmoniType("Repository","edu.middlebury.harmoni","AssetType", "Select all asset's of the specified Type.");
 		
@@ -1283,8 +1281,6 @@ class HarmoniRepository
 		$this->_searchTypes["ContentSearch"] =& new HarmoniType("Repository","edu.middlebury.harmoni","Content", "Search with a regular expression
 												string in the Asset Content.");
 
-		$this->_searchTypes["AllCustomFieldsSearch"] =& new HarmoniType("Repository","edu.middlebury.harmoni","AllCustomStructures", "Search with a regular expression
-								string in the custom RecordStructures for each Asset.");
 	}
 
 }

@@ -5,10 +5,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DescriptionSearch.class.php,v 1.7 2005/10/13 20:55:35 adamfranco Exp $
+ * @version $Id: DescriptionSearch.class.php,v 1.8 2005/12/08 20:12:41 adamfranco Exp $
  */
 
-require_once(dirname(__FILE__)."/SearchModule.interface.php");
+require_once(dirname(__FILE__)."/RegexSearch.abstract.php");
 
 /**
  * Return assets of the specified type
@@ -19,11 +19,12 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DescriptionSearch.class.php,v 1.7 2005/10/13 20:55:35 adamfranco Exp $
+ * @version $Id: DescriptionSearch.class.php,v 1.8 2005/12/08 20:12:41 adamfranco Exp $
  */
 
 class DescriptionSearch
-	extends SearchModuleInterface {
+	extends RegexSearch
+{
 	
 	/**
 	 * Constructor
@@ -48,6 +49,8 @@ class DescriptionSearch
 	 * @since 11/2/04
 	 */
 	function searchAssets ( $searchCriteria ) {
+		$searchCriteria = $this->translateToRegex($searchCriteria);
+		
 		$matchingIds = array();
 		
 		// Get All the assets

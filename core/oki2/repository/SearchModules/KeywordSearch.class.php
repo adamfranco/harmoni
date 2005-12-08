@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: KeywordSearch.class.php,v 1.1 2005/12/08 17:10:01 adamfranco Exp $
+ * @version $Id: KeywordSearch.class.php,v 1.2 2005/12/08 20:12:41 adamfranco Exp $
  */
 
 class KeywordSearch
@@ -45,39 +45,31 @@ class KeywordSearch
 		$schemaMgr =& Services::getService("SchemaManager");
 		$drMgr =& Services::getService("Repository");
 		
-		$schemaTypes = $schemaMgr->getAllSchemaIDs();
+		$schemaIDs = $schemaMgr->getAllSchemaIDs();
 		
-		$excludedFieldTypes = array(
-									"blob", 
-									"boolean", 
-									"datetime",
-									"float", 
-									"fuzzydate",
-									"integer",
-									"time");
-		$assetContentType = "edu.middlebury.harmoni.repository.asset_content";
+		$includeFieldTypes = array("string", "shortstring");
+
+		$assetContentID = "edu.middlebury.harmoni.repository.asset_content";
 		
 		// Create the search criteria object
 		$criteria =& new OrSearch();
 		
-		foreach ($schemaTypes as $schemaType) {
-			if ($schemaType != $assetContentType) {
+		// create one string value
+		$stringValue =& String::withValue($searchCriteria);
+		
+		foreach ($schemaIDs as $schemaID) {
+			if ($schemaID != $assetContentID) {
 				
-				$schema =& $schemaMgr->getSchemaByID($schemaType);
+				$schema =& $schemaMgr->getSchemaByID($schemaID);
 				$schema->load();
-				$ids = $schema->getAllIDs();
+				$ids = $schema->getAllFieldIDs();
 				
 				foreach ($ids as $id) {
 					$fieldType = $schema->getFieldType($id);
 					
-					if (!in_array($fieldType, $excludedFieldTypes)) {
-						// Make a value appropriate to the field type.
-						$dtM =& Services::getService("DataTypeManager");
-						$class = $dtM->primitiveClassForType($fieldType);
-						eval('$searchValue =& '.$class.'::withValue("'.addslashes($searchCriteria).'");');
-						
+					if (in_array($fieldType, $includeFieldTypes)) {
 						// add to the field criteria for this schematype/label				
-						$criteria->addCriteria(new FieldValueSearch($schemaType, $label, $searchValue, SEARCH_TYPE_CONTAINS));
+						$criteria->addCriteria(new FieldValueSearch($schemaID, $schema->getFieldLabelFromID($id), $stringValue, SEARCH_TYPE_CONTAINS));
 					}
 				}
 			}
@@ -91,7 +83,7 @@ class KeywordSearch
 			$recordSetIds =& $recordMgr->getRecordSetIDsContainingID($id);
 			$groupIds = array_merge($groupIds, $recordSetIds);
 		}
-				
+		
 		$groupIds = array_unique($groupIds);
 				
 		$idManager =& Services::getService("Id");
@@ -101,29 +93,32 @@ class KeywordSearch
 		foreach ($groupIds as $id) {
 			$assetId =& $idManager->getId($id);
 			$asset =& $drMgr->getAsset($assetId);
-			$dr =& $asset->getDigitalRepository();
+			$dr =& $asset->getRepository();
 			
 			if ($myId->isEqual($dr->getId()))
 				$matchingIds[] = $assetId->getIdString();
 		}
 		
 		// Include Searches of displayname and description
-		$displayNameSearch =& new DisplayNameSearch;
+		$displayNameSearch =& new DisplayNameSearch($this->_dr);
 		$displayNameResults = $displayNameSearch->searchAssets($searchCriteria);
-		for ($i = 0; $i < count($displayNameResults); $i++)
+		for ($i = 0; $i < count($displayNameResults); $i++) {
 			$matchingIds[] = $displayNameResults[$i]->getIdString();
+		}
 		
-		$descriptionSearch =& new DescriptionSearch;
+		$descriptionSearch =& new DescriptionSearch($this->_dr);
 		$descriptionResults = $descriptionSearch->searchAssets($searchCriteria);
-		for ($i=0; $i<count($descriptionResults); $i++)
+		for ($i=0; $i<count($descriptionResults); $i++) {
 			$matchingIds[] = $descriptionResults[$i]->getIdString();
-		
+		}
 		
 		// Ensure uniqueness and convert the ids to id objects.
 		$matchingIds = array_unique($matchingIds);
+		sort($matchingIds);
 		$idManager =& Services::getService("Id");
-		for ($i=0; $i<count($matchingIds); $i++)
+		for ($i=0; $i<count($matchingIds); $i++) {
 			$matchingIds[$i] =& $idManager->getId($matchingIds[$i]);
+		}
 		
 		// Return the array
 		return $matchingIds;
