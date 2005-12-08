@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/RootAssetSearch.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.36 2005/12/08 20:12:41 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.37 2005/12/08 21:17:46 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -1012,9 +1012,25 @@ class HarmoniRepository
 			
 			// get the assets for the resuting ids
 			$assets = array();
-			foreach ($assetIds as $key => $id) {
-				$assets[] =& $this->getAsset($assetIds[$key], FALSE);
+				
+			if (is_object($searchProperties) 
+				&& $searchProperties->getProperty("order") == ("DisplayName")) 
+			{
+				foreach ($assetIds as $key => $id) {
+					$asset =& $this->getAsset($assetIds[$key], FALSE);
+					$assets[$asset->getDisplayName().$id->getIdString()] =& $asset;
+				}
+			} else if (is_object($searchProperties) 
+				&& $searchProperties->getProperty("order") == ("Id")) 
+			{
+				foreach ($assetIds as $key => $id)
+					$assets[$assetIds[$key]->getIdString()] =& $this->getAsset($assetIds[$key], FALSE);
+			} else {
+				foreach ($assetIds as $key => $id)
+					$assets[] =& $this->getAsset($assetIds[$key], FALSE);
 			}
+			
+			ksort($assets);
 			
 			// create an AssetIterator and return it
 			$assetIterator =& new HarmoniAssetIterator($assets);
