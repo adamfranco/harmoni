@@ -15,6 +15,7 @@ require_once(HARMONI."/oki2/shared/HarmoniTypeIterator.class.php");
 //require_once(HARMONI."/oki2/shared/HarmoniCalendarIterator.class.php");
 
 // Search Modules
+require_once(dirname(__FILE__)."/SearchModules/KeywordSearch.class.php");
 require_once(dirname(__FILE__)."/SearchModules/AssetTypeSearch.class.php");
 require_once(dirname(__FILE__)."/SearchModules/ContentSearch.class.php");
 require_once(dirname(__FILE__)."/SearchModules/DescriptionSearch.class.php");
@@ -45,7 +46,7 @@ require_once(dirname(__FILE__)."/SearchModules/AllCustomFieldsSearch.class.php")
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.34 2005/11/15 21:57:01 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.35 2005/12/08 17:09:57 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -1265,6 +1266,8 @@ class HarmoniRepository
 		$this->_searchTypes = array();
 		
 		// classname => type obj
+		$this->_searchTypes["KeywordSearch"] =& new HarmoniType("Repository","edu.middlebury.harmoni","Keyword", "Search with a regular expression
+												string for keywords.");
 		
 		$this->_searchTypes["AssetTypeSearch"] =& new HarmoniType("Repository","edu.middlebury.harmoni","AssetType", "Select all asset's of the specified Type.");
 		
