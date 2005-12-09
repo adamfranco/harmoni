@@ -3,11 +3,19 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.93 2005/10/12 20:32:30 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.94 2005/12/09 22:35:49 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.5.0" date="The Nebulous Future">
+		<new author='adam'>
+			Keyword searching module in Repository.
+		</new>
+		<change author='adam'>
+			Many speed optimizations in Repository, Authorization, and Hierarchy.
+		</change>
+	</version>
 	<version number="0.4.0" date="2005-10-12">
 		<change author='adam'>
 			Groups and Agents are now stored in the hierarchy, allowing authorizations
