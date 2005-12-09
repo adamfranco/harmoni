@@ -12,7 +12,7 @@ require_once (HARMONI."actionHandler/ActionSource.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ClassesActionSource.class.php,v 1.8 2005/10/27 18:57:23 adamfranco Exp $
+ * @version $Id: ClassesActionSource.class.php,v 1.9 2005/12/09 22:22:29 adamfranco Exp $
  */
 class ClassesActionSource 
 	extends ActionSource
@@ -97,7 +97,7 @@ class ClassesActionSource
 			throwError( new Error("ClassesActionSource::executeAction($module, $action) - could not proceed because the file to include does not exist!", "ActionHandler", true));
 		}
 		
-		include($fullPath);
+		include_once($fullPath);
 		
 		$actionClassname = $action.$this->_classNameSuffix;
 		
