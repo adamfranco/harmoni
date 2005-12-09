@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/RootAssetSearch.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.37 2005/12/08 21:17:46 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.38 2005/12/09 19:47:51 cws-midd Exp $ 
  */
 
 class HarmoniRepository
@@ -343,12 +343,29 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function deleteAsset ( &$assetId ) { 
+	function deleteAsset ( &$assetId , $parentId = null) { 
 		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
-		
+				
 		// Get the asset
 		$asset =& $this->getAsset($assetId);
+		$assetIdString = $assetId->getIdString();
+		$children =& $asset->getAssets();
 		
+		// deeper and deeper
+		while ($children->hasNext()) {
+			$child =& $children->next();
+			$this->deleteAsset($child->getId(), $assetIdString);
+		}
+		
+		// climbing out if multiparent unlink parent
+		$parents =& $asset->_node->getParents();
+		if ($parents->count() > 1) {
+			$idManager =& Services::getService("Id");
+			$asset->_node->removeParent($idManager->getId($parentId));
+			return;
+		}
+		// not multiparent delete asset itself
+
 		// Delete the Records for the Asset
 		$records =& $asset->getRecords();
 		while ($records->hasNext()) {

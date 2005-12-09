@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.29 2005/09/28 20:51:34 gabeschine Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.30 2005/12/09 19:47:52 cws-midd Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -315,27 +315,50 @@ class HarmoniRepositoryManager
 		$assets =& $repository->getAssets();
 		// If so, delete them.
 		if ($assets->hasNext()) {
-			// We need to delete the assets starting from the leaf nodes,
-			// so sort the asset ids by depth
-			$infoIterator =& $this->_hierarchy->traverse(
-				$repositoryId,
-				Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
-				Hierarchy::TRAVERSE_DIRECTION_DOWN(),
-				Hierarchy::TRAVERSE_LEVELS_ALL());
-			$levels = array();
-			while ($infoIterator->hasNextTraversalInfo()) {
-				$info =& $infoIterator->nextTraversalInfo();
+			// We need to delete the assets by deleting the root assets
+			$hasRootSearch = FALSE;
+			$rootSearchType =& new HarmoniType("Repository",
+				"edu.middlebury.harmoni","RootAssets", "");
+			$searchTypes =& $repository->getSearchTypes();
+			while ($searchTypes->hasNext()) {
+				if ($rootSearchType->isEqual( $searchTypes->next() )) {
+					$hasRootSearch = TRUE;
+					break;
+				}
+			}		
+
+			if ($hasRootSearch) {
+				$criteria = NULL;
+				$rootAssets =& $repository->getAssetsBySearch($criteria,
+					$rootSearchType, $searchProperties = NULL);
 				
-				if (!is_array($levels[$info->getLevel()]))
-					$levels[$info->getLevel()] = array();
-				
-				$levels[$info->getLevel()][] =& $info->getNodeId();
+				while ($rootAssets->hasNext()) {
+					$asset =& $rootAssets->next();
+					$repository->deleteAsset($asset->getId());
+				} 
 			}
-			
-			for ($i = count($levels) - 1; $i > 0; $i--) {
-				$level =& $levels[$i];
-				foreach (array_keys($level) as $key) {
-					$repository->deleteAsset($level[$key]);
+			else {
+				// if we cant then sort the asset ids by depth
+				$infoIterator =& $this->_hierarchy->traverse(
+					$repositoryId,
+					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
+					Hierarchy::TRAVERSE_DIRECTION_DOWN(),
+					Hierarchy::TRAVERSE_LEVELS_ALL());
+				$levels = array();
+				while ($infoIterator->hasNextTraversalInfo()) {
+					$info =& $infoIterator->nextTraversalInfo();
+					
+					if (!is_array($levels[$info->getLevel()]))
+						$levels[$info->getLevel()] = array();
+					
+					$levels[$info->getLevel()][] =& $info->getNodeId();
+				}
+				
+				for ($i = count($levels) - 1; $i > 0; $i--) {
+					$level =& $levels[$i];
+					foreach (array_keys($level) as $key) {
+						$repository->deleteAsset($level[$key]);
+					}
 				}
 			}
 		}
