@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CornersStyleCollection.class.php,v 1.2 2005/11/29 19:27:49 adamfranco Exp $
+ * @version $Id: CornersStyleCollection.class.php,v 1.3 2005/12/12 16:06:14 adamfranco Exp $
  */
 class CornersStyleCollection 
 	extends StyleCollection 
@@ -307,11 +307,12 @@ class CornersStyleCollection
 	 * @since 11/22/05
 	 */
 	function getPostHTML ($tabs) {
-		$html = "\n".$tabs."\t<!-- IE5/win puts the margin-bottom of the content div's final element";
-		$html .= "\n".$tabs."\tOUTSIDE the containing box (div.content), instead of putting it inside";
-		$html .= "\n".$tabs."\tthe containing box\'s edge. So it needs this spacer. -->\n";
-        $html .= $tabs."\t<div class='".$this->_classSelector."Spacer'>&nbsp;</div>\n";
-		$html .= $tabs."</div><!-- end of div.content -->\n";
+// 		$html = "\n".$tabs."\t<!-- IE5/win puts the margin-bottom of the content div's final element";
+// 		$html .= "\n".$tabs."\tOUTSIDE the containing box (div.content), instead of putting it inside";
+// 		$html .= "\n".$tabs."\tthe containing box\'s edge. So it needs this spacer. -->\n";
+        $html = $tabs."\t<div class='".$this->_classSelector."Spacer'>&nbsp;</div>\n";
+		$html .= $tabs."</div>\n";
+//		$html .= "<!-- end of div.content -->\n";
 		$html .= $tabs."<div class='".$this->_classSelector."BottomCorners'>\n";
 		$html .= $tabs."\t<img class='".$this->_classSelector."BorderBL' src='"
    			.$this->getBorderUrl('BottomLeft')."' alt='&nbsp;' width='14' height='14' />\n";
