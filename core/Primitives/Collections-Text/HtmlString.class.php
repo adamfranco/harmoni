@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/String.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.1 2005/12/14 00:21:18 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.2 2005/12/14 00:34:39 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
@@ -73,8 +73,13 @@ class HtmlString
 						$tagHtml .= $char;
 					}
 					$i--; // we've overrun to print the end tag, so decrement $i
-
-					// print "<pre>$tag</pre>"; 
+					
+					// Enforce trailing slashes in single tags for more valid
+					// HTML.
+					if ($isSingleTag && $tagHtml[strlen($tagHtml) - 2] != '/') {
+						$tagHtml[strlen($tagHtml) - 1] = '/';
+						$tagHtml .= '>';
+					}
 					
 					if ($isCloseTag) {
 						$topTag = array_pop($tags);

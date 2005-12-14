@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.1 2005/12/14 00:21:18 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.2 2005/12/14 00:34:39 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../HtmlString.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.1 2005/12/14 00:21:18 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.2 2005/12/14 00:34:39 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -85,9 +85,13 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello world.<hr> <img src='' border='1'>
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped over the lazy <em>dog</em>.</p>";
+		$result = 
+"Hello world.<hr/> <img src='' border='1'/>
+<p style='font-size: large;'>The quick brown <strong>fox</strong> 
+jumped over the lazy <em>dog</em>.</p>";
 		$htmlString =& HtmlString::withValue($string);
 		$htmlString->trim(100);
-		$this->assertEqual($htmlString->asString(), $string);
+		$this->assertEqual($htmlString->asString(), $result);
 		
 		// test re-nesting
 		$string = 
