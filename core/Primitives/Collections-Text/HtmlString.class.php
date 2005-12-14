@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/String.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.2 2005/12/14 00:34:39 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.3 2005/12/14 17:35:54 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
@@ -53,8 +53,18 @@ class HtmlString
 			$char = $this->_string[$i];
 			
 			switch($char) {
+				case '>':
+					$inWord = true;
+					$output .= '&gt;';
+					break;
 				case '<':
-					// If we are at a tag:
+					if ($this->isInvalidLessThan($this->_string, $i)) {
+						$inWord = true;
+						$output .= '&lt;';
+						break;
+					}
+					
+					// We are at a tag:
 					//	- 	if we are starting a tag, push that tag onto the tag
 					// 		stack and print it out.
 					//	- 	If we are closing a tag, pop it off of the tag stack.
@@ -188,5 +198,38 @@ class HtmlString
 		
 		// Otherwise
 		return false;
+	}
+	
+	/**
+	 * Answer true if the '<' doesn't seem to be the start of a tag and is 
+	 * instead an invalid 'less-than' character. 
+	 * 
+	 * This will be the case if:
+	 * 		- There is a space, line-return, new-line, or '=' following the '<'
+	 *		- Another '<' is found in the string before a '>'
+	 * 
+	 * @param string $inputString
+	 * @param integer $tagStart // index of the opening '<'
+	 * @return string
+	 * @access public
+	 * @since 12/14/05
+	 */
+	function isInvalidLessThan ( $inputString, $tagStart ) {
+		// if this '<' is followed by one of our invalid following chars
+		$invalidFollowingChars = array("\s", "\t", "\n", "\r", "=");
+		if (in_array($inputString[$tagStart + 1], $invalidFollowingChars))
+			return true;
+		
+		// grap the substring starting at our tag.
+		for ($i = $tagStart + 1; $i < strlen($inputString); $i++) {
+			if ($inputString[$i] == '<')
+				return true;
+			if ($inputString[$i] == '>')
+				return false;
+		}	
+		
+		// If we have gotten to the end of the string and not found a
+		// closing '>', then the tag must be invalid.
+		return true;
 	}
 }

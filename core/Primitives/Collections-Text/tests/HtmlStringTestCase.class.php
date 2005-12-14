@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.2 2005/12/14 00:34:39 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.3 2005/12/14 17:35:59 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../HtmlString.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.2 2005/12/14 00:34:39 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.3 2005/12/14 17:35:59 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -105,6 +105,66 @@ jumped over the lazy <em>dog</em>.</p>";
 jumped over the lazy <em>dog</em>.</p>";
 		$htmlString->trim(100);
 		$this->assertEqual($htmlString->asString(), $string);
+	}
+	
+	
+	/**
+	 * Test unescaped less-thans and greater-thans.
+	 */
+	function test_unescaped_less_greater () {
+		$string = 
+"Hello < world.
+<p style='font-size: large;'>The quick brown <strong>fox</strong> 
+jumped over the lazy <em>dog</em>.</p>";
+		$result = 
+"Hello &lt; world.
+<p style='font-size: large;'>The quick brown <strong>fox</strong> 
+jumped over the lazy <em>dog</em>.</p>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->trim(100);
+		$this->assertEqual($htmlString->asString(), $result);
+		
+		$string = 
+"Hello > world.
+<p style='font-size: large;'>The quick brown <strong>fox</strong> 
+jumped over the lazy <em>dog</em>.</p>";
+		$result = 
+"Hello &gt; world.
+<p style='font-size: large;'>The quick brown <strong>fox</strong> 
+jumped over the lazy <em>dog</em>.</p>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->trim(100);
+		$this->assertEqual($htmlString->asString(), $result);
+		
+		$string = 
+"Hello > world.";
+		$result = 
+"Hello &gt; world.";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->trim(3);
+		$this->assertEqual($htmlString->asString(), $result);
+		
+		$string = 
+"Hello <world.
+<p style='font-size: large;'>The quick brown <strong>fox</strong> 
+jumped over the lazy <em>dog</em>.</p>";
+		$result = 
+"Hello &lt;world.
+<p style='font-size: large;'>The...</p>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->trim(3);
+		$this->assertEqual($htmlString->asString(), $result);
+		
+		$string = 
+"Hello<world.
+<p style='font-size: large;'>The quick brown <strong>fox</strong> 
+jumped over the lazy <em>dog</em>.</p>";
+		$result = 
+"Hello&lt;world.
+<p style='font-size: large;'>The quick...</p>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->trim(3);
+		$this->assertEqual($htmlString->asString(), $result);
 	}
 	
 	/**
