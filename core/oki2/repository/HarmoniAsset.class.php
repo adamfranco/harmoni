@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.26 2005/11/17 19:30:34 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.27 2005/12/14 21:07:03 cws-midd Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.26 2005/11/17 19:30:34 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.27 2005/12/14 21:07:03 cws-midd Exp $ 
  */
 
 class HarmoniAsset
@@ -1374,7 +1374,7 @@ class HarmoniAsset
 			$record =& $records->next();
 			$structure =& $record->getRecordStructure();
 			$structureId =& $structure->getId();
-			if (!$recordStructures[$structureId->getIdString()])
+			if (!isset($recordStructures[$structureId->getIdString()]))
 				$recordStructures[$structureId->getIdString()] =& $structure;
 		}
 		
