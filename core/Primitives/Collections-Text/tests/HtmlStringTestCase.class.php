@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.3 2005/12/14 17:35:59 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.4 2005/12/14 21:09:04 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../HtmlString.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.3 2005/12/14 17:35:59 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.4 2005/12/14 21:09:04 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -366,6 +366,208 @@ jumped over the lazy <em>dog</em>.</p>";
 		$htmlString =& HtmlString::withValue($string);
 		$htmlString->trim(2, false);
 		$this->assertEqual($htmlString->asString(), $result);
+	}
+	
+	/**
+	 * Test unescaped less-thans and greater-thans.
+	 */
+	function test_trimming_in_nested () {
+		$string = 
+"Hello world.
+<div>
+	<ul>
+		<li>This is one</li>
+		<li>This is two</li>
+		<li>This is three</li>
+		<li>This is four</li>
+		<li>This is five</li>
+	</ul>
+</div>";
+		$result = 
+"Hello world.
+<div>
+	<ul>
+		<li>This is one</li>
+		<li>This is two</li></ul>...</div>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->trim(8);
+		$this->assertEqual($htmlString->asString(), $result);
+		
+		$string = 
+"Hello world.
+<div>
+	<ul>
+		<li>This is one</li>
+		<li>This is two</li>
+		<li>This is three</li>
+		<li>This is four</li>
+		<li>This is five</li>
+	</ul>
+</div>";
+		$result = 
+"Hello world.
+<div>
+	<ul>
+		<li>This is one</li>
+		<li>This is...</li></ul></div>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->trim(7);
+		$this->assertEqual($htmlString->asString(), $result);
+		
+		
+		
+		$string = 
+"Hello world.
+<div>
+	<table>
+		<tr>
+			<td>This is one</td>
+			<td>This is two</td>
+		</tr>
+		<tr>
+			<td>This is three</td>
+			<td>This is four</td>
+		</tr>
+	</table>
+</div>";
+		$result = 
+"Hello world.
+<div>
+	<table>
+		<tr>
+			<td>This is...</td></tr></table></div>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->trim(4);
+		$this->assertEqual($htmlString->asString(), $result);
+		
+		$string = 
+"Hello world.
+<div>
+	<table>
+		<tr>
+			<td>This is one</td>
+			<td>This is two</td>
+		</tr>
+		<tr>
+			<td>This is three</td>
+			<td>This is four</td>
+		</tr>
+	</table>
+</div>";
+		$result = 
+"Hello world.
+<div>
+	<table>
+		<tr>
+			<td>This is one</td></tr></table>...</div>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->trim(5);
+		$this->assertEqual($htmlString->asString(), $result);
+	}
+	
+	/**
+	 * Test a real-life block of html
+	 */
+	function test_dc_block () {
+		ob_start();
+		print<<<END
+<h2>Dublin Core Metadata Element Set, Version 1.1: Reference Description</h2>
+<a name="introduction" id="introduction"></a> 
+<h3>Introduction</h3>
+<p>The Dublin Core metadata element set is a standard for cross-domain
+information resource description. Here an information resource is
+defined to be "anything that has identity". This is the definition used
+in Internet RFC 2396, "Uniform Resource Identifiers (URI): Generic
+Syntax", by Tim Berners-Lee et al. There are no fundamental
+restrictions to the types of resources to which Dublin Core metadata
+can be assigned.</p>
+<p>Three formally endorsed versions exist of the Dublin Core Metadata Element Set, version 1.1:</p>
+
+<ul>
+<li>ISO Standard 15836-2003 (February 2003): <a href="http://www.niso.org/international/SC4/n515.pdf">http://www.niso.org/international/SC4/n515.pdf</a></li>
+<li>NISO Standard Z39.85-2001 (September 2001): <a href="http://www.niso.org/standards/resources/Z39-85.pdf">http://www.niso.org/standards/resources/Z39-85.pdf</a></li>
+<li>CEN Workshop Agreement CWA 13874 (March 2000, no longer available)</li></ul>
+<p>The current document has been brought into line with the ISO and
+NISO standards. The more comprehensive document "DCMI Metadata Terms" (<a href="http://dublincore.org/documents/dcmi-terms/">http://dublincore.org/documents/dcmi-terms/</a>) includes the latest and authoritative term declarations for the Dublin Core Metadata Element Set, Version 1.1.</p>
+<p>For an overview and links to full specifications of all metadata
+terms maintained by the Dublin Core Metadata Initiative please see:: <a href="http://dublincore.org/usage/documents/overview/">http://dublincore.org/usage/documents/overview/</a>.</p>
+END;
+		$string = ob_get_clean();
+		
+		ob_start();
+		print<<<END
+<h2>Dublin Core Metadata Element Set, Version 1.1: Reference Description</h2>
+<a name="introduction" id="introduction"></a> 
+<h3>Introduction</h3>
+<p>The Dublin Core metadata element set is a standard for cross-domain
+information resource description. Here an information resource is
+defined to be "anything that has identity". This is the definition used
+in Internet RFC 2396, "Uniform Resource Identifiers (URI): Generic
+Syntax", by Tim Berners-Lee et al. There are no fundamental
+restrictions to the types of resources to which Dublin Core metadata
+can be assigned.</p>
+<p>Three formally endorsed versions exist of the Dublin Core Metadata Element Set, version 1.1:</p>
+
+<ul>
+<li>ISO Standard 15836-2003 (February 2003): <a href="http://www.niso.org/international/SC4/n515.pdf">http://www.niso.org/international/SC4/n515.pdf</a></li>
+<li>NISO Standard Z39.85-2001 (September 2001):...</li></ul>
+END;
+		$result = ob_get_clean();
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->trim(99);
+		$this->assertEqual($htmlString->asString(), $result);	
+		
+		
+		
+		ob_start();
+		print<<<END
+<h2>Dublin Core Metadata Element Set, Version 1.1: Reference Description</h2>
+<a name="introduction" id="introduction"></a> 
+<h3>Introduction</h3>
+<p>The Dublin Core metadata element set is a standard for cross-domain
+information resource description. Here an information resource is
+defined to be "anything that has identity". This is the definition used
+in Internet RFC 2396, "Uniform Resource Identifiers (URI): Generic
+Syntax", by Tim Berners-Lee et al. There are no fundamental
+restrictions to the types of resources to which Dublin Core metadata
+can be assigned.</p>
+<p>Three formally endorsed versions exist of the Dublin Core Metadata Element Set, version 1.1:</p>
+
+<ul>
+<li>ISO Standard 15836-2003 (February 2003): <a href="http://www.niso.org/international/SC4/n515.pdf">http://www.niso.org/international/SC4/n515.pdf</a></li>
+<li>NISO Standard Z39.85-2001 (September 2001): <a href="http://www.niso.org/standards/resources/Z39-85.pdf">http://www.niso.org/standards/resources/Z39-85.pdf</a></li>
+<li>CEN Workshop Agreement CWA 13874 (March 2000, no longer available)</li></ul>
+<p>The current document has been brought into line with the ISO and
+NISO standards. The more comprehensive document "DCMI Metadata Terms" (<a href="http://dublincore.org/documents/dcmi-terms/">http://dublincore.org/documents/dcmi-terms/</a>) includes the latest and authoritative term declarations for the Dublin Core Metadata Element Set, Version 1.1.</p>
+<p>For an overview and links to full specifications of all metadata
+terms maintained by the Dublin Core Metadata Initiative please see:: <a href="http://dublincore.org/usage/documents/overview/">http://dublincore.org/usage/documents/overview/</a>.</p>
+END;
+		$string = ob_get_clean();
+		
+		ob_start();
+		print<<<END
+<h2>Dublin Core Metadata Element Set, Version 1.1: Reference Description</h2>
+<a name="introduction" id="introduction"></a> 
+<h3>Introduction</h3>
+<p>The Dublin Core metadata element set is a standard for cross-domain
+information resource description. Here an information resource is
+defined to be "anything that has identity". This is the definition used
+in Internet RFC 2396, "Uniform Resource Identifiers (URI): Generic
+Syntax", by Tim Berners-Lee et al. There are no fundamental
+restrictions to the types of resources to which Dublin Core metadata
+can be assigned.</p>
+<p>Three formally endorsed versions exist of the Dublin Core Metadata Element Set, version 1.1:</p>
+
+<ul>
+<li>ISO Standard 15836-2003 (February 2003): <a href="http://www.niso.org/international/SC4/n515.pdf">http://www.niso.org/international/SC4/n515.pdf</a></li>
+<li>NISO Standard Z39.85-2001 (September 2001): <a href="http://www.niso.org/standards/resources/Z39-85.pdf">http://www.niso.org/standards/resources/Z39-85.pdf</a></li></ul>...
+END;
+		$result = ob_get_clean();
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->trim(100);
+		$this->assertEqual($htmlString->asString(), $result);
+		
+
 	}
 }
 ?>

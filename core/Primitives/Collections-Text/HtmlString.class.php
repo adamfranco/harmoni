@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/String.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.3 2005/12/14 17:35:54 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.4 2005/12/14 21:09:04 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
@@ -123,13 +123,41 @@ class HtmlString
 		
 		
 		// If we have text that we aren't printing, print elipses
+		// properly nested in HTML
 		if ($i < strlen($this->_string) && $addElipses) {
-			$output .= dgettext('harmoni', '...');
+			$addElipses = true;
+			
+			$tagsToSkip = 0;
+			$nestingTags = array("table", "tr", "ul", "ol", "select");
+			for ($i = count($tags); $i > 0; $i--) {
+				if (in_array($tags[$i-1], $nestingTags))
+					$tagsToSkip++;
+				else
+					break;
+			}
+		} else {
+			$addElipses = false;
+			$tagsToSkip = NULL;
 		}
-		
+				
 		// if we've hit our word limit and not closed all tags, close them now.
-		while ($tag = array_pop($tags)) {
-			$output .= '</'.$tag.'>';
+		if (count($tags)) {
+			while ($tag = array_pop($tags)) {
+				
+				// Ensure that our elipses appear in the proper place in the HTML
+				if ($addElipses && $tagsToSkip === 0)
+					$output .= dgettext('harmoni', '...');
+				$tagsToSkip--;
+				
+				$output .= '</'.$tag.'>';
+				
+			}
+			
+			if ($addElipses && $tagsToSkip === 0)
+				$output .= dgettext('harmoni', '...');
+		} else {
+			if ($addElipses)
+				$output .= dgettext('harmoni', '...');
 		}
 		
 // 		print "<pre>'".htmlspecialchars($output)."'</pre>"; 
