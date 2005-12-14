@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/String.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.4 2005/12/14 21:09:04 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.5 2005/12/14 22:16:59 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
@@ -163,6 +163,57 @@ class HtmlString
 // 		print "<pre>'".htmlspecialchars($output)."'</pre>"; 
 		
 		$this->_string = $output;
+	}
+	
+	/**
+	 * Trim the passed text to a shorter length, stripping the HTML tags
+	 *
+	 * Originally posted to php.net forums 
+	 * by webmaster at joshstmarie dot com (55-Sep-2005 05:58).
+	 * Modified by Adam Franco (afranco at middlebury dot edu).
+	 * 
+	 * @param string $text
+	 * @param integer $maxLength
+	 * @return string
+	 * @access public
+	 * @since 11/21/05
+	 */
+	function stripTagsAndTrim ($word_count) {
+		$string = strip_tags($this->_string);
+		
+		$trimmed = "";
+		$string = preg_replace("/\040+/"," ", trim($string));
+		$stringc = explode(" ",$string);
+
+		if($word_count >= sizeof($stringc))
+		{
+			// nothing to do, our string is smaller than the limit.
+			return $string;
+		}
+		elseif($word_count < sizeof($stringc))
+		{
+			// trim the string to the word count
+			for($i=0;$i<$word_count;$i++)
+			{
+				$trimmed .= $stringc[$i]." ";
+			}
+			
+			if(substr($trimmed, strlen(trim($trimmed))-1, 1) == '.')
+				return trim($trimmed).'..';
+			else
+				return trim($trimmed).'...';
+		}
+	}
+	
+	/**
+	 * Clean up the html as much as possible
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 12/14/05
+	 */
+	function clean () {
+		$this->trim(strlen($this->_string));
 	}
 	
 	/**
