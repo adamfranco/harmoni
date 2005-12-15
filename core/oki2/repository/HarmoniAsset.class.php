@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.28 2005/12/15 19:10:01 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.29 2005/12/15 21:43:26 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.28 2005/12/15 19:10:01 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.29 2005/12/15 21:43:26 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -607,6 +607,25 @@ class HarmoniAsset
 		$assetIterator =& new HarmoniAssetIterator($assets);
 		
 		return $assetIterator;
+    }
+    
+    /**
+     * Answer an iterator of the TraversalInfo of the decendent Assets 
+     * (children, grandchildren, etc).
+     * WARNING: NOT IN OSID
+     * 
+     * @return object TraversalInfoIterator
+     * @access public
+     * @since 12/15/05
+     */
+    function getDescendentInfo () {
+    	$traversalInfo =& $this->_hierarchy->traverse(
+    		$this->getId(),
+    		Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
+    		Hierarchy::TRAVERSE_DIRECTION_DOWN(),
+    		Hierarchy::TRAVERSE_LEVELS_ALL());
+    		
+    	return $traversalInfo;
     }
 	
 	/**
