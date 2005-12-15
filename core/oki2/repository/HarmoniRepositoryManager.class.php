@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.30 2005/12/09 19:47:52 cws-midd Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.31 2005/12/15 19:10:01 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -61,7 +61,7 @@ class HarmoniRepositoryManager
 		
 		
 		// Define the type to use as a key for Identifying repositories
-		$this->_repositoryKeyType =& new HarmoniType("Repository", "edu.middlebury.harmoni", 
+		$this->repositoryKeyType =& new HarmoniType("Repository", "edu.middlebury.harmoni", 
 							"Repository", "Nodes with this type are by definition Repositories.");
 		
 		// Cache any created repositories so that we can pass out references to them.
@@ -216,7 +216,7 @@ class HarmoniRepositoryManager
 		}
 		
 		// Store the type passed in our own table as we will be using
-		// a special type, "_repositoryKeyType", as definition of which
+		// a special type, "repositoryKeyType", as definition of which
 		// Nodes in the Hierarchy are Repositories.
 		$dbc =& Services::getService("DatabaseManager");
 		
@@ -272,14 +272,14 @@ class HarmoniRepositoryManager
 		// it as a root node
 		if ($this->_defaultParentId == NULL) {
 			$node =& $this->_hierarchy->createRootNode($id, 
-						$this->_repositoryKeyType, $displayName, $description);
+						$this->repositoryKeyType, $displayName, $description);
 		} 
 		// If we have a default parent specified, create the
 		// Node as a child of that.
 		else {
 			$node =& $this->_hierarchy->createNode($id, 
 						$this->_defaultParentId, 
-						$this->_repositoryKeyType, $displayName, $description);
+						$this->repositoryKeyType, $displayName, $description);
 		}
 		
 		$this->_createdRepositories[$id->getIdString()] =& new HarmoniRepository ($this->_hierarchy, $id, $this->_configuration);
@@ -402,7 +402,7 @@ class HarmoniRepositoryManager
 	 * @access public
 	 */
 	function &getRepositories () { 
-		$nodes =& $this->_hierarchy->getNodesByType($this->_repositoryKeyType);
+		$nodes =& $this->_hierarchy->getNodesByType($this->repositoryKeyType);
 		while ($nodes->hasNext()) {
 			$node =& $nodes->next();
 			
@@ -509,7 +509,7 @@ class HarmoniRepositoryManager
 			// Get the node for this dr to make sure its availible
 			if (!$node = $this->_hierarchy->getNode($repositoryId))
 				throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
-			if (!$this->_repositoryKeyType->isEqual($node->getType()))
+			if (!$this->repositoryKeyType->isEqual($node->getType()))
 				throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
 			
 			// create the repository and add it to the cache
@@ -808,7 +808,7 @@ class HarmoniRepositoryManager
 		// assume a single-parent hierarchy
 		$parent =& $parents->next();
 		
-		if ($this->_repositoryKeyType->isEqual($parent->getType()))
+		if ($this->repositoryKeyType->isEqual($parent->getType()))
 			return $parent->getId();
 		else
 			return $this->_getAssetRepository( $parent->getId() );

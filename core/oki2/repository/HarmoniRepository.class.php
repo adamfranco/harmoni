@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/RootAssetSearch.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.38 2005/12/09 19:47:51 cws-midd Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.39 2005/12/15 19:10:01 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -889,10 +889,11 @@ class HarmoniRepository
 				
 				// Verify that the requested Asset is in this DR.
 				$repositoryMan =& Services::getService("Repository");
-				if (!$repositoryId = $repositoryMan->_getAssetRepository($assetId)
+				$repositoryId = $repositoryMan->_getAssetRepository($assetId);
+				if (!$repositoryId
 					|| !$repositoryId->isEqual($this->getId()))
 				{
-					throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository", 1));
+					throwError(new Error(RepositoryException::UNKNOWN_ID()." for an Asset: ".$assetId->getIdString(), "Repository", 1));
 				}
 			}
 			

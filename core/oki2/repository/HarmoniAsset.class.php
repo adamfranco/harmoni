@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.27 2005/12/14 21:07:03 cws-midd Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.28 2005/12/15 19:10:01 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.27 2005/12/14 21:07:03 cws-midd Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.28 2005/12/15 19:10:01 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -593,9 +593,14 @@ class HarmoniAsset
     function &getParents () { 
     	$assets = array();
 		$parents =& $this->_node->getParents();
+		
+		$manager =& Services::getService("Repository");
+    	$repositoryKeyType =& $manager->repositoryKeyType;
+    	
 		while ($parents->hasNext()) {
 			$parent =& $parents->next();
-			$assets[] =& $this->_repository->getAsset($parent->getId());
+			if (!$repositoryKeyType->isEqual($parent->getType()))
+				$assets[] =& $this->_repository->getAsset($parent->getId());
 		}
 		
 		// create an AssetIterator and return it
@@ -631,13 +636,13 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getParentsByType ( &$assetType ) { 
+    function &getParentsByType ( &$assetType ) {
     	$assets = array();
-		$parents =& $this->_node->getParents();
+		$parents =& $this->getParents();
 		while ($parents->hasNext()) {
 			$parent =& $parents->next();
 			if ($assetType->isEqual($parent->getType()))
-				$assets[] =& $this->_repository->getAsset($parent->getId());
+				$assets[] =& $parent;
 		}
 		
 		// create an AssetIterator and return it
