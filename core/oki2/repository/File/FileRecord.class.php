@@ -29,7 +29,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.20 2005/11/18 21:26:05 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.21 2005/12/19 22:49:25 adamfranco Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -447,12 +447,14 @@ class FileRecord
 		
 		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
-		$this->_parts['FILE_NAME']->_updateValue($result->field('filename'));
-		$this->_parts['FILE_SIZE']->_updateValue($result->field('size'));
-		$this->_parts['MIME_TYPE']->_updateValue($result->field('file_type'));
-		$this->_parts['DIMENSIONS']->_updateValue(array($result->field('file_width'), $result->field('file_height')));
-		$this->_parts['THUMBNAIL_MIME_TYPE']->_updateValue($result->field('thumbnail_type'));
-		$this->_parts['THUMBNAIL_DIMENSIONS']->_updateValue(array($result->field('thumb_width'), $result->field('thumb_height')));
+		if ($result->getNumberOfRows()) {
+			$this->_parts['FILE_NAME']->_updateValue($result->field('filename'));
+			$this->_parts['FILE_SIZE']->_updateValue($result->field('size'));
+			$this->_parts['MIME_TYPE']->_updateValue($result->field('file_type'));
+			$this->_parts['DIMENSIONS']->_updateValue(array($result->field('file_width'), $result->field('file_height')));
+			$this->_parts['THUMBNAIL_MIME_TYPE']->_updateValue($result->field('thumbnail_type'));
+			$this->_parts['THUMBNAIL_DIMENSIONS']->_updateValue(array($result->field('thumb_width'), $result->field('thumb_height')));
+		}
 		
 		$this->_partsLoaded = true;
     }
