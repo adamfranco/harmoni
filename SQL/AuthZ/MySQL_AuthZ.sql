@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_AuthZ.sql,v 1.5 2005/08/08 22:35:16 adamfranco Exp $
+-- @version $Id: MySQL_AuthZ.sql,v 1.6 2005/12/19 17:42:07 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -20,15 +20,9 @@ CREATE TABLE az_authorization (
   authorization_effective_date datetime default NULL,
   authorization_expiration_date datetime default NULL,
   PRIMARY KEY  (authorization_id),
-  UNIQUE KEY uniq (fk_agent,fk_function,fk_qualifier),
-  KEY fk_agent (fk_agent),
-  KEY fk_function (fk_function),
   KEY fk_qualifier (fk_qualifier),
-  KEY authorization_effective_date (authorization_effective_date),
-  KEY authorization_expiration_date (authorization_expiration_date)
-) 
-CHARACTER SET utf8
-TYPE=InnoDB;
+  KEY fk_agent (fk_agent)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
