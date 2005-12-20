@@ -6,6 +6,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunction.class.php');
 require_once(HARMONI.'oki2/authorization/HarmoniAuthorization.class.php');
 require_once(HARMONI.'oki2/authorization/HarmoniAuthorizationIterator.class.php');
 require_once(HARMONI.'oki2/authorization/HarmoniQualifier.class.php');
+require_once(HARMONI.'oki2/authorization/IsUserAuthorizedCache.class.php');
 require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
 
 /**
@@ -59,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.27 2005/11/15 21:14:13 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.28 2005/12/20 16:29:16 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -81,23 +82,6 @@ class HarmoniAuthorizationManager
 	 */
 	function HarmoniAuthorizationManager() {
 		$this->_groupAncestorsCache = array();
-		
-		$userIds =& $this->_getUserIds();
-		$agentIdStrings = array();
-		foreach (array_keys($userIds) as $key) {
-			$userId =& $userIds[$key];
-			$agentIdStrings[] =	$userId->getIdString();
-			$agentIdStrings = array_merge(
-				$agentIdStrings,	
-				$this->_getContainingGroupIdStrings($userId));
-		}
-		
-		if(!isset($_SESSION['__isUserAuthorizedCached'])
-			|| !isset($_SESSION['__isUserAuthorizedCachedUser'])
-			|| $_SESSION['__isUserAuthorizedCachedUser'] != implode(", ", $agentIdStrings))
-		{
-			$_SESSION['__isUserAuthorizedCached'] = false;
-		}
 	}
 	
 	/**
@@ -511,217 +495,10 @@ class HarmoniAuthorizationManager
 // 		$authorizations =& $this->getAllUserAZs($functionId, $qualifierId, true);
 // 		return ($authorizations->hasNext());
 				
-		// New version. Not fully working yet.
-		if (!$this->_isUserAuthorizedCacheCurrent())
-			$this->_cacheIsUserAuthorized();
-		
-		return isset($_SESSION
-				['__isUserAuthorizedCache']
-				[$qualifierId->getIdString()]
-				[$functionId->getIdString()]);
+		$isUserAuthorizedCache =& IsUserAuthorizedCache::instance();
+		return $isUserAuthorizedCache->isUserAuthorized($functionId, $qualifierId);
 	}
 	
-	/**
-	 * Answer True if the AZ cache is current
-	 *  
-	 *
-	 * @return boolean
-	 * @access public
-	 * @since 11/15/05
-	 */
-	function _isUserAuthorizedCacheCurrent () {
-		if (!$_SESSION['__isUserAuthorizedCached'])
-			return FALSE;
-		else {
-			$cacheCurrent = TRUE;	
-			
-			$hierarchyManager =& Services::getService("Hierarchy");
-			$hierarchies =& $hierarchyManager->getHierarchies();
-			while ($hierarchies->hasNext()) {
-				$hierarchy =& $hierarchies->next();
-				if ($_SESSION['__isUserAuthorizedCacheTime']->isLessThan($hierarchy->getLastStructureUpdateTime()))
-					$cacheCurrent = FALSE;
-			}
-			
-			return $cacheCurrent;
-		}
-	}
-	
-	/**
-	 * Load all of the Authorizations for the user and cache them
-	 * WARNING: not in OSID
-	 * 
-	 * @return void
-	 * @access public
-	 * @since 11/10/05
-	 */
-	function _cacheIsUserAuthorized () {
-		$_SESSION['__isUserAuthorizedCache'] = array();
-		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$dbIndex = $this->_configuration->getProperty('database_index');
-		$idManager =& Services::getService("Id");
-		
-		$userIds =& $this->_getUserIds();
-		$agentIdStrings = array();
-		foreach (array_keys($userIds) as $key) {
-			$userId =& $userIds[$key];
-			$agentIdStrings[] =	$userId->getIdString();
-			$agentIdStrings = array_merge(
-				$agentIdStrings,	
-				$this->_getContainingGroupIdStrings($userId));
-		}
-		
-		$functions = array();	//used by Algorithm A
-		
-// 		$timer =& new Timer;
-// 		$timer->start();
-// 		
-// 		$startingQueries = $dbHandler->getTotalNumberOfQueries();
-		
-	// Explicit AZs
-		// Select and create all of the explicit AZs
-		$query =& new SelectQuery();
-		$query->addColumn("*");
-		$query->addTable("az_authorization");
-		$query->addWhere("fk_agent IN('".implode("', '", $agentIdStrings)."')");
-		
-// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
-		$result =& $dbHandler->query(
-						$query, 
-						$dbIndex);
-		
-		// Create the explicit AZs
-		while ($result->hasMoreRows()) {
-			$az =& new HarmoniAuthorization(
-						$result->field("authorization_id"),
-						$idManager->getId($result->field("fk_agent")),
-						$idManager->getId($result->field("fk_function")),
-						$idManager->getId($result->field("fk_qualifier")),
-						true,
-						$this->_cache,
-						$dbHandler->fromDBDate(
-								$result->field("authorization_effective_date"),
-								$dbIndex),
-						$dbHandler->fromDBDate(
-								$result->field("authorization_expiration_date"), 
-								$dbIndex));
-			
-			// cache in our explictAZ cache for referencing by implicit AZs
-			$explicitAZs[$result->field("authorization_id")] =& $az;
-			
-			// Build a list of functions for AlogrithmA to use when setting implicitAZs
-			$functions[] = $result->field("fk_function");
-			
-			// Set a boolean for the AZ.
-			if(!isset($_SESSION['__isUserAuthorizedCache'][$result->field("fk_qualifier")]))
-				$_SESSION['__isUserAuthorizedCache'][$result->field("fk_qualifier")] = array();
-			
-			$_SESSION['__isUserAuthorizedCache'][$result->field("fk_qualifier")][$result->field("fk_function")] = true;
-			
-			
-			$result->advanceRow();
-		}
-		$result->free();
-		
-		
-	/*********************************************************
-	 * Implicit AZs	
-	 *********************************************************/
-		// Algorithm A:
-		// For this algorithm we will do a single traversal of the hierarchy
-		// and set implicit authorization bits on the way down as we pass
-		// explicit AZs.
-// 		$hierarchyManager =& Services::getService("Hierarchy");
-// 		$hierarchies =& $hierarchyManager->getHierarchies();
-// 		while ($hierarchies->hasNext()) {
-// 			$hierarchy =& $hierarchies->next();
-// 			$rootNodes =& $hierarchy->getRootNodes();
-// 			while ($rootNodes->hasNext()) {
-// 				$rootNode =& $rootNodes->next();
-// 				
-// 				$rootNodeId =& $rootNode->getId();
-// // 				print "\n<h1>Traversing from RootNode: ".$rootNodeId->getIdString()."</h1>";
-// 				
-// 				$timer2 =& new Timer;
-// 				$timer2->start();
-// 				$traversal =& $hierarchy->traverse(
-// 					$rootNode->getId(),
-// 					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
-// 					Hierarchy::TRAVERSE_DIRECTION_DOWN(),
-// 					Hierarchy::TRAVERSE_LEVELS_ALL());
-// 				$timer2->end();
-// 				printf("<br/>CacheAZ Traversal Time: %1.6f", $timer2->printTime());
-// 				
-// 				$explicitAZLevels = array();
-// 				
-// 				while ($traversal->hasNext()) {
-// 					$info =& $traversal->next();
-// 					$id =& $info->getNodeId();
-// 					$idString = $id->getIdString();
-// 					$level = $info->getLevel();
-// // 					printpre("<strong>$level\t$idString</strong>");
-// 					
-// 					foreach($functions as $functionId) {
-// 						if (!isset($explicitAZLevels[$functionId])) {
-// 							if (isset($_SESSION['__isUserAuthorizedCache'][$idString][$functionId])) {
-// 								$explicitAZLevels[$functionId] = $level;
-// // 								printpre("\tFound Explicit $functionId at level $level");
-// 							}
-// 						} else {
-// 							if ($level <= $explicitAZLevels[$functionId]) {
-// 								unset($explicitAZLevels[$functionId]);
-// // 								printpre("\tUnsetting ExplicitAZ $functionId at $level");
-// 							} else {
-// 								$_SESSION['__isUserAuthorizedCache'][$idString][$functionId] = true;
-// // 								printpre("\tSetting Implicit $functionId at level $level");
-// 							}
-// 						}
-// 					}
-// 				}
-// 			}
-// 		}
-		
-		
-		// Algorithm B:
-		// For this algorithm we want to join all of the explicit AZs to all 
-		// nodes who have the qulifier as an ancestor. These will be the implicit AZs
-		$query =& new SelectQuery();
-		$query->addColumn("authorization_id");
-		$query->addColumn("fk_node");
-		$query->addTable("az_authorization");
-		$query->addTable("node_ancestry", LEFT_JOIN, "fk_qualifier = fk_ancestor");
-		$query->addWhere("fk_agent IN('".implode("', '", $agentIdStrings)."')");
-		
-// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
-		$result =& $dbHandler->query(
-						$query, 
-						$this->_configuration->getProperty('database_index'));
-		
-		while ($result->hasMoreRows()) {			
-			$explicitAZ =& $explicitAZs[$result->field("authorization_id")];
-			$explicitFunction =& $explicitAZ->getFunction();
-			$explicitFunctionId =& $explicitFunction->getId();
-			
-			// cache in our user AZ cache
-			if(!isset($_SESSION['__isUserAuthorizedCache'][$result->field("fk_node")]))
-				$_SESSION['__isUserAuthorizedCache'][$result->field("fk_node")] = array();
-			
-			$_SESSION['__isUserAuthorizedCache'][$result->field("fk_node")][$explicitFunctionId->getIdString()] = true;
-			
-			$result->advanceRow();
-		}
-		$result->free();
-		
-// 		$timer->end();
-// 		printf("<br/>CacheAZTime: %1.6f", $timer->printTime());
-// 		print "<br/>Num Queries: ".($dbHandler->getTotalNumberOfQueries() - $startingQueries);
-		
-		$_SESSION['__isUserAuthorizedCacheTime'] =& DateAndTime::now();
-		$_SESSION['__isUserAuthorizedCached'] = true;
-		$_SESSION['__isUserAuthorizedCachedUser'] = implode(", ", $agentIdStrings);
-	}
-
 	/**
 	 * Get all the FunctionTypes supported by the Authorization implementation.
 	 *	
