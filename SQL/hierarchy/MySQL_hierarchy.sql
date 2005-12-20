@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_hierarchy.sql,v 1.12 2005/12/19 17:42:10 adamfranco Exp $
+-- @version $Id: MySQL_hierarchy.sql,v 1.13 2005/12/20 21:26:19 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -17,7 +17,6 @@ CREATE TABLE `hierarchy` (
   `hierarchy_display_name` varchar(255) NOT NULL default '',
   `hierarchy_description` text NOT NULL,
   `hierarchy_multiparent` enum('0','1') NOT NULL default '1',
-  `last_struct_mod_time` timestamp(14) NOT NULL,
   PRIMARY KEY  (`hierarchy_id`),
   KEY `hierarchy_display_name` (`hierarchy_display_name`),
   KEY `hierarchy_multiparent` (`hierarchy_multiparent`)
@@ -53,13 +52,13 @@ CREATE TABLE node (
   node_description text NOT NULL,
   fk_hierarchy varchar(75) NOT NULL default '0',
   fk_type int(10) unsigned NOT NULL default '0',
+  az_node_changed timestamp NULL default NULL,
   PRIMARY KEY  (fk_hierarchy,node_id),
   KEY node_display_name (node_display_name),
   KEY fk_hierarchy (fk_hierarchy),
-  KEY fk_type (fk_type)
-) 
-CHARACTER SET utf8
-TYPE=InnoDB;
+  KEY fk_type (fk_type),
+  KEY az_node_changed (az_node_changed)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- --------------------------------------------------------

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.29 2005/12/15 21:43:26 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.30 2005/12/20 21:26:25 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.29 2005/12/15 21:43:26 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.30 2005/12/20 21:26:25 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -515,7 +515,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function removeAsset ( &$assetId, $includeChildren ) { 
+    function removeAsset ( &$assetId, $includeChildren = FALSE ) { 
 		$node =& $this->_hierarchy->getNode($assetId);
 	
 		if (!$includeChildren) {

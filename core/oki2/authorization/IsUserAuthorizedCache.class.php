@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.1 2005/12/20 16:49:36 adamfranco Exp $
+ * @version $Id: IsUserAuthorizedCache.class.php,v 1.2 2005/12/20 21:26:24 adamfranco Exp $
  */ 
 
 /**
@@ -68,7 +68,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.1 2005/12/20 16:49:36 adamfranco Exp $
+ * @version $Id: IsUserAuthorizedCache.class.php,v 1.2 2005/12/20 21:26:24 adamfranco Exp $
  */
 class IsUserAuthorizedCache {
 		
@@ -89,11 +89,11 @@ class IsUserAuthorizedCache {
 	 */
 	function &instance () {
 		if (!defined("IsUserAuthorizedCache_INSTANTIATED")) {
-			$GLOBALS['__IsUserAuthorizedCache'] =& new IsUserAuthorizedCache();
+			$GLOBALS['__IsUserAuthorizedCacheInstance'] =& new IsUserAuthorizedCache();
 			define("IsUserAuthorizedCache_INSTANTIATED", true);
 		}
 		
-		return $GLOBALS['__IsUserAuthorizedCache'];
+		return $GLOBALS['__IsUserAuthorizedCacheInstance'];
 	}
 
 /*********************************************************
@@ -106,6 +106,15 @@ class IsUserAuthorizedCache {
 	 * @since 12/20/05
 	 */
 	var $_agentIdStrings;
+	
+	/**
+	 * An array of string Ids of nodes which should next have AZs loaded
+	 * 
+	 * @var array $_queue; 
+	 * @access private
+	 * @since 12/20/05
+	 */
+	var $_queue;
 	
 	/**
 	 * The configuration, taken from the AuthorizationManager
@@ -153,11 +162,15 @@ class IsUserAuthorizedCache {
 			."<br/><strong>Access IsUserAuthorizedCache with <em>IsUserAuthorizedCache::instance()</em></strong>");
 		}
 		
+		// Initialize our paremeters
+		$this->_queue = array();
 		
+		// get our configuration
 		$azManager =& Services::getService("AuthZ");
 		$this->_configuration =& $azManager->_configuration;
 		$this->_authorizationManagerObjectCache =& $azManager->_cache;
 		
+		// Store our current users
 		$userIds =& $azManager->_getUserIds();
 		$this->_agentIdStrings = array();
 		foreach (array_keys($userIds) as $key) {
@@ -167,13 +180,19 @@ class IsUserAuthorizedCache {
 				$this->_agentIdStrings,	
 				$azManager->_getContainingGroupIdStrings($userId));
 		}
-				
-		if(!isset($_SESSION['__isUserAuthorizedCached'])
+		
+		// [Re]set up our cache if it doesn't exist or if we have a new user.
+		if(!isset($_SESSION['__isUserAuthorizedCache'])
 			|| !isset($_SESSION['__isUserAuthorizedCachedUser'])
 			|| $_SESSION['__isUserAuthorizedCachedUser'] != implode(", ", $this->_agentIdStrings))
 		{
-			$_SESSION['__isUserAuthorizedCached'] = false;
+			$_SESSION['__isUserAuthorizedCache'] = array();
+			$_SESSION['__isUserAuthorizedCachedUser'] = implode(", ", $this->_agentIdStrings);
+			$_SESSION['__isUserAuthorizedCacheTime'] =& DateAndTime::now();
 		}
+		
+		// Unload any expired Node AZs
+		$this->_synchronizeCache();
 	}
 	
 /*********************************************************
@@ -209,13 +228,24 @@ class IsUserAuthorizedCache {
 	 * @access public
 	 */
 	function isUserAuthorized ( &$functionId, &$qualifierId ) {
-		if (!$this->_isUserAuthorizedCacheCurrent())
-			$this->_cacheIsUserAuthorized();
+		// Cache miss
+		if (!isset($_SESSION['__isUserAuthorizedCache'][$qualifierId->getIdString()])) {
+			$this->queueId($qualifierId);
+			$this->_loadQueue();
+		}
 		
-		return isset($_SESSION
-				['__isUserAuthorizedCache']
-				[$qualifierId->getIdString()]
-				[$functionId->getIdString()]);
+		// Cache hit or newly loaded cache
+		if (isset($_SESSION['__isUserAuthorizedCache']
+					[$qualifierId->getIdString()]
+					[$functionId->getIdString()])
+			&& true === $_SESSION['__isUserAuthorizedCache']
+							[$qualifierId->getIdString()]
+							[$functionId->getIdString()])
+		{
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -227,6 +257,7 @@ class IsUserAuthorizedCache {
 	 * @since 12/20/05
 	 */
 	function queueId ( &$id ) {
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"));
 		$this->queueIdString($id->getIdString());
 	}
 	
@@ -239,8 +270,11 @@ class IsUserAuthorizedCache {
 	 * @since 12/20/05
 	 */
 	function queueIdString ( $idString ) {
-		if (!in_array($idString, $this->_queue))
+		if (!isset($_SESSION['__isUserAuthorizedCache'][$idString])
+			&& !in_array($idString, $this->_queue))
+		{
 			$this->_queue[] = $idString;
+		}
 	}
 	
 	/**
@@ -266,39 +300,28 @@ class IsUserAuthorizedCache {
 	 * @since 12/20/05
 	 */
 	function queueIdStringArray ( $idStringArray ) {
-		$this->_queue = array_unique(array_merge($this->_queue, $idStringArray));
+		foreach ($idStringArray as $idString) {
+			$this->queueIdString($idString);
+		}
+	}
+	
+	/**
+	 * Add an array of Assets to the Queue
+	 * 
+	 * @param array $assetArray An array of Asset or Node objects
+	 * @return void
+	 * @access public
+	 * @since 12/20/05
+	 */
+	function queueAssetArray ( &$assetArray ) {
+		foreach (array_keys($assetArray) as $key) {
+			$this->queueId($assetArray[$key]->getId());
+		}
 	}
 
 /*********************************************************
  * Instance Methods - Private
  *********************************************************/
-
-	
-	/**
-	 * Answer True if the AZ cache is current
-	 *  
-	 *
-	 * @return boolean
-	 * @access public
-	 * @since 11/15/05
-	 */
-	function _isUserAuthorizedCacheCurrent () {
-		if (!$_SESSION['__isUserAuthorizedCached'])
-			return FALSE;
-		else {
-			$cacheCurrent = TRUE;	
-			
-			$hierarchyManager =& Services::getService("Hierarchy");
-			$hierarchies =& $hierarchyManager->getHierarchies();
-			while ($hierarchies->hasNext()) {
-				$hierarchy =& $hierarchies->next();
-				if ($_SESSION['__isUserAuthorizedCacheTime']->isLessThan($hierarchy->getLastStructureUpdateTime()))
-					$cacheCurrent = FALSE;
-			}
-			
-			return $cacheCurrent;
-		}
-	}
 	
 	/**
 	 * Load all of the Authorizations for the user and cache them
@@ -308,9 +331,7 @@ class IsUserAuthorizedCache {
 	 * @access public
 	 * @since 11/10/05
 	 */
-	function _cacheIsUserAuthorized () {
-		$_SESSION['__isUserAuthorizedCache'] = array();
-		
+	function _loadQueue () {		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$dbIndex = $this->_configuration->getProperty('database_index');
 		$idManager =& Services::getService("Id");
@@ -319,7 +340,6 @@ class IsUserAuthorizedCache {
 		
 // 		$timer =& new Timer;
 // 		$timer->start();
-// 		
 // 		$startingQueries = $dbHandler->getTotalNumberOfQueries();
 		
 	// Explicit AZs
@@ -360,7 +380,9 @@ class IsUserAuthorizedCache {
 			if(!isset($_SESSION['__isUserAuthorizedCache'][$result->field("fk_qualifier")]))
 				$_SESSION['__isUserAuthorizedCache'][$result->field("fk_qualifier")] = array();
 			
-			$_SESSION['__isUserAuthorizedCache'][$result->field("fk_qualifier")][$result->field("fk_function")] = true;
+			$_SESSION['__isUserAuthorizedCache']
+				[$result->field("fk_qualifier")]
+				[$result->field("fk_function")] = true;
 			
 			
 			$result->advanceRow();
@@ -434,6 +456,7 @@ class IsUserAuthorizedCache {
 		$query->addColumn("fk_node");
 		$query->addTable("az_authorization");
 		$query->addTable("node_ancestry", LEFT_JOIN, "fk_qualifier = fk_ancestor");
+		$query->addWhere("fk_node IN('".implode("', '", $this->_queue)."')");
 		$query->addWhere("fk_agent IN('".implode("', '", $this->_agentIdStrings)."')");
 		
 // 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
@@ -450,7 +473,9 @@ class IsUserAuthorizedCache {
 			if(!isset($_SESSION['__isUserAuthorizedCache'][$result->field("fk_node")]))
 				$_SESSION['__isUserAuthorizedCache'][$result->field("fk_node")] = array();
 			
-			$_SESSION['__isUserAuthorizedCache'][$result->field("fk_node")][$explicitFunctionId->getIdString()] = true;
+			$_SESSION['__isUserAuthorizedCache']
+				[$result->field("fk_node")]
+				[$explicitFunctionId->getIdString()] = true;
 			
 			$result->advanceRow();
 		}
@@ -460,11 +485,71 @@ class IsUserAuthorizedCache {
 // 		printf("<br/>CacheAZTime: %1.6f", $timer->printTime());
 // 		print "<br/>Num Queries: ".($dbHandler->getTotalNumberOfQueries() - $startingQueries);
 		
-		$_SESSION['__isUserAuthorizedCacheTime'] =& DateAndTime::now();
-		$_SESSION['__isUserAuthorizedCached'] = true;
-		$_SESSION['__isUserAuthorizedCachedUser'] = implode(", ", $this->_agentIdStrings);
+		$this->_queue = array();
 	}
 	
+	
+	/**
+	 * Sychronize the cache. Remove any nodes from the cache whose AZs may have 
+	 * changed.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 12/20/05
+	 */
+	function _synchronizeCache () {
+		$dbHandler =& Services::getService("DBHandler");
+		
+		// Select the nodeIds who's authorization situation may have changed
+		// since the cache was last synchronized. Clear these Ids from the cache.
+		$query =& new SelectQuery();
+		$query->addTable("node");
+		$query->setColumns(array("node_id"));
+		$dbDate = $dbHandler->toDBDate(
+					$_SESSION['__isUserAuthorizedCacheTime'],
+					$this->_configuration->getProperty('database_index'));
+		$query->addWhere("az_node_changed > ".$dbDate);
+		
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		
+		$result =& $dbHandler->query($query, $this->_configuration->getProperty('database_index'));
+		
+		while ($result->hasMoreRows()) {			
+			unset($_SESSION['__isUserAuthorizedCache'][$result->field("node_id")]);
+			$result->advanceRow();
+		}
+		$result->free();
+		
+		$_SESSION['__isUserAuthorizedCacheTime'] =& DateAndTime::now();
+	}
+	
+	/**
+	 * Update the last-changed timestamp for the node to be now so that the authorization
+	 * system can sychronize with the new value.
+	 * 
+	 * @param object Id $nodeId
+	 * @return void
+	 * @access public
+	 * @since 12/20/05
+	 */
+	function dirtyNode ( &$nodeId ) {
+		$idString = $nodeId->getIdString();
+		unset($_SESSION['__isUserAuthorizedCache'][$idString]);
+		
+		// Update the node's az_changed time
+		// so that it can be removed from the caches of other users during
+		// their synchronization.
+		$query =& new UpdateQuery();
+		$query->setTable("node");
+		$query->setColumns(array("az_node_changed"));
+		$query->setValues(array("NOW()"));
+		$query->addWhere("node_id = '".addslashes($idString)."'");
+		
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$queryResult =& $dbHandler->query($query, $this->_configuration->getProperty('database_index'));
+	}
 }
 
 ?>

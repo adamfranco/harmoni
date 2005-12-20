@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.28 2005/12/20 16:29:16 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.29 2005/12/20 21:26:24 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -180,6 +180,10 @@ class HarmoniAuthorizationManager
 	 */
 	function &createDatedAuthorization ( &$agentId, &$functionId, &$qualifierId, $effectiveDate, $expirationDate ) { 
 		$authorization =& $this->_cache->createAuthorization($agentId, $functionId, $qualifierId, $effectiveDate, $expirationDate);
+		
+		$isUserAuthorizedCache =& IsUserAuthorizedCache::instance();
+		$isUserAuthorizedCache->dirtyNode($qualifierId);
+		
 		return $authorization;
 	}
 
@@ -216,8 +220,8 @@ class HarmoniAuthorizationManager
 	function &createAuthorization ( &$agentId, &$functionId, &$qualifierId ) { 
 		$authorization =& $this->_cache->createAuthorization($agentId, $functionId, $qualifierId);
 		
-		// Flag our AZ cache to be rebuilt
-		$_SESSION['__isUserAuthorizedCached'] = FALSE;
+		$isUserAuthorizedCache =& IsUserAuthorizedCache::instance();
+		$isUserAuthorizedCache->dirtyNode($qualifierId);
 		
 		return $authorization;
 	}
@@ -366,8 +370,8 @@ class HarmoniAuthorizationManager
 	function deleteAuthorization ( &$authorization ) { 
 		$this->_cache->deleteAuthorization($authorization);
 		
-		// Flag our AZ cache to be rebuilt
-		$_SESSION['__isUserAuthorizedCached'] = FALSE;
+		$isUserAuthorizedCache =& IsUserAuthorizedCache::instance();
+		$isUserAuthorizedCache->dirtyNode($qualifierId);
 	}
 
 	/**
