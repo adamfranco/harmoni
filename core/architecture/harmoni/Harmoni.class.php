@@ -28,7 +28,7 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.46 2005/06/09 20:36:36 gabeschine Exp $
+ * @version $Id: Harmoni.class.php,v 1.47 2005/12/20 16:28:28 adamfranco Exp $
  **/
 class Harmoni {
 
@@ -39,7 +39,7 @@ class Harmoni {
 	/**
 	 * Get the instance of Harmoni.
 	 * The Harmoni class implements the Singleton pattern. There is only ever
-	 * on instance of the Harmoni object and it is accessed only via the 
+	 * one instance of the Harmoni object and it is accessed only via the 
 	 * Harmoni::instance() method.
 	 * 
 	 * @return object Harmoni
