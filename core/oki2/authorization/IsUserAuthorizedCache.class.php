@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.2 2005/12/20 21:26:24 adamfranco Exp $
+ * @version $Id: IsUserAuthorizedCache.class.php,v 1.3 2005/12/20 22:14:24 adamfranco Exp $
  */ 
 
 /**
@@ -68,7 +68,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.2 2005/12/20 21:26:24 adamfranco Exp $
+ * @version $Id: IsUserAuthorizedCache.class.php,v 1.3 2005/12/20 22:14:24 adamfranco Exp $
  */
 class IsUserAuthorizedCache {
 		
@@ -533,22 +533,44 @@ class IsUserAuthorizedCache {
 	 * @since 12/20/05
 	 */
 	function dirtyNode ( &$nodeId ) {
-		$idString = $nodeId->getIdString();
-		unset($_SESSION['__isUserAuthorizedCache'][$idString]);
-		
-		// Update the node's az_changed time
-		// so that it can be removed from the caches of other users during
-		// their synchronization.
-		$query =& new UpdateQuery();
-		$query->setTable("node");
-		$query->setColumns(array("az_node_changed"));
-		$query->setValues(array("NOW()"));
-		$query->addWhere("node_id = '".addslashes($idString)."'");
-		
-// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		$hierarchyManager =& Services::getService("Hierarchy");
+		$node =& $hierarchyManager->getNode($nodeId);
+		$hierarchy =& $hierarchyManager->getHierarchyForNode($node);
 		
 		$dbHandler =& Services::getService("DBHandler");
-		$queryResult =& $dbHandler->query($query, $this->_configuration->getProperty('database_index'));
+			
+		if (isset($this->_configuration))
+			$dbIndex = $this->_configuration->getProperty('database_index');
+		else
+			$dbIndex = $hierarchyManager->_configuration->getProperty('database_index');
+		
+		$traversalInfo =& $hierarchy->traverse(
+    		$nodeId,
+    		Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
+    		Hierarchy::TRAVERSE_DIRECTION_DOWN(),
+    		Hierarchy::TRAVERSE_LEVELS_ALL());
+    		
+		while ($traversalInfo->hasNext()) {
+			$info =& $traversalInfo->next();
+			$nodeId =& $info->getNodeId();
+			
+			$idString = $nodeId->getIdString();
+			if (isset($_SESSION['__isUserAuthorizedCache'][$idString]))				
+				unset($_SESSION['__isUserAuthorizedCache'][$idString]);
+			
+			// Update the node's az_changed time
+			// so that it can be removed from the caches of other users during
+			// their synchronization.
+			$query =& new UpdateQuery();
+			$query->setTable("node");
+			$query->setColumns(array("az_node_changed"));
+			$query->setValues(array("NOW()"));
+			$query->addWhere("node_id = '".addslashes($idString)."'");
+			
+	// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+						
+			$queryResult =& $dbHandler->query($query, $dbIndex);
+		}
 	}
 }
 

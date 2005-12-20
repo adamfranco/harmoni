@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.27 2005/12/20 21:26:24 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.28 2005/12/20 22:14:25 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -158,6 +158,18 @@ class HierarchyCache {
 		$this->_nodeQuery->addTable($db."type", INNER_JOIN, $joinc);
 		
 		$this->_infoCache = array();
+	}
+	
+	/**
+	 * Answer the Id of the hierarchy
+	 * 
+	 * @return object Id
+	 * @access public
+	 * @since 12/20/05
+	 */
+	function &getHierarchyId () {
+		$idManager =& Services::getService("Id");
+		return $idManager->getId($this->_hierarchyId);
 	}
 	
 	/**
