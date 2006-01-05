@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.3 2005/12/20 22:14:24 adamfranco Exp $
+ * @version $Id: IsUserAuthorizedCache.class.php,v 1.4 2006/01/05 16:15:28 adamfranco Exp $
  */ 
 
 /**
@@ -68,7 +68,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.3 2005/12/20 22:14:24 adamfranco Exp $
+ * @version $Id: IsUserAuthorizedCache.class.php,v 1.4 2006/01/05 16:15:28 adamfranco Exp $
  */
 class IsUserAuthorizedCache {
 		
@@ -348,6 +348,8 @@ class IsUserAuthorizedCache {
 		$query->addColumn("*");
 		$query->addTable("az_authorization");
 		$query->addWhere("fk_agent IN('".implode("', '", $this->_agentIdStrings)."')");
+		$query->addWhere("(authorization_effective_date IS NULL OR authorization_effective_date < NOW())");
+		$query->addWhere("(authorization_expiration_date IS NULL OR authorization_expiration_date > NOW())");
 		
 // 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		$result =& $dbHandler->query(
@@ -458,6 +460,8 @@ class IsUserAuthorizedCache {
 		$query->addTable("node_ancestry", LEFT_JOIN, "fk_qualifier = fk_ancestor");
 		$query->addWhere("fk_node IN('".implode("', '", $this->_queue)."')");
 		$query->addWhere("fk_agent IN('".implode("', '", $this->_agentIdStrings)."')");
+		$query->addWhere("(authorization_effective_date IS NULL OR authorization_effective_date < NOW())");
+		$query->addWhere("(authorization_expiration_date IS NULL OR authorization_expiration_date > NOW())");
 		
 // 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		$result =& $dbHandler->query(
