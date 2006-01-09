@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: harmoni.inc.php,v 1.43 2005/10/12 12:25:25 cws-midd Exp $
+ * @version $Id: harmoni.inc.php,v 1.44 2006/01/09 20:25:33 adamfranco Exp $
  */
 
  /* :: start the output buffer, if it's not already :: */
@@ -80,6 +80,7 @@ if (get_magic_quotes_gpc()) {
 			<DIV>
 				PHP\'s config directive <b>magic_quotes_gpc</b> is set to <b>On</b> and should be <b>Off</b>.
 			</DIV>
+			<p>To have Harmoni run in compatability mode (stripping slashes from the GET, POST, COOKIE, and REQUEST arrays, comment out lines 48-86 of harmoni.inc.php (this file/message).
 		</BODY>
 	</HTML>';
 	exit(1);
@@ -90,6 +91,7 @@ if (get_magic_quotes_gpc()) {
 	}
    array_walk($_GET, 'array_walk_stripslashes');
    array_walk($_POST, 'array_walk_stripslashes');
+   array_walk($_REQUEST, 'array_walk_stripslashes');
    array_walk($_COOKIE, 'array_walk_stripslashes');
 }
 
