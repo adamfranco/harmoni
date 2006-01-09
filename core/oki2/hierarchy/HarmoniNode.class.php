@@ -20,7 +20,7 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.14 2005/12/20 22:14:25 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.15 2006/01/09 23:37:52 adamfranco Exp $
  */
 
 class HarmoniNode 
@@ -373,10 +373,7 @@ class HarmoniNode
 	 * @access public
 	 */
 	function isLeaf () { 
-		// leaf-check is done through getChildren(). A leaf would not have any children.
-		
-		$children =& $this->getChildren();
-		return (!$children->hasNext());
+		return $this->_cache->isLeaf($this);
 	}
 
 	/**

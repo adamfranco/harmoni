@@ -20,7 +20,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniQualifierIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniQualifier.class.php,v 1.8 2005/03/29 19:44:24 adamfranco Exp $
+ * @version $Id: HarmoniQualifier.class.php,v 1.9 2006/01/09 23:37:50 adamfranco Exp $
  */
 class HarmoniQualifier 
 	extends Qualifier 
@@ -153,8 +153,7 @@ class HarmoniQualifier
 	 * @access public
 	 */
 	function isParent () { 
-		$children =& $this->getChildren();
-		return ($children->hasNext());
+		return !$this->_node->isLeaf();
 	}
 
 	/**

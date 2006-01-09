@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.30 2005/12/20 21:42:25 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.31 2006/01/09 23:37:50 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -1271,24 +1271,46 @@ class HarmoniAuthorizationManager
 	 */
 	function &getAllAZs ( &$agentId, &$functionId, &$qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
-		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
-		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
-		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($agentId, OptionalRule::getRule(ExtendsValidatorRule::getRule("Id")), true);
+		ArgumentValidator::validate($functionId, OptionalRule::getRule(ExtendsValidatorRule::getRule("Id")), true);
+		ArgumentValidator::validate($qualifierId, OptionalRule::getRule(ExtendsValidatorRule::getRule("Id")), true);
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
+		
+		if (is_null($agentId)) {
+			$agentIdString = null;
+			$containingGroups = array();
+		} else {
+			$agentIdString = $agentId->getIdString();
+			$containingGroups = $this->_getContainingGroupIdStrings($agentId);
+		}
+		
+		if (is_null($functionId))
+			$functionIdString = null;
+		else
+			$functionIdString = $functionId->getIdString();
+		
+		if (is_null($qualifierId))
+			$qualifierIdString = null;
+		else
+			$qualifierIdString = $qualifierId->getIdString();		
+		
+// 		printpre("a: $agentIdString \nf: $functionIdString \nq: $qualifierIdString");
+// 		printpre($containingGroups);
+// 		throwError(new Error("failed"));
 		
 		
 		// We need to check all of the groups that may contain $aId as well as
 		// aId itsself.
 		$authorizations =& $this->_cache->getAZs(
-							$agentId->getIdString(),		// aid
-							$functionId->getIdString(),		// fid
-							$qualifierId->getIdString(),	// qid
+							$agentIdString,		// aid
+							$functionIdString,		// fid
+							$qualifierIdString,	// qid
 							null, 							// ftype
 							false, 							// returnExplicitOnly
 							true,							// searchUp
 							$isActiveNowOnly,				// isActiveNowOnly
-							$this->_getContainingGroupIdStrings($agentId));
+							$containingGroups);
 		
 		$i =& new HarmoniAuthorizationIterator($authorizations);
 		return $i;

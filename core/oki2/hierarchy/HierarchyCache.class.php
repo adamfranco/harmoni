@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.28 2005/12/20 22:14:25 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.29 2006/01/09 23:37:52 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -839,6 +839,57 @@ class HierarchyCache {
 			$result[] =& $this->_cache[$key][0];
 			
 		return $result;
+	}
+	
+	/**
+	 * Return true if the node is a leaf
+	 *
+	 * @access public
+	 * @param object node The node object to check.
+	 * @return boolean
+	 **/
+	function isLeaf($node) {
+		// ** parameter validation
+		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("HarmoniNode"), true);
+		// ** end of parameter validation
+		
+		$idValue = $node->_id->getIdString();
+
+		// if the children has been already cached, use it
+		if ($this->_isCachedDown($idValue, 1)) {
+			$treeNode =& $this->_tree->getNode($idValue);
+			return $treeNode->hasChildren();
+		} else {
+		
+			// now fetch <code>$node</code>'s children from the database
+			// with the exception of those children that have been already fetched
+			$treeNode =& $this->_tree->getNode($idValue);
+			$nodesToExclude = (isset($treeNode)) ? ($treeNode->getChildren()) : array();
+	
+			$dbHandler =& Services::getService("DatabaseManager");
+			$idManager =& Services::getService("Id");
+			$query =& new SelectQuery();
+	
+			// set the columns to select
+			$query->addColumn("count(*)", "count");
+	
+			// set the tables
+			$query->addTable("j_node_node");
+			
+			$where = "fk_parent = '".addslashes($idValue)."'";
+			$query->addWhere($where);
+			
+// 			echo "<pre>\n";
+// 			echo MySQL_SQLGenerator::generateSQLQuery($query);
+// 			echo "</pre>\n";
+			
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+	
+			if ($queryResult->field("count") == '0')
+				return true;
+			else
+				return false;
+		}		
 	}
 	
 	/**
