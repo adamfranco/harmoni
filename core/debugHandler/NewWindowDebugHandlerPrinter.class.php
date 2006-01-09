@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/HTMLcolor.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.7 2005/04/12 18:48:09 adamfranco Exp $
+ * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.8 2006/01/09 20:26:52 adamfranco Exp $
  **/
 
 class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {
@@ -43,7 +43,7 @@ class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {
 		foreach (array_keys($items) as $key) {
 			if (($l = $items[$key]->getLevel()) <= $level) {
 				$btext = '';
-				if ($bt = $items[$key]->getBacktrace()) {
+				if ($bt = $items[$key]->getBacktrace() && isset($bt[2])) {
 					$b = $bt[2];
 					$btext = basename($b['file'])." :: ".$b['line']." :: ".$b['class'].$b['type'].$b['function']."()";
 					$btext .= " ";
