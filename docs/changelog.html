@@ -3,7 +3,79 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.4.0</h2><h3>2005-10-12</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.5.0</h2><h3>2005-01-10</h3><ul>
+		<li/> New feature:  
+			Authz: IsUserAuthorized caching system to dramatically speed authorization
+			checking. Look-ahead is currently implemented in the AssetIterator: if
+			any assets are returned from the iterator, all elements of the iterator
+			are queued for AuthZ caching.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Hierarchy: Fix to Node-&gt;isLeaf() allows for faster population of 
+			browsing interfaces.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Hierarchy: Improved hierarchy caching algorithm dramatically speeds
+			hierarchy loading while retaining unchanged portions of the cache
+			during hierarchy modification.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			DataManager: Updated id columns in SQL to support longer keys need 
+			in Schemas/fields.
+		 (<i>Christopher Shubert</i>)
+		<li/> New feature:  
+			GUI: New constants defined for GUI Block indexes to allow for more semantic
+			definition and standardization of the levels used to aid Theming. 
+			Examples include BACKGROUND_BLOCK, STANDARD_BLOCK, WIZARD_BLOCK, 
+			EMPHASIZED_BLOCK.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			GUI: StyleProperties can now include arbitrary pre and post HTML to be
+			wrapped around the content that they are styling. This allows for
+			complex layout of corner and border images around content for instance.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			GUI: New basic theme.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Id: Id table now only retains the most recent value instead of all
+			used values, saving on wasted table space.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Removed error supression from the ActionHandler to allow errors to
+			be shown during action-class instantiation.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			AuthN: Improved error handling of LDAP connection errors.
+		 (<i>Christopher Shubert</i>)
+		<li/> New feature:  
+			Repository: Keyword searching module in Repository.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Repository: Now supports Repository-specific RecordStructures.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Repository: FileRecords now only have their data fetched on access,
+			while their metadata (filename, size, mimetype) are fetched together.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Repository: Repository-&gt;getAsset() was doing extra work verifying
+			the existance of Assets it had just found in its search results.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Argument validation can now be turned off for production.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Many speed optimizations in Repository, Authorization, and Hierarchy.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Primitives: HtmlString primitive which provides cleaning of HTML text as well
+			as trimming of an HTML string to a given number of words while 
+			preserving proper tag nesting and closure.
+		 (<i>Adam Franco</i>)
+	</ul><br/><h2>Version 0.4.0</h2><h3>2005-10-12</h3><ul>
 		<li/> Change:  
 			Groups and Agents are now stored in the hierarchy, allowing authorizations
 			to be placed on them as qualifiers. This allows for specific authorizations 

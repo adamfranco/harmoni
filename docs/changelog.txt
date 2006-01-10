@@ -3,6 +3,43 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.5.0 (2005-01-10)
+----------------------------------------------------
+		
+	* New feature: Authz: IsUserAuthorized caching system to dramatically speed authorization checking. Look-ahead is currently implemented in the AssetIterator: if any assets are returned from the iterator, all elements of the iterator are queued for AuthZ caching. (Adam Franco)
+		
+	* Bug Fix: Hierarchy: Fix to Node-&gt;isLeaf() allows for faster population of browsing interfaces. (Adam Franco)
+		
+	* Change: Hierarchy: Improved hierarchy caching algorithm dramatically speeds hierarchy loading while retaining unchanged portions of the cache during hierarchy modification. (Adam Franco)
+		
+	* Change: DataManager: Updated id columns in SQL to support longer keys need in Schemas/fields. (Christopher Shubert)
+		
+	* New feature: GUI: New constants defined for GUI Block indexes to allow for more semantic definition and standardization of the levels used to aid Theming. Examples include BACKGROUND_BLOCK, STANDARD_BLOCK, WIZARD_BLOCK, EMPHASIZED_BLOCK. (Adam Franco)
+		
+	* Change: GUI: StyleProperties can now include arbitrary pre and post HTML to be wrapped around the content that they are styling. This allows for complex layout of corner and border images around content for instance. (Adam Franco)
+		
+	* New feature: GUI: New basic theme. (Adam Franco)
+		
+	* New feature: Id: Id table now only retains the most recent value instead of all used values, saving on wasted table space. (Adam Franco)
+		
+	* Change: Removed error supression from the ActionHandler to allow errors to be shown during action-class instantiation. (Adam Franco)
+		
+	* Change: AuthN: Improved error handling of LDAP connection errors. (Christopher Shubert)
+		
+	* New feature: Repository: Keyword searching module in Repository. (Adam Franco)
+		
+	* New feature: Repository: Now supports Repository-specific RecordStructures. (Adam Franco)
+		
+	* Change: Repository: FileRecords now only have their data fetched on access, while their metadata (filename, size, mimetype) are fetched together. (Adam Franco)
+		
+	* Bug Fix: Repository: Repository-&gt;getAsset() was doing extra work verifying the existance of Assets it had just found in its search results. (Adam Franco)
+		
+	* Change: Argument validation can now be turned off for production. (Adam Franco)
+		
+	* Change: Many speed optimizations in Repository, Authorization, and Hierarchy. (Adam Franco)
+		
+	* New feature: Primitives: HtmlString primitive which provides cleaning of HTML text as well as trimming of an HTML string to a given number of words while preserving proper tag nesting and closure. (Adam Franco)
+	
 v. 0.4.0 (2005-10-12)
 ----------------------------------------------------
 		
