@@ -3,20 +3,78 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.95 2005/12/14 21:09:04 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.96 2006/01/10 15:54:26 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.5.0" date="The Nebulous Future">
 		<new author='adam'>
-			Keyword searching module in Repository.
+			Authz: IsUserAuthorized caching system to dramatically speed authorization
+			checking. Look-ahead is currently implemented in the AssetIterator: if
+			any assets are returned from the iterator, all elements of the iterator
+			are queued for AuthZ caching.
 		</new>
+		<fix author='adam'>
+			Hierarchy: Fix to Node->isLeaf() allows for faster population of 
+			browsing interfaces.
+		</fix>
+		<change author='adam'>
+			Hierarchy: Improved hierarchy caching algorithm dramatically speeds
+			hierarchy loading while retaining unchanged portions of the cache
+			during hierarchy modification.
+		</change>
+		<change author='chris'>
+			DataManager: Updated id columns in SQL to support longer keys need 
+			in Schemas/fields.
+		</change>
+		<new author='adam'>
+			GUI: New constants defined for GUI Block indexes to allow for more semantic
+			definition and standardization of the levels used to aid Theming. 
+			Examples include BACKGROUND_BLOCK, STANDARD_BLOCK, WIZARD_BLOCK, 
+			EMPHASIZED_BLOCK.
+		</new>
+		<change author='adam'>
+			GUI: StyleProperties can now include arbitrary pre and post HTML to be
+			wrapped around the content that they are styling. This allows for
+			complex layout of corner and border images around content for instance.
+		</change>
+		<new author='adam'>
+			GUI: New basic theme.
+		</new>
+		<new author='adam'>
+			Id: Id table now only retains the most recent value instead of all
+			used values, saving on wasted table space.
+		</new>
+		<change author='adam'>
+			Removed error supression from the ActionHandler to allow errors to
+			be shown during action-class instantiation.
+		</change>
+		<change author='chris'>
+			AuthN: Improved error handling of LDAP connection errors.
+		</change>
+		<new author='adam'>
+			Repository: Keyword searching module in Repository.
+		</new>
+		<new author='adam'>
+			Repository: Now supports Repository-specific RecordStructures.
+		</new>
+		<change author='adam'>
+			Repository: FileRecords now only have their data fetched on access,
+			while their metadata (filename, size, mimetype) are fetched together.
+		</change>
+		<fix author='adam'>
+			Repository: Repository->getAsset() was doing extra work verifying
+			the existance of Assets it had just found in its search results.
+		</fix>
+		<change author='adam'>
+			Argument validation can now be turned off for production.
+		</change>
 		<change author='adam'>
 			Many speed optimizations in Repository, Authorization, and Hierarchy.
 		</change>
 		<new author='adam'>
-			HtmlString primitive which provides cleaning of HTML text as well
+			Primitives: HtmlString primitive which provides cleaning of HTML text as well
 			as trimming of an HTML string to a given number of words while 
 			preserving proper tag nesting and closure.
 		</new>
@@ -773,6 +831,7 @@
 		<name short="dobo">Dobo Radichkov</name>
 		<name short="nik">Nikitas Stamatopoulos</name>
 		<name short="niraj">Niraj Dhungel</name>
+		<name short="chris">Christopher Shubert</name>
 		<name short="alex">Alex Chapin</name>
 		<name short="max">Max Ovsjanikovs</name>
 		<name short="eric">Eric Janssen</name>
