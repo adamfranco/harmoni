@@ -10,6 +10,8 @@ v. 0.5.0 (2005-01-10)
 		
 	* Bug Fix: Hierarchy: Fix to Node-&gt;isLeaf() allows for faster population of browsing interfaces. (Adam Franco)
 		
+	* Change: Repository: Cleaned up the caching that was taking place with filedata. (Christopher Shubert)
+		
 	* Change: Hierarchy: Improved hierarchy caching algorithm dramatically speeds hierarchy loading while retaining unchanged portions of the cache during hierarchy modification. (Adam Franco)
 		
 	* Change: DataManager: Updated id columns in SQL to support longer keys need in Schemas/fields. (Christopher Shubert)
