@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.97 2006/01/10 18:05:11 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.98 2006/01/11 13:59:45 cws-midd Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -19,6 +19,10 @@
 			Hierarchy: Fix to Node->isLeaf() allows for faster population of 
 			browsing interfaces.
 		</fix>
+		<change author='chris'>
+			Repository: Cleaned up the caching that was taking place with
+			filedata.
+		</change>
 		<change author='adam'>
 			Hierarchy: Improved hierarchy caching algorithm dramatically speeds
 			hierarchy loading while retaining unchanged portions of the cache
