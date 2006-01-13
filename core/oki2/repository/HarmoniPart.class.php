@@ -19,7 +19,7 @@ require(OKI2."osid/repository/Part.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.13 2006/01/13 22:32:08 cws-midd Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.14 2006/01/13 22:37:43 cws-midd Exp $ 
  */
 class HarmoniPart 
 	extends Part
@@ -246,7 +246,7 @@ class HarmoniPart
 	}
 	
 	/**
-	 * Takes in a string and a part id and puts that string value in the part
+	 * updates the part with a string
 	 * 
 	 * WARNING: NOT IN OSID
 	 *
