@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.20 2005/09/28 20:51:24 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.21 2006/01/13 19:42:05 adamfranco Exp $
  */
 
 //require_once(HARMONI."actionHandler/ActionHandler.interface.php");
@@ -73,7 +73,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.20 2005/09/28 20:51:24 gabeschine Exp $
+ * @version $Id: ActionHandler.class.php,v 1.21 2006/01/13 19:42:05 adamfranco Exp $
  */
 class ActionHandler extends EventTrigger {
 	/**
@@ -260,7 +260,7 @@ class ActionHandler extends EventTrigger {
 	 **/
 	function &_executePair($pair) {
 		list($module, $action) = explode(".",$pair);
-		@($res =& $this->_execute($module, $action));
+		$res =& $this->_execute($module, $action);
 		return $res;
 	}
 	
@@ -272,7 +272,7 @@ class ActionHandler extends EventTrigger {
 	 **/
 	function &executePair($pair) {
 		ArgumentValidator::validate($pair, DottedPairValidatorRule::getRule());
-		@($res =& $this->_executePair($pair));
+		$res =& $this->_executePair($pair);
 		return $res;
 	}
 	
