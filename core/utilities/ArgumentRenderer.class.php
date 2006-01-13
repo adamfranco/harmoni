@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ArgumentRenderer.class.php,v 1.4 2005/02/07 21:38:28 adamfranco Exp $
+ * @version $Id: ArgumentRenderer.class.php,v 1.5 2006/01/13 15:37:56 adamfranco Exp $
  */
 class ArgumentRenderer {
 
@@ -24,11 +24,12 @@ class ArgumentRenderer {
 	 * @param boolean $isDetailed If TRUE, will print additional details.
 	 * @param boolean $shouldPrint If TRUE, will print on screen; If FALSE, will not
 	 * print, but just return the result as a string.
+	 * @param integer $trim If >0, will trim the argument to to the given length
 	 * @return string The output of the method. This will be output to the browser
 	 * if $shouldPrint is set to TRUE.
 	 * @access public
 	 **/
-	function renderOneArgument($argument, $isDetailed = false, $shouldPrint = false) {
+	function renderOneArgument($argument, $isDetailed = false, $shouldPrint = false, $trim = 0) {
 		$result = "Unknown";
 		
 		// NULL type
@@ -41,7 +42,10 @@ class ArgumentRenderer {
 	    } 
 		// String type
 		elseif (is_string($argument)) {
-	        $result = "String: \"$argument\"";
+			if ($trim > 0)
+				$result = "String: \"".substr($argument, 0, $trim)."\"...(trimmed)";
+			else
+				$result = "String: \"$argument\"";
 			if ($isDetailed)
 			    $result .= " (length = ".strlen($argument).")";
 	    } 
@@ -60,7 +64,7 @@ class ArgumentRenderer {
 				$result .= " {\n";
 				foreach ($argument as $key => $elt) {
 					$result .= "    [".$key."] => ";
-					$result .= ArgumentRenderer::renderOneArgument($elt,false,false);
+					$result .= ArgumentRenderer::renderOneArgument($elt,false,false, $trim);
 					$result .= "\n";
 				}
 				$result .= "}";
@@ -79,7 +83,7 @@ class ArgumentRenderer {
 					$result .= "\nMember variables: {\n";
 					foreach (get_object_vars($argument) as $key => $elt) {
 						$result .= "    [".$key."] => ";
-						$result .= ArgumentRenderer::renderOneArgument($elt,false,false);
+						$result .= ArgumentRenderer::renderOneArgument($elt,false,false, $trim);
 						$result .= "\n";
 					}
 					$result .= "}";				    
@@ -102,13 +106,14 @@ class ArgumentRenderer {
 	 * @param array $arguments The arguments to render.
 	 * @param boolean $isDetailed If TRUE, will print additional details.
 	 * @param boolean $shouldPrint If TRUE, will print on screen; If FALSE, will not
+	 * @param integer $trim If >0, will trim the argument to to the given length
 	 * print, but just return the result as a string.
 	 * @return string The output of the method. This will be output to the browser
 	 * if $shouldPrint is set to TRUE. Returns FALSE, if something goes wrong.
 	 * @access public
 	 **/
 	
-	function renderManyArguments($arguments, $isDetailed = false, $shouldPrint = false) {
+	function renderManyArguments($arguments, $isDetailed = false, $shouldPrint = false, $trim = 0) {
 		// see if $arguments is an array
 		if (!is_array($arguments))
 			return false;
@@ -119,7 +124,7 @@ class ArgumentRenderer {
 		// render each element of $arguments
 		$resultArray = array();
 		foreach (array_keys($arguments) as $i => $key )
-			$resultArray[] = ArgumentRenderer::renderOneArgument($arguments[$key],$isDetailed,false);
+			$resultArray[] = ArgumentRenderer::renderOneArgument($arguments[$key],$isDetailed,false, $trim);
 		
 		$glue = ($isDetailed) ? ",\n" : ", ";
 		$result = implode($glue, $resultArray);

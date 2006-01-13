@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.29 2005/08/18 15:46:17 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.30 2006/01/13 15:37:51 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.29 2005/08/18 15:46:17 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.30 2006/01/13 15:37:51 adamfranco Exp $
  */
  
 class MySQLDatabase extends DatabaseInterface {
@@ -345,7 +345,7 @@ class MySQLDatabase extends DatabaseInterface {
 			debug::output("<pre>Query: <div>".$query."</div>Result: $resourceId</pre>", 1, "DBHandler");
 		
 			if ($resourceId === false) {
-			    $this->_failedQueries++;
+				$this->_failedQueries++;
 				throwError(new Error("MySQL Error: ".mysql_error($this->_linkId), "DBHandler", true));
 			}
 			else

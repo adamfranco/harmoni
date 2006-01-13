@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorPrinterBasic.class.php,v 1.8 2005/07/15 17:47:21 adamfranco Exp $
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.9 2006/01/13 15:37:56 adamfranco Exp $
  */
  
 require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorPrinterBasic.class.php,v 1.8 2005/07/15 17:47:21 adamfranco Exp $
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.9 2006/01/13 15:37:56 adamfranco Exp $
  */
 
 class ErrorPrinterBasic extends ErrorPrinterInterface {
@@ -141,7 +141,7 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 						$type = '';
 					
 					if (isset($trace['args']))
-						$args = ArgumentRenderer::renderManyArguments($trace['args'], false, false);
+						$args = ArgumentRenderer::renderManyArguments($trace['args'], false, false, 1024);
 					else
 						$args = '';
 					
