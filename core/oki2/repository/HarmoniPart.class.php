@@ -19,7 +19,7 @@ require(OKI2."osid/repository/Part.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.12 2005/09/16 18:36:10 cws-midd Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.13 2006/01/13 22:32:08 cws-midd Exp $ 
  */
 class HarmoniPart 
 	extends Part
@@ -244,7 +244,50 @@ class HarmoniPart
 		
 		return ($null=null);
 	}
+	
+	/**
+	 * Takes in a string and a part id and puts that string value in the part
+	 * 
+	 * WARNING: NOT IN OSID
+	 *
+	 * @param string $value this is the string value that needs to get in a part
+	 * @param Id $id this is the id of the part
+	 * @return false on failed update
+	 * @access public
+	 * @since 7/21/05
+	 */
+	function updateValueFromString ( $value ) {
+		$partStructure =& $this->getPartStructure();
 
+		$type = $partStructure->getType();
+		$typeString = $type->getKeyword();
+		switch($typeString) {
+			case "string":
+				$object =& String::withValue($value);
+				break;
+			case "integer":
+				$object =& Integer::withValue($value);
+				break;
+			case "boolean":
+				$object =& Boolean::withValue($value);
+				break;
+			case "shortstring":
+				$object =& String::withValue($value);
+				break;
+			case "float":
+				$object =& Float::withValue($value);
+				break;
+			case "datetime":
+				$object =& DateAndTime::fromString($value);
+				break;
+			case "type": 
+				$object =& HarmoniType::stringToType($value);
+				break;
+			default:
+				return $false;
+		}
+		$this->updateValue($object); 
+	}
 	
 	/**
 	 * Update the value for this Part.
