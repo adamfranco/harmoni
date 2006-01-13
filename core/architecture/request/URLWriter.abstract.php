@@ -10,10 +10,12 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: URLWriter.abstract.php,v 1.5 2005/09/07 20:46:27 gabeschine Exp $
+ * @version $Id: URLWriter.abstract.php,v 1.6 2006/01/13 22:32:12 adamfranco Exp $
  */
 
-class URLWriter {
+class URLWriter 
+	extends SObject
+{
 
 	var $_module;
 	var $_action;
