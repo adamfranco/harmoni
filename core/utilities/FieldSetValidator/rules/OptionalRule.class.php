@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OptionalRule.class.php,v 1.5 2005/07/07 19:59:40 adamfranco Exp $
+ * @version $Id: OptionalRule.class.php,v 1.6 2006/01/13 22:31:36 adamfranco Exp $
  */ 
 class OptionalRule
 	extends ValidatorRuleInterface
@@ -47,7 +47,7 @@ class OptionalRule
 		if (is_null($val)) 
 			return true;
 		
-		if (isset($val) && (is_object($val) || ereg("[^[:blank:]]+",$val))) {
+		if (isset($val) && (is_object($val) || is_array($val) || ereg("[^[:blank:]]+",$val))) {
 			if (!$this->_rule->check($val))
 				return false;
 		}
