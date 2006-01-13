@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ArgumentRenderer.class.php,v 1.5 2006/01/13 15:37:56 adamfranco Exp $
+ * @version $Id: ArgumentRenderer.class.php,v 1.6 2006/01/13 16:11:05 adamfranco Exp $
  */
 class ArgumentRenderer {
 
@@ -42,7 +42,7 @@ class ArgumentRenderer {
 	    } 
 		// String type
 		elseif (is_string($argument)) {
-			if ($trim > 0)
+			if ($trim > 0 && strlen($argument) > $trim)
 				$result = "String: \"".substr($argument, 0, $trim)."\"...(trimmed)";
 			else
 				$result = "String: \"$argument\"";

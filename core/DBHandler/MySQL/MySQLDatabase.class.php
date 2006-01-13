@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.30 2006/01/13 15:37:51 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.31 2006/01/13 16:11:04 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.30 2006/01/13 15:37:51 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.31 2006/01/13 16:11:04 adamfranco Exp $
  */
  
 class MySQLDatabase extends DatabaseInterface {
@@ -346,7 +346,15 @@ class MySQLDatabase extends DatabaseInterface {
 		
 			if ($resourceId === false) {
 				$this->_failedQueries++;
-				throwError(new Error("MySQL Error: ".mysql_error($this->_linkId), "DBHandler", true));
+				
+				$error = mysql_error($this->_linkId);
+				// Add a helpful message if we run into max_allowed_packet errors.
+				if (ereg('max_allowed_packet', $error)) {
+					$size =& ByteSize::withValue(strlen($query));
+					$error .= ' (Query Size: '.$size->asString().")";
+				}
+				
+				throwError(new Error("MySQL Error: ".$error, "DBHandler", true));
 			}
 			else
 			    $this->_successfulQueries++;
