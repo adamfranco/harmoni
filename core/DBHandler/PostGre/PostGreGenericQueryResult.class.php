@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreGenericQueryResult.class.php,v 1.7 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: PostGreGenericQueryResult.class.php,v 1.8 2006/01/17 20:06:20 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreGenericQueryResult.class.php,v 1.7 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: PostGreGenericQueryResult.class.php,v 1.8 2006/01/17 20:06:20 adamfranco Exp $
  */
 class PostGreGenericQueryResult 
 	extends GenericQueryResultInterface 
@@ -86,7 +86,8 @@ class PostGreGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function &returnAsSelectQueryResult () {
-		return new PostGreSelectQueryResult($this->_resourceId, $this->_linkId);
+		$obj =& new PostGreSelectQueryResult($this->_resourceId, $this->_linkId);
+		return $obj;
 	}
 	
 	/**
@@ -97,7 +98,8 @@ class PostGreGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function &returnAsInsertQueryResult () {
-		return new PostGreInsertQueryResult($this->_linkId);
+		$obj =& new PostGreInsertQueryResult($this->_linkId);
+		return $obj;
 	}
 	
 	/**
@@ -108,7 +110,8 @@ class PostGreGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function &returnAsUpdateQueryResult () {
-		return new PostGreUpdateQueryResult($this->_linkId);
+		$obj =& new PostGreUpdateQueryResult($this->_linkId);
+		return $obj;
 	}
 	
 	/**
@@ -119,7 +122,8 @@ class PostGreGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function &returnAsDeleteQueryResult () {
-		return new PostGreDeleteQueryResult($this->_linkId);
+		$obj =& new PostGreDeleteQueryResult($this->_linkId);
+		return $obj;
 	}
 }
 

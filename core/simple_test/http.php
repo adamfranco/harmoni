@@ -1,5 +1,5 @@
 <?php
-    // $Id: http.php,v 1.2 2005/01/19 16:33:26 adamfranco Exp $
+    // $Id: http.php,v 1.3 2006/01/17 20:06:22 adamfranco Exp $
 
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -389,7 +389,8 @@
          *    @access protected
          */
         function &_createResponse(&$socket) {
-            return new SimpleHttpResponse($socket);
+            $obj =& new SimpleHttpResponse($socket);
+            return $obj;
         }
     }
     

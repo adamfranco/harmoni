@@ -28,7 +28,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartStructureIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecordStructure.class.php,v 1.8 2005/08/19 20:16:48 adamfranco Exp $ 
+ * @version $Id: FileRecordStructure.class.php,v 1.9 2006/01/17 20:06:22 adamfranco Exp $ 
  */
 class HarmoniFileRecordStructure 
 	extends RecordStructure
@@ -171,7 +171,8 @@ class HarmoniFileRecordStructure
 	 * @access public
 	 */
 	function &getPartStructures() {
-		return new HarmoniPartStructureIterator($this->_partStructures);
+		$obj =& new HarmoniPartStructureIterator($this->_partStructures);
+		return $obj;
 	}
 
 	/**
@@ -285,7 +286,8 @@ class HarmoniFileRecordStructure
 	 */
 	function getPartStructureTypes() {
 		$types = array();
-		return new HarmoniIterator($types);
+		$obj =& new HarmoniIterator($types);
+		return $obj;
 	}
 	
 }

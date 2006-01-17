@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailMimeTypePartStructure.class.php,v 1.3 2005/08/01 20:04:23 adamfranco Exp $ 
+ * @version $Id: ThumbnailMimeTypePartStructure.class.php,v 1.4 2006/01/17 20:06:22 adamfranco Exp $ 
  */
 class ThumbnailMimeTypePartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -149,7 +149,8 @@ class ThumbnailMimeTypePartStructure extends PartStructure
 	 */
 	function &getPartStructures() {
 		$array = array();
-		return new HarmoniNodeIterator($array); // @todo replace with HarmoniPartStructureIterator
+		$obj =& new HarmoniNodeIterator($array);
+		return $obj; // @todo replace with HarmoniPartStructureIterator
 	}
 
 	/**

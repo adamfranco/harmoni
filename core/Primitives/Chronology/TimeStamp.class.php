@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -60,7 +60,7 @@ require_once(dirname(__FILE__)."/DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -519,7 +519,7 @@ class TimeStamp
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &dateAndTimeArray () {
+	function dateAndTimeArray () {
 		return array (
 			$this->date(),
 			$this->time()

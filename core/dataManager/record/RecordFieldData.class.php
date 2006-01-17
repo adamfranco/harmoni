@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.23 2005/09/06 19:56:23 cws-midd Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.24 2006/01/17 20:06:21 adamfranco Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -114,7 +114,7 @@ class RecordFieldData {
 		$type = $schemaField->getType();
 		
 		$dataTypeManager =& Services::getService("DataTypeManager");
-		$class =& $dataTypeManager->storablePrimitiveClassForType($type);
+		$class = $dataTypeManager->storablePrimitiveClassForType($type);
 		
 		eval('$valueObj =& '.$class.'::createAndPopulate($row);');
 		$this->_dataID = $row['fk_data'];

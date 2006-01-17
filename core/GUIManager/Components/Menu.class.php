@@ -13,7 +13,7 @@ require_once(HARMONI."GUIManager/Components/Menu.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Menu.class.php,v 1.9 2005/09/28 20:51:24 gabeschine Exp $
+ * @version $Id: Menu.class.php,v 1.10 2006/01/17 20:06:20 adamfranco Exp $
  */
 class Menu extends Container /* implements MenuInterface */ {
 
@@ -101,8 +101,10 @@ class Menu extends Container /* implements MenuInterface */ {
 	function &getSelected() {
 		if ($this->_selectedId)
 			return $this->getComponent($this->_selectedId);
-		else
-			return null;
+		else {
+			$null = null;
+			return $null;
+		}
 	}
 
 	/**

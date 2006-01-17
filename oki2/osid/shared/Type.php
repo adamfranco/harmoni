@@ -207,7 +207,9 @@ class Type
 
     	$parts = explode($glue, $aString);
 
-    	return new Type($parts[0], $parts[1], $parts[2]);
+    	$obj =& new Type($parts[0], $parts[1], $parts[2]);
+
+    	return $obj;
     }
 }
 

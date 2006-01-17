@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.2 2005/11/14 21:10:15 gabeschine Exp $
+ * @version $Id: DateAndTime.class.php,v 1.3 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.2 2005/11/14 21:10:15 gabeschine Exp $
+ * @version $Id: DateAndTime.class.php,v 1.3 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -111,7 +111,8 @@ class DateAndTime
 	 * @static
 	 */
 	function &clockPrecision () {
-		return Duration::withSeconds(1);
+		$obj =& Duration::zero();
+		return $obj;
 	}
 	
 	/**
@@ -139,12 +140,14 @@ class DateAndTime
 		$tzAbbreviation = date('T');
 		$tzOffset = date('Z');
 		if ($tzAbbreviation && $tzOffset)
-			return TimeZone::offsetNameAbbreviation(
+			$obj =& TimeZone::offsetNameAbbreviation(
 						Duration::withSeconds($tzOffset),
 						$tzAbbreviation,
 						$tzAbbreviation);
 		else
-			return TimeZone::defaultTimeZone();
+			$obj =& TimeZone::defaultTimeZone();
+		
+		return $obj;
 	}
 	
 /*********************************************************
@@ -875,7 +878,8 @@ class DateAndTime
 	 * @since 5/5/05
 	 */
 	function &duration () {
-		return Duration::zero();
+		$obj =& Duration::zero();
+		return $obj;
 	}
 	
 	/**
@@ -1356,7 +1360,8 @@ class DateAndTime
 	 * @since 5/5/05
 	 */
 	function &asDate () {
-		return Date::starting($this);
+		$obj =& Date::starting($this);
+		return $obj;
 	}
 	
 	/**
@@ -1379,7 +1384,8 @@ class DateAndTime
 	 * @since 5/4/05
 	 */
 	function &asDuration () {
-		return Duration::withSeconds($this->seconds);
+		$obj =& Duration::withSeconds($this->seconds);
+		return $obj;
 	}
 	
 	/**
@@ -1405,7 +1411,8 @@ class DateAndTime
 	 * @since 5/5/05
 	 */
 	function &asMonth () {
-		return Month::starting($this);
+		$obj =& Month::starting($this);
+		return $obj;
 	}
 	
 	/**
@@ -1429,7 +1436,8 @@ class DateAndTime
 	 * @since 5/5/05
 	 */
 	function &asTime () {
-		return Time::withSeconds($this->seconds);
+		$obj =& Time::withSeconds($this->seconds);
+		return $obj;
 	}
 	
 	/**
@@ -1462,7 +1470,8 @@ class DateAndTime
 	 * @since 5/5/05
 	 */
 	function &asWeek () {
-		return Week::starting($this);
+		$obj =& Week::starting($this);
+		return $obj;
 	}
 	
 	/**
@@ -1473,7 +1482,8 @@ class DateAndTime
 	 * @since 5/5/05
 	 */
 	function &asYear () {
-		return Year::starting($this);
+		$obj =& Year::starting($this);
+		return $obj;
 	}
 	
 	/**
@@ -1519,7 +1529,8 @@ class DateAndTime
 	 * @since 5/12/05
 	 */
 	function &to ( &$anEnd ) {
-		return Timespan::startingEnding($this, $anEnd->asDateAndTime());
+		$obj =& Timespan::startingEnding($this, $anEnd->asDateAndTime());
+		return $obj;
 	}
 	
 	/**

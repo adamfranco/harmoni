@@ -21,7 +21,7 @@ require_once(OKI2."/osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePartStructure.class.php,v 1.5 2005/08/01 20:04:23 adamfranco Exp $ 
+ * @version $Id: FileSizePartStructure.class.php,v 1.6 2006/01/17 20:06:22 adamfranco Exp $ 
  */
 class FileSizePartStructure 
 	extends PartStructure
@@ -152,7 +152,8 @@ class FileSizePartStructure
 	 */
 	function &getPartStructure() {
 		$array = array();
-		return new HarmoniNodeIterator($array); // @todo replace with HarmoniPartStructureIterator
+		$obj =& new HarmoniNodeIterator($array);
+		return $obj; // @todo replace with HarmoniPartStructureIterator
 	}
 
 	/**

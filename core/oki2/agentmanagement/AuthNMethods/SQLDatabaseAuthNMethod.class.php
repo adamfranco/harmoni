@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.10 2005/08/11 17:58:38 cws-midd Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.11 2006/01/17 20:06:21 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.10 2005/08/11 17:58:38 cws-midd Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.11 2006/01/17 20:06:21 adamfranco Exp $
  */
 class SQLDatabaseAuthNMethod
 	extends AuthNMethod
@@ -283,7 +283,9 @@ class SQLDatabaseAuthNMethod
 		
 		$result->free();
 		
-		return new HarmoniObjectIterator($tokens);
+		$obj =& new HarmoniObjectIterator($tokens);
+		
+		return $obj;
 	}
 	
 	/**

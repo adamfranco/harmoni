@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.31 2006/01/13 16:11:04 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.32 2006/01/17 20:06:11 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.31 2006/01/13 16:11:04 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.32 2006/01/17 20:06:11 adamfranco Exp $
  */
  
 class MySQLDatabase extends DatabaseInterface {
@@ -502,9 +502,11 @@ class MySQLDatabase extends DatabaseInterface {
 	 */
 	function &fromDBDate($value) {
 		if (in_array($value, array(NULL, '', '0000-00-00 00:00:00')))
-			return NULL;
+			$obj = null;
 		else
-			return DateAndTime::fromString($value);
+			$obj =& DateAndTime::fromString($value);
+		
+		return $obj;
 	}
 	
 	/**

@@ -48,7 +48,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.35 2005/09/28 20:51:33 gabeschine Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.36 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -428,7 +428,9 @@ class HarmoniAgentManager
 			$types[] =& new HarmoniType($parts[0], $parts[1], $parts[2]);
 		}
 		
-		return new HarmoniIterator($types);
+		$obj =& new HarmoniIterator($types);
+		
+		return $obj;
 	}
 	
 	/**
@@ -724,7 +726,9 @@ class HarmoniAgentManager
 			$types[] =& new HarmoniType($parts[0], $parts[1], $parts[2]);
 		}
 		
-		return new HarmoniIterator($types);
+		$obj =& new HarmoniIterator($types);
+		
+		return $obj;
 	}
 	
 	/**

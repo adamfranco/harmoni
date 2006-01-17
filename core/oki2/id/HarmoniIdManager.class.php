@@ -41,7 +41,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdManager.class.php,v 1.21 2005/11/09 22:47:22 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.22 2006/01/17 20:06:22 adamfranco Exp $
  */
 
 class HarmoniIdManager
@@ -159,7 +159,7 @@ class HarmoniIdManager
 	 * 
 	 * @access public
 	 */
-	function createId () { 
+	function &createId () { 
 		debug::output("Attempting to generate new id.", 20, "IdManager");
 		$dbHandler =& Services::getService("DatabaseManager");
 		
@@ -215,7 +215,7 @@ class HarmoniIdManager
 	 * 
 	 * @access public
 	 */
-	function getId ( $idString ) { 
+	function &getId ( $idString ) { 
 //		if (isset($this->_ids[$idString])) {
 //			print "id:". $idString." and ".$this->_ids[$idString]->getIdString()."<br/>";
 //			return $this->_ids[$idString];

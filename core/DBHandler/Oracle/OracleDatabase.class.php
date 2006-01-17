@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.10 2005/07/15 22:25:14 gabeschine Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.11 2006/01/17 20:06:20 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.10 2005/07/15 22:25:14 gabeschine Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.11 2006/01/17 20:06:20 adamfranco Exp $
  */
 class OracleDatabase 
 	extends DatabaseInterface 
@@ -439,7 +439,8 @@ class OracleDatabase
 		/*
 		 * NOT SURE HOW TO DO THIS FOR ORACLE
 		 */
-		 return DateAndTime::fromString($value);
+		$obj =& DateAndTime::fromString($value);
+		return $obj;
 	}
 	
 	/**

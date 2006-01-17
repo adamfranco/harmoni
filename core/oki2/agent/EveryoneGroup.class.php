@@ -16,7 +16,7 @@ require_once(dirname(__FILE__)."/HarmoniGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EveryoneGroup.class.php,v 1.4 2005/08/05 18:32:44 gabeschine Exp $
+ * @version $Id: EveryoneGroup.class.php,v 1.5 2006/01/17 20:06:21 adamfranco Exp $
  */
 class EveryoneGroup
 	extends HarmoniGroup
@@ -215,7 +215,9 @@ class EveryoneGroup
 				$groups[] =& $group;
 		}
 		
-		return new HarmoniAgentIterator($groups);
+		$obj =& new HarmoniAgentIterator($groups);
+		
+		return $obj;
 	}
 
 	/**

@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.31 2005/12/15 19:10:01 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.32 2006/01/17 20:06:22 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -781,7 +781,9 @@ class HarmoniRepositoryManager
 		
 		$result->free();
 		
-		return new HarmoniTypeIterator($types);
+		$obj =& new HarmoniTypeIterator($types);
+		
+		return $obj;
 	}
 
 /******************************************************************************

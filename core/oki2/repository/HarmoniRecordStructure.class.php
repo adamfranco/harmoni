@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.24 2005/10/27 18:58:24 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.25 2006/01/17 20:06:22 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -182,7 +182,9 @@ class HarmoniRecordStructure
 				 $this->_createdParts[$id] =& new HarmoniPartStructure($this, $fieldDef);
 		}
 		
-		return new HarmoniRecordStructureIterator($this->_createdParts);
+		$obj =& new HarmoniRecordStructureIterator($this->_createdParts);
+		
+		return $obj;
 	}
 
 	/**

@@ -17,7 +17,7 @@ require_once(dirname(__FILE__)."/HarmoniAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.6 2005/09/07 21:41:04 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.7 2006/01/17 20:06:21 adamfranco Exp $
  */
 class UsersGroup
 	extends HarmoniGroup
@@ -181,7 +181,9 @@ class UsersGroup
 		
 		$agents=&$everyoneGroup->getMembers($includeSubgroups);
 		
-		return new UsersGroupIterator($agents);
+		$obj =& new UsersGroupIterator($agents);
+		
+		return $obj;
 	}
 
 	/**
@@ -221,7 +223,9 @@ class UsersGroup
 				$groups[] =& $group;
 		}
 		
-		return new HarmoniAgentIterator($groups);
+		$obj =& new HarmoniAgentIterator($groups);
+		
+		return $obj;
 	}
 
 	/**
@@ -273,7 +277,7 @@ class UsersGroup
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.6 2005/09/07 21:41:04 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.7 2006/01/17 20:06:21 adamfranco Exp $
  */
 
 class UsersGroupIterator extends HarmoniAgentIterator {

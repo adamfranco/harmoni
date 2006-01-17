@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.9 2005/08/11 17:58:37 cws-midd Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.10 2006/01/17 20:06:21 adamfranco Exp $
  */ 
  
  require_once(dirname(__FILE__)."/AgentTokenMapping.class.php");
@@ -36,7 +36,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.9 2005/08/11 17:58:37 cws-midd Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.10 2006/01/17 20:06:21 adamfranco Exp $
  */
 class AgentTokenMappingManager
 	extends OsidManager
@@ -309,7 +309,9 @@ class AgentTokenMappingManager
 		
 		$mappings =& $this->_createMappingsFromResult($result);
 		
-		return new HarmoniObjectIterator($mappings);
+		$obj =& new HarmoniObjectIterator($mappings);
+		
+		return $obj;
 	}
 	
 	/**
@@ -337,7 +339,9 @@ class AgentTokenMappingManager
 		
 		$mappings =& $this->_createMappingsFromResult($result);
 		
-		return new HarmoniObjectIterator($mappings);
+		$obj =& new HarmoniObjectIterator($mappings);
+		
+		return $obj;
 	}
 	
 	/**

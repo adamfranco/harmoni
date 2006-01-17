@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.31 2006/01/09 23:37:50 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.32 2006/01/17 20:06:21 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -1590,7 +1590,7 @@ class HarmoniAuthorizationManager
 	 * @access private
 	 * @since 3/16/05
 	 */
-	function _getUserIds () {
+	function &_getUserIds () {
 		$authentication =& Services::getService("AuthN");
 		$authNTypes =& $authentication->getAuthenticationTypes();
 		$ids = array();

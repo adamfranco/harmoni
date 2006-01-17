@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.12 2005/09/07 21:17:58 adamfranco Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.13 2006/01/17 20:06:21 adamfranco Exp $
  */
 
 class AncestorGroupSearch
@@ -51,7 +51,9 @@ class AncestorGroupSearch
 	function &getAgentsBySearch ( & $searchCriteria) {
 		$agents = array();
 		
-		return new HarmoniIterator($agents);
+		$obj =& new HarmoniIterator($agents);
+		
+		return $obj;
 	}
 	
 	/**

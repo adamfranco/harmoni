@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.24 2005/07/18 14:45:19 gabeschine Exp $
+ * @version $Id: RecordManager.class.php,v 1.25 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -71,8 +71,10 @@ class RecordManager {
 	{
 		if (isset($this->_recordSetCache[$id])) {
 			return $this->_recordSetCache[$id];
+		} else {
+			$null = null;
+			return $null;
 		}
-		else return ($null=null);
 	}
 	
 	/**

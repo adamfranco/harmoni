@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Integer.class.php,v 1.2 2005/07/14 16:23:21 adamfranco Exp $
+ * @version $Id: Integer.class.php,v 1.3 2006/01/17 20:06:21 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Number.class.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/Number.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Integer.class.php,v 1.2 2005/07/14 16:23:21 adamfranco Exp $
+ * @version $Id: Integer.class.php,v 1.3 2006/01/17 20:06:21 adamfranco Exp $
  */
 class Integer 
 	extends Number
@@ -73,9 +73,11 @@ class Integer
 		if (!(strtolower($class) == strtolower('Integer')
 			|| is_subclass_of(new $class, 'Integer')))
 		{
-			return Integer::withValue($this->value() + $aNumber->value());
+			$obj =& Integer::withValue($this->value() + $aNumber->value());
+			return $obj;
 		} else {
-			return Float::withValue($this->value() + $aNumber->value());
+			$obj =& Float::withValue($this->value() + $aNumber->value());
+			return $obj;
 		}
 	}
 	
@@ -91,9 +93,11 @@ class Integer
 		if (!(strtolower($class) == strtolower('Integer')
 			|| is_subclass_of(new $class, 'Integer')))
 		{
-			return Integer::withValue($this->value() * $aNumber->value());
+			$obj =& Integer::withValue($this->value() * $aNumber->value());
+			return $obj;
 		} else {
-			return Float::withValue($this->value() * $aNumber->value());
+			$obj =& Float::withValue($this->value() * $aNumber->value());
+			return $obj;
 		}
 	}
 	
@@ -106,7 +110,8 @@ class Integer
 	 * @since 7/14/05
 	 */
 	function &dividedBy ( &$aNumber ) {
-		return Float::withValue($this->value() / $aNumber->value());
+		$obj =& Float::withValue($this->value() / $aNumber->value());
+		return $obj;
 	}
 	
 /*********************************************************

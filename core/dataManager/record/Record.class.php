@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.34 2005/08/10 21:05:41 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.35 2006/01/17 20:06:21 adamfranco Exp $
 */
 class Record {
 	
@@ -140,7 +140,7 @@ class Record {
 	 * Returns the Schema ID associated with this Record.
 	 * @return string
 	 */
-	function &getSchemaID() {
+	function getSchemaID() {
 		return $this->_schema->getID();
 	}
 	

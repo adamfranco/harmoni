@@ -22,7 +22,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentFilteringFromTraversalIterator.class.php,v 1.1 2005/09/07 21:17:57 adamfranco Exp $
+ * @version $Id: AgentFilteringFromTraversalIterator.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
  */
 class AgentFilteringFromTraversalIterator
 	extends HarmoniAgentIterator
@@ -62,7 +62,7 @@ class AgentFilteringFromTraversalIterator
 		$this->_idsToIgnore = array();
 		
 		for ($i = 1; $i < func_num_args(); $i++) {
-			$nodeId =& func_get_arg($i);
+			$nodeId = func_get_arg($i);
 			$this->_idsToIgnore[] = $nodeId->getIdString();
 		}
 		

@@ -90,7 +90,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseManagementManager.class.php,v 1.4 2005/01/19 22:28:21 adamfranco Exp $
+ * @version $Id: CourseManagementManager.class.php,v 1.5 2006/01/17 20:06:22 adamfranco Exp $
  */
 class HarmoniCourseManagementManager
 	extends CourseManagementManager
@@ -167,7 +167,9 @@ class HarmoniCourseManagementManager
 		$dataSetGroup->addDataSet($dataSet);
 		$dataSetGroup->commit();
 		
-		return new HarmoniCanonicalCourse($this, $asset, $dataSet);
+		$obj =& new HarmoniCanonicalCourse($this, $asset, $dataSet);
+		
+		return $obj;
 	}
 	
 	/**
@@ -236,7 +238,9 @@ class HarmoniCourseManagementManager
 			$courses[] =& new HarmoniCanonicalCourse($this, $assets[$key], $dataSets[$id->getIdString()]);
 		}
 		
-		return new HarmoniIterator($courses);
+		$obj =& new HarmoniIterator($courses);
+		
+		return $obj;
 	}
 
 	/**
@@ -274,7 +278,9 @@ class HarmoniCourseManagementManager
 		
 		$dataSet =& $mgr->fetchDataSet($id->getIdString(), true);
 		
-		return new HarmoniCanonicalCourse($this,$asset,$dataSet);
+		$obj =& new HarmoniCanonicalCourse($this,$asset,$dataSet);
+		
+		return $obj;
 	}
 
 	/**
@@ -331,7 +337,9 @@ class HarmoniCourseManagementManager
 				$dataSets[$map[$group]]);
 		}
 		
-		return new HarmoniIterator($courses);
+		$obj =& new HarmoniIterator($courses);
+		
+		return $obj;
 	}
 
 	/**

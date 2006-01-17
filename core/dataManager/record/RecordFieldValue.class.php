@@ -17,7 +17,7 @@ define("NEW_VERSION","new");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldValue.class.php,v 1.19 2005/09/06 19:56:23 cws-midd Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.20 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -401,7 +401,7 @@ class RecordFieldValue {
 	 * 		RecordID::SchemaFieldLabel::RecordFieldValueIndex
 	 * @return ref object Id The id of this object.
 	 */
-	function getId() {
+	function &getId() {
 		if (!isset($this->_id)) {
 			$idManager =& Services::getService("Id");
 			

@@ -11,7 +11,7 @@ require_once(HARMONI."oki2/hierarchy/tree/TreeNode.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tree.class.php,v 1.13 2005/11/14 21:14:54 adamfranco Exp $
+ * @version $Id: Tree.class.php,v 1.14 2006/01/17 20:06:22 adamfranco Exp $
  * @since Created: 8/30/2003
  */
 class Tree extends TreeInterface {
@@ -334,7 +334,7 @@ class Tree extends TreeInterface {
 	 * 		to the starting node. Descendants are assigned increasingly positive levels; 
 	 * 		ancestors increasingly negative levels. 
 	 */
-	function &_traverse(& $result, & $node, $down, $levels, $startingLevel, $initiatingNodeId = null) {
+	function _traverse(& $result, & $node, $down, $levels, $startingLevel, $initiatingNodeId = null) {
 		// visit the node
 		
 		// note: the node could possibly been have visited already (if it has

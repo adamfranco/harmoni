@@ -25,7 +25,7 @@ require_once(OKI2."/osid/coursemanagement/CanonicalCourse.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.4 2005/01/19 22:28:21 adamfranco Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.5 2006/01/17 20:06:22 adamfranco Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -374,7 +374,9 @@ class HarmoniCanonicalCourse
 			$courses[] =& new HarmoniCanonicalCourse($this, $assets[$key], $dataSets[$id->getIdString()]);
 		}
 		
-		return new HarmoniIterator($courses);
+		$obj =& new HarmoniIterator($courses);
+		
+		return $obj;
 	}
 
 	/**

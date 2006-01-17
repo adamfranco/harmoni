@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -217,7 +217,8 @@ class Time
 	 * @since 5/5/05
 	 */
 	function &duration () {
-		return Duration::zero();
+		$obj =& Duration::zero();
+		return $obj;
 	}
 	
 	/**
@@ -463,7 +464,8 @@ class Time
 	 * @since 5/5/05
 	 */
 	function &asDate () {
-		return Date::today();
+		$obj =& Date::today();
+		return $obj;
 	}
 	
 	/**
@@ -487,7 +489,8 @@ class Time
 	 * @since 5/4/05
 	 */
 	function &asDuration () {
-		return Duration::withSeconds($this->seconds);
+		$obj =& Duration::withSeconds($this->seconds);
+		return $obj;
 	}
 	
 	/**

@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/RootAssetSearch.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.39 2005/12/15 19:10:01 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.40 2006/01/17 20:06:22 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -491,7 +491,9 @@ class HarmoniRepository
 				$assets[] =& $asset;
 		}
 		
-		return new HarmoniAssetIterator($assets);
+		$obj =& new HarmoniAssetIterator($assets);
+		
+		return $obj;
 	}
 
 	/**
@@ -664,7 +666,8 @@ class HarmoniRepository
 	 * @access public
 	 */
 	function &getSearchTypes () { 
-		return new HarmoniTypeIterator($this->_searchTypes);
+		$obj =& new HarmoniTypeIterator($this->_searchTypes);
+		return $obj;
 	}
 	
 	/**

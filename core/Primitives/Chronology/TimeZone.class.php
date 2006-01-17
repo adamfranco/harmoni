@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeZone.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: TimeZone.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -38,7 +38,7 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeZone.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: TimeZone.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -60,10 +60,11 @@ class TimeZone
 	 * @static
 	 */
 	function &defaultTimeZone () {
-		return TimeZone::offsetNameAbbreviation(
+		$obj =& TimeZone::offsetNameAbbreviation(
 					Duration::withHours(0),
 					'Greenwich Mean Time',
 					'GMT');
+		return $obj;
 	}
 	
 	/**
@@ -79,7 +80,8 @@ class TimeZone
 	function &offsetNameAbbreviation ( $aDuration, $aStringName = NULL, 
 		$aStringAbbreviation = NULL) 
 	{
-		return new TimeZone ($aDuration, $aStringName, $aStringAbbreviation );
+		$obj =& new TimeZone ($aDuration, $aStringName, $aStringAbbreviation );
+		return $obj;
 	}
 	
 	
@@ -96,7 +98,7 @@ class TimeZone
 	 * @static
 	 */
 	function &timeZones () {
-		return array (
+		$array = array (
 			TimeZone::offsetNameAbbreviation(
 				Duration::withHours(0),
 				'Universal Time',
@@ -143,6 +145,8 @@ class TimeZone
 				'PDT'),
 			
 		);
+		
+		return $array;
 	}
 	
 	

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.11 2005/07/15 22:25:33 gabeschine Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.12 2006/01/17 20:06:20 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/Database.interface.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.11 2005/07/15 22:25:33 gabeschine Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.12 2006/01/17 20:06:20 adamfranco Exp $
  **/
  
 class PostGreDatabase extends DatabaseInterface {
@@ -503,7 +503,8 @@ class PostGreDatabase extends DatabaseInterface {
 				$r[3], $r[2], $r[1], $r[4], $r[5], $r[6]);
 		
 		// ISO/SQL
-		return DateAndTime::fromString($value);
+		$obj =& DateAndTime::fromString($value);
+		return $obj;
 	}
 	
 	/**

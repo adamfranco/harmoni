@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.31 2005/12/22 19:34:10 cws-midd Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.32 2006/01/17 20:06:22 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.31 2005/12/22 19:34:10 cws-midd Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.32 2006/01/17 20:06:22 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -254,7 +254,8 @@ class HarmoniAsset
 		$contentRecord =& $contentRecords[0];
 		
  		if (!$contentRecord) {
- 			return new Blob();
+ 			$obj =& new Blob();
+ 			return $obj;
  		} else {
  			return $contentRecord->getValue("Content");
  		}
@@ -706,7 +707,9 @@ class HarmoniAsset
 				$assets[] =& $this->_repository->getAsset($child->getId());
 		}
 		
-		return new HarmoniAssetIterator($assets);
+		$obj =& new HarmoniAssetIterator($assets);
+		
+		return $obj;
 	}
 
 	 /**
@@ -1402,7 +1405,9 @@ class HarmoniAsset
 				$recordStructures[$structureId->getIdString()] =& $structure;
 		}
 		
-		return new HarmoniIterator($recordStructures);
+		$obj =& new HarmoniIterator($recordStructures);
+		
+		return $obj;
 	}
 
 	/**
@@ -1552,7 +1557,8 @@ class HarmoniAsset
 					$returnParts[] =& $part;
 			}
 		}
-    	return new HarmoniIterator($returnParts);
+    	$obj =& new HarmoniIterator($returnParts);
+    	return $obj;
     }
 	
 	/**
@@ -1588,7 +1594,8 @@ class HarmoniAsset
     		$part =& $partIterator->next();
     		$partValues[] =& $part->getValue();
     	}
-    	return new HarmoniIterator($partValues);
+    	$obj =& new HarmoniIterator($partValues);
+    	return $obj;
     } 
 
 	/**

@@ -20,7 +20,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniQualifierIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniQualifier.class.php,v 1.9 2006/01/09 23:37:50 adamfranco Exp $
+ * @version $Id: HarmoniQualifier.class.php,v 1.10 2006/01/17 20:06:21 adamfranco Exp $
  */
 class HarmoniQualifier 
 	extends Qualifier 
@@ -446,7 +446,7 @@ class HarmoniQualifier
 		while ($children->hasNext()) {
 			$child =& $children->next();
 			$childId =& $child->getId();
-			$idValue =& $childId->getIdString();
+			$idValue = $childId->getIdString();
 			
 			if (!isset($this->_cache->_qualifiers[$idValue])) {
 				$qualifier =& new HarmoniQualifier($child, $this->_cache);
@@ -456,7 +456,9 @@ class HarmoniQualifier
 			$result[] =& $this->_cache->_qualifiers[$idValue];
 		}
 		
-		return new HarmoniQualifierIterator($result);
+		$obj =& new HarmoniQualifierIterator($result);
+		
+		return $obj;
 	}
 
 	/**
@@ -499,7 +501,9 @@ class HarmoniQualifier
 			$result[] =& $this->_cache->_qualifiers[$idValue];
 		}
 		
-		return new HarmoniQualifierIterator($result);
+		$obj =& new HarmoniQualifierIterator($result);
+		
+		return $obj;
 	}
 	
 }

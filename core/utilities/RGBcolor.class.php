@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RGBcolor.class.php,v 1.5 2005/04/12 18:48:10 adamfranco Exp $
+ * @version $Id: RGBcolor.class.php,v 1.6 2006/01/17 20:06:22 adamfranco Exp $
  */
 class RGBColor {
 	var $_red,$_green,$_blue;
@@ -204,7 +204,8 @@ class RGBColor {
 	}
 	
 	function &replicate() {
-		return new RGBColor($this->getRed(), $this->getGreen(), $this->getBlue());
+		$obj =& new RGBColor($this->getRed(), $this->getGreen(), $this->getBlue());
+		return $obj;
 	}
 }
 

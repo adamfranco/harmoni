@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObject.class.php,v 1.1 2005/07/13 21:38:07 adamfranco Exp $
+ * @version $Id: SObject.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -25,7 +25,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObject.class.php,v 1.1 2005/07/13 21:38:07 adamfranco Exp $
+ * @version $Id: SObject.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -154,7 +154,8 @@ class SObject {
  	 * @since 5/5/05
  	 */
  	function &asA ( $aSimilarClass ) {
- 		return SObject::newFrom($aSimilarClass, $this);
+ 		$obj =& SObject::newFrom($aSimilarClass, $this);
+ 		return $obj;
  	}
  
  	/**

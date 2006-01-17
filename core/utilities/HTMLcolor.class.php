@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/RGBcolor.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HTMLcolor.class.php,v 1.4 2005/04/12 18:48:10 adamfranco Exp $
+ * @version $Id: HTMLcolor.class.php,v 1.5 2006/01/17 20:06:22 adamfranco Exp $
  */
 class HTMLcolor extends RGBcolor {
 	/**
@@ -46,7 +46,8 @@ class HTMLcolor extends RGBcolor {
 	}
 	
 	function &replicate() {
-		return new HTMLColor($this->getHTMLColor());
+		$obj =& new HTMLColor($this->getHTMLColor());
+		return $obj;
 	}
 }
 

@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.17 2005/12/20 21:26:24 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.18 2006/01/17 20:06:22 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
@@ -451,7 +451,8 @@ class HarmoniHierarchy
 		$nodes =& $this->_cache->getAllNodes();
 
 		// create the iterator and return them
-		return new HarmoniNodeIterator($nodes);
+		$obj =& new HarmoniNodeIterator($nodes);
+		return $obj;
 	}
 
 	/**
@@ -478,7 +479,8 @@ class HarmoniHierarchy
 		$nodes =& $this->_cache->getRootNodes();
 
 		// create the iterator and return them
-		return new HarmoniNodeIterator($nodes);
+		$obj =& new HarmoniNodeIterator($nodes);
+		return $obj;
 	}
 
 	/**
@@ -600,7 +602,8 @@ class HarmoniHierarchy
 		$nodes =& $this->_cache->getNodesFromDB($where);
 
 		// create the iterator and return them
-		return new HarmoniNodeIterator($nodes);
+		$iterator =& new HarmoniNodeIterator($nodes);
+		return $iterator;
 	}
 
 	/**

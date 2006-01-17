@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../TimeStamp.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -129,7 +129,7 @@ class TimeStampTestCase extends UnitTestCase {
 		$this->assertEqual(strtolower(get_class($temp)), 'time');
 		$this->assertTrue($temp->isEqualTo(Time::withHourMinuteSecond(15, 25, 0)));
 		
-		$temp =& $timestamp->dateAndTimeArray();
+		$temp = $timestamp->dateAndTimeArray();
 		$this->assertEqual(strtolower(get_class($temp[0])), 'date');
 		$this->assertEqual(strtolower(get_class($temp[1])), 'time');
 		$this->assertTrue($temp[0]->isEqualTo(Date::withYearMonthDay(2005, 5, 4)));

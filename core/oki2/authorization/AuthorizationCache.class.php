@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.27 2005/11/14 17:07:19 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.28 2006/01/17 20:06:21 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -369,7 +369,8 @@ class AuthorizationCache {
 			$queryResult->advanceRow();
 		}
 		$queryResult->free();
-		return new HarmoniTypeIterator($types);
+		$obj =& new HarmoniTypeIterator($types);
+		return $obj;
 	}
 
 	/**
@@ -437,7 +438,9 @@ class AuthorizationCache {
 		}
 		$queryResult->free();
 		
-		return new HarmoniFunctionIterator($functions);
+		$obj =& new HarmoniFunctionIterator($functions);
+		
+		return $obj;
 	}
 
 
@@ -557,7 +560,9 @@ class AuthorizationCache {
 			$qualifiers[] =& $this->_qualifiers[$nodeId->getIdString()];
 		}
 		
-		return new HarmoniQualifierIterator($qualifiers);
+		$obj =& new HarmoniQualifierIterator($qualifiers);
+		
+		return $obj;
 	}
 
 	
@@ -600,7 +605,9 @@ class AuthorizationCache {
 			$qualifiers[] =& $qualifier;
 		}
 
-		return new HarmoniQualifierIterator($qualifiers);
+		$obj =& new HarmoniQualifierIterator($qualifiers);
+
+		return $obj;
 	}
 
 

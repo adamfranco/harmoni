@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Number.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
+ * @version $Id: Number.class.php,v 1.3 2006/01/17 20:06:21 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Number.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
+ * @version $Id: Number.class.php,v 1.3 2006/01/17 20:06:21 adamfranco Exp $
  */
 class Number 
 	extends Magnitude
@@ -313,7 +313,8 @@ class Number
  	 * @since 7/14/05
  	 */
  	function &asDouble () {
- 		return Double::withValue(doubleval($this->value()));
+ 		$obj =& Double::withValue(doubleval($this->value()));
+ 		return $obj;
  	}
  	
  	/**
@@ -324,7 +325,8 @@ class Number
  	 * @since 7/14/05
  	 */
  	function &asFloat () {
- 		return Float::withValue(floatval($this->value()));
+ 		$obj =& Float::withValue(floatval($this->value()));
+ 		return $obj;
  	}
  	
  	/**

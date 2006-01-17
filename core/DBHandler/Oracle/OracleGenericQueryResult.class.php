@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleGenericQueryResult.class.php,v 1.7 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: OracleGenericQueryResult.class.php,v 1.8 2006/01/17 20:06:20 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleGenericQueryResult.class.php,v 1.7 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: OracleGenericQueryResult.class.php,v 1.8 2006/01/17 20:06:20 adamfranco Exp $
  */
 class OracleGenericQueryResult 
 	extends GenericQueryResultInterface 
@@ -86,7 +86,8 @@ class OracleGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function &returnAsSelectQueryResult () {
-		return new OracleSelectQueryResult($this->_resourceId, $this->_linkId);
+		$obj =& new OracleSelectQueryResult($this->_resourceId, $this->_linkId);
+		return $obj;
 	}
 	
 	/**
@@ -97,7 +98,8 @@ class OracleGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function &returnAsInsertQueryResult () {
-		return new OracleInsertQueryResult($this->_linkId);
+		$obj =& new OracleInsertQueryResult($this->_linkId);
+		return $obj;
 	}
 	
 	/**
@@ -108,7 +110,8 @@ class OracleGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function &returnAsUpdateQueryResult () {
-		return new OracleUpdateQueryResult($this->_linkId);
+		$obj =& new OracleUpdateQueryResult($this->_linkId);
+		return $obj;
 	}
 	
 	/**
@@ -119,7 +122,8 @@ class OracleGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function &returnAsDeleteQueryResult () {
-		return new OracleDeleteQueryResult($this->_linkId);
+		$obj =& new OracleDeleteQueryResult($this->_linkId);
+		return $obj;
 	}
 }
 
