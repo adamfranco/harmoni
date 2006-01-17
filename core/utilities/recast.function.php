@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: recast.function.php,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
+ * @version $Id: recast.function.php,v 1.4 2006/01/17 20:20:35 adamfranco Exp $
  */
 function &recast(&$old_object, $new_classname) {
 	if(class_exists($new_classname)) {
@@ -20,9 +20,11 @@ function &recast(&$old_object, $new_classname) {
 		$subtring_offset = $old_object_name_length + strlen($old_object_name_length) + 6;
 		$new_serialized_object = 'O:' . strlen($new_classname) . ':"' . 
 			$new_classname . '":'.substr($old_serialized_object, $subtring_offset);
-		return unserialize($new_serialized_object);
+		$obj =& unserialize($new_serialized_object);
+		return $obj;
 	} else {
-		return false;
+		$false = false;
+		return $false;
 	}
 }
 
