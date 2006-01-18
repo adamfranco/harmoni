@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ContentSearch.class.php,v 1.6 2005/07/18 14:45:24 gabeschine Exp $
+ * @version $Id: ContentSearch.class.php,v 1.7 2006/01/18 16:12:26 adamfranco Exp $
  */
 
 require_once(dirname(__FILE__)."/SearchModule.interface.php");
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ContentSearch.class.php,v 1.6 2005/07/18 14:45:24 gabeschine Exp $
+ * @version $Id: ContentSearch.class.php,v 1.7 2006/01/18 16:12:26 adamfranco Exp $
  */
 
 class ContentSearch
@@ -46,7 +46,7 @@ class ContentSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function searchAssets ( $searchCriteria ) {
+	function &searchAssets ( $searchCriteria ) {
 		$matchingIds = array();
 		
 		// Get All the assets

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DisplayNameSearch.class.php,v 1.6 2005/12/08 20:12:41 adamfranco Exp $
+ * @version $Id: DisplayNameSearch.class.php,v 1.7 2006/01/18 16:12:26 adamfranco Exp $
  */
 
 require_once(dirname(__FILE__)."/RegexSearch.abstract.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/RegexSearch.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DisplayNameSearch.class.php,v 1.6 2005/12/08 20:12:41 adamfranco Exp $
+ * @version $Id: DisplayNameSearch.class.php,v 1.7 2006/01/18 16:12:26 adamfranco Exp $
  */
 
 class DisplayNameSearch
@@ -48,7 +48,7 @@ class DisplayNameSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function searchAssets ( $searchCriteria ) {
+	function &searchAssets ( $searchCriteria ) {
 		$searchCriteria = $this->translateToRegex($searchCriteria);
 		
 		$matchingIds = array();

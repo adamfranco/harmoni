@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: KeywordSearch.class.php,v 1.2 2005/12/08 20:12:41 adamfranco Exp $
+ * @version $Id: KeywordSearch.class.php,v 1.3 2006/01/18 16:12:26 adamfranco Exp $
  */
 
 class KeywordSearch
@@ -38,7 +38,7 @@ class KeywordSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function searchAssets ( $searchCriteria ) {
+	function &searchAssets ( $searchCriteria ) {
 		$matchingIds = array();
 		
 		$recordMgr =& Services::getService("RecordManager");
