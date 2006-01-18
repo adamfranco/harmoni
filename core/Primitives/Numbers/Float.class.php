@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Float.class.php,v 1.2 2005/07/14 16:23:21 adamfranco Exp $
+ * @version $Id: Float.class.php,v 1.3 2006/01/18 23:31:09 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Number.class.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/Number.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Float.class.php,v 1.2 2005/07/14 16:23:21 adamfranco Exp $
+ * @version $Id: Float.class.php,v 1.3 2006/01/18 23:31:09 adamfranco Exp $
  */
 class Float 
 	extends Number
@@ -70,8 +70,9 @@ class Float
 	 * @since 7/14/05
 	 */
 	function &plus ( &$aNumber ) {
-		$class =& get_class($this);
-		eval('return '.$class.'::withValue($this->value() + $aNumber->value());');
+		$class = get_class($this);
+		eval('$obj =& '.$class.'::withValue($this->value() + $aNumber->value());');
+		return $obj;
 	}
 	
 	/**
@@ -83,8 +84,9 @@ class Float
 	 * @since 7/14/05
 	 */
 	function &multipliedBy ( &$aNumber ) {
-		$class =& get_class($this);
-		eval('return '.$class.'::withValue($this->value() * $aNumber->value());');
+		$class = get_class($this);
+		eval('$obj =& '.$class.'::withValue($this->value() * $aNumber->value());');
+		return $obj;
 	}
 	
 	/**
@@ -96,8 +98,9 @@ class Float
 	 * @since 7/14/05
 	 */
 	function &dividedBy ( &$aNumber ) {
-		$class =& get_class($this);
-		eval('return '.$class.'::withValue($this->value() / $aNumber->value());');
+		$class = get_class($this);
+		eval('$obj =& '.$class.'::withValue($this->value() / $aNumber->value());');
+		return $obj;
 	}
 	
 /*********************************************************
