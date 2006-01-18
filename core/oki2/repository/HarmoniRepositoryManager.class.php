@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.32 2006/01/17 20:06:22 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.33 2006/01/18 21:04:58 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -790,7 +790,7 @@ class HarmoniRepositoryManager
  * Private Functions:	
  ******************************************************************************/
  
-	function _getAssetRepository (& $assetId) {
+	function &_getAssetRepository (& $assetId) {
 		$node =& $this->_hierarchy->getNode($assetId);
 		
 		// If we have reached the top of the hierarchy and don't have a parent that
