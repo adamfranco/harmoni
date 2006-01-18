@@ -45,7 +45,7 @@ require_once(dirname(__FILE__)."/SearchModules/RootAssetSearch.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.40 2006/01/17 20:06:22 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.41 2006/01/18 16:22:25 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -739,7 +739,7 @@ class HarmoniRepository
 	 */
 	function &getRecordStructures () { 
 		$schemaMgr =& Services::getService("SchemaManager");
-		$schemaIDs =& $schemaMgr->getAllSchemaIDs();
+		$schemaIDs = $schemaMgr->getAllSchemaIDs();
 		foreach ($schemaIDs as $id) {
 			// Make sure that this record structure is either a global one
 			// or particular to this repository
