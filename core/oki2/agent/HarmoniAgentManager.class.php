@@ -48,7 +48,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.36 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.37 2006/01/18 19:17:22 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -538,7 +538,7 @@ class HarmoniAgentManager
 		$group =& new HarmoniGroup($hierarchy, $groupNode);
 		
 		// update our cache for isGroup
-		if (is_array($this->_groupTreeIds)) {
+		if (isset($this->_groupTreeIds) && is_array($this->_groupTreeIds)) {
 			$this->_groupTreeIds[$groupId->getIdString()] =& $groupId;
 		}
 		
