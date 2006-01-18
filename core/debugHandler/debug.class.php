@@ -12,7 +12,7 @@ require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: debug.class.php,v 1.16 2005/07/14 20:15:04 adamfranco Exp $
+ * @version $Id: debug.class.php,v 1.17 2006/01/18 17:05:42 adamfranco Exp $
  *
  * @static
  **/
@@ -99,5 +99,31 @@ function printpre($array, $return=FALSE) {
 	else
 		print $string;
 }
+
+/**
+ * Printpre an array or object, excluding any children named in the excludes list
+ * 
+ * @param array $array
+ * @param array $excludes
+ * @return mixed void or string
+ * @access public
+ * @since 1/18/06
+ */
+function printpreArrayExcept($array, $excludes = array(), $return=FALSE) {
+	$string = "\n<pre>";
+	
+	foreach ($array as $key => $val) {
+		if (!in_array($key, $excludes))
+			$string .= "\n\n".$key."\n=> ".print_r($val, TRUE);
+	}
+	$string .= "\n</pre>";
+	
+	if ($return)
+		return $string;
+	else
+		print $string;
+}
+
+
 
 ?>
