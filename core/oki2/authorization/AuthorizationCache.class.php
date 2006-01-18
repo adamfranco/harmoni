@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.28 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.29 2006/01/18 15:32:16 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -873,7 +873,7 @@ class AuthorizationCache {
 		
 		// process all rows and create the explicit authorizations
 		while ($queryResult->hasMoreRows()) {
-			$row =& $queryResult->getCurrentRow();
+			$row = $queryResult->getCurrentRow();
 			
 // 			printpre($row);
 
