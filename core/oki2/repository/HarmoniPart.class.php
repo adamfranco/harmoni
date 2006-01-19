@@ -19,7 +19,7 @@ require(OKI2."osid/repository/Part.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.14 2006/01/13 22:37:43 cws-midd Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.15 2006/01/19 21:36:20 cws-midd Exp $ 
  */
 class HarmoniPart 
 	extends Part
@@ -286,7 +286,7 @@ class HarmoniPart
 			default:
 				return $false;
 		}
-		$this->updateValue($object); 
+		$this->updateValue($object);
 	}
 	
 	/**
