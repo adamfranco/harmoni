@@ -1,7 +1,5 @@
 <?php
 
-require_once(HARMONI."GUIManager/Components/MenuItem.interface.php");
-
 /**
  * The <code>MenuItemLink</code> class is an extension of the <code>MenuItem</code>
  * interface adding support for attaching extra data like URL, target window, an 
@@ -15,7 +13,7 @@ require_once(HARMONI."GUIManager/Components/MenuItem.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuItemLink.class.php,v 1.8 2005/03/29 19:44:10 adamfranco Exp $
+ * @version $Id: MenuItemLink.class.php,v 1.9 2006/01/20 20:52:40 adamfranco Exp $
  */
 class MenuItemLink extends Component /* implements MenuItemInterface */ {
 

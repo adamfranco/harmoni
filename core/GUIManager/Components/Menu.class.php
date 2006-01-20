@@ -13,7 +13,7 @@ require_once(HARMONI."GUIManager/Components/Menu.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Menu.class.php,v 1.10 2006/01/17 20:06:20 adamfranco Exp $
+ * @version $Id: Menu.class.php,v 1.11 2006/01/20 20:52:40 adamfranco Exp $
  */
 class Menu extends Container /* implements MenuInterface */ {
 
@@ -78,7 +78,11 @@ class Menu extends Container /* implements MenuInterface */ {
 		// supported multiple inheritance
 		$rule1 =& ExtendsValidatorRule::getRule("MenuItemLink");
 		$rule2 =& ExtendsValidatorRule::getRule("MenuItemHeading");
-		ArgumentValidator::validate($menuItem, OrValidatorRule::getRule($rule1, $rule2), true);
+		$rule3 =& ExtendsValidatorRule::getRule("MenuItem");
+		ArgumentValidator::validate($menuItem, 
+			OrValidatorRule::getRule(
+				OrValidatorRule::getRule($rule1, $rule2), $rule3), 
+			true);
 		// ** end of parameter validation
 
 		parent::add($menuItem, $width, $height, $alignmentX, $alignmentY);
