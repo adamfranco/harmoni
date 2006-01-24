@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.33 2006/01/18 21:04:58 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.34 2006/01/24 19:43:27 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -69,17 +69,17 @@ class HarmoniRepositoryManager
 
 		$schemaMgr =& Services::getService("SchemaManager");
 		$ids =& Services::getService("Id");
-		$recordType = "edu.middlebury.harmoni.repository.asset_content";
+		$recordStructureId =& $ids->getId("edu.middlebury.harmoni.repository.asset_content");
 		$recordDesc = "A RecordStructure for the generic content of an asset.";
 		
-		if (!$schemaMgr->schemaExists($recordType)) {
+		if (!$schemaMgr->schemaExists($recordStructureId->getIdString())) {
 			// Create the Schema
-			$schema =& new Schema($recordType, "Repository Asset Content", 1, $recordDesc);
+			$schema =& new Schema($recordStructureId->getIdString(), "Repository Asset Content", 1, $recordDesc);
 			$schema->addField(new SchemaField("Content", "Content", "blob", "The binary content of the Asset"));
 			$schemaMgr->synchronize($schema);
 			
 			// The SchemaManager only allows you to use Schemas created by it for use with Records.
-			$schema =& $schemaMgr->getSchemaByID($recordType);
+			$schema =& $schemaMgr->getSchemaByID($recordStructureId->getIdString());
 			debug::output("RecordStructure is being created from Schema with Id: '".$schema->getID()."'");
 			
 			$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure(

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.34 2006/01/24 18:37:18 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.35 2006/01/24 19:43:27 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.34 2006/01/24 18:37:18 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.35 2006/01/24 19:43:27 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -1056,7 +1056,8 @@ class HarmoniAsset
 			$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
 			
 			// If this is the last asset referencing this record, delete it.
-			if (count($setsContaining) == 1 && $setsContaining[0] == $myId->getIdString()) {
+			$idManager =& Services::getService('Id');
+			if (count($setsContaining) == 1 && $myId->isEqual($idManager->getId($setsContaining[0]))) {
 				$myRecordSet->removeRecord($record);
 				$myRecordSet->commit(TRUE);
 				$record->delete();

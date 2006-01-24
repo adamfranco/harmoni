@@ -20,7 +20,7 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.15 2006/01/09 23:37:52 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.16 2006/01/24 19:43:26 adamfranco Exp $
  */
 
 class HarmoniNode 
@@ -511,7 +511,7 @@ class HarmoniNode
 		ArgumentValidator::validate($newParentId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
-		if ($oldParentId->getIdString() === $newParentId->getIdString())
+		if ($oldParentId->isEqual($newParentId))
 			return;
 		
 		IsUserAuthorizedCache::dirtyNode($this->_id);
