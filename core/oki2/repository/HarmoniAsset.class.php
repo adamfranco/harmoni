@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.33 2006/01/18 21:04:58 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.34 2006/01/24 18:37:18 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.33 2006/01/18 21:04:58 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.34 2006/01/24 18:37:18 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -1119,7 +1119,7 @@ class HarmoniAsset
 			$result =& $dbHandler->query($query, $this->_dbIndex);
 			
 			if ($result->getNumberOfRows()) {
-				$structureIdString =& $result->field("structure_id");
+				$structureIdString = $result->field("structure_id");
 				
 				$recordClass = $this->_repository->_builtInTypes[$structureIdString];
 				$recordStructureId =& $idManager->getId($structureIdString);
