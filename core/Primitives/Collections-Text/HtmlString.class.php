@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/String.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.5 2005/12/14 22:16:59 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.6 2006/01/25 21:48:34 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
@@ -49,7 +49,8 @@ class HtmlString
 		$output = '';
 		$inWord = false;
 		
-		for ($i=0; $i < strlen($this->_string) && $wordCount < $numWords; $i++) {
+		$length = strlen($this->_string);
+		for ($i=0; $i < $length && $wordCount < $numWords; $i++) {
 			$char = $this->_string[$i];
 			
 			switch($char) {
@@ -79,8 +80,20 @@ class HtmlString
 					// iterate over the tag
 					while ($char != '>') {
 						$char = $this->_string[$i];
+						
+						if ($char == '&') {
+							$rest = substr($this->_string, $i, 25);
+							if (preg_match('/^&((#[0-9]{2,3})|([a-zA-Z][a-zA-Z0-9]{1,20}));/', $rest, $matches)) 
+							{
+								$tagHtml .= $char;
+							} else {
+								$tagHtml .= '&amp;';	
+							}
+						} else {
+							$tagHtml .= $char;
+						}
+						
 						$i++;
-						$tagHtml .= $char;
 					}
 					$i--; // we've overrun to print the end tag, so decrement $i
 					
@@ -112,6 +125,13 @@ class HtmlString
 					}
 					$output .= $char;
 					break;
+				case "&":
+					$rest = substr($this->_string, $i, 25);
+					if (!preg_match('/^&((#[0-9]{2,3})|([a-zA-Z][a-zA-Z0-9]{1,20}));/', $rest)) {
+						$inWord = true;
+						$output .= '&amp;';
+						break;
+					}
 				default:
 					$inWord = true;
 					$output .= $char;
