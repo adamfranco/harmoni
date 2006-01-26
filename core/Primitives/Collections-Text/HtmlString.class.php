@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/String.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.6 2006/01/25 21:48:34 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.7 2006/01/26 14:39:24 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
@@ -59,59 +59,77 @@ class HtmlString
 					$output .= '&gt;';
 					break;
 				case '<':
-					if ($this->isInvalidLessThan($this->_string, $i)) {
+					if (preg_match('/^<!\[CDATA\[$/', substr($this->_string, $i, 9))) {
+						while ($i < $length
+							&& !($this->_string[$i] == ']' 
+								&& $this->_string[$i+1] == ']'
+								&& $this->_string[$i+2] == '>')
+							&& !($this->_string[$i] == '}' 
+								&& $this->_string[$i+1] == '}'
+								&& $this->_string[$i+2] == '>'))
+						{
+							$output .= $this->_string[$i];
+							$i++;
+						}
+						$output .= ']]>';
+						$i++;
+						$i++;
+					} 
+					
+					// Check for invalid less-than characters
+					else if ($this->isInvalidLessThan($this->_string, $i)) {
 						$inWord = true;
 						$output .= '&lt;';
 						break;
-					}
-					
-					// We are at a tag:
-					//	- 	if we are starting a tag, push that tag onto the tag
-					// 		stack and print it out.
-					//	- 	If we are closing a tag, pop it off of the tag stack.
-					//		and print it out.
-					$tag = $this->getTag($this->_string, $i);
-					$tagHtml = '';
-					$isCloseTag = ($this->_string[$i+1] == '/')?true:false;
-					$isSingleTag = $this->isSingleTag($this->_string, $i);
-					
-// 					print "<hr>Tag: $tag<br/>isCloseTag: ".(($isCloseTag)?'true':'false')."<br/>isSingleTag: ".(($isSingleTag)?'true':'false');
-					
-					// iterate over the tag
-					while ($char != '>') {
-						$char = $this->_string[$i];
+					} else {					
+						// We are at a tag:
+						//	- 	if we are starting a tag, push that tag onto the tag
+						// 		stack and print it out.
+						//	- 	If we are closing a tag, pop it off of the tag stack.
+						//		and print it out.
+						$tag = $this->getTag($this->_string, $i);
+						$tagHtml = '';
+						$isCloseTag = ($this->_string[$i+1] == '/')?true:false;
+						$isSingleTag = $this->isSingleTag($this->_string, $i);
 						
-						if ($char == '&') {
-							$rest = substr($this->_string, $i, 25);
-							if (preg_match('/^&((#[0-9]{2,3})|([a-zA-Z][a-zA-Z0-9]{1,20}));/', $rest, $matches)) 
-							{
-								$tagHtml .= $char;
+	// 					print "<hr>Tag: $tag<br/>isCloseTag: ".(($isCloseTag)?'true':'false')."<br/>isSingleTag: ".(($isSingleTag)?'true':'false');
+						
+						// iterate over the tag
+						while ($char != '>') {
+							$char = $this->_string[$i];
+							
+							if ($char == '&') {
+								$rest = substr($this->_string, $i, 25);
+								if (preg_match('/^&((#[0-9]{2,3})|([a-zA-Z][a-zA-Z0-9]{1,20}));/', $rest, $matches)) 
+								{
+									$tagHtml .= $char;
+								} else {
+									$tagHtml .= '&amp;';	
+								}
 							} else {
-								$tagHtml .= '&amp;';	
+								$tagHtml .= $char;
 							}
-						} else {
-							$tagHtml .= $char;
+							
+							$i++;
+						}
+						$i--; // we've overrun to print the end tag, so decrement $i
+						
+						// Enforce trailing slashes in single tags for more valid
+						// HTML.
+						if ($isSingleTag && $tagHtml[strlen($tagHtml) - 2] != '/') {
+							$tagHtml[strlen($tagHtml) - 1] = '/';
+							$tagHtml .= '>';
 						}
 						
-						$i++;
-					}
-					$i--; // we've overrun to print the end tag, so decrement $i
-					
-					// Enforce trailing slashes in single tags for more valid
-					// HTML.
-					if ($isSingleTag && $tagHtml[strlen($tagHtml) - 2] != '/') {
-						$tagHtml[strlen($tagHtml) - 1] = '/';
-						$tagHtml .= '>';
-					}
-					
-					if ($isCloseTag) {
-						$topTag = array_pop($tags);
-						$output .= '</'.$topTag.'>';
-					} else if ($isSingleTag) {
-						$output .= $tagHtml;
-					} else {			
-						array_push($tags, $tag);
-						$output .= $tagHtml;
+						if ($isCloseTag) {
+							$topTag = array_pop($tags);
+							$output .= '</'.$topTag.'>';
+						} else if ($isSingleTag) {
+							$output .= $tagHtml;
+						} else {			
+							array_push($tags, $tag);
+							$output .= $tagHtml;
+						}
 					}
 					
 					break;
@@ -148,7 +166,7 @@ class HtmlString
 			$addElipses = true;
 			
 			$tagsToSkip = 0;
-			$nestingTags = array("table", "tr", "ul", "ol", "select");
+			$nestingTags = array("table", "tr", "ul", "ol", "select", "![CDATA[");
 			for ($i = count($tags); $i > 0; $i--) {
 				if (in_array($tags[$i-1], $nestingTags))
 					$tagsToSkip++;
@@ -250,7 +268,7 @@ class HtmlString
 			$string = substr($inputString, $tagStart + 2);
 		else
 			$string = substr($inputString, $tagStart + 1);
-			
+		
 		$nextSpace = strpos($string, ' ');
 		$nextClose = strpos($string, '>');
 		

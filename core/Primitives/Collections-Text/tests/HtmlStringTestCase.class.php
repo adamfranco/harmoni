@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.4 2005/12/14 21:09:04 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.5 2006/01/26 14:39:30 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../HtmlString.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.4 2005/12/14 21:09:04 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.5 2006/01/26 14:39:30 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -568,6 +568,95 @@ END;
 		$this->assertEqual($htmlString->asString(), $result);
 		
 
+	}
+	
+	/**
+	 * Test CDATA sections
+	 */ 
+	function test_cdata() {
+		$string = "<![CDATA[Hello.]]>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
+		
+		$string = 
+"<![CDATA[
+Hello.
+]]>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
+		
+		$string = 
+"<![CDATA[  <  ]]>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
+		
+		$string = 
+"<![CDATA[  >  ]]>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
+		
+		$string = "<![CDATA[&]]>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
+		
+		$string = "<![CDATA[ & ]]>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
+		
+		$string = "Hello there <![CDATA[ & ]]> with CDATA";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
+		
+		$string = 
+"<p>Hello there</p>
+<![CDATA[ & ]]> 
+with CDATA";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
+		
+		$string = 
+"<div>
+	<p>Hello there</p>
+	<style>
+		<![CDATA[ & ]]> 
+	</style>
+	with CDATA.
+</div>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
+		
+		$string = 
+"<![CDATA[
+		&
+		<
+		>
+]]>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
+		
+		
+		$string = 
+"Hello world.
+<p style='font-size: large;'>The quick brown <strong>fox</strong> 
+
+<![CDATA[
+	& < >
+]]>
+
+jumped over the lazy <em>dog</em>.</p>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
 	}
 }
 ?>
