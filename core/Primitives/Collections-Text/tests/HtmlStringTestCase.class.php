@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.7 2006/01/26 17:11:46 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.8 2006/01/27 20:26:59 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../HtmlString.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.7 2006/01/26 17:11:46 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.8 2006/01/27 20:26:59 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -673,6 +673,148 @@ Hello.
 "<![CDATA[
 Hello.
 ]]>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string2);
+	}
+	
+	
+	function test_comments () {
+		$string = 
+"Hello 
+<!---->
+Goodbye";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
+		
+		$string = 
+"Hello 
+<!-- -->
+Goodbye";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
+		
+		$string = 
+"Hello 
+<!-- You my 
+mommy.-->
+Goodbye";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string);
+	}
+	
+	function test_close_tags () {
+		$string = 
+"</div><p>Hello world.</p>";
+		$string2 = 
+"<p>Hello world.</p>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string2);
+		
+		$string = 
+"</td></tr></table><p>Hello </div> world.</p>";
+		$string2 = 
+"<p>Hello </p> world.";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string2);
+	}
+	
+	function test_tables () {
+		$string = 
+"<tr><td>Hello world.</td></tr>";
+		$string2 = 
+"<table><tr><td>Hello world.</td></tr></table>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string2);
+		
+		$string = 
+"<td>Hello world.</td>";
+		$string2 = 
+"<table><tr><td>Hello world.</td></tr></table>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string2);
+		
+		$string = 
+"<th>Hello world.</th>";
+		$string2 = 
+"<table><tr><th>Hello world.</th></tr></table>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string2);
+		
+		$string = 
+"<tbody><th>Hello world.</th>";
+		$string2 = 
+"<table><tbody><tr><th>Hello world.</th></tr></tbody></table>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string2);
+	}
+	
+	function test_lists () {
+		$string = 
+"<li>Hello world.</li>";
+		$string2 = 
+"<ul><li>Hello world.</li></ul>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string2);
+		
+		$string = 
+"<li>Hello world.";
+		$string2 = 
+"<ul><li>Hello world.</li></ul>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string2);
+		
+		$string = 
+"<dt>saying:</dt>";
+		$string2 = 
+"<dl><dt>saying:</dt></dl>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string2);
+		
+		$string = 
+"<dt>saying:</dt>
+<dd>Hello world.</dd>";
+		$string2 = 
+"<dl><dt>saying:</dt>
+<dd>Hello world.</dd></dl>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string2);
+	}
+	
+	function test_select () {
+		$string = 
+"<option>Hello world.";
+		$string2 = 
+"<select><option>Hello world.</option></select>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string2);
+		
+		$string = 
+"<optgroup><option>Hello world.</optgroup></option>";
+		$string2 = 
+"<select><optgroup><option>Hello world.</option></optgroup></select>";
+		$htmlString =& HtmlString::withValue($string);
+		$htmlString->clean();
+		$this->assertEqual($htmlString->asString(), $string2);
+		
+		$string = 
+"<optgroup><option>Hello world.</optgroup></option></select>";
+		$string2 = 
+"<select><optgroup><option>Hello world.</option></optgroup></select>";
 		$htmlString =& HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);

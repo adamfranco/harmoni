@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/String.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.9 2006/01/27 18:53:29 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.10 2006/01/27 20:26:56 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
@@ -132,7 +132,8 @@ class HtmlString
 								}
 							} else if ($isSingleTag) {
 								$output .= $tagHtml;
-							} else {			
+							} else {
+								$output .= $this->ensureNesting($tag, $tags);
 								array_push($tags, $tag);
 								$output .= $tagHtml;
 							}
@@ -208,6 +209,74 @@ class HtmlString
 // 		print "<pre>'".htmlspecialchars($output)."'</pre>"; 
 		
 		$this->_string = $output;
+	}
+	
+	/**
+	 * Ensure that td tags are inside of tr's, etc.
+	 * 
+	 * @param string $tag
+	 * @param ref array $tags
+	 * @return string
+	 * @access public
+	 * @since 1/27/06
+	 */
+	function ensureNesting ($tag, &$tags) {		
+		if (count($tags))
+			$lastTag = $tags[count($tags) - 1];
+		else
+			$lastTag = null;
+		
+// 		print "<pre>Tag: $tag\nLastTag: $lastTag\nTags => "; print_r($tags); print "</pre>";
+		$preString = '';
+		switch ($tag) {
+			case 'th':
+			case 'td':
+				if ($lastTag != 'tr') {
+					$preString = $this->ensureNesting('tr', $tags).'<tr>';
+					array_push($tags, 'tr');
+				}
+				break;
+			case 'tr':
+				if (!in_array($lastTag, array('table', 'tbody', 'thead', 'tfoot'))) {
+					$preString = '<table>';
+					array_push($tags, 'table');
+				}
+				break;
+			case 'thead':
+			case 'tbody':
+			case 'tfoot':
+				if ($lastTag != 'table') {
+					$preString = '<table>';
+					array_push($tags, 'table');
+				}
+				break;
+			case 'li':
+				if ($lastTag != 'ul' && $lastTag != 'ol') {
+					$preString = '<ul>';
+					array_push($tags, 'ul');
+				}
+				break;
+			case 'dt':
+			case 'dd':
+				if ($lastTag != 'dl') {
+					$preString = '<dl>';
+					array_push($tags, 'dl');
+				}
+				break;
+			case 'option':
+				if ($lastTag != 'select' && $lastTag != 'optgroup') {
+					$preString = '<select>';
+					array_push($tags, 'select');
+				}
+				break;
+			case 'optgroup':
+				if ($lastTag != 'select') {
+					$preString = '<select>';
+					array_push($tags, 'select');
+				}
+				break;
+		}
+		return $preString;
 	}
 	
 	/**
