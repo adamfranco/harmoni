@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/String.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.8 2006/01/27 16:32:12 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.9 2006/01/27 18:53:29 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
@@ -59,6 +59,7 @@ class HtmlString
 					$output .= '&gt;';
 					break;
 				case '<':
+					// Just skip past CDATA sections.
 					if (preg_match('/^<!\[CDATA\[$/', substr($this->_string, $i, 9))) {
 						while ($i < $length
 							&& !($this->_string[$i] == ']' 
@@ -71,7 +72,7 @@ class HtmlString
 							$output .= $this->_string[$i];
 							$i++;
 						}
-						$output .= ']]>';
+						$output .= ']'.']'.'>';
 						$i++;
 						$i++;
 					} 
@@ -116,22 +117,26 @@ class HtmlString
 						
 						// Enforce trailing slashes in single tags for more valid
 						// HTML.
-						if ($isSingleTag && !$tag == 'comment' 
-							&& $tagHtml[strlen($tagHtml) - 2] != '/') 
-						{
-							$tagHtml[strlen($tagHtml) - 1] = '/';
-							$tagHtml .= '>';
-						}
-						
-						if ($isCloseTag) {
-							$topTag = array_pop($tags);
-							$output .= '</'.$topTag.'>';
-						} else if ($isSingleTag) {
+						if ($tag == 'comment') {
 							$output .= $tagHtml;
-						} else {			
-							array_push($tags, $tag);
-							$output .= $tagHtml;
-						}
+						} else {
+							if ($isSingleTag && $tagHtml[strlen($tagHtml) - 2] != '/') {
+								$tagHtml[strlen($tagHtml) - 1] = '/';
+								$tagHtml .= '>';
+							}
+							
+							if ($isCloseTag) {
+								if (count($tags)) {
+									$topTag = array_pop($tags);
+									$output .= '</'.$topTag.'>';
+								}
+							} else if ($isSingleTag) {
+								$output .= $tagHtml;
+							} else {			
+								array_push($tags, $tag);
+								$output .= $tagHtml;
+							}
+						} 
 					}
 					
 					break;
