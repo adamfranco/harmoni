@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/String.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.7 2006/01/26 14:39:24 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.8 2006/01/27 16:32:12 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
@@ -116,7 +116,9 @@ class HtmlString
 						
 						// Enforce trailing slashes in single tags for more valid
 						// HTML.
-						if ($isSingleTag && $tagHtml[strlen($tagHtml) - 2] != '/') {
+						if ($isSingleTag && !$tag == 'comment' 
+							&& $tagHtml[strlen($tagHtml) - 2] != '/') 
+						{
 							$tagHtml[strlen($tagHtml) - 1] = '/';
 							$tagHtml .= '>';
 						}
@@ -260,7 +262,7 @@ class HtmlString
 	 * @param string $inputString
 	 * @param integer $tagStart // index of the opening '<'
 	 * @return string
-	 * @access public
+	 * @access private
 	 * @since 12/13/05
 	 */
 	function getTag ( $inputString, $tagStart ) {
@@ -268,6 +270,10 @@ class HtmlString
 			$string = substr($inputString, $tagStart + 2);
 		else
 			$string = substr($inputString, $tagStart + 1);
+		
+		// Case for comments.
+		if (preg_match('/^!--/', $string))
+			return 'comment';
 		
 		$nextSpace = strpos($string, ' ');
 		$nextClose = strpos($string, '>');
@@ -292,13 +298,18 @@ class HtmlString
 	 * @param string $inputString
 	 * @param integer $tagStart // index of the opening '<'
 	 * @return string
-	 * @access public
+	 * @access private
 	 * @since 12/13/05
 	 */
 	function isSingleTag ( $inputString, $tagStart ) {
 		// if this is a close tag itself, return false
 		if ($inputString[$tagStart + 1] == '/')
 			return false;
+		
+		if ($inputString[$tagStart + 1] == '!'
+			&& $inputString[$tagStart + 2] == '--'
+			&& $inputString[$tagStart + 3] == '--')
+			return true;
 		
 		// if this is a tag that ends in '/>', return true
 		$string = substr($inputString, $tagStart + 1);
@@ -328,7 +339,7 @@ class HtmlString
 	 * @param string $inputString
 	 * @param integer $tagStart // index of the opening '<'
 	 * @return string
-	 * @access public
+	 * @access private
 	 * @since 12/14/05
 	 */
 	function isInvalidLessThan ( $inputString, $tagStart ) {
