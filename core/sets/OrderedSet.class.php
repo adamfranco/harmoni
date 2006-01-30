@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.15 2006/01/30 16:20:17 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.16 2006/01/30 19:07:42 adamfranco Exp $
  */ 
 
 require_once(HARMONI."Primitives/Objects/SObject.class.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."Primitives/Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.15 2006/01/30 16:20:17 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.16 2006/01/30 19:07:42 adamfranco Exp $
  * @author Adam Franco
  */
  
@@ -261,6 +261,30 @@ class OrderedSet
 			$this->_items[$position + 1] = $id->getIdString();
 			$this->_items[$position] = $itemAfter;
 		}
+	}
+	
+	/**
+	 * Move the specifiedId to the beginning of the set
+	 * 
+	 * @param object Id $id The Id of the item to move.
+	 * @return void
+	 * @access public
+	 * @since 1/30/06
+	 */
+	function moveToBeginning ( &$id ) {
+		$this->moveToPosition($id, 0);
+	}
+	
+	/**
+	 * Move the specifiedId to the end of the set
+	 * 
+	 * @param object Id $id The Id of the item to move.
+	 * @return void
+	 * @access public
+	 * @since 1/30/06
+	 */
+	function moveToEnd ( &$id ) {
+		$this->moveToPosition($id, $this->count() - 1);
 	}
 	
 	/**
