@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.14 2005/08/05 16:22:30 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.15 2006/01/30 16:20:17 adamfranco Exp $
  */ 
 
 require_once(HARMONI."Primitives/Objects/SObject.class.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."Primitives/Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.14 2005/08/05 16:22:30 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.15 2006/01/30 16:20:17 adamfranco Exp $
  * @author Adam Franco
  */
  
@@ -172,6 +172,23 @@ class OrderedSet
 	}
 	
 	/**
+	 * Answer the id at the position specified, false if position is out of bounds.
+	 * 
+	 * @param integer $position
+	 * @return object Id
+	 * @access public
+	 * @since 1/30/06
+	 */
+	function &atPosition ( $position ) {
+		if (isset($this->_items[$position]))
+			return $this->_idManager->getId($this->_items[$position]);
+		else {
+			$false = false;
+			return $false;
+		}
+	}
+	
+	/**
 	 * Return the number of ids in the set.
 	 * @access public
 	 * @return integer
@@ -244,5 +261,30 @@ class OrderedSet
 			$this->_items[$position + 1] = $id->getIdString();
 			$this->_items[$position] = $itemAfter;
 		}
+	}
+	
+	/**
+	 * Initialize from a data-string
+	 * 
+	 * @param string $data
+	 * @return void
+	 * @access public
+	 * @since 1/30/06
+	 */
+	function initializeWithData ( $data ) {
+		// Create our internal array
+		$this->_i = -1;
+		$this->_items = explode("\t", $data);		
+	}
+	
+	/**
+	 * Answer a data string for storage
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 1/30/06
+	 */
+	function toDataString () {
+		return implode("\t", $this->_items);
 	}
 }
