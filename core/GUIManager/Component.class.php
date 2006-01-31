@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.class.php,v 1.16 2005/11/30 18:48:07 adamfranco Exp $
+ * @version $Id: Component.class.php,v 1.17 2006/01/31 14:59:44 adamfranco Exp $
  */
 class Component extends ComponentInterface {
 
@@ -69,6 +69,13 @@ class Component extends ComponentInterface {
 	 * @since 7/15/05
 	 */
 	var $_postHTML;
+	
+	/**
+	 * @var string $_id; The id of this component. (Optional 
+	 * @access private
+	 * @since 1/30/06
+	 */
+	var $_id = null;
 	
 	/**
 	 * The constructor.
@@ -232,7 +239,10 @@ class Component extends ComponentInterface {
 					.$styleCollections[$key]->getPreHTML($tabs."\t");
 			}
 
-			print  $tabs."<div class=\"$classSelectors\">\n";
+			print  $tabs."<div class=\"$classSelectors\"";
+			if ($this->getId())
+				print " id=\"".$this->getId()."\"";
+			print ">\n";
 			print $styleCollectionPreHTML;
 		}
 		
@@ -332,6 +342,29 @@ class Component extends ComponentInterface {
 	 **/
 	function getType() {
 		return $this->_type;
+	}
+	
+	/**
+	 * Set the (HTML) id of this component
+	 * 
+	 * @param string $id
+	 * @return void
+	 * @access public
+	 * @since 1/30/06
+	 */
+	function setId ($id) {
+		$this->_id = $id;
+	}
+	
+	/**
+	 * Answer the Id of this component
+	 * 
+	 * @return string or null if not set
+	 * @access public
+	 * @since 1/30/06
+	 */
+	function getId () {
+		return $this->_id;
 	}
 
 }
