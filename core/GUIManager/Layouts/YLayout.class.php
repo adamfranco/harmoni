@@ -17,7 +17,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: YLayout.class.php,v 1.7 2005/10/19 21:04:11 adamfranco Exp $
+ * @version $Id: YLayout.class.php,v 1.8 2006/02/02 19:52:03 adamfranco Exp $
  */
 class YLayout extends LayoutInterface {
 
@@ -80,7 +80,7 @@ class YLayout extends LayoutInterface {
 			
 			echo $tabs."\t<tr><td$halign$valign>\n";
 			$component->render($theme, $tabs."\t\t");
-			echo $tabs."\t</td></tr>\n";
+			echo "\n".$tabs."\t</td></tr>\n";
 		}
 		
 		echo $tabs."</table>\n";
