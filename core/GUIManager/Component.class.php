@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.class.php,v 1.17 2006/01/31 14:59:44 adamfranco Exp $
+ * @version $Id: Component.class.php,v 1.18 2006/02/02 19:53:46 adamfranco Exp $
  */
 class Component extends ComponentInterface {
 
@@ -244,6 +244,8 @@ class Component extends ComponentInterface {
 				print " id=\"".$this->getId()."\"";
 			print ">\n";
 			print $styleCollectionPreHTML;
+		} else if ($this->getId()) {
+			print  $tabs."<div id=\"".$this->getId()."\">\n";
 		}
 		
 		$preHTML = ob_get_contents();
@@ -291,6 +293,8 @@ class Component extends ComponentInterface {
 
 			print $styleCollectionPostHTML;
 			
+			print $tabs."</div>\n";
+		} else if ($this->getId()) {
 			print $tabs."</div>\n";
 		}
 			
