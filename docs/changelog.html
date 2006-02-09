@@ -3,7 +3,37 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.5.0</h2><h3>2005-01-10</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.5.1</h2><h3>2005-02-09</h3><ul>
+		<li/> Bug Fix:
+	 
+			Fixed table structure to support longer Id lengths.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Fixed return by reference errors that throw notices in PHP 4.4.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Now can add HTML ids to GUI components.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Fixed output HTML tabbing.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			HtmlString now handles CDATA sections and HTML comments.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Comparing Ids via object methods rather than string-values
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Parts can now automatically convert from a string value into the 
+			appropriate data object.
+		 (<i>Christopher Shubert</i>)
+		<li/> New feature:  
+			New methods for manipulating OrderedSets.
+		 (<i>Adam Franco</i>)
+	</ul><br/><h2>Version 0.5.0</h2><h3>2005-01-10</h3><ul>
 		<li/> New feature:  
 			Authz: IsUserAuthorized caching system to dramatically speed authorization
 			checking. Look-ahead is currently implemented in the AssetIterator: if

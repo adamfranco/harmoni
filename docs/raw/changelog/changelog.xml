@@ -3,11 +3,38 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.98 2006/01/11 13:59:45 cws-midd Exp $
+ @version $Id: changelog.xml,v 1.99 2006/02/09 19:20:17 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.5.1" date="2005-02-09">
+		<fix author='adam'>
+			Fixed table structure to support longer Id lengths.
+		</fix>
+		<fix author='adam'>
+			Fixed return by reference errors that throw notices in PHP 4.4.
+		</fix>
+		<new author='adam'>
+			Now can add HTML ids to GUI components.
+		</new>
+		<fix author='adam'>
+			Fixed output HTML tabbing.
+		</fix>
+		<new author='adam'>
+			HtmlString now handles CDATA sections and HTML comments.
+		</new>
+		<fix author='adam'>
+			Comparing Ids via object methods rather than string-values
+		</fix>
+		<new author='chris'>
+			Parts can now automatically convert from a string value into the 
+			appropriate data object.
+		</new>
+		<new author='adam'>
+			New methods for manipulating OrderedSets.
+		</new>
+	</version>
 	<version number="0.5.0" date="2005-01-10">
 		<new author='adam'>
 			Authz: IsUserAuthorized caching system to dramatically speed authorization

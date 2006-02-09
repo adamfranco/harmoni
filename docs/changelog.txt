@@ -3,6 +3,25 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.5.1 (2005-02-09)
+----------------------------------------------------
+		
+	* Bug Fix: Fixed table structure to support longer Id lengths. (Adam Franco)
+		
+	* Bug Fix: Fixed return by reference errors that throw notices in PHP 4.4. (Adam Franco)
+		
+	* New feature: Now can add HTML ids to GUI components. (Adam Franco)
+		
+	* Bug Fix: Fixed output HTML tabbing. (Adam Franco)
+		
+	* New feature: HtmlString now handles CDATA sections and HTML comments. (Adam Franco)
+		
+	* Bug Fix: Comparing Ids via object methods rather than string-values (Adam Franco)
+		
+	* New feature: Parts can now automatically convert from a string value into the appropriate data object. (Christopher Shubert)
+		
+	* New feature: New methods for manipulating OrderedSets. (Adam Franco)
+	
 v. 0.5.0 (2005-01-10)
 ----------------------------------------------------
 		
