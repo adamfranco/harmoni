@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.13 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.14 2006/02/10 20:44:02 adamfranco Exp $
  */
 
 class AncestorGroupSearch
@@ -71,12 +71,24 @@ class AncestorGroupSearch
 		ArgumentValidator::validate($searchCriteria, ExtendsValidatorRule::getRule("Id"));
 		
 		$agentManager =& Services::getService("Agent");
+		$idManager =& Services::getService("Id");
+		$everyoneId =& $idManager->getId("edu.middlebury.agents.everyone");
+		$usersId =& $idManager->getId("edu.middlebury.agents.users");
+		
+		// Special case for Users group, parents are:
+		//		Everyone
+		if ($searchCriteria->isEqual($usersId)) {
+			$groups = array();
+			$groups[] =& $agentManager->getGroup($everyoneId);
+			
+			$iterator =& new HarmoniAgentIterator($groups);
+			return $iterator;
+		}
+		
+		
 		$traversalIterator =& $this->_hierarchy->traverse($searchCriteria,
 				Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_UP(), 
 				Hierarchy::TRAVERSE_LEVELS_ALL());
-				
-		$idManager =& Services::getService("Id");
-		$everyoneId =& $idManager->getId("edu.middlebury.agents.everyone");
 		
 		$levelToReturnTo = NULL;
 		$groupIds = array();
@@ -107,9 +119,14 @@ class AncestorGroupSearch
 			}			
 		}
 		
+		if ($agentManager->isAgent($searchCriteria) 
+			&& !$searchCriteria->isEqual(
+				$idManager->getId("edu.middlebury.agents.anonymous")))
+		{
+			$groupIds[$usersId->getIdString()] =& $usersId;
+		}
 				
 		// now create an array of the group objects to add to the iterator.
-		$agentManager =& Services::getService("Agent");
 		$groups = array();
 		foreach ($groupIds as $groupId) {
 			$groups[] =& $agentManager->getGroup($groupId);

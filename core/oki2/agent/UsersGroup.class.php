@@ -17,7 +17,7 @@ require_once(dirname(__FILE__)."/HarmoniAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.7 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.8 2006/02/10 20:43:37 adamfranco Exp $
  */
 class UsersGroup
 	extends HarmoniGroup
@@ -30,25 +30,108 @@ class UsersGroup
 	 * @param string sharedDB The name of the shared database.
 	 * @access public
 	 */
-	function UsersGroup($dbIndex, $sharedDB) {
+	function UsersGroup() {
 		$idManager =& Services::getService("Id");
-		$id =& $idManager->getId("edu.middlebury.agents.users");
-		
-		$type =& new Type("Agents", "edu.middlebury.harmoni", "Any/Anonymous", 
+		$this->_id =& $idManager->getId("edu.middlebury.agents.users");
+		$this->_idString = $this->_id->getIdString();
+		$this->_type =& new Type("Agents", "edu.middlebury.harmoni", "Any/Anonymous", 
 			_("Special group for only users that can be authenticated."));
+		$this->_displayName = _("Users");
+		$this->_description = _("The Users group contains all Agents that can be authenticated.");
 		
-		$propertiesArray = array();
+// 		$this->_propertiesArray = array();
 // 		$propertiesType = new HarmoniType('Agents', 'Harmoni', 'Agent Properties',
 // 						'Properties known to the Harmoni Agents System.');
 // 		$propertiesArray[0] =& new HarmoniProperties($propertiesType);
 		
-		$this->HarmoniGroup(	_("Users"),
-								$id,
-								$type,
-								$propertiesArray,
-								_("The Users group contains all Agents that can be authenticated."),
-								$dbIndex,
-								$sharedDB);
+	}
+	
+	/**
+	 * Get the name of this Agent.
+	 *	
+	 * @return string
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function getDisplayName () { 
+		return $this->_displayName;
+	}
+	
+	/**
+	 * Get the Description of this Group.
+	 *	
+	 * @return string
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function getDescription () { 
+		return $this->description;
+	}
+
+	/**
+	 * Get the id of this Agent.
+	 *	
+	 * @return object Id
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function &getId () { 
+		return $this->_id;
+	}
+
+	/**
+	 * Get the type of this Agent.
+	 *	
+	 * @return object Type
+	 * 
+	 * @throws object AgentException An exception with one of the
+	 *		   following messages defined in org.osid.agent.AgentException may
+	 *		   be thrown:  {@link
+	 *		   org.osid.agent.AgentException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.agent.AgentException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.agent.AgentException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function &getType () { 
+		return $this->_type;
 	}
 		
 	/**
@@ -176,12 +259,7 @@ class UsersGroup
 	function &getMembers ( $includeSubgroups ) { 
 		$agentManager =& Services::getService("Agent");
 		$ids =& Services::getService("Id");
-		
-		$everyoneGroup =& $agentManager->getGroup($ids->getId("edu.middlebury.agents.everyone"));
-		
-		$agents=&$everyoneGroup->getMembers($includeSubgroups);
-		
-		$obj =& new UsersGroupIterator($agents);
+		$obj =& new UsersGroupIterator($agentManager->getAgents());
 		
 		return $obj;
 	}
@@ -209,20 +287,7 @@ class UsersGroup
 	 * @access public
 	 */
 	function &getGroups ( $includeSubgroups ) { 
-		$agentManager =& Services::getService("Agent");
-		$ids =& Services::getService("Id");
-		$myId =& $this->getId();
-		$everyoneId =& $ids->getId("edu.middlebury.agents.everyone");
-		
-		//Filter out ourself
-		$groupIterator =& $agentManager->getGroups();
-		$groups = array();
-		while ($groupIterator->hasNextAgent()) {
-			$group =& $groupIterator->nextAgent();
-			if (!$myId->isEqual($group->getId()) && !$everyoneId->isEqual($group->getId()))
-				$groups[] =& $group;
-		}
-		
+		$groups = array();		
 		$obj =& new HarmoniAgentIterator($groups);
 		
 		return $obj;
@@ -277,7 +342,7 @@ class UsersGroup
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.7 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.8 2006/02/10 20:43:37 adamfranco Exp $
  */
 
 class UsersGroupIterator extends HarmoniAgentIterator {
@@ -295,16 +360,18 @@ class UsersGroupIterator extends HarmoniAgentIterator {
 	}
 	
 	function _getNext() {
-		if ($this->_next) return;
-		if (!$this->_iterator->hasNext()) return;
+		if (!$this->_iterator->hasNext()) {
+			$this->_next = null;
+			return;
+		}
 		
 		$this->_next =& $this->_iterator->next();
 		
-		if ($this->_ignore->isEqual($this->_next->getId())) $this->_getNext();
+		if ($this->_ignore->isEqual($this->_next->getId()))
+			$this->_getNext();
 	}
 	
 	function hasNext() {
-		return false;
 		return $this->_next?true:false;
 	}
 	

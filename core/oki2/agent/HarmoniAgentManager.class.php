@@ -5,7 +5,6 @@ require_once(OKI2."/osid/agent/AgentException.php");
 
 require_once(HARMONI."oki2/agent/HarmoniAgent.class.php");
 require_once(HARMONI."oki2/agent/HarmoniEditableAgent.class.php");
-// require_once(HARMONI."oki2/agent/UsersGroup.class.php");
 require_once(HARMONI."oki2/agent/HarmoniAgentIterator.class.php");
 require_once(HARMONI."oki2/agent/GroupsFromNodesIterator.class.php");
 require_once(HARMONI."oki2/agent/MembersOnlyFromTraversalIterator.class.php");
@@ -18,6 +17,7 @@ require_once(HARMONI."oki2/shared/HarmoniTypeIterator.class.php");
 require_once(HARMONI."oki2/shared/HarmoniId.class.php");
 require_once(HARMONI."oki2/shared/HarmoniTestId.class.php");
 require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
+require_once(HARMONI."oki2/agent/UsersGroup.class.php");
 
 /**
  * <p>
@@ -48,7 +48,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.37 2006/01/18 19:17:22 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.38 2006/02/10 20:43:37 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -80,6 +80,8 @@ class HarmoniAgentManager
 		$this->_allAgentsId = $idManager->getId("edu.middlebury.agents.all_agents");
 		$this->_usersId = $idManager->getId("edu.middlebury.agents.users");
 		$this->_anonymousId = $idManager->getId("edu.middlebury.agents.anonymous");
+		
+		$this->_usersGroup =& new UsersGroup();
 	}
 	
 	/**
@@ -356,8 +358,11 @@ class HarmoniAgentManager
 	function &getAgents () {
 		$hierarchyManager =& Services::getService("Hierarchy");
 		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
-		$agentRoot =& $hierarchy->getNode($this->_allAgentsId);
-		$agentIterator =& new FromNodesAgentIterator($agentRoot->getChildren());
+		$traversalIterator =& $hierarchy->traverse($this->_allAgentsId,
+			Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
+			Hierarchy::TRAVERSE_LEVELS_ALL());
+			
+		$agentIterator =& new MembersOnlyFromTraversalIterator($traversalIterator);
 		return $agentIterator;
 	}
 	
@@ -613,16 +618,20 @@ class HarmoniAgentManager
 	 */
 	function &getGroup ( &$id ) { 
 		// ** parameter validation
-		$extendsRule =& ExtendsValidatorRule::getRule("Id");
-		ArgumentValidator::validate($id, $extendsRule, true);
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
-
-		// Get the node for the agent
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
-		$groupNode =& new HarmoniGroup($hierarchy, $hierarchy->getNode($id));
 		
-		return $groupNode;
+		if ($id->isEqual($this->_usersId)) {
+			return $this->_usersGroup;
+		} else {
+			
+			// Get the node for the agent
+			$hierarchyManager =& Services::getService("Hierarchy");
+			$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
+			$groupNode =& new HarmoniGroup($hierarchy, $hierarchy->getNode($id));
+			
+			return $groupNode;
+		}
 	}
 	
 	
@@ -654,7 +663,17 @@ class HarmoniAgentManager
 		$node =& $hierarchy->getNode($this->_allGroupsId);
 		$children =& $node->getChildren();
 		
-		$i =& new GroupsFromNodesIterator($children);
+		$groups = array();
+		
+		$groups[] =& $this->getGroup($this->_everyoneId);
+		$groups[] =& $this->getGroup($this->_usersId);
+		
+		$nodeGroups =& new GroupsFromNodesIterator($children);
+		while ($nodeGroups->hasNext()) {
+			$groups[] =& $nodeGroups->next();
+		}
+		
+		$i = new HarmoniAgentIterator($groups);
 		return $i;
 	}
 	
@@ -835,6 +854,9 @@ class HarmoniAgentManager
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
+		if ($id->isEqual($this->_usersId))
+			return false;
+		
 		$hierarchyManager =& Services::getService("Hierarchy");
 		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
 		$agentNode =& $hierarchy->getNode($id);
@@ -885,6 +907,8 @@ class HarmoniAgentManager
 			return false;
 		}
 		
+		if ($id->isEqual($this->_usersId))
+			return true;
 		
 		// If the Id does not correspond to an agent and it is a decendent of the
 		// groups tree, then it must be a group. 
