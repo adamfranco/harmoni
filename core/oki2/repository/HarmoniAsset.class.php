@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.35 2006/01/24 19:43:27 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.36 2006/02/10 21:06:24 cws-midd Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.35 2006/01/24 19:43:27 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.36 2006/02/10 21:06:24 cws-midd Exp $ 
  */
 
 class HarmoniAsset
@@ -1103,13 +1103,12 @@ class HarmoniAsset
 		// Check to see if the record is in our cache.
 		// If so, return it. If not, create it, then return it.
 		if (!isset($this->_createdRecords[$recordId->getIdString()])) {
-			
 			// Check for the record in our non-datamanager records;
 		
 			$idManager =& Services::getService("Id");
 			$dbHandler =& Services::getService("DatabaseManager");
 			$myId =& $this->getId();
-			
+
 			// get the record ids that we want to inherit
 			$query =& new SelectQuery();
 			$query->addTable("dr_asset_record");
@@ -1160,7 +1159,7 @@ class HarmoniAsset
 			}
 			$result->free();
 		}
-		
+						
 		return $this->_createdRecords[$recordId->getIdString()];
 	}
 

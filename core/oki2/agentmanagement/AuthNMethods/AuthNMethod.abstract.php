@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.10 2005/10/28 13:59:27 cws-midd Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.11 2006/02/10 21:06:11 cws-midd Exp $
  */ 
 
 /**
@@ -32,7 +32,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.10 2005/10/28 13:59:27 cws-midd Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.11 2006/02/10 21:06:11 cws-midd Exp $
  */
 class AuthNMethod {
 	
@@ -92,7 +92,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function createTokensObject () {
+	function &createTokensObject () {
 		$tokensClass = $this->_configuration->getProperty('tokens_class');
 		$newTokens =& new $tokensClass($this->_configuration);
 		

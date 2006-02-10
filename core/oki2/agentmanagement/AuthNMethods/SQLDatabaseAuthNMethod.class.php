@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.11 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.12 2006/02/10 21:06:11 cws-midd Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.11 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.12 2006/02/10 21:06:11 cws-midd Exp $
  */
 class SQLDatabaseAuthNMethod
 	extends AuthNMethod
@@ -83,7 +83,7 @@ class SQLDatabaseAuthNMethod
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function createTokensObject () {
+	function &createTokensObject () {
 		$tokensClass = $this->_configuration->getProperty('tokens_class');
 		$newTokens =& new $tokensClass($this->_configuration);
 		
