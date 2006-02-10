@@ -17,7 +17,7 @@ require_once(dirname(__FILE__)."/HarmoniAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.8 2006/02/10 20:43:37 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.9 2006/02/10 20:49:28 adamfranco Exp $
  */
 class UsersGroup
 	extends HarmoniGroup
@@ -87,7 +87,7 @@ class UsersGroup
 	 * @access public
 	 */
 	function getDescription () { 
-		return $this->description;
+		return $this->_description;
 	}
 
 	/**
@@ -342,7 +342,7 @@ class UsersGroup
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.8 2006/02/10 20:43:37 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.9 2006/02/10 20:49:28 adamfranco Exp $
  */
 
 class UsersGroupIterator extends HarmoniAgentIterator {
