@@ -3,12 +3,15 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.100 2006/02/10 20:44:04 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.101 2006/02/10 22:12:45 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.5.2" date="The Nebulous Future">
+		<fix author='adam'>
+			Now actually gets the qualifier Id when deleting an authorization.
+		</fix>
 		<change author="adam">
 			Added access to the 'Authenticatable Users' group.
 		</change>

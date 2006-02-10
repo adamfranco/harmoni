@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.4 2006/01/05 16:15:28 adamfranco Exp $
+ * @version $Id: IsUserAuthorizedCache.class.php,v 1.5 2006/02/10 22:12:42 adamfranco Exp $
  */ 
 
 /**
@@ -68,7 +68,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.4 2006/01/05 16:15:28 adamfranco Exp $
+ * @version $Id: IsUserAuthorizedCache.class.php,v 1.5 2006/02/10 22:12:42 adamfranco Exp $
  */
 class IsUserAuthorizedCache {
 		
@@ -537,6 +537,8 @@ class IsUserAuthorizedCache {
 	 * @since 12/20/05
 	 */
 	function dirtyNode ( &$nodeId ) {
+		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
+		
 		$hierarchyManager =& Services::getService("Hierarchy");
 		$node =& $hierarchyManager->getNode($nodeId);
 		$hierarchy =& $hierarchyManager->getHierarchyForNode($node);

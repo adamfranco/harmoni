@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.32 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.33 2006/02/10 22:12:42 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -365,7 +365,10 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function deleteAuthorization ( &$authorization ) { 
+	function deleteAuthorization ( &$authorization ) {
+		ArgumentValidator::validate($authorization, ExtendsValidatorRule::getRule("Authorization"), true);
+		$qualifier =& $authorization->getQualifier();
+		$qualifierId =& $qualifier->getId();
 		$this->_cache->deleteAuthorization($authorization);
 		
 		IsUserAuthorizedCache::dirtyNode($qualifierId);
