@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_DigitalRepository.sql,v 1.11 2006/02/13 22:30:35 adamfranco Exp $
+-- @version $Id: MySQL_DigitalRepository.sql,v 1.12 2006/02/13 22:53:43 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -140,9 +140,10 @@ TYPE=InnoDB;
 
 CREATE TABLE dr_resized_cache (
   FK_file varchar(75) NOT NULL default '0',
-  size int(11) default NULL,
-  websafe tinyint(1) default '0',
+  size int(11) NOT NULL default '0',
+  websafe tinyint(1) NOT NULL default '0',
   cache_time timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   FK_mime_type int(10) unsigned default NULL,
-  `data` longblob NOT NULL
+  `data` longblob NOT NULL,
+  PRIMARY KEY  (FK_file,size,websafe)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table is use by polyphony.modules.repository';
