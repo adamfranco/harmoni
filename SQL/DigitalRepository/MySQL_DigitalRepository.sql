@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_DigitalRepository.sql,v 1.10 2005/10/17 20:44:38 adamfranco Exp $
+-- @version $Id: MySQL_DigitalRepository.sql,v 1.11 2006/02/13 22:30:35 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -47,12 +47,11 @@ CREATE TABLE dr_file (
   filename varchar(255) NOT NULL default '',
   FK_mime_type int(10) unsigned default NULL,
   size int(11) NOT NULL default '0',
-  width int(11) NULL default NULL,
-  height int(11) NULL default NULL,
+  width int(11) default NULL,
+  height int(11) default NULL,
+  mod_time timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (id)
-) 
-CHARACTER SET utf8
-TYPE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -131,3 +130,19 @@ CREATE TABLE dr_type (
 ) 
 CHARACTER SET utf8
 TYPE=InnoDB;
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `dr_resized_cache`
+-- 
+
+CREATE TABLE dr_resized_cache (
+  FK_file varchar(75) NOT NULL default '0',
+  size int(11) default NULL,
+  websafe tinyint(1) default '0',
+  cache_time timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  FK_mime_type int(10) unsigned default NULL,
+  `data` longblob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table is use by polyphony.modules.repository';

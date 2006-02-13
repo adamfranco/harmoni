@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.101 2006/02/10 22:12:45 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.102 2006/02/13 22:30:35 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -15,6 +15,9 @@
 		<change author="adam">
 			Added access to the 'Authenticatable Users' group.
 		</change>
+		<new author='adam'>
+			Now caches resized versions of images.
+		</new>
 	</version>
 	<version number="0.5.1" date="2005-02-09">
 		<fix author='adam'>
