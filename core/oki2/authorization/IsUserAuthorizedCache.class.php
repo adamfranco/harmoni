@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.5 2006/02/10 22:12:42 adamfranco Exp $
+ * @version $Id: IsUserAuthorizedCache.class.php,v 1.6 2006/02/13 20:49:45 cws-midd Exp $
  */ 
 
 /**
@@ -68,7 +68,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.5 2006/02/10 22:12:42 adamfranco Exp $
+ * @version $Id: IsUserAuthorizedCache.class.php,v 1.6 2006/02/13 20:49:45 cws-midd Exp $
  */
 class IsUserAuthorizedCache {
 		
@@ -556,6 +556,8 @@ class IsUserAuthorizedCache {
     		Hierarchy::TRAVERSE_DIRECTION_DOWN(),
     		Hierarchy::TRAVERSE_LEVELS_ALL());
     		
+    	$nodesToDirty = array();	
+    		
 		while ($traversalInfo->hasNext()) {
 			$info =& $traversalInfo->next();
 			$nodeId =& $info->getNodeId();
@@ -563,20 +565,22 @@ class IsUserAuthorizedCache {
 			$idString = $nodeId->getIdString();
 			if (isset($_SESSION['__isUserAuthorizedCache'][$idString]))				
 				unset($_SESSION['__isUserAuthorizedCache'][$idString]);
+
+			$nodesToDirty[] = "'".addslashes($idString)."'";
 			
-			// Update the node's az_changed time
-			// so that it can be removed from the caches of other users during
-			// their synchronization.
-			$query =& new UpdateQuery();
-			$query->setTable("node");
-			$query->setColumns(array("az_node_changed"));
-			$query->setValues(array("NOW()"));
-			$query->addWhere("node_id = '".addslashes($idString)."'");
-			
-	// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
-						
-			$queryResult =& $dbHandler->query($query, $dbIndex);
 		}
+		// Update the node's az_changed time
+		// so that it can be removed from the caches of other users during
+		// their synchronization.
+		$query =& new UpdateQuery();
+		$query->setTable("node");
+		$query->setColumns(array("az_node_changed"));
+		$query->setValues(array("NOW()"));
+		$query->addWhere("node_id IN (".implode(", ", $nodesToDirty).")");
+		
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+					
+		$queryResult =& $dbHandler->query($query, $dbIndex);
 	}
 }
 
