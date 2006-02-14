@@ -18,7 +18,7 @@ require_once(OKI2."/osid/shared/Id.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniId.class.php,v 1.9 2006/01/24 19:43:27 adamfranco Exp $
+ * @version $Id: HarmoniId.class.php,v 1.10 2006/02/14 16:13:08 cws-midd Exp $
  */
 class HarmoniId 
 	extends Id 
@@ -36,7 +36,11 @@ class HarmoniId
 	 */
 	function HarmoniId ( $id  ) {
 		// ** parameter validation
-		ArgumentValidator::validate($id, NonzeroLengthStringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($id, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(),
+				IntegerValidatorRule::getRule()), 
+			true);
 		// ** end of parameter validation
 		
 // 		if (ereg('^#.+$', $id))
