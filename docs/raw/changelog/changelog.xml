@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.102 2006/02/13 22:30:35 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.103 2006/02/15 14:27:21 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -18,6 +18,10 @@
 		<new author='adam'>
 			Now caches resized versions of images.
 		</new>
+		<fix author='adam'>
+			Fixed authorization cache errors that occurred when explicit AZs
+			triggered cache hits before implicit AZs were loaded.
+		</fix>
 	</version>
 	<version number="0.5.1" date="2005-02-09">
 		<fix author='adam'>

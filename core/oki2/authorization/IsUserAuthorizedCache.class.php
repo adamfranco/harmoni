@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.6 2006/02/13 20:49:45 cws-midd Exp $
+ * @version $Id: IsUserAuthorizedCache.class.php,v 1.7 2006/02/15 14:27:20 adamfranco Exp $
  */ 
 
 /**
@@ -68,7 +68,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.6 2006/02/13 20:49:45 cws-midd Exp $
+ * @version $Id: IsUserAuthorizedCache.class.php,v 1.7 2006/02/15 14:27:20 adamfranco Exp $
  */
 class IsUserAuthorizedCache {
 		
@@ -228,11 +228,9 @@ class IsUserAuthorizedCache {
 	 * @access public
 	 */
 	function isUserAuthorized ( &$functionId, &$qualifierId ) {
-		// Cache miss
-		if (!isset($_SESSION['__isUserAuthorizedCache'][$qualifierId->getIdString()])) {
-			$this->queueId($qualifierId);
-			$this->_loadQueue();
-		}
+		// Cache Misses will be determined in the queing methods
+		$this->queueId($qualifierId);
+		$this->_loadQueue();
 		
 		// Cache hit or newly loaded cache
 		if (isset($_SESSION['__isUserAuthorizedCache']
@@ -270,7 +268,10 @@ class IsUserAuthorizedCache {
 	 * @since 12/20/05
 	 */
 	function queueIdString ( $idString ) {
-		if (!isset($_SESSION['__isUserAuthorizedCache'][$idString])
+		if ((!isset($_SESSION['__isUserAuthorizedCache'][$idString])
+				|| !isset($_SESSION['__isUserAuthorizedCache']
+								[$idString]
+								['__IMPLICIT_CACHED']))
 			&& !in_array($idString, $this->_queue))
 		{
 			$this->_queue[] = $idString;
@@ -331,7 +332,10 @@ class IsUserAuthorizedCache {
 	 * @access public
 	 * @since 11/10/05
 	 */
-	function _loadQueue () {		
+	function _loadQueue () {
+		if (!count($this->_queue))
+			return;
+		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$dbIndex = $this->_configuration->getProperty('database_index');
 		$idManager =& Services::getService("Id");
@@ -485,11 +489,24 @@ class IsUserAuthorizedCache {
 		}
 		$result->free();
 		
+		// Set flags that each Qualifier in the queue has had its implicit AZs cached.
+		foreach ($this->_queue as $qualifierIdString) {
+			$_SESSION['__isUserAuthorizedCache']
+				[$qualifierIdString]
+				['__IMPLICIT_CACHED'] = true;
+		}
+		
 // 		$timer->end();
 // 		printf("<br/>CacheAZTime: %1.6f", $timer->printTime());
 // 		print "<br/>Num Queries: ".($dbHandler->getTotalNumberOfQueries() - $startingQueries);
 		
 		$this->_queue = array();
+		
+// 		@$this->ticker++;
+// 		if ($this->ticker > 100) {
+// 			printpre($_SESSION['__isUserAuthorizedCache']);
+// 			exit;
+// 		}
 	}
 	
 	
