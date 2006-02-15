@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.25 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.26 2006/02/15 21:11:51 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -368,9 +368,9 @@ class RecordManager {
 		if ($ids) {
 			$parts1 = array();
 			foreach ($ids as $id) {
-				$parts1[] = "dm_record.id='".addslashes($id)."'";
+				$parts1[] = "'".addslashes($id)."'";
 			}
-			$part1 = implode(" OR ", $parts1);
+			$part1 = "dm_record.id IN (".implode(", ", $parts1).")";
 		}
 		
 		$part2 = $searchString;
@@ -392,6 +392,71 @@ class RecordManager {
 			$result->advanceRow();
 			
 			$resultIds[] = $a["record_id"];
+		}
+		
+		$result->free();
+		
+		$ids = $criteria->postProcess($resultIds);
+		return array_unique($ids);
+	}
+	
+	/**
+	 * Takes an array of record set IDs and some search criteria, and weeds out 
+	 * the IDs that don't match that criteria.
+	 * @param ref object $criteria The {@link SearchCriteria}.
+	 * @param optional array $ids An array of RecordSet IDs to search among.
+	 *								If not specified, all records will be searched.
+	 * @return array
+	 * @access public
+	 */
+	function getRecordSetIDsBySearch(&$criteria, $ids=null) {
+		// this should happen in one query.
+		// the WHERE clause of the SQL query will be relatively complicated.
+		$query =& new SelectQuery();
+		
+		$query->addColumn("id","record_set_id","dm_record_set");
+		
+		$query->addTable("dm_record");
+		$query->addTable("dm_record_field",LEFT_JOIN,"(dm_record_field.fk_record=dm_record.id AND dm_record_field.active=1)");
+		$query->addTable("dm_schema_field",LEFT_JOIN,"dm_record_field.fk_schema_field=dm_schema_field.id");
+		$query->addTable("dm_record_set", INNER_JOIN, "dm_record_set.fk_record = dm_record.id");
+		
+		$dataTypeManager =& Services::getService("DataTypeManager");
+		$list = $dataTypeManager->getRegisteredStorablePrimitives();
+
+		foreach ($list as $type) {
+			eval("$type::alterQuery(\$query);");
+		}
+		
+		$searchString = $criteria->returnSearchString();
+		
+		if ($ids) {
+			$parts1 = array();
+			foreach ($ids as $id) {
+				$parts1[] = "'".addslashes($id)."'";
+			}
+			$part1 = "\n\tdm_record_set.id IN (\n\t\t".implode(",\n\t\t", $parts1).")";
+		}
+		
+		$part2 = $searchString;
+		
+		$fullWhere = (isset($part1)?"($part1) \n\tAND ":"")."($part2)";
+		
+		$query->setWhere($fullWhere);
+		
+// 		print "<PRE>". MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
+		
+		$dbHandler =& Services::getService("DatabaseManager");
+		
+		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
+		
+		$resultIds = array();
+		
+		while ($result->hasMoreRows()) {
+			$a = $result->getCurrentRow();
+			$result->advanceRow();
+			
+			$resultIds[] = $a["record_set_id"];
 		}
 		
 		$result->free();

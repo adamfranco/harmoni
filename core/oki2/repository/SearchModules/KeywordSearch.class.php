@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: KeywordSearch.class.php,v 1.4 2006/02/15 16:18:12 adamfranco Exp $
+ * @version $Id: KeywordSearch.class.php,v 1.5 2006/02/15 21:11:52 adamfranco Exp $
  */
 
 class KeywordSearch
@@ -75,29 +75,19 @@ class KeywordSearch
 			}
 		}
 		
-		// Run the search
-		$recordIDs = $recordMgr->getRecordIDsBySearch($criteria);
-
-		$groupIds = array();
-		foreach  ($recordIDs as $id) {
-			$recordSetIds = $recordMgr->getRecordSetIDsContainingID($id);
-			$groupIds = array_merge($groupIds, $recordSetIds);
+		// Get the asset Ids to limit to.
+		$allAssets =& $this->_dr->getAssets();
+		$idStrings = array();
+		while ($allAssets->hasNext()) {
+			$asset =& $allAssets->next();
+			$id =& $asset->getId();
+			$idStrings[] = $id->getIdString();
 		}
 		
-		$groupIds = array_unique($groupIds);
+		// Run the search		
+		$matchingIds = array_unique($recordMgr->getRecordSetIDsBySearch($criteria, $idStrings));		
 				
 		$idManager =& Services::getService("Id");
-		
-		$myId =& $this->_dr->getId();
-		
-		foreach ($groupIds as $id) {
-			$assetId =& $idManager->getId($id);
-			$asset =& $drMgr->getAsset($assetId);
-			$dr =& $asset->getRepository();
-			
-			if ($myId->isEqual($dr->getId()))
-				$matchingIds[] = $assetId->getIdString();
-		}
 		
 		// Include Searches of displayname and description
 		$displayNameSearch =& new DisplayNameSearch($this->_dr);
