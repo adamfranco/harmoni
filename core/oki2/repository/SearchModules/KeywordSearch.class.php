@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: KeywordSearch.class.php,v 1.3 2006/01/18 16:12:26 adamfranco Exp $
+ * @version $Id: KeywordSearch.class.php,v 1.4 2006/02/15 16:18:12 adamfranco Exp $
  */
 
 class KeywordSearch
@@ -80,7 +80,7 @@ class KeywordSearch
 
 		$groupIds = array();
 		foreach  ($recordIDs as $id) {
-			$recordSetIds =& $recordMgr->getRecordSetIDsContainingID($id);
+			$recordSetIds = $recordMgr->getRecordSetIDsContainingID($id);
 			$groupIds = array_merge($groupIds, $recordSetIds);
 		}
 		
