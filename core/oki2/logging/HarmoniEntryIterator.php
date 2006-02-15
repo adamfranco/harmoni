@@ -19,7 +19,7 @@
  * O.K.I&#46; OSID Definition License}.
  * </p>
  * 
- * @package org.osid.logging
+ * @package harmoni.osid_v2.logging
  */
 class EntryIterator
 {
