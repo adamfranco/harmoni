@@ -15,7 +15,8 @@
  * 
  * @package harmoni.osid_v2.logging
  */
-class Entry
+class HarmoniEntry
+	extends Entry
 {
     /**
      * Return the logged item.

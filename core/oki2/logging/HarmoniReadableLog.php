@@ -14,7 +14,8 @@
  * 
  * @package harmoni.osid_v2.logging
  */
-class ReadableLog
+class HarmoniReadableLog
+	extends ReadableLog
 {
     /**
      * Get the display name for this ReadableLog.

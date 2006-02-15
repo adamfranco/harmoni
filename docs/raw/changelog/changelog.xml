@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.104 2006/02/15 21:11:52 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.105 2006/02/15 21:23:03 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -26,6 +26,9 @@
 			Fixed keyword searching to cut search time by 10x. 
 			Also fixed several reference errors in the DataManager.
 		</fix>
+		<new author='adam'>
+			Added a skeleton for an OSID Logging implementaion.
+		</new>
 	</version>
 	<version number="0.5.1" date="2005-02-09">
 		<fix author='adam'>
