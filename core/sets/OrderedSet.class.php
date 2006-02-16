@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.16 2006/01/30 19:07:42 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.17 2006/02/16 00:16:51 adamfranco Exp $
  */ 
 
 require_once(HARMONI."Primitives/Objects/SObject.class.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."Primitives/Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.16 2006/01/30 19:07:42 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.17 2006/02/16 00:16:51 adamfranco Exp $
  * @author Adam Franco
  */
  
@@ -58,8 +58,6 @@ class OrderedSet
 		$this->_items = array();
 		$this->_setId =& $setId;
 		$this->_i = -1;
-		
-		$this->_idManager =& Services::getService("Id");
 	}
 	
 	/**
@@ -98,9 +96,10 @@ class OrderedSet
 	 * @return object id
 	 */
 	function &next () {
+		$idManager =& Services::getService("Id");
 		if ($this->hasNext()) {
 			$this->_i++;
-			return $this->_idManager->getId($this->_items[$this->_i]);
+			return $idManager->getId($this->_items[$this->_i]);
 		} else {
 			throwError(new Error(NO_MORE_ITERATOR_ELEMENTS, "Set", 1));
 		}
@@ -180,8 +179,9 @@ class OrderedSet
 	 * @since 1/30/06
 	 */
 	function &atPosition ( $position ) {
+		$idManager =& Services::getService("Id");
 		if (isset($this->_items[$position]))
-			return $this->_idManager->getId($this->_items[$position]);
+			return $idManager->getId($this->_items[$position]);
 		else {
 			$false = false;
 			return $false;
@@ -298,7 +298,11 @@ class OrderedSet
 	function initializeWithData ( $data ) {
 		// Create our internal array
 		$this->_i = -1;
-		$this->_items = explode("\t", $data);		
+		$items = explode("\t", $data);
+		foreach ($items as $item) {
+			if (preg_match('/^[^\s\t\n]+$/', $item) && !in_array($item, $this->_items))
+				$this->_items[] = $item;
+		}
 	}
 	
 	/**
