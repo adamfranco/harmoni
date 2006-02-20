@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.32 2006/01/18 15:32:24 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.33 2006/02/20 17:12:33 cws-midd Exp $
  **/
 
 class HierarchyCache {
@@ -120,7 +120,7 @@ class HierarchyCache {
 
 	/**
 	 * Constructor
-	 * @param string hierarchyId The id of the corresponding hierarchy.
+	 * @param mixed hierarchyId The id of the corresponding hierarchy.
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 * @param string hyDB The name of the hierarchy database.
 	 * @param object DateAndTime $lastStructureUpdate
@@ -128,7 +128,11 @@ class HierarchyCache {
 	 */
 	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex, $hyDB) {
 		// ** parameter validation
-		ArgumentValidator::validate($hierarchyId, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($hierarchyId, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(),
+				IntegerValidatorRule::getRule()), 
+			true);
 		ArgumentValidator::validate($allowsMultipleParents, BooleanValidatorRule::getRule(), true);
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		ArgumentValidator::validate($hyDB, StringValidatorRule::getRule(), true);
@@ -176,7 +180,7 @@ class HierarchyCache {
 	 * Determines whether a node has been cached down
 	 * @see HierarchyCache::_cache
 	 * @access private
-	 * @param string idValue The string id of the node.
+	 * @param mixed idValue The string id of the node.
 	 * @param integer levels The number of tree levels down to check for caching.
 	 * If negative, then cached all the way down.
 	 * @return boolean If <code>true</code> then <code>levels</code> number of
@@ -184,7 +188,11 @@ class HierarchyCache {
 	 **/
 	function _isCachedDown($idValue, $levels) {
 		// ** parameter validation
-		ArgumentValidator::validate($idValue, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($idValue, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(),
+				IntegerValidatorRule::getRule()), 
+			true);
 		ArgumentValidator::validate($levels, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
@@ -200,7 +208,7 @@ class HierarchyCache {
 	 * Determines whether a node has been cached up 
 	 * @see HierarchyCache::_cache
 	 * @access private
-	 * @param string idValue The string id of the node.
+	 * @param mixed idValue The string id of the node.
 	 * @param integer levels The number of tree levels up to check for caching. 
 	 * If negative, then cached all the way up.
 	 * @return boolean If <code>true</code> then <code>levels</code> number of
@@ -208,7 +216,11 @@ class HierarchyCache {
 	 **/
 	function _isCachedUp($idValue, $levels) {
 		// ** parameter validation
-		ArgumentValidator::validate($idValue, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($idValue, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(),
+				IntegerValidatorRule::getRule()), 
+			true);
 		ArgumentValidator::validate($levels, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
@@ -224,7 +236,7 @@ class HierarchyCache {
 	 * Returns <code>true</code> if the node with the specified string id has
 	 * been cached.
 	 * @access private
-	 * @param string idValue The string id of the node.
+	 * @param mixed idValue The string id of the node.
 	 * @return boolean <code>true</code> if the with the specified string id has
 	 * been cached.
 	 **/
@@ -236,14 +248,22 @@ class HierarchyCache {
 	/**
 	 * Makes the first node the parent of the second node.
 	 * @access public
-	 * @param object parentIdValue The string id of the node to add as a parent.
-	 * @param object childIdValue The string id of the child node.
+	 * @param mixed parentIdValue The string id of the node to add as a parent.
+	 * @param mixed childIdValue The string id of the child node.
 	 * @return void
 	 **/
 	function addParent($parentIdValue, $childIdValue) {
 		// ** parameter validation
-		ArgumentValidator::validate($parentIdValue, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($childIdValue, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($parentIdValue, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(),
+				IntegerValidatorRule::getRule()), 
+			true);
+		ArgumentValidator::validate($childIdValue, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(),
+				IntegerValidatorRule::getRule()), 
+			true);
 		// ** end of parameter validation
 		
 		// get the two nodes
@@ -328,14 +348,22 @@ class HierarchyCache {
 	/**
 	 * Removes the first node from the list of parents of the second node.
 	 * @access public
-	 * @param object parentIdValue The string id of the node to to remove as a parent.
-	 * @param object childIdValue The string id of the child node.
+	 * @param mixed parentIdValue The string id of the node to to remove as a parent.
+	 * @param mixed childIdValue The string id of the child node.
 	 * @return void
 	 **/
 	function removeParent($parentIdValue, $childIdValue) {
 		// ** parameter validation
-		ArgumentValidator::validate($parentIdValue, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($childIdValue, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($parentIdValue, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(),
+				IntegerValidatorRule::getRule()), 
+			true);
+		ArgumentValidator::validate($childIdValue, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(),
+				IntegerValidatorRule::getRule()), 
+			true);
 		// ** end of parameter validation
 		
 
@@ -571,12 +599,16 @@ class HierarchyCache {
 	/**
 	 * Returns (and caches if necessary) the node with the specified string id.
 	 * @access public
-	 * @param string idValue The string id of the node.
+	 * @param mixed idValue The string id of the node.
 	 * @return mixed The corresponding <code>Node</code> object.
 	 **/
 	function &getNode($idValue) {
 		// ** parameter validation
-		ArgumentValidator::validate($idValue, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($idValue, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(),
+				IntegerValidatorRule::getRule()), 
+			true);
 		// ** end of parameter validation
 
 		// if the node has not been already cached, do it
@@ -1585,12 +1617,16 @@ class HierarchyCache {
 	 * Attempts to delete the specified node in the database. Only leaf nodes can
 	 * be deleted.
 	 * @access public
-	 * @param string idValue The string id of the node to delete.
+	 * @param mixed idValue The string id of the node to delete.
 	 * @return void
 	 **/
 	function deleteNode($idValue) {
 		// ** parameter validation
-		ArgumentValidator::validate($idValue, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($idValue, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(),
+				IntegerValidatorRule::getRule()), 
+			true);
 		// ** end of parameter validation
 		
 		// get the node
