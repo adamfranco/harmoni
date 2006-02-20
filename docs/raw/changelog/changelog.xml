@@ -3,12 +3,16 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.105 2006/02/15 21:23:03 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.106 2006/02/20 17:41:43 cws-midd Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.5.2" date="The Nebulous Future">
+		<fix author='chris'>
+			Argument validation for idStrings must allow integers as well, fixed
+			in HarmoniId, HierarchyCache, Tree.
+		</fix>
 		<fix author='adam'>
 			Now actually gets the qualifier Id when deleting an authorization.
 		</fix>

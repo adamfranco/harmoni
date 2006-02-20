@@ -11,7 +11,7 @@ require_once(HARMONI."oki2/hierarchy/tree/TreeNode.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tree.class.php,v 1.14 2006/01/17 20:06:22 adamfranco Exp $
+ * @version $Id: Tree.class.php,v 1.15 2006/02/20 17:41:27 cws-midd Exp $
  * @since Created: 8/30/2003
  */
 class Tree extends TreeInterface {
@@ -166,14 +166,17 @@ class Tree extends TreeInterface {
 	/**
 	 * Returns the node with the specified id. If it does not exist, return <code>null</code>.
 	 * @access public
-	 * @param string id The id of the requested node.
+	 * @param mixed id The id of the requested node.
 	 * @return ref object The requested node. <code>Null</code>, if the node
 	 * is not in the tree.
 	 */
 	function &getNode($id) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
-		ArgumentValidator::validate($id, $stringRule, true);
+		ArgumentValidator::validate($id, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(),
+				IntegerValidatorRule::getRule()), 
+			true);
 		// ** end of parameter validation
 	
 		return $this->_nodes[$id];
@@ -183,13 +186,16 @@ class Tree extends TreeInterface {
 	/**
 	 * Returns <code>true</code> if the node with the specified id (string) exists.
 	 * @access public
-	 * @param string id The id of the node.
+	 * @param mixed id The id of the node.
 	 * @return boolean <code>true</code> if the node with the specified id is in the tree; else <code>false</code>.
 	 */
 	function nodeExists($id) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
-		ArgumentValidator::validate($id, $stringRule, true);
+		ArgumentValidator::validate($id, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(),
+				IntegerValidatorRule::getRule()), 
+			true);
 		// ** end of parameter validation
 	
 		return isset($this->_nodes[$id]);
