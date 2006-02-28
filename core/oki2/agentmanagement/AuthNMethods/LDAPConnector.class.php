@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.7 2005/10/28 13:59:27 cws-midd Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.8 2006/02/28 18:59:59 adamfranco Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.7 2005/10/28 13:59:27 cws-midd Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.8 2006/02/28 18:59:59 adamfranco Exp $
  */
 class LDAPConnector {
 		
@@ -61,7 +61,11 @@ class LDAPConnector {
 			OptionalRule::getRule(NumericValidatorRule::getRule()));
 			
 		ArgumentValidator::validate (
-			$this->_configuration->getProperty('baseDN'), 
+			$this->_configuration->getProperty('UserBaseDN'), 
+			FieldRequiredValidatorRule::getRule());
+			
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('GroupBaseDN'), 
 			FieldRequiredValidatorRule::getRule());
 		
 		ArgumentValidator::validate (
@@ -165,6 +169,50 @@ class LDAPConnector {
 	}
 	
 	/**
+	 * Get the user DNs that match the search
+	 * 
+	 * @param string $systemName
+	 * @return string
+	 * @access public
+	 * @since 3/4/05
+	 */
+	function getUserDNsBySearch ( $filter ) {
+		return $this->getDNsBySearch($filter, $this->_configuration->getProperty("UserBaseDN"));
+	}
+	
+	/**
+	 * returns true if the User dn exists
+	 * @param string $systemName The name to fetch the DN for.
+	 * @access private
+	 * @return string|null The DN, or NULL if it can't be found. 
+	 **/
+	function userDNExists( $dn ) {
+		return $this->dnExists($dn, $this->_configuration->getProperty("UserBaseDN"));
+	}
+	
+	/**
+	 * Get the user DNs that match the search
+	 * 
+	 * @param string $systemName
+	 * @return string
+	 * @access public
+	 * @since 3/4/05
+	 */
+	function getGroupDNsBySearch ( $filter ) {
+		return $this->getDNsBySearch($filter, $this->_configuration->getProperty("GroupBaseDN"));
+	}
+	
+	/**
+	 * returns true if the Group dn exists
+	 * @param string $systemName The name to fetch the DN for.
+	 * @access private
+	 * @return string|null The DN, or NULL if it can't be found. 
+	 **/
+	function groupDNExists( $dn ) {
+		return $this->dnExists($dn, $this->_configuration->getProperty("GroupBaseDN"));
+	}
+	
+	/**
 	 * Get the DNs that match the search
 	 * 
 	 * @param string $systemName
@@ -172,12 +220,45 @@ class LDAPConnector {
 	 * @access public
 	 * @since 3/4/05
 	 */
-	function getDNsBySearch ($filter) {
+	function getDNsBySearch ( $filter, $baseDN ) {
 		$this->_connect();
 		$this->_bindForSearch();
 		$sr = ldap_search($this->_conn,
-						$this->_configuration->getProperty("baseDN"),
+						$baseDN,
 						$filter);
+		
+		if (ldap_errno($this->_conn))
+			throwError(new Error(ldap_error($this->_conn), "LDAPConnector"));
+		
+		$dns = array();
+		$entry = ldap_first_entry($this->_conn, $sr);
+		while($entry) {
+			$dns[] = ldap_get_dn($this->_conn, $entry);
+			$entry = ldap_next_entry($this->_conn, $entry);
+		}
+		ldap_free_result($sr);
+		$this->_disconnect();
+		return $dns;
+	}
+	
+	/**
+	 * Get the DNs that match the search immediately below the baseDN
+	 * 
+	 * @param string $systemName
+	 * @return string
+	 * @access public
+	 * @since 3/4/05
+	 */
+	function getDNsByList ( $filter, $baseDN ) {
+		$this->_connect();
+		$this->_bindForSearch();
+		$sr = ldap_list($this->_conn,
+						$baseDN,
+						$filter);
+		
+		if (ldap_errno($this->_conn))
+			throwError(new Error(ldap_error($this->_conn), "LDAPConnector"));
+		
 		$dns = array();
 		$entry = ldap_first_entry($this->_conn, $sr);
 		while($entry) {
@@ -195,11 +276,11 @@ class LDAPConnector {
 	 * @access private
 	 * @return string|null The DN, or NULL if it can't be found. 
 	 **/
-	function dnExists( $dn ) {
+	function dnExists( $dn, $baseDN ) {
 		$this->_connect();
 		$this->_bindForSearch();
 		$sr = ldap_search($this->_conn,
-						$this->_configuration->getProperty("baseDN"),
+						$baseDN,
 						$dn,
 						array($uidField));
 		if (ldap_count_entries($this->_conn,$sr)) {
@@ -242,7 +323,13 @@ class LDAPConnector {
 		
 		$values = array();
 		for ($i=0; $i<$numValues; $i++) {
-			$values[$entry[$i]] = $entry[$entry[$i]][0];
+			$key = $entry[$i];
+			$value = $entry[$entry[$i]];
+			
+			$values[$key] = array();
+			
+			for ($j = 0; $j < $value['count']; $j++)
+					$values[$key][] = $value[$j];
 		}
 		
 		return $values;

@@ -5,11 +5,12 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.12 2006/02/10 21:06:11 cws-midd Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.13 2006/02/28 18:59:59 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
 require_once(dirname(__FILE__)."/LDAPConnector.class.php");
+require_once(dirname(__FILE__)."/LDAPGroup.class.php");
 
 /**
  * The LDAPAuthNMethod is used to authenticate against an LDAP system.
@@ -19,7 +20,7 @@ require_once(dirname(__FILE__)."/LDAPConnector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.12 2006/02/10 21:06:11 cws-midd Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.13 2006/02/28 18:59:59 adamfranco Exp $
  */
 class LDAPAuthNMethod
 	extends AuthNMethod
@@ -90,7 +91,7 @@ class LDAPAuthNMethod
 	 */
 	function tokensExist ( &$authNTokens ) {
 		ArgumentValidator::validate ($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
-		return $this->_connector->dnExists($authNTokens->getUsername());
+		return $this->_connector->userDNExists($authNTokens->getUsername());
 	}
 	
 	/**
@@ -121,7 +122,10 @@ class LDAPAuthNMethod
 		
 		if ($info) {
 			foreach ($propertiesFields as $propertyKey => $fieldName) {
-				$properties->addProperty($propertyKey, $info[$fieldName]);
+				if (count($info[$fieldName]) <= 1)
+					$properties->addProperty($propertyKey, $info[$fieldName][0]);
+				else
+					$properties->addProperty($propertyKey, $info[$fieldName]);
 			}	
 		} else
 			return;
@@ -155,7 +159,7 @@ class LDAPAuthNMethod
 			}
 			$filter .= ")";
 			
-			$dns = $this->_connector->getDNsBySearch($filter);
+			$dns = $this->_connector->getUserDNsBySearch($filter);
 		} else 
 			$dns = array();
 
@@ -167,6 +171,174 @@ class LDAPAuthNMethod
 		$obj =& new HarmoniObjectIterator($tokens);
 		
 		return $obj;
+	}
+	
+		
+	
+/*********************************************************
+ * 	Directory methods
+ *********************************************************/
+	
+	/**
+	 * Answer TRUE if this AuthN method supports directory functionality
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function supportsDirectory () {
+		// Override if implementing
+		return TRUE;
+	}
+	
+	/**
+	 * Answer an iterator of all groups
+	 * 
+	 * @param object AuthNTokens $authNTokens
+	 * @return object AgentIterator
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function &getAllGroups () {
+		return $this->getRootGroups();
+	}
+	
+	/**
+	 * Answer an iterator of the top-level groups, may be equivalent to 
+	 * getAllGroups() if this directory is not hierarchically organized.
+	 * 
+	 * @param object AuthNTokens $authNTokens
+	 * @return object AgentIterator
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function &getRootGroups () {
+		if (!isset($this->_rootGroups)) {
+			$connector =& $this->_configuration->getProperty('connector');
+			$groupDN = $this->_configuration->getProperty("GroupBaseDN");
+			
+			$filter = "(objectclass=*)";
+			$dns = $connector->getDNsByList($filter, $groupDN);
+			
+			$this->_rootGroups = array();
+			foreach ($dns as $dn) {
+				if ($dn != $groupDN)
+					$this->_rootGroups[] =& new LDAPGroup($dn, $this->getType(), 
+										$this->_configuration, 
+										$this);
+			}
+		}
+        $iterator =& new HarmoniIterator($this->_rootGroups);
+        return $iterator;
+	}
+	
+	/**
+	 * Answer a group by Id
+	 * 
+	 * @param object Id $id
+	 * @return object AgentIterator
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function &getGroup ( &$id ) {
+		$group =& new LDAPGroup($id->getIdString(), $this->getType(), 
+										$this->_configuration, 
+										$this);
+		return $group;					
+	}
+	
+	/**
+	 * Answer a true if the Id corresponds to a valid group
+	 * 
+	 * @param object Id $id
+	 * @return boolean
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function isGroup ( &$id ) {
+		$idString = str_replace(' ', '', $id->getIdString());
+		$baseDN = str_replace(' ', '', $this->_configuration->getProperty("GroupBaseDN"));
+		return preg_match('/.+'.$baseDN.'$/i', $idString);
+	}
+	
+	/**
+	 * Answer an iterator of groups that contain the tokens. If $includeSubgroups
+	 * is true then groups will be returned if any descendent group contains
+	 * the tokens.
+	 * 
+	 * @param object AuthNTokens $authNTokens
+	 * @return object AgentIterator
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function &getGroupsContainingTokens ( $authNTokens, $includeSubgroups ) {
+		$connector =& $this->_configuration->getProperty('connector');
+		$groupDN = $this->_configuration->getProperty("GroupBaseDN");
+		
+		$info = $this->_connector->getInfo($authNTokens->getUsername(), array('memberof'));
+		$dns = $info['memberof'];		
+		$groups = array();
+		foreach ($dns as $dn) {
+			if ($dn != $groupDN && !isset($groups[$dn]))
+				$groups[$dn] =& new LDAPGroup($dn, $this->getType(), 
+									$this->_configuration, 
+									$this);
+		}
+		
+		if ($includeSubgroups) {
+			foreach ($dns as $dn) {
+				if ($dn != $groupDN) {
+					$parentGroups =& $this->getGroupsContainingGroup($dn, true);
+					while ($parentGroups->hasNext()) {
+						$group =& $parentGroups->next();
+						$groupId =& $group->getId();
+						if (!isset($groups[$groupId->getIdString()]))
+							$groups[$groupId->getIdString()] =& $group;
+					}
+				}
+			}
+		}
+		
+		$iterator =& new HarmoniIterator($groups);
+        return $iterator;
+	}
+	
+	/**
+	 * Answer an iterator of groups that contain the Id. If $includeSubgroups
+	 * is true then groups will be returned if any descendent group contains
+	 * the Id.
+	 * 
+	 * @param object Id $id
+	 * @return object AgentIterator
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function &getGroupsContainingGroup ( &$id, $includeSubgroups ) {
+		if (is_object($id))
+			$idString = $id->getIdString();
+		else
+			$idString = $id;
+		$groups = array();
+		$baseDN = str_replace(' ', '', $this->_configuration->getProperty("GroupBaseDN"));
+		$levels = 0;
+		while (strlen($idString) && ($includeSubgroups || $levels < 1)) {
+			$levels++;
+			for ($i = 0; $i < strlen($idString); $i++) {
+				if ($idString[$i] == ',' && $idString[$i-1] != '\\') {
+					$idString = substr($idString, $i+1);
+					break;
+				}
+			}
+			if (preg_match('/^'.$baseDN.'$/i', str_replace(' ', '', $idString)))
+				break;
+			
+			if (!isset($groups[$idString]))
+				$groups[$idString] =& new LDAPGroup($idString, $this->getType(), 
+									$this->_configuration, 
+									$this);
+		}
+		$iterator =& new HarmoniIterator($groups);
+        return $iterator;
 	}
 }
 

@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.33 2006/02/20 17:12:33 cws-midd Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.34 2006/02/28 18:59:59 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -640,7 +640,52 @@ class HierarchyCache {
 		return $result;
 	}
 	
-	
+	/**
+	 * Returns true if the node specified by the idString exists. The node is 
+	 * cached for future access if it is found
+	 *
+	 * @access public
+	 * @param mixed idValue The string id of the node.
+	 * @return boolean
+	 **/
+	function nodeExists($idValue) {
+		// ** parameter validation
+		ArgumentValidator::validate($idValue, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(),
+				IntegerValidatorRule::getRule()), 
+			true);
+		// ** end of parameter validation
+
+		// if the node has not been already cached, do it
+		if (!$this->_isCached($idValue)) {
+			// now fetch the node from the database
+			$db = $this->_hyDB.".";
+			$nodes =& $this->getNodesFromDB($db."node.node_id = '".addslashes($idValue)."'");
+			
+			// if it isn't in the database, then it doesn't exist
+			if (count($nodes) < 1) {
+				return false;
+			}
+			
+			if (count($nodes) > 1) {
+				throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
+			}
+			
+			$displayName = $nodes[0]->getDisplayName();
+//			echo "<br />Creating node # <b>$idValue - '$displayName'</b>";
+			
+			// insert node into cache
+			$nullValue = NULL; 	// getting rid of PHP warnings by specifying
+								// this second argument
+			$this->_tree->addNode(new TreeNode($idValue), $nullValue);
+			$this->_cache[$idValue][0] =& $nodes[0];
+			$this->_cache[$idValue][1] = 0;
+			$this->_cache[$idValue][2] = 0;
+		}
+		
+		return true;
+	}
 	
 	/**
 	 * Caches the parents (if not cached already)

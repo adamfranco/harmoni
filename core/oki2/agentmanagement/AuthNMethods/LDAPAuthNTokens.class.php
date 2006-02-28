@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNTokens.class.php,v 1.6 2005/04/07 19:42:13 adamfranco Exp $
+ * @version $Id: LDAPAuthNTokens.class.php,v 1.7 2006/02/28 18:59:59 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNTokens.class.php,v 1.6 2005/04/07 19:42:13 adamfranco Exp $
+ * @version $Id: LDAPAuthNTokens.class.php,v 1.7 2006/02/28 18:59:59 adamfranco Exp $
  */
 class LDAPAuthNTokens
 	extends UsernamePasswordAuthNTokens
@@ -69,7 +69,8 @@ class LDAPAuthNTokens
 		$primaryLoginFields = $this->_configuration->getProperty('login_fields');
 		
 		foreach($primaryLoginFields as $loginField) {
-			$dns = $this->_connector->getDNsBySearch($loginField."=".$tokens['username']);
+			$dns = $this->_connector->getUserDNsBySearch($loginField."=".$tokens['username']);
+			printpre($loginField."=".$tokens['username']);
 			
 			if (count($dns) == 1) {
 				$this->_identifier = $dns[0];

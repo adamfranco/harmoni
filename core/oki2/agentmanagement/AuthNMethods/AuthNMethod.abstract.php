@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.11 2006/02/10 21:06:11 cws-midd Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.12 2006/02/28 18:59:59 adamfranco Exp $
  */ 
 
 /**
@@ -32,7 +32,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.11 2006/02/10 21:06:11 cws-midd Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.12 2006/02/28 18:59:59 adamfranco Exp $
  */
 class AuthNMethod {
 	
@@ -381,6 +381,101 @@ class AuthNMethod {
 				return $properties->getProperty($property);
 		}
 		return $authNTokens->getIdentifier();
+	}
+	
+	
+	
+/*********************************************************
+ * 	Directory methods
+ *********************************************************/
+	
+	/**
+	 * Answer TRUE if this AuthN method supports directory functionality
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function supportsDirectory () {
+		// Override if implementing
+		return FALSE;
+	}
+	
+	/**
+	 * Answer an iterator of all groups
+	 * 
+	 * @param object AuthNTokens $authNTokens
+	 * @return object AgentIterator
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function &getAllGroups () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Answer an iterator of the top-level groups, may be equivalent to 
+	 * getAllGroups() if this directory is not hierarchically organized.
+	 * 
+	 * @param object AuthNTokens $authNTokens
+	 * @return object AgentIterator
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function &getRootGroups () {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Answer a group by Id
+	 * 
+	 * @param object Id $id
+	 * @return object AgentIterator
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function &getGroup ( &$id ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Answer a true if the Id corresponds to a valid group
+	 * 
+	 * @param object Id $id
+	 * @return boolean
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function isGroup ( &$id ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Answer an iterator of groups that contain the tokens. If $includeSubgroups
+	 * is true then groups will be returned if any descendent group contains
+	 * the tokens.
+	 * 
+	 * @param object AuthNTokens $authNTokens
+	 * @return object AgentIterator
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function &getGroupsContainingTokens ( $authNTokens, $includeSubgroups ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	}
+	
+	/**
+	 * Answer an iterator of groups that contain the Id. If $includeSubgroups
+	 * is true then groups will be returned if any descendent group contains
+	 * the Id.
+	 * 
+	 * @param object Id $id
+	 * @return object AgentIterator
+	 * @access public
+	 * @since 2/23/06
+	 */
+	function &getGroupsContainingGroup ( &$id, $includeSubgroups ) {
+		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 }
 

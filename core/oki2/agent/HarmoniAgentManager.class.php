@@ -48,7 +48,7 @@ require_once(HARMONI."oki2/agent/UsersGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.38 2006/02/10 20:43:37 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.39 2006/02/28 18:59:59 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -522,6 +522,16 @@ class HarmoniAgentManager
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($properties, ExtendsValidatorRule::getRule("Properties"), true);
+		// ensure that we aren't using the type of one of the AuthNTypes
+		// which would confict with external directories.
+		// :: Add External Groups
+		$authNMethodManager =& Services::getService("AuthNMethodManager");		
+		$types =& $authNMethodManager->getAuthNTypes();
+		while ($types->hasNextType()) {
+			if ($groupType->isEqual($types->nextType()))
+				throwError(new Error(AgentException::PERMISSION_DENIED(),"GroupManager",true));
+		}
+		
 		// ** end of parameter validation
 		
 		// create a new unique id for the group
@@ -584,6 +594,11 @@ class HarmoniAgentManager
 		// Get the node for the agent
 		$hierarchyManager =& Services::getService("Hierarchy");
 		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
+		if (!$hierarchy->nodeExists($id)) {
+			throwError(new Error(AgentException::PERMISSION_DENIED(),"GroupManager",true));
+		}
+		
+		
 		$hierarchy->deleteNode($id);
 		
 		// update our cache for isGroup
@@ -624,13 +639,28 @@ class HarmoniAgentManager
 		if ($id->isEqual($this->_usersId)) {
 			return $this->_usersGroup;
 		} else {
-			
 			// Get the node for the agent
 			$hierarchyManager =& Services::getService("Hierarchy");
 			$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
-			$groupNode =& new HarmoniGroup($hierarchy, $hierarchy->getNode($id));
+			$group = false;
 			
-			return $groupNode;
+			if ($hierarchy->nodeExists($id)) {
+				$group =& new HarmoniGroup($hierarchy, $hierarchy->getNode($id));
+			} else {
+				// Check external directories
+				$authNMethodManager =& Services::getService("AuthNMethodManager");		
+				$types =& $authNMethodManager->getAuthNTypes();
+				while ($types->hasNextType()) {
+					$type =& $types->nextType();
+					$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+					if ($authNMethod->supportsDirectory() && $authNMethod->isGroup($id)) {
+						$group =& $authNMethod->getGroup($id);
+						break;
+					}
+				}
+			}
+			
+			return $group;
 		}
 	}
 	
@@ -671,6 +701,21 @@ class HarmoniAgentManager
 		$nodeGroups =& new GroupsFromNodesIterator($children);
 		while ($nodeGroups->hasNext()) {
 			$groups[] =& $nodeGroups->next();
+		}
+		
+		// :: Add External Groups
+		$authNMethodManager =& Services::getService("AuthNMethodManager");		
+		$types =& $authNMethodManager->getAuthNTypes();
+		while ($types->hasNextType()) {
+			$type =& $types->nextType();
+			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+			if ($authNMethod->supportsDirectory()) {
+				$groupsIterator =& $authNMethod->getAllGroups();
+				
+				while ($groupsIterator->hasNext()) {
+					$groups[] =& $groupsIterator->next();
+				}
+			}
 		}
 		
 		$i = new HarmoniAgentIterator($groups);
@@ -782,6 +827,17 @@ class HarmoniAgentManager
 			$seen[] = $typeString;
 			$types[] =& $group->getType();
 		}
+		
+		// Add external directory types
+		$authNMethodManager =& Services::getService("AuthNMethodManager");		
+		$authNTypes =& $authNMethodManager->getAuthNTypes();
+		while ($authNTypes->hasNextType()) {
+			$type =& $authNTypes->nextType();
+			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+			if ($authNMethod->supportsDirectory())
+				$types[] =& $type;
+		}
+		
 		$i =& new HarmoniIterator($types);
 		return $i;
 	}
@@ -859,12 +915,15 @@ class HarmoniAgentManager
 		
 		$hierarchyManager =& Services::getService("Hierarchy");
 		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
-		$agentNode =& $hierarchy->getNode($id);
-		$parents =& $agentNode->getParents();
-		while($parents->hasNext()) {
-			$parent =& $parents->next();
-			if ($this->_allAgentsId->isEqual($parent->getId()))
-				return true;
+		
+		if ($hierarchy->nodeExists($id)) {
+			$agentNode =& $hierarchy->getNode($id);
+			$parents =& $agentNode->getParents();
+			while($parents->hasNext()) {
+				$parent =& $parents->next();
+				if ($this->_allAgentsId->isEqual($parent->getId()))
+					return true;
+			}
 		}
 		
 		return FALSE;
@@ -933,8 +992,20 @@ class HarmoniAgentManager
 				$this->_groupTreeIds[$nodeId->getIdString()] =& $nodeId;
 			}
 		}
+		if (array_key_exists($id->getIdString(), $this->_groupTreeIds))
+			return true;
 		
-		return array_key_exists($id->getIdString(), $this->_groupTreeIds);
+		// Check external directories
+		$authNMethodManager =& Services::getService("AuthNMethodManager");		
+		$types =& $authNMethodManager->getAuthNTypes();
+		while ($types->hasNextType()) {
+			$type =& $types->nextType();
+			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+			if ($authNMethod->supportsDirectory() && $authNMethod->isGroup($id))
+				return true;
+		}
+		
+		return false;
 	}
 }
 
