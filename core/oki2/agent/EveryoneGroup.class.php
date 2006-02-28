@@ -16,39 +16,11 @@ require_once(dirname(__FILE__)."/HarmoniGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EveryoneGroup.class.php,v 1.5 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: EveryoneGroup.class.php,v 1.6 2006/02/28 21:32:42 adamfranco Exp $
  */
 class EveryoneGroup
 	extends HarmoniGroup
 {
-
-	/**
-	 * The constructor.
-	 *
-	 * @param integer dbIndex The database connection as returned by the DBHandler.
-	 * @param string sharedDB The name of the shared database.
-	 * @access public
-	 */
-	function EveryoneGroup($dbIndex, $sharedDB) {
-		$idManager =& Services::getService("Id");
-		$id =& $idManager->getId("edu.middlebury.agents.everyone");
-		
-		$type =& new Type("Agents", "edu.middlebury.harmoni", "Any/Anonymous", 
-			_("Special users that can represent anyone or unknown users."));
-		
-		$propertiesArray = array();
-// 		$propertiesType = new HarmoniType('Agents', 'Harmoni', 'Agent Properties',
-// 						'Properties known to the Harmoni Agents System.');
-// 		$propertiesArray[0] =& new HarmoniProperties($propertiesType);
-		
-		$this->HarmoniGroup(	_("Everyone"),
-								$id,
-								$type,
-								$propertiesArray,
-								_("The Everyone Group contains all other Agents and Groups in the system, including the Anonymous Agent."),
-								$dbIndex,
-								$sharedDB);
-	}
 		
 	/**
 	 * Update the Description of this Group.
@@ -207,10 +179,16 @@ class EveryoneGroup
 		$myId =& $this->getId();
 		
 		//Filter out ourself
-		$groupIterator =& $agentManager->getGroups();
+		if ($includeSubgroups)
+			$groupIterator =& $agentManager->getGroups();
+		else
+			$groupIterator =& $agentManager->getGroupsBySearch($null = null, 
+												new Type("Agent & Group Search",
+												"edu.middlebury.harmoni", 
+												"RootGroups"));
 		$groups = array();
-		while ($groupIterator->hasNextAgent()) {
-			$group =& $groupIterator->nextAgent();
+		while ($groupIterator->hasNext()) {
+			$group =& $groupIterator->next();
 			if (!$myId->isEqual($group->getId()))
 				$groups[] =& $group;
 		}

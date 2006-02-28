@@ -11,6 +11,7 @@ require_once(HARMONI."oki2/agent/MembersOnlyFromTraversalIterator.class.php");
 require_once(HARMONI."oki2/agent/HarmoniGroup.class.php");
 require_once(HARMONI."oki2/agent/AgentSearches/TokenSearch.class.php");
 require_once(HARMONI."oki2/agent/AgentSearches/AncestorGroupSearch.class.php");
+require_once(HARMONI."oki2/agent/AgentSearches/RootGroupSearch.class.php");
 
 require_once(HARMONI."oki2/shared/HarmoniType.class.php");
 require_once(HARMONI."oki2/shared/HarmoniTypeIterator.class.php");
@@ -18,6 +19,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
 require_once(HARMONI."oki2/shared/HarmoniTestId.class.php");
 require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
 require_once(HARMONI."oki2/agent/UsersGroup.class.php");
+require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
 
 /**
  * <p>
@@ -48,7 +50,7 @@ require_once(HARMONI."oki2/agent/UsersGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.39 2006/02/28 18:59:59 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.40 2006/02/28 21:32:42 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -132,6 +134,10 @@ class HarmoniAgentManager
 		$this->_groupSearches = array ();
 		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::AncestorGroups"] =&
 			new AncestorGroupSearch ($hierarchy);
+		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::RootGroups"] =&
+			new RootGroupSearch ($hierarchy);
+		
+		$this->_everyoneGroup =& new EveryoneGroup($hierarchy, $hierarchy->getNode($this->_everyoneId));
 	}
 
 	/**
@@ -638,6 +644,8 @@ class HarmoniAgentManager
 		
 		if ($id->isEqual($this->_usersId)) {
 			return $this->_usersGroup;
+		} else if ($id->isEqual($this->_everyoneId)) {
+			return $this->_everyoneGroup;
 		} else {
 			// Get the node for the agent
 			$hierarchyManager =& Services::getService("Hierarchy");
@@ -755,7 +763,7 @@ class HarmoniAgentManager
 		// get the Group Search object
 		$groupSearch =& $this->_groupSearches[$typeString];
 		if (!is_object($groupSearch))
-			throwError(new Error(AgentException::UNKNOWN_TYPE(),"GroupManager",true));
+			throwError(new Error(AgentException::UNKNOWN_TYPE().", ".Type::typeToString($groupSearchType),"GroupManager",true));
 		
 		return $groupSearch->getGroupsBySearch($searchCriteria); 
 	}
@@ -817,7 +825,11 @@ class HarmoniAgentManager
 	 * @access public
 	 */
 	function &getGroupTypes () { 
-		$groups =& $this->getGroups();
+		$hierarchyManager =& Services::getService("Hierarchy");
+		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
+		$node =& $hierarchy->getNode($this->_allGroupsId);
+		$groups =& $node->getChildren();
+		
 		$types = array();
 		$seen = array();
 		while($groups->hasNext()) {
