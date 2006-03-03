@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.13 2006/02/28 18:59:59 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.14 2006/03/03 17:45:52 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/LDAPGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.13 2006/02/28 18:59:59 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.14 2006/03/03 17:45:52 adamfranco Exp $
  */
 class LDAPAuthNMethod
 	extends AuthNMethod
@@ -248,7 +248,9 @@ class LDAPAuthNMethod
 	}
 	
 	/**
-	 * Answer a true if the Id corresponds to a valid group
+	 * Answer a true if the Id corresponds to a valid group.
+	 *
+	 * @todo search on DN and ObjectClass
 	 * 
 	 * @param object Id $id
 	 * @return boolean

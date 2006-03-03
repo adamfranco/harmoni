@@ -10,7 +10,7 @@ require_once(HARMONI."Primitives/Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIterator.class.php,v 1.8 2005/08/31 15:00:52 adamfranco Exp $
+ * @version $Id: HarmoniIterator.class.php,v 1.9 2006/03/03 17:45:52 adamfranco Exp $
  */
 class HarmoniIterator
 	extends SObject
@@ -67,15 +67,14 @@ class HarmoniIterator
 	 }
 	 
 	/**
-	 * Skips the next $num items in the iterator
+	 * Skips the next item in the iterator
 	 *
-	 * @param int $num
 	 * @return void
 	 * @public
 	 */
-	 function skipNext($num) {
-	 	if (($this->_i + $num) < count($this->_elements)-1)
-		 	$this->_i += $num;
+	 function skipNext() {
+	 	if ($this->hasNext())
+		 	$this->_i++;
 	 	else
 	 		throwError(new Error(SharedException::NO_MORE_ITERATOR_ELEMENTS(),
 	 			get_class($this), true));

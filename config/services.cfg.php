@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: services.cfg.php,v 1.53 2005/08/22 15:05:24 adamfranco Exp $
+ * @version $Id: services.cfg.php,v 1.54 2006/03/03 17:45:52 adamfranco Exp $
  */
 
 /* :: what services should we load? you can disable some to save on startup time :: */
@@ -90,9 +90,14 @@ if (!defined("LOAD_AUTHZ")) 				define("LOAD_AUTHZ", true);
 if (!defined("LOAD_HIERARCHY")) 			define("LOAD_HIERARCHY", true);
 
 /**
- * functionality affected: OKI Agent calls.
+ * functionality affected: OKI Id calls.
  */
 if (!defined("LOAD_ID")) 				define("LOAD_ID", true);
+
+/**
+ * functionality affected: OKI Logging calls.
+ */
+if (!defined("LOAD_LOGGING")) 				define("LOAD_LOGGING", true);
 
 /**
  * functionality affected: Digital Repository.
@@ -337,6 +342,15 @@ if (LOAD_ID) {
 	require_once(HARMONI."oki2/id/HarmoniIdManager.class.php");
 	Services::registerService("IdManager","HarmoniIdManager");
 	Services::createServiceAlias("IdManager", "Id");
+}
+
+/**
+ * load the LoggingManager
+ */
+if (LOAD_LOGGING) {
+	require_once(HARMONI."oki2/logging/HarmoniLoggingManager.class.php");
+	Services::registerService("LoggingManager","HarmoniLoggingManager");
+	Services::createServiceAlias("LoggingManager", "Logging");
 }
 	
 /**
