@@ -15,7 +15,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ArgumentValidator.class.php,v 1.10 2006/01/06 22:00:07 adamfranco Exp $
+ * @version $Id: ArgumentValidator.class.php,v 1.11 2006/03/06 19:29:07 adamfranco Exp $
  */
 class ArgumentValidator {
 
@@ -60,12 +60,12 @@ class ArgumentValidator {
 			else
 				$arguments = array();
 						
-			$description .= $class."::".$function;
+			$description .= "<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;".$class."::".$function;
 			// print the arguments using the ArgumentRenderer
 			$description .= "(";
 			$description .= ArgumentRenderer::renderManyArguments($arguments, false, false);
-			$description .= ")";
-			$description .= ". Argument '";
+			$description .= ");";
+			$description .= "<br/><br/>Argument '";
 			$description .= ArgumentRenderer::renderOneArgument($argument, false, false);
 			$description .= "' could not be validated using a/an ";
 			$description .= get_class($rule);
