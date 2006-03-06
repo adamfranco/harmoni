@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.8 2006/02/28 18:59:59 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.9 2006/03/06 21:39:30 adamfranco Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.8 2006/02/28 18:59:59 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.9 2006/03/06 21:39:30 adamfranco Exp $
  */
 class LDAPConnector {
 		
@@ -85,7 +85,7 @@ class LDAPConnector {
 	 * @return boolean TRUE if bind was successful, FALSE otherwise. 
 	 **/
 	function _bind( $dn, $password ) {
-		$this->_bind = ldap_bind($this->_conn, $dn, $password);
+		$this->_bind = @ldap_bind($this->_conn, $dn, $password);
 
 		if ($this->_bind) return true;
 		return false;

@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.18 2005/10/28 13:59:32 cws-midd Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.19 2006/03/06 21:39:30 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -232,6 +232,25 @@ class HarmoniAuthenticationManager
 				$authenticationTypeString = $this->_getTypeString($authenticationType);
 				$_SESSION['__AuthenticatedAgents'][$authenticationTypeString]
 					=& $agentId;
+			}
+			
+			// Log the success or failure
+			if (Services::serviceAvailable("Logging")) {
+				$loggingManager =& Services::getService("Logging");
+				$log =& $loggingManager->getLogForWriting("Harmoni");
+				$formatType =& new Type("logging", "edu.middlebury", "AgentsAndNodes",
+								"A format in which the acting Agent[s] and the target nodes affected are specified.");
+				$priorityType =& new Type("logging", "edu.middlebury", "Event_Notice",
+								"Normal events.");
+				
+				if ($isValid) {
+					$item =& new AgentNodeEntryItem("Authentication Success: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authenticationType->getKeyword()." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authNTokens->getIdentifier());
+					$item->addAgentId($agentId);
+				} else {
+					$item =& new AgentNodeEntryItem("Authentication Failure: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authenticationType->getKeyword()." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authNTokens->getIdentifier());
+				}
+				
+				$log->appendLogWithTypes($item,	$formatType, $priorityType);
 			}
 		}
 	}
