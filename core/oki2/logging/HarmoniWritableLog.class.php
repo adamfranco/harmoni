@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniWritableLog.class.php,v 1.1 2006/03/03 17:45:52 adamfranco Exp $
+ * @version $Id: HarmoniWritableLog.class.php,v 1.2 2006/03/06 19:18:20 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/WritableLog.php");
@@ -124,11 +124,13 @@ class HarmoniWritableLog
 		$query->setColumns(array(	"log_name",
 									"fk_format_type",
 									"fk_priority_type",
-									"description"));
+									"description",
+									"backtrace"));
 		$query->addRowOfValues(array("'".addslashes($this->_name)."'",
 									"'".addslashes($formatTypeId)."'",
 									"'".addslashes($priorityTypeId)."'",
-									"'".addslashes($entryItem->getDescription())."'"));
+									"'".addslashes($entryItem->getDescription())."'",
+									"'".addslashes($entryItem->getBacktrace())."'"));
 		$results =& $dbc->query($query, $this->_dbIndex);
 		$entryId = $results->getLastAutoIncrementValue();
 		

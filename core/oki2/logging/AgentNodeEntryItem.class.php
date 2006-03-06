@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.1 2006/03/03 17:45:52 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.2 2006/03/06 19:18:20 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.1 2006/03/03 17:45:52 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.2 2006/03/06 19:18:20 adamfranco Exp $
  */
 class AgentNodeEntryItem {
 		
@@ -38,6 +38,7 @@ class AgentNodeEntryItem {
 		$this->_description = $description;
 		$this->_nodeIds = $nodeIds;
 		$this->_agentIds = array();
+		$this->_backtrace = '';
 	}
 	
 	/**
@@ -49,6 +50,29 @@ class AgentNodeEntryItem {
 	 */
 	function getDescription () {
 		return $this->_description;
+	}
+	
+	/**
+	 * Answer the backtrace HTML if available
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 3/6/06
+	 */
+	function getBacktrace () {
+		return $this->_backtrace;
+	}
+	
+	/**
+	 * Set the backtrace HTML
+	 * 
+	 * @param string $backtrace
+	 * @return void
+	 * @access public
+	 * @since 3/6/06
+	 */
+	function setBacktrace ( $backtrace ) {
+		$this->_backtrace = $backtrace;
 	}
 	
 	/**

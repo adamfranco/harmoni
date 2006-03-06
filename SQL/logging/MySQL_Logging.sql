@@ -34,6 +34,7 @@ CREATE TABLE log_entry (
   fk_format_type varchar(70) NOT NULL default '',
   fk_priority_type varchar(70) NOT NULL default '',
   description text NOT NULL,
+  backtrace text,
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Used by the OSID Logging Manager';
 
