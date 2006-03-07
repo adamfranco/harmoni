@@ -33,6 +33,7 @@ CREATE TABLE log_entry (
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
   fk_format_type varchar(70) NOT NULL default '',
   fk_priority_type varchar(70) NOT NULL default '',
+  category varchar(50) NOT NULL default 'UNKNOWN',
   description text NOT NULL,
   backtrace text,
   PRIMARY KEY  (id)
