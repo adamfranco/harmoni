@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntry.class.php,v 1.2 2006/03/06 19:18:20 adamfranco Exp $
+ * @version $Id: HarmoniEntry.class.php,v 1.3 2006/03/07 19:27:08 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/Entry.php");
@@ -41,8 +41,9 @@ class HarmoniEntry
 	 * @access public
 	 * @since 3/1/06
 	 */
-	function HarmoniEntry ( &$timestamp, $description, $backtrace, $agents, $nodes, &$formatType, &$priorityType ) {
+	function HarmoniEntry ( &$timestamp, $category, $description, $backtrace, $agents, $nodes, &$formatType, &$priorityType ) {
 		ArgumentValidator::validate($timestamp, ExtendsValidatorRule::getRule("DateAndTime"));
+		ArgumentValidator::validate($category, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 		ArgumentValidator::validate($backtrace, StringValidatorRule::getRule());
 		ArgumentValidator::validate($agents, ArrayValidatorRule::getRule());
@@ -55,7 +56,7 @@ class HarmoniEntry
 		$this->_priorityType =& $priorityType;
 		
 		
-		$this->_entryItem =& new AgentNodeEntryItem($description);
+		$this->_entryItem =& new AgentNodeEntryItem($category, $description);
 		$this->_entryItem->setBacktrace($backtrace);
 		
 		$idManager =& Services::getService("Id");

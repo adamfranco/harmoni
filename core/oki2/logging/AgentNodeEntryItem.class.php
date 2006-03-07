@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.2 2006/03/06 19:18:20 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.3 2006/03/07 19:27:08 adamfranco Exp $
  */ 
 
 /**
@@ -18,27 +18,41 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.2 2006/03/06 19:18:20 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.3 2006/03/07 19:27:08 adamfranco Exp $
  */
 class AgentNodeEntryItem {
 		
 	/**
 	 * Constructor
 	 * 
+	 * @param string $category
 	 * @param string $description
 	 * @param optional array $nodeIds
 	 * @return object
 	 * @access public
 	 * @since 3/2/06
 	 */
-	function AgentNodeEntryItem ( $description, $nodeIds = array() ) {
+	function AgentNodeEntryItem ( $category, $description, $nodeIds = array() ) {
+		ArgumentValidator::validate($category, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 		ArgumentValidator::validate($nodeIds, ArrayValidatorRule::getRule());
 		
+		$this->_category = $category;
 		$this->_description = $description;
 		$this->_nodeIds = $nodeIds;
 		$this->_agentIds = array();
 		$this->_backtrace = '';
+	}
+	
+	/**
+	 * Answer the category
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 3/2/06
+	 */
+	function getCategory () {
+		return $this->_category;
 	}
 	
 	/**

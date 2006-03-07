@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.2 2006/03/06 19:18:20 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.3 2006/03/07 19:27:08 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/EntryIterator.php");
@@ -28,7 +28,7 @@ require_once(dirname(__FILE__)."/HarmoniEntry.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.2 2006/03/06 19:18:20 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.3 2006/03/07 19:27:08 adamfranco Exp $
  */
 class HarmoniEntryIterator
 	extends EntryIterator
@@ -223,6 +223,7 @@ class HarmoniEntryIterator
 		
 		$query->addColumn("id", "id", "log_entry");
 		$query->addColumn("timestamp", "timestamp", "log_entry");
+		$query->addColumn("category", "category", "log_entry");
 		$query->addColumn("description", "description", "log_entry");
 		$query->addColumn("backtrace", "backtrace", "log_entry");
 		$query->addColumn("fk_agent", "agent_id", "log_agent");
@@ -257,6 +258,7 @@ class HarmoniEntryIterator
 		$i = $this->_current;
 		$currentEntryId = null;
 		$timestamp = null;
+		$category = null;
 		$description = null;
 		$backtrace = '';
 		$agents = array();
@@ -269,6 +271,7 @@ class HarmoniEntryIterator
 			if ($currentEntryId && $currentEntryId != $row["id"]) {
 // 				printpre("Creating Entry: ".$currentEntryId." ".$timestamp." -- ".($i+1)." of ".$this->_count);
 				$this->_entries[$i] =& new HarmoniEntry($dbc->fromDBDate($timestamp, $this->_dbIndex),
+												$category,
 												$description,
 												$backtrace,
 												array_unique($agents),
@@ -278,6 +281,7 @@ class HarmoniEntryIterator
 				$i++;
 				$currentEntryId = null;
 				$timestamp = null;
+				$category = null;
 				$description = null;
 				$backtrace = '';
 				$agents = array();
@@ -288,6 +292,7 @@ class HarmoniEntryIterator
 			
 			$currentEntryId = $row["id"];
 			$timestamp = $row["timestamp"];
+			$category = $row["category"];
 			$description = $row["description"];
 			$backtrace = $row["backtrace"];
 			$agents[] = $row["agent_id"];
@@ -302,6 +307,7 @@ class HarmoniEntryIterator
 		if ($currentEntryId && $i == ($this->_count - 1)) {
 // 			printpre("Creating Entry: ".$currentEntryId." ".$timestamp." -- ".($i+1)." of ".$this->_count);
 			$this->_entries[$i] =& new HarmoniEntry($dbc->fromDBDate($timestamp, $this->_dbIndex),
+												$category,
 												$description,
 												$backtrace,
 												array_unique($agents),
