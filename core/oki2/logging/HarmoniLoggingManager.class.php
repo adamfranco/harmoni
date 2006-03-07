@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniLoggingManager.class.php,v 1.1 2006/03/03 17:45:52 adamfranco Exp $
+ * @version $Id: HarmoniLoggingManager.class.php,v 1.2 2006/03/07 18:01:19 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/LoggingManager.php");
@@ -200,6 +200,7 @@ class HarmoniLoggingManager
 		$query->addTable("log_entry");
 		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_priority_type = log_type.id");
 		$query->setGroupBy(array("log_type.id"));
+		$query->addOrderBy("keyword");
 		
 		$results =& $dbc->query($query, $this->_dbIndex);
 		$types = array();
@@ -241,6 +242,7 @@ class HarmoniLoggingManager
 		$query->addColumn("log_name");		
 		$query->addTable("log_entry");
 		$query->setDistinct(true);
+		$query->addOrderBy("log_name");
 		
 		$results =& $dbc->query($query, $this->_dbIndex);
 		$names = array();
