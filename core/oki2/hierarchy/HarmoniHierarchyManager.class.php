@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.24 2006/01/17 20:06:22 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.25 2006/03/07 15:33:45 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -524,6 +524,31 @@ class HarmoniHierarchyManager
 		$node =& $hierarchy->getNode($id);
 
 		return $node;
+	}
+	
+	/**
+	 * Answer TRUE if the a node exists with the given Id
+	 *
+	 * WARNING: NOT in OSID
+	 * 
+	 * @param object Id $nodeId
+	 *	
+	 * @return boolean
+	 * 
+	 * @access public
+	 */
+	function nodeExists ( &$nodeId ) { 
+		// ** parameter validation
+		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
+		// ** end of parameter validation
+		
+		$hierarchies =& $this->getHierarchies();
+		while ($hierarchies->hasNext()) {
+			$hierarchy =& $hierarchies->next();
+			if ($hierarchy->nodeExists($nodeId))
+				return true;
+		}
+		return false;
 	}
 	
 	/**
