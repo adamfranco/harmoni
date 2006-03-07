@@ -6,8 +6,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.3 2006/03/07 19:27:08 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.4 2006/03/07 21:34:15 adamfranco Exp $
  */ 
+
+require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
 
 /**
  * The AgentNodeEntryItem encapsulates data about a log entry
@@ -18,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.3 2006/03/07 19:27:08 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.4 2006/03/07 21:34:15 adamfranco Exp $
  */
 class AgentNodeEntryItem {
 		
@@ -86,7 +88,12 @@ class AgentNodeEntryItem {
 	 * @since 3/6/06
 	 */
 	function setBacktrace ( $backtrace ) {
-		$this->_backtrace = $backtrace;
+		if (is_array($backtrace)) {
+			ob_start();
+			printDebugBacktrace($backtrace);
+			$this->_backtrace = ob_get_clean();
+		} else
+			$this->_backtrace = $backtrace;
 	}
 	
 	/**

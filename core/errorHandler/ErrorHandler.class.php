@@ -13,7 +13,7 @@ require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorHandler.class.php,v 1.12 2006/03/07 19:27:05 adamfranco Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.13 2006/03/07 21:34:12 adamfranco Exp $
  */
 
 class ErrorHandler extends ErrorHandlerInterface{
@@ -136,9 +136,7 @@ class ErrorHandler extends ErrorHandlerInterface{
 							"Events involving critical system errors.");
 			
 			$item =& new AgentNodeEntryItem($error->getType(), $error->getDescription());
-			ob_start();
-			$this->printErrors();
-			$item->setBacktrace(ob_get_clean());
+			$item->setBacktrace($error->getDebugBacktrace());
 			$log->appendLogWithTypes($item,	$formatType, $priorityType);
 			
 		}
