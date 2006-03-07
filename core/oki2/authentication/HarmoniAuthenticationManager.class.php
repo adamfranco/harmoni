@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.19 2006/03/06 21:39:30 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.20 2006/03/07 15:48:21 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -237,7 +237,7 @@ class HarmoniAuthenticationManager
 			// Log the success or failure
 			if (Services::serviceAvailable("Logging")) {
 				$loggingManager =& Services::getService("Logging");
-				$log =& $loggingManager->getLogForWriting("Harmoni");
+				$log =& $loggingManager->getLogForWriting("Authentication");
 				$formatType =& new Type("logging", "edu.middlebury", "AgentsAndNodes",
 								"A format in which the acting Agent[s] and the target nodes affected are specified.");
 				$priorityType =& new Type("logging", "edu.middlebury", "Event_Notice",
