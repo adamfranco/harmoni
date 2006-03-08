@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.17 2005/09/07 20:46:27 gabeschine Exp $
+ * @version $Id: RequestContext.class.php,v 1.18 2006/03/08 15:58:20 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -71,6 +71,7 @@ class RequestContext {
 	 */
 	function locationHeader ( $url ) {
 		header("Location: ".str_replace("&amp;", "&", $url));
+		exit;
 	}
 	
 
