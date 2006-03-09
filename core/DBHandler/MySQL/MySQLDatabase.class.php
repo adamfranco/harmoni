@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.32 2006/01/17 20:06:11 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.33 2006/03/09 20:16:44 cws-midd Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.32 2006/01/17 20:06:11 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.33 2006/03/09 20:16:44 cws-midd Exp $
  */
  
 class MySQLDatabase extends DatabaseInterface {
@@ -170,7 +170,7 @@ class MySQLDatabase extends DatabaseInterface {
 		}
 		
 		$res->free();
-		
+
 		return $list;
 	}
 	

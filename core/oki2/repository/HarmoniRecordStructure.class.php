@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.25 2006/01/17 20:06:22 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.26 2006/03/09 20:16:46 cws-midd Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -366,7 +366,7 @@ class HarmoniRecordStructure
 		$sm->synchronize($schema);
 		$this->_schema =& $sm->getSchemaByID($this->_schema->getID());
 
-		$idString =& $this->_schema->getFieldIDFromLabel($label);
+		$idString = $this->_schema->getFieldIDFromLabel($label);
 		
 		$this->_createdParts[$idString] =& new HarmoniPartStructure($this,
 																$fieldDef);

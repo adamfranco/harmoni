@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.29 2006/01/18 21:04:58 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.30 2006/03/09 20:16:46 cws-midd Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
@@ -243,7 +243,7 @@ class SchemaManager {
 	function synchronize(&$new) {
 		ArgumentValidator::validate($new, ExtendsValidatorRule::getRule("Schema"));
 		
-		$id =& $new->getID();
+		$id = $new->getID();
 		
 		debug::output("Attempting to synchronize Schema type '".$id."' with
 		the database.",DEBUG_SYS1,"DataManager");
