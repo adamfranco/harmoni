@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SearchEntryIterator.class.php,v 1.1 2006/03/09 19:47:31 adamfranco Exp $
+ * @version $Id: SearchEntryIterator.class.php,v 1.2 2006/03/09 21:07:16 adamfranco Exp $
  */
 
 require_once(dirname(__FILE__)."/HarmoniEntryIterator.class.php");
@@ -28,7 +28,7 @@ require_once(dirname(__FILE__)."/HarmoniEntry.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SearchEntryIterator.class.php,v 1.1 2006/03/09 19:47:31 adamfranco Exp $
+ * @version $Id: SearchEntryIterator.class.php,v 1.2 2006/03/09 21:07:16 adamfranco Exp $
  */
 class SearchEntryIterator
 	extends HarmoniEntryIterator
@@ -83,7 +83,7 @@ class SearchEntryIterator
 		}
 		
 		$query->addWhere("log_entry.timestamp > ".$dbc->toDBDate($this->_startDate, $this->_dbIndex));
-		$query->addWhere("log_entry.timestamp < ".$dbc->toDBDate($this->_endDate->plus(Duration::withDays(1)), $this->_dbIndex));
+		$query->addWhere("log_entry.timestamp < ".$dbc->toDBDate($this->_endDate, $this->_dbIndex));
 		
 		parent::addWhereClauses($query);
 	}
