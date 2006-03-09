@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.3 2006/03/07 19:27:08 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.4 2006/03/09 19:47:31 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/EntryIterator.php");
@@ -28,7 +28,7 @@ require_once(dirname(__FILE__)."/HarmoniEntry.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.3 2006/03/07 19:27:08 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.4 2006/03/09 19:47:31 adamfranco Exp $
  */
 class HarmoniEntryIterator
 	extends EntryIterator
@@ -54,30 +54,7 @@ class HarmoniEntryIterator
 		$this->_numPerLoad = 200;
 		$this->_entries = array();
 		
-		// load the count
-		$dbc =& Services::getService("DatabaseManager");
-		
-		$query =& new SelectQuery;
-		
-		$query->addColumn("COUNT(*)", "count");
-		
-		$query->addTable("log_entry");
-		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_format_type = format_type.id", "format_type");
-		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_priority_type = priority_type.id", "priority_type");
-		
-		$query->addWhere("log_name = '".addslashes($this->_logName)."'");
-		$query->addWhere("format_type.domain = '".addslashes($formatType->getDomain())."'");
-		$query->addWhere("format_type.authority = '".addslashes($formatType->getAuthority())."'");
-		$query->addWhere("format_type.keyword = '".addslashes($formatType->getKeyword())."'");
-		if ($this->_priorityType) {
-			$query->addWhere("priority_type.domain = '".addslashes($priorityType->getDomain())."'");
-			$query->addWhere("priority_type.authority = '".addslashes($priorityType->getAuthority())."'");
-			$query->addWhere("priority_type.keyword = '".addslashes($priorityType->getKeyword())."'");
-		}
-		
-		$results =& $dbc->query($query, $this->_dbIndex);
-		$this->_count = $results->field("count");
-		$results->free();
+		$this->loadCount();
 	}
 	
 	/**
@@ -208,6 +185,28 @@ class HarmoniEntryIterator
 	 function count () {
 	 	return $this->_count;
 	 }
+	 
+	 /**
+	  * Load the number of results
+	  * 
+	  * @return void
+	  * @access public
+	  * @since 3/9/06
+	  */
+	 function loadCount () {
+	 	// load the count
+		$dbc =& Services::getService("DatabaseManager");
+		
+		$query =& $this->getBaseQuery();
+		$query->addColumn("id", "entry_id", "log_entry");
+		$query->setDistinct(true);
+		$this->addWhereClauses($query);
+		
+// 		Debug::printQuery($query);
+		$results =& $dbc->query($query, $this->_dbIndex);
+		$this->_count = $results->getNumberOfRows();
+		$results->free();
+	 }
 	
 	/**
 	 * Load the next bunch of items
@@ -219,38 +218,9 @@ class HarmoniEntryIterator
 	function loadNext () {
 		$dbc =& Services::getService("DatabaseManager");
 		
-		$query =& new SelectQuery;
-		
-		$query->addColumn("id", "id", "log_entry");
-		$query->addColumn("timestamp", "timestamp", "log_entry");
-		$query->addColumn("category", "category", "log_entry");
-		$query->addColumn("description", "description", "log_entry");
-		$query->addColumn("backtrace", "backtrace", "log_entry");
-		$query->addColumn("fk_agent", "agent_id", "log_agent");
-		$query->addColumn("fk_node", "node_id", "log_node");
-		
-		$query->addTable("log_entry");
-		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_format_type = format_type.id", "format_type");
-		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_priority_type = priority_type.id", "priority_type");
-		$query->addTable("log_agent", LEFT_JOIN, "log_entry.id = log_agent.fk_entry");
-		$query->addTable("log_node", LEFT_JOIN, "log_entry.id = log_node.fk_entry");
-		
-		$query->addWhere("log_name = '".addslashes($this->_logName)."'");
-		$query->addWhere("format_type.domain = '".addslashes($this->_formatType->getDomain())."'");
-		$query->addWhere("format_type.authority = '".addslashes($this->_formatType->getAuthority())."'");
-		$query->addWhere("format_type.keyword = '".addslashes($this->_formatType->getKeyword())."'");
-		if ($this->_priorityType) {
-			$query->addWhere("priority_type.domain = '".addslashes($this->_priorityType->getDomain())."'");
-			$query->addWhere("priority_type.authority = '".addslashes($this->_priorityType->getAuthority())."'");
-			$query->addWhere("priority_type.keyword = '".addslashes($this->_priorityType->getKeyword())."'");
-		}
-		
-		$query->addOrderBy("timestamp", DESCENDING);
-		$query->addOrderBy("id", ASCENDING);
-		
-		$query->limitNumberOfRows($this->_numPerLoad);
-		if ($this->_currentRow)
-			$query->startFromRow($this->_currentRow + 1);
+		$query =& $this->getBaseQuery();
+		$this->addWhereClauses($query);
+		$this->addColumnsOrderAndLimits($query);
 		
 // 		debug::printQuery($query);
 		$results =& $dbc->query($query, $this->_dbIndex);
@@ -314,6 +284,70 @@ class HarmoniEntryIterator
 												array_unique($nodes),
 												$this->_formatType,
 												$this->_priorityType);
+		}
+	}
+	
+	/**
+	 * Answer the basic query
+	 * 
+	 * @return object SelectQuery
+	 * @access public
+	 * @since 3/9/06
+	 */
+	function &getBaseQuery () {
+		$query =& new SelectQuery;
+		
+		$query->addTable("log_entry");
+		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_format_type = format_type.id", "format_type");
+		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_priority_type = priority_type.id", "priority_type");
+		$query->addTable("log_agent", LEFT_JOIN, "log_entry.id = log_agent.fk_entry");
+		$query->addTable("log_node", LEFT_JOIN, "log_entry.id = log_node.fk_entry");
+		
+		return $query;
+	}
+	
+	/**
+	 * Add columns, orders, and limits to our query
+	 * 
+	 * @param object SelectQuery $query
+	 * @return void
+	 * @access public
+	 * @since 3/9/06
+	 */
+	function addColumnsOrderAndLimits ( &$query ) {
+		$query->addOrderBy("timestamp", DESCENDING);
+		$query->addOrderBy("id", ASCENDING);
+		
+		$query->addColumn("id", "id", "log_entry");
+		$query->addColumn("timestamp", "timestamp", "log_entry");
+		$query->addColumn("category", "category", "log_entry");
+		$query->addColumn("description", "description", "log_entry");
+		$query->addColumn("backtrace", "backtrace", "log_entry");
+		$query->addColumn("fk_agent", "agent_id", "log_agent");
+		$query->addColumn("fk_node", "node_id", "log_node");
+		
+		$query->limitNumberOfRows($this->_numPerLoad);
+		if ($this->_currentRow)
+			$query->startFromRow($this->_currentRow + 1);
+	}
+	
+	/**
+	 * Add where clauses to the query
+	 * 
+	 * @param object SelectQuery $query
+	 * @return void
+	 * @access public
+	 * @since 3/9/06
+	 */
+	function addWhereClauses ( &$query ) {
+		$query->addWhere("log_name = '".addslashes($this->_logName)."'");
+		$query->addWhere("format_type.domain = '".addslashes($this->_formatType->getDomain())."'");
+		$query->addWhere("format_type.authority = '".addslashes($this->_formatType->getAuthority())."'");
+		$query->addWhere("format_type.keyword = '".addslashes($this->_formatType->getKeyword())."'");
+		if ($this->_priorityType) {
+			$query->addWhere("priority_type.domain = '".addslashes($this->_priorityType->getDomain())."'");
+			$query->addWhere("priority_type.authority = '".addslashes($this->_priorityType->getAuthority())."'");
+			$query->addWhere("priority_type.keyword = '".addslashes($this->_priorityType->getKeyword())."'");
 		}
 	}
 }
