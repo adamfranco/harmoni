@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SearchEntryIterator.class.php,v 1.2 2006/03/09 21:07:16 adamfranco Exp $
+ * @version $Id: SearchEntryIterator.class.php,v 1.3 2006/03/09 21:20:18 adamfranco Exp $
  */
 
 require_once(dirname(__FILE__)."/HarmoniEntryIterator.class.php");
@@ -28,7 +28,7 @@ require_once(dirname(__FILE__)."/HarmoniEntry.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SearchEntryIterator.class.php,v 1.2 2006/03/09 21:07:16 adamfranco Exp $
+ * @version $Id: SearchEntryIterator.class.php,v 1.3 2006/03/09 21:20:18 adamfranco Exp $
  */
 class SearchEntryIterator
 	extends HarmoniEntryIterator
@@ -58,6 +58,11 @@ class SearchEntryIterator
 			$this->_nodeId = $searchCriteria['node_id'];
 		else
 			$this->_nodeId = false;
+			
+		if (isset($searchCriteria['category']))
+			$this->_category = $searchCriteria['category'];
+		else
+			$this->_category = false;
 				
 		$this->HarmoniEntryIterator($logName, $formatType, $priorityType, $dbIndex);
 	}
@@ -80,6 +85,10 @@ class SearchEntryIterator
 		if ($this->_nodeId) {
 			$query->addTable("log_node", INNER_JOIN, "log_entry.id = search_node.fk_entry", "search_node");
 			$query->addWhere("search_node.fk_node = '".addslashes($this->_nodeId->getIdString())."'");
+		}
+		
+		if ($this->_category) {
+			$query->addWhere("log_entry.category = '".addslashes($this->_category)."'");
 		}
 		
 		$query->addWhere("log_entry.timestamp > ".$dbc->toDBDate($this->_startDate, $this->_dbIndex));
