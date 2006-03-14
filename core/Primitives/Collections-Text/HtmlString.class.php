@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/String.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.10 2006/01/27 20:26:56 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.11 2006/03/14 22:02:39 cws-midd Exp $
  */
 class HtmlString 
 	extends String 
@@ -32,6 +32,21 @@ class HtmlString
 		$string =& new HtmlString($value);
 		return $string;
 	}
+
+	/**
+	 * Instantiates a new String object with the passed value.
+	 *
+	 * allowing 'fromString' for string values
+	 * @param string $aString
+	 * @return ref object
+	 * @access public
+	 * @static
+	 */
+	function &fromString($aString) {
+		$string =& new HtmlString($aString);
+		return $string;
+	}
+
 	
 	/**
 	 * Shorten the string to a number of words, preserving HTML tags

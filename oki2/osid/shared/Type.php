@@ -202,7 +202,7 @@ class Type
      * @since 6/1/05
      * @static
      */
-    function &stringToType($aString, $glue = "::") {
+    function &fromString($aString, $glue = "::") {
     	ArgumentValidator::validate($aString, StringValidatorRule::getRule());
 
     	$parts = explode($glue, $aString);

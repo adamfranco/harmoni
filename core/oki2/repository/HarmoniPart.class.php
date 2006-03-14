@@ -19,7 +19,7 @@ require(OKI2."osid/repository/Part.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.15 2006/01/19 21:36:20 cws-midd Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.16 2006/03/14 22:02:48 cws-midd Exp $ 
  */
 class HarmoniPart 
 	extends Part
@@ -258,34 +258,15 @@ class HarmoniPart
 	 */
 	function updateValueFromString ( $value ) {
 		$partStructure =& $this->getPartStructure();
+		$dtm =& Services::getService("DataTypeManager");
 
 		$type = $partStructure->getType();
-		$typeString = $type->getKeyword();
-		switch($typeString) {
-			case "string":
-				$object =& String::withValue($value);
-				break;
-			case "integer":
-				$object =& Integer::withValue($value);
-				break;
-			case "boolean":
-				$object =& Boolean::withValue($value);
-				break;
-			case "shortstring":
-				$object =& String::withValue($value);
-				break;
-			case "float":
-				$object =& Float::withValue($value);
-				break;
-			case "datetime":
-				$object =& DateAndTime::fromString($value);
-				break;
-			case "type": 
-				$object =& HarmoniType::stringToType($value);
-				break;
-			default:
-				return $false;
-		}
+		$class = $dtm->primitiveForType($type->getKeyword());
+		eval('$object =& '.$class.'::fromString($value);');
+		
+		if (!is_object($object))
+			return false;
+
 		$this->updateValue($object);
 	}
 	

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Number.class.php,v 1.3 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: Number.class.php,v 1.4 2006/03/14 22:02:42 cws-midd Exp $
  */ 
  
 require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Number.class.php,v 1.3 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: Number.class.php,v 1.4 2006/03/14 22:02:42 cws-midd Exp $
  */
 class Number 
 	extends Magnitude
@@ -72,6 +72,29 @@ class Number
 		$number->_setValue($value);
 		return $number;
 	}
+	
+	/**
+	 * Answer a new object with the value specified
+	 * 
+	 * @param string $string
+	 * @param optional string $class The class to instantiate. Do NOT use outside 
+	 *		of this package.
+	 * @return object Number
+	 * @access public
+	 * @since 3/14/06
+	 */
+	function &fromString ( $string, $class = 'Number') {
+		// Validate our passed class name.
+		if (!is_subclass_of(new $class, 'Number'))
+		{
+			die("Class, '$class', is not a subclass of 'Number'.");
+		}
+		
+		$number =& new $class;
+		$number->_setValue($value);
+		return $number;
+	}
+	
 	
 	/**
 	 * Answer a new object with the value zero

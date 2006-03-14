@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: String.class.php,v 1.2 2005/07/15 21:56:29 gabeschine Exp $
+ * @version $Id: String.class.php,v 1.3 2006/03/14 22:02:39 cws-midd Exp $
  */
 class String 
 	extends SObject 
@@ -46,6 +46,21 @@ class String
 		$string =& new String($value);
 		return $string;
 	}
+	
+	/**
+	 * Instantiates a new String object with the passed value.
+	 *
+	 * allowing 'fromString' for string values
+	 * @param string $aString
+	 * @return ref object
+	 * @access public
+	 * @static
+	 */
+	function &fromString($aString) {
+		$string =& new String($aString);
+		return $string;
+	}
+
 	
 	/**
  	 * Answer whether the receiver and the argument are the same.

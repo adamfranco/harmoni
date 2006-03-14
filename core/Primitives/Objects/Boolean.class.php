@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Boolean.class.php,v 1.6 2005/09/29 13:28:37 adamfranco Exp $
+ * @version $Id: Boolean.class.php,v 1.7 2006/03/14 22:02:45 cws-midd Exp $
  */
 class Boolean 
 	extends SObject
@@ -32,6 +32,20 @@ class Boolean
 	 */
 	function &withValue($value) {
 		$temp =& new Boolean($value);
+		return $temp;
+	}
+
+	
+	/**
+	 * Instantiates a new Boolean object from a known string
+	 * 
+	 * @param string $aString true(case insensitive) is true if not, it's false
+	 * @return ref object
+	 * @access public
+	 * @since 3/14/06
+	 */
+	function &fromString ($aString) {
+		$temp =& new Boolean(((strtolower($aString) == "true")?true:false));
 		return $temp;
 	}
 	

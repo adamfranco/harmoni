@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Integer.class.php,v 1.3 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: Integer.class.php,v 1.4 2006/03/14 22:02:42 cws-midd Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Number.class.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/Number.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Integer.class.php,v 1.3 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: Integer.class.php,v 1.4 2006/03/14 22:02:42 cws-midd Exp $
  */
 class Integer 
 	extends Number
@@ -43,6 +43,19 @@ class Integer
 	function &withValue ( $value, $class = 'Integer') {
 		return parent::withValue($value, $class);
 	}
+
+	/**
+	 * Answer a new object with the value specified
+	 * 
+	 * @param string $string a string representation of the object
+	 * @return object Double
+	 * @access public
+	 * @since 3/14/06
+	 */
+	function &fromString ($string, $class = 'Integer') {
+		return parent::fromString($string, $class);
+	}
+
 	
 	/**
 	 * Answer a new object with the value zero
