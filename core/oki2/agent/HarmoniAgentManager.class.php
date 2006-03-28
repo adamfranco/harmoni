@@ -50,7 +50,7 @@ require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.40 2006/02/28 21:32:42 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.41 2006/03/28 19:07:02 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -335,6 +335,9 @@ class HarmoniAgentManager
 		// Get the node for the agent
 		$hierarchyManager =& Services::getService("Hierarchy");
 		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
+		if (!$hierarchy->nodeExists($id)) {
+			throwError(new Error(AgentException::UNKNOWN_ID().", '".$id->getIdString()."'", "AgentManager"));
+		}
 		$agentNode =& new $this->_agentFlavor($hierarchy, $hierarchy->getNode($id));
 		
 		return $agentNode;
