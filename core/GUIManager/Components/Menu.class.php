@@ -13,7 +13,7 @@ require_once(HARMONI."GUIManager/Components/Menu.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Menu.class.php,v 1.11 2006/01/20 20:52:40 adamfranco Exp $
+ * @version $Id: Menu.class.php,v 1.12 2006/04/05 16:08:33 adamfranco Exp $
  */
 class Menu extends Container /* implements MenuInterface */ {
 
@@ -72,7 +72,7 @@ class Menu extends Container /* implements MenuInterface */ {
 	 * If null, will be ignored.
 	 * @return ref object The menuItem that was just added.
 	 **/
-	function &add(& $menuItem, $width, $height, $alignmentX, $alignmentY) {
+	function &add(& $menuItem, $width = null, $height = null, $alignmentX = null, $alignmentY = null) {
 		// ** parameter validation
 		// some weird class checking here - would have been much simpler if PHP
 		// supported multiple inheritance
