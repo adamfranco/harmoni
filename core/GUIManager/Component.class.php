@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.class.php,v 1.18 2006/02/02 19:53:46 adamfranco Exp $
+ * @version $Id: Component.class.php,v 1.19 2006/04/07 15:09:14 adamfranco Exp $
  */
 class Component extends ComponentInterface {
 
@@ -217,6 +217,12 @@ class Component extends ComponentInterface {
 	 * @return string The HTML string.
 	 **/
 	function getPreHTML(& $theme, $tabs = "") {
+		// Sometimes we need to incrementally build our form pre-html, so
+		// provide access to it without the theme.
+		if ($theme === null) {
+			return $this->_preHTML;
+		}
+		
 		ob_start();
 		
 		// print any surrounding form-tags, etc.
@@ -278,6 +284,12 @@ class Component extends ComponentInterface {
 	 * @return string The HTML string.
 	 **/
 	function getPostHTML(& $theme, $tabs = "") {
+		// Sometimes we need to incrementally build our form pre-html, so
+		// provide access to it without the theme.
+		if ($theme === null) {
+			return $this->_postHTML;
+		}
+		
 		ob_start();
 		
 		$styleCollections = array_merge($this->_styleCollections, 
