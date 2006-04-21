@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.26 2006/03/09 20:16:46 cws-midd Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.27 2006/04/21 20:57:42 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -380,7 +380,7 @@ class HarmoniRecordStructure
 	 *
 	 * @return object TypeIterator The Types supported in this implementation.
 	 */
-	function getPartStructureTypes() {
+	function &getPartStructureTypes() {
 		$types = array();
 		
 		$typeMgr =& Services::getService("DataTypeManager");
