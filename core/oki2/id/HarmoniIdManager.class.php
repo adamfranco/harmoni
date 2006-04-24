@@ -1,6 +1,7 @@
 <?
 
 require_once(OKI2."/osid/id/IdManager.php");
+require_once(OKI2."/osid/id/IdException.php");
 
 require_once(HARMONI."oki2/shared/HarmoniId.class.php");
 
@@ -41,7 +42,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdManager.class.php,v 1.22 2006/01/17 20:06:22 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.23 2006/04/24 19:37:17 adamfranco Exp $
  */
 
 class HarmoniIdManager
@@ -220,6 +221,10 @@ class HarmoniIdManager
 //			print "id:". $idString." and ".$this->_ids[$idString]->getIdString()."<br/>";
 //			return $this->_ids[$idString];
 //		}
+		ArgumentValidator::validate($idString, 
+			OrValidatorRule::getRule(
+				NonzeroLengthStringValidatorRule::getRule(), 
+				NumericValidatorRule::getRule()));
 			
 		$id = new HarmoniId($idString);
 			
