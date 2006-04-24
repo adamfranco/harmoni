@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.29 2006/04/24 21:13:03 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.30 2006/04/24 22:39:19 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -390,7 +390,7 @@ class HarmoniRecordStructure
 	 *
 	 * @return object PartStructure The newly created PartStructure.
 	 */
-	function createPartStructure($displayName, $description, &$partType, $isMandatory, $isRepeatable, $isPopulatedByRepository, $theid=null) {
+	function &createPartStructure($displayName, $description, &$partType, $isMandatory, $isRepeatable, $isPopulatedByRepository, $theid=null) {
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 		ArgumentValidator::validate($partType, ExtendsValidatorRule::getRule("Type"));
