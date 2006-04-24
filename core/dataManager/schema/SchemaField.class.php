@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaField.class.php,v 1.13 2005/07/18 14:45:23 gabeschine Exp $
+ * @version $Id: SchemaField.class.php,v 1.14 2006/04/24 20:19:19 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaField {
@@ -190,7 +190,7 @@ class SchemaField {
 			// synchronized into the database.
 			throwError( new Error("Could not commit() to database because either: 1) we don't have a local ID, 
 			meaning we were not meant to be synchronized with the database, or 2) the Schema to which we 
-			belong is not linked with the database. (label: ".$this->_label.", schema type: ".HarmoniType::typeToString($this->_schema->getType()).")",
+			belong is not linked with the database. (label: ".$this->_label.", schema name: ".$this->_schema->getDisplayName().")",
 			"DataManager",true));
 			return null;
 		}

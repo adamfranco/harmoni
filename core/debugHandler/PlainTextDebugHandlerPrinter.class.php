@@ -10,7 +10,7 @@ require_once(HARMONI."debugHandler/DebugHandlerPrinter.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PlainTextDebugHandlerPrinter.class.php,v 1.3 2005/01/19 21:09:59 adamfranco Exp $
+ * @version $Id: PlainTextDebugHandlerPrinter.class.php,v 1.4 2006/04/24 20:19:19 adamfranco Exp $
  **/
 
 class PlainTextDebugHandlerPrinter extends DebugHandlerPrinterInterface {
@@ -29,10 +29,12 @@ class PlainTextDebugHandlerPrinter extends DebugHandlerPrinterInterface {
 		$items = & $debugHandler->getDebugItems($category);
 		if ($level == 0) return true;
 		
+		print "\n<pre>\n";
 		foreach (array_keys($items) as $key) {
 			if ($items[$key]->getLevel() <= $level)
 				print "[".$items[$key]->getCategory().":".$items[$key]->getLevel()."] ".$items[$key]->getText()."\n";
 		}
+		print "\n</pre>\n";
 	}
 }
 
