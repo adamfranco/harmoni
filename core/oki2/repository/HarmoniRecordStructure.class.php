@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.27 2006/04/21 20:57:42 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.28 2006/04/24 20:18:36 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -84,10 +84,9 @@ class HarmoniRecordStructure
 	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
-		$schemaCopy =& $this->_schema->deepCopy();
-		$schemaCopy->updateDisplayName($displayName);
+		$this->_schema->updateDisplayName($displayName);
 		$schemaManager =& Services::getService("SchemaManager");
-		$schemaManager->synchronize($schemaCopy);
+		$schemaManager->synchronize($this->_schema);
 	} 
 
 	 /**
@@ -112,6 +111,31 @@ class HarmoniRecordStructure
 	function getDescription () { 
 		return $this->_schema->getDescription();
 	}
+	
+	/**
+	 * Update the description for this RecordStructure.
+	 * 
+	 * @param string $description
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function updateDescription ( $description ) { 
+		$this->_schema->updateDescription($description);
+		$schemaManager =& Services::getService("SchemaManager");
+		$schemaManager->synchronize($this->_schema);
+	} 
 
 	/**
 	 * Get the unique Id for this RecordStructure.

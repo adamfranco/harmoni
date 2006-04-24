@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.9 2006/01/17 20:06:22 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.10 2006/04/24 20:18:36 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -83,7 +83,8 @@ class HarmoniPartStructure extends PartStructure
 	function updateDisplayName ( $displayName ) { 
 		$this->_schemaField->updateDisplayName($displayName);
 		$this->_schemaField->update();
-		$this->_schemaField->commit();
+		$id =& $this->getId();
+		$this->_schemaField->commit($id->getIdString());
 	} 
 	
 	/**
@@ -109,6 +110,36 @@ class HarmoniPartStructure extends PartStructure
 		if ($desc = $this->_schemaField->getDescription()) return $desc;
 		return "A HarmoniDataManager field of type '".$this->_schemaField->getType()."'.";
 	}
+	
+	/**
+	 * Update the description for this PartStructure.
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @param string $description
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function updateDescription ( $description ) { 
+		$this->_schemaField->updateDescription($description);
+		$this->_schemaField->update();
+		$id =& $this->getId();
+		$this->_schemaField->commit($id->getIdString());
+	} 
 	
 	 /**
 	 * Get the Type for this PartStructure.
@@ -237,6 +268,36 @@ class HarmoniPartStructure extends PartStructure
 	function isMandatory () { 
 		return $this->_schemaField->isRequired();
 	}
+	
+	/**
+	 * Update the mandatory flag for this PartStructure.
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @param boolean $isMandatory
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function updateIsMandatory ( $isMandatory ) { 
+		$this->_schemaField->setRequired($isMandatory);
+		$this->_schemaField->update();
+		$id =& $this->getId();
+		$this->_schemaField->commit($id->getIdString());
+	} 
 
 	/**
 	 * Return true if this PartStructure is repeatable; false otherwise. This
@@ -261,6 +322,37 @@ class HarmoniPartStructure extends PartStructure
 	function isRepeatable () { 
 		return $this->_schemaField->getMultFlag();
 	}
+	
+	/**
+	 * Update the repeatable flag for this PartStructure.
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @param boolean $isRepeatable
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.repository.RepositoryException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function updateIsRepeatable ( $isRepeatable ) { 
+		$this->_schemaField->setMultFlag($isMandatory);
+		$this->_schemaField->update();
+		$id =& $this->getId();
+		$this->_schemaField->commit($id->getIdString());
+	} 
+
 
 	
 	/**
