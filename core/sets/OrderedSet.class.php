@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.17 2006/02/16 00:16:51 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.18 2006/04/24 21:13:07 adamfranco Exp $
  */ 
 
 require_once(HARMONI."Primitives/Objects/SObject.class.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."Primitives/Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.17 2006/02/16 00:16:51 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.18 2006/04/24 21:13:07 adamfranco Exp $
  * @author Adam Franco
  */
  
@@ -206,6 +206,8 @@ class OrderedSet
 	 */
 	function moveToPosition ( & $id, $position ) {
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
+		
+// 		printpre("Moving ".$id->getIdString()." from ".$this->getPosition($id)." to ".$position);
 		
 		if ($position != $this->getPosition($id) 
 			&& $position >= 0

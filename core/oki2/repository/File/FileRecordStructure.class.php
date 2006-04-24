@@ -28,7 +28,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartStructureIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecordStructure.class.php,v 1.9 2006/01/17 20:06:22 adamfranco Exp $ 
+ * @version $Id: FileRecordStructure.class.php,v 1.10 2006/04/24 21:13:06 adamfranco Exp $ 
  */
 class HarmoniFileRecordStructure 
 	extends RecordStructure
@@ -121,6 +121,30 @@ class HarmoniFileRecordStructure
 		$idManager =& Services::getService("Id");
 		return $idManager->getId('FILE');
 	}
+	
+	/**
+	 * Get the Type for this RecordStructure.
+	 *	
+	 * @return object Type
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function &getType () { 
+		$type =& new Type("RecordStructures", "edu.middlebury.harmoni", "File", "RecordStructures that store files.");
+		return $type;
+	} 
 
 	/**
 	 * Get all the PartStructures in the RecordStructure.  Iterators return a

@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.28 2006/04/24 20:18:36 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.29 2006/04/24 21:13:03 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -284,8 +284,35 @@ class HarmoniRecordStructure
 	function getFormat () { 
 		$other = $this->_schema->getOtherParameters();
 		if (isset($other['format'])) return $other['format'];
-		return "DataManagerPrimatives";
+		return _("Plain Text - UTF-8 encoding");
 	}
+	
+	/**
+	 * Update the format for this RecordStructure.
+	 * 
+	 * @param string $format
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function updateFormat ( $format ) {
+		$other = $this->_schema->getOtherParameters();
+		$other['format'] = $format;
+		$this->_schema->updateOtherParameters($other);
+		$schemaManager =& Services::getService("SchemaManager");
+		$schemaManager->synchronize($this->_schema);
+	} 
 	
 	/**
 	 * Get the Type for this RecordStructure.
@@ -307,7 +334,8 @@ class HarmoniRecordStructure
 	 * @access public
 	 */
 	function &getType () { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		$type =& new Type("RecordStructures", "edu.middlebury.harmoni", "DataManagerPrimatives", "RecordStructures stored in the Harmoni DataManager.");
+		return $type;
 	} 
 
 
