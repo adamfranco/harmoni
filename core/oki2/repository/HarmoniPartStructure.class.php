@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.10 2006/04/24 20:18:36 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.11 2006/04/25 21:03:18 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -410,5 +410,148 @@ class HarmoniPartStructure extends PartStructure
 		// @todo
 		
 		return true;
+	}
+	
+	/**
+	 * Answer the authoritative values for this part.
+	 *
+	 * WARNING: NOT in OSID
+	 * 
+	 * @return object ObjectIterator
+	 * @access public
+	 * @since 4/25/06
+	 */
+	function &getAuthoritativeValues () {
+		if (!isset($this->_authoritativeValueObjects)) {
+			$dtm =& Services::getService("DataTypeManager");
+			$type = $this->getType();
+			$class = $dtm->primitiveForType($type->getKeyword());
+			
+			$this->_loadAuthoritativeValueStrings();
+			$this->_authoritativeValueObjects = array();
+			
+			foreach ($this->_authoritativeValueStrings as $valueString)
+				eval('$this->_authoritativeValueObjects[$valueString] =& '.$class.'::fromString($valueString);');
+		}
+		$iterator =& new HarmoniIterator($this->_authoritativeValueObjects);
+		return $iterator;
+	}
+	
+	/**
+	 * Answer true if the value pass is authoritative.
+	 *
+	 * WARNING: NOT in OSID
+	 * 
+	 * @param object $value
+	 * @return boolean
+	 * @access public
+	 * @since 4/25/06
+	 */
+	function isAuthoritativeValue ( &$value ) {
+		if (!isset($this->_authoritativeValueStrings))
+			$this->_loadAuthoritativeValueStrings();
+		
+		return in_array($value->asString(), $this->_authoritativeValueStrings);		
+	}
+	
+	/**
+	 * Remove an authoritative value.
+	 *
+	 * WARNING: NOT in OSID
+	 * 
+	 * @param object $value
+	 * @return void
+	 * @access public
+	 * @since 4/25/06
+	 */
+	function removeAuthoritativeValue ( &$value ) {
+		if ($this->isAuthoritativeValue($value)) {
+			// remove the object from our objects array
+			if (isset($this->_authoritativeValueObjects[$value->asString()]))
+				unset($this->_authoritativeValueObjects[$value->asString()]);
+				
+			// Remove the string from our strings array
+			unset($this->_authoritativeValueStrings[array_search($value->asString(), $this->_authoritativeValueStrings)]);
+			
+			// Remove the value from our database
+			$query =& new DeleteQuery;
+			$query->setTable('dr_authoritative_values');
+			$id =& $this->getId();
+			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
+			$query->addWhere("value = '".addslashes($value->asString())."'");
+			
+			$dbc =& Services::getService("Database");
+			$repositoryManager =& Services::getService("Repository");
+			$configuration =& $repositoryManager->getConfiguration();
+			$dbc->query($query, $configuration->getProperty('database_index'));
+		}
+	}
+	
+	/**
+	 * Add an authoritative value
+	 *
+	 * WARNING: NOT in OSID
+	 * 
+	 * @param object $value
+	 * @return void
+	 * @access public
+	 * @since 4/25/06
+	 */
+	function addAuthoritativeValue ( &$value ) {
+		if (!$this->isAuthoritativeValue($value)) {
+			// add the object to our objects array
+			$this->_authoritativeValueObjects[$value->asString()] =& $value;
+				
+			// add the string to our strings array
+			$this->_authoritativeValueStrings[] = $value->asString();
+			
+			// add the value to our database
+			$query =& new InsertQuery;
+			$query->setTable('dr_authoritative_values');
+			$query->setColumns(array('fk_partstructure', 'value'));
+			$id =& $this->getId();
+			$query->addRowOfValues(array(
+				"'".addslashes($id->getIdString())."'",
+				"'".addslashes($value->asString())."'"));
+			
+			$dbc =& Services::getService("Database");
+			$repositoryManager =& Services::getService("Repository");
+			$configuration =& $repositoryManager->getConfiguration();
+			$dbc->query($query, $configuration->getProperty('database_index'));
+		}
+	}
+	
+	/**
+	 * Load the authoritative value list
+	 *
+	 * WARNING: NOT in OSID
+	 * 
+	 * @return void
+	 * @access private
+	 * @since 4/25/06
+	 */
+	function _loadAuthoritativeValueStrings () {
+		if (!isset($this->_authoritativeValueStrings)) {
+			$this->_authoritativeValueStrings = array();
+			
+			$query =& new SelectQuery;
+			$query->addTable('dr_authoritative_values');
+			$query->addColumn('value');
+			$id =& $this->getId();
+			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
+			$query->addOrderBy("value", ASCENDING);
+			
+			$dbc =& Services::getService("Database");
+			$repositoryManager =& Services::getService("Repository");
+			$configuration =& $repositoryManager->getConfiguration();
+			$result =& $dbc->query($query, $configuration->getProperty('database_index'));
+			
+			while ($result->hasMoreRows()) {
+				$this->_authoritativeValueStrings[] = $result->field('value');
+				$result->advanceRow();
+			}
+			
+			$result->free();
+		}
 	}
 }
