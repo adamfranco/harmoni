@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/DirectionSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DirectionSP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: DirectionSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class DirectionSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class DirectionSP extends StyleProperty {
 	 **/
 	function DirectionSP($value) {
 		$this->StyleProperty("direction", "Direction", "This property specifies the text direction.");
-		$this->addSC(new DirectionSC($value));
+		if (isset($value)) $this->addSC(new DirectionSC($value));
 	}
 
 }

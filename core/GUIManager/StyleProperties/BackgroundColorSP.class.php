@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/ColorSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BackgroundColorSP.class.php,v 1.4 2005/02/07 21:38:15 adamfranco Exp $
+ * @version $Id: BackgroundColorSP.class.php,v 1.5 2006/04/26 14:21:31 cws-midd Exp $
  */
 class BackgroundColorSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class BackgroundColorSP extends StyleProperty {
 	 **/
 	function BackgroundColorSP($value) {
 		$this->StyleProperty("background-color", "Background Color", "This property specifies the background color.");
-		$this->addSC(new ColorSC($value));
+		if (isset($value)) $this->addSC(new ColorSC($value));
 	}
 
 }

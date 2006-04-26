@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/ClearSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ClearSP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: ClearSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class ClearSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class ClearSP extends StyleProperty {
 	 **/
 	function ClearSP($value) {
 		$this->StyleProperty("clear", "Clear", "This property specifies the clear value.");
-		$this->addSC(new ClearSC($value));
+		if (isset($value)) $this->addSC(new ClearSC($value));
 	}
 
 }

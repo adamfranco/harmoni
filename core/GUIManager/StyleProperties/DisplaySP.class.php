@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleComponents/DisplaySC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DisplaySP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: DisplaySP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class DisplaySP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class DisplaySP extends StyleProperty {
 	 **/
 	function DisplaySP($value) {
 		$this->StyleProperty("display", "Display", "Specifies the display type.");
-		$this->addSC(new DisplaySC($value));
+		if (isset($value)) $this->addSC(new DisplaySC($value));
 	}
 
 }

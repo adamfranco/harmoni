@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleComponents/FontFamilySC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontFamilySP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: FontFamilySP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class FontFamilySP extends StyleProperty {
 
@@ -31,7 +31,7 @@ class FontFamilySP extends StyleProperty {
 	function FontFamilySP($family) {
 		$this->StyleProperty("font-family", "Font Family", "This property sets the font family.");
 
-		$this->addSC(new FontFamilySC($family));
+		if (isset($family)) $this->addSC(new FontFamilySC($family));
 	}
 
 }

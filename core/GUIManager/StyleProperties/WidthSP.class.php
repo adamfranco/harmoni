@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/AutoLengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: WidthSP.class.php,v 1.4 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: WidthSP.class.php,v 1.5 2006/04/26 14:21:31 cws-midd Exp $
  */
 class WidthSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class WidthSP extends StyleProperty {
 	 **/
 	function WidthSP($length) {
 		$this->StyleProperty("width", "Width", "This property specifies the width.");
-		$this->addSC(new AutoLengthSC($length));
+		if (isset($length)) $this->addSC(new AutoLengthSC($length));
 	}
 
 }

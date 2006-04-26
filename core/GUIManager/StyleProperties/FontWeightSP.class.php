@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleComponents/FontWeightSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontWeightSP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: FontWeightSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class FontWeightSP extends StyleProperty {
 
@@ -31,7 +31,7 @@ class FontWeightSP extends StyleProperty {
 	function FontWeightSP($weight) {
 		$this->StyleProperty("font-weight", "Font Weight", "This property sets the font weight.");
 
-		$this->addSC(new FontWeightSC($weight));
+		if (isset($weight)) $this->addSC(new FontWeightSC($weight));
 	}
 
 }

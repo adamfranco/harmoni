@@ -39,7 +39,7 @@ require_once(HARMONI."GUIManager/StyleProperties/DisplaySP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: NiksTheme.class.php,v 1.1 2005/09/01 18:04:55 nstamato Exp $
+ * @version $Id: NiksTheme.class.php,v 1.2 2006/04/26 14:21:31 cws-midd Exp $
  */
 class NiksTheme extends Theme {
 
@@ -54,7 +54,7 @@ class NiksTheme extends Theme {
 		// =====================================================================
 		// global Theme style
 		$body =& new StyleCollection("body", null, "Global Style", "Style settings affecting the overall look and feel.");
-		$sp1=& new BackgroundColorSP("#AAA");
+		$sp1 =& new BackgroundColorSP("#AAA");
 		$body->addSP($sp1);
 		$this->registerSP($sp1);
 		$body->addSP(new ColorSP("#000"));

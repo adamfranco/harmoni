@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LineHeightSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LineHeightSP.class.php,v 1.4 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: LineHeightSP.class.php,v 1.5 2006/04/26 14:21:31 cws-midd Exp $
  */
 class LineHeightSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class LineHeightSP extends StyleProperty {
 	 **/
 	function LineHeightSP($value) {
 		$this->StyleProperty("line-height", "Line Height", "Specifies the line height.");
-		$this->addSC(new LineHeightSC($value));
+		if (isset($value)) $this->addSC(new LineHeightSC($value));
 	}
 
 }

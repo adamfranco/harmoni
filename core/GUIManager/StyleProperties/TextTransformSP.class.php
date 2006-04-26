@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/TextTransformSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TextTransformSP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: TextTransformSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class TextTransformSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class TextTransformSP extends StyleProperty {
 	 **/
 	function TextTransformSP($value) {
 		$this->StyleProperty("text-transform", "Text Transformation", "This property specifies the text transformation.");
-		$this->addSC(new TextTransformSC($value));
+		if (isset($value)) $this->addSC(new TextTransformSC($value));
 	}
 
 }

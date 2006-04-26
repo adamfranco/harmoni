@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/ZIndexSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ZIndexSP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: ZIndexSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class ZIndexSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class ZIndexSP extends StyleProperty {
 	 **/
 	function ZIndexSP($value) {
 		$this->StyleProperty("z-index", "Z-Index", "This property specifies the z-index.");
-		$this->addSC(new ZIndexSC($value));
+		if (isset($value)) $this->addSC(new ZIndexSC($value));
 	}
 
 }

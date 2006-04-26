@@ -22,7 +22,7 @@ require_once(HARMONI."GUIManager/StyleComponents/FontFamilySC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontSP.class.php,v 1.5 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: FontSP.class.php,v 1.6 2006/04/26 14:21:31 cws-midd Exp $
  */
 class FontSP extends StyleProperty {
 
@@ -36,16 +36,16 @@ class FontSP extends StyleProperty {
 	 * @param optional string weight The font weight.
 	 * @param optional string variant The font variant.
 	 **/
-	function FontSP($family, $size, $style=null, $weight=null, $variant=null) {
+	function FontSP($family, $size, $style, $weight, $variant) {
 		$this->StyleProperty("font", "Font", "This property sets the current 
 											  font family, size, style, weight,
 											  variant.");
 
-		if ($style) $this->addSC(new FontStyleSC($style));
-		if ($variant) $this->addSC(new FontVariantSC($variant));
-		if ($weight) $this->addSC(new FontWeightSC($weight));
-		$this->addSC(new FontSizeSC($size));
-		$this->addSC(new FontFamilySC($family));
+		if (isset($style)) $this->addSC(new FontStyleSC($style));
+		if (isset($variant)) $this->addSC(new FontVariantSC($variant));
+		if (isset($weight)) $this->addSC(new FontWeightSC($weight));
+		if (isset($size)) $this->addSC(new FontSizeSC($size));
+		if (isset($family)) $this->addSC(new FontFamilySC($family));
 	}
 
 }

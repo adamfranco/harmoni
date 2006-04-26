@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/TextAlignSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TextAlignSP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: TextAlignSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class TextAlignSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class TextAlignSP extends StyleProperty {
 	 **/
 	function TextAlignSP($value) {
 		$this->StyleProperty("text-align", "Text Alignment", "This property specifies the text alignment.");
-		$this->addSC(new TextAlignSC($value));
+		if (isset($value)) $this->addSC(new TextAlignSC($value));
 	}
 
 }

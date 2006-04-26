@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleProperty.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleProperty.class.php,v 1.7 2005/11/28 22:41:42 adamfranco Exp $
+ * @version $Id: StyleProperty.class.php,v 1.8 2006/04/26 14:21:29 cws-midd Exp $
  */
 class StyleProperty extends StylePropertyInterface {
 
@@ -94,9 +94,11 @@ class StyleProperty extends StylePropertyInterface {
 		$css = $this->_name.": ";
 
 		$values = array();
-		foreach (array_keys($this->_SCs) as $key)
+		foreach (array_keys($this->_SCs) as $key) {
+if ($this->_SCs[0] == null)
+	throwError(new Error("shit", "balls"));
 			$values[] = $this->_SCs[$key]->getValue();
-
+}
 		$css .= implode(" ", $values);
 
 		$css .= ";";

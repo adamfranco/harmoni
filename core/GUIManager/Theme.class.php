@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.21 2005/11/30 18:48:07 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.22 2006/04/26 14:21:29 cws-midd Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -136,7 +136,7 @@ class Theme extends ThemeInterface {
 		ArgumentValidator::validate($displayName, $rule, true);
 		ArgumentValidator::validate($description, $rule, true);
 		// ** end of parameter validation
-	
+
 		$this->_component = null;
 		$this->_pageTitle = "";
 		$this->_componentStyles = array();
@@ -146,6 +146,17 @@ class Theme extends ThemeInterface {
 		$this->_displayName = $displayName;
 		$this->_description = $description;
 	}
+
+// 	/**
+// 	 * Answers the theme's id
+// 	 * 
+// 	 * @return object HarmoniId
+// 	 * @access public
+// 	 * @since 4/13/06
+// 	 */
+// 	function &getId () {
+// 		return $this->_id;
+// 	}
 
 	/**
 	 * Returns the display name of this Theme.
@@ -213,6 +224,20 @@ class Theme extends ThemeInterface {
 	}
 
 	/**
+	 * Answers the Style Collection that has global effects.
+	 *
+	 * @access public
+	 * @return ref array global styles array
+	 **/
+	function &getGlobalStyles() {
+		if (isset($this->_globalStyles))
+			return $this->_globalStyles;
+		$array = array();
+		return $array;
+	}
+
+
+	/**
 	 * This method returns all style collections for the given component type and
 	 * the given numeric index.
 	 * <br /><br />
@@ -242,21 +267,24 @@ class Theme extends ThemeInterface {
 	 * for the given component type, then the highest index availible will be used.
 	 * @return ref array An array of Style Collections.
 	 **/
-	function &getStylesForComponentType($type, $index) {
+	function &getStylesForComponentType($type, $index = null) {
 		// ** parameter validation
 		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
 										 MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
-		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
+//		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		// Frst of all, see if there are any registered styles for this
 		// component type at all.
+		// if there are and no index has been requested then return all of them
 		$blank = array();
 		if (!isset($this->_componentStyles[$type]))
 			return $blank;
-
+		else if (is_null($index))
+			return $this->_componentStyles[$type];
+			
 	    // Now, we know there is at least one style collection for this
 		// component type. See, if there are any for the given index.
 		if (isset($this->_componentStyles[$type][$index]))
@@ -272,7 +300,8 @@ class Theme extends ThemeInterface {
 				return $this->_componentStyles[$type][$keys[$i]];
 
 		// nothing has been found
-		return array();
+		$array = array();
+		return $array;
 	}
 
 	/**
@@ -503,8 +532,8 @@ class Theme extends ThemeInterface {
 		foreach (array_keys($styleCollections) as $key) {
 			if (is_string($styleCollections[$key]))
 				$css .= $styleCollections[$key];
-			else
-				$css .= $styleCollections[$key]->getCSS($tabs);
+			else{//printpre($styleCollections[$key]);
+				$css .= $styleCollections[$key]->getCSS($tabs);}
 			$css .= "\n";
 		}
 		

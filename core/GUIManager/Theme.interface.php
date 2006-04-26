@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.interface.php,v 1.12 2005/04/06 14:15:40 adamfranco Exp $
+ * @version $Id: Theme.interface.php,v 1.13 2006/04/26 14:21:29 cws-midd Exp $
  **/
 class ThemeInterface {
 
@@ -68,6 +68,15 @@ class ThemeInterface {
 	 * @param ref object styleCollection The style collection to attach.
 	 **/
 	function addGlobalStyle(& $styleCollection) {
+	}
+
+	/**
+	 * Answers the Style Collection that has global effects.
+	 *
+	 * @access public
+	 * @param ref object styleCollection The style collection to attach.
+	 **/
+	function &getGlobalStyle() {
 	}
 	
 	/**

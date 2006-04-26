@@ -3,7 +3,7 @@
 require_once(HARMONI."GUIManager/StyleComponent.class.php");
 
 /**
- * The AlignmentPosition represents CSS relative and absolute position values, as well as certain alignments. The allowed
+ * The VerticalAlignmentPosition represents CSS relative and absolute position values, as well as certain alignments. The allowed
  * formats are: 
  * <ul style="font-family: monospace;">
  * 		<li> Percentage      - "12%" </li>
@@ -28,23 +28,26 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AlignmentPositionSC.class.php,v 1.5 2005/03/29 19:44:10 adamfranco Exp $
+ * @version $Id: VerticalAlignmentPositionSC.class.php,v 1.1 2006/04/26 14:21:31 cws-midd Exp $
  */
-class AlignmentPositionSC extends StyleComponent {
+class VerticalAlignmentPositionSC extends StyleComponent {
 
 	/**
 	 * The constructor.
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function AlignmentPositionSC($value, $options) {
+	function VerticalAlignmentPositionSC($value) {
 		$errDescription = "Could not validate the length StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed units are: %, in, cm, mm, em, ex, pt, pc, px, or any of:";
+		
+		$options = array("top", "center", "bottom");
+		
 		$errDescription .= " ".implode(", ", $options).".";
 		
 		$rule =& CSSLengthValidatorRule::getRule();
 		
-		$displayName = "AlignmentPosition";
+		$displayName = "VerticalAlignmentPosition";
 		$description = "Specifies the length (width, size, etc) in percentages (%),
 		inches (in), centimeters (cm), millimeters (mm), ems (em), X-height (ex),
 		points (pt), picas (pc), or	pixels (px) or an alignment: ".implode(", ",$options).".";

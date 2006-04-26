@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/TextDecorationSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TextDecorationSP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: TextDecorationSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class TextDecorationSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class TextDecorationSP extends StyleProperty {
 	 **/
 	function TextDecorationSP($value) {
 		$this->StyleProperty("text-decoration", "Text Decoration", "This property specifies the text decoration.");
-		$this->addSC(new TextDecorationSC($value));
+		if (isset($value)) $this->addSC(new TextDecorationSC($value));
 	}
 
 }

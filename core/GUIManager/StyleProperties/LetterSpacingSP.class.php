@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/TextSpacingSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LetterSpacingSP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: LetterSpacingSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class LetterSpacingSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class LetterSpacingSP extends StyleProperty {
 	 **/
 	function LetterSpacingSP($length) {
 		$this->StyleProperty("letter-spacing", "Letter Spacing", "This property specifies the letter spacing.");
-		$this->addSC(new TextSpacingSC($length));
+		if (isset($length)) $this->addSC(new TextSpacingSC($length));
 	}
 
 }

@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/Layout.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.abstract.php,v 1.3 2005/10/18 20:11:43 adamfranco Exp $
+ * @version $Id: GUIManager.abstract.php,v 1.4 2006/04/26 14:21:29 cws-midd Exp $
  */
 class GUIManagerAbstract
 	extends OutputHandler
@@ -139,7 +139,7 @@ END;
 	 * @access public
 	 * @return array An array of strings; each element is the class name of a style property.
 	 **/
-	function getSPs() {
+	function getSupportedSPs() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -157,7 +157,7 @@ END;
 	 * @access public
 	 * @return array An array of strings; each element is the class name of a style components.
 	 **/
-	function getSCs() {
+	function getSupportedSCs() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

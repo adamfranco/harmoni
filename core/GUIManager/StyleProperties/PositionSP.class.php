@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/PositionSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PositionSP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: PositionSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class PositionSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class PositionSP extends StyleProperty {
 	 **/
 	function PositionSP($value) {
 		$this->StyleProperty("position", "Position", "This property specifies the position.");
-		$this->addSC(new PositionSC($value));
+		if (isset($value)) $this->addSC(new PositionSC($value));
 	}
 
 }

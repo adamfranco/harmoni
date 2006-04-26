@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MarginTopSP.class.php,v 1.4 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: MarginTopSP.class.php,v 1.5 2006/04/26 14:21:31 cws-midd Exp $
  */
 class MarginTopSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class MarginTopSP extends StyleProperty {
 	 **/
 	function MarginTopSP($length) {
 		$this->StyleProperty("margin-top", "Top Margin", "This property specifies the top margin.");
-		$this->addSC(new LengthSC($length));
+		if (isset($length)) $this->addSC(new LengthSC($length));
 	}
 
 }

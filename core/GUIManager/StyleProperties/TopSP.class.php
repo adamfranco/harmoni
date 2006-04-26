@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/AutoLengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TopSP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: TopSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class TopSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class TopSP extends StyleProperty {
 	 **/
 	function TopSP($length) {
 		$this->StyleProperty("top", "top", "This property specifies the distance from the top.");
-		$this->addSC(new AutoLengthSC($length));
+		if (isset($length)) $this->addSC(new AutoLengthSC($length));
 	}
 
 }

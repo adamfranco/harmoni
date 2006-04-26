@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/AutoLengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LeftSP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: LeftSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class LeftSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class LeftSP extends StyleProperty {
 	 **/
 	function LeftSP($length) {
 		$this->StyleProperty("left", "left", "This property specifies the distance from the left.");
-		$this->addSC(new AutoLengthSC($length));
+		if (isset($length)) $this->addSC(new AutoLengthSC($length));
 	}
 
 }

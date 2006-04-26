@@ -22,7 +22,7 @@ require_once(HARMONI."GUIManager/StyleComponents/AlignmentPositionSC.class.php")
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BackgroundImageSP.class.php,v 1.3 2005/01/19 21:09:34 adamfranco Exp $
+ * @version $Id: BackgroundImageSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class BackgroundImageSP extends StyleProperty {
 
@@ -33,12 +33,12 @@ class BackgroundImageSP extends StyleProperty {
 	 **/
 	function BackgroundImageSP($imageURL, $repeat="repeat", $attachment="scroll", $xpos=null, $ypos=null) {
 		$this->StyleProperty("background", "Background Image", "This property specifies the background image and its settings.");
-		$this->addSC(new UrlSC($imageURL));
-		$this->addSC(new RepeatSC($repeat));
-		$this->addSC(new AttachmentSC($attachment));
-		if ($xpos && $ypos) {
-			$this->addSC(new AlignmentPositionSC($xpos, array("top","center","bottom")));
-			$this->addSC(new AlignmentPositionSC($ypos, array("left","center","right")));
+		if (isset($imageURL)) $this->addSC(new UrlSC($imageURL));
+		if (isset($repeat)) $this->addSC(new RepeatSC($repeat));
+		if (isset($attachment)) $this->addSC(new AttachmentSC($attachment));
+		if (isset($xpos) && issset($ypos)) {
+			$this->addSC(new VerticalAlignmentPositionSC($xpos, array("top","center","bottom")));
+			$this->addSC(new HorizontalAlignmentPositionSC($ypos, array("left","center","right")));
 		}
 	}
 

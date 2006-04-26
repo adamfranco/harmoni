@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/VisibilitySC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: VisibilitySP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: VisibilitySP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class VisibilitySP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class VisibilitySP extends StyleProperty {
 	 **/
 	function VisibilitySP($value) {
 		$this->StyleProperty("visibility", "Visibility", "This property specifies the visibility.");
-		$this->addSC(new VisibilitySC($value));
+		if (isset($value)) $this->addSC(new VisibilitySC($value));
 	}
 
 }

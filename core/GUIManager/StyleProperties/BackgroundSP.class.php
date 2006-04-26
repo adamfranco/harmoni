@@ -22,7 +22,7 @@ require_once(HARMONI."GUIManager/StyleComponents/BackgroundAttachmentSC.class.ph
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BackgroundSP.class.php,v 1.3 2005/02/07 21:38:15 adamfranco Exp $
+ * @version $Id: BackgroundSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class BackgroundSP extends StyleProperty {
 
@@ -33,8 +33,8 @@ class BackgroundSP extends StyleProperty {
 	 **/
 	function BackgroundSP($color, $url, $repeat, $attachment) {
 		$this->StyleProperty("background", "Background", "This property specifies the background settings.");
-		$this->addSC(new ColorSC($color));
-		$this->addSC(new UrlSC($url));
+		if (isset($color)) $this->addSC(new ColorSC($color));
+		if (isset($url)) $this->addSC(new UrlSC($url));
 		if (isset($repeat)) $this->addSC(new BackgroundRepeatSC($repeat));
 		if (isset($attachment)) $this->addSC(new BackgroundAttachmentSC($attachment));
 	}

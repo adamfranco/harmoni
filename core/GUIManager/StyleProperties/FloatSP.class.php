@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/FloatSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FloatSP.class.php,v 1.3 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: FloatSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
  */
 class FloatSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class FloatSP extends StyleProperty {
 	 **/
 	function FloatSP($value) {
 		$this->StyleProperty("float", "Float", "This property specifies the float value.");
-		$this->addSC(new FloatSC($value));
+		if (isset($value)) $this->addSC(new FloatSC($value));
 	}
 
 }

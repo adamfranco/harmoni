@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.class.php,v 1.24 2005/09/01 20:38:54 nstamato Exp $
+ * @version $Id: GUIManager.class.php,v 1.25 2006/04/26 14:21:29 cws-midd Exp $
  */
 class GUIManager 
 	extends GUIManagerAbstract 
@@ -32,14 +32,13 @@ class GUIManager
 	 */
 	var $_dbIndex;
 
-	
 	/**
-	 * The name of the GUIManager database.
-	 * @var string _guiDB 
+	 * The database connection as returned by the DBHandler.
+	 * @var integer _dbIndex 
 	 * @access protected
 	 */
-	var $_guiDB;
-	
+	var $_dbName;
+		
 	/**
 	 * Constructor
 	 * @param integer dbIndex The database connection to use as returned by the DBHandler.
@@ -81,18 +80,12 @@ class GUIManager
 		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
-		ArgumentValidator::validate($dbName, StringValidatorRule::getRule(), true);	
-		ArgumentValidator::validate($theme, ExtendsValidatorRule::getRule("ThemeInterface"), true);		
+		ArgumentValidator::validate($theme, ExtendsValidatorRule::getRule("ThemeInterface"), true);
 		// ** end of parameter validation
 		
+		$this->_dbName = $dbName;
 		$this->_dbIndex = $dbIndex;
-		$this->_guiDB = $dbName;
 		$this->setTheme($theme);
-		
-		if (isset($id)){
-			$this->loadThemeState($id,$theme);
-		}
-		
 	}
 
 	/**
@@ -129,12 +122,12 @@ class GUIManager
 	}
 
 	/**
-	 * Returns a list of themes supported by the GUIManager.
+	 * Returns a list of styleCollections supported by the GUIManager.
 	 * @access public
 	 * @return array An array of strings; each element is the class name of a theme.
 	 **/
-	function getSupportedThemes() {
-		$themesDir = dirname(__FILE__).$this->getThemePath();
+	function getSupportedStyleCollections() {
+		$themesDir = dirname(__FILE__).$this->getStyleCollectionPath();
 		
 		//the array of supported themes
 		$themes = array();
@@ -154,7 +147,6 @@ class GUIManager
 			}
 		unset($file,$dh);
 		}
-		//print_r ($themes);
 		return $themes;
 	}
 	
@@ -163,8 +155,8 @@ class GUIManager
 	 * @access public
 	 * @return string The relative path to the Theme directory.
 	 **/
-	function getThemePath() {
-		return "/Themes/";
+	function getSytleCollectionPath() {
+		return "/StyleCollections/";
 	}
 	
 	/**
@@ -172,29 +164,29 @@ class GUIManager
 	 * @access public
 	 * @return array An array of strings; each element is the class name of a style property.
 	 **/
-	function getSPs() {
-	$SPDir = dirname(__FILE__).$this->getSPPath();
-	
-	//the array of supported SPs
-	$SPs = array();
-	
-	//make sure the specified name is indeed a directory
-	if(is_dir($SPDir)){
+	function getSupportedSPs() {
+		$SPDir = dirname(__FILE__).$this->getSPPath();
 		
-	$dh = opendir($SPDir);
-		while (($file = readdir($dh)) !== false) {
-			//ignore other files or directories
-			if (ereg(".class.php", $file)){ 
-				
-				//strip the ".class.php" from the end of the file
-				$file = rtrim($file,".class.php");
-				$SPs[] = $file;
+		//the array of supported SPs
+		$SPs = array();
+		
+		//make sure the specified name is indeed a directory
+		if(is_dir($SPDir)){
+			
+		$dh = opendir($SPDir);
+			while (($file = readdir($dh)) !== false) {
+				//ignore other files or directories
+				if (ereg(".class.php", $file)){ 
+					
+					//strip the ".class.php" from the end of the file
+					$file = rtrim($file,".class.php");
+					$SPs[] = $file;
+				}
 			}
+		unset($file,$dh);
 		}
-	unset($file,$dh);
-	}
-	return $SPs;
-		
+		return $SPs;
+			
 	}
 	
 	/**
@@ -211,29 +203,28 @@ class GUIManager
 	 * @access public
 	 * @return array An array of strings; each element is the class name of a style components.
 	 **/
-	function getSCs() {
-	$SCDir = dirname(__FILE__).$this->getSCPath();
-	
-	//the array of supported SCs
-	$SCs = array();
-	
-	//make sure the specified name is indeed a directory
-	if(is_dir($SCDir)){
+	function getSupportedSCs() {
+		$SCDir = dirname(__FILE__).$this->getSCPath();
 		
-	$dh = opendir($SCDir);
-		while (($file = readdir($dh)) !== false) {
-			//ignore other files or directories
-			if (ereg(".class.php", $file)){ 
-				
-				//strip the ".class.php" from the end of the file
-				$file = rtrim($file,".class.php");
-				$SCs[] = $file;
+		//the array of supported SCs
+		$SCs = array();
+		
+		//make sure the specified name is indeed a directory
+		if(is_dir($SCDir)){
+			
+		$dh = opendir($SCDir);
+			while (($file = readdir($dh)) !== false) {
+				//ignore other files or directories
+				if (ereg(".class.php", $file)){ 
+					
+					//strip the ".class.php" from the end of the file
+					$file = rtrim($file,".class.php");
+					$SCs[] = $file;
+				}
 			}
+		unset($file,$dh);
 		}
-	unset($file,$dh);
-	}
-	return $SCs;
-		
+		return $SCs;
 	}
 	
 	/**
@@ -251,28 +242,27 @@ class GUIManager
 	 * @return array An array of strings; each element is the class name of a component.
 	 **/
 	function getSupportedComponents() {
-	$ComponentDir = dirname(__FILE__).$this->getComponentPath();
-	
-	//the array of supported Components
-	$Components = array();
-	
-	//make sure the specified name is indeed a directory
-	if(is_dir($ComponentDir)){
+		$ComponentDir = dirname(__FILE__).$this->getComponentPath();
 		
-	$dh = opendir($ComponentDir);
-		while (($file = readdir($dh)) !== false) {
-			//ignore other files or directories
-			if (ereg(".class.php", $file)){ 
-				
-				//strip the ".class.php" from the end of the file
-				$file = rtrim($file,".class.php");
-				$Components[] = $file;
+		//the array of supported Components
+		$Components = array();
+		
+		//make sure the specified name is indeed a directory
+		if(is_dir($ComponentDir)){
+			
+		$dh = opendir($ComponentDir);
+			while (($file = readdir($dh)) !== false) {
+				//ignore other files or directories
+				if (ereg(".class.php", $file)){ 
+					
+					//strip the ".class.php" from the end of the file
+					$file = rtrim($file,".class.php");
+					$Components[] = $file;
+				}
 			}
+		unset($file,$dh);
 		}
-	unset($file,$dh);
-	}
-	return $Components;
-		
+		return $Components;
 	}
 	
 	/**
@@ -283,7 +273,6 @@ class GUIManager
 	function getComponentPath() {
 		return "/Components/";
 	}	
-		
 	
 	/**
 	 * Returns a list of layouts supported by the GUIManager.
@@ -291,28 +280,27 @@ class GUIManager
 	 * @return array An array of strings; each element is the class name of a layout.
 	 **/
 	function getSupportedLayouts() {
-	$LayoutDir = dirname(__FILE__).$this->getLayoutPath();
-	
-	//the array of supported Layouts
-	$Layouts = array();
-	
-	//make sure the specified name is indeed a directory
-	if(is_dir($LayoutDir)){
+		$LayoutDir = dirname(__FILE__).$this->getLayoutPath();
 		
-	$dh = opendir($LayoutDir);
-		while (($file = readdir($dh)) !== false) {
-			//ignore other files or directories
-			if (ereg(".class.php", $file)){ 
-				
-				//strip the ".class.php" from the end of the file
-				$file = rtrim($file,".class.php");
-				$Layouts[] = $file;
+		//the array of supported Layouts
+		$Layouts = array();
+		
+		//make sure the specified name is indeed a directory
+		if(is_dir($LayoutDir)){
+			
+		$dh = opendir($LayoutDir);
+			while (($file = readdir($dh)) !== false) {
+				//ignore other files or directories
+				if (ereg(".class.php", $file)){ 
+					
+					//strip the ".class.php" from the end of the file
+					$file = rtrim($file,".class.php");
+					$Layouts[] = $file;
+				}
 			}
+		unset($file,$dh);
 		}
-	unset($file,$dh);
-	}
-	return $Layouts;
-		
+		return $Layouts;
 	}
 	
 	/**
@@ -324,8 +312,9 @@ class GUIManager
 		return "/Layouts/";
 	}
 	
-	// *************************************************************************
-
+/*********************************************************
+ * Customization of A Theme Instance (Create, Save, Load, Delete)
+ *********************************************************/
 
 	/**
 	 * Saves the theme state to the database. The theme state is saved by 
@@ -336,6 +325,61 @@ class GUIManager
 	 * @return ref object A HarmoniId objecting identifying the saved state uniquely.
 	 **/
 	function &saveThemeState(& $theme, $idValue) {
+		// ** parameter validation
+		ArgumentValidator::validate($theme, ExtendsValidatorRule::getRule("ThemeInterface"), true);
+		// ** end of parameter validation
+
+		$exportData = $theme->exportAllRegisteredSPs();
+		
+		if (count($exportData) == 0) {
+		    // no theme state to save
+			$err = "Attempted to save a theme with no intrinsic state.";
+			throwError(new Error($err, "GUIManager", false));
+			return;
+		}
+		
+		// create the theme state to go into the database.
+		$themeState = serialize($exportData);
+		/*
+		// 1. create an id for the theme state
+		$sharedManager =& Services::getService("Shared");
+		$id =& $sharedManager->createId();
+		$idValue = $id->getIdString();
+		*/
+		// 2. now simply insert the theme state
+		$db = $this->_guiDB.".";
+		$dbHandler =& Services::getService("DatabaseManager");
+		$query =& new InsertQuery();
+		$query->setTable($db."gui");
+		$columns = array();
+		$columns[] = $db."gui.gui_id";
+		$columns[] = $db."gui.gui_theme";
+		$columns[] = $db."gui.gui_state";
+		$query->setColumns($columns);
+		$values = array();
+		$values[] = "'".addslashes($idValue)."'";
+		$values[] = "'".addslashes(get_class($theme))."'";
+		$values[] = "'".addslashes($themeState)."'";
+		$query->setValues($values);
+		
+//		echo "<pre>\n";
+//		echo MySQL_SQLGenerator::generateSQLQuery($query);
+//		echo "</pre>\n";
+		
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		return $id;		
+	}
+
+	/**
+	 * Saves the theme state to the database. The theme state is saved by 
+	 * exporting the theme's style properties, and then serializing the output
+	 * and storing it into the database.
+	 * @access public
+	 * @param ref object theme The theme whose state needs to be saved.
+	 * @return ref object A HarmoniId objecting identifying the saved state uniquely.
+	 **/
+	function &saveTheme(& $theme, $idValue) {
 		// ** parameter validation
 		ArgumentValidator::validate($theme, ExtendsValidatorRule::getRule("ThemeInterface"), true);
 		// ** end of parameter validation
@@ -490,6 +534,171 @@ class GUIManager
 		
 	}
 
+	/**
+	 * Loads the theme state stored priorly with <code>saveThemeState()</code>. This 
+	 * method reverses the steps of <code>saveThemeState()</code>. It first obtains
+	 * the database-stored theme state, unserializes it, and finally imports
+	 * it into the theme.
+	 * @access public
+	 * @param ref object themeId The id of the theme that will be loaded.
+	 **/
+	function loadTheme(& $themeId) {
+		// ** parameter validation
+		ArgumentValidator::validate($themeId, ExtendsValidatorRule::getRule("HarmoniId"), true);
+		// ** end of parameter validation
+		
+		// get the theme state from the database
+		$dbHandler =& Services::getService("DatabaseManager");
+		$idValue = $themeId->getIdString();
+		$query =& new SelectQuery();
+		$query->addTable($this->_dbName."tm_themes");
+		$query->addWhere("theme_id = $themeId");
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// build a new theme object for the results returned and set it as the theme
+		if ($queryResult->getNumberOfRows() == 1) {
+			$row =& $queryResult->next();
+			$this->setTheme(new Theme( $row['theme_display_name'],
+									   $row['theme_description']));
+			$this->_theme->_template = $row['theme_template'];
+			$this->_theme->_custom_lev = $row['theme_custom_lev'];
+			$queryResult->free();
+			// passes execution to collection loading from DB
+			$this->loadStyleCollectionsForTheme($themeId);
+		} else {
+			throwError( new Error( "GUIManager", "NO or MULTIPLE THEMES FOR ID"));
+		}
+	}
+	
+	/**
+	 * Loads the Style Collections for the given theme_id from the database
+	 * and adds them to the current theme
+	 * 
+	 * @param object HarmoniId $themeId the id of the theme
+	 * @return void
+	 * @access public
+	 * @since 4/25/06
+	 */
+	function loadStyleCollectionsForTheme (&$themeId) {
+		$dbHandler =& Services::getService("DBHandler");
+		$idValue =& $themeId->getIdString();
+
+		$query =& new SelectQuery();
+		$query->addTable($this->_dbName."tm_style_collection");
+		$query->addWhere("FK_theme_id = $themeId");
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// build a new theme object for the results returned and set it as the theme
+		while ($queryResult->hasMoreRows()) {
+			$row =& $queryResult->next();
+			
+			// this is where we decide on style collection class for image borders
+			if ($row['collection_template'] == '') {
+				$styleCollection =& new StyleCollection(
+					$row['collection_selector'],
+					$row['collection_class_selector'],
+					$row['collection_display_name'],
+					$row['collection_description']);
+			} else if (in_array(
+								$row['collection_template']."StyleCollection",
+								$this->getSupportedStyleCollections())) {
+				$class = $row['collection_template']."StyleCollection";
+				$styleCollection =& new $class(
+					$row['collection_selector'],
+					$row['collection_class_selector'],
+					$row['collection_display_name'],
+					$row['collection_description']);
+					
+					// deal with border urls here
+			}
+
+			// passes execution to property loading from DB
+			$this->loadStylePropertiesForCollection($row['collection_id'], $styleCollection);
+			if (is_null($row['collection_selector']))
+				$this->_theme->addGlobalStyle($styleCollection);
+			else
+				$this->_theme->addStyleForComponentType($styleCollection,
+												$row['collection_type'],
+												$row['collection_index']);
+		}
+		if ($queryResult->getNumberOfRows == 0) {
+//			throwError( new Error( "GUIManager", "NO STYLE COLLECTIONS FOR THEME ID"));
+		}
+		$queryResult->free();
+	}
+	
+	/**
+	 * Loads the Style Properties for the given collection_id from the database
+	 * and adds them to the style collection.
+	 * 
+	 * @param string $collectionId the id of the style collection
+	 * @param object StyleCollection the style collection object
+	 * @return void
+	 * @access public
+	 * @since 4/25/06
+	 */
+	function loadStylePropertiesForCollection($collectionId, &$collection) {
+		$dbHandler =& Services::getService("DBHandler");
+		$idValue =& $collectionId;
+
+		$query =& new SelectQuery();
+		$query->addTable($this->_dbName."tm_style_property");
+		$query->addWhere("FK_collection_id = $collectionId");
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// build a new theme object for the results returned and set it as the theme
+		while ($queryResult->hasMoreRows()) {
+			$row =& $queryResult->next();
+			
+			$class = $row['property_name']."SP";
+			
+			$styleProperty =& new $class();
+			
+			// passes execution to component loading from DB
+			$this->loadStyleComponentsForProperty($row['property_id'], $styleProperty);
+
+			$collection->addSP($styleProperty);
+		}
+		if ($queryResult->getNumberOfRows == 0) {
+//			throwError( new Error( "GUIManager", "NO STYLE PROPERTIES FOR THEME ID"));
+		}
+		$queryResult->free();
+	}
+	
+	/**
+	 * Loads the Style Components for the given property_id from the database
+	 * and adds them to the style property
+	 * 
+	 * @param string $propertyId the id of the style property
+	 * @param object StyleProperty the style property object
+	 * @return void
+	 * @access public
+	 * @since 4/25/06
+	 */
+	function loadStyleComponentsForProperty ($propertyId, &$property) {
+		$dbHandler =& Services::getService("DBHandler");
+		$idValue =& $collectionId;
+
+		$query =& new SelectQuery();
+		$query->addTable($this->_dbName."tm_style_component");
+		$query->addWhere("FK_property_id = $propertyId");
+		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		
+		// build a new theme object for the results returned and set it as the theme
+		while ($queryResult->hasMoreRows()) {
+			$row =& $queryResult->next();
+			
+			$class = $row['component_class_name']."SC";
+			
+			$styleComponent =& new $class($row['component_value']);
+
+			$property->addSC($styleComponent);
+		}
+		if ($queryResult->getNumberOfRows == 0) {
+//			throwError( new Error( "GUIManager", "NO STYLE PROPERTIES FOR THEME ID"));
+		}
+		$queryResult->free();
+	}
 	
 	/**
 	 * Deletes the theme state with the given id from the database. Notice that
