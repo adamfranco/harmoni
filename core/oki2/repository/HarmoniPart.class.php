@@ -19,7 +19,7 @@ require(OKI2."osid/repository/Part.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.16 2006/03/14 22:02:48 cws-midd Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.17 2006/04/26 19:56:49 adamfranco Exp $ 
  */
 class HarmoniPart 
 	extends Part
@@ -261,7 +261,7 @@ class HarmoniPart
 		$dtm =& Services::getService("DataTypeManager");
 
 		$type = $partStructure->getType();
-		$class = $dtm->primitiveForType($type->getKeyword());
+		$class = $dtm->primitiveClassForType($type->getKeyword());
 		eval('$object =& '.$class.'::fromString($value);');
 		
 		if (!is_object($object))

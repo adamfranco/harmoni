@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.11 2006/04/25 21:03:18 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.12 2006/04/26 19:56:49 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -412,6 +412,16 @@ class HarmoniPartStructure extends PartStructure
 		return true;
 	}
 	
+/*********************************************************
+ * Authority Lists:
+ *	The OSID does not have any support for authority lists.
+ * 	These methods could have been placed in another system,
+ * 	but have been placed here for ease of locating them.
+ * 	Also involved with Authority Lists is a SearchType:
+ * 		Repository::edu.middlebury.harmoni::AuthorityValue
+ *	which takes a PartStructure Id and a Value to search on.
+ *********************************************************/
+	
 	/**
 	 * Answer the authoritative values for this part.
 	 *
@@ -424,8 +434,8 @@ class HarmoniPartStructure extends PartStructure
 	function &getAuthoritativeValues () {
 		if (!isset($this->_authoritativeValueObjects)) {
 			$dtm =& Services::getService("DataTypeManager");
-			$type = $this->getType();
-			$class = $dtm->primitiveForType($type->getKeyword());
+			$type =& $this->getType();
+			$class = $dtm->primitiveClassForType($type->getKeyword());
 			
 			$this->_loadAuthoritativeValueStrings();
 			$this->_authoritativeValueObjects = array();
@@ -448,8 +458,7 @@ class HarmoniPartStructure extends PartStructure
 	 * @since 4/25/06
 	 */
 	function isAuthoritativeValue ( &$value ) {
-		if (!isset($this->_authoritativeValueStrings))
-			$this->_loadAuthoritativeValueStrings();
+		$this->_loadAuthoritativeValueStrings();
 		
 		return in_array($value->asString(), $this->_authoritativeValueStrings);		
 	}
@@ -480,9 +489,9 @@ class HarmoniPartStructure extends PartStructure
 			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
 			$query->addWhere("value = '".addslashes($value->asString())."'");
 			
-			$dbc =& Services::getService("Database");
+			$dbc =& Services::getService("DBHandler");
 			$repositoryManager =& Services::getService("Repository");
-			$configuration =& $repositoryManager->getConfiguration();
+			$configuration =& $repositoryManager->_configuration;
 			$dbc->query($query, $configuration->getProperty('database_index'));
 		}
 	}
@@ -514,9 +523,105 @@ class HarmoniPartStructure extends PartStructure
 				"'".addslashes($id->getIdString())."'",
 				"'".addslashes($value->asString())."'"));
 			
-			$dbc =& Services::getService("Database");
+			$dbc =& Services::getService("DBHandler");
 			$repositoryManager =& Services::getService("Repository");
-			$configuration =& $repositoryManager->getConfiguration();
+			$configuration =& $repositoryManager->_configuration;
+			$dbc->query($query, $configuration->getProperty('database_index'));
+		}
+	}
+	
+	/**
+	 * Add an authoritative value
+	 *
+	 * WARNING: NOT in OSID
+	 * 
+	 * @param string $valueString
+	 * @return void
+	 * @access public
+	 * @since 4/25/06
+	 */
+	function addAuthoritativeValueAsString ( $valueString ) {
+		$dtm =& Services::getService("DataTypeManager");
+		$type =& $this->getType();
+		$class = $dtm->primitiveClassForType($type->getKeyword());
+	
+		eval('$valueObject =& '.$class.'::fromString($valueString);');
+		$this->addAuthoritativeValue($valueObject);
+	}
+	
+	/**
+	 * Answer true if users who can modify Records & Parts should be authorized
+	 * to add authoritative values to this PartStructure. If FALSE, then only
+	 * users authorized to modify this PartStructure's Repository will be able
+	 * to add values
+	 * 
+	 * WARNING: NOT in OSID
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function isUserAdditionAllowed () {
+		if (!isset($this->_isUserAdditionAllowed)) {
+			$query =& new SelectQuery;
+			$query->addTable('dr_authority_options');
+			$query->addColumn('user_addition_allowed');
+			$id =& $this->getId();
+			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
+			
+			$dbc =& Services::getService("DBHandler");
+			$repositoryManager =& Services::getService("Repository");
+			$configuration =& $repositoryManager->_configuration;
+			$result =& $dbc->query($query, $configuration->getProperty('database_index'));
+			
+			if ($result->hasMoreRows() && $result->field('user_addition_allowed')) {
+				$this->_isUserAdditionAllowed = true;
+			} else {
+				$this->_isUserAdditionAllowed = false;
+			}
+			
+			$result->free();
+		}
+		
+		return $this->_isUserAdditionAllowed;
+	}
+	
+	/**
+	 * Set TRUE if users who can modify Records & Parts should be authorized
+	 * to add authoritative values to this PartStructure. If FALSE, then only
+	 * users authorized to modify this PartStructure's Repository will be able
+	 * to add values
+	 * 
+	 * WARNING: NOT in OSID
+	 * 
+	 * @param boolean $isUserAdditionAllowed
+	 * @return void
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function setUserAdditionAllowed ( $isUserAdditionAllowed ) {
+		if ($this->_isUserAdditionAllowed != $isUserAdditionAllowed) {
+			$this->_isUserAdditionAllowed = $isUserAdditionAllowed;
+			
+			$query =& new DeleteQuery;
+			$query->setTable('dr_authority_options');
+			$id =& $this->getId();
+			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
+			
+			$dbc =& Services::getService("DBHandler");
+			$repositoryManager =& Services::getService("Repository");
+			$configuration =& $repositoryManager->_configuration;
+			$dbc->query($query, $configuration->getProperty('database_index'));
+			
+			$query =& new InsertQuery;
+			$query->setTable('dr_authority_options');
+			$query->setColumns(array("fk_partstructure",'user_addition_allowed'));
+			$id =& $this->getId();
+			$query->addRowOfValues(array(
+				"'".addslashes($id->getIdString())."'",
+				(($this->_isUserAdditionAllowed)?'1':'0')
+				));
+			
 			$dbc->query($query, $configuration->getProperty('database_index'));
 		}
 	}
@@ -541,9 +646,9 @@ class HarmoniPartStructure extends PartStructure
 			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
 			$query->addOrderBy("value", ASCENDING);
 			
-			$dbc =& Services::getService("Database");
+			$dbc =& Services::getService("DBHandler");
 			$repositoryManager =& Services::getService("Repository");
-			$configuration =& $repositoryManager->getConfiguration();
+			$configuration =& $repositoryManager->_configuration;
 			$result =& $dbc->query($query, $configuration->getProperty('database_index'));
 			
 			while ($result->hasMoreRows()) {
