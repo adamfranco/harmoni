@@ -4,7 +4,9 @@ require_once(HARMONI."GUIManager/StyleProperty.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/UrlSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/RepeatSC.class.php");
 require_once(HARMONI."GUIManager/StyleComponents/AttachmentSC.class.php");
-require_once(HARMONI."GUIManager/StyleComponents/AlignmentPositionSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/VerticalAlignmentPositionSC.class.php");
+require_once(HARMONI."GUIManager/StyleComponents/HorizontalAlignmentPositionSC.class.php");
+
 
 /**
  * The BackgroundImageSP represents the 'background' StyleProperty.
@@ -22,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleComponents/AlignmentPositionSC.class.php")
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BackgroundImageSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: BackgroundImageSP.class.php,v 1.5 2006/04/26 14:42:37 cws-midd Exp $
  */
 class BackgroundImageSP extends StyleProperty {
 
@@ -37,8 +39,8 @@ class BackgroundImageSP extends StyleProperty {
 		if (isset($repeat)) $this->addSC(new RepeatSC($repeat));
 		if (isset($attachment)) $this->addSC(new AttachmentSC($attachment));
 		if (isset($xpos) && issset($ypos)) {
-			$this->addSC(new VerticalAlignmentPositionSC($xpos, array("top","center","bottom")));
-			$this->addSC(new HorizontalAlignmentPositionSC($ypos, array("left","center","right")));
+			$this->addSC(new VerticalAlignmentPositionSC($xpos));
+			$this->addSC(new HorizontalAlignmentPositionSC($ypos));
 		}
 	}
 
