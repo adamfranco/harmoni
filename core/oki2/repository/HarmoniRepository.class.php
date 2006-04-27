@@ -21,6 +21,7 @@ require_once(dirname(__FILE__)."/SearchModules/ContentSearch.class.php");
 require_once(dirname(__FILE__)."/SearchModules/DescriptionSearch.class.php");
 require_once(dirname(__FILE__)."/SearchModules/DisplayNameSearch.class.php");
 require_once(dirname(__FILE__)."/SearchModules/RootAssetSearch.class.php");
+require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.php");
 
 /**
  * Repository manages Assets of various Types and information about the Assets.
@@ -45,7 +46,7 @@ require_once(dirname(__FILE__)."/SearchModules/RootAssetSearch.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.42 2006/04/26 21:38:59 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.43 2006/04/27 18:14:51 adamfranco Exp $ 
  */
 
 class HarmoniRepository
