@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.12 2006/04/26 19:56:49 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.13 2006/04/27 21:03:51 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -541,12 +541,26 @@ class HarmoniPartStructure extends PartStructure
 	 * @since 4/25/06
 	 */
 	function addAuthoritativeValueAsString ( $valueString ) {
+		$this->addAuthoritativeValue(
+			$this->createValueObjectFromString($valueString));
+	}
+	
+	/**
+	 * Answer the Primative object appropriate for this part, whose value is
+	 * represented by the input string.
+	 * 
+	 * @param string $valueString
+	 * @return object
+	 * @access public
+	 * @since 4/27/06
+	 */
+	function &createValueObjectFromString ( $valueString ) {
 		$dtm =& Services::getService("DataTypeManager");
 		$type =& $this->getType();
 		$class = $dtm->primitiveClassForType($type->getKeyword());
 	
 		eval('$valueObject =& '.$class.'::fromString($valueString);');
-		$this->addAuthoritativeValue($valueObject);
+		return $valueObject;
 	}
 	
 	/**
