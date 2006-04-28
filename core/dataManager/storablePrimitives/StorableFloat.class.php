@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableFloat.class.php,v 1.11 2005/07/18 14:45:25 gabeschine Exp $
+ * @version $Id: StorableFloat.class.php,v 1.12 2006/04/28 17:36:18 adamfranco Exp $
  */
 class StorableFloat 
 	extends Double 
@@ -44,20 +44,37 @@ class StorableFloat
 	 * @static
 	 */
 	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
-		if ($searchType == SEARCH_TYPE_EQUALS) {
-			return "dm_float.data = ".$value->value();
-		}
-		if ($searchType == SEARCH_TYPE_GREATER_THAN) {
-			return "dm_float.data > ".$value->value();
-		}
-		if ($searchType == SEARCH_TYPE_LESS_THAN) {
-			return "dm_float.data < ".$value->value();
-		}
-		if ($searchType == SEARCH_TYPE_GREATER_THAN_OR_EQUALS) {
-			return "dm_float.data >= ".$value->value();
-		}
-		if ($searchType == SEARCH_TYPE_LESS_THAN_OR_EQUALS) {
-			return "dm_float.data <= ".$value->value();
+		switch ($searchType) {
+			case SEARCH_TYPE_EQUALS:
+				return "dm_float.data = ".$value->asString();
+			case SEARCH_TYPE_GREATER_THAN:
+				return "dm_float.data > ".$value->asString();
+			case SEARCH_TYPE_LESS_THAN:
+				return "dm_float.data < ".$value->asString();
+			case SEARCH_TYPE_GREATER_THAN_OR_EQUALS:
+				return "dm_float.data >= ".$value->asString();
+			case SEARCH_TYPE_LESS_THAN_OR_EQUALS:
+				return "dm_float.data <= ".$value->asString();
+			case SEARCH_TYPE_IN_LIST:
+				$string = "dm_float.data IN (";
+				while ($value->hasNext()) {
+					$valueObj =& $value->next();
+					$string .= $valueObj->asString();
+					if ($value->hasNext())
+						$string .= ", ";
+				}
+				$string .= ")";
+				return $string;
+			case SEARCH_TYPE_NOT_IN_LIST:
+				$string = "dm_float.data NOT IN (";
+				while ($value->hasNext()) {
+					$valueObj =& $value->next();
+					$string .= $valueObj->asString();
+					if ($value->hasNext())
+						$string .= ", ";
+				}
+				$string .= ")";
+				return $string;
 		}
 		return null;
 	}

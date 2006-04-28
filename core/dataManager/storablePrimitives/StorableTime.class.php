@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableTime.class.php,v 1.16 2005/09/27 19:36:35 adamfranco Exp $
+ * @version $Id: StorableTime.class.php,v 1.17 2006/04/28 17:36:18 adamfranco Exp $
  */
 class StorableTime 
 	extends DateAndTime /* implements StorablePrimitive */ 
@@ -61,20 +61,37 @@ class StorableTime
 		$jdn = $utc->julianDayNumber();
 		$seconds = $utcTime->asSeconds();
 		
-		if ($searchType == SEARCH_TYPE_EQUALS) {
-			return "(dm_time.jdn=$jdn AND dm_time.seconds=$seconds)";
-		}
-		if ($searchType == SEARCH_TYPE_LESS_THAN) {
-			return "(dm_time.jdn<$jdn OR (dm_time.jdn=$jdn AND dm_time.seconds<$seconds))";
-		}
-		if ($searchType == SEARCH_TYPE_GREATER_THAN) {
-			return "(dm_time.jdn>$jdn OR (dm_time.jdn=$jdn AND dm_time.seconds>$seconds))";
-		}
-		if ($searchType == SEARCH_TYPE_GREATER_THAN_OR_EQUALS) {
-			return "(dm_time.jdn>$jdn OR (dm_time.jdn=$jdn AND dm_time.seconds>=$seconds))";
-		}
-		if ($searchType == SEARCH_TYPE_LESS_THAN_OR_EQUALS) {
-			return "(dm_time.jdn<$jdn OR (dm_time.jdn=$jdn AND dm_time.seconds<=$seconds))";
+		switch ($searchType) {
+			case SEARCH_TYPE_EQUALS:
+				return "(dm_time.jdn=$jdn AND dm_time.seconds=$seconds)";
+			case SEARCH_TYPE_GREATER_THAN:
+				return "(dm_time.jdn<$jdn OR (dm_time.jdn=$jdn AND dm_time.seconds<$seconds))";
+			case SEARCH_TYPE_LESS_THAN:
+				return "(dm_time.jdn>$jdn OR (dm_time.jdn=$jdn AND dm_time.seconds>$seconds))";
+			case SEARCH_TYPE_GREATER_THAN_OR_EQUALS:
+				return "(dm_time.jdn>$jdn OR (dm_time.jdn=$jdn AND dm_time.seconds>=$seconds))";
+			case SEARCH_TYPE_LESS_THAN_OR_EQUALS:
+				return "(dm_time.jdn<$jdn OR (dm_time.jdn=$jdn AND dm_time.seconds<=$seconds))";
+			case SEARCH_TYPE_IN_LIST:
+				$string = "(";
+				while ($value->hasNext()) {
+					$valueObj =& $value->next();
+					$string .= "(dm_time.jdn=$jdn AND dm_time.seconds=$seconds)";
+					if ($value->hasNext())
+						$string .= " OR ";
+				}
+				$string .= ")";
+				return $string;
+			case SEARCH_TYPE_NOT_IN_LIST:
+				$string = "NOT (";
+				while ($value->hasNext()) {
+					$valueObj =& $value->next();
+					$string .= "(dm_time.jdn=$jdn AND dm_time.seconds=$seconds)";
+					if ($value->hasNext())
+						$string .= " OR ";
+				}
+				$string .= ")";
+				return $string;
 		}
 		return null;
 	}

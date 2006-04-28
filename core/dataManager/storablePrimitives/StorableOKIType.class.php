@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableOKIType.class.php,v 1.8 2005/07/13 19:56:15 adamfranco Exp $
+ * @version $Id: StorableOKIType.class.php,v 1.9 2006/04/28 17:36:18 adamfranco Exp $
  */
 class StorableOKIType 
 	extends Type 
@@ -47,6 +47,38 @@ class StorableOKIType
 		 "dm_okitype.authority='".addslashes($type->getAuthority())."' AND ".
 		 "dm_okitype.keyword='".addslashes($type->getKeyword())."')";
 		 return null;
+		 
+		 switch ($searchType) {
+			case SEARCH_TYPE_EQUALS:
+				return "(dm_okitype.domain='".addslashes($type->getDomain())."' AND ".
+		 "dm_okitype.authority='".addslashes($type->getAuthority())."' AND ".
+		 "dm_okitype.keyword='".addslashes($type->getKeyword())."')";
+			case SEARCH_TYPE_IN_LIST:
+				$string = "(";
+				while ($value->hasNext()) {
+					$valueObj =& $value->next();
+					$string .= "(dm_okitype.domain='".addslashes($type->getDomain())."' AND ".
+		 "dm_okitype.authority='".addslashes($type->getAuthority())."' AND ".
+		 "dm_okitype.keyword='".addslashes($type->getKeyword())."')";
+					if ($value->hasNext())
+						$string .= " OR ";
+				}
+				$string .= ")";
+				return $string;
+			case SEARCH_TYPE_NOT_IN_LIST:
+				$string = "NOT (";
+				while ($value->hasNext()) {
+					$valueObj =& $value->next();
+					$string .= "(dm_okitype.domain='".addslashes($type->getDomain())."' AND ".
+		 "dm_okitype.authority='".addslashes($type->getAuthority())."' AND ".
+		 "dm_okitype.keyword='".addslashes($type->getKeyword())."')";
+					if ($value->hasNext())
+						$string .= " OR ";
+				}
+				$string .= ")";
+				return $string;
+		}
+		return null;
 	}
 
 /*********************************************************
