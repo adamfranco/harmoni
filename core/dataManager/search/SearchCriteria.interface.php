@@ -6,30 +6,40 @@
  */
 define("SEARCH_TYPE_EQUALS", 0);
 /**
- * @constant int SEARCH_TYPE_EQUALS Specifies a search of value1>value2.
+ * @constant int SEARCH_TYPE_GREATER_THAN Specifies a search of value1>value2.
  * @package harmoni.datamanager.search
  */
 define("SEARCH_TYPE_GREATER_THAN", 1);
 /**
- * @constant int SEARCH_TYPE_EQUALS Specifies a search of value1<value2.
+ * @constant int SEARCH_TYPE_LESS_THAN Specifies a search of value1<value2.
  * @package harmoni.datamanager.search
  */
 define("SEARCH_TYPE_LESS_THAN", 2);
 /**
- * @constant int SEARCH_TYPE_EQUALS Specifies a search of value1>=value2.
+ * @constant int SEARCH_TYPE_GREATER_THAN_OR_EQUALS Specifies a search of value1>=value2.
  * @package harmoni.datamanager.search
  */
 define("SEARCH_TYPE_GREATER_THAN_OR_EQUALS", 3);
 /**
- * @constant int SEARCH_TYPE_EQUALS Specifies a search of value1<=value2.
+ * @constant int SEARCH_TYPE_LESS_THAN_OR_EQUALS Specifies a search of value1<=value2.
  * @package harmoni.datamanager.search
  */
 define("SEARCH_TYPE_LESS_THAN_OR_EQUALS", 4);
 /**
- * @constant int SEARCH_TYPE_EQUALS Specifies a search of value2 contains value1 (strings).
+ * @constant int SEARCH_TYPE_CONTAINS Specifies a search of value2 contains value1 (strings).
  * @package harmoni.datamanager.search
  */
 define("SEARCH_TYPE_CONTAINS", 5);
+/**
+ * @constant int SEARCH_TYPE_IN_LIST Specifies a search of value2 that matches a value in the list (array of values).
+ * @package harmoni.datamanager.search
+ */
+define("SEARCH_TYPE_IN_LIST", 6);
+/**
+ * @constant int SEARCH_TYPE_NOT_IN_LIST Specifies a search of value2 that does not match any value in the list (array of strings).
+ * @package harmoni.datamanager.search
+ */
+define("SEARCH_TYPE_NOT_IN_LIST", 7);
 
 
 /**
@@ -42,7 +52,7 @@ define("SEARCH_TYPE_CONTAINS", 5);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SearchCriteria.interface.php,v 1.3 2005/01/19 21:09:43 adamfranco Exp $
+ * @version $Id: SearchCriteria.interface.php,v 1.4 2006/04/28 15:53:21 adamfranco Exp $
  */
 class SearchCriteria {
 	

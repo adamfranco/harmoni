@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthoritativeValuesSearch.class.php,v 1.2 2006/04/27 21:03:51 adamfranco Exp $
+ * @version $Id: AuthoritativeValuesSearch.class.php,v 1.3 2006/04/28 15:53:23 adamfranco Exp $
  */
 
 require_once(dirname(__FILE__)."/RegexSearch.abstract.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/RegexSearch.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthoritativeValuesSearch.class.php,v 1.2 2006/04/27 21:03:51 adamfranco Exp $
+ * @version $Id: AuthoritativeValuesSearch.class.php,v 1.3 2006/04/28 15:53:23 adamfranco Exp $
  */
 
 class AuthoritativeValuesSearch
@@ -59,7 +59,18 @@ class AuthoritativeValuesSearch
 			$searchCriteria['RecordStructureId']->getIdString());
 		
 		if ($searchCriteria['AuthoritativeValue']->asString() == '__NonMatching__') {
-		
+			$authoritativeValueArray = array();
+			$recordStructure =& $this->_repository->getRecordStructure(
+				$searchCriteria['RecordStructureId']);
+			$partStructure =& $recordStructure->getPartStructure(
+				$searchCriteria['PartStructureId']);
+			
+			$criteria =& new FieldValueSearch(
+				$searchCriteria['RecordStructureId']->getIdString(), 
+				$schema->getFieldLabelFromID(
+					$searchCriteria['PartStructureId']->getIdString()),
+				$partStructure->getAuthoritativeValues(), 
+				SEARCH_TYPE_NOT_IN_LIST);
 		} else {
 			$criteria =& new FieldValueSearch(
 				$searchCriteria['RecordStructureId']->getIdString(), 

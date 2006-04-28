@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableShortString.class.php,v 1.7 2005/09/16 18:36:09 cws-midd Exp $
+ * @version $Id: StorableShortString.class.php,v 1.8 2006/04/28 15:53:23 adamfranco Exp $
  */
 class StorableShortString
 	extends StorableStringAbstract 
@@ -56,12 +56,32 @@ class StorableShortString
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
-		if ($searchType == SEARCH_TYPE_EQUALS) {
-			return "dm_shortstring.data='".addslashes($value->asString())."'";
-		}
-		if ($searchType == SEARCH_TYPE_CONTAINS) {
-			return "dm_shortstring.data LIKE '%".addslashes($value->asString())."%'";
+	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {		
+		switch ($searchType) {
+			case SEARCH_TYPE_EQUALS:
+				return "dm_shortstring.data='".addslashes($value->asString())."'";
+			case SEARCH_TYPE_CONTAINS:
+				return "dm_shortstring.data LIKE '%".addslashes($value->asString())."%'";
+			case SEARCH_TYPE_IN_LIST:
+				$string = "dm_shortstring.data IN (";
+				while ($value->hasNext()) {
+					$valueObj =& $value->next();
+					$string .= "'".addslashes($valueObj->asString())."'";
+					if ($value->hasNext())
+						$string .= ", ";
+				}
+				$string .= ")";
+				return $string;
+			case SEARCH_TYPE_NOT_IN_LIST:
+				$string = "dm_shortstring.data NOT IN (";
+				while ($value->hasNext()) {
+					$valueObj =& $value->next();
+					$string .= "'".addslashes($valueObj->asString())."'";
+					if ($value->hasNext())
+						$string .= ", ";
+				}
+				$string .= ")";
+				return $string;
 		}
 		return null;
 	}

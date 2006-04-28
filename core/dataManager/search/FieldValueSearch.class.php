@@ -10,7 +10,7 @@ require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FieldValueSearch.class.php,v 1.10 2006/02/15 16:18:11 adamfranco Exp $
+ * @version $Id: FieldValueSearch.class.php,v 1.11 2006/04/28 15:53:21 adamfranco Exp $
  */
 class FieldValueSearch extends SearchCriteria {
 	
@@ -45,8 +45,12 @@ class FieldValueSearch extends SearchCriteria {
 		
 		$field =& $def->getField($fieldID);
 		
+		
 		// first check if the $value we have is of the correct data type
-		if (!$typeMgr->isObjectOfDataType($this->_value, $field->getType())) {
+		$extendsRule =& ExtendsValidatorRule::getRule("HarmoniIterator");
+		if (!$typeMgr->isObjectOfDataType($this->_value, $field->getType()) 
+			&& !$extendsRule->check($this->_value)) 
+		{
 			throwError( new Error("Cannot take a '".get_class($this->_value)."' object as search criteria
 			for field '$this->_label'; a '".$field->getType()."' is required.","FieldValueSearch",true));
 		}
