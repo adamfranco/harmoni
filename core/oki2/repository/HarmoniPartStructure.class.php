@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.13 2006/04/27 21:03:51 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.14 2006/05/01 21:00:06 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -347,7 +347,7 @@ class HarmoniPartStructure extends PartStructure
 	 * @access public
 	 */
 	function updateIsRepeatable ( $isRepeatable ) { 
-		$this->_schemaField->setMultFlag($isMandatory);
+		$this->_schemaField->setMultFlag($isRepeatable);
 		$this->_schemaField->update();
 		$id =& $this->getId();
 		$this->_schemaField->commit($id->getIdString());
