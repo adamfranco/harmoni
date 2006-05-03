@@ -3,12 +3,18 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.108 2006/03/03 17:45:53 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.109 2006/05/03 15:16:37 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.5.2" date="The Nebulous Future">
+		<new author='adam'>
+			Implemented Authority-Lists for Record Parts. These lists are accessed
+			through the PartStructure. These lists are intended to be used to 
+			provide choices in Asset-editing interfaces. There is no restriction
+			that Parts must have values not from the list.
+		</new>
 		<new author='adam'>
 			Added added support for getting group information from LDAP.
 		</new>
