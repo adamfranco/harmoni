@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_DigitalRepository.sql,v 1.13 2006/05/04 18:58:58 adamfranco Exp $
+-- @version $Id: MySQL_DigitalRepository.sql,v 1.14 2006/05/04 20:59:01 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -16,10 +16,10 @@ CREATE TABLE dr_asset_info (
   asset_id varchar(75) NOT NULL default '0',
   effective_date datetime default '0000-00-00 00:00:00',
   expiration_date datetime default '0000-00-00 00:00:00',
+  create_timestamp timestamp NOT NULL default '0000-00-00 00:00:00',
+  modify_timestamp timestamp NOT NULL default '0000-00-00 00:00:00' on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (asset_id)
-) 
-CHARACTER SET utf8
-TYPE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 

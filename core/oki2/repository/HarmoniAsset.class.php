@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.38 2006/05/04 20:36:18 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.39 2006/05/04 20:59:01 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.38 2006/05/04 20:36:18 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.39 2006/05/04 20:59:01 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -1688,13 +1688,18 @@ class HarmoniAsset
 			$this->_createDate =& $dbHandler->fromDBDate($result->field("create_timestamp"), $this->_dbIndex);
 			$this->_modifyDate =& $dbHandler->fromDBDate($result->field("modify_timestamp"), $this->_dbIndex);
 			$this->_datesInDB = TRUE;
+			
+			if (!$this->_createDate)
+				$this->_createDate =& DateAndTime::epoch();
+			if (!$this->_modifyDate)
+				$this->_modifyDate =& DateAndTime::epoch();
 		} 
 		
 		else {
 			$this->_effectiveDate = NULL;
 			$this->_expirationDate = NULL;
-			$this->_createDate = DateAndTime::epoch();
-			$this->_modifyDate = DateAndTime::epoch();
+			$this->_createDate =& DateAndTime::epoch();
+			$this->_modifyDate =& DateAndTime::epoch();
 			$this->_datesInDB = FALSE;
 		}
 		
@@ -1746,8 +1751,8 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function getCreationDate () { 
-		if (!$this->_createDate) {
+    function &getCreationDate () { 
+		if (!isset($this->_createDate)) {
 			$this->_loadDates();
 		}
 		
@@ -1775,8 +1780,8 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function getModificationDate () { 
-		if (!$this->_modifyDate) {
+    function &getModificationDate () { 
+		if (!isset($this->_modifyDate)) {
 			$this->_loadDates();
 		}
 		

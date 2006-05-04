@@ -46,7 +46,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.43 2006/04/27 18:14:51 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.44 2006/05/04 20:59:01 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -1047,12 +1047,34 @@ class HarmoniRepository
 			{
 				foreach ($assetIds as $key => $id)
 					$assets[$assetIds[$key]->getIdString()] =& $this->getAsset($assetIds[$key], FALSE);
+			} else if (is_object($searchProperties) 
+				&& $searchProperties->getProperty("order") == ("ModificationDate")) 
+			{
+				foreach ($assetIds as $key => $id) {
+					$asset =& $this->getAsset($assetIds[$key], FALSE);
+					$date =& $asset->getModificationDate();
+					$assets[$date->asString().$id->getIdString()] =& $asset;
+				}
+			} else if (is_object($searchProperties) 
+				&& $searchProperties->getProperty("order") == ("CreationDate")) 
+			{
+				foreach ($assetIds as $key => $id) {
+					$asset =& $this->getAsset($assetIds[$key], FALSE);
+					$date =& $asset->getCreationDate();
+					$assets[$date->asString().$id->getIdString()] =& $asset;
+				}
 			} else {
 				foreach ($assetIds as $key => $id)
 					$assets[] =& $this->getAsset($assetIds[$key], FALSE);
 			}
 			
-			ksort($assets);
+			if (is_object($searchProperties) 
+				&& $searchProperties->getProperty("direction") == "DESC")
+			{
+				krsort($assets);
+			} else {
+				ksort($assets);
+			}
 			
 			// create an AssetIterator and return it
 			$assetIterator =& new HarmoniAssetIterator($assets);
