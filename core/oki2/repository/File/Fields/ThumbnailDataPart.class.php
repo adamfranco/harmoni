@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDataPart.class.php,v 1.8 2005/11/08 20:55:36 cws-midd Exp $
+ * @version $Id: ThumbnailDataPart.class.php,v 1.9 2006/05/04 20:36:19 adamfranco Exp $
  */
 class ThumbnailDataPart extends Part
 //	extends java.io.Serializable
@@ -29,10 +29,11 @@ class ThumbnailDataPart extends Part
 	var $_partStructure;
 	var $_data;
 	
-	function ThumbnailDataPart( &$partStructure, &$recordId, $configuration ) {
+	function ThumbnailDataPart( &$partStructure, &$recordId, $configuration, &$asset ) {
 		$this->_recordId =& $recordId;
 		$this->_partStructure =& $partStructure;
 		$this->_configuration = $configuration;
+		$this->_asset =& $asset;
 		
 		// Set our data to NULL, so that we can know if it has not been checked
 		// for yet. If we search for data, but don't have any, or the data is
@@ -253,6 +254,8 @@ class ThumbnailDataPart extends Part
 		
 		// run the query
 		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		
+		$this->_asset->updateModificationDate();
 	}
 
 	/**

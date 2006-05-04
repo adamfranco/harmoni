@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePart.class.php,v 1.8 2005/11/18 21:26:06 adamfranco Exp $
+ * @version $Id: FileSizePart.class.php,v 1.9 2006/05/04 20:36:19 adamfranco Exp $
  */
 class FileSizePart 
 	extends Part
@@ -29,10 +29,11 @@ class FileSizePart
 	var $_partStructure;
 	var $_size;
 	
-	function FileSizePart( &$partStructure, &$recordId, $configuration ) {
+	function FileSizePart( &$partStructure, &$recordId, $configuration, &$asset ) {
 		$this->_recordId =& $recordId;
 		$this->_partStructure =& $partStructure;
 		$this->_configuration = $configuration;
+		$this->_asset =& $asset;
 		
 		// Set our name to NULL, so that we can know if it has not been checked
 		// for yet. If we search for name, but don't have any, or the name is

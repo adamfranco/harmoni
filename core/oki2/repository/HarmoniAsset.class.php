@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.37 2006/05/04 17:53:27 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.38 2006/05/04 20:36:18 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.37 2006/05/04 17:53:27 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.38 2006/05/04 20:36:18 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -119,6 +119,7 @@ class HarmoniAsset
      */
     function updateDisplayName ( $displayName ) { 
 		$this->_node->updateDisplayName($displayName);
+		$this->updateModificationDate();
 	}
 
 	 /**
@@ -167,6 +168,7 @@ class HarmoniAsset
      */
     function updateDescription ( $description ) { 
 		$this->_node->updateDescription($description);
+		$this->updateModificationDate();
 	}
 
 	 /**
@@ -332,6 +334,7 @@ class HarmoniAsset
 			$myRecordSet->add($contentRecord);
 			$myRecordSet->commit(TRUE);
 		}
+		$this->updateModificationDate();
 	}
 
 	/**
@@ -397,7 +400,7 @@ class HarmoniAsset
 		$this->_storeDates();
 	}
 
-	 /**
+	/**
      * Get the date at which this Asset expires.
      *  
      * @return object DateAndTime
@@ -748,7 +751,7 @@ class HarmoniAsset
 			// instantiate the new record.
 			$recordClass = $this->_repository->_builtInTypes[$recordStructureId->getIdString()];
 			$recordStructure =& $this->_repository->getRecordStructure($recordStructureId);
-			$record =& new $recordClass($recordStructure, $newId, $this->_configuration);
+			$record =& new $recordClass($recordStructure, $newId, $this->_configuration, $this);
 			
 			// store a relation to the record
 			$dbHandler =& Services::getService("DatabaseManager");
@@ -806,7 +809,7 @@ class HarmoniAsset
 			$myGroup->add($newRecord);
 			
 			// us the RecordStructure and the dataSet to create a new Record
-			$record =& new HarmoniRecord($structure, $newRecord);
+			$record =& new HarmoniRecord($structure, $newRecord, $this);
 		}
 		
 		// Add the record to our createdRecords array, so we can pass out references to it.
@@ -814,6 +817,7 @@ class HarmoniAsset
 		$this->_createdRecords[$recordId->getIdString()] =& $record;
 		
 		$this->save();
+		$this->updateModificationDate();
 		
 		return $record;
 	}
@@ -922,6 +926,8 @@ class HarmoniAsset
 			// Save our DataSetGroup
 			$mySet->commit(TRUE);
 		}
+		
+		$this->updateModificationDate();
 	}
 
 	/**
@@ -988,6 +994,8 @@ class HarmoniAsset
 		
 		// Save our RecordSet
 		$set->commit(TRUE);
+		
+		$this->updateModificationDate();
 	}
 
 	/**
@@ -1068,6 +1076,8 @@ class HarmoniAsset
 				$myRecordSet->commit(TRUE);
 			}
 		}
+		
+		$this->updateModificationDate();
 	}
 
 	 /**
@@ -1125,7 +1135,8 @@ class HarmoniAsset
 				$this->_createdRecords[$recordId->getIdString()] =& new $recordClass(
 												$recordStructure,
 												$recordId,
-												$this->_configuration
+												$this->_configuration,
+												$this
 											);
 			} 
 			
@@ -1152,7 +1163,7 @@ class HarmoniAsset
 				
 				// Create the Record in our cache.
 				$this->_createdRecords[$recordId->getIdString()] =& new HarmoniRecord (
-								$this->_createdRecordStructures[$schema->getID()], $record);
+								$this->_createdRecordStructures[$schema->getID()], $record, $this);
 			}
 			$result->free();
 		}
@@ -1618,7 +1629,7 @@ class HarmoniAsset
 			$query =& new InsertQuery;
 		}
 		
-		$columns = array("asset_id", "effective_date", "expiration_date");
+		$columns = array("asset_id", "effective_date", "expiration_date", "create_timestamp", "modify_timestamp");
 
 		$values = array();
 		$values[] = "'".addslashes($id->getIdString())."'";
@@ -1632,6 +1643,13 @@ class HarmoniAsset
 			$values[] = $dbHandler->toDBDate($this->_expirationDate, $this->_dbIndex);
 		else
 			$values[] = 'NULL';
+			
+		if (is_object($this->_createDate) && $this->_createDate->isNotEqualTo(DateAndTime::epoch()))
+			$values[] = $dbHandler->toDBDate($this->_createDate, $this->_dbIndex);
+		else
+			$values[] = 'NOW()';
+			
+		$values[] = 'NOW()';
 			
 			
 		$query->setColumns($columns);
@@ -1657,6 +1675,8 @@ class HarmoniAsset
 		$query->addTable("dr_asset_info");
 		$query->addColumn("effective_date");
 		$query->addColumn("expiration_date");
+		$query->addColumn("create_timestamp");
+		$query->addColumn("modify_timestamp");
 		$query->addWhere("asset_id='".$id->getIdString()."'");
 		
 		$result =& $dbHandler->query($query, $this->_dbIndex);
@@ -1665,19 +1685,103 @@ class HarmoniAsset
 		if ($result->getNumberOfRows()) {
 			$this->_effectiveDate =& $dbHandler->fromDBDate($result->field("effective_date"), $this->_dbIndex);
 			$this->_expirationDate =& $dbHandler->fromDBDate($result->field("expiration_date"), $this->_dbIndex);
+			$this->_createDate =& $dbHandler->fromDBDate($result->field("create_timestamp"), $this->_dbIndex);
+			$this->_modifyDate =& $dbHandler->fromDBDate($result->field("modify_timestamp"), $this->_dbIndex);
 			$this->_datesInDB = TRUE;
 		} 
 		
 		else {
 			$this->_effectiveDate = NULL;
 			$this->_expirationDate = NULL;
+			$this->_createDate = DateAndTime::epoch();
+			$this->_modifyDate = DateAndTime::epoch();
 			$this->_datesInDB = FALSE;
 		}
 		
 		$result->free();
 	}
 	
+	/**
+	 * Update the modification date and set the creation date if needed.
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 5/4/06
+	 */
+	function updateModificationDate () {
+		// Only update our modification time if we will be adding more than a
+		// minute (to save on many repeated updates while changing lots of values
+		// at once).
+		if (is_object($this->_modifyDate)) {
+			$now =& DateAndTime::now();
+			$minute =& Duration::withSeconds(60);
+			if ($minute->isGreaterThan($now->minus($this->_modifyDate)))
+				return;			
+		}
+		
+		$this->_loadDates();
+		$this->_storeDates();
+	}
 	
+	/**
+     * Get the date at which this Asset was created.
+     *  
+     * WARNING: NOT IN OSID
+     *
+     * @return object DateAndTime
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @access public
+     */
+    function getCreationDate () { 
+		if (!$this->_createDate) {
+			$this->_loadDates();
+		}
+		
+		return $this->_createDate;
+	}
+	
+	/**
+     * Get the date at which this Asset was created.
+     *  
+     * WARNING: NOT IN OSID
+     *
+     * @return object DateAndTime
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @access public
+     */
+    function getModificationDate () { 
+		if (!$this->_modifyDate) {
+			$this->_loadDates();
+		}
+		
+		return $this->_modifyDate;
+	}
 	
 	/**
 	 * Saves this object to persistable storage.

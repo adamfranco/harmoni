@@ -5,7 +5,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDimensionsPart.class.php,v 1.3 2005/10/18 15:19:11 adamfranco Exp $
+ * @version $Id: ThumbnailDimensionsPart.class.php,v 1.4 2006/05/04 20:36:19 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDimensionsPart.class.php,v 1.3 2005/10/18 15:19:11 adamfranco Exp $
+ * @version $Id: ThumbnailDimensionsPart.class.php,v 1.4 2006/05/04 20:36:19 adamfranco Exp $
  */
 class ThumbnailDimensionsPart 
 	extends DimensionsPart
@@ -39,9 +39,9 @@ class ThumbnailDimensionsPart
 	 * @since 10/17/05
 	 */
 	function ThumbnailDimensionsPart ( &$partStructure, &$recordId, 
-		&$configuration, &$record ) 
+		&$configuration, &$record, &$asset ) 
 	{
-		$this->DimensionsPart($partStructure, $recordId, $configuration, $record);
+		$this->DimensionsPart($partStructure, $recordId, $configuration, $record, $asset);
 		
 		$this->_table = "dr_thumbnail";
 		$this->_idColumn = "FK_file";

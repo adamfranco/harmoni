@@ -5,7 +5,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.7 2005/11/18 21:26:06 adamfranco Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.8 2006/05/04 20:36:19 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.7 2005/11/18 21:26:06 adamfranco Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.8 2006/05/04 20:36:19 adamfranco Exp $
  */
 class DimensionsPart 
 	extends Part
@@ -42,11 +42,12 @@ class DimensionsPart
 	 * @access public
 	 * @since 10/17/05
 	 */
-	function DimensionsPart( &$partStructure, &$recordId, &$configuration, &$record ) {
+	function DimensionsPart( &$partStructure, &$recordId, &$configuration, &$record, &$asset ) {
 		$this->_recordId =& $recordId;
 		$this->_partStructure =& $partStructure;
 		$this->_configuration =& $configuration;
 		$this->_record =& $record;
+		$this->_asset =& $asset;
 		
 		$this->_table = "dr_file";
 		$this->_idColumn = "id";
@@ -293,6 +294,8 @@ class DimensionsPart
 			
 			$dbHandler->query($query, 
 				$this->_configuration->getProperty("database_index"));
+				
+			$this->_asset->updateModificationDate();
 		}
 	}
 

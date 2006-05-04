@@ -29,7 +29,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.21 2005/12/19 22:49:25 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.22 2006/05/04 20:36:19 adamfranco Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -41,47 +41,56 @@ class FileRecord
 	var $_parts;
 	var $_partsLoaded;
 	
-	function FileRecord( &$recordStructure, & $id, &$configuration ) {
+	function FileRecord( &$recordStructure, & $id, &$configuration, &$asset ) {
 		$this->_id =& $id;
 		$this->_recordStructure =& $recordStructure;
 		$this->_configuration =& $configuration;
+		$this->_asset =& $asset;
 		
 		$idManager =& Services::getService("Id");	
 		$this->_parts = array();
 		$this->_parts['FILE_DATA'] =& new FileDataPart(
 									$recordStructure->getPartStructure($idManager->getId('FILE_DATA')),
 									$this->_id,
-									$this->_configuration);
+									$this->_configuration,
+									$this->_asset);
 		$this->_parts['FILE_NAME'] =& new FileNamePart(
 									$recordStructure->getPartStructure($idManager->getId('FILE_NAME')),
 									$this->_id,
-									$this->_configuration);
+									$this->_configuration,
+									$this->_asset);
 		$this->_parts['FILE_SIZE'] =& new FileSizePart(
 									$recordStructure->getPartStructure($idManager->getId('FILE_SIZE')),
 									$this->_id,
-									$this->_configuration);
+									$this->_configuration,
+									$this->_asset);
 		$this->_parts['MIME_TYPE'] =& new MimeTypePart(
 									$recordStructure->getPartStructure($idManager->getId('MIME_TYPE')),
 									$this->_id,
-									$this->_configuration);
+									$this->_configuration,
+									$this->_asset);
 		$this->_parts['DIMENSIONS'] =& new DimensionsPart(
 									$recordStructure->getPartStructure($idManager->getId('DIMENSIONS')),
 									$this->_id,
 									$this->_configuration,
-									$this);
+									$this,
+									$this->_asset);
 		$this->_parts['THUMBNAIL_DATA'] =& new ThumbnailDataPart(
 									$recordStructure->getPartStructure($idManager->getId('THUMBNAIL_DATA')),
 									$this->_id,
-									$this->_configuration);
+									$this->_configuration,
+									$this->_asset);
 		$this->_parts['THUMBNAIL_MIME_TYPE'] =& new ThumbnailMimeTypePart(
 									$recordStructure->getPartStructure($idManager->getId('THUMBNAIL_MIME_TYPE')),
 									$this->_id,
-									$this->_configuration);
+									$this->_configuration,
+									$this->_asset);
 		$this->_parts['THUMBNAIL_DIMENSIONS'] =& new ThumbnailDimensionsPart(
 									$recordStructure->getPartStructure($idManager->getId('THUMBNAIL_DIMENSIONS')),
 									$this->_id,
 									$this->_configuration,
-									$this);
+									$this,
+									$this->_asset);
 		
 		$this->_partsLoaded = false;
 	}
@@ -186,6 +195,8 @@ class FileRecord
 		
 		$this->_parts[$partIdString]->updateValue($value);
 		
+		$this->_asset->updateModificationDate();
+		
 		return $this->_parts[$partIdString];
 	}
 
@@ -243,6 +254,8 @@ class FileRecord
 		} else {
 			throwError(new Error(RepositoryException::UNKNOWN_ID().": $string", "FileRecord", true));
 		}
+		
+		$this->_asset->updateModificationDate();
 	}
 
 	/**

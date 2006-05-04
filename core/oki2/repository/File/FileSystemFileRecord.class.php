@@ -25,16 +25,17 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSystemFileRecord.class.php,v 1.5 2005/08/11 17:58:39 cws-midd Exp $ 
+ * @version $Id: FileSystemFileRecord.class.php,v 1.6 2006/05/04 20:36:19 adamfranco Exp $ 
  */
 class FileSystemFileRecord 
 	extends FileRecord
 {
 	
-	function FileSystemFileRecord( &$recordStructure, & $id, $configuration ) {
+	function FileSystemFileRecord( &$recordStructure, & $id, $configuration, &$asset ) {
 		$this->_id =& $id;
 		$this->_recordStructure =& $recordStructure;
 		$this->_configuration = $configuration;
+		$this->_asset =& $asset;
 		
 		$idManager =& Services::getService("Id");	
 		$this->_parts = array();

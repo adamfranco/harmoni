@@ -17,7 +17,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSystemFileDataPart.class.php,v 1.4 2005/08/11 17:58:39 cws-midd Exp $
+ * @version $Id: FileSystemFileDataPart.class.php,v 1.5 2006/05/04 20:36:19 adamfranco Exp $
  */
  
 class FileSystemFileDataPart 
@@ -122,6 +122,8 @@ class FileSystemFileDataPart
 		$result->free();
 		// run the query
 		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		
+		$this->_asset->updateModificationDate();
 	}
 	
 	/**

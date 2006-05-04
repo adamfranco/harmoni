@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailMimeTypePart.class.php,v 1.9 2005/11/18 21:26:06 adamfranco Exp $
+ * @version $Id: ThumbnailMimeTypePart.class.php,v 1.10 2006/05/04 20:36:19 adamfranco Exp $
  */
 class ThumbnailMimeTypePart extends Part
 //	extends java.io.Serializable
@@ -29,10 +29,11 @@ class ThumbnailMimeTypePart extends Part
 	var $_partStructure;
 	var $_type;
 	
-	function ThumbnailMimeTypePart( &$partStructure, &$recordId, $configuration ) {
+	function ThumbnailMimeTypePart( &$partStructure, &$recordId, $configuration, &$asset ) {
 		$this->_recordId =& $recordId;
 		$this->_partStructure =& $partStructure;
 		$this->_configuration = $configuration;
+		$this->_asset =& $asset;
 		
 		// Set our name to NULL, so that we can know if it has not been checked
 		// for yet. If we search for name, but don't have any, or the name is
@@ -92,7 +93,7 @@ class ThumbnailMimeTypePart extends Part
 	 * 
 	 * @access public
 	 */
-	function &createPar(& $partStructureId, & $value) {
+	function &createPart(& $partStructureId, & $value) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -259,6 +260,8 @@ class ThumbnailMimeTypePart extends Part
 		
 		// run the query
 		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		
+		$this->_asset->updateModificationDate();
 	}
 
 	/**

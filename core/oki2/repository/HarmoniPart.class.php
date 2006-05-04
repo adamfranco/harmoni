@@ -19,7 +19,7 @@ require(OKI2."osid/repository/Part.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.17 2006/04/26 19:56:49 adamfranco Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.18 2006/05/04 20:36:18 adamfranco Exp $ 
  */
 class HarmoniPart 
 	extends Part
@@ -29,9 +29,10 @@ class HarmoniPart
 	var $_recordFieldValue;
 	var $_partStructure;
 	
-	function HarmoniPart( &$partStructure, &$recordFieldValue ) {
+	function HarmoniPart( &$partStructure, &$recordFieldValue, &$asset ) {
 		$this->_recordFieldValue =& $recordFieldValue;
 		$this->_partStructure =& $partStructure;
+		$this->_asset =& $asset;
 	}
 	
 	/**
@@ -163,6 +164,8 @@ class HarmoniPart
 	function &createPart ( &$partStructureId, &$value ) { 
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+		
+		$this->_asset->updateModificationDate();
 	}
 
 	
@@ -192,6 +195,8 @@ class HarmoniPart
 	function deletePart ( &$partId ) { 
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+		
+		$this->_asset->updateModificationDate();
 	}
 
 	/**
@@ -299,5 +304,7 @@ class HarmoniPart
 
 		$this->_recordFieldValue->setValueFromPrimitive($value);
 		$this->_recordFieldValue->commit();
+		
+		$this->_asset->updateModificationDate();
 	}
 }

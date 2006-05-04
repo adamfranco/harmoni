@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.20 2006/01/18 22:53:15 adamfranco Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.21 2006/05/04 20:36:18 adamfranco Exp $ 
  */
 
 class HarmoniRecord 
@@ -36,11 +36,13 @@ class HarmoniRecord
 	
 	var $_createdParts;
 	
-	function HarmoniRecord( &$recordStructure, & $record ) {
+	function HarmoniRecord( &$recordStructure, &$record, &$asset ) {
 		$this->_record=& $record;
 		$this->_recordStructure =& $recordStructure;
 		
 		$this->_createdParts = array();
+		
+		$this->_asset =& $asset;
 	}
  /**
 	 * Get the unique Id for this Record.
@@ -136,7 +138,10 @@ class HarmoniRecord
 		$this->_record->commit(TRUE);
 		
 		$part =& new HarmoniPart(new HarmoniPartStructure($this->_recordStructure, $part),
-			$this->_record->getRecordFieldValue($id, $this->_record->numValues($label)-1));
+			$this->_record->getRecordFieldValue($id, $this->_record->numValues($label)-1),
+			$this->_asset);
+		
+		$this->_asset->updateModificationDate();
 		
 		return $part;
 	}
@@ -177,6 +182,8 @@ class HarmoniRecord
 		} else {
 			throwError(new Error(RepositoryException::UNKNOWN_ID().": $string", "HarmoniPart", true));
 		}
+		
+		$this->_asset->updateModificationDate();
 	}
 
 	/**
@@ -212,7 +219,8 @@ class HarmoniRecord
 					if ($activeValue =& $allRecordFieldValues[$key]->getActiveVersion()
 						&& !isset($this->_createdParts[$activeValue->getID()]))
 						$this->_createdParts[$activeValue->getID()] =& new HarmoniPart(
-													$partStructure, $allRecordFieldValues[$key]);
+													$partStructure, $allRecordFieldValues[$key],
+													$this->_asset);
 				}
 			}
 		}
@@ -321,7 +329,8 @@ class HarmoniRecord
 				if ($activeValue =& $allRecordFieldValues[$key]->getActiveVersion()) {
 					if (!isset($this->_createdParts[$activeValue->getID()])) {
 						$this->_createdParts[$activeValue->getID()] =& new HarmoniPart(
-												$partStructure, $allRecordFieldValues[$key]);
+												$partStructure, $allRecordFieldValues[$key],
+												$this->_asset);
 					}
 					
 					$partsToReturn[] =& $this->_createdParts[$activeValue->getID()];
