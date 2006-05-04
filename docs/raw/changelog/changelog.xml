@@ -3,12 +3,17 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.109 2006/05/03 15:16:37 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.110 2006/05/04 17:53:30 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.5.2" date="The Nebulous Future">
+		<change author="adam">
+			Asset::getAssets() now loads assets only on calls to next() rather 
+			than right away, saving time and queries when just checking for the 
+			existance of children.
+		</change>
 		<new author='adam'>
 			Implemented Authority-Lists for Record Parts. These lists are accessed
 			through the PartStructure. These lists are intended to be used to 

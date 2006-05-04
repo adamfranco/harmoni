@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAssetIterator.class.php,v 1.10 2005/12/20 21:26:25 adamfranco Exp $
+ * @version $Id: HarmoniAssetIterator.class.php,v 1.11 2006/05/04 17:53:27 adamfranco Exp $
  */
 
 //require_once(OKI2."osid/repository/AssetIterator.interface.php");
@@ -32,7 +32,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAssetIterator.class.php,v 1.10 2005/12/20 21:26:25 adamfranco Exp $ 
+ * @version $Id: HarmoniAssetIterator.class.php,v 1.11 2006/05/04 17:53:27 adamfranco Exp $ 
  */
 class HarmoniAssetIterator
 	extends HarmoniIterator
@@ -59,7 +59,7 @@ class HarmoniAssetIterator
 	 * @access public
 	 */
 	function hasNextAsset () { 
-		$this->hasNext();
+		return $this->hasNext();
 	}
 
 	 /**

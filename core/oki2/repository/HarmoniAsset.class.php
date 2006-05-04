@@ -5,13 +5,15 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.36 2006/02/10 21:06:24 cws-midd Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.37 2006/05/04 17:53:27 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
 require_once(HARMONI."oki2/repository/HarmoniRecord.class.php");
 require_once(HARMONI."oki2/repository/HarmoniRecordIterator.class.php");
 require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
+
+require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
 
 /**
  * Asset manages the Asset itself.  Assets have content as well as Records
@@ -24,7 +26,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.36 2006/02/10 21:06:24 cws-midd Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.37 2006/05/04 17:53:27 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -555,16 +557,11 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getAssets () { 
-    	$assets = array();
-		$children =& $this->_node->getChildren();
-		while ($children->hasNext()) {
-			$child =& $children->next();
-			$assets[] =& $this->_repository->getAsset($child->getId());
-		}
-		
+    function &getAssets () { 		
 		// create an AssetIterator and return it
-		$assetIterator =& new HarmoniAssetIterator($assets);
+		$assetIterator =& new FromNodesAssetIterator(
+									$this->_node->getChildren(),
+									$this->_repository);
 		
 		return $assetIterator;
     
