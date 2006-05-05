@@ -3,6 +3,33 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.6.0 (2006-05-05)
+----------------------------------------------------
+		
+	* Bug Fix: Now deletes the dr_asset_info record when deleting assets. (Adam Franco)
+		
+	* New feature: Assets and Asset-search-order now support modification and creation times. (Adam Franco)
+		
+	* Change: Asset::getAssets() now loads assets only on calls to next() rather than right away, saving time and queries when just checking for the existance of children. (Adam Franco)
+		
+	* New feature: Implemented Authority-Lists for Record Parts. These lists are accessed through the PartStructure. These lists are intended to be used to provide choices in Asset-editing interfaces. There is no restriction that Parts must have values not from the list. (Adam Franco)
+		
+	* New feature: Added added support for getting group information from LDAP. (Adam Franco)
+		
+	* Bug Fix: Argument validation for idStrings must allow integers as well, fixed in HarmoniId, HierarchyCache, Tree. (Christopher Shubert)
+		
+	* Bug Fix: Now actually gets the qualifier Id when deleting an authorization. (Adam Franco)
+		
+	* Change: Added access to the 'Authenticatable Users' group. (Adam Franco)
+		
+	* New feature: Now caches resized versions of images. (Adam Franco)
+		
+	* Bug Fix: Fixed authorization cache errors that occurred when explicit AZs triggered cache hits before implicit AZs were loaded. (Adam Franco)
+		
+	* Bug Fix: Fixed keyword searching to cut search time by 10x. Also fixed several reference errors in the DataManager. (Adam Franco)
+		
+	* New feature: Implemented an OSID Logging. (Adam Franco)
+	
 v. 0.5.1 (2005-02-09)
 ----------------------------------------------------
 		

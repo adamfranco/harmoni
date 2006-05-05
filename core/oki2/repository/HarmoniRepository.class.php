@@ -46,7 +46,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.44 2006/05/04 20:59:01 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.45 2006/05/05 17:53:33 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -379,6 +379,13 @@ class HarmoniRepository
 		$recordMgr =& Services::getService("RecordManager");
 		$assetId =& $asset->getId();
 		$recordMgr->deleteRecordSet($assetId->getIdString());
+		
+		// Delete the Asset info
+		$query =& new DeleteQuery;
+		$query->setTable("dr_asset_info");
+		$query->setWhere("asset_id='".addslashes($assetId->getIdString())."'");
+		$dbc =& Services::getService("DatabaseManager");
+		$dbc->query($query, $this->_configuration->getProperty('database_index'));
 		
 		// Delete the Node for this Asset
 		$this->_hierarchy->deleteNode($assetId);

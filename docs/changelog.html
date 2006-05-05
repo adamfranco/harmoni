@@ -3,7 +3,57 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.5.1</h2><h3>2005-02-09</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.6.0</h2><h3>2006-05-05</h3><ul>
+		<li/> Bug Fix:
+	 
+			Now deletes the dr_asset_info record when deleting assets.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Assets and Asset-search-order now support modification and creation times.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Asset::getAssets() now loads assets only on calls to next() rather 
+			than right away, saving time and queries when just checking for the 
+			existance of children.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Implemented Authority-Lists for Record Parts. These lists are accessed
+			through the PartStructure. These lists are intended to be used to 
+			provide choices in Asset-editing interfaces. There is no restriction
+			that Parts must have values not from the list.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Added added support for getting group information from LDAP.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Argument validation for idStrings must allow integers as well, fixed
+			in HarmoniId, HierarchyCache, Tree.
+		 (<i>Christopher Shubert</i>)
+		<li/> Bug Fix:
+	 
+			Now actually gets the qualifier Id when deleting an authorization.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Added access to the 'Authenticatable Users' group.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Now caches resized versions of images.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Fixed authorization cache errors that occurred when explicit AZs
+			triggered cache hits before implicit AZs were loaded.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Fixed keyword searching to cut search time by 10x. 
+			Also fixed several reference errors in the DataManager.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Implemented an OSID Logging.
+		 (<i>Adam Franco</i>)
+	</ul><br/><h2>Version 0.5.1</h2><h3>2005-02-09</h3><ul>
 		<li/> Bug Fix:
 	 
 			Fixed table structure to support longer Id lengths.
