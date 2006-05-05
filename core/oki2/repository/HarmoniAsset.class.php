@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.39 2006/05/04 20:59:01 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.40 2006/05/05 17:22:47 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.39 2006/05/04 20:59:01 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.40 2006/05/05 17:22:47 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -495,6 +495,7 @@ class HarmoniAsset
 		$node->changeParent($oldParent->getId(), $this->_node->getId());
 		
 		$this->save();
+		$this->updateModificationDate();
 	}
 
 	/**
@@ -538,6 +539,7 @@ class HarmoniAsset
 		$node->changeParent($this->_node->getId(), $this->_repository->getId());
 		
 		$this->save();
+		$this->updateModificationDate();
 	}
 
 	 /**
