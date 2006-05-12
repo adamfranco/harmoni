@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_DigitalRepository.sql,v 1.14 2006/05/04 20:59:01 adamfranco Exp $
+-- @version $Id: MySQL_DigitalRepository.sql,v 1.15 2006/05/12 15:34:00 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -63,9 +63,8 @@ CREATE TABLE dr_file_data (
   FK_file varchar(75) NOT NULL default '0',
   data longblob NOT NULL,
   PRIMARY KEY  (FK_file)
-) 
-CHARACTER SET utf8
-TYPE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 MAX_ROWS=2000000000 AVG_ROW_LENGTH=500000;
+
 
 -- --------------------------------------------------------
 

@@ -46,7 +46,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.45 2006/05/05 17:53:33 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.46 2006/05/12 15:34:03 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -313,6 +313,19 @@ class HarmoniRepository
 			$id =& $IDManager->createId();
 		}
 		
+		// verify that this type exists or add it if needed.
+		if (isset($this->_assetTypes)) {
+			$typeExists = false;
+			foreach(array_keys($this->_assetTypes) as $key) {
+				if ($assetType->isEqual($this->_assetTypes[$key])) {
+					$typeExists = true;
+					break;
+				}
+			}
+			if (!$typeExists)
+				$this->_assetTypes[] =& $assetType;
+		}
+		
 		// Add this DR's root node to the hierarchy.
 		$node =& $this->_hierarchy->createNode($id, $repositoryId, $assetType, $displayName, $description);
 		
@@ -392,6 +405,9 @@ class HarmoniRepository
 		
 		// Delete this asset from the createdAssets cache
 		unset($this->_createdAssets[$assetId->getIdString()]);
+		
+		// unset our asset types as the list may have now changed.
+		unset($this->_assetTypes);
 	}
 
 	/**
@@ -525,26 +541,28 @@ class HarmoniRepository
 	 * @access public
 	 */
 	function &getAssetTypes () { 
-		$assets =& $this->getAssets();
-		$types = array();
-		while ($assets->hasNext()) {
-			$asset =& $assets->next();
-			
-			// Make sure we haven't added the type yet.
-			$added = FALSE;
-			if (count($types)) {
-				foreach ($types as $key=>$type) {
-					if ($types[$key]->isEqual($asset->getAssetType()))
-						$added = TRUE;
+		if (!isset($this->_assetTypes)) {
+			$assets =& $this->getAssets();
+			$this->_assetTypes = array();
+			while ($assets->hasNext()) {
+				$asset =& $assets->next();
+				
+				// Make sure we haven't added the type yet.
+				$added = FALSE;
+				if (count($this->_assetTypes)) {
+					foreach ($this->_assetTypes as $key=>$type) {
+						if ($this->_assetTypes[$key]->isEqual($asset->getAssetType()))
+							$added = TRUE;
+					}
 				}
+				// if we haven't, add the type
+				if (!$added)
+					$this->_assetTypes[] =& $asset->getAssetType();
 			}
-			// if we haven't, add the type
-			if (!$added)
-				$types[] =& $asset->getAssetType();
 		}
 		
 		// create the iterator and return it
-		$typeIterator =& new HarmoniTypeIterator($types);
+		$typeIterator =& new HarmoniTypeIterator($this->_assetTypes);
 		
 		return $typeIterator;
 	}
@@ -1041,7 +1059,8 @@ class HarmoniRepository
 			
 			// get the assets for the resuting ids
 			$assets = array();
-				
+			
+			// Order
 			if (is_object($searchProperties) 
 				&& $searchProperties->getProperty("order") == ("DisplayName")) 
 			{
@@ -1075,6 +1094,30 @@ class HarmoniRepository
 					$assets[] =& $this->getAsset($assetIds[$key], FALSE);
 			}
 			
+			// Filter based on type
+			// This can probably be moved to the search modules to improve
+			// performance by eliminating these assets before they are otherwise
+			// operated on.
+			if (is_object($searchProperties) 
+				&& is_array($searchProperties->getProperty("allowed_types"))
+				&& count($searchProperties->getProperty("allowed_types")))
+			{
+				$allowedTypes =& $searchProperties->getProperty("allowed_types");
+				foreach (array_keys($assets) as $key) {
+					$type =& $assets[$key]->getAssetType();
+					$allowed = FALSE;
+					foreach (array_keys($allowedTypes) as $typeKey) {
+						if ($type->isEqual($allowedTypes[$typeKey])) {
+							$allowed = TRUE;
+							break;
+						}
+					}
+					if (!$allowed)
+						unset($assets[$key]);
+				}
+			}
+			
+			// Order Direction
 			if (is_object($searchProperties) 
 				&& $searchProperties->getProperty("direction") == "DESC")
 			{
@@ -1082,6 +1125,8 @@ class HarmoniRepository
 			} else {
 				ksort($assets);
 			}
+			
+			
 			
 			// create an AssetIterator and return it
 			$assetIterator =& new HarmoniAssetIterator($assets);

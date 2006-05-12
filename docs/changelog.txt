@@ -3,6 +3,17 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.6.1 (The Nebulous Future)
+----------------------------------------------------
+		
+	* New feature: Shared: New Multi-Iterator Iterator to ease the combining of results received as several iterators. (Adam Franco)
+		
+	* Change: Repository: now caches AssetTypes loaded by getAssetTypes(). (Adam Franco)
+		
+	* Change: Repository: SQL definition now includes MAX_ROWS and AVG_ROW_LENGTH parameters to get over issues with the large table size in the dr_file_data table. (Adam Franco)
+		
+	* Bug Fix: RequestContext: In the request, periods and spaces will get converted to '_'s, so it is now done preemptively (Adam Franco)
+	
 v. 0.6.0 (2006-05-05)
 ----------------------------------------------------
 		

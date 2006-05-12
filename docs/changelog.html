@@ -3,7 +3,25 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.6.0</h2><h3>2006-05-05</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.6.1</h2><h3>The Nebulous Future</h3><ul>
+		<li/> New feature:  
+			Shared: New Multi-Iterator Iterator to ease the combining of results
+			received as several iterators.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Repository: now caches AssetTypes loaded by getAssetTypes().
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Repository: SQL definition now includes MAX_ROWS and AVG_ROW_LENGTH
+			parameters to get over issues with the large table size in the
+			dr_file_data table.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			RequestContext: In the request, periods and spaces will get 
+			converted to '_'s, so it is now done preemptively
+		 (<i>Adam Franco</i>)
+	</ul><br/><h2>Version 0.6.0</h2><h3>2006-05-05</h3><ul>
 		<li/> Bug Fix:
 	 
 			Now deletes the dr_asset_info record when deleting assets.

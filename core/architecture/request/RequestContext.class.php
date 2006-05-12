@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.18 2006/03/08 15:58:20 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.19 2006/05/12 15:34:02 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -420,6 +420,10 @@ class RequestContext {
 	 * @return string
 	 */
 	function _mkFullName($key) {
+		// in the request, periods and spaces will get converted to '_'s, so 
+		// do that preemptively
+		$key = preg_replace('/[\.\s\n\r\t]/', '_', $key);
+		
 		if ($this->_currentNamespace == null) 	
 			return $key;
 		else
