@@ -46,7 +46,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.47 2006/05/15 18:41:50 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.48 2006/05/17 16:57:29 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -1044,7 +1044,8 @@ class HarmoniRepository
 	 */
 	function &getAssetsBySearch ( &$searchCriteria, &$searchType, &$searchProperties ) {
 		ArgumentValidator::validate($searchType, ExtendsValidatorRule::getRule("Type"));
-		ArgumentValidator::validate($searchProperties, ExtendsValidatorRule::getRule("Properties"));
+		ArgumentValidator::validate($searchProperties, OptionalRule::getRule(
+			ExtendsValidatorRule::getRule("Properties")));
 		
 		// Check that we support the searchType
 		$supported = FALSE;
