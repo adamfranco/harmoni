@@ -3,12 +3,12 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.113 2006/05/12 15:34:04 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.114 2006/05/19 13:32:08 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.6.1" date="The Nebulous Future">
+	<version number="0.6.1" date="The 2006-05-19">
 		<new author='adam'>
 			Shared: New Multi-Iterator Iterator to ease the combining of results
 			received as several iterators.

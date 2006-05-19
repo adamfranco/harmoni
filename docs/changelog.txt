@@ -3,7 +3,7 @@
 Name: Harmoni ChangeLog
 
 
-v. 0.6.1 (The Nebulous Future)
+v. 0.6.1 (The 2006-05-19)
 ----------------------------------------------------
 		
 	* New feature: Shared: New Multi-Iterator Iterator to ease the combining of results received as several iterators. (Adam Franco)
