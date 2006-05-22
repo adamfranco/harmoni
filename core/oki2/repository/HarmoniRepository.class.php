@@ -46,7 +46,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.48 2006/05/17 16:57:29 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.49 2006/05/22 20:26:29 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -909,6 +909,8 @@ class HarmoniRepository
 	 * @access public
 	 */
 	function &getAsset ( &$assetId, $verifyExistance = TRUE) { 
+		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
+		
 		if (!isset($this->_createdAssets[$assetId->getIdString()])) {
 			
 			if ($verifyExistance) {
