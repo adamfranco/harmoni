@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.29 2006/01/18 15:32:16 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.30 2006/05/25 17:23:28 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -335,41 +335,44 @@ class AuthorizationCache {
 	 * @return ref object FunctionIterator
 	 */
 	function &getFunctionTypes() {
-		
-		$dbHandler =& Services::getService("DatabaseManager");
-		
-		$db = $this->_authzDB;
-		$dbt = $db.".az_function";
-		
-		$query =& new SelectQuery();
-		$query->addColumn("type_domain", "domain", $db.".type");
-		$query->addColumn("type_authority", "authority", $db.".type");
-		$query->addColumn("type_keyword", "keyword", $db.".type");
-		$query->addColumn("type_description", "type_description", $db.".type");
-		
-		$query->addTable($dbt);
-		$joinc = $dbt.".fk_type = ".$db.".type.type_id";
-		$query->addTable($db.".type", INNER_JOIN, $joinc);
-		
-		$query->setGroupBy(array("type_domain", "type_authority", "type_keyword"));
-
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		
-		$types = array();
-		
-		while ($queryResult->hasMoreRows()) {
-			$row = $queryResult->getCurrentRow();
-//			echo "<pre>";
-//			print_r($row);
-//			echo "</pre>";
+		if (!isset($this->_functionTypes)) {
 			
-			$types[] =& new HarmoniType($row['domain'], $row['authority'], 
-									 $row['keyword'], $row['type_description']);
-
-			$queryResult->advanceRow();
+			$dbHandler =& Services::getService("DatabaseManager");
+			
+			$db = $this->_authzDB;
+			$dbt = $db.".az_function";
+			
+			$query =& new SelectQuery();
+			$query->addColumn("type_domain", "domain", $db.".type");
+			$query->addColumn("type_authority", "authority", $db.".type");
+			$query->addColumn("type_keyword", "keyword", $db.".type");
+			$query->addColumn("type_description", "type_description", $db.".type");
+			
+			$query->addTable($dbt);
+			$joinc = $dbt.".fk_type = ".$db.".type.type_id";
+			$query->addTable($db.".type", INNER_JOIN, $joinc);
+			
+			$query->setGroupBy(array("type_domain", "type_authority", "type_keyword"));
+	
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			
+			$this->_functionTypes = array();
+			
+			while ($queryResult->hasMoreRows()) {
+				$row = $queryResult->getCurrentRow();
+	//			echo "<pre>";
+	//			print_r($row);
+	//			echo "</pre>";
+				
+				$this->_functionTypes[] =& new HarmoniType($row['domain'], $row['authority'], 
+										 $row['keyword'], $row['type_description']);
+	
+				$queryResult->advanceRow();
+			}
+			$queryResult->free();
 		}
-		$queryResult->free();
-		$obj =& new HarmoniTypeIterator($types);
+		
+		$obj =& new HarmoniTypeIterator($this->_functionTypes);
 		return $obj;
 	}
 
@@ -382,64 +385,70 @@ class AuthorizationCache {
 		// ** parameter validation
 		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
 		// ** end of parameter validation
-		
-		$dbHandler =& Services::getService("DatabaseManager");
-		
-		$db = $this->_authzDB;
-		$dbt = $db.".az_function";
-		$query =& new SelectQuery();
-		$query->addColumn("function_id", "id", $dbt);
-		$query->addColumn("function_reference_name", "reference_name", $dbt);
-		$query->addColumn("function_description", "description", $dbt);
-		$query->addColumn("fk_qualifier_hierarchy", "hierarchy_id", $dbt);
-		$query->addColumn("type_domain", "domain", $db.".type");
-		$query->addColumn("type_authority", "authority", $db.".type");
-		$query->addColumn("type_keyword", "keyword", $db.".type");
-		$query->addColumn("type_description", "type_description", $db.".type");
-		$query->addTable($dbt);
-		$joinc = $dbt.".fk_type = ".$db.".type.type_id";
-		$query->addTable($db.".type", INNER_JOIN, $joinc);
-		$where = $db.".type.type_domain = '".addslashes($functionType->getDomain())."'";
-		$query->addWhere($where);
-		$where = $db.".type.type_authority = '".addslashes($functionType->getAuthority())."'";
-		$query->addWhere($where);
-		$where = $db.".type.type_keyword = '".addslashes($functionType->getKeyword())."'";
-		$query->addWhere($where);
-		
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
-		
-		$functions = array();
-		
-		while ($queryResult->hasMoreRows()) {
-			$row = $queryResult->getCurrentRow();
-//			echo "<pre>";
-//			print_r($row);
-//			echo "</pre>";
+
+		$typeString = Type::typeToString($functionType);
+		if (!isset($this->_functions) || !isset($this->_functions[$typeString])) {			
+			if (!isset($this->_functions))
+				$this->_functions = array();
+				
+			$this->_functions[$typeString] = array();
 			
-			$idValue = $row['id'];
-			if (isset($this->_functions[$idValue])) {
-				$function =& $this->_functions[$idValue];
-			}
-			else {
-				$type =& new HarmoniType($row['domain'], $row['authority'], 
-										 $row['keyword'], $row['type_description']);
-				$idManager =& Services::getService("Id");
-				$functionId =& $idManager->getId($row['id']);
-				$hierarchyId =& $idManager->getId($row['hierarchy_id']);
-				$function =& new HarmoniFunction($functionId, $row['reference_name'],
-												 $row['description'], $type, $hierarchyId ,
-												 $this->_dbIndex, $this->_authzDB);
+			
+			$dbHandler =& Services::getService("DatabaseManager");
+			
+			$db = $this->_authzDB;
+			$dbt = $db.".az_function";
+			$query =& new SelectQuery();
+			$query->addColumn("function_id", "id", $dbt);
+			$query->addColumn("function_reference_name", "reference_name", $dbt);
+			$query->addColumn("function_description", "description", $dbt);
+			$query->addColumn("fk_qualifier_hierarchy", "hierarchy_id", $dbt);
+			$query->addColumn("type_domain", "domain", $db.".type");
+			$query->addColumn("type_authority", "authority", $db.".type");
+			$query->addColumn("type_keyword", "keyword", $db.".type");
+			$query->addColumn("type_description", "type_description", $db.".type");
+			$query->addTable($dbt);
+			$joinc = $dbt.".fk_type = ".$db.".type.type_id";
+			$query->addTable($db.".type", INNER_JOIN, $joinc);
+			$where = $db.".type.type_domain = '".addslashes($functionType->getDomain())."'";
+			$query->addWhere($where);
+			$where = $db.".type.type_authority = '".addslashes($functionType->getAuthority())."'";
+			$query->addWhere($where);
+			$where = $db.".type.type_keyword = '".addslashes($functionType->getKeyword())."'";
+			$query->addWhere($where);
+			
+			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
 
-				$this->_functions[$idValue] =& $function;
+			
+			while ($queryResult->hasMoreRows()) {
+				$row = $queryResult->getCurrentRow();
+	//			echo "<pre>";
+	//			print_r($row);
+	//			echo "</pre>";
+				
+				$idValue = $row['id'];
+				if (isset($this->_functions[$idValue])) {
+					$function =& $this->_functions[$idValue];
+				}
+				else {
+					$type =& new HarmoniType($row['domain'], $row['authority'], 
+											 $row['keyword'], $row['type_description']);
+					$idManager =& Services::getService("Id");
+					$functionId =& $idManager->getId($row['id']);
+					$hierarchyId =& $idManager->getId($row['hierarchy_id']);
+					$function =& new HarmoniFunction($functionId, $row['reference_name'],
+													 $row['description'], $type, $hierarchyId ,
+													 $this->_dbIndex, $this->_authzDB);
+	
+					$this->_functions[$idValue] =& $function;
+				}
+	
+				$this->_functions[$typeString][] =& $function;
+				$queryResult->advanceRow();
 			}
-
-			$functions[] =& $function;
-			$queryResult->advanceRow();
+			$queryResult->free();
 		}
-		$queryResult->free();
-		
-		$obj =& new HarmoniFunctionIterator($functions);
-		
+		$obj =& new HarmoniFunctionIterator($this->_functions[$typeString]);
 		return $obj;
 	}
 

@@ -15,7 +15,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniQualifierIterator.class.php,v 1.6 2005/02/07 21:38:25 adamfranco Exp $
+ * @version $Id: HarmoniQualifierIterator.class.php,v 1.7 2006/05/25 17:23:28 adamfranco Exp $
  */
 class HarmoniQualifierIterator
 	extends HarmoniIterator
@@ -67,6 +67,39 @@ class HarmoniQualifierIterator
 	 */
 	function &nextQualifier () { 
 		return $this->next();
+	}
+	
+	/**
+	 * Return the next Qualifier.
+	 *	
+	 * @return object Qualifier
+	 * 
+	 * @throws object HierarchyException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.hierarchy.HierarchyException may be thrown:	 {@link
+	 *		   org.osid.hierarchy.HierarchyException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.hierarchy.HierarchyException#NO_MORE_ITERATOR_ELEMENTS
+	 *		   NO_MORE_ITERATOR_ELEMENTS}
+	 * 
+	 * @access public
+	 */
+	function &next () {
+		// If this is the first element access, inform our AZ cache that we are 
+		// working with this set of nodes so that it can fetch AZs for all of 
+		// them at once.
+		if ($this->_i == -1) {
+			$isAuthorizedCache =& IsAuthorizedCache::instance();
+			$isAuthorizedCache->queueAssetArray($this->_elements);
+		}
+		
+		return parent::next();
 	} 
 }
 

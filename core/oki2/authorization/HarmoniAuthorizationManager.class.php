@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.34 2006/05/25 14:45:43 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.35 2006/05/25 17:23:28 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -462,9 +462,11 @@ class HarmoniAuthorizationManager
 	 * @access public
 	 */
 	function isAuthorized ( &$agentId, &$functionId, &$qualifierId ) { 
-		$authorizations =& $this->getAllAZs($agentId, $functionId, $qualifierId, true);
+// 		$authorizations =& $this->getAllAZs($agentId, $functionId, $qualifierId, true);
+// 		return ($authorizations->hasNext());
 		
-		return ($authorizations->hasNext());
+		$isAuthorizedCache =& IsAuthorizedCache::instance();
+		return $isAuthorizedCache->isAuthorized($agentId, $functionId, $qualifierId);
 	}
 
 	/**

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.1 2006/05/25 14:45:43 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.2 2006/05/25 17:23:28 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.1 2006/05/25 14:45:43 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.2 2006/05/25 17:23:28 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -318,14 +318,19 @@ class IsAuthorizedCache {
 	 * @since 12/20/05
 	 */
 	function queueIdString ( $idString ) {
-		if ((!isset($_SESSION['__isAuthorizedCache']['USER'][$idString])
-				|| !isset($_SESSION['__isAuthorizedCache']
-								['USER']
-								[$idString]
-								['__IMPLICIT_CACHED']))
-			&& !in_array($idString, $this->_queue))
-		{
-			$this->_queue[] = $idString;
+		foreach (array_keys($_SESSION['__isAuthorizedCache']) as $agentKey) {
+			if (!isset($this->_queue[$agentKey]))
+				$this->_queue[$agentKey] = array();
+			
+			if ((!isset($_SESSION['__isAuthorizedCache'][$agentKey][$idString])
+					|| !isset($_SESSION['__isAuthorizedCache']
+									[$agentKey]
+									[$idString]
+									['__IMPLICIT_CACHED']))
+				&& !in_array($idString, $this->_queue[$agentKey]))
+			{
+				$this->_queue[$agentKey][] = $idString;
+			}
 		}
 	}
 	
@@ -420,7 +425,7 @@ class IsAuthorizedCache {
 	 * @since 11/10/05
 	 */
 	function _loadQueue ($agentIdString) {
-		if (!count($this->_queue))
+		if (!count($this->_queue[$agentIdString]))
 			return;
 		
 		$dbHandler =& Services::getService("DatabaseManager");
@@ -550,7 +555,7 @@ class IsAuthorizedCache {
 		$query->addColumn("fk_node");
 		$query->addTable("az_authorization");
 		$query->addTable("node_ancestry", LEFT_JOIN, "fk_qualifier = fk_ancestor");
-		$query->addWhere("fk_node IN('".implode("', '", $this->_queue)."')");
+		$query->addWhere("fk_node IN('".implode("', '", $this->_queue[$agentIdString])."')");
 		$query->addWhere("fk_agent IN('".implode("', '", $this->getAgentIdStringArray($agentIdString))."')");
 		$query->addWhere("(authorization_effective_date IS NULL OR authorization_effective_date < NOW())");
 		$query->addWhere("(authorization_expiration_date IS NULL OR authorization_expiration_date > NOW())");
@@ -579,7 +584,7 @@ class IsAuthorizedCache {
 		$result->free();
 		
 		// Set flags that each Qualifier in the queue has had its implicit AZs cached.
-		foreach ($this->_queue as $qualifierIdString) {
+		foreach ($this->_queue[$agentIdString] as $qualifierIdString) {
 			$_SESSION['__isAuthorizedCache']
 				[$agentIdString]
 				[$qualifierIdString]
@@ -590,7 +595,7 @@ class IsAuthorizedCache {
 // 		printf("<br/>CacheAZTime: %1.6f", $timer->printTime());
 // 		print "<br/>Num Queries: ".($dbHandler->getTotalNumberOfQueries() - $startingQueries);
 		
-		$this->_queue = array();
+		$this->_queue[$agentIdString] = array();
 		
 // 		@$this->ticker++;
 // 		if ($this->ticker > 100) {
