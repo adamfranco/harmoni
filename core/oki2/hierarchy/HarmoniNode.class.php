@@ -20,7 +20,7 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.16 2006/01/24 19:43:26 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.17 2006/05/25 14:45:43 adamfranco Exp $
  */
 
 class HarmoniNode 
@@ -436,7 +436,7 @@ class HarmoniNode
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
-		IsUserAuthorizedCache::dirtyNode($this->_id);
+		IsAuthorizedCache::dirtyNode($this->_id);
 		
 		$this->_cache->addParent($nodeId->getIdString(), $this->_id->getIdString());
 	}
@@ -473,7 +473,7 @@ class HarmoniNode
 		ArgumentValidator::validate($parentId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
-		IsUserAuthorizedCache::dirtyNode($this->_id);
+		IsAuthorizedCache::dirtyNode($this->_id);
 		
 		$this->_cache->removeParent($parentId->getIdString(), $this->_id->getIdString());
 	}
@@ -514,7 +514,7 @@ class HarmoniNode
 		if ($oldParentId->isEqual($newParentId))
 			return;
 		
-		IsUserAuthorizedCache::dirtyNode($this->_id);
+		IsAuthorizedCache::dirtyNode($this->_id);
 		
 		$this->_cache->removeParent($oldParentId->getIdString(), $this->_id->getIdString());
 		$this->_cache->addParent($newParentId->getIdString(), $this->_id->getIdString());

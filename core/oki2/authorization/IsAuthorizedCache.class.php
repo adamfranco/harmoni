@@ -6,17 +6,18 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.7 2006/02/15 14:27:20 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.1 2006/05/25 14:45:43 adamfranco Exp $
  */ 
 
 /**
- * The IsUserAuthorizedCache maintains a per-session cache of the boolean
- * responces to the method isUserAuthorized($function, $qualifier). As this is
- * the most common Authorization function to be called, expediacy is of the 
+ * The IsAuthorizedCache maintains a per-session cache of the boolean
+ * responces to the methods isAuthorized($agent, $function, $qualifier) and 
+ * isUserAuthorized($function, $qualifier). As these are
+ * the most common Authorization functions called, expediacy is of the 
  * utmost importance, in which this cache plays an integral part.
  * 
- * The IsUserAuthorizedCache is a singleton and should be accessed ONLY via:
- * 	IsUserAuthorizedCache::instance();
+ * The IsAuthorizedCache is a singleton and should be accessed ONLY via:
+ * 	IsAuthorizedCache::instance();
  *
  * Usage
  * -----
@@ -68,19 +69,19 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsUserAuthorizedCache.class.php,v 1.7 2006/02/15 14:27:20 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.1 2006/05/25 14:45:43 adamfranco Exp $
  */
-class IsUserAuthorizedCache {
+class IsAuthorizedCache {
 		
 /*********************************************************
  * Class Methods - Instance-Creation/Singlton
  *********************************************************/
 
 	/**
-	 * Get the instance of the IsUserAuthorizedCache.
-	 * The IsUserAuthorizedCache class implements the Singleton pattern. There 
-	 * is only ever one instance of the IsUserAuthorizedCache object and it is 
-	 * accessed only via the IsUserAuthorizedCache::instance() method.
+	 * Get the instance of the IsAuthorizedCache.
+	 * The IsAuthorizedCache class implements the Singleton pattern. There 
+	 * is only ever one instance of the IsAuthorizedCache object and it is 
+	 * accessed only via the IsAuthorizedCache::instance() method.
 	 * 
 	 * @return object Harmoni
 	 * @access public
@@ -88,12 +89,12 @@ class IsUserAuthorizedCache {
 	 * @static
 	 */
 	function &instance () {
-		if (!defined("IsUserAuthorizedCache_INSTANTIATED")) {
-			$GLOBALS['__IsUserAuthorizedCacheInstance'] =& new IsUserAuthorizedCache();
-			define("IsUserAuthorizedCache_INSTANTIATED", true);
+		if (!defined("IsAuthorizedCache_INSTANTIATED")) {
+			$GLOBALS['__isAuthorizedCacheInstance'] =& new IsAuthorizedCache();
+			define("IsAuthorizedCache_INSTANTIATED", true);
 		}
 		
-		return $GLOBALS['__IsUserAuthorizedCacheInstance'];
+		return $GLOBALS['__isAuthorizedCacheInstance'];
 	}
 
 /*********************************************************
@@ -142,53 +143,50 @@ class IsUserAuthorizedCache {
  *********************************************************/	
 
 	/**
-	 * The constructor, use IsUserAuthorizedCache::instance() to access the object.
+	 * The constructor, use IsAuthorizedCache::instance() to access the object.
 	 * @access public
 	 * @return void
 	 **/
-	function IsUserAuthorizedCache() {
+	function IsAuthorizedCache() {
 		// Verify that there is only one instance of Harmoni.
 		$backtrace = debug_backtrace();
-		if (false && $GLOBALS['__IsUserAuthorizedCache'] 
+		if (false && $GLOBALS['__isAuthorizedCache'] 
 			|| !(
-				$backtrace[1]['class'] == 'isuserauthorizedcache'
+				$backtrace[1]['class'] == 'isauthorizedcache'
 				&& $backtrace[1]['function'] == 'instance'
 				&& $backtrace[1]['type'] == '::'
 			))
 		{
-			die("<br/><strong>Invalid IsUserAuthorizedCache instantiation at...</strong>"
+			die("<br/><strong>Invalid IsAuthorizedCache instantiation at...</strong>"
 			."<br/> File: ".$backtrace[0]['file']
 			."<br/> Line: ".$backtrace[0]['line']
-			."<br/><strong>Access IsUserAuthorizedCache with <em>IsUserAuthorizedCache::instance()</em></strong>");
+			."<br/><strong>Access IsAuthorizedCache with <em>IsAuthorizedCache::instance()</em></strong>");
 		}
 		
 		// Initialize our paremeters
 		$this->_queue = array();
+		$this->_agentIdStrings = array();
 		
 		// get our configuration
 		$azManager =& Services::getService("AuthZ");
 		$this->_configuration =& $azManager->_configuration;
 		$this->_authorizationManagerObjectCache =& $azManager->_cache;
 		
-		// Store our current users
-		$userIds =& $azManager->_getUserIds();
-		$this->_agentIdStrings = array();
-		foreach (array_keys($userIds) as $key) {
-			$userId =& $userIds[$key];
-			$this->_agentIdStrings[] =	$userId->getIdString();
-			$this->_agentIdStrings = array_merge(
-				$this->_agentIdStrings,	
-				$azManager->_getContainingGroupIdStrings($userId));
-		}
+		
 		
 		// [Re]set up our cache if it doesn't exist or if we have a new user.
-		if(!isset($_SESSION['__isUserAuthorizedCache'])
-			|| !isset($_SESSION['__isUserAuthorizedCachedUser'])
-			|| $_SESSION['__isUserAuthorizedCachedUser'] != implode(", ", $this->_agentIdStrings))
+		if(!isset($_SESSION['__isAuthorizedCache']))
+			$_SESSION['__isAuthorizedCache'] = array();
+		
+			
+		if (!isset($_SESSION['__isAuthorizedCache']['USER'])
+			|| !isset($_SESSION['__isAuthorizedCacheAgents']['USER'])
+			|| !isset($_SESSION['__isAuthorizedCacheTime']['USER'])
+			|| $_SESSION['__isAuthorizedCacheAgents']['USER'] != implode(", ", $this->getAgentIdStringArray('USER')))
 		{
-			$_SESSION['__isUserAuthorizedCache'] = array();
-			$_SESSION['__isUserAuthorizedCachedUser'] = implode(", ", $this->_agentIdStrings);
-			$_SESSION['__isUserAuthorizedCacheTime'] =& DateAndTime::now();
+			$_SESSION['__isAuthorizedCacheAgents']['USER'] = implode(", ", $this->getAgentIdStringArray('USER'));
+			$_SESSION['__isAuthorizedCache']['USER'] = array();
+			$_SESSION['__isAuthorizedCacheTime']['USER'] =& DateAndTime::now();
 		}
 		
 		// Unload any expired Node AZs
@@ -230,13 +228,65 @@ class IsUserAuthorizedCache {
 	function isUserAuthorized ( &$functionId, &$qualifierId ) {
 		// Cache Misses will be determined in the queing methods
 		$this->queueId($qualifierId);
-		$this->_loadQueue();
+		$this->_loadQueue('USER');
 		
 		// Cache hit or newly loaded cache
-		if (isset($_SESSION['__isUserAuthorizedCache']
+		if (isset($_SESSION['__isAuthorizedCache']
+					['USER']
 					[$qualifierId->getIdString()]
 					[$functionId->getIdString()])
-			&& true === $_SESSION['__isUserAuthorizedCache']
+			&& true === $_SESSION['__isAuthorizedCache']
+							['USER']
+							[$qualifierId->getIdString()]
+							[$functionId->getIdString()])
+		{
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Given an agentId, functionId, and qualifierId returns true if the agent is
+	 * authorized now to perform the Function with the Qualifier.
+	 * 
+	 * @param object Id $agentId
+	 * @param object Id $functionId
+	 * @param object Id $qualifierId
+	 *	
+	 * @return boolean
+	 * 
+	 * @throws object AuthorizationException An exception with
+	 *		   one of the following messages defined in
+	 *		   org.osid.authorization.AuthorizationException may be thrown:
+	 *		   {@link
+	 *		   org.osid.authorization.AuthorizationException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}, {@link
+	 *		   org.osid.authorization.AuthorizationException#NULL_ARGUMENT
+	 *		   NULL_ARGUMENT}, {@link
+	 *		   org.osid.authorization.AuthorizationException#UNKNOWN_ID
+	 *		   UNKNOWN_ID}
+	 * 
+	 * @access public
+	 */
+	function isAuthorized (&$agentId, &$functionId, &$qualifierId ) {
+		// Cache Misses will be determined in the queing methods
+		$this->queueId($qualifierId);
+		$this->_loadQueue($agentId->getIdString());
+		
+		// Cache hit or newly loaded cache
+		if (isset($_SESSION['__isAuthorizedCache']
+					[$agentId->getIdString()]
+					[$qualifierId->getIdString()]
+					[$functionId->getIdString()])
+			&& true === $_SESSION['__isAuthorizedCache']
+							[$agentId->getIdString()]
 							[$qualifierId->getIdString()]
 							[$functionId->getIdString()])
 		{
@@ -268,8 +318,9 @@ class IsUserAuthorizedCache {
 	 * @since 12/20/05
 	 */
 	function queueIdString ( $idString ) {
-		if ((!isset($_SESSION['__isUserAuthorizedCache'][$idString])
-				|| !isset($_SESSION['__isUserAuthorizedCache']
+		if ((!isset($_SESSION['__isAuthorizedCache']['USER'][$idString])
+				|| !isset($_SESSION['__isAuthorizedCache']
+								['USER']
 								[$idString]
 								['__IMPLICIT_CACHED']))
 			&& !in_array($idString, $this->_queue))
@@ -323,6 +374,42 @@ class IsUserAuthorizedCache {
 /*********************************************************
  * Instance Methods - Private
  *********************************************************/
+ 	/**
+ 	 * Answer an array of the Agent id strings that correspond to the 
+ 	 * AgentKey passed. the agent key can be an agent id string or USER.
+ 	 * 
+ 	 * @param string $agentKey
+ 	 * @return array
+ 	 * @access public
+ 	 * @since 5/25/06
+ 	 */
+ 	function getAgentIdStringArray ($agentKey) {
+ 		if (!isset($this->_agentIdStrings[$agentKey])) {
+ 			$azManager =& Services::getService("AuthZ");
+ 			$idManager =& Services::getService("Id");
+ 			
+			$this->_agentIdStrings[$agentKey] = array();
+			
+ 			if ($agentKey == 'USER') {
+ 				// Store our current users
+				$userIds =& $azManager->_getUserIds();
+				foreach (array_keys($userIds) as $key) {
+					$userId =& $userIds[$key];
+					$this->_agentIdStrings['USER'][] =	$userId->getIdString();
+					$this->_agentIdStrings['USER'] = array_merge(
+						$this->_agentIdStrings['USER'],	
+						$azManager->_getContainingGroupIdStrings($userId));
+				}
+ 			} else {
+				$agentId =& $idManager->getId($agentKey);
+				$this->_agentIdStrings[$agentKey][] = $agentKey;
+				$this->_agentIdStrings[$agentKey] = array_merge(
+					$this->_agentIdStrings[$agentKey],	
+					$azManager->_getContainingGroupIdStrings($agentId));
+ 			}
+ 		}
+ 		return $this->_agentIdStrings[$agentKey];
+ 	}
 	
 	/**
 	 * Load all of the Authorizations for the user and cache them
@@ -332,7 +419,7 @@ class IsUserAuthorizedCache {
 	 * @access public
 	 * @since 11/10/05
 	 */
-	function _loadQueue () {
+	function _loadQueue ($agentIdString) {
 		if (!count($this->_queue))
 			return;
 		
@@ -351,7 +438,7 @@ class IsUserAuthorizedCache {
 		$query =& new SelectQuery();
 		$query->addColumn("*");
 		$query->addTable("az_authorization");
-		$query->addWhere("fk_agent IN('".implode("', '", $this->_agentIdStrings)."')");
+		$query->addWhere("fk_agent IN('".implode("', '", $this->getAgentIdStringArray($agentIdString))."')");
 		$query->addWhere("(authorization_effective_date IS NULL OR authorization_effective_date < NOW())");
 		$query->addWhere("(authorization_expiration_date IS NULL OR authorization_expiration_date > NOW())");
 		
@@ -383,10 +470,11 @@ class IsUserAuthorizedCache {
 			$functions[] = $result->field("fk_function");
 			
 			// Set a boolean for the AZ.
-			if(!isset($_SESSION['__isUserAuthorizedCache'][$result->field("fk_qualifier")]))
-				$_SESSION['__isUserAuthorizedCache'][$result->field("fk_qualifier")] = array();
+			if(!isset($_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_qualifier")]))
+				$_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_qualifier")] = array();
 			
-			$_SESSION['__isUserAuthorizedCache']
+			$_SESSION['__isAuthorizedCache']
+				[$agentIdString]
 				[$result->field("fk_qualifier")]
 				[$result->field("fk_function")] = true;
 			
@@ -435,7 +523,7 @@ class IsUserAuthorizedCache {
 // 					
 // 					foreach($functions as $functionId) {
 // 						if (!isset($explicitAZLevels[$functionId])) {
-// 							if (isset($_SESSION['__isUserAuthorizedCache'][$idString][$functionId])) {
+// 							if (isset($_SESSION['__isAuthorizedCache'][$agentIdString][$idString][$functionId])) {
 // 								$explicitAZLevels[$functionId] = $level;
 // // 								printpre("\tFound Explicit $functionId at level $level");
 // 							}
@@ -444,7 +532,7 @@ class IsUserAuthorizedCache {
 // 								unset($explicitAZLevels[$functionId]);
 // // 								printpre("\tUnsetting ExplicitAZ $functionId at $level");
 // 							} else {
-// 								$_SESSION['__isUserAuthorizedCache'][$idString][$functionId] = true;
+// 								$_SESSION['__isAuthorizedCache'][$agentIdString][$idString][$functionId] = true;
 // // 								printpre("\tSetting Implicit $functionId at level $level");
 // 							}
 // 						}
@@ -463,7 +551,7 @@ class IsUserAuthorizedCache {
 		$query->addTable("az_authorization");
 		$query->addTable("node_ancestry", LEFT_JOIN, "fk_qualifier = fk_ancestor");
 		$query->addWhere("fk_node IN('".implode("', '", $this->_queue)."')");
-		$query->addWhere("fk_agent IN('".implode("', '", $this->_agentIdStrings)."')");
+		$query->addWhere("fk_agent IN('".implode("', '", $this->getAgentIdStringArray($agentIdString))."')");
 		$query->addWhere("(authorization_effective_date IS NULL OR authorization_effective_date < NOW())");
 		$query->addWhere("(authorization_expiration_date IS NULL OR authorization_expiration_date > NOW())");
 		
@@ -478,10 +566,11 @@ class IsUserAuthorizedCache {
 			$explicitFunctionId =& $explicitFunction->getId();
 			
 			// cache in our user AZ cache
-			if(!isset($_SESSION['__isUserAuthorizedCache'][$result->field("fk_node")]))
-				$_SESSION['__isUserAuthorizedCache'][$result->field("fk_node")] = array();
+			if(!isset($_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_node")]))
+				$_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_node")] = array();
 			
-			$_SESSION['__isUserAuthorizedCache']
+			$_SESSION['__isAuthorizedCache']
+				[$agentIdString]
 				[$result->field("fk_node")]
 				[$explicitFunctionId->getIdString()] = true;
 			
@@ -491,7 +580,8 @@ class IsUserAuthorizedCache {
 		
 		// Set flags that each Qualifier in the queue has had its implicit AZs cached.
 		foreach ($this->_queue as $qualifierIdString) {
-			$_SESSION['__isUserAuthorizedCache']
+			$_SESSION['__isAuthorizedCache']
+				[$agentIdString]
 				[$qualifierIdString]
 				['__IMPLICIT_CACHED'] = true;
 		}
@@ -504,7 +594,7 @@ class IsUserAuthorizedCache {
 		
 // 		@$this->ticker++;
 // 		if ($this->ticker > 100) {
-// 			printpre($_SESSION['__isUserAuthorizedCache']);
+// 			printpre($_SESSION['__isAuthorizedCache'][$agentIdString]);
 // 			exit;
 // 		}
 	}
@@ -521,27 +611,29 @@ class IsUserAuthorizedCache {
 	function _synchronizeCache () {
 		$dbHandler =& Services::getService("DBHandler");
 		
-		// Select the nodeIds who's authorization situation may have changed
-		// since the cache was last synchronized. Clear these Ids from the cache.
-		$query =& new SelectQuery();
-		$query->addTable("node");
-		$query->setColumns(array("node_id"));
-		$dbDate = $dbHandler->toDBDate(
-					$_SESSION['__isUserAuthorizedCacheTime'],
-					$this->_configuration->getProperty('database_index'));
-		$query->addWhere("az_node_changed > ".$dbDate);
-		
-// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
-		
-		$result =& $dbHandler->query($query, $this->_configuration->getProperty('database_index'));
-		
-		while ($result->hasMoreRows()) {			
-			unset($_SESSION['__isUserAuthorizedCache'][$result->field("node_id")]);
-			$result->advanceRow();
+		foreach (array_keys($_SESSION['__isAuthorizedCacheAgents']) as $agentIdString) {
+			// Select the nodeIds who's authorization situation may have changed
+			// since the cache was last synchronized. Clear these Ids from the cache.
+			$query =& new SelectQuery();
+			$query->addTable("node");
+			$query->setColumns(array("node_id"));
+			$dbDate = $dbHandler->toDBDate(
+						$_SESSION['__isAuthorizedCacheTime'][$agentIdString],
+						$this->_configuration->getProperty('database_index'));
+			$query->addWhere("az_node_changed > ".$dbDate);
+			
+	// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+			
+			$result =& $dbHandler->query($query, $this->_configuration->getProperty('database_index'));
+			
+			while ($result->hasMoreRows()) {			
+				unset($_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("node_id")]);
+				$result->advanceRow();
+			}
+			$result->free();
+			
+			$_SESSION['__isAuthorizedCacheTime'][$agentIdString] =& DateAndTime::now();
 		}
-		$result->free();
-		
-		$_SESSION['__isUserAuthorizedCacheTime'] =& DateAndTime::now();
 	}
 	
 	/**
@@ -580,9 +672,11 @@ class IsUserAuthorizedCache {
 			$nodeId =& $info->getNodeId();
 			
 			$idString = $nodeId->getIdString();
-			if (isset($_SESSION['__isUserAuthorizedCache'][$idString]))				
-				unset($_SESSION['__isUserAuthorizedCache'][$idString]);
-
+			foreach (array_keys($_SESSION['__isAuthorizedCache']) as $agentIdString) {
+				if (isset($_SESSION['__isAuthorizedCache'][$agentIdString][$idString]))				
+					unset($_SESSION['__isAuthorizedCache'][$agentIdString][$idString]);
+			}
+			
 			$nodesToDirty[] = "'".addslashes($idString)."'";
 			
 		}

@@ -6,7 +6,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunction.class.php');
 require_once(HARMONI.'oki2/authorization/HarmoniAuthorization.class.php');
 require_once(HARMONI.'oki2/authorization/HarmoniAuthorizationIterator.class.php');
 require_once(HARMONI.'oki2/authorization/HarmoniQualifier.class.php');
-require_once(HARMONI.'oki2/authorization/IsUserAuthorizedCache.class.php');
+require_once(HARMONI.'oki2/authorization/IsAuthorizedCache.class.php');
 require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
 
 /**
@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.33 2006/02/10 22:12:42 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.34 2006/05/25 14:45:43 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -181,7 +181,7 @@ class HarmoniAuthorizationManager
 	function &createDatedAuthorization ( &$agentId, &$functionId, &$qualifierId, $effectiveDate, $expirationDate ) { 
 		$authorization =& $this->_cache->createAuthorization($agentId, $functionId, $qualifierId, $effectiveDate, $expirationDate);
 		
-		IsUserAuthorizedCache::dirtyNode($qualifierId);
+		IsAuthorizedCache::dirtyNode($qualifierId);
 		
 		return $authorization;
 	}
@@ -219,7 +219,7 @@ class HarmoniAuthorizationManager
 	function &createAuthorization ( &$agentId, &$functionId, &$qualifierId ) { 
 		$authorization =& $this->_cache->createAuthorization($agentId, $functionId, $qualifierId);
 		
-		IsUserAuthorizedCache::dirtyNode($qualifierId);
+		IsAuthorizedCache::dirtyNode($qualifierId);
 		
 		return $authorization;
 	}
@@ -371,7 +371,7 @@ class HarmoniAuthorizationManager
 		$qualifierId =& $qualifier->getId();
 		$this->_cache->deleteAuthorization($authorization);
 		
-		IsUserAuthorizedCache::dirtyNode($qualifierId);
+		IsAuthorizedCache::dirtyNode($qualifierId);
 	}
 
 	/**
@@ -499,8 +499,8 @@ class HarmoniAuthorizationManager
 // 		$authorizations =& $this->getAllUserAZs($functionId, $qualifierId, true);
 // 		return ($authorizations->hasNext());
 				
-		$isUserAuthorizedCache =& IsUserAuthorizedCache::instance();
-		return $isUserAuthorizedCache->isUserAuthorized($functionId, $qualifierId);
+		$isAuthorizedCache =& IsAuthorizedCache::instance();
+		return $isAuthorizedCache->isUserAuthorized($functionId, $qualifierId);
 	}
 	
 	/**

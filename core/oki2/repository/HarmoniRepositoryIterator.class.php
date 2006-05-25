@@ -22,7 +22,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryIterator.class.php,v 1.6 2005/12/20 21:26:25 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryIterator.class.php,v 1.7 2006/05/25 14:45:43 adamfranco Exp $ 
  */
 class HarmoniRepositoryIterator
 	extends HarmoniIterator
@@ -102,8 +102,8 @@ class HarmoniRepositoryIterator
 		// working with this set of nodes so that it can fetch AZs for all of 
 		// them at once.
 		if ($this->_i == -1) {
-			$isUserAuthorizedCache =& IsUserAuthorizedCache::instance();
-			$isUserAuthorizedCache->queueAssetArray($this->_elements);
+			$isAuthorizedCache =& IsAuthorizedCache::instance();
+			$isAuthorizedCache->queueAssetArray($this->_elements);
 		}
 		
 		return parent::next();
