@@ -3,10 +3,14 @@
 Name: Harmoni ChangeLog
 
 
-v. 0.6.2 (The 2006-05-24)
+v. 0.6.2 (The 2006-05-26)
 ----------------------------------------------------
 		
+	* Bug Fix: Repository: Changing sql in authoritative values to coallate in a case-sensitive way. (Adam Franco)
+		
 	* Bug Fix: Repository: adding additional argument validation. (Adam Franco)
+		
+	* Change: Authorization: Converted the IsUserAuthorizedCache to a new IsAuthorizedCache that is availible for all isAuthorized() or isUserAuthorized() calls. (Adam Franco)
 	
 v. 0.6.1 (The 2006-05-19)
 ----------------------------------------------------
