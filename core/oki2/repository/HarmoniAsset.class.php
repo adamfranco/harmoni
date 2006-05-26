@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.40 2006/05/05 17:22:47 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.41 2006/05/26 13:19:43 cws-midd Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.40 2006/05/05 17:22:47 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.41 2006/05/26 13:19:43 cws-midd Exp $ 
  */
 
 class HarmoniAsset
@@ -1721,7 +1721,7 @@ class HarmoniAsset
 		// Only update our modification time if we will be adding more than a
 		// minute (to save on many repeated updates while changing lots of values
 		// at once).
-		if (is_object($this->_modifyDate)) {
+		if (isset($this->_modifyDate) && is_object($this->_modifyDate)) {
 			$now =& DateAndTime::now();
 			$minute =& Duration::withSeconds(60);
 			if ($minute->isGreaterThan($now->minus($this->_modifyDate)))
