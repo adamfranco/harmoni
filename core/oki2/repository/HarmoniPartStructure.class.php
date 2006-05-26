@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.14 2006/05/01 21:00:06 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.15 2006/05/26 14:54:31 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -459,6 +459,14 @@ class HarmoniPartStructure extends PartStructure
 	 */
 	function isAuthoritativeValue ( &$value ) {
 		$this->_loadAuthoritativeValueStrings();
+		
+		print "<pre>";
+		var_dump($this->_authoritativeValueStrings);
+		var_dump($value->asString());
+		var_dump(in_array($value->asString(), $this->_authoritativeValueStrings));
+		
+		print "</pre>";
+		
 		
 		return in_array($value->asString(), $this->_authoritativeValueStrings);		
 	}
