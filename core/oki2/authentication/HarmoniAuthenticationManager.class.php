@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.21 2006/03/07 19:27:07 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.22 2006/05/30 20:18:24 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -235,7 +235,7 @@ class HarmoniAuthenticationManager
 			}
 			
 			// Log the success or failure
-			if (Services::serviceAvailable("Logging")) {
+			if (Services::serviceRunning("Logging")) {
 				$loggingManager =& Services::getService("Logging");
 				$log =& $loggingManager->getLogForWriting("Authentication");
 				$formatType =& new Type("logging", "edu.middlebury", "AgentsAndNodes",

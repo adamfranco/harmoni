@@ -13,7 +13,7 @@ require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorHandler.class.php,v 1.15 2006/04/24 19:38:12 adamfranco Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.16 2006/05/30 20:18:23 adamfranco Exp $
  */
 
 class ErrorHandler extends ErrorHandlerInterface{
@@ -141,7 +141,7 @@ class ErrorHandler extends ErrorHandlerInterface{
 			}
 		}
 		
-		if (Services::serviceAvailable("Logging") && !$errorLoggingRecursion) {
+		if (Services::serviceRunning("Logging") && !$errorLoggingRecursion) {
 			$loggingManager =& Services::getService("Logging");
 			$log =& $loggingManager->getLogForWriting("Harmoni");
 			$formatType =& new Type("logging", "edu.middlebury", "AgentsAndNodes",
