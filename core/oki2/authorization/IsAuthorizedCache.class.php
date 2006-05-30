@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.2 2006/05/25 17:23:28 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.3 2006/05/30 20:36:41 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.2 2006/05/25 17:23:28 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.3 2006/05/30 20:36:41 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -650,7 +650,7 @@ class IsAuthorizedCache {
 	 * @access public
 	 * @since 12/20/05
 	 */
-	function dirtyNode ( &$nodeId ) {
+	function dirtyNode ( &$nodeId ) {			
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		
 		$hierarchyManager =& Services::getService("Hierarchy");
@@ -677,9 +677,11 @@ class IsAuthorizedCache {
 			$nodeId =& $info->getNodeId();
 			
 			$idString = $nodeId->getIdString();
-			foreach (array_keys($_SESSION['__isAuthorizedCache']) as $agentIdString) {
-				if (isset($_SESSION['__isAuthorizedCache'][$agentIdString][$idString]))				
-					unset($_SESSION['__isAuthorizedCache'][$agentIdString][$idString]);
+			if (isset($_SESSION['__isAuthorizedCache'])) {
+				foreach (array_keys($_SESSION['__isAuthorizedCache']) as $agentIdString) {
+					if (isset($_SESSION['__isAuthorizedCache'][$agentIdString][$idString]))				
+						unset($_SESSION['__isAuthorizedCache'][$agentIdString][$idString]);
+				}
 			}
 			
 			$nodesToDirty[] = "'".addslashes($idString)."'";

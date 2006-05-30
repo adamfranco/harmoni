@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandler.class.php,v 1.4 2005/04/07 19:41:34 adamfranco Exp $
+ * @version $Id: BasicOutputHandler.class.php,v 1.5 2006/05/30 20:36:40 adamfranco Exp $
  */ 
 
 require_once(HARMONI."/architecture/output/OutputHandler.abstract.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."/architecture/output/OutputHandler.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandler.class.php,v 1.4 2005/04/07 19:41:34 adamfranco Exp $
+ * @version $Id: BasicOutputHandler.class.php,v 1.5 2006/05/30 20:36:40 adamfranco Exp $
  */
 class BasicOutputHandler
 	extends OutputHandler 
@@ -59,8 +59,8 @@ $doctypeDef
 		
 END;
 		
-		if (is_string($content))
-			print $content;
+		if (is_string($returnedContent))
+			print $returnedContent;
 			
 		print<<<END
 
