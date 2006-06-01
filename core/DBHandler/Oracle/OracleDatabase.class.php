@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.11 2006/01/17 20:06:20 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.12 2006/06/01 14:41:07 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.11 2006/01/17 20:06:20 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.12 2006/06/01 14:41:07 adamfranco Exp $
  */
 class OracleDatabase 
 	extends DatabaseInterface 
@@ -170,7 +170,7 @@ class OracleDatabase
 			return $linkId;
 		}
 		else {
-			throwError(new Error("Cannot connect to database.", "DBHandler", false));
+			throwError(new Error($this->getConnectionErrorInfo()."Cannot connect to database.", "DBHandler", false));
 		    $this->_linkId = false;
 			return false;						
 		}
@@ -201,7 +201,7 @@ class OracleDatabase
 			return $linkId;
 		}
 		else {
-			throwError(new Error("Cannot connect to database.", "DBHandler", false));
+			throwError(new Error($this->getConnectionErrorInfo()."Cannot connect to database.", "DBHandler", false));
 		    $this->_linkId = false;
 			return false;						
 		}

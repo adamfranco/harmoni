@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Database.interface.php,v 1.8 2005/07/15 22:25:33 gabeschine Exp $
+ * @version $Id: Database.interface.php,v 1.9 2006/06/01 14:41:06 adamfranco Exp $
  */
  
 class DatabaseInterface {
@@ -176,6 +176,23 @@ class DatabaseInterface {
 	 */
 	function getStringName() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+	}
+	
+	/**
+	 * Answer the info to display to users on a connection error.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 6/1/06
+	 */
+	function getConnectionErrorInfo () {
+		$dbManager =& Services::getService("DatabaseManager");
+		$configuration =& $dbManager->_configuration;
+		if ($configuration->getProperty('connectionInfo')) {
+			return '<div style="border: 1px dotted; background-color: #FAA; margin: 10px; padding: 10px;">'.$configuration->getProperty('connectionInfo').'</div>';
+		} else {
+			return '';
+		}
 	}
 }
 

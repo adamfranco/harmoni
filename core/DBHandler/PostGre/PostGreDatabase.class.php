@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.12 2006/01/17 20:06:20 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.13 2006/06/01 14:41:07 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/Database.interface.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.12 2006/01/17 20:06:20 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.13 2006/06/01 14:41:07 adamfranco Exp $
  **/
  
 class PostGreDatabase extends DatabaseInterface {
@@ -177,7 +177,7 @@ class PostGreDatabase extends DatabaseInterface {
 			return $linkId;
 		}
 		else {
-			throwError(new Error("Cannot connect to database.", "DBHandler", false));
+			throwError(new Error($this->getConnectionErrorInfo()."Cannot connect to database.", "DBHandler", false));
 		    $this->_linkId = false;
 			return false;						
 		}
@@ -215,7 +215,7 @@ class PostGreDatabase extends DatabaseInterface {
 			return $linkId;
 		}
 		else {
-			throwError(new Error("Cannot connect to database. pg_pconnect($conStr)", "DBHandler", false));
+			throwError(new Error($this->getConnectionErrorInfo()."Cannot connect to database. pg_pconnect($conStr)", "DBHandler", false));
 		    $this->_linkId = false;
 			return false;						
 		}

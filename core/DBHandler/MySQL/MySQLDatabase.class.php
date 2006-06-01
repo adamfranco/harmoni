@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.33 2006/03/09 20:16:44 cws-midd Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.34 2006/06/01 14:41:07 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.33 2006/03/09 20:16:44 cws-midd Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.34 2006/06/01 14:41:07 adamfranco Exp $
  */
  
 class MySQLDatabase extends DatabaseInterface {
@@ -201,13 +201,13 @@ class MySQLDatabase extends DatabaseInterface {
 		
 			// attempt to select the default database;
 			// if failure, not a big deal, because at this point we are connected
-			mysql_select_db($this->_dbName, $linkId)  || throwError(new Error("Cannot select database, ".$this->_dbName." : ".mysql_error($linkId), "DBHandler", true));
+			mysql_select_db($this->_dbName, $linkId)  || throwError(new Error($this->getConnectionErrorInfo()."Cannot select database, ".$this->_dbName." : ".mysql_error($linkId), "DBHandler", true));
 
 		    $this->_linkId = $linkId;
 			return $linkId;
 		}
 		else {
-			throwError(new Error("Cannot connect to database.", "DBHandler", true));
+			throwError(new Error($this->getConnectionErrorInfo()."Cannot connect to database.", "DBHandler", true));
 		    $this->_linkId = false;
 			return false;						
 		}
@@ -236,13 +236,13 @@ class MySQLDatabase extends DatabaseInterface {
 
 			// attempt to select the default database;
 			// if failure, not a big deal, because at this point we are connected
-			mysql_select_db($this->_dbName, $linkId) || throwError(new Error("Cannot select database, ".$this->_dbName." : ".mysql_error($linkId), "DBHandler", true));
+			mysql_select_db($this->_dbName, $linkId) || throwError(new Error($this->getConnectionErrorInfo()."Cannot select database, ".$this->_dbName." : ".mysql_error($linkId), "DBHandler", true));
 
 		    $this->_linkId = $linkId;
 			return $linkId;
 		}
 		else {
-			throwError(new Error("Cannot connect to database: ".mysql_error(), "DBHandler", true));
+			throwError(new Error($this->getConnectionErrorInfo()."Cannot connect to database: ".mysql_error(), "DBHandler", true));
 		    $this->_linkId = false;
 			return false;						
 		}
