@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorPrinterBasic.class.php,v 1.10 2006/01/13 16:11:05 adamfranco Exp $
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.11 2006/06/01 14:17:02 adamfranco Exp $
  */
  
 require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorPrinterBasic.class.php,v 1.10 2006/01/13 16:11:05 adamfranco Exp $
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.11 2006/06/01 14:17:02 adamfranco Exp $
  */
 
 class ErrorPrinterBasic extends ErrorPrinterInterface {
@@ -124,7 +124,7 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 			$traceArray = $error->getDebugBacktrace();
 			
 			if (is_array($traceArray)) {
-				foreach($traceArray as $trace){
+				foreach($traceArray as $i => $trace){
 					/* each $traceArray element represents a step in the call hiearchy. Print them from bottom up. */
 					$file = basename($trace['file']);
 					$line = $trace['line'];
@@ -145,7 +145,10 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 					else
 						$args = '';
 					
-					$result .= "in <b>$file:$line</b> $class$type$function($args)<br />\n";
+					if ($i == 0)
+						$result .= "<b>Location:</b> <span style='font-size: x-large'>$file:$line</span><br /><br />\n";
+					else
+						$result .= "in <b>$file:$line</b> $class$type$function($args)<br />\n";
 				}
 			}
 			$result .= "<br />";
