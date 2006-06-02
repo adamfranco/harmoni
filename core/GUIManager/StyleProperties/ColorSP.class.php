@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/ColorSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ColorSP.class.php,v 1.6 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: ColorSP.class.php,v 1.7 2006/06/02 15:56:07 cws-midd Exp $
  */
 class ColorSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class ColorSP extends StyleProperty {
 	 **/
 	function ColorSP($value) {
 		$this->StyleProperty("color", "Color", "This property specifies the foreground color.");
-		if (isset($value)) $this->addSC(new ColorSC($value));
+		if (!is_null($value)) $this->addSC(new ColorSC($value));
 	}
 
 }

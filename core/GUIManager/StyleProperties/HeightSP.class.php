@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/AutoLengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HeightSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: HeightSP.class.php,v 1.5 2006/06/02 15:56:07 cws-midd Exp $
  */
 class HeightSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class HeightSP extends StyleProperty {
 	 **/
 	function HeightSP($length) {
 		$this->StyleProperty("height", "Height", "This property specifies the height.");
-		if (isset($length)) $this->addSC(new AutoLengthSC($length));
+		if (!is_null($length)) $this->addSC(new AutoLengthSC($length));
 	}
 
 }

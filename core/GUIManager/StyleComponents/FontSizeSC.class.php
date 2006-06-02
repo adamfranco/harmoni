@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontSizeSC.class.php,v 1.7 2005/03/29 19:44:10 adamfranco Exp $
+ * @version $Id: FontSizeSC.class.php,v 1.8 2006/06/02 15:56:07 cws-midd Exp $
  */
 class FontSizeSC extends StyleComponent {
 
@@ -37,7 +37,7 @@ class FontSizeSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function FontSizeSC($value) {
+	function FontSizeSC($value=null) {
 		$options = array("xx-small","x-small","small","medium",
 					     "large","x-large","xx-large","smaller","larger");
 

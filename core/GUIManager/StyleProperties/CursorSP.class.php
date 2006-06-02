@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleComponents/CursorSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CursorSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: CursorSP.class.php,v 1.5 2006/06/02 15:56:07 cws-midd Exp $
  */
 class CursorSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class CursorSP extends StyleProperty {
 	 **/
 	function CursorSP($value) {
 		$this->StyleProperty("cursor", "Cursor", "Specifies the cursor type.");
-		if (isset($value)) $this->addSC(new CursorSC($value));
+		if (!is_null($value)) $this->addSC(new CursorSC($value));
 	}
 
 }

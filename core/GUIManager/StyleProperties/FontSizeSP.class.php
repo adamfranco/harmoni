@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleComponents/FontSizeSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontSizeSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: FontSizeSP.class.php,v 1.5 2006/06/02 15:56:07 cws-midd Exp $
  */
 class FontSizeSP extends StyleProperty {
 
@@ -31,7 +31,7 @@ class FontSizeSP extends StyleProperty {
 	function FontSizeSP($size) {
 		$this->StyleProperty("font-size", "Font Size", "This property sets the current font size.");
 
-		if (isset($size)) $this->addSC(new FontSizeSC($size));
+		if (!is_null($size)) $this->addSC(new FontSizeSC($size));
 	}
 
 }

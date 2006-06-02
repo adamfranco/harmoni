@@ -30,7 +30,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontWeightSC.class.php,v 1.6 2005/02/07 21:38:15 adamfranco Exp $
+ * @version $Id: FontWeightSC.class.php,v 1.7 2006/06/02 15:56:07 cws-midd Exp $
  */
 class FontWeightSC extends StyleComponent {
 
@@ -39,7 +39,7 @@ class FontWeightSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function FontWeightSC($value) {
+	function FontWeightSC($value=null) {
 		$options = array("100", "200", "300", "400", "500", 
 		                 "600", "700", "800", "900", "normal", 
 						 "bold", "lighter", "bolder");

@@ -24,9 +24,16 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.22 2006/04/26 14:21:29 cws-midd Exp $
+ * @version $Id: Theme.class.php,v 1.23 2006/06/02 15:56:06 cws-midd Exp $
  */
 class Theme extends ThemeInterface {
+
+	/**
+	 * @var  $id; the id of the theme 
+	 * @access private
+	 * @since 5/1/06
+	 */
+	var $_id;
 
 	/**
 	 * The display name of this Theme.
@@ -146,17 +153,34 @@ class Theme extends ThemeInterface {
 		$this->_displayName = $displayName;
 		$this->_description = $description;
 	}
-
-// 	/**
-// 	 * Answers the theme's id
-// 	 * 
-// 	 * @return object HarmoniId
-// 	 * @access public
-// 	 * @since 4/13/06
-// 	 */
-// 	function &getId () {
-// 		return $this->_id;
-// 	}
+	
+	/**
+	 * Sets the id
+	 * 
+	 * @param string $id
+	 * @return void
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function setId (& $id) {
+// 		$idManager =& Services::getService("Id");
+// 		$this->_id =& $idManager->getId($id);
+		if (!is_object($id))
+			throwError(new Error("GUIMANAGER", "STRING ID PASSED"));
+		$this->_id =& $id;
+	}
+	
+	/**
+	 * Answers the id
+	 * 
+	 * @return object HarmoniId
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function &getId () {
+		if (isset($this->_id))
+			return $this->_id;
+	}
 
 	/**
 	 * Returns the display name of this Theme.
@@ -201,6 +225,107 @@ class Theme extends ThemeInterface {
 
 		$this->_description = $description;
 	}
+
+	/**
+	 * Sets the template
+	 * 
+	 * @param string $template
+	 * @return void
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function setTemplate ($template) {
+		$this->_template = $template;
+	}
+	
+	/**
+	 * Answers the template
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function getTemplate () {
+		if (isset($this->_template))
+			return $this->_template;
+	}
+
+	/**
+	 * Sets the level of customization for the theme
+	 * 
+	 * @param string $custom_lev
+	 * @return void
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function setCustom ($custom_lev) {
+		$this->_custom_lev = $custom_lev;
+	}
+	
+	/**
+	 * Answers the customization level for the theme
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function getCustom () {
+		if (isset($this->_custom_lev))
+			return $this->_custom_lev;
+	}
+	
+	/**
+	 * Answers the _styles array
+	 * 
+	 * @return ref array
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function &getStyleCollections () {
+		return $this->_styles;
+	}
+
+	/**
+	 * Answers the class for constructing Style Collections for this theme
+	 * 
+	 * @return string 
+	 * @access public
+	 * @since 5/30/06
+	 */
+	function getCollectionClass () {
+		reset($this->_styles);
+		if (current($this->_styles)) {
+			$key = key($this->_styles);
+			while (!ereg("^.", $key)) {
+				next($this->_styles);
+				$key = key($this->_styles);
+			}
+			return get_class($this->_styles[$key]);
+		}
+		else return 'stylecollection';
+	}
+
+	/**
+	 * removes the style collection from the theme, and the DB
+	 * 
+	 * @param ref object StyleCollection
+	 * @return void
+	 * @access public
+	 * @since 5/16/06
+	 */
+	function removeStyleCollection (&$style) {
+		$guiManager =& Services::getService("GUI");
+		$dbHandler =& Services::getService('DB');
+		
+		$guiManager->deletePropertiesForCollection($style);
+
+		$query =& new DeleteQuery();
+		$query->addTable($guiManager->_dbName.".tm_style_collection");
+		$query->addWhere("FK_theme_id = $idValue");
+		$result =& $dbHandler->query($query, $guiManager->_dbIndex);
+		
+		unset($this->_styles[$style->getSelector()]);
+	}
 	
 	/**
 	 * Attaches to the Theme a style collection that will have a global effect
@@ -235,7 +360,6 @@ class Theme extends ThemeInterface {
 		$array = array();
 		return $array;
 	}
-
 
 	/**
 	 * This method returns all style collections for the given component type and

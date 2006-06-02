@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/TextSpacingSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: WordSpacingSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: WordSpacingSP.class.php,v 1.5 2006/06/02 15:56:08 cws-midd Exp $
  */
 class WordSpacingSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class WordSpacingSP extends StyleProperty {
 	 **/
 	function WordSpacingSP($length) {
 		$this->StyleProperty("word-spacing", "Word Spacing", "This property specifies the word spacing.");
-		if (isset($length)) $this->addSC(new TextSpacingSC($length));
+		if (!is_null($length)) $this->addSC(new TextSpacingSC($length));
 	}
 
 }

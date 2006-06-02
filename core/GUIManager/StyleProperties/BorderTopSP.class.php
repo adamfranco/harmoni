@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleComponents/ColorSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BorderTopSP.class.php,v 1.4 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: BorderTopSP.class.php,v 1.5 2006/06/02 15:56:07 cws-midd Exp $
  */
 class BorderTopSP extends StyleProperty {
 
@@ -33,9 +33,9 @@ class BorderTopSP extends StyleProperty {
 	 **/
 	function BorderTopSP($width, $style, $color) {
 		$this->StyleProperty("border-top", "Top Border", "This property specifies the top border.");
-		if (isset($width)) $this->addSC(new LengthSC($width));
-		if (isset($style)) $this->addSC(new BorderStyleSC($style));
-		if (isset($color)) $this->addSC(new ColorSC($color));
+		if (!is_null($width)) $this->addSC(new LengthSC($width));
+		if (!is_null($style)) $this->addSC(new BorderStyleSC($style));
+		if (!is_null($color)) $this->addSC(new ColorSC($color));
 	}
 
 }

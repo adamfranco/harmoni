@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/WhiteSpaceSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: WhiteSpaceSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: WhiteSpaceSP.class.php,v 1.5 2006/06/02 15:56:08 cws-midd Exp $
  */
 class WhiteSpaceSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class WhiteSpaceSP extends StyleProperty {
 	 **/
 	function WhiteSpaceSP($value) {
 		$this->StyleProperty("white-space", "White Space", "This property specifies the white space.");
-		if (isset($value)) $this->addSC(new WhiteSpaceSC($value));
+		if (!is_null($value)) $this->addSC(new WhiteSpaceSC($value));
 	}
 
 }

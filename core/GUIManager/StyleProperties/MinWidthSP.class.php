@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/MaxDimensionSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MinWidthSP.class.php,v 1.2 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: MinWidthSP.class.php,v 1.3 2006/06/02 15:56:08 cws-midd Exp $
  */
 class MinWidthSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class MinWidthSP extends StyleProperty {
 	 **/
 	function MinWidthSP($value) {
 		$this->StyleProperty("min-width", "Minimum Width", "This property specifies the minimum width.");
-		if (isset($value)) $this->addSC(new MaxDimensionSC($value));
+		if (!is_null($value)) $this->addSC(new MaxDimensionSC($value));
 	}
 
 }

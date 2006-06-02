@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/OverflowSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OverflowSP.class.php,v 1.5 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: OverflowSP.class.php,v 1.6 2006/06/02 15:56:08 cws-midd Exp $
  */
 class OverflowSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class OverflowSP extends StyleProperty {
 	 **/
 	function OverflowSP($value) {
 		$this->StyleProperty("overflow", "overflow", "This property specifies the overflow.");
-		if (isset($value)) $this->addSC(new OverflowSC($value));
+		if (!is_null($value)) $this->addSC(new OverflowSC($value));
 	}
 
 }

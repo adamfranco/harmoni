@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleComponent.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleComponent.class.php,v 1.10 2005/03/29 19:44:09 adamfranco Exp $
+ * @version $Id: StyleComponent.class.php,v 1.11 2006/06/02 15:56:06 cws-midd Exp $
  **/
 
 class StyleComponent extends StyleComponentInterface {
@@ -139,6 +139,31 @@ class StyleComponent extends StyleComponentInterface {
 		$this->_value = $value;
 	}
 		
+	/**
+	 * Sets the id
+	 * 
+	 * @param object HarmoniId $id
+	 * @return void
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function setId (& $id) {
+		if (!is_object($id))
+			throwError(new Error("GUIMANAGER", "STRING ID PASSED"));
+		$this->_id =& $id;
+	}
+	
+	/**
+	 * Answers the id
+	 * 
+	 * @return object HarmoniId
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function &getId () {
+		if (isset($this->_id))
+			return $this->_id;
+	}
 
 	/**
 	 * Returns the display name of this SC.
@@ -167,6 +192,43 @@ class StyleComponent extends StyleComponentInterface {
 		return $this->_value;
 	}
 	
+	/**
+	 * Answers the Wizard Representation of this component
+	 * 
+	 * @return ref object WizardComponent
+	 * @access public
+	 * @since 5/4/06
+	 */
+	function &getWizardRepresentation () {
+		if (get_class($this) == 'colorsc') {
+			$input =& new WSelectOrNew();
+			$input->addOption('', "(not set)");
+			// make sure the current color is a possibility.
+			if (!is_null($this->_value))
+				$input->addOption($this->_value, $this->_value, "background-color:$this->_value;");
+// 			if (/*colorwheel colors*/)
+// 				// generate options for colors
+			$input->setValue($this->_value);
+		} else if ($this->_limitedToOptions) {
+			$input =& new WSelectList();
+			$input->addOption('', "(not set)");
+			foreach ($this->_options as $opt) {
+				$input->addOption($opt, $opt, strtolower(preg_replace("/[^a-zA-Z0-9:_-]/", "-", $this->_displayName)).": $opt;");
+			}
+			$input->setValue($this->_value);
+		} else if ($this->hasOptions()) {
+			$input =& new WSelectOrNew();
+			$input->addOption('', "(not set)");
+			foreach ($this->_options as $opt) {
+				$input->addOption($opt, $opt, strtolower(preg_replace("/[^a-zA-Z0-9:_-]/", "-", $this->_displayName)).": $opt;");
+			}
+			$input->setValue($this->_value);
+		} else {
+			$input =& new WTextField();
+		}
+		return $input;
+	}
+
 	/**
 	 * Sets the value of this SC and validates it using the attached <code>ValidatorRule</code>.
 	 * @access public

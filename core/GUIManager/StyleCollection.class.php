@@ -28,9 +28,11 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollection.class.php,v 1.10 2005/11/28 22:41:42 adamfranco Exp $
+ * @version $Id: StyleCollection.class.php,v 1.11 2006/06/02 15:56:06 cws-midd Exp $
  */
 class StyleCollection extends StyleCollectionInterface {
+
+	var $_id;
 
 	/**
 	 * The display name of this StyleCollection.
@@ -104,6 +106,79 @@ class StyleCollection extends StyleCollectionInterface {
 		$this->_description = $description;
 	}
 	
+	/**
+	 * Sets the id
+	 * 
+	 * @param object HarmoniId $id
+	 * @return void
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function setId (&$id) {
+		if (!is_object($id))
+			throwError(new Error("GUIMANAGER", "STRING ID PASSED"));
+		$this->_id =& $id;
+	}
+	
+	/**
+	 * Answers the id
+	 * 
+	 * @return object HarmoniId
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function &getId () {
+		if (isset($this->_id))
+			return $this->_id;
+	}
+
+	/**
+	 * Sets the index
+	 * 
+	 * @param string $component
+	 * @return void
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function setComponent ($component) {
+		$this->_component = $component;
+	}
+	
+	/**
+	 * Answers the component this style collection acts on ie BLANK, BLOCK, etc.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function getComponent () {
+		if (isset($this->_component))
+			return $this->_component;
+	}
+
+	/**
+	 * Sets the Index
+	 * 
+	 * @param string $index
+	 * @return void
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function setIndex ($index) {
+		$this->_index = $index;
+	}
+	
+	/**
+	 * Answers the component this style collection acts on ie BLANK, BLOCK, etc.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function getIndex () {
+		if (isset($this->_index))
+			return $this->_index;
+	}
 
 	/**
 	 * Returns the CSS code for this StyleCollection.
@@ -195,9 +270,9 @@ class StyleCollection extends StyleCollectionInterface {
 	 * Returns the StyleProperties of this StyleCollection in a suitable
 	 * for CSS generation order.
 	 * @access public
-	 * @return array An array of the StyleProperties of this StyleCollection.
+	 * @return ref array An array of the StyleProperties of this StyleCollection.
 	 **/
-	function getSPs() {
+	function &getSPs() {
 		return $this->_SPs;
 	}
 	
@@ -215,6 +290,82 @@ class StyleCollection extends StyleCollectionInterface {
 		unset($this->_SPs[$sp->getName()]);
 		
 		return $result;
+	}
+	
+	/**
+	 * Answers the wizard representation for the style collection
+	 * if the style is removable then it should support removing SPs
+	 * 
+	 * @param boolean $removable whether or not the collection (and SPs) are removable
+	 * @return ref object WizardStep
+	 * @access public
+	 * @since 5/4/06
+	 */
+	function &getWizardRepresentation ($removable = false) {
+		$wizStyle =& new WizardStep();
+		$guiManager =& Services::getService('GUI');
+		
+		// table in buffer for WHOLE Style Collection
+		ob_start();
+		print "<table border=3>";
+
+		print "<td>".$this->getDisplayName()."</td>";
+		print "<td><table border=2>";
+
+		// build individula SP markup chunks that can be unset
+		$SPs =& $this->getSPs();
+		foreach ($SPs as $SP) {
+			$spid =& $SP->getId();
+			$wizStyle->addComponent($spid->getIdString(),
+									$SP->getWizardRepresentation());
+			
+			// buffer for SP markup
+			ob_start();
+			print "<tr><td>".$SP->getDisplayName()."</td>";
+			print "<td>[[".$spid->getIdString()."]]</td>";
+
+			// create remove button for each SP
+			if ($removable) {
+				$wizStyle->addComponent('remove-'.$spid->getIdString(),
+										WEventButton::withLabel('-'));
+				print "<td>[[remove-".$spid->getIdString()."]]</td>";
+			}
+			print "</tr>";
+			$wizStyle->setMarkupForComponent(ob_get_clean(), 
+											 $spid->getIdString());
+		}
+		
+		print "</table></td>";
+		
+		// insert all the markup chunks that exist
+		foreach ($wizStyle->getMarkups() as $key => $markup) {
+			print $markup;
+		}
+		
+		// create list and button for adding SPs
+		if ($removable) {
+			$SL =& $wizStyle->addComponent('add-SP', new WSelectList());		
+			$wizStyle->addComponent('plus', WEventButton::withLabel('+'));
+			$SupSPs = $guiManager->getSupportedSPs();
+			$available = array_diff($SupSPs, array_keys($SPs));
+			
+			foreach ($available as $option) {
+				$SL->addOption($option, $option);
+			}
+			
+			ob_start();
+			print "<tr><td>"._("Add another Property:")."</td>";
+			print "<td>[[add-SP]]</td><td>[[plus]]</td></tr>";
+			$wizStyle->setMarkupForComponent(ob_get_clean(), 'add-property');
+			
+			// why? i don't know!
+			print $wizStyle->getMarkupForComponent('add-property');
+		}
+		
+		print "</table>";
+		$wizStyle->setContent(ob_get_clean());
+		
+		return $wizStyle;
 	}
 	
 	/**

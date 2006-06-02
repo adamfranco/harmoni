@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/VerticalAlignSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: VerticalAlignSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: VerticalAlignSP.class.php,v 1.5 2006/06/02 15:56:08 cws-midd Exp $
  */
 class VerticalAlignSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class VerticalAlignSP extends StyleProperty {
 	 **/
 	function VerticalAlignSP($value) {
 		$this->StyleProperty("vertical-align", "Vertical Align", "This property specifies the vertical-line property.");
-		if (isset($value)) $this->addSC(new VerticalAlignSC($value));
+		if (!is_null($value)) $this->addSC(new VerticalAlignSC($value));
 	}
 
 }

@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleProperty.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleProperty.class.php,v 1.8 2006/04/26 14:21:29 cws-midd Exp $
+ * @version $Id: StyleProperty.class.php,v 1.9 2006/06/02 15:56:06 cws-midd Exp $
  */
 class StyleProperty extends StylePropertyInterface {
 
@@ -81,6 +81,31 @@ class StyleProperty extends StylePropertyInterface {
 		$this->_description = $description;
 	}
 	
+	/**
+	 * Sets the id
+	 * 
+	 * @param object HarmoniId $id
+	 * @return void
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function setId (&$id) {
+		if (!is_object($id))
+			throwError(new Error("GUIMANAGER", "STRING ID PASSED"));
+		$this->_id =& $id;
+	}
+	
+	/**
+	 * Answers the id
+	 * 
+	 * @return object HarmoniId
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function &getId () {
+		if (isset($this->_id))
+			return $this->_id;
+	}
 
 	/**
 	 * Returns the CSS code for this StyleProperty.
@@ -94,11 +119,9 @@ class StyleProperty extends StylePropertyInterface {
 		$css = $this->_name.": ";
 
 		$values = array();
-		foreach (array_keys($this->_SCs) as $key) {
-if ($this->_SCs[0] == null)
-	throwError(new Error("shit", "balls"));
+		foreach (array_keys($this->_SCs) as $key)
 			$values[] = $this->_SCs[$key]->getValue();
-}
+
 		$css .= implode(" ", $values);
 
 		$css .= ";";
@@ -139,7 +162,9 @@ if ($this->_SCs[0] == null)
 	 **/
 	function addSC(& $sc) {
 		ArgumentValidator::validate($sc, ExtendsValidatorRule::getRule("StyleComponentInterface"), true);
-		$this->_SCs[] =& $sc;
+//		$this->_SCs[] =& $sc;
+//		print "_SCs[".get_class($sc)."] =& ".$sc->getDisplayName().";<br/>";
+		$this->_SCs[get_class($sc)] =& $sc;
 	}
 
 	/**
@@ -152,7 +177,65 @@ if ($this->_SCs[0] == null)
 		return $this->_SCs;
 	}
 	
-		/**
+	/**
+	 * Answers the list of possible SCs for the SP as an array of class names.
+	 * 
+	 * @return array
+	 * @access public
+	 * @static
+	 * @since 5/2/06
+	 */
+	function getSCList () {
+		if (isset($this->_SCList))
+			return $this->_SCList;
+		return array();
+	}
+	
+	/**
+	 * Answers a WizardStep, this step is a simple container of the inputs
+	 * necessary for populating this SP from a wizard.  The step will be 
+	 * populated with all data from the DB, and empty SC's for unpopulated SCs
+	 * allowed for in the SP.
+	 * 
+	 * @return ref object WizardStep
+	 * @access public
+	 * @since 5/2/06
+	 */
+	function &getWizardRepresentation () {
+		$wizSP =& new WizardStep();
+		// the list of existing SCs
+		$scs = $this->getSCs();
+		// the list of SC types for this SP
+		$scList = $this->getSCList();
+		ob_start();
+		print "<table border=1>";
+		// for each existing SC built request an input for it
+		foreach ($scs as $sc) {
+			$scid =& $sc->getId();
+			$wizSP->addComponent($scid->getIdString(),
+								 $sc->getWizardRepresentation());
+			// table row [displayName][input][description]
+			print "<tr><td>".$sc->getDisplayName().":</td>";
+			print "<td>[[".$scid->getIdString()."]]</td>";
+			print "<td>".$sc->getDescription()."</td></tr>";
+		}
+		$empties = array_diff($scList, array_keys($scs));
+		// for each SC not populated create their options too
+		foreach ($empties as $empty) {
+			$emptySC =& new $empty();
+			$wizSP->addComponent($empty,
+								 $emptySC->getWizardRepresentation());
+			// table row [displayName][input][description]
+			print "<tr><td>".$emptySC->getDisplayName().":</td>";
+			print "<td>[[$empty]]</td>";
+			print "<td>".$emptySC->getDescription()."</td></tr>";
+		}
+		print "</table>";
+		$wizSP->setContent(ob_get_clean());
+		return $wizSP;
+	}
+	
+	/**
 	 * Return HTML to nested inside of the component's block. This includes
 	 * things such as corner images.
 	 *

@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PaddingTopSP.class.php,v 1.5 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: PaddingTopSP.class.php,v 1.6 2006/06/02 15:56:08 cws-midd Exp $
  */
 class PaddingTopSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class PaddingTopSP extends StyleProperty {
 	 **/
 	function PaddingTopSP($length) {
 		$this->StyleProperty("padding-top", "Top Padding", "This property specifies the top padding.");
-		if (isset($length)) $this->addSC(new LengthSC($length));
+		if (!is_null($length)) $this->addSC(new LengthSC($length));
 	}
 
 }

@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleComponents/MaxDimensionSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MaxWidthSP.class.php,v 1.4 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: MaxWidthSP.class.php,v 1.5 2006/06/02 15:56:08 cws-midd Exp $
  */
 class MaxWidthSP extends StyleProperty {
 
@@ -30,7 +30,7 @@ class MaxWidthSP extends StyleProperty {
 	 **/
 	function MaxWidthSP($value) {
 		$this->StyleProperty("max-width", "Maximum Width", "This property specifies the maximum width.");
-		if (isset($value)) $this->addSC(new MaxDimensionSC($value));
+		if (!is_null($value)) $this->addSC(new MaxDimensionSC($value));
 	}
 
 }

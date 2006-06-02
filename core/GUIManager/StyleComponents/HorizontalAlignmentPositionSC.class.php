@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HorizontalAlignmentPositionSC.class.php,v 1.1 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: HorizontalAlignmentPositionSC.class.php,v 1.2 2006/06/02 15:56:07 cws-midd Exp $
  */
 class HorizontalAlignmentPositionSC extends StyleComponent {
 
@@ -37,7 +37,7 @@ class HorizontalAlignmentPositionSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function HorizontalAlignmentPositionSC($value, $options) {
+	function HorizontalAlignmentPositionSC($value) {
 		$errDescription = "Could not validate the length StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed units are: %, in, cm, mm, em, ex, pt, pc, px, or any of:";
 		

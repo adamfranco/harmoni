@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleComponents/ColorSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BorderSP.class.php,v 1.6 2005/02/07 21:38:16 adamfranco Exp $
+ * @version $Id: BorderSP.class.php,v 1.7 2006/06/02 15:56:07 cws-midd Exp $
  */
 class BorderSP extends StyleProperty {
 
@@ -34,9 +34,9 @@ class BorderSP extends StyleProperty {
 	 **/
 	function BorderSP($width, $style, $color) {
 		$this->StyleProperty("border", "Border", "This property specifies all four borders at once.");
-		if (isset($width)) $this->addSC(new LengthSC($width));
-		if (isset($style)) $this->addSC(new BorderStyleSC($style));
-		if (isset($color)) $this->addSC(new ColorSC($color));
+		if (!is_null($width)) $this->addSC(new LengthSC($width));
+		if (!is_null($style)) $this->addSC(new BorderStyleSC($style));
+		if (!is_null($color)) $this->addSC(new ColorSC($color));
 	}
 
 }

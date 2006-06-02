@@ -27,7 +27,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontFamilySC.class.php,v 1.8 2005/09/01 20:23:34 nstamato Exp $
+ * @version $Id: FontFamilySC.class.php,v 1.9 2006/06/02 15:56:07 cws-midd Exp $
  */
 class FontFamilySC extends StyleComponent {
 
@@ -36,7 +36,7 @@ class FontFamilySC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function FontFamilySC($value) {
+	function FontFamilySC($value=null) {
 		$options = array("serif","sans-serif","cursive","fantasy","monospace");
 
 		$errDescription = "Could not validate the font-family StyleComponent value \"%s\".
