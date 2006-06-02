@@ -3,26 +3,29 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.116 2006/05/26 14:54:31 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.117 2006/06/02 15:07:12 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.6.2" date="The 2006-05-26">
+	<version number="0.6.3" date="The future">
 		<fix author='adam'>
-			Repository: Changing sql in authoritative values to coallate in a
-			case-sensitive way.
+			Repository: File PartStructures now implement skeletons of Authoritative
+			Values methods.
 		</fix>
 		<fix author='adam'>
-			Repository: adding additional argument validation.
+			Logging: Ensured that logging is now ready for use before attempting
+			to log errors.
 		</fix>
 		<change author='adam'>
-			Authorization: Converted the IsUserAuthorizedCache to a new 
-			IsAuthorizedCache that is availible for all isAuthorized() or 
-			isUserAuthorized() calls.
+			DatabaseManager: Allowing the addition of custom messages for database 
+			connection errors.
 		</change>
+		<fix author='adam'>
+			ErrorManager: Making Errors more legible..
+		</fix>
 	</version>
-	<version number="0.6.1" date="The 2006-05-19">
+	<version number="0.6.1" date="2006-05-19">
 		<new author='adam'>
 			Shared: New Multi-Iterator Iterator to ease the combining of results
 			received as several iterators.

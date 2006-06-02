@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: MimeTypePartStructure.class.php,v 1.4 2006/01/17 20:06:22 adamfranco Exp $ 
+ * @version $Id: MimeTypePartStructure.class.php,v 1.5 2006/06/02 15:07:08 adamfranco Exp $ 
  */
 class MimeTypePartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -283,4 +283,131 @@ class MimeTypePartStructure extends PartStructure
 		
 		return true;
 	}
+	
+/*********************************************************
+ * Authority Lists:
+ *	The OSID does not have any support for authority lists.
+ * 	These methods could have been placed in another system,
+ * 	but have been placed here for ease of locating them.
+ * 	Also involved with Authority Lists is a SearchType:
+ * 		Repository::edu.middlebury.harmoni::AuthorityValue
+ *	which takes a PartStructure Id and a Value to search on.
+ *********************************************************/
+	
+	/**
+	 * Answer the authoritative values for this part.
+	 *
+	 * WARNING: NOT in OSID
+	 * 
+	 * @return object ObjectIterator
+	 * @access public
+	 * @since 4/25/06
+	 */
+	function &getAuthoritativeValues () {
+		$array = array();
+		$iterator =& new HarmoniIterator($array);
+		return $iterator;
+	}
+	
+	/**
+	 * Answer true if the value pass is authoritative.
+	 *
+	 * WARNING: NOT in OSID
+	 * 
+	 * @param object $value
+	 * @return boolean
+	 * @access public
+	 * @since 4/25/06
+	 */
+	function isAuthoritativeValue ( &$value ) {
+		return false;	
+	}
+	
+	/**
+	 * Remove an authoritative value.
+	 *
+	 * WARNING: NOT in OSID
+	 * 
+	 * @param object $value
+	 * @return void
+	 * @access public
+	 * @since 4/25/06
+	 */
+	function removeAuthoritativeValue ( &$value ) {
+	}
+	
+	/**
+	 * Add an authoritative value
+	 *
+	 * WARNING: NOT in OSID
+	 * 
+	 * @param object $value
+	 * @return void
+	 * @access public
+	 * @since 4/25/06
+	 */
+	function addAuthoritativeValue ( &$value ) {
+		$false = false;
+		return $false;
+	}
+	
+	/**
+	 * Add an authoritative value
+	 *
+	 * WARNING: NOT in OSID
+	 * 
+	 * @param string $valueString
+	 * @return void
+	 * @access public
+	 * @since 4/25/06
+	 */
+	function addAuthoritativeValueAsString ( $valueString ) {
+	}
+	
+	/**
+	 * Answer the Primative object appropriate for this part, whose value is
+	 * represented by the input string.
+	 * 
+	 * @param string $valueString
+	 * @return object
+	 * @access public
+	 * @since 4/27/06
+	 */
+	function &createValueObjectFromString ( $valueString ) {
+		$false = false;
+		return $false;
+	}
+	
+	/**
+	 * Answer true if users who can modify Records & Parts should be authorized
+	 * to add authoritative values to this PartStructure. If FALSE, then only
+	 * users authorized to modify this PartStructure's Repository will be able
+	 * to add values
+	 * 
+	 * WARNING: NOT in OSID
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function isUserAdditionAllowed () {
+		return false;
+	}
+	
+	/**
+	 * Set TRUE if users who can modify Records & Parts should be authorized
+	 * to add authoritative values to this PartStructure. If FALSE, then only
+	 * users authorized to modify this PartStructure's Repository will be able
+	 * to add values
+	 * 
+	 * WARNING: NOT in OSID
+	 * 
+	 * @param boolean $isUserAdditionAllowed
+	 * @return void
+	 * @access public
+	 * @since 4/26/06
+	 */
+	function setUserAdditionAllowed ( $isUserAdditionAllowed ) {
+	}
+
 }
