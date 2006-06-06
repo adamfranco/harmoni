@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicFormNamePassTokenCollector.class.php,v 1.2 2005/06/02 20:18:49 adamfranco Exp $
+ * @version $Id: BasicFormNamePassTokenCollector.class.php,v 1.3 2006/06/06 20:05:56 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/NamePassTokenCollector.abstract.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/NamePassTokenCollector.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicFormNamePassTokenCollector.class.php,v 1.2 2005/06/02 20:18:49 adamfranco Exp $
+ * @version $Id: BasicFormNamePassTokenCollector.class.php,v 1.3 2006/06/06 20:05:56 adamfranco Exp $
  */
 class BasicFormNamePassTokenCollector
 	extends NamePassTokenCollector
@@ -36,7 +36,7 @@ class BasicFormNamePassTokenCollector
 		$harmoni =& Harmoni::instance();
 		$harmoni->request->startNamespace("harmoni-authentication");
 		
-		$action = $_SERVER['PHP_SELF'];
+		$action = $_SERVER['REQUEST_URI'];
 		$usernameField = $harmoni->request->getName("username");
 		$passwordField = $harmoni->request->getName("password");
 		$usernameText = _("Username");
