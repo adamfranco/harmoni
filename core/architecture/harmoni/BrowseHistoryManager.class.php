@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BrowseHistoryManager.class.php,v 1.4 2005/07/19 15:56:37 adamfranco Exp $
+ * @version $Id: BrowseHistoryManager.class.php,v 1.5 2006/06/06 15:50:26 adamfranco Exp $
  **/
 
 class BrowseHistoryManager {
@@ -34,7 +34,8 @@ class BrowseHistoryManager {
 		$url = '';
 		if ($arg == null) {
 			$harmoni =& Harmoni::instance();
-			$url = $harmoni->request->quickURL();
+			$urlObj =& $harmoni->request->mkURLWithPassthrough();
+			$url = $urlObj->write();
 		} else if (is_string($arg))
 			$url = $arg;
 		else if (is_object($arg)) 
