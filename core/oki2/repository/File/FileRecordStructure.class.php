@@ -28,7 +28,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartStructureIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecordStructure.class.php,v 1.10 2006/04/24 21:13:06 adamfranco Exp $ 
+ * @version $Id: FileRecordStructure.class.php,v 1.11 2006/06/07 20:41:05 adamfranco Exp $ 
  */
 class HarmoniFileRecordStructure 
 	extends RecordStructure
@@ -279,28 +279,6 @@ class HarmoniFileRecordStructure
 		// type to match this RecordStructure (DataSetTypeDefinition).
 		
 		return true; // for now
-	}
-
-	/**
-	 * Create an PartStructure in this RecordStructure. 
-	 * 
-	 * WARNING: NOT IN OSID - This is not part of the 
-	 * Repository OSID at the time of this writing, but is needed for dynamically 
-	 * created RecordStructures/PartStructures.
-	 *
-	 * @param string $displayName	The DisplayName of the new RecordStructure.
-	 * @param string $description	The Description of the new RecordStructure.
-	 * @param object Type $type		One of the InfoTypes supported by this implementation.
-	 *								E.g. string, shortstring, blob, datetime, integer, float,
-	 *								
-	 * @param boolean $isMandatory	True if the PartStructure is Mandatory.
-	 * @param boolean $isRepeatable True if the PartStructure is Repeatable.
-	 * @param boolean $isPopulatedByDR	True if the PartStructure is PopulatedBy the DR.
-	 *
-	 * @return object PartStructure The newly created PartStructure.
-	 */
-	function createPartStructure($displayName, $description, & $partStructureType, $isMandatory, $isRepeatable, $isPopulatedByRepository) {
-		throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Repository :: FileRecordStructure", TRUE));
 	}
 
 	/**
