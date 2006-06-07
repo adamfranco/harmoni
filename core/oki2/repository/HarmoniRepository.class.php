@@ -46,7 +46,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.49 2006/05/22 20:26:29 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.50 2006/06/07 17:22:34 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -1293,6 +1293,34 @@ class HarmoniRepository
 		$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure(
 																$schema);
 		return $this->_createdRecordStructures[$schema->getID()];
+	}
+	
+	/**
+	 * Delete a RecordStructure if no Records exist that use it.
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @param object Id $recordStructureId
+	 * @return void
+	 * @access public
+	 * @since 6/6/06
+	 */
+	function deleteRecordStructure ( &$recordStructureId ) {
+		$schemaMgr =& Services::getService("SchemaManager");
+		$recordMgr =& Services::getService("RecordManager");
+		
+		$recordIdsForSchema = $recordMgr->getRecordIDsByType($recordStructureId->getIdString());
+		
+		if (count($recordIdsForSchema)) {
+			throwError(new Error(
+				RepositoryException::OPERATION_FAILED()
+					." when deleting RecordStructure: '"
+					.$recordStructureId->getIdString()
+					."', Records exist for this RecordStructure.", 
+				"Repository", 1));
+		}
+		
+		$schema =& $schemaMgr->deleteSchema($recordStructureId->getIdString());
 	}
 
 	/**

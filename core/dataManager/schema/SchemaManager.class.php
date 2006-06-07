@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.30 2006/03/09 20:16:46 cws-midd Exp $
+ * @version $Id: SchemaManager.class.php,v 1.31 2006/06/07 17:22:34 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
@@ -52,6 +52,7 @@ class SchemaManager {
 		$query->addColumn("description","","dm_schema");
 		$query->addColumn("revision","","dm_schema");
 		$query->addColumn("other_params","","dm_schema");
+		$query->addWhere("dm_schema.active = 1");
 		
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
@@ -231,6 +232,32 @@ class SchemaManager {
 	 */
 	function getAllSchemaIDs() {
 		return array_keys($this->_schemas);
+	}
+	
+	/**
+	 * Delete a schema (mark it inactive
+	 * 
+	 * @param string $id
+	 * @return void
+	 * @access public
+	 * @since 6/6/06
+	 */
+	function deleteSchema ($id) {
+		// update the row in the table for this schema
+		$query =& new UpdateQuery();
+		$query->setTable("dm_schema");
+		$query->setWhere("id='".addslashes($id)."'");
+		$query->setColumns(array("active"));
+		$query->setValues(array("0"));
+		
+		$dbHandler=& Services::getService("DatabaseManager");
+		$dbHandler->query($query,DATAMANAGER_DBID);
+		
+		// Trash the schema object
+		if (!isset($this->_schemas[$id])) {
+			$this->_schemas[$id] = null;
+			unset($this->_schemas[$id]);
+		}
 	}
 	
 	/**

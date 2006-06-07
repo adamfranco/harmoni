@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_dataManager.sql,v 1.21 2005/11/07 20:51:05 cws-midd Exp $
+-- @version $Id: MySQL_dataManager.sql,v 1.22 2006/06/07 17:22:33 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -161,6 +161,7 @@ CREATE TABLE dm_schema (
   displayname varchar(100) NOT NULL,
   description text NOT NULL,
   revision int(8) unsigned NOT NULL default '0',
+  active tinyint(1) unsigned NOT NULL default '1',
   other_params blob,
   PRIMARY KEY  (id)
 )
