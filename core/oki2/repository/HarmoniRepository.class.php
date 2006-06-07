@@ -46,7 +46,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.51 2006/06/07 19:24:13 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.52 2006/06/07 20:24:18 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -1359,7 +1359,7 @@ class HarmoniRepository
 	 * @access public
 	 * @since 6/7/06
 	 */
-	function duplicateRecordStructure ( &$recordStructureId, $copyRecords = FALSE, 
+	function &duplicateRecordStructure ( &$recordStructureId, $copyRecords = FALSE, 
 		$id = null, $isGlobal = FALSE ) 
 	{
 		ArgumentValidator::validate($recordStructureId, ExtendsValidatorRule::getRule("Id"));
@@ -1382,12 +1382,12 @@ class HarmoniRepository
 		while ($oldPartStructs->hasNext()) {
 			$oldPartStruct =& $oldPartStructs->next();
 			$newPartStruct =& $newRecStruct->createPartStructure(
-							$oldRecStruct->getDisplayName(),
-							$oldRecStruct->getDescription(),
-							$oldRecStruct->getType(),
-							$oldRecStruct->isMandatory(),
-							$oldRecStruct->isRepeatable(),
-							$oldRecStruct->isPopulatedByRepository());
+							$oldPartStruct->getDisplayName(),
+							$oldPartStruct->getDescription(),
+							$oldPartStruct->getType(),
+							$oldPartStruct->isMandatory(),
+							$oldPartStruct->isRepeatable(),
+							$oldPartStruct->isPopulatedByRepository());
 			
 			// Mapping
 			$oldPartStructId =& $oldPartStruct->getId();
@@ -1419,6 +1419,8 @@ class HarmoniRepository
 				}
 			}
 		}
+		
+		return $newRecStruct;
 	}
 
 	/**
