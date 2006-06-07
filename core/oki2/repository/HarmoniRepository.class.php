@@ -46,7 +46,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.50 2006/06/07 17:22:34 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.51 2006/06/07 19:24:13 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -1255,7 +1255,7 @@ class HarmoniRepository
 	 * @param string $description
 	 * @param string $format
 	 * @param string $schema
-	 * @param optional object $id
+	 * @param optional object $theID
 	 * @param boolean $isGlobal
 	 * @return object RecordStructure
 	 * @access public
@@ -1296,7 +1296,7 @@ class HarmoniRepository
 	}
 	
 	/**
-	 * Delete a RecordStructure if no Records exist that use it.
+	 * Delete a RecordStructure all Records in the repository that use it.
 	 *
 	 * WARNING: NOT IN OSID
 	 * 
@@ -1306,6 +1306,19 @@ class HarmoniRepository
 	 * @since 6/6/06
 	 */
 	function deleteRecordStructure ( &$recordStructureId ) {
+		// Delete the Records that use this RecordStructure
+		$assets =& $this->getAssets();
+		while ($assets->hasNext()) {
+			$asset =& $assets->next();
+			$records =& $asset->getRecordsByRecordStructure($recordStructureId);
+			while ($records->hasNext()) {
+				$record =& $records->next();
+				$asset->deleteRecord($record->getId());
+			}
+		}
+		
+		
+		// Delete the Structure
 		$schemaMgr =& Services::getService("SchemaManager");
 		$recordMgr =& Services::getService("RecordManager");
 		
@@ -1321,6 +1334,91 @@ class HarmoniRepository
 		}
 		
 		$schema =& $schemaMgr->deleteSchema($recordStructureId->getIdString());
+	}
+	
+	/**
+	 * Duplicate a RecordStructure, optionally duplicating the records as well,
+	 * also optionally deleting the records in the original RecordStructure.
+	 *
+	 * Use this method to convert from data stored in a 'global' RecordStructure
+	 * such as DublinCore into a 'local' version of the RecordStructure Core in which the
+	 * user has the option of customizing fields.
+	 *
+	 * As well, this method can be used to convert a RecordStructure and associated
+	 * Records to a local version if the RecordStructure was accidentally created
+	 * as a 'global' one.
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @param object Id $recordStructureId The id of the RecordStructure to duplicate
+	 * @param boolean $copyRecords 	If true, existing records will be duplicated
+	 *								under the new RecordStructure.
+	 * @param optional object $id An optional id for the new RecordStructure
+	 * @param boolean $isGlobal If true the new RecordStructure will be made a global one.
+	 * @return void
+	 * @access public
+	 * @since 6/7/06
+	 */
+	function duplicateRecordStructure ( &$recordStructureId, $copyRecords = FALSE, 
+		$id = null, $isGlobal = FALSE ) 
+	{
+		ArgumentValidator::validate($recordStructureId, ExtendsValidatorRule::getRule("Id"));
+		ArgumentValidator::validate($copyRecords, BooleanValidatorRule::getRule());
+		ArgumentValidator::validate($id, OptionalRule::getRule(
+			ExtendsValidatorRule::getRule("Id")));
+		ArgumentValidator::validate($isGlobal, BooleanValidatorRule::getRule());
+		
+		$oldRecStruct =& $this->getRecordStructure($recordStructureId);
+		$newRecStruct =& $this->createRecordStructure(
+							$oldRecStruct->getDisplayName()._(" Copy"),
+							$oldRecStruct->getDescription(),
+							$oldRecStruct->getFormat(),
+							$oldRecStruct->getSchema(),
+							$id,
+							$isGlobal);
+		
+		$mapping = array();
+		$oldPartStructs =& $oldRecStruct->getPartStructures();
+		while ($oldPartStructs->hasNext()) {
+			$oldPartStruct =& $oldPartStructs->next();
+			$newPartStruct =& $newRecStruct->createPartStructure(
+							$oldRecStruct->getDisplayName(),
+							$oldRecStruct->getDescription(),
+							$oldRecStruct->getType(),
+							$oldRecStruct->isMandatory(),
+							$oldRecStruct->isRepeatable(),
+							$oldRecStruct->isPopulatedByRepository());
+			
+			// Mapping
+			$oldPartStructId =& $oldPartStruct->getId();
+			$mapping[$oldPartStructId->getIdString()] =& $newPartStruct->getId();
+		}
+		unset($oldPartStruct, $newPartStruct);
+		
+		if ($copyRecords) {
+			$assets =& $this->getAssets();
+			while ($assets->hasNext()) {
+				$asset =& $assets->next();
+				$oldRecords =& $asset->getRecordsByRecordStructure($oldRecStruct->getId());
+				while ($oldRecords->hasNext()) {
+					$oldRecord =& $oldRecords->next();
+					
+					// Create the new Record
+					$newRecord =& $asset->createRecord($newRecStruct->getId());
+					
+					$oldParts =& $oldRecord->getParts();
+					while ($oldParts->hasNext()) {
+						$oldPart =& $oldParts->next();
+						$oldPartStruct =& $oldPart->getPartStructure();
+						$oldPartStructId =& $oldPartStruct->getId();
+						
+						$newPart =& $newRecord->createPart(
+										$mapping[$oldPartStructId->getIdString()],
+										$oldPart->getValue());
+					}
+				}
+			}
+		}
 	}
 
 	/**
