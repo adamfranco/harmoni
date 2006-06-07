@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.41 2006/05/26 13:19:43 cws-midd Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.42 2006/06/07 21:16:54 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.41 2006/05/26 13:19:43 cws-midd Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.42 2006/06/07 21:16:54 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -1160,7 +1160,8 @@ class HarmoniAsset
 				// Get the record structure.
 				$schema =& $record->getSchema();
 				if (!isset($this->_createdRecordStructures[$schema->getID()])) {
-					$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure($schema);
+					$repository =& $this->getRepository();
+					$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure($schema, $repository->getId());
 				}
 				
 				// Create the Record in our cache.

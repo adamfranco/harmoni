@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.34 2006/01/24 19:43:27 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.35 2006/06/07 21:16:54 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -82,8 +82,10 @@ class HarmoniRepositoryManager
 			$schema =& $schemaMgr->getSchemaByID($recordStructureId->getIdString());
 			debug::output("RecordStructure is being created from Schema with Id: '".$schema->getID()."'");
 			
+			$nullRepositoryId =& $ids->getId('null');
 			$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure(
-																	$schema);
+																	$schema, 
+																	$nullRepositoryId);
 			// Add the parts to the schema
 //			$partStructureType = new Type("Repository", "edu.middlebury.harmoni", "Blob", "");
 //			$this->_createdRecordStructures[$schema->getID()]->createPartStructure(

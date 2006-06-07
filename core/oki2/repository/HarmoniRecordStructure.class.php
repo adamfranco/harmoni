@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.30 2006/04/24 22:39:19 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.31 2006/06/07 21:16:54 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -33,8 +33,11 @@ class HarmoniRecordStructure
 	var $_schema;
 	var $_createdParts;
 	
-	function HarmoniRecordStructure( &$schema ) {
+	function HarmoniRecordStructure( &$schema, &$repositoryId ) {
+		ArgumentValidator::validate($repositoryId, ExtendsValidatorRule::getRule("Id"));
+		
 		$this->_schema =& $schema;
+		$this->_repositoryId =& $repositoryId;
 		
 		// create an array of created PartStructures so we can return references to
 		// them instead of always making new ones.
@@ -171,7 +174,7 @@ class HarmoniRecordStructure
 		ArgumentValidator::validate($partId, ExtendsValidatorRule::getRule("Id"));
 		if (!isset($this->_createdParts[$partId->getIdString()])) {
 			$this->_schema->load();
-			$this->_createdParts[$partId->getIdString()] =& new HarmoniPartStructure($this, $this->_schema->getField($partId->getIdString()));
+			$this->_createdParts[$partId->getIdString()] =& new HarmoniPartStructure($this, $this->_schema->getField($partId->getIdString()), $this->_repositoryId);
 		}
 		
 		return $this->_createdParts[$partId->getIdString()];
@@ -203,7 +206,7 @@ class HarmoniRecordStructure
 		foreach ($this->_schema->getAllIDs() as $id) {
 			$fieldDef =& $this->_schema->getField($id);
 			if (!isset($this->_createdParts[$id]))
-				 $this->_createdParts[$id] =& new HarmoniPartStructure($this, $fieldDef);
+				 $this->_createdParts[$id] =& new HarmoniPartStructure($this, $fieldDef, $this->_repositoryId);
 		}
 		
 		$obj =& new HarmoniRecordStructureIterator($this->_createdParts);
@@ -421,7 +424,7 @@ class HarmoniRecordStructure
 		$idString = $this->_schema->getFieldIDFromLabel($label);
 		
 		$this->_createdParts[$idString] =& new HarmoniPartStructure($this,
-																$fieldDef);
+																$fieldDef, $this->_repositoryId);
 		return $this->_createdParts[$idString];
 	}
 

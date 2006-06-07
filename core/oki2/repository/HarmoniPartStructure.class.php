@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.15 2006/05/26 14:54:31 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.16 2006/06/07 21:16:54 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -30,9 +30,11 @@ class HarmoniPartStructure extends PartStructure
 	var $_schemaField;
 	var $_recordStructure;
 	
-	function HarmoniPartStructure(&$recordStructure, &$schemaField) {
+	function HarmoniPartStructure(&$recordStructure, &$schemaField, &$repositoryId) {
+		ArgumentValidator::validate($repositoryId, ExtendsValidatorRule::getRule("Id"));
 		$this->_schemaField =& $schemaField;
 		$this->_recordStructure =& $recordStructure;
+		$this->_repositoryId =& $repositoryId;
 	}
 	
 	/**
@@ -458,16 +460,7 @@ class HarmoniPartStructure extends PartStructure
 	 * @since 4/25/06
 	 */
 	function isAuthoritativeValue ( &$value ) {
-		$this->_loadAuthoritativeValueStrings();
-		
-		print "<pre>";
-		var_dump($this->_authoritativeValueStrings);
-		var_dump($value->asString());
-		var_dump(in_array($value->asString(), $this->_authoritativeValueStrings));
-		
-		print "</pre>";
-		
-		
+		$this->_loadAuthoritativeValueStrings();		
 		return in_array($value->asString(), $this->_authoritativeValueStrings);		
 	}
 	
@@ -495,6 +488,7 @@ class HarmoniPartStructure extends PartStructure
 			$query->setTable('dr_authoritative_values');
 			$id =& $this->getId();
 			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
+			$query->addWhere("fk_repository = '".addslashes($this->_repositoryId->getIdString())."'");
 			$query->addWhere("value = '".addslashes($value->asString())."'");
 			
 			$dbc =& Services::getService("DBHandler");
@@ -525,10 +519,11 @@ class HarmoniPartStructure extends PartStructure
 			// add the value to our database
 			$query =& new InsertQuery;
 			$query->setTable('dr_authoritative_values');
-			$query->setColumns(array('fk_partstructure', 'value'));
+			$query->setColumns(array('fk_partstructure', 'fk_repository', 'value'));
 			$id =& $this->getId();
 			$query->addRowOfValues(array(
 				"'".addslashes($id->getIdString())."'",
+				"'".addslashes($this->_repositoryId->getIdString())."'",
 				"'".addslashes($value->asString())."'"));
 			
 			$dbc =& Services::getService("DBHandler");
@@ -590,6 +585,7 @@ class HarmoniPartStructure extends PartStructure
 			$query->addColumn('user_addition_allowed');
 			$id =& $this->getId();
 			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
+			$query->addWhere("fk_repository = '".addslashes($this->_repositoryId->getIdString())."'");
 			
 			$dbc =& Services::getService("DBHandler");
 			$repositoryManager =& Services::getService("Repository");
@@ -629,6 +625,7 @@ class HarmoniPartStructure extends PartStructure
 			$query->setTable('dr_authority_options');
 			$id =& $this->getId();
 			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
+			$query->addWhere("fk_repository = '".addslashes($this->_repositoryId->getIdString())."'");
 			
 			$dbc =& Services::getService("DBHandler");
 			$repositoryManager =& Services::getService("Repository");
@@ -637,10 +634,11 @@ class HarmoniPartStructure extends PartStructure
 			
 			$query =& new InsertQuery;
 			$query->setTable('dr_authority_options');
-			$query->setColumns(array("fk_partstructure",'user_addition_allowed'));
+			$query->setColumns(array("fk_partstructure", "fk_repository", 'user_addition_allowed'));
 			$id =& $this->getId();
 			$query->addRowOfValues(array(
 				"'".addslashes($id->getIdString())."'",
+				"'".addslashes($this->_repositoryId->getIdString())."'",
 				(($this->_isUserAdditionAllowed)?'1':'0')
 				));
 			
@@ -666,6 +664,7 @@ class HarmoniPartStructure extends PartStructure
 			$query->addColumn('value');
 			$id =& $this->getId();
 			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
+			$query->addWhere("fk_repository = '".addslashes($this->_repositoryId->getIdString())."'");
 			$query->addOrderBy("value", ASCENDING);
 			
 			$dbc =& Services::getService("DBHandler");

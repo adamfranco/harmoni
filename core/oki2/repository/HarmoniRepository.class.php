@@ -46,7 +46,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.52 2006/06/07 20:24:18 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.53 2006/06/07 21:16:54 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -735,7 +735,7 @@ class HarmoniRepository
 			$schemaMgr =& Services::getService("SchemaManager");
 			$schema =& $schemaMgr->getSchemaByID($infoStructureId->getIdString());
 			$this->_createdRecordStructures[$infoStructureId->getIdString()] =& new HarmoniRecordStructure(
-															$schema);
+															$schema, $this->getId());
 		}
 		
 		return $this->_createdRecordStructures[$infoStructureId->getIdString()];
@@ -779,7 +779,7 @@ class HarmoniRepository
 					// If not, create the RecordStructure
 					$schema =& $schemaMgr->getSchemaByID($id);
 					$this->_createdRecordStructures[$id] =& new HarmoniRecordStructure(
-																$schema);
+																$schema, $this->getId());
 			}
 		}
 		
@@ -1291,7 +1291,7 @@ class HarmoniRepository
 		$schema =& $schemaMgr->getSchemaByID($idString);
 		//debug::output("RecordStructure is being created from Schema with Id: '".$schema->getID()."'");
 		$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure(
-																$schema);
+																$schema, $this->getId());
 		return $this->_createdRecordStructures[$schema->getID()];
 	}
 	
