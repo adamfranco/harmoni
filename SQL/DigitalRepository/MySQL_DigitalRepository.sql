@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_DigitalRepository.sql,v 1.16 2006/05/26 14:54:30 adamfranco Exp $
+-- @version $Id: MySQL_DigitalRepository.sql,v 1.17 2006/06/08 15:53:49 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -155,19 +155,7 @@ CREATE TABLE dr_resized_cache (
 
 CREATE TABLE dr_authoritative_values (
   fk_partstructure varchar(100) NOT NULL default '',
-  `value` varchar(240) character set utf8 collate utf8_bin NOT NULL default '',
-  PRIMARY KEY  (fk_partstructure,`value`),
-  KEY fk_partstructure (fk_partstructure)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table is used by the part structure to maintain authori';
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `dr_authority_options`
--- 
-
-CREATE TABLE dr_authority_options (
-  fk_partstructure varchar(100) NOT NULL default '',
-  user_addition_allowed tinyint(1) NOT NULL default '0',
-  KEY fk_partstructure (fk_partstructure)
+  fk_repository varchar(100) NOT NULL default '',
+  `value` varchar(240) NOT NULL default '',
+  KEY fk_partstructure (fk_partstructure,fk_repository)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table is used by the part structure to maintain authori';

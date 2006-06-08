@@ -21,7 +21,7 @@ require_once(OKI2."/osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPartStructure.class.php,v 1.6 2006/06/02 15:07:07 adamfranco Exp $ 
+ * @version $Id: FileDataPartStructure.class.php,v 1.7 2006/06/08 15:53:51 adamfranco Exp $ 
  */
 class FileDataPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -378,37 +378,4 @@ class FileDataPartStructure extends PartStructure
 		$false = false;
 		return $false;
 	}
-	
-	/**
-	 * Answer true if users who can modify Records & Parts should be authorized
-	 * to add authoritative values to this PartStructure. If FALSE, then only
-	 * users authorized to modify this PartStructure's Repository will be able
-	 * to add values
-	 * 
-	 * WARNING: NOT in OSID
-	 * 
-	 * @return boolean
-	 * @access public
-	 * @since 4/26/06
-	 */
-	function isUserAdditionAllowed () {
-		return false;
-	}
-	
-	/**
-	 * Set TRUE if users who can modify Records & Parts should be authorized
-	 * to add authoritative values to this PartStructure. If FALSE, then only
-	 * users authorized to modify this PartStructure's Repository will be able
-	 * to add values
-	 * 
-	 * WARNING: NOT in OSID
-	 * 
-	 * @param boolean $isUserAdditionAllowed
-	 * @return void
-	 * @access public
-	 * @since 4/26/06
-	 */
-	function setUserAdditionAllowed ( $isUserAdditionAllowed ) {
-	}
-
 }

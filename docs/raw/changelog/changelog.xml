@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.122 2006/06/07 21:16:55 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.123 2006/06/08 15:53:51 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -14,6 +14,9 @@
 		</change>
 		<change author='adam'>
 			Repository: Added support for Record/RecordStructure duplication.
+		</change>
+		<change author='adam'>
+			Repository: AuthoritativeValues addition is now an AuthorizationFunction.
 		</change>
 		<change author='adam'>
 			Authoritative Values are now per Repository.

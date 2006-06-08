@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.16 2006/06/07 21:16:54 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.17 2006/06/08 15:53:50 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -567,83 +567,16 @@ class HarmoniPartStructure extends PartStructure
 	}
 	
 	/**
-	 * Answer true if users who can modify Records & Parts should be authorized
-	 * to add authoritative values to this PartStructure. If FALSE, then only
-	 * users authorized to modify this PartStructure's Repository will be able
-	 * to add values
-	 * 
+	 * Answer the Id of the repository from whence this PartStructure came.
+	 *
 	 * WARNING: NOT in OSID
 	 * 
-	 * @return boolean
+	 * @return object Id
 	 * @access public
-	 * @since 4/26/06
+	 * @since 6/8/06
 	 */
-	function isUserAdditionAllowed () {
-		if (!isset($this->_isUserAdditionAllowed)) {
-			$query =& new SelectQuery;
-			$query->addTable('dr_authority_options');
-			$query->addColumn('user_addition_allowed');
-			$id =& $this->getId();
-			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
-			$query->addWhere("fk_repository = '".addslashes($this->_repositoryId->getIdString())."'");
-			
-			$dbc =& Services::getService("DBHandler");
-			$repositoryManager =& Services::getService("Repository");
-			$configuration =& $repositoryManager->_configuration;
-			$result =& $dbc->query($query, $configuration->getProperty('database_index'));
-			
-			if ($result->hasMoreRows() && $result->field('user_addition_allowed')) {
-				$this->_isUserAdditionAllowed = true;
-			} else {
-				$this->_isUserAdditionAllowed = false;
-			}
-			
-			$result->free();
-		}
-		
-		return $this->_isUserAdditionAllowed;
-	}
-	
-	/**
-	 * Set TRUE if users who can modify Records & Parts should be authorized
-	 * to add authoritative values to this PartStructure. If FALSE, then only
-	 * users authorized to modify this PartStructure's Repository will be able
-	 * to add values
-	 * 
-	 * WARNING: NOT in OSID
-	 * 
-	 * @param boolean $isUserAdditionAllowed
-	 * @return void
-	 * @access public
-	 * @since 4/26/06
-	 */
-	function setUserAdditionAllowed ( $isUserAdditionAllowed ) {
-		if ($this->_isUserAdditionAllowed != $isUserAdditionAllowed) {
-			$this->_isUserAdditionAllowed = $isUserAdditionAllowed;
-			
-			$query =& new DeleteQuery;
-			$query->setTable('dr_authority_options');
-			$id =& $this->getId();
-			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
-			$query->addWhere("fk_repository = '".addslashes($this->_repositoryId->getIdString())."'");
-			
-			$dbc =& Services::getService("DBHandler");
-			$repositoryManager =& Services::getService("Repository");
-			$configuration =& $repositoryManager->_configuration;
-			$dbc->query($query, $configuration->getProperty('database_index'));
-			
-			$query =& new InsertQuery;
-			$query->setTable('dr_authority_options');
-			$query->setColumns(array("fk_partstructure", "fk_repository", 'user_addition_allowed'));
-			$id =& $this->getId();
-			$query->addRowOfValues(array(
-				"'".addslashes($id->getIdString())."'",
-				"'".addslashes($this->_repositoryId->getIdString())."'",
-				(($this->_isUserAdditionAllowed)?'1':'0')
-				));
-			
-			$dbc->query($query, $configuration->getProperty('database_index'));
-		}
+	function &getRepositoryId () {
+		return $this->_repositoryId;
 	}
 	
 	/**
