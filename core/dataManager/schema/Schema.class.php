@@ -13,7 +13,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schema.class.php,v 1.19 2005/12/08 20:12:30 adamfranco Exp $
+ * @version $Id: Schema.class.php,v 1.20 2006/06/12 15:00:11 adamfranco Exp $
  * @author Gabe Schine
  */
 class Schema extends SObject {
@@ -280,7 +280,7 @@ class Schema extends SObject {
 	* @param string $label The string label of the field to delete.
 	*/
 	function deleteFieldByLabel($label) {
-		unset($this->_fields[$this->getID() . "." . $label]);
+		$this->_fields[$this->getID() . "." . $label]->delete();
 	}
 	
 	/**
@@ -289,7 +289,8 @@ class Schema extends SObject {
 	 * @return void
 	 */
 	function deleteField($id) {
-		unset($this->_fields[$id]);
+		debug::output("Deleting Field: ".$id."\n ".((isset($this->_fields[$id])?'exists':"doesn't exist")), DEBUG_SYS5, "DataManager");
+		$this->_fields[$id]->delete();
 	}
 	
 	/**

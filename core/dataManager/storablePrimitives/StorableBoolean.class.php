@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableBoolean.class.php,v 1.10 2005/07/14 16:23:21 adamfranco Exp $
+ * @version $Id: StorableBoolean.class.php,v 1.11 2006/06/12 15:00:12 adamfranco Exp $
  */
 class StorableBoolean 
 	extends Boolean 
@@ -155,4 +155,73 @@ class StorableBoolean
 		if (!$res) throwError( new UnknownDBError("StorablePrimitive"));
 	}
 	
+/*********************************************************
+ * Conversion Methods
+ *********************************************************/
+	
+	/**
+	 * Convert this object to a StorableBlob
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asABlob () {
+		return Blob::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a StorableString
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAString () {
+		return String::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a StorableShortString
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAShortString () {
+		return String::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a StorableInteger
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAInteger() {
+		return Integer::withValue($this->getValue()?1:0);
+	}
+	
+	/**
+	 * Convert this object to a StorableFloat
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAFloat () {
+		return Float::withValue($this->getValue()?1:0);
+	}
+	
+	/**
+	 * Convert this object to a Boolean
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asABoolean() {
+		return $this;
+	}
 }

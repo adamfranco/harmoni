@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableTime.class.php,v 1.17 2006/04/28 17:36:18 adamfranco Exp $
+ * @version $Id: StorableTime.class.php,v 1.18 2006/06/12 15:00:12 adamfranco Exp $
  */
 class StorableTime 
 	extends DateAndTime /* implements StorablePrimitive */ 
@@ -585,5 +585,79 @@ class StorableTime
 		$res =& $dbHandler->query($query, $dbID);
 		
 		if (!$res) throwError( new UnknownDBError("StorablePrimitive"));
+	}
+	
+
+	
+/*********************************************************
+ * Conversion Methods
+ *********************************************************/
+	
+	/**
+	 * Convert this object to a StorableBlob
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asABlob () {
+		return Blob::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a StorableString
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAString () {
+		return String::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a StorableShortString
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAShortString () {
+		return String::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a StorableTime
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asADateTime () {
+		return $this;
+	}
+	
+	/**
+	 * Convert this object to a StorableInteger
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAInteger() {
+		$tstamp =& $this->asTimestamp();
+		return Integer::withValue($tstamp->asUnixTimeStamp());
+	}
+	
+	/**
+	 * Convert this object to a StorableFloat
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAFloat () {
+		$tstamp =& $this->asTimestamp();
+		return Float::withValue($tstamp->asUnixTimeStamp());
 	}
 }

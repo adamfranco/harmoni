@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableOKIType.class.php,v 1.9 2006/04/28 17:36:18 adamfranco Exp $
+ * @version $Id: StorableOKIType.class.php,v 1.10 2006/06/12 15:00:12 adamfranco Exp $
  */
 class StorableOKIType 
 	extends Type 
@@ -180,4 +180,51 @@ class StorableOKIType
 		if (!$res) throwError( new UnknownDBError("StorablePrimitive"));
 	}
 	
+/*********************************************************
+ * Conversion Methods
+ *********************************************************/
+	
+	/**
+	 * Convert this object to a StorableBlob
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asABlob () {
+		return Blob::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a StorableString
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAString () {
+		return String::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a StorableShortString
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAShortString () {
+		return String::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a OKIType
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAnOKIType () {
+		return $this;
+	}	
 }

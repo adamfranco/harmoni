@@ -3,12 +3,16 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.123 2006/06/08 15:53:51 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.124 2006/06/12 15:00:13 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.6.3" date="The future">
+		<new author='adam'>
+			DataManager/Repository: Adding support for PartStructure/Part data-type
+			conversion.
+		</new>
 		<change author='adam'>
 			DataManager/Repository: Adding support for schema/RecordStructure deleting.
 		</change>

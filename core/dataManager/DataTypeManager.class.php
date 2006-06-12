@@ -15,7 +15,7 @@ require_once(HARMONI."dataManager/storablePrimitives/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataTypeManager.class.php,v 1.14 2005/09/06 19:56:20 cws-midd Exp $
+ * @version $Id: DataTypeManager.class.php,v 1.15 2006/06/12 15:00:11 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -45,13 +45,19 @@ class DataTypeManager {
 	 * @param string $typeName The name (such as "integer" or "boolean") of this new data type.
 	 * @param string $primitiveClass The name of the {@link Primitive} class.
 	 * @param string $storablePrimitiveClass The name of the {@link StorablePrimitive} class.
+	 * @param string $conversionMethod
 	 * @access public
 	 * @return void
 	 */
-	function addDataType($typeName, $primitiveClass, $storablePrimitiveClass)
+	function addDataType($typeName, $primitiveClass, $storablePrimitiveClass, $conversionMethod)
 	{
-		$this->_registeredTypes[$typeName] = array("primitive"=>$primitiveClass,"storable"=>$storablePrimitiveClass);
-		if (!in_array(strtolower($storablePrimitiveClass), $this->_primitiveClassMapping)) $this->_primitiveClassMapping[] = strtolower($storablePrimitiveClass);	
+		ArgumentValidator::validate($conversionMethod, StringValidatorRule::getRule());
+		$this->_registeredTypes[$typeName] = array(
+										"primitive"=>$primitiveClass,
+										"storable"=>$storablePrimitiveClass, 
+										"ConversionMethod" => $conversionMethod);
+		if (!in_array(strtolower($storablePrimitiveClass), $this->_primitiveClassMapping)) 
+			$this->_primitiveClassMapping[] = strtolower($storablePrimitiveClass);	
 	}
 	
 	/**
@@ -172,6 +178,23 @@ class DataTypeManager {
 		
 		$rule =& ExtendsValidatorRule::getRule($this->_registeredTypes[strtolower($type)]["primitive"]);
 		return $rule->check($object);
+	}
+	
+	/**
+	 * Answer the method to call to convert to the type specified
+	 * 
+	 * @param string $type
+	 * @return string
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function getConversionMethod ($type) {
+		if (!$this->typeRegistered($type)) {
+			throwError ( new Error("AAAH! Trying to check the data type of an object... but '$type' isn't defined!","DataTypeManager",true));
+			return false;
+		}
+		
+		return $this->_registeredTypes[strtolower($type)]["ConversionMethod"];
 	}
 }
 

@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.31 2006/06/07 21:16:54 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.32 2006/06/12 15:00:12 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -174,7 +174,23 @@ class HarmoniRecordStructure
 		ArgumentValidator::validate($partId, ExtendsValidatorRule::getRule("Id"));
 		if (!isset($this->_createdParts[$partId->getIdString()])) {
 			$this->_schema->load();
-			$this->_createdParts[$partId->getIdString()] =& new HarmoniPartStructure($this, $this->_schema->getField($partId->getIdString()), $this->_repositoryId);
+						
+			// Check that the schema field exists
+			if (!$this->_schema->fieldExists($partId->getIdString()))
+				throwError(new Error(
+					"Unknown PartStructure ID: ".$partId->getIdString(), 
+					"Repository", true));
+				
+			$schemaField =& $this->_schema->getField($partId->getIdString());
+			
+			// Check that the schema field is active
+			if (!$schemaField->isActive())
+				throwError(new Error(
+					"Unknown [Inactive] PartStructure ID: ".$partId->getIdString(), 
+					"Repository", true));
+			
+			$this->_createdParts[$partId->getIdString()] =& new HarmoniPartStructure(
+				$this, $schemaField, $this->_repositoryId);
 		}
 		
 		return $this->_createdParts[$partId->getIdString()];
@@ -447,4 +463,108 @@ class HarmoniRecordStructure
 		return $typeIterator;
 	}
 	
+	/**
+	 * Convert this PartStructure and all of its associated Parts to a new type.
+	 * Usage of this method may cause data-loss if the types are do not convert well.
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @param object Id $partStructureId
+	 * @param object Type $type
+	 * @return void
+	 * @access public
+	 * @since 6/8/06
+	 */
+	function &convertPartStructureToType ( &$partStructureId, &$type ) {
+		$oldPartStructure =& $this->getPartStructure($partStructureId);
+		$newPartStructure =& $this->createPartStructure(
+								$oldPartStructure->getDisplayName(),
+								$oldPartStructure->getDescription(),
+								$type,
+								$oldPartStructure->isMandatory(),
+								$oldPartStructure->isRepeatable(),
+								$oldPartStructure->isPopulatedByRepository());
+		
+		// Convert the Data
+		$repositoryManager =& Services::getService("Repository");
+		$myRecordStructureId =& $this->getId();
+		$repositories =& $repositoryManager->getRepositories();
+		while($repositories->hasNext()) {
+			$repository =& $repositories->next();
+			$recordStructures =& $repository->getRecordStructures();
+			while($recordStructures->hasNext()) {
+				$recordStructure =& $recordStructures->next();
+				
+				// If the current Repository has this record structure, convert
+				// the records for it in its assets.
+				if ($myRecordStructureId->isEqual($recordStructure->getId())) {
+					$assets =& $repository->getAssets();
+					while ($assets->hasNext()) {
+						$asset =& $assets->next();
+						$records =& $asset->getRecordsByRecordStructure(
+							$myRecordStructureId);
+						while ($records->hasNext()) {
+							$record =& $records->next();
+							$parts =& $record->getPartsByPartStructure($partStructureId);
+							while ($parts->hasNext()) {
+								$oldPart =& $parts->next();
+// 								$oldValue =& $oldPart->getValue();
+								$newPart =& $record->createPart(
+												$newPartStructure->getId(),
+												$oldPart->getValue());
+								$record->deletePart($oldPart->getId());
+								
+								printpre("New Part's Value:");
+								printpre($newPart->getValue());
+							}
+						}
+					}
+					break;
+				}
+			}
+		}
+
+		// Delete the old part Structure
+		$this->deletePartStructure($partStructureId);
+		
+		return $newPartStructure;
+	}
+	
+	/**
+	 * Delete a PartStucture
+	 * 
+	 * @param object Id $partStructureId
+	 * @return void
+	 * @access public
+	 * @since 6/8/06
+	 */
+	function deletePartStructure ( &$partStructureId ) {
+		// Delete the Structure
+		$schemaMgr =& Services::getService("SchemaManager");
+		$recordMgr =& Services::getService("RecordManager");
+		
+		$partStructure =& $this->getPartStructure($partStructureId);
+		$dummyValues = array(String::withValue('4000-02-05'));
+		$recordIdsWithValues = $recordMgr->getRecordSetIDsBySearch(
+				new FieldValueSearch(
+					$this->_schema->getID(),
+					$this->_schema->getFieldLabelFromID($partStructureId->getIdString()),
+					new HarmoniIterator($dummyValues),
+					SEARCH_TYPE_NOT_IN_LIST));
+		
+		if (count($recordIdsWithValues)) {
+			throwError(new Error(
+				RepositoryException::OPERATION_FAILED()
+					." when deleting RecordStructure: '"
+					.$recordStructureId->getIdString()
+					."', Records exist for this RecordStructure.", 
+				"Repository", 1));
+		}
+		
+		$sm =& Services::getService("SchemaManager");
+		$this->_schema->deleteField($partStructureId->getIdString());
+		$sm->synchronize($this->_schema);
+		
+		$partStructure = null;
+	}
 }

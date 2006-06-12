@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordField.class.php,v 1.17 2005/08/22 15:05:25 adamfranco Exp $
+ * @version $Id: RecordField.class.php,v 1.18 2006/06/12 15:00:11 adamfranco Exp $
  **/
 class RecordField {
 	
@@ -195,6 +195,14 @@ class RecordField {
 			"Record",true));
 			return false;
 		}
+		
+		// Call the appropriate conversion method in case we were passed a 
+		// value of the wrong type, but that can be properly converted, say
+		// we are given a date, but want to save it as a string.
+		$dataTypeManager =& Services::getService("DataTypeManager");
+		$type = $this->_schemaField->getType();
+		eval('$value =& $value->'.$dataTypeManager->getConversionMethod($type).'();');
+		
 		$this->_checkObjectType($value);
 		
 		$newIndex = $this->_getNextAvailableIndex();

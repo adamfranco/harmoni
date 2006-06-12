@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Blob.class.php,v 1.4 2006/03/14 22:02:39 cws-midd Exp $
+ * @version $Id: Blob.class.php,v 1.5 2006/06/12 15:00:08 adamfranco Exp $
  */
 class Blob 
 	extends String 
@@ -47,6 +47,5 @@ class Blob
 
 	function value() {
 		return $this->_string;
-	}
-	
+	}	
 }

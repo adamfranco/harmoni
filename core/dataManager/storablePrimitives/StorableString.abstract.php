@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableString.abstract.php,v 1.9 2005/09/16 18:36:09 cws-midd Exp $
+ * @version $Id: StorableString.abstract.php,v 1.10 2006/06/12 15:00:12 adamfranco Exp $
  */
 class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 
@@ -91,6 +91,99 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 		$res =& $dbHandler->query($query, $dbID);
 		
 		if (!$res) throwError( new UnknownDBError("StorablePrimitive"));
+	}
+	
+/*********************************************************
+ * Conversion Methods
+ *********************************************************/
+	
+	/**
+	 * Convert this object to a StorableBlob
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asABlob () {
+		return Blob::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a StorableString
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAString () {
+		return String::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a StorableShortString
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAShortString () {
+		return String::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a StorableTime
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asADateTime () {
+		return DateAndTime::fromString($this->asString());
+	}
+	
+	
+	/**
+	 * Convert this object to a OKIType
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAnOKIType () {
+		return Type::stringToType($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a Boolean
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asABoolean() {
+		return Boolean::withValue((strlen($this->asString()) > 0)?true:false);
+	}
+	
+	/**
+	 * Convert this object to a StorableInteger
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAInteger() {
+		return Integer::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a StorableFloat
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAFloat () {
+		return Float::fromString($this->asString());
 	}
 	
 }

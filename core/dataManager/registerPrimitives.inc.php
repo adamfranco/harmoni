@@ -5,14 +5,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: registerPrimitives.inc.php,v 1.6 2005/08/10 13:25:21 gabeschine Exp $
+ * @version $Id: registerPrimitives.inc.php,v 1.7 2006/06/12 15:00:11 adamfranco Exp $
  */
  
-$this->addDataType("integer","Integer","StorableInteger");
-$this->addDataType("string","String","StorableString");
-$this->addDataType("blob","Blob","StorableBlob");
-$this->addDataType("shortstring","String","StorableShortString");
-$this->addDataType("float","Float","StorableFloat");
-$this->addDataType("boolean","Boolean","StorableBoolean");
-$this->addDataType("datetime","DateAndTime","StorableTime");
-$this->addDataType("okitype","Type","StorableOKIType");
+$this->addDataType("integer","Integer","StorableInteger", "asAnInteger");
+$this->addDataType("string","String","StorableString", "asAString");
+$this->addDataType("blob","Blob","StorableBlob", "asABlob");
+$this->addDataType("shortstring","String","StorableShortString", "asAString");
+$this->addDataType("float","Float","StorableFloat", "asAFloat");
+$this->addDataType("boolean","Boolean","StorableBoolean", "asABoolean");
+$this->addDataType("datetime","DateAndTime","StorableTime", "asADateTime");
+$this->addDataType("okitype","Type","StorableOKIType", "asAnOKIType");

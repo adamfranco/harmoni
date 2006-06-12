@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableBlob.class.php,v 1.7 2005/10/13 20:55:09 adamfranco Exp $
+ * @version $Id: StorableBlob.class.php,v 1.8 2006/06/12 15:00:12 adamfranco Exp $
  */
 class StorableBlob 
 	extends StorableStringAbstract 
@@ -83,4 +83,42 @@ class StorableBlob
 		return $this->_string;
 	}
 	
+
+	
+/*********************************************************
+ * Conversion Methods
+ *********************************************************/
+	
+	/**
+	 * Convert this object to a StorableBlob
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asABlob () {
+		return $this;
+	}
+	
+	/**
+	 * Convert this object to a StorableString
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAString () {
+		return String::fromString($this->asString());
+	}
+	
+	/**
+	 * Convert this object to a StorableShortString
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 6/9/06
+	 */
+	function &asAShortString () {
+		return String::fromString($this->asString());
+	}	
 }

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.18 2006/04/24 21:13:07 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.19 2006/06/12 15:00:12 adamfranco Exp $
  */ 
 
 require_once(HARMONI."Primitives/Objects/SObject.class.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."Primitives/Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.18 2006/04/24 21:13:07 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.19 2006/06/12 15:00:12 adamfranco Exp $
  * @author Adam Franco
  */
  
@@ -138,7 +138,7 @@ class OrderedSet
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		if (!$this->isInSet($id))
-			throwError(new Error("Item specified does not exist", "Set", 1));
+			throwError(new Error("Item specified, ".$id->getIdString().", does not exist", "Set", 1));
 		
 		// Move it to the end to update the order keys
 		$this->moveToPosition($id, $this->count()-1);
