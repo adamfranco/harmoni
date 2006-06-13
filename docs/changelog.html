@@ -3,22 +3,51 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.6.2</h2><h3>The 2006-05-26</h3><ul>
-		<li/> Bug Fix:
-	 
-			Repository: Changing sql in authoritative values to coallate in a
-			case-sensitive way.
-		 (<i>Adam Franco</i>)
-		<li/> Bug Fix:
-	 
-			Repository: adding additional argument validation.
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.0</h2><h3>2006-06-13</h3><ul>
+		<li/> New feature:  
+			DataManager/Repository: Adding support for PartStructure/Part data-type
+			conversion.
 		 (<i>Adam Franco</i>)
 		<li/> Change:  
-			Authorization: Converted the IsUserAuthorizedCache to a new 
-			IsAuthorizedCache that is availible for all isAuthorized() or 
-			isUserAuthorized() calls.
+			DataManager/Repository: Adding support for schema/RecordStructure deleting.
 		 (<i>Adam Franco</i>)
-	</ul><br/><h2>Version 0.6.1</h2><h3>The 2006-05-19</h3><ul>
+		<li/> Change:  
+			Repository: Added support for Record/RecordStructure duplication.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Repository: AuthoritativeValues addition is now an AuthorizationFunction.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Authoritative Values are now per Repository.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			BrowserHistoryManager: Now records full url with all parameters 
+			automatically.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			GUIManager has been updated to reflect the original design in its 
+			backend.  All Style objects are streamlined for programatic interfacing.
+		 (<i>Christopher Shubert</i>)
+		<li/> Bug Fix:
+	 
+			Repository: File PartStructures now implement skeletons of Authoritative
+			Values methods.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Logging: Ensured that logging is now ready for use before attempting
+			to log errors.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			DatabaseManager: Allowing the addition of custom messages for database 
+			connection errors.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			ErrorManager: Making Errors more legible..
+		 (<i>Adam Franco</i>)
+	</ul><br/><h2>Version 0.6.1</h2><h3>2006-05-19</h3><ul>
 		<li/> New feature:  
 			Shared: New Multi-Iterator Iterator to ease the combining of results
 			received as several iterators.

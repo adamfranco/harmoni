@@ -3,12 +3,12 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.124 2006/06/12 15:00:13 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.125 2006/06/13 15:37:43 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.6.3" date="The future">
+	<version number="0.7.0" date="2006-06-13">
 		<new author='adam'>
 			DataManager/Repository: Adding support for PartStructure/Part data-type
 			conversion.

@@ -3,16 +3,32 @@
 Name: Harmoni ChangeLog
 
 
-v. 0.6.2 (The 2006-05-26)
+v. 0.7.0 (2006-06-13)
 ----------------------------------------------------
 		
-	* Bug Fix: Repository: Changing sql in authoritative values to coallate in a case-sensitive way. (Adam Franco)
+	* New feature: DataManager/Repository: Adding support for PartStructure/Part data-type conversion. (Adam Franco)
 		
-	* Bug Fix: Repository: adding additional argument validation. (Adam Franco)
+	* Change: DataManager/Repository: Adding support for schema/RecordStructure deleting. (Adam Franco)
 		
-	* Change: Authorization: Converted the IsUserAuthorizedCache to a new IsAuthorizedCache that is availible for all isAuthorized() or isUserAuthorized() calls. (Adam Franco)
+	* Change: Repository: Added support for Record/RecordStructure duplication. (Adam Franco)
+		
+	* Change: Repository: AuthoritativeValues addition is now an AuthorizationFunction. (Adam Franco)
+		
+	* Change: Authoritative Values are now per Repository. (Adam Franco)
+		
+	* Bug Fix: BrowserHistoryManager: Now records full url with all parameters automatically. (Adam Franco)
+		
+	* Change: GUIManager has been updated to reflect the original design in its backend. All Style objects are streamlined for programatic interfacing. (Christopher Shubert)
+		
+	* Bug Fix: Repository: File PartStructures now implement skeletons of Authoritative Values methods. (Adam Franco)
+		
+	* Bug Fix: Logging: Ensured that logging is now ready for use before attempting to log errors. (Adam Franco)
+		
+	* Change: DatabaseManager: Allowing the addition of custom messages for database connection errors. (Adam Franco)
+		
+	* Bug Fix: ErrorManager: Making Errors more legible.. (Adam Franco)
 	
-v. 0.6.1 (The 2006-05-19)
+v. 0.6.1 (2006-05-19)
 ----------------------------------------------------
 		
 	* New feature: Shared: New Multi-Iterator Iterator to ease the combining of results received as several iterators. (Adam Franco)
