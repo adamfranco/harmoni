@@ -3,11 +3,11 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Generation Time: Mar 03, 2006 at 12:16 PM
+-- Generation Time: Jun 13, 2006 at 05:10 PM
 -- Server version: 4.1.14
 -- PHP Version: 4.4.2
 -- 
--- Database: `afranco_segue2`
+-- Database: `mdb_concerto`
 -- 
 
 -- --------------------------------------------------------
@@ -18,7 +18,8 @@
 
 CREATE TABLE log_agent (
   fk_entry varchar(70) NOT NULL default '',
-  fk_agent varchar(70) NOT NULL default ''
+  fk_agent varchar(70) NOT NULL default '',
+  PRIMARY KEY  (fk_entry,fk_agent)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='These are the agents involved in a particular log event';
 
 -- --------------------------------------------------------
@@ -36,7 +37,9 @@ CREATE TABLE log_entry (
   category varchar(50) NOT NULL default 'UNKNOWN',
   description text NOT NULL,
   backtrace text,
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY log_name (log_name),
+  KEY `timestamp` (`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Used by the OSID Logging Manager';
 
 -- --------------------------------------------------------
@@ -47,7 +50,8 @@ CREATE TABLE log_entry (
 
 CREATE TABLE log_node (
   fk_entry varchar(70) NOT NULL default '',
-  fk_node varchar(70) NOT NULL default ''
+  fk_node varchar(70) NOT NULL default '',
+  PRIMARY KEY  (fk_entry,fk_node)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='These are the nodes involved in a particular log event';
 
 -- --------------------------------------------------------
