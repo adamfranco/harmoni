@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.35 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.36 2006/06/13 21:18:38 adamfranco Exp $
 */
 class Record {
 	
@@ -157,6 +157,15 @@ class Record {
 			throwError(new FieldNotFoundError($label,$this->_schema->getID()));
 			return false;
 		}
+		
+		// If the schema has changed since we were created, ensure that we
+		// have a valid field object
+		$id = $this->_getFieldID($label);
+		if (!isset($this->_fields[$id])) {
+			$def =& $this->_schema->getField($this->_schema->getFieldIDFromLabel($label));
+			$this->_fields[$id] =& new RecordField($def, $this);
+		}
+		
 		return true;
 	}
 	
@@ -382,6 +391,9 @@ class Record {
 	function numValues($label, $includeInactive = false) {
 		$this->_checkLabel($label);
 		
+		if (!isset($this->_fields[$this->_getFieldID($label)]))
+			return 0;
+		
 		return $this->_fields[$this->_getFieldID($label)]->numValues($includeInactive);
 	}
 	
@@ -454,6 +466,10 @@ class Record {
 	function setValue($label, &$obj, $index=0) {
 		$this->_checkLabel($label);
 		$id = $this->_getFieldID($label);
+		
+		ArgumentValidator::validate($this->_fields[$id],
+			ExtendsValidatorRule::getRule("RecordField"));
+		
 		if ($index == NEW_VALUE) {
 			return $this->_fields[$id]->addValueFromPrimitive($obj);
 		}

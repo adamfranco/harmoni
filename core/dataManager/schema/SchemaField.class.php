@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaField.class.php,v 1.14 2006/04/24 20:19:19 adamfranco Exp $
+ * @version $Id: SchemaField.class.php,v 1.15 2006/06/13 21:18:38 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaField {
@@ -261,10 +261,10 @@ class SchemaField {
 			$this->_delete = false;
 			
 			$result =& $dbHandler->query($query,DATAMANAGER_DBID);
-			if (!$result || $result->getNumberOfRows() != 1) {
-				throwError( new UnknownDBError("DataManager") );
-				return false;
-			}
+// 			if (!$result || $result->getNumberOfRows() != 1) {
+// 				throwError( new UnknownDBError("DataManager") );
+// 				return false;
+// 			}
 			
 			return $id;
 		}
