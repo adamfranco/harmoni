@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.32 2006/06/12 15:00:12 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.33 2006/06/13 21:19:00 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -475,7 +475,7 @@ class HarmoniRecordStructure
 	 * @access public
 	 * @since 6/8/06
 	 */
-	function &convertPartStructureToType ( &$partStructureId, &$type ) {
+	function &convertPartStructureToType ( &$partStructureId, &$type, $statusStars = null ) {
 		$oldPartStructure =& $this->getPartStructure($partStructureId);
 		$newPartStructure =& $this->createPartStructure(
 								$oldPartStructure->getDisplayName(),
@@ -499,6 +499,10 @@ class HarmoniRecordStructure
 				// the records for it in its assets.
 				if ($myRecordStructureId->isEqual($recordStructure->getId())) {
 					$assets =& $repository->getAssets();
+					
+					if (!is_null($statusStars))
+						$statusStars->initializeStatistics($assets->count());
+										
 					while ($assets->hasNext()) {
 						$asset =& $assets->next();
 						$records =& $asset->getRecordsByRecordStructure(
@@ -513,11 +517,11 @@ class HarmoniRecordStructure
 												$newPartStructure->getId(),
 												$oldPart->getValue());
 								$record->deletePart($oldPart->getId());
-								
-								printpre("New Part's Value:");
-								printpre($newPart->getValue());
 							}
 						}
+						
+						if (!is_null($statusStars))
+							$statusStars->updateStatistics();
 					}
 					break;
 				}

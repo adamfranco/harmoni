@@ -46,7 +46,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.53 2006/06/07 21:16:54 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.54 2006/06/13 21:19:00 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -1305,9 +1305,13 @@ class HarmoniRepository
 	 * @access public
 	 * @since 6/6/06
 	 */
-	function deleteRecordStructure ( &$recordStructureId ) {
+	function deleteRecordStructure ( &$recordStructureId, $statusStars = null ) {
 		// Delete the Records that use this RecordStructure
 		$assets =& $this->getAssets();
+		
+		if (!is_null($statusStars))
+			$statusStars->initializeStatistics($assets->count());
+		
 		while ($assets->hasNext()) {
 			$asset =& $assets->next();
 			$records =& $asset->getRecordsByRecordStructure($recordStructureId);
@@ -1315,6 +1319,9 @@ class HarmoniRepository
 				$record =& $records->next();
 				$asset->deleteRecord($record->getId());
 			}
+			
+			if (!is_null($statusStars))
+				$statusStars->updateStatistics();
 		}
 		
 		
@@ -1354,13 +1361,14 @@ class HarmoniRepository
 	 * @param boolean $copyRecords 	If true, existing records will be duplicated
 	 *								under the new RecordStructure.
 	 * @param optional object $id An optional id for the new RecordStructure
-	 * @param boolean $isGlobal If true the new RecordStructure will be made a global one.
+	 * @param optional boolean $isGlobal If true the new RecordStructure will be made a global one.
+	 * @param optional object $statusStars A status indicator to use if passed.
 	 * @return void
 	 * @access public
 	 * @since 6/7/06
 	 */
 	function &duplicateRecordStructure ( &$recordStructureId, $copyRecords = FALSE, 
-		$id = null, $isGlobal = FALSE ) 
+		$id = null, $isGlobal = FALSE, $statusStars = null ) 
 	{
 		ArgumentValidator::validate($recordStructureId, ExtendsValidatorRule::getRule("Id"));
 		ArgumentValidator::validate($copyRecords, BooleanValidatorRule::getRule());
@@ -1397,6 +1405,10 @@ class HarmoniRepository
 		
 		if ($copyRecords) {
 			$assets =& $this->getAssets();
+			
+			if (!is_null($statusStars))
+				$statusStars->initializeStatistics($assets->count());
+			
 			while ($assets->hasNext()) {
 				$asset =& $assets->next();
 				$oldRecords =& $asset->getRecordsByRecordStructure($oldRecStruct->getId());
@@ -1417,6 +1429,9 @@ class HarmoniRepository
 										$oldPart->getValue());
 					}
 				}
+				
+				if (!is_null($statusStars))
+					$statusStars->updateStatistics();
 			}
 		}
 		
