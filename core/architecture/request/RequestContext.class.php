@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.19 2006/05/12 15:34:02 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.20 2006/06/14 15:44:58 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -33,6 +33,7 @@ class RequestContext {
 	 *
 	 * @param string $key
 	 * @return string
+	 * @static
 	 * @access public
 	 */
 	function name($key) {
@@ -52,6 +53,7 @@ class RequestContext {
 	 *
 	 * @return string
 	 * @param string $key
+	 * @static
 	 * @access public
 	 */
 	function value($key) {
@@ -67,11 +69,52 @@ class RequestContext {
 	 * @param string $url
 	 * @return void
 	 * @access public
+	 * @static
 	 * @since 7/19/05
 	 */
 	function locationHeader ( $url ) {
 		header("Location: ".str_replace("&amp;", "&", $url));
 		exit;
+	}
+	
+	/**
+	 * Send the browser to the url specified. Location headers will be sent if
+	 * possible, otherwise a javascript redirect will be printed outside of 
+	 * all output buffers
+	 * 
+	 * @param string $url
+	 * @return void
+	 * @access public
+	 * @static
+	 * @since 6/14/06
+	 */
+	function sendTo ( $url ) {
+		// use headers if possible
+		if (!headers_sent())
+			RequestContext::locationHeader($url);
+			
+		// Use javascript
+		else {
+			$harmoni =& Harmoni::instance();
+			// get rid of all output buffers;
+			$harmoni->request->ob_jump();
+			
+			$unescapedurl = preg_replace("/&amp;/", "&", $url);
+			$label = _("You should be automatically redirected. If not, click here to continue.");
+			print <<< END
+	<script type='text/javascript'>
+	/* <![CDATA[ */
+		
+		window.location = '$unescapedurl';
+		
+	/* ]]> */
+	</script>
+	<a href='$url'>$label</a>
+	
+END;
+			$harmoni->request->ob_land();
+			exit;
+		}
 	}
 	
 
@@ -437,6 +480,42 @@ class RequestContext {
 	function _checkName($name) {
 		if (ereg("\\".REQUEST_HANDLER_CONTEXT_DELIMETER, $name)) {
 			throwError( new Error("Namespaces and field names cannot contain \"".REQUEST_HANDLER_CONTEXT_DELIMETER."\"s!", "RequestHandler", true));
+		}
+	}
+	
+	/**
+	 * Climbs down the ob ladder and saves the data to put back later
+	 * 
+	 * @access public
+	 * @return void
+	 * @since 6/14/06
+	 */
+	function ob_jump () {
+		if (!isset($this->_ob_data))
+			$this->_ob_data = array();
+		
+		$level = ob_get_level();
+		while ($level > 0) {
+			$this->_ob_data[$level] = ob_end_clean();
+			$level = ob_get_level();
+		}
+	}
+
+	/**
+	 * Climps back up the ob ladder adding back the data that was there
+	 * 
+	 * @access public
+	 * @return void
+	 * @since 6/14/06
+	 */
+	function ob_land() {
+		if (!isset($this->_ob_data))
+			return;
+		
+		foreach ($this->_ob_data as $level => $data) {
+			ob_start();
+			print $data;
+			unset($this->_ob_data[$level]);
 		}
 	}
 }
