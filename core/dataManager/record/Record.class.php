@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.36 2006/06/13 21:18:38 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.37 2006/06/14 15:54:28 adamfranco Exp $
 */
 class Record {
 	
@@ -483,6 +483,11 @@ class Record {
 	* @return bool
 	*/
 	function commit($ignoreMandatory=false) {
+		// Ensure that we have fields for all labels, incase
+		// the schema has changed since we were loaded.
+		foreach ($this->_schema->getAllLabels() as $label)
+			$this->_checkLabel($label);
+		
 		// Get the DBHandler
 		$dbHandler =& Services::getService("DatabaseManager");
 			
