@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordField.class.php,v 1.18 2006/06/12 15:00:11 adamfranco Exp $
+ * @version $Id: RecordField.class.php,v 1.19 2006/06/14 19:59:26 adamfranco Exp $
  **/
 class RecordField {
 	
@@ -201,7 +201,10 @@ class RecordField {
 		// we are given a date, but want to save it as a string.
 		$dataTypeManager =& Services::getService("DataTypeManager");
 		$type = $this->_schemaField->getType();
-		eval('$value =& $value->'.$dataTypeManager->getConversionMethod($type).'();');
+		
+		// Ensure that the value can be converted
+		if (method_exists($dataTypeManager->getConversionMethod($type), $value))
+			eval('$value =& $value->'.$dataTypeManager->getConversionMethod($type).'();');
 		
 		$this->_checkObjectType($value);
 		
