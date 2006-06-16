@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StatusStars.class.php,v 1.1 2006/06/14 20:08:47 adamfranco Exp $
+ * @version $Id: StatusStars.class.php,v 1.2 2006/06/16 13:44:00 adamfranco Exp $
  */ 
 
 /**
@@ -24,7 +24,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StatusStars.class.php,v 1.1 2006/06/14 20:08:47 adamfranco Exp $
+ * @version $Id: StatusStars.class.php,v 1.2 2006/06/16 13:44:00 adamfranco Exp $
  */
 class StatusStars {
 		
@@ -180,7 +180,7 @@ class StatusStars {
 	function _jump_obs () {
 		$level = ob_get_level();
 		while ($level > 0) {
-			$this->_ob_data[$level] = ob_end_clean();
+			$this->_ob_data[$level] = ob_get_clean();
 			$level = ob_get_level();
 		}
 	}

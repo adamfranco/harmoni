@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.20 2006/06/14 15:44:58 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.21 2006/06/16 13:43:57 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -496,7 +496,7 @@ END;
 		
 		$level = ob_get_level();
 		while ($level > 0) {
-			$this->_ob_data[$level] = ob_end_clean();
+			$this->_ob_data[$level] = ob_get_clean();
 			$level = ob_get_level();
 		}
 	}
