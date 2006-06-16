@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordField.class.php,v 1.19 2006/06/14 19:59:26 adamfranco Exp $
+ * @version $Id: RecordField.class.php,v 1.20 2006/06/16 14:34:20 adamfranco Exp $
  **/
 class RecordField {
 	
@@ -203,10 +203,12 @@ class RecordField {
 		$type = $this->_schemaField->getType();
 		
 		// Ensure that the value can be converted
-		if (method_exists($dataTypeManager->getConversionMethod($type), $value))
+		if (method_exists($value, $dataTypeManager->getConversionMethod($type))) {
 			eval('$value =& $value->'.$dataTypeManager->getConversionMethod($type).'();');
+		}
 		
 		$this->_checkObjectType($value);
+		
 		
 		$newIndex = $this->_getNextAvailableIndex();
 		
@@ -231,6 +233,20 @@ class RecordField {
 	* @param ref object $value A {@link SObject} object.
 	*/
 	function setValueFromPrimitive($index, &$value) {
+		// Call the appropriate conversion method in case we were passed a 
+		// value of the wrong type, but that can be properly converted, say
+		// we are given a date, but want to save it as a string.
+		$dataTypeManager =& Services::getService("DataTypeManager");
+		$type = $this->_schemaField->getType();
+		
+		// Ensure that the value can be converted
+		if (method_exists($value, $dataTypeManager->getConversionMethod($type))) {
+			eval('$value =& $value->'.$dataTypeManager->getConversionMethod($type).'();');
+		}
+		
+		$this->_checkObjectType($value);
+				
+		
 		$this->_parent->makeFull();
 		// any field can have at least one value.. if index 0 is not yet set up, set it up
 		if ($index == 0 && !isset($this->_values[0])) {

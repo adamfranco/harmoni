@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.33 2006/06/13 21:19:00 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.34 2006/06/16 14:34:20 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -512,18 +512,28 @@ class HarmoniRecordStructure
 							$parts =& $record->getPartsByPartStructure($partStructureId);
 							while ($parts->hasNext()) {
 								$oldPart =& $parts->next();
-// 								$oldValue =& $oldPart->getValue();
+								
+								$oldValue =& $oldPart->getValue();
+								$oldValueString = $oldValue->asString();
+								
 								$newPart =& $record->createPart(
 												$newPartStructure->getId(),
 												$oldPart->getValue());
 								$record->deletePart($oldPart->getId());
+								
+								$newValue =& $newPart->getValue();
+								
+								
+								$newValueString = $newValue->asString();
+								if ($oldValueString != $newValueString) {
+									throwError(new Error("'$newValueString' should be equal to '$oldValueString'", "repository"));
+								}
 							}
 						}
 						
 						if (!is_null($statusStars))
 							$statusStars->updateStatistics();
 					}
-					break;
 				}
 			}
 		}
