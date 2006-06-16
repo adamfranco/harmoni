@@ -3,12 +3,12 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.127 2006/06/14 15:44:58 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.128 2006/06/16 15:45:33 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.7.0" date="2006-06-13">
+	<version number="0.7.0" date="2006-06-16">
 		<important author='adam'>
 			The following 9 queries need to be run on a Harmoni 0.6.x database
 			to upgrade it to support the needs of Harmoni 0.7.0:

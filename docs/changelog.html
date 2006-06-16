@@ -3,7 +3,51 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.0</h2><h3>2006-06-13</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.0</h2><h3>2006-06-16</h3><ul>
+		<li/><span style="color: red">*** IMPORTANT ***</span> Change:  
+			The following 9 queries need to be run on a Harmoni 0.6.x database
+			to upgrade it to support the needs of Harmoni 0.7.0:
+			
+			ALTER TABLE `dm_schema` 
+			ADD `active` TINYINT( 1 ) UNSIGNED DEFAULT '1' NOT NULL AFTER `revision` ;
+			
+			ALTER TABLE `dr_authoritative_values` 
+			ADD `fk_repository` VARCHAR( 100 ) NOT NULL AFTER `fk_partstructure` ;
+			
+			ALTER TABLE `dr_authoritative_values` DROP PRIMARY KEY;
+			
+			ALTER TABLE `dr_authoritative_values` DROP INDEX `fk_partstructure` , 
+			ADD INDEX `fk_partstructure` ( `fk_partstructure` , `fk_repository` ) ;
+			
+			ALTER TABLE `dr_authoritative_values` 
+			CHANGE `value` `value` VARCHAR( 240 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+			
+			DROP TABLE `dr_authority_options` ;
+			
+			ALTER TABLE `log_agent` ADD PRIMARY KEY ( `fk_entry` , `fk_agent` ) ;
+			
+			ALTER TABLE `log_entry` ADD INDEX ( `log_name` );
+			
+			ALTER TABLE `log_node` ADD PRIMARY KEY ( `fk_entry` , `fk_node` ) ;
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			RequestContext: Moved output buffer jumping methods to the RequestContext
+			as ob_jump() and ob_land() from Chris's StatusStars. StatusStars is now in
+			harmoni/core/utilities.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Logging: Reworked db indexes to speed queries.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Repository: Some Repository methods now allow the optional passing in of a
+			status indicator which can allow the printing of update status.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			DataManager/Repository: DataManager Records now dynamically add fields
+			if SchemaFields have been added to their Schema.
+		 (<i>Adam Franco</i>)
 		<li/> New feature:  
 			DataManager/Repository: Adding support for PartStructure/Part data-type
 			conversion.

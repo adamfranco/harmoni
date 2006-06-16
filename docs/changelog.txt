@@ -3,8 +3,18 @@
 Name: Harmoni ChangeLog
 
 
-v. 0.7.0 (2006-06-13)
+v. 0.7.0 (2006-06-16)
 ----------------------------------------------------
+		
+	**** IMPORTANT *** Change: The following 9 queries need to be run on a Harmoni 0.6.x database to upgrade it to support the needs of Harmoni 0.7.0: ALTER TABLE `dm_schema` ADD `active` TINYINT( 1 ) UNSIGNED DEFAULT '1' NOT NULL AFTER `revision` ; ALTER TABLE `dr_authoritative_values` ADD `fk_repository` VARCHAR( 100 ) NOT NULL AFTER `fk_partstructure` ; ALTER TABLE `dr_authoritative_values` DROP PRIMARY KEY; ALTER TABLE `dr_authoritative_values` DROP INDEX `fk_partstructure` , ADD INDEX `fk_partstructure` ( `fk_partstructure` , `fk_repository` ) ; ALTER TABLE `dr_authoritative_values` CHANGE `value` `value` VARCHAR( 240 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ; DROP TABLE `dr_authority_options` ; ALTER TABLE `log_agent` ADD PRIMARY KEY ( `fk_entry` , `fk_agent` ) ; ALTER TABLE `log_entry` ADD INDEX ( `log_name` ); ALTER TABLE `log_node` ADD PRIMARY KEY ( `fk_entry` , `fk_node` ) ; (Adam Franco)
+		
+	* New feature: RequestContext: Moved output buffer jumping methods to the RequestContext as ob_jump() and ob_land() from Chris's StatusStars. StatusStars is now in harmoni/core/utilities. (Adam Franco)
+		
+	* Change: Logging: Reworked db indexes to speed queries. (Adam Franco)
+		
+	* Bug Fix: Repository: Some Repository methods now allow the optional passing in of a status indicator which can allow the printing of update status. (Adam Franco)
+		
+	* Bug Fix: DataManager/Repository: DataManager Records now dynamically add fields if SchemaFields have been added to their Schema. (Adam Franco)
 		
 	* New feature: DataManager/Repository: Adding support for PartStructure/Part data-type conversion. (Adam Franco)
 		
