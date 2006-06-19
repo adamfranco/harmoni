@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.30 2006/05/25 17:23:28 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.31 2006/06/19 21:39:07 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -813,11 +813,15 @@ class AuthorizationCache {
 			$query->addWhere($where);
 		}
 		
+		foreach (array_keys($groupIds) as $key) {
+			$groupIds[$key] = addslashes($groupIds[$key]);
+		}
+		
 		if (count($groupIds)) {
 			$agentList = implode("','", $groupIds);
-			$agentList = "'".$aId."','".$agentList."'";
+			$agentList = "'".addslashes($aId)."','".$agentList."'";
 		} else {
-			$agentList = "'".$aId."'";
+			$agentList = "'".addslashes($aId)."'";
 		}
 		
 		// the agent criteria
@@ -1078,5 +1082,4 @@ printf("LoadAZTime: %1.6f <br/>", $timer->printTime());
 	}
 		
 }
-
 ?>
