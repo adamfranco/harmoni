@@ -3,6 +3,11 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.7.1 (2006-06-20)
+----------------------------------------------------
+		
+	* Bug Fix: AuthZ: Quotes in Group Ids were breaking queries. (Adam Franco)
+	
 v. 0.7.0 (2006-06-16)
 ----------------------------------------------------
 		
