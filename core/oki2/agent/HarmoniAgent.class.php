@@ -1,4 +1,12 @@
 <?php
+/**
+ * @package harmoni.osid_v2.agent
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: HarmoniAgent.class.php,v 1.18 2006/06/26 12:55:12 adamfranco Exp $
+ */
 
 require_once(OKI2."/osid/agent/Agent.php");
 require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
@@ -17,7 +25,7 @@ require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.17 2005/09/09 21:32:54 gabeschine Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.18 2006/06/26 12:55:12 adamfranco Exp $
  */
 class HarmoniAgent 
 	extends Agent

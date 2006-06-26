@@ -1,12 +1,12 @@
 <?php
 /**
  * @since 5/23/05
- * @package harmoni.chronology.string_parsers
+ * @package harmoni.primitives.chronology.string_parsers
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601TimeStringParser.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
+ * @version $Id: ISO8601TimeStringParser.class.php,v 1.3 2006/06/26 12:55:08 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -24,12 +24,12 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  *		- 4-5-82
  * 
  * @since 5/23/05
- * @package harmoni.chronology.string_parsers
+ * @package harmoni.primitives.chronology.string_parsers
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601TimeStringParser.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
+ * @version $Id: ISO8601TimeStringParser.class.php,v 1.3 2006/06/26 12:55:08 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

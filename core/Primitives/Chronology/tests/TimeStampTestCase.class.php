@@ -1,11 +1,11 @@
 <?php
 /** 
- * @package harmoni.chronology.tests
+ * @package harmoni.primitives.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.3 2006/06/26 12:55:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -21,12 +21,12 @@ require_once(dirname(__FILE__)."/../TimeStamp.class.php");
  *
  * @since 5/3/05
  *
- * @package harmoni.chronology.tests
+ * @package harmoni.primitives.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStampTestCase.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: TimeStampTestCase.class.php,v 1.3 2006/06/26 12:55:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

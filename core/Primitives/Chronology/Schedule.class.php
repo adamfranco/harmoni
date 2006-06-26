@@ -1,12 +1,12 @@
 <?php
 /**
  * @since 5/25/05
- * @package harmoni.chronology
+ * @package harmoni.primitives.chronology
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schedule.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: Schedule.class.php,v 1.2 2006/06/26 12:55:07 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -27,12 +27,12 @@ require_once(dirname(__FILE__)."/Timespan.class.php");
  *		- {@link startingEnding Schedule::startingEnding($startDateAndTime, $endDateAndTime)}
  * 
  * @since 5/25/05
- * @package harmoni.chronology
+ * @package harmoni.primitives.chronology
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schedule.class.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: Schedule.class.php,v 1.2 2006/06/26 12:55:07 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

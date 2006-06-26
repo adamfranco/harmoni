@@ -6,12 +6,12 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
 /**
  * A simple String data type.
  *
- * @package harmoni.datamanager.primitives
+ * @package harmoni.primitives.collections-text
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: String.class.php,v 1.3 2006/03/14 22:02:39 cws-midd Exp $
+ * @version $Id: String.class.php,v 1.4 2006/06/26 12:55:10 adamfranco Exp $
  */
 class String 
 	extends SObject 

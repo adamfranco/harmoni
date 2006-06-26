@@ -1,13 +1,16 @@
 <?php
 /**
- 	* Create a directory structure recursively
- 	*
- 	* @author      Aidan Lister <aidan@php.net>
- 	* @version     1.0.0
- 	* @param       string   $pathname    The directory structure to create
- 	* @return      bool     Returns TRUE on success, FALSE on failure
- 	*/
+ * @package harmoni.utilities
+ */
 
+/**
+ * Create a directory structure recursively
+ *
+ * @author      Aidan Lister <aidan@php.net>
+ * @version     1.0.0
+ * @param       string   $pathname    The directory structure to create
+ * @return      bool     Returns TRUE on success, FALSE on failure
+ */
 function mkdirr($pathname, $mode = null)
 {
 	// Check if directory already exists

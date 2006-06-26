@@ -1,4 +1,38 @@
 <?php
+/**
+ * getID3() by James Heinrich <info@getid3.org>               
+ * available at http://getid3.sourceforge.net                
+ *           or http://www.getid3.org                        
+ * 
+ * getid3.getimagesize.php - part of getID3()                  
+ * See getid3.readme.txt for more details                      
+ *                                                              
+ * 
+ * GetURLImageSize( $urlpic ) determines the                 
+ * dimensions of local/remote URL pictures.                  
+ * returns array with ($width, $height, $type)               
+ *                                                           
+ * Thanks to: Oyvind Hallsteinsen aka Gosub / ELq -          
+ * gosub@elq.org  for the original size determining code     
+ *                                                           
+ * PHP Hack by Filipe Laborde-Basto Oct 21/2000              
+ * FREELY DISTRIBUTABLE -- use at your sole discretion! :)   
+ * Enjoy. (Not to be sold in commercial packages though,     
+ * keep it free!) Feel free to contact me at fil@rezox.com   
+ * (http://www.rezox.com)                                    
+ *                                                           
+ * Modified by James Heinrich <getid3@users.sourceforge.net> 
+ * June 1, 2001 - created GetDataImageSize($imgData) by      
+ * seperating the fopen() stuff to GetURLImageSize($urlpic)  
+ * which then calls GetDataImageSize($imgData). The idea being 
+ * you can call GetDataImageSize($imgData) with image data   
+ * from a database etc.     
+ * 
+ * @since 6/23/06
+ * @package harmoni.osid_v2.repository
+ */ 
+
+
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                ///

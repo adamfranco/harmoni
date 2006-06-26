@@ -1,12 +1,12 @@
 <?php
 /**
  * @since 06/10/05
- * @package concerto.modules
+ * @package harmoni.utilities
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Dearchiver.class.php,v 1.5 2005/08/08 13:50:13 cws-midd Exp $
+ * @version $Id: Dearchiver.class.php,v 1.6 2006/06/26 12:55:14 adamfranco Exp $
  *
  * @link http://sourceforge.net/projects/concerto
  */ 
@@ -14,12 +14,12 @@
 /**
 * Uncompresses and dearchives files from the input file.
  *
- * @package concerto.modules
+ * @package harmoni.utilities
  *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Dearchiver.class.php,v 1.5 2005/08/08 13:50:13 cws-midd Exp $
+ * @version $Id: Dearchiver.class.php,v 1.6 2006/06/26 12:55:14 adamfranco Exp $
  */
 
 require_once("Archive/Tar.php");

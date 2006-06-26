@@ -5,12 +5,12 @@ require_once(dirname(__FILE__)."/String.class.php");
 /**
  * A HtmlString data type. This class allows for HTML-safe string shortening.
  *
- * @package harmoni.datamanager.primitives
+ * @package harmoni.primitives.collections-text
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.11 2006/03/14 22:02:39 cws-midd Exp $
+ * @version $Id: HtmlString.class.php,v 1.12 2006/06/26 12:55:10 adamfranco Exp $
  */
 class HtmlString 
 	extends String 

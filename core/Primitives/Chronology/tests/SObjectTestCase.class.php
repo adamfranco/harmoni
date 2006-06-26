@@ -1,11 +1,11 @@
 <?php
 /** 
- * @package harmoni.chronology.tests
+ * @package harmoni.primitives.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.3 2006/06/26 12:55:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -21,12 +21,12 @@ require_once(HARMONI."/Primitives/Objects/SObject.class.php");
  *
  * @since 5/3/05
  *
- * @package harmoni.chronology.tests
+ * @package harmoni.primitives.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.3 2006/06/26 12:55:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -351,12 +351,12 @@ class SObjectTestCase extends UnitTestCase {
  * A testing class
  * 
  * @since 7/12/05
- * @package harmoni.chronology.tests
+ * @package harmoni.primitives.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.3 2006/06/26 12:55:09 adamfranco Exp $
  */
 class TestPerson 
 	extends SObject 
@@ -382,12 +382,12 @@ class TestPerson
  * A testing class
  * 
  * @since 7/12/05
- * @package harmoni.chronology.tests
+ * @package harmoni.primitives.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.3 2006/06/26 12:55:09 adamfranco Exp $
  */
 class OctopusObject 
 	extends SObject 
@@ -436,12 +436,12 @@ class OctopusObject
  * A testing class
  * 
  * @since 7/12/05
- * @package harmoni.chronology.tests
+ * @package harmoni.primitives.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.2 2005/07/15 21:57:21 gabeschine Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.3 2006/06/26 12:55:09 adamfranco Exp $
  */
 class DogObject 
 	extends SObject 
