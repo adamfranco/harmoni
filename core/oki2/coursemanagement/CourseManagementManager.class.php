@@ -1,5 +1,14 @@
 <?php 
 
+/**
+ * @package harmoni.osid_v2.coursemanagement
+ * 
+ * @copyright Copyright &copy; 2006, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: CourseManagementManager.class.php,v 1.6 2006/06/26 18:18:12 sporktim Exp $
+ */
+
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
 
 require_once(HARMONI."oki2/coursemanagement/CanonicalCourse.class.php");
@@ -90,26 +99,94 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseManagementManager.class.php,v 1.5 2006/01/17 20:06:22 adamfranco Exp $
+ * @version $Id: CourseManagementManager.class.php,v 1.6 2006/06/26 18:18:12 sporktim Exp $
  */
 class HarmoniCourseManagementManager
 	extends CourseManagementManager
 {
 	
 	/**
-	 * @variable object $_dr A reference to a {@link HarmoniDigitalRepository} object.
+	 * @variable object $_osidContext the OSID context.
 	 * @access private
 	 **/
-	var $_dr;
+	var $_osidContext;
 	
 	/**
 	 * @param ref object $drId A {@link HarmoniId} referencing our DR.
 	 */
-	function HarmoniCourseManagementManager ( &$drId ) {
-		$manager =& Services::getService("DR");
+	function HarmoniCourseManagementManager () {
+	
 		
-		$this->_dr =& $manager->getDigitalRepository($drId);
 	}
+	
+	
+	
+	/**
+	 * Assign the configuration of this Manager. Valid configuration options are as
+	 * follows:
+	 *	database_index			integer
+	 *	database_name			string
+	 * 
+	 * @param object Properties $configuration (original type: java.util.Properties)
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#OPERATION_FAILED OPERATION_FAILED},
+	 *		   {@link org.osid.OsidException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.OsidException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignConfiguration ( &$configuration ) { 
+		$this->_configuration =& $configuration;
+		
+		$hierarchyId =& $configuration->getProperty('hierarchy_id');
+		
+		// ** parameter validation
+		ArgumentValidator::validate($hierarchyId, StringValidatorRule::getRule(), true);
+		// ** end of parameter validation
+		
+		$idManager =& Services::getService("Id");
+		$this->_hierarchyId = $idManager->getId($hierarchyId);
+		
+		$hierarchyManager =& Services::getService("Hierarchy");
+		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
+		
+		
+	}
+
+	/**
+	 * Return context of this OsidManager.
+	 *	
+	 * @return object OsidContext
+	 * 
+	 * @throws object OsidException 
+	 * 
+	 * @access public
+	 */
+	function &getOsidContext () { 
+		return $this->_osidContext;
+	} 
+
+	/**
+	 * Assign the context of this OsidManager.
+	 * 
+	 * @param object OsidContext $context
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *		   messages defined in org.osid.OsidException:	{@link
+	 *		   org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignOsidContext ( &$context ) { 
+		$this->_osidContext =& $context;
+	} 
+	
 
 	/**
 	 * Create a new CanonicalCourse.
@@ -143,7 +220,7 @@ class HarmoniCourseManagementManager
 	 * @access public
 	 */
 	function &createCanonicalCourse ( $title, $number, $description, &$courseType, &$courseStatusType, $credits ) { 
-		$asset =& $this->_dr->createAsset($title . " " . $number, $description, new CanonicalCourseAssetType());
+		/*$asset =& $this->_dr->createAsset($title . " " . $number, $description, new CanonicalCourseAssetType());
 		
 		// ----------------------------------------------------------------------------------------
 		// -- This code is not implementing the DR directly. Instead, it is using the Asset's ID to
@@ -169,7 +246,43 @@ class HarmoniCourseManagementManager
 		
 		$obj =& new HarmoniCanonicalCourse($this, $asset, $dataSet);
 		
-		return $obj;
+		return $obj;*/
+		
+		//actually, let's just put this code into canonical course.
+		
+		$idManager =& Services::getService("IdManager");
+		$id=$idManager->createId();
+		
+		$hiManager =& Services::getService("HierarchyManager");
+		$theHierarchy =& $hiManager->getHiearchy($idManager->createID("edu.middlebury.authorization.root"));
+		
+		
+		
+		$type = new HarmoniType("CourseManagement","edu.middlebury", "CanonicalCourse");
+		$node=$theHierarchy->createNode($id,"Canonical_Courses",$courseType,$title,$description);
+		
+		$dbManager=& Services::getService("DBHandler");
+		$query=& new InsertQuery;
+		
+		
+		
+		$query->setTable('cm_can_course');
+	
+		$values[]=addslashes($id);
+		$values[]=addslashes($number);
+		$values[]=addslashes($credits);
+		$values[]=null;		
+		$query->addRowOfValues($values);
+		
+		
+		
+		$dbManager->query($query);
+		
+		
+		//$ret =& new CanonicalCourse($title,$number,$description, $courseType, $courseStatusType, $credits, $id);
+		$ret =& new CanonicalCourse($id, $node);
+		return $ret;
+		
 	}
 	
 	/**
@@ -196,8 +309,28 @@ class HarmoniCourseManagementManager
 	 * 
 	 * @access public
 	 */
-	function deleteCanonicalCourse ( &$canonicalCourseId ) { 
-		$this->_dr->deleteAsset($canonicalCourseId);
+	function deleteCanonicalCourse ( &$canonicalCourseId ) { //fixthis ambiguous
+		//$this->_dr->deleteAsset($canonicalCourseId);
+		
+		
+		
+		$hiHandler =& Services::getService("HierarchyManager");
+		$theHierarchy =& getHierarchy("??????????");//fixthis
+		$theHierarchy->deleteNode($id);
+		
+		
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new DeleteQuery;
+		
+		
+		$query->setTable('cm_can_course');
+	
+		$query->addWhere("`id`=".addslashes($canonicalCourseId));
+		$dbHandler->query($query);
+		
+		
+		
 	}
 
 	/**
@@ -221,7 +354,7 @@ class HarmoniCourseManagementManager
 	 * @access public
 	 */
 	function &getCanonicalCourses () { 
-		$assets =& $this->_dr->getAssetsByType( new CanonicalCourseAssetType() );
+		/*$assets =& $this->_dr->getAssetsByType( new CanonicalCourseAssetType() );
 		$courses = array();
 		
 		$mgr =& Services::getService("DataManager");
@@ -240,7 +373,17 @@ class HarmoniCourseManagementManager
 		
 		$obj =& new HarmoniIterator($courses);
 		
-		return $obj;
+		return $obj;*/
+		
+		
+		
+		
+		
+		
+		
+		
+			
+		
 	}
 
 	/**
@@ -270,7 +413,7 @@ class HarmoniCourseManagementManager
 	 * @access public
 	 */
 	function &getCanonicalCourse ( &$canonicalCourseId ) { 
-		$asset =& $this->_dr->getAsset($canonicalCourseId);
+		/*$asset =& $this->_dr->getAsset($canonicalCourseId);
 		
 		$id =& $asset->getId();
 		
@@ -280,7 +423,40 @@ class HarmoniCourseManagementManager
 		
 		$obj =& new HarmoniCanonicalCourse($this,$asset,$dataSet);
 		
-		return $obj;
+		return $obj;*/
+		
+		
+		$hiHandler =& Services::getService("HierarchyManager");
+		$theHierarchy =& getHierarchy("??????????");//fixthis
+		$node =& $theHierarchy->getNode($id);
+		
+		
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		
+		
+		$query->setTable('cm_can_course');
+		
+		$query->addWhere("`id`=".addslashes($canonicalCourseId));		
+		$query->addColumn('number');
+		$query->addColumn('credits');
+		
+		$res=& $dbHandler->query($query);
+		$row =& $res->getCurrentRow();
+		
+		$title=$node->getDisplayName();
+		$number=$row['number'];
+		$description=$node->getDescription();
+		$courseType=$node->getType();
+		//$courseStatusType fix this
+		$credits= $row['credits'];
+	
+		
+		$ret =& new CanonicalCourse($title,$number,$description, $courseType, $courseStatusType, $credits, $canonicalCourseId);
+	
+		return $ret;
+		
 	}
 
 	/**
@@ -313,7 +489,7 @@ class HarmoniCourseManagementManager
 		// we'll have to search the dataManager and get all the datasets for which the type field = $courseType
 		// then, find all the datasetgroups to which those datasets belong, and fetch those assets and create
 		// canonical course objects for them.
-		
+		/*
 		$mgr =& Services::getService("DataManager");
 		$search =& new OnlyThisSearch(new FieldValueSearch(new CanonicalCourseDataSetType(), "type", new OKITypeDataType($courseType)));
 		
@@ -339,7 +515,11 @@ class HarmoniCourseManagementManager
 		
 		$obj =& new HarmoniIterator($courses);
 		
-		return $obj;
+		return $obj;*/
+		
+		
+		
+		
 	}
 
 	/**
@@ -369,7 +549,13 @@ class HarmoniCourseManagementManager
 	 * @access public
 	 */
 	function &getCourseOffering ( &$courseOfferingId ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		
+		
+		
+		
+		
+		
 	} 
 
 	/**

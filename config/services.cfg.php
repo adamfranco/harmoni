@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: services.cfg.php,v 1.54 2006/03/03 17:45:52 adamfranco Exp $
+ * @version $Id: services.cfg.php,v 1.55 2006/06/26 18:18:11 sporktim Exp $
  */
 
 /* :: what services should we load? you can disable some to save on startup time :: */
@@ -104,6 +104,10 @@ if (!defined("LOAD_LOGGING")) 				define("LOAD_LOGGING", true);
  */
 if (!defined("LOAD_REPOSITORY")) 			define("LOAD_REPOSITORY", true);
 
+/**
+ * functionality affected: Course Management.
+ */
+if (!defined("LOAD_COURSE_MANAGEMENT")) 			define("LOAD_COURSE_MANAGEMENT", true);
 
 
 
@@ -360,6 +364,16 @@ if (LOAD_REPOSITORY) {
 	require_once(HARMONI."oki2/repository/HarmoniRepositoryManager.class.php");
 	Services::registerService("RepositoryManager","HarmoniRepositoryManager");
 	Services::createServiceAlias("RepositoryManager", "Repository");
+}
+
+/**
+ * load the DigitalRepositoryManager.
+ */
+if (LOAD_COURSE_MANAGEMENT) {
+	require_once(HARMONI."oki2/coursemanagement/CourseManagementManager.class.php");
+	require_once(HARMONI."oki2/coursemanagement/CourseManagementManager.class.php");
+	Services::registerService("CourseManagementManager","HarmoniCourseManagementManager");
+	Services::createServiceAlias("CourseManagementManager", "CourseManagement");
 }
 
 ?>

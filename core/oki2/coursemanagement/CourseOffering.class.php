@@ -24,9 +24,9 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseOffering.class.php,v 1.4 2005/01/19 22:28:21 adamfranco Exp $
+ * @version $Id: CourseOffering.class.php,v 1.5 2006/06/26 18:18:12 sporktim Exp $
  */
-class Harmoni
+class HarmoniCourseOffering
 	extends CourseOffering
 {
 	/**
