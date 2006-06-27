@@ -25,7 +25,7 @@ require_once(OKI2."/osid/coursemanagement/CanonicalCourse.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.7 2006/06/27 18:49:08 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.8 2006/06/27 21:07:13 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -101,7 +101,7 @@ class HarmoniCanonicalCourse
 		$query=& new SelectQuery;
 		
 		
-		$query->setTable('cm_can_course');
+		$query->addTable('cm_can_course');
 		
 		$query->addWhere("`id`=".addslashes($this->_id));		
 		
@@ -187,7 +187,7 @@ class HarmoniCanonicalCourse
 		$query=& new SelectQuery;
 		
 		
-		$query->setTable('cm_can_course');
+		$query->addTable('cm_can_course');
 		
 		$query->addWhere("`id`=".addslashes($this->_id));		
 		
@@ -374,6 +374,8 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
+	 
+	 
 	function &getId () { 
 		return $this->_node->getId();
 	}
@@ -401,8 +403,9 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function &getCourseType () { 
-		$valObj =& $this->_dataSet->getValue("type");
-		return $valObj->getTypeObject();
+		return $this->_getType('can');
+		//$valObj =& $this->_dataSet->getValue("type");
+		//return $valObj->getTypeObject();
 	}
 
 	/**
@@ -437,8 +440,37 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function &createCanonicalCourse ( $title, $number, $description, &$courseType, &$courseStatusType, $credits ) { 
-		$newCourse =& $this->_mgr->createCanonicalCourse($title, $number, $description, $courseType, $courseStatusType, $credits);
-		$this->_asset->addAsset($newCourse->_asset);
+	
+		
+		$idManager =& Services::getService("IdManager");
+		$id=$idManager->createId();
+
+
+		$type = new Type("CourseManagement","edu.middlebury", "CanonicalCourse");
+		$node=$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
+
+		$dbManager=& Services::getService("DBHandler");
+		$query=& new InsertQuery;
+
+		$query->setTable('cm_can');
+
+		$query->setColumns(array('id','number','credits','equivalent','fk_cm_can_type','title','fk_cm_can_stat_type'));
+
+		$values[]="'".addslashes($id->getIdString())."'";
+		$values[]="'".addslashes($number)."'";
+		$values[]="'".addslashes($credits)."'";
+		$values[]="'".addslashes($id->getIdString())."'";
+		$values[]="'".$this->_typeToIndex('can',$courseType)."'";
+		$values[]="'".addslashes($title)."'";
+		$values[]="'".$this->_typeToIndex('can_stat',$courseStatusType)."'";
+		$query->addRowOfValues($values);
+
+
+
+		$dbManager->query($query);
+
+		$ret =& new HarmoniCanonicalCourse($id, $node);
+		return $ret;
 	}
 
 	/**
@@ -462,26 +494,9 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function &getCanonicalCourses () { 
-		$assets =& $this->_asset->getAssetsByType( new CanonicalCourseAssetType() );
-		$courses = array();
+		$cm = Services::getService("CourseManagement");
+		return $cm->getCanonicalCourses ();
 		
-		$mgr =& Services::getService("DataManager");
-		// in order to save time on fetching datasets, we're going to pre-load all of the datasets.
-		$ids = array();
-		foreach (array_keys($assets) as $key) {
-			$id =& $assets[$key]->getId();
-			$ids[] = $id->getIdString();
-		}
-		$dataSets =& $mgr->fetchArrayOfIDs($ids,true);
-		
-		foreach (array_keys($assets) as $key) {
-			$id =& $assets[$key]->getId();
-			$courses[] =& new HarmoniCanonicalCourse($this, $assets[$key], $dataSets[$id->getIdString()]);
-		}
-		
-		$obj =& new HarmoniIterator($courses);
-		
-		return $obj;
 	}
 
 	/**
@@ -511,7 +526,8 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function &getCanonicalCoursesByType ( &$courseType ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		$cm = Services::getService("CourseManagement");
+		return $cm->getCanonicalCoursesByType ($courseType);
 	} 
 
 	/**
@@ -816,7 +832,8 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function getCredits () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		$this->_getField('credits');
 	} 
 
 	/**
@@ -842,7 +859,8 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function updateCredits ( $credits ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		$this->_setField('credits',$credits);
+		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
 	} 
 
 	/**
@@ -946,6 +964,8 @@ class HarmoniCanonicalCourse
 	} 
 	
 	
+	
+	/*
 	function _setField($key, $value)
 	{
 		$dbHandler =& Services::getService("DBHandler");
@@ -1018,14 +1038,14 @@ function _getType($typename){
 		if($res->getNumberOfRows()==0){
 			$query=& new InsertQuery;
 				$query->setTable('cm_'.$name."_type");	
-			$values[]=addslashes($type->getDomain());
-			$values[]=addslashes($type->getAuthority());
-			$values[]=addslashes($type->getKeyword());			
+			$values[]="'".addslashes($type->getDomain())."'";
+			$values[]="'".addslashes($type->getAuthority())."'";
+			$values[]="'".addslashes($type->getKeyword())."'";			
 			if(is_null($type->getDescription())){
-				$query->setColumns('domain','authority','keyword');
+				$query->setColumns(array('domain','authority','keyword'));
 			}else{
-				$query->setColumns('domain','authority','keyword','description');
-				$values[]=addslashes($type->getDescription());
+				$query->setColumns(array('domain','authority','keyword','description'));
+				$values[]="'".addslashes($type->getDescription())."'";
 			}
 
 			$query->addRowOfValues($values);
@@ -1064,6 +1084,38 @@ function _getType($typename){
 			$the_index=$row['id'];
 		return $the_index;
 		
+	}
+	*/
+	
+	
+	function _typeToIndex($typename, &$type)
+	{	
+		$cm=Services::getService("CourseManagement");
+		return $cm->_typeToIndex($typename, $type);
+	}
+	
+	function &_getTypes($typename)
+	{	
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getTypes($typename);
+	}
+	
+	function _getField($key)
+	{
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getType($typename);
+	}
+	
+	
+	function &_getType($typename){
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getType($typename);
+	}
+	
+	function _setField($key, $value)
+	{
+		$cm=Services::getService("CourseManagement");
+		return $cm->_setField($key, $value);		
 	}
 	
 	

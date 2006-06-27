@@ -15,7 +15,7 @@ require_once(OKI2."/osid/coursemanagement/Term.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Term.class.php,v 1.5 2006/06/27 18:49:08 sporktim Exp $
+ * @version $Id: Term.class.php,v 1.6 2006/06/27 21:07:13 sporktim Exp $
  */
 class HarmoniTerm
 	extends Term
@@ -52,7 +52,7 @@ class HarmoniTerm
 	 */
 	function updateDisplayName ( $displayName ) { 
 		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 
-		_setField('name',$displayName);
+		$this->_setField('name',$displayName);
 	} 
 
 	/**
@@ -77,7 +77,7 @@ class HarmoniTerm
 	 */
 	function getDisplayName () { 
 		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 
-		return _getField('name');
+		return $this->_getField('name');
 	} 
 
 	/**
@@ -128,7 +128,7 @@ class HarmoniTerm
 	 */
 	function &getType () { 
 		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 
-		return _getType('term');
+		return $this->_getType('term');
 	} 
 
 	/**
@@ -159,7 +159,7 @@ class HarmoniTerm
 	
 	
 	
-	
+	/*
 	
 		function _setField($key, $value)
 	{
@@ -232,14 +232,14 @@ class HarmoniTerm
 		if($res->getNumberOfRows()==0){
 			$query=& new InsertQuery;
 				$query->setTable('cm_'.$name."_type");	
-			$values[]=addslashes($type->getDomain());
-			$values[]=addslashes($type->getAuthority());
-			$values[]=addslashes($type->getKeyword());			
+			$values[]="'".addslashes($type->getDomain())."'";
+			$values[]="'".addslashes($type->getAuthority())."'";
+			$values[]="'".addslashes($type->getKeyword())."'";			
 			if(is_null($type->getDescription())){
-				$query->setColumns('domain','authority','keyword');
+				$query->setColumns(array('domain','authority','keyword'));
 			}else{
-				$query->setColumns('domain','authority','keyword','description');
-				$values[]=addslashes($type->getDescription());
+				$query->setColumns(array('domain','authority','keyword','description'));
+				$values[]="'".addslashes($type->getDescription())."'";
 			}
 
 			$query->addRowOfValues($values);
@@ -278,6 +278,39 @@ class HarmoniTerm
 			$the_index=$row['id'];
 		return $the_index;
 		
+	}
+	
+	
+	*/
+	
+	function _typeToIndex($typename, &$type)
+	{	
+		$cm=Services::getService("CourseManagement");
+		return $cm->_typeToIndex($typename, $type);
+	}
+	
+	function &_getTypes($typename)
+	{	
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getTypes($typename);
+	}
+	
+	function _getField($key)
+	{
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getType($typename);
+	}
+	
+	
+	function &_getType($typename){
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getType($typename);
+	}
+	
+	function _setField($key, $value)
+	{
+		$cm=Services::getService("CourseManagement");
+		return $cm->_setField($key, $value);		
 	}
 	
 	
