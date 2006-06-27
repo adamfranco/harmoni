@@ -25,7 +25,7 @@ require_once(OKI2."/osid/coursemanagement/CanonicalCourse.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.6 2006/06/27 13:35:10 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.7 2006/06/27 18:49:08 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -946,7 +946,7 @@ class HarmoniCanonicalCourse
 	} 
 	
 	
-	function setField($key, $value)
+	function _setField($key, $value)
 	{
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new UpdateQuery;		
@@ -963,7 +963,7 @@ class HarmoniCanonicalCourse
 		
 	}
 	
-	function getField($key)
+	function _getField($key)
 	{
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;			
@@ -976,12 +976,12 @@ class HarmoniCanonicalCourse
 		return $ret;
 	}
 	
-	function getType($name){
-		//the table keys are given names as indicated below
-		$index=getField("fk_cm_".$name."_type");
+function _getType($typename){
+		//the appropriate table names and fields must be given names according to the pattern indicated below
+		$index=getField("fk_cm_".$typename."_type");
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;			
-		$query->setTable('cm_'.$name."_type");		
+		$query->setTable('cm_'.$typename."_type");		
 		$query->addWhere("`id`=".$index);						
 		$query->addColumn('domain');
 		$query->addColumn('authority');
@@ -995,6 +995,74 @@ class HarmoniCanonicalCourse
 			$the_type = new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
 		}	
 		return $the_type;
+		
+	}
+	
+	
+	
+	function _typeToIndex($typename, &$type){
+		//the appropriate table names and fields must be given names according to the pattern indicated below
+		//$index=getField("fk_cm_".$name."_type");
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;			
+		$query->setTable('cm_'.$name."_type");		
+		//$query->addWhere("`id`=".$index);
+		$query->addWhere("`domain`='".$type->getDomain()."'");	
+		$query->addWhere("`authority`='".$type->getAuthority()."'");	
+		$query->addWhere("`keyword`='".$type->getKeyword()."'");							
+		//$query->addColumn('domain');
+		//$query->addColumn('authority');
+		//$query->addColumn('keyword');
+		$query->addColumn('id');						
+		$res=& $dbHandler->query($query);
+		if($res->getNumberOfRows()==0){
+			$query=& new InsertQuery;
+				$query->setTable('cm_'.$name."_type");	
+			$values[]=addslashes($type->getDomain());
+			$values[]=addslashes($type->getAuthority());
+			$values[]=addslashes($type->getKeyword());			
+			if(is_null($type->getDescription())){
+				$query->setColumns('domain','authority','keyword');
+			}else{
+				$query->setColumns('domain','authority','keyword','description');
+				$values[]=addslashes($type->getDescription());
+			}
+
+			$query->addRowOfValues($values);
+			$query->setAutoIncrementColumn('id','id_sequence');			
+			
+			
+			$dbHandler->query($query);
+			
+		$query=& new SelectQuery;			
+		$query->setTable('cm_'.$name."_type");		
+		//$query->addWhere("`id`=".$index);
+		$query->addWhere("`domain`='".$type->getDomain()."'");	
+		$query->addWhere("`authority`='".$type->getAuthority()."'");	
+		$query->addWhere("`keyword`='".$type->getKeyword()."'");							
+		$query->addColumn('id');						
+		$res=& $dbHandler->query($query);							
+		//$row =& $res->getCurrentRow();	
+		//$the_index=$row['id'];
+		
+		
+		}elseif($res->getNumberOfRows()>1){
+				print "\n<b>Warning!<\b> The Type with domain ".$type->getDomain().", authority ".$type->getAuthority().", and keyword ".$type->getKeyword()." is not unique--there are ".$res->getNumberOfRows()."copies.\n";
+			
+			
+		}
+			
+		
+		//if(is_null($row['description'])){
+		//	$the_type = new Type($row['domain'],$row['authority'],$row['keyword']);
+		//}else{
+		//	$the_type = new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
+		//}	
+		//return $the_type;
+		
+		$row =& $res->getCurrentRow();	
+			$the_index=$row['id'];
+		return $the_index;
 		
 	}
 	
