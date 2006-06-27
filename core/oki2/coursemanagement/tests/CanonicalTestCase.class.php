@@ -159,7 +159,8 @@
 			$this->assertReference($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
 			$this->assertReference($canonicalCourseD->getTitle(), $canonicalCourseB->getTitle());
 			$this->assertFalse($canonicalCourseB->getCredits() == "3.1415927");
-			$this->assertTrue($canonicalCourseB->getCourseStatusType() == $courseStatusType);
+			$this->assertReference($canonicalCourseB->getCourseStatusType() == 
+								   $canonicalCourseA->getCourseStatusType());
 			
 			// Fourth test case - getting canonical course by type 
 			$title = "MA";
@@ -186,11 +187,14 @@
 			  																	$courseType, $courseStatusType,
 												                                $credits);
 			$canonicalCourseB =& $courseManagementManager->getCanonicalCourseByType($canonicalCourseA->getCourseType());
-			$canonicalCourseB =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
+			$canonicalCourseC =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
 			
 			$this->assertReference($canonicalCourseB, $canonicalCourseC);
 			$this->assertReference($canonicalCourseB->getId(), $canonicalCourseC->getId());
 			$this->assertEqual($canonicalCourseB->getTitle(), $canonicalCourseC->getTitle());
+			$this->assertEqual($canonicalCourseB->getTitle(), "BI");
+			$this->assertTrue($canonicalCoruseB->getNumber() == "310");
+			$this->assertEqual($canonicalCourseC->getNumber(), "310");
 			$this->assertFalse($canonicalCourseC->getTitle() == "MA");
 			
 			// Sixth test - modifying various attributes of canonical course (will use previous values)
