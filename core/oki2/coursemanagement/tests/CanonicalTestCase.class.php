@@ -135,8 +135,8 @@
 												                                $credits);
 			$canonicalCourseB =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
 			
-          	$this->assertEquals($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
-          	$this->assertEquals($canonicalCourseA->getTitle(), "SOAN");
+          	$this->assertEqual($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
+          	$this->assertEqual($canonicalCourseA->getTitle(), "SOAN");
           	$this->assertTrue($canonicalCourseB->getcredits() == "1.00");
           	$this->assertTrue($canonicalCourseB->getDescription() == "Intro to Sociocultural Anthropology");
           	$this->assertFalse($canonicalCourseB->getDescription() == "Intro to Sociocultural Anthropology.");
@@ -154,8 +154,10 @@
 			  																	$courseType, $courseStatusType,
 												                                $credits);
 			$canonicalCourseB =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
+			$canonicalCourseD =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
 			
 			$this->assertReference($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
+			$this->assertReference($canonicalCourseD->getTitle(), $canonicalCourseB->getTitle());
 			$this->assertFalse($canonicalCourseB->getCredits() == "3.1415927");
 			$this->assertTrue($canonicalCourseB->getCourseStatusType() == $courseStatusType);
 			
@@ -171,8 +173,8 @@
 			$canonicalCourseB =& $courseManagementManager->getCanonicalCourseByType($canonicalCourseA->getCourseType());
 			
 			$this->assertReference($canonicalCourseA, $canonicalCourseB);
-			$this->assertEquals($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
-			$this->assertEquals($canonicalCourseA->getDescription == "Real Analysis");
+			$this->assertEqual($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
+			$this->assertEqual($canonicalCourseA->getDescription == "Real Analysis");
 			
 			// Fifth test - making sure course type and course id yield equal search results.
 			$title = "BI";
@@ -188,21 +190,56 @@
 			
 			$this->assertReference($canonicalCourseB, $canonicalCourseC);
 			$this->assertReference($canonicalCourseB->getId(), $canonicalCourseC->getId());
-			$this->assertEquals($canonicalCourseB->getTitle(), $canonicalCourseC->getTitle());
+			$this->assertEqual($canonicalCourseB->getTitle(), $canonicalCourseC->getTitle());
 			$this->assertFalse($canonicalCourseC->getTitle() == "MA");
+			
+			// Sixth test - modifying various attributes of canonical course (will use previous values)
+			// $canonicalCourseD is the very first test case - this should not have changed.
+			// $canonicalCourseB AND $canonicalCourseC (as well as $canonicalCourseA) should be updated.
+			$canonicalCourseB->updateTitle("ECON");
+			$canonicalCourseB->updateNumber("210");
+			$canonicalCourseB->updateDescription("Economic Statistics");
+			$this->assertNotReference($canonicalCourseD, $canonicalCourseB);
+			$this->assertReference($canonicalCourseB, $canonicalCourseC);
+			$this->assertEqual($canonicalCourseC->getTitle(), "title");
 		}
 		
 		/*
 		function testCourseOffering() {
-			$courseSectionTest = new CourseManagementManager();
-			$testCase = new CanonicalCourse();
-			
-			$canonicalTest->createCanonicalCourse( &$title, &$number, &$description, &$courseType, &$courseStatusType,
-												   &$credits );
-			$testId1 = $canonicalTest->$id;
+		  	$courseManagementManager =& Services::getService("CourseManagement");
+		  	
+		  	// First test case
+		  	$title = "CS101";
+          	$number = "cs101";
+          	$description = "Intro to Computer Science";
+          	$courseType =& new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
+          	$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
+          	$credits = "3.1415927";
+		  	
+			$courseSectionA =& $courseManagementManager->createCourseSection($title, $number, $description, 
+			  																$courseType, $courseStatusType,
+												                            $credits);
+			$courseSectionB =& $courseManagementManager->getCourseSection($courseSectionA->getId());
 		
-			$courseSectionTest->canonicalCourse->courseSection();
-			$sectionTest = $courseSectionTest->getCourseOffering();
+			$this->assertReference($canonicalCourseA, $canonicalCourseB);
+			
+			// Second test case
+			$title = "LIT";
+          	$number = "101";
+          	$description = "Intro to Literature";
+          	$courseType =& new Type("CourseManagement", "edu.middlbeury", "LIT");
+          	$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Available");
+          	$credits = "1.00";
+          	
+  		  	$courseSectionA =& $courseManagementManager->createCourseSection($title, $number, $description, 
+			  																$courseType, $courseStatusType,
+												                            $credits);
+			$courseSectionB =& $courseManagementManager->getCourseSection($canonicalCourseA->getId());
+			
+          	$this->assertEquals($courseSectionA->getTitle(), $courseSectionB->getTitle());
+          	$this->assertFalse($canonicalCourseB->getTitle() == "SOAN");
+          	$this->assertTrue($canonicalCourseB->getTitle() == "LIT");
+          	$this->assertReference($canonicalCourseA, $canonicalCourseB);
 		}
 		*/
     }
