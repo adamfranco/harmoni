@@ -5,12 +5,15 @@
 -- @copyright Copyright &copy; 2006, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: MySQL_CourseManagement.sql,v 1.3 2006/06/27 13:35:08 sporktim Exp $
+-- @version $Id: MySQL_CourseManagement.sql,v 1.4 2006/06/27 19:24:30 sporktim Exp $
 -- */
 -- --------------------------------------------------------
 
 -- --------------------------------------------------------
 
+
+
+-- --------------------------------------------------------
 
 -- 
 -- Table structure for table `cm_can`
@@ -27,6 +30,7 @@ CREATE TABLE `cm_can` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all of the canonical course listings.';
 
+-- --------------------------------------------------------
 
 -- 
 -- Table structure for table `cm_can_stat_type`
@@ -85,7 +89,7 @@ CREATE TABLE `cm_offer` (
   `fk_cm_offer_type` varchar(170) default NULL,
   PRIMARY KEY  (`id`),
   KEY `fk_offer_type` (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains all of the course offerings';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains all of the course offerings';
 
 -- --------------------------------------------------------
 
@@ -119,15 +123,13 @@ CREATE TABLE `cm_offer_type` (
 
 -- --------------------------------------------------------
 
-
 -- 
 -- Table structure for table `cm_section`
 -- 
 
 CREATE TABLE `cm_section` (
   `id` varchar(170) NOT NULL default '',
-  `fk_course_offer` varchar(255) default NULL,
-  `term_type` varchar(255) default NULL,
+  `fk_cm_offer` varchar(170) default NULL,
   `meeting_location` varchar(255) default NULL,
   `student_roster` text,
   `meeting_time` varchar(255) default NULL,
@@ -135,7 +137,6 @@ CREATE TABLE `cm_section` (
   `fk_cm_section_stat_type` varchar(170) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains course sections';
-
 
 -- --------------------------------------------------------
 
@@ -175,7 +176,6 @@ CREATE TABLE `cm_section_type` (
 
 CREATE TABLE `cm_term` (
   `id` varchar(170) NOT NULL default '',
-  `schedule` varchar(170) default NULL,
   `name` varchar(255) default NULL,
   `fk_cm_term_type` varchar(170) default NULL,
   PRIMARY KEY  (`id`)
