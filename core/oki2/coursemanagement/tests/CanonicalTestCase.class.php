@@ -118,8 +118,8 @@
           	$canonicalCourseA =& $courseManagementManager->createCanonicalCourse($title, $number, $description, 
 			  																	$courseType, $courseStatusType,
 												                                $credits);
-          	
           	$canonicalCourseB =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
+          	
           	$this->assertReference($canonicalCourseA, $canonicalCourseB);
           	
           	// Second test case
@@ -134,107 +134,62 @@
 			  																	$courseType, $courseStatusType,
 												                                $credits);
 			$canonicalCourseB =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
+			
           	$this->assertEquals($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
           	$this->assertEquals($canonicalCourseA->getTitle(), "SOAN");
+          	$this->assertTrue($canonicalCourseB->getcredits() == "1.00");
+          	$this->assertTrue($canonicalCourseB->getDescription() == "Intro to Sociocultural Anthropology");
+          	$this->assertFalse($canonicalCourseB->getDescription() == "Intro to Sociocultural Anthropology.");
+          	$this->assertFalse($canonicalCourseB->getDescription() == "Intro to Computer Science");
 			
-			/*
-			// Get canonical course
-			$testCase = $canonicalTest->getCanonicalCourse( $testId );
-						                                           
-			$this->assertEqual($testCase->$courseType, "DED");
-			$this->assertEqual($testCase->$courseStatusType, "Available");
-			$this->assertEqual($testCase->$title, "CS101");
-			$this->assertEqual($testCase->$number, "cs101");
+			// Third test case
+			$title = "GEOL";
+			$number = "170";
+			$description = "Dynamic Earth";
+			$courseType =& new Type("CourseManagement", "edu.middlebury", "DED");
+			$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Not recommended.");
+			$credits = "1.00";
 			
-			// Second test case 
-			$title = "SOAN";
-          	$number = "103";
-          	$description = "Intro to Sociocultural Anthropology";
-          	$courseType = "SOC";
-          	$courseStatusType = "Full";
-          	
-          	$canonicalTest = new CourseManagementManager();
-          	
-          	$canonicalTest->&createCanonicalCourse ( $title, $number, $description, &$courseType, &$courseStatusType,
-			  										 $credits );
-			// Retrive canonical course id
-			$testCase = $canonicalTest->getCanonicalCourse( $testId );
+			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse(($title, $number, $description, 
+			  																	$courseType, $courseStatusType,
+												                                $credits);
+			$canonicalCourseB =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
 			
-			// Get canonical course
-			$canonicalTest->getCanonicalCourse( $testId );
-						                                           
-			$this->assertTrue($testCase->courseType == "SOAN");
-			$this->assertFalse($testCase->courseType == "DED");
-			$this->assertTrue($testCase->courseStatusType == "Full");
-			$this->assertFalse($testCase->courseStatusType == "Available");
-			$this->assertNotEquals($testCase->$courseStatusType, "Available");
-			$this->assertFalse($testCase->$title, "CS101");
-			$this->assertEqual($testCase->$number, "103");
-			
-			// Delete canonical course
-			$canonicalTest->deleteCanonicalCourse( &testId );
-			
-			// Third test case 
-			$title = "MA200";
-			$description = "Linear Algebra";
-			$courseType = "Mathematics";
-			$courseStatusType = "NA";
-			
-			$canonicalTest->&createCanonicalCourse ( $title, $number, $description, &$courseType, &$courseStatusType,
-			  										 $credits );
-			// Retrive canonical course id
-			$testId = $canonicalTest->$id;
-			
-			// Get canonical course
-			$testCase = $canonicalTest->getCanonicalCourse( $testId );
-			
-			$this->assertEquals($testCase->&$title, $title);
-			$this->assertEquals($testCase->$description, $description);
-			
-			// Delete canonical course
-			$canonicalTest->deleteCanonicalCourse( &testId );	
+			$this->assertReference($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
+			$this->assertFalse($canonicalCourseB->getCredits() == "3.1415927");
+			$this->assertTrue($canonicalCourseB->getCourseStatusType() == $courseStatusType);
 			
 			// Fourth test case - getting canonical course by type 
+			$title = "MA";
+			$number = "323";
 			$description = "Real Analaysis";
-			$title = "MA323";
-			$canonicalTest->&createCanonicalCourse ( $title, $number, $description, &$courseType, &$courseStatusType,
-			  										 $credits );
-			$testId = $canonicalTest->$id;
+			$courseType =& new Type("CourseManagement", "edu.middlebury", "DED");
+			$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Highly recommended.");
+			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse(($title, $number, $description, 
+			  																	$courseType, $courseStatusType,
+												                                $credits);
+			$canonicalCourseB =& $courseManagementManager->getCanonicalCourseByType($canonicalCourseA->getCourseType());
 			
-			// Retrive canonical course id
-			$testType = $canonicalTest->$courseType;
-			
-			// Get canonical course by type
-			$testCase = $canonicalTest->getCanonicalCourseByType( $testType );
-			
-			$this->assertTrue($testCase->$description == "Real Analysis");
-			
-			// Delete canonical course
-			$canonicalTest->deleteCanonicalCourse( &testId );
-			
-			// Delete very first added canonical course
-			$canonicalTest->deleteCanonicalCourse( &testId1 );
+			$this->assertReference($canonicalCourseA, $canonicalCourseB);
+			$this->assertEquals($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
+			$this->assertEquals($canonicalCourseA->getDescription == "Real Analysis");
 			
 			// Fifth test - making sure course type and course id yield equal search results.
-			$title = "Microbiology";
-			$description = "Germs";
-			$canonicalTest->&createCanonicalCourse ( $title, $number, $description, &$courseType, &$courseStatusType,
-			  										 $credits );
-			  										 
-			$testId = $canonicalTest->$id;
-			$testType = $canonicalTest->$courseType;
+			$title = "BI";
+			$number = "310";
+			$description = "Microbiology";
+			$courseType =& new Type("CourseManagement", "edu.middlebury", "SCI");
+			$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Wait till next year.");
+			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse(($title, $number, $description, 
+			  																	$courseType, $courseStatusType,
+												                                $credits);
+			$canonicalCourseB =& $courseManagementManager->getCanonicalCourseByType($canonicalCourseA->getCourseType());
+			$canonicalCourseB =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
 			
-			$this->assertReference($canonicalTest->getCanonicalCourseByType( $testType ), 
-								   $canonicalTest->getCanonicalCourse( $testId ) );
-								   
-			// Delete canonical course
-			$canonicalTest->deleteCanonicalCourse( &testId );
-			
-			// This should kill the program
-			$canonicalTest->getCanonicalCourse($testId) or die();
-			// This should throw an error
-			$canonicalTest->deleteCanonicalCourse(&testId1); or die();	
-			*/
+			$this->assertReference($canonicalCourseB, $canonicalCourseC);
+			$this->assertReference($canonicalCourseB->getId(), $canonicalCourseC->getId());
+			$this->assertEquals($canonicalCourseB->getTitle(), $canonicalCourseC->getTitle());
+			$this->assertFalse($canonicalCourseC->getTitle() == "MA");
 		}
 		
 		/*
