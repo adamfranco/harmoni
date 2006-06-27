@@ -150,7 +150,7 @@
 			$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Not recommended.");
 			$credits = "1.00";
 			
-			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse(($title, $number, $description, 
+			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse($title, $number, $description, 
 			  																	$courseType, $courseStatusType,
 												                                $credits);
 			$canonicalCourseB =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
@@ -168,7 +168,7 @@
 			$description = "Real Analaysis";
 			$courseType =& new Type("CourseManagement", "edu.middlebury", "DED");
 			$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Highly recommended.");
-			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse(($title, $number, $description, 
+			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse($title, $number, $description, 
 			  																	$courseType, $courseStatusType,
 												                                $credits);
 			$canonicalCourseB =& $courseManagementManager->getCanonicalCourseByType($canonicalCourseA->getCourseType());
@@ -183,7 +183,7 @@
 			$description = "Microbiology";
 			$courseType =& new Type("CourseManagement", "edu.middlebury", "SCI");
 			$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Wait till next year.");
-			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse(($title, $number, $description, 
+			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse($title, $number, $description, 
 			  																	$courseType, $courseStatusType,
 												                                $credits);
 			$canonicalCourseB =& $courseManagementManager->getCanonicalCourseByType($canonicalCourseA->getCourseType());
