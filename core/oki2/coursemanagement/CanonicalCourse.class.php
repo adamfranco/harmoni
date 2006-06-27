@@ -25,27 +25,53 @@ require_once(OKI2."/osid/coursemanagement/CanonicalCourse.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.5 2006/01/17 20:06:22 adamfranco Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.6 2006/06/27 13:35:10 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
 {
 	
-	var $_asset;
-	var $_dataSet;
-	var $_mgr;
-	
+	//var $_asset;
+	//var $_dataSet;
+	//var $_mgr;
 	/**
+	 * @variable object $_node the node in the hierarchy.
+	 * @access private
+	 * @variable object $_id the unique id for the canonical course.
+	 * @access private
+	 * @variable object $_id the unique id for the canonical course.
+	 * @access private
+	 **/
+	var $_node;
+	var $_id;
+	var $_table;
+	
+	/*
 	 * The constructor.
 	 * @access public
 	 * @return void
-	 */
+	
 	function HarmoniCanonicalCourse(&$classMgr, &$asset, &$dataSet)
 	{
 		$this->_asset =& $asset;
 		$this->_dataSet =& $dataSet;
 		$this->_mgr =& $classMgr;
 	}
+	*/
+	
+	/**
+	 * The constructor.
+	 * @access public
+	 * @return void
+	 */
+	function HarmoniCanonicalCourse($id, $node)
+	{
+		$this->_id = $id;
+		$this->_node = $node;
+		$this->_table = 'cm_can';
+		
+	}
+	
 
 	/**
 	 * Get the title for this CanonicalCourse.
@@ -68,7 +94,28 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function getTitle () { 
-		return $this->_dataSet->getStringValue("title");
+		//return $this->_dataSet->getStringValue("title");
+		//return $this->_node->getDisplayName();
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		
+		
+		$query->setTable('cm_can_course');
+		
+		$query->addWhere("`id`=".addslashes($this->_id));		
+		
+		
+		$query->addColumn('title');	
+		
+			
+		$res=& $dbHandler->query($query);
+		
+		$row =& $res->getCurrentRow();
+	
+		$number=$row['title'];
+		
+		return $number;
 	}
 
 	/**
@@ -94,8 +141,21 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function updateTitle ( $title ) { 
-		$this->_asset->updateDisplayName($title . " " . $this->_dataSet->getStringValue("number"));
-		$this->_dataSet->setValue("title", new ShortStringDataType($title));
+		//$this->_node->updateDisplayName($title);
+			$dbHandler =& Services::getService("DBHandler");
+		$query=& new UpdateQuery;		
+		$query->setTable('cm_can_course');
+		
+		
+		$query->addWhere("`id`=".addslashes($this->_id));	
+			
+		$query->setColumns(array('title'));
+		$query->setValues(array(addslashes($title)));
+		
+		
+		
+		$dbHandler->query($query);
+		
 	}
 
 	/**
@@ -118,8 +178,32 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function getNumber () { 
-		return $this->_dataSet->getStringValue("number");
+	function getNumber () {
+		
+		
+		
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		
+		
+		$query->setTable('cm_can_course');
+		
+		$query->addWhere("`id`=".addslashes($this->_id));		
+		
+		
+		$query->addColumn('number');	
+		
+			
+		$res=& $dbHandler->query($query);
+		
+		$row =& $res->getCurrentRow();
+	
+		$number=$row['number'];
+		
+		return $number;
+		
+		//return $this->_dataSet->getStringValue("number");
 	}
 
 	/**
@@ -145,12 +229,31 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function updateNumber ( $number ) { 
-		$this->_asset->updateDisplayName($this->_dataSet->getStringValue("title") . " " . $number);
-		$this->_dataSet->setValue("number", new ShortStringDataType($number));
+		//$this->_asset->updateDisplayName($this->_dataSet->getStringValue("title") . " " . $number);
+		//$this->_dataSet->setValue("number", new ShortStringDataType($number));
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new UpdateQuery;		
+		$query->setTable('cm_can_course');
+		
+		
+		$query->addWhere("`id`=".addslashes($this->_id));	
+			
+		$query->setColumns(array('number'));
+		$query->setValues(array(addslashes($number)));
+		
+		
+		
+		$dbHandler->query($query);
+		
+	
+	
+		
+		
 	}
 
 	/**
-	 * Get the description for this CanonicalCourse.
+	 * Get the description for this CanonicalCourse.  Returns null if no description exists
 	 *	
 	 * @return string
 	 * 
@@ -170,7 +273,7 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function getDescription () { 
-		return $this->_asset->getDescription();
+		return $this->_node->getDescription();
 	}
 
 	/**
@@ -196,7 +299,7 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function updateDescription ( $description ) { 
-		$this->_asset->updateDescription($description);
+		$this->_node->updateDescription($description);
 	}
 	
 	/**
@@ -220,7 +323,8 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function getDisplayName () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		$this->_node->getDisplayName();
 	} 
 	
 	/**
@@ -246,7 +350,8 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		$this->_node->updateDisplayName($displayName);
 	} 
 
 	/**
@@ -270,7 +375,7 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function &getId () { 
-		return $this->_asset->getId();
+		return $this->_node->getId();
 	}
 
 	/**
@@ -839,6 +944,65 @@ class HarmoniCanonicalCourse
 	function &getProperties () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
 	} 
+	
+	
+	function setField($key, $value)
+	{
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new UpdateQuery;		
+		$query->setTable(addslashes($_table));
+		
+		
+		$query->addWhere("`id`=".addslashes($this->_id));	
+			
+		$query->setColumns(array(addslashes($key)));
+		$query->setValues(array(addslashes($number)));
+
+		$dbHandler->query($query);
+		
+		
+	}
+	
+	function getField($key)
+	{
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;			
+		$query->setTable('cm_can_course');		
+		$query->addWhere("`id`=".addslashes($this->_id));						
+		$query->addColumn(addslashes($key));						
+		$res=& $dbHandler->query($query);		
+		$row =& $res->getCurrentRow();	
+		$ret=$row[$key];		
+		return $ret;
+	}
+	
+	function getType($name){
+		//the table keys are given names as indicated below
+		$index=getField("fk_cm_".$name."_type");
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;			
+		$query->setTable('cm_'.$name."_type");		
+		$query->addWhere("`id`=".$index);						
+		$query->addColumn('domain');
+		$query->addColumn('authority');
+		$query->addColumn('keyword');
+		$query->addColumn('description');						
+		$res=& $dbHandler->query($query);		
+		$row =& $res->getCurrentRow();	
+		if(is_null($row['description'])){
+			$the_type = new Type($row['domain'],$row['authority'],$row['keyword']);
+		}else{
+			$the_type = new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
+		}	
+		return $the_type;
+		
+	}
+	
+	
+	
+	
+	
+	
 }
 
 ?>

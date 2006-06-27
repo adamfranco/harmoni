@@ -5,13 +5,11 @@
 -- @copyright Copyright &copy; 2006, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: MySQL_CourseManagement.sql,v 1.2 2006/06/26 18:17:59 sporktim Exp $
+-- @version $Id: MySQL_CourseManagement.sql,v 1.3 2006/06/27 13:35:08 sporktim Exp $
 -- */
 -- --------------------------------------------------------
 
 -- --------------------------------------------------------
-
-
 
 
 -- 
@@ -24,10 +22,11 @@ CREATE TABLE `cm_can` (
   `credits` float default NULL,
   `equivalent` varchar(170) default NULL,
   `fk_cm_can_type` varchar(170) default NULL,
+  `title` varchar(255) default NULL,
+  `fk_cm_can_stat_type` varchar(170) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all of the canonical course listings.';
 
--- --------------------------------------------------------
 
 -- 
 -- Table structure for table `cm_can_stat_type`
@@ -120,6 +119,7 @@ CREATE TABLE `cm_offer_type` (
 
 -- --------------------------------------------------------
 
+
 -- 
 -- Table structure for table `cm_section`
 -- 
@@ -132,8 +132,10 @@ CREATE TABLE `cm_section` (
   `student_roster` text,
   `meeting_time` varchar(255) default NULL,
   `fk_cm_section_type` varchar(170) default NULL,
+  `fk_cm_section_stat_type` varchar(170) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains course sections';
+
 
 -- --------------------------------------------------------
 

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2006, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseManagementManager.class.php,v 1.6 2006/06/26 18:18:12 sporktim Exp $
+ * @version $Id: CourseManagementManager.class.php,v 1.7 2006/06/27 13:35:10 sporktim Exp $
  */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -99,7 +99,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseManagementManager.class.php,v 1.6 2006/06/26 18:18:12 sporktim Exp $
+ * @version $Id: CourseManagementManager.class.php,v 1.7 2006/06/27 13:35:10 sporktim Exp $
  */
 class HarmoniCourseManagementManager
 	extends CourseManagementManager
@@ -108,8 +108,14 @@ class HarmoniCourseManagementManager
 	/**
 	 * @variable object $_osidContext the OSID context.
 	 * @access private
+	 * @variable object $_osidContext the configuration for the CourseManagementManager.
+	 * @access private
+	 * @variable object $_hierarchyId the ID for the ID
+	 * @access private
 	 **/
 	var $_osidContext;
+	var $_configuration;
+	var $_hierarchyId;
 	
 	/**
 	 * @param ref object $drId A {@link HarmoniId} referencing our DR.
@@ -253,13 +259,13 @@ class HarmoniCourseManagementManager
 		$idManager =& Services::getService("IdManager");
 		$id=$idManager->createId();
 		
-		$hiManager =& Services::getService("HierarchyManager");
-		$theHierarchy =& $hiManager->getHiearchy($idManager->createID("edu.middlebury.authorization.root"));
+		//$hiManager =& Services::getService("HierarchyManager");
+		//$theHierarchy =& $hiManager->getHiearchy($idManager->getId($hierarchyId));
 		
 		
 		
 		$type = new HarmoniType("CourseManagement","edu.middlebury", "CanonicalCourse");
-		$node=$theHierarchy->createNode($id,"Canonical_Courses",$courseType,$title,$description);
+		$node=$theHierarchy->createNode($id,"Canonical_Courses",$type,$title,$description);
 		
 		$dbManager=& Services::getService("DBHandler");
 		$query=& new InsertQuery;
@@ -268,10 +274,15 @@ class HarmoniCourseManagementManager
 		
 		$query->setTable('cm_can_course');
 	
+		$query->setColumns('id','number','credits','equivalent','fk_cm_can_type','title','fk_cm_can_stat_type');
+		
 		$values[]=addslashes($id);
 		$values[]=addslashes($number);
 		$values[]=addslashes($credits);
-		$values[]=null;		
+		$values[]=addslashes($id);	
+		$values[]=null;
+		$values[]=addslashes($title);
+		$values[]=null;			
 		$query->addRowOfValues($values);
 		
 		
@@ -1324,6 +1335,11 @@ class HarmoniCourseManagementManager
 	function supportsUpdate () { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true)); 
 	} 
+	
+	
+	
+	
+	
 }
 
 ?>
