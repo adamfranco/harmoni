@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.9 2006/06/27 21:07:13 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.10 2006/06/27 21:48:38 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.9 2006/06/27 21:07:13 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.10 2006/06/27 21:48:38 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -374,26 +374,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCanonicalCourses () {
-		/*$assets =& $this->_dr->getAssetsByType( new CanonicalCourseAssetType() );
-		$courses = array();
-
-		$mgr =& Services::getService("DataManager");
-		// in order to save time on fetching datasets, we're going to pre-load all of the datasets.
-		$ids = array();
-		foreach (array_keys($assets) as $key) {
-		$id =& $assets[$key]->getId();
-		$ids[] = $id->getIdString();
-		}
-		$dataSets =& $mgr->fetchArrayOfIDs($ids,true);
-
-		foreach (array_keys($assets) as $key) {
-		$id =& $assets[$key]->getId();
-		$courses[] =& new HarmoniCanonicalCourse($this, $assets[$key], $dataSets[$id->getIdString()]);
-		}
-
-		$obj =& new HarmoniIterator($courses);
-
-		return $obj;*/
+		
 
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
@@ -407,13 +388,13 @@ extends CourseManagementManager
 
 		while($res->hasMoreRows()){
 
-			$row =& $res->getCurrentRow();
+			$row = $res->getCurrentRow();
 			$res->advanceRow();
 
 			$canonicalCourseArray[]=getCanonicalCourse($row['id']);
 
 		}
-		return new CanonicalCourseIterator($canonicalCourseArray);
+		return new HarmoniCanonicalCourseIterator($canonicalCourseArray);
 
 	}
 
@@ -446,7 +427,7 @@ extends CourseManagementManager
 	function &getCanonicalCourse ( &$canonicalCourseId ) {
 
 		$node =& $this->_hierarchy->getNode($canonicalCourseId);
-		$ret =& new CanonicalCourse($canonicalCourseId, $node);
+		$ret =& new HarmoniCanonicalCourse($canonicalCourseId, $node);
 		return $ret;
 
 	}
@@ -497,13 +478,13 @@ extends CourseManagementManager
 
 		while($res->hasMoreRows()){
 
-			$row =& $res->getCurrentRow();
+			$row = $res->getCurrentRow();
 			$res->advanceRow();
 
 			$canonicalCourseArrayByType[]=getCanonicalCourse($row['id']);
 
 		}
-		return new CanonicalCourseIterator($canonicalCourseArrayByType);
+		return new HarmoniCanonicalCourseIterator($canonicalCourseArrayByType);
 
 	}
 
@@ -537,7 +518,7 @@ extends CourseManagementManager
 		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
 
 		$node =& $this->_hierarchy->getNode($courseOfferingId);
-		$ret =& new CanonicalCourse($courseOfferingId, $node);
+		$ret =& new HarmoniCanonicalCourse($courseOfferingId, $node);
 		return $ret;
 
 
@@ -575,7 +556,7 @@ extends CourseManagementManager
 	function &getCourseSection ( &$courseSectionId ) {
 		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
 		$node =& $this->_hierarchy->getNode($courseSectionId);
-		$ret =& new CanonicalCourse($courseSectionId, $node);
+		$ret =& new HarmoniCanonicalCourse($courseSectionId, $node);
 		return $ret;
 	}
 
@@ -783,7 +764,7 @@ extends CourseManagementManager
 	*/
 	function &getTerm ( &$termId ) {
 		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
-		return new Term($termId);
+		return new HarmoniTerm($termId);
 	}
 
 	/**
@@ -815,11 +796,11 @@ extends CourseManagementManager
 		$res=& $dbHandler->query($query);
 		$array=array();
 		while($res->hasMoreRows()){
-			$row =& $res->getCurrentRow();
+			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			$array[]=getTerm($row['id']);
 		}
-		return new TermIterator($array);
+		return new HarmoniTermIterator($array);
 	}
 
 	/**
@@ -870,18 +851,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseTypes () {
-		/*$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
-		$query->setTable('cm_term_type');
-		$query->addColumn('id');
-		$res=& $dbHandler->query($query);
-		$array=array();
-		while($res->hasMoreRows()){
-		$row =& $res->getCurrentRow();
-		$res->advanceRow();
-		$array[]=getTerm($row['id']);
-		}
-		return new TermIterator($array);*/
+	
 		return $this->_getTypes('can');
 
 	}
@@ -1520,7 +1490,7 @@ extends CourseManagementManager
 		$res=& $dbHandler->query($query);
 		$array=array();
 		while($res->hasMoreRows()){
-			$row =& $res->getCurrentRow();
+			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			if(is_null($row['description'])){
 				$the_type = new Type($row['domain'],$row['authority'],$row['keyword']);
@@ -1533,9 +1503,9 @@ extends CourseManagementManager
 	}
 
 
-	function _getType($typename){
+	function &_getType(&$id, $table, $typename){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
-		$index=getField("fk_cm_".$typename."_type");
+		$index=$this->_getField($id,$table,"fk_cm_".$typename."_type");
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
@@ -1545,11 +1515,11 @@ extends CourseManagementManager
 		$query->addColumn('keyword');
 		$query->addColumn('description');
 		$res=& $dbHandler->query($query);
-		$row =& $res->getCurrentRow();
+		$row = $res->getCurrentRow();
 		if(is_null($row['description'])){
-			$the_type = new Type($row['domain'],$row['authority'],$row['keyword']);
+			$the_type =& new Type($row['domain'],$row['authority'],$row['keyword']);
 		}else{
-			$the_type = new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
+			$the_type =& new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
 		}
 		return $the_type;
 
@@ -1562,13 +1532,9 @@ extends CourseManagementManager
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
-		//$query->addWhere("`id`=".$index);
 		$query->addWhere("`domain`='".$type->getDomain()."'");
 		$query->addWhere("`authority`='".$type->getAuthority()."'");
 		$query->addWhere("`keyword`='".$type->getKeyword()."'");
-		//$query->addColumn('domain');
-		//$query->addColumn('authority');
-		//$query->addColumn('keyword');
 		$query->addColumn('id');
 		$res=& $dbHandler->query($query);
 
@@ -1594,23 +1560,6 @@ extends CourseManagementManager
 			$result =& $dbHandler->query($query);
 			
 			return $result->getLastAutoIncrementValue();
-			
-			/*$query=& new SelectQuery;
-			$query->addTable('cm_'.$typename."_type");
-			//$query->addWhere("`id`=".$index);
-			$query->addWhere("`domain`='".$type->getDomain()."'");
-			$query->addWhere("`authority`='".$type->getAuthority()."'");
-			$query->addWhere("`keyword`='".$type->getKeyword()."'");
-			$query->addColumn('id');
-			$res=& $dbHandler->query($query);
-			//$row =& $res->getCurrentRow();
-			//$the_index=$row['id'];
-
-			
-			$row =& $res->getCurrentRow();
-			$the_index = $row['id'];
-			return $the_index;*/
-
 		}elseif($res->getNumberOfRows()==1){
 			
 			$row = $res->getCurrentRow();
@@ -1627,25 +1576,16 @@ extends CourseManagementManager
 
 		}
 
-
-		//if(is_null($row['description'])){
-		//	$the_type = new Type($row['domain'],$row['authority'],$row['keyword']);
-		//}else{
-		//	$the_type = new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
-		//}
-		//return $the_type;
-
-
 	}
 
-	function _setField($key, $value)
+	function _setField(&$id, $table, $key, $value)
 	{
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new UpdateQuery;
-		$query->setTable(addslashes($_table));
+		$query->setTable(addslashes($table));
 
 
-		$query->addWhere("`id`=".addslashes($this->_id));
+		$query->addWhere("`id`=".addslashes($id));
 
 		$query->setColumns(array(addslashes($key)));
 		$query->setValues(array(addslashes($number)));
@@ -1655,15 +1595,15 @@ extends CourseManagementManager
 
 	}
 
-	function _getField($key)
+	function _getField(&$id, $table, $key)
 	{
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
-		$query->addTable('cm_can_course');
-		$query->addWhere("`id`=".addslashes($this->_id));
+		$query->addTable(addslashes($table));
+		$query->addWhere("`id`=".addslashes($id->getIdString()));
 		$query->addColumn(addslashes($key));
 		$res=& $dbHandler->query($query);
-		$row =& $res->getCurrentRow();
+		$row = $res->getCurrentRow();
 		$ret=$row[$key];
 		return $ret;
 	}

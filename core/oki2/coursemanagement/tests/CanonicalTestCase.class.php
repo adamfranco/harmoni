@@ -159,8 +159,8 @@
 			$this->assertReference($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
 			$this->assertReference($canonicalCourseD->getTitle(), $canonicalCourseB->getTitle());
 			$this->assertFalse($canonicalCourseB->getCredits() == "3.1415927");
-			$this->assertReference($canonicalCourseB->getCourseStatusType() == 
-								   $canonicalCourseA->getCourseStatusType());
+			$this->assertReference($canonicalCourseB->getStatus() == 
+								   $canonicalCourseA->getStatus());
 			
 			// Fourth test case - getting canonical course by type 
 			$title = "MA";
