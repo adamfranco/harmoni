@@ -25,7 +25,7 @@ require_once(OKI2."/osid/coursemanagement/CanonicalCourse.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.9 2006/06/27 21:48:38 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.10 2006/06/28 14:52:03 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -94,28 +94,9 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function getTitle () { 
-		//return $this->_dataSet->getStringValue("title");
-		//return $this->_node->getDisplayName();
-		
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
-		
-		
-		$query->addTable('cm_can');
-		
-		$query->addWhere("`id`=".addslashes($this->_id->getIdString()));		
-		
-		
-		$query->addColumn('title');	
-		
-			
-		$res=& $dbHandler->query($query);
-		
-		$row = $res->getCurrentRow();
 	
-		$number=$row['title'];
 		
-		return $number;
+			$this->_getField('title');
 	}
 
 	/**
@@ -141,20 +122,8 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function updateTitle ( $title ) { 
-		//$this->_node->updateDisplayName($title);
-			$dbHandler =& Services::getService("DBHandler");
-		$query=& new UpdateQuery;		
-		$query->setTable('cm_can_course');
-		
-		
-		$query->addWhere("`id`=".addslashes($this->_id));	
-			
-		$query->setColumns(array('title'));
-		$query->setValues(array(addslashes($title)));
-		
-		
-		
-		$dbHandler->query($query);
+
+		$this->_setField('title',$title);
 		
 	}
 
@@ -183,27 +152,7 @@ class HarmoniCanonicalCourse
 		
 		
 		
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
-		
-		
-		$query->addTable('cm_can_course');
-		
-		$query->addWhere("`id`=".addslashes($this->_id));		
-		
-		
-		$query->addColumn('number');	
-		
-			
-		$res=& $dbHandler->query($query);
-		
-		$row = $res->getCurrentRow();
-	
-		$number=$row['number'];
-		
-		return $number;
-		
-		//return $this->_dataSet->getStringValue("number");
+		$this->_getField('number');
 	}
 
 	/**
@@ -229,24 +178,9 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function updateNumber ( $number ) { 
-		//$this->_asset->updateDisplayName($this->_dataSet->getStringValue("title") . " " . $number);
-		//$this->_dataSet->setValue("number", new ShortStringDataType($number));
-		
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new UpdateQuery;		
-		$query->setTable('cm_can_course');
-		
-		
-		$query->addWhere("`id`=".addslashes($this->_id));	
-			
-		$query->setColumns(array('number'));
-		$query->setValues(array(addslashes($number)));
-		
-		
-		
-		$dbHandler->query($query);
-		
 	
+		
+	$this->_setField('number',$number);
 	
 		
 		
@@ -322,8 +256,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function getDisplayName () { 
-		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+	function getDisplayName () {  
 		$this->_node->getDisplayName();
 	} 
 	
@@ -350,7 +283,6 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
-		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
 		$this->_node->updateDisplayName($displayName);
 	} 
 
@@ -377,7 +309,7 @@ class HarmoniCanonicalCourse
 	 
 	 
 	function &getId () { 
-		return $this->_node->getId();
+		return $this->_id;
 	}
 
 	/**
@@ -404,8 +336,6 @@ class HarmoniCanonicalCourse
 	 */
 	function &getCourseType () { 
 		return $this->_getType('can');
-		//$valObj =& $this->_dataSet->getValue("type");
-		//return $valObj->getTypeObject();
 	}
 
 	/**
@@ -914,7 +844,9 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function updateStatus ( &$statusType ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		$index =& $this->_typeToIndex('can_stat',$statusType);
+		$this->_setField('title',$index);
 	} 
 	
 	/**

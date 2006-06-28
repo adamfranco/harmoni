@@ -159,8 +159,10 @@
 			$this->assertReference($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
 			$this->assertReference($canonicalCourseD->getTitle(), $canonicalCourseB->getTitle());
 			$this->assertFalse($canonicalCourseB->getCredits() == "3.1415927");
-			$this->assertReference($canonicalCourseB->getStatus() == 
-								   $canonicalCourseA->getStatus());
+			//$ref1 =& $canonicalCourseB->getStatus();
+			//$ref2 =& $canonicalCourseA->getStatus();
+			//$this->assertReference($ref1 == $ref2);
+			$this->assertReference($canonicalCourseB->getStatus(),$canonicalCourseA->getStatus());
 			
 			// Fourth test case - getting canonical course by type 
 			$title = "MA";
@@ -171,11 +173,12 @@
 			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse($title, $number, $description, 
 			  																	$courseType, $courseStatusType,
 												                                $credits);
-			$canonicalCourseB =& $courseManagementManager->getCanonicalCourseByType($canonicalCourseA->getCourseType());
+			$courseIterator =& $courseManagementManager->getCanonicalCoursesByType($canonicalCourseA->getCourseType());
+			$canonicalCourseB =& $courseIterator->nextCanonicalCourse();
 			
 			$this->assertReference($canonicalCourseA, $canonicalCourseB);
 			$this->assertEqual($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
-			$this->assertEqual($canonicalCourseA->getDescription == "Real Analysis");
+			$this->assertEqual($canonicalCourseA->getDescription(), "Real Analysis");
 			
 			// Fifth test - making sure course type and course id yield equal search results.
 			$title = "BI";
@@ -186,14 +189,15 @@
 			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse($title, $number, $description, 
 			  																	$courseType, $courseStatusType,
 												                                $credits);
-			$canonicalCourseB =& $courseManagementManager->getCanonicalCourseByType($canonicalCourseA->getCourseType());
+			$iterator =& $courseManagementManager->getCanonicalCoursesByType($canonicalCourseA->getCourseType());
+			$canonicalCourseB =& $iterator->nextCanonicalCourse();
 			$canonicalCourseC =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
 			
 			$this->assertReference($canonicalCourseB, $canonicalCourseC);
 			$this->assertReference($canonicalCourseB->getId(), $canonicalCourseC->getId());
 			$this->assertEqual($canonicalCourseB->getTitle(), $canonicalCourseC->getTitle());
 			$this->assertEqual($canonicalCourseB->getTitle(), "BI");
-			$this->assertTrue($canonicalCoruseB->getNumber() == "310");
+			$this->assertTrue($canonicalCourseB->getNumber() == "310");
 			$this->assertEqual($canonicalCourseC->getNumber(), "310");
 			$this->assertFalse($canonicalCourseC->getTitle() == "MA");
 			

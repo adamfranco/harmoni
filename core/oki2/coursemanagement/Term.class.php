@@ -15,7 +15,7 @@ require_once(OKI2."/osid/coursemanagement/Term.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Term.class.php,v 1.7 2006/06/27 21:48:38 sporktim Exp $
+ * @version $Id: Term.class.php,v 1.8 2006/06/28 14:52:04 sporktim Exp $
  */
 class HarmoniTerm
 	extends Term
@@ -102,7 +102,7 @@ class HarmoniTerm
 	 */
 	function &getId () { 
 		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 
-		return _id;
+		return $this->_id;
 	} 
 
 	/**
