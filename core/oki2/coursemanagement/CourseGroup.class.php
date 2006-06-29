@@ -16,11 +16,31 @@ require_once(OKI2."/osid/coursemanagement/CourseGroup.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseGroup.class.php,v 1.4 2005/01/19 22:28:21 adamfranco Exp $
+ * @version $Id: CourseGroup.class.php,v 1.5 2006/06/29 19:29:29 sporktim Exp $
  */
 class HarmoniCourseGroup
 	extends CourseGroup
 {
+	
+	
+	/**
+	 * @variable object $_node the node representing this group.
+	 * @access private
+	 **/
+	var $_node;
+	
+	/**
+	 * The constructor.
+	 * @access private
+	 * @param object Node $id
+	 * @return void
+	 */
+	function HarmoniCanonicalCourse($node)
+	{		
+		$this->_node = $node;	
+	}
+
+	
 	/**
 	 * Update the display name for this CourseGroup.
 	 * 
@@ -44,7 +64,7 @@ class HarmoniCourseGroup
 	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 
+		$this->_node->updateDisplayName($displayName);
 	} 
 
 	/**
@@ -68,7 +88,7 @@ class HarmoniCourseGroup
 	 * @access public
 	 */
 	function getDisplayName () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 
+		return $this->_node->getDisplayName();
 	} 
 
 	/**
@@ -92,7 +112,7 @@ class HarmoniCourseGroup
 	 * @access public
 	 */
 	function &getId () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 
+		return $this->_node->getId();
 	} 
 
 	/**
@@ -116,7 +136,7 @@ class HarmoniCourseGroup
 	 * @access public
 	 */
 	function &getType () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 
+		return $this->_node->getType();
 	} 
 
 	/**
@@ -146,8 +166,10 @@ class HarmoniCourseGroup
 	 * 
 	 * @access public
 	 */
-	function addCourse ( &$canonicalCourseId ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 
+	function addCourse ( &$canonicalCourseId ) {
+		$cm=Services::getService("CourseManagement");
+		$course =& $cm->getCanonicalCourse($canonicalCourseId);
+		$course->_node->addParent($this->_node->getId());
 	} 
 
 	/**
@@ -175,7 +197,9 @@ class HarmoniCourseGroup
 	 * @access public
 	 */
 	function removeCourse ( &$canonicalCourseId ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 
+		$cm=Services::getService("CourseManagement");
+		$course =& $cm->getCanonicalCourse($canonicalCourseId);
+		$course->_node->removeParent($this->_node->getId()); 
 	} 
 
 	/**
@@ -201,8 +225,17 @@ class HarmoniCourseGroup
 	 * 
 	 * @access public
 	 */
-	function &getCourses () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGroup", true)); 
+	function &getCourses () {
+		$cm=Services::getService("CourseManagement");
+		$nodeiterator =& $this->_node->getChildren();
+		$arrayOfCourses = array();
+		while($nodeiterator->hasNextNode()){
+			$node=$nodeiterator->nextNode();
+			$arrayOfCourses[] =& $cm->getCanonicalCourse($node->getId());
+		}
+		$ret =& new CanonicalCourseIterator($arrayOfCourses);
+		return $ret;
+		 
 	} 
 }
 

@@ -24,11 +24,50 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseOffering.class.php,v 1.5 2006/06/26 18:18:12 sporktim Exp $
+ * @version $Id: CourseOffering.class.php,v 1.6 2006/06/29 19:29:29 sporktim Exp $
  */
 class HarmoniCourseOffering
 	extends CourseOffering
 {
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * @variable object $_node the node in the hierarchy.
+	 * @access private
+	 * @variable object $_id the unique id for the course offering.
+	 * @access private
+	 * @variable object $_table the course offering table.
+	 * @access private
+	 **/
+	var $_node;
+	var $_id;
+	var $_table;
+	
+	/**
+	 * The constructor.
+	 * 
+	 * @param object Id $id
+	 * @param object Node $node
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function HarmoniCanonicalCourse($id, $node)
+	{
+		$this->_id = $id;
+		$this->_node = $node;
+		$this->_table = 'cm_offer';
+		
+	}
+	
+	
+	
 	/**
 	 * Update the title for this CourseOffering.
 	 * 
@@ -52,11 +91,13 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function updateTitle ( $title ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		$canCourse = $this->getCanonicalCourse();
+		$canCourse->updateTitle($title);
+		
 	} 
 
 	/**
-	 * Update the number for this CourseOffering.
+	 * Update the number for this CourseOffering.  
 	 * 
 	 * @param string $number
 	 * 
@@ -78,7 +119,8 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function updateNumber ( $number ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		$canCourse = $this->getCanonicalCourse();
+		$canCourse->updateTitle($number);
 	} 
 
 	/**
@@ -104,7 +146,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function updateDescription ( $description ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		$this->_node->updateDescription($description );
 	} 
 
 	/**
@@ -130,11 +172,11 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		$this->_node->updateDisplayName($displayName );
 	} 
 
 	/**
-	 * Get the title for this CourseOffering.
+	 * Get the title for this CourseOffering.  
 	 *	
 	 * @return string
 	 * 
@@ -154,7 +196,8 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function getTitle () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		$canCourse = $this->getCanonicalCourse();
+		return $canCourse->getTitle();
 	} 
 
 	/**
@@ -178,7 +221,8 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function getNumber () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		$canCourse = $this->getCanonicalCourse();
+		return $canCourse->getNumber();
 	} 
 
 	/**
@@ -202,7 +246,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function getDescription () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		return $this->_node->getDescription($displayName );
 	} 
 
 	/**
@@ -226,7 +270,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function getDisplayName () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		return $this->_node->getDisplayName($displayName );
 	} 
 
 	/**
@@ -250,7 +294,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function &getId () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		return $this->_id;
 	} 
 
 	/**
@@ -276,7 +320,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function &getOfferingType () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		return _getType('offer');
 	} 
 
 	/**
@@ -302,7 +346,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function &getCourseGradeType () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		return _getType('grade');
 	} 
 
 	/**
@@ -326,7 +370,9 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function &getTerm () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		$cm = Services::getService("CourseMangament"); 
+		$termId = $this->_getField('fk_cm_term');
+		$cm -> getTerm($termId);
 	} 
 
 	/**
@@ -350,7 +396,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function &getStatus () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		return _getType('offer_stat');
 	} 
 
 	/**
@@ -421,8 +467,15 @@ class HarmoniCourseOffering
 	 * 
 	 * @access public
 	 */
-	function &getCanonicalCourse () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+	function &getCanonicalCourse () {
+		$nodeIterator = $this->_node->getParents();
+		if(!$nodeIterator->hasNextNode()){
+			print "<b>Warning!</b> Course Offering ".$this->getDisplayName()." has no Canonical Parent.";
+			return null;	
+		}
+		$parentNode = $nodeIterator->nextNode();		
+		$cm = Services::getService("CourseMangament");
+		return $cm -> getCanonicalCourse($parentNode->getID());
 	} 
 
 	/**
@@ -647,7 +700,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function updateCourseGradeType ( &$courseGradeType ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		$this->_setField('fk_cm_grade_type',$this->_typeToIndex($courseGradeType));
 	} 
 
 	/**
@@ -675,7 +728,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function updateStatus ( &$statusType ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		$this->_setField('fk_cm_offer_stat_type',$this->_typeToIndex($statusType));
 	} 
 
 	/**
@@ -851,6 +904,48 @@ class HarmoniCourseOffering
 	function &getPropertiesByType ( &$propertiesType ) { 
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
 	} 
+	
+	
+	
+	
+	function _typeToIndex($typename, &$type)
+	{	
+		$cm=Services::getService("CourseManagement");
+		return $cm->_typeToIndex($typename, $type);
+	}
+	
+	function &_getTypes($typename)
+	{	
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getTypes($typename);
+	}
+	
+	function _getField($key)
+	{
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getField($this->_id,$this->_table,$key);
+	}
+	
+	
+	function &_getType($typename){
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getType($this->_id,$this->_table,$typename);
+	}
+	
+	function _setField($key, $value)
+	{
+		$cm=Services::getService("CourseManagement");
+		return $cm->_setField($this->_id,$this->_table,$key, $value);		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 
 ?>

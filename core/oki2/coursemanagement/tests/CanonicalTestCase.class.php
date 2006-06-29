@@ -107,12 +107,12 @@
         
         function TestOfCanonicalCourse() {
           	/* First test case */
-          	$title = "CS101";
-          	$number = "cs101";
-          	$description = "Intro to Computer Science";
+          	$title = "Intro to Computer Science";
+          	$number = "CS101";
+          	$description = "Yeah!  Buggles!";
           	$courseType =& new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
           	$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
-          	$credits = "3.1415927";
+          	$credits = "3.14159";
           	
           	$courseManagementManager =& Services::getService("CourseManagement");
           	$canonicalCourseA =& $courseManagementManager->createCanonicalCourse($title, $number, $description, 
@@ -120,12 +120,27 @@
 												                                $credits);
           	$canonicalCourseB =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
           	
-          	$this->assertReference($canonicalCourseA, $canonicalCourseB);
+          	//$this->assertReference($canonicalCourseA, $canonicalCourseB);
+          	$this->assertEqual($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
+          	$this->assertEqual($canonicalCourseA->getCredits(), $canonicalCourseB->getCredits());
+          	$this->assertEqual($canonicalCourseA->getDescription(), $canonicalCourseB->getDescription());
+          	$this->assertEqual($canonicalCourseA->getDisplayName(), $canonicalCourseB->getDisplayName());
+          	$this->assertEqual($canonicalCourseA->getNumber(), $canonicalCourseB->getNumber());
+          	$this->assertEqual($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
+          	$this->assertEqual($canonicalCourseA->getTitle(), "Intro to Computer Science");
+          	$this->assertEqual($canonicalCourseB->getCredits(), "3.14159");
+          	$this->assertFalse($canonicalCourseB->getDescription() == "Intro to Sociocultural Anthropology");
+          	$this->assertFalse($canonicalCourseB->getDescription() == "Yeah!  Buggles!.");
+          	$this->assertTrue($canonicalCourseB->getDescription() == "Yeah!  Buggles!");
+          	$this->assertEqual($canonicalCourseB->getNumber(), "CS101");
+          	
+          	
+          	$courseManagementManager->deleteCanonicalCourse($canonicalCourseA->getId());
           	
           	// Second test case
-          	$title = "SOAN";
-          	$number = "103";
-          	$description = "Intro to Sociocultural Anthropology";
+          	$title = "Intro to Sociocultural Anthropology";
+          	$number = "SOAN103";
+          	$description = "Life is a mystery";
           	$courseType =& new Type("CourseManagement", "edu.middlbeury", "SOC");
           	$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Full", "No students allowed.");
           	$credits = "1.00";
@@ -136,17 +151,21 @@
 			$canonicalCourseB =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
 			
           	$this->assertEqual($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
-          	$this->assertEqual($canonicalCourseA->getTitle(), "SOAN");
-          	$this->assertTrue($canonicalCourseB->getcredits() == "1.00");
-          	$this->assertTrue($canonicalCourseB->getDescription() == "Intro to Sociocultural Anthropology");
-          	$this->assertFalse($canonicalCourseB->getDescription() == "Intro to Sociocultural Anthropology.");
+          	$this->assertEqual($canonicalCourseA->getTitle(), "Intro to Sociocultural Anthropology");
+          	$this->assertTrue($canonicalCourseB->getCredits() == "1.00");
+          	$this->assertTrue($canonicalCourseB->getDescription() == "Life is a mystery");
+          	$this->assertFalse($canonicalCourseB->getDescription() == "Life is a mystery.");
           	$this->assertFalse($canonicalCourseB->getDescription() == "Intro to Computer Science");
 			
+          	$courseManagementManager->deleteCanonicalCourse($canonicalCourseB->getId());
+          	
 			// Third test case
-			$title = "GEOL";
-			$number = "170";
-			$description = "Dynamic Earth";
-			$courseType =& new Type("CourseManagement", "edu.middlebury", "DED");
+			print "third test";
+			
+			$title = "Dynamic Earth";
+			$number = "GEOL170";
+			$description = "Rocks for jocks?";
+			$courseType =& new Type("CourseManagement", "edu.middlebury", "SCI");
 			$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Not recommended.");
 			$credits = "1.00";
 			
@@ -156,18 +175,21 @@
 			$canonicalCourseB =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
 			$canonicalCourseD =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
 			
-			$this->assertReference($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
-			$this->assertReference($canonicalCourseD->getTitle(), $canonicalCourseB->getTitle());
-			$this->assertFalse($canonicalCourseB->getCredits() == "3.1415927");
-			//$ref1 =& $canonicalCourseB->getStatus();
-			//$ref2 =& $canonicalCourseA->getStatus();
-			//$this->assertReference($ref1 == $ref2);
-			$this->assertReference($canonicalCourseB->getStatus(),$canonicalCourseA->getStatus());
+			$this->assertEqual($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
+			$this->assertEqual($canonicalCourseD->getTitle(), $canonicalCourseB->getTitle());
+			$this->assertNotEqual($canonicalCourseB->getCredits(), "3.14159");
+			$this->assertEqualTypes($canonicalCourseB->getStatus(),$canonicalCourseA->getStatus());
+			$this->assertEqualTypes($canonicalCourseB->getCourseType(),$canonicalCourseA->getCourseType());
+			
+			$courseManagementManager->deleteCanonicalCourse($canonicalCourseD->getId());
 			
 			// Fourth test case - getting canonical course by type 
-			$title = "MA";
-			$number = "323";
-			$description = "Real Analaysis";
+			
+			print "fourth test";
+			
+			$title = "Real Analaysis";
+			$number = "MA323";
+			$description = "Arguably the hardest there is";
 			$courseType =& new Type("CourseManagement", "edu.middlebury", "DED");
 			$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Highly recommended.");
 			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse($title, $number, $description, 
@@ -176,14 +198,26 @@
 			$courseIterator =& $courseManagementManager->getCanonicalCoursesByType($canonicalCourseA->getCourseType());
 			$canonicalCourseB =& $courseIterator->nextCanonicalCourse();
 			
-			$this->assertReference($canonicalCourseA, $canonicalCourseB);
+		
 			$this->assertEqual($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
-			$this->assertEqual($canonicalCourseA->getDescription(), "Real Analysis");
+          	$this->assertEqual($canonicalCourseA->getCredits(), $canonicalCourseB->getCredits());
+          	$this->assertEqual($canonicalCourseA->getDescription(), $canonicalCourseB->getDescription());
+          	$this->assertEqual($canonicalCourseA->getDisplayName(), $canonicalCourseB->getDisplayName());
+			$this->assertEqualTypes($canonicalCourseA->getStatus(),$canonicalCourseB->getStatus());
+			$this->assertEqualTypes($canonicalCourseA->getCourseType(),$canonicalCourseB->getCourseType());
 			
+			$this->assertEqual($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
+			$this->assertEqual($canonicalCourseA->getDescription(), "Arguably the hardest there is");
+			
+			
+			$courseManagementManager->deleteCanonicalCourse($canonicalCourseA->getId());
 			// Fifth test - making sure course type and course id yield equal search results.
-			$title = "BI";
-			$number = "310";
-			$description = "Microbiology";
+			
+			print "fifth test";
+			
+			$title = "Microbiology";
+			$number = "BI310";
+			$description = "Learn about little things";
 			$courseType =& new Type("CourseManagement", "edu.middlebury", "SCI");
 			$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Wait till next year.");
 			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse($title, $number, $description, 
@@ -193,23 +227,47 @@
 			$canonicalCourseB =& $iterator->nextCanonicalCourse();
 			$canonicalCourseC =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
 			
-			$this->assertReference($canonicalCourseB, $canonicalCourseC);
-			$this->assertReference($canonicalCourseB->getId(), $canonicalCourseC->getId());
+			//$this->assertReference($canonicalCourseB, $canonicalCourseC);
+			$this->assertEqual($canonicalCourseC->getTitle(), $canonicalCourseB->getTitle());
+          	$this->assertEqual($canonicalCourseC->getCredits(), $canonicalCourseB->getCredits());
+          	$this->assertEqual($canonicalCourseC->getDescription(), $canonicalCourseB->getDescription());
+          	$this->assertEqual($canonicalCourseC->getDisplayName(), $canonicalCourseB->getDisplayName());
+			$this->assertEqualTypes($canonicalCourseC->getStatus(),$canonicalCourseB->getStatus());
+			$this->assertEqualTypes($canonicalCourseC->getCourseType(),$canonicalCourseB->getCourseType());
+			
+			$this->assertEqual($canonicalCourseB->getId(), $canonicalCourseC->getId());
 			$this->assertEqual($canonicalCourseB->getTitle(), $canonicalCourseC->getTitle());
-			$this->assertEqual($canonicalCourseB->getTitle(), "BI");
-			$this->assertTrue($canonicalCourseB->getNumber() == "310");
-			$this->assertEqual($canonicalCourseC->getNumber(), "310");
-			$this->assertFalse($canonicalCourseC->getTitle() == "MA");
+			$this->assertEqual($canonicalCourseB->getTitle(), "Microbiology");
+			$this->assertTrue($canonicalCourseB->getNumber() == "BI310");
+			$this->assertEqual($canonicalCourseC->getNumber(), "BI310");
+			$this->assertFalse($canonicalCourseC->getTitle() == "Real Analaysis");
 			
 			// Sixth test - modifying various attributes of canonical course (will use previous values)
+			print "sixth test";
+			
 			// $canonicalCourseD is the very first test case - this should not have changed.
 			// $canonicalCourseB AND $canonicalCourseC (as well as $canonicalCourseA) should be updated.
-			$canonicalCourseB->updateTitle("ECON");
-			$canonicalCourseB->updateNumber("210");
-			$canonicalCourseB->updateDescription("Economic Statistics");
-			$this->assertNotReference($canonicalCourseD, $canonicalCourseB);
-			$this->assertReference($canonicalCourseB, $canonicalCourseC);
-			$this->assertEqual($canonicalCourseC->getTitle(), "title");
+			$canonicalCourseB->updateTitle("Economic Statistics");
+			$canonicalCourseB->updateNumber("ECON210");
+			$canonicalCourseB->updateDescription("Snore");
+			//$this->assertNotReference($canonicalCourseD, $canonicalCourseB);
+			//$this->assertReference($canonicalCourseB, $canonicalCourseC);
+			$this->assertEqual($canonicalCourseB->getTitle(), "Economic Statistics");
+			$this->assertEqual($canonicalCourseB->getNumber(), "ECON210");
+			$this->assertEqual($canonicalCourseB->getDescription(), "Snore");
+			$this->assertEqual($canonicalCourseC->getTitle(), "Economic Statistics");
+			
+			$courseManagementManager->deleteCanonicalCourse($canonicalCourseB->getId());
+			
+		}
+		
+		
+		function assertEqualTypes(&$typeA,&$typeB){
+			
+			$this->assertEqual($typeA->getDomain(),$typeB->getDomain());
+			$this->assertEqual($typeA->getAuthority(),$typeB->getAuthority());
+			$this->assertEqual($typeA->getKeyword(),$typeB->getKeyword());
+			$this->assertEqual($typeA->getDescription(),$typeB->getDescription());
 		}
 		
 		/*

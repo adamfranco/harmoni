@@ -15,18 +15,20 @@ require_once(OKI2."/osid/coursemanagement/Term.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Term.class.php,v 1.8 2006/06/28 14:52:04 sporktim Exp $
+ * @version $Id: Term.class.php,v 1.9 2006/06/29 19:29:29 sporktim Exp $
  */
 class HarmoniTerm
 	extends Term
 {
 	
-	/**
-	* @variable object Id $_id the unique id for this term.
-	* @access private	
-	**/
-	
+		/**
+	 * @variable object $_id the unique id for this term.
+	 * @access private
+	 * @variable object $_table the term table.
+	 * @access private
+	 **/
 	var $_id;
+	var $_table;
 	
 	/**
 	 * Update the display name for this Term.
@@ -175,19 +177,19 @@ class HarmoniTerm
 	function _getField($key)
 	{
 		$cm=Services::getService("CourseManagement");
-		return $cm->_getType($this->_id,'cm_term',$key);
+		return $cm->_getField($this->_id,$this->_table,$key);
 	}
 	
 	
 	function &_getType($typename){
 		$cm=Services::getService("CourseManagement");
-		return $cm->_getField($this->_id,'cm_term',$typename);
+		return $cm->_getType($this->_id,$this->_table,$typename);
 	}
 	
 	function _setField($key, $value)
 	{
 		$cm=Services::getService("CourseManagement");
-		return $cm->_setField($this->_id,'cm_term',$key, $value);		
+		return $cm->_setField($this->_id,$this->_table,$key, $value);		
 	}
 	
 	

@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.11 2006/06/28 14:52:04 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.12 2006/06/29 19:29:29 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.11 2006/06/28 14:52:04 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.12 2006/06/29 19:29:29 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -239,7 +239,7 @@ extends CourseManagementManager
 
 
 	/**
-	* Create a new CanonicalCourse.
+	* Create a new CanonicalCourse.  The display name defaults to the title, but this can be changed later.
 	*
 	* @param string $title
 	* @param string $number
@@ -271,7 +271,7 @@ extends CourseManagementManager
 	*/
 	function &createCanonicalCourse ( $title, $number, $description, &$courseType, &$courseStatusType, $credits ) {
 
-		
+
 
 		$idManager =& Services::getService("IdManager");
 		$id=$idManager->createId();
@@ -336,7 +336,7 @@ extends CourseManagementManager
 
 	//$hiHandler =& Services::getService("HierarchyManager");
 	//$theHierarchy =& getHierarchy("??????????");//fixthis
-	$this->_hierarchy->deleteNode($id);
+	$this->_hierarchy->deleteNode($canonicalCourseId);
 
 
 
@@ -346,7 +346,7 @@ extends CourseManagementManager
 
 	$query->setTable('cm_can');
 
-	$query->addWhere("id=".addslashes($canonicalCourseId));
+	$query->addWhere("id=".addslashes($canonicalCourseId->getIdString()));
 	$dbHandler->query($query);
 
 
@@ -374,7 +374,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCanonicalCourses () {
-		
+
 
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
@@ -476,7 +476,7 @@ extends CourseManagementManager
 
 		$canonicalCourseArrayByType = array();
 		$idManager= & Services::getService("IdManager");
-		
+
 		while($res->hasMoreRows()){
 
 			$row = $res->getCurrentRow();
@@ -517,10 +517,10 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseOffering ( &$courseOfferingId ) {
-		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+	
 
 		$node =& $this->_hierarchy->getNode($courseOfferingId);
-		$ret =& new HarmoniCanonicalCourse($courseOfferingId, $node);
+		$ret =& new HarmoniCourseOffering($courseOfferingId, $node);
 		return $ret;
 
 
@@ -556,9 +556,9 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseSection ( &$courseSectionId ) {
-		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		
 		$node =& $this->_hierarchy->getNode($courseSectionId);
-		$ret =& new HarmoniCanonicalCourse($courseSectionId, $node);
+		$ret =& new HarmoniCourseSection($courseSectionId, $node);
 		return $ret;
 	}
 
@@ -590,6 +590,7 @@ extends CourseManagementManager
 	*/
 	function &getCourseSections ( &$agentId ) {
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		
 		/*$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->setTable('cm_section');
@@ -631,8 +632,11 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseOfferings ( &$agentId ) {
+		
+		
 		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
-		/*$dbHandler =& Services::getService("DBHandler");
+		/*
+		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->setTable('cm_offer');
 		$query->addColumn('id');
@@ -725,9 +729,6 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function deleteTerm ( &$termId ) {
-		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
-		//$this->_hierarchy->deleteNode($id);
-
 
 
 		$dbHandler =& Services::getService("DBHandler");
@@ -765,7 +766,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getTerm ( &$termId ) {
-		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		
 		return new HarmoniTerm($termId);
 	}
 
@@ -790,7 +791,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getTerms () {
-		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+	
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('cm_term');
@@ -853,7 +854,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseTypes () {
-	
+
 		return $this->_getTypes('can');
 
 	}
@@ -881,7 +882,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseStatusTypes () {
-		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+
 		return $this->_getTypes('can_stat');
 	}
 
@@ -1036,7 +1037,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseGradeTypes () {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		return $this->_getTypes('grade');
 	}
 
 	/**
@@ -1059,8 +1060,7 @@ extends CourseManagementManager
 	*
 	* @access public
 	*/
-	function &getTermTypes () {
-		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+	function &getTermTypes () {		
 		return $this->_getTypes('term');
 	}
 
@@ -1193,7 +1193,16 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &createCourseGroup ( &$courseGroupType ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		$idManager =& Services::getService("IdManager");
+		$id=$idManager->createId();
+
+		$node=$this->_hierarchy->createNode($id,$this->_courseGroupsId,$courseGroupType,"","A group for CanonicalCourses");
+
+
+
+		$ret =& new HarmoniCourseGroup($node);
+		return $ret;
+
 	}
 
 	/**
@@ -1221,7 +1230,8 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function deleteCourseGroup ( &$courseGroupId ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+
+		$this->_hierarchy->deleteNode($courseGroupId);
 	}
 
 	/**
@@ -1251,7 +1261,11 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseGroup ( &$courseGroupId ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		$node =& $this->_hierarchy->getNode($courseGroupId);
+		$ret =& new CourseGroup($node);
+		return $ret;
+
+
 	}
 
 	/**
@@ -1281,7 +1295,17 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseGroupsByType ( &$courseGroupType ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		$parent =& $this->_hierarchy->getNode($this->_courseGroupsId);
+		$nodeIterator =& $parent->getChildren();
+		$arrayOfGroups = array();
+		while($nodeIterator->hasNextNode()){
+			$node=$nodeIterator->nextNode();
+			if($courseGroupType->isEqualTo($node->getType())){
+				$arrayOfGroups[] =& $this->getCourseGroup($node->getId());
+			}
+		}
+		$ret =& new CourseGroupIterator($arrayOfGroups);
+		return $ret;
 	}
 
 	/**
@@ -1311,11 +1335,31 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseGroups ( &$canonicalCourseId ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		
+		
+		
+		$childNode =& $this->_hierarchy->getNode($canonicalCourseId);
+		$nodeIterator =& $childNode->getParents();
+		$arrayOfGroups = array();
+		while($nodeIterator->hasNextNode()){
+			$parentNode=$nodeIterator->nextNode();
+			$grandparents = $parentNode->getParents();
+			if(!$grandparents->hasNextNode()){
+				print "<b>Warning!</b> The CanonicalCourse with id ".$canonicalCourseId." is a root node";
+				continue;
+			}
+			$grandparentNode = $grandparents->nextNode();	
+			if($this->_courseGroupsId->isEqualTo($grandparentNode->getId())){
+				$arrayOfGroups[] =& $this->getCourseGroup($parentNode->getId());
+			}
+		}
+		$ret =& new CourseGroupIterator($arrayOfGroups);
+		return $ret;
 	}
 
 	/**
-	* Get all the CourseGroupTypes supported by this implementation.
+	* Get all the CourseGroupTypes supported by this implementation.  This can be innefficient if there 
+	* is a tremendous number of Types and course groups.
 	*
 	* @return object TypeIterator
 	*
@@ -1335,7 +1379,22 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseGroupTypes () {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+	
+		
+		$parent =& $this->_hierarchy->getNode($this->_courseGroupsId);
+		$nodeIterator =& $parent->getChildren();
+		$arrayOfTypes = array();
+		while($nodeIterator->hasNextNode()){
+			$node=$nodeIterator->nextNode();
+			foreach($arrayOfTypes as $value){
+				if($value->isEqualTo($node->getType())){
+					continue 2;
+				}
+			}
+			$arrayOfTypes[] =& $node->getType();			
+		}
+		$ret =& new TypeIterator($arrayOfTypes);
+		return $ret;
 	}
 
 	/**
@@ -1374,7 +1433,7 @@ extends CourseManagementManager
 
 
 
-	
+
 
 
 
@@ -1428,7 +1487,7 @@ extends CourseManagementManager
 
 	function _typeToIndex($typename, &$type){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
-		
+
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
@@ -1438,8 +1497,8 @@ extends CourseManagementManager
 		$query->addColumn('id');
 		$res=& $dbHandler->query($query);
 
-		
-		
+
+
 		if($res->getNumberOfRows()==0){
 			$query=& new InsertQuery;
 			$query->setTable('cm_'.$typename.'_type');
@@ -1458,18 +1517,18 @@ extends CourseManagementManager
 
 
 			$result =& $dbHandler->query($query);
-			
+
 			return $result->getLastAutoIncrementValue();
 		}elseif($res->getNumberOfRows()==1){
-			
+
 			$row = $res->getCurrentRow();
 			$the_index = $row['id'];
 			return $the_index;
-			
+
 		}else{
 			print "\n<b>Warning!<\b> The Type with domain ".$type->getDomain().", authority ".$type->getAuthority().", and keyword ".$type->getKeyword()." is not unique--there are ".$res->getNumberOfRows()."copies.\n";
 
-			
+
 			$row = $res->getCurrentRow();
 			$the_index = $row['id'];
 			return $the_index;
@@ -1487,9 +1546,9 @@ extends CourseManagementManager
 
 		$query->addWhere("id='".addslashes($id->getIdString())."'");
 
-		
+
 		$query->setColumns(array(addslashes($key)));
-		$query->setValues("'".array(addslashes($value))."'");
+		$query->setValues(array("'".addslashes($value)."'"));
 
 		$dbHandler->query($query);
 
