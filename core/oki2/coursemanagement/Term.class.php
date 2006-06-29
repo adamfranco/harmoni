@@ -15,7 +15,7 @@ require_once(OKI2."/osid/coursemanagement/Term.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Term.class.php,v 1.9 2006/06/29 19:29:29 sporktim Exp $
+ * @version $Id: Term.class.php,v 1.10 2006/06/29 23:17:10 sporktim Exp $
  */
 class HarmoniTerm
 	extends Term
@@ -29,6 +29,23 @@ class HarmoniTerm
 	 **/
 	var $_id;
 	var $_table;
+	
+	/**
+	 * The constructor.
+	 * 
+	 * @param object Id $id
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function HarmoniTerm($id)
+	{
+		$this->_id = $id;
+		$this->_table = 'cm_term';
+		
+	}
+	
+	
 	
 	/**
 	 * Update the display name for this Term.

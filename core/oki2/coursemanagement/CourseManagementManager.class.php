@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.12 2006/06/29 19:29:29 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.13 2006/06/29 23:17:10 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.12 2006/06/29 19:29:29 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.13 2006/06/29 23:17:10 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -517,7 +517,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseOffering ( &$courseOfferingId ) {
-	
+
 
 		$node =& $this->_hierarchy->getNode($courseOfferingId);
 		$ret =& new HarmoniCourseOffering($courseOfferingId, $node);
@@ -556,7 +556,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseSection ( &$courseSectionId ) {
-		
+
 		$node =& $this->_hierarchy->getNode($courseSectionId);
 		$ret =& new HarmoniCourseSection($courseSectionId, $node);
 		return $ret;
@@ -589,20 +589,27 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseSections ( &$agentId ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
-		
-		/*$dbHandler =& Services::getService("DBHandler");
+
+
+		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
-		$query->setTable('cm_section');
-		$query->addColumn('id');
+		$query->setTable('cm_enroll');
+		$query->addColumn('fk_course_id');
+		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
+
+
 		$res=& $dbHandler->query($query);
-		$courseSectionArray=array();
+		$array=array();
 		while($res->hasMoreRows()){
-		$row =& $res->getCurrentRow();
-		$res->advanceRow();
-		$courseSectionArray[]=getCouseSection($row['id']);
+			$row =& $res->getCurrentRow();
+			$res->advanceRow();
+			$course = $this->getCourseSection($row['id']);
+			$type = $course->_node->getType();
+			if($type->getKeyword()=="CourseSection"){
+				$array[]=$course;
+			}
 		}
-		return new CourseSectionIterator($courseSectionArray);*/
+		return new CourseSectionIterator($array);
 	}
 
 	/**
@@ -632,22 +639,28 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseOfferings ( &$agentId ) {
-		
-		
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
-		/*
+
+
+
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
-		$query->setTable('cm_offer');
-		$query->addColumn('id');
+		$query->setTable('cm_enroll');
+		$query->addColumn('fk_course_id');
+		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
+
+
 		$res=& $dbHandler->query($query);
-		$courseOfferingArray=array();
+		$array=array();
 		while($res->hasMoreRows()){
-		$row =& $res->getCurrentRow();
-		$res->advanceRow();
-		$courseOfferingArray[]=getCouseSection($row['id']);
+			$row =& $res->getCurrentRow();
+			$res->advanceRow();
+			$course = $this->getCourseSection($row['id']);
+			$type = $course->_node->getType();
+			if($type->getKeyword()=="CourseOffering"){
+				$array[]=$course;
+			}
 		}
-		return new CourseOfferingIterator($courseOfferingArray);*/
+		return new CourseOfferingIterator($array);
 	}
 
 	/**
@@ -766,7 +779,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getTerm ( &$termId ) {
-		
+
 		return new HarmoniTerm($termId);
 	}
 
@@ -791,7 +804,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getTerms () {
-	
+
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('cm_term');
@@ -1011,7 +1024,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getEnrollmentStatusTypes () {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		return $this->_getTypes('enroll_stat');
 	}
 
 	/**
@@ -1060,7 +1073,7 @@ extends CourseManagementManager
 	*
 	* @access public
 	*/
-	function &getTermTypes () {		
+	function &getTermTypes () {
 		return $this->_getTypes('term');
 	}
 
@@ -1335,9 +1348,9 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseGroups ( &$canonicalCourseId ) {
-		
-		
-		
+
+
+
 		$childNode =& $this->_hierarchy->getNode($canonicalCourseId);
 		$nodeIterator =& $childNode->getParents();
 		$arrayOfGroups = array();
@@ -1348,7 +1361,7 @@ extends CourseManagementManager
 				print "<b>Warning!</b> The CanonicalCourse with id ".$canonicalCourseId." is a root node";
 				continue;
 			}
-			$grandparentNode = $grandparents->nextNode();	
+			$grandparentNode = $grandparents->nextNode();
 			if($this->_courseGroupsId->isEqualTo($grandparentNode->getId())){
 				$arrayOfGroups[] =& $this->getCourseGroup($parentNode->getId());
 			}
@@ -1358,7 +1371,7 @@ extends CourseManagementManager
 	}
 
 	/**
-	* Get all the CourseGroupTypes supported by this implementation.  This can be innefficient if there 
+	* Get all the CourseGroupTypes supported by this implementation.  This can be innefficient if there
 	* is a tremendous number of Types and course groups.
 	*
 	* @return object TypeIterator
@@ -1379,8 +1392,8 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseGroupTypes () {
-	
-		
+
+
 		$parent =& $this->_hierarchy->getNode($this->_courseGroupsId);
 		$nodeIterator =& $parent->getChildren();
 		$arrayOfTypes = array();
@@ -1391,7 +1404,7 @@ extends CourseManagementManager
 					continue 2;
 				}
 			}
-			$arrayOfTypes[] =& $node->getType();			
+			$arrayOfTypes[] =& $node->getType();
 		}
 		$ret =& new TypeIterator($arrayOfTypes);
 		return $ret;

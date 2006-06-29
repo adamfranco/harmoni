@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseOffering.class.php,v 1.6 2006/06/29 19:29:29 sporktim Exp $
+ * @version $Id: CourseOffering.class.php,v 1.7 2006/06/29 23:17:10 sporktim Exp $
  */
 class HarmoniCourseOffering
 	extends CourseOffering
@@ -58,7 +58,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniCanonicalCourse($id, $node)
+	function HarmoniCourseOffering($id, $node)
 	{
 		$this->_id = $id;
 		$this->_node = $node;
@@ -91,8 +91,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function updateTitle ( $title ) { 
-		$canCourse = $this->getCanonicalCourse();
-		$canCourse->updateTitle($title);
+		$this->_setField('title',$title);
 		
 	} 
 
@@ -119,8 +118,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function updateNumber ( $number ) { 
-		$canCourse = $this->getCanonicalCourse();
-		$canCourse->updateTitle($number);
+		$this->_setField('number',$number);
 	} 
 
 	/**
@@ -196,8 +194,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function getTitle () { 
-		$canCourse = $this->getCanonicalCourse();
-		return $canCourse->getTitle();
+		return $this->_getField('title');
 	} 
 
 	/**
@@ -221,8 +218,7 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function getNumber () { 
-		$canCourse = $this->getCanonicalCourse();
-		return $canCourse->getNumber();
+		return $this->_getField('number');
 	} 
 
 	/**
@@ -376,7 +372,7 @@ class HarmoniCourseOffering
 	} 
 
 	/**
-	 * Get the Status for this CanonicalCourse.
+	 * Get the Status for this CourseOffering.
 	 *	
 	 * @return object Type
 	 * 
@@ -479,7 +475,7 @@ class HarmoniCourseOffering
 	} 
 
 	/**
-	 * Create a new CourseSection.
+	 * Create a new CourseSection.  The display name defaults to the title.
 	 * 
 	 * @param string $title
 	 * @param string $number
@@ -510,7 +506,37 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function &createCourseSection ( $title, $number, $description, &$sectionType, &$sectionStatusType, &$location ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		
+		$idManager =& Services::getService("IdManager");
+		$id=$idManager->createId();
+
+
+		$type = new Type("CourseManagement","edu.middlebury", "CourseSection");
+		$node=$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
+
+		$dbManager=& Services::getService("DBHandler");
+		$query=& new InsertQuery;
+
+		$query->setTable('cm_section');
+
+		$query->setColumns(array('id','location','schedule','fk_cm_can_type','fk_cm_can_stat_type','title','number'));
+
+		$values[]="'".addslashes($id->getIdString())."'";		
+		$values[]="'".addslashes($location)."'";
+		$values[]="'unimplemented'";
+		$values[]="'".$this->_typeToIndex('section',$sectionType)."'";		
+		$values[]="'".$this->_typeToIndex('section_stat',$sectionStatusType)."'";
+		$values[]="'".addslashes($title)."'";
+		$values[]="'".addslashes($number)."'";
+		
+		$query->addRowOfValues($values);
+
+
+
+		$dbManager->query($query);
+
+		$ret =& new HarmoniCourseSection($id, $node);
+		return $ret;
 	} 
 
 	/**
@@ -538,7 +564,18 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function deleteCourseSection ( &$courseSectionId ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		$this->_hierarchy->deleteNode($courseSectionId);
+
+
+
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new DeleteQuery;
+
+
+		$query->setTable('cm_section');
+
+		$query->addWhere("id=".addslashes($canonicalCourseId->getIdString()));
+		$dbHandler->query($query);
 	} 
 
 	/**
@@ -562,7 +599,27 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function &getCourseSections () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+
+
+		$query->addTable('cm_section');
+		$query->addColumn('id');
+		$res=& $dbHandler->query($query);
+
+		$array = array();
+		$idManager= & Services::getService("IdManager");
+		$cm= & Services::getService("CourseManagement");
+		while($res->hasMoreRows()){
+
+			$row = $res->getCurrentRow();
+			$res->advanceRow();
+			$id =& $idManager->getId($row['id']);
+			$array[] =& $cm->getCourseSection($id);
+			
+		}
+		$ret =& new  HarmoniCourseSectionIterator($array);
+		return $ret;
 	} 
 
 	/**
@@ -592,7 +649,32 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function &getCourseSectionsByType ( &$sectionType ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		$cm= & Services::getService("CourseManagement");
+		$typeIndex=$cm->_typeToIndex('section',$sectionType);
+
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+
+
+		$query->addTable('cm_sectopn');
+		$query->addColumn('id');
+		$query->addWhere("fk_cm_section_type='".addslashes($typeIndex)."'");
+		$res=& $dbHandler->query($query);
+
+		$array = array();
+		$idManager= & Services::getService("IdManager");
+
+		while($res->hasMoreRows()){
+
+			$row = $res->getCurrentRow();
+			$res->advanceRow();
+			$id =& $idManager->getId($row['id']);
+			$array[] =& $cm->getCourseSection($id);
+			
+		}
+		$ret =& new  HarmoniCourseSectionIterator($array);
+		return $ret;
+
 	} 
 
 	/**

@@ -21,11 +21,37 @@ require_once(OKI2."/osid/coursemanagement/EnrollmentRecord.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EnrollmentRecord.class.php,v 1.4 2005/01/19 22:28:21 adamfranco Exp $
+ * @version $Id: EnrollmentRecord.class.php,v 1.5 2006/06/29 23:17:10 sporktim Exp $
  */
 class HarmoniEnrollmentRecord
 	extends EnrollmentRecord
 {
+	
+	/**
+	 * @variable object $_id the unique id for this EnrollmentRecord.
+	 * @access private
+	 * @variable object $_table the term table.
+	 * @access private
+	 **/
+	var $_id;
+	var $_table;
+	
+	/**
+	 * The constructor.
+	 * 
+	 * @param object Id $id
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function HarmoniEnrollmentRecord($id)
+	{
+		$this->_id = $id;
+		$this->_table = 'cm_enroll';
+		
+	}
+	
+	
 	/**
 	 * Get the Id of the Agent representing a student enrolled in the
 	 * CourseSection.
@@ -48,7 +74,9 @@ class HarmoniEnrollmentRecord
 	 * @access public
 	 */
 	function &getStudent () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "EnrollmentRecord", true)); 
+		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "EnrollmentRecord", true));
+		$this->_getField('student');
+		 
 	} 
 
 	/**
@@ -75,8 +103,44 @@ class HarmoniEnrollmentRecord
 	 * @access public
 	 */
 	function &getStatus () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "EnrollmentRecord", true)); 
+		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "EnrollmentRecord", true)); 
+		$this->_getType('enroll_stat');
 	} 
+	
+	
+	
+	function _typeToIndex($typename, &$type)
+	{	
+		$cm=Services::getService("CourseManagement");
+		return $cm->_typeToIndex($typename, $type);
+	}
+	
+	function &_getTypes($typename)
+	{	
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getTypes($typename);
+	}
+	
+	function _getField($key)
+	{
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getField($this->_id,$this->_table,$key);
+	}
+	
+	
+	function &_getType($typename){
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getType($this->_id,$this->_table,$typename);
+	}
+	
+	function _setField($key, $value)
+	{
+		$cm=Services::getService("CourseManagement");
+		return $cm->_setField($this->_id,$this->_table,$key, $value);		
+	}
+	
+	
+	
 }
 
 ?>

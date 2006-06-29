@@ -26,11 +26,54 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.4 2005/01/19 22:28:21 adamfranco Exp $
+ * @version $Id: CourseSection.class.php,v 1.5 2006/06/29 23:17:10 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
 {
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * @variable object $_node the node in the hierarchy.
+	 * @access private
+	 * @variable object $_id the unique id for the course section.
+	 * @access private
+	 * @variable object $_table the course section table.
+	 * @access private
+	 **/
+	var $_node;
+	var $_id;
+	var $_table;
+	
+	/**
+	 * The constructor.
+	 * 
+	 * @param object Id $id
+	 * @param object Node $node
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function HarmoniCanonicalCourse($id, $node)
+	{
+		$this->_id = $id;
+		$this->_node = $node;
+		$this->_table = 'cm_section';
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Update the title for this CourseSection.
 	 * 
@@ -54,7 +97,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function updateTitle ( $title ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		$this->_setField('title',$title);
 	} 
 
 	/**
@@ -80,7 +123,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function updateNumber ( $number ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		$this->_setField('number',$number);
 	} 
 
 	/**
@@ -106,7 +149,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function updateDescription ( $description ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		$this->_node->updateDescription($description );
 	} 
 
 	/**
@@ -132,7 +175,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		$this->_node->updateDisplayName($displayName );
 	} 
 
 	/**
@@ -158,7 +201,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function updateLocation ( &$location ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		$this->_setField('location',$location);
 	} 
 
 	/**
@@ -182,7 +225,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function getTitle () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		return $this->_getField('title');
 	} 
 
 	/**
@@ -206,7 +249,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function getNumber () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		return $this->_getField('number');
 	} 
 
 	/**
@@ -230,7 +273,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function getDescription () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		return $this->_node->getDescription($displayName );
 	} 
 
 	/**
@@ -254,7 +297,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function getDisplayName () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		return $this->_node->getDisplayName($displayName ); 
 	} 
 
 	/**
@@ -278,7 +321,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getId () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		return $this->_id;
 	} 
 
 	/**
@@ -303,7 +346,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getSectionType () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		return _getType('section');
 	} 
 
 	/**
@@ -353,7 +396,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getLocation () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		return $this->_getField('location'); 
 	} 
 
 	/**
@@ -377,7 +420,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getStatus () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		return _getType('section_stat');
 	} 
 
 	/**
@@ -449,7 +492,14 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getCourseOffering () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		$nodeIterator = $this->_node->getParents();
+		if(!$nodeIterator->hasNextNode()){
+			print "<b>Warning!</b> Course Section ".$this->getDisplayName()." has no Course Offering Parent.";
+			return null;	
+		}
+		$parentNode = $nodeIterator->nextNode();		
+		$cm = Services::getService("CourseMangament");
+		return $cm -> getCourseOffering($parentNode->getID()); 
 	} 
 
 	/**
@@ -726,7 +776,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function updateStatus ( &$statusType ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		$this->_setField('fk_cm_section_stat_type',$this->_typeToIndex($statusType));
 	} 
 
 	/**
