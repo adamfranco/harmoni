@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2006, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: MySQL_CourseManagement.sql,v 1.4 2006/06/27 19:24:30 sporktim Exp $
+-- @version $Id: MySQL_CourseManagement.sql,v 1.5 2006/06/30 16:02:12 sporktim Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -13,7 +13,6 @@
 
 
 
--- --------------------------------------------------------
 
 -- 
 -- Table structure for table `cm_can`
@@ -43,7 +42,7 @@ CREATE TABLE `cm_can_stat_type` (
   `domain` varchar(255) default NULL,
   `description` text,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various canonical course statuses' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various canonical course statuses' AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -58,7 +57,38 @@ CREATE TABLE `cm_can_type` (
   `domain` varchar(255) default NULL,
   `description` text,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various types of canonical courses' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various types of canonical courses' AUTO_INCREMENT=4 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `cm_enroll`
+-- 
+
+CREATE TABLE `cm_enroll` (
+  `fk_student_id` varchar(170) collate utf8_unicode_ci NOT NULL default '',
+  `id` int(170) unsigned NOT NULL auto_increment,
+  `fk_cm_enroll_stat_type` varchar(170) collate utf8_unicode_ci NOT NULL default '',
+  `fk_course_id` varchar(170) collate utf8_unicode_ci NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `fk_course_id` (`fk_course_id`),
+  KEY `fk_student_id` (`fk_student_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `cm_enroll_stat_type`
+-- 
+
+CREATE TABLE `cm_enroll_stat_type` (
+  `id` int(170) unsigned NOT NULL auto_increment,
+  `keyword` varchar(255) default NULL,
+  `authority` varchar(255) default NULL,
+  `domain` varchar(255) default NULL,
+  `description` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various types of enrollment statuses' AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -87,6 +117,8 @@ CREATE TABLE `cm_offer` (
   `fk_cm_term` varchar(170) default NULL,
   `fk_cm_offer_stat_type` varchar(255) default NULL,
   `fk_cm_offer_type` varchar(170) default NULL,
+  `title` varchar(255) default NULL,
+  `number` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
   KEY `fk_offer_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains all of the course offerings';
@@ -129,12 +161,12 @@ CREATE TABLE `cm_offer_type` (
 
 CREATE TABLE `cm_section` (
   `id` varchar(170) NOT NULL default '',
-  `fk_cm_offer` varchar(170) default NULL,
-  `meeting_location` varchar(255) default NULL,
-  `student_roster` text,
-  `meeting_time` varchar(255) default NULL,
+  `location` varchar(255) default NULL,
+  `schedule` varchar(170) default NULL,
   `fk_cm_section_type` varchar(170) default NULL,
   `fk_cm_section_stat_type` varchar(170) default NULL,
+  `number` varchar(170) default NULL,
+  `title` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains course sections';
 
@@ -197,3 +229,4 @@ CREATE TABLE `cm_term_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various types of terms' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
+

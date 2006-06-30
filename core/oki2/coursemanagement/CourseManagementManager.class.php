@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.13 2006/06/29 23:17:10 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.14 2006/06/30 16:02:13 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.13 2006/06/29 23:17:10 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.14 2006/06/30 16:02:13 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -159,6 +159,7 @@ extends CourseManagementManager
 		$this->_configuration =& $configuration;
 
 		$hierarchyId =& $configuration->getProperty('hierarchy_id');
+		$rootId =& $configuration->getProperty('root_id');
 		$courseManagementId =& $configuration->getProperty('course_management_id');
 		$canonicalCoursesId =& $configuration->getProperty('canonical_courses_id');
 		$courseGroupsId =& $configuration->getProperty('course_groups_id');
@@ -166,16 +167,19 @@ extends CourseManagementManager
 
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, StringValidatorRule::getRule(), true);
-		//ArgumentValidator::validate($courseManagementId, StringValidatorRule::getRule(), true);
-		//ArgumentValidator::validate($canonicalCoursesId, StringValidatorRule::getRule(), true);
-		//ArgumentValidator::validate($courseGroupsId, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($rootId, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($courseManagementId, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($canonicalCoursesId, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($courseGroupsId, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 
 
 		//convert to ids
 		$idManager =& Services::getService("Id");
+		
 		$hierarchyId =& $idManager->getId($hierarchyId);
+		$rootId =& $idManager->getId($rootId);
 		$courseManagementId =& $idManager->getId($courseManagementId);
 		$canonicalCoursesId =& $idManager->getId($canonicalCoursesId);
 		$courseGroupsId =& $idManager->getId($courseGroupsId);
@@ -188,7 +192,7 @@ extends CourseManagementManager
 		//initialize nodes
 		$type=new Type("CourseManagement","edu.middlebury","CourseManagement","These are top level nodes in the CourseManagement part of the Hierarchy");
 		if(!$this->_hierarchy->nodeExists($courseManagementId)){
-			$this->_hierarchy->createrootNode($courseManagementId, $type,"Course Management","This node is the ancestor of all information about course management in the hierarchy");
+			$this->_hierarchy->createNode($courseManagementId,  $rootId, $type,"Course Management","This node is the ancestor of all information about course management in the hierarchy");
 		}
 		if(!$this->_hierarchy->nodeExists($canonicalCoursesId)){
 			$this->_hierarchy->createNode($canonicalCoursesId,$courseManagementId,$type,"Canonical Courses","This node is the parent of all root level canonical courses");
