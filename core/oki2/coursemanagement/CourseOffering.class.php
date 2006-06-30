@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseOffering.class.php,v 1.7 2006/06/29 23:17:10 sporktim Exp $
+ * @version $Id: CourseOffering.class.php,v 1.8 2006/06/30 17:43:30 sporktim Exp $
  */
 class HarmoniCourseOffering
 	extends CourseOffering
@@ -923,7 +923,32 @@ class HarmoniCourseOffering
 	 * @access public
 	 */
 	function &getRoster () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true)); 
+		
+
+
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		$query->setTable('cm_enroll');
+		$query->addColumn('fk_student_id');
+		$query->addWhere("fk_course_id='".addslashes($this->_id)."'");
+
+
+		$res=& $dbHandler->query($query);
+		$array=array();
+		while($res->hasMoreRows()){
+			$row =& $res->getCurrentRow();
+			$res->advanceRow();
+			$courseSection = $this->getCourseSection($row['id']);
+			$courseOffering = $courseSection->getCourseOffering();
+			$courseOfferingId=$courseOffering->getId();
+			foreach($array as $value){				
+				if($courseOfferingId->isEqualTo($value->getId())){
+					continue 2;
+				}
+			}
+			$array[] =& $node->getType();
+		}
+		return new CourseOfferingIterator($array);
 	} 
 
 	/**

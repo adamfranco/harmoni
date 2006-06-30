@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.14 2006/06/30 16:02:13 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.15 2006/06/30 17:43:30 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.14 2006/06/30 16:02:13 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.15 2006/06/30 17:43:30 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -189,6 +189,9 @@ extends CourseManagementManager
 		$hierarchyManager =& Services::getService("Hierarchy");
 		$this->_hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
 
+	
+	
+		
 		//initialize nodes
 		$type=new Type("CourseManagement","edu.middlebury","CourseManagement","These are top level nodes in the CourseManagement part of the Hierarchy");
 		if(!$this->_hierarchy->nodeExists($courseManagementId)){
@@ -608,10 +611,10 @@ extends CourseManagementManager
 			$row =& $res->getCurrentRow();
 			$res->advanceRow();
 			$course = $this->getCourseSection($row['id']);
-			$type = $course->_node->getType();
-			if($type->getKeyword()=="CourseSection"){
-				$array[]=$course;
-			}
+			//$type = $course->_node->getType();
+			//if($type->getKeyword()=="CourseSection"){
+			$array[]=$course;
+			//}
 		}
 		return new CourseSectionIterator($array);
 	}
@@ -658,13 +661,20 @@ extends CourseManagementManager
 		while($res->hasMoreRows()){
 			$row =& $res->getCurrentRow();
 			$res->advanceRow();
-			$course = $this->getCourseSection($row['id']);
-			$type = $course->_node->getType();
-			if($type->getKeyword()=="CourseOffering"){
-				$array[]=$course;
+			$courseSection = $this->getCourseSection($row['id']);
+			$courseOffering = $courseSection->getCourseOffering();
+			$courseOfferingId=$courseOffering->getId();
+			foreach($array as $value){				
+				if($courseOfferingId->isEqualTo($value->getId())){
+					continue 2;
+				}
 			}
+			$array[] =& $node->getType();
 		}
 		return new CourseOfferingIterator($array);
+		
+		
+		
 	}
 
 	/**
