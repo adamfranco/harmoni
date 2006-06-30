@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.7 2006/06/30 20:21:49 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.8 2006/06/30 22:45:22 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -636,7 +636,57 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function addStudent ( &$agentId, &$enrollmentStatusType ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		/*$idManager =& Services::getService("IdManager");
+		$id=$idManager->createId();
+
+
+
+
+		$dbManager=& Services::getService("DBHandler");
+		$query=& new InsertQuery;
+
+		$query->setTable('cm_term');
+
+		$query->setColumns(array('id','name','fk_cm_term_type'));
+
+		$values[]="'".addslashes($id->getIdString())."'";
+		$values[]="'".addslashes("")."'";
+		$values[]="'".$this->_typeToIndex('term',$courseType)."'";
+
+		$query->addRowOfValues($values);
+
+		$dbManager->query($query);
+		
+		*/
+		//the appropriate table names and fields must be given names according to the pattern indicated below
+
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		$query->addTable('cm_enroll');
+		$query->addWhere("fk_cm_section='".$this->_id."'");
+		$query->addWhere("fk_student_id='".$agentId->getIdString()."'");
+		//$query->addColumn('id');
+		$res=& $dbHandler->query($query);
+		if($res->getNumberOfRows()==0){
+			$typeIndex = $this->_typeToIndex($enrollmentStatusType);
+			
+			$query=& new InsertQuery;
+			$query->setTable('cm_enroll');
+			$values[]="'".addslashes($agentId->getIdString())."'";
+			$values[]="'".addslashes($typeIndex)."'";
+			$values[]="'".addslashes($this->_id)."'";
+			$query->setColumns(array('fk_student_id','fk_cm_enroll_stat_type','fk_cm_section'));
+			$query->addRowOfValues($values);
+			$query->setAutoIncrementColumn('id','id_sequence');
+			$dbHandler->query($query);		
+		}else{
+			print "<b>Warning!</b> Student with id ".$agentId->getIdString()."is already enrolled in section ".$this->getDisplayName().".";
+		}
+			
+			
+	//	$ret =& new HarmoniTerm($id);
+	//	return $ret;
+		
 	} 
 
 	/**
@@ -665,7 +715,24 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function changeStudent ( &$agentId, &$enrollmentStatusType ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		
+		$typeIndex = $this->_typeToIndex($enrollmentStatusType);
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new UpdateQuery;
+		$query->setTable('cm_enroll');
+
+		
+		
+		$query->addWhere("fk_cm_section='".$this->_id."'");
+		$query->addWhere("fk_student_id='".$agentId->getIdString()."'");
+		
+		$query->setColumns(array('fk_cm_enroll_stat_type'));
+		$query->setValues(array("'".addslashes($typeIndex)."'"));
+
+		$dbHandler->query($query);
+
+
 	} 
 
 	/**
@@ -693,7 +760,21 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function removeStudent ( &$agentId ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		$this->_hierarchy->deleteNode($canonicalCourseId);
+
+
+
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new DeleteQuery;
+
+
+		$query->setTable('cm_enroll');
+
+	
+		$query->addWhere("fk_cm_section='".$this->_id."'");
+		$query->addWhere("fk_student_id='".$agentId->getIdString()."'");
+		
+		$dbHandler->query($query);
 	} 
 
 	/**
@@ -780,7 +861,39 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getRosterByType ( &$enrollmentStatusType ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		$dbHandler =& Services::getService("DBHandler");
+		
+		$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
+
+		$array=array();
+
+	
+
+			$query=& new SelectQuery;
+			$query->setTable('cm_enroll');
+			//$query->addColumn('fk_student_id');
+			$query->addColumn('id');
+			//$query->addWhere("fk_cm_section='".addslashes($this->_id)."'");
+$query->addWhere("fk_cm_section='".addslashes($sectionId)."' AND fk_enroll_stat_type='".addslashes($typeIndex)."'");
+
+			$res=& $dbHandler->query($query);
+
+			while($res->hasMoreRows()){
+				$row =& $res->getCurrentRow();
+				$res->advanceRow();
+				//$courseSection = $cm->getCourseSection($row['id']);
+				//$courseOffering = $courseSection->getCourseOffering();
+				//$courseOfferingId=$courseOffering->getId();
+				//foreach($array as $value){
+				//	if($courseOfferingId->isEqualTo($value->getId())){
+				//		continue 2;
+				//	}
+				//}
+				//$array[] =& $node->getType();
+				$array[] =& new HarmoniEnrollmentRecord($row['id']);
+			}
+		$ret =& new EnrollmentRecordIterator($array);
+		return $ret; 
 	} 
 
 	/**

@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.18 2006/06/30 20:21:49 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.19 2006/06/30 22:45:22 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.18 2006/06/30 20:21:49 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.19 2006/06/30 22:45:22 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -1133,7 +1133,32 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &createCourseGradeRecord ( &$agentId, &$courseOfferingId, &$courseGradeType, &$courseGrade ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		$idManager =& Services::getService("IdManager");
+		
+
+
+		$dbManager=& Services::getService("DBHandler");
+		$query=& new InsertQuery;
+
+		$query->setTable('cm_grade_rec');
+
+		$query->setColumns(array('fk_student_id','fk_cm_offer','name','grade','fk_cm_grade_type'));
+
+		$values[]="'".addslashes($agentId->getIdString())."'";
+		$values[]="'".addslashes($courseOfferingId->getIdString())."'";
+		$values[]="'CourseGradeRecord'";
+		$values[]="'".addslashes($courseGrade)."'";
+		$values[]="'".addslashes("")."'";
+		$values[]="'".$this->_typeToIndex('grade',$courseGrade)."'";
+
+		$query->addRowOfValues($values);
+		$query->setAutoIncrementColumn('id','id_sequence');
+
+		$result =&  $dbManager->query($query);
+		$id = $result->getLastAutoIncrementValue();
+		
+		$ret =& new HarmoniCourseGradeRecord($idManager->getId($id));
+		return $ret;
 	}
 
 	/**
@@ -1161,12 +1186,21 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function deleteCourseGradeRecord ( &$courseGradeRecordId ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+			
+
+	$dbHandler =& Services::getService("DBHandler");
+	$query=& new DeleteQuery;
+
+
+	$query->setTable('cm_grade_rec');
+
+	$query->addWhere("id=".addslashes($courseGradeRecordId->getIdString()));
+	$dbHandler->query($query);
 	}
 
 	/**
 	* Get all the CourseGradeRecords, optionally including only those for a
-	* specific Student, CourseOffering, or CourseGradeType.
+	* specific Student, CourseOffering, or CourseGradeType.  Put null if you don't wish to include these.
 	*
 	* @param object Id $agentId
 	* @param object Id $courseOfferingId
@@ -1196,7 +1230,49 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseGradeRecords ( &$agentId, &$courseOfferingId, &$courseGradeType ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		
+
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+
+
+
+
+		$query->addTable('cm_can');
+		$query->addColumn('id');
+		
+		if(!is_null($courseGradeType)){
+			$courseGradeType=$this->_typeToIndex('can',$courseType);
+			$query->addWhere("fk_cm_can_type='".addslashes($typeIndex)."'");
+		}
+		if(!is_null($agentId)){			
+			$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
+		}
+		if(!is_null($courseOfferingId)){
+			
+			$query->addWhere("fk_cm_offer='".addslashes($courseOfferingId->getIdString())."'");
+		}
+		
+		
+		
+		
+		$res=& $dbHandler->query($query);
+
+		$array = array();
+		$idManager= & Services::getService("IdManager");
+
+		while($res->hasMoreRows()){
+
+			$row = $res->getCurrentRow();
+			$res->advanceRow();
+			$id =& $idManager->getId($row['id']);
+			//$canonicalCourseArrayByType[] =& $this->getCanonicalCourse($id);
+			$array[] =& new HarmoniCourseGradeRecord($id);
+
+		}
+		$ret =& new  HarmoniCourseGradeRecordIterator($array);
+		return $ret;
+
 	}
 
 	/**

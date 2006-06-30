@@ -15,11 +15,52 @@ require_once(OKI2."/osid/coursemanagement/CourseGradeRecord.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseGradeRecord.class.php,v 1.4 2005/01/19 22:28:21 adamfranco Exp $
+ * @version $Id: CourseGradeRecord.class.php,v 1.5 2006/06/30 22:45:22 sporktim Exp $
  */
 class HarmoniCourseGradeRecord
 	extends CourseGradeRecord
 {
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		/**
+	 * @variable object $_id the unique id for this HarmoniCourseGradeRecord.
+	 * @access private
+	 * @variable object $_table the HarmoniCourseGradeRecord table.
+	 * @access private
+	 **/
+	var $_id;
+	var $_table;
+	
+	/**
+	 * The constructor.
+	 * 
+	 * @param object Id $id
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function HarmoniCourseGradeRecord($id)
+	{
+		$this->_id = $id;
+		$this->_table = 'cm_grade_rec';
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Update the grade for this CourseGradeRecord.
 	 * 
@@ -43,7 +84,7 @@ class HarmoniCourseGradeRecord
 	 * @access public
 	 */
 	function updateCourseGrade ( &$courseGrade ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
+		$this->_setField('grade',$courseGrade);
 	} 
 
 	/**
@@ -69,7 +110,7 @@ class HarmoniCourseGradeRecord
 	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
+		$this->_setField('name',$displayName);
 	} 
 
 	/**
@@ -93,7 +134,7 @@ class HarmoniCourseGradeRecord
 	 * @access public
 	 */
 	function &getCourseGrade () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
+		return $this->_getField('grade'); 
 	} 
 
 	/**
@@ -117,7 +158,7 @@ class HarmoniCourseGradeRecord
 	 * @access public
 	 */
 	function getDisplayName () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
+		return $this->_getField('name');
 	} 
 
 	/**
@@ -141,7 +182,7 @@ class HarmoniCourseGradeRecord
 	 * @access public
 	 */
 	function &getId () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
+		return $this->_id;
 	} 
 
 	/**
@@ -164,8 +205,12 @@ class HarmoniCourseGradeRecord
 	 * 
 	 * @access public
 	 */
-	function &getStudent () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
+	function &getAgent () { 
+		
+		$IdManager =& Services::getService("Id");
+		$id = $IdManager->getId($this->_getField('fk_student_id'));
+		$AgentManager =& Services::getService("Agent");
+		return $AgentManager->getAgent($id);		
 	} 
 
 	/**
@@ -191,7 +236,8 @@ class HarmoniCourseGradeRecord
 	 * @access public
 	 */
 	function &getCourseGradeType () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
+		//$index = $this->_getField('fk_cm_grade_type');
+		return $this->_getType('grade');
 	} 
 
 	/**
@@ -215,8 +261,51 @@ class HarmoniCourseGradeRecord
 	 * @access public
 	 */
 	function &getCourseOffering () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseGradeRecord", true)); 
+		$idstring = $this->_getField('fk_cm_offer');
+		$idManager =& Services::getService("Id");
+		$cm =& Services::getService("CourseManager");
+		$id =& $idManager->getId($idstring);
+		return $cm->getCourseOffering($id);	
 	} 
+	
+	
+	
+	
+	
+	
+	
+	function _typeToIndex($typename, &$type)
+	{	
+		$cm=Services::getService("CourseManagement");
+		return $cm->_typeToIndex($typename, $type);
+	}
+	
+	function &_getTypes($typename)
+	{	
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getTypes($typename);
+	}
+	
+	function _getField($key)
+	{
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getField($this->_id,$this->_table,$key);
+	}
+	
+	
+	function &_getType($typename){
+		$cm=Services::getService("CourseManagement");
+		return $cm->_getType($this->_id,$this->_table,$typename);
+	}
+	
+	function _setField($key, $value)
+	{
+		$cm=Services::getService("CourseManagement");
+		return $cm->_setField($this->_id,$this->_table,$key, $value);		
+	}
+	
+	
+	
 }
 
 ?>
