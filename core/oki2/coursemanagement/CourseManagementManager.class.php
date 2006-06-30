@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.15 2006/06/30 17:43:30 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.16 2006/06/30 19:08:44 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.15 2006/06/30 17:43:30 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.16 2006/06/30 19:08:44 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -398,7 +398,7 @@ extends CourseManagementManager
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
 
-			$canonicalCourseArray[]=getCanonicalCourse($row['id']);
+			$canonicalCourseArray[]=$this->getCanonicalCourse($row['id']);
 
 		}
 		return new HarmoniCanonicalCourseIterator($canonicalCourseArray);
@@ -601,7 +601,7 @@ extends CourseManagementManager
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->setTable('cm_enroll');
-		$query->addColumn('fk_course_id');
+		$query->addColumn('fk_cm_section');
 		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
 
 
@@ -652,7 +652,7 @@ extends CourseManagementManager
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->setTable('cm_enroll');
-		$query->addColumn('fk_course_id');
+		$query->addColumn('fk_cm_section');
 		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
 
 

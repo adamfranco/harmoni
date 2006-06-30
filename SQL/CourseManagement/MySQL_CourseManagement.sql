@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2006, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: MySQL_CourseManagement.sql,v 1.5 2006/06/30 16:02:12 sporktim Exp $
+-- @version $Id: MySQL_CourseManagement.sql,v 1.6 2006/06/30 19:08:44 sporktim Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -69,7 +69,7 @@ CREATE TABLE `cm_enroll` (
   `fk_student_id` varchar(170) collate utf8_unicode_ci NOT NULL default '',
   `id` int(170) unsigned NOT NULL auto_increment,
   `fk_cm_enroll_stat_type` varchar(170) collate utf8_unicode_ci NOT NULL default '',
-  `fk_course_id` varchar(170) collate utf8_unicode_ci NOT NULL default '',
+  `fk_cm_section` varchar(170) collate utf8_unicode_ci NOT NULL default '',
   PRIMARY KEY  (`id`),
   KEY `fk_course_id` (`fk_course_id`),
   KEY `fk_student_id` (`fk_student_id`)

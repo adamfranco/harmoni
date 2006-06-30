@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.5 2006/06/29 23:17:10 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.6 2006/06/30 19:08:44 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -717,7 +717,39 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getRoster () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		
+
+		$dbHandler =& Services::getService("DBHandler");
+
+		$array=array();
+
+	
+
+			$query=& new SelectQuery;
+			$query->setTable('cm_enroll');
+			//$query->addColumn('fk_student_id');
+			$query->addColumn('id');
+			$query->addWhere("fk_cm_section='".addslashes($this->_id)."'");
+
+
+			$res=& $dbHandler->query($query);
+
+			while($res->hasMoreRows()){
+				$row =& $res->getCurrentRow();
+				$res->advanceRow();
+				//$courseSection = $cm->getCourseSection($row['id']);
+				//$courseOffering = $courseSection->getCourseOffering();
+				//$courseOfferingId=$courseOffering->getId();
+				//foreach($array as $value){
+				//	if($courseOfferingId->isEqualTo($value->getId())){
+				//		continue 2;
+				//	}
+				//}
+				//$array[] =& $node->getType();
+				$array[] =& new HarmoniEnrollmentRecord($row['id']);
+			}
+		
+		return new EnrollmentRecordIterator($array);
 	} 
 
 	/**
