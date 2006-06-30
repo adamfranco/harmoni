@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.17 2006/06/30 19:27:12 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.18 2006/06/30 20:21:49 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.17 2006/06/30 19:27:12 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.18 2006/06/30 20:21:49 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -193,7 +193,7 @@ extends CourseManagementManager
 	
 		
 		//initialize nodes
-		$type=new Type("CourseManagement","edu.middlebury","CourseManagement","These are top level nodes in the CourseManagement part of the Hierarchy");
+		$type =& new Type("CourseManagement","edu.middlebury","CourseManagement","These are top level nodes in the CourseManagement part of the Hierarchy");
 		if(!$this->_hierarchy->nodeExists($courseManagementId)){
 			$this->_hierarchy->createNode($courseManagementId,  $rootId, $type,"Course Management","This node is the ancestor of all information about course management in the hierarchy");
 		}
@@ -284,7 +284,7 @@ extends CourseManagementManager
 		$id=$idManager->createId();
 
 
-		$type = new Type("CourseManagement","edu.middlebury", "CanonicalCourse");
+		$type =& new Type("CourseManagement","edu.middlebury", "CanonicalCourse");
 		$node=$this->_hierarchy->createNode($id,$this->_canonicalCoursesId,$type,$title,$description);
 
 		$dbManager=& Services::getService("DBHandler");
@@ -392,17 +392,19 @@ extends CourseManagementManager
 		$query->addColumn('id');
 		$res=& $dbHandler->query($query);
 
-		$canonicalCourseArray=array();
+		$canonicalCourseArray = array();
 
 		while($res->hasMoreRows()){
 
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-
-			$canonicalCourseArray[]=$this->getCanonicalCourse($idManager->createId($row['id']));
+			$canonicalIdString = $row['id'];
+			$canonicalId =& $idManager->getId($canonicalIdString);			
+			$canonicalCourseArray[] = $this->getCanonicalCourse($canonicalId);
 
 		}
-		return new HarmoniCanonicalCourseIterator($canonicalCourseArray);
+		$ret =& new HarmoniCanonicalCourseIterator($canonicalCourseArray);
+		return $ret;
 
 	}
 
@@ -617,7 +619,8 @@ extends CourseManagementManager
 			$array[]=$course;
 			//}
 		}
-		return new CourseSectionIterator($array);
+		$ret =& new CourseSectionIterator($array);
+		return $ret;
 	}
 
 	/**
@@ -672,7 +675,9 @@ extends CourseManagementManager
 			}
 			$array[] =& $node->getType();
 		}
-		return new CourseOfferingIterator($array);
+		$ret =& new CourseOfferingIterator($array);
+		return $ret;
+		
 		
 		
 		
@@ -794,8 +799,9 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getTerm ( &$termId ) {
-
-		return new HarmoniTerm($termId);
+		$ret =& new HarmoniTerm($termId);
+		 
+		return $ret;
 	}
 
 	/**
@@ -831,7 +837,8 @@ extends CourseManagementManager
 			$res->advanceRow();
 			$array[]=$this->getTerm($row['id']);
 		}
-		return new HarmoniTermIterator($array);
+		$ret =& new HarmoniTermIterator($array);
+		return $ret;
 	}
 
 	/**
@@ -1290,7 +1297,7 @@ extends CourseManagementManager
 	*/
 	function &getCourseGroup ( &$courseGroupId ) {
 		$node =& $this->_hierarchy->getNode($courseGroupId);
-		$ret =& new CourseGroup($node);
+		$ret =& new HarmoniCourseGroup($node);
 		return $ret;
 
 
@@ -1332,7 +1339,7 @@ extends CourseManagementManager
 				$arrayOfGroups[] =& $this->getCourseGroup($node->getId());
 			}
 		}
-		$ret =& new CourseGroupIterator($arrayOfGroups);
+		$ret =& new HarmoniCourseGroupIterator($arrayOfGroups);
 		return $ret;
 	}
 
@@ -1381,7 +1388,7 @@ extends CourseManagementManager
 				$arrayOfGroups[] =& $this->getCourseGroup($parentNode->getId());
 			}
 		}
-		$ret =& new CourseGroupIterator($arrayOfGroups);
+		$ret =& new HarmoniCourseGroupIterator($arrayOfGroups);
 		return $ret;
 	}
 
@@ -1421,7 +1428,7 @@ extends CourseManagementManager
 			}
 			$arrayOfTypes[] =& $node->getType();
 		}
-		$ret =& new TypeIterator($arrayOfTypes);
+		$ret =& new HarmoniTypeIterator($arrayOfTypes);
 		return $ret;
 	}
 
@@ -1480,13 +1487,14 @@ extends CourseManagementManager
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			if(is_null($row['description'])){
-				$the_type = new Type($row['domain'],$row['authority'],$row['keyword']);
+				$the_type =& new Type($row['domain'],$row['authority'],$row['keyword']);
 			}else{
-				$the_type = new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
+				$the_type =& new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
 			}
 			$array[] = $the_type;
 		}
-		return new HarmoniTypeIterator($array);
+		$ret =& new HarmoniTypeIterator($array);
+		return $ret;
 	}
 
 

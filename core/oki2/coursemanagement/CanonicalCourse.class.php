@@ -26,7 +26,7 @@ require_once(HARMONI."oki2/coursemanagement/CanonicalCourseIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.13 2006/06/30 19:08:44 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.14 2006/06/30 20:21:49 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -366,7 +366,7 @@ class HarmoniCanonicalCourse
 		$id=$idManager->createId();
 
 
-		$type = new Type("CourseManagement","edu.middlebury", "CanonicalCourse");
+		$type =& new Type("CourseManagement","edu.middlebury", "CanonicalCourse");
 		$node=$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
 
 		$dbManager=& Services::getService("DBHandler");
@@ -488,7 +488,7 @@ class HarmoniCanonicalCourse
 		$id=$idManager->createId();
 
 
-		$type = new Type("CourseManagement","edu.middlebury", "CourseOffering");
+		$type =& new Type("CourseManagement","edu.middlebury", "CourseOffering");
 		$node=$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
 
 		$dbManager=& Services::getService("DBHandler");
@@ -863,7 +863,8 @@ class HarmoniCanonicalCourse
 			$res->advanceRow();
 			$array[] = $cm->getCanonicalCourse($row['id']);
 		}
-		return new HarmoniCanonicalCourseIterator($array);
+		$ret =& new HarmoniCanonicalCourseIterator($array);
+		return $ret;
 	} 
 
 	/**

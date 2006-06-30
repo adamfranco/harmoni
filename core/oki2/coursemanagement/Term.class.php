@@ -15,7 +15,7 @@ require_once(OKI2."/osid/coursemanagement/Term.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Term.class.php,v 1.10 2006/06/29 23:17:10 sporktim Exp $
+ * @version $Id: Term.class.php,v 1.11 2006/06/30 20:21:49 sporktim Exp $
  */
 class HarmoniTerm
 	extends Term
@@ -70,7 +70,7 @@ class HarmoniTerm
 	 * @access public
 	 */
 	function updateDisplayName ( $displayName ) { 
-		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 
+		
 		$this->_setField('name',$displayName);
 	} 
 
@@ -95,7 +95,7 @@ class HarmoniTerm
 	 * @access public
 	 */
 	function getDisplayName () { 
-		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 
+		
 		return $this->_getField('name');
 	} 
 
@@ -120,7 +120,7 @@ class HarmoniTerm
 	 * @access public
 	 */
 	function &getId () { 
-		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 
+		
 		return $this->_id;
 	} 
 
@@ -146,7 +146,7 @@ class HarmoniTerm
 	 * @access public
 	 */
 	function &getType () { 
-		//throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 
+		
 		return $this->_getType('term');
 	} 
 

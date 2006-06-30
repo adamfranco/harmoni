@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.10 2006/06/30 19:27:12 sporktim Exp $
+* @version $Id: CourseOffering.class.php,v 1.11 2006/06/30 20:21:49 sporktim Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -511,7 +511,7 @@ extends CourseOffering
 		$id=$idManager->createId();
 
 
-		$type = new Type("CourseManagement","edu.middlebury", "CourseSection");
+		$type =& new Type("CourseManagement","edu.middlebury", "CourseSection");
 		$node=$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
 
 		$dbManager=& Services::getService("DBHandler");
@@ -993,7 +993,8 @@ extends CourseOffering
 				$array[] =& new HarmoniEnrollmentRecord($row['id']);
 			}
 		}
-		return new EnrollmentRecordIterator($array);
+		$ret =& new HarmoniEnrollmentRecordIterator($array);
+		return $ret;
 	}
 
 	/**
@@ -1024,7 +1025,36 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getRosterByType ( &$enrollmentStatusType ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true));
+		$dbHandler =& Services::getService("DBHandler");
+
+		$array=array();
+
+		$courseSectionIterator = $this->getCourseSections();
+		
+		$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
+
+		while($courseSectionIterator->hasNextCourseSection()){
+			$section = $courseSectionIterator->nextCourseSection();
+			$sectionId = $section->getId();
+
+			$query=& new SelectQuery;
+			$query->setTable('cm_enroll');
+			//$query->addColumn('fk_student_id');
+			$query->addColumn('id');			
+			$query->addWhere("fk_cm_section='".addslashes($sectionId)."' AND fk_enroll_stat_type='".addslashes($typeIndex)."'");
+
+
+			$res=& $dbHandler->query($query);
+
+			while($res->hasMoreRows()){
+				$row =& $res->getCurrentRow();
+				$res->advanceRow();
+				
+				$array[] =& new HarmoniEnrollmentRecord($row['id']);
+			}
+		}
+		$ret =& new HarmoniEnrollmentRecordIterator($array);
+		return $ret;
 	}
 
 	/**

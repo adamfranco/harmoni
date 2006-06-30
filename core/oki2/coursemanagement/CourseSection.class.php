@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.6 2006/06/30 19:08:44 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.7 2006/06/30 20:21:49 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -748,8 +748,8 @@ class HarmoniCourseSection
 				//$array[] =& $node->getType();
 				$array[] =& new HarmoniEnrollmentRecord($row['id']);
 			}
-		
-		return new EnrollmentRecordIterator($array);
+		$ret =& new EnrollmentRecordIterator($array);
+		return $ret;
 	} 
 
 	/**

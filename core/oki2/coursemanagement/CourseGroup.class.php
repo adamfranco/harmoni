@@ -16,7 +16,7 @@ require_once(OKI2."/osid/coursemanagement/CourseGroup.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseGroup.class.php,v 1.5 2006/06/29 19:29:29 sporktim Exp $
+ * @version $Id: CourseGroup.class.php,v 1.6 2006/06/30 20:21:49 sporktim Exp $
  */
 class HarmoniCourseGroup
 	extends CourseGroup
@@ -233,7 +233,7 @@ class HarmoniCourseGroup
 			$node=$nodeiterator->nextNode();
 			$arrayOfCourses[] =& $cm->getCanonicalCourse($node->getId());
 		}
-		$ret =& new CanonicalCourseIterator($arrayOfCourses);
+		$ret =& new HarmoniCanonicalCourseIterator($arrayOfCourses);
 		return $ret;
 		 
 	} 
