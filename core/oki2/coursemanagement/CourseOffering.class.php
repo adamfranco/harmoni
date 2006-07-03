@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.11 2006/06/30 20:21:49 sporktim Exp $
+* @version $Id: CourseOffering.class.php,v 1.12 2006/07/03 19:51:50 sporktim Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -416,7 +416,10 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getPropertyTypes () {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true));
+		$courseType =& $this->getOfferingType();
+		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties");
+		$typeIterator =& new HarmoniTypeIterator(array($propertiesType));
+		return $typeIterator;
 	}
 
 	/**
@@ -440,7 +443,8 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getProperties () {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true));
+		$ret = new PropertiesIterator(array($this->_getProperties()));		
+		return $ret;//return the iterator
 	}
 
 	/**
@@ -711,7 +715,9 @@ extends CourseOffering
 	}
 
 	/**
-	* Add an Asset for this CourseOffering.
+	* Add an Asset for this CourseOffering.  Does nothing if the course has a 
+	* single copy of the asset and prints a warning if there is more than one
+	* copy of that asset in one course.
 	*
 	* @param object Id $assetId
 	*
@@ -733,7 +739,31 @@ extends CourseOffering
 	* @access public
 	*/
 	function addAsset ( &$assetId ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true));
+		
+	$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		$query->addTable('cm_asset');
+		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
+		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
+		$res=& $dbHandler->query($query);
+
+
+
+		if($res->getNumberOfRows()==0){
+			$query=& new InsertQuery;
+			$query->setTable('cm_asset');
+			$values[]="'".addslashes($this->_id->getIdString())."'";
+			$values[]="'".addslashes($assetId->getIdString())."'";	
+			$query->setColumns(array('fk_course_id','fk_asset_id'));			
+			$query->addRowOfValues($values);			
+			$result =& $dbHandler->query($query);
+		}elseif($res->getNumberOfRows()==1){
+			//do nothing
+		}else{
+			print "\n<b>Warning!<\b> The asset with course ".$this->getDisplayName()." and id ".$assetId->getIdString()." is not unique--there are ".$res->getNumberOfRows()." copies.\n";
+
+		}
+
 	}
 
 	/**
@@ -761,7 +791,12 @@ extends CourseOffering
 	* @access public
 	*/
 	function removeAsset ( &$assetId ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true));
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new DeleteQuery;
+		$query->addTable('cm_asset');
+		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
+		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
+		$dbHandler->query($query);
 	}
 
 	/**
@@ -785,7 +820,24 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getAssets () {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true));
+		
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		$query->addTable('cm_asset');
+		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
+		$query->addColumn('fk_asset_id');
+		$res=& $dbHandler->query($query);
+		$array=array();
+		$idManager =& Services::getService("Id");
+		while($res->hasMoreRows()){
+			$row = $res->getCurrentRow();
+			$res->advanceRow();
+			
+			$array[]=$idManager->getId($row['fk_asset_id']);
+		}
+		$ret =& new HarmoniIdIterator($array);
+		return $ret;
 	}
 
 	/**
@@ -1084,9 +1136,59 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getPropertiesByType ( &$propertiesType ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true));
+		$courseType =& $this->getOfferingType();
+		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 		
+		if($propertiesType->isEqualTo($propertiesType)){
+			return $this->_getProperties();
+		}
+		return null;
+		
+		
+		
 	}
 
+	
+	function &_getProperties(){
+		
+		$dbHandler =& Services::getService("DBHandler");
+		
+		//get the record
+		$query =& new SelectQuery();
+		$query->addTable('cm_offer');
+		$query->addColumn("*");
+		$query->addWhere("id='".addslashes($this->_id)."'");				
+		$res=& $dbHandler->query($query);
+		
+		//make a type
+		$courseType =& $this->getOfferingeType();	
+		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 	
+		
+		//make sure we can find that course
+		if(!$res->hasMoreRows()){
+			print "<b>Warning!</b>  Can't get Properties of Course with id ".$this->_id." since that id wasn't found in the database.";
+			return null;	
+		}
+		$row = $res->getCurrentRow();//grab (hopefully) the only row		
+		$property =& new HarmoniProperties($propertiesType);
+				
+		//create a custom Properties object
+		$property->addProperty('display_name', $this->_node->getDisplayName());
+		$property->addProperty('description', $this->_node->getDescription());	
+		$property->addProperty('id', $row['id']);
+		$property->addProperty('number', $row['number']);
+		$gradeType =& $this->getGradeType();
+		$property->addProperty('grade_type', $gradeType->getKeyword());
+		$term =& $this->getTerm();
+		$property->addProperty('term', $gradeType->getDisplayName());
+		$property->addProperty('type', $courseType->getKeyword());
+		$property->addProperty('title', $row['']);
+		$statusType =& $this->getStatus();
+		$property->addProperty('status_type', $statusType->getKeyword());
+
+		
+		$res->free();	
+		return $property;
+	}
 
 
 

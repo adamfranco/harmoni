@@ -26,7 +26,7 @@ require_once(HARMONI."oki2/coursemanagement/CanonicalCourseIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.14 2006/06/30 20:21:49 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.15 2006/07/03 19:51:50 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -892,7 +892,30 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function addTopic ( $topic ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		$query->addTable('cm_topic');
+		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
+		$query->addWhere("topic='".addslashes($topic)."'");
+		$res=& $dbHandler->query($query);
+
+
+
+		if($res->getNumberOfRows()==0){
+			$query=& new InsertQuery;
+			$query->setTable('cm_topic');
+			$values[]="'".addslashes($this->_id->getIdString())."'";
+			$values[]="'".addslashes($topic)."'";	
+			$query->setColumns(array('fk_cm_can','topic'));	
+					
+			$query->addRowOfValues($values);			
+			$result =& $dbHandler->query($query);
+		}elseif($res->getNumberOfRows()==1){
+			//do nothing
+		}else{
+			print "\n<b>Warning!<\b> The Topic with course ".$this->getDisplayName()." and description ".$topic." is not unique--there are ".$res->getNumberOfRows()." copies.\n";
+
+		}
 	} 
 
 	/**
@@ -918,7 +941,13 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function removeTopic ( $topic ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new DeleteQuery;
+		$query->setTable('cm_can');
+		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
+		$query->addWhere("topic='".addslashes($topic)."'");
+		$dbHandler->query($query);
+
 	} 
 
 	/**
@@ -942,7 +971,25 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function &getTopics () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		
+		
+		
+		
+		
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		$query->addTable('cm_topic');
+		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
+		$query->addColumn('topic');
+		$res=& $dbHandler->query($query);
+		$array=array();
+		while($res->hasMoreRows()){
+			$row = $res->getCurrentRow();
+			$res->advanceRow();
+			$array[]=$row['id'];
+		}
+		$ret =& new HarmoniStringIterator($array);
+		return $ret;
 	} 
 
 	/**
@@ -1054,7 +1101,8 @@ class HarmoniCanonicalCourse
 	} 
 	
 	/**
-	 * Get all the Property Types for  CanonicalCourse.
+	 * Get all the Property Types for  CanonicalCourse.  There is is only 
+	 * One type of property associated with each course object.
 	 *	
 	 * @return object TypeIterator
 	 * 
@@ -1074,11 +1122,15 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function &getPropertyTypes () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+		$courseType =& $this->getCourseType();
+		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties");
+		$typeIterator =& new HarmoniTypeIterator(array($propertiesType));
+		return $typeIterator;
 	} 
 
 	/**
-	 * Get the Properties associated with this CanonicalCourse.
+	 * Get the Properties associated with this CanonicalCourse.  There is is only 
+     * One type of property associated with each course object.
 	 *	
 	 * @return object PropertiesIterator
 	 * 
@@ -1098,8 +1150,98 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function &getProperties () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CanonicalCourse", true)); 
+	
+		$ret = new PropertiesIterator(array($this->_getProperties()));		
+		return $ret;//return the iterator
+		
 	} 
+	
+	
+	
+	/**
+	* Get the Properties of this Type associated with this CanonicalCourse.  There is is only 
+	* One type of property associated with each course object.
+	*
+	* @param object Type $propertiesType
+	*
+	* @return object Properties
+	*
+	* @throws object CourseManagementException An exception
+	*		   with one of the following messages defined in
+	*		   org.osid.coursemanagement.CourseManagementException may be
+	*		   thrown:	{@link
+	*		   org.osid.coursemanagement.CourseManagementException#OPERATION_FAILED
+	*		   OPERATION_FAILED}, {@link
+	*		   org.osid.coursemanagement.CourseManagementException#PERMISSION_DENIED
+	*		   PERMISSION_DENIED}, {@link
+	*		   org.osid.coursemanagement.CourseManagementException#CONFIGURATION_ERROR
+	*		   CONFIGURATION_ERROR}, {@link
+	*		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
+	*		   UNIMPLEMENTED}, {@link
+	*		   org.osid.coursemanagement.CourseManagementException#NULL_ARGUMENT
+	*		   NULL_ARGUMENT}, {@link
+	*		   org.osid.coursemanagement.CourseManagementException#UNKNOWN_TYPE
+	*		   UNKNOWN_TYPE}
+	*
+	* @access public
+	*/
+	function &getPropertiesByType ( &$propertiesType ) {
+		$courseType =& $this->getCourseType();
+		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 		
+		if($propertiesType->isEqualTo($propertiesType)){
+			return $this->_getProperties();
+		}
+		return null;
+		
+		
+		
+	}
+	
+	
+	
+	function &_getProperties(){
+		
+		$dbHandler =& Services::getService("DBHandler");
+		
+		//get the record
+		$query =& new SelectQuery();
+		$query->addTable('cm_can');
+		$query->addColumn("*");
+		$query->addWhere("id='".addslashes($this->_id)."'");				
+		$res=& $dbHandler->query($query);
+		
+		//make a type
+		$courseType =& $this->getCourseType();	
+		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 	
+		
+		//make sure we can find that course
+		if(!$res->hasMoreRows()){
+			print "<b>Warning!</b>  Can't get Properties of Course with id ".$this->_id." since that id wasn't found in the database.";
+			return null;	
+		}
+		$row = $res->getCurrentRow();//grab (hopefully) the only row		
+		$property =& new HarmoniProperties($propertiesType);
+				
+		//create a custom Properties object
+		
+		$property->addProperty('display_name', $this->_node->getDisplayName());
+		$property->addProperty('description', $this->_node->getDescription());	
+		$property->addProperty('id', $row['id']);
+		$property->addProperty('number', $row['number']);
+		$property->addProperty('credits', $row['credits']);
+		$property->addProperty('equivalent_id', $row['equivalent']);
+		$property->addProperty('type', $courseType->getKeyword());
+		$property->addProperty('title', $row['']);
+		$statusType =& $this->getStatus();
+		$property->addProperty('status_type', $statusType->getKeyword());
+
+		
+		$res->free();	
+		return $property;
+		
+		
+	}
+	
 	
 	
 	
