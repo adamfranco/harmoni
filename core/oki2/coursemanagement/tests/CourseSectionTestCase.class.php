@@ -98,8 +98,8 @@
           	$this->assertTrue($courseSectionB->getDescription() == "Oh, buggle buggle");
           	$this->assertEqual($courseSectionB->getNumber(), "CS101");
           	$this->assertNotEqualTypes($courseSectionA->getSectionType(), $courseSectionB->getSectionType());
-          	$this->assertNotEqualTypes($courseSectionA->getSectionStatusType(), 
-			  						   $courseSectionB->getSectionType());
+          	$this->assertNotEqualTypes($courseSectionA->getStatus(), 
+			  						   $courseSectionB->getStatus());
 			$this->assertEqual($courseSectionA->getLocation(), "Bicentennial Hall 505");
 			$courseSectionA->updateLocation("Bicentennial Hall 632");
 			$this->assertNotEqual($courseSectionA->getLocation(), "Bicentennial Hall 505");
