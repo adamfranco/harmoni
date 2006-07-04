@@ -66,7 +66,7 @@
 			
 			$termType =& new Type("CourseManagement", "edu.middlebury", "Fall 2006");
           	$schedule = "2006-2007";
-          	$term =& $courseManagementManager->createTerm($termType, $schedule);
+          	$term =& $cmm->createTerm($termType, $schedule);
           	$termId =& $term->getId();
           	$offeringType = $courseType;
           	$offeringStatusType = $courseStatusType;
