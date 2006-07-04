@@ -100,6 +100,10 @@
           	$this->assertNotEqualTypes($courseSectionA->getSectionType(), $courseSectionB->getSectionType());
           	$this->assertNotEqualTypes($courseSectionA->getSectionStatusType(), 
 			  						   $courseSectionB->getSectionType());
+			$this->assertEqual($courseSectionA->getLocation(), "Bicentennial Hall 505");
+			$courseSectionA->updateLocation("Bicentennial Hall 632");
+			$this->assertNotEqual($courseSectionA->getLocation(), "Bicentennial Hall 505");
+			$this->assertNotEqual($courseSectionA->getLocation(), $courseSectionB->getLocation());
           	
           	$courseOffering->deleteCourseSection($courseOfferingA->getId());
           	$canonicalCourse->deleteCourseOffering($courseOffering->getId());
