@@ -26,7 +26,7 @@ require_once(HARMONI."oki2/coursemanagement/CanonicalCourseIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.15 2006/07/03 19:51:50 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.16 2006/07/04 15:59:54 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -58,7 +58,7 @@ class HarmoniCanonicalCourse
 	{
 		$this->_id = $id;
 		$this->_node = $node;
-		$this->_table = 'cm_offer';
+		$this->_table = 'cm_can';
 		
 	}
 	

@@ -1,18 +1,18 @@
--- /**
--- @package harmoni.osid_v2.coursemanagement
--- 
--- 
--- @copyright Copyright &copy; 2006, Middlebury College
--- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
--- 
--- @version $Id: MySQL_CourseManagement.sql,v 1.6 2006/06/30 19:08:44 sporktim Exp $
--- */
--- --------------------------------------------------------
+
 
 -- --------------------------------------------------------
 
+-- 
+-- Table structure for table `cm_assets`
+-- 
 
+CREATE TABLE `cm_assets` (
+  `fk_course_id` varchar(170) NOT NULL default '',
+  `fk_asset_id` varchar(170) default NULL,
+  PRIMARY KEY  (`fk_course_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains the Assets for offerings and sections';
 
+-- --------------------------------------------------------
 
 -- 
 -- Table structure for table `cm_can`
@@ -42,7 +42,7 @@ CREATE TABLE `cm_can_stat_type` (
   `domain` varchar(255) default NULL,
   `description` text,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various canonical course statuses' AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various canonical course statuses' AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE `cm_can_type` (
   `domain` varchar(255) default NULL,
   `description` text,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various types of canonical courses' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various types of canonical courses' AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -71,7 +71,7 @@ CREATE TABLE `cm_enroll` (
   `fk_cm_enroll_stat_type` varchar(170) collate utf8_unicode_ci NOT NULL default '',
   `fk_cm_section` varchar(170) collate utf8_unicode_ci NOT NULL default '',
   PRIMARY KEY  (`id`),
-  KEY `fk_course_id` (`fk_course_id`),
+  KEY `fk_course_id` (`fk_cm_section`),
   KEY `fk_student_id` (`fk_student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
@@ -88,7 +88,23 @@ CREATE TABLE `cm_enroll_stat_type` (
   `domain` varchar(255) default NULL,
   `description` text,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various types of enrollment statuses' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various types of enrollment statuses' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `cm_grade_rec`
+-- 
+
+CREATE TABLE `cm_grade_rec` (
+  `id` int(170) NOT NULL auto_increment,
+  `fk_student_id` varchar(170) default NULL,
+  `fk_cm_offer` varchar(170) default NULL,
+  `name` varchar(255) default NULL,
+  `grade` varchar(255) default NULL,
+  `fk_cm_grade_type` varchar(170) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='All the grade records for all students and courses' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -230,3 +246,15 @@ CREATE TABLE `cm_term_type` (
 
 -- --------------------------------------------------------
 
+-- 
+-- Table structure for table `cm_topics`
+-- 
+
+CREATE TABLE `cm_topics` (
+  `fk_cm_can` varchar(170) default NULL,
+  `topic` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`topic`),
+  KEY `fk_cm_can` (`fk_cm_can`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------

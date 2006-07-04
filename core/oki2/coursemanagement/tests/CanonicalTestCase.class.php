@@ -200,6 +200,7 @@
 			
 		
 			$this->assertEqual($canonicalCourseA->getTitle(), $canonicalCourseB->getTitle());
+			
           	$this->assertEqual($canonicalCourseA->getCredits(), $canonicalCourseB->getCredits());
           	$this->assertEqual($canonicalCourseA->getDescription(), $canonicalCourseB->getDescription());
           	$this->assertEqual($canonicalCourseA->getDisplayName(), $canonicalCourseB->getDisplayName());
