@@ -76,13 +76,13 @@
 			  														 $offeringType, $offeringStatusType, 
 																	 $courseGradeType);
 			
-			$sectionType = new Type("CourseManagement", "edu.middlebury", "DED", "A");
+			$sectionType = new Type("CourseManagement", "edu.middlebury", "A", "CSCI");
 			$sectionStatusType = new Type("CourseManagement", "edu.middlebury", "Open", "You can still register");
 			$location = "Bicentennial Hall 505";
 			$courseSectionA = $courseOffering->createCourseSection($title, $number, $description, $sectionType, 
 																   $sectionStatusType, $location);
 																   
-			$sectionType = new Type("CourseManagement", "edu.middlebury", "DED", "B");
+			$sectionType = new Type("CourseManagement", "edu.middlebury", "B", "CSCI");
 			$sectionStatusType = new Type("CourseManagement", "edu.middlebury", "Full", "Closed");
 			$courseSectionB = $courseOffering->createCourseSection($title, $number, $description, $sectionType, 
 																   $sectionStatusType, $location);
@@ -107,6 +107,7 @@
 			$this->assertNotEqual($courseSectionA->getLocation(), $courseSectionB->getLocation());
           	
           	$courseOffering->deleteCourseSection($courseSectionA->getId());
+          	$courseOffering->deleteCourseSection($courseSectionB->getId());
           	$canonicalCourse->deleteCourseOffering($courseOffering->getId());
           	$cmm->deleteCanonicalCourse($canonicalCourse->getId());           
             
@@ -173,18 +174,15 @@
 		}
 		
 		function assertEqualTypes(&$typeA, &$typeB) {
-			
-			$this->assertEqual($typeA->getDomain(),$typeB->getDomain());
-			$this->assertEqual($typeA->getAuthority(),$typeB->getAuthority());
-			$this->assertEqual($typeA->getKeyword(),$typeB->getKeyword());
-			$this->assertEqual($typeA->getDescription(),$typeB->getDescription());
+			$this->assertEqual($typeA->getDomain(), $typeB->getDomain());
+			$this->assertEqual($typeA->getAuthority(), $typeB->getAuthority());
+			$this->assertEqual($typeA->getKeyword(), $typeB->getKeyword());
 		}
 		
-		function assertNotEqualTypes(&$typeA, &$typeB) {
-			$this->assertEqual($typeA->getDomain(),$typeB->getDomain());
-			$this->assertEqual($typeA->getAuthority(),$typeB->getAuthority());
-			$this->assertNotEqual($typeA->getKeyword(),$typeB->getKeyword());
-			$this->assertNotEqual($typeA->getDescription(),$typeB->getDescription());
+		function assertNotEqualTypes(&$typeA, &$typeB) {  
+			$this->assertTrue($typeA->getDomain() != $typeB->getDomain() ||	
+							  $typeA->getAuthority() != $typeB->getAuthority() ||
+							  $typeA->getKeyword() != $typeB->getKeyword()); 
 		}
     }
 ?>
