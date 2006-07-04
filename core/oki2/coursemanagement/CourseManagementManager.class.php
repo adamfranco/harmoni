@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.20 2006/07/03 19:51:50 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.21 2006/07/04 17:55:25 jwlee100 Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.20 2006/07/03 19:51:50 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.21 2006/07/04 17:55:25 jwlee100 Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -727,7 +727,7 @@ extends CourseManagementManager
 
 		$values[]="'".addslashes($id->getIdString())."'";
 		$values[]="'".addslashes("")."'";
-		$values[]="'".$this->_typeToIndex('term',$courseType)."'";
+		$values[]="'".$this->_typeToIndex('term',$termType)."'";
 
 		$query->addRowOfValues($values);
 

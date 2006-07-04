@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.12 2006/07/03 19:51:50 sporktim Exp $
+* @version $Id: CourseOffering.class.php,v 1.13 2006/07/04 17:55:25 jwlee100 Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -44,10 +44,13 @@ extends CourseOffering
 	* @access private
 	* @variable object $_table the course offering table.
 	* @access private
+	* @variable object Id $_canonicalCoursesId the hierarchy
+	* @access private
 	**/
 	var $_node;
 	var $_id;
 	var $_table;
+	var $_hierarchy;
 
 	/**
 	* The constructor.
@@ -63,6 +66,8 @@ extends CourseOffering
 		$this->_id = $id;
 		$this->_node = $node;
 		$this->_table = 'cm_offer';
+		$cm =& Services::getService("CourseManagement");
+		$this->_hierarchy =& $cm->_hierarchy;
 
 	}
 
@@ -242,7 +247,7 @@ extends CourseOffering
 	* @access public
 	*/
 	function getDescription () {
-		return $this->_node->getDescription($displayName );
+		return $this->_node->getDescription();
 	}
 
 	/**
@@ -266,7 +271,7 @@ extends CourseOffering
 	* @access public
 	*/
 	function getDisplayName () {
-		return $this->_node->getDisplayName($displayName );
+		return $this->_node->getDisplayName();
 	}
 
 	/**
@@ -316,7 +321,7 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getOfferingType () {
-		return _getType('offer');
+		return $this->_getType('offer');
 	}
 
 	/**
@@ -342,7 +347,7 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getCourseGradeType () {
-		return _getType('grade');
+		return $this->_getType('grade');
 	}
 
 	/**
@@ -392,7 +397,7 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getStatus () {
-		return _getType('offer_stat');
+		return $this->_getType('offer_stat');
 	}
 
 	/**

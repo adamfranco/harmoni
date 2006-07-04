@@ -26,7 +26,7 @@ require_once(HARMONI."oki2/coursemanagement/CanonicalCourseIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.16 2006/07/04 15:59:54 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.17 2006/07/04 17:55:25 jwlee100 Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -40,10 +40,16 @@ class HarmoniCanonicalCourse
 	 * @access private
 	 * @variable object $_table the canonical course table.
 	 * @access private
+     * @variable object Id $_canonicalCoursesId the hierarchy
+	 * @access private
 	 **/
 	var $_node;
 	var $_id;
 	var $_table;
+	var $_hierarchy;
+	
+	
+	
 	
 	/**
 	 * The constructor.
@@ -59,6 +65,8 @@ class HarmoniCanonicalCourse
 		$this->_id = $id;
 		$this->_node = $node;
 		$this->_table = 'cm_can';
+		$cm =& Services::getService("CourseManagement");
+		$this->_hierarchy =& $cm->_hierarchy;
 		
 	}
 	
@@ -497,7 +505,7 @@ class HarmoniCanonicalCourse
 		$query->setTable('cm_offer');
 
 		$query->setColumns(array('id','fk_cm_grade_type','fk_cm_term',
-								'fk_cm_can_offer_type','fk_cm_offer_type','title','number'));
+								'fk_cm_offer_stat_type','fk_cm_offer_type','title','number'));
 
 		$values[]="'".addslashes($id->getIdString())."'";
 		$values[]="'".$this->_typeToIndex('grade',$courseGradeType)."'";
@@ -542,7 +550,7 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function deleteCourseOffering ( &$courseOfferingId ) { 
-		$this->_hierarchy->deleteNode($canonicalCourseId);
+		$this->_hierarchy->deleteNode($courseOfferingId);
 
 
 
@@ -552,7 +560,7 @@ class HarmoniCanonicalCourse
 
 		$query->setTable('cm_can');
 
-		$query->addWhere("id=".addslashes($canonicalCourseId->getIdString()));
+		$query->addWhere("id=".addslashes($courseOfferingId->getIdString()));
 		$dbHandler->query($query);
 	} 
 
@@ -678,7 +686,7 @@ class HarmoniCanonicalCourse
 		$array = array();
 		$idManager= & Services::getService("IdManager");
 		$cm= & Services::getService("CourseManagement");
-		$typeIndex=$cm->_typeToIndex('offer',$sectionType);
+		$typeIndex=$cm->_typeToIndex('offer',$offeringType);
 		
 		while($nodeIterator->hasNextNode()){
 			$childNode = $nodeIterator->nextNode();

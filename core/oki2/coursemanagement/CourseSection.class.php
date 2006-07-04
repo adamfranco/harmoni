@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.9 2006/07/03 19:51:50 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.10 2006/07/04 17:55:25 jwlee100 Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -45,10 +45,13 @@ class HarmoniCourseSection
 	 * @access private
 	 * @variable object $_table the course section table.
 	 * @access private
+	 * @variable object Id $_canonicalCoursesId the hierarchy
+	 * @access private
 	 **/
 	var $_node;
 	var $_id;
 	var $_table;
+	var $_hierarchy;
 	
 	/**
 	 * The constructor.
@@ -64,6 +67,8 @@ class HarmoniCourseSection
 		$this->_id = $id;
 		$this->_node = $node;
 		$this->_table = 'cm_section';
+		$cm =& Services::getService("CourseManagement");
+		$this->_hierarchy =& $cm->_hierarchy;
 		
 	}
 	
