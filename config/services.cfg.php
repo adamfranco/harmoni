@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: services.cfg.php,v 1.55 2006/06/26 18:18:11 sporktim Exp $
+ * @version $Id: services.cfg.php,v 1.56 2006/07/04 20:13:35 sporktim Exp $
  */
 
 /* :: what services should we load? you can disable some to save on startup time :: */
@@ -104,11 +104,18 @@ if (!defined("LOAD_LOGGING")) 				define("LOAD_LOGGING", true);
  */
 if (!defined("LOAD_REPOSITORY")) 			define("LOAD_REPOSITORY", true);
 
+
+/**
+ * functionality affected: Scheduling.
+ */
+if (!defined("LOAD_SCHEDULING")) 			define("LOAD_SCHEDULING", true);
+
+
+
 /**
  * functionality affected: Course Management.
  */
 if (!defined("LOAD_COURSE_MANAGEMENT")) 			define("LOAD_COURSE_MANAGEMENT", true);
-
 
 
 /**
@@ -367,13 +374,23 @@ if (LOAD_REPOSITORY) {
 }
 
 /**
- * load the DigitalRepositoryManager.
+ * load the SchedulingManager.
+ */
+if (LOAD_SCHEDULING) {
+	require_once(HARMONI."oki2/scheduling/HarmoniSchedulingManager.class.php");
+	Services::registerService("SchedulingManager","HarmoniSchedulingManager");
+	Services::createServiceAlias("SchedulingManager", "Scheduling");
+}
+
+/**
+ * load the CourseManagementManager.
  */
 if (LOAD_COURSE_MANAGEMENT) {
-	require_once(HARMONI."oki2/coursemanagement/CourseManagementManager.class.php");
 	require_once(HARMONI."oki2/coursemanagement/CourseManagementManager.class.php");
 	Services::registerService("CourseManagementManager","HarmoniCourseManagementManager");
 	Services::createServiceAlias("CourseManagementManager", "CourseManagement");
 }
+
+
 
 ?>

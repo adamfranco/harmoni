@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.10 2006/07/04 17:55:25 jwlee100 Exp $
+ * @version $Id: CourseSection.class.php,v 1.11 2006/07/04 20:13:35 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -62,7 +62,7 @@ class HarmoniCourseSection
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniCanonicalCourse($id, $node)
+	function HarmoniCourseSection($id, $node)
 	{
 		$this->_id = $id;
 		$this->_node = $node;
@@ -278,7 +278,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function getDescription () { 
-		return $this->_node->getDescription($displayName );
+		return $this->_node->getDescription();
 	} 
 
 	/**
@@ -302,7 +302,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function getDisplayName () { 
-		return $this->_node->getDisplayName($displayName ); 
+		return $this->_node->getDisplayName(); 
 	} 
 
 	/**
@@ -351,7 +351,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getSectionType () { 
-		return _getType('section');
+		return $this->_getType('section');
 	} 
 
 	/**
@@ -1062,7 +1062,7 @@ $query->addWhere("fk_cm_section='".addslashes($sectionId)."' AND fk_enroll_stat_
 	function _getField($key)
 	{
 		$cm=Services::getService("CourseManagement");
-		return $cm->_getField($this->_id,$this->_table,$key);
+		return $cm->_getField($this->_id, $this->_table, $key);
 	}
 
 

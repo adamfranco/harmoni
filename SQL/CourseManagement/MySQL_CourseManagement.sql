@@ -1,4 +1,13 @@
-
+-- /**
+-- @package harmoni.osid_v2.coursemanagement
+-- 
+-- 
+-- @copyright Copyright &copy; 2006, Middlebury College
+-- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+-- 
+-- @version $Id: MySQL_CourseManagement.sql,v 1.8 2006/07/04 20:13:34 sporktim Exp $
+-- */
+-- --------------------------------------------------------
 
 -- --------------------------------------------------------
 
