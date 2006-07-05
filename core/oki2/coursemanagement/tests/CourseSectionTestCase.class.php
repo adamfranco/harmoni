@@ -106,11 +106,23 @@
 			$this->assertNotEqual($courseSectionA->getLocation(), "Bicentennial Hall 505");
 			$this->assertNotEqual($courseSectionA->getLocation(), $courseSectionB->getLocation());
           	
+          	$idManager =& Services::getService("Id");
+            $id = $idManager->createId();
+            $asset = courseSectionA->addAsset($id);
+            $courseSectionA->removeAsset($id);
+          	
           	$courseOffering->deleteCourseSection($courseSectionA->getId());
           	$courseOffering->deleteCourseSection($courseSectionB->getId());
           	$canonicalCourse->deleteCourseOffering($courseOffering->getId());
-          	$cmm->deleteCanonicalCourse($canonicalCourse->getId());           
-            
+          	$cmm->deleteCanonicalCourse($canonicalCourse->getId());    
+			  
+			$id = idManager->createId();
+			$enrollmentStatusType("CourseManagement", "edu.middlebury", "Free to register");
+			$courseSectionA->addStudent($id, $enrollmentStatusType);
+			$courseSectionB->addStudent($id, $enrollmentStatusType);
+			
+			$properties = $courseSectionA->getProperties();
+			$propertyTypes = $courseSectionA->getPropertyTypes();
             
             /*tests*/
             
