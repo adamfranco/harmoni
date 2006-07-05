@@ -105,12 +105,7 @@
 			$courseSectionA->updateLocation($location);
 			$this->assertNotEqual($courseSectionA->getLocation(), "Bicentennial Hall 505");
 			$this->assertNotEqual($courseSectionA->getLocation(), $courseSectionB->getLocation());
-          	
-          	$idManager =& Services::getService("Id");
-            $id = $idManager->createId();
-            $asset = courseSectionA->addAsset($id);
-            $courseSectionA->removeAsset($id);
-          			
+                    		
 			// Create enrollment statuses
 			$enrollmentStatusTypeA =& new Type("CourseManagement", "edu.middlebury", "Registered");
 			$enrollemntStatusTypeB =& new Type("CourseManagement", "edu.middlebury", "Audited");
@@ -118,8 +113,10 @@
 			// Create new student 1
 			$propertiesTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
 			$propertiesA =& new HarmoniProperties($propertiesTypeA);
-			$propertiesA->addProperty('student_name', "Sporktim Bahls");
-			$propertiesA->addProperty('student_year', "2006");	
+			$name = "Sporktim Bahls";
+			$class = "2006";
+			$propertiesA->addProperty('student_name', $name);
+			$propertiesA->addProperty('student_year', $class);	
 			
 			$agentTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
 			$agentHandler =& Services::getService("Agent");
@@ -127,17 +124,19 @@
 			
 			// Create new student 2
 			$propertiesTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
-			$propertiesB =& new HarmoniProperties($propertiesType);
-			$propertiesB->addProperty('student_name', "John Lee");
-			$propertiesB->addProperty('student_year', "2006");	
+			$propertiesB =& new HarmoniProperties($propertiesTypeB);
+			$name = "John Lee";
+			$propertiesB->addProperty('student_name', $name);
+			$propertiesB->addProperty('student_year', $class);	
 			
 			$agentTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
 			$agentB =& $agentHandler->createAgent("John Lee", $agentTypeB, $propertiesB);
 			
 			$propertiesTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
-			$propertiesC =& new HarmoniProperties($propertiesType);
-			$propertiesC->addProperty('student_name', "Magdalenea Widjaja");
-			$propertiesC->addProperty('student_year', "2008");	
+			$propertiesC =& new HarmoniProperties($propertiesTypeC);
+			$name = "Magdalena Widjaja";
+			$propertiesC->addProperty('student_name', $name);
+			$propertiesC->addProperty('student_year', $class);	
 			
 			$agentTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
 			$agentC =& $agentHandler->createAgent("John Lee", $agentTypeC, $propertiesC);
@@ -194,9 +193,8 @@
 			print_r($properties);
 			
 			$propertyTypes = $courseSectionA->getPropertyTypes();
-			
-			
-			
+			print_r($propertyTypes);
+								
 			$courseOffering->deleteCourseSection($courseSectionA->getId());
           	$courseOffering->deleteCourseSection($courseSectionB->getId());
           	$canonicalCourse->deleteCourseOffering($courseOffering->getId());
