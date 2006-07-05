@@ -110,77 +110,107 @@
             $id = $idManager->createId();
             $asset = courseSectionA->addAsset($id);
             $courseSectionA->removeAsset($id);
-          	
-          	$courseOffering->deleteCourseSection($courseSectionA->getId());
-          	$courseOffering->deleteCourseSection($courseSectionB->getId());
-          	$canonicalCourse->deleteCourseOffering($courseOffering->getId());
-          	$cmm->deleteCanonicalCourse($canonicalCourse->getId());    
-			  
-			$id = idManager->createId();
-			$enrollmentStatusType("CourseManagement", "edu.middlebury", "Free to register");
-			$courseSectionA->addStudent($id, $enrollmentStatusType);
-			$courseSectionB->addStudent($id, $enrollmentStatusType);
+          			
+			// Create enrollment statuses
+			$enrollmentStatusTypeA =& new Type("CourseManagement", "edu.middlebury", "Registered");
+			$enrollemntStatusTypeB =& new Type("CourseManagement", "edu.middlebury", "Audited");
+			
+			// Create new student 1
+			$propertiesTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
+			$propertiesA =& new HarmoniProperties($propertiesTypeA);
+			$propertiesA->addProperty('student_name', "Sporktim Bahls");
+			$propertiesA->addProperty('student_year', "2006");	
+			
+			$agentTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
+			$agentHandler =& Services::getService("Agent");
+			$agentA =& $agentHandler->createAgent("Gladius", $agentTypeA, $propertiesA);
+			
+			// Create new student 2
+			$propertiesTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
+			$propertiesB =& new HarmoniProperties($propertiesType);
+			$propertiesB->addProperty('student_name', "John Lee");
+			$propertiesB->addProperty('student_year', "2006");	
+			
+			$agentTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
+			$agentB =& $agentHandler->createAgent("John Lee", $agentTypeB, $propertiesB);
+			
+			$propertiesTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
+			$propertiesC =& new HarmoniProperties($propertiesType);
+			$propertiesC->addProperty('student_name', "Magdalenea Widjaja");
+			$propertiesC->addProperty('student_year', "2008");	
+			
+			$agentTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
+			$agentC =& $agentHandler->createAgent("John Lee", $agentTypeC, $propertiesC);
+			
+			$agentIdA =& $agentA->getId();
+			$agentIdB =& $agentB->getId();
+			$agentIdC =& $agentC->getId();
+			
+			// Add students to course section
+			$courseSectionA->addStudent($agentIdA, $enrollmentStautsTypeA);
+			$courseSectionA->addStudent($agentIdB, $enrollmentStautsTypeB);
+			$courseSectionA->addStudent($agentIdC, $enrollmentStatusTypeA);
+			
+			$roster = $courseSectionA->getRoster();
+			print "\n";
+			print_r($roster);
+			
+			// Should print Tim and Mag
+			$registerRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeA);
+			print "\n";
+			print_r($registerRoster);
+			// Should print only John
+			$auditRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeB);
+			print "\n";
+			print_r($auditRoster);
+			
+			$courseSectionA->changeStudent($agentIdA, $enrollmentStatusTypeB);
+			
+			// Should print only Mag
+			$registerRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeA);
+			print "\n";
+			print_r($registerRoster);
+			// Should print Tim and John
+			$auditRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeB);
+			print "\n";
+			print_r($auditRoster);
+			
+			$courseSectionA->removeStudent($agentIdA);
+			$courseSectionA->getRoster();
+			print "\n";
+			print_r($roster);
+			
+			$courseSectionA->removeStudent($agentIdB);
+			$courseSectionA->getRoster();
+			print "\n";
+			print_r($roster);
+			
+			$courseSectionA->removeStudent($agentIdC);
+			$courseSectionA->getRoster();
+			print "\n";
+			print_r($roster);
 			
 			$properties = $courseSectionA->getProperties();
+			print_r($properties);
+			
 			$propertyTypes = $courseSectionA->getPropertyTypes();
-            
+			
+			
+			
+			$courseOffering->deleteCourseSection($courseSectionA->getId());
+          	$courseOffering->deleteCourseSection($courseSectionB->getId());
+          	$canonicalCourse->deleteCourseOffering($courseOffering->getId());
+          	$cmm->deleteCanonicalCourse($canonicalCourse->getId());  
+						            
             /*tests*/
-            
-           //	function &getId () {    
-           
-//	function getTitle () {   	function updateTitle ( $title ) { 
-	
-//	function getNumber () {   function updateNumber ( $number ) { 
-
-//	function getDescription () {   function updateDescription ( $description ) { 
-	
-//	function getDisplayName () { function updateDisplayName ( $displayName ) { 
-	
-
-		
-//	function &getSectionType () { 
-	
-//	function &getSchedule () { 
-	
-//	function &getLocation () { 
-	
-//	function &getStatus () {  function updateStatus ( &$statusType ) { 
-	
-//	function &getPropertyTypes () { 
-	
-//	function &getProperties () { 
-	
-//	function &getCourseOffering () { 
-	
-
-	
-//	function updateLocation ( &$location ) { 
-	
-
-	
+				
 		/**
 	
 	function addAsset ( &$assetId ) { 
 	
 	function removeAsset ( &$assetId ) { 
 	
-	function &getAssets () { 
-	
-
-	function addStudent ( &$agentId, &$enrollmentStatusType ) { 
-	
-	function changeStudent ( &$agentId, &$enrollmentStatusType ) { 
-		
-	
-	function removeStudent ( &$agentId ) { 
-	
-	function &getRoster () { 
-	
-	function &getRosterByType ( &$enrollmentStatusType ) { 
-	
-	
-	
-	function &getPropertiesByType ( &$propertiesType ) { 
+	function &getAssets () {  
 	
 */
 		}
